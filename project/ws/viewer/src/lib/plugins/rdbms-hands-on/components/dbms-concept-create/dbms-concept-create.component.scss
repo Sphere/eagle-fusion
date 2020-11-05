@@ -1,0 +1,88 @@
+pre {
+  width: 75%;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: left;
+  overflow: auto;
+}
+
+.code-container {
+  min-height: 20vh;
+  font-size: 14px;
+}
+
+.tell-text {
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+  background-color: #e3dad44a;
+  padding: 15px;
+}
+
+.table-scroll {
+  overflow: auto;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  background-color: #ddd;
+  flex: 0 0 25% !important;
+  min-width: 184px !important;
+}
+
+.mat-tab-group {
+  margin-top: -15px !important;
+}
+
+.font-weight {
+  font-weight: 800;
+}
+
+.query-success {
+  color: green;
+}
+
+.query-failed {
+  color: red;
+}
+
+.text-label {
+  height: 34px !important;
+  min-width: 100px !important;
+}
+
+.mat-table {
+  border: 1px solid #0000001f;
+  box-shadow: none;
+}
+
+.result-table .mat-header-cell,
+.telltext-success {
+  color: #1e6942;
+  background-color: #c7ffb3;
+}
+
+.telltext-failed {
+  color: red !important;
+  background-color: #ec4c6338 !important;
+}
+
+::ng-deep .mat-tab-label {
+  min-width: 130px !important;
+  height: 43px !important;
+}
+
+.refresh-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.mat-row,
+.mat-header-row {
+  height: 34px !important;
+}
+
+::ng-deep .ace_hidden-cursors .ace_cursor {
+  opacity: 0 !important;
+}

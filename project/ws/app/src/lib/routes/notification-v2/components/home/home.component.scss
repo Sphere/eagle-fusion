@@ -1,0 +1,13 @@
+@import 'ws-common';
+
+.container-balanced {
+  @extend %page-center;
+}
+
+.text-right{
+  float: right !important;
+}
+
+// mat-icon {
+//   font-size: 40px;
+// }

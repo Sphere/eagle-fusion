@@ -1,0 +1,214 @@
+<mat-toolbar class="ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: '/page/home' }"></ws-widget-btn-page-back>
+  <span class="margin-left-s" i18n>Navigator</span>
+</mat-toolbar>
+
+<div class="">
+  <mat-tab-group
+    animationDuration="0ms"
+    class="mat-tab-labels"
+    mat-stretch-tabs
+    [selectedIndex]="selectedIndex"
+    (selectedTabChange)="selectedIndex = $event.index"
+  >
+    <mat-tab label="Tech Navigator" *ngIf="navigatorTabs && navigatorTabs?.techNavigator">
+      <div class="flex flex-middle margin-left-l margin-top-l padding-left-l">
+        <div>
+          <mat-icon class="padding-right-s margin-left-l margin-top-l">important_devices</mat-icon>
+        </div>
+        <div class="margin-top-s">
+          <span class="mat-headline">
+            Tech Navigator
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-start flex-wrapped margin-m padding-left-l">
+        <div *ngIf="navigatorCards?.techNavigator?.newServices" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/roles"
+            i18n-name
+            i18n-description
+            name="Get Refactored into New Services"
+            description="Explore learning paths based on Industry needs"
+          >
+          </ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.techNavigator?.explore" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/explore"
+            i18n-name
+            i18n-description
+            name="Explore"
+            description="Explore and Acquire Skills Based on Your Interest"
+          >
+          </ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.techNavigator?.whatYouKnow" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/tech/learning-path"
+            i18n-name
+            i18n-description
+            name="Build on what you know"
+            description="Get Suggestions Based on Your Current Skills"
+          >
+          </ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.techNavigator?.industries" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/industries"
+            i18n-name
+            i18n-description
+            name="Get ready for your Industries"
+            description="Get up-to-date on Industry verticals and related tech skills"
+          >
+          </ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.techNavigator?.leaders" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/leaders"
+            i18n-name
+            i18n-description
+            name="Courses for Leaders"
+            description="Learn the latest technologies and gain competitive advantage"
+          >
+          </ws-app-feature-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Sales Navigator" *ngIf="navigatorTabs && navigatorTabs?.salesNavigator">
+      <div class="flex flex-middle margin-left-l margin-top-l padding-left-l">
+        <div>
+          <mat-icon class="padding-right-s margin-top">trending_up</mat-icon>
+        </div>
+        <div class="category-title">
+          <span class="mat-headline">
+            Sales Navigator
+          </span>
+        </div>
+      </div>
+
+      <div class="flex flex-start flex-wrapped margin-m padding-left-l">
+        <div *ngIf="navigatorCards?.salesNavigator?.tipOfSpear" class="card-section">
+          <ws-app-feature-card
+            url="/app/toc/lex_auth_0126130158325104641110/overview"
+            i18n-name
+            i18n-description
+            name="Tip Of the Spear (TOST)"
+            description="Become an effective front line sales leader"
+          >
+          </ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.salesNavigator?.readyForIndustries" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/industries"
+            i18n-name
+            i18n-description
+            name="Get Ready for your Industries"
+            description="Get up-to-date on Industry verticals and related tech skills"
+          >
+          </ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.salesNavigator?.digitalForSale" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/leaders"
+            i18n-name
+            i18n-description
+            name="Digital for Sales"
+            description="Learn the latest technologies and gain competitive advantage"
+          ></ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.salesNavigator?.titanAccounts" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/accounts/COMMUNICATIONS"
+            i18n-name
+            i18n-description
+            name="Titan Accounts"
+            description="Account based Learning and Sharing"
+          ></ws-app-feature-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab
+      label="Onboarding Navigator"
+      *ngIf="navigatorTabs && navigatorTabs?.onboardingNavigator"
+    >
+      <div class="flex flex-middle margin-left-l margin-top-l padding-left-l">
+        <div>
+          <mat-icon class="padding-right-s margin-top">people</mat-icon>
+        </div>
+        <div>
+          <span class="mat-headline" i18n>
+            Onboarding Navigator
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-start flex-wrapped margin-m padding-left-l">
+        <div *ngIf="navigatorCards?.onboardingNavigator?.salesLaunchpad" class="card-section">
+          <ws-app-feature-card
+            url="/app/infy/navigator/sales/launchpad"
+            i18n-name
+            i18n-description
+            name="Sales Launchpad"
+            description="Onboarding for new joiners"
+          ></ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.onboardingNavigator?.cohortLearning" class="card-section">
+          <ws-app-feature-card
+            url="/page/cohort"
+            i18n-name
+            i18n-description
+            name="Cohort Learning"
+            description="Relive targeted in-person cohort learning"
+          ></ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.onboardingNavigator?.roleInduction" class="card-section">
+          <ws-app-feature-card
+            url="/page/onboarding"
+            i18n-name
+            i18n-description
+            name="Role Induction"
+            description="Transition into your new role effectively"
+          ></ws-app-feature-card>
+        </div>
+        <div *ngIf="navigatorCards?.onboardingNavigator?.bridgeWingspan" class="card-section">
+          <ws-app-feature-card
+            url="/app/toc/lex_14700930272894420000/overview"
+            i18n-name
+            i18n-description
+            name="Bridge Wingspan"
+            description="Get ready to move to Sales career stream"
+          ></ws-app-feature-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab
+      label="BPM Navigator"
+      *ngIf="navigatorTabs && navigatorTabs?.bpmNavigator && status === 'done'"
+    >
+      <div class="flex flex-middle margin-left-l margin-top-l padding-left-l">
+        <div class="flex justify-center flex-middle">
+          <mat-icon class="padding-right-s">important_devices</mat-icon>
+          <span class="mat-headline margin-remove-bottom" i18n>
+            BPM Navigator
+          </span>
+        </div>
+      </div>
+      <ng-container>
+        <div class="flex flex-start flex-wrapped margin-m padding-left-l">
+          <div class="card-section" *ngFor="let bpm of bpmData">
+            <ws-app-feature-card
+              url="/app/infy/navigator/bpm"
+              i18n-name
+              i18n-description
+              name="{{ bpm.group_heading }}"
+              description="{{ bpm.group_description }}"
+              [active]="bpm.is_active"
+              [groupId]="bpm.groupd_id"
+            >
+            </ws-app-feature-card>
+          </div>
+        </div>
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</div>

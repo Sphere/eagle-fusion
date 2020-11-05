@@ -1,0 +1,72 @@
+<mat-toolbar color="primary">
+  <a mat-icon-button routerLink="/app/infy/navigator">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: navigator industries" class="margin-left-xs">Titan Account</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<div *ngIf="accountsData" class="margin-bottom-xl">
+  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="navigate($event)" [selectedIndex]="getSelectedIndex()"
+    dynamicHeight="true">
+    <mat-tab [label]="caps(tab)" *ngFor="let tab of tabs">
+      <div *ngIf="
+          accountsData &&
+          (isObjectEmpty(accountsData[selectedTab]) ||
+            isObjectEmpty(accountsData[selectedTab][selectedAccount]))
+        " class="margin-top-xl">
+        <ng-container [wsResolverWidget]="errorWidget"></ng-container>
+      </div>
+
+
+      <div *ngIf="!isObjectEmpty(accountsData[selectedTab]) || !noData">
+        <mat-card class="margin-bottom-m mat-elevation-z3">
+          <h2 i18n class="margin-bottom-s mat-h2">Select your Account:</h2>
+          <mat-card-content>
+            <ws-utils-horizontal-scroller [loadStatus]="'done'">
+              <a class="concept mat-toolbar cur-pointer" *ngFor="let account of fetchAccounts(); let i = index"
+                (click)="accountClicked(account)">{{ account | titlecase }}</a>
+            </ws-utils-horizontal-scroller>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="flex flex-wrapped flex-center padding-s" *ngIf="
+          accountsData &&
+          accountsData[selectedTab] &&
+          !isObjectEmpty(accountsData[selectedTab][selectedAccount])
+        ">
+        <div class="card-section margin-bottom-xl">
+          <mat-card class="height-1-1">
+            <h2 class="mat-h2" i18n>Select the Portfolio</h2>
+            <mat-chip-list>
+              <mat-chip *ngFor="let portfolio of fetchPortfolios()" class="width-1-1"
+                [selected]="portfolio === selectedPortfolio" color="primary" (click)="portfolioClicked(portfolio)">
+                <span class="width-1-1 text-center text-truncate">{{ portfolio | titlecase }}</span>
+              </mat-chip>
+            </mat-chip-list>
+          </mat-card>
+        </div>
+        <div class="card-section margin-bottom-xl">
+          <mat-card class="height-1-1">
+            <h2 class="mat-h2" i18n>Select a Pillar</h2>
+            <ws-app-pentagon [default]="'Accelerate'" (trackClicked)="pillarClicked($event)"></ws-app-pentagon>
+          </mat-card>
+        </div>
+        <div class="card-section margin-bottom-xl">
+          <mat-card class="height-1-1">
+            <h2 class="mat-h2" i18n>Select a Theme</h2>
+            <mat-chip-list>
+              <mat-chip *ngFor="let theme of fetchThemes()" class="width-1-1" [selected]="theme === selectedTheme"
+                color="primary" (click)="themeClicked(theme)">
+                <span class="width-1-1 text-center text-truncate">{{ theme | titlecase }}</span>
+              </mat-chip>
+            </mat-chip-list>
+          </mat-card>
+        </div>
+      </div>
+      <div *ngIf="accountsData && selectedTheme &&!noData" id="contentStrips">
+        <ng-container [wsResolverWidget]="overviewWidgetResolverData"></ng-container>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,27 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.articles-container {
+  padding: $size-xs 0;
+  @include breakpoint-lt-m {
+    padding: $size-xs;
+  }
+  @include breakpoint-lt-l {
+    padding-right: $size-xs;
+  }
+}
+
+.icon {
+  padding-right: $size-m;
+}
+
+.article-img {
+  width: 8.5em;
+}
+
+.title {
+  font-weight: 500;
+}
+.date {
+  font-size: 0.8rem;
+}

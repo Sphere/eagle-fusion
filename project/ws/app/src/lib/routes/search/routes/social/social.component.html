@@ -1,0 +1,123 @@
+<mat-sidenav-container class="sidenav-container" autosize *ngIf="!error.load">
+  <mat-sidenav
+    #sideNavBar
+    class="sidenav"
+    [opened]="sideNavBarOpened"
+    [mode]="screenSizeIsLtMedium ? 'over' : 'side'"
+  >
+    <ws-app-filter-display
+      *ngIf="searchResults?.result?.length"
+      [filtersResponse]="filtersResponse"
+      [routeComp]="routeComp"
+      [sideNavBarOpened]="sideNavBarOpened"
+      [filtersResetAble]="filtersResetAble"
+      (filterClose)="closeFilter($event)"
+    ></ws-app-filter-display>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.length">
+    <div>
+      <span i18n="search route hits showing">Showing </span>
+      <span>{{ searchResults.total }} </span>
+      <span *ngIf="searchResults.total > 1" i18n="search route hits results">results. </span>
+      <span *ngIf="searchResults.total <= 1" i18n="search route hits result">result. </span>
+      <button
+        mat-icon-button
+        class="width-auto"
+        [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+        (click)="sideNavBarOpened = !sideNavBarOpened"
+      >
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      <span class="spacer"></span>
+      <button style="float: right;" mat-button [matMenuTriggerFor]="sortMenu">
+        <span i18n="Sort menu item social">Sort by </span><span>{{ searchRequest.sort }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-slide-toggle class="best-result" [checked]="query" (change)="toggleBestResults()">
+        <span i18n="blogs tab" *ngIf="!query">Blogs</span>
+        <span i18n="q and a tab" *ngIf="query">Q and A</span>
+      </mat-slide-toggle>
+    </div>
+    <div *ngIf="searchResults?.result?.length">
+      <div *ngIf="!query">
+        <mat-card class="margin-bottom-s" *ngFor="let result of searchResults?.result">
+          <ws-app-blogs-card [result]="result"></ws-app-blogs-card>
+        </mat-card>
+      </div>
+      <div *ngIf="query">
+        <mat-card class="margin-bottom-s" *ngFor="let item of searchResults?.result">
+          <ws-app-qanda-card
+            [userId]="searchRequestObject.userId"
+            [item]="item"
+          ></ws-app-qanda-card>
+        </mat-card>
+      </div>
+      <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
+        <mat-spinner></mat-spinner>
+        <!-- <h2 class="h2-title">
+          Loading...
+        </h2> -->
+      </div>
+      <button
+        mat-raised-button
+        class="width-1-1"
+        (click)="getResults()"
+        *ngIf="searchRequestStatus != 'done'"
+        [hidden]="searchRequestStatus === 'fetching'"
+        accesskey="+"
+      >
+        <mat-icon>add</mat-icon>
+        <ng-container i18n="search: more results">View More</ng-container>
+      </button>
+    </div>
+  </mat-sidenav-content>
+  <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
+    <mat-spinner></mat-spinner>
+    <!-- <h2 class="h2-title">
+      Loading...
+    </h2> -->
+  </div>
+  <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-top-m margin-left-xl">
+    <h2 class="mat-h2" i18n="search route no result">No result</h2>
+    <h3 class="mat-h3" i18n>You may try</h3>
+    <div class="padding-left-s">
+      <h4 [hidden]="!filtersResetAble">
+        <ng-container i18n> Removing Filters </ng-container>
+        <button (click)="removeFilters()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
+      <!-- <h4>
+        <span i18n>Browsing</span>&nbsp;
+        <a [routerLink]="'/catalog'" i18n class="catalog-link">Catalog</a>
+      </h4> -->
+      <h4>Different keywords</h4>
+    </div>
+  </div>
+
+  <div *ngIf="searchRequestStatus === 'error'" class="text-center margin-top-m">
+    <h2 class="h2-title  flex flex-center" i18n="search result fetch error">
+      Some error occurred! Please retry
+    </h2>
+  </div>
+</mat-sidenav-container>
+
+<mat-menu #sortMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item class="flex flex-between" (click)="sortOrder('Relevance')">
+      <span i18n="Sort by relevance on social">Relevance</span>
+    </button>
+    <button mat-menu-item class="flex flex-between" (click)="sortOrder('Latest')">
+      <span i18n="Sort by latest on social">Latest</span>
+    </button>
+    <button mat-menu-item class="flex flex-between" (click)="sortOrder('Trending')">
+      <span i18n="Sort by trending on social">Trending</span>
+    </button>
+  </ng-template>
+</mat-menu>
+<div *ngIf="error.load">
+  <!-- <h2 class="h2-title" i18n="search result fetch error">
+    Some error occurred! Please retry
+  </h2> -->
+  <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
+</div>

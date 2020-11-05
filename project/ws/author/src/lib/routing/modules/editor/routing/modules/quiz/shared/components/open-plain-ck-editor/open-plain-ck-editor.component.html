@@ -1,0 +1,20 @@
+<div>
+  <div mat-dialog-title class="flex flex-between">
+    <h1 class="ws-mat-primary-text" *ngIf="data.type==='HINT_EDITOR'">
+      <span i18n="edit hint! edit hint for selected option">Hint for option-</span>{{data.index}}
+    </h1>
+    <button mat-dialog-close mat-icon-button class="float-right cursor-pointer">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <ng-container *ngIf="data.content !== undefined">
+      <ws-auth-plain-ckeditor [content]="data.content" (value)="result = $event" [id]="data.identifier">
+      </ws-auth-plain-ckeditor>
+    </ng-container>
+  </div>
+  <div mat-dialog-actions class="flex-row-reverse">
+    <button class="btnpdg" i18n mat-raised-button color="primary" [mat-dialog-close]="result">Update</button>
+    <button class="btnpdg" i18n mat-raised-button [mat-dialog-close]="undefined" cdkFocusInitial>Cancel</button>
+  </div>
+</div>

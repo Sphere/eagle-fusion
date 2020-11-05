@@ -1,0 +1,39 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}
+
+.contribution {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  @include breakpoint-gt-xs {
+    justify-content: space-between;
+  }
+}
+
+.selected {
+  transform: scale(2);
+}
+
+.circle {
+  margin: $size-s;
+  border-radius: 50%;
+  height: 7em;
+  width: 7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-s;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.icon {
+  color: white;
+}

@@ -1,0 +1,220 @@
+<div [ngClass]="{
+    'banner-container': bannerUrl,
+    'ws-mat-primary-lite-background-on-day': !bannerUrl
+  }" >
+  <div class="flex flex-between flex-wrap-reverse">
+    <div class="header-left">
+      <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
+        <!-- <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a >Course Category</a></li>
+            <li class="breadcrumb-item"><a >Sub Category</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sub Category</li>
+          </ol>
+        </nav> -->
+
+        <div class="header-title margin-bottom-m">
+          <h1 class="fs-28 margin-remove-bottom padding-bottom-xs hidden sm:block" [title]="content?.name">
+            {{ content?.name }}
+          </h1>
+          <h1 class="mat-display-1 margin-remove-bottom padding-bottom-xs block sm:hidden" [title]="content?.name">
+            {{ content?.name }}
+          </h1>
+          <span *ngIf="contentProgress === 1" class="margin-left-s">
+            <mat-icon i18n-matTooltip matTooltip="Completed" class="ws-mat-accent-text">check_circle</mat-icon>
+          </span>
+        </div>
+        <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
+          <!-- Overview Section -->
+          <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
+           >
+            <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+              {{ content?.subTitle | pipeLimitTo: 250 }}
+            </h2>
+            <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
+              {{ content?.description | pipeLimitTo: 450 }}
+            </h3>
+          </div>
+          <!-- Table Structure -->
+          <div>
+            <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">Duration :
+              {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
+            <div class="toc-banner-item"
+              *ngIf="tocConfig?.atAGlance?.expiryDate?.enabled && content?.expiryDate && content?.expiryDate?.startsWith('20')">
+              {{tocConfig?.atAGlance?.expiryDate?.displayName}} : {{ content?.expiryDate | date }}</div>
+            <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
+              {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
+            </div>
+            <div *ngIf="content?.creatorContacts">
+              <div *ngFor="let author of content?.creatorContacts">
+                Authors : {{author.name}}
+              </div>
+            </div>
+            <div *ngIf="content?.creatorDetails">
+              <div *ngFor="let curator of content?.creatorDetails">
+                Curators : {{curator.name}}
+              </div>
+            </div>
+
+
+            <!-- {{fetchCohorts(cohortTypesEnum.ACTIVE_USERS)}} -->
+            <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
+              {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active Learners
+            </div>
+          </div>
+
+          <!-- <div class="info-item" *ngIf="tocConfig?.atAGlance?.displayContentType?.enabled && content?.displayContentType">
+      <h3 class="item-heading ws-mat-primary-text">{{tocConfig?.atAGlance?.displayContentType?.displayName}}</h3>
+
+      <div *ngIf="content?.contentType === contentTypes.RESOURCE"
+        class="ws-mat-accent-text width-expand mat-body-strong">
+        {{ content?.resourceType }}
+      </div>
+    </div> -->
+
+
+
+          <div *ngIf="content?.averageRating" class="flex items-center my-1 mb-3">
+            <mat-icon color="accent" class="mr-2" *ngFor="let rating of [1, 2, 3, 4, 5]">
+              {{ getRatingIcon(rating) }}</mat-icon>
+            <span class="ml-2 font-medium text-xl">{{ content?.averageRating }}&nbsp;</span>
+            (
+            <span i18n>from</span>
+            <span *ngIf="content?.totalRating">&nbsp;{{ content?.totalRating | pipeCountTransform }}&nbsp;</span>
+            <span>
+              <ng-container i18n *ngIf="(content?.totalRating || 0) > 1">
+                votes
+              </ng-container>
+              <ng-container i18n *ngIf="(content?.totalRating || 0) <= 1">
+                vote
+              </ng-container>
+            </span>)
+          </div>
+          <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
+            <!-- Overview Section -->
+
+            <!-- Toc Section -->
+            <div *ngSwitchCase="'contents'">
+              <!-- Contents Bannner -->
+            </div>
+            <!-- Analytics Section -->
+
+          </div>
+          <div class="header-actions">
+            <ng-container *ngIf="
+          actionBtnStatus !== 'wait' &&
+          content?.status !== 'Deleted' &&
+          content?.status !== 'Expired'
+        ">
+              <div [hidden]="isResource && !content?.artifactUrl?.length">
+                <ng-container *ngIf="
+              actionBtnStatus === 'grant' &&
+              !(isMobile && content?.isInIntranet) &&
+              !(
+                content?.contentType === 'Course' &&
+                content?.children.length === 0 &&
+                !content?.artifactUrl?.length
+              ) &&
+              !(content?.contentType === 'Resource' && !content?.artifactUrl)
+            ">
+                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
+                    [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
+                    [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="margin-right-m ws-mat-primary-background"
+                    mat-flat-button>
+                    <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+                      {{resumeData?"Resume":"Start"}}
+                    </ng-container>
+                  </a>
+                  <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
+                    [routerLink]="firstResourceLink?.url" class="margin-right-m ws-mat-primary-background" mat-flat-button>
+                    <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment</ng-container>
+                  </a>
+                </ng-container>
+                <ng-container *ngIf="actionBtnStatus == 'reject' && content?.registrationUrl">
+                  <a [href]="content?.registrationUrl" target="_blank" [color]="'primary'" class="margin-right-m ws-mat-primary-background" i18n
+                    mat-flat-button>Register</a>
+                </ng-container>
+              </div>
+            </ng-container>
+            <h3 *ngIf="content?.status === 'Deleted' || content?.status === 'Expired'"
+              class="ws-mat-primary-text margin-remove-bottom pt-4" i18n>
+              The content is expired or deleted.
+            </h3>
+            <h3 class="ws-mat-primary-text margin-remove-bottom pt-4" i18n *ngIf="content?.status === 'Unpublished'">
+              The content has been unpublished.
+            </h3>
+            <h3 class="ws-mat-primary-text margin-remove-bottom pt-4" i18n *ngIf="content?.status === 'Draft'">
+              The content is in draft.
+            </h3>
+            <h3 class="ws-mat-primary-text margin-remove-bottom pt-4" i18n *ngIf="content?.status === 'InReview'">
+              The content is in review.
+            </h3>
+            <div class="action-btns">
+              <div class="hidden-block-xs">
+                <ng-container [ngTemplateOutlet]="actions"></ng-container>
+              </div>
+              <button mat-icon-button class="visible-block-xs" [matMenuTriggerFor]="actionMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </div>
+          </div>
+          <p class="margin-top-l margin-remove-bottom" *ngIf="content?.isInIntranet && showIntranetMsg">
+            <mat-icon class="align-bottom">info</mat-icon>&nbsp;
+            <ng-container i18n>This can be viewed only in the Intranet.</ng-container>
+          </p>
+          <p class="margin-top-l margin-remove-bottom" *ngIf="showInstructorLedMsg">
+            <mat-icon class="align-bottom">info</mat-icon>&nbsp;
+            <ng-container i18n>This is instructor-led classroom course and is not available online.</ng-container>
+          </p>
+
+          <p class="margin-top-l margin-remove-bottom" *ngIf="showStart.msg === 'youtubeForbidden'">
+            <mat-icon class="align-bottom">info</mat-icon>&nbsp;
+            <ng-container i18n>Access to this YouTube content is blocked.</ng-container>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.appIcon + ')'}">
+
+    </div>
+  </div>
+  <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier">
+  </ws-widget-content-progress>
+
+  <mat-menu #actionMenu="matMenu">
+    <div mat-menu-item>
+      <ng-container *ngIf="content" [ngTemplateOutlet]="actions"></ng-container>
+    </div>
+  </mat-menu>
+
+  <ng-template #actions>
+    <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button *ngIf="editButton"
+      [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+      <img src="/assets/images/edit.png" class="action-icons"/>
+    </a>
+    <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
+      *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+      <img src="/assets/images/upload.svg" class="action-icons"/>
+    </a>
+    <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+      content
+        | pipePartialContent
+          : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
+                  'artifactUrl']
+    "></ws-widget-btn-content-download>
+    <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="content | pipePartialContent: ['identifier']">
+    </ws-widget-btn-content-like>
+    <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content"></ws-widget-btn-content-share>
+    <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier" [contentName]="content?.name"
+      [contentType]="content?.contentType" [status]="content?.status">
+    </ws-widget-btn-kb>
+    <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
+      [widgetData]="btnGoalsConfig">
+    </ws-widget-btn-goals>
+    <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
+    </ws-widget-btn-playlist>
+    <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+      [widgetData]="content | pipePartialContent: ['identifier', 'name']">
+    </ws-widget-btn-content-feedback-v2>
+  </ng-template>
+  <ng-template #authView i18n>View</ng-template>

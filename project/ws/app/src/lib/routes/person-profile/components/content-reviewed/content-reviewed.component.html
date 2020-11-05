@@ -1,0 +1,57 @@
+<div class="mt-4">
+  <div class="flex flex-wrap remove-margin flex-start">
+    <mat-card class="outer-card margin-bottom-s mat-card mat-elevation-z0 padding-remove w-full">
+      <mat-card-content>
+        <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'fetching'">
+          <p class="font-family fetching" i18n>Fetching content reviewed ...</p>
+        </div>
+        <div class="pt-4 text-center" *ngIf="!contentCurrentDisplay?.length && contentFetchStatus === 'done'">
+          <p class="fetching font-family" i18n>User has not reviewed any content.</p>
+        </div>
+        <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'error'">
+          <p class="mat-error" i18n>Failed to fetch content reviewed.</p>
+        </div>
+        <ng-container *ngFor="let content of contentCurrentDisplay">
+          <div>
+            <mat-card class="card m-1 padding-remove mat-elevation-z0 md:my-1 sm:my-1">
+              <mat-card-content>
+                <div class="flex">
+                  <div class="flex flex-between w-full">
+                    <div class="flex flex-middle">
+                      <img src={{content.appIcon}} [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                        class="object-cover followimg" />
+                      <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold title-text font-family ws-mat-text-block-fade-gradient"
+                        [matTooltip]="content.name">
+                        {{content.name}}</p>
+                    </div>
+                    <a class="font-family mat-caption mx-2 flex flex-middle" (click)="raiseTelemetry()"
+                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'" i18n>Explore
+                      <mat-icon class="pl-1">arrow_right</mat-icon></a>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="flex-end arrow_bottom ">
+    <div class="flex flex-1 flex-end p-1 pr-4" *ngIf="contentfetch.length > pageDisplaySize">
+      <button mat-icon-button *ngIf="!previousContentDisable"
+        class="navigationbutton ws-mat-primary-lite-background-important" (click)="fetchPreviousContent()"
+        [ngClass]="{'disable':previousContentDisable}">
+        <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':previousContentDisable}">navigate_before
+        </mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="!nextCOntentDisable"
+        class="navigationbutton ws-mat-primary-lite-background-important" (click)="fetchNextContent()"
+        [ngClass]="{'disable':nextContentDisable}">
+        <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':nextContentDisable}">
+          navigate_next</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <input type="hidden" i18n-value value="Error while fetching content reviewed." #errorMsg /> -->

@@ -1,0 +1,172 @@
+<mat-toolbar>
+  <a mat-icon-button [routerLink]="'/app/features'">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: leaderboard" class="margin-left-xs">Leaderboard</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="nav-container">
+  <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
+    <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
+      <div class="flex flex-between flex-baseline">
+        <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
+        <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
+          (click)="sideNavBarOpened = false">
+          <mat-icon class="">clear</mat-icon>
+        </button>
+      </div>
+    </h4>
+    <section class="margin-top-l margin-bottom-l">
+      <mat-form-field class=" margin-left-m">
+        <mat-select [value]="sprintSelected" (selectionChange)="sprintChanged($event)">
+          <mat-option value="fy">
+            <a mat-line>
+              <ng-container>FY'20&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="h1">
+            <a mat-line>
+              <ng-container>H1'20&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="h2">
+            <a mat-line>
+              <ng-container>H2'20&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Role</mat-label>
+        <mat-select #selectedRole [ngModel]="selectedRole" (ngModelChange)="roleChanged(selectedRole)">
+          <mat-option [value]="role" *ngFor="let role of rolesList">
+            <a mat-line>
+              <ng-container>{{role}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Region</mat-label>
+        <mat-select #selectedRegion [ngModel]="selectedRegion" (ngModelChange)="regionChanged(selectedRegion)">
+          <mat-option [value]="region" *ngFor="let region of ['All','NTH', 'EST', 'STH', 'CEN', 'WST']">
+            <a mat-line>
+              <ng-container>{{region}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Dealer Code</mat-label>
+        <mat-select #selectedDealer [ngModel]="selectedDealer" (ngModelChange)="dealerChanged(selectedDealer)">
+          <mat-option [value]="dealer" *ngFor="let dealer of dealers">
+            <a mat-line>
+              <ng-container>{{dealer}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <input [max]="maxDate" matInput [matDatepicker]="picker1" placeholder="Start Date" [formControl]="startDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class=" margin-left-m">
+        <input matInput [max]="maxDate" [matDatepicker]="picker2" placeholder="End Date" [min]="startDate.value"
+          [formControl]="endDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+      <div class="margin-left-m margin-top-l margin-bottom-l">
+        <a mat-raised-button type="button" color="primary" i18n
+          (click)="fetchGuildLeaderboardData(startDate.value,endDate.value);fetchActivityLeaderboardData(startDate.value,endDate.value)">
+          Submit
+        </a>
+      </div>
+    </section>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <div class="flex flex-wrapped flex-between margin-horizontal-s margin-top-xs">
+      <div>
+        <mat-form-field class="width-expand margin-top-s" appearance="fill" floatLabel="never">
+          <button matTooltipPosition="before" matTooltip="Search" (click)="handleSearchQuery(query)" mat-icon-button
+            matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+          <mat-label i18n>Search users</mat-label>
+          <input matInput (keyup.enter)="handleSearchQuery(query)" [(ngModel)]="query" autocomplete="off"
+            class="resize-none" />
+        </mat-form-field>
+      </div>
+      <div class="dimensions">
+        <h4 class="ws-mat-primary-text font-size-m font-weight-bold">
+          <span i18n> Apply Filters</span>
+          <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </h4>
+      </div>
+      <mat-button-toggle-group (change)="onTabChange($event)" i18n-name name="leaderboardType" i18n-aria-label
+        aria-label="Select leaderboard type" class="dimension">
+        <mat-button-toggle i18n [checked]="currentTab === 'Guild'" value="Guild">Guild View
+        </mat-button-toggle>
+        <mat-button-toggle i18n [checked]="currentTab === 'Activity'" value="Activity">
+          Activity View</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <ng-container *ngIf="fetchStatus !== 'fetching' && activityMode">
+      <ws-app-card-list *ngIf="leaderBoardActivity && leaderBoardActivity.length">
+        <section class="p-4 highlight" *ngIf="leaderBoardFirstRowActivity[0]">
+          <ws-app-leaderboard-item [leaderboardItem]="leaderBoardFirstRowActivity[0]"></ws-app-leaderboard-item>
+        </section>
+        <ws-app-card-list-item *ngFor="let leaderboardItem of leaderBoardActivity">
+          <ws-app-leaderboard-item [leaderboardItem]="leaderboardItem"></ws-app-leaderboard-item>
+        </ws-app-card-list-item>
+        <mat-divider></mat-divider>
+      </ws-app-card-list>
+
+      <section class="mat-body text-center margin-top-l"
+        *ngIf="fetchStatus !== 'fetching' && activityMode && !leaderBoardActivity.length">
+        <ng-container>
+          <div class="flat-error-alert margin-m">
+            <mat-icon class="large-icon">info</mat-icon>
+            <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>There is no leaderboard data
+              available for this sprint.</span>
+          </div>
+
+        </ng-container>
+      </section>
+    </ng-container>
+
+    <ng-container *ngIf="fetchStatus !== 'fetching' && guildMode">
+      <ws-app-card-list *ngIf="leaderBoardGuild && leaderBoardGuild.length">
+        <section class="p-4 highlight" *ngIf="leaderBoardFirstRowGuild[0]">
+          <ws-app-leaderboard-item [leaderboardItem]="leaderBoardFirstRowGuild[0]"></ws-app-leaderboard-item>
+        </section>
+        <ws-app-card-list-item *ngFor="let leaderboardItem of leaderBoardGuild">
+          <ws-app-leaderboard-item [leaderboardItem]="leaderboardItem"></ws-app-leaderboard-item>
+        </ws-app-card-list-item>
+        <mat-divider></mat-divider>
+      </ws-app-card-list>
+
+      <section class="mat-body text-center margin-top-l"
+        *ngIf="fetchStatus !== 'fetching' && guildMode && !leaderBoardGuild">
+        <ng-container>
+          <div class="flat-error-alert margin-m">
+            <mat-icon class="large-icon">info</mat-icon>
+            <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>There is no leaderboard data
+              available for this sprint.</span>
+          </div>
+        </ng-container>
+      </section>
+    </ng-container>
+
+    <section class="margin-top-xl flex flex-center" *ngIf="fetchStatus === 'fetching'">
+      <mat-progress-spinner [color]="'primary'" [strokeWidth]="5" [diameter]="60" [mode]="'indeterminate'">
+      </mat-progress-spinner>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

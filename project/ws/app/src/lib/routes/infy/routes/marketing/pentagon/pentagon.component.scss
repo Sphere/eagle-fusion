@@ -1,0 +1,55 @@
+@import 'ws-vars';
+
+.pentagon-container {
+  position: relative;
+  margin: auto;
+  height: 275px;
+  width: 275px;
+  background: #fafafa;
+  padding: $size-m;
+}
+
+.div1,
+.div2,
+.div3,
+.div4,
+.div5 {
+  position: absolute;
+  background-color: transparent;
+  height: 50px;
+  width: 100px;
+
+  &:hover {
+    // background-color: rgba(33,33,33,0.75)
+    cursor: pointer;
+  }
+}
+
+.div1 {
+  bottom: 25px;
+  left: 102px;
+}
+
+.div2 {
+  bottom: 86px;
+  left: 187px;
+  transform: rotate(-72deg);
+}
+
+.div3 {
+  top: 68px;
+  right: 52px;
+  transform: rotate(36deg);
+}
+
+.div4 {
+  top: 69px;
+  left: 49px;
+  transform: rotate(-36deg);
+}
+
+.div5 {
+  bottom: 86px;
+  left: 15px;
+  transform: rotate(72deg);
+}

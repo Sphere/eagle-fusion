@@ -1,0 +1,46 @@
+@import 'ws-mixins';
+
+table {
+  width: 100%;
+}
+
+.graph-card-client {
+  padding: 0px;
+  width: 47%;
+
+  @include breakpoint-m {
+    width: 47%;
+  }
+
+  @include breakpoint-lt-m {
+    width: 100%;
+  }
+
+  @include breakpoint-lt-s {
+    width: 100%;
+  }
+}
+
+.unique-users-card {
+  width: 30%;
+
+  @include breakpoint-xs {
+    width: 85%;
+  }
+
+  @include breakpoint-s {
+    width: 45%;
+  }
+
+  @include breakpoint-m {
+    width: 29%;
+  }
+}
+.text-inside-grid {
+  position: absolute;
+  left: 5px;
+}
+.text-outside-grid {
+  position: absolute;
+  right: 5px;
+}

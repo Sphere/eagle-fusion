@@ -1,0 +1,67 @@
+ws-auth-renderer {
+  padding: 5px;
+}
+
+.addWidget {
+  position: relative;
+  top: 5px;
+}
+
+.center {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  min-height: 80px;
+  line-height: 80px;
+}
+
+.childClass {
+  border-right: dashed grey 1px;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.editIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 2px;
+}
+
+.small-button {
+  height: 28px;
+  width: 28px;
+  transition: 0.2s;
+}
+
+.small-icon {
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.2s;
+}
+
+.parent {
+  position: relative;
+}
+
+.editIcon {
+  cursor: pointer;
+  position: absolute;
+  z-index: 100;
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible
+}
+
+.editButton {
+  float: right;
+  z-index: 100;
+}

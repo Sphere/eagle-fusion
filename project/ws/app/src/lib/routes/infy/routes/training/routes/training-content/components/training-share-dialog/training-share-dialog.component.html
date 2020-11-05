@@ -1,0 +1,43 @@
+<h4 class="mat-h4" i18n>Share this training with other users.</h4>
+<div class="mat-body">
+  <div class="margin-bottom-xs margin-top-xs flex">
+    <div>
+      <mat-icon>access_time</mat-icon>
+    </div>
+    <div class="margin-left-xs width-9-10 flex flex-column flex-center">
+      <div class="text-truncate">
+        <span class="mat-body-2" i18n>Duration: </span>
+        <span class="mat-body">{{
+          {
+            fromDate: training.start_dt,
+            toDate: training.end_dt
+          } | pipeConciseDateRange
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="margin-bottom-xs margin-top-xs flex">
+    <div>
+      <mat-icon>location_on</mat-icon>
+    </div>
+    <div class="margin-left-xs width-9-10 flex flex-column flex-center">
+      <div class="text-truncate">
+        <span class="mat-body-2" i18n>Location: </span>
+        <span class="mat-body">{{ training.location + ' ' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ws-widget-user-autocomplete (usersList)="updateUsers($event)"></ws-widget-user-autocomplete>
+
+<button
+  mat-raised-button
+  color="primary"
+  [disabled]="sendStatus === 'sending' || !users.length"
+  (click)="onBtnShareClick()"
+  i18n
+>
+  Share
+</button>

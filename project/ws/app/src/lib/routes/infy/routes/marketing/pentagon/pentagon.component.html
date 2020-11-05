@@ -1,0 +1,18 @@
+<div>
+  <div class="pentagon-container">
+    <img
+      #nynPentagon
+      id="nynTop"
+      [src]="'/assets/images/marketing/' + svgFileName + '.svg'"
+      height="100%"
+      width="100%"
+      i18n-alt
+      alt="Pentagon"
+    />
+    <div class="div1" (click)="onTrackClicked(0)"></div>
+    <div class="div2" (click)="onTrackClicked(1)"></div>
+    <div class="div3" (click)="onTrackClicked(2)"></div>
+    <div class="div4" (click)="onTrackClicked(3)"></div>
+    <div class="div5" (click)="onTrackClicked(4)"></div>
+  </div>
+</div>

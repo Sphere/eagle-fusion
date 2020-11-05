@@ -1,0 +1,51 @@
+<ng-container *ngIf="registeredTrainings && registeredTrainings.length">
+  <h3 class="mat-h3" i18n>Registered Trainings</h3>
+
+  <section class="padding-top-l padding-bottom-l x-scroll">
+    <ws-app-trainings-registered
+      [registeredTrainings]="registeredTrainings"
+      [trainingPrivileges]="trainingPrivileges"
+      (deregistered)="onDeregister($event)"
+    ></ws-app-trainings-registered>
+  </section>
+  <mat-divider></mat-divider>
+</ng-container>
+
+<ng-container *ngIf="trainingFetchStatus === 'done'">
+  <ws-app-trainings-upcoming
+    [filterObj]="filterObj"
+    [upcomingTrainings]="upcomingTrainings"
+    [trainingPrivileges]="trainingPrivileges"
+    [trainingConfig]="trainingConfig"
+    (filtersApplied)="filterTrainings($event)"
+    (registered)="onRegister($event)"
+    (deregistered)="onDeregister($event)"
+    *ngIf="upcomingTrainings && upcomingTrainings.length"
+  ></ws-app-trainings-upcoming>
+
+  <ng-container *ngIf="upcomingTrainings && !upcomingTrainings.length">
+    <section class="padding-top-l">
+      <p class="mat-body text-center" i18n>
+        No trainings available.
+      </p>
+    </section>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="trainingFetchStatus === 'fetching'">
+  <section class="padding-top-l">
+    <mat-progress-spinner
+      [color]="'primary'"
+      [mode]="'indeterminate'"
+      class="margin-auto"
+    ></mat-progress-spinner>
+  </section>
+</ng-container>
+
+<ng-container *ngIf="trainingFetchStatus === 'error'">
+  <section class="padding-top-l">
+    <p class="mat-body text-center" i18n>
+      Sorry, there was an error while fetching trainings.
+    </p>
+  </section>
+</ng-container>

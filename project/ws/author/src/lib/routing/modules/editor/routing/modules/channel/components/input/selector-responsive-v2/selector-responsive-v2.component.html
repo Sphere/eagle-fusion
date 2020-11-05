@@ -1,0 +1,108 @@
+<div class="flex flex-middle mb-5" *ngIf="!(this.size === 1)">
+  <p
+    class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
+    *ngFor="let tab of content.selectFrom || []; let i = index"
+    [ngClass]="{
+      'ws-mat-primary-border-bottom-bolder': i === index
+    }"
+    (click)="i !== index ? onIndexChange(i) : $event.preventDefault()"
+  >
+    <ng-container [ngSwitch]="getType(i, true)">
+      <ng-container *ngSwitchCase="'mob'" i18n>Mobile</ng-container>
+      <ng-container *ngSwitchCase="'tab'" i18n>Tablet</ng-container>
+      <ng-container *ngSwitchCase="'desktop'" i18n>Desktop</ng-container>
+      <ng-container *ngSwitchCase="'common'" i18n>Common</ng-container>
+      <ng-container *ngSwitchCase="'tabDesktop'" i18n>Tablet and Desktop</ng-container>
+      <ng-container *ngSwitchCase="'custom'" i18n>Custom</ng-container>
+    </ng-container>
+  </p>
+  <button
+    mat-icon-button
+    (click)="addStrip()"
+    class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
+  >
+    <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add an another series">
+      add</mat-icon
+    >
+  </button>
+</div>
+
+<div *ngIf="size > 1" class="mb-5" style="position: relative;">
+  <!-- <mat-form-field class="mr-20" *ngIf="!isCommon">
+    <mat-label i18n>Select Screen Type</mat-label>
+    <mat-select
+      [value]="getType(index, true)"
+      (selectionChange)="setScreenWidth($event)"
+      name="screen"
+    >
+      <mat-option [value]="'mob'" i18n>
+        Mobile
+      </mat-option>
+      <mat-option *ngIf="size === 2" [value]="'tabDesktop'" i18n>
+        Tablet and Desktop
+      </mat-option>
+      <mat-option *ngIf="size > 2" [value]="'tab'" i18n>
+        Tablet
+      </mat-option>
+      <mat-option *ngIf="size > 2" [value]="'desktop'" i18n>
+        Desktop
+      </mat-option>
+      <mat-option [value]="'custom'" i18n>
+        Custom
+      </mat-option>
+    </mat-select>
+  </mat-form-field> -->
+  <!-- <ng-container *ngIf="!isCommon">
+    <mat-form-field class="mr-10" appearance="outline">
+      <mat-label i18n>Min. Width (px)</mat-label>
+      <input [(ngModel)]="currentStrip.minWidth" matInput type="number" placeholder="0" />
+    </mat-form-field>
+    <mat-form-field class="mr-10" appearance="outline">
+      <mat-label i18n>Max. Width (px)</mat-label>
+      <input [(ngModel)]="currentStrip.maxWidth" type="number" matInput placeholder="0" />
+    </mat-form-field>
+  </ng-container> -->
+  <!-- <mat-checkbox [checked]="isCommon" [(ngModel)]="isCommon" (change)="setDifferentScreenType()" i18n
+    >Make it common for all screens</mat-checkbox
+  > -->
+  <button
+    style="position: absolute; top:-30px; right: 0px"
+    type="button"
+    mat-flat-button
+    i18n-matTooltip
+    matTooltip="Remove this Entry"
+    (click)="removeStrip()"
+  >
+    <mat-icon>delete forever</mat-icon>
+  </button>
+</div>
+
+<ng-container [ngSwitch]="currentStrip.widget.widgetSubType">
+  <ng-container *ngSwitchCase="'imageMapResponsive'">
+    <ws-auth-image-map
+      [identifier]="identifier"
+      [isSubmitPressed]="isSubmitPressed"
+      [content]="currentStrip.widget.widgetData"
+      (data)="currentStrip.widget.widgetData = $event.content"
+    ></ws-auth-image-map>
+  </ng-container>
+  <ng-container *ngSwitchCase="'elementHtml'">
+    <ws-auth-html-v2
+      [identifier]="identifier"
+      *ngIf="!currentStrip.widget.widgetData.type"
+      [isSubmitPressed]="isSubmitPressed"
+      [content]="currentStrip.widget.widgetData"
+      (data)="currentStrip.widget.widgetData = $event.content"
+    ></ws-auth-html-v2>
+    <ws-auth-image-v2
+      [size]="currentSize"
+      [identifier]="identifier"
+      *ngIf="currentStrip.widget.widgetData && currentStrip.widget.widgetData.type"
+      [isSubmitPressed]="isSubmitPressed"
+      [content]="currentStrip.widget.widgetData"
+    ></ws-auth-image-v2>
+  </ng-container>
+  <ng-container *ngSwitchDefault i18n>
+    Switch to Advanced editor to edit this content
+  </ng-container>
+</ng-container>

@@ -1,0 +1,143 @@
+<section class="px-2 flex flex-1 flex-column">
+  <div class="playlist-data">
+    <div class="card relative">
+      <a name="content-link-playlist-card" class="flex-1" [routerLink]="playlist?.id" *ngIf="playlist">
+        <img [src]="playlist?.icon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+          class="thumbnail ws-mat-primary-lite-background" alt="Playlist Icon" i18n-alt />
+        <div class="overlay flex flex-middle flex-center">
+          <div class="color-white playlist-font">
+            <h2 class="text-center playlist-count">
+              {{ playlist?.contents?.length | number }}
+            </h2>
+            <mat-icon inline="true" class="playlist-icon">playlist_play</mat-icon>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="flex flex-1 relative flex-column margin-top-xxs margin-remove-bottom">
+      <div class="flex flex1">
+        <div class="flex flex-1 flex-column">
+          <a name="content-link-playlist-card" class="flex-1" [routerLink]="playlist?.id" *ngIf="playlist">
+            <h3 class="mat-subheading-2 sub-heading font-weight-500 margin-remove-bottom text-truncate">
+              {{ playlist?.name }}
+            </h3>
+          </a>
+          <span *ngIf="playlist" class="ml-2 text-gray-600" i18n-title title="Duration">
+
+          </span>
+          <div *ngIf="playlist" class="duration" i18n-title title="Duration">
+            <mat-icon class="text-green-400">access_time</mat-icon>
+            <span class="time-text">{{getDuration(playlist) | pipeDurationTransform: 'hms'}}</span>
+          </div>
+        </div>
+        <ng-container *ngIf="!playlist?.sharedByDisplayName">
+          <button mat-icon-button (click)="$event.stopPropagation()" [matMenuTriggerFor]="playlistMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #playlistMenu="matMenu" overlapTrigger="true">
+            <button name="share-button-goal-card" mat-menu-item *ngIf="isShareEnabled"
+              (click)="sharePlaylist(playlist)">
+              <!--  && goal?.goalFor === 'others'"" -->
+              <mat-icon>share</mat-icon>
+              <span>Share</span>
+            </button>
+            <button name="edit-button-goal-card" mat-menu-item
+              *ngIf="!(playlist?.sharedBy || playlist?.sharedByDisplayName)" (click)="editPlayList()">
+              <mat-icon *ngIf="checkNoAccess(playlist)" i18n-matTooltip matTooltip="This Playlist is not editable"
+                matTooltipPosition="left">
+                edit</mat-icon>
+              <mat-icon *ngIf="!checkNoAccess(playlist)">edit</mat-icon>
+              <span>Edit</span>
+            </button>
+
+            <button name="delete-button-goal-card" mat-menu-item (click)="deletePlaylist()">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </ng-container>
+        <!-- <span class=" margin-left-xs margin-right-xs">|</span> -->
+        <!-- <span class="mat-caption">{{ playlist?.visibility | uppercase }}</span> -->
+      </div>
+
+      <div class="flex flex1 share-by">
+        <h3 *ngIf="playlist?.contents?.length>0" class="ws-mat-accent-text mat-body-strong">
+          Topics Included({{playlist?.contents?.length}})
+        </h3>
+        <span class="flex flex-1"></span>
+        <span *ngIf="playlist?.sharedByDisplayName" class="flex ws-mat-accent-text">
+          <span i18n class="ws-mat-primary-text">Shared by </span>
+          <mat-icon class="negative-margin-left-xxs">person_pin</mat-icon>
+          <span>{{ playlist?.sharedByDisplayName }}</span>
+        </span>
+        <!-- playlist?.contentProgress?.length || -->
+        <ng-container *ngIf="playlist?.contents?.length">
+          <div class="expand-play-list-btn">
+            <button mat-icon-button (click)="isListExpanded[playlist.id] = !isListExpanded[playlist.id]">
+              <mat-icon *ngIf="!isListExpanded[playlist.id]">keyboard_arrow_down</mat-icon>
+              <mat-icon *ngIf="isListExpanded[playlist.id]">keyboard_arrow_up</mat-icon>
+            </button>
+          </div>
+
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <mat-card *ngIf="playlist && playlist.id && isListExpanded && !!isListExpanded[playlist.id] || false"
+    class="border-radius-0 mt-1">
+    <ng-container>
+      <h2 i18n>This playlist includes</h2>
+      <hr />
+      <div class=" padding-top-s padding-bottom-s margin-bottom-xl">
+        <div *ngFor="let content of playlist?.contents">
+          <ng-container *ngTemplateOutlet="contentView; context: { $implicit: content }">
+          </ng-container>
+        </div>
+      </div>
+
+    </ng-container>
+  </mat-card>
+</section>
+<input #playlistDeleteFailed type="hidden" i18n-value value="Failed to delete playlist" />
+<input #playlistEditFailed type="hidden" i18n-value value="Failed to edit playlist" />
+
+<ng-template #contentView let-content>
+  <div class="flex flex-middle padding-top-s padding-bottom-xs">
+    <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+      matTooltip="Content may be expired or deleted"
+      *ngIf="content.status === 'Deleted' || content.status === 'Expired'"></div>
+    <div class="width-expand md:mx-4 flex" [ngClass]="{ greyOut: greyOut(content) }">
+      <a [routerLink]="'/app/toc/' + content?.identifier + '/overview'">
+        <img (load)="isDeletedOrExpired(content)" class="image-section" [src]="content?.appIcon"
+          [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon" i18n-alt />
+      </a>
+      <div class="width-expand mx-2 md:mx-4">
+        <div class="flex flex-middle text-truncate">
+          <a [routerLink]="'/app/toc/' + content?.identifier + '/overview'">
+            <h2 class="mat-h2 playlist-name margin-left-xxs margin-remove-bottom">
+              {{ content?.name }}
+            </h2>
+          </a>
+          <mat-icon class="ws-mat-green-text margin-left-m" *ngIf="content?.progress > 0.9">
+            check_circle
+          </mat-icon>
+        </div>
+        <p class="flex flex-middle margin-remove-top">
+          <mat-icon>access_time</mat-icon>
+          <span class="margin-left-xxs ws-mat-green-text">
+            <ng-container>{{ content?.duration | pipeDurationTransform: 'hms' }}&nbsp; | &nbsp;</ng-container>
+            <ws-widget-display-content-type [displayContentType]="content?.contentType==='Collection'
+              ?'Module'
+              :(content?.contentType==='Learning Path'?'Program':content?.contentType)">
+            </ws-widget-display-content-type>
+          </span>
+        </p>
+      </div>
+    </div>
+    <button name="delete-content-button-playlist-detail"
+      *ngIf="playlist?.contents?.length > 1 && !playlist?.sharedByDisplayName" mat-icon-button class="more-button"
+      (click)="deleteContent(content?.identifier, content?.name)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>

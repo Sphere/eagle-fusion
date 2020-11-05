@@ -1,0 +1,15 @@
+@import 'ws-vars';
+@import 'ws-common';
+.page-title {
+  margin-bottom: $size-xl;
+}
+.contact-container {
+  padding: $size-m;
+  @extend %page-center;
+}
+.contact-card {
+  margin-bottom: $size-m;
+}
+.contact-card-actions {
+  text-align: right;
+}

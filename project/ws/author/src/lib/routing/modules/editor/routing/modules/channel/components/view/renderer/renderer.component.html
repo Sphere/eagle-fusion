@@ -1,0 +1,128 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" class=" mat-elevation-z5 small-button padding-remove editButton"
+  i18n-matTooltip matTooltip="View Options">
+  <mat-icon class="text-white small-icon ws-mat-primary-text">more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button (click)="triggerEdit()" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span i18n>Edit</span>
+  </button>
+  <button (click)="triggerDelete()" mat-menu-item>
+    <mat-icon>delete</mat-icon>
+    <span i18n>Delete</span>
+  </button>
+  <button *ngIf="selectorWidget && selectorWidget.length > 1" mat-menu-item [matMenuTriggerFor]="selectorChild">Child
+    Widgets</button>
+  <button *ngIf="canHaveSibling && widgetData.parent" (click)="generateNextNode()" mat-menu-item>
+    <mat-icon>queue_play_next</mat-icon>
+    <span i18n>Add A Column</span>
+  </button>
+  <button *ngIf="canHaveChild" (click)="generateNextNode(true)" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add Child</span>
+  </button>
+  <button *ngIf="widgetMap" mat-menu-item [matMenuTriggerFor]="contentStripChild" i18n>Add
+    Child</button>
+  <button
+    *ngIf="widgetMap && ((widgetMap.widgets && (widgetMap.error || widgetMap.noData)) || (widgetMap.error && widgetMap.noData))"
+    mat-menu-item [matMenuTriggerFor]="contentStripShowChild" i18n>
+    Child Widgets
+  </button>
+  <button *ngIf="widgetData.purpose === 'errorWidget' || widgetData.purpose === 'noDataWidget'" mat-menu-item
+    (click)="toggleDefault()">
+    <ng-container *ngIf="widgetData.widgetSubType !== 'errorResolver'; else elseBlock" i18n>Switch to Default Widget
+    </ng-container>
+    <ng-template #elseBlock i18n>Add Custom Widget</ng-template>
+  </button>
+</mat-menu>
+<mat-menu #selectorChild="matMenu">
+  <button (click)="currentIndex = i" *ngFor="let content of selectorWidget; let i =index"
+    [ngClass]="{'mat-menu-item-highlighted': currentIndex === i}" mat-menu-item>
+    <ng-container i18n>Widget </ng-container>{{i + 1}} ({{content.minWidth}}px - {{content.maxWidth}}px)
+  </button>
+</mat-menu>
+<mat-menu #contentStripChild="matMenu">
+  <button *ngIf="!widgetData.purpose" (click)=" generateNextNode(true, 'holder' )" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add Content Strip</span>
+  </button>
+  <button *ngIf="widgetData.purpose === 'holder'" (click)="generateNextNode(true, 'preWidget')" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add a Prewidget</span>
+  </button>
+  <button *ngIf="widgetData.purpose === 'holder'" (click)="generateNextNode(true, 'postWidget')" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add a PostWidget</span>
+  </button>
+  <button *ngIf="(!widgetMap || !widgetMap.info) && widgetData.purpose === 'holder'"
+    (click)="generateNextNode(true, 'info')" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add an Info Widget</span>
+  </button>
+  <!-- <button *ngIf="!widgetMap || !widgetMap.error" (click)="generateNextNode(true, 'errorWidget')" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add as Error Widget</span>
+  </button>
+  <button *ngIf="!widgetMap || !widgetMap.noData" (click)="generateNextNode(true, 'noDataWidget')" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Add as No Data Widget</span>
+  </button> -->
+</mat-menu>
+<mat-menu #contentStripShowChild="matMenu">
+  <button [ngClass]="{'mat-menu-item-highlighted': showData === 'data'}" (click)="showData = 'data'" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Show Data Widget</span>
+  </button>
+  <button *ngIf="widgetMap && widgetMap.error" [ngClass]="{'mat-menu-item-highlighted': showData === 'error'}"
+    (click)="showData = 'error'" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Show Error Widget</span>
+  </button>
+  <button *ngIf="widgetMap && widgetMap.noData" [ngClass]="{'mat-menu-item-highlighted': showData === 'noData'}"
+    (click)="showData = 'noData'" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Show No Data Widget</span>
+  </button>
+  <button *ngIf="widgetData.data && widgetData.data.loader"
+    [ngClass]="{'mat-menu-item-highlighted': showData === 'loader'}" (click)="showData = 'loader'" mat-menu-item>
+    <mat-icon>fiber_new</mat-icon>
+    <span i18n>Show Loader</span>
+  </button>
+</mat-menu>
+<br>
+<ng-container [ngSwitch]="widgetData.widgetSubType">
+  <ng-container *ngSwitchCase="'gridLayout'">
+    <ws-auth-grid [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed"></ws-auth-grid>
+  </ng-container>
+  <ng-container *ngSwitchCase="'contentStripMultiple'">
+    <ws-auth-content-strip [showData]="showData" [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed">
+    </ws-auth-content-strip>
+  </ng-container>
+  <ng-container *ngSwitchCase="'galleryView'">
+    <ws-auth-gallery [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed"> </ws-auth-gallery>
+  </ng-container>
+  <ng-container *ngSwitchCase="'linearLayout'">
+    <ws-auth-linear [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed"> </ws-auth-linear>
+  </ng-container>
+  <ng-container *ngSwitchCase="'selectorResponsive'">
+    <ws-auth-selector-responsive [currentIndex]="currentIndex" [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed">
+    </ws-auth-selector-responsive>
+  </ng-container>
+  <ng-container *ngSwitchCase="'tabLayout'">
+    <ws-auth-tab [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed"> </ws-auth-tab>
+  </ng-container>
+  <ng-container *ngSwitchCase="''">
+    <ws-auth-content-strip-holder [showData]="showData" *ngIf="widgetData.purpose === 'holder'; else elseblock"
+      [id]="widgetData.id" [isSubmitPressed]="isSubmitPressed">
+    </ws-auth-content-strip-holder>
+    <ng-template #elseblock>
+      <div class="center" (drop)="drop_handler($event)" (dragover)="dragover_handler($event)">
+        <mat-icon class="addWidget" aria-hidden="false" i18n-aria-label aria-label="Example add icon">add</mat-icon>
+        <ng-container i18n>Drag and Drop a Widget</ng-container>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <ng-container [wsResolverWidget]="widget"></ng-container>
+  </ng-container>
+</ng-container>

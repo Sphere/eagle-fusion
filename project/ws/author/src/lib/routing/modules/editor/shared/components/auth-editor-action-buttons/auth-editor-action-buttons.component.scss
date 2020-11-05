@@ -1,0 +1,47 @@
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  right: 0px;
+  top: 35px;
+  z-index: 50;
+
+  @media screen and (max-width: 600px) {
+    top: -25px;
+  }
+}
+
+.small-button {
+  height: 32px;
+  width: 32px;
+  transition: 0.5s;
+  margin-right: 4px;
+}
+
+.small-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}
+
+.button-grid {
+  display: grid;
+  width: 140px;
+  grid-template-columns: 0.2fr auto;
+}
+
+.button-text {
+  align-self: center;
+  padding-top: 17px;
+  padding-left: 4px;
+}
+
+.margin-right-xxs {
+  margin-right: 4px;
+}

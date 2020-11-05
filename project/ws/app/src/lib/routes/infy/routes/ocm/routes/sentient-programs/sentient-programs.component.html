@@ -1,0 +1,39 @@
+<mat-card class="margin-l pad" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config.title }}</h2>
+
+  <mat-card-content>
+    <h3 *ngIf="!config.programsList || !config.programsList?.length" i18n>
+      Programs will appear here.
+    </h3>
+    <ng-container *ngIf="config.programsList && config.programsList?.length">
+      <div class="flex card flex-wrapped">
+        <div
+          class="button program ws-mat-primary-background"
+          (click)="trackClicked(program)"
+          *ngFor="let program of config.programsList"
+        >
+          <img
+            [ngClass]="{ selected: heading === program.title }"
+            alt="logo"
+            [src]="program.logo"
+            class="logo"
+          />
+          <span [ngClass]="{ selected: heading === program.title }" class="title">{{
+            program.title | uppercase
+          }}</span>
+        </div>
+      </div>
+    </ng-container>
+  </mat-card-content>
+
+  <ng-container *ngIf="widgetSearchRequest" [wsResolverWidget]="widgetSearchRequest"> </ng-container>
+
+  <ng-container *ngIf="errorMessageCode">
+    <div [ngSwitch]="errorMessageCode" class="margin-top-m text-center padding-s">
+      <h3 class="mat-h3 font-weight-500" i18n *ngSwitchCase="'API_FAILURE'">
+        Unable to fetch data
+      </h3>
+      <h3 class="mat-h3 font-weight-500" i18n *ngSwitchCase="'NO_DATA'">Coming Soon...</h3>
+    </div>
+  </ng-container>
+</mat-card>

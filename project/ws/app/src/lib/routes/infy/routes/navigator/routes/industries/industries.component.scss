@@ -1,0 +1,32 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.scrollable {
+  height: 352px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.pentagon-toggle {
+  vertical-align: text-bottom;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}
+
+.card-section {
+  min-width: 380px;
+  width: 30%;
+  margin: $size-m;
+
+  // @include breakpoint-xs {
+  //   width: 100%;
+  //   margin: $size-s;
+  // }
+
+  // @include breakpoint-sm {
+  //   width: 45%;
+  //   margin: $size-s;
+  // }
+}

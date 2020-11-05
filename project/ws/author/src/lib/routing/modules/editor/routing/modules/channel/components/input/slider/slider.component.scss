@@ -1,0 +1,53 @@
+.row-wise {
+  display: flex;
+  flex-direction: row;
+}
+
+.column-wise {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-design {
+  margin-top: 30px;
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.page-design {
+  width: 60%;
+  margin: 50px auto;
+
+}
+
+.top-bar-design {
+  justify-content: space-between;
+}
+
+.cardTitle-design {
+  margin: auto 0;
+}
+
+.required {
+  &::after {
+    color: red;
+    content: " *";
+  }
+}
+
+.button-design{
+  width: 40%;
+  margin: 5px 0;
+}
+
+.mat-label-design{
+  width: 40%;
+  margin: auto 0;
+  text-align: justify;
+}
+
+
+.div-design{
+  flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between
+}

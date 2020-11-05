@@ -1,0 +1,23 @@
+<div class="card-container">
+  <mat-card>
+    <div class="badge-container">
+      <div class="image-container">
+        <img class="small-badge" [src]="badge.BadgeImagePath" [alt]="badge.BadgeName"
+          [matTooltip]="badge.Description" />
+      </div>
+
+      <div class="badge-data">
+        <div class="mat-title margin-remove text-align">
+          {{ badge.BadgeName }}
+        </div>
+        <div class="mat-body text-align">{{ badge.Description }}</div>
+      </div>
+    </div>
+    <div class="hover-text" *ngIf="badge.BadgeName!=='Certified' && badge.BadgeName!=='Professional'
+    && badge.BadgeName!=='Master'">
+      <div class="mx-1 style">{{badge.requiredCount-badge.currentCount}}</div>
+      <div i18n class="mx-1 style">more to go.</div>
+    </div>
+    <mat-progress-bar [value]="badge.progress"></mat-progress-bar>
+  </mat-card>
+</div>

@@ -1,0 +1,35 @@
+@import 'ws-mixins';
+.small-height-toolbar{
+  @include breakpoint-xs {
+    height: 32px;
+  }
+}
+.margin-right {
+  margin-right: 10px !important;
+}
+.center-align{
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  @include breakpoint-xs {
+    transform: translate(0,0);
+    left: inherit;
+  }
+}
+.width-full-wrapped{
+  @include breakpoint-xs {
+  width: 100%;
+  }
+}
+
+.buttons-class{
+  margin: 0 24px;
+@include breakpoint-xs {
+    margin: 0;
+  }
+
+}
+
+.font-size-small{
+  font-size: x-small !important;
+}

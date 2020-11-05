@@ -1,0 +1,105 @@
+@import 'ws-vars';
+@import 'ws-common';
+
+.status {
+  display: inline-block;
+  &.error {
+    padding-left: 10px;
+    border-left: 5px solid orangered;
+    color: red;
+  }
+  &.warning {
+    padding-left: 10px;
+    border-left: 5px solid orange;
+    color: orange;
+  }
+  &.success {
+    padding-left: 10px;
+    border-left: 5px solid green;
+  }
+}
+
+.code-container {
+  min-height: 50vh;
+  ace-editor {
+    font-size: 14px;
+  }
+}
+
+.table-verify {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-verify td,
+th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 4px;
+}
+
+.background-well {
+  background: #eee;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-green {
+  color: green;
+}
+
+.card-section {
+  width: 40%;
+  margin: $size-xl;
+
+  @include breakpoint-gt-xs {
+    width: 15%;
+    margin: $size-xl;
+  }
+}
+
+// tool tip css
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

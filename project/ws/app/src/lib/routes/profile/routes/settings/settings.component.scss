@@ -1,0 +1,96 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.user-settings-container {
+  @extend %page-center;
+  padding: $size-m;
+  margin-bottom: $size-xl;
+  box-sizing: border-box;
+
+  @include breakpoint-xs {
+    padding: 16px;
+  }
+
+  .width-content-lang {
+    width: 240px;
+    @include breakpoint-xs {
+      width: 100%;
+    }
+  }
+}
+
+.theme-mode {
+  width: 45%;
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.mode-toggle {
+  width: 45%;
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.theme-section {
+  width: 48%;
+  box-sizing: border-box;
+  text-align: center;
+  margin-bottom: $size-l;
+  list-style: none;
+  cursor: pointer;
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+
+.btn-circle {
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  line-height: 56px;
+  border-radius: 28px;
+}
+
+.theme-pad {
+  padding: $size-s;
+  border: 1px solid;
+}
+
+%common-typography {
+  padding: $size-xs;
+  padding-left: 0;
+  margin-right: $size-m;
+  display: inline-block;
+
+  @include breakpoint-lt-s {
+    margin: 0;
+  }
+}
+
+.typography-font-small {
+  @extend %common-typography;
+  font-size: 12px;
+}
+.content-v-center {
+  display: flex;
+  align-items: center;
+}
+.typography-font-normal {
+  @extend %common-typography;
+  font-size: 14px;
+}
+.typography-font-large {
+  @extend %common-typography;
+  font-size: 16px;
+}
+
+.language-drop-down-width {
+  width: 150px;
+}
+
+.domain-drop-down-width {
+  width: 200px;
+}

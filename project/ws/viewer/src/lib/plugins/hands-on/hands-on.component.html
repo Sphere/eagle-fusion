@@ -1,0 +1,730 @@
+<mat-card class="margin-m">
+  <div class="flex">
+    <h3 class="mat-title">{{ exerciseData?.title }}</h3>
+    <span class="spacer"></span>
+    <h3 class="mat-h3" *ngIf="resourceType === 'Exercise'">
+      {{ exerciseTimeRemaining / 1000 | pipeDurationTransform: 'hms' }}
+    </h3>
+  </div>
+  <mat-progress-bar mode="determinate" [value]="(exerciseTimeRemaining / exerciseData?.timeLimit) * 100" *ngIf="resourceType === 'Exercise'"></mat-progress-bar>
+</mat-card>
+<!-- <mat-card class="margin-m">
+  <h3 class="mat-h3" i18n="problem statement heading">Problem Statement</h3>
+  <div [innerHtml]="exerciseData.safeProblemStatement"></div>
+</mat-card> -->
+<div class="margin-m">
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3 class="mat-h3" i18n="problem statement heading">
+            Problem Statement
+          </h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div [innerHtml]="exerciseData?.safeProblemStatement"></div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<mat-card class="margin-m">
+  <div class="flex">
+    <h3 class="mat-h3">
+      <ng-container i18n="coding language heading">Code in</ng-container>
+      {{ (exerciseData?.supportedLanguages)[0].language }}
+    </h3>
+    <span class="spacer"></span>
+  </div>
+  <!-- <ws-quill-code-editor
+    (textData)="($event)"
+    [htmlText]="(exerciseData?.starterCodes)[0]"
+  ></ws-quill-code-editor> -->
+
+  <ace-editor class="code-container" (textChanged)="raiseInputChange()" theme="eclipse" [mode]="(exerciseData?.supportedLanguages)[0].mode"
+    [options]="options" [(text)]="(exerciseData?.starterCodes)[0]" #editor></ace-editor>
+  <mat-card-actions>
+    <div class="flex flex-between flex-wrapped">
+      <div class="flex flex flex-between flex-wrapped">
+        <div class="margin-top-m flex flex-wrapped">
+          <button mat-raised-button color="primary" class="margin-left-xs" (click)="reset() ; raiseClickEvent()" i18n="button reset code pane text">
+            Reset
+          </button>
+          <button mat-raised-button color="primary" class="margin-left-s" (click)="showPostActionSection('execute') ; raiseClickEvent()"
+            i18n="button execute code pane text">
+            Execute
+          </button>
+        </div>
+        <div class="margin-top-m flex flex-wrapped">
+          <div class="tooltip">
+            <span class="tooltiptext" id="myTooltip" i18n>Copy to clipboard</span>
+            <button mat-raised-button color="primary" (click)="copyToClipBoardFunction() ; raiseClickEvent()" (mouseout)="outFunc()">
+              Copy Code
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-between flex-wrapped" *ngIf="resourceType === 'Exercise'">
+        <div class="margin-top-m flex flex-wrapped">
+          <button mat-raised-button color="primary" (click)="showPostActionSection('verify') ; raiseClickEvent()" class="margin-left-xs"
+            i18n="button verify code pane text">
+            Verify
+          </button>
+          <button mat-raised-button color="primary" (click)="showPostActionSection('submit') ; raiseClickEvent()" class="margin-left-s"
+            i18n="button submit code pane text">
+            Submit
+          </button>
+        </div>
+        <div class="margin-top-m flex flex-wrapped">
+          <button mat-raised-button color="primary" (click)="viewLastSubmission() ; raiseClickEvent()" class="margin-left-xs" i18n="button submit code pane text">
+            Last Submission
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-actions>
+
+  <!-- <mat-card *ngIf="isPostActionSectionShown && postActionSectionContent === 'execute'">
+    <mat-card-header>
+      <h2 class="mat-title" i18n="execution dialog heading">
+        Execution Result
+      </h2>
+    </mat-card-header>
+    <div class="text-center" *ngIf="!exerciseResult && executionInProgress">
+      <h3 class="mat-h3" i18n="fetching result in progress message">
+        Your code is executing...
+      </h3>
+      <ws-spinner></ws-spinner>
+      <mat-progress-spinner></mat-progress-spinner>
+    </div>
+    <div *ngIf="exerciseResult">
+      <div>
+        <span [ngSwitch]="exerciseResult.status">
+          <div *ngSwitchCase="'success'">
+            <p i18n="output text">Output:</p>
+            <div class="status success" [innerText]="exerciseResult.showOutput"></div>
+          </div>
+          <div
+            *ngSwitchCase="'error'"
+            class="status error"
+            [innerText]="exerciseResult.showOutput"
+          ></div>
+          <div
+            *ngSwitchCase="'warning'"
+            class="status warning"
+            [innerText]="exerciseResult.showOutput"
+          ></div>
+        </span>
+      </div>
+    </div>
+  </mat-card> -->
+
+  <ng-container *ngIf="isPostActionSectionShown && postActionSectionContent === 'execute'">
+    <h2 class="mat-title" i18n="execution dialog heading">
+      Execution Result
+    </h2>
+    <div class="text-center" *ngIf="!exerciseResult && executionInProgress">
+      <h3 class="mat-h3" i18n="fetching result in progress message">
+        Your code is executing...
+      </h3>
+      <mat-spinner></mat-spinner>
+      <mat-progress-spinner></mat-progress-spinner>
+    </div>
+    <div *ngIf="exerciseResult">
+      <div>
+        <span [ngSwitch]="exerciseResult.status">
+          <div *ngSwitchCase="'success'">
+            <p i18n="output text">Output:</p>
+            <div class="status success" [innerText]="exerciseResult.showOutput"></div>
+          </div>
+          <div *ngSwitchCase="'error'" class="status error" [innerText]="exerciseResult.showOutput"></div>
+          <div *ngSwitchCase="'warning'" class="status warning" [innerText]="exerciseResult.showOutput"></div>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+
+  <mat-card *ngIf="isPostActionSectionShown && postActionSectionContent === 'verify'">
+    <mat-card-header>
+      <h2 class="mat-title" i18n="Verification dialog heading">
+        Verification Result
+      </h2>
+    </mat-card-header>
+    <ng-container>
+      <div class="text-center" *ngIf="!verifyResult && executionInProgress">
+        <h3 class="mat-h3" i18n="fetching verification result in progress message">
+          Your code is being verified...
+        </h3>
+        <mat-progress-spinner></mat-progress-spinner>
+      </div>
+      <div *ngIf="verifyResult" class="width-1-1 overflow-auto">
+        <div>
+          <span [ngSwitch]="verifyResult?.NumericalStatistics?.ILPStatusCode">
+            <div *ngSwitchCase="0">
+              <ng-container>
+                <mat-card-header>
+                  <h3 class="mat-h3">Test Cases Passed</h3>
+                </mat-card-header>
+                <div class="flex flex-wrapped flex-center text-center">
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="verifyResult?.NumericalStatistics?.TotalCasesPassed" [outOf]="verifyResult?.NumericalStatistics?.TotalTestCases"></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label number of correct answers">
+                      Total
+                    </h2>
+                  </div>
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="verifyResult?.NumericalStatistics?.StructuralTestCasesPassed" [outOf]="verifyResult?.NumericalStatistics?.TotalStructuralTestCases">
+                      </ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label number of incorrect answers">
+                      Structural
+                    </h2>
+                  </div>
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="verifyResult?.NumericalStatistics?.LogicalTestCasesPassed" [outOf]="verifyResult?.NumericalStatistics?.TotalLogicalTestCases">
+                      </ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label of unanswered questions">
+                      Logical
+                    </h2>
+                  </div>
+                </div>
+              </ng-container>
+              <table class="table-verify">
+                <tr>
+                  <th i18n>
+                    Sl. No.
+                  </th>
+                  <th i18n>
+                    Type
+                  </th>
+                  <th i18n>
+                    S/A
+                  </th>
+                  <th i18n>
+                    Test Target
+                  </th>
+                  <th i18n>
+                    Input
+                  </th>
+                  <th i18n>
+                    Expected Output
+                  </th>
+                  <th i18n>
+                    Actual Output
+                  </th>
+                  <th i18n>
+                    Result
+                  </th>
+                </tr>
+                <tr *ngFor="let obj of verifyResult?.structural; let i = index">
+                  <td>
+                    {{ obj.SNo }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.structural?.length" *ngIf="i === 0">
+                    {{ obj.Type }}
+                  </td>
+                  <td>
+                    {{ obj.SAType }}
+                  </td>
+                  <td>
+                    {{ obj.TestTarget }}
+                  </td>
+                  <td>
+                    {{ obj.Input }}
+                  </td>
+                  <td>
+                    {{ obj.Expected }}
+                  </td>
+                  <td>
+                    {{ obj.Actual }}
+                  </td>
+                  <td>
+                    <mat-icon *ngIf="obj.Result === 'Pass'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.Result === 'Fail' || obj.Result === 'Infinite'" class="color-red">clear
+                    </mat-icon>
+                  </td>
+                </tr>
+                <tr *ngFor="let obj of verifyResult?.sample; let i = index">
+                  <td>
+                    {{ obj.SNo }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.sample?.length + verifyResult?.actual?.length" *ngIf="i === 0">
+                    {{ obj.Type }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.sample?.length" *ngIf="i === 0">
+                    {{ obj.SAType }}
+                  </td>
+                  <td>
+                    {{ obj.TestTarget }}
+                  </td>
+                  <td>
+                    {{ obj.Input }}
+                  </td>
+                  <td>
+                    {{ obj.Expected }}
+                  </td>
+                  <td>
+                    {{ obj.Actual }}
+                  </td>
+                  <td>
+                    <mat-icon *ngIf="obj.Result === 'Pass'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.Result === 'Fail' || obj.Result === 'Infinite'" class="color-red">clear
+                    </mat-icon>
+                  </td>
+                </tr>
+                <tr *ngFor="let obj of verifyResult?.actual; let i = index">
+                  <td>
+                    {{ obj.SNo }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.actual?.length" *ngIf="i === 0 && verifyResult?.sample?.length === 0">
+                    {{ obj.Type }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.actual?.length" *ngIf="i === 0">
+                    {{ obj.SAType }}
+                  </td>
+                  <td>
+                    {{ obj.TestTarget }}
+                  </td>
+                  <td>
+                    {{ obj.Input }}
+                  </td>
+                  <td>
+                    {{ obj.Expected }}
+                  </td>
+                  <td>
+                    {{ obj.Actual }}
+                  </td>
+                  <td>
+                    <mat-icon *ngIf="obj.Result === 'Pass'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.Result === 'Fail' || obj.Result === 'Infinite'" class="color-red">clear
+                    </mat-icon>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div *ngSwitchDefault class="status error">
+              {{ verifyResult?.NumericalStatistics?.StatusDescription }}
+            </div>
+          </span>
+          <span [ngSwitch]="verifyResult.status">
+            <div *ngSwitchCase="'Done'">
+              <ng-container>
+                <mat-card-header>
+                  <h3 class="mat-h3">Test Cases Passed</h3>
+                </mat-card-header>
+                <div class="flex flex-wrapped flex-center text-center">
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="
+                          1 * verifyResult?.verifySummary?.HiddenTCPassed +
+                          1 * verifyResult?.verifySummary?.SampleTCPassed
+                        " [outOf]="
+                        1 * verifyResult?.verifySummary?.HiddenTCPassed +
+                        1 * verifyResult?.verifySummary?.SampleTCPassed +
+                        1 * verifyResult?.verifySummary?.HiddenTCFailed +
+                        1 * verifyResult?.verifySummary?.SampleTCFailed
+                        "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label number of correct answers">
+                      Total
+                    </h2>
+                  </div>
+                  <div class="card-section" *ngIf="verifyResult?.Samples?.length > 0">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="1 * verifyResult?.verifySummary?.SampleTCPassed" [outOf]="
+                          1 * verifyResult?.verifySummary?.SampleTCPassed +
+                          1 * verifyResult?.verifySummary?.SampleTCFailed
+                        "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label number of incorrect answers">
+                      Sample
+                    </h2>
+                  </div>
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="1 * verifyResult?.verifySummary?.HiddenTCPassed" [outOf]="
+                          1 * verifyResult?.verifySummary?.HiddenTCPassed +
+                          1 * verifyResult?.verifySummary?.HiddenTCFailed
+                        "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label of unanswered questions">
+                      Actual
+                    </h2>
+                  </div>
+                </div>
+              </ng-container>
+              <table class="table-verify">
+                <tr>
+                  <th i18n>
+                    Sl. No.
+                  </th>
+                  <th i18n>
+                    Type
+                  </th>
+                  <th i18n>
+                    Input
+                  </th>
+                  <th i18n>
+                    Expected Output
+                  </th>
+                  <th i18n>
+                    Actual Output
+                  </th>
+                  <th i18n>
+                    Result
+                  </th>
+                </tr>
+                <tr *ngFor="let obj of verifyResult?.Samples; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.Samples?.length" *ngIf="i === 0" i18n>
+                    Sample
+                  </td>
+                  <td>
+                    {{ obj.input }}
+                  </td>
+                  <td>
+                    {{ obj.expectedOutput }}
+                  </td>
+                  <td [innerHTML]="obj.output | pipeSafeSanitizer: 'html'"></td>
+                  <td>
+                    <mat-icon *ngIf="obj.result === 'Passed'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.result !== 'Passed'" class="color-red">clear</mat-icon>
+                  </td>
+                </tr>
+                <tr *ngFor="let obj of verifyResult?.Hiddens; let i = index">
+                  <td>
+                    {{ i + 1 + verifyResult?.Samples?.length }}
+                  </td>
+                  <td [attr.rowspan]="
+                      verifyResult?.Hiddens?.length + verifyResult?.HiddensFailedHalved?.length
+                    " *ngIf="i === 0" i18n>
+                    Actual
+                  </td>
+                  <td>
+                    {{ obj.input }}
+                  </td>
+                  <td i18n>
+                    N/A
+                  </td>
+                  <td [innerHTML]="obj.output | pipeSafeSanitizer: 'html'"></td>
+                  <td>
+                    <mat-icon *ngIf="obj.result === 'Passed'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.result !== 'Passed'" class="color-red">clear</mat-icon>
+                  </td>
+                </tr>
+                <tr *ngFor="let obj of verifyResult?.HiddensFailedHalved; let i = index">
+                  <td>
+                    {{ i + 1 + verifyResult?.Samples?.length + verifyResult?.Hiddens?.length }}
+                  </td>
+                  <td [attr.rowspan]="verifyResult?.HiddensFailedHalved?.length" *ngIf="verifyResult?.Hiddens?.length < 1 && i === 0" i18n>
+                    Actual
+                  </td>
+                  <td>
+                    {{ obj.input }}
+                  </td>
+                  <td i18n>
+                    N/A
+                  </td>
+                  <td [innerHTML]="obj.output | pipeSafeSanitizer: 'html'"></td>
+                  <td>
+                    <mat-icon *ngIf="obj.result === 'Passed'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.result === 'Failed'" class="color-red">clear</mat-icon>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div *ngSwitchCase="'Not Done'" class="status error" [innerText]="verifyResult?.message || 'Some Error Occured'"></div>
+          </span>
+        </div>
+      </div>
+      <div *ngIf="verifyJavaResult" class="width-1-1 overflow-auto">
+        <div>
+          <span [ngSwitch]="verifyJavaResult.resultSummary.responseCode">
+            <div *ngSwitchCase="'200'">
+              <ng-container>
+                <mat-card-header>
+                  <h3 class="mat-h3" i18n>Test Cases Passed</h3>
+                </mat-card-header>
+                <div class="flex flex-wrapped flex-center text-center">
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="
+                                1 * verifyJavaResult?.resultSummary?.passedStructuralTC +
+                                1 * verifyJavaResult?.resultSummary?.passedProceduralSampleTC +
+                                1 * verifyJavaResult?.resultSummary?.passedProceduralActualTC
+                              " [outOf]="
+                              1 * verifyJavaResult?.resultSummary?.passedStructuralTC +
+                              1 * verifyJavaResult?.resultSummary?.passedProceduralSampleTC +
+                              1 * verifyJavaResult?.resultSummary?.passedProceduralActualTC +
+                              1 * verifyJavaResult?.resultSummary?.failedStructuralTC +
+                              1 * verifyJavaResult?.resultSummary?.failedProceduralSampleTC +
+                              1 * verifyJavaResult?.resultSummary?.failedProceduralActualTC
+                              "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label number of correct answers">
+                      Total
+                    </h2>
+                  </div>
+                  <div class="card-section" *ngIf="verifyJavaResult?.structural?.length > 0">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="1 * verifyJavaResult?.resultSummary?.passedStructuralTC" [outOf]="
+                                1 * verifyJavaResult?.resultSummary?.failedStructuralTC +
+                                1 * verifyJavaResult?.resultSummary?.passedStructuralTC
+                              "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label number of incorrect answers">
+                      Structural
+                    </h2>
+                  </div>
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="1 * verifyJavaResult?.resultSummary?.passedProceduralSampleTC" [outOf]="
+                                1 * verifyJavaResult?.resultSummary?.passedProceduralSampleTC +
+                                1 * verifyJavaResult?.resultSummary?.failedProceduralSampleTC
+                              "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label of unanswered questions">
+                      Sample
+                    </h2>
+                  </div>
+                  <div class="card-section">
+                    <div class="flex flex-middle flex-center width-1-1">
+                      <ws-widget-completion-spinner [completed]="1 * verifyJavaResult?.resultSummary?.passedProceduralActualTC" [outOf]="
+                                                  1 * verifyJavaResult?.resultSummary?.passedProceduralActualTC +
+                                                  1 * verifyJavaResult?.resultSummary?.failedProceduralActualTC
+                                                "></ws-widget-completion-spinner>
+                    </div>
+                    <h2 class="mat-title" i18n="label of unanswered questions">
+                      Actual
+                    </h2>
+                  </div>
+                </div>
+              </ng-container>
+              <table class="table-verify">
+                <tr>
+                  <th i18n>
+                    Sl. No.
+                  </th>
+                  <th i18n>
+                    Type
+                  </th>
+                  <th i18n>
+                    S/A
+                  </th>
+                  <th i18n>
+                    Target
+                  </th>
+                  <th i18n>
+                    Input
+                  </th>
+                  <th i18n>
+                    Expected Output
+                  </th>
+                  <th i18n>
+                    Actual Output
+                  </th>
+                  <th i18n>
+                    Result
+                  </th>
+                </tr>
+                <tr *ngFor="let obj of verifyJavaResult?.structural; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td [attr.rowspan]="verifyJavaResult?.structural?.length" *ngIf="i === 0" i18n>
+                    Structural
+                  </td>
+                  <td i18n>
+                    N/A
+                  </td>
+                  <td>
+                    <ng-container *ngIf="obj.tcclass">
+                      <ng-container i18n>Class </ng-container>{{ obj.tcclass }}
+                      <br>
+                    </ng-container>
+                    <ng-container *ngIf="obj.tcmethod">
+                      <ng-container i18n>Method: </ng-container>{{ obj.tcmethod }}
+                      <br>
+                    </ng-container>
+                    <ng-container *ngIf="obj.tctarget">
+                      <ng-container i18n>Target: </ng-container>{{ obj.tctarget }}
+                      <br>
+                    </ng-container>
+                  </td>
+                  <td i18n>
+                    N/A
+                  </td>
+                  <td i18n>
+                    N/A
+                  </td>
+                  <td i18n>
+                    N/A
+                  </td>
+                  <td>
+                    <mat-icon *ngIf="obj.tcstatus === 'pass'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.tcstatus !== 'pass'" class="color-red">clear</mat-icon>
+                  </td>
+                </tr>
+                <tr *ngFor="let obj of verifyJavaResult?.sample; let i = index">
+                  <td>
+                    {{ (verifyJavaResult?.structural?.length || 0) + i + 1 }}
+                  </td>
+                  <td [attr.rowspan]="(verifyJavaResult?.sample?.length || 0) + (verifyJavaResult?.actual?.length || 0)" *ngIf="i === 0" i18n>
+                    Procedural
+                  </td>
+                  <td i18n [attr.rowspan]="verifyJavaResult?.sample?.length" *ngIf="i === 0">
+                    Sample
+                  </td>
+                  <td>
+                    <ng-container *ngIf="obj.tcclass">
+                      <ng-container i18n>Class </ng-container>{{ obj.tcclass }}
+                      <br>
+                    </ng-container>
+                    <ng-container *ngIf="obj.tcmethod">
+                      <ng-container i18n>Method: </ng-container>{{ obj.tcmethod }}
+                      <br>
+                    </ng-container>
+                    <ng-container *ngIf="obj.tctarget">
+                      <ng-container i18n>Target: </ng-container>{{ obj.tctarget }}
+                      <br>
+                    </ng-container>
+                  </td>
+                  <td>
+                    {{ obj.tcinput }}
+                  </td>
+                  <td>
+                    {{ obj.tcexpected }}
+                  </td>
+                  <td [innerHTML]="obj.tcactual | pipeSafeSanitizer: 'html'"></td>
+                  <td>
+                    <mat-icon *ngIf="obj.tcstatus === 'pass'" class="color-green">done </mat-icon>
+                    <mat-icon *ngIf="obj.tcstatus !== 'pass'" class="color-red">clear </mat-icon>
+                  </td>
+                </tr>
+                <tr *ngFor="let obj of verifyJavaResult?.actual; let i = index">
+                  <td>
+                    {{ (verifyJavaResult?.structural?.length || 0) + (verifyJavaResult?.sample?.length || 0) + i + 1 }}
+                  </td>
+                  <td [attr.rowspan]="verifyJavaResult?.sample?.length || 0 + verifyJavaResult?.actual?.length || 0" *ngIf="i === 0 && (!verifyJavaResult?.sample || !verifyJavaResult?.sample?.length)"
+                    i18n>
+                    Procedural
+                  </td>
+                  <td i18n *ngIf="i === 0" [attr.rowspan]="verifyJavaResult?.actual?.length">
+                    Actual
+                  </td>
+                  <td>
+                    <ng-container *ngIf="obj.tcclass">
+                      <ng-container i18n>Class </ng-container>{{ obj.tcclass }}
+                      <br>
+                    </ng-container>
+                    <ng-container *ngIf="obj.tcmethod">
+                      <ng-container i18n>Method: </ng-container>{{ obj.tcmethod }}
+                      <br>
+                    </ng-container>
+                    <ng-container *ngIf="obj.tctarget">
+                      <ng-container i18n>Target: </ng-container>{{ obj.tctarget }}
+                      <br>
+                    </ng-container>
+                  </td>
+                  <td>
+                    {{ obj.tcinput }}
+                  </td>
+                  <td>
+                    <ng-container *ngIf="obj.tcexpected else elseBlock">
+                      {{obj.tcexpected}}
+                    </ng-container>
+                    <ng-template #elseBlock i18n>N/A</ng-template>
+                  </td>
+                  <td [innerHTML]="obj.tcactual | pipeSafeSanitizer: 'html'"></td>
+                  <td>
+                    <mat-icon *ngIf="obj.tcstatus === 'pass'" class="color-green">done</mat-icon>
+                    <mat-icon *ngIf="obj.tcstatus !== 'pass'" class="color-red">clear</mat-icon>
+                  </td>
+                </tr>
+              </table>
+              <ng-container *ngIf="verifyJavaResult.codeQuality">
+                <br>
+                <h3 *ngIf="verifyJavaResult.codeQuality.message" i18n>Code Analysis</h3>
+                {{verifyJavaResult.codeQuality.message}}
+                <table *ngIf="verifyJavaResult.codeQuality.data && verifyJavaResult.codeQuality.data.length" class="table-verify">
+                  <tr>
+                    <th>
+                      Sl. No.
+                    </th>
+                    <th>
+                      Target
+                    </th>
+                    <th>
+                      Rule
+                    </th>
+                    <th>
+                      Violation
+                    </th>
+                  </tr>
+                  <tr *ngFor="let obj of verifyJavaResult.codeQuality.data; let i = index">
+                    <td>
+                      {{i + 1}}
+                    </td>
+                    <td>
+                      <span *ngIf="obj.className">
+                        <br>Class: {{obj.className}}</span>
+                      <span *ngIf="obj.methodName">
+                        <br>Method: {{obj.methodName}}</span>
+                    </td>
+                    <td>
+                      {{obj.rule}}
+                    </td>
+                    <td>
+                      {{obj.violation}}
+                    </td>
+                  </tr>
+                </table>
+              </ng-container>
+            </div>
+            <div *ngSwitchDefault class="status error" [innerText]="verifyJavaResult?.resultSummary?.response || 'Some Error Occured'">
+            </div>
+          </span>
+        </div>
+      </div>
+      <div *ngIf="!verifyResult && !verifyJavaResult && apiErrorOccurred" class="status error" i18n>
+        Some Error Occured
+      </div>
+    </ng-container>
+    <div id="verifyCard"></div>
+  </mat-card>
+
+  <mat-card *ngIf="isPostActionSectionShown && postActionSectionContent === 'submit'">
+    <mat-card-header>
+      <h2 class="mat-title" i18n="Submission dialog heading">
+        Submission Result
+      </h2>
+    </mat-card-header>
+    <ng-container>
+      <div class="text-center" *ngIf="!submitResult && executionInProgress">
+        <h3 class="mat-h3" i18n="fetching result in progress message">
+          Your code is being submitted...
+        </h3>
+        <mat-progress-spinner></mat-progress-spinner>
+      </div>
+      <div *ngIf="submitResult" class="width-1-1 overflow-auto">
+        <div>
+          <span *ngIf="submitResult?.submitionStatus">
+            {{ submitResult?.submissionMessage }}
+          </span>
+          <span *ngIf="!submitResult?.submitionStatus">
+            {{ submitResult?.submissionMessage }}
+          </span>
+        </div>
+      </div>
+      <div *ngIf="!submitResult && apiErrorOccurred" class="status error" i18n>
+        Some Error Occurred
+      </div>
+    </ng-container>
+    <span id="submitCard"> </span>
+  </mat-card>
+</mat-card>

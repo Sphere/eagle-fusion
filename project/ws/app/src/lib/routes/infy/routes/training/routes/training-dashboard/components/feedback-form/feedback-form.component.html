@@ -1,0 +1,131 @@
+<section class="container margin-top-xl margin-bottom-xl">
+  <div class="margin-top-m margin-bottom-m text-center" i18n [ngSwitch]="feedbackType">
+    <ng-container *ngSwitchCase="'content'">Provide feedback for content.</ng-container>
+    <ng-container *ngSwitchCase="'instructor'">Provide feedback for instructors.</ng-container>
+  </div>
+
+  <ng-container *ngIf="formFetchStatus === 'done'">
+    <mat-card>
+      <ng-container *ngFor="let feedbackItem of feedback">
+        <div class="padding-top-m padding-bottom-m" [ngSwitch]="feedbackItem.question.type">
+          <ng-container
+            *ngSwitchCase="'rating'"
+            [ngTemplateOutlet]="ratingQuestion"
+            [ngTemplateOutletContext]="{ $implicit: feedbackItem }"
+          ></ng-container>
+
+          <ng-container
+            *ngSwitchCase="'text'"
+            [ngTemplateOutlet]="textQuestion"
+            [ngTemplateOutletContext]="{ $implicit: feedbackItem }"
+          ></ng-container>
+
+          <ng-container
+            *ngSwitchCase="'bool'"
+            [ngTemplateOutlet]="boolQuestion"
+            [ngTemplateOutletContext]="{ $implicit: feedbackItem }"
+          ></ng-container>
+        </div>
+        <mat-divider></mat-divider>
+      </ng-container>
+
+      <button
+        mat-raised-button
+        class="margin-top-m"
+        color="primary"
+        type="submit"
+        i18n
+        (click)="onBtnSubmitClick()"
+      >
+        Give Feedback
+      </button>
+    </mat-card>
+  </ng-container>
+
+  <ng-container *ngIf="formFetchStatus === 'fetching'" [ngTemplateOutlet]="loading"></ng-container>
+  <ng-container *ngIf="formFetchStatus === 'error'" [ngTemplateOutlet]="error"></ng-container>
+</section>
+
+<!-- Templates -->
+
+<!-- Type: Rating -->
+<ng-template #ratingQuestion let-feedbackItem>
+  <p class="mat-body">{{ feedbackItem.question.question }}</p>
+  <mat-radio-group class="block" [(ngModel)]="feedbackItem.answer.rating">
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="5"
+      >Very Good</mat-radio-button
+    >
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="4"
+      >Good</mat-radio-button
+    >
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="3"
+      >Okay</mat-radio-button
+    >
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="2"
+      >Bad</mat-radio-button
+    >
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="1"
+      >Very Bad</mat-radio-button
+    >
+  </mat-radio-group>
+
+  <mat-form-field
+    class="block"
+    *ngIf="feedbackItem.answer.rating && feedbackItem.answer.rating < 3"
+  >
+    <input
+      matInput
+      [(ngModel)]="feedbackItem.answer.rating_reason"
+      i18n-placeholder
+      placeholder="Please provide a reason"
+    />
+  </mat-form-field>
+</ng-template>
+
+<!-- Type: Text -->
+<ng-template #textQuestion let-feedbackItem>
+  <p class="mat-body">{{ feedbackItem.question.question }}</p>
+  <mat-form-field class="block">
+    <input
+      matInput
+      [(ngModel)]="feedbackItem.answer.rating_reason"
+      i18n-placeholder
+      placeholder="Please tell us your thoughts"
+    />
+  </mat-form-field>
+</ng-template>
+
+<!-- Type: Boolean -->
+<ng-template #boolQuestion let-feedbackItem>
+  <p class="mat-body">{{ feedbackItem.question.question }}</p>
+  <mat-radio-group class="block" [(ngModel)]="feedbackItem.answer.rating">
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="0"
+      >Yes</mat-radio-button
+    >
+    <mat-radio-button color="primary" class="block margin-bottom-xs" i18n value="1"
+      >No</mat-radio-button
+    >
+  </mat-radio-group>
+
+  <mat-form-field class="block" [hidden]="feedbackItem.answer.rating !== 0">
+    <input
+      matInput
+      [(ngModel)]="feedbackItem.answer.rating_reason"
+      i18n-placeholder
+      placeholder="Please provide a reason"
+    />
+  </mat-form-field>
+</ng-template>
+
+<!-- Loading -->
+<ng-template #loading>
+  <div class="flex flex-center">
+    <!-- <ws-spinner></ws-spinner> -->
+  </div>
+</ng-template>
+
+<ng-template #error>
+  <p class="text-center" i18n>
+    There was an error fetching the feedback form.
+  </p>
+</ng-template>

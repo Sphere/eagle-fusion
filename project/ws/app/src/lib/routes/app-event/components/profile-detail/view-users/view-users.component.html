@@ -1,0 +1,39 @@
+<ng-container>
+  <div class="flex flex-between">
+    <h2 mat-dialog-title class="font-weight-bold title margin-remove-bottom" i18n>
+      Attendees |
+      <span>{{userData.noOfUser}}</span>
+    </h2>
+    <button mat-dialog-close mat-icon-button class="float-right cursor-pointer" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+</ng-container>
+<ng-container>
+  <div class="flex border searchTerm margin-top-s ws-mat-primary-lite-border-bottom">
+    <div class="w-full">
+      <form>
+        <mat-form-field appearance="none">
+          <input [formControl]="searchControl" name="searchQuery" matInput placeholder="Search" i18-aria-label aria-label="Search"
+            i18n-placeholder>
+        </mat-form-field>
+      </form>
+    </div>
+    <div *ngIf="!searchControl.value" class="flex items-center justify-center w-16 cursor-pointer">
+      <mat-icon>search</mat-icon>
+    </div>
+    <div *ngIf="searchControl.value" class="flex items-center justify-center w-16 cursor-pointer">
+      <mat-icon (click)="clear()">close</mat-icon>
+    </div>
+  </div>
+  <div class="mt-4">
+    <div class="flex align-center mb-4" *ngFor="let user of userDataList">
+      <img class="user-profile" [src]="user.ImageUrl">
+      <div class="ml-4 flex flex-col justify-center">
+        <span class="text-lg font-bold mb-2">{{user.UserName}}</span>
+        <span class="text-base font-normal">{{user.RegisteredDate | date:'mediumDate'}}</span>
+      </div>
+    </div>
+  </div>
+</ng-container>

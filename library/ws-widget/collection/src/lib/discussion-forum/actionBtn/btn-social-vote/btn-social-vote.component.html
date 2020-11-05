@@ -1,0 +1,81 @@
+<ng-container *ngIf="postId">
+  <ng-container *ngIf="voteType === 'downVote'">
+    <button
+      name="discussion-forum-downvote-button"
+      *ngIf="iconType === 'thumbs'"
+      [disabled]="isUpdating"
+      (click)="downVote(invalidUser.value)"
+      type="button"
+      mat-icon-button
+      i18n-aria-label
+      aria-label="down vote"
+      i18n-matTooltip
+      matTooltip="Down vote"
+      [ngClass]="{ highlight: activity.userActivity.downVote }"
+    >
+      <mat-icon
+        [matBadgeHidden]="!activity?.activityData.downVote"
+        [matBadge]="activity?.activityData.downVote"
+        matBadgeSize="small"
+        matBadgeColor="accent"
+        >thumb_down</mat-icon
+      >
+    </button>
+    <mat-icon
+      *ngIf="iconType === 'triangle'"
+      class="vote-triangle"
+      role="button"
+      (click)="downVote(invalidUser.value)"
+      [ngClass]="{ highlight: activity.userActivity.downVote }"
+      >arrow_drop_down</mat-icon
+    >
+    <!-- <span
+      role="button"
+      *ngIf="activity?.activityData.downVote && iconType === 'thumbs'"
+          (click)="openVotesDialog('downvote')"
+        class="ws-mat-primary-text vote-count"
+    >
+      {{ activity?.activityData.downVote }}
+    </span> -->
+  </ng-container>
+  <ng-container *ngIf="voteType === 'upVote'">
+    <button
+      name="discussion-forum-upvote-button"
+      *ngIf="iconType === 'thumbs'"
+      [disabled]="isUpdating"
+      (click)="upVote(invalidUser.value)"
+      type="button"
+      mat-icon-button
+      i18n-aria-label
+      aria-label="Up vote"
+      i18n-matTooltip
+      matTooltip="Up vote"
+      [ngClass]="{ highlight: activity.userActivity.upVote }"
+    >
+      <mat-icon
+        [matBadgeHidden]="!activity?.activityData.upVote"
+        [matBadge]="activity?.activityData.upVote"
+        matBadgeColor="accent"
+        matBadgeSize="small"
+        >thumb_up</mat-icon
+      >
+    </button>
+    <mat-icon
+      *ngIf="iconType === 'triangle'"
+      class="vote-triangle"
+      role="button"
+      (click)="upVote(invalidUser.value)"
+      [ngClass]="{ highlight: activity.userActivity.upVote }"
+      >arrow_drop_up</mat-icon
+    >
+    <!-- <span
+      role="button"
+      *ngIf="activity?.activityData.upVote && iconType === 'thumbs'"
+      (click)="openVotesDialog('upvote')"
+      class="ws-mat-primary-text vote-count"
+      >{{ activity?.activityData.upVote }}
+    </span> -->
+  </ng-container>
+</ng-container>
+
+<input type="hidden" i18n-value value="You cannot vote your own post" #invalidUser />

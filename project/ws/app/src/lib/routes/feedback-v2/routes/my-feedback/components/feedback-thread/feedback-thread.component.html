@@ -1,0 +1,53 @@
+<section class="py-4 h-full container-balanced mx-auto px-4">
+  <section class="w-full md:overflow-y-auto custom-scroll">
+    <ng-container *ngIf="(threadFetchStatus === 'done' || threadFetchStatus === 'none') && feedbackThread">
+      <section class="mb-4">
+        <ws-app-feedback-thread-header [threadHead]="feedbackThread[0]" [viewedBy]="viewedBy">
+        </ws-app-feedback-thread-header>
+      </section>
+
+      <ul class="list-none p-0">
+        <ng-container *ngFor="let threadItem of feedbackThread">
+          <li>
+            <ws-app-feedback-thread-item [threadItem]="threadItem"></ws-app-feedback-thread-item>
+            <mat-divider></mat-divider>
+          </li>
+        </ng-container>
+      </ul>
+      <div class="mat-toolbar p-4 rounded">
+        <form [formGroup]="replyForm" (ngSubmit)="submitReply()">
+          <div class="mat-body">
+            <mat-form-field class="w-full">
+              <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+                formControlName="reply" placeholder="Type your text here" i18n-placeholder></textarea>
+              <mat-hint i18n>
+                Limit to 2000 characters.
+              </mat-hint>
+              <mat-error i18n>
+                You have exceeded 2000 characters.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <div class="mr-2">
+              <mat-progress-spinner [color]="'primary'" [diameter]="40" [strokeWidth]="4" [mode]="'indeterminate'"
+                *ngIf="sendStatus === 'sending'"></mat-progress-spinner>
+            </div>
+            <button mat-flat-button color="primary" type="submit"
+              [disabled]="replyForm.pristine || replyForm.invalid || sendStatus === 'sending'">
+              <ng-container i18n>Submit</ng-container>
+            </button>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="threadFetchStatus === 'error'">
+      <section class="my-24 flex flex-center">
+        <h3 class="mat-h3" i18n>
+          There was an error while fetching this feedback thread.
+        </h3>
+      </section>
+    </ng-container>
+  </section>
+</section>

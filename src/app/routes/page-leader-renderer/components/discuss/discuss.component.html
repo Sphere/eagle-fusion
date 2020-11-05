@@ -1,0 +1,16 @@
+<div class="mat-toolbar padding-s text-center" *ngIf="discussionFetchStatus === 'done' && !isDiscussionsDoneByLeader"
+  i18n>
+  You can start participating in discussions once Leader initiates it.
+</div>
+<div class="mat-toolbar padding-s text-center" *ngIf="discussionFetchStatus === 'error'" i18n>
+  Uh oh! Looks like our services have crashed. Unable to fetch discussions.
+</div>
+<h3 *ngIf="discussionFetchStatus === 'fetching'" class="margin-top-s text-center" i18n>
+  Fetching discussions...
+</h3>
+<!-- <ws-discussion-forum class="discussion-container" *ngIf="discussionForumInput"
+  [discussionForumInput]="discussionForumInput"></ws-discussion-forum> -->
+
+<ws-widget-discussion-forum class = "discussion-container" *ngIf="discussionForumInput" [widgetData]="discussionForumWidget">
+asdas
+</ws-widget-discussion-forum>

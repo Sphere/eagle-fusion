@@ -1,0 +1,132 @@
+<article class="project-snapshot-wrapper">
+  <div class="heading-title">
+    <div class="flex flex-wrapped">
+      <span>
+        <span class="project-project-status">
+          <span *ngIf="projectDetails.status === 'closed'" [matTooltip]="'Project Status : Closed'">
+            <span class="status-icon closed"></span>
+          </span>
+          <span *ngIf="projectDetails.status === 'active'" [matTooltip]="'Project Status : Active'">
+            <span class="status-icon open"></span>
+          </span>
+          <span
+            *ngIf="projectDetails.status === 'inactive'"
+            [matTooltip]="'Project Status : Not Available'"
+          >
+            <span class="status-icon not-available"></span>
+          </span>
+          <span
+            *ngIf="projectDetails.status === 'archieved'"
+            [matTooltip]="'Project Status : Archived'"
+          >
+            <span class="status-icon archived"></span>
+          </span>
+        </span>
+        &nbsp;
+        <b>{{ projectDetails.mstProjectName }}</b>
+      </span>
+      <!-- style="float:right;margin-top: 20px;" -->
+      <!-- <span class="spacer"></span> -->
+      <!-- <span style="margin-top: 20px;" [matTooltip]="'Contract Type'">
+        {{ projectDetails.mstContractType }}
+      </span> -->
+    </div>
+    <hr />
+    <div class="flex flex-wrapped">
+      <span>PU : {{ projectDetails.puName }} </span>
+      <span class="spacer"></span>
+      <span>BU : {{ projectDetails.ibuName }}</span>
+    </div>
+    <div>
+      <span i18n="view: Khub Project start date">Start Date: </span>
+      {{ projectDetails.dateStartDate | date }}
+    </div>
+    <hr />
+    <!-- <p *ngIf="projectDetails.mstProjectScope.length > 0">
+      <b><span i18n="tile: Khub tile Scope Label">Project Scope</span></b
+      >: {{ projectDetails.mstProjectScope }}
+    </p> -->
+    <!-- [innerHtml]="projectDetails.mstProjectScope | safeHtml" <b>Project Scope</b> : {{ projectDetails.mstProjectScope | safeHtml }} -->
+    <!-- <p
+      *ngIf="
+        projectDetails.mstProjectScope.length === 0 &&
+        projectDetails.mstInfyObjectives.length > 0
+      "
+    >
+      <b
+        ><span i18n="tile: Khub tile Business Objective Label"
+          >Infosys Objectives</span
+        ></b
+      >: {{ projectDetails.mstInfyObjectives }}
+    </p>
+    <p *ngIf="projectDetails.mstInfosysRole.length > 0">
+      <b
+        ><span i18n="tile: Khub tile Business InfyRole Label"
+          >Infosys Role</span
+        ></b
+      >: {{ projectDetails.mstInfosysRole }}
+    </p>
+    <p
+      *ngIf="
+        projectDetails.mstInfosysRole.length === 0 &&
+        projectDetails.mstBusinessContext.length > 0
+      "
+    >
+      <b
+        ><span i18n="tile: Khub tile Business Context Label"
+          >Business Context</span
+        ></b
+      >: {{ projectDetails.mstBusinessContext }}
+    </p> -->
+    <p
+      *ngIf="!islargeScreen"
+      [matTooltip]="'This detail is currently available only on Infosys Network'"
+      style="padding: 5px 0px 5px 0px;"
+    >
+      <span i18n="view: Khub Project Elaborated details"
+        >If you are on Infosys Network, Explore more about this project
+        <a href="{{ url }}" target="_blank" style="color:cadetblue;">Here</a></span
+      >
+    </p>
+    <div
+      class="margin-top-s margin-top-xs flex flex-wrapped"
+      *ngIf="projectDetails.pm.length > 0 || projectDetails.dm.length > 0"
+    >
+      <div *ngIf="projectDetails.pm.length > 0">
+        <span class="flex pm-dm-class">
+          <!-- <app-user-image
+            class="user-profile-image"
+            [email]="projectDetails.pm[0].mailId"
+            [matTooltip]="'Project Manager'"
+          ></app-user-image> -->
+          <span class="user-profile-image">
+            <mat-icon class="user-icon">person</mat-icon>
+          </span>
+          <div>
+            <span>{{ projectDetails.pm[0].name }}</span
+            ><br /><span i18n="view: Khub Project Manager Label">Project Manager</span>
+          </div>
+        </span>
+      </div>
+      <div *ngIf="projectDetails.dm.length > 0">
+        <span class="flex pm-dm-class">
+          <!-- <app-user-image
+            class="user-profile-image"
+            [email]="projectDetails.pm[0].mailId"
+            [matTooltip]="'Project Manager'"
+          ></app-user-image> -->
+          <span class="user-profile-image">
+            <mat-icon class="user-icon">person</mat-icon>
+          </span>
+          <div>
+            <span>{{ projectDetails.dm[0].name }}</span
+            ><br /><span i18n="view: Khub Delivery Manager Label">Delivery Manager</span>
+          </div>
+        </span>
+      </div>
+    </div>
+    <div *ngFor="let item of toolsRisksContributions">
+      <ws-app-infy-item-list [item]="item"></ws-app-infy-item-list>
+    </div>
+  </div>
+</article>

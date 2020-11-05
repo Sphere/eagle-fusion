@@ -1,0 +1,88 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+@import 'ws-common';
+
+mat-drawer {
+  padding: 10px;
+  position: sticky;
+  box-shadow: none;
+}
+
+.concept {
+  text-align: center;
+  margin-right: $size-s;
+  height: 95px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-s;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.fullView {
+  min-width: 1380px;
+  margin-left: -30px;
+}
+
+.item {
+  display: block;
+  text-align: center;
+}
+
+.custom {
+  cursor: pointer;
+  font-size: 50px;
+  height: 30px;
+  width: 30px;
+  font-size: 30px;
+  border: dashed grey 1px;
+  border-radius: 5px;
+}
+
+.caption {
+  display: block;
+  padding: 5px;
+}
+
+.sticky {
+  position: sticky;
+  top: 60px;
+  z-index: 1000;
+  width: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.op60 {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.width-95 {
+  width: 100%;
+}
+
+::ng-deep .mat-select-content {
+  width: 80px;
+}
+
+.visible {
+  display: block;
+}
+
+.not-visible {
+  display: none;
+}
+
+.open-bar {
+  display: block;
+  margin-left: -10px
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 30px !important;
+}

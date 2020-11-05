@@ -1,0 +1,9 @@
+<div style = "display:block">
+<ng-container [wsResolverWidget]="widgetSearchRequest"></ng-container>
+<ng-container *ngIf="errorMessageCode">
+  <div [ngSwitch]="errorMessageCode" class="text-center padding-s">
+    <h3 class="mat-h3" i18n *ngSwitchCase="'API_FAILURE'">Unable to fetch data</h3>
+    <h3 class="mat-h3" i18n *ngSwitchCase="'NO_DATA'">Contents will appear soon...</h3>
+  </div>
+</ng-container>
+</div>

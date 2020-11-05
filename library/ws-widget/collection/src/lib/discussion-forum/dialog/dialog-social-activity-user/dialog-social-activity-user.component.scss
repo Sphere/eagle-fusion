@@ -1,0 +1,18 @@
+@import 'ws-vars';
+
+ws-widget-user-image {
+  $size: 40px;
+  font-size: $size;
+  width: $size;
+  height: $size;
+  display: block;
+  margin-right: $size-s;
+}
+
+.follow-icon {
+  $icon-size: 20px;
+  font-size: $icon-size;
+  width: $icon-size;
+  height: $icon-size;
+  margin-right: $size-xs;
+}

@@ -1,0 +1,71 @@
+<section>
+  <h2 class="mat-title" i18n>Filter</h2>
+
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+    <div>
+      <mat-form-field class="width-1-1">
+        <mat-select placeholder="Type" i18n-placeholder formControlName="type">
+          <mat-option value="all">All</mat-option>
+          <mat-option value="proctor_approval" i18n>Proctor Approval</mat-option>
+          <mat-option value="budget_approval" i18n>Budget Approval</mat-option>
+          <mat-option value="result_verification" i18n>Result Verification</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="width-1-1" *ngIf="pageType === 'user'">
+        <input
+          matInput
+          [matDatepicker]="startDatePicker"
+          [max]="defaultEndDate"
+          placeholder="Start date"
+          i18n-placeholder
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error i18n>
+          The start date must be before the end date.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field class="width-1-1" *ngIf="pageType === 'user'">
+        <input
+          matInput
+          [matDatepicker]="endDatePicker"
+          [max]="defaultEndDate"
+          placeholder="End date"
+          i18n-placeholder
+          formControlName="endDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-error i18n>
+          The start date must be before the end date.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="margin-top-m flex">
+      <div class="mr-2">
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          type="submit"
+          i18n
+          [disabled]="filterForm.invalid"
+        >
+          Apply
+        </button>
+      </div>
+      <div>
+        <button mat-stroked-button [color]="'primary'" mat-dialog-close type="submit" i18n>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,51 @@
+@import 'ws-vars';
+
+$medium-badge-size: 90px;
+$small-badge-size: 50px;
+$badge-padding: 12px;
+
+.card-container {
+  position: relative;
+  width: 350px;
+  height: 180px;
+  margin: 20px 10px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.small-badge {
+  width: $medium-badge-size;
+}
+
+.badge-data {
+  margin-top: 5px;
+  margin-left: 16px;
+}
+
+.date {
+  margin-left: $size-xs;
+}
+
+.hidden {
+  visibility: hidden;
+}
+.badge-container {
+  box-sizing: border-box;
+  width: $medium-badge-size + 2 * $badge-padding;
+}
+
+
+.hover-text{
+  height: 28px;
+}
+
+mat-card{
+    margin: 0 20px;
+}
+
+.title{
+  line-height: 1.0;
+  }

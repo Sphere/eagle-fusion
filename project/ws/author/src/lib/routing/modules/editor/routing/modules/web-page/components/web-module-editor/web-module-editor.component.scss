@@ -1,0 +1,247 @@
+.cursor-disable {
+  cursor: not-allowed !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 65%;
+}
+
+.margin-left {
+  margin-left: 120px;
+  @media only screen and(max-width: 930px) {
+    // margin-top: 24px;
+    margin-left: 80px;
+  }
+
+  @media only screen and(max-width: 824px) {
+    margin-left: 40px;
+  }
+
+  @media only screen and(max-width: 699px) {
+    padding-top: 24px;
+  }
+
+  @media only screen and(max-width: 585px) {
+    margin-left: 0px;
+  }
+}
+
+.audios-card-container{
+  padding: 5px;
+}
+
+::ng-deep .web-module-container #cke_1_contents,::ng-deep .web-module-container .cke_contents {
+  min-height: 700px !important;
+}
+
+.stepper-container {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.stepper-grid {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.2fr auto 1fr;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.fullView {
+  height: 100vh;
+  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+}
+
+.close-preview {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 110px;
+  right: 0px;
+  z-index: 50;
+}
+
+.small-button {
+  height: 32px;
+  width: 32px;
+  transition: 0.5s;
+  margin-right: 4px;
+}
+
+.normal-button {
+  border-radius: 50%;
+  height: 40px;
+  display: flex;
+  width: 40px;
+  z-index: 3;
+  justify-content: center;
+}
+
+.small-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}
+
+.button-grid{
+  display: grid;
+  width: 160px;
+  grid-template-columns: 0.2fr 0.95fr;
+}
+
+.audio-container {
+  width: 40%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+  border: 1px solid;
+  audio {
+    width: 70%;
+  }
+}
+
+// .border-right{
+//   border-right: 1px solid ;
+// }
+
+.bordered{
+  border: 2px solid #cecece;
+}
+
+.audio-tag{
+  position: relative;
+  top: 1px
+}
+
+.button-text{
+  align-self: center;
+  padding-top: 17px;
+  padding-left: 4px;
+}
+
+.margin-right-xxs{
+  margin-right: 4px;
+}
+
+.ws-mat-primary-background{
+  color: #fff !important;
+}
+
+
+.invalidQues{
+  background-color:rgb(236, 68, 68)!important ;
+  color: white !important;
+}
+
+mat-sidenav-container{
+  overflow: inherit !important;
+  min-height: 500px;
+}
+
+mat-sidenav{
+  overflow: auto;
+  width: auto;
+}
+
+.custom {
+  padding: 20px 10px;
+  height: 55px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: grab;
+}
+
+.audioUpd{
+  border: 2px rgb(17, 122, 148) solid;
+  border-radius: 25px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: fit-content ;
+
+
+}
+@media only screen and (max-width: 600px) {
+  .audioUpd{
+   display: inline-flex;
+   flex-direction: row;
+   border: 2px rgb(17, 122, 148) solid;
+   border-radius: 15px;
+   padding-left: 6px;
+   padding-right: 6px;
+   padding-top: 3px;
+   padding-bottom: 3px;
+   width: 190px ;
+   justify-content: center;
+   align-items: center;
+   height: 30px;
+ }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+.example-list.cdk-drop-list-dragging .custom:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-list{
+  width: 200px;
+  margin: 10px;
+}
+
+::ng-deep .myfield .mat-form-field-wrapper{
+  padding: 0px !important;
+}
+
+.m-1{
+  margin: 0.25rem !important;
+}

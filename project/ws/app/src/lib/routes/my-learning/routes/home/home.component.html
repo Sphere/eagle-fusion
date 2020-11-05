@@ -1,0 +1,122 @@
+<mat-toolbar [color]="pageNavbar.color">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="ml-2" i18n>Learning</span>
+</mat-toolbar>
+<div *ngIf="apiFetchStatus === 'fetching'" class="margin-xl padding-xl flex flex-center">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="apiFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+  <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+    Currently, You do not have any Learning Path
+  </h2>
+</div>
+<!-- <ng-container *ngIf="apiFetchStatus === 'error'" [wsResolverWidget]="errorWidget"></ng-container> -->
+<div *ngIf="apiFetchStatus === 'done'">
+  <div class="ws-mat-primary-lite-background-on-day">
+    <div class="px-3 py-2">
+      <div class="flex flex-between">
+        <div class="header-title text-card">
+          <h1 *ngIf="learningData?.role_status?.role_name"
+            class="mat-display-2 margin-remove-bottom padding-bottom-xs hidden sm:block"
+            [title]="learningData?.role_status?.role_name">
+            {{ learningData?.role_status?.role_name }}
+          </h1>
+          <h2 *ngIf="learningData?.role_status?.role_name" class="margin-remove-bottom block sm:hidden"
+            [title]="learningData?.role_status?.role_name">
+            {{ learningData?.role_status?.role_name }}
+          </h2>
+          <!-- <div class="sub-text-card">
+            <h2
+              *ngIf="learningData?.role_status.days_remaining"
+              class="mat-h2 flex-flex-middle flex-wrap margin-remove-bottom padding-bottom-xs hidden sm:block"
+            >
+              {{ learningData?.role_status.days_remaining }}
+            </h2>
+            <h4
+              *ngIf="learningData?.role_status.days_remaining"
+              class="mat-h4 flex-flex-middle flex-wrap margin-remove-bottom  block sm:hidden"
+            >
+              {{ learningData?.role_status.days_remaining }}
+            </h4>
+          </div> -->
+        </div>
+        <div class="float-right flex flex-column">
+          <div class="progress-circular">
+            <div class="progress-circular-container">
+              <div class="float-right mx-auto">
+                <ng-container [wsResolverWidget]="donutChartData"> </ng-container>
+                <div class="progress-circular-value">
+                  <p class="text-sm" [ngClass]="{ 'mat-h2': !screenSizeIsLtMedium }">
+                    {{ learningData?.role_status?.progress }}%
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center text-sm">
+            <ng-container class=" flex flex-middle flex-wrapped text-center">
+              <span>{{ learningData?.role_status.course_completed }}</span>
+              <span i18n> out of </span>
+              <span>{{ learningData?.role_status.course_count }}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <p class="text-right margin-remove-bottom text-sm">
+        <span i18n>Last updated on </span>
+        <span>{{ learningData?.role_status.last_updated | date }}</span>
+      </p>
+      <div class="header-actions">
+        <a (click)="onClick('certified')" class="mat-raised-button button-action" [ngClass]="{
+            'ws-mat-primary-background': learningData?.role_status.current_level === 'Certified'
+          }">
+          <div class="flex items-center">
+            <span [ngClass]="{ 'text-white': learningData?.role_status.current_level === 'Certified' }"
+              class="font-bold margin-remove-bottom" i18n>Certified</span>
+            <mat-icon *ngIf="
+                learningData?.role_status.current_level === 'Professional' ||
+                learningData?.role_status.current_level === 'Master'
+              " i18n-matTooltip matTooltip="Completed" class="ws-mat-green-text check mt-2">check_circle</mat-icon>
+          </div>
+        </a>
+        <a (click)="onClick('professional')" class="mat-raised-button button-action" [ngClass]="{
+            'ws-mat-primary-background': learningData?.role_status.current_level === 'Professional'
+          }">
+          <div class="flex items-center">
+            <span [ngClass]="{
+                'text-white': learningData?.role_status.current_level === 'Professional'
+              }" class="font-bold margin-remove-bottom" i18n>Professional</span>
+            <mat-icon *ngIf="learningData?.role_status.current_level === 'Master'" i18n-matTooltip
+              matTooltip="Completed" class="ws-mat-green-text check mt-2">check_circle</mat-icon>
+          </div>
+        </a>
+        <a (click)="onClick('master')" class="mat-raised-button button-action" [ngClass]="{
+            'ws-mat-primary-background': learningData?.role_status.current_level === 'Master'
+          }">
+          <span [ngClass]="{ 'text-white': learningData?.role_status.current_level === 'Master' }"
+            class="font-bold margin-remove-bottom" i18n>Master</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="margin-top-s">
+    <div class="mx-8" id="certified">
+      <div class="flex flex-middle flex-wrapped">
+        <h1 class="mat-h1 margin-remove-bottom" i18n>Certified</h1>
+      </div>
+      <ng-container [wsResolverWidget]="widgetResolverCertifiedData"></ng-container>
+    </div>
+    <div class="mx-8" id="professional">
+      <div class="flex flex-middle flex-wrapped">
+        <h1 class="mat-h1 margin-remove-bottom" i18n>Professional</h1>
+      </div>
+      <ng-container [wsResolverWidget]="widgetResolverProfessionalData"></ng-container>
+    </div>
+    <div class="mx-8" id="master">
+      <div class="flex flex-middle flex-wrapped">
+        <h1 class="mat-h1" i18n>Master</h1>
+      </div>
+      <ng-container [wsResolverWidget]="widgetResolverMasterData"></ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<span *ngIf="endDate" class="flex items-center">
+  <mat-icon class="negative-margin-left-xxs" [color]="deadlinePassed ? 'warn' : 'primary'">
+    flag
+  </mat-icon>
+  <p class="margin-left-xs margin-remove-bottom" [ngClass]="{ 'mat-error': deadlinePassed }">
+    <ng-container i18n>Deadline on </ng-container>
+    <span class="mat-body-strong">{{ endDate | date }}</span>
+  </p>
+</span>

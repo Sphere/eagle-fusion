@@ -1,0 +1,52 @@
+<div
+  *ngIf="widgetData"
+  [ngClass]="widgetData?.containerClass"
+  [ngStyle]="widgetData?.containerStyle"
+>
+  <section class="max-w-6xl m-auto px-6 sm:px-8 md:px-10 mb-2">
+    <h1 class="mat-h1">
+      {{ widgetData?.label }}
+    </h1>
+    <section class="flex flex-wrap -mr-8">
+      <div class="w-full sm:w-1/2 lg:w-1/3" *ngFor="let card of widgetData?.cards">
+        <a [routerLink]="card?.url">
+          <mat-card
+            class="channel-card flex mat-elevation-z1 mb-8 mr-8 ws-mat-primary-border-top-bolder border-t-5"
+          >
+            <div class="flex-1 min-w-0 flex flex-column">
+              <div class="min-w-0 mx-2 heading">
+                <div class="ws-mat-text-fade-gradient">&nbsp;</div>
+                <h2 title="{{ card?.name }}" class="leading-tight pt-1">
+                  {{ card?.name }}
+                </h2>
+                <h3 title="{{ card?.description }}" class="mat-subheading-2 leading-custom">
+                  {{ card?.description }}
+                </h3>
+              </div>
+              <!-- <div class="flex-1 min-w-0 mx-2 sub-heading" title="{{ card?.description }}">
+                <h3 class="mat-subheading-2 ws-mat-text-fade-gradient leading-custom">
+                  {{ card?.description }}
+                </h3>
+              </div> -->
+              <div
+                *ngIf="card?.startDate"
+                class="ws-mat-primary-text font-weight-500 mat-body px-2 pt-2 channelDate"
+              >
+                <span class="dateDiv">
+                  <ng-container *ngIf="!card?.endDate">
+                    <ng-container i18n>since</ng-container>
+                    {{ card?.startDate | date: 'MM/yyyy' }}
+                  </ng-container>
+                  <ng-container *ngIf="card?.endDate">
+                    {{ card?.startDate | date: 'MM/yyyy' }} - {{ card?.endDate | date: 'MM/yyyy' }}
+                  </ng-container>
+                </span>
+              </div>
+            </div>
+            <img alt="thumbnail" i18n-alt [src]="card?.image" class="card-image h-full" />
+          </mat-card>
+        </a>
+      </div>
+    </section>
+  </section>
+</div>

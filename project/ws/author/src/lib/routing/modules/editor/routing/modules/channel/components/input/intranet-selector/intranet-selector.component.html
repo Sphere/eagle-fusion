@@ -1,0 +1,5 @@
+<mat-form-field appearance="outline" class="w-full">
+  <mat-label i18n>Intranet URL</mat-label>
+  <input #url matInput i18n-placeholder placeholder="Provide Intranet URL" [value]="iframeSrc"
+    (change)="update(url.value)">
+</mat-form-field>

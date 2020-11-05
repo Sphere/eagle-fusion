@@ -1,0 +1,64 @@
+<div class="margin-top-m margin-left-xl width-2-3">
+  <form class="" [formGroup]="urlUploadForm">
+    <div class="flex-middle">
+      <!-- margin-left15<div class="flex margin-top-xl margin-bottom-m   flex-middle">
+        <p class="mat-h2  font-weight-500 margin-right-s" i18n>Link</p>
+        <mat-form-field appearance="outline" class=" margin-left5 flex-grow60 padding-remove-bottom">
+          <input type="url" matInput autoComplete="false" i18n-placeholder formControlName="artifactUrl" placeholder="Enter or paste URL here"
+            class="input ws-mat-primary-text" />
+          <mat-error *ngIf="showError(urlUploadForm.controls.artifactUrl)" i18n="Name Error|Explains name is required">
+            URL is mandatory
+          </mat-error>
+        </mat-form-field>
+      </div> -->
+      <div class="margin-top-xl">
+        <p class="font-weight-bold margin-remove-bottom" i18n>
+          Link
+        </p>
+        <mat-form-field appearance="outline" class="margin-top-xs" style="width: 80%;">
+          <input type="url" matInput formControlName="artifactUrl" i18n-placeholder
+            placeholder="Enter or paste URL here" />
+          <mat-error *ngIf="showError(urlUploadForm.controls.artifactUrl)" i18n>
+            URL is mandatory
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="margin-top-xs">
+        <p class="font-weight-bold margin-remove-bottom" i18n>
+          Is It Available on internet ?
+        </p>
+        <mat-form-field appearance="outline" class="margin-top-xs">
+          <mat-select formControlName="isInIntranet" placeholder="e.g. Yes">
+            <mat-option [value]="false" i18n>Yes</mat-option>
+            <mat-option [value]="true" i18n>No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="margin-top-xs">
+        <p class="font-weight-bold margin-remove-bottom" i18n>
+          Opens in a new tab?
+        </p>
+        <mat-form-field appearance="outline" class="margin-top-xs">
+          <mat-select formControlName="isIframeSupported" placeholder="e.g. Yes">
+            <mat-option [value]="'Yes'" i18n>No</mat-option>
+            <mat-option [value]="'No'" i18n>Yes</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- <div class="flex flex-middle margin-top-xs padding-top-l">
+        <mat-checkbox [checked]="iprAccepted" (change)="iprChecked()"></mat-checkbox>
+        <p class="margin-left-xs margin-remove-bottom">
+          I have read and agree to the
+          <span class="ws-mat-primary-text font-weight-bold cursor-pointer" (click)="showIpr()">IPR Declaration</span>
+        </p>
+      </div> -->
+    </div>
+    <!-- <div class="flex flex-start">
+      <button type="button" mat-raised-button class="ws-mat-primary-background margin-top-m" (click)="submit()">
+        <div class="flex flex-middle">
+          <p class="text-white margin-remove-bottom" i18n>Update Content</p>
+        </div>
+      </button>
+    </div> -->
+  </form>
+</div>

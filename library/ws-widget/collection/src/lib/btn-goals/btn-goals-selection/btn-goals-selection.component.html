@@ -1,0 +1,21 @@
+<div class="playlists-collection custom-scroll">
+  <mat-selection-list *ngIf="fetchGoalStatus !== 'fetching'" (selectionChange)="selectionChange($event?.option)">
+    <mat-list-option *ngFor="let goal of goals" [selected]="selectedGoals.has(goal?.id)" [value]="goal?.id"
+      checkboxPosition="before">
+      {{ goal?.name }}
+    </mat-list-option>
+  </mat-selection-list>
+  <div class="p-4 text-center" *ngIf="fetchGoalStatus === 'fetching'">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
+<div class="mt-2 flex flex-row-reverse">
+  <button mat-button [mat-dialog-close]="true" i18n>Done</button>
+  <a (click)="closeDialog.emit()" [routerLink]="'/app/goals/create/custom'"
+    [queryParams]="{ preselected: contentId, preselectedName: contentName }" mat-button i18n i18n>Create
+    New</a>
+</div>
+
+<input name="content-added-message-goals" #contentAdd type="hidden" i18n-value value="Content Added" />
+<input name="content-removed-message-goals" #contentRemove type="hidden" i18n-value value="Content Removed" />
+<input name="error-message-goals" #contentUpdateError type="hidden" i18n-value value="Error Updating Goal" />

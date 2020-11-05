@@ -1,0 +1,11 @@
+h2.content-name,
+h3.thread-head-name {
+  margin: 0;
+}
+
+ws-widget-user-image {
+  $user-size: 40px;
+  width: $user-size;
+  height: $user-size;
+  font-size: $user-size;
+}

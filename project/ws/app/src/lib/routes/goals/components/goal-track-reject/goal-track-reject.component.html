@@ -1,0 +1,30 @@
+<main class="my-4">
+  <h3 *ngIf="!trackGoal?.rejected?.length" class="text-center mat-title" i18n>No one has rejected this goal</h3>
+  <mat-card *ngFor="let reject of trackGoal?.rejected" class="mb-4">
+    <div class="text-center py-8" *ngIf="shareAgainStatus[reject?.sharedWith] === 'fetching'">
+      <mat-spinner></mat-spinner>
+    </div>
+    <section *ngIf="shareAgainStatus[reject?.sharedWith] !== 'fetching'">
+      <div class="flex justify-between items-center">
+        <div class="mat-title margin-bottom-xs">{{ reject?.sharedWith?.name }}</div>
+        <button name="share-button-goal-track-reject" *ngIf="!shareAgainApiProgress" mat-icon-button (click)="shareAgain(reject?.sharedWith?.userId)"
+          matTooltip="Share Again" i18n-matTooltip>
+          <mat-icon>share</mat-icon>
+        </button>
+        <mat-spinner *ngIf="shareAgainApiProgress" [diameter]="30"></mat-spinner>
+      </div>
+      <div class="mb-2 flex items-center">
+        <mat-icon class="mr-1">access_time</mat-icon>
+        <ng-container i18n>Rejected on</ng-container>
+        <span class="mat-body-strong ml-1">{{ reject?.lastUpdatedOn | date }}</span>
+      </div>
+      <span class="mat-body italic">
+        <ng-container i18n>Rejection Reason : </ng-container>
+        {{ reject?.message }}
+      </span>
+    </section>
+  </mat-card>
+</main>
+
+<input #shareError type="hidden" i18n-value value="Error sharing goal" />
+<input #shareSuccess type="hidden" i18n-value value="Goal shared successfully" />

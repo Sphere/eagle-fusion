@@ -1,0 +1,30 @@
+<div class="flex flex-column">
+  <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="position-relative small-height-toolbar">
+    <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+
+  </mat-toolbar>
+  <span class="center-align py-2 ws-mat-primary-text" *ngIf="isPartOfFirstTimeSetupV2">
+    <span> {{appName}} </span>
+    <span i18n> is built around you. Find out what´s in it for you:
+    </span>
+  </span>
+  <mat-radio-group class="flex flex-center pb-4" (change)="onItemChange($event.value)"
+    *ngIf="introVideos && objectKeys(introVideos).length > 1 && !isPartOfFirstTimeSetupV2">
+    <ng-container i18n>Choose video's language</ng-container>
+    <mat-radio-button color="primary" class="px-2" *ngFor="let key of objectKeys(introVideos)" [checked]="key == 'en'"
+      [value]="key">
+      <ws-widget-locale-translator [langCode]="key"></ws-widget-locale-translator>
+    </mat-radio-button>
+
+  </mat-radio-group>
+  <div class="intro-video">
+    <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
+
+  </div>
+
+</div>
+<div class="tnc-bottom-navbar" *ngIf="showNextbutton">
+  <a type="button" color="primary" mat-flat-button routerLink="/app/setup/home/interest" i18n>
+    Next
+  </a>
+</div>

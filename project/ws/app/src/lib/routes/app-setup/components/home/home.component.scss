@@ -1,0 +1,52 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+
+.app-logo{
+  width: 120px;
+  height: 20px;
+
+}
+
+
+
+.outer {
+   max-width: 1100px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+    @include breakpoint-xs {
+      margin: 8px 0;
+    }
+
+}
+
+.middle {
+  vertical-align: middle;
+    max-width: 1100px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100%;
+
+}
+
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+  margin: 16px 0;
+  height: calc(100vh - 250px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: grey;
+  position: relative;
+  @include breakpoint-xs {
+      margin: 16px;
+      height: calc(100vh - 196px);
+    }
+}

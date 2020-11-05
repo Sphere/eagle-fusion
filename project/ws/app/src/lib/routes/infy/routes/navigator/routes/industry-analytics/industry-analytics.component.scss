@@ -1,0 +1,39 @@
+@import 'ws-mixins';
+
+.analytics-loader {
+  margin: $size-xl auto;
+  max-width: 320px;
+}
+
+.graph-card {
+  padding: 0px;
+  width: 30%;
+  margin-top: 1.5rem;
+
+  @include breakpoint-m {
+    width: 45%;
+    margin-top: 1.5rem;
+  }
+
+  @include breakpoint-lt-m {
+    width: 45%;
+    margin-top: 1.5rem;
+  }
+
+  @include breakpoint-lt-s {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+}
+
+.unique-users-card {
+  width: 27.5%;
+
+  @include breakpoint-m {
+    width: 96%;
+  }
+
+  @include breakpoint-lt-m {
+    width: 93%;
+  }
+}

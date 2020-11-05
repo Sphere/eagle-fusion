@@ -1,0 +1,25 @@
+@import 'ws-mixins';
+.text-inside-grid {
+  position: absolute;
+  left: 5px;
+}
+.text-outside-grid {
+  position: absolute;
+  right: 5px;
+}
+
+.hidden-block-xs {
+  display: block;
+
+  @include breakpoint-xs {
+    display: none;
+  }
+}
+
+.visible-block-xs {
+  display: none;
+
+  @include breakpoint-xs {
+    display: block;
+  }
+}

@@ -1,0 +1,23 @@
+<div class="card-container">
+  <mat-card>
+    <div class="badge-container">
+      <div class="image-container">
+        <img
+          class="small-badge"
+          [src]="badge.image"
+          [alt]="badge.badge_name"
+          [matTooltip]="badge.how_to_earn"
+        />
+      </div>
+
+      <div class=" badge-data">
+        <div class="mat-title margin-remove">
+          {{ badge.badge_name }}
+        </div>
+        <div class="mat-body">{{ badge.how_to_earn }}</div>
+      </div>
+    </div>
+    <div class="ws-mat-primary-text hover-text">{{ badge.hover_text }}</div>
+    <mat-progress-bar [value]="badge.progress"></mat-progress-bar>
+  </mat-card>
+</div>

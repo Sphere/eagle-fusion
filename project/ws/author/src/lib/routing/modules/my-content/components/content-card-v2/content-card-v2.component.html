@@ -1,0 +1,139 @@
+<mat-card class="content-card margin-l">
+  <a class="cursor-pointer" [routerLink]="(content | pipeContentRoute: true).url">
+    <img mat-card-image [src]="content.appIcon | relativeUrl" (error)="changeToDefaultImg($event)"
+      [alt]="content.name" />
+  </a>
+  <mat-card-content>
+    <div class="flex justify-center content-center">
+      <div class="self-center">
+        <mat-icon class="icon" [matTooltip]="categoryType" aria-hidden="false" [attr.aria-label]="categoryType">
+          {{ icon }}</mat-icon>
+      </div>
+      <div class="w-full overflow-prevent font-medium ws-mat-primary-text px-2 self-center" wsAuthShowHideToolTip
+        [matTooltip]="content.name">
+        <ng-container *ngIf="content.name; else noName">{{ content.name }}</ng-container>
+        <ng-template #noName>Untitled Content</ng-template>
+      </div>
+      <span i18n-matTooltip [matTooltip]="'An older version available in Live'"
+        *ngIf="content.identifier.includes('.img')" class="circle">
+      </span>
+    </div>
+    <div class="pt-2 w-full flex">
+      <span [matTooltip]="category" wsAuthShowHideToolTip class="w-2/4 overflow-prevent">{{ category }}</span>
+      <ws-auth-status-display class="overflow-prevent flex w-2/4 justify-end" [status]="content.status">
+      </ws-auth-status-display>
+    </div>
+    <div class="pt-2" *ngIf="content.lastUpdatedOn">
+      <ws-auth-last-update-display [perspective]="timeLinePerspective" [expiryDate]="content.expiryDate"
+        [lastUpdatedOn]="content.lastUpdatedOn"></ws-auth-last-update-display>
+    </div>
+    <div class="pt-2">
+      <div class="flex justify-between items-center">
+        <button [routerLink]="'/author/editor/' + content.identifier" *ngIf="mainAction === 'edit'"
+          [disabled]="disabledActions.includes('edit')" mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">edit</mat-icon> -->
+          <span i18n>Edit</span>
+        </button>
+        <button [routerLink]="'/author/editor/' + content.identifier" *ngIf="mainAction === 'takeAction'"
+          mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">call_to_action</mat-icon> -->
+          <span *ngIf="content.status === 'InReview'" i18n>Review</span>
+          <span *ngIf="content.status === 'Reviewed'" i18n>Publish</span>
+          <span *ngIf="content.status === 'QualityReview'" i18n>Quality Review</span>
+        </button>
+        <button (click)="moveToDraft()" *ngIf="mainAction === 'pullBack'" i18n-matTooltip
+          [matTooltip]="'Pull back content to Draft'" mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">cancel_schedule_send</mat-icon> -->
+          <span i18n>Edit</span>
+        </button>
+        <button (click)="moveToDraft()" *ngIf="mainAction === 'moveToDraft'" i18n-matTooltip
+          [matTooltip]="'Move content to draft'" mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">archive</mat-icon> -->
+          <span i18n>Edit</span>
+        </button>
+        <button (click)="unpublish()" *ngIf="mainAction === 'unpublish'" i18n-matTooltip
+          [matTooltip]="'Remove content from Live'" mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">archive</mat-icon> -->
+          <span i18n>Unpublish</span>
+        </button>
+        <button (click)="restore()" *ngIf="mainAction === 'restore'" [matTooltip]="'Pull the content to Draft'"
+          mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">restore_from_trash</mat-icon> -->
+          <span i18n>Edit</span>
+        </button>
+        <button (click)="extendOrExpiry()" *ngIf="mainAction === 'extend'" i18n-matTooltip
+          [matTooltip]="'Extend or Mark for Deletion'" mat-raised-button color="primary">
+          <!-- <mat-icon class="custom-icon">date_range</mat-icon> -->
+          <span i18n>Extend</span>
+        </button>
+        <span [matTooltip]="locale" class="flex items-center">
+          <img class="img" (error)="changeToGlobalSymbol($event)"
+            [src]="'/assets/common/flags/' +content.locale+'.png'">
+          <span>{{content.locale | uppercase}}</span>
+        </span>
+        <button i18n-matTooltip [matTooltip]="'More Actions'" *ngIf="allowedActions.length" mat-icon-button
+          [matMenuTriggerFor]="moreMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <span *ngIf="!allowedActions.length"></span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-menu #moreMenu="matMenu">
+  <a [disabled]="disabledActions.includes('edit')" mat-menu-item *ngIf="allowedActions.includes('edit')"
+    [routerLink]="'/author/editor/' + content.identifier">
+    <mat-icon>edit</mat-icon><span i18n>Edit</span>
+  </a>
+  <a [disabled]="disabledActions.includes('delete')" mat-menu-item
+    (click)="disabledActions.includes('delete') ? null : delete()" *ngIf="allowedActions.includes('delete')">
+    <mat-icon>delete</mat-icon><span i18n>Delete</span>
+  </a>
+  <a mat-menu-item (click)="moveToDraft()" i18n-matTooltip [matTooltip]="'Pull back content to Draft'"
+    *ngIf="allowedActions.includes('pullBack')">
+    <!-- <mat-icon>cancel_schedule_send</mat-icon><span i18n>Edit</span> -->
+    <mat-icon>edit</mat-icon><span i18n>Edit</span>
+  </a>
+  <a mat-menu-item (click)="unpublish()" *ngIf="allowedActions.includes('unpublish')">
+    <mat-icon>archive</mat-icon>
+    <span i18n>Unpublish</span>
+  </a>
+  <a mat-menu-item *ngIf="allowedActions.includes('takeAction')" [routerLink]="'/author/editor/' + content.identifier">
+    <mat-icon>call_to_action</mat-icon>
+    <span *ngIf="content.status === 'InReview'" i18n>Review</span>
+    <span *ngIf="content.status === 'Reviewed'" i18n>Publish</span>
+    <span *ngIf="content.status === 'QualityReview'" i18n>Quality Review</span>
+  </a>
+  <a mat-menu-item (click)="actionHistory()" *ngIf="allowedActions.includes('history')">
+    <mat-icon>chat</mat-icon>
+    <span i18n>Action History</span>
+  </a>
+  <a *ngIf="allowedActions.includes('newLanguage')" mat-menu-item [matMenuTriggerFor]="langMenu">
+    <mat-icon>translate</mat-icon>
+    <span i18n>Languages</span>
+  </a>
+</mat-menu>
+<mat-menu #langMenu="matMenu">
+  <ng-container *ngIf="translationArray && translationArray.length">
+    <a mat-menu-item *ngFor="let item of translationArray"
+      [routerLink]="'/author/toc/' + item.identifier + '/overview'">
+      <span class="flex items-center">
+        <img class="img" (error)="changeToGlobalSymbol($event)" [src]="'/assets/common/flags/' +item.locale+'.png'">
+        <span>{{item.locale | uppercase}}</span>
+      </span>
+    </a>
+  </ng-container>
+  <a mat-menu-item [matMenuTriggerFor]="ordinalsLangMenu">
+    <mat-icon>add</mat-icon>
+    <span i18n>Add language</span>
+  </a>
+</mat-menu>
+<mat-menu #ordinalsLangMenu="matMenu">
+  <a mat-menu-item *ngFor="let lang of languages">
+    <span [matTooltip]="lang.label" class="flex items-center">
+      <img class="img" (error)="changeToGlobalSymbol($event)" [src]="'/assets/common/flags/' +lang.srclang+'.png'">
+      <span>{{lang.srclang | uppercase}}</span>
+    </span>
+  </a>
+</mat-menu>

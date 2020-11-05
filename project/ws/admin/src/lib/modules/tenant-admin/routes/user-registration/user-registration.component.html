@@ -1,0 +1,53 @@
+<ng-container *ngIf="!alreadyRegisteredUsers.length; else registeredUsers">
+  <mat-form-field>
+    <mat-label i18n>Select a source</mat-label>
+    <mat-select #selectedSource>
+      <mat-option *ngFor="let source of sources" [value]="source?.sourceShortName">
+        {{source?.sourceName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ws-widget-user-autocomplete (addedUser)="createFormItem($event)" (removedUser)="removeFormItem($event)">
+  </ws-widget-user-autocomplete>
+  <div [formGroup]="userForm" class="flex flex-wrap">
+    <div class="w-full sm:w-1/2 md:w-1/3" formArrayName="registrationMeta"
+      *ngFor="let user of userForm.get('registrationMeta').controls; index as i">
+      <div [formGroupName]="i" class="mb-2 mx-2">
+        <mat-card>
+          <mat-card-content>
+            <div class="mb-2">{{userForm.get('registrationMeta').controls[i].controls.email.value}}</div>
+            <div>
+              <mat-form-field>
+                <input formControlName="startDate" required matInput [matDatepicker]="startDate"
+                  placeholder="Choose a start date" i18n-placeholder>
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field>
+                <input [min]="userForm.get('registrationMeta').controls[i].controls.startDate.value"
+                  formControlName="endDate" required matInput [matDatepicker]="endDate" placeholder="Choose a end date"
+                  i18n-placeholder>
+                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                <mat-datepicker #endDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button [disabled]="isLoading" (click)="save(selectedSource.value)" mat-flat-button color="primary"
+      i18n>Save</button>
+  </div>
+</ng-container>
+
+<ng-template #registeredUsers>
+  <h3 i18n>The following users are already registered</h3>
+  <p *ngFor="let user of alreadyRegisteredUsers">
+    {{user}}
+  </p>
+  <button (click)="close()" mat-flat-button color="primary" i18n>Close</button>
+</ng-template>

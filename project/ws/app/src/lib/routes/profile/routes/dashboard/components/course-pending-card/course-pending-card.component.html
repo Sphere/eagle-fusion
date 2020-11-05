@@ -1,0 +1,25 @@
+<mat-card class="card-space-saving-container mr-6">
+  <a class="cursor-pointer" (click)="onClickCard()" role="link" aria-label="Content"
+    i18n-aria-label="Content | Click to view">
+    <img mat-card-image [src]="cardData?.thumbnail" class="card-img ws-mat-primary-lite-background"
+      [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="cardData?.name" />
+  </a>
+
+  <mat-card-content>
+    <p class="text-right mat-caption">{{cardData?.totalDuration | pipeDurationTransform: 'hms'}}m</p>
+    <a (click)="onClickCard()" role="link" aria-label="Content" i18n-aria-label>
+      <div class="ws-mat-primary-text cursor-pointer mat-title title-text" title="Title" i18n-title>
+        {{cardData?.name}}
+      </div>
+    </a>
+    <div class="flex flex-middle">
+      <mat-icon>history</mat-icon>
+      <ng-container>
+        <span class="font-bold"> {{ cardData?.timeLeft | pipeDurationTransform: 'hms'}} </span>
+        <span i18n>
+          <span class="font-bold margin-left-xs">left</span> to Complete</span>
+      </ng-container>
+
+    </div>
+  </mat-card-content>
+</mat-card>

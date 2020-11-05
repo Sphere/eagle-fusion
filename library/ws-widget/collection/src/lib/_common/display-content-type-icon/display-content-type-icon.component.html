@@ -1,0 +1,79 @@
+<ng-container [ngSwitch]="displayContentType">
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.VIDEO" i18n-matTooltip matTooltip="Video"
+    >play_circle_outline
+  </mat-icon>
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.AUDIO" i18n-matTooltip matTooltip="Audio"
+    >music_video</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.PDF" i18n-matTooltip matTooltip="PDF"
+    >picture_as_pdf</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.QUIZ" i18n-matTooltip matTooltip="Quiz"
+    >help_outline</mat-icon
+  >
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.ASSESSMENT"
+    i18n-matTooltip
+    matTooltip="Assessment"
+    >help</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.YOUTUBE" i18n-matTooltip matTooltip="youtube"
+    >play_circle_outline
+  </mat-icon>
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.INTERACTIVE_VIDEO"
+    i18n-matTooltip
+    matTooltip="Interactive Video"
+  >
+    featured_video</mat-icon
+  >
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.WEB_MODULE"
+    i18n-matTooltip
+    matTooltip="Web Module"
+    >book</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.HANDS_ON" i18n-matTooltip matTooltip="Hands-On"
+    >code</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.IAP" i18n-matTooltip matTooltip="Hands-On"
+    >code</mat-icon
+  >
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.INSTRUCTOR_LED"
+    i18n-matTooltip
+    matTooltip="instructor-led"
+    >class
+  </mat-icon>
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.CERTIFICATION"
+    i18n-matTooltip
+    matTooltip="Certification"
+    >school
+  </mat-icon>
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.MODULE" i18n-matTooltip matTooltip="Module"
+    >folder</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.COURSE" i18n-matTooltip matTooltip="Course"
+    >folder</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.PROGRAM" i18n-matTooltip matTooltip="Program"
+    >folder</mat-icon
+  >
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.CLASS_DIAGRAM"
+    i18n-matTooltip
+    matTooltip="class-diagram"
+    >folder
+  </mat-icon>
+  <mat-icon
+    *ngSwitchCase="displayContentTypeEnum.EXTERNAL_CERTIFICATION"
+    i18n-matTooltip
+    matTooltip="External Certification"
+    >school</mat-icon
+  >
+  <mat-icon *ngSwitchCase="displayContentTypeEnum.WEB_PAGE" i18n-matTooltip matTooltip="web-page"
+    >web</mat-icon
+  >
+  <mat-icon *ngSwitchDefault i18n-matTooltip matTooltip="Resource">web_asset</mat-icon>
+</ng-container>

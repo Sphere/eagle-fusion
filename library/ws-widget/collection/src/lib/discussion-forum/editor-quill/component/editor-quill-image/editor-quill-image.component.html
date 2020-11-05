@@ -1,0 +1,19 @@
+<ng-container *ngIf="!reset">
+  <quill-editor (onEditorCreated)="getEditorInstance($event)"
+  name="discussion-forum-input-field"
+  class="quill-editor"
+  [ngModel]="htmlText"
+  (onContentChanged)="onContentChanged($event)"
+  [required]="true"
+  [minLength]="minLength"
+  #editor="ngModel"
+  placeholder="{{ placeholder }}" [styles]="{height: '150px'}"
+  >
+  </quill-editor>
+  <input type="file" style="display: none" id="fileInputField"/>
+  <!-- <p *ngIf="(editor.dirty || editor.touched) && editor.invalid" class="error-text mat-caption">
+    <ng-container i18n> Minimum </ng-container>
+    {{ minLength }}
+    <ng-container i18n> characters are required </ng-container>
+  </p> -->
+</ng-container>

@@ -1,0 +1,51 @@
+<mat-toolbar color="primary" *ngIf="fetchStatus === 'done'">
+  <a mat-icon-button routerLink="/app/infy/navigator/explore">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span class="padding-left-xs">{{
+    fullStackData.fs_name
+  }}</span>
+</mat-toolbar>
+
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="banner-description margin-bottom-m padding-top-m ">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+        Choose a course below that you need to learn
+      </h1>
+      <h2 i18n class="mat-title margin-top-xl small-banner-description ">
+        After learning you can take certifications to strengthen your knowledge
+      </h2>
+    </div>
+  </div>
+  <div class="margin-top-xl desc-container">
+    <div class="mat-subheading-2 text-bold padding-left-m padding-right-m margin-bottom-m">
+      <ng-container *ngIf="fullStackData">
+        {{ fullStackData.fs_desc }}
+      </ng-container>
+    </div>
+    <div *ngIf="fetchStatus === 'done'">
+      <ng-container [wsResolverWidget]="coursesResolverData"></ng-container>
+    </div>
+    <div class="margin-top-xs practice-certification">
+      <div class="margin-top-l margin-left-l" *ngIf="playgroundData.length">
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l" i18n>Practice</h1>
+        <div class="card-holder">
+          <ng-container *ngFor="let playItem of playgroundData">
+            <ws-app-lp-card [navigatorCard]="playItem"></ws-app-lp-card>
+          </ng-container>
+        </div>
+      </div>
+      <div class="margin-top-l margin-left-l" *ngIf="certificationData.length">
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l margin-remove-bottom" i18n>Certification
+          <ng-container *ngIf="certificationData.length>1">s</ng-container>
+        </h1>
+        <ws-utils-horizontal-scroller>
+          <ng-container *ngFor="let certData of certificationData">
+            <ws-app-fs-card [navigatorCard]="certData"></ws-app-fs-card>
+          </ng-container>
+        </ws-utils-horizontal-scroller>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<ng-container [ngSwitch]="widgetData?.errorType" *ngIf="widgetData?.errorData">
+  <ws-widget-error-access-forbidden [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.accessForbidden"></ws-widget-error-access-forbidden>
+  <ws-widget-error-content-unavailable [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.contentUnavailable"></ws-widget-error-content-unavailable>
+  <ws-widget-error-feature-disabled [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.featureDisabled"></ws-widget-error-feature-disabled>
+  <ws-widget-error-feature-unavailable [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.featureUnavailable"></ws-widget-error-feature-unavailable>
+  <ws-widget-error-internal-server [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.internalServer"></ws-widget-error-internal-server>
+  <ws-widget-error-not-found [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.notFound"></ws-widget-error-not-found>
+  <ws-widget-error-service-unavailable [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.serviceUnavailable"></ws-widget-error-service-unavailable>
+  <ws-widget-error-something-wrong [errorData]="widgetData?.errorData" *ngSwitchCase="errorType.somethingsWrong"></ws-widget-error-something-wrong>
+</ng-container>

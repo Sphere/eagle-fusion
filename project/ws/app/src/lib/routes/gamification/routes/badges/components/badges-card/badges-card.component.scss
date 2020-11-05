@@ -1,0 +1,89 @@
+@import 'ws-vars';
+
+$medium-badge-size: 90px;
+$small-badge-size: 50px;
+$small-badge-mobile-size: 130px;
+$badge-padding: 12px;
+
+.card-container {
+  position: relative;
+  width: 350px;
+  height: 180px;
+  margin: 20px 10px;
+   @media only screen and(max-width: 432px) {
+     width: 210px;
+     height: 218px;
+     margin: 10px 10px;
+     .mat-card{
+        width: 190px;
+        height: 226px;
+        margin:10px;
+     }
+    .small-badge {
+      width: $small-badge-mobile-size;
+      min-height: 70px;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+   }
+    .badge-container {
+      display:block;
+      height:130px;
+      padding: 0px;
+    }
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.small-badge {
+  width: $medium-badge-size;
+}
+
+.badge-data {
+  margin-top: 0px;
+}
+
+.date {
+  margin-left: $size-xs;
+}
+
+.hidden {
+  visibility: hidden;
+}
+.badge-container {
+  display: flex;
+  padding: 16px 16px $size-s 16px;
+}
+
+.image-container {
+  box-sizing: border-box;
+  // width: $medium-badge-size + 2 * $badge-padding;
+}
+
+
+.hover-text{
+  height: 28px;
+}
+
+mat-card{
+    margin: 0 20px;
+}
+
+.title{
+  line-height: 1.0;
+  }
+
+  .text-align{
+   @media only screen and(max-width: 432px) {
+     text-align:center;
+   }
+}
+
+.icon{
+  color:green;
+}
+

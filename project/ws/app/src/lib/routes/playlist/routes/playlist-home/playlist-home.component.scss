@@ -1,0 +1,102 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.create-new-card {
+  height: 120px;
+  border: 2px dotted;
+  box-sizing: border-box;
+}
+
+.marg-new {
+  margin: 0 0 10px 3px;
+}
+
+.create-new-icon {
+  border: solid 1px;
+}
+
+.new-nav {
+  border-bottom: none
+}
+
+.no-border {
+  border: none !important;
+}
+
+.notification-circle {
+  height: $size-l;
+  width: $size-l;
+  line-height: $size-l;
+  text-align: center;
+  border-radius: $size-l / 2;
+  color: white;
+}
+
+.margin-top-xxs {
+  margin-top: $size-xs / 2;
+}
+
+.create-icon-text {
+  font-size: 48px;
+  transform: translate(0, -25%);
+}
+
+%container-padding {
+  padding: $size-xl 2 * $size-xl;
+
+  @include breakpoint-xs {
+    padding: $size-xl $size-l;
+  }
+}
+
+.play {
+  // margin: auto;
+  display: flex;
+  flex: 1;
+  margin: 10px 0 10px 0;
+}
+
+.goals-header {
+  .banner-container {
+    color: white;
+    height: 248px;
+    background-size: cover;
+    background-image: url('/assets/images/banners/playlist.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+
+    .banner-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+}
+
+mat-button-toggle {
+  // border: 1px solid #f28628;
+  border-radius: 4px;
+  margin-left: 3px;
+  margin-right: 3px;
+  // width: 30px;
+  // height: 30px;
+  // font-family: 'Nunito Semibold', sans-serif;
+  // font-size: 14px;
+  // font-style: bold;
+
+
+  .mat-button-toggle-disabled {
+    border: 1px solid #c5c0c7;
+    background-color: #e1dde5;
+  }
+
+  div.center-text {
+    margin-left: -8px;
+    margin-top: -3px;
+  }
+}

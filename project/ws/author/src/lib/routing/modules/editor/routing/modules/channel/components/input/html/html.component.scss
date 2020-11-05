@@ -1,0 +1,18 @@
+.radio {
+  margin: 10px 0px;
+}
+
+.radioButton {
+  padding-right: 10px;
+}
+
+.required {
+  &::after {
+    color: red;
+    content: " *";
+  }
+}
+
+.child {
+  width: 100%;
+}

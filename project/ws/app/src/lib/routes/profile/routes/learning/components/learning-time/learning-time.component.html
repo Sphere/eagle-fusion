@@ -1,0 +1,193 @@
+<div>
+  <div class="learning-container flex flex-wrap flex-center">
+    <div class="width-1-1 learning-graph margin-bottom-xl margin-right-m block p-6 mat-elevation-z2">
+      <div *ngIf="timeSpentData?.lastUpdatedDate" class="mat-caption justify-end flex flex-middle">
+        <ng-container>
+          <span i18n>Last Updated on :</span>
+          <span class="ml-2"> {{ timeSpentData?.lastUpdatedDate | date: 'MMM d, y' }}</span>
+        </ng-container>
+      </div>
+      <div class="flex flex-middle">
+        <h2 *ngIf="chartsList?.dimensionsChart" i18n>User avg Compared to Org</h2>
+        <h2 *ngIf="!chartsList?.dimensionsChart" i18n>Learning Time</h2>
+        <button type="button" mat-icon-button (click)="showInfo('learningTimePerDay')" i18n-matTooltip matTooltip="info"
+          class="margin-left-xs margin-bottom-m">
+          <mat-icon>info</mat-icon>
+        </button>
+      </div>
+      <ng-container *ngIf="learningTimePerDay" i18n>This chart shows Time that you are viewing learning content on a
+        particular day compared to the org.-wide average.</ng-container>
+      <div class="text-center">
+        <mat-checkbox i18n [checked]="showDateRange" [color]="'primary'" (change)="changeRangeDisplay()">Date Range
+        </mat-checkbox>
+      </div>
+
+      <div *ngIf="!showDateRange" class="text-center">
+        <button type="button" mat-icon-button (click)="changeWeek('prev')" [disabled]="!isPrevDateValid" accesskey="<">
+          <mat-icon>arrow_left</mat-icon>
+        </button>
+        <span class="mat-body-strong">{{ pickerValue1 | date }} - {{ pickerValue2 | date }}</span>
+        <button type="button" mat-icon-button (click)="changeWeek('next')" [disabled]="!isNextDateValid" accesskey=">">
+          <mat-icon>arrow_right</mat-icon>
+        </button>
+      </div>
+      <div *ngIf="showDateRange" class="flex flex-wrapped flex-center">
+        <mat-form-field class="card-section filter-holder" *ngIf="pickerValue1">
+          <input matInput [min]="firstDate" [max]="maxDate" [matDatepicker]="picker1" [ngModel]="pickerValue1"
+            (ngModelChange)="dateChanged($event, pickerValue2)" i18n-placeholder placeholder="Start Date" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="card-section filter-holder" *ngIf="pickerValue2">
+          <input matInput [min]="minDate" [max]="today" [matDatepicker]="picker2" [ngModel]="pickerValue2"
+            (ngModelChange)="dateChanged(pickerValue1, $event)" i18n-placeholder placeholder="End Date" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <p class="text-center">
+        <ng-container i18n>Your Average : </ng-container>
+        <ng-container>{{ userAvg }}</ng-container>
+        <ng-container i18n="minutes per day"> Minutes/Day</ng-container>
+      </p>
+      <mat-error class="text-center" *ngIf="errorOccurred" i18n="Time Spent Page Error Message">
+        Some Error Occurred
+      </mat-error>
+      <div class="chart-container" #chartContainer></div>
+    </div>
+    <input type="hidden" i18n-value="Month name: January" value="Jan" #monthJan />
+    <input type="hidden" i18n-value="Month name: February" value="Feb" #monthFeb />
+    <input type="hidden" i18n-value="Month name: March" value="Mar" #monthMar />
+    <input type="hidden" i18n-value="Month name: April" value="Apr" #monthApr />
+    <input type="hidden" i18n-value="Month name: May" value="May" #monthMay />
+    <input type="hidden" i18n-value="Month name: June" value="Jun" #monthJun />
+    <input type="hidden" i18n-value="Month name: July" value="Jul" #monthJul />
+    <input type="hidden" i18n-value="Month name: August" value="Aug" #monthAug />
+    <input type="hidden" i18n-value="Month name: September" value="Sep" #monthSep />
+    <input type="hidden" i18n-value="Month name: October" value="Oct" #monthOct />
+    <input type="hidden" i18n-value="Month name: November" value="Nov" #monthNov />
+    <input type="hidden" i18n-value="Month name: December" value="Dec" #monthDec />
+
+    <input type="hidden" i18n-value="label: User Average Over Period" value="User Average Over Period"
+      #labelUserOverPeriod />
+    <input type="hidden" i18n-value="label: User Learning Time" value="Time I Spent" #labelUserAvg />
+    <input type="hidden" i18n-value="label: December" value="App Average" #labelOrgAvg />
+
+    <input type="hidden" i18n-value="label: X-axis" value="Date" #labelX />
+    <input type="hidden" i18n-value="label: Y-axis" value="Minutes" #labelY />
+    <div class="text-center" *ngIf="apiFetchStatus === 'fetching' && chartsList?.calendarChart">
+      <mat-spinner class="spinner"></mat-spinner>
+    </div>
+    <!-- <div *ngIf="apiFetchStatus === 'done'" class="flex flex-between flex-wrapped width-1-1 margin-top-l"> -->
+    <div *ngIf="apiFetchStatus === 'done'" class="calendar-container">
+      <div *ngIf="chartsList?.calendarChart" class="calendar-data mat-elevation-z2">
+        <div *ngIf="apiFetchStatus === 'done'">
+          <ws-app-calendar *ngIf="learningTimeData" (notify)="calendarEvent($event)" [specialDates]="specialDates"
+            class="calendar w-full"></ws-app-calendar>
+          <div *ngIf="showTime" class="margin-top-s pb-4 w-full">
+            <div class="text-right cursor-pointer">
+              <mat-icon (click)="onClose()">close</mat-icon>
+            </div>
+            <p>
+              <ng-container i18n>Time Spent on</ng-container>
+              {{ timeEvent | date: 'd MMM, y' }}
+              <ng-container i18n>is</ng-container>
+              <span *ngIf="timeSpent > 0" class="font-bold ws-mat-primary-text">
+                {{ timeSpent | pipeDurationTransform: 'hms' }}
+              </span>
+              <span *ngIf="timeSpent === 0" class="font-bold ws-mat-primary-text">
+                {{ timeSpent }}
+                <ng-container i18n>mins</ng-container>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="chartsList?.dimensionsChart" class="track-data">
+        <mat-card class="bubble-card">
+          <div *ngIf="apiFetchStatus === 'done'" class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle">
+              <mat-icon class="feature-icon mt-0">pie_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Avg # mins across dimensions">
+                Avg # mins across dimensions
+              </p>
+            </div>
+          </div>
+          <div *ngIf="apiFetchStatus === 'done'" class="margin-top-s margin-left-s margin-right-s">
+            <ng-container [wsResolverWidget]="radarChart"> </ng-container>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div *ngIf="apiFetchStatus === 'done' && chartsList?.trackWiseChart" class="radar-data margin-top-xl width-1-1">
+      <mat-card class="radar-card">
+        <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+          <div class="flex flex-middle p-2">
+            <mat-icon class="feature-icon mt-0">bubble_chart</mat-icon>
+            <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Time Spent by me - Track wise">
+              Time Spent by me - Track wise
+            </p>
+          </div>
+        </div>
+        <div class="margin-s py-8">
+          <ws-app-bubble-chart [startDate]="startDate" [endDate]="endDate" [bubbleData]="bubbleData">
+          </ws-app-bubble-chart>
+        </div>
+      </mat-card>
+    </div>
+    <div class="flex flex-between flex-wrapped width-1-1">
+      <ng-container *ngIf="chartsList?.timeSpentByMe">
+        <mat-card class="graph-card">
+          <div *ngIf="apiFetchStatus === 'done'" class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">pie_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="% Time spent by me">
+                % Time spent by me
+              </p>
+            </div>
+          </div>
+          <div *ngIf="apiFetchStatus === 'done'" class="margin-m">
+            <ng-container [wsResolverWidget]="categoryWiseChart"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="chartsList?.timeSpentByEmployees">
+        <mat-card class="graph-card">
+          <div *ngIf="apiFetchStatus === 'done'" class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">pie_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="% Time spent by Employees">
+                % Time spent by Employees
+              </p>
+            </div>
+          </div>
+          <div *ngIf="apiFetchStatus === 'done'" class="margin-m">
+            <ng-container [wsResolverWidget]="unitWiseChart"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="chartsList?.timeSpentByPeers">
+        <mat-card class="graph-card">
+          <div *ngIf="apiFetchStatus === 'done'" class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">pie_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="% Time spent by my peers">
+                % Time spent by my peers
+              </p>
+            </div>
+          </div>
+          <div *ngIf="apiFetchStatus === 'done'" class="margin-m">
+            <ng-container [wsResolverWidget]="jlWiseChart"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<!-- <div *ngIf="!enabledTab?.learningTime?.enabled">
+  <div class="learning-container mat-elevation-z2">
+    <h2 i18n class="text-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      We are gathering the data to provide insights! Coming soon...
+    </h2>
+  </div>
+</div> -->

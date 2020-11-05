@@ -1,0 +1,60 @@
+.pdf-nav-bar {
+  // position: relative;
+  // height: 40px;
+  // font-size: 1em;
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  overflow: hidden;
+  font: inherit;
+  background-color: #edf1e5 !important;
+  height: 60px !important;
+}
+
+.pdf-page-container {
+  // width: calc(100% - 80px);
+  flex: 1;
+  text-align: center;
+  overflow: auto;
+  margin: auto;
+}
+
+.pdf-page-num {
+  margin: 0 5px;
+}
+
+.pdf-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  position: relative;
+}
+
+.custom-scroll-small {
+  overflow-y: hidden;
+}
+
+// .pdf-scroll {
+//   overflow-y: scroll;
+//   height: 650px;
+// }
+
+.mat-toolbar-single-row {
+  padding: 0;
+}
+
+::ng-deep .pdf-fullscreen img.action-icons {
+  border: none !important;
+  width: 20px;
+}
+::ng-deep .fullscreen #youtubeTag {
+  height: 100vh !important;
+}
+
+#fullScreenContainer {
+  min-height: 75vh;
+}

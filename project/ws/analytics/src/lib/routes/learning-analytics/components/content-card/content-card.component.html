@@ -1,0 +1,198 @@
+<mat-card class="plans-card-module goal-class">
+  <mat-grid-list *ngIf="!contentData?.screenSizeIsLtMedium && contentData?.totalViews && contentData?.avgTime" cols="5"
+    rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <ws-analytics-progress-radial [mode]="'determinate'" [progress]="progress"></ws-analytics-progress-radial>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.completed }}</p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.totalViews }}</p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.avgTime.toFixed(2) }}</p>
+    </mat-grid-tile>
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>{{ source }}</mat-grid-tile> -->
+  </mat-grid-list>
+  <mat-grid-list *ngIf="!contentData?.screenSizeIsLtMedium && !contentData?.totalViews && contentData?.avgTime" cols="4"
+    rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <ws-analytics-progress-radial [mode]="'determinate'" [progress]="progress"></ws-analytics-progress-radial>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.completed }}</p>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.totalViews }}</p>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.avgTime.toFixed(2) }}</p>
+    </mat-grid-tile>
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>{{ source }}</mat-grid-tile> -->
+  </mat-grid-list>
+  <mat-grid-list *ngIf="!contentData?.screenSizeIsLtMedium && contentData?.totalViews && !contentData?.avgTime" cols="4"
+    rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <ws-analytics-progress-radial [mode]="'determinate'" [progress]="progress"></ws-analytics-progress-radial>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.completed }}</p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.totalViews }}</p>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+       <p class="text-outside-grid">{{ contentData?.avgTime.toFixed(2) }}</p>
+     </mat-grid-tile> -->
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>{{ source }}</mat-grid-tile> -->
+  </mat-grid-list>
+  <mat-grid-list *ngIf="!contentData?.screenSizeIsLtMedium && !contentData?.totalViews && !contentData?.avgTime"
+    cols="3" rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <ws-analytics-progress-radial [mode]="'determinate'" [progress]="progress"></ws-analytics-progress-radial>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.completed }}</p>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.totalViews }}</p>
+    </mat-grid-tile> -->
+    <!-- <mat-grid-tile>
+       <p class="text-outside-grid">{{ contentData?.avgTime.toFixed(2) }}</p>
+     </mat-grid-tile> -->
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>{{ source }}</mat-grid-tile> -->
+  </mat-grid-list>
+  <mat-grid-list *ngIf="contentData?.screenSizeIsLtMedium && contentData?.totalViews" cols="4" rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <ws-analytics-progress-radial [mode]="'determinate'" [progress]="progress"></ws-analytics-progress-radial>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.completed }}</p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.totalViews }}</p>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+       <p class="text-outside-grid">{{ contentData?.avgTime.toFixed(2) }}</p>
+     </mat-grid-tile> -->
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>{{ source }}</mat-grid-tile> -->
+  </mat-grid-list>
+  <mat-grid-list *ngIf="contentData?.screenSizeIsLtMedium && !contentData?.totalViews" cols="3" rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="mat-body-1">{{ contentData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="contentData?.isExternal" [href]="contentData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+        <a *ngIf="!contentData?.isExternal" [href]="contentData?.contentUrl"><span
+            class="text-xs">{{ contentData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <ws-analytics-progress-radial [mode]="'determinate'" [progress]="progress"></ws-analytics-progress-radial>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.completed }}</p>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+      <p class="text-outside-grid">{{ contentData?.totalViews }}</p>
+    </mat-grid-tile> -->
+    <!-- <mat-grid-tile>
+       <p class="text-outside-grid">{{ contentData?.avgTime.toFixed(2) }}</p>
+     </mat-grid-tile> -->
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>{{ source }}</mat-grid-tile> -->
+  </mat-grid-list>
+</mat-card>

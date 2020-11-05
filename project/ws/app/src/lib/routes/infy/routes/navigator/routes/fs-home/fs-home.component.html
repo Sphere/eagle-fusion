@@ -1,0 +1,57 @@
+<mat-toolbar color="primary" *ngIf="fetchStatus === 'done'">
+  <a mat-icon-button routerLink="/app/infy/navigator/explore">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: navigator suggestions" class="padding-left-xs">
+    <!-- fullStackData.fs_name -->
+    Full Stack Programs
+  </span>
+</mat-toolbar>
+
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="banner-description margin-bottom-m padding-top-m ">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+        Choose from one of the full stack program below
+      </h1>
+      <h2 i18n class="mat-title margin-top-xl small-banner-description ">
+        After learning you can take certifications to strengthen your knowledge
+      </h2>
+    </div>
+  </div>
+  <div class="my-6 mx-3 flex" *ngIf="fsData.length && fetchStatus === 'done'; else loader">
+    <div *ngIf="fsData.length" class="flex flex-wrap" #cardContents>
+      <div *ngFor="let navigatorCard of fsData">
+        <div class="card-container">
+          <mat-card>
+            <div class="card">
+              <div class="width-auto" [matTooltip]="navigatorCard.title">
+                <img class="card-image" [src]="navigatorCard.thumbnail" [alt]="navigatorCard.title"
+                  *ngIf="navigatorCard.thumbnail != ''" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                  (click)="imageClicked(navigatorCard.routeButton)" />
+              </div>
+              <div class="card-information">
+                <div class="mat-headline title text-truncate">{{ navigatorCard.title }}</div>
+                <div class="know-more" *ngIf="navigatorCard.type === 'fs'">
+                  <a class="know-button margin-top-xs margin-bottom-m" mat-flat-button
+                    [routerLink]="'/app/infy/navigator/fs/program/' + navigatorCard.routeButton">
+                    <div class="know-more flex flex-center">
+                      <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>KNOW MORE</span>
+                      <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #loader>
+    <div class="text-center">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+
+</div>

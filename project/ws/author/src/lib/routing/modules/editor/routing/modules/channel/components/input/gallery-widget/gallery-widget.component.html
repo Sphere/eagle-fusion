@@ -1,0 +1,38 @@
+<form [formGroup]="form" class="column-wise">
+  <div>
+    <p i18n>Design Value</p>
+    <mat-form-field>
+      <mat-select formControlName="designVal">
+        <mat-option value="set1" i18n>With Details</mat-option>
+        <mat-option value="set2" i18n>Without Details</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="button">
+    <p i18n>Auto Next</p>
+    <mat-slide-toggle [checked]="form.controls.autoNext.value" formControlName="autoNext">
+    </mat-slide-toggle>
+  </div>
+  <br>
+  <div>
+    <p i18n>Delay</p>
+    <mat-form-field appearance="outline">
+      <input type="number" matInput i18n-placeholder placeholder="Delay in Seconds" formControlName="delay" #delay>
+    </mat-form-field>
+  </div>
+  <div class="button">
+    <p i18n>Auto Play</p>
+    <mat-slide-toggle [checked]="form.controls.loop.value" formControlName="loop">
+    </mat-slide-toggle>
+  </div>
+</form>
+<br>
+<div class="column-wise">
+  <p i18n>Player Style</p>
+  <ws-auth-ace-editor [mode]="'json'" [content]="form.controls.widgetPlayer.value || {}" (data)="update('widgetPlayer', $event)">
+  </ws-auth-ace-editor>
+  <br>
+  <p i18n>Ribbon Style</p>
+  <ws-auth-ace-editor [mode]="'json'" [content]="form.controls.widgetRibbon.value || {}" (data)="update('widgetRibbon', $event)">
+  </ws-auth-ace-editor>
+</div>

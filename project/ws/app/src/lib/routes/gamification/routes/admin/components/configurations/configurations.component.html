@@ -1,0 +1,129 @@
+<mat-toolbar>
+  <a mat-icon-button [routerLink]="'/app/features'">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: leaderboard" class="margin-left-xs">Configurations</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="nav-container">
+  <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
+    <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
+      <div class="flex flex-between flex-baseline">
+        <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
+        <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
+          (click)="sideNavBarOpened = false">
+          <mat-icon class="">clear</mat-icon>
+        </button>
+      </div>
+    </h4>
+    <section class="margin-top-l margin-bottom-l">
+      <mat-form-field class=" margin-left-m">
+        <mat-select [value]="sprintSelected" (selectionChange)="sprintChanged($event)">
+          <mat-option value="fy">
+            <a mat-line>
+              <ng-container>FY&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="h1">
+            <a mat-line>
+              <ng-container>H1&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="h2">
+            <a mat-line>
+              <ng-container>H2&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Role</mat-label>
+        <mat-select #selectedRole [ngModel]="selectedRole" (ngModelChange)="roleChanged(selectedRole)">
+          <mat-option [value]="role" *ngFor="let role of rolesList">
+            <a mat-line>
+              <ng-container>{{role}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <div class="flex flex-between">
+      <div class="headings margin-top-l mat-headline ws-mat-primary-text mb-10 " color="primary" i18n>
+        Configuration For {{roleName}} - {{sprint}}</div>
+      <div class="dimensions">
+        <h4 class="ws-mat-primary-text font-size-m font-weight-bold">
+          <span i18n> Apply Filters</span>
+          <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </h4>
+      </div>
+      <div class="margin-left-m margin-top-l margin-bottom-l">
+        <a mat-raised-button type="button" color="primary" i18n (click)="updateConfigs(col1,col2)">
+          Save
+        </a>
+      </div>
+    </div>
+
+    <ng-container *ngIf="fetchStatus !== 'fetching' && col1">
+      <mat-card class="my-0">
+        <section class="p-4 align" *ngFor="let key of objectKeys(col1); let i=index">
+          <section class="item-container flex">
+            <section class="width flex flex-column flex-center">
+              <div class="flex flex-column flex-between">
+                <div class="mat-body-2">{{ key }}</div>
+              </div>
+            </section>
+            <section class="flex flex-column flex-center">
+              <div class="flex flex-column flex-between">
+                <input class="border" matInput type="number" name="points+'i'" [(ngModel)]="col1[key]"
+                  autocomplete="off" />
+              </div>
+            </section>
+          </section>
+        </section>
+        <section *ngIf="col2">
+          <section class="p-4 align" *ngFor="let item of objectKeys(col2); let i=index">
+            <div class="headings mat-headline ws-mat-primary-text mb-10 " color="primary" i18n>
+              {{item}}</div>
+            <section class="p-4 item-container flex" *ngFor="let key of objectKeys(col2[item]); let i=index">
+              <section class="width flex flex-column flex-center">
+                <div class="flex flex-column flex-between">
+                  <div class="mat-body-2">{{ key }}</div>
+                </div>
+              </section>
+              <section class="width-1-10 flex flex-column flex-center">
+                <div class="flex flex-column flex-between">
+                  <input class="border" matInput type="number" name="points+'i'" [(ngModel)]="col2[item][key]"
+                    autocomplete="off" />
+                </div>
+              </section>
+            </section>
+          </section>
+        </section>
+
+        <mat-divider></mat-divider>
+      </mat-card>
+
+    </ng-container>
+
+    <section class="mat-body text-center margin-top-l" *ngIf="fetchStatus !== 'fetching' && !col1">
+      <ng-container>
+        <div class="flat-error-alert margin-m">
+          <mat-icon class="large-icon">info</mat-icon>
+          <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>There is no config data
+            available either for this sprint or role.</span>
+        </div>
+
+      </ng-container>
+    </section>
+
+    <section class="margin-top-xl flex flex-center" *ngIf="fetchStatus === 'fetching'">
+      <mat-progress-spinner [color]="'primary'" [strokeWidth]="5" [diameter]="60" [mode]="'indeterminate'">
+      </mat-progress-spinner>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,46 @@
+@import 'ws-common';
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.notificaton-circle {
+  height: $size-l;
+  width: $size-l;
+  line-height: $size-l;
+  text-align: center;
+  // background: #3f51b5;
+  border-radius: $size-l / 2;
+  // color: white;
+}
+
+.margin-left-xxs {
+  margin-left: $size-xs / 2;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: #707070;
+}
+
+.content:last-child {
+  .divider {
+    display: none;
+  }
+}
+
+.playlist-head {
+  display: flex;
+  justify-content: space-between;
+
+  @include breakpoint-xs {
+    flex-wrap: wrap;
+  }
+}
+
+.playlist-includes {
+  margin-top: 0;
+
+  @include breakpoint-xs {
+    margin-top: 24px;
+  }
+}

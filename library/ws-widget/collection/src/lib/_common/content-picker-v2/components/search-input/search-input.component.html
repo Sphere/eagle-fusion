@@ -1,0 +1,34 @@
+<div class="flex justify-center">
+  <div class="flex w-full searchBox">
+    <div [ngClass]="{'border-right': availableLanguages?.length}" class="flex items-center">
+      <button class="margin-remove-right" mat-button [matMenuTriggerFor]="langSelectMenu">
+        <span>{{selectedLang | uppercase}}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+    </div>
+    <div class="w-full">
+      <form class="w-full">
+        <mat-form-field appearance="none" class="w-full pl-1">
+          <input name="search" [formControl]="searchControl" matInput i18n-placeholder placeholder="Search">
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</div>
+<mat-menu #langSelectMenu="matMenu">
+  <div *ngFor="let lang of availableLanguages; index as i">
+
+    <button (click)="changeLang(lang)" mat-menu-item>
+      <span class="flex items-center w-full">
+        <span class="mr-2 flex items-center">
+          <img [ngStyle]="{
+                              height: lang === 'all' ? '17px': '14px',
+                               width: lang === 'all' ? '17px': '20px'
+                            }" src="/assets/common/flags/{{lang}}.png">
+        </span>
+        <span>{{ lang | uppercase }}</span>
+        <mat-icon class="ml-2" *ngIf="lang.toLowerCase() === selectedLang.toLowerCase()">check</mat-icon>
+      </span>
+    </button>
+  </div>
+</mat-menu>

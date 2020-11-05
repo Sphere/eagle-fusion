@@ -1,0 +1,44 @@
+$card-height: 112px;
+
+.feature-container {
+  border-radius: 4px;
+  text-align: center;
+  height: $card-height;
+  max-height: $card-height;
+
+  @media only screen and (max-width: 730px) {
+    height: 150px;
+  }
+}
+
+.card-header {
+  height: 2px;
+  position: absolute;
+  top: 0px;
+}
+
+.card-title {
+  line-height: 1.2;
+}
+
+// .card-txt {
+//   color: $color-text-dark;
+// }
+
+.grey-filter {
+  filter: grayscale(0.9) contrast(0.7) opacity(0.9);
+  cursor: auto;
+}
+
+.card-border {
+  border-bottom: none;
+}
+
+.text-bold {
+  font-weight: 400;
+}
+
+.disable {
+  opacity: 0.4;
+  pointer-events: none;
+}

@@ -1,0 +1,58 @@
+@import 'ws-vars';
+
+.text-right {
+  text-align: right !important;
+}
+
+.display-toggle-margin {
+  margin: $size-m;
+}
+
+.pentagon-toggle {
+  vertical-align: text-bottom;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.big-pentagon {
+  vertical-align: sub;
+  max-width: 28px;
+  max-height: 28px;
+}
+
+.small-pentagon {
+  vertical-align: sub;
+  max-width: 20px;
+  max-height: 20px;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  margin: 0 !important;
+}
+
+.catalog-tree-invisible {
+  display: none;
+}
+
+.catalog-tree ul,
+.catalog-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.catalog-tree {
+  background: inherit !important;
+}

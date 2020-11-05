@@ -1,0 +1,10 @@
+@import 'ws-vars';
+ul,
+li {
+  list-style-type: none;
+  padding-inline-start: 0px;
+  padding-left:0px;
+}
+.nested-filters {
+  padding-left: 2 * $size-xl;
+}

@@ -1,0 +1,162 @@
+<section *ngIf="isNotEmbed">
+  <viewer-viewer-top-bar *ngIf="fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
+    (toggle)="toggleSideBar()" (fsState)="fullScreenState($event)" [screenContent]="content">
+  </viewer-viewer-top-bar>
+  <viewer-viewer-top-bar *ngIf="!fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
+    (toggle)="toggleSideBar()" [screenContent]="content">
+  </viewer-viewer-top-bar>
+  <mat-sidenav-container autosize class="viewer-sidenav-container">
+    <mat-sidenav [ngClass]="isTypeOfCollection?'viewer-sidenav':'viewer-sidenav-standalone'" position="start"
+      [opened]="sideNavBarOpened" [mode]="mode">
+      <!-- <mat-tab-group>
+        <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Contents"> -->
+      <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
+      </viewer-viewer-toc>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content class="sidenavContent" #scrollableContent>
+  
+      <section *ngIf="status === 'error'">
+        <div *ngIf="errorWidgetData?.widgetData?.errorType" [wsResolverWidget]="errorWidgetData"></div>
+        <div *ngIf="error.errorType === errorType.mimeTypeMismatch">
+          <mat-card>
+            <mat-card-title i18n>Looks like we are having some issues in our content.</mat-card-title>
+            <mat-card-content>
+              <div class="mat-caption">
+                <ng-container i18n>
+                  Debug Message: This content is of a different mimeType (
+                </ng-container>
+                <ng-container>
+                  {{ error?.mimeType }}
+                </ng-container>
+                <ng-container i18n>
+                  )
+                </ng-container>
+              </div>
+              <div>
+                <strong i18n>Possible Link: </strong>
+                <a [routerLink]="error.probableUrl">
+                  {{ error.probableUrl }}
+                </a>
+              </div>
+              <div class="margin-top-m text-center">
+                <a class="ws-mat-primary-text" [routerLink]="'/feedback/bug'" i18n>Report to us</a>
+                <span i18n> and we will make it work</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div *ngIf="error.errorType === errorType.previewUnAuthorised">
+          <mat-card class="margin-m">
+            <mat-card-title i18n>Looks like you are not authorized to preview this content.</mat-card-title>
+            <mat-card-content>
+              <div>
+                <a class="ws-mat-primary-text" [routerLink]="'/feedback/bug'" i18n>Report to us</a>
+                <span i18n> and we will make it work</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </section>
+      <section *ngIf="status === 'pending'">
+        <mat-spinner></mat-spinner>
+      </section>
+      <router-outlet class="ssss" (activate)="getContentData($event)"></router-outlet>
+
+      <mat-tab-group>
+        <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
+          <!-- "tocConfig?.atAGlance?.displayContentType?.enabled && content?.displayContentType"==>{{ tocConfig?.atAGlance?.displayContentType?.enabled && content?.displayContentType}}  -->
+
+          <!-- tocConfig==>{{tocConfig | json}} -->
+
+          <div class="stack-container">
+            <div class="div-1">
+              <mat-card class="unit-meta-item mt-5 ml-5 mb-4">
+                <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
+                <mat-card-content>
+                  <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
+                </mat-card-content>
+              </mat-card>
+              <!-- Content Body -->
+              <mat-card class="unit-meta-item mt-5 ml-5 mb-4">
+                <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+                <mat-card-content>
+                  <div class="break-words" [innerHTML]="content?.subTitle"></div>
+                </mat-card-content>
+              </mat-card>
+
+
+              <div class="width-1-1 mt-5 ml-5 mb-4">
+                <div class="hidden sm:block margin-bottom-m mr-5" *ngIf="content?.creatorDetails?.length">
+                  <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+                authors: content?.creatorDetails,
+                title: 'AUTHOR'
+              }">
+                  </ng-container>
+                </div>
+                <div class="hidden sm:block margin-bottom-m mr-5" *ngIf="content?.creatorContacts?.length">
+                  <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+                authors: content?.creatorContacts,
+                title: 'CONTACT'
+              }">
+                  </ng-container>
+                </div>
+              </div>
+
+              <ng-template #creators let-authors="authors" let-title="title">
+                <mat-card>
+                  <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
+                  <h2 i18n *ngIf="title === 'CONTACT'">Curator/Contact</h2>
+                  <mat-divider></mat-divider>
+                  <div *ngFor="let author of authors" class="author">
+                    <ws-widget-user-image class="author-image" [imageType]="'name-initial'"
+                      [userName]="author.name || ''" [email]="author.email"></ws-widget-user-image>
+                    <div class="width-expand flex flex-middle flex-between">
+                      <h3 class="margin-remove">{{ author.name }}</h3>
+                      <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
+                        [widgetData]="{ content: content, emails: [author.email] }">
+                      </ws-widget-btn-mail-user>
+                    </div>
+                  </div>
+                </mat-card>
+              </ng-template>
+
+              <div class="mt-5 ml-5 mb-4">
+                <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts>
+
+              </div>
+
+            </div>
+            <div class="div-2">
+              <ws-widget-player-brief [forPreview]="forPreview" [content]="content"></ws-widget-player-brief>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab i18n-label label="Discussion">
+          <!-- *ngIf="discussionForumWidget && isRestricted" -->
+          <div class="padding-m">
+            <div class="video-discussion-forum-in">
+              <h2 class="mat-toolbar discussion-head">Discussion Forum</h2>
+              <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab i18n-label label="License">
+          <mat-card class="mt-5 ml-5 mb-4 mr-5">
+            <h2 class="margin-bottom-m">License terms</h2>
+            <p>CC BY 4.0</p>
+
+            <p>CC BY 4.0 For details see below:‎</p>
+            <a href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a>
+          </mat-card>
+        </mat-tab>
+
+      </mat-tab-group>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</section>
+<div class="full-height-width-iframe" *ngIf="!isNotEmbed">
+  <router-outlet></router-outlet>
+</div>

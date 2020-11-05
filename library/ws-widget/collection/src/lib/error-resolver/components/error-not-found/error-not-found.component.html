@@ -1,0 +1,50 @@
+<div class="error-not-found flex flex-wrapped margin-left-m margin-top-xl margin-right-m">
+  <div class="error-logo">
+    <img
+      alt
+      class="error-image"
+      *ngIf="errorData"
+      [src]="isDarkMode ? errorData?.errorImageDark : errorData?.errorImageLite"
+    />
+
+    <div class="error-message ws-mat-primary-text font-weight-bold" i18n>
+      The page you requested cannot be found
+    </div>
+  </div>
+  <div class="error-support">
+    <div class="support-message" i18n>We have updated our web site and many URLs have changed.</div>
+    <div class="support-message" i18n>You might want to:</div>
+    <ul>
+      <li>
+        <ng-container i18n>Go to</ng-container>
+        <a
+          class="ws-mat-primary-text"
+          *ngIf="errorData?.redirectUrl"
+          [attr.href]="errorData?.redirectUrl"
+          >{{ errorData?.redirectUrl }}</a
+        >
+        <ng-container i18n>,search for the topic you are interested in.</ng-container>
+      </li>
+      <li i18n>Check for any typos in the URL</li>
+      <li>
+        <ng-container i18n>Do you suspect a site problem? </ng-container>
+      </li>
+    </ul>
+    <!-- <a
+      mat-raised-button
+      color="primary"
+      *ngIf="errorData?.mailId"
+      href="mailto:{{ errorData?.mailId }}"
+    >
+      Report the issue
+    </a> -->
+    <a
+      mat-raised-button
+      color="primary"
+      *ngIf="errorData?.mailId"
+      [routerLink]="'/app/feedback/platform_feedback'"
+    >
+      Report the issue
+    </a>
+  </div>
+</div>

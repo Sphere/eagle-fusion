@@ -1,0 +1,28 @@
+@import 'ws-mixins';
+
+.font-family {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+.goal-card-container {
+  width: -webkit-fill-available;
+  /*  max-width: 270px !important;
+  min-width: 270px !important;
+  border-radius: 4px !important;
+
+  @include breakpoint-lt-m {
+    min-width: calc(100vw - 100px) !important;
+    max-width: calc(100vw - 100px) !important; */
+  // padding: 0.5rem !important;
+  // margin-top: 0.25rem !important;
+  // margin-bottom: 0.25rem !important;
+  // margin-right: 0rem !important;
+  // margin-left: 0rem !important;
+  //}
+}
+
+.hide-text {
+  overflow: hidden;
+  height: 1.6rem;
+}

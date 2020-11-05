@@ -1,0 +1,82 @@
+<section mat-dialog-title>
+  <div class="mat-caption">
+    <ws-app-request-item-type [itemType]="data.approvalItem.record_type"></ws-app-request-item-type>
+  </div>
+  <h3 class="mat-h3 text-truncate">{{ data.approvalItem.certification_name }}</h3>
+</section>
+
+<section mat-dialog-content>
+  <ng-container [ngSwitch]="data.approvalItem.record_type">
+    <ng-container *ngSwitchCase="'proctor_approval'">
+      <ng-container [ngSwitch]="data.actionType">
+        <p class="mat-body" *ngSwitchCase="'accept'">
+          <ng-container i18n>
+            Are you sure you wish to proctor
+          </ng-container>
+          <ng-container>
+            {{ data.approvalItem.user?.name }}
+          </ng-container>
+          <ng-container i18n>?</ng-container>
+        </p>
+        <p class="mat-body" i18n *ngSwitchCase="'decline'">
+          Are you sure you wish to decline this proctoring request?
+        </p>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'budget_approval'">
+      <ng-container [ngSwitch]="data.actionType">
+        <p class="mat-body" i18n *ngSwitchCase="'accept'">
+          Are you sure you wish to approve this reimbursement request?
+        </p>
+        <p class="mat-body" i18n *ngSwitchCase="'decline'">
+          Are you sure you wish to decline this reimbursement request?
+        </p>
+      </ng-container>
+      <p class="mat-body">
+        <ng-container i18n>
+          Amount:
+        </ng-container>
+        <ng-container>
+          {{ data.approvalItem.currency }} {{ data.approvalItem.amount }}
+        </ng-container>
+      </p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'result_verification'">
+      <ng-container [ngSwitch]="data.actionType">
+        <p class="mat-body" i18n *ngSwitchCase="'accept'">
+          Are you sure you wish to accept this document proof?
+        </p>
+        <p class="mat-body" i18n *ngSwitchCase="'decline'">
+          Are you sure you wish to decline this document proof?
+        </p>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <section class="margin-top-xs" *ngIf="
+      (data.approvalItem.record_type === 'budget_approval' && data.actionType === 'decline') ||
+      data.approvalItem.record_type === 'result_verification'
+    ">
+    <mat-form-field class="width-1-1">
+      <input matInput type="text" [formControl]="reasonCtrl" placeholder="Please provide a reason" i18n-placeholder />
+      <mat-hint *ngIf="data.approvalItem.record_type === 'result_verification' && !reasonCtrl.value" i18n>
+        The reason must be within 500 characters.
+      </mat-hint>
+      <mat-hint *ngIf="data.approvalItem.record_type === 'budget_approval' && !reasonCtrl.value" i18n>
+        The reason must be within 1000 characters.
+      </mat-hint>
+    </mat-form-field>
+  </section>
+</section>
+
+<section mat-dialog-actions>
+  <button mat-flat-button [color]="'primary'" class="margin-right-xs" (click)="sendAction()">
+    <ng-container [ngSwitch]="data.actionType">
+      <ng-container *ngSwitchCase="'accept'" i18n>ACCEPT</ng-container>
+      <ng-container *ngSwitchCase="'decline'" i18n>DECLINE</ng-container>
+    </ng-container>
+  </button>
+  <button mat-stroked-button mat-dialog-close [color]="'primary'" i18n>CANCEL</button>
+</section>

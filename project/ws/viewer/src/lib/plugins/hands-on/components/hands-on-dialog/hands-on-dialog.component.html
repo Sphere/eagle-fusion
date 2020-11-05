@@ -1,0 +1,46 @@
+<ng-container *ngIf="data === 'submit'">
+  <h3 class="mat-h3" i18n="submit dialog heading">Submit</h3>
+  <div>
+    <ng-container i18n>
+      Some of your test cases have Failed. Do you still want to submit?
+    </ng-container>
+    <div style="display:flex; justify-content: space-between;flex-wrap: wrap;" class="margin-top-m">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submit()"
+        i18n="button submit code pane text"
+      >
+        Submit
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="close()"
+        i18n="button submit code pane text"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="data === 'no-submit'">
+  <h3 class="mat-h3" i18n="no submission found dialog heading">
+    No Submission Found
+  </h3>
+  <div>
+    <ng-container i18n>
+      No Submission Found for this Exercise.
+    </ng-container>
+    <div style="display:flex; justify-content: space-between;flex-wrap: wrap;" class="margin-top-m">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="close()"
+        i18n="button submit code pane text"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-container>

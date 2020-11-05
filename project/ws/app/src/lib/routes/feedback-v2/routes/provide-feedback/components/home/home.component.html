@@ -1,0 +1,23 @@
+<section class="container-balanced py-8 h-full mx-auto px-4">
+  <section class="flex flex-wrap justify-between mb-8">
+    <div class="p-4">
+      <h2 class="mat-title w-full" i18n>We appreciate your feedback</h2>
+    </div>
+    <div class="p-4">
+      <a mat-flat-button color="primary" [routerLink]="'./my-feedback'" [matBadge]="newItemsCount <= 99 ? newItemsCount : '99+'"
+        [matBadgeColor]="'accent'" [matBadgeHidden]="!newItemsCount" i18n>
+        My Feedback
+      </a>
+    </div>
+  </section>
+
+  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="navigateToTab($event)" [(selectedIndex)]="currentTabIndex" *ngIf="rolesSet.size > 1">
+    <mat-tab label="Platform Feedback" *ngIf="showTab(feedbackTypes.Platform)" i18n-label></mat-tab>
+    <mat-tab label="Request Content" *ngIf="showTab(feedbackTypes.ContentRequest)" i18n-label></mat-tab>
+    <mat-tab label="Other Requests" *ngIf="showTab(feedbackTypes.ServiceRequest)" i18n-label></mat-tab>
+  </mat-tab-group>
+
+  <section class="py-8 h-full">
+    <router-outlet></router-outlet>
+  </section>
+</section>

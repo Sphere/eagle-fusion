@@ -1,0 +1,7 @@
+<ng-container *ngIf="!error && data">
+  <ws-app-event-banner *ngIf="isEnabled" [data]="data" [isRegisteredUser]="isRegisteredUser"></ws-app-event-banner>
+  <router-outlet></router-outlet>
+</ng-container>
+<h2 *ngIf="error" class="mat-error margin-top-m text-center" i18n>
+  Check your network connection and reload the page.
+</h2>

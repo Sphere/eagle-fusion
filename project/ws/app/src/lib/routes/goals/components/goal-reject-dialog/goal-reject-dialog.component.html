@@ -1,0 +1,25 @@
+<ng-container *ngIf="rejectGoalStatus !== 'fetching'; else fetching">
+  <h2 class="mat-title" i18n>Why do you want to reject this goal</h2>
+  <p>
+    <mat-form-field appearance="fill" floatLabel="never" class="w-full">
+      <textarea  name="reject-input-goal-reject-dialog" required matInput [(ngModel)]="rejectMessage" rows="3" placeholder="For eg: I find this goal to be unattainable"
+        i18n-placeholder></textarea>
+    </mat-form-field>
+  </p>
+  <div mat-dialog-actions class="flex flex-row-reverse">
+    <button  name="submit-button-goal-reject-dialog" r [disabled]="!rejectMessage?.length"mat-button (click)="rejectGoal()" i18n>
+      Submit
+    </button>
+  </div>
+</ng-container>
+<ng-template #fetching>
+  <div class="flex items-center">
+    <mat-spinner [diameter]="30"></mat-spinner>
+    <span class="ml-4">
+      <ng-container i18n>Rejecting goal</ng-container>
+      <span class="ml-1 mat-body-strong">{{ goal?.name }}</span>
+    </span>
+  </div>
+</ng-template>
+<input #errorReject type="hidden" i18n-value value="Error rejecting goal" />
+<input #successReject type="hidden" i18n-value value="Goal Rejected" />

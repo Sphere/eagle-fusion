@@ -1,0 +1,14 @@
+@import 'ws-vars';
+
+ws-widget-user-image {
+  $user-size: 40px;
+  width: $user-size;
+  height: $user-size;
+  font-size: $user-size;
+}
+
+.feedback-text {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}

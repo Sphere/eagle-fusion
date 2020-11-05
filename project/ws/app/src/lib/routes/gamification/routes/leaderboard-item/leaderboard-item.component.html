@@ -1,0 +1,40 @@
+<section class="item-container flex">
+  <section class="width-1-10 flex flex-column flex-center">
+    <div class="flex flex-column flex-between">
+      <div class="mat-body-2">{{ leaderboardItem.Rank }}</div>
+    </div>
+  </section>
+  <section class="width-2-5 margin-left-m flex-grow-1 flex flex-column flex-center">
+    <div class="flex">
+      <div class="flex flex-column flex-between width-1-1">
+        <div class="flex flex-column flex-grow-1 flex-center">
+          <div class="text-truncate mat-body-2">
+            {{
+                {
+                  firstName: leaderboardItem.FirstName,
+                  lastName: leaderboardItem.last_name,
+                  email: leaderboardItem.email_id
+                } | pipeNameTransform
+              }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="width-2-5 margin-left-m flex-grow-1 flex flex-column flex-center">
+    <div class="flex">
+      <div class="flex flex-column flex-between width-1-1">
+        <div class="flex flex-column flex-grow-1 flex-center">
+        </div>
+        <div class="mat-caption text-truncate width-1-1">
+          {{ leaderboardItem.Column2 }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="width-1-10 flex flex-column flex-center">
+    <div class="flex flex-column flex-between">
+      <div class="mat-body-2 text-right">{{ leaderboardItem.TotalPoints | pipeCountTransform }}</div>
+    </div>
+  </section>
+</section>

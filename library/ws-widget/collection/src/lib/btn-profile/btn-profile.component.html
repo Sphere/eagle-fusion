@@ -1,0 +1,68 @@
+<!--
+  Old
+  <button mat-button (click)="getCatalog()" i18n-matTooltip matTooltip="Explore Catalogue" #rootTrigger="matMenuTrigger"
+  [matMenuTriggerFor]="rootMenu.childMenu">
+  <mat-icon>apps</mat-icon>
+  <span class="padding-left-xs" i18n>Browse Courses</span>
+</button>
+
+<ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
+  [fetchStatus]="catalogFetchStatus" isRoot="true">
+</ws-widget-tree-catalog-menu> -->
+
+<button mat-button i18n-matTooltip matTooltip="User Menu" class="new-margin" #rootTrigger="matMenuTrigger"
+  [matMenuTriggerFor]="settingsMenu">
+  <mat-icon>account_circle</mat-icon>
+  <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}}</span>
+  <mat-icon>arrow_drop_down</mat-icon>
+</button>
+
+<!-- <ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
+  [fetchStatus]="catalogFetchStatus" isRoot="true">
+</ws-widget-tree-catalog-menu> -->
+<mat-menu #settingsMenu="matMenu" xPosition="before">
+  <!--  <div mat-menu-item>
+    <mat-slide-toggle color="primary" labelPosition="before">
+      <mat-icon>brightness_medium</mat-icon>
+      <span i18n>Dark Mode</span>
+    </mat-slide-toggle>
+  </div> -->
+  <section *ngIf="pinnedApps?.length && isPinFeatureAvailable" class="p-4 md:p-4 sm:p-2">
+    <div class="flex justify-between">
+      <h2 class="mat-title margin-bottom-xs" i18n>Pinned</h2>
+      <a mat-button [routerLink]="widgetData?.allListingUrl" *ngIf="widgetData?.allListingUrl">
+        <span class="flex items-center">
+          <span i18n>All</span>&nbsp;
+          <mat-icon>chevron_right</mat-icon>
+        </span>
+      </a>
+    </div>
+    <div class="flex flex-wrap -mx-2 -mt-1">
+      <ng-container *ngFor="let pinnedWidget of pinnedApps" [wsResolverWidget]="pinnedWidget"></ng-container>
+    </div>
+  </section>
+  <div mat-menu-item>
+    <a mat-menu-item routerLink="/app/profile/dashboard" class="all-features">
+      <mat-icon>account_circle</mat-icon>
+      <span i18n>Profile</span>
+    </a>
+  </div>
+  <div mat-menu-item>
+    <a mat-menu-item routerLink="/app/profile/settings" class="all-features">
+      <mat-icon>settings</mat-icon>
+      <span i18n>Settings</span>
+    </a>
+  </div>
+  <div mat-menu-item>
+    <a mat-menu-item routerLink="/app/features" class="all-features">
+      <mat-icon>apps</mat-icon>
+      <span i18n>Explore all features</span>
+    </a>
+  </div>
+  <div mat-menu-item>
+    <button (click)="logout()" mat-button class="log-o">
+      <mat-icon>power_settings_new</mat-icon>&nbsp;
+      <span i18n>Logout</span>
+    </button>
+  </div>
+</mat-menu>

@@ -1,0 +1,28 @@
+<div class="m-1">
+  <div class="remove-padding-left remove-padding-right mat-elevation-z0 challengecard ">
+    <div class="flex flex-between m-1">
+      <h3 mat-h2 class="title flex-start remove-margin-bottom" i18n>{{tag}}</h3>
+      <button type="button" name="allActivitiesButtonHomePage" mat-raised-button class="activity-button"
+        [ngClass]="{ 'disablebutton': !moreActivities }" (click)="activitiesRoute()">
+        <div class="flex flex-middle ">
+          <p class="text-white margin-remove-bottom" i18n>Explore</p>
+        </div>
+      </button>
+    </div>
+    <div class="flex flex-between">
+      <ws-widget-activity-card *ngFor="let card of activities" [widgetData]="{
+          id : card.id,
+          title : card.title,
+          description : card.description,
+          isNew : card.isNew,
+          icon : card.icon,
+          clickUrl: card.clickUrl,
+          tag : card.tag
+          }">
+      </ws-widget-activity-card>
+    </div>
+    <div class="flex flex-between">
+      <div class="description">Completed:{{completedActivityLength}}/{{totalNumberOfActivities}}</div>
+    </div>
+  </div>
+</div>

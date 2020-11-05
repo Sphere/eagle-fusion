@@ -1,0 +1,90 @@
+<mat-dialog-content>
+  <div class="userdetails">
+    <div class="flex flex-between flex-middle w-full">
+      <div class="flex flex-middle">
+        <img src="/assets/images/profile/enablement.jpg" class="object-cover smallimage" />
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" i18n>{{name}}</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" i18n>by</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" i18n>{{userName}}</h1>
+      </div>
+      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()" i18n>close</mat-icon>
+    </div>
+    <mat-divider></mat-divider>
+    <ng-container>
+      <ng-container [ngSwitch]="tag">
+        <div class="details">
+          <ng-container *ngSwitchCase="'Knowledgeboard'" [ngTemplateOutlet]="Knowledgeboard">
+          </ng-container>
+          <ng-container *ngSwitchCase="'Playlists'" [ngTemplateOutlet]="Playlists">
+          </ng-container>
+        </div>
+        <!-- <ng-container *ngSwitchCase="displayType.cardMini" [ngTemplateOutlet]="Skills" [ngTemplateOutletContext]="data">
+        </ng-container>
+        <ng-container *ngSwitchCase="displayType.cardSmall" [ngTemplateOutlet]="Knowledgeboard"
+          [ngTemplateOutletContext]="data"></ng-container>
+        <ng-container *ngSwitchCase="displayType.externalLinkButton" [ngTemplateOutlet]="Playlists"
+          [ngTemplateOutletContext]="data"></ng-container> -->
+      </ng-container>
+    </ng-container>
+
+    <!-- TEMPLATES -->
+    <div>
+      <ng-template #Knowledgeboard>
+        <div class="flex flex-wrap remove-margin">
+          <mat-card class="flex  flex-wrap m-2 padding-remove card-container" *ngFor="let board of content;">
+            <mat-card-content class="flex">
+              <a (click)="raiseTelemetry()" [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link"
+                aria-label="Content" i18n-aria-label="Content | Click to view">
+                <img [src]="board.appIcon" [id]="'card_' + board.identifier"
+                  class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                  [alt]="board.name" [title]="board.name" />
+              </a>
+              <div class="mx-4 my-2">
+                <a class="font-family" (click)="raiseTelemetry()"
+                  [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link" aria-label="Content"
+                  i18n-aria-label>
+                  <p class="font-family mat-h3 font-weight-normal title-text text title-size" [matTooltip]="board.name">
+                    {{ board.name }}</p>
+                  <p class="font-family ws-mat-text-block-fade-gradient mat-h4 text descr-size">{{ board.description }}
+                  </p>
+                </a>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+      <ng-template #Playlists>
+        <div class="flex flex-wrap flex-around m-2">
+          <div class="px-3 m-2 playlist-card " *ngFor="let playlist of content">
+            <a [routerLink]="playlist?.id">
+              <div class="card relative">
+                <img [src]="playlist?.icon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                  class="thumbnail ws-mat-primary-lite-background" alt="Playlist Icon" i18n-alt />
+                <div class="overlay flex flex-middle flex-center">
+                  <div class="color-white playlist-font">
+                    <h2 class="text-center playlist-count">
+                      {{ playlist.contents.length | number }}
+                    </h2>
+                    <mat-icon inline="true" class="playlist-icon">playlist_play</mat-icon>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-middle margin-top-xxs margin-remove-bottom">
+                <h3 class="mat-subheading-2 font-weight-500 margin-remove-bottom text-truncate">{{ playlist.name }}</h3>
+                <span class="margin-left-xs margin-right-xs">|</span>
+                <span class="mat-caption">{{ playlist.visibility | uppercase }}</span>
+              </div>
+              <span *ngIf="playlists?.sharedBy" class="mat-body">
+                <ng-container i18n>shared by </ng-container>
+                <span class="mat-body-strong margin-remove-bottom">{{ playlist.sharedByDisplayName }}</span>
+              </span>
+            </a>
+          </div>
+
+        </div>
+
+      </ng-template>
+    </div>
+  </div>
+
+</mat-dialog-content>

@@ -1,0 +1,25 @@
+<ng-container *ngIf="!loading; else loader">
+
+  <mat-expansion-panel class="m-4 py-1" *ngFor="let card of cards">
+    <mat-expansion-panel-header class="title">
+      <div class="mat-title margin-remove">{{ card.title }}</div>
+    </mat-expansion-panel-header>
+
+    <ng-container [ngTemplateOutlet]="expansionPanelContent" [ngTemplateOutletContext]="{ key: card.key }">
+    </ng-container>
+  </mat-expansion-panel>
+  <ng-container>
+    <ng-template #expansionPanelContent let-key="key">
+      <ng-container [ngSwitch]="key">
+        <ng-container *ngSwitchCase="'banner'">
+          <ws-admin-banner [bannerData]="getBanner()"></ws-admin-banner>
+        </ng-container>
+        <ng-container *ngSwitchCase="'content_strip'">
+          <ws-admin-content-strip-request [stripData]="getStrip('glcBased')"></ws-admin-content-strip-request>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+  </ng-container>
+</ng-container>
+
+<ng-template #loader>loading</ng-template>

@@ -1,0 +1,51 @@
+<ng-container *ngIf="acceptGoalStatus !== 'fetching'; else fetching">
+  <h2 class="mat-title" mat-dialog-title>
+    <strong>{{ goal?.name }}</strong>
+    <ng-container i18n> will be added to your goals</ng-container>
+  </h2>
+  <!-- <div mat-dialog-actions class="flex flex-row-reverse">
+    <button mat-button i18n (click)="acceptGoal()">ACCEPT</button>
+  </div> -->
+</ng-container>
+
+<mat-dialog-content>
+  <ul class="mat-h3">
+    <li>
+      <ng-container i18n>By accepting this, you are granting permission to </ng-container>
+      <strong>{{ goal?.sharedBy?.name }}</strong>
+      <ng-container i18n> to track your progress for this goal.</ng-container>
+    </li>
+    <li *ngIf="showAlreadyGoalExistMessage" i18n>
+      You have already added this goal earlier. Your earlier goal will be
+      deleted to prevent duplicates.
+    </li>
+    <li i18n>You will not be able to edit or delete this goal.</li>
+    <li *ngIf="goal?.duration">
+      <ng-container i18n>Target completion date : </ng-container>
+      {{ goal?.duration}}
+      <ng-container i18n> day(s) from now.</ng-container>
+    </li>
+  </ul>
+  <h4 class="mat-h4" i18n>Do you want to continue?</h4>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex-row-reverse">
+
+  <button name="yes-button-goal-accept-dialog" mat-button [mat-dialog-close]="true" (click)="acceptGoal()" i18n>
+    Yes
+  </button>
+  <button name="no-button-goal-accept-dialog" mat-button mat-dialog-close i18n>No</button>
+</mat-dialog-actions>
+
+
+<ng-template #fetching>
+  <div class="flex items-center">
+    <mat-spinner [diameter]="30"></mat-spinner>
+    <span class="ml-4">
+      <ng-container i18n>Accepting goal</ng-container>
+      <span class="ml-1 mat-body-strong">{{ goal?.name }}</span>
+    </span>
+  </div>
+</ng-template>
+<input #errorAccept type="hidden" i18n-value value="Error accepting goal" />
+<input #successAccept type="hidden" i18n-value value="Goal Accepted" />

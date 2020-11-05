@@ -1,0 +1,51 @@
+@import 'ws-vars';
+
+$spaceFromEnd: -$size-m;
+
+.horizontal-scroll-container {
+  position: relative;
+  width: 100%;
+  min-height: 100px;
+}
+
+%btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+}
+
+.prevBtn {
+  @extend %btn;
+  left: $spaceFromEnd;
+}
+
+.nextBtn {
+  @extend %btn;
+  right: $spaceFromEnd;
+}
+
+.nextLoading {
+  @extend %btn;
+  padding: 0;
+  right: $spaceFromEnd;
+}
+
+// Changing scrollbar
+.horizontal-scroll-content {
+  overflow-x: auto;
+  /* white-space: nowrap; */
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: stretch;
+  -ms-overflow-style: none;
+  padding-left: 5px;
+
+  &::-webkit-scrollbar {
+    $scroll-size: 0px;
+    width: $scroll-size;
+    height: $scroll-size;
+  }
+}

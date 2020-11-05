@@ -1,0 +1,70 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+%container-padding {
+  padding: $size-xl 9rem;
+  @include breakpoint-xs {
+    padding: $size-m $size-l;
+  }
+}
+
+.toc-body {
+  @extend %container-padding;
+  padding-top: 0px !important;
+  .toc-links {
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    .mat-tab-link {
+      font-size: 20px !important;
+    }
+    .link-active {
+      color: #424242 !important;
+      border-bottom: 2px solid;
+    }
+  }
+}
+
+.hidden-xs-inline {
+  display: inline;
+  @include breakpoint-xs {
+    display: none;
+  }
+}
+.visible-xs-inline {
+  display: none;
+  @include breakpoint-xs {
+    display: inline;
+  }
+}
+.toc-discussion-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+  .discussion {
+    flex: 1;
+    min-width: 1px;
+  }
+  .cohorts {
+    width: 28%;
+    margin-left: 48px;
+    @include breakpoint-s {
+      margin-left: $size-l;
+      min-width: 250px;
+    }
+    @include breakpoint-xs {
+      margin-left: 0;
+      margin-bottom: $size-l;
+      width: 100%;
+    }
+  }
+}
+
+.detailBar{
+  display: flex;
+}
+.editDetails{
+  margin: auto;
+  display: flex
+}

@@ -1,0 +1,29 @@
+@import 'ws-vars';
+
+.discussion-header {
+  padding: $size-s;
+  .question-container {
+    display: flex;
+    justify-content: space-between;
+    .user-image {
+      $size: 55px;
+      width: $size;
+      height: $size;
+      margin-right: $size-m;
+    }
+    .editor {
+      min-height: 50px;
+      // padding: $size-s;
+      // padding-bottom: $size-s;
+    }
+  }
+}
+
+.discussion-body {
+  margin-top: $size-m;
+  .no-conversation {
+    font-size: 1.2em;
+    padding: $size-s;
+    text-align: center;
+  }
+}

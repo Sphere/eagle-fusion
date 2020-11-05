@@ -1,0 +1,71 @@
+<section #webModuleContainer class="mat-app-background mat-typography web-module-container">
+  <nav class="web-module-nav-bar mat-toolbar mat-caption">
+    <button mat-icon-button aria-label="List of Content" i18n-aria-label (click)="sideListOpened = !sideListOpened">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <span class="margin-right-s">
+      <a mat-icon-button>
+        <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+          [widgetData]="{ fsContainer: webModuleContainer }"></ws-widget-btn-fullscreen>
+      </a>
+    </span>
+
+    <mat-form-field class="font-size-select" *ngIf="!screenSizeIsXSmall">
+      <mat-select [(ngModel)]="defaultFontSize" placeholder="Font Size">
+        <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize"
+          (click)="modifyIframeStyle('fontSize', fontSize + 'px')">
+          {{ fontSize }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-icon-button (click)="pageChange(-1)" [disabled]="currentSlideNumber < 2" aria-label="previous" i18n-aria-label>
+      <mat-icon>arrow_left</mat-icon>
+    </button>
+    <span i18n="web module page">Page &nbsp;</span>
+    <input type="number" name="Web Module slide" aria-label="Page Number" i18n-aria-label [ngModel]="currentSlideNumber" (ngModelChange)="setPage($event)"
+      [min]="1" [max]="slides.length" class="page-input" [readonly]="slides.length < 2" />
+    <span>
+      <ng-container i18n>of</ng-container>
+      {{ slides.length }}
+    </span>
+    <button mat-icon-button (click)="pageChange(1)" [disabled]="currentSlideNumber >= slides.length" aria-label="next" i18n-aria-label>
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+    <span class="width-expand text-truncate">
+      {{ slides[currentSlideNumber - 1].title }}
+    </span>
+
+    <div class="audio-container" [hidden]="!slideAudioUrl">
+      <audio controls controlsList="nodownload" *ngIf="slideAudioUrl" [src]="slideAudioUrl" #slideAudio></audio>
+    </div>
+  </nav>
+  <mat-sidenav-container class="web-module-sidenav-container">
+    <mat-sidenav mode="over" [(opened)]="sideListOpened" class="web-module-sidenav">
+      <mat-action-list>
+        <div mat-list-item *ngFor="let slide of slides; let slideIndex = index" class="flex" [ngClass]="{
+            'mat-primary mat-toolbar': currentSlideNumber === slideIndex + 1
+          }">
+          <button (click)="setPage(slideIndex + 1)" mat-button class="text-left width-expand">
+            {{ slide.title }}
+          </button>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-action-list>
+      <mat-form-field class="margin-left-m" *ngIf="screenSizeIsXSmall">
+        <mat-select [(ngModel)]="defaultFontSize" placeholder="Font Size">
+          <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize"
+            (click)="modifyIframeStyle('fontSize', fontSize + 'px')">
+            {{ fontSize }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <iframe title="Web Module Content" i18n-title [src]="iframeUrl"
+        allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; " class="web-module-iframe"
+        [ngClass]="{ iframeBlur: iframeLoadingInProgress }" *ngIf="iframeUrl" #iframeElem
+        (load)="modifyIframeDom(iframeElem)"></iframe>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</section>

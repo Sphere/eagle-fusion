@@ -1,0 +1,10 @@
+<button name="content-share-button"  mat-icon-button i18n-aria-label aria-label="Share Content" i18n-matTooltip matTooltip="Share Content" *ngIf="isShareEnabled && widgetData && !showText && showBtn"
+  (click)="shareContent()" [disabled]="isDisabled" class="action-button">
+  <img src="/assets/images/share.png" class="action-icons"/>
+</button>
+
+<button name="content-share-button" mat-button i18n-aria-label aria-label="Share Content" i18n-matTooltip matTooltip="Share Content" *ngIf="isShareEnabled && widgetData && showText && showBtn"
+  (click)="shareContent()" [disabled]="isDisabled">
+  <mat-icon class="mr-2">share</mat-icon>
+  <span class="text-base font-normal">Share</span>
+</button>

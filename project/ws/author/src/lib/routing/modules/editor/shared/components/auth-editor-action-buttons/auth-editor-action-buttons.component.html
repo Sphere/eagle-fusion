@@ -1,0 +1,28 @@
+<div class="buttons margin-top-xl">
+  <div
+    class="button-grid margin-right-xxs cursor-pointer"
+    (click)="showSettingButtons = !showSettingButtons"
+  >
+    <button mat-icon-button class="padding-remove ws-mat-primary-background mat-elevation-z6">
+      <mat-icon class="text-white" *ngIf="showSettingButtons">close</mat-icon>
+      <mat-icon class="text-white" *ngIf="!showSettingButtons">more_vert</mat-icon>
+    </button>
+    <p class="mat-h5 margin-remove button-text padding-remove-top" *ngIf="showSettingButtons" i18n>
+      Close
+    </p>
+  </div>
+  <ng-container *ngIf="showSettingButtons">
+    <div
+      *ngFor="let button of buttonConfig?.buttons || []"
+      class="button-grid cursor-pointer"
+      (click)="action.next(button.event)"
+    >
+      <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-l">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">{{ button.icon }}</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text">
+        {{ button.title }}
+      </p>
+    </div>
+  </ng-container>
+</div>

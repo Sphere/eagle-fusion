@@ -1,0 +1,7 @@
+<main class="my-4">
+  <h3 *ngIf="!trackGoal?.accepted?.length" class="text-center mat-title" i18n>No one has accepted this goal yet</h3>
+  <section class="mb-2" *ngFor="let accept of trackGoal?.accepted">
+    <ws-app-goal-accept-card [accept]="accept">
+    </ws-app-goal-accept-card>
+  </section>
+</main>

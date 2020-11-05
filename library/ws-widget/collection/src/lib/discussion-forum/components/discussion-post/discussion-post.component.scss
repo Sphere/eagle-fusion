@@ -1,0 +1,56 @@
+@import 'ws-vars';
+
+.main-post-user-image {
+  $size: 40px;
+  width: $size;
+  height: $size;
+}
+.datePost{
+  margin: auto 0;
+  align-items: center;
+}
+.write-reply-container {
+  display: flex;
+  align-items: stretch;
+  padding: $size-s;
+  margin-top: $size-xs / 2;
+  .write-reply-user-image {
+    $size: 36px;
+    width: $size;
+    height: $size;
+  }
+  .write-reply-placeholder {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    // background: white;
+    padding-left: $size-s;
+    cursor: pointer;
+  }
+  .write-reply-editor {
+    display: block;
+    padding: $size-s;
+    padding-bottom: 0;
+  }
+}
+
+.background-white {
+  background: white;
+}
+
+.postSection{
+  align-items: center
+}
+@media only screen and (max-width:469px){
+  .datePost{
+    justify-content: space-between;
+    margin: auto 0;
+    align-items: center;
+    width: 100%;
+  }
+  .postSection{
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}

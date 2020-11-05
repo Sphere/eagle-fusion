@@ -1,0 +1,421 @@
+<div class="w-5/5 ">
+
+  <mat-tab-group (selectedTabChange)="tabClick($event)">
+    <mat-tab label="Flagged">
+      <mat-list-item *ngFor="let result of adminTimelineFlaggedResponse?.result">
+        <mat-card style="padding-bottom: 0.5rem;margin-bottom:1%" *ngIf="!result.hidden">
+
+
+          <div class=" margin-bottom-s ">
+            <div class="flex">
+              <div class="h-auto" style="width: 100%;">
+
+                <mat-card-header>
+
+                  <mat-card-title class="ws-mat-primary-text mat-h2 blog-title">{{ result.postContent.title }}
+                  </mat-card-title>
+                  <mat-card-subtitle class="mat-caption text-grey-darker text-base">
+                    {{ result.postContent.abstract}}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <div class="flex items-center" style="margin-bottom: 3%;">
+
+                  <mat-icon _ngcontent-sgx-c44=""
+                    class="user-icon mat-icon notranslate material-icons mat-icon-no-color ng-star-inserted" role="img"
+                    aria-hidden="true" style="margin-right: 2%;">person</mat-icon>
+                  <!-- <img (click)="openDialog()" class="w-10 h-10 rounded-full mr-4"
+                    src="https://pbs.twimg.com/profile_images/885868801232961537/b1F6H4KC_400x400.jpg"
+                    alt="Avatar of Jonathan Reinink"> -->
+                  <span class="change_color_on_hover" (click)="openDialog()" style=" margin-right: 10%;">
+                    <div class="text-sm">
+                      <span class="ws-mat-primary-text">
+                        {{ result.postCreator.name }}
+                      </span>
+                      <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+                        {{ result.dtLastModified | date }}
+                      </div>
+
+                    </div>
+                  </span>
+
+                  <mat-icon _ngcontent-sgx-c44=""
+                    class="user-icon mat-icon notranslate material-icons mat-icon-no-color ng-star-inserted" role="img"
+                    aria-hidden="true" style="margin-right: 2%;">supervisor_account</mat-icon>
+                  <span class="change_color_on_hover" (click)="openDialogForum()" style=" margin-right: 10%;">
+                    <div class="text-sm">
+                      <span class="ws-mat-primary-text">
+                        {{result.source.forumName}}
+                      </span>
+
+                      <div i18n-matTooltip matTooltip="" class="mat-caption">
+                        Forum
+                      </div>
+
+                    </div>
+                  </span>
+
+
+                </div>
+                <mat-card-content>
+                  <p class="mat-caption" style=" word-wrap: break-word; ">
+                    {{ result.postContent.body}}
+                  </p>
+                </mat-card-content>
+                <!--trial attempt-->
+                <div class="flex py-1" style="pointer-events: none;height:15%;width: 80%;">
+                  <button
+                    class="appearance-none flex-1 flex items-center justify-center text-center text-red hover:bg-grey-lighter">
+
+                    <span class="material-icons" style="font-size: 30px;width: 44px;cursor: pointer;">
+                      remove_red_eye
+                    </span>
+                    50
+                  </button>
+                  <button
+                    class="appearance-none flex-1 flex items-center justify-center text-center text-grey-darker hover:bg-grey-lighter">
+                    <ws-widget-btn-social-vote class=" block" [voteType]="'upVote'" [postId]="result.id"
+                      [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                      [iconType]="'triangle'" style="display: contents;width: 100%;">
+                    </ws-widget-btn-social-vote>
+                    {{result.activity.activityData.upVote}}
+                  </button>
+                  <button
+                    class="appearance-none flex-1 flex items-center justify-center text-center text-grey-darker hover:bg-grey-lighter">
+                    <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="result.id"
+                      [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                      [iconType]="'triangle'">
+                    </ws-widget-btn-social-vote>
+
+                    {{result.activity.activityData.downVote}}
+                  </button>
+                </div>
+
+
+
+                <!-- trial attempt ends -->
+
+                <!-- <div class="flex bg-gray-200" style="pointer-events: none;">
+                  <div class="flex-1 text-gray-700 text-center px-4  h-8">
+                    <div class="flex items-center">
+                      <div style="width: 90%;">
+                        <span class="material-icons" style="font-size: 30px;width: 44px;cursor: pointer;">
+                          remove_red_eye
+                        </span>
+
+                      </div>
+                      <div class="rounded-lg bg-grey-light text-xs ml-1 p-px" style="width: 10%;">
+                        {{result.activity.activityData.upVote}}
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="flex-1 text-gray-700 text-center px-4 h-8">
+                    <div class="flex items-center">
+                      <div style="width: 90%;">
+                        <ws-widget-btn-social-vote class=" block" [voteType]="'upVote'" [postId]="result.id"
+                          [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                          [iconType]="'triangle'" style="display: contents;width: 100%;">
+                        </ws-widget-btn-social-vote>
+
+                      </div>
+                      <div class="rounded-lg bg-grey-light text-xs ml-1 p-px" style="width: 10%;">
+                        {{result.activity.activityData.upVote}}
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="flex-1 text-gray-700 text-center px-4 m-2 h-8">
+                    <div class="flex items-center">
+                      <div style="width: 90%;">
+                        <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="result.id"
+                          [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                          [iconType]="'triangle'">
+                        </ws-widget-btn-social-vote>
+
+                      </div>
+                      <div class="rounded-lg bg-grey-light text-xs ml-1 p-px" style="width: 10%;">
+                        {{result.activity.activityData.downVote}}
+                      </div>
+                    </div>
+
+                  </div>
+                </div> -->
+
+              </div>
+              <!-- <div class="w-auto h-auto">
+                <div class="flex flex-col justify-center ">
+                  <div class="text-grey-darker text-center   py-4">
+                    <button mat-fab aria-label="Rejected" i18n-aria-label matTooltip="Reject"
+                    i18n-matTooltip="Reject Button" (click)="reject()">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+
+                  </div>
+                  <div class="text-grey-darker text-center   py-4">
+                    <button mat-fab  aria-label="Accepted" i18n-aria-label matTooltip="Accept"
+                    i18n-matTooltip="Accept Button" style="background-color: cadetblue;" (click)="accept()">
+                    <mat-icon>done_outline</mat-icon>
+                  </button>
+                  </div>
+                  <div class="text-grey-darker text-center   py-4">
+                    <button mat-fab aria-label="Rejected" i18n-aria-label matTooltip="Reject"
+                    i18n-matTooltip="Reject Button" (click)="reject()">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+
+                  </div>
+
+                </div>
+              </div> -->
+
+            </div>
+
+
+          </div>
+          <div class="flex bg-gray-200" style=" width: 50%; margin-left: 20%;margin-right: 20%;">
+            <div class="flex-1 text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+              <ws-app-btn-admin [type]="'FLAGGEDACCEPT'" (acceptedFlaggedId)="receiveMessage($event)"
+                [postIdReceived]="result.id">
+              </ws-app-btn-admin>
+
+            </div>
+            <div class="flex-1 text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+              <ws-app-btn-admin [type]="'REJECT'" (messageEvent)="receiveMessage($event)" [postIdReceived]="result.id">
+              </ws-app-btn-admin>
+            </div>
+            <div class="flex-1 text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+              <button mat-fab aria-label="Rejected" i18n-aria-label matTooltip="Reject" i18n-matTooltip="Reject Button"
+                (click)="reject()" style="background-color: yellowgreen;">
+                <mat-icon>screen_share</mat-icon>
+              </button>
+            </div>
+          </div>
+
+
+        </mat-card>
+
+      </mat-list-item>
+    </mat-tab>
+    <mat-tab label="Deleted">
+      <mat-list-item *ngFor="let result of adminTimelineDeletedResponse?.result">
+        <mat-card style="padding-bottom: 0.5rem;margin-bottom:1%" *ngIf="!result.hidden">
+
+
+          <div class=" margin-bottom-s ">
+            <div class="flex">
+              <div class="h-auto" style="width: 100%;">
+
+                <mat-card-header>
+
+                  <mat-card-title class="ws-mat-primary-text mat-h2 blog-title">{{ result.postContent.title }}
+                  </mat-card-title>
+                  <mat-card-subtitle class="mat-caption text-grey-darker text-base">
+                    {{ result.postContent.abstract}}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <div class="flex items-center" style="margin-bottom: 3%;">
+
+                  <mat-icon _ngcontent-sgx-c44=""
+                    class="user-icon mat-icon notranslate material-icons mat-icon-no-color ng-star-inserted" role="img"
+                    aria-hidden="true" style="margin-right: 2%;">person</mat-icon>
+                  <!-- <img (click)="openDialog()" class="w-10 h-10 rounded-full mr-4"
+                            src="https://pbs.twimg.com/profile_images/885868801232961537/b1F6H4KC_400x400.jpg"
+                            alt="Avatar of Jonathan Reinink"> -->
+                  <span class="change_color_on_hover" (click)="openDialog()" style=" margin-right: 10%;">
+                    <div class="text-sm">
+                      <span class="ws-mat-primary-text">
+                        {{ result.postCreator.name }}
+                      </span>
+                      <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+                        {{ result.dtLastModified | date }}
+                      </div>
+
+                    </div>
+                  </span>
+
+                  <mat-icon _ngcontent-sgx-c44=""
+                    class="user-icon mat-icon notranslate material-icons mat-icon-no-color ng-star-inserted" role="img"
+                    aria-hidden="true" style="margin-right: 2%;">supervisor_account</mat-icon>
+                  <span class="change_color_on_hover" (click)="openDialogForum()" style=" margin-right: 10%;">
+                    <div class="text-sm">
+                      <span class="ws-mat-primary-text">
+                        {{result.source.forumName}}
+                      </span>
+
+                      <div i18n-matTooltip matTooltip="" class="mat-caption">
+                        Forum
+                      </div>
+
+                    </div>
+                  </span>
+
+
+                </div>
+                <mat-card-content>
+                  <p class="mat-caption" style=" word-wrap: break-word; ">
+                    {{ result.postContent.body}}
+                  </p>
+                </mat-card-content>
+                <!--trial attempt-->
+                <div class="flex py-1" style="pointer-events: none;height:15%;width: 80%;">
+                  <button
+                    class="appearance-none flex-1 flex items-center justify-center text-center text-red hover:bg-grey-lighter">
+
+                    <span class="material-icons" style="font-size: 30px;width: 44px;cursor: pointer;">
+                      remove_red_eye
+                    </span>
+                    50
+                  </button>
+                  <button
+                    class="appearance-none flex-1 flex items-center justify-center text-center text-grey-darker hover:bg-grey-lighter">
+                    <ws-widget-btn-social-vote class=" block" [voteType]="'upVote'" [postId]="result.id"
+                      [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                      [iconType]="'triangle'" style="display: contents;width: 100%;">
+                    </ws-widget-btn-social-vote>
+                    {{result.activity.activityData.upVote}}
+                  </button>
+                  <button
+                    class="appearance-none flex-1 flex items-center justify-center text-center text-grey-darker hover:bg-grey-lighter">
+                    <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="result.id"
+                      [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                      [iconType]="'triangle'">
+                    </ws-widget-btn-social-vote>
+
+                    {{result.activity.activityData.downVote}}
+                  </button>
+                </div>
+
+
+
+                <!-- trial attempt ends -->
+                <!-- <div class="flex bg-gray-200" style="pointer-events: none;">
+                          <div class="flex-1 text-gray-700 text-center px-4  h-8">
+                            <div class="flex items-center">
+                              <div style="width: 90%;">
+                                <span class="material-icons" style="font-size: 30px;width: 44px;cursor: pointer;">
+                                  remove_red_eye
+                                </span>
+
+                              </div>
+                              <div class="rounded-lg bg-grey-light text-xs ml-1 p-px" style="width: 10%;">
+                                {{result.activity.activityData.upVote}}
+                              </div>
+                            </div>
+
+
+                          </div>
+                          <div class="flex-1 text-gray-700 text-center px-4 h-8">
+                            <div class="flex items-center">
+                              <div style="width: 90%;">
+                                <ws-widget-btn-social-vote class=" block" [voteType]="'upVote'" [postId]="result.id"
+                                  [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                                  [iconType]="'triangle'" style="display: contents;width: 100%;">
+                                </ws-widget-btn-social-vote>
+
+                              </div>
+                              <div class="rounded-lg bg-grey-light text-xs ml-1 p-px" style="width: 10%;">
+                                {{result.activity.activityData.upVote}}
+                              </div>
+                            </div>
+
+
+                          </div>
+                          <div class="flex-1 text-gray-700 text-center px-4 m-2 h-8">
+                            <div class="flex items-center">
+                              <div style="width: 90%;">
+                                <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="result.id"
+                                  [postCreatorId]="result?.postCreator?.postCreatorId" [activity]="result.activity"
+                                  [iconType]="'triangle'">
+                                </ws-widget-btn-social-vote>
+
+                              </div>
+                              <div class="rounded-lg bg-grey-light text-xs ml-1 p-px" style="width: 10%;">
+                                {{result.activity.activityData.downVote}}
+                              </div>
+                            </div>
+
+                          </div>
+                        </div> -->
+
+              </div>
+              <!-- <div class="w-auto h-auto">
+                        <div class="flex flex-col justify-center ">
+                          <div class="text-grey-darker text-center   py-4">
+                            <button mat-fab aria-label="Rejected" i18n-aria-label matTooltip="Reject"
+                            i18n-matTooltip="Reject Button" (click)="reject()">
+                            <mat-icon>clear</mat-icon>
+                          </button>
+
+                          </div>
+                          <div class="text-grey-darker text-center   py-4">
+                            <button mat-fab  aria-label="Accepted" i18n-aria-label matTooltip="Accept"
+                            i18n-matTooltip="Accept Button" style="background-color: cadetblue;" (click)="accept()">
+                            <mat-icon>done_outline</mat-icon>
+                          </button>
+                          </div>
+                          <div class="text-grey-darker text-center   py-4">
+                            <button mat-fab aria-label="Rejected" i18n-aria-label matTooltip="Reject"
+                            i18n-matTooltip="Reject Button" (click)="reject()">
+                            <mat-icon>clear</mat-icon>
+                          </button>
+
+                          </div>
+
+                        </div>
+                      </div> -->
+
+            </div>
+
+
+          </div>
+          <div class="flex" style=" width: 50%; margin-left: 20%;margin-right: 20%;">
+            <div class="flex-1 text-gray-700 text-center  px-4 py-2 m-2">
+              <ws-app-btn-admin [type]="'ACCEPT'" (revivedId)="updateDletedPost($event)" [postIdReceived]="result.id">
+              </ws-app-btn-admin>
+
+            </div>
+            <!-- <div class="flex-1 text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+              <ws-app-btn-admin [type]="'REJECT'" (messageEvent)="receiveMessage($event)" [postIdReceived]="result.id">
+              </ws-app-btn-admin>
+            </div> -->
+            <div class="flex-1 text-gray-700 text-center  px-4 py-2 m-2">
+              <button mat-fab aria-label="Rejected" i18n-aria-label matTooltip="Reject" i18n-matTooltip="Reject Button"
+                (click)="reject()" style="background-color: yellowgreen;">
+                <mat-icon>screen_share</mat-icon>
+              </button>
+            </div>
+          </div>
+
+
+        </mat-card>
+
+      </mat-list-item>
+    </mat-tab>
+
+  </mat-tab-group>
+
+
+
+
+
+
+
+
+
+  <!-- pre-existing components-->
+  <h2 class="text-center margin-top-m" i18n *ngIf="timelineFetchStatus === 'none'">
+    Nothing has been posted as of yet to moderate
+  </h2>
+  <div *ngIf="timelineFetchStatus === 'fetching'" class="text-center margin-top-s">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="timelineFetchStatus === 'hasMore'" class="text-center">
+    <button (click)="fetchTimelineData()" type="button" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>&nbsp;
+      <ng-container>View More</ng-container>
+    </button>
+  </div>
+</div>

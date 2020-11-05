@@ -1,0 +1,24 @@
+.close-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  transform: translate3d(50%, -50%, 0);
+  cursor: pointer;
+  padding: 0;
+  color:white;
+
+  @media only screen and (max-width: 831px) {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.space-between{
+  justify-content: space-between;
+}
+
+.agree-text{
+  margin-left:4px
+}

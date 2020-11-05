@@ -1,0 +1,88 @@
+<h1 mat-dialog-title class="text-center">
+  <span i18n>Feedback</span>
+  <ng-container *ngIf="data?.name">
+    <ng-container i18n>&nbsp;for&nbsp;</ng-container>
+    <span>"{{ data.name | slice: 0:30 }}"</span>
+  </ng-container>
+</h1>
+
+<div mat-dialog-content class="text-center">
+  <form
+    #feedbackForm="ngForm"
+    (submit)="submitFeedback(feedbackRequest, toastSuccess.value, toastError.value)"
+  >
+    <!-- <label class="rating-container text-center">
+      <mat-form-field class="rating-form-field">
+        <input
+          class="rating-input"
+          matInput
+          required
+          type="number"
+          #rating="ngModel"
+          [(ngModel)]="feedbackRequest.rating"
+          [name]="feedbackRequest.feedbackType + '_rating'"
+          min="1"
+          [max]="5"
+          [pattern]="numbersPattern"
+        />
+        <mat-error [hidden]="rating.valid && rating.touched" i18n>
+          Rating is required
+        </mat-error>
+      </mat-form-field>
+      <button
+        type="button"
+        class="rating-button"
+        mat-icon-button
+        *ngFor="let _ of ratingLoop; let i = index"
+        (click)="feedbackRequest.rating = i + 1"
+        color="accent"
+      >
+        <mat-icon class="rating-icon">
+          {{ (feedbackRequest.rating || -1) > i ? 'star' : 'star_border' }}</mat-icon
+        >
+      </button>
+    </label> -->
+    <!-- <div class="margin-top-m"> -->
+    <mat-form-field class="field-container">
+      <textarea
+        required
+        [name]="feedbackRequest.feedbackType + '_comment'"
+        [(ngModel)]="feedbackRequest.feedback[0].answer"
+        matInput
+        i18n-placeholder
+        matTextareaAutosize
+        matAutosizeMinRows="4"
+        placeholder="Leave a comment"
+      ></textarea>
+    </mat-form-field>
+    <!-- </div> -->
+    <button
+      [disabled]="feedbackForm.form.invalid || submitInProgress"
+      class="margin-top-xl"
+      type="submit"
+      mat-raised-button
+      [color]="'primary'"
+    >
+      <ng-container *ngIf="submitInProgress" i18n>Please wait...</ng-container>
+      <ng-container *ngIf="!submitInProgress" i18n>Submit Feedback</ng-container>
+    </button>
+    <button mat-button i18n="reset feedback form" type="reset">Reset</button>
+  </form>
+</div>
+
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="feedback submit successful"
+  value="Thanks for your feedback"
+  #toastSuccess
+/>
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="unable to submit feedback"
+  value="Error submitting feedback!"
+  #toastError
+/>

@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{ data.name }}</h1>
+<div mat-dialog-content>
+  <p>{{ data.phone }}</p>
+</div>
+<div mat-dialog-actions class="flex-row-reverse">
+  <a href="tel:{{ data.phone }}" (click)="raiseTelemetry('callSME')" mat-button aria-label="Call Button"
+    i18n-aria-label="Call Button | Call button inside call dialog"
+    i18n="Call button | Click to call on the phone number">
+    Call
+  </a>
+  <button mat-icon-button (click)="copyToClipboard(toastSuccess.value)" aria-label="Copy phone number to Clipboard"
+    i18n-aria-label="Copy Phone number" i18n-matTooltip matTooltip="Copy to Clipboard">
+    <mat-icon>file_copy</mat-icon>
+  </button>
+</div>
+<input type="hidden" i18-value i18-aria-value
+  aria-value="Toast message on successfully copying phone number to clipboard" value="Copied to Clipboard"
+  #toastSuccess />

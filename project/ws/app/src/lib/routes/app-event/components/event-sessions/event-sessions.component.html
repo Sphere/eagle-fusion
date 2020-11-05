@@ -1,0 +1,28 @@
+<div class="w-90">
+  <ng-container *ngIf="liveSpeaker?.length > 0">
+    <div class="w-full">
+      <p class="text-2xl font-normal pl-2">
+        LIVE Now
+        <span> | </span>
+        <!-- <span>24 </span> -->
+        <span>{{ liveSpeaker?.length }}</span>
+      </p>
+    </div>
+    <ws-app-card-details
+      *ngIf="data && data.length"
+      [liveSpeaker]="liveSpeaker"
+      [cardType]="'liveSpeaker'"
+    >
+    </ws-app-card-details>
+  </ng-container>
+  <div class="w-full">
+    <p class="text-2xl font-normal pl-2">
+      Speakers
+      <span> | </span>
+      <!-- <span>24 </span> -->
+      <span>{{ data?.length }}</span>
+    </p>
+  </div>
+  <ws-app-card-details *ngIf="data && data.length" [speakerDetails]="data" [cardType]="'speaker'">
+  </ws-app-card-details>
+</div>

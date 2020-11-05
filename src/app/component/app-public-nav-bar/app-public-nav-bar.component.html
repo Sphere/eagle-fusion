@@ -1,0 +1,17 @@
+<mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
+  <a name="application-logo" class="padding-remove-small" routerLink="." i18n-matTooltip matTooltip="Home">
+    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" />
+    <!-- <span class="title-app mx-2" *ngIf="appName">| {{appName}}</span> -->
+  </a>
+
+  <span class="spacer"></span>
+
+  <div class="flex justify-center flex-col login-btn">
+   
+
+    <button *ngIf="isClientLogin" name="login_client_button" color="primary" mat-raised-button i18n="login: client"
+      (click)="login('S')" class="login-btn header-btn text-white ws-mat-primary-background mat-button-base">
+      <span class="mat-title">Login</span>
+    </button>
+  </div>
+</mat-toolbar>

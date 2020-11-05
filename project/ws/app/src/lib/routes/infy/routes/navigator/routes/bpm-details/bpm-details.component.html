@@ -1,0 +1,52 @@
+<mat-toolbar color="primary">
+  <a mat-icon-button routerLink="/app/infy/navigator/">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span class="margin-left-xs">BPM Navigator</span>
+</mat-toolbar>
+
+<div *ngIf="fetchStatus === 'done'">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="content-strip margin-bottom-m ">
+      <h1
+        class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l margin-bottom-remove"
+      >
+        {{ selectedBpmData.group_heading }}
+      </h1>
+      <h2 class="mat-title margin-top-xs description">
+        {{ selectedBpmData.group_description }}
+      </h2>
+    </div>
+  </div>
+
+  <div *ngIf="coursesFetch === 'done'">
+    <ng-container [wsResolverWidget]="coursesResolverData"></ng-container>
+  </div>
+
+  <div class="margin-top-xl" *ngIf="hasExternal">
+    <p class="mat-h1 margin-left-l">Learning Paths</p>
+
+    <div class="flex-container margin-left-xl margin-bottom-xl">
+      <mat-card
+        class="card"
+        *ngFor="let externalData of selectedBpmData.member_list_external"
+        (click)="changeRoute(externalData.member_linked_url)"
+        [matTooltip]="externalData.member_title"
+      >
+        <!-- <a [routerLink] = externalData.member_linked_url> -->
+        <img
+          [src]="externalData.member_image_id"
+          class="member-image"
+          [wsUtilsDefaultThumbnail]="defaultThumbnail"
+        />
+        <div class="card-information">
+          <p class="mat-title ws-mat-primary-text font-weight-500 title-text">
+            {{ externalData.member_title }}
+          </p>
+          <p class="mat-body">{{ externalData.member_description }}</p>
+        </div>
+        <!-- </a> -->
+      </mat-card>
+    </div>
+  </div>
+</div>

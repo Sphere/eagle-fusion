@@ -1,0 +1,252 @@
+<form [formGroup]="form">
+  <div formArrayName="iCarousel" *ngFor="let image of paths.controls; let i = index">
+    <mat-card class="card-design">
+      <div class="row-wise top-bar-design">
+        <h2 class="cardTitle-design"><ng-container i18n>Image</ng-container>{{ i + 1 }}</h2>
+        <button
+          type="button"
+          mat-mini-fab
+          color="warn"
+          *ngIf="paths.controls.length > 1"
+          (click)="removeButtonClick(i)"
+        >
+          <mat-icon>delete forever</mat-icon>
+        </button>
+      </div>
+      <br />
+      <mat-divider></mat-divider>
+      <br />
+      <div [formGroupName]="i">
+        <div class="column-wise">
+          <div>
+            <p i18n>Title</p>
+            <mat-form-field class="w-full" appearance="outline">
+              <input
+                matInput
+                i18n-placeholder
+                placeholder="Title"
+                formControlName="title"
+                #title
+                required
+              />
+              <mat-error *ngIf="!title.value" i18n>
+                The above field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <p i18n>Redirect URL</p>
+            <mat-form-field class="w-full" appearance="outline">
+              <input
+                matInput
+                i18n-placeholder
+                placeholder="Enter or paste URL here"
+                formControlName="redirectUrl"
+                #redirectUrl
+                required
+              />
+              <mat-error *ngIf="!redirectUrl.value" i18n>
+                The above field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <p i18n>Target</p>
+            <mat-form-field>
+              <mat-select formControlName="openInNewTab">
+                <mat-option value="_blank" i18n>Open in new tab</mat-option>
+                <mat-option value="_self" i18n>Open in same tab</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <h3 i18n>Image Size Details</h3>
+        <mat-divider></mat-divider>
+        <br />
+        <div class="div-design" formGroupName="banners">
+          <mat-label class="mat-label-design required" i18n>Less than 450px</mat-label>
+          <button
+            class="button-design"
+            type="button"
+            mat-stroked-button
+            (click)="imageFileXS.click()"
+          >
+            <ng-container
+              *ngIf="
+                !paths
+                  .at(i)
+                  .get('banners')
+                  .get('xs').value
+              "
+              i18n
+              >Choose Image</ng-container
+            >
+            <ng-container
+              *ngIf="
+                paths
+                  .at(i)
+                  .get('banners')
+                  .get('xs').value
+              "
+              i18n
+              >Change Image</ng-container
+            >
+            <input
+              type="file"
+              (change)="upload($event.target.files[0], i, 'xs'); imageFileXS.value = null"
+              class="hidden"
+              #imageFileXS
+              accept="image/*"
+            />
+          </button>
+          <mat-label class="mat-label-design required" i18n>For 450px to 768px</mat-label>
+          <button
+            class="button-design"
+            type="button"
+            mat-stroked-button
+            (click)="imageFileS.click()"
+          >
+            <ng-container
+              *ngIf="
+                !paths
+                  .at(i)
+                  .get('banners')
+                  .get('s').value
+              "
+              i18n
+              >Choose Image</ng-container
+            >
+            <ng-container
+              *ngIf="
+                paths
+                  .at(i)
+                  .get('banners')
+                  .get('s').value
+              "
+              i18n
+              >Change Image</ng-container
+            >
+            <input
+              type="file"
+              (change)="upload($event.target.files[0], i, 's'); imageFileS.value = null"
+              class="hidden"
+              #imageFileS
+              accept="image/*"
+              required
+            />
+          </button>
+          <mat-label class="mat-label-design required" i18n>For 768px to 1024px</mat-label>
+          <button
+            class="button-design"
+            type="button"
+            mat-stroked-button
+            (click)="imageFileM.click()"
+          >
+            <ng-container
+              *ngIf="
+                !paths
+                  .at(i)
+                  .get('banners')
+                  .get('m').value
+              "
+              i18n
+              >Choose Image</ng-container
+            >
+            <ng-container
+              *ngIf="
+                paths
+                  .at(i)
+                  .get('banners')
+                  .get('m').value
+              "
+              i18n
+              >Change Image</ng-container
+            >
+            <input
+              type="file"
+              (change)="upload($event.target.files[0], i, 'm'); imageFileM.value = null"
+              class="hidden"
+              #imageFileM
+              accept="image/*"
+            />
+          </button>
+          <mat-label class="mat-label-design required" i18n>For 1024 to 1400px</mat-label>
+          <button
+            class="button-design"
+            type="button"
+            mat-stroked-button
+            (click)="imageFileL.click()"
+          >
+            <ng-container
+              *ngIf="
+                !paths
+                  .at(i)
+                  .get('banners')
+                  .get('l').value
+              "
+              i18n
+              >Choose Image</ng-container
+            >
+            <ng-container
+              *ngIf="
+                paths
+                  .at(i)
+                  .get('banners')
+                  .get('l').value
+              "
+              i18n
+              >Change Image</ng-container
+            >
+            <input
+              type="file"
+              (change)="upload($event.target.files[0], i, 'l'); imageFileL.value = null"
+              class="hidden"
+              #imageFileL
+              accept="image/*"
+            />
+          </button>
+          <mat-label class="mat-label-design required" i18n>Greater than 1400px</mat-label>
+          <button
+            class="button-design"
+            type="button"
+            mat-stroked-button
+            (click)="imageFileXL.click()"
+          >
+            <ng-container
+              *ngIf="
+                !paths
+                  .at(i)
+                  .get('banners')
+                  .get('xl').value
+              "
+              i18n
+              >Choose Image</ng-container
+            >
+            <ng-container
+              *ngIf="
+                paths
+                  .at(i)
+                  .get('banners')
+                  .get('xl').value
+              "
+              i18n
+              >Change Image</ng-container
+            >
+            <input
+              type="file"
+              (change)="upload($event.target.files[0], i, 'xl'); imageFileXL.value = null"
+              class="hidden"
+              #imageFileXL
+              accept="image/*"
+            />
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</form>
+<br />
+<button type="button" color="primary" mat-raised-button (click)="addImageDetailsToForm()">
+  <mat-icon>add box</mat-icon>
+  <ng-container i18n>Add A New Banner</ng-container>
+</button>

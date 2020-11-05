@@ -1,0 +1,221 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+$medium-badge-size: 90px;
+$small-badge-size: 50px;
+$badge-padding: 12px;
+
+$content-margin-left: 60px;
+
+mat-card {
+  margin-bottom: 12px;
+}
+
+.badge-container {
+  padding: $badge-padding;
+  padding-top: 0;
+  box-sizing: border-box;
+  width: $medium-badge-size + 2 * $badge-padding;
+}
+
+.medium-badge {
+  width: $medium-badge-size;
+  height: $medium-badge-size;
+  border-radius: 50%;
+}
+
+.badge-recent {
+  // padding-right: 20px;
+  padding-left:10px;
+  @include breakpoint-lt-m {
+    margin-top: 20px;
+  }
+}
+
+.op-60 {
+  opacity: 0.6;
+}
+
+.small-badge {
+  width: $small-badge-size;
+  opacity: 0.45;
+}
+
+.can-earn {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@include breakpoint-gt-xs {
+  .can-earn {
+    width: 50%;
+  }
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 778px) {
+    flex-wrap: wrap;
+  }
+
+  @include breakpoint-lt-m {
+  }
+}
+
+.intro-mat-card {
+  margin: 20px 60px;
+  align-items: center;
+  padding: 40px;
+
+  @include breakpoint-lt-m {
+    margin: 20px 20px;
+    padding: 20px;
+  }
+
+  @include breakpoint-xs {
+    margin: 20px 20px;
+    padding: 10px;
+  }
+}
+.rotate {
+  animation: rotation 1s infinite linear;
+}
+
+.devide {
+  flex: 1;
+
+  @media only screen and (min-width: 1124px) {
+    flex-direction: column;
+  }
+
+}
+
+@keyframes rotation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.intro-text {
+  display: flex;
+  flex-wrap: wrap;
+  @media only screen and (max-width: 530px) {
+    flex-wrap: wrap;
+  }
+}
+
+.intro-text span {
+  @media only screen and (max-width: 530px) {
+    margin: $size-xs 0;
+  }
+}
+
+.text-light {
+  font-weight: 200;
+}
+
+.text-info {
+  margin-left: 6px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  font-size: 2.6em;
+
+  @media only screen and (max-width: 514px) {
+    font-size: 2.3em;
+  }
+}
+
+.card-container {
+  position: relative;
+  min-height: 100px;
+  margin: 0 $content-margin-left;
+  z-index: 1;
+
+  @include breakpoint-xs {
+    margin: 0 20px;
+  }
+}
+
+.card-holder {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.headings {
+  margin-left: $content-margin-left;
+
+  @include breakpoint-xs {
+    margin: $content-margin-left/2;
+  }
+}
+
+.margin-left {
+  margin-left: 30px;
+}
+
+.margin-left-small {
+  margin-left: $size-xs/2;
+}
+
+.text-hover {
+  margin-top: 10px;
+  margin-left: 40px;
+
+  @include breakpoint-xs {
+    font-size: 0.8em;
+  }
+}
+
+.icon-medium {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.text-info .mat-icon,
+.text-info span {
+  margin-left: 10px;
+}
+
+.card-container-not-earned {
+  position: relative;
+  min-height: 100px;
+  margin: 0 $content-margin-left - ($content-margin-left / 2);
+
+  @include breakpoint-lt-m {
+    margin: 0 ($content-margin-left/2);
+  }
+
+  @include breakpoint-xs {
+    margin: 0;
+  }
+  z-index: 1;
+}
+
+.card-holder-not-earned {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  padding-left: 20px;
+
+  @media only screen and (max-width: 520px) {
+  }
+}
+
+.mat-h2 {
+  margin: 0;
+}
+.op-80 {
+  opacity: 0.8;
+}

@@ -1,0 +1,28 @@
+<div class="dialog-container m-2">
+  <div mat-dialog-content>
+    <p i18n class="mat-title margin-xs margin-remove-bottom">Your personalized My Learning World is ready! Want to know
+      more about its features?
+    </p>
+  </div>
+  <div class="dialog-btn-items">
+    <button class="dialog-btn ws-mat-primary-background-op30" mat-button [routerLink]="'/app/info/tour'"
+      [mat-dialog-close]="true">
+      <mat-icon class="icon-tour">fast_forward</mat-icon>
+      <div class="mat-subheading-1 margin-top-m" i18n>Watch a Video</div>
+    </button>
+    <button class="dialog-btn ws-mat-primary-background-op30" mat-button (click)="startTour()"
+      [mat-dialog-close]="true">
+      <mat-icon class="icon-tour">help</mat-icon>
+      <div class="mat-subheading-1 margin-top-m" i18n>Take a walk through</div>
+    </button>
+    <button *ngIf="takeToAnotherLink" class="dialog-btn ws-mat-primary-background-op30" mat-button
+      (click)="takeToLink()" [mat-dialog-close]="true">
+      <mat-icon class="icon-tour">skip_next</mat-icon>
+      <div class="mat-subheading-1 margin-top-m" i18n>Go to the provided Link</div>
+    </button>
+  </div>
+
+  <div class="skip-btn">
+    <button mat-stroked-button (click)="dialogRef.close()" i18n>Skip to Home</button>
+  </div>
+</div>

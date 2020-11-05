@@ -1,0 +1,147 @@
+<ng-container *ngIf="isNotOfRequiredSize">
+  <mat-dialog-content>
+    <div class="flex pl-4">
+      <mat-icon class="ws-mat-warn-text largeicon padding-remove-left">warning</mat-icon>
+      <h2 class="text-xl" i18n>This image will appear stretched as it is not in proper dimension. Do you want to
+        continue?</h2>
+    </div>
+    <div class="text-sm pl-4">
+      <div i18n class="pb-2">Note:</div>
+      <div i18n class="pb-2">Required dimensions : 265 * 150</div>
+      <div class="flex flex-wrap items-baseline">
+        <div>Current dimensions:</div>
+        <div class="pl-1">{{ width }} * {{ height }} px</div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="flex flex-end">
+    <div class="flex flex-end">
+      <button mat-raised-button autofocus type="button" (click)=" close()">
+        <span i18n>No</span>
+      </button>
+      <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white"
+        (click)=" continueToImageCrop()">
+        <span class="text-white" i18n>Yes</span>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</ng-container>
+<ng-container *ngIf="isRoundCrop">
+  <!-- For Profile image - start -->
+  <div class="flex flex-between">
+    <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">crop</mat-icon>
+    <p mat-dialog-title class="text-3xl font-weight-bold ws-mat-primary-text" i18n>Profile Photo</p>
+    <mat-icon class="float-right flex-end cursor-pointer" (click)="close()" i18n>close</mat-icon>
+
+  </div>
+  <mat-dialog-content class="p-0 overflow-hidden " *ngIf="isRoundCrop">
+    <div class="flex flex-between">
+      <div class="profile-slides">
+        <image-cropper #imageCropper class="image-cropper-profile" [imageFile]="imageFile" [maintainAspectRatio]="true"
+          [aspectRatio]="250 / 250" [resizeToWidth]="100" [roundCropper]="isRoundCrop" [resizeToHeight]="120"
+          [cropperMinWidth]="500" [format]="'jpeg'" [transform]="transform" [canvasRotation]="canvasRotation"
+          (imageCropped)="imageCropped($event)">
+        </image-cropper>
+      </div>
+    </div>
+    <ul class="toolbar cf">
+      <li><button mat-raised-button class="mat-button" (click)="rotateLeft()">
+          <mat-icon class="text-white large-icon ws-mat-primary-text">rotate_left</mat-icon>
+          <span class="button-text" i18n>Rotate Left</span>
+        </button>
+      </li>
+      <li><button mat-raised-button class="mat-button" (click)="rotateRight()">
+          <mat-icon class="text-white medium-icon ws-mat-primary-text">rotate_right</mat-icon>
+          <span class="button-text" i18n>Rotate Right</span>
+        </button></li>
+      <li><button mat-raised-button class="mat-button" (click)="flipHorizontal()">
+          <mat-icon class="text-white medium-icon ws-mat-primary-text">flip</mat-icon>
+          <span class="button-text" i18n>Flip Horizontal</span>
+        </button></li>
+      <li><a href="#"><i class="icon-cloud"></i></a></li>
+    </ul>
+  </mat-dialog-content>
+</ng-container> <!-- For Profile image - end -->
+<ng-container>
+  <ng-container *ngIf="!isNotOfRequiredSize && !isRoundCrop ">
+    <div class="flex flex-between">
+      <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">crop</mat-icon>
+      <p mat-dialog-title class="text-3xl title-margin font-weight-bold ws-mat-primary-text" i18n>Edit Image</p>
+      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()" i18n>
+        close</mat-icon>
+    </div>
+    <mat-dialog-content *ngIf="!isRoundCrop">
+      <div class="flex flex-between">
+        <div class="Slides">
+          <image-cropper #imageCropper class="image-cropper padding-remove" [imageFile]="imageFile"
+            [maintainAspectRatio]="true" [aspectRatio]="opWidth / opHeight" [resizeToWidth]="opWidth"
+            [roundCropper]="isRoundCrop" [resizeToHeight]="opHeight" [cropperMinWidth]="opWidth" [format]="'jpeg'"
+            [transform]="transform" [canvasRotation]="canvasRotation" (imageCropped)="imageCropped($event)">
+          </image-cropper>
+          <div class="flex flex-between">
+            <span class="my-3" i18n>Zoom</span>
+            <mat-slider class="w-full mx-3" color="primary" (input)="zoom($event)" min="1" max="2.5" step="0.1">
+            </mat-slider>
+          </div>
+          <div class="edit-feature-window " *ngIf="!isXSmall">
+            <div class="flex flex-between">
+              <button mat-raised-button class="mat-button" (click)="rotateLeft()">
+                <mat-icon class="text-white large-icon ws-mat-primary-text">rotate_left</mat-icon>
+                <span class="button-text" i18n>Rotate Left</span>
+              </button>
+              <button mat-raised-button class="mat-button" (click)="rotateRight()">
+                <mat-icon class="text-white medium-icon ws-mat-primary-text">rotate_right</mat-icon>
+                <span class="button-text" i18n>Rotate Right</span>
+              </button>
+              <button mat-raised-button class="mat-button" (click)="flipHorizontal()">
+                <mat-icon class="text-white medium-icon ws-mat-primary-text">flip</mat-icon>
+                <span class="button-text" i18n>Flip Horizontal</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <mat-card class="ws-mat-primary-border-top-bolder mat-elevation-z6 margin-bottom-l button-text"
+          *ngIf="isThumbnail">
+          <img [src]="imageFileBase64" height="auto" width="100%" (error)="changeToDefaultImg($event)" />
+          <div class="flex flex-middle justify-center margin-bottom-s padding-top-s">
+            <mat-icon class="ws-mat-primary-text padding-right-s">image</mat-icon>
+            <b class="mat-title margin-remove ws-mat-primary-text" i18n>Preview</b>
+          </div>
+        </mat-card>
+      </div>
+      <div class="edit-feature-window heightwidth">
+        <!-- <div class="flex flex-middle margin-left-l margin-bottom-s padding-top-s">
+          <mat-icon class="ws-mat-primary-text padding-right-s">swap_horiz</mat-icon>
+          <b class="mat-body margin-remove " i18n>Cropped dimensions: {{ opWidth }} * {{ opHeight }} px</b>
+        </div> -->
+        <div class="flex flex-middle margin-left-l margin-bottom-s padding-top-s">
+          <mat-icon class="ws-mat-primary-text padding-right-s">swap_horiz</mat-icon>
+          <b class="mat-body margin-remove ">
+            <span i18n>Cropped Width: </span>
+            <span>{{ croppedWidth }}</span>
+            <span i18n>px</span>
+          </b>
+        </div>
+        <div class="flex flex-middle margin-left-l margin-bottom-s padding-top-s">
+          <mat-icon class="ws-mat-primary-text padding-right-s">swap_vert</mat-icon>
+          <b class="mat-body margin-remove ">
+            <span i18n>Cropped Height: </span>
+            <span>{{ croppedHeight }}</span>
+            <span i18n>px</span>
+          </b>
+        </div>
+      </div>
+    </mat-dialog-content>
+  </ng-container>
+  <mat-dialog-actions align="end" *ngIf="!isNotOfRequiredSize ">
+    <div class="flex flex-end margin-bottom-s">
+      <!--  <button mat-raised-button type="button" (click)=" reset()">
+        <span i18n>Reset</span>
+      </button> -->
+      <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white"
+        (click)=" croppingImage()">
+        <span class="text-white" i18n>Apply</span>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</ng-container>

@@ -1,0 +1,9 @@
+<section class="width-1-1 flex">
+  <section class="margin-right-s" *ngFor="let registeredTraining of registeredTrainings">
+    <ws-app-training-card
+      [training]="registeredTraining"
+      [trainingPrivileges]="trainingPrivileges"
+      (deregistered)="onDeregister($event)"
+    ></ws-app-training-card>
+  </section>
+</section>

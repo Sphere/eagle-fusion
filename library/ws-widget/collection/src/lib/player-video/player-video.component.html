@@ -1,0 +1,19 @@
+<video
+  #videoTag
+  *ngIf="widgetData?.isVideojs"
+  class="video-js vjs-default-skin vjs-big-play-centered"
+>
+  <source [src]="widgetData.url" type="video/mp4" />
+  <source [src]="widgetData.url" type="application/x-mpegURL" />
+</video>
+
+<video
+  [poster]="widgetData?.posterImage"
+  #realvideoTag
+  class="video-js"
+  *ngIf="!widgetData?.isVideojs"
+  controls
+>
+  <source [src]="widgetData.url" type="video/mp4" />
+  <source [src]="widgetData.url" type="application/x-mpegURL" />
+</video>

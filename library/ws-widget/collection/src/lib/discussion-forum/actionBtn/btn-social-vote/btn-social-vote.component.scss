@@ -1,0 +1,21 @@
+@import 'ws-vars';
+
+.highlight {
+  color: #f48024 !important;
+}
+
+.vote-triangle {
+  $size: 2 * $size-l;
+  font-size: $size;
+  width: $size;
+  height: $size;
+  cursor: pointer;
+}
+
+.vote-count {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

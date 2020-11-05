@@ -1,0 +1,130 @@
+<div class="flex">
+  <ng-container *ngIf="!mediumScreen">
+    <div *ngIf="!menubtn" class="p-2 pt-4 transitionD">
+      <button
+        mat-icon-button
+        (click)="drawer = !drawer; menubtn = !menubtn"
+        i18n-aria-label
+        aria-label="Maximize side panel"
+        i18n-matTooltip
+        matTooltipPosition="right"
+        matTooltip="Open side panel"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+  <div *ngIf="drawer" class="transitionD">
+    <mat-card class="flex items-center mat-card custom-card">
+      <h2 class="flex mat-h w-full justify-center pt-5" i18n>
+        TABLE OF CONTENTS
+      </h2>
+
+      <button
+        *ngIf="!mediumScreen"
+        mat-icon-button
+        (click)="drawer = !drawer; menubtn = !menubtn"
+        i18n-aria-label
+        aria-label="Open side panel"
+        i18n-matTooltip
+        matTooltipPosition="right"
+        matTooltip="Minimize side panel"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button
+        *ngIf="mediumScreen"
+        mat-icon-button
+        (click)="closeSidenav()"
+        i18n-aria-label
+        aria-label="Close side panel"
+        i18n-matTooltip
+        matTooltipPosition="right"
+        matTooltip="Close side panel"
+      >
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <hr />
+    </mat-card>
+    <mat-tree
+      [dataSource]="dataSource"
+      [treeControl]="treeControl"
+      cdkDropList
+      cdkDropListSortingDisabled
+      (cdkDropListDropped)="drop()"
+      class="px-2"
+    >
+      <mat-tree-node
+        class="auth-tree-node"
+        [class.selected]="node.id === selectedNode"
+        [class.ws-mat-warn-text]="invalidIds.includes(node.id)"
+        [matTreeNodePaddingIndent]="20"
+        *matTreeNodeDef="let node"
+        matTreeNodePadding
+        cdkDrag="node.parent?.length && node.editable"
+        [cdkDragData]="node"
+        (mousemove)="dragHover(node, $event)"
+        (mouseleave)="dragHoverEnd($event)"
+        (cdkDragStarted)="dragStart(node)"
+        (cdkDragReleased)="dragEnd()"
+        (click)="onNodeSelect(node)"
+      >
+        <div
+          *ngIf="draggingPosition === 'above' && node === dropContainer && node.parentId"
+          class="placeholder"
+        >
+          <span class="dot"></span>
+          <span class="line"></span>
+        </div>
+        <button
+          *ngIf="node.expandable"
+          mat-icon-button
+          matTreeNodeToggle
+          [attr.aria-label]="'toggle ' + node.name"
+        >
+          <mat-icon
+            class="mat-icon-rtl-mirror"
+            [class.ws-mat-warn-text]="invalidIds.includes(node.id)"
+            [class.ws-mat-primary-text]="!invalidIds.includes(node.id)"
+          >
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+          </mat-icon>
+        </button>
+        <button *ngIf="!node.expandable" mat-icon-button disabled></button>
+        <ws-auth-table-tree-label
+          [isInvalid]="invalidIds.includes(node.id)"
+          [identifier]="node.identifier"
+          [isDragging]="isDragging"
+          [id]="node.id"
+        ></ws-auth-table-tree-label>
+        <ws-auth-editor-options
+          *ngIf="node.editable"
+          [isInvalid]="invalidIds.includes(node.id)"
+          (action)="takeAction($event.action, node, $event.type)"
+          [node]="node"
+        ></ws-auth-editor-options>
+        <div *cdkDragPreview>
+          <ws-auth-table-tree-label
+            [identifier]="node.identifier"
+            [isDragging]="isDragging"
+            [icon]="
+              isDropDisabled
+                ? 'block'
+                : !isDropDisabled && draggingPosition === 'center'
+                ? 'add_circle'
+                : 'format_indent_increase'
+            "
+            [id]="node.id"
+          ></ws-auth-table-tree-label>
+        </div>
+        <div
+          *ngIf="draggingPosition === 'below' && node === dropContainer && node.parentId"
+          class="placeholder second"
+        >
+          <span class="dot"></span>
+          <span class="line"></span>
+        </div>
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<ng-container *ngIf="deleteGoalStatus !== 'fetching'; else deleteProgress">
+  <h2 class="mat-title">
+    <ng-container i18n>Are you sure you want to delete</ng-container>
+    <span class="font-weight-500"> {{ goal?.name }}</span>
+    <ng-container i18n> ?</ng-container>
+  </h2>
+  <div class="flex flex-row-reverse">
+    <button name="yes-button-goal-delete-dialog" mat-button i18n (click)="deleteGoal()">
+      Yes
+    </button>
+    <button name="no-button-goal-delete-dialog" mat-button i18n mat-dialog-close>
+      No
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #deleteProgress>
+  <div class="flex items-center">
+    <mat-spinner [diameter]="30"></mat-spinner>
+    <h3 class="mat-subheading-2 margin-left-m margin-remove-bottom" i18n>Deleting Goal</h3>
+  </div>
+</ng-template>
+
+<input #errorDelete type="hidden" i18n-value value="Error deleting goal" />
+<input #successDelete type="hidden" i18n-value value="Goal Deleted" />

@@ -1,0 +1,9 @@
+<mat-card [ngStyle]="{ 'background-color': counterEntityPlot.meta.backgroundColor }">
+  <div *ngIf="counterEntityPlot?.meta?.header" class="counter-head">
+    <mat-icon>{{ counterEntityPlot?.meta?.header?.icon }}</mat-icon>
+    <div class="header-highlight">{{ counterEntityPlot?.meta?.header?.value }}</div>
+    <div>{{ counterEntityPlot?.meta?.header?.txt }}</div>
+  </div>
+  <canvas [id]="counterEntityPlot?.meta?.chartId" width="380" height="350">Your browser does not support the canvas
+    element.</canvas>
+</mat-card>

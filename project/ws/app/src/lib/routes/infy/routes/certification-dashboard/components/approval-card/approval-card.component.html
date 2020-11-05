@@ -1,0 +1,200 @@
+<mat-card>
+  <section class="flex flex-column flex-between">
+    <section class="margin-bottom-m">
+      <div class="mat-caption text-truncate">
+        <ws-app-request-item-type [itemType]="approvalItem?.record_type"></ws-app-request-item-type>
+      </div>
+      <h2 class="mat-title margin-remove-bottom width-1-1 text-truncate">
+        {{ approvalItem?.certification_name }}
+      </h2>
+      <div class="mat-caption text-truncate">
+        <ng-container i18n>
+          Raised by
+        </ng-container>
+        <ng-container>
+          {{ approvalItem?.user?.name }}
+        </ng-container>
+      </div>
+    </section>
+
+    <section>
+      <div class="hidden sm:block" [ngSwitch]="approvalItem?.record_type">
+        <ng-container *ngSwitchCase="'proctor_approval'">
+          <div class="flex flex-between">
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>LOCATION</div>
+              <div class="mat-body text-truncate">
+                {{ approvalItem?.location }}, {{ approvalItem?.country }}
+              </div>
+            </div>
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>DATE</div>
+              <div class="mat-body text-truncate">
+                {{ approvalItem?.date | pipeDateConcat }}
+              </div>
+            </div>
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>TIME</div>
+              <div class="mat-body text-truncate">{{ approvalItem?.slot }}</div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'budget_approval'">
+          <div class="flex flex-between">
+            <div>
+              <div class="mat-body-2 text-truncate" i18n>AMOUNT</div>
+              <div class="mat-body text-truncate">
+                {{ approvalItem?.currency }} {{ approvalItem?.amount }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'result_verification'">
+          <div class="flex flex-between">
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>EXAM DATE</div>
+              <div class="mat-body text-truncate">
+                {{ approvalItem?.exam_date | pipeDateConcat }}
+              </div>
+            </div>
+            <div class="width-1-3" *ngIf="approvalItem?.resultType">
+              <div class="mat-body-2 text-truncate" i18n>RESULT TYPE</div>
+              <div class="mat-body text-truncate">
+                <ng-container [ngTemplateOutlet]="resultType"
+                  [ngTemplateOutletContext]="{ $implicit: approvalItem?.resultType }"></ng-container>
+              </div>
+            </div>
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>RESULT</div>
+              <div class="mat-body text-truncate">{{ approvalItem?.result }}</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="sm:hidden" [ngSwitch]="approvalItem?.record_type">
+        <ng-container *ngSwitchCase="'proctor_approval'">
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">location_on</mat-icon>
+            <div class="margin-left-xs mat-body">
+              {{ approvalItem?.location }}, {{ approvalItem?.country }}
+            </div>
+          </div>
+
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">calendar_today</mat-icon>
+            <div class="margin-left-xs mat-body">
+              {{ approvalItem?.date | pipeDateConcat }}, {{ approvalItem?.slot }}
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'budget_approval'">
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">money</mat-icon>
+            <div class="margin-left-xs">
+              <span class="mat-body-2" i18n>Amount: </span>
+              <span class="mat-body">
+                {{ approvalItem?.currency }} {{ approvalItem?.amount }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'result_verification'">
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">calendar_today</mat-icon>
+            <div class="margin-left-xs">
+              <span class="mat-body-2" i18n>Exam Date: </span>
+              <span class="mat-body">{{ approvalItem?.exam_date | pipeDateConcat }}</span>
+            </div>
+          </div>
+
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">assignment</mat-icon>
+            <div class="margin-left-xs">
+              <span class="mat-body-2" i18n>Result Type: </span>
+              <span class="mat-body">{{ approvalItem?.resultType }}</span>
+            </div>
+          </div>
+
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">assignment_turned_in</mat-icon>
+            <div class="margin-left-xs">
+              <span class="mat-body-2" i18n>Result: </span>
+              <span class="mat-body">{{ approvalItem?.result }}</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="mat-caption margin-bottom-m margin-top-m" [ngSwitch]="approvalItem?.record_type">
+        <ng-container *ngSwitchCase="'proctor_approval'">
+          <span i18n>
+            If accepted, you will have to proctor
+          </span>
+          {{ approvalItem?.user?.name }}
+          <span i18n>
+            during the certification exam.
+          </span>
+        </ng-container>
+        <ng-container *ngSwitchCase="'budget_approval'">
+          <span i18n>
+            If accepted,
+          </span>
+          {{ approvalItem?.user?.name }}
+          <span i18n>
+            will be reimbursed for an amount of
+          </span>
+          {{ approvalItem?.currency }} {{ approvalItem?.amount }}.
+        </ng-container>
+        <ng-container *ngSwitchCase="'result_verification'">
+          <span i18n>
+            By accepting, you acknowledge that
+          </span>
+          {{ approvalItem?.user?.name }}
+          <span i18n>
+            has provided genuine proof of the certification as well as the correct details.
+          </span>
+        </ng-container>
+      </div>
+    </section>
+
+    <section>
+      <button mat-flat-button class="margin-right-s" [color]="'primary'" i18n (click)="confirmAction('accept')"
+        [disabled]="sendStatus === 'sending'">
+        Accept
+      </button>
+      <button mat-stroked-button class="margin-right-s" [color]="'primary'" i18n (click)="confirmAction('decline')"
+        [disabled]="sendStatus === 'sending'">
+        Decline
+      </button>
+      <button mat-stroked-button [color]="'primary'" *ngIf="approvalItem?.record_type === 'result_verification'"
+        (click)="downloadProof()" [disabled]="downloadStatus === 'fetching'">
+        <ng-container *ngIf="downloadStatus !== 'fetching'" i18n>Download</ng-container>
+        <ng-container *ngIf="downloadStatus === 'fetching'">
+          <div class="flex flex-between">
+            <div i18n>Downloading...</div>
+            <div class="flex flex-column flex-center">
+              <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'"></mat-progress-spinner>
+            </div>
+          </div>
+        </ng-container>
+      </button>
+    </section>
+  </section>
+</mat-card>
+
+<!-- Templates -->
+<!-- Result type for result verification -->
+<ng-template #resultType let-type>
+  <ng-container [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'score'" i18n>Score</ng-container>
+    <ng-container *ngSwitchCase="'percentage'" i18n>Percentage</ng-container>
+    <ng-container *ngSwitchCase="'grade'" i18n>Grade</ng-container>
+    <ng-container *ngSwitchCase="'other'" i18n>Other</ng-container>
+    <ng-container *ngSwitchDefault>{{ type }}</ng-container>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,36 @@
+<mat-card class="pad container-height-adjust" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <h3 class="text-center mat-h3 font-weight-500" *ngIf="!config.champions?.length" i18n>
+    Champions will appear here
+  </h3>
+  <div class="flex flex-wrapped flex-middle" *ngIf="config.champions?.length">
+    <div *ngFor="let champion of config.champions">
+      <h3 *ngIf="champion.title">{{ champion.title }}</h3>
+      <ng-container
+        [ngTemplateOutlet]="meetChampions"
+        [ngTemplateOutletContext]="{
+          list: champion.championsList
+        }"
+      ></ng-container>
+    </div>
+  </div>
+</mat-card>
+
+<ng-template #meetChampions let-list="list">
+  <ul class="champions-list" *ngIf="list.length">
+    <li class="champions-list-item" *ngFor="let user of list">
+      <div class="width-auto">
+        <ws-widget-user-image [email]="user?.emailId"></ws-widget-user-image>
+      </div>
+      <div class="width-expand padding-left-xs">
+        <div class="mat-body-strong champions-name">
+          {{
+            { firstName: user.firstName, lastName: user.lastName, email: user.email }
+              | pipeNameTransform
+          }}
+        </div>
+        <div class="mat-caption champions-desc">{{ user.desc }}</div>
+      </div>
+    </li>
+  </ul>
+</ng-template>

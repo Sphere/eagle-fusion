@@ -1,0 +1,77 @@
+<mat-card class="container-height-adjust pad" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <form #feedbackForm="ngForm" (submit)="submitFeedback(feedbackRequest, feedbackForm)">
+    <label class="rating-container text-center">
+      <mat-form-field class="rating-form-field">
+        <input
+          class="rating-input"
+          matInput
+          required
+          type="number"
+          #rating="ngModel"
+          [(ngModel)]="feedbackRequest.rating"
+          [name]="feedbackRequest.feedbackType + '_rating'"
+          min="1"
+          [max]="5"
+          [pattern]="numbersPattern"
+        />
+        <mat-error [hidden]="rating.valid && rating.touched" i18n>
+          Rating is required
+        </mat-error>
+      </mat-form-field>
+      <button
+        type="button"
+        class="rating-button"
+        mat-icon-button
+        *ngFor="let _ of ratingLoop; let i = index"
+        (click)="feedbackRequest.rating = i + 1"
+        color="accent"
+      >
+        <mat-icon class="rating-icon">
+          {{ (feedbackRequest.rating || -1) > i ? 'star' : 'star_border' }}</mat-icon
+        >
+      </button>
+    </label>
+    <div class="margin-top-m text-center">
+      <mat-form-field class="field-container">
+        <textarea
+          rows="8"
+          [name]="feedbackRequest.feedbackType + '_suggestion'"
+          [(ngModel)]="feedbackRequest.feedback[0].answer"
+          matInput
+          i18n-placeholder
+          placeholder="Provide your suggestions"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-row-reverse margin-top-s demo">
+      <button
+        [disabled]="feedbackForm.form.invalid || submitInProgress"
+        type="submit"
+        mat-raised-button
+        color="primary"
+        i18n
+      >
+        Submit Feedback
+      </button>
+      <button mat-button i18n="reset feedback form" type="reset">Reset</button>
+    </div>
+  </form>
+</mat-card>
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="feedback submit succesful"
+  value="Thanks for your feedback"
+  #toastSuccess
+/>
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="unable to submit feedback"
+  value="Error submitting feedback!"
+  #toastError
+/>

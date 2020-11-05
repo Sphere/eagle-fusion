@@ -1,0 +1,43 @@
+<section *ngIf="sharePlaylistStatus !== 'fetching'; else sharingInProgress">
+  <h1 mat-dialog-title i18n>Playlist Goal With</h1>
+  <div mat-dialog-content>
+    <ws-widget-user-autocomplete class="block" (usersList)="updateUsers($event)"></ws-widget-user-autocomplete>
+    <mat-form-field class="text-area w-full">
+      <textarea name="share-message-input-playlist-share" class="mat-input-element" matInput #playlistShareComment
+        i18n-placeholder placeholder="Add Notes..." rows="5" #txtBody></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="flex flex-row-reverse">
+    <button type="button" name="share-button-playlist-share" mat-flat-button
+      class="text-white ws-mat-primary-background" [disabled]="!users?.length"
+      (click)="sharePlaylist(playlistShareComment.value, successMsg.value)" i18n>
+      Share
+    </button>
+  </div>
+</section>
+<ng-template #sharingInProgress>
+  <div class="flex flex-middle width-420">
+    <mat-spinner></mat-spinner>
+    <span class="mat-body ml-4">
+      <ng-container i18n>Sharing with </ng-container>
+      <span class="mat-body-strong">{{ users[0].email }}</span>
+      <ng-container *ngIf="users?.length > 1">
+        <ng-container i18n>and </ng-container>
+        {{ users?.length - 1 }}
+        <ng-container i18n> others</ng-container>
+      </ng-container>
+    </span>
+  </div>
+</ng-template>
+
+<input #successMsg type="hidden" i18n-value value="Playlist Shared" />
+<input #shareError type="hidden" i18n-value value="Error Sharing Playlist" />
+<ng-template #contentDeletedError type="hidden">
+  The following contents have been deleted:<br /><br />
+  <div *ngFor="let name of data?.deleted">
+    {{ data.deleted.indexOf(name) + 1 }}. {{ name }}<br />
+  </div>
+  <br />
+  Please delete the above contents to continue sharing the playlist
+  <ng-template> </ng-template>
+</ng-template>

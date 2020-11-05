@@ -1,0 +1,53 @@
+<h2 mat-dialog-title i18n>Provide comments</h2>
+<mat-dialog-content>
+  <form [formGroup]="commentsForm">
+    <mat-form-field appearance="fill" class="width-1-1">
+      <textarea rows="3" matInput placeholder=" For eg. This content is submitted/accepted/rejected because..."
+        name="name" formControlName="comments" required></textarea>
+      <mat-error i18n *ngIf="showError(commentsForm.controls.comments)"
+        i18n="Comments Error|Explains Comments is mandatory field">
+        Comments is mandatory
+      </mat-error>
+    </mat-form-field>
+    <div class="mat-form-field" *ngIf="contentMeta && contentMeta.status != 'Draft' && contentMeta.status != 'Live'">
+      <label>
+        <b i18n="Action Label|Label which explains user to enter action">Action</b>
+      </label>
+      <mat-radio-group color="primary" formControlName="action" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" [value]="'accept'" i18n>
+          Accept
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button" [value]="'reject'" i18n>
+          Reject
+        </mat-radio-button>
+      </mat-radio-group>
+      <div class="mat-form-field-appearance-fill" *ngIf="showError(commentsForm.controls.action)">
+        <div class="mat-form-field-subscript-wrapper mat-error" i18n>
+          Select Action
+        </div>
+      </div>
+    </div>
+    <div class="margin-top-s right-align">
+      <button cdkFocusInitial mat-dialog-close mat-raised-button i18n>Cancel</button>
+      <button class="margin-left-s" (click)="submitData()" mat-raised-button color="primary" i18n>
+        Proceed
+      </button>
+    </div>
+  </form>
+  <ws-auth-status-track *ngIf="showNewFlow" [isDialog]="false" [content]="contentMeta"></ws-auth-status-track>
+  <div *ngIf="contentMeta && contentMeta.comments && contentMeta.comments.length && !showNewFlow">
+    <b i18n="History|History of Comments" i18n>History</b>
+    <mat-card *ngFor="let comment of history" class="example-container margin-10">
+      <mat-card-header>
+        <mat-icon class="avatar" mat-card-avatar>account_circle</mat-icon>
+        <mat-card-title>{{ comment.name }}</mat-card-title>
+        <mat-card-subtitle>{{ comment.date | date }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ comment.comment }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-dialog-content>

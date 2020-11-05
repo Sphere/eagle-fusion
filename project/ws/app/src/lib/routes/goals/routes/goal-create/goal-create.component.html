@@ -1,0 +1,19 @@
+<mat-toolbar>
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span i18n="page title: create goal" class="margin-left-xs">Create Goal</span>
+</mat-toolbar>
+<main class="max-w-3xl mx-auto p-4 mt-4">
+  <nav mat-tab-nav-bar>
+    <a name="common-goals-button-goal-create" mat-tab-link routerLink="/app/goals/create/common" routerLinkActive
+      #common="routerLinkActive" [active]="common.isActive"
+      [ngClass]="{ 'ws-mat-primary-text font-weight-500': common.isActive  }" i18n>
+      COMMON GOALS
+    </a>
+    <a name="create-my-own-button-goal-create" mat-tab-link routerLink="/app/goals/create/custom" routerLinkActive
+      #custom="routerLinkActive" [active]="custom.isActive"
+      [ngClass]="{ 'ws-mat-primary-text font-weight-500': custom.isActive  }">
+      CREATE MY OWN
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</main>

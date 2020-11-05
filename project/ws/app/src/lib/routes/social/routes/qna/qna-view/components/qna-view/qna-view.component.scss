@@ -1,0 +1,86 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+$border-color: #a1a1a156;
+$icon-container-size: 60px;
+mat-spinner {
+  display: inline-block;
+}
+mat-card {
+  border-radius: 0;
+}
+.views-view-wrapper {
+  max-width: 900px;
+  margin: auto;
+  .icon-section {
+    width: 10%;
+    min-width: $icon-container-size;
+    text-align: center;
+    padding-top: $size-s;
+
+    .vote-count {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .body-section {
+    margin: 0 $size-m;
+    padding-top: $size-xs;
+  }
+  .user-details {
+    margin: $size-xs 0px 0px 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    .user-profile-image {
+      $user-size: 50px;
+      margin: 0px 10px 0px 0px;
+      width: $user-size;
+      height: $user-size;
+      font-size: $user-size;
+      display: block;
+    }
+  }
+  .comment-container {
+    margin: $size-s 0px - ($size-xs/2) 0px;
+    border-top: 1px solid $border-color;
+
+    .comment {
+      border-bottom: 1px solid $border-color;
+      padding: ($size-xs / 2) 0 ($size-xs / 2) $size-m !important;
+    }
+  }
+  .answer-title {
+    margin-top: $size-l;
+    padding: 8px 20px;
+    margin-bottom: 3px;
+    // border-bottom: 1px solid $border-color;
+  }
+
+  .editor {
+    min-height: 150px;
+    display: block;
+  }
+
+  .comment-form {
+    width: 100%;
+    margin-top: $size-m;
+    display: flex;
+    align-items: center;
+  }
+
+  .mat-standard-chip {
+    min-height: 26px !important;
+  }
+
+  .reply-component {
+    display: block;
+    margin-bottom: $size-xs;
+  }
+}

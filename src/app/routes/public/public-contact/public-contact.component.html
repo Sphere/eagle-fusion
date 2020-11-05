@@ -1,0 +1,62 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Contact Us',url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n="page title: contact" class="margin-left-xs">Contact Us</span>
+  </span> -->
+</mat-toolbar>
+
+<div class="contact-info ws-mat-primary-lite-background" *ngIf="contactPage.title || contactPage.description">
+  <h2 class="flex flex-middle flex-center mat-h2" *ngIf="contactPage.title">
+    <mat-icon>contact_support</mat-icon>
+    <span>
+      {{contactPage.title}}
+    </span>
+  </h2>
+
+  <p class="text-justify py-4" *ngIf="contactPage.description">
+    {{contactPage.description}}
+  </p>
+</div>
+
+<div class="faq-img-section flex flex-wrap flex-between items-stretch" *ngIf="contactPage.help">
+  <!-- <div class="info-section" [ngClass]="{ 'width-1-1': !contactPage.contact}">
+    <h3 class="flex flex-middle mat-h3">
+      <mat-icon>help</mat-icon>
+      <span class="padding-left-xs ws-mat-primary-text font-bold">{{contactPage.help.title}}
+      </span>
+    </h3>
+
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+        *ngFor="let helpContent of contactPage.help.contents">
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+            <p>{{helpContent.heading}}</p>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p [innerHTML]="helpContent.value | pipeSafeSanitizer: 'html'">
+
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div> -->
+
+  <div class="contact-section flex- flex-wrap" *ngIf="contactPage.contact"
+    [ngClass]="{ 'width-1-1': !contactPage.help}">
+    <h3 class="flex flex-middle mat-h3">
+      <mat-icon>contact_mail</mat-icon>
+      <span class="padding-left-xs ws-mat-primary-text font-bold">{{contactPage.contact.title}}</span>
+    </h3>
+
+    <mat-card class="mb-4" *ngFor="let helpContent of contactPage.contact.contents">
+      <mat-card-title>
+        <span>{{helpContent.heading}}</span>
+      </mat-card-title>
+      <mat-card-content>
+        <span [innerHTML]="helpContent.value | pipeSafeSanitizer: 'html'"></span>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

@@ -1,0 +1,38 @@
+@import 'ws-mixins';
+
+.small-height-toolbar{
+  @include breakpoint-xs {
+    height: 32px;
+  }
+}
+
+.tnc-bottom-navbar {
+  position: absolute;
+  right: 5%;
+  bottom: 3%;
+}
+
+.video-intro {
+  height: calc(100vh - 394px);
+    padding-top: 16px
+
+}
+
+.center-align{
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  @include breakpoint-xs {
+    transform: translate(0,0);
+    left: inherit;
+  }
+}
+
+.intro-video{
+  height: calc(100vh - 410px);
+  @include breakpoint-xs {
+    height: calc(100vh - 360px);
+
+  }
+
+}

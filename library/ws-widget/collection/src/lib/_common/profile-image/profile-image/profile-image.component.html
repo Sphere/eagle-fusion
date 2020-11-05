@@ -1,0 +1,7 @@
+<img *ngIf="!fetchingData && imageUrl" [src]="imageUrl" class="profile-image" alt="profile-image" />
+<!-- <mat-icon class="profile-icon" color="primary" *ngIf="!imageUrl">person</mat-icon> -->
+<span
+  class="name-initials-image font-normal ws-mat-primary-default-text ws-mat-primary-lite-background"
+  *ngIf="!imageUrl"
+  >{{ shortName }}</span
+>

@@ -1,0 +1,21 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <div class="flex items-baseline">
+    <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+    <span class="text-lg">{{ navBarTitle }}</span>
+  </div>
+  <div class="width-expand">
+    <nav mat-tab-nav-bar class="toc-links">
+      <a
+        mat-tab-link
+        [routerLink]="'./nextup/1/overview'"
+        routerLinkActive="ws-mat-primary-text link-active"
+        i18n
+        >Next Up Event</a
+      >
+      <a mat-tab-link [routerLink]="'./gallery'" routerLinkActive="ws-mat-primary-text link-active">
+        Gallery
+      </a>
+    </nav>
+  </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

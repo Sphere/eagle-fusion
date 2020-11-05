@@ -1,0 +1,66 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.app-icon-holder {
+  width: 150px;
+
+  .app-icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.card-content {
+  padding: 0 $size-xs;
+}
+
+.premium-content {
+  font-size: 1.1rem;
+}
+
+.image-section {
+  $width-s: 100px;
+  $width-gts: 130px;
+  position: relative;
+  width: 110px;
+  height: 9 * $width-s / 16;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 500px) {
+    width: 130px;
+    height: 9 * $width-gts / 16;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    width: auto;
+  }
+}
+
+.completed-icon {
+  color: green;
+  margin-right: $size-xs;
+}
+
+.status-danger {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  border-radius: 50%;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  background: #ce3939;
+}
+
+.greyOut {
+  filter: grayscale(1);
+  opacity: 0.4;
+  cursor: default !important;
+  pointer-events: none;
+}

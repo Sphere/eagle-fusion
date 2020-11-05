@@ -1,0 +1,24 @@
+<ng-container [ngSwitch]="status">
+  <span class="w-100 overflow-prevent font-medium px-2" [class.draft]="needStyle" *ngSwitchCase="'Draft'"
+    wsAuthShowHideToolTip [matTooltip]="'Draft'" i18n-matTooltip i18n>Draft</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.review]="needStyle" *ngSwitchCase="'InReview'"
+    wsAuthShowHideToolTip [matTooltip]="'Review'" i18n-matTooltip i18n>In Review</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.review]="needStyle" *ngSwitchCase="'QualityReview'"
+    wsAuthShowHideToolTip [matTooltip]="'Quality Review'" i18n-matTooltip i18n>Quality Review</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.live]="needStyle" *ngSwitchCase="'Live'"
+    wsAuthShowHideToolTip [matTooltip]="'Live'" i18n-matTooltip i18n>Live</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.review]="needStyle" *ngSwitchCase="'Reviewed'"
+    wsAuthShowHideToolTip [matTooltip]="'Reviewed'" i18n-matTooltip i18n>Reviewed</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.deleted]="needStyle" *ngSwitchCase="'Deleted'"
+    wsAuthShowHideToolTip [matTooltip]="'Deleted'" i18n-matTooltip i18n>Deleted</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.expired]="needStyle" *ngSwitchCase="'Unpublished'"
+    wsAuthShowHideToolTip [matTooltip]="'Unpublished'" i18n-matTooltip i18n>Unpublished</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.expired]="needStyle" *ngSwitchCase="'Expired'"
+    wsAuthShowHideToolTip [matTooltip]="'Expired'" i18n-matTooltip i18n>Expired</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.expired]="needStyle" *ngSwitchCase="'MarkedForDeletion'"
+    wsAuthShowHideToolTip [matTooltip]="'Marked For Deletion'" i18n-matTooltip i18n>Marked For Deletion</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.processing]="needStyle" *ngSwitchCase="'Processing'"
+    wsAuthShowHideToolTip [matTooltip]="'Will be live soon'" i18n-matTooltip i18n>In Transit</span>
+  <span class="w-100 overflow-prevent font-medium px-2" [class.expired]="needStyle" *ngSwitchDefault
+    wsAuthShowHideToolTip [matTooltip]="status">{{ status }}</span>
+</ng-container>

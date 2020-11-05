@@ -1,0 +1,61 @@
+<mat-toolbar class="sec-nav-bar" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: '/',titles:[{title:'Features',url:'none'}] }"></ws-widget-btn-page-back>
+  <!-- <h1 i18n>Features</h1> -->
+  <span class="spacer"></span>
+  <mat-form-field floatLabel="never" class="search-container">
+    <input name="query" matInput [formControl]="queryControl" i18n-placeholder placeholder="Find Features"
+      autocomplete="off" accesskey="f" />
+    <mat-icon *ngIf="!queryControl.value" matSuffix>find_in_page</mat-icon>
+    <button *ngIf="queryControl.value" matSuffix mat-icon-button (click)="clear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button matTooltip="Tour Guide" mat-icon-button class="tourGuideBtn ml-4" *ngIf="isXSmall && isTourGuideAvailable"
+    (click)="startTour()">
+    <mat-icon>contact_support</mat-icon>
+  </button>
+</mat-toolbar>
+
+<section class="padding-m" *ngFor="let group of featureGroups">
+  <div [ngClass]="{ pad: group?.stripBackground }" [ngStyle]="{ 'background-color': group?.stripBackground }">
+    <h2 class="feature-group-heading">
+      <span>{{ group.name }}</span>
+    </h2>
+    <div class="flex flex-wrap">
+      <ng-container [wsResolverWidget]="featureWidget" *ngFor="let featureWidget of group.featureWidgets">
+      </ng-container>
+    </div>
+  </div>
+</section>
+<section *ngIf="featureGroups !== null" [hidden]="featureGroups?.length" class="mat-card warn-card">
+  <mat-icon class="warn-icon" color="warn">warning</mat-icon>
+  <span i18n>No features matches your query</span>
+</section>
+
+<div class="my-4 mx-6 flex flex-wrapped">
+  <!-- <div class="flex items-center mr-4">
+    <mat-icon class="mr-2" color="primary">
+      brightness_1
+    </mat-icon>
+    <span>Early Access</span>
+  </div>
+  <div class="flex items-center mr-4">
+    <mat-icon class="mr-2" color="accent">
+      brightness_1
+    </mat-icon>
+    <span>Beta</span>
+  </div>
+  <div class="flex items-center">
+    <mat-icon class="mr-2" color="warn">
+      brightness_1
+    </mat-icon>
+    <span>Alpha</span>
+  </div> -->
+  <span class="spacer"></span>
+  <!-- <div class="logout">
+    <button (click)="logout()" color="warn" mat-button>
+      <mat-icon>power_settings_new</mat-icon>&nbsp;
+      <span i18n>Logout</span>
+    </button>
+  </div> -->
+</div>

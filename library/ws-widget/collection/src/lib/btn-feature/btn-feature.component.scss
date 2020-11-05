@@ -1,0 +1,113 @@
+@import 'ws-mixins';
+
+.feature {
+  position: relative;
+  display: block;
+  padding: 8px;
+
+  @include breakpoint-gt-xs {
+    padding: 16px;
+  }
+}
+
+.fixtopMargin {
+  margin-top: 13px;
+}
+
+.title {
+  font-size: 12px !important;
+  line-height: 26px !important;
+  font-weight: 300 !important;
+}
+
+.feature-status-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  $icon-size: 14px;
+  font-size: $icon-size;
+  height: $icon-size;
+  width: $icon-size;
+}
+
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  font-size: 36px;
+  margin-right: 16px;
+
+  @include breakpoint-gt-xs {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+}
+
+.badge-notify {
+  .mat-badge-content {
+    right: -6px !important;
+    padding: 1px;
+  }
+}
+
+.feature-icon-img {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+}
+
+.card-small {
+  text-align: center;
+}
+
+.warn-card {
+  padding: 1em;
+  margin: 1em;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.warn-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin: 16px;
+}
+
+.card-full {
+  width: 220px;
+  text-align: center;
+  height: 100%;
+  box-sizing: border-box;
+
+  .pin {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+}
+
+.feature-pin {
+  position: absolute;
+  left: 4px;
+  top: -3px;
+  cursor: pointer;
+}
+
+.mat-badge-content {
+  text-overflow: clip !important;
+  width: auto !important;
+  min-width: 16px !important;
+}
+
+.greyOut {
+  filter: grayscale(1);
+  opacity: 0.7;
+  cursor: auto !important;
+  pointer-events: none;
+}
+
+.external-link-button {
+  color: inherit !important;
+}

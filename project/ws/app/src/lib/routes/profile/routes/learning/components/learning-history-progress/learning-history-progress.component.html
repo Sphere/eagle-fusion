@@ -1,0 +1,40 @@
+<div class="progress">
+  <div class="progress-container">
+    <!-- The round progress bar -->
+    <ws-app-progress-radial [contentId]="item.identifier" [mode]="loadingChildren ? 'indeterminate' : 'determinate'"
+      [progress]="item.progress" [isClient]="false"></ws-app-progress-radial>
+
+    <div class="progress-content">
+      <div>
+        <a class="progress-name" routerLink="/app/toc/{{ item.identifier }}">{{ item.name }}</a>
+      </div>
+      <div class="progress-content-type mat-caption">
+        <ws-widget-display-content-type *ngIf="!isParent" [displayContentType]="item.displayContentType">
+        </ws-widget-display-content-type>
+      </div>
+      <div class="progress-date mat-caption">
+        <span *ngIf="item.last_ts" i18n="last studied">Last studied on </span>{{ item.last_ts | date: 'd MMM, y' }}
+      </div>
+      <div class="progress-progress-container">
+        <div class="mat-caption">
+          {{ item.timeLeft | pipeDurationTransform: 'hour' }}
+          <span i18n="time left | eg., 18h to go!" *ngIf="item.timeLeft">to go!</span>
+        </div>
+      </div>
+    </div>
+    <div class="progress-expand">
+      <button mat-button class="mat-icon-button progress-expand-button" *ngIf="item.children.length"
+        (click)="toggleChildren()" [disabled]="loadingChildren">
+        <mat-icon *ngIf="!displayChildren">expand_more</mat-icon>
+        <mat-icon *ngIf="displayChildren">expand_less</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="progress-children" *ngIf="displayChildren">
+    <div class="progress-children-container">
+      <ws-app-learning-history-progress *ngFor="let child of children" [item]="child">
+      </ws-app-learning-history-progress>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<button mat-icon-button *ngIf="downloadable" i18n-aria-label aria-label="Download Content" matTooltip="Download" i18n-matTooltip
+  (click)="download($event)" [disabled]="widgetData?.status==='Deleted'">
+  <mat-icon>save_alt</mat-icon>
+</button>

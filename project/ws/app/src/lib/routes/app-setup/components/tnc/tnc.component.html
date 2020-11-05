@@ -1,0 +1,19 @@
+<!-- <ng-container *ngIf="errorFetchingTnc" [wsResolverWidget]="errorWidget"></ng-container> -->
+<mat-toolbar id="khubHome-id-12" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles"
+  class="position-relative small-height-toolbar">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="margin-left-xs center-align" i18n>Terms & Conditions</span>
+</mat-toolbar>
+<ws-app-tnc-renderer *ngIf="tncData" (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">
+</ws-app-tnc-renderer>
+
+<div class="flex flex-middle flex-between buttons-class flex-wrapped" *ngIf="!isPublic && tncData">
+  <mat-checkbox class="width-full-wrapped" [checked]="tncData.isAccepted" (change)="acceptTnc()"
+    [disabled]="tncData.isAccepted" [color]="'primary'" i18n class="ml-3">
+    <span class="font-size-small">I agree to the terms & conditions</span>
+
+  </mat-checkbox>
+  <a [disabled]="!tncData?.isAccepted" class="margin-right-xs width-full-wrapped" type="button" color="primary"
+    mat-flat-button routerLink="/app/setup/home/about-video" i18n>Next
+  </a>
+</div>

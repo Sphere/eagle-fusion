@@ -1,0 +1,100 @@
+<form [formGroup]="quizForm" *ngIf="contentLoaded">
+  <!-- <div class="header1">
+    <mat-card class="absolute padding top-0 customheader border-b-4 items-center flex flex-row">
+      <div class="item1 item-spacing">
+        <mat-card-title>
+          <p class="text-center ws-mat-primary-text titlePadding" i18n>Answer</p>
+        </mat-card-title>
+      </div>
+      <div class="absolute right-0 top-0 p-3 sm:pr-6 xl:pr-8 content-center pt-4">
+        <button
+          class="small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
+          (click)="addOption()"
+          type="button"
+          mat-icon-button
+          i18n-matTooltip
+          matTooltipPosition="below"
+          matTooltip="Add option"
+          i18n-aria-label
+          aria-label="Add option"
+        >
+          <mat-icon class="text-white small-icon">add</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  </div> -->
+  <div class="flex addpadding items-center margin-top-l margin-bottom-m">
+    <p class="mat-h3 font-weight-bold margin-remove" i18n>Add Options</p>
+    <button class="mat-elevation-z5 small-button padding-remove ws-mat-primary-background margin-left-s" (click)="addOption()"
+      type="button" mat-icon-button i18n-matTooltip matTooltipPosition="below" matTooltip="Add option" i18n-aria-label aria-label="add option">
+      <mat-icon class="text-white small-icon">add</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="!isSmallScreen" class="optionlist" cdkDropList (cdkDropListDropped)="drop($event)">
+    <mat-card *ngFor="let option of selectedQuiz.options; let i = index" class="w-full custom" cdkDrag formArrayName="options"
+      cdkDragBoundary=" .optionlist">
+      <div class="custom-placeholder" *cdkDragPlaceholder></div>
+      <div class="flex justify-between w-full" [formGroupName]="i">
+        <div class="flex romanN text-center items-center pl-4">{{ i + 1 | romanconvert }}.</div>
+        <div class="cursor-auto item1 item-spacing">
+          <mat-form-field class="myfield w-full" appearance="outline" appearance="outline">
+            <input matInput formControlName="text" i18n-aria-label aria-label="enter answer" />
+          </mat-form-field>
+        </div>
+        <div class="flex hint-button justify-center item-spacing" *ngIf="showHint">
+          <button class="inline-flex py-2 px-4 items-center" (click)="openCkEditor(i)" mat-button i18n-aria-label aria-label="edit hint"
+            type="button">
+            <mat-icon class="fill-current w-4 h-4 mr-2">info</mat-icon>
+            <span class="padding-1" i18n>Hint</span>
+          </button>
+        </div>
+        <div class="flex justify-center items-center width-4 item-spacing">
+          <button mat-icon-button (click)="removeOption(i)" i18n-aria-label aria-label="delete this option" i18n-matTooltip matTooltipPosition="below"
+            matTooltip="Delete this option" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div *ngIf="isSmallScreen">
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <mat-card *ngFor="let option of selectedQuiz.options; let i = index" class="custom" cdkDrag formArrayName="options" cdkDragBoundary=" .optionlist">
+        <div class="custom-placeholder" *cdkDragPlaceholder></div>
+        <div class="w-full" [formGroupName]="i">
+          <div class="flex-col">
+            <div class="flex justify-between">
+              <div class="flex romanN text-center items-center pl-4">
+                {{ i + 1 | romanconvert }}.
+              </div>
+              <div class="flex-e items-center pr-1">
+                <button mat-icon-button (click)="removeOption(i)" [disabled]="selectedQuiz.options.length === fillUpsOptions.minOptions"
+                  i18n-aria-label aria-label="delete this option" [ngClass]="{
+                    'cursor-not-allowed': selectedQuiz.options.length === fillUpsOptions.minOptions
+                  }" i18n-matTooltip matTooltipPosition="below" matTooltip="Delete this option" type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="flex-col w-full">
+              <div class="cursor-auto item-spacing">
+                <mat-form-field class="myfield w-full" appearance="outline" appearance="outline">
+                  <input matInput formControlName="text" i18n-aria-label aria-label="enter answer" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="flex justify-start forHeight" *ngIf="showHint">
+              <div class="flex hint-button justify-center item-spacing">
+                <button class="inline-flex py-2 px-4 items-center hint remove-padding" (click)="openCkEditor(i)" mat-icon-button i18n-aria-label
+                  aria-label="edit hint" type="button">
+                  <mat-icon class="fill-current w-4 h-4 mr-2">info</mat-icon>
+                  <span class="padding-1" i18n>Hint</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</form>

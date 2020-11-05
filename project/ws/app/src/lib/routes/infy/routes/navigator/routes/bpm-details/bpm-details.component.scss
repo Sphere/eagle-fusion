@@ -1,0 +1,35 @@
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.card {
+  width: 265px;
+  height: 372.8px;
+  padding: 0 !important;
+  margin: 12px 16px;
+
+  cursor: pointer;
+  // &:first-child {
+  //   margin-left: 0px !important;
+  // }
+}
+
+.member-image {
+  width: 265px;
+  height: 150px;
+}
+
+
+.card-information {
+  padding: 0 16px;
+}
+
+.title-text {
+  margin: 12px 0;
+  position: relative;
+  overflow: hidden;
+  height: 2.6em;
+  line-height: 1.3em;
+}

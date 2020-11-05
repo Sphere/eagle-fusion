@@ -1,0 +1,22 @@
+{
+  "name": "fusion-dist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "serve": "node server.js",
+    "serve:prod": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-timeout": "^1.9.0",
+    "express": "^4.16.4",
+    "express-static-gzip": "2.0.3",
+    "helmet": "^3.15.0",
+    "http-proxy": "^1.17.0",
+    "morgan": "^1.9.1"
+  }
+}

@@ -1,0 +1,17 @@
+<section class="pb-8 h-full container-balanced mx-auto px-4">
+  <ng-container *ngIf="showTabNavBar()">
+    <mat-tab-group
+      mat-align-tabs="center"
+      [selectedIndex]="currentTabIndex"
+      (selectedIndexChange)="navigateToTab($event)"
+    >
+      <mat-tab label="User" *ngIf="showTab(feedbackRoles.User)" i18n-label></mat-tab>
+      <mat-tab label="Author" *ngIf="showTab(feedbackRoles.Author)" i18n-label></mat-tab>
+      <mat-tab label="Platform" *ngIf="showTab(feedbackRoles.Platform)" i18n-label></mat-tab>
+      <mat-tab label="Content Requests" *ngIf="showTab(feedbackRoles.Content)" i18n-label></mat-tab>
+      <mat-tab label="Service Requests" *ngIf="showTab(feedbackRoles.Service)" i18n-label></mat-tab>
+    </mat-tab-group>
+  </ng-container>
+
+  <router-outlet></router-outlet>
+</section>

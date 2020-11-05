@@ -1,0 +1,37 @@
+<ng-container *ngIf="fetchStatus === 'done'">
+  <mat-toolbar class="ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
+    <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+    <span class="margin-left-s">{{lpData.lp_name}}</span>
+  </mat-toolbar>
+
+
+
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="content-strip margin-bottom-m ">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l margin-bottom-remove">
+        {{lpData.lp_name}}
+      </h1>
+      <h2 class="mat-title margin-top-xs description">
+        {{lpData.lp_description}}
+      </h2>
+    </div>
+  </div>
+
+  <div *ngIf="fetchStatus === 'done'">
+    <ng-container *ngIf="hasCourses" [wsResolverWidget]="coursesResolverData"></ng-container>
+    <div *ngIf="!hasCourses" class="margin-top-xl margin-bottom-xl">
+      <p class="mat-h2 text-center font-weight-500">Courses are Coming Soon..</p>
+    </div>
+  </div>
+
+  <div *ngIf="fetchStatus === 'done'" class="margin-top-s">
+    <div *ngIf="hasCertifications">
+      <ng-container [wsResolverWidget]="certificationsResolverData"></ng-container>
+      <ng-container [wsResolverWidget]="alternateCertificationsResolverData"></ng-container>
+    </div>
+    <div *ngIf="!hasCertifications" class="margin-top-l margin-bottom-l">
+      <p class="mat-h2 text-center font-weight-500">Certifications are Coming Soon..</p>
+    </div>
+  </div>
+
+</ng-container>

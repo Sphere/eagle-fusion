@@ -1,0 +1,36 @@
+@import 'ws-common';
+@import 'ws-vars';
+.topic-tagger-wrapper {
+  width: 91%;
+  min-width: 255px;
+  padding: 5px;
+  @include breakpoint-xs {
+    width: 94%;
+    margin: 3%;
+  }
+  @include breakpoint-s {
+    width: 90%;
+    margin: 3%;
+  }
+  .topic-card-header {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin: 0 -18px;
+  }
+  .topic-card-body {
+    width: 90%;
+    margin: 1% 5% 1% 5%;
+  }
+  .mat-standard-chip.mat-chip-with-trailing-icon {
+    padding-left: 0px;
+  }
+  .example-form {
+    min-width: 150px;
+    max-width: 80%;
+    width: 100%;
+  }
+
+  .example-full-width {
+    width: 100%;
+  }
+}

@@ -1,0 +1,40 @@
+.cursor-disable {
+  cursor: not-allowed;
+}
+
+.example-card {
+  width: 250px;
+  height: 300px;
+}
+
+.padding {
+  padding: 20px;
+  cursor: pointer;
+}
+
+no-margin {
+  margin: 0px !important;
+}
+
+mat-card {
+  background-size: cover !important;
+}
+
+
+.img1 {
+  background-image: url('/assets/authoring/sample-templates/images/template-1.png') !important;
+}
+
+.img2 {
+  background-image: url('/assets/authoring/sample-templates/images/template-2.png') !important;
+}
+
+.commonImg {
+  width: 265px;
+  height: 150px;
+}
+
+.flex:nth-child(3n) {
+  page-break-after: always;
+  break-after: always;
+}

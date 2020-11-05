@@ -1,0 +1,12 @@
+<div *ngIf="showData === 'loader'" class="text-center my-2">
+  <mat-spinner class="inline-block"></mat-spinner>
+</div>
+<ws-auth-renderer *ngIf="widgetMap.error && showData === 'error'" [id]="widgetMap.error"
+  [isSubmitPressed]="isSubmitPressed"></ws-auth-renderer>
+<ws-auth-renderer *ngIf="widgetMap.noData && showData === 'noData'" [id]="widgetMap.noData"
+  [isSubmitPressed]="isSubmitPressed">
+</ws-auth-renderer>
+<ng-container *ngIf="showData === 'data'">
+  <ws-auth-renderer *ngFor="let key of widgetMap.widgets" [id]="key" [isSubmitPressed]="isSubmitPressed">
+  </ws-auth-renderer>
+</ng-container>

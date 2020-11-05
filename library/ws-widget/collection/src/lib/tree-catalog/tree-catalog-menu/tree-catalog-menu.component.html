@@ -1,0 +1,43 @@
+<mat-menu #childMenu="matMenu" name="exploreListContainerHomePage" [overlapTrigger]="false">
+  <ng-template matMenuContent>
+    <h3 class="mat-subheading-2 margin-left-m margin-right-m margin-remove-bottom" *ngIf="fetchStatus === 'error'" i18n>
+      Error Fetching Data
+    </h3>
+    <div class="flex flex-center margin-m" *ngIf="fetchStatus === 'fetching'">
+      <mat-spinner *ngIf="fetchStatus === 'fetching'"></mat-spinner>
+      <h2 *ngIf="fetchStatus === 'error'" class="mat-title margin-remove-bottom">
+        Error Fetching Data
+      </h2>
+    </div>
+
+    <div class="m-4" *ngIf="fetchStatus === 'done' && !catalogItems?.length">
+      <h3 class="mat-subheading-2" i18n>No categories to explore.</h3>
+      <h3 class="mat-subheading-2" i18n>You can find content using search</h3>
+      <div class="flex flex-row-reverse">
+        <a routerLink="/app/search/learning" mat-button color="primary" i18n> SEARCH</a>
+      </div>
+    </div>
+    <ng-container *ngIf="catalogItems?.length">
+      <ng-container *ngFor="let child of catalogItems">
+        <!-- Handle branch node menu items -->
+        <ng-container *ngIf="child.children && child.children.length">
+          <a (click)="rootTrigger?.closeMenu()" [routerLink]="child.type | treeCatalogRoute" mat-menu-item
+            [matMenuTriggerFor]="menu.childMenu">
+            {{ child.displayName }}
+          </a>
+          <ws-widget-tree-catalog-menu #menu [catalogItems]="child.children"></ws-widget-tree-catalog-menu>
+        </ng-container>
+        <!-- Handle leaf node menu items -->
+        <ng-container *ngIf="!child.children || !child.children.length">
+          <a [routerLink]="child.type | treeCatalogRoute" mat-menu-item>
+            {{ child?.displayName }}
+          </a>
+        </ng-container>
+      </ng-container>
+      <a mat-menu-item routerLink="/page/explore" *ngIf="isRoot && catalogItems?.length > 5 && fetchStatus === 'done'">
+        <mat-icon>expand_more</mat-icon>
+        <span i18n>Explore all</span>
+      </a>
+    </ng-container>
+  </ng-template>
+</mat-menu>

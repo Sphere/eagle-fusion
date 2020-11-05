@@ -1,0 +1,65 @@
+<h2>Assign Users To Org</h2>
+<div class="sm:w-1/2">
+    <ws-widget-user-autocomplete (usersList)="getUserList($event)"></ws-widget-user-autocomplete>
+</div>
+
+<div class="flex flex-wrap" *ngIf="userList.length">
+    <div class="sm:w-1/2" *ngFor="let user of userList | slice:0:1">
+        <mat-card class="m-4 cursor-pointer">
+            <mat-card-title>{{user.first_name}} {{user.last_name}}</mat-card-title>
+            <p>
+                <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+            </p>
+            <div [hidden]="!fetching" class="pr-4 flex items-center justify-center">
+                <mat-spinner [diameter]="30"></mat-spinner>
+            </div>
+            <form [formGroup]="accessPathForm" [hidden]="fetching || noUserAccessPaths">
+
+                <mat-form-field appearance="outline" class="margin-top-xs w-full">
+                    <mat-label>Access Path</mat-label>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let path of selectedChips" [selectable]="true" [removable]="true"
+                            (removed)="removeFromFormControl(path, 'accessPaths')">
+                            {{ path }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <input i18n-placeholder placeholder="Access Paths" #accessPathsView
+                            [formControl]="accessPathsCtrl" [matChipInputFor]="chipList"
+                            [matAutocomplete]="accessPathAuto" [matChipInputAddOnBlur]="true"
+                            (matChipInputTokenEnd)="removeField($event)" matInput />
+                    </mat-chip-list>
+                    <!-- <div>
+                        <input i18n-placeholder placeholder="Access Paths" name="accessPathsCtrl"  #accessPathsView
+                        [formControl]="accessPathsCtrl" [matAutocomplete]="accessPathAuto" />
+                    </div> -->
+                    <mat-autocomplete #accessPathAuto="matAutocomplete"
+                        (optionSelected)="addToFormControl($event, 'accessPaths')">
+                        <mat-option *ngFor="let path of accessPathList" [value]="path">
+                            {{ path }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error class="error-font" i18n>Access Path is mandatory
+                    </mat-error>
+                </mat-form-field>
+                <div class="mt-4 flex justify-end">
+                    <!-- <div class="center flex items-center"> -->
+                    <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
+                        <mat-spinner [diameter]="30"></mat-spinner>
+                    </div>
+                    <button mat-raised-button color="primary" type="submit" i18n
+                        [disabled]="uploadSaveData || !accessPathForm?.valid" (click)="onSubmit(accessPathForm)">
+                        <ng-container i18n>Save</ng-container>
+                    </button>
+                </div>
+            </form>
+            <div *ngIf="noUserAccessPaths && !fetching">
+                <p>Access paths for user not found</p>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+<input type="hidden" i18-value i18-aria-value aria-value="Assign access path to user successful..!"
+    value="Assign access path to user successful..!" #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="Unable to assign access path to user..!"
+    value="Unable to assign access path to user..!" #toastError />

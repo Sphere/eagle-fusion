@@ -1,0 +1,42 @@
+<section class="w-full h-full box">
+  <ng-container [ngSwitch]="defaultVal">
+    <ng-template [ngSwitchCase]="'set1'">
+      <div *ngIf="currentWidget">
+        <ws-auth-renderer [id]="currentWidget" [isSubmitPressed]="isSubmitPressed"></ws-auth-renderer>
+      </div>
+      <div class="mt-3">
+        <ws-utils-horizontal-scroller *ngIf="widgetDatas.length" [loadStatus]="'done'">
+          <div class="card-container" *ngFor="let data of widgetDatas" (click)="changeWidget(data.id)">
+            <mat-icon *ngIf="data.id === currentWidget" color="warn" class="icon-position">fiber_manual_record
+            </mat-icon>
+            <img class="object-cover" [src]="data.thumbnail" alt="thumbnail" />
+            <div class="description p-3 flex flex-col flex-wrap">
+              <div class="truncate text-base pb-1 max-w-full">{{ data.title }}</div>
+              <div class="truncate leading-loose text-lg max-w-full">
+                {{ data.description }}
+              </div>
+            </div>
+          </div>
+        </ws-utils-horizontal-scroller>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="'set2'">
+      <div class="banner-container" (swipeleft)="slideTo(currentIndex + 1)" (swiperight)="slideTo(currentIndex - 1)"
+        *ngIf="widget?.children?.length">
+        <div class="banner" *ngFor="let slide of widget.children; let i = index" [hidden]="i !== currentIndex">
+          <ws-auth-renderer [id]="slide" [isSubmitPressed]="isSubmitPressed"></ws-auth-renderer>
+        </div>
+        <div class="banner-meta">
+          <div class="dots-container" *ngIf="widget?.children?.length > 1">
+            <span class="dot" [ngClass]="{ active: j === currentIndex }"
+              *ngFor="let slide of widget.children; let j = index" (click)="slideTo(j)"></span>
+          </div>
+        </div>
+        <a *ngIf="widget?.children?.length > 1" role="button" class="prev"
+          (click)="slideTo(currentIndex - 1)">&#10094;</a>
+        <a *ngIf="widget?.children?.length > 1" role="button" class="next"
+          (click)="slideTo(currentIndex + 1)">&#10095;</a>
+      </div>
+    </ng-template>
+  </ng-container>
+</section>

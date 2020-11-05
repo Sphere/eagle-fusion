@@ -1,0 +1,117 @@
+<div class="m-4">
+  <div class="flex flex-wrap">
+    <div class="flex flex-between">
+      <span class="font-weight-bold mat-subheading-1  cursor-pointer" routerLink="/admin/tenant/system-roles-management"
+        i18n>
+        System Roles
+      </span>
+      <mat-icon class="mx-2">play_arrow</mat-icon>
+      <span class="font-weight-bold mat-subheading-1">
+        {{role}}
+      </span>
+    </div>
+  </div>
+  <div class="mb-1 padding-m rounded-lg ws-mat-primary-lite-background-on-day">
+    <h1 class="font-normal text-2xl leading-10 text-bold title pt-3">{{role}} <mat-icon
+        class="align-text-bottom cursor-pointer" (click)="showInstruction = !showInstruction">info
+      </mat-icon>
+    </h1>
+    <p class="italic" *ngIf="showInstruction" i18n>
+      Search for users to check if they have this role. Once users are found, you can add or remove them from this role.
+    </p>
+    <p>{{rolesHash[role]}}</p>
+  </div>
+  <ws-widget-user-autocomplete (addedUser)="addUser($event)" (removedUser)="removeUser($event)">
+  </ws-widget-user-autocomplete>
+  <mat-card>
+    <mat-tab-group #tabGroup [(selectedIndex)]="currentTabIndex" dynamicHeight (selectedTabChange)="tabChange()">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span i18n class="mat-body-2 font-weight-bold" i18n>Add Role</span>
+        </ng-template>
+        <!-- No user Message -->
+        <h2 *ngIf="!addTable.length && !isAdding" class="text-center nouser" i18n>No User Selected</h2>
+        <!-- Table -->
+        <div *ngIf="addTable.length && !isFetching">
+          <ng-container *ngTemplateOutlet="userTable"></ng-container>
+        </div>
+        <!-- Spinner -->
+        <div *ngIf="isAdding" class="smallSpinner">
+          <mat-progress-spinner mode="indeterminate" diameter="50">
+          </mat-progress-spinner>
+        </div>
+        <!-- button -->
+        <button *ngIf="addTable.length && !isFetching" class="btn" [disabled]="!addUserId.length" mat-raised-button
+          color="primary" type="button" (click)="openDialog('add')">
+          <span i18n>Add</span>
+        </button>
+        <!-- Fetching Spinner -->
+        <div *ngIf="isFetching" class="spinner">
+          <mat-progress-spinner mode="indeterminate" diameter="100">
+          </mat-progress-spinner>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span i18n class="mat-body-2 font-weight-bold" i18n>Remove Role</span>
+        </ng-template>
+        <!-- No user Message -->
+        <h2 *ngIf="!removeTable.length && !isAdding" class="text-center nouser" i18n>
+          No User with selected role</h2>
+        <!-- Table -->
+        <div *ngIf="removeTable.length && !isFetching">
+          <ng-container *ngTemplateOutlet="userTable"></ng-container>
+        </div>
+        <!-- Spinner -->
+        <div *ngIf="isAdding" class="smallSpinner">
+          <mat-progress-spinner mode="indeterminate" diameter="50">
+          </mat-progress-spinner>
+        </div>
+        <!-- button -->
+        <button *ngIf="removeTable.length && !isFetching" class="btn" [disabled]="!removeUserId.length"
+          mat-raised-button color="primary" type="button" (click)="openDialog('remove')">
+          <span i18n>Remove</span>
+        </button>
+        <!-- Fetching Spinner -->
+        <div *ngIf="isFetching" class="spinner">
+          <mat-progress-spinner mode="indeterminate" diameter="100">
+          </mat-progress-spinner>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <ng-template #userTable>
+      <table class="w-full" mat-table [dataSource]="currentTabIndex ===0?addSource:removeSource">
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef i18n> First Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="depName">
+          <th mat-header-cell *matHeaderCellDef i18n> Department Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.department_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef i18n> Email ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef i18n> Last Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="checkbox">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox *ngIf="element.hasRole && currentTabIndex === 0" [checked]="true" disabled>
+            </mat-checkbox>
+            <mat-checkbox *ngIf="!element.hasRole && currentTabIndex === 0" value="add"
+              (change)="selectedUser($event,element.wid)">
+            </mat-checkbox>
+            <mat-checkbox *ngIf="currentTabIndex === 1" value="remove" (change)="selectedUser($event,element.wid)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </ng-template>
+  </mat-card>
+</div>

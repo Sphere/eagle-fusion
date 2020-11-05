@@ -1,0 +1,14 @@
+<ng-container *ngIf="data?.user && !isFetchingUserRoles && !isFetchingAllRoles; else loader">
+  <h3>{{data.user.first_name}} {{data.user.last_name}}</h3>
+  <p>{{data.user.email}}</p>
+  <mat-selection-list>
+    <mat-list-option *ngFor="let role of allRoles" (click)="modifyUserRoles(role)" [selected]="userRoles.has(role)">
+      {{role}}
+    </mat-list-option>
+  </mat-selection-list>
+  <button class="float-right" i18n mat-raised-button [color]="'primary'">
+    Save
+  </button>
+</ng-container>
+
+<ng-template #loader>Loading</ng-template>

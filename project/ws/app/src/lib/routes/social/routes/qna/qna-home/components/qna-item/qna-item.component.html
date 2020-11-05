@@ -1,0 +1,63 @@
+<ng-container *ngIf="item?.status !== ePostStatus.INACTIVE">
+  <div class="item-container">
+    <a [routerLink]="['./', item.id]" *ngIf="item.status !== 'Draft'" class="count-section">
+      <span class="count-holder vote-padding-left-remove">
+        <div class="count">
+          {{ item.activity.activityData.upVote - item.activity.activityData.downVote }}
+        </div>
+        <div class="mat-caption">votes</div>
+      </span>
+      <span class="count-holder" [ngClass]="{
+          'accepted-answer': item.acceptedAnswers,
+          answer: !item.acceptedAnswers && item.replyCount
+        }">
+        <div class="count">{{ item.replyCount }}</div>
+        <div class="mat-caption">answers</div>
+      </span>
+      <span class="count-holder" *ngIf="showSocialLike">
+        <div class="count">{{ item.activity.activityData.like }}</div>
+        <div class="mat-caption">likes</div>
+      </span>
+    </a>
+    <div class="question-section">
+      <div class="question-title">
+        <a [routerLink]="['./', item.id]">
+          <h2 *ngIf="item.postContent.title" class="ws-mat-primary-text question-text">
+            {{ item.postContent.title }}
+          </h2>
+          <h2 *ngIf="!item.postContent.title" class="ws-mat-primary-text question-text">
+            {{ item.postContent.abstract }}
+          </h2>
+          <h2 *ngIf="!item.postContent.title && !item.postContent.abstract" class="ws-mat-primary-text question-text" [innerHTML]="item.postContent.body | pipeLimitTo: 120">
+          </h2>
+        </a>
+        <mat-icon *ngIf="userId === item.postCreator.postCreatorId" class="cursor-pointer" role="button" [matMenuTriggerFor]="editMenu">more_vertical</mat-icon>
+      </div>
+      <div class="meta-details">
+        <div class="width-auto margin-right-xs">
+          <mat-chip-list>
+            <mat-chip *ngFor="let tag of item.tags" i18n-matTooltip matTooltip="Tag">{{ tag.name }}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="creation">
+          <span class="mat-caption" i18n>asked</span>&nbsp;
+          <span class="mat-caption">{{ item.dtCreated | date }}</span>&nbsp;
+          <span class="ws-mat-primary-text">
+            {{ item.postCreator.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="margin-top-xs margin-bottom-xs"></mat-divider>
+</ng-container>
+
+<mat-menu #editMenu="matMenu">
+  <ng-template matMenuContent>
+    <a [routerLink]="'./edit/' + item.id" mat-menu-item i18n>Edit Question</a>
+    <button (click)="deletePost(deleteMsg.value)" mat-menu-item i18n>Delete Question</button>
+  </ng-template>
+</mat-menu>
+<input type="hidden" i8n-value value="Successfully deleted" #deleteMsg />

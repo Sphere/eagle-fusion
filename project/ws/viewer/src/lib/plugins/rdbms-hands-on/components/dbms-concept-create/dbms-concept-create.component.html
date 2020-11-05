@@ -1,0 +1,277 @@
+<div class="refresh-btn">
+  <button title="Refresh Database" mat-icon-button color="primary" (click)="initializeDb(true)">
+    <mat-icon>refresh</mat-icon>
+  </button>
+</div>
+
+<div
+  class="margin-s text-justify"
+  [innerHtml]="contentData.problemStatement"
+  *ngIf="contentData?.problemStatement"
+></div>
+<div class="table-scroll margin-s" *ngFor="let table of loadedTables">
+  <table mat-table [dataSource]="table.tableData" class="mat-elevation-z8" style="width:70%;">
+    <!-- Columns -->
+    <ng-container *ngFor="let colName of table.tableColumns" matColumnDef="{{ colName }}">
+      <th class="font-weight" mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+      <td mat-cell *matCellDef="let element">{{ element[colName] }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="table.tableColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: table.tableColumns"></tr>
+  </table>
+</div>
+<mat-card class="margin-s">
+  <mat-tab-group (selectedTabChange)="tabClick($event)" [(selectedIndex)]="activeTab">
+    <mat-tab label="Create" *ngIf="contentData?.createInsert?.create" class="text-label">
+      <div class="margin-s" [innerHtml]="contentData?.createInsert?.create.text"></div>
+      <pre class="margin-s" *ngIf="createQuery && !isEdit" [innerHTML]="createQuery"></pre>
+      <!-- <ace-editor class="code-container margin-s" *ngIf="isEdit && contentData" [(text)]="createQuery" theme="eclipse" [mode]="'sql'"
+                [options]="options"></ace-editor> -->
+      <div class="margin-s">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="executed"
+          (click)="run('create')"
+          i18n="button run"
+        >
+          Run
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="contentData?.createInsert?.create.edit"
+          class="margin-left-xs"
+          (click)="isEdit = true"
+          [disabled]="isEdit"
+          i18n="button edit"
+        >
+          Edit
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="contentData?.createInsert?.create.query.length > 1"
+          class="margin-left-xs"
+          (click)="viewOtherConstraint()"
+        >
+          {{ buttonText }}
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="Insert" *ngIf="contentData?.createInsert?.insert">
+      <ng-container *ngIf="validUserQuery">
+        <div class="margin-s" [innerHtml]="contentData?.createInsert?.insert.text"></div>
+        <ng-container *ngIf="!contentData?.createInsert?.insert.dropdown; else insertDropdown">
+          <div class="margin-s" *ngIf="contentData?.createInsert?.insert.insertValues.length > 1">
+            <button
+              mat-raised-button
+              color="default"
+              [hidden]="hideButton"
+              (click)="multipleInsertEntries()"
+            >
+              {{ insertButtonText }}
+            </button>
+          </div>
+          <div class="table-scroll margin-s" [hidden]="hideOnLoad">
+            <table
+              mat-table
+              [dataSource]="valuesToInsertArray"
+              class="mat-elevation-z8"
+              style="width:auto;"
+            >
+              <!-- Columns -->
+              <ng-container *ngFor="let colName of insertValues" matColumnDef="{{ colName }}">
+                <th class="font-weight" mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+                <td mat-cell *matCellDef="let element">
+                  <input
+                    type="text"
+                    [(ngModel)]="element.data[colName]"
+                    [ngModelOptions]="{ standalone: true }"
+                    [value]="element.data[colName]"
+                  />
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="insertValues"></tr>
+              <tr mat-row *matRowDef="let row; columns: insertValues"></tr>
+            </table>
+          </div>
+        </ng-container>
+        <div class="margin-s" [hidden]="hideOnlyTable">
+          <button
+            mat-raised-button
+            color="primary"
+            [hidden]="hideButton"
+            [disabled]="executed"
+            (click)="run('insert')"
+            i18n="button run"
+          >
+            Run
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="contentData?.createInsert?.insert.retryQuery"
+            [ngClass]="{ 'margin-left-xs': !hideButton }"
+            (click)="retry(contentData?.createInsert?.insert.retryQuery)"
+            i18n="button retry"
+          >
+            Retry
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!validUserQuery">
+        <div class="margin-s query-failed">
+          This functionality is supported only if you do not edit the create statement.
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Drop" *ngIf="contentData?.createInsert?.drop">
+      <div class="margin-s" [innerHtml]="contentData?.createInsert?.drop.text"></div>
+      <pre class="margin-s" *ngIf="contentData?.createInsert?.drop.query && !isDropEdit">
+ {{ contentData?.createInsert?.drop?.query }}
+
+            </pre
+      >
+      <!-- <ace-editor class="code-container" *ngIf="isDropEdit && contentData" [(text)]="contentData.createInsert.drop.query[0]" theme="eclipse"
+                [mode]="'sql'" [options]="options" #dropEditor></ace-editor> -->
+      <div class="margin-s">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="executed"
+          (click)="run('drop')"
+          i18n="button run"
+        >
+          Run
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="contentData?.createInsert?.drop.edit"
+          class="margin-left-xs"
+          (click)="isDropEdit = true"
+          [disabled]="isDropEdit"
+          i18n="button edit"
+        >
+          Edit
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="contentData?.createInsert?.drop.retryQuery"
+          class="margin-left-xs"
+          (click)="retry(contentData?.createInsert?.drop.retryQuery)"
+          i18n="button retry"
+        >
+          Retry
+        </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <div
+    *ngIf="errorMessage || executedResult?.status?.message"
+    class="margin-s"
+    [ngClass]="{
+      'query-success': executedResult?.validationStatus,
+      'query-failed': !executedResult?.validationStatus
+    }"
+  >
+    {{ errorMessage || executedResult?.status?.message }}
+  </div>
+  <viewer-execution-result
+    *ngIf="executedResult && executedResult?.data"
+    [executedResult]="executedResult"
+  ></viewer-execution-result>
+  <div class="margin-s" *ngIf="valuesToInsertArray[0]?.text && executedResult && showTelltext">
+    {{ valuesToInsertArray[0]?.text }}
+  </div>
+  <div
+    class="tell-text margin-s"
+    [ngClass]="{
+      'telltext-success': executedResult?.validationStatus,
+      'telltext-failed': executedResult && !executedResult?.validationStatus
+    }"
+    *ngIf="telltext && validUserQuery && showTelltext"
+  >
+    {{ telltext }}
+  </div>
+</mat-card>
+
+<ng-template #insertDropdown>
+  <form [formGroup]="dropdownQueryForm" class="margin-s">
+    <mat-form-field>
+      <mat-select
+        placeholder="Make a selection"
+        (selectionChange)="onSelectionChange($event.value)"
+      >
+        <mat-option *ngFor="let item of dropdownData; let index = index" [value]="index">{{
+          item.dropdownTitle
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="selectedOption">
+      <div class="margin-top-xs text-justify" *ngIf="selectedOption?.concept">
+        {{ selectedOption?.concept }}
+      </div>
+      <div class="table-scroll margin-top-s">
+        <table
+          mat-table
+          [dataSource]="selectedOption?.query"
+          class="mat-elevation-z8"
+          style="width:auto;"
+        >
+          <!-- Columns -->
+          <ng-container *ngFor="let colName of insertTableValues" matColumnDef="{{ colName }}">
+            <th class="font-weight" mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+            <td mat-cell *matCellDef="let element">
+              <input
+                type="text"
+                [(ngModel)]="element[colName]"
+                [ngModelOptions]="{ standalone: true }"
+                [value]="element[colName]"
+              />
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="insertTableValues"></tr>
+          <tr mat-row *matRowDef="let row; columns: insertTableValues"></tr>
+        </table>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
+<input
+  #someErrorOccurred
+  type="hidden"
+  i18n-value
+  value="Some error occurred. Please try again later!"
+/>
+<input
+  #clickOnEntryButton
+  type="hidden"
+  i18n-value
+  value="Click on the Entry button to see the records to be inserted."
+/>
+<input
+  #clickOnRunButton
+  type="hidden"
+  i18n-value
+  value="Click on the Run button to insert record into the table."
+/>
+<input
+  #clickOnRunToCreate
+  type="hidden"
+  i18n-value
+  value="Click on the Run button to create the table."
+/>
+<input #viewTableLevelConstraints type="hidden" i18n-value value="View Table Level Constraint" />
+<input #viewColumnLevelConstraints type="hidden" i18n-value value="View Column Level Constraint" />
+<input #firstEntry type="hidden" i18n-value value="First entry" />
+<input #secondEntry type="hidden" i18n-value value="Second entry" />
+<input #thirdEntry type="hidden" i18n-value value="Third entry" />

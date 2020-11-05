@@ -1,0 +1,137 @@
+<mat-chip-list *ngIf="widgetData?.showChips" class="mb-4 block">
+  <mat-chip *ngFor="let chipId of selectedContentIds" [value]="chipId" [removable]="true"
+    (removed)="selectedContentChanged(chipId, false)">
+    {{ widgetData.chipNamesHash[chipId] }}
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>
+<div class="flex">
+  <mat-form-field class="width-expand margin-right-m" appearance="fill" floatLabel="never">
+    <mat-icon matSuffix>dashboard</mat-icon>
+    <mat-label i18n>Search content</mat-label>
+    <input name="content-search-input" matInput [(ngModel)]="query" (ngModelChange)="debounceSubject.next(true)"
+      autocomplete="off" class="resize-none" />
+  </mat-form-field>
+  <div class="btn-filter">
+    <button name="content-filter-menu-button" mat-stroked-button class="height-1-1" *ngIf="showFilter"
+      [matMenuTriggerFor]="filterMenu" type="button">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <mat-menu #filterMenu="matMenu" xPosition="before">
+      <div mat-menu-item *ngIf="(dataType === 'authoring' && selectionType !== 'radio') || content === 'resource'">
+        <mat-checkbox name="resource-checkbox" [checked]="selectedContentTypes.includes(appContentTypes.RESOURCE)"
+          (change)="filterChanged(appContentTypes.RESOURCE, $event.checked)" i18n>Resource</mat-checkbox>
+      </div>
+      <div *ngIf="searchableContentTypes.includes(appContentTypes.MODULE)" mat-menu-item>
+        <mat-checkbox name="module-checkbox" [checked]="selectedContentTypes.includes(appContentTypes.MODULE)"
+          (change)="filterChanged(appContentTypes.MODULE, $event.checked)" i18n>Module</mat-checkbox>
+      </div>
+      <div *ngIf="searchableContentTypes.includes(appContentTypes.COURSE)" mat-menu-item>
+        <mat-checkbox name="course-checkbox" [checked]="selectedContentTypes.includes(appContentTypes.COURSE)"
+          (change)="filterChanged(appContentTypes.COURSE, $event.checked)" i18n>Course</mat-checkbox>
+      </div>
+      <div *ngIf="searchableContentTypes.includes(appContentTypes.PROGRAM)" mat-menu-item>
+        <mat-checkbox name="program-checkbox" [checked]="selectedContentTypes.includes(appContentTypes.PROGRAM)"
+          (change)="filterChanged(appContentTypes.PROGRAM, $event.checked)" i18n>Program</mat-checkbox>
+      </div>
+      <div *ngIf="dataType === 'authoring'" mat-menu-item>
+        <mat-checkbox name="channel-checkbox" [checked]="selectedContentTypes.includes(appContentTypes.CHANNEL)"
+          (change)="filterChanged(appContentTypes.CHANNEL, $event.checked)" i18n>Channel</mat-checkbox>
+      </div>
+      <div *ngIf="dataType === 'authoring'" mat-menu-item>
+        <mat-checkbox name="kb-checkbox" [checked]="selectedContentTypes.includes(appContentTypes.KNOWLEDGE_BOARD)"
+          (change)="filterChanged(appContentTypes.KNOWLEDGE_BOARD, $event.checked)" i18n>Knowledge Board
+        </mat-checkbox>
+      </div>
+    </mat-menu>
+    <button name="language-button" mat-button *ngIf="availableLanguages?.length" [matMenuTriggerFor]="sortLang"
+      type="button">
+      <mat-icon>language</mat-icon>
+      <span class="uppercase">
+        {{ language || 'en' }}
+      </span>
+    </button>
+    <mat-menu #sortLang="matMenu">
+      <ng-template matMenuContent>
+        <button mat-menu-item class="flex flex-between" *ngFor="let lang of availableLanguages"
+          (click)="setCurrentLanguage(lang)">
+          <span class="flex flex-between items-center w-full">
+            <span>{{ lang }}</span>
+            <mat-icon *ngIf="lang === language">check</mat-icon>
+          </span>
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>
+</div>
+<h2 *ngIf="searchFetchStatus === 'error'" class="mat-title" i18n>
+  Error fetching data
+</h2>
+<h2 *ngIf="searchFetchStatus === 'done' && !searchResults?.length" class="mat-title" i18n>
+  No results
+</h2>
+<div class="flex flex-wrap -mr-4" *ngIf="searchFetchStatus === 'done'">
+  <div class="w-full sm:w-1/2 mb-4 flex" *ngFor="let content of searchResults">
+    <mat-checkbox name="content-checkbox-{{searchResults?.indexOf(content)+1}}" *ngIf="selectionType !== 'radio'"
+      [checked]="
+        selectedContentIds?.has(content?.identifier) || preSelected?.has(content?.identifier)
+      "
+      (change)="selectedContentChanged(content?.identifier, $event.checked)" class="leading-none pr-4">
+    </mat-checkbox>
+    <mat-radio-button name="content-radio-button-{{searchResults?.indexOf(content)+1}}"
+      *ngIf="selectionType === 'radio'" [checked]="
+        selectedContentIds?.has(content?.identifier) || preSelected?.has(content?.identifier)
+      " [disabled]="preSelected?.has(content?.identifier) && !widgetData?.enablePreselected"
+      (change)="selectedContentChanged(content?.identifier, true)" class="leading-none pr-4">
+    </mat-radio-button>
+    <img class="w-24 h-16 ws-mat-primary-lite-background" [src]="content?.appIcon"
+      [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon" i18n-alt />
+    <div class="flex-1 min-w-0">
+      <div class="flex">
+        <h3
+          class="flex-1 min-w-0 mat-subheading-2 margin-remove-bottom margin-left-xs margin-right-xs truncate leading-none pb-1">
+          {{ content?.name }}
+        </h3>
+        <!-- <mat-checkbox
+          [checked]="
+            selectedContentIds?.has(content?.identifier) ||
+            widgetData?.preselected?.has(content?.identifier)
+          "
+          (change)="selectedContentChanged(content?.identifier, $event.checked)"
+          class="leading-none pr-4"
+        >
+        </mat-checkbox> -->
+      </div>
+      <p class="margin-remove-bottom margin-left-xs margin-right-xs">
+        <ws-widget-display-content-type *ngIf="content.displayContentType" [displayContentType]="content?.contentType==='Collection'
+          ?'Module'
+          :(content?.contentType==='Learning Path'?'Program':content?.contentType)" class="uppercase">
+        </ws-widget-display-content-type>
+        <ng-container *ngIf="content.displayContentType">&nbsp; | &nbsp;</ng-container>
+        <ng-container *ngIf="content?.duration">{{ content.duration | pipeDurationTransform: 'hms' }}
+        </ng-container>
+      </p>
+      <p *ngIf="content?.uniqueLearners" class="margin-remove-bottom margin-left-xs margin-right-xs">
+        {{ content?.uniqueLearners }}
+        <ng-container *ngIf="(content?.uniqueLearners || 0) > 1" i18n>
+          people are studying this
+        </ng-container>
+        <ng-container *ngIf="content?.uniqueLearners === 1" i18n>
+          person is studying this
+        </ng-container>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="flex flex-wrap -mr-4" *ngIf="searchFetchStatus === 'fetching'">
+  <div class="w-full sm:w-1/2 mb-4 flex" *ngFor="let _ of ' '.repeat(10).split('')">
+    <div class="w-24 h-16 ws-mat-primary-lite-background"></div>
+    <div class="flex-1 min-w-0">
+      <div class="h-5 ml-2 mr-8 mb-2 bg-gray-400"></div>
+      <div class="h-4 ml-2 mr-32 bg-gray-400"></div>
+    </div>
+  </div>
+</div>
+
+<input name="content-selection-error-message" #removeSubset type="hidden" i18n-value
+  value="Parent of this content is already selected" />

@@ -1,0 +1,19 @@
+<div *ngIf="tabData">
+  <div [ngSwitch]="tabData?.cardType">
+    <div *ngSwitchCase="'hubs'">
+      <ws-app-channel-hubs></ws-app-channel-hubs>
+    </div>
+    <div *ngSwitchCase="'leader-card'">
+      <ws-app-leader-card [leaderData]="tabData?.data"></ws-app-leader-card>
+    </div>
+    <div *ngSwitchCase="'initiatives-card'">
+      <ws-app-initiatives-card [initiativesData]="tabData?.data"></ws-app-initiatives-card>
+    </div>
+    <div *ngSwitchCase="'events-card'">
+      <ws-app-events-card [eventsData]="tabData?.data"></ws-app-events-card>
+    </div>
+    <div *ngSwitchDefault i18n>
+      This type is not yet supported.
+    </div>
+  </div>
+</div>

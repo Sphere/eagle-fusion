@@ -1,0 +1,43 @@
+<div class="px-6 sm:px-8 md:px-10 py-4 my-2">
+  <div class="flex items-center mb-4">
+    <h1 class="mat-h1 margin-remove inline-block" *ngIf="widget.data?.title">
+      {{ widget.data?.title }}
+    </h1>
+    <button *ngIf="widgetMap.info" type="button" mat-icon-button (click)="showInfo = !showInfo" i18n-matTooltip
+      matTooltip="info" class="margin-left-xs">
+      <mat-icon>{{ stripInfo.addOnData.icon.icon }}</mat-icon>
+    </button>
+  </div>
+  <div class="mb-4" *ngIf="showInfo">
+    <ws-auth-renderer [id]="widgetMap.info" [isSubmitPressed]="isSubmitPressed"></ws-auth-renderer>
+  </div>
+  <div *ngIf="showData === 'loader'" class="text-center my-2">
+    <mat-spinner [diameter]="40" [strokeWidth]="3"></mat-spinner>
+  </div>
+  <ws-auth-renderer *ngIf="showData === 'noData'" [id]="widgetMap.noData" [isSubmitPressed]="isSubmitPressed">
+  </ws-auth-renderer>
+  <ws-auth-renderer *ngIf="showData ==='error'" [id]="widgetMap.error" [isSubmitPressed]="isSubmitPressed">
+  </ws-auth-renderer>
+  <h1 class="mat-h1 margin-remove inline-block" *ngIf="showNoData" i18n>
+    No data available to show
+  </h1>
+  <h1 class="mat-h1 margin-remove inline-block" *ngIf="showError" i18n>
+    Error while fetching content
+  </h1>
+  <ws-utils-horizontal-scroller *ngIf="!showNoData && !showError &&
+    showData==='data'" [loadStatus]="'done'">
+    <ws-auth-renderer *ngFor=" let preWidget of widgetMap.preWidgets" [id]="preWidget"
+      [isSubmitPressed]="isSubmitPressed">
+    </ws-auth-renderer>
+    <ng-container *ngFor="let widget of widgetDatas" [wsResolverWidget]="widget"></ng-container>
+    <ws-auth-renderer *ngFor="let postWidget of widgetMap.postWidgets" [id]="postWidget"
+      [isSubmitPressed]="isSubmitPressed">
+    </ws-auth-renderer>
+    <div *ngIf="viewMore" class="ml-4 mr-6 mb-2 view-more ws-mat-primary-text">
+      <a>
+        <mat-icon class="icon">arrow_forward</mat-icon>
+        <h3>View All</h3>
+      </a>
+    </div>
+  </ws-utils-horizontal-scroller>
+</div>

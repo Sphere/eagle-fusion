@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+  <div>
+    <a mat-icon-button routerLink="/app/infy/navigator">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <span i18n="page title: navigator explore" class="margin-left-xs">Offerings</span>
+  </div>
+</mat-toolbar>
+
+<div class="headings mat-headline  margin-top">
+  <div *ngIf="status === 'done'">
+    <div class="toolbar">
+      <p class="mat-title" i18n>
+        Explore learning paths for new service offerings based on Industry trends
+      </p>
+    </div>
+    <div class="margin-top-l">
+      <p class="mat-h2 text-center" i18n>Select a Pillar</p>
+      <ws-app-pentagon [default]="'Accelerate'" (trackClicked)="trackClicked($event)"></ws-app-pentagon>
+    </div>
+    <div class="role">
+      <p class="mat-headline ws-mat-primary-text">{{selectedTrack}}</p>
+      <div>
+        <ws-utils-horizontal-scroller [loadStatus]=hasMore>
+          <div *ngIf="currentTrackData" class="card-holder" #cardContents>
+            <ng-container *ngFor="let roles of currentTrackData">
+              <ws-app-role-card [roleOffering]="roles"></ws-app-role-card>
+            </ng-container>
+          </div>
+        </ws-utils-horizontal-scroller>
+      </div>
+    </div>
+  </div>
+</div>

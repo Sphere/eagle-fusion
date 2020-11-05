@@ -1,0 +1,251 @@
+<section class="my-4">
+  <h2 class="mat-title text-center" i18n>At Desk</h2>
+  <p class="mat-body text-center" i18n>
+    Take this exam online in the presence of a proctor.
+  </p>
+
+  <div class="width-balancer-1-2 margin-auto">
+    <form [formGroup]="atDeskForm" (submit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+      <!-- Country -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <mat-chip-list #countryChips>
+            <mat-chip
+              *ngFor="let country of countriesChipList"
+              [value]="country"
+              [selectable]="true"
+              [removable]="true"
+              (removed)="countryRemoved($event.value)"
+            >
+              {{ country.country_name }}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input
+              #countryInput
+              matInput
+              [matAutocomplete]="countryAutocomplete"
+              [matChipInputFor]="countryChips"
+              [formControl]="countryCtrl"
+              placeholder="Country"
+              i18n-placeholder
+            />
+            <mat-progress-spinner
+              matSuffix
+              *ngIf="!countries"
+              [color]="'primary'"
+              [diameter]="16"
+              [mode]="'indeterminate'"
+            ></mat-progress-spinner>
+            <mat-autocomplete
+              #countryAutocomplete="matAutocomplete"
+              [displayWith]="displayCountryNameAutocomplete"
+              (optionSelected)="countrySelected($event.option.value)"
+            >
+              <mat-option *ngFor="let country of filteredCountries$ | async" [value]="country">
+                {{ country.country_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-chip-list>
+
+          <mat-hint *ngIf="!countries" i18n>Fetching countries...</mat-hint>
+          <mat-hint *ngIf="countries && !atDeskForm.value.country" i18n
+            >Type and select a country.</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- Location -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <mat-select placeholder="Location" i18n-placeholder formControlName="location">
+            <mat-option *ngFor="let location of locations" [value]="location.location_code">
+              {{ location.location_name }}
+            </mat-option>
+          </mat-select>
+          <mat-hint *ngIf="!(countries && atDeskForm.value.country)" i18n>
+            You need to select a country first.
+          </mat-hint>
+          <mat-hint *ngIf="atDeskForm.value.country && !locations"></mat-hint>
+          <mat-progress-spinner
+            matSuffix
+            *ngIf="countries && atDeskForm.value.country && !locations"
+            [color]="'primary'"
+            [diameter]="16"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </mat-form-field>
+      </div>
+
+      <!-- Date -->
+      <!-- <mat-form-field class="block margin-top-s margin-bottom-s">
+        <input
+          matInput
+          [matDatepicker]="datePicker"
+          [matDatepickerFilter]="filterDates"
+          formControlName="date"
+          (dateChange)="onDateChange($event.value)"
+          placeholder="Date"
+          i18n-placeholder
+        />
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+        <mat-hint *ngIf="!atDeskSlotItems" i18n>
+          Fetching dates and slots...
+        </mat-hint>
+        <mat-hint *ngIf="atDeskSlotItems" i18n>
+          All dates are in IST (Indian Standard Time).
+        </mat-hint>
+        <mat-progress-spinner
+          matSuffix
+          *ngIf="!atDeskSlotItems"
+          [color]="'primary'"
+          [diameter]="16"
+          [mode]="'indeterminate'"
+        ></mat-progress-spinner>
+      </mat-form-field> -->
+
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <mat-select
+            formControlName="date"
+            (selectionChange)="onDateChange($event.value)"
+            placeholder="Date"
+            i18n-placeholder
+          >
+            <mat-option *ngFor="let date of slotList" [value]="date">{{ date.dateStr }}</mat-option>
+          </mat-select>
+          <mat-hint *ngIf="!atDeskSlotItems" i18n>
+            Fetching dates and slots...
+          </mat-hint>
+          <mat-hint *ngIf="atDeskSlotItems" i18n>
+            All dates are in IST (Indian Standard Time).
+          </mat-hint>
+          <mat-progress-spinner
+            matSuffix
+            *ngIf="!atDeskSlotItems"
+            [color]="'primary'"
+            [diameter]="16"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </mat-form-field>
+      </div>
+
+      <!-- Slots -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <mat-select formControlName="slot" placeholder="Slots" i18n-placeholder>
+            <ng-container *ngIf="selectedDateSlotItem">
+              <mat-option *ngFor="let slot of selectedDateSlotItem.slots" [value]="slot.slot_time">
+                {{ slot.slot_time }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-hint *ngIf="selectedDateSlotItem" i18n>
+            Slot times are in IST (Indian Standard Time).
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <!-- Proctor Email ID -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <input
+            matInput
+            formControlName="proctorEmail"
+            placeholder="Proctor's Email ID"
+            i18n-placeholder
+          />
+          <mat-progress-spinner
+            matSuffix
+            *ngIf="managerFetchStatus === 'fetching' || atDeskForm.controls['proctorEmail'].pending"
+            [color]="'primary'"
+            [diameter]="16"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+
+          <mat-icon matSuffix [color]="'primary'" *ngIf="atDeskForm.controls['proctorEmail'].valid">
+            check_circle_outline
+          </mat-icon>
+          <mat-icon
+            matSuffix
+            [color]="'error'"
+            *ngIf="
+              atDeskForm.controls['proctorEmail'].invalid &&
+              managerFetchStatus !== 'fetching' &&
+              atDeskForm.controls['proctorEmail'].dirty
+            "
+          >
+            error_outline
+          </mat-icon>
+
+          <mat-hint *ngIf="managerFetchStatus === 'fetching'" i18n>
+            Fetching manager details...
+          </mat-hint>
+          <mat-hint
+            i18n
+            *ngIf="!atDeskForm.controls.proctorEmail.value && managerFetchStatus !== 'fetching'"
+          >
+            The proctor must be in the same location as the one you enter.
+          </mat-hint>
+          <mat-hint i18n *ngIf="atDeskForm.controls['proctorEmail'].valid">
+            This is a valid proctor email.
+          </mat-hint>
+          <mat-error *ngIf="atDeskForm.controls['proctorEmail'].invalid" i18n>
+            Not a valid proctor email.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Proctor Contact No. -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <input
+            matInput
+            type="tel"
+            formControlName="proctorContact"
+            placeholder="Proctor's Contact Number"
+            i18n-placeholder
+          />
+          <mat-error i18n>Please enter a valid phone number.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- User Contact No. -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <input
+            matInput
+            type="tel"
+            formControlName="userContact"
+            placeholder="Your Contact Number"
+            i18n-placeholder
+          />
+          <mat-error i18n>Please enter a valid phone number.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="text-center">
+        <button
+          mat-stroked-button
+          [color]="'primary'"
+          type="submit"
+          [disabled]="!atDeskForm.valid || requestSendStatus === 'sending'"
+        >
+          <ng-container *ngIf="requestSendStatus !== 'sending'" i18n>Send Request</ng-container>
+          <ng-container *ngIf="requestSendStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Sending...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner
+                  [color]="'primary'"
+                  [diameter]="16"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

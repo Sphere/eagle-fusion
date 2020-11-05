@@ -1,0 +1,180 @@
+<section class="my-4">
+  <h2 class="mat-title text-center" i18n>Result Upload</h2>
+  <p class="mat-body text-center" i18n>
+    Upload certification proof for verification.
+  </p>
+
+  <div class="width-balancer-1-2 m-auto">
+    <form [formGroup]="resultForm" (submit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+      <!-- Result Type -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <mat-select placeholder="Result type" i18n-placeholder formControlName="resultType">
+            <mat-option [value]="'score'" i18n>Score</mat-option>
+            <mat-option [value]="'percentage'" i18n>Percentage</mat-option>
+            <mat-option [value]="'grade'" i18n>Grade</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Score -->
+      <ng-container [ngSwitch]="resultForm.controls['resultType'].value">
+        <div class="my-2">
+          <mat-form-field class="w-full" *ngSwitchCase="'score'">
+            <input matInput type="number" placeholder="Score" i18n-placeholder formControlName="result" />
+          </mat-form-field>
+        </div>
+
+        <div class="my-2">
+          <mat-form-field class="w-full" *ngSwitchCase="'percentage'">
+            <input type="number" matInput placeholder="Percentage" i18n-placeholder formControlName="result" />
+          </mat-form-field>
+        </div>
+
+        <div class="my-2">
+          <mat-form-field class="w-full" *ngSwitchCase="'grade'">
+            <mat-select placeholder="Grade" i18n-placeholder formControlName="result">
+              <mat-option *ngFor="let grade of grades" [value]="grade">
+                {{ grade }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <!-- Date -->
+      <div class="my-2">
+        <mat-form-field class="w-full">
+          <input matInput [matDatepicker]="datePicker" [min]="farthestDate" [max]="currentDate"
+            formControlName="examDate" placeholder="Date of Exam" i18n-placeholder />
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!-- Verifier Email ID -->
+      <div class="my-2" *ngIf="!(content.verifiers && content.verifiers.length)">
+        <mat-form-field class="w-full">
+          <input matInput formControlName="verifierEmail" placeholder="Verifier's Email ID" i18n-placeholder />
+          <mat-progress-spinner matSuffix *ngIf="
+              managerFetchStatus === 'fetching' || resultForm.controls['verifierEmail'].pending
+            " [color]="'primary'" [diameter]="16" [mode]="'indeterminate'"></mat-progress-spinner>
+
+          <mat-icon matSuffix [color]="'primary'" *ngIf="resultForm.controls['verifierEmail'].valid">
+            check_circle_outline
+          </mat-icon>
+          <mat-icon matSuffix [color]="'error'" *ngIf="
+              resultForm.controls['verifierEmail'].invalid &&
+              resultForm.controls['verifierEmail'].dirty
+            ">
+            error_outline
+          </mat-icon>
+
+          <mat-hint *ngIf="managerFetchStatus === 'fetching'" i18n>
+            Fetching manager details...
+          </mat-hint>
+          <mat-hint i18n *ngIf="resultForm.controls['verifierEmail'].valid">
+            This is a valid verifier email.
+          </mat-hint>
+          <mat-error *ngIf="resultForm.controls['verifierEmail'].invalid" i18n>
+            Not a valid verifier email.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="my-2" *ngIf="content.verifiers && content.verifiers?.length">
+        <mat-form-field class="w-full">
+          <mat-select formControlName="verifierEmail" placeholder="Verifier" i18n-placeholder>
+            <mat-option *ngFor="let verifier of content.verifiers" [value]="verifier.email">{{
+              verifier.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- File -->
+      <section class="my-2" *ngIf="!certification?.verification_request.status">
+        <ws-widget-ctrl-file-upload formControlName="file"></ws-widget-ctrl-file-upload>
+        <p class="mat-caption" *ngIf="supportedFileTypes">
+          <span i18n>Supported file types:</span>
+          <span>
+            <ng-container *ngFor="let fileType of supportedFileTypes">
+              {{ fileType + ' ' }}
+            </ng-container>
+          </span>
+        </p>
+        <p class="mat-caption" *ngIf="maxFileSize">
+          <span i18n>Maximum file size: 3MB</span>
+        </p>
+      </section>
+
+      <div class="my-2" *ngIf="
+          certification?.verification_request?.status === 'Uploaded' ||
+          certification?.verification_request?.status === 'Recalled'
+        ">
+        <input matInput class="w-full" formControlName="fileName" [readonly]="true" placeholder="File name"
+          i18n-placeholder />
+      </div>
+
+      <div class="text-center">
+        <button mat-stroked-button class="margin-right-xs" [color]="'primary'" type="submit"
+          [disabled]="!resultForm.valid || requestSendStatus === 'sending'"
+          *ngIf="!certification?.verification_request.status">
+          <ng-container *ngIf="requestSendStatus !== 'sending'" i18n>
+            Upload Proof
+          </ng-container>
+          <ng-container *ngIf="requestSendStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Uploading...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'">
+                </mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+
+        <button mat-stroked-button class="margin-right-xs" [color]="'primary'" (click)="deleteProof()"
+          [disabled]="proofDeleteStatus === 'sending' || proofSubmitStatus === 'sending'" *ngIf="
+            certification?.verification_request.status === 'Uploaded' ||
+            certification?.verification_request.status === 'Recalled' ||
+            certification?.verification_request.status === 'Rejected'
+          ">
+          <ng-container *ngIf="proofDeleteStatus !== 'sending'" i18n>
+            Delete Proof
+          </ng-container>
+          <ng-container *ngIf="proofDeleteStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Deleting...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'">
+                </mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+
+        <button mat-stroked-button class="margin-right-xs" [color]="'primary'" (click)="submitProof()" [disabled]="
+            !resultForm.valid || proofSubmitStatus === 'sending' || proofDeleteStatus === 'sending'
+          " *ngIf="
+            certification?.verification_request.status === 'Uploaded' ||
+            certification?.verification_request.status === 'Recalled' ||
+            certification?.verification_request.status === 'Rejected'
+          ">
+          <ng-container *ngIf="proofSubmitStatus !== 'sending'" i18n>
+            Submit Proof
+          </ng-container>
+          <ng-container *ngIf="proofSubmitStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Submitting...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'">
+                </mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,164 @@
+<div class="m-1 md:m-4">
+  <div class="flex items-center mb-4">
+    <span class="font-weight-500 cursor-pointer" routerLink="/admin/tenant/users" i18n>
+      users
+    </span>
+    <mat-icon class="mx-1">play_arrow</mat-icon>
+    <span class="font-weight-500" i18n>
+      create new user
+    </span>
+  </div>
+  <h1 class="leading-10 pt-3 font-weight-500" i18n>Create New User</h1>
+  <mat-card class="mat-elevation-z6">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0" (closed)="step = 1">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="flex items-end">
+              <!-- <span [hidden]="!registerUser.valid" class="margin-right-xs">
+                <mat-icon class="ws-mat-primary-text">check_circle</mat-icon>
+              </span>
+              <span [hidden]="registerUser.valid" class="margin-right-xs">
+                <mat-icon class="ws-mat-primary-text">radio_button_unchecked</mat-icon>
+              </span> -->
+              <h2 class="font-weight-500 pannelheading" i18n>Basic Details</h2>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="registerUser">
+          <div class="form-container">
+            <div class="flex flex-div">
+              <div class="w-1/2 pr-2">
+                <p class="font-weight-500" i18n>First Name</p>
+                <mat-form-field class="w-full" appearance="outline">
+                  <input matInput name="firstname" formControlName="firstname" type="text" class="input">
+                </mat-form-field>
+              </div>
+              <div class="w-1/2 pl-2">
+                <p class="font-weight-500" i18n>Last Name</p>
+                <mat-form-field class="w-full" appearance="outline">
+                  <input matInput name="lastname" formControlName="lastname" type="text" class="input">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="flex flex-div">
+              <div class="Email">
+                <p class="font-weight-500" i18n>Email</p>
+                <mat-form-field class="w-full" appearance="outline">
+                  <input matInput name="emailid" formControlName="emailid" type="email" class="input">
+                </mat-form-field>
+              </div>
+              <!-- <div class="w-1/2 pl-2">
+                <p class="font-weight-500" i18n>Username</p>
+                <mat-form-field class="w-full" appearance="outline">
+                  <input matInput name="username" formControlName="username" type="text" class="input">
+                </mat-form-field>
+              </div> -->
+            </div>
+            <!-- <div class="Email"> -->
+              <div>
+              <!-- <mat-radio-group class="m-0" [value]="passwordType" (change)="passwordType = $event.value ; onRadioChange()">
+                <mat-radio-button class="font-weight-500"  [value]="'UserPassword'" i18n>Enter Password</mat-radio-button>
+                <mat-radio-button class="font-weight-500 pl-4" [value]="'GeneratePassword'" i18n>Generate Password</mat-radio-button>
+              </mat-radio-group> -->
+              <div class="pt-4">
+                <ng-container [ngSwitch]="passwordType">
+                  <ng-container *ngSwitchCase="'UserPassword'" [ngTemplateOutlet]="UserPassword"></ng-container>
+                  <ng-container *ngSwitchCase="'GeneratePassword'" [ngTemplateOutlet]="GeneratePassword"></ng-container>
+                </ng-container>
+              </div>
+              <ng-template #UserPassword>
+                <div class="flex flex-div">
+                <div class="w-1/2 pr-2">
+                  <p class="font-weight-500" i18n>Password</p>
+                  <mat-form-field class="w-full" appearance="outline">
+                    <input #password matInput name="password" formControlName="password" type="password" class="input">
+                  </mat-form-field>
+                  <mat-error *ngIf="registerUser.controls.password.touched &&
+               !(registerUser.controls.password.valid) && registerUser.controls.password.value" i18n>
+                    Password must be atleast 6 characters</mat-error>
+                </div>
+                <div class="w-1/2 pl-2">
+                  <p class="font-weight-500" i18n>Confirm Password</p>
+                  <mat-form-field class=" w-full" appearance="outline">
+                    <input #cpassword matInput name="cpassword" formControlName="cpassword" type="password"
+                      class="input">
+                  </mat-form-field>
+                  <mat-error *ngIf="registerUser.controls.cpassword.touched &&
+               registerUser.controls.password.value !== registerUser.controls.cpassword.value
+               && registerUser.controls.password.value" i18n>
+                    The password and confirmation password do not match</mat-error>
+                </div>
+                </div>
+              </ng-template>
+              <ng-template #GeneratePassword>
+                <p class="flex align-center py-4">
+                  <mat-icon class="text-xl">info</mat-icon>
+                  &nbsp;
+                  <span i18n class="text-base ws-mat-primary-text">Password Will be sent to your email</span>
+                </p>
+              </ng-template>
+            </div>
+          </div>
+          <mat-slide-toggle *ngIf="featureData?.users?.keycloakOnly?.enable" class="pb-4" color="primary"
+            [formControl]="keycloak" labelPosition="before">
+            <span class="font-weight-500">{{featureData?.users?.keycloakOnly?.displayName}}</span>
+          </mat-slide-toggle>
+        </form>
+      </mat-expansion-panel>
+      <mat-divider class="pt-1"></mat-divider>
+      <mat-expansion-panel  [expanded]="step === 1" (opened)="step = 1"
+        (closed)="step = 0">
+        <mat-expansion-panel-header class="padding-top-xs">
+          <mat-panel-title>
+            <div class="flex items-end">
+              <!-- <span [hidden]="!selectedSystemRoles.length" class="margin-right-xs">
+                <mat-icon class="ws-mat-primary-text">check_circle</mat-icon>
+              </span>
+              <span [hidden]="selectedSystemRoles.length" class="margin-right-xs">
+                <mat-icon class="ws-mat-primary-text">radio_button_unchecked</mat-icon>
+              </span> -->
+              <!-- <span [hidden]="!keycloak.value" class="margin-right-xs">
+                <mat-icon class="ws-mat-accent-text">cancel</mat-icon>
+              </span> -->
+              <h2 class="font-weight-500 pannelheading" i18n>Select System Role</h2>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="rolesHash.length" class="flex flex-wrap">
+          <div class="py-1 changeWidth w-1/2">
+            <div class="p-1">
+              <mat-checkbox  color="primary" [disabled]="true" [checked]="true" class="font-bold" i18n>
+                default-roles</mat-checkbox>
+              <p  class="pl-6" i18n>Common site privileges such as Home, Channels, Knowledge Board, Playlists</p>
+            </div>
+          </div>
+          <div *ngFor="let role of rolesHash" class="py-1 changeWidth w-1/2">
+            <div class="p-1">
+              <mat-checkbox color="primary" (change)="selectedUser($event)" [(ngModel)]="role.selected"
+                [value]="role.role" [checked]="role.selected" class="font-bold">
+                {{role.role}}</mat-checkbox>
+              <p class="pl-6">{{role.about | titlecase}}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!rolesHash.length" class="mat-card warn-card">
+          <mat-icon class="warn-icon" color="warn">warning</mat-icon>
+          <span i18n>No roles matches your query</span>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-divider class="pt-1"></mat-divider>
+    <mat-action-row class="button-row" *ngIf="step === 0">
+      <button mat-raised-button type="button" color="primary" (click)="step = 1" i18n>Next</button>
+    </mat-action-row>
+    <mat-action-row class="button-row" *ngIf="step === 1">
+      <mat-progress-spinner *ngIf="isFetching" class="margin-right-m" mode="indeterminate" diameter="35">
+      </mat-progress-spinner>
+      <button mat-stroked-button color="primary" type="button" (click)="step = 0"
+        i18n>Back</button>
+      <button mat-raised-button [disabled]="!registerUser.valid || isFetching" type="button" color="primary"
+        (click)="createUser()" i18n>Create</button>
+    </mat-action-row>
+  </mat-card>
+</div>

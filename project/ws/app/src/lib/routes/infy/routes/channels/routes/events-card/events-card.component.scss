@@ -1,0 +1,21 @@
+@import 'ws-mixins';
+@import 'ws-common';
+
+.event {
+  width: 14em;
+}
+
+.event-icon {
+  width: 1em;
+  height: 1em;
+  font-size: 3em;
+  margin-right: $size-m;
+  @include breakpoint-gt-xs {
+    margin-right: 0;
+  }
+}
+
+.event-name {
+  line-height: 1.2;
+  height: 2.4em;
+}

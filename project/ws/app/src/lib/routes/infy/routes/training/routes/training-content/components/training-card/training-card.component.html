@@ -1,0 +1,161 @@
+<mat-card class="training-card flex flex-column flex-between h-full">
+  <section class="training-details">
+    <div class="flex flex-between">
+      <div class="mat-body-2 text-uppercase text-truncate flex-grow-1 padding-right-m">
+        <ws-app-training-type [trainingType]="training.deliveryType"></ws-app-training-type>
+      </div>
+
+      <div class="width-3-10">
+        <div class="relative">
+          <div class="absolute training-options-container flex">
+            <button mat-icon-button (click)="onClickBtnShare()" matTooltip="Share" i18n-matTooltip>
+              <mat-icon>share</mat-icon>
+            </button>
+            <button mat-icon-button class="btn-training-menu absolute" [matMenuTriggerFor]="trainingOptionsMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <mat-menu #trainingOptionsMenu>
+        <button mat-menu-item [matMenuTriggerFor]="educatorsMenu" *ngIf="training.sessions && training.sessions.length">
+          <mat-icon>school</mat-icon>
+          <span i18n>Educators</span>
+        </button>
+      </mat-menu>
+      <mat-menu #educatorsMenu>
+        <ng-template matMenuContent>
+          <a mat-menu-item *ngFor="let educator of training.sessions[0].educator" href="mailto:{{ educator.email }}">
+            <mat-icon>email</mat-icon>
+            {{ educator.name }}
+          </a>
+        </ng-template>
+      </mat-menu>
+    </div>
+
+    <section class="my-4">
+      <div class="margin-bottom-xs margin-top-xs flex">
+        <div>
+          <mat-icon>calendar_today</mat-icon>
+        </div>
+        <div class="margin-left-xs width-9-10 flex">
+          <div class="mat-body-2 text-truncate">
+            {{
+              {
+                fromDate: training.start_dt,
+                toDate: training.end_dt
+              } | pipeConciseDateRange
+            }}
+          </div>
+          <div class="margin-left-xs mat-body-2 text-truncate">
+            {{training.sessions[0].start_time}}-{{training.sessions[0].end_time}}
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="margin-bottom-xs margin-top-xs flex">
+        <div>
+          <mat-icon>access_time</mat-icon>
+        </div>
+        <div class="margin-left-xs">
+          <span class="mat-body-2" i18n="time zone">Time Zone: </span>
+          <span class="mat-body"> {{ training.time_zone }}</span>
+        </div>
+      </div>
+
+      <div class="margin-bottom-xs margin-top-xs flex" *ngIf="training.deliveryType === 'Classroom'">
+        <div>
+          <mat-icon>location_on</mat-icon>
+        </div>
+        <div class="margin-left-xs">
+
+          <span class="mat-body-2" i18n>Location: </span>
+          <span
+            class="mat-body">{{training.sessions[0].classroom + ' , ' +training.sessions[0].building + ' , ' + training.location}}</span>
+
+
+        </div>
+      </div>
+
+
+      <div class="margin-bottom-xs margin-top-xs flex">
+        <div>
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="margin-left-xs width-9-10 flex flex-column flex-center">
+          <div class="text-truncate">
+            <span class="mat-body-2" i18n="assessment; exam">Assessment: </span>
+            <span class="mat-body">
+              <ng-container *ngIf="training.hasAssessment" i18n>Yes</ng-container>
+              <ng-container *ngIf="!training.hasAssessment" i18n>No</ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="margin-bottom-xs margin-top-xs flex">
+        <div>
+          <mat-icon>event_seat</mat-icon>
+        </div>
+        <div class="margin-left-xs width-9-10 flex flex-column flex-center text-truncate">
+          <div class="text-truncate">
+            <ng-container *ngIf="training.slots_available; else noSeats">
+              <span class="mat-body-2" i18n="seats available">Seats Available: </span>
+            </ng-container>
+            <ng-container *ngIf="training.slots_available">{{
+              training.slots_available + ' '
+            }}</ng-container>
+            <ng-template #noSeats>
+              <span color="warn" class="mat-body" i18n="seats full">Seats full!</span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex margin-bottom-xs" *ngIf="!training.eligible">
+        <mat-icon>warning</mat-icon>
+        <div class="margin-left-xs mat-caption">
+          <ng-container [ngTemplateOutlet]="ineligibleForTraining" [ngTemplateOutletContext]="{ $implicit: training }">
+          </ng-container>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <div class="flex flex-center">
+    <div [ngClass]="{'mr-4': trainingPrivileges.canNominate}" *ngIf="!training.registered">
+      <button mat-flat-button color="primary" class="inline-block" (click)="onClickBtnRegister(training)"
+        [disabled]="!(training.slots_available && training.eligible) || registerStatus === 'sending'" i18n>
+        Register
+      </button>
+    </div>
+
+    <div [ngClass]="{'mr-4': trainingPrivileges.canNominate}" *ngIf="training.registered">
+      <button mat-flat-button color="primary" class="inline-block" (click)="onClickBtnDeregister(training)"
+        [disabled]="deregisterStatus === 'sending'" [ngClass]="{'mr-4': trainingPrivileges.canNominate}" i18n>
+        De-Register
+      </button>
+    </div>
+
+    <div *ngIf="trainingPrivileges.canNominate">
+      <button mat-stroked-button color="primary" class="inline-block" [disabled]="
+        !training.slots_available || registerStatus === 'sending' || deregisterStatus === 'sending'
+      " (click)="onClickBtnNominate()" i18n="nominate" matTooltip="Nominate other users to undergo this training."
+        i18n-matTooltip>
+        Nominate
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+<!-- Templates -->
+<ng-template #ineligibleForTraining let-training>
+  <span [ngSwitch]="training.ineligibility_reasons[0]">
+    <ng-container *ngSwitchCase="'JL'" i18n>This training is not for your JL.</ng-container>
+    <ng-container *ngSwitchCase="'PU'" i18n>This training is not for your unit.</ng-container>
+    <ng-container *ngSwitchCase="'Role'" i18n>This training is not for your role.</ng-container>
+    <ng-container *ngSwitchDefault i18n>You are not eligible for this training.</ng-container>
+  </span>
+</ng-template>

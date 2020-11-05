@@ -1,0 +1,10 @@
+<div *ngIf="widgetData" [ngClass]="widgetData?.containerClass" [ngStyle]="widgetData?.containerStyle">
+  <img #map class="w-full h-full" [src]="widgetData?.imageSrc" useMap="#{{widgetData?.mapName}}">
+  <map [name]="widgetData?.mapName" *ngIf="!widgetData.externalData">
+    <area *ngFor="let area of widgetData?.map; index as i" [target]="area?.target" [alt]="area?.alt"
+      [title]="area?.title" [href]="area?.link"
+      [coords]="coords[i]?.x1 + ',' + coords[i]?.y1 + ',' + coords[i]?.x2 + ',' + coords[i]?.y2" shape="rect">
+  </map>
+  <map [name]="widgetData?.mapName" [innerHTML]="htmlContent" *ngIf="widgetData.externalData">
+  </map>
+</div>

@@ -1,0 +1,14 @@
+<div>
+  <ws-utils-horizontal-scroller *ngIf="activityCards?.length" [loadStatus]="'done'">
+    <ws-widget-activity-card *ngFor="let card of activityCards" [widgetData]="{
+                  id : card.id,
+                  title : card.title,
+                  description : card.description,
+                  isNew : card.isNew,
+                  icon : card.icon,
+                  clickUrl: card.clickUrl,
+                  tag : card.tag
+                  }">
+    </ws-widget-activity-card>
+  </ws-utils-horizontal-scroller>
+</div>

@@ -1,0 +1,23 @@
+<section class="flex">
+  <div class="flex flex-column flex-between">
+    <button mat-mini-fab [disabled]="disabledPrev" (click)="onClickBtnPrevNext(leaderboard.prev)">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+  </div>
+  <section class="mat-body flex-grow-1 flex flex-column flex-between">
+    <div class="text-center width-1-1 text-truncate">
+      {{ leaderboard.start_date | date: 'd MMM, y' }}
+      <ng-container i18n>&nbsp;to&nbsp;</ng-container>
+      {{ leaderboard.end_date | date: 'd MMM, y' }}
+    </div>
+    <div class="mat-caption text-center width-1-1 text-truncate">
+      <ng-container i18n="last updated date">Last updated on&nbsp;</ng-container>
+      <ng-container>{{ leaderboard.lastUpdatedDate }}</ng-container>
+    </div>
+  </section>
+  <div class="flex flex-column flex-between">
+    <button mat-mini-fab [disabled]="disabledNext" (click)="onClickBtnPrevNext(leaderboard.next)">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+</section>

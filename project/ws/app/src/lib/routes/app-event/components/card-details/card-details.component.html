@@ -1,0 +1,139 @@
+<ng-container [ngSwitch]="cardType">
+  <ng-container *ngSwitchCase="'event'" [ngTemplateOutlet]="eventDetailsTemplate"></ng-container>
+  <ng-container *ngSwitchCase="'speaker'">
+    <ng-container
+      [ngTemplateOutlet]="speakerDetailsTemplate"
+      [ngTemplateOutletContext]="sortedSpeaker"
+    >
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'liveSpeaker'">
+    <ng-container
+      [ngTemplateOutlet]="speakerDetailsTemplate"
+      [ngTemplateOutletContext]="liveSpeaker"
+    ></ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'user'" [ngTemplateOutlet]="userDetailsTemplate"></ng-container>
+  <!-- <ng-container *ngSwitchCase="'gallery'" [ngTemplateOutlet]="galleryTemplate"></ng-container> -->
+</ng-container>
+
+<ng-template #eventDetailsTemplate>
+  <div class="flex flex-wrap w-90">
+    <div class="session-card mat-elevation-z4 m-4" *ngFor="let event of eventDetails">
+      <a class="flex flex-column" routerLink="/app/events/meetup/nextup/1/sessions">
+        <div>
+          <img class="card-image image-border" [src]="event.plannedImage" [alt]="" />
+        </div>
+        <div class="px-4 mb-4">
+          <h1 class="margin-remove-bottom py-6 mat-h1">{{ event.plannedName }}</h1>
+          <h2>{{ event.plannedDetails }}</h2>
+        </div>
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #speakerDetailsTemplate let-speakerData="values()">
+  <div class="flex flex-column">
+    <div class="flex flex-row flex-wrap">
+      <div
+        class="speaker-card mat-elevation-z4 w-full"
+        *ngFor="let speaker of speakerData; let i = index"
+      >
+        <a
+          class="flex flex-column justify-between speakerCard"
+          [ngClass]="{
+            'cursor-pointer': !(speaker?.startRemainingTime <= 0 && speaker?.endRemaningTime >= 0)
+          }"
+          (click)="onClickSessionCard(i)"
+        >
+          <div>
+            <div class="flex flex-row justify-between px-4 py-2">
+              <div class="speakerDate">
+                <p class="ws-mat-primary-text margin-remove-bottom font-normal">
+                  {{ speaker?.speakerDate | date: 'longDate' }}
+                </p>
+              </div>
+              <div class="attende-design">
+                <!-- <mat-icon class="mr-2">people</mat-icon> -->
+                <p class="margin-remove-bottom font-normal">
+                  {{ speaker?.registeredUsers }} Attendees
+                </p>
+              </div>
+            </div>
+            <img class="card-image" [src]="speaker?.speakerImage" [alt]="" />
+            <div class="px-4 py-2">
+              <p class="font-normal speakerType margin-remove-bottom ws-mat-primary-text uppercase">
+                {{ speaker?.speakerType }}
+              </p>
+              <h2 class="margin-remove-bottom">{{ speaker?.speakerKeynote }}</h2>
+            </div>
+          </div>
+          <div class="px-4">
+            <p class="speakerName font-semibold">{{ speaker?.speakerName }}</p>
+            <div class="flex flex-row justify-between">
+              <div>
+                <p class="margin-remove-bottom font-normal">Mysore, India</p>
+                <p class="mb-6 font-normal">
+                  {{ speaker?.startTime | date: 'hh:mm':'GMT+05:30' }} to
+                  {{ speaker?.endTime | date: 'hh:mm':'GMT+05:30' }} IST
+                </p>
+              </div>
+              <div>
+                <p class="margin-remove-bottom font-normal">My timezone</p>
+                <p class="mb-6 font-normal">
+                  {{ speaker?.startTime | date: 'hh:mm' }} to
+                  {{ speaker?.endTime | date: 'hh:mm' }}
+                </p>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="my-4 flex flex-row justify-between">
+              <button
+                [disabled]="
+                  !(speaker?.startRemainingTime <= 300000 && speaker?.endRemaningTime >= 0)
+                "
+                class="font-normal ws-mat-primary-border attendBtn mat-raised-button"
+                [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'"
+                type="button"
+              >
+                Attend
+              </button>
+              <p style="margin: auto;">
+                <ng-container *ngIf="speaker?.startRemainingTime > 0">
+                  Session starts in {{ convertMinutes(speaker?.startRemainingTime).hours }} :
+                  {{ convertMinutes(speaker?.startRemainingTime).mins }}
+                </ng-container>
+                <ng-container
+                  *ngIf="speaker?.startRemainingTime < 0 && speaker?.endRemaningTime > 0"
+                >
+                  Session ends in {{ convertMinutes(speaker?.endRemaningTime).hours | json }} :
+                  {{ convertMinutes(speaker?.endRemaningTime).mins | json }}
+                </ng-container>
+                <ng-container
+                  *ngIf="speaker?.startRemainingTime < 0 && speaker?.endRemaningTime < 0"
+                >
+                  Session has ended
+                </ng-container>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #userDetailsTemplate>
+  <div class="userCard flex flex-row flex-wrap">
+    <div class="mat-elevation-z3 py-4 flex flex-column userDetail" *ngFor="let user of userDetails">
+      <div class="userImage pb-2">
+        <img class="circular-image" [src]="user.ImageUrl" [alt]="" />
+      </div>
+      <div class="center column px-4">
+        <p class="text-xl font-bold">{{ user?.UserName }}</p>
+        <p class="font-normal text-lg margin-remove-bottom">{{ user?.Location }}</p>
+      </div>
+    </div>
+  </div>
+</ng-template>

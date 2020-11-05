@@ -1,0 +1,13 @@
+<!-- <div class="progress-circular">
+  <div class="progress-circular-container">
+    <div class="progress-circular-empty"></div>
+    <mat-progress-spinner class="progress-circular-full" [color]="'primary'" [mode]="mode === 'indeterminate' ? 'indeterminate' : 'determinate'"
+      [value]="progress! * 100" [strokeWidth]="3">
+    </mat-progress-spinner>
+    <div class="progress-circular-value">{{ progress! * 100 | number: '1.0-0' }}%</div>
+  </div>
+</div> -->
+<div class="text-center">
+  <mat-progress-spinner class="inline-block" [mode]="spinMode" [diameter]="spinSizeHash[spinSize]" [strokeWidth]="spinWidthHash[spinWidth]"
+    [color]="spinColor" [value]="spinValue"></mat-progress-spinner>
+</div>

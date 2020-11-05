@@ -1,0 +1,25 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.next-b {
+  width: $size-s;
+  height: $size-m;
+  transform: matrix(0, 1, -1, 0, 0, 0);
+  background: #00A9F4 0% 0% no-repeat padding-box;
+}
+
+.home-icon {
+  margin: auto 20px auto 20px;
+}
+
+.back-icon {
+  margin: auto 20px auto 20px;
+}
+
+.min-width {
+  min-width: 55px;
+}
+// .main-back {
+//   font-size: $size-m;
+// }

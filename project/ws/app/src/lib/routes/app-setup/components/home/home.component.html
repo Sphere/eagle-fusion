@@ -1,0 +1,24 @@
+<!-- <div class="setup-container">
+  <div class="mat-elevation-z4 setup-box-container">
+    <router-outlet></router-outlet>
+  </div>
+  <h3 class="title">Step 1/4</h3>
+</div> -->
+
+<div class="outer">
+  <a mat-button routerLink="." i18n-matTooltip matTooltip="Home" class="flex flex-center flex-middle">
+    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo pr-2" />
+    <span class="title-app" *ngIf="appName">| {{appName}}</span>
+  </a>
+
+  <div class="middle">
+    <div class="inner mat-elevation-z4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div *ngIf="showStepCount" class="mat-subheading-1 margin-remove margin-top-m"><span i18n>Step </span> {{stepCount}}/4
+  </div>
+
+
+
+</div>

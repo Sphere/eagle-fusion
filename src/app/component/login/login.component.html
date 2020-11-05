@@ -1,0 +1,19 @@
+
+<ws-app-public-nav-bar></ws-app-public-nav-bar>
+<div class="mb-10">
+  <ng-container *ngIf="!error && pageLayout" [wsLoginResolverWidget]="pageLayout"></ng-container>
+  <!-- <ng-container *ngIf="!error" [wsResolverWidget]="{
+    'widgetType': 'actionButton',
+    'widgetSubType': 'buttonFeature',
+    'widgetData': {
+      'toolTop': 'Search',
+      'actionBtnId': 'feature_search',
+      'config': {
+        'type': 'mat-icon-button'
+      }
+    }
+  }"></ng-container> -->
+</div>
+
+<!-- <ng-container #previewContainer></ng-container> -->
+<ws-app-footer class="app-footer" [ngClass]="{ 'padding-bottom: 56px': !isSetupPage}"></ws-app-footer>

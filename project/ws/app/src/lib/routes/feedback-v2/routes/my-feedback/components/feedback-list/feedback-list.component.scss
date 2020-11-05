@@ -1,0 +1,15 @@
+@import 'ws-vars';
+
+.mat-list-item {
+  line-height: $size-m;
+  .mat-list-base {
+    font-size: unset;
+  }
+}
+
+ws-widget-user-image {
+  $user-size: 40px;
+  width: $user-size;
+  height: $user-size;
+  font-size: $user-size;
+}

@@ -1,0 +1,170 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <ng-container>
+    <span class="margin-left-xs">
+      {{tag}}</span>
+    <span class="margin-left-xs" i18n>
+      Analytics</span>
+  </ng-container>
+</mat-toolbar>
+<div *ngIf="fetchStatus === 'fetching'" class="flex flex-center analytics-loader">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-container *ngIf="fetchStatus === 'error'" [wsResolverWidget]="errorWidget"></ng-container>
+<div *ngIf="fetchStatus === 'done' && uniqueUsers === 0" class="text-center my-8">
+  <h2 i18n>We are gathering the data to provide insights! Coming soon ...</h2>
+</div>
+
+<div *ngIf="fetchStatus === 'done' && uniqueUsers > 0" class="ml-8 mr-8 mb-4">
+  <ng-container *ngIf="!isExpandTrue">
+    <ng-container>
+      <mat-card *ngIf="uniqueUsers" class="unique-users-card margin-top-xl p-4">
+        <mat-card-header class="flex flex-center flex-wrapped">
+          <mat-card-title>
+            <h4 class="padding-left-xs mat-body-strong" i18n="Unique Users">Unique Users</h4>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="flex flex-center flex-wrapped">
+          <h1 class="mat-display-2 font-bold">{{uniqueUsers}}</h1>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+    <div class="flex flex-between flex-wrapped">
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Onsite Offshore">
+                Participants By Onsite Offshore
+              </p>
+            </div>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="onsiteOffshoreData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Unit">
+                Participants By Unit
+              </p>
+            </div>
+            <button *ngIf="analyticsData?.participants.ibu.length > 20" mat-icon-button (click)="onExpand('ibu')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartUnitData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By PU">
+                Participants By PU
+              </p>
+            </div>
+            <button *ngIf="analyticsData?.participants.pu.length > 20" mat-icon-button (click)="onExpand('pu')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartPuData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By JL">
+                Participants By JL
+              </p>
+            </div>
+            <button *ngIf="analyticsData?.participants.jl.length > 20" mat-icon-button (click)="onExpand('jl')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <div class="m-4">
+            <ng-container [wsResolverWidget]="barChartJLData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By DU">
+                Participants By DU
+              </p>
+            </div>
+            <button *ngIf="analyticsData?.participants.du.length > 20" mat-icon-button (click)="onExpand('du')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartDuData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Location">
+                Participants By Location
+              </p>
+            </div>
+            <button *ngIf="analyticsData?.participants.location.length > 20" mat-icon-button
+              (click)="onExpand('location')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <div class="m-4">
+            <ng-container [wsResolverWidget]="barChartLocationData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card class="graph-card">
+          <div class="flex flex-between flex-middle mat-toolbar mat-primary">
+            <div class="flex flex-middle p-2">
+              <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Account">
+                Participants By Account
+              </p>
+            </div>
+            <button *ngIf="analyticsData?.participants.account.length > 20" mat-icon-button
+              (click)="onExpand('account')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <div class="m-4">
+            <ng-container [wsResolverWidget]="barChartAccountData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div class="mt-6" *ngIf="isExpandTrue">
+    <button (click)="onClose()" mat-raised-button i18n-matTooltip="back Action Btn Tooltip" matTooltip="back"
+      color="primary">
+      <mat-icon class="mr-1">arrow_back</mat-icon>
+      Back
+    </button>
+    <ng-container [wsResolverWidget]="barChartOnExpandData"> </ng-container>
+  </div>
+</div>

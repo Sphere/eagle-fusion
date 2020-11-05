@@ -1,0 +1,130 @@
+<section class="container-balanced margin-top-l margin-bottom-l">
+  <ng-container [ngSwitch]="fetchStatus">
+    <ng-container *ngSwitchCase="'fetching'">
+      <section class="margin-top-l flex flex-center width-1-1">
+        <!-- <app-spinner [spinColor]="'primary'"></app-spinner> -->
+      </section>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'done'">
+      <ng-container *ngIf="!certification.isCompleted && !certification?.eligibility?.eligible"
+        [ngTemplateOutlet]="ineligible"></ng-container>
+
+      <ng-container *ngIf="certification?.isCompleted" [ngTemplateOutlet]="completed"></ng-container>
+
+      <ng-container *ngIf="
+          !certification?.isCompleted &&
+          certification?.eligibility?.eligible
+        " [ngSwitch]="content?.isExternal">
+        <ng-container *ngSwitchCase="false" [ngTemplateOutlet]="internal"></ng-container>
+        <ng-container *ngSwitchCase="true" [ngTemplateOutlet]="external"></ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'error'">
+      <ws-app-toc-certification-iap-card [content]="content"
+        *ngIf="content?.sourceShortName === 'IAP' && !content.isExternal"></ws-app-toc-certification-iap-card>
+
+      <section class="margin-top-l text-center mat-body"
+        *ngIf="(content?.sourceShortName !== 'IAP' && !content?.isExternal) || content?.isExternal" i18n>
+        There was an error fetching certification data.
+      </section>
+    </ng-container>
+  </ng-container>
+</section>
+
+<!-- Templates -->
+
+<!-- Internal Certification -->
+<ng-template #internal>
+  <!-- No Booking Exists -->
+  <ng-container *ngIf="!certification?.booking.date">
+    <!-- IAP -->
+    <ws-app-toc-certification-iap-card [content]="content" *ngIf="content?.sourceShortName === 'IAP'">
+    </ws-app-toc-certification-iap-card>
+
+    <!-- ACC -->
+    <ws-app-toc-certification-acc-card></ws-app-toc-certification-acc-card>
+
+    <!-- At-Desk -->
+    <ws-app-toc-certification-at-desk-card></ws-app-toc-certification-at-desk-card>
+  </ng-container>
+
+  <!-- Booking Exists -->
+  <ng-container *ngIf="certification.booking.date">
+    <ws-app-toc-certification-booking-card [content]="content" [certification]="certification"
+      (slotCancel)="onSlotCancel()">
+    </ws-app-toc-certification-booking-card>
+  </ng-container>
+</ng-template>
+
+<!-- External -->
+<ng-template #external>
+  <!-- Budget Approval -->
+  <ws-app-toc-certification-budget-card [certification]="certification" [content]="content"
+    [certificationFetchSubject]="certificationFetchSubject"></ws-app-toc-certification-budget-card>
+
+  <!-- Upload Result -->
+  <ws-app-toc-certification-result-verification-card [certification]="certification" [content]="content"
+    [certificationFetchSubject]="certificationFetchSubject"></ws-app-toc-certification-result-verification-card>
+</ng-template>
+
+<!-- Ineligible for Certification -->
+<ng-template #ineligible>
+  <div class="text-center margin-top-l">
+    <h2 class="mat-h2" i18n>
+      Sorry, but you are not eligible for this certification.
+    </h2>
+    <p class="mat-body" *ngIf="certification?.eligibility">
+      <ws-app-certification-eligibility [eligibility]="certification?.eligibility"></ws-app-certification-eligibility>
+    </p>
+
+    <p class="mat-body" *ngIf="certification?.lastTakenDate?.day">
+      <ng-container i18n>Your last attempt was on: </ng-container>
+      <ng-container>{{ certification?.lastTakenDate | pipeDateConcat }}</ng-container>
+    </p>
+
+    <p class="mat-body" *ngIf="certification?.eligibility?.reason?.nextRegisterDate">
+      <ng-container i18n>You can next register for this certification on or after: </ng-container>
+      <ng-container>
+        {{ certification?.eligibility?.reason?.nextRegisterDate | pipeDateConcat }}
+      </ng-container>
+    </p>
+  </div>
+</ng-template>
+
+<!-- Certification completed -->
+<ng-template #completed>
+  <h2 class="mat-title margin-top-m text-center" i18n>
+    Congratulations!
+  </h2>
+  <p class="mat-body text-center" i18n>
+    You have completed this certification!
+  </p>
+  <div class="margin-top-s" *ngIf="certification?.qualified_score">
+    <h3 class="mat-h3 text-center" i18n>Result</h3>
+    <h2 class="mat-title text-center">
+      {{ certification?.qualified_score }}
+    </h2>
+    <div class="mat-body text-center">
+      Last attempt: {{ certification?.lastTakenDate | pipeDateConcat }}
+    </div>
+  </div>
+  <div class="text-center margin-bottom-l margin-top-s" *ngIf="
+      certification?.verification_request?.document &&
+      certification?.verification_request?.document.length
+    ">
+    <button mat-flat-button [color]="'primary'" class="margin-bottom-xs" (click)="downloadProof()"
+      [disabled]="downloadStatus === 'fetching'">
+      <ng-container *ngIf="downloadStatus !== 'fetching'" i18n>Download Result</ng-container>
+      <ng-container *ngIf="downloadStatus === 'fetching'">
+        <div class="flex flex-between">
+          <div i18n>Downloading...</div>
+          <div class="flex flex-column flex-center">
+            <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'"></mat-progress-spinner>
+          </div>
+        </div>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>

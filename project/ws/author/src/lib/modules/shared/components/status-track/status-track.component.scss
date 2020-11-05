@@ -1,0 +1,168 @@
+// Colours -----------------------------------------
+$grey: #777;
+$grey2: #dfe3e4;
+$blue: #2183dd;
+$green: #009900;
+$white: #fff;
+
+// Progress Bar ------------------------------------
+.progress {
+  position: relative;
+  display: flex;
+
+  // Each Step on the Progress Bar
+  .progress-step {
+    position: relative;
+    width: 100%;
+    text-align: center;
+
+    // Hide the final step's progress bar
+    &:last-child:after {
+      display: none;
+    }
+
+    // Step's circle in default state
+    &:before {
+      content: '';
+      display: flex;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      line-height: 10px;
+      width: 10px;
+      height: 10px;
+      background: $white;
+      border: 4px solid $grey2;
+      border-radius: 100%;
+      color: $white;
+    }
+
+    // Step's progress bar in default state
+    &:after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      width: 100%;
+      transition: width 1s ease-in;
+      height: 5px;
+      background: $grey2;
+      margin: 0px 9px;
+    }
+
+    // Step's active state
+    &.active {
+      &:before {
+        content: '';
+        -webkit-animation: glow 1s ease-in-out infinite alternate;
+        -moz-animation: glow 1s ease-in-out infinite alternate;
+        animation: glow 1s ease-in-out infinite alternate;
+      }
+    }
+
+    // Step's complete state
+    &.complete {
+      // Step's circle in complete state
+      &:before {
+        content: '\2713';
+        color: $white;
+        background: $green;
+        border: 4px solid transparent;
+      }
+
+      // Step's progress bar in complete state
+      &:after {
+        background: $green;
+        animation: nextStep 1s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+}
+
+@keyframes glow {
+  from {
+    border: 4px solid $blue;
+  }
+
+  to {
+    border: 4px solid $blue;
+    background-color: $blue;
+  }
+}
+
+.right-align {
+  text-align: right;
+}
+
+.mat-dialog-content {
+  overflow: hidden !important;
+  max-height: none !important;
+}
+
+.example-container {
+  margin: 4px 0px;
+}
+
+.close-icon {
+  position: absolute !important;
+  top: 0px;
+  right: -10px;
+}
+
+.mat-dialog-container {
+  padding-bottom: 0px;
+}
+
+.circle:before {
+  content: ' \25CF';
+  font-size: 20px;
+}
+
+.custom-height {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.hiddens {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.custom-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+}
+
+.showModal {
+  display: block !important;
+}
+
+/* Modal image */
+.modal-image {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 900px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}

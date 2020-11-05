@@ -1,0 +1,18 @@
+<mat-card class="unique-users-card p-4">
+  <p class="margin-remove-bottom text-left font-bold ws-mat-primary-text">{{title}}</p>
+  <p class="description ws-mat-text-block-fade-gradient">{{description}}</p>
+  <h1 class="mat-display-4 text-center margin-top-m ws-mat-primary-text margin-remove-bottom">{{uniqueUsers}}</h1>
+  <div class="margin-top-xl margin-bottom-s justify-start">
+    <p class="font-bold">More info</p>
+    <div class="cursor-pointer font-bold ws-mat-primary-text">
+      <p *ngIf="analyticsDataClient?.department?.length > 0"
+        class="margin-remove-bottom underline margin-left-xs text-left" (click)="onClick('departments')">{{category1}}
+      </p>
+      <p *ngIf="analyticsDataClient?.country?.length > 0"
+        class="margin-remove-bottom underline margin-left-xs text-left" (click)="onClick('countries')">{{category2}}
+      </p>
+      <p *ngIf="analyticsDataClient?.device?.length > 0" class="margin-remove-bottom underline margin-left-xs text-left"
+        (click)="onClick('devices')">{{category3}}</p>
+    </div>
+  </div>
+</mat-card>

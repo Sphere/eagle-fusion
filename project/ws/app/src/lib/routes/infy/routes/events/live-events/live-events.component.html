@@ -1,0 +1,126 @@
+<mat-toolbar class="ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: '/app/features' }"></ws-widget-btn-page-back>
+  <span class="margin-left-s" i18n>Events</span>
+  <span class="spacer"></span>
+  <span class="spacer"></span>
+  <a *ngIf="!isLiveStream && urlHasLiveUrl" type="button" mat-button [href]="liveUrl" target="_blank">Open
+    in New Tab</a>
+</mat-toolbar>
+
+<ng-container>
+  <div class="events-container">
+    <div class="margin-top-m margin-bottom-l text-center" *ngIf="!urlHasLiveUrl">
+      <h2 *ngIf="isLiveStream && fetchStatus === 'done'" class="mat-h2" i18n>
+        LIVE streaming will be on only during the event.
+      </h2>
+      <h2 *ngIf="!isLiveStream && fetchStatus === 'done' && !liveEvents.length" class="mat-h2 text-center" i18n>
+        No LIVE event at the moment.
+      </h2>
+      <h2 *ngIf="!isLiveStream && fetchStatus === 'fetching'" class="mat-h2 text-center" i18n>
+        Checking for LIVE events...
+      </h2>
+      <mat-card *ngIf="!isLiveStreamMobile" class="margin-top-m margin-bottom-m">
+        <div class="position-relative">
+          <h2 class="text-center">
+            App Live Streaming
+            <span class="beta-badge mat-primary-text" i18n>Beta</span>
+          </h2>
+        </div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title i18n>
+                Live
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a [routerLink]="'/viewer/lex_auth_0127271733829632009'" color="primary" mat-raised-button i18n>Watch</a>
+            <button *ngIf="mobileAppsSvc.isAndroidApp" type="button" class="margin-left-m" mat-raised-button i18n>
+              Go Live
+            </button>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title i18n>
+                Classroom Broadcast
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a [routerLink]="'/viewer/lex_auth_0126128852332052481032'" color="primary" mat-raised-button i18n>Watch</a>
+            <button *ngIf="mobileAppsSvc.isAndroidApp" type="button" class="margin-left-m" mat-raised-button i18n>
+              Go Live
+            </button>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title i18n>
+                360 video
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a [routerLink]="'/viewer/lex_auth_01272703404378521670'" mat-raised-button color="primary" i18n>Watch</a>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card>
+      <div class="flex flex-between flex-wrapped" *ngIf="!isLiveStream && !urlHasLiveUrl">
+        <mat-card *ngFor="let event of liveEvents" class="live-card">
+          <a [routerLink]="'/app/infy/events'" [queryParams]="{ liveUrl: event.event_url }">
+            <h2 class="mat-h2">{{ event.event_name }}</h2>
+            <div>
+              <ng-container [ngTemplateOutlet]="startTime" [ngTemplateOutletContext]="{ $implicit: event }">
+              </ng-container>
+            </div>
+            <div>
+              <ng-container [ngTemplateOutlet]="endTime" [ngTemplateOutletContext]="{ $implicit: event }">
+              </ng-container>
+            </div>
+          </a>
+        </mat-card>
+      </div>
+    </div>
+    <mat-card *ngIf="showIframeSupportWarning && !isLiveStream && urlHasLiveUrl">
+      <mat-card-content>
+        <h2 class="mat-h2" i18n>
+          If facing issues in video, please click 'Open in new tab' above
+        </h2>
+        <mat-divider></mat-divider>
+        <div class="text-center padding-top-s">
+          <button type="button" mat-button (click)="showIframeSupportWarning = false">
+            Dismiss
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div class="live-event-container" *ngIf="!isLiveStream && urlHasLiveUrl">
+      <iframe i18n-title title="live event" allow="fullscreen" class="live-event" [src]="safeLiveUrl"></iframe>
+    </div>
+  </div>
+  <!-- <div *ngIf="events" class="text-center margin-top-m margin-bottom-m">
+    <h2 class="mat-h2" i18n>Events:</h2>
+    <a
+      class="margin-right-m margin-top-m"
+      mat-stroked-button
+      *ngFor="let event of events | keyvalue"
+      [color]="'primary'"
+      [routerLink]="'/events/' + event.key"
+    >
+      {{ event.value.title }}
+    </a>
+  </div> -->
+
+  <!-- Templates -->
+  <ng-template #startTime let-event>
+    <span class="mat-body-strong">
+      <ng-container *ngIf="isCurrentTimeSmall(event.start_time); else eventStarted" i18n>Starts: </ng-container>
+      <ng-template #eventStarted i18n>Started: </ng-template>
+    </span>
+    <span class="mat-body date-value">{{ event.start_time | date: "d MMM, yyyy HH:mm a" }}</span>
+  </ng-template>
+
+  <ng-template #endTime let-event>
+    <span class="mat-body-strong">
+      <ng-container *ngIf="isCurrentTimeSmall(event.end_time); else eventEnded" i18n>Ends: </ng-container>
+      <ng-template #eventEnded i18n>Ended: </ng-template>
+    </span>
+    <span class="mat-body date-value">{{ event.end_time | date: "d MMM, yyyy HH:mm a" }}</span>
+  </ng-template>
+
+  <input type="hidden" i18n-value value="Please update your app to use this feature." #appOutdated />
+</ng-container>

@@ -1,0 +1,98 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span i18n="page title: notification" class="margin-left-xs">Notifications</span>
+  <span class="spacer"></span>
+  <button
+    [hidden]="fetchStatus === 'fetching'"
+    mat-icon-button
+    i18n-title
+    title="re-check notifications"
+    (click)="initiate()"
+    type="button"
+    i18n-aria-label="re check notifications"
+    aria-label="refresh notifications"
+  >
+    <mat-icon>refresh</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="outer-container">
+  <mat-card *ngIf="fetchStatus" class="notifications-container">
+    <div class="mt-2 text-center" *ngIf="fetchStatus === 'fetching'">
+      <mat-spinner></mat-spinner>
+    </div>
+    <h2 class="mat-title" *ngIf="fetchStatus === 'none'" i18n>No notifications</h2>
+    <mat-nav-list>
+      <div *ngIf="recentBadge" class="py-3 pt-0">
+        <h2 class="mat-title mb-2" i18n="recently earned badge">Recent Badge</h2>
+        <a mat-list-item [routerLink]="'/app/profile/badges'">
+          <img alt matListAvatar class="recent-badge" [src]="recentBadge?.image" />
+          <h4 matLine>{{ recentBadge?.badge_name }}</h4>
+          <p matLine>{{ recentBadge?.message }}</p>
+          <p matLine>
+            <ng-container i18n="notification: badge received on">Received on: </ng-container>
+            <span> {{ recentBadge?.last_received_date | date }}</span>
+          </p>
+        </a>
+      </div>
+      <mat-divider></mat-divider>
+      <div *ngIf="sharedPlaylists.length" class="py-3">
+        <h2 class="mat-title mb-2" i18n="notification: shared playlists">
+          Shared Playlist
+        </h2>
+        <a
+          mat-list-item
+          [routerLink]="'/app/playlist/notification'"
+          *ngFor="let sharedPlaylist of sharedPlaylists | pipeLimitTo: 2; trackBy: playlistTrackBy"
+        >
+          <mat-icon matListIcon class="notification-icon">playlist_play</mat-icon>
+          <h4 matLine>{{ sharedPlaylist?.name }}</h4>
+          <p matLine>
+            <ng-container i18n="notification: playlist shared by">Shared by: </ng-container>
+            <span> {{ sharedPlaylist?.sharedBy }}</span>
+          </p>
+          <p matLine>
+            <ng-container i18n="notification: playlist shared on">Shared on: </ng-container>
+            <span> {{ sharedPlaylist?.sharedOn | date }}</span>
+          </p>
+        </a>
+        <div *ngIf="sharedPlaylists.length > 2" class="text-right">
+          <a
+            i18n="notification: view more playlist"
+            mat-button
+            [routerLink]="'/app/playlist/notification'"
+            >View More</a
+          >
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div *ngIf="sharedGoals.length" class="py-3">
+        <h2 class="mat-title mb-2" i18n="notification: shared goals">Shared Goals</h2>
+        <a
+          mat-list-item
+          [routerLink]="'/app/goals/notification'"
+          *ngFor="let sharedGoal of sharedGoals | pipeLimitTo: 2; trackBy: goalTrackBy"
+        >
+          <mat-icon matListIcon class="notification-icon">adjust</mat-icon>
+          <h4 matLine>{{ sharedGoal.name }}</h4>
+          <p matLine>
+            <ng-container i18n="notification: goal shared by">Shared by: </ng-container>
+            <span> {{ sharedGoal.sharedBy }}</span>
+          </p>
+          <p matLine>
+            <ng-container i18n="notification: goal shared on">Shared on: </ng-container>
+            <span> {{ sharedGoal.sharedOn | date }}</span>
+          </p>
+        </a>
+        <div *ngIf="sharedGoals.length > 2" class="text-right">
+          <a
+            i18n="notification: view more goals"
+            mat-button
+            [routerLink]="'/app/goals/notification'"
+            >View More</a
+          >
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-card>
+</div>

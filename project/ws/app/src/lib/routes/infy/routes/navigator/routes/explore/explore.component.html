@@ -1,0 +1,74 @@
+<mat-toolbar color="primary">
+  <div>
+    <a mat-icon-button routerLink="/app/infy/navigator">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <span i18n="page title: navigator explore" class="margin-left-xs">Explore</span>
+  </div>
+</mat-toolbar>
+
+<mat-tab-group animationDuration="0ms" mat-align-tabs="center" class="mat-tab-labels" [selectedIndex]="selectedIndex"
+  (selectedTabChange)="selectedIndex = $event.index">
+  <mat-tab label="Learning Paths">
+    <div class="headings mat-headline ws-mat-primary-text margin-top">
+      <div *ngIf="status === 'done'; else loader">
+        <div class="toolbar margin-top-xl">
+          <p [ngClass]="smallScreen == false ? 'mat-headline' : 'mat-title'" i18n>
+            Learning path(s) in high demand
+          </p>
+          <div class="button-holder">
+            <a mat-flat-button [routerLink]="['/app/infy/navigator/tech/learning-path/result']"
+              [queryParams]="selectionjava">
+              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold " i18n>SEE ALL</span>
+              <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+            </a>
+          </div>
+        </div>
+
+        <div *ngIf="lpData.length" class="card-container">
+          <ws-utils-horizontal-scroller>
+            <div *ngIf="lpData.length" class="card-holder" #cardContents>
+              <div *ngFor="let lpData of lpData">
+                <ws-app-navigator-card [navigatorCard]="lpData"></ws-app-navigator-card>
+              </div>
+            </div>
+          </ws-utils-horizontal-scroller>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Full Stack Programs">
+    <div class="headings mat-headline ws-mat-primary-text margin-top">
+      <div *ngIf="statusFs === 'done'">
+        <div class="toolbar margin-top-xl">
+          <p [ngClass]="smallScreen == false ? 'mat-headline' : 'mat-title'" i18n>
+            Pick a full stack offering of your choice to learn
+          </p>
+
+          <div class="button-holder">
+            <a mat-flat-button [routerLink]="'/app/infy/navigator/fs/all/'">
+              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>SEE ALL</span>
+              <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+            </a>
+          </div>
+        </div>
+        <div *ngIf="fsData.length" class="card-container">
+          <ws-utils-horizontal-scroller>
+            <div *ngIf="fsData.length" class="card-holder" #cardContents>
+              <div *ngFor="let fsData of fsData">
+                <ws-app-navigator-card [navigatorCard]="fsData"></ws-app-navigator-card>
+              </div>
+            </div>
+          </ws-utils-horizontal-scroller>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+<ng-template #loader>
+  <div class="text-center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

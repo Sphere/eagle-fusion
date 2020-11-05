@@ -1,0 +1,9 @@
+@import 'ws-common';
+.container {
+  @extend %page-center;
+
+  @include breakpoint-lt-m {
+    padding-left: $size-m;
+    padding-left: $size-m;
+  }
+}

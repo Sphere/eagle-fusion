@@ -1,0 +1,25 @@
+<h3 i18n>Select Input type</h3>
+<mat-radio-group class="radio" aria-labelledby="data-type" [(ngModel)]="dataType">
+  <mat-radio-button class="radioButton" value='html' i18n>
+    Paste HTML Code
+  </mat-radio-button>
+  <mat-radio-button class="radioButton" value='editor' i18n>
+    Editor
+  </mat-radio-button>
+</mat-radio-group>
+<br>
+<br>
+<ng-container [ngSwitch]="dataType">
+  <div *ngSwitchCase="'html'">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label i18n>Paste HTML Code</mat-label>
+      <textarea rows="4" type="text" matInput i18n-placeholder placeholder="Provide HTML Code" #html
+        [value]="content.html || ''" [matTextareaAutosize]="true" (change)="update($event, dataType)">
+        </textarea>
+    </mat-form-field>
+  </div>
+  <ng-container *ngSwitchCase="'editor'">
+    <ws-auth-plain-ckeditor [doRegex]="false" [location]="location" [id]="identifier" [content]="content.html || ''"
+      (value)="update($event, dataType)">
+    </ws-auth-plain-ckeditor>
+  </ng-container>

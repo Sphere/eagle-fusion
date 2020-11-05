@@ -1,0 +1,32 @@
+@import 'ws-mixins';
+
+ws-widget-user-image {
+  $image-size: 50px;
+  display: inline-block;
+  width: $image-size;
+  height: $image-size;
+  font-size: $image-size;
+}
+
+.reply-content {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.icon-section {
+      width: 10%;
+      text-align: center;
+
+    @include breakpoint-xs {
+      width: 15%;
+    }
+
+    .vote-count {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }

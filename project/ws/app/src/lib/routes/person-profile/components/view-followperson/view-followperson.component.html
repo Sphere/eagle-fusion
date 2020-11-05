@@ -1,0 +1,27 @@
+<mat-card class="card mat-elevation-z0 margin-remove">
+  <mat-card-content>
+    <div class="flex">
+      <div class="flex flex-between w-full">
+        <div class="flex flex-middle flex-wrap cursor-pointer" (click)="proceedToProfile(emailId)">
+          <img src="/assets/images/profile/blank-profilePcture.png" class="object-cover followimg" />
+          <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold followname font-family">{{name}}</p>
+        </div>
+        <div class="flex flex-end m-2" *ngIf="isFollowAvailable">
+          <ng-container [ngSwitch]="statusFollowed">
+            <button type="button" *ngSwitchCase="'NOT_FOLLOWED'" mat-raised-button class="follow-button ws-mat-primary-background margin-top-xs"
+              (click)="follow()">
+              <div class="flex flex-center">
+                <p class="text-white margin-remove-bottom font-weight-bold font-family" i18n>Follow</p>
+              </div>
+            </button>
+            <button type="button" *ngSwitchCase="'FOLLOWED'" mat-raised-button class="unfollow-button margin-top-xs" (click)="unfollow()">
+              <div class="flex flex-center">
+                <p class="font-family margin-remove-bottom font-weight-bold text-black" i18n>Unfollow</p>
+              </div>
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,39 @@
+<div class="error-not-found flex flex-wrapped margin-left-m margin-top-xl margin-right-m">
+  <div class="error-logo">
+    <img
+      alt
+      class="error-image"
+      *ngIf="errorData"
+      [src]="isDarkMode ? errorData?.errorImageDark : errorData?.errorImageLite"
+    />
+    <div class="error-message ws-mat-primary-text font-weight-bold" i18n>
+      Oops! Something went wrong
+    </div>
+  </div>
+  <div class="error-support">
+    <div class="support-message" i18n>We are facing some technical difﬁculties.</div>
+    <div class="support-message" i18n>You might want to:</div>
+    <ul>
+      <li i18n>Empty the cache and reload the page.</li>
+      <li>
+        <ng-container i18n>Do you suspect a site problem? </ng-container>
+      </li>
+    </ul>
+    <!-- <a
+      mat-raised-button
+      color="primary"
+      *ngIf="errorData?.mailId"
+      href="mailto:{{ errorData?.mailId }}"
+    >
+      Report the issue
+    </a> -->
+    <a
+      mat-raised-button
+      color="primary"
+      *ngIf="errorData?.mailId"
+      [routerLink]="'/app/feedback/platform_feedback'"
+    >
+      Report the issue
+    </a>
+  </div>
+</div>

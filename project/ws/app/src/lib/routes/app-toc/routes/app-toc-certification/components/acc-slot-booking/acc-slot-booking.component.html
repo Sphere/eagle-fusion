@@ -1,0 +1,191 @@
+<section class="my-4">
+  <h2 class="mat-title text-center" i18n>At Assessment Center</h2>
+  <p class="mat-body text-center" i18n>
+    Book this certification exam at available assessment centers in your organization.
+  </p>
+
+  <div class="width-balancer-1-2 m-auto">
+    <ng-container *ngIf="locations && !locations.length">
+      <div class="mat-caption text-center my-4" i18n="no certification locations available">
+        This certification has not been scheduled in any location.
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!locations || (locations && locations.length)">
+      <form [formGroup]="accForm" (submit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+        <!-- Location -->
+        <div class="my-2">
+          <mat-form-field class="w-full">
+            <mat-chip-list #locationChips>
+              <mat-chip
+                *ngFor="let location of locationChipList"
+                [value]="location"
+                [selectable]="true"
+                [removable]="true"
+                (removed)="locationRemoved($event.value)"
+              >
+                {{ location.dc }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input
+                #locationInput
+                matInput
+                [matAutocomplete]="locationAutocomplete"
+                [matChipInputFor]="locationChips"
+                [formControl]="locationCtrl"
+                placeholder="Location"
+                i18n-placeholder
+              />
+              <mat-progress-spinner
+                matSuffix
+                *ngIf="locationFetchStatus === 'fetching'"
+                [color]="'primary'"
+                [diameter]="16"
+                [mode]="'indeterminate'"
+              ></mat-progress-spinner>
+              <mat-autocomplete
+                #locationAutocomplete="matAutocomplete"
+                [displayWith]="displayLocationNameAutocomplete"
+                (optionSelected)="locationSelected($event.option.value)"
+              >
+                <mat-option *ngFor="let location of filteredLocations$ | async" [value]="location">
+                  {{ location.dc }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-chip-list>
+
+            <mat-hint *ngIf="locationFetchStatus === 'fetching'" i18n>
+              Fetching locations...
+            </mat-hint>
+            <mat-error *ngIf="locationFetchStatus === 'error'" i18n>
+              There was an error fetching locations.
+            </mat-error>
+            <mat-hint *ngIf="locationFetchStatus === 'done' && !locations.length" i18n>
+              There are no locations for this certification.
+            </mat-hint>
+            <mat-hint *ngIf="locationFetchStatus === 'done' && locations.length" i18n>
+              Search and select a location.
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Test Center -->
+        <div class="my-2">
+          <mat-form-field class="w-full">
+            <mat-select
+              placeholder="Test Center"
+              i18n-placeholder
+              formControlName="testCenter"
+              (selectionChange)="getTestCenterSlots()"
+            >
+              <ng-container *ngIf="locationCtrl.value && locationCtrl.value.testcenters">
+                <mat-option
+                  *ngFor="let testcenter of locationCtrl.value.testcenters"
+                  [value]="testcenter"
+                >
+                  {{ testcenter }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+
+            <mat-hint *ngIf="!(locations && locations.length)" i18n>
+              Select a location, then select a test center.
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Date -->
+        <!-- Date Fetching -->
+        <div class="my-2 flex flex-between" *ngIf="dateSlotFetchStatus === 'fetching'">
+          <div class="mat-caption" i18n>Fetching dates...</div>
+          <mat-progress-spinner
+            matSuffix
+            [color]="'primary'"
+            [diameter]="16"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </div>
+
+        <!-- Date Control -->
+        <div class="my-2">
+          <mat-form-field class="w-full" *ngIf="slots && slots?.slotdata.length">
+            <mat-select placeholder="Date" formControlName="dateSlot" (change)="onDateChange()">
+              <ng-container *ngIf="slots">
+                <mat-option *ngFor="let slotItem of slots?.slotdata" [value]="slotItem">
+                  {{ slotItem.date | pipeDateConcat }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+
+            <mat-progress-spinner
+              matSuffix
+              *ngIf="dateSlotFetchStatus === 'fetching'"
+              [color]="'primary'"
+              [diameter]="16"
+              [mode]="'indeterminate'"
+            ></mat-progress-spinner>
+
+            <mat-hint *ngIf="dateSlotFetchStatus === 'fetching'" i18n>Fetching dates...</mat-hint>
+            <mat-hint *ngIf="dateSlotFetchStatus === 'done' && slots?.slotdata.length" i18n>
+              All dates are in IST (Indian Standard Time).
+            </mat-hint>
+            <mat-error *ngIf="dateSlotFetchStatus === 'error'" i18n
+              >There was an error fetching dates.</mat-error
+            >
+            <mat-error *ngIf="dateSlotFetchStatus === 'done' && !slots.slotdata.length" i18n>
+              There are no dates and slots available.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- No slots -->
+        <div
+          class="mat-caption text-center my-2"
+          *ngIf="!dateHasSlots(accForm.controls['dateSlot'].value)"
+          i18n="no certification slots available"
+        >
+          There are no slots available for this location.
+        </div>
+
+        <!-- Slots -->
+        <div class="my-2">
+          <mat-form-field
+            class="w-full"
+            *ngIf="accForm.value.dateSlot && dateHasSlots(accForm.controls['dateSlot'].value)"
+          >
+            <mat-select formControlName="slot" placeholder="Time slot">
+              <ng-container *ngFor="let slot of accForm.value.dateSlot.slots">
+                <mat-option *ngIf="slot.seats_available" [value]="slot.slot_no">
+                  {{ slot.slot_time }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="text-center">
+          <button
+            mat-stroked-button
+            type="submit"
+            [color]="'primary'"
+            [disabled]="accForm.invalid || bookingSendStatus === 'sending'"
+          >
+            <ng-container *ngIf="bookingSendStatus !== 'sending'" i18n>Book Slot</ng-container>
+            <ng-container *ngIf="bookingSendStatus === 'sending'">
+              <div class="flex flex-between">
+                <div i18n>Sending...</div>
+                <div class="flex flex-column flex-center">
+                  <mat-progress-spinner
+                    [color]="'primary'"
+                    [diameter]="16"
+                    [mode]="'indeterminate'"
+                  ></mat-progress-spinner>
+                </div>
+              </div>
+            </ng-container>
+          </button>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</section>

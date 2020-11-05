@@ -1,0 +1,81 @@
+<mat-toolbar color="primary" *ngIf="fetchStatus === 'done'">
+  <a mat-icon-button routerLink="/app/infy/navigator/explore">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span class="margin-left-xs">{{
+    learningPath.lp_name
+  }}</span>
+</mat-toolbar>
+
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="banner-description margin-bottom-m padding-top-m">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+        Choose a profile below to discover the courses that you need to learn
+      </h1>
+      <h2 i18n class="mat-title margin-top-xl">
+        Create goals to track your learning and get certified.
+      </h2>
+    </div>
+  </div>
+  <div class="margin-top-xl description ">
+    <div class="mat-subheading-2 text-bold">
+      <ng-container *ngIf="learningPath">
+        {{ learningPath.lp_description }}
+      </ng-container>
+    </div>
+    <div class="margin-top-l">
+      <h1 class="mat-headline padding-top-l text-bold" i18n>
+        Profiles for the selected Learning Path
+      </h1>
+      <mat-radio-group>
+        <ng-container *ngFor="let profile of learningPath?.profiles; let idx = index">
+          <mat-radio-button name="profile" [value]="profile?.profile_id" [checked]="idx === 0"
+            (change)="onProfileChange(profile?.profile_id)" class="mat-title ws-mat-primary-text">
+            {{ profile?.profile_display_name }}
+          </mat-radio-button>
+          <div class="radio-desc">
+            <p class="flex radio mat-body-1">
+              <mat-icon>access_time</mat-icon>
+              <span class="margin-left-xs/2 text-bold">{{ profile.profile_time + ' DAYS' }}</span>
+            </p>
+            <span class="mat-subheading-2 text-bold courses-profile"
+              *ngFor="let course of (learningPath?.profiles)[idx].courses; let cIdx = index">
+              {{ course.course_name }}
+              <ng-container *ngIf="cIdx < (learningPath?.profiles)[idx].courses.length - 1">,
+              </ng-container>
+            </span>
+          </div>
+          <mat-divider class="margin-bottom-l"></mat-divider>
+        </ng-container>
+      </mat-radio-group>
+    </div>
+    <div class="text-center margin-top-xl">
+      <button *ngIf="!goalsAddingInProgess" mat-raised-button color="primary" (click)="createGoalClicked()">
+        Create Goal
+      </button>
+      <mat-spinner *ngIf="goalsAddingInProgess" class="display-inline-block"></mat-spinner>
+    </div>
+    <div *ngIf="coursesFetched">
+      <ng-container [wsResolverWidget]="coursesResolverData"></ng-container>
+    </div>
+    <div class="margin-top-m practice-certification">
+      <div class="margin-top-l" *ngIf="playgroundData.length">
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l" i18n>Practice</h1>
+        <div class="card-holder">
+          <ng-container *ngFor="let playItem of playgroundData">
+            <ws-app-lp-card [navigatorCard]="playItem"></ws-app-lp-card>
+          </ng-container>
+        </div>
+      </div>
+      <div class="margin-top-l" *ngIf="certificationData.length">
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l" i18n>Certification</h1>
+        <div class="card-holder">
+          <ng-container *ngFor="let certData of certificationData">
+            <ws-app-lp-card [navigatorCard]="certData"></ws-app-lp-card>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

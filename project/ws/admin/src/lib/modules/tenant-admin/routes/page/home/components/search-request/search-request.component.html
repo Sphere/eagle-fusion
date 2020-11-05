@@ -1,0 +1,40 @@
+<mat-form-field class="width-1-1" appearance="outline">
+  <input (input)="updateQuery($event.target.value)" matInput i18n-placeholder [placeholder]="'Query'">
+</mat-form-field>
+
+
+
+<!--<div>
+  <label class="pr-4" i18n>Sort Order: </label>
+  <mat-radio-group [value]="sortOrderTypes.DESCENDING" (change)="sortOrder = $event.value">
+    <mat-radio-button class="py-2" [value]="sortOrderTypes.DESCENDING" i18n>Descending</mat-radio-button>
+    <mat-radio-button class="py-2 px-0 sm:px-2" [value]="sortOrderTypes.ASCENDING" i18n>Ascending
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div>
+  <label class="pr-4" i18n>Sort By: </label>
+  <mat-radio-group aria-label="Select an option" [(ngModel)]="sortByTypes.LAST_UPDATED_ON"
+    (change)="sortBy = $event.value">
+    <mat-radio-button class="py-2" [value]="sortByTypes.LAST_UPDATED_ON" i18n>Last Updated on
+    </mat-radio-button>
+    <mat-radio-button class="py-2 px-4" [value]="sortByTypes.VALUE1" i18n>Some Value 1</mat-radio-button>
+    <mat-radio-button class="py-2" [value]="sortByTypes.VALUE2" i18n>Some Value 2</mat-radio-button>
+  </mat-radio-group>
+  <div> -->
+
+
+<!-- <mat-form-field class="width-1-1" appearance="fill">
+  <input type="number" matInput i18n-placeholder placeholder="Page No" [(ngModel)]="request.pageNo">
+</mat-form-field>
+
+<mat-form-field class="width-1-1" appearance="fill">
+  <input type="number" min="0" max="100" i18n-placeholder matInput placeholder="Page Size"
+    [(ngModel)]="request.pageSize">
+</mat-form-field> -->
+
+
+<button class="float-right" i18n mat-raised-button (click)="save()" [disabled]="!request" [color]="'primary'">
+  Save
+</button>

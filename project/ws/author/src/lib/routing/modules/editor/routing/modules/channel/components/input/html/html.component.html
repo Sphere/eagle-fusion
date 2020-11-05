@@ -1,0 +1,94 @@
+<div>
+  <h3 i18n>Select Data Input type</h3>
+  <mat-radio-group class="radio" aria-labelledby="data-type" [(ngModel)]="dataType">
+    <mat-radio-button class="radioButton" value='html' i18n>
+      Plain HTML
+    </mat-radio-button>
+    <mat-radio-button class="radioButton" value='template' i18n>
+      Template
+    </mat-radio-button>
+    <!-- <mat-radio-button class="radioButton" value='templateUrl' i18n>
+      Upload Template
+    </mat-radio-button> -->
+  </mat-radio-group>
+  <br>
+  <br>
+  <ng-container [ngSwitch]="dataType">
+    <div *ngSwitchCase="'html'">
+      <p class="required">HTML</p>
+      <!-- <div class="pb-4">
+        <ng-container i18n>Click </ng-container>
+        <a href="https://ckeditor.com/docs/" rel="noopener noreferrer" target="_blank" i18n>here</a>
+        <ng-container i18n> to see CKEditor documentation</ng-container>
+      </div> -->
+      <ws-auth-plain-ckeditor [doRegex]="false" [location]="location" [id]="identifier" [content]="content.html || ''" (value)="update('html', $event)">
+      </ws-auth-plain-ckeditor>
+    </div>
+    <div *ngSwitchCase="'template'">
+      <!-- <div class="mb-4" i18n>Plain HTML has precedence over Template. Make sure you empty HTML data before editing template data.
+      </div> -->
+      <div>
+        <p>
+          <b class="required" i18n>Enter Template Data</b>
+        </p>
+        <mat-form-field appearance="outline" class="child">
+          <textarea required matInput name="template" #template (change)="update('template', template.value)" i18n-placeholder
+            placeholder="Template Data" [value]="content.template || ''">
+                </textarea>
+          <mat-error *ngIf="!template.value">
+            The Above field is reqiured
+          </mat-error>
+        </mat-form-field>
+
+        <!-- <ws-auth-ace-editor [mode]="'html'" [content]="content.template || ''" (data)="update('template', $event)">
+        </ws-auth-ace-editor> -->
+      </div>
+      <div>
+        <p i18n>Enter Template Data</p>
+        <ws-auth-ace-editor [mode]="'json'" [content]="content.templateData || {}" (data)="update('templateData',$event)">
+        </ws-auth-ace-editor>
+      </div>
+    </div>
+    <div *ngSwitchCase="'templateUrl'">
+      <button class="button" mat-stroked-button (click)="html.click()">
+        <ng-container *ngIf="!content?.templateUrl">
+          <span class="required" i18n>Choose HTML</span>
+        </ng-container>
+        <ng-container *ngIf="content?.templateUrl" i18n>Change HTML</ng-container>
+        <input type="file" (change)="upload($event.target.files[0],'video');html.value = null" class="hidden" #html accept=".html">
+      </button>
+      <br>
+      <button class="button" mat-stroked-button (click)="data.click()">
+        <ng-container *ngIf="!content?.templateUrlData" i18n>Choose JSON</ng-container>
+        <ng-container *ngIf="content?.templateUrlData" i18n>Change JSON</ng-container>
+        <input type="file" (change)="upload($event.target.files[0],'image');data.value = null" class="hidden" #data accept=".json">
+      </button>
+    </div>
+  </ng-container>
+
+  <h3>
+    <div class="margin-top-xs flex flex-middle">
+      <ng-container i18n>CSS Class for Widget</ng-container>
+      <mat-icon class="ws-mat-primary-text margin-left-xs pointer" (click)="showInfo = 'gridClass'">info
+      </mat-icon>
+    </div>
+    <span *ngIf="showInfo === 'gridClass'">
+      <ng-container i18n>Use pre-defined classes of Tailwind CSS framework. Click </ng-container>
+      <a href="https://tailwindcss.com/" target="_blank" i18n>here</a>
+      <ng-container i18n> to see its documentation</ng-container>
+    </span>
+  </h3>
+  <ws-auth-chips [content]="content.containerClass" (data)="update('containerClass', $event)"></ws-auth-chips>
+  <h3>
+    <div class="margin-top-xs flex flex-middle">
+      <ng-container i18n>CSS Style for Widget</ng-container>
+      <mat-icon class="ws-mat-primary-text margin-left-xs pointer" (click)="showInfo = 'gridCss'">info
+      </mat-icon>
+    </div>
+    <span *ngIf="showInfo === 'gridCss'">
+      Enter proper css properties in key value pair inside the curly braces. e.g. {{'{'}} "background-color" : "blue" {{'}'}}
+    </span>
+  </h3>
+  <ws-auth-ace-editor [mode]="'json'" [content]="content.containerStyle || {}" (data)="update('containerStyle',$event)">
+  </ws-auth-ace-editor>
+</div>

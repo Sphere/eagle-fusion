@@ -1,0 +1,10 @@
+<ng-container *ngIf="isSocialMediaTwitterShareEnabled">
+  <iframe id="twitter-widget-2" allowfullscreen="true" scrolling="no" style="width: 78px; height:28px; overflow:hidden;"
+    class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" title="Twitter Tweet"
+    [src]="sanitizeTwitterUrl"></iframe>
+
+  <!-- twitter -->
+  <!-- <a class="twitter-share-button" target="_blank"
+    [href]="'https://twitter.com/intent/tweet?text=' + url + '%0A' + message" data-size="large">
+    Tweet</a> -->
+</ng-container>

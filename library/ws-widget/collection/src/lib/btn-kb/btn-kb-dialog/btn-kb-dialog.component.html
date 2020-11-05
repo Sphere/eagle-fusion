@@ -1,0 +1,85 @@
+<!-- added *ngIf="false" for disabling -->
+<!-- <div class="mat-dialog-content" *ngIf="false"> -->
+<div class="mat-dialog-content">
+  <section class="p-8" *ngIf="inProgress === 'fetching'">
+    <mat-spinner></mat-spinner>
+  </section>
+  <ng-container *ngIf="inProgress !== 'fetching'">
+    <ng-container *ngIf="fetchKbs === 'done' && !knowledgeBoards?.length">
+      <h2 class="mat-title" i18n>You don't have any Knowledge Boards</h2>
+      <a (click)="redirectToCreateKb()" mat-button color="primary" i18n>Create New</a>
+    </ng-container>
+    <div class="ws-mat-primary-default-text mat-subheading-2 text-truncate">{{contentName}}</div>
+    <mat-divider></mat-divider>
+    <h2 *ngIf="knowledgeBoards?.length" class="mat-subheading-2 margin-remove-bottom" i18n>
+      Select a Knowledge Board
+    </h2>
+    <div class="p-8 text-center" *ngIf="fetchKbs === 'fetching'">
+      <mat-spinner></mat-spinner>
+    </div>
+    <ng-container *ngIf="knowledgeBoards?.length">
+      <mat-selection-list (selectionChange)="selectionChange($event?.option?.value, $event?.option?.selected)" #boards
+        [hidden]="fetchKbs !== 'done'" class="mb-8">
+        <ng-container *ngFor="let board of knowledgeBoards">
+          <mat-list-option name="kb-name-kb-dialog" [disabled]="selectedBoards.has(board?.identifier)"
+            [matTooltipDisabled]="!selectedBoards.has(board?.identifier)"
+            [matTooltip]="'You can modify this from the board'" [selected]="selectedBoards.has(board?.identifier)"
+            [value]="board?.identifier" checkboxPosition="before">
+            {{ board?.name }}
+          </mat-list-option>
+          <span *ngIf="board.message &&  board.message === 'success'" class="ws-mat-primary-default-text">Updated
+          </span>
+          <span *ngIf="board.message &&  board.message === 'failure'" class="ws-mat-warn-text">Updates failed</span>
+          <div *ngIf="postSelectedBoards.has(board?.identifier)" class="flex items-center">
+            <mat-expansion-panel expanded>
+
+              <mat-form-field>
+                <mat-label i18n>Choose Section</mat-label>
+                <mat-select [(ngModel)]="board.selectedSection" [disabled]="selectedBoards.has(board?.identifier)"
+                  [matTooltipDisabled]="!selectedBoards.has(board?.identifier)"
+                  [matTooltip]="'You can modify this from the board'">
+                  <mat-option *ngIf="board.sections.indexOf('Default') < 0" value="Default" i18n>Default</mat-option>
+                  <ng-container *ngFor="let section of board.sections">
+                    <mat-option [value]="section">
+                      {{ section }}
+                    </mat-option>
+                  </ng-container>
+                  <!-- <mat-option value="NewNewNew">New Section</mat-option> -->
+                </mat-select>
+              </mat-form-field>
+            </mat-expansion-panel>
+            <span class="pr-4"></span>
+            <mat-form-field *ngIf="board.selectedSection.indexOf('NewNewNew') > -1">
+              <input matInput placeholder="Create a new section" [(ngModel)]="board.newSelectedSection" />
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </mat-selection-list>
+      <h2 class="mat-subheading-2" i18n>This helps in...</h2>
+      <p>
+        <mat-form-field appearance="fill" floatLabel="never" class="w-full">
+          <textarea matInput i18n-placeholder placeholder="Reason to add this goes here" [(ngModel)]="reason"
+            rows="3"></textarea>
+        </mat-form-field>
+      </p>
+
+      <div class="flex flex-row-reverse">
+        <div class="flex">
+          <button name="pin-to-kb-done-button" mat-button (click)="doneChanges()" i18n>
+            Cancel
+          </button>
+          <button name="pin-to-kb-done-button" mat-button [disabled]="postSelectedBoards.size == 0"
+            (click)="addContentToKb(boards.selectedOptions.selected)" i18n>
+            Save
+          </button>
+
+        </div>
+
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<input #contentUpdated type="hidden" i18n-value value="Content Updated" />
+<input #contentNotUpdated type="hidden" i18n-value
+  value="Content not updated for some knowledge boards, add it from knowledge board home page" />

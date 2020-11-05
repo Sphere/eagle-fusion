@@ -1,0 +1,54 @@
+.left {
+  padding-left: 25px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+mat-expansion-panel {
+  margin-bottom: 1rem !important;
+}
+
+.mat-dialog-content {
+  overflow: hidden;
+}
+
+mat-dialog-content {
+  min-width: 600px;
+  min-height: 200px;
+  overflow-y: auto !important;
+}
+
+.column-wise {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-wise {
+  display: flex;
+  flex-direction: row;
+}
+
+.example-radio-group,
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.example-radio-button,
+.radio-button {
+  margin: 5px 0 !important;
+  margin-right: 8px !important;
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+:host ::ng-deep.mat-form-field-infix {
+  display: flex !important;
+}

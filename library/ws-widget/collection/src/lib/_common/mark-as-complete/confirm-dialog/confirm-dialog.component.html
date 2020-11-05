@@ -1,0 +1,14 @@
+<ng-container *ngIf="fetchStatus !== 'fetching'; else loader">
+  <div mat-dialog-content>
+    <p i18n>Are you sure to mark it as complete?</p>
+  </div>
+  <div mat-dialog-actions class="flex flex-wrap justify-end">
+    <button i18n mat-raised-button color="primary" (click)="markAsComplete()">Mark as complete</button>
+    <button i18n mat-raised-button color="accent" (click)="close()">Cancel</button>
+  </div>
+</ng-container>
+<ng-template #loader>
+  <div class="text-center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

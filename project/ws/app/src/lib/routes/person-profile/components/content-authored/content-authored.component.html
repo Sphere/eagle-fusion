@@ -1,0 +1,78 @@
+<div class="mt-4">
+  <!-- <div class="flex flex-middle justify-between mb-4">
+    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>Content Authored</p>
+    <div class="flex">
+      <p class="margin-remove-bottom ws-mat-primary-text mat-h4 font-family"
+        [hidden]="suggestionsLimit >= playlists?.length" [routerLink]='' i18n>View All</p>
+      <mat-icon _ngcontent-jfj-c68=""
+        class="ws-mat-primary-text margin-left-xs pointer mat-icon notranslate material-icons mat-icon-no-color"
+        role="img" aria-hidden="true">play_circle_fillec</mat-icon>
+    </div>
+  </div> -->
+  <div class="flex flex-wrap remove-margin flex-start">
+    <mat-card class="outer-card mat-card mat-elevation-z0 padding-remove w-full">
+      <mat-card-content>
+        <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'fetching'">
+          <p class="font-family fetching" i18n>Fetching content authored ...</p>
+        </div>
+        <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'done' && !contentCurrentDisplay?.length">
+          <p class="fetching font-family" i18n>User has not authored any content.</p>
+        </div>
+        <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'error'">
+          <p class="mat-error" i18n>Failed to fetch content authored.</p>
+        </div>
+        <ng-container *ngFor="let content of contentCurrentDisplay">
+          <div>
+            <mat-card class="card m-1 padding-remove mat-elevation-z0 md:my-1 sm:my-1">
+              <mat-card-content>
+                <div class="flex">
+                  <div class="flex flex-between w-full">
+                    <div class="flex flex-middle text-truncate">
+                      <img src={{content.appIcon}} [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                        class="object-cover followimg" />
+                      <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold title-text font-family"
+                        [matTooltip]="content.name">
+                        {{content.name}}</p>
+                    </div>
+                    <a class="font-family mat-caption mx-2 flex flex-middle" (click)="raiseTelemetry()"
+                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'" i18n>Explore
+                      <mat-icon class="pl-1">arrow_right</mat-icon></a>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+      </mat-card-content>
+      <!-- <a [routerLink]="">
+        <h2 class="ws-mat-primary-text mat-h2 blog-title">Title</h2>
+        <p class="mat-caption text-truncate">Sub heading hohfaoshfjashfj eihfudsfgsdjkh fiasu foi feiudf aiufoiahfioe iafoiheofuhsdofh iFIohfosudhfousdh fiEFOI
+          SHFOUSDH F oieihfuHFOUSHdfjj</p>
+      </a>
+      <div class="flex flex-between flex-middle">
+        <div>
+          <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+            date of post
+          </div>
+        </div>
+      </div> -->
+    </mat-card>
+
+    <div class="flex flex-1 flex-end p-1 pr-4" *ngIf="totalHits > pageDisplaySize">
+      <button mat-icon-button *ngIf="!previousContentDisable"
+        class="navigationbutton ws-mat-primary-lite-background-important" [ngClass]="{'disable':previousContentDisable}"
+        (click)="fetchPreviousContent()">
+        <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':previousContentDisable}">
+          navigate_before</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="!nextContentDisable"
+        class="navigationbutton ws-mat-primary-lite-background-important" (click)="fetchNextContent()"
+        [ngClass]="{'disable':nextContentDisable}">
+        <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':nextContentDisable}">
+          navigate_next</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <input type="hidden" i18n-value value="Error while fetching content authored." #errorMsg /> -->

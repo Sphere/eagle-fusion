@@ -1,0 +1,21 @@
+$small-badge-size: 50px;
+
+.item-container {
+  height: 10px;
+}
+
+.img-container {
+  width: 40px;
+}
+
+ws-widget-user-image {
+  $user-size: 40px;
+  width: $user-size;
+  height: $user-size;
+  font-size: $user-size;
+}
+
+.small-badge {
+  width: $small-badge-size;
+}
+

@@ -1,0 +1,63 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.sidenav-container {
+  min-height: calc(100vh - 2 * #{$mat-toolbar-gt-xs});
+}
+
+.text-center {
+  text-align: center;
+}
+
+.faq-container {
+  margin: $size-l;
+}
+
+.page-heading {
+  margin-bottom: $size-xl;
+}
+
+.search-form {
+  width: 40%;
+
+  @include breakpoint-xs {
+    width: 100%;
+    margin: $size-s;
+  }
+}
+
+.search {
+  width: 100%;
+  font-size: 14px;
+
+  @include breakpoint-xs {
+    width: 90%;
+    margin: $size-s;
+  }
+
+  @include breakpoint-s {
+    width: 90%;
+    margin: $size-s;
+  }
+}
+
+
+.filter {
+  margin: 0px;
+}
+
+.sidenav {
+  width: 10%;
+  min-width: 150px;
+  // padding-left: $size-m;
+  background: inherit;
+
+}
+
+.faq-active-class {
+  border-right-color: transparent;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}

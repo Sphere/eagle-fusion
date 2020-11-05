@@ -1,0 +1,236 @@
+<div *ngIf="nsoFetchStatus === 'fetching' && userFetchStatus === 'fetching'"
+  class="margin-xl padding-xl flex flex-center">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="nsoFetchStatus === 'done' && userFetchStatus === 'done'">
+  <div class="margin-top-xl flex flex-center flex-around flex-wrapped">
+    <ws-app-tile class="tile-card" [icon]="'adjust'" [value]="userProgressData?.goal_shared_by_me?.length"
+      [subTitle]="'Goals Shared By Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'description'" [value]="nsoData?.artifacts_shared?.length"
+      [subTitle]="'Artifacts Shared By Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'account_circle'" [value]="nsoData?.experts_contacted?.length"
+      [subTitle]="'Experts I Contacted'"></ws-app-tile>
+  </div>
+  <div class="margin-top-l">
+    <mat-tab-group dynamicHeight>
+      <mat-tab label="Goals shared by me">
+        <ng-container *ngIf="userProgressData?.goal_shared_by_me?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of userProgressData?.goal_shared_by_me">
+            <div class="progress">
+              <div class="progress-container">
+                <div class="progress-circular">
+                  <div class="progress-circular-container">
+                    <div class="progress-circular-empty"></div>
+                    <ws-app-progress-spinner [spinMode]="'determinate'" [spinSize]="'medium'" [spinWidth]="'thin'"
+                      [spinValue]="item.progress * 100" [spinColor]="'primary'" class="progress-circular-full">
+                    </ws-app-progress-spinner>
+                    <div class="progress-circular-value">{{item.progress * 100 | number: '1.0-0'}}%</div>
+                  </div>
+                </div>
+                <div class="progress-content">
+                  <div>
+                    <a class="progress-name">{{item.goal_title}}</a>
+                  </div>
+                  <div class="progress-date mat-caption">
+                    <span i18n="last studied">Shared to: </span>{{item.email_id}}</div>
+                  <span i18n="last studied">Shared on: </span>{{item.shared_on | date: 'd MMM, y'}}
+                  <div class="progress-date mat-caption">
+                    <span *ngIf="item.status" i18n="last studied">Status: </span>{{item.status}}</div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="userProgressData?.goal_shared_by_me?.length === 0">
+          <h4 class="text-center" i18n>You have not shared any goal</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Goals shared to me">
+        <ng-container *ngIf="userProgressData?.goal_shared_to_me?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of userProgressData?.goal_shared_to_me">
+            <div class="progress">
+              <div class="progress-container">
+                <div class="progress-circular">
+                  <div class="progress-circular-container">
+                    <div class="progress-circular-empty"></div>
+                    <ws-app-progress-spinner [spinMode]="'determinate'" [spinSize]="'medium'" [spinWidth]="'thin'"
+                      [spinValue]="item.progress * 100" [spinColor]="'primary'" class="progress-circular-full">
+                    </ws-app-progress-spinner>
+                    <div class="progress-circular-value">{{item.progress * 100 | number: '1.0-0'}}%</div>
+                  </div>
+                </div>
+                <div class="progress-content">
+                  <div>
+                    <a class="progress-name">{{item.goal_title}}</a>
+                  </div>
+                  <div class="progress-date mat-caption">
+                    <span i18n="last studied">Shared by: </span>{{item.shared_by}}</div>
+                  <span i18n="last studied">Shared on: </span>{{item.shared_on | date: 'd MMM, y'}}
+                  <div class="progress-date mat-caption">
+                    <span *ngIf="item.status" i18n="last studied">Status: </span>{{item.status}}</div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="userProgressData?.goal_shared_to_me?.length === 0">
+          <h4 class="text-center" i18n>No goals are shared with you</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Artifacts shared">
+        <ng-container *ngIf="nsoData?.artifacts_shared?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of nsoData?.artifacts_shared">
+            <div class="progress">
+              <div class="progress-container">
+                <div class="progress-content">
+                  <div>
+                    <a class="progress-name">{{item.content_name}}</a>
+                  </div>
+                  <div class="progress-date mat-caption">
+                    <!-- <span  i18n="last studied">Shared to:</span>{{item.email_id}} -->
+                  </div>
+                  <span i18n="last studied">Shared on: </span>{{item.date_of_use | date: 'd MMM, y'}}
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="nsoData?.artifacts_shared?.length === 0">
+          <h4 class="text-center" i18n>You have not shared any artifact</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Playlist shared by me">
+        <ng-container *ngIf="userProgressData?.playlist_shared_by_me?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of userProgressData?.playlist_shared_by_me">
+            <div class="progress">
+              <div class="progress-container">
+                <div class="progress-circular">
+                  <div class="progress-circular-container">
+                    <div class="progress-circular-empty"></div>
+                    <ws-app-progress-spinner [spinMode]="'determinate'" [spinSize]="'medium'" [spinWidth]="'thin'"
+                      [spinValue]="item.progress * 100" [spinColor]="'primary'" class="progress-circular-full">
+                    </ws-app-progress-spinner>
+                    <div class="progress-circular-value">{{item.progress * 100 | number: '1.0-0'}}%</div>
+                  </div>
+                </div>
+
+                <div class="progress-content">
+                  <div>
+                    <a class="progress-name">{{item.play_list_title}}</a>
+                  </div>
+
+                  <div class="progress-date mat-caption">
+                    <span i18n="last studied">Shared by: </span>{{item.email_id}}</div>
+                  <span i18n="last studied">Shared on: </span>{{item.created_on | date: 'd MMM, y'}}
+
+                </div>
+              </div>
+            </div>
+
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="userProgressData?.playlist_shared_by_me?.length === 0">
+          <h4 class="text-center" i18n>You have not shared any Playlist</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Playlist shared to me">
+        <ng-container *ngIf="userProgressData?.playlist_shared_to_me?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of userProgressData?.playlist_shared_to_me">
+
+            <div class="progress">
+              <div class="progress-container">
+                <div class="progress-circular">
+                  <div class="progress-circular-container">
+                    <div class="progress-circular-empty"></div>
+                    <ws-app-progress-spinner [spinMode]="'determinate'" [spinSize]="'medium'" [spinWidth]="'thin'"
+                      [spinValue]="item.progress * 100" [spinColor]="'primary'" class="progress-circular-full">
+                    </ws-app-progress-spinner>
+                    <div class="progress-circular-value">{{item.progress * 100 | number: '1.0-0'}}%</div>
+                  </div>
+                </div>
+
+                <div class="progress-content">
+                  <div>
+                    <a class="progress-name">{{item.play_list_title}}</a>
+                  </div>
+
+                  <div class="progress-date mat-caption">
+                    <span i18n="last studied">Shared by: </span>{{item.shared_by}}</div>
+                  <span i18n="last studied">Shared on: </span>{{item.created_on | date: 'd MMM, y'}}
+
+                </div>
+              </div>
+            </div>
+
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="userProgressData?.playlist_shared_to_me?.length === 0">
+          <h4 class="text-center" i18n>No Playlist are shared with you</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Playground">
+        <ng-container *ngIf="nsoData?.playground_details?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of nsoData?.playground_details">
+            <div class="progress">
+              <div class="progress-container">
+                <div class="progress-content">
+                  <a class="progress-name">{{item.contest_Name}}</a>
+                  <div class="progress-date mat-caption">
+                    <span i18n="last studied">Used on: </span>{{item.date_of_use | date: 'd MMM, y'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="nsoData?.playground_details?.length === 0">
+          <h4 class="text-center" i18n>You have not accessed any Playground</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Experts I Contacted">
+        <ng-container *ngIf="nsoData?.experts_contacted?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of nsoData?.experts_contacted">
+            <div class="progress">
+              <div class="progress-content">
+                <div class="progress-name" *ngIf="item.contacted">
+                  <span>Contacted : </span>{{item.contacted}}</div>
+                <div>
+                  <a class="progress-name">{{item.content_name}}</a>
+                </div>
+              </div>
+              <div class="progress-date mat-caption">
+                <span i18n="last studied">Contacted on: </span>{{item.date_of_use | date: 'd MMM, y'}}
+              </div>
+            </div>
+
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="nsoData?.experts_contacted?.length === 0">
+          <h4 class="text-center" i18n>You have not contacted any Expert</h4>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Content Created">
+        <ng-container *ngIf="nsoData?.content_created?.length > 0">
+          <mat-card class="goal-class" *ngFor="let item of nsoData?.content_created">
+            <div class="progress">
+              <div class="progress-content">
+                <a class="progress-name">{{item.content_name}}</a>
+              </div>
+            </div>
+            <div class="progress-date mat-caption">
+              <span i18n="last studied">Content Type </span>{{item.content_type}}
+            </div>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="nsoData?.content_created?.length === 0">
+          <h4 class="text-center" i18n>You have not created any content</h4>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+<div *ngIf="nsoFetchStatus === 'error' && userFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+  <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+    We are gathering the data to provide insights!
+  </h2>
+</div>

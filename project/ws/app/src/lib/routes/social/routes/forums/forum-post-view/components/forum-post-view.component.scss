@@ -1,0 +1,52 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.forum-view-container {
+  @extend %page-center;
+  padding: $size-m;
+  margin-bottom: $size-m;
+  box-sizing: border-box;
+
+  @include breakpoint-xs {
+    padding: 0;
+    margin-bottom: 16px;
+  }
+  .image-container {
+    width: 100%;
+    height: 300px;
+    object-fit: fill;
+  }
+
+  $description-line-height: 1.4em;
+
+  .description-text {
+    position: relative;
+    line-height: $description-line-height;
+  }
+
+  .blog-container {
+    display: flex;
+    align-items: center;
+    .icon-section {
+      width: 10%;
+      text-align: center;
+
+      @include breakpoint-xs {
+        width: 15%;
+      }
+
+      .vote-count {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+.grey-icons {
+  color: #A9A9A9;
+}

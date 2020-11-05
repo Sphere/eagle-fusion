@@ -1,0 +1,21 @@
+<div>
+  <mat-icon
+    class="node-icon"
+    [class.ws-mat-warn-text]="isInvalid"
+    [class.ws-mat-primary-text]="!isInvalid"
+    aria-hidden="false"
+    i18n-aria-label
+    aria-label="icon"
+    >{{ icon }}</mat-icon
+  >
+  <span
+    [matTooltipDisabled]="name?.length < 25 || isDragging"
+    [matTooltip]="name"
+    class="node-name"
+  >
+    <ng-container *ngIf="name">{{
+      name.length > 25 ? name.slice(0, 22) + '...' : name
+    }}</ng-container>
+    <ng-container i18n *ngIf="!name">Untitled Content</ng-container>
+  </span>
+</div>

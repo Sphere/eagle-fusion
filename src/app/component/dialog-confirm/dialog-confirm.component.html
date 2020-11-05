@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  {{ data.body }}
+</div>
+<div mat-dialog-actions class="flex-row-reverse">
+  <button mat-flat-button color="primary" (click)="confirmed()" i18n>
+    Yes
+  </button>
+  <button mat-button class="margin-right-xs" [mat-dialog-close] cdkFocusInitial i18n>No</button>
+</div>

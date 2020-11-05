@@ -1,0 +1,98 @@
+
+<mat-toolbar class = "ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="margin-left-s">{{pageTitle}}</span>
+</mat-toolbar>
+
+<ng-container [wsResolverWidget]="widgetBannersRequest"></ng-container>
+
+<ng-container *ngIf="ocmRequestData">
+  <div class="margin-s margin-remove-top flex flex-wrapped">
+    <ws-app-about
+      *ngIf="ocmRequestData?.about"
+      class="width-2-3 container padding-s spacer"
+      [config]="ocmRequestData?.about"
+    ></ws-app-about>
+    <ws-app-search-results-strip
+      *ngIf="ocmRequestData?.sentientInfosys"
+      class="spacer width-1-3 container padding-s"
+      [config]="ocmRequestData?.sentientInfosys"
+    >
+    </ws-app-search-results-strip>
+  </div>
+
+  <div class="margin-s flex flex-wrapped">
+    <ws-app-search-results-strip
+      *ngIf="ocmRequestData?.leadChange"
+      class="width-2-3 spacer container padding-s"
+      [config]="ocmRequestData?.leadChange"
+    >
+    </ws-app-search-results-strip>
+    <ws-app-change-champions
+      *ngIf="ocmRequestData?.changeChampions"
+      [config]="ocmRequestData?.changeChampions"
+      class="spacer width-1-3 container padding-s"
+    >
+    </ws-app-change-champions>
+  </div>
+
+  <ws-app-sentient-programs *ngIf="ocmRequestData?.programs" [config]="ocmRequestData?.programs">
+  </ws-app-sentient-programs>
+
+  <div class="margin-s flex flex-wrapped">
+    <ws-app-what-next
+      *ngIf="ocmRequestData?.events"
+      [config]="ocmRequestData?.events"
+      class="width-2-3 spacer container padding-s"
+    ></ws-app-what-next>
+    <ws-app-to-do-list
+      *ngIf="ocmRequestData?.toDoList"
+      [config]="ocmRequestData?.toDoList"
+      class="spacer width-1-3 container padding-s"
+    >
+    </ws-app-to-do-list>
+  </div>
+
+  <ws-app-adoption-dashboard *ngIf="ocmRequestData?.stats" [config]="ocmRequestData?.stats">
+  </ws-app-adoption-dashboard>
+
+  <div class="margin-s flex flex-wrapped">
+    <ws-app-search-results-strip
+      *ngIf="ocmRequestData?.inbox"
+      class="spacer width-1-2 container padding-s"
+      [config]="ocmRequestData?.inbox"
+    >
+    </ws-app-search-results-strip>
+    <ws-app-feedback
+      *ngIf="ocmRequestData?.feedback"
+      class="spacer width-1-2 container padding-s"
+      [config]="ocmRequestData?.feedback"
+    ></ws-app-feedback>
+  </div>
+
+  <div class="margin-s flex flex-wrapped">
+    <ws-app-co-create
+      *ngIf="ocmRequestData?.coCreate"
+      class="width-1-2 container padding-s spacer"
+      [config]="ocmRequestData?.coCreate"
+    ></ws-app-co-create>
+    <!-- <ws-app-influence-change
+      class="spacer width-1-2 container padding-s"
+      [config]="ocmRequestData?.influencer"
+      *ngIf="ocmRequestData?.influencer"
+    >
+    </ws-app-influence-change> -->
+  </div>
+
+  <div class="margin-l">
+    <ws-app-search-results-strip
+      *ngIf="ocmRequestData?.changeStories"
+      [config]="ocmRequestData?.changeStories"
+    >
+    </ws-app-search-results-strip>
+  </div>
+</ng-container>
+
+<h2 class="mat-h2 text-center margin-top-m" i18n *ngIf="errorFetchingJson">
+  Something went wrong. Not able to load the content.
+</h2>

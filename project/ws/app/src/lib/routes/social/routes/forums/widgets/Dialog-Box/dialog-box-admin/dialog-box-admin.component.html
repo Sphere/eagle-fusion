@@ -1,0 +1,17 @@
+<ol>
+  <label id="example-radio-group-label">Enter the reason for revivng the post</label>
+
+  <br>
+  <textarea [(ngModel)]="reasonOfRevival"></textarea>
+  <!-- <input matInput style="height: 100px;" type="text" [(ngModel)]="reasonOfRevival"> -->
+
+
+
+  <div mat-dialog-actions>
+    <button mat-flat-button mat-dialog-close color="primary" style="margin-right: 10%;"
+      [mat-dialog-close]="reasonOfRevival" i18n>
+      Confirm
+    </button>
+    <button mat-flat-button mat-dialog-close color="warn" class="margin-right-xs" i18n>Discard</button>
+  </div>
+</ol>

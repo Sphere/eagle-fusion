@@ -1,0 +1,98 @@
+<mat-toolbar id="khubHome-id-12" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mt-6">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="margin-left-xs">{{ sObject.category | titlecase }}</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+<!-- <ws-spinner *ngIf="loader"></ws-spinner> -->
+<div *ngIf="loader" class="margin-top-m flex flex-center">
+  <mat-spinner></mat-spinner>
+  <!-- <h3>Loading...</h3> -->
+</div>
+<article class="flex flex-wrapped flex-center khub-view-wrapper" *ngIf="!loader && !error.load">
+  <section class="first-section">
+    <!-- *appFixedTop -->
+    <div *ngIf="viewData.source !== 'PROMT'">
+      <div>
+        <span class="text-{{ viewData?.source?.toLowerCase() }}" style="float:left;">
+          <b>{{ viewData.source }}</b>
+        </span>
+        <br />
+        <span>
+          {{ viewData.dateCreated | date }}
+        </span>
+      </div>
+      <br />
+      <h2 class="">
+        <b>{{ viewData.title }}</b>
+      </h2>
+      <ng-container>
+        <p *ngIf="viewData?.description">
+          {{ viewData.description }}
+        </p>
+      </ng-container>
+      <div class="flex flex-wrapped">
+        <span class="margin-top-s margin-top-xs flex" *ngFor="let author of viewData.author">
+          <!-- <app-user-image
+                            class="user-profile-image"
+                            [email]="viewData.author[0].mailId"
+                          ></app-user-image> -->
+          <!-- <ws-widget-user-image class="author-image"></ws-widget-user-image> -->
+          <span class="user-profile-image">
+            <mat-icon class="user-icon">person</mat-icon>
+          </span>
+          <span style="margin-top: 15px;">{{ author.name }}</span>
+        </span>
+      </div>
+      <p *ngIf="viewData?.url?.length > 0 && !screenSizeIsLtMedium && !hasInternetUrl">
+        <span i18n>You can access it </span>
+        <a style="color:cadetblue;" href="{{ viewData.url }}" target="_blank">
+          <b i18n>Here</b>
+        </a>
+        <br />
+        <!-- <span i18n="message saying it will soon be available"
+          >You can soon access this and many other artifacts from anywhere, any
+          time</span
+        > -->
+      </p>
+      <!-- <p *ngIf="viewData?.url?.length > 0 && hasInternetUrl">
+        <span i18n="message saying the url link">You can access it </span>
+        <a style="color:cadetblue;" [routerLink]="'/viewer/' + url"><b>Here</b></a>
+        <br />
+      </p> -->
+      <p *ngIf="viewData?.url?.length > 0 && !hasInternetUrl" i18n="message saying content available in intranet">
+        This artifact is currently available only on Infosys Network. You can soon access this and many other artifacts from anywhere,
+        any time.
+        <br />
+      </p>
+      <!-- <iframe *ngIf="hasInternetUrl" [src]="url" width="100%" height="600px" style="background-color: white;"></iframe> -->
+    </div>
+    <div *ngIf="viewData.source === 'PROMT'" class="mt-4">
+      <ws-app-infy-project-snapshot [projectDetails]="projectResult" [isIntranet]="true" [islargeScreen]="screenSizeIsLtMedium"></ws-app-infy-project-snapshot>
+    </div>
+  </section>
+  <!--SIDEBAR-->
+  <section *ngIf="!loader" class="second-section flex flex-wrapped">
+    <ws-app-infy-topic-tagger style="width:100%" [itemType]="viewData?.itemType" [topics]="viewData.topics" [showLimit]="3" [itemId]="viewData?.itemId"></ws-app-infy-topic-tagger>
+    <!-- <ws-spinner *ngIf="!recsStatus"></ws-spinner> -->
+    <mat-spinner *ngIf="!recsStatus"></mat-spinner>
+    <div>
+      <h3 *ngIf="recsStatus && moreRecs.length > 0" style="margin-top: 10px;">
+        <span i18n="Label for showing morelike Recommendations">Explore Similar</span>
+        {{ sObject.category }}s
+      </h3>
+      <div *ngIf="recsStatus && !screenSizeIsLtMedium">
+        <section *ngFor="let tile of moreRecs | slice: 0:5; index as i" style="margin-bottom:15px;">
+          <ws-app-item-tile [data]="tile"></ws-app-item-tile>
+        </section>
+      </div>
+      <div class="scrolling-wrapper" *ngIf="recsStatus && screenSizeIsLtMedium">
+        <div class="card" *ngFor="let tile of moreRecs" style="display:inline-flex;margin-right: 20px;">
+          <!-- <ws-app-search-item-tile [data]="tile"></ws-app-search-item-tile> -->
+        </div>
+      </div>
+    </div>
+  </section>
+</article>
+<div *ngIf="error.load">
+  <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
+</div>

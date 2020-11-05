@@ -1,0 +1,18 @@
+<mat-card class="padding-remove container-height-adjust" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500 pad margin-remove-bottom" *ngIf="errorMessageCode">
+    {{ config?.title }}
+  </h2>
+  <mat-card-content>
+    <ng-container *ngIf="config?.widgetSearchQuery" [wsResolverWidget]="config?.widgetSearchQuery">
+    </ng-container>
+    <ng-container *ngIf="errorMessageCode">
+      <div [ngSwitch]="errorMessageCode" class="text-center padding-s">
+        <h3 class="mat-h3 font-weight-500" i18n *ngSwitchCase="'API_FAILURE'">
+          Unable to fetch data
+        </h3>
+        <h3 class="mat-h3 font-weight-500" i18n *ngSwitchCase="'NO_DATA'">Coming Soon...</h3>
+      </div>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
+

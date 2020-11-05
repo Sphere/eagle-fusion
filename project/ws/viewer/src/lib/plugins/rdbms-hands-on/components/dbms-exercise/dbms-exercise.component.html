@@ -1,0 +1,77 @@
+<div class="flex flex-end">
+  <button title="Refresh Database" mat-icon-button color="primary"  (click)="initializeDb(true)">
+    <mat-icon>refresh</mat-icon>
+  </button>
+</div>
+<ng-container *ngIf="initialLoading">
+  <div class="margin-s text-justify" [innerHtml]="contentData.problemStatement"></div>
+  <div class="margin-s">
+    <div class="margin-top-s flex flex-between flex-wrapped">
+      <div class="table-result" [ngClass]="{
+          'table-width-1-1': !dbStructure?.length,
+          'table-width-1-2': dbStructure?.length
+        }">
+        <h3 class="pl-2 ws-mat-primary-text rdbmsheadings">Write your query here</h3>
+        <ace-editor class="code-container" (textChanged)="raiseInputChange()" [(text)]="contentData.query" theme="eclipse" [mode]="'sql'"
+          [options]="options" #queryEditor></ace-editor>
+        <div class="padding-xs">
+          <button mat-raised-button color="primary" [disabled]="verified" (click)="verify() ; raiseClickEvent()" i18n="button verify">
+            Verify
+          </button>
+          <button mat-raised-button color="primary" [disabled]="submitted" class="margin-left-xs" (click)="submit() ; raiseClickEvent()"
+            i18n="button submit">
+            Submit
+          </button>
+        </div>
+      </div>
+      <div class="table-result table-width-1-2 dbStructure-table" *ngIf="dbStructure?.length">
+        <h3 class="pl-2 ws-mat-primary-text rdbmsheadings">Database structure</h3>
+        <div class="padding-xs" *ngFor="let db of dbStructure">
+          <span class="font-weight-bold">{{ db.tablename }}</span>
+          <span> {{ ' ' + db.columnname }} </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="margin-top-s flex flex-between flex-wrapped">
+      <div class="table-result" [ngClass]="{
+          'table-width-1-1': !contentData.expectedOutput,
+          'table-width-1-2': contentData.expectedOutput
+        }">
+        <h3 class="pl-2 ws-mat-primary-text rdbmsheadings">Query Result</h3>
+        <viewer-execution-result *ngIf="executedResult && executedResult?.data" [executedResult]="executedResult">
+        </viewer-execution-result>
+        <div class="margin-s" *ngIf="executedResult?.status?.message || errorMessage" [ngClass]="{
+            'ws-mat-primary-text': executedResult?.validationStatus,
+            'ws-mat-warn-text': !executedResult?.validationStatus
+          }">
+          {{ executedResult?.status?.message || errorMessage }}
+        </div>
+      </div>
+      <div class="table-result table-width-1-2" *ngIf="contentData.expectedOutput">
+        <h3 class="pl-2 ws-mat-primary-text rdbmsheadings">Expected Result</h3>
+        <viewer-execution-result *ngIf="expectedOutput && !loading" [executedResult]="expectedOutput">
+        </viewer-execution-result>
+        <div *ngIf="expectedOutputErrorMsg" class="query-failed">
+          {{ expectedOutputErrorMsg }}
+        </div>
+      </div>
+    </div>
+    <div class="tell-text margin-top-s padding-s" [ngClass]="{
+        'ws-mat-primary-text': executedResult?.validationStatus,
+        'ws-mat-warn-text': !executedResult?.validationStatus
+      }" *ngIf="telltext && !submissionResult">
+      {{ telltext }}
+    </div>
+    <div class="tell-text margin-top-s padding-s" [ngClass]="{
+        'ws-mat-primary-text ': submissionResult?.status,
+        'ws-mat-warn-text ': !submissionResult?.status
+      }" *ngIf="submissionResult">
+      {{ submissionResult?.message }}
+    </div>
+  </div>
+</ng-container>
+
+<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
+<input #someErrorOccurred type="hidden" i18n-value value="Some error occurred. Please try again later!" />

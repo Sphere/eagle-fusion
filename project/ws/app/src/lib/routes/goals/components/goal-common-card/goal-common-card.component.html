@@ -1,0 +1,65 @@
+<mat-card class="border-radius-0 z-10 cursor-pointer" (click)="isExpanded = !isExpanded">
+  <h3 class="mat-subheading-2 margin-remove-bottom">{{ goal?.name }}</h3>
+  <span class="mat-body flex items-center">
+    <div class="flex-1 min-w-0 flex items-center">
+      <mat-icon class="mr-2">access_time</mat-icon>
+      <ng-container i18n>Time required</ng-container>
+      <span class="mat-body-strong ml-2">{{ goal?.duration | pipeDurationTransform: 'hms' }}</span>
+    </div>
+    <button mat-icon-button (click)="$event.stopPropagation(); isExpanded = !isExpanded">
+      <mat-icon *ngIf="!isExpanded">expand_more</mat-icon>
+      <mat-icon *ngIf="isExpanded">expand_less</mat-icon>
+    </button>
+  </span>
+</mat-card>
+<mat-card *ngIf="isExpanded" class="border-radius-0">
+  <ng-container *ngIf="createGoalStatus !== 'fetching'; else fetchingSection">
+    <p class="mat-body" i18n>This goal includes</p>
+    <div class="ml-8">
+      <ws-widget-display-contents [contents]="goal?.contents"></ws-widget-display-contents>
+    </div>
+    <div class="mat-body flex items-center">
+      <ng-container i18n>Set Duration</ng-container>
+      <p class="w-12 margin-left-xs margin-right-xs">
+        <mat-form-field class="w-full">
+          <input name="set-duration-input-goal-common-card" matInput type="number" [(ngModel)]="duration"
+            autocomplete="off" min="1" max="365" />
+          <mat-error i18n>Should be less than 365 days.</mat-error>
+        </mat-form-field>
+      </p>
+      <ng-container i18n>day(s)</ng-container>
+    </div>
+    <ng-container *ngIf="isShareEnabled">
+      <h3 class="mat-subheading-2 margin-bottom-xs" i18n>This Goal is for</h3>
+      <p class="margin-bottom-xl">
+        <mat-radio-group aria-label="Select an option" [value]="type" (change)="type = $event.value">
+          <mat-radio-button [disabled]="goal?.createdForSelf" [value]="EGoalTypes.USER_COMMON" i18n
+            name="yourself-radio-input-goal-common-card">Yourself
+          </mat-radio-button>
+          <mat-radio-button name="others-radio-input-goal-common-card" class="ml-4" [disabled]="goal?.createdForOthers"
+            [value]="EGoalTypes.FOR_OTHERS_COMMON" i18n>
+            Others</mat-radio-button>
+        </mat-radio-group>
+      </p>
+    </ng-container>
+
+    <div class="flex flex-row-reverse items-center">
+      <button name="create-button-goal-common-card" mat-raised-button
+        [disabled]="!isShareEnabled && (isShareEnabled || goal?.createdForSelf)" (click)="createCommonGoal()"
+        color="primary" class="ml-2" i18n>
+        Create
+      </button>
+      <ng-container *ngIf="!isShareEnabled && (isShareEnabled || goal?.createdForSelf)">
+        <span class="mr-4" i18n>You have already created this goal.</span>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #fetchingSection>
+    <div class="text-center p-4">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+</mat-card>
+
+<input #createGoalError type="hidden" i18n-value value="Error creating goal" />
+<input #createGoalSuccess type="hidden" i18n-value value="Goal created successfully" />

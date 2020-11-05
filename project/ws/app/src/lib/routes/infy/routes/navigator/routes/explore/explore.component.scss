@@ -1,0 +1,50 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+$content-margin-left: 60px;
+
+.headings {
+  margin: 0 $content-margin-left/2;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+p {
+  font-weight: 400;
+}
+
+.card-container {
+  position: relative;
+  min-height: 100px;
+  margin: 0 $content-margin-left/4;
+}
+
+.card-holder {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  position: relative;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $size-m;
+  align-items: center;
+}
+
+.button-holder {
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 0;
+  align-content: center;
+  border: none;
+  margin-right: $size-m;
+
+  a {
+    background: none;
+    border: none;
+  }
+}

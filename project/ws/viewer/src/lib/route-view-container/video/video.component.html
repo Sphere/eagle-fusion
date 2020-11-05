@@ -1,0 +1,55 @@
+<div class="padding-dynamic" *ngIf="videoData && isNotEmbed">
+  <div class="flex flex-around flex-wrapped">
+    <div class="w-full">
+      <div>
+        <mat-card class="video-player-mobile">
+          <mat-card-content class="video-player-mobile-container">
+            <div id="fullScreenContainer" class="video-player">
+              <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverVideoData"></ng-container>
+
+              <div class="player-nav-links">
+                <div class="flex justify-between html">
+                  <div class="prev-button">
+                    <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
+                      accesskey="<" [disabled]="!prevResourceUrl">
+                      <img src="/assets/images/navigation-left.png" class="svg" />
+                    </a> <span class="title" *ngIf="prevTitle">{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}} </span>
+                  </div>
+
+                  <div class="next-button">
+                    <span class="title" *ngIf="nextTitle">{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
+                    <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
+                      accesskey=">" [disabled]="!nextResourceUrl">
+                      <img src="/assets/images/navigation-right.png" class="svg" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="vidoe-title margin-top-m" *ngIf="videoData">
+        <mat-card *ngIf="isScreenSizeSmall" class="unit-meta-item">
+          
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="discussionForumWidget && isRestricted">
+    <div class="padding-m video-discussion-forum-in margin-bottom-m">
+      <h2 class="mat-toolbar discussion-head">Discussion Forum</h2>
+      <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
+      <!-- <ng-container [wsResolverWidget]="''"></ng-container> -->
+    </div>
+  </div>
+</div>
+
+<div class="full-height-width-iframe" *ngIf="!isNotEmbed">
+  <div class="video-player-embed">
+    <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverVideoData"></ng-container>
+  </div>
+</div>

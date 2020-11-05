@@ -1,0 +1,47 @@
+<mat-toolbar>
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span i18n="page title: release notes" class="margin-left-xs">Release Notes</span>
+</mat-toolbar>
+<!-- <div *ngIf="fetchStatus === 'fetching'" class="margin-top-m flex flex-center"> -->
+<!-- <mat-spinner></mat-spinner> -->
+<!-- <h2 class="h2-title">
+          Loading...
+        </h2> -->
+<!-- </div> -->
+<section class="release-notes-container">
+
+  <!-- <mat-card class="release-notes-card" *ngFor="let releaseUnit of releaseNotes.releaseList"> -->
+  <mat-accordion class="release-notes-card" *ngFor="let releaseUnit of widgetData.releaseList ; let isFirst = first">
+    <mat-expansion-panel [expanded]="isFirst">
+      <mat-expansion-panel-header [collapsedHeight]="'85px'">
+        <mat-panel-title>
+          <mat-card-title class="text-center mat-display-1 margin-bottom-m">
+            <span>{{ releaseUnit.releaseVersion }}</span>
+            <span> ({{ releaseUnit.releaseDate }}) </span>
+          </mat-card-title>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <!-- <mat-card-content> -->
+
+      <div class="flex flex-middle flex-between release-item" *ngFor="let item of releaseUnit.items">
+        <div>
+          {{ item.releaseNote }}
+        </div>
+
+        <mat-chip-list>
+          <mat-chip color="primary" selected *ngIf="item.releaseCategory === 'ADDED'">ADDED</mat-chip>
+          <mat-chip color="accent" selected *ngIf="item.releaseCategory === 'CHANGED'">CHANGED</mat-chip>
+          <mat-chip *ngIf="item.releaseCategory === 'BUG_FIX'">BUG FIX</mat-chip>
+        </mat-chip-list>
+
+
+      </div>
+
+      <!-- </mat-card-content> -->
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- </mat-card> -->
+
+</section>

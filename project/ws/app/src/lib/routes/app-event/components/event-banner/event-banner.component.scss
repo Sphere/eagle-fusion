@@ -1,0 +1,213 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.dots-container {
+  position: relative;
+  z-index: 2;
+  .dot {
+    cursor: pointer;
+    height: $size-m;
+    width: $size-m;
+    margin: 6px 6px;
+    background-color: rgba(120, 120, 120, 0.75);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.5s ease !important;
+    @include breakpoint-lt-m {
+      // height: $size-xs;
+      // width: $size-xs;
+      margin: 4px 4px;
+    }
+  }
+
+  .dot.active {
+    background-color: #d3d3d3;
+    height: $size-m + ($size-xs / 4);
+    width: $size-m + ($size-xs / 4);
+    // @include breakpoint-lt-m {
+    //   height: $size-xs + ($size-xs / 4);
+    //   width: $size-xs + ($size-xs / 4);
+    // }
+  }
+}
+.banner-container {
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  color: #fff;
+  height: 380px;
+  @include breakpoint-s{
+    height: 420px !important;
+  }
+  @include breakpoint-xs{
+    height: 430px !important;
+  }
+}
+.image-box__background {
+  background-size: cover;
+  z-index: 2;
+  position: relative;
+}
+.image-box__overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+.event-description {
+  width: 60%;
+  margin: auto !important;
+  line-height: initial;
+  @include breakpoint-s {
+    width: 80% !important;
+  }
+  @include breakpoint-xs {
+    width: 100% !important;
+  }
+}
+.vertical-divider {
+  border-right-color: #fff !important;
+  margin: 5px 20px 8px !important;
+}
+.registerBtn,
+.xrBtn {
+  // color: #ffffff !important;
+  width: 150px;
+  padding: 2px;
+  font-size: 15px;
+  font-weight: 400;
+}
+.banner-content {
+  text-align: center;
+  color: #fff;
+  // max-height: 350px;
+}
+.hz-divider {
+  border-top-color: #fff !important;
+  border-top-width: 1px !important;
+}
+// .banner{
+//   height: 370px;;
+// }
+.bannerdiv {
+  padding-top: 4%;
+  padding-bottom:4%;
+  @include breakpoint-xs{
+    padding: 2%;
+  }
+}
+.timerBlock {
+  width: 30%;
+  margin: auto 0 auto auto;
+  @include breakpoint-s {
+    flex-wrap: wrap !important;
+    width: 50% !important;
+    height: auto !important;
+  }
+  @include breakpoint-xs {
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+.timer-card {
+  width: 80%;
+  @include breakpoint-s {
+    width: 75%;
+  }
+  @include breakpoint-xs {
+    width: 75%;
+    margin: auto;
+  }
+}
+.timer-icon {
+  font-size: 50px;
+}
+.timerh1 {
+  position: relative;
+  margin-top: -9.5rem !important;
+  @include breakpoint-xs{
+    margin-top: -7.5rem !important;
+    font-size: 2.25rem !important;
+  }
+}
+.banner2-text {
+  text-align: left;
+  margin-left: 40%;
+  width: 50%;
+  margin-top: 2%;
+  @include breakpoint-xs {
+    text-align: center;
+    width: 80%;
+    margin: 48% auto 0 auto;
+  }
+}
+.banner2-text p {
+  line-height: initial;
+}
+.quizBtn {
+  margin: 20px 0;
+  @include breakpoint-xs{
+    margin: 10px 0;
+  }
+}
+.circle-dimension {
+  width: 16rem !important;
+  height: 16rem !important;
+  position: absolute;
+  right: 60%;
+  ::ng-deep svg {
+    width: 16rem !important;
+    height: 16rem !important;
+  }
+  ::ng-deep circle {
+    stroke-width: 6.27273% !important;
+  }
+  @include breakpoint-xs {
+    right: initial;
+    width: 12rem !important;
+    height: 12rem !important;
+  ::ng-deep svg {
+    width: 12rem !important;
+    height: 12rem !important;
+  }
+  }
+}
+
+.div-circle-stable {
+  position: absolute;
+  right: 60%;
+  @include breakpoint-xs {
+    right: initial;
+  }
+}
+.circle-dimension-stable {
+  width: 16rem !important;
+  height: 16rem !important;
+  ::ng-deep svg {
+    width: 16rem !important;
+    height: 16rem !important;
+  }
+  ::ng-deep circle {
+    stroke-width: 2.27273% !important;
+  }
+  @include breakpoint-xs{
+    width: 12rem !important;
+    height: 12rem !important;
+  ::ng-deep svg {
+    width: 12rem !important;
+    height: 12rem !important;
+  }
+  }
+}
+.timebannerText{
+  @include breakpoint-xs{
+    font-size: 1.3rem !important;
+  }
+}

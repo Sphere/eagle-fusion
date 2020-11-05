@@ -1,0 +1,165 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  line-height: normal;
+  font-weight: 500;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.margin-top {
+  margin-top: 10px !important;
+}
+.scroll {
+  margin: 0.75rem;
+}
+.w-90 {
+  width: 90%;
+  margin: auto;
+}
+.session-card,
+.speaker-card {
+  border-radius: 8px;
+  height: auto;
+  width: 23%;
+  margin: 4rem auto;
+  @include breakpoint-s {
+    flex-wrap: wrap !important;
+    width: 45% !important;
+    margin: 3rem auto !important;
+  }
+  @include breakpoint-xs {
+    flex-wrap: wrap !important;
+    width: 90% !important;
+    min-height: 410px;
+    margin: 2rem auto !important;
+  }
+}
+.session-card {
+  margin: 4rem auto;
+}
+.card-image {
+  width: 100%;
+  height: 170px;
+}
+.image-border {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.speaker-card {
+  margin: 2rem auto;
+}
+.speakerDate,
+.attende-design {
+  margin: auto 0;
+}
+.imageBox {
+  height: 33%;
+}
+.speakerDetails {
+  height: 67%;
+  box-sizing: border-box;
+}
+mat-label {
+  font-size: 20px;
+}
+.speakerType {
+  font-size: 0.75rem;
+}
+.speakerName {
+  font-size: 1rem;
+}
+.speakerCard {
+  height: 100%;
+}
+.attendBtn {
+  font-weight: 500;
+  line-height: 23px;
+  border-radius: 5px;
+  width: 80px;
+}
+.card {
+  // max-height: 289px;
+  // max-width: 346px;
+  min-height: 289px;
+  min-width: 346px;
+  border-radius: 8px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+span {
+  font-size: 1rem;
+}
+
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+  border-bottom: 3px solid #000;
+}
+
+.session-gallery-card {
+  background: #ffffff;
+  border-radius: 4px;
+  height: 204px;
+  width: 387px;
+  margin-left: 20px;
+  color: #000000;
+}
+
+.card-content {
+  position: relative;
+  padding: 15px;
+}
+
+.content-count {
+  position: absolute;
+  margin-top: 100px;
+}
+
+.session-gallery-card:hover {
+  transform: scale(1.1);
+  border-radius: 4px;
+  border-bottom: 5px solid #000;
+}
+// USER CARD DETAILS
+.userCard {
+  text-align: center;
+}
+.userDetail {
+  width: 17%;
+  margin: auto auto 30px auto;
+  @include breakpoint-s {
+    width: 22% !important;
+  }
+  @include breakpoint-xs {
+    width: 45% !important;
+  }
+}
+.userImage {
+  // width:50%;
+  margin: auto;
+}
+.circular-image {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+.userdetailHead {
+  margin: auto 0;
+}

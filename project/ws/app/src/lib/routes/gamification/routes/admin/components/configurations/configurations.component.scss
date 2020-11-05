@@ -1,0 +1,111 @@
+@import 'ws-common';
+@import 'ws-mixins';
+
+.align{
+  display: inline-block !important;
+  width: 610px;
+   @media only screen and (max-width: 432px) {
+      width: 480px;
+  }
+}
+
+.width{
+  width: 40%;
+}
+.dimensions{
+  margin-top:20px;
+  margin-left: 50%;
+   @media only screen and (max-width: 432px) {
+      margin-left: 10%;
+  }
+}
+
+.border{
+  border:1px solid;
+}
+
+.flat-error-alert {
+  padding-left: 40px;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  min-height: 100px;
+  border-radius: 4px;
+  align-items: center;
+  box-shadow: 1px 1px 10px 0 #f02f2fb3;
+  background-color: #f38c8c94;
+  // width: 100%;
+}
+
+.sidenav {
+  width: 20%;
+  min-width: 250px;
+  // padding-left: $size-m;
+  background: inherit;
+  box-shadow: none;
+  // margin-bottom: 32px;
+}
+
+.sidenav-content {
+  margin: 0;
+  padding: 0 $size-m $size-l;
+  box-sizing: border-box;
+  min-height: calc(100vh);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 0.3fr;
+  grid-auto-columns: minmax(auto, 300px);
+  width: 90%;
+}
+
+.close-button {
+  margin-right: 50px;
+}
+
+.hidden {
+  display: none;
+}
+
+.border-right {
+  border-right: 1px solid #cecece;
+}
+
+:host ::ng-deep .search {
+  .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+  }
+  .mat-form-field-infix {
+    border-top-width: 2px !important;
+  }
+}
+
+.nav-container {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: calc(100vh - 164px);
+}
+.vertical-align {
+  vertical-align: text-bottom;
+}
+
+.width-300 {
+  width: 300px;
+}
+
+.font-size-m {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.border-bottom {
+  border-bottom: 1px solid lightgray;
+}
+
+.mat-drawer-content {
+  overflow: hidden !important;
+}

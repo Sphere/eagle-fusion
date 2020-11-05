@@ -1,0 +1,54 @@
+<ng-container
+  *ngIf="showNoData && isFromAuthoring; then authoringTemplate; else normalTemplate"
+></ng-container>
+
+<ng-template #normalTemplate>
+  <div *ngIf="loader" class="text-center my-2">
+    <mat-spinner class="inline-block"></mat-spinner>
+  </div>
+  <ng-container *ngIf="error" [wsResolverWidget]="widgetData.errorWidget"></ng-container>
+  <ng-container *ngIf="showNoData" [wsResolverWidget]="widgetData.noDataWidget"></ng-container>
+  <ng-container *ngIf="stripsResultDataMap && stripsResultDataMap.length">
+    <div class="h-full flex flex-col">
+      <div
+        style="background-size: cover; background-repeat: no-repeat;"
+        [ngStyle]="{ 'background-image': 'url(' + widgetData.image + ')' }"
+        class="flex items-center justify-end height-50"
+        [id]="widgetData.key"
+      >
+        <span
+          style="background: rgba(0, 97, 135, 0.8);"
+          class="text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6"
+        >
+          {{ widgetData.title }}
+        </span>
+      </div>
+      <ng-container *ngFor="let content of stripsResultDataMap.slice(0, 3)">
+        <div class="px-6 shadow py-4 mt-2 rounded height-15">
+          <a [href]="content.url || null" [target]="content.target">
+            <span class="block text-xs text-left">{{ content.lastUpdatedOn | date }}</span>
+            <div class="flex justify-between">
+              <div class="block text-base truncate text-blue-700 py-1">{{ content.title }}</div>
+            </div>
+          </a>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #authoringTemplate>
+  <mat-card>
+    <div class="w-full">
+      <div class="p-4">
+        <div class="text-3xl font-semibold text-center leading-tight" i18n>
+          Content not available
+        </div>
+        <br />
+        <div class="text-base font-medium text-center leading-normal" i18n>
+          Please try different keywords or change the search query.
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</ng-template>

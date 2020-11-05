@@ -1,0 +1,50 @@
+<div class="flex flex-middle">
+  <p
+    class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
+    *ngFor="let tab of content.cardMenu || []; let i = index"
+    [ngClass]="{
+      'ws-mat-primary-border-bottom-bolder': i === index
+    }"
+    (click)="onIndexChange(i)"
+  >
+    {{ i + 1 }}
+  </p>
+  <button
+    mat-icon-button
+    (click)="addStrip()"
+    class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
+  >
+    <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add an another series">
+      add</mat-icon
+    >
+  </button>
+</div>
+
+<ng-container [ngSwitch]="currentStrip.widget.widgetSubType">
+  <ng-container *ngSwitchCase="'imageMapResponsive'">
+    <ws-auth-image-map
+      [identifier]="identifier"
+      [isSubmitPressed]="isSubmitPressed"
+      [content]="currentStrip.widget.widgetData"
+      (data)="currentStrip.widget.widgetData = $event.content"
+    ></ws-auth-image-map>
+  </ng-container>
+  <ng-container *ngSwitchCase="'elementHtml'">
+    <ws-auth-html-v2
+      [identifier]="identifier"
+      *ngIf="!currentStrip.widget.widgetData.type"
+      [isSubmitPressed]="isSubmitPressed"
+      [content]="currentStrip.widget.widgetData"
+      (data)="currentStrip.widget.widgetData = $event.content"
+    ></ws-auth-html-v2>
+    <ws-auth-image-v2
+      [identifier]="identifier"
+      *ngIf="currentStrip.widget.widgetData && currentStrip.widget.widgetData.type"
+      [isSubmitPressed]="isSubmitPressed"
+      [content]="currentStrip.widget.widgetData"
+    ></ws-auth-image-v2>
+  </ng-container>
+  <ng-container *ngSwitchDefault i18n>
+    Switch to Advanced editor to edit this content
+  </ng-container>
+</ng-container>

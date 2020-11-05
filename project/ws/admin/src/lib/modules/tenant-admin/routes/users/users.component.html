@@ -1,0 +1,49 @@
+<div class="m-1 md:m-4">
+  <div class="flex flex-between">
+    <div>
+      <h1 class="font-weight-500" i18n>Users</h1>
+    </div>
+    <div class="mb-2 mr-6">
+      <a mat-raised-button color="primary" routerLink="/admin/tenant/users/create-user-v2" i18n>Create User</a>
+    </div>
+  </div>
+  <mat-card class="mat-elevation-z6 main-card">
+    <div class="flex flex-between">
+      <ws-widget-user-autocomplete class="w-full" (addedUser)="addUser($event)" (removedUser)="removeUser($event)">
+      </ws-widget-user-autocomplete>
+      <div class="pt-4 pl-4">
+        <mat-progress-spinner *ngIf="isAdding" mode="indeterminate" diameter="30"></mat-progress-spinner>
+      </div>
+    </div>
+    <div class="flex flex-center items-center empty-block" *ngIf="!userIds.length">
+      <mat-icon class="ws-mat-primary-text search-icon">search</mat-icon>
+      <h1 class="empty-message ws-mat-primary-text" i18n>Search for Users</h1>
+    </div>
+    <div *ngIf="userIds.length" class="flex flex-wrap flex-start search-block">
+      <mat-card *ngFor="let id of userIds" class="user-card pt-4">
+        <div class="user-background ws-mat-primary-lite-background-on-day pl-1 pt-2 pb-2 pr-1 flex h-16">
+          <mat-icon class="user-image ws-mat-primary-text">person</mat-icon>
+          <div class="ml-10">
+            <h2 class="font-weight-500 break-all user-h2 ws-mat-primary-text">
+              {{userDetails[id].first_name}}&nbsp;{{userDetails[id].last_name}}</h2>
+            <h2 class="user-h2 ws-mat-primary-text" *ngIf="userDetails[id].department_name">{{userDetails[id].department_name}}</h2>
+          </div>
+        </div>
+        <div class="pl-1 pt-4">
+          <div class="flex flex-between">
+            <h3 class="break-all"><span class="font-weight-500">Email:&nbsp;</span>{{userDetails[id].email}}</h3>
+            <div>
+              <button mat-stroked-button type="button" (click)=openDialog(id)>
+                <span i18n>
+                  Edit</span></button>
+            </div>
+          </div>
+          <h3><span class="font-weight-500">Roles:&nbsp;</span>
+            <span>default-roles</span>
+            <span *ngIf="userDetails[id].roles.length">,&nbsp;</span>
+            {{userDetails[id].roles.join(', ')}}</h3>
+        </div>
+      </mat-card>
+    </div>
+  </mat-card>
+</div>

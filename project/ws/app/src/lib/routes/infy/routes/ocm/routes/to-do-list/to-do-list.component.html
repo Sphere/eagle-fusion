@@ -1,0 +1,18 @@
+<mat-card class="pad container-height-adjust" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <mat-card-content>
+    <ng-container i18n *ngIf="(toDoList && !toDoList?.length) || !toDoList">
+      Your to-do list will appear here.
+    </ng-container>
+    <!-- <ws-spinner [spinSize]="'small'" class="margin-l" *ngIf="fetchingInProgress"></ws-spinner> -->
+    <ng-container *ngIf="toDoList && toDoList?.length && !fetchingInProgress">
+      <div *ngFor="let toDo of toDoList" class="flex flex-middle content">
+        <mat-checkbox [disabled]="true" [checked]="toDo.completed" [value]="toDo.name">
+        </mat-checkbox>
+        <a class="margin-left-xs content-name">
+          {{ toDo.name }}
+        </a>
+      </div>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

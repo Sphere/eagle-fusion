@@ -1,0 +1,12 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.changeWidth {
+   @include breakpoint-lt-m {
+    width:100%;
+  }
+}
+
+.roleList{
+  max-height: 26rem;
+}

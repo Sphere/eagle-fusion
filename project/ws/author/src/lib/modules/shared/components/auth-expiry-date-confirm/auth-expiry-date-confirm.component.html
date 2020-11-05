@@ -1,0 +1,71 @@
+<div mat-dialog-title class="relative">
+  <h2 i18n>Extend or Mark for Deletion</h2>
+  <button [disabled]="onAction" i18n-matTooltip [matTooltip]="'Close'" mat-button class="close-icon" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <form [formGroup]="userActionForm">
+    <mat-form-field appearance="fill" class="width-1-1">
+      <textarea rows="3" matInput placeholder=" For eg. This content is extended because..." name="name"
+        formControlName="comments" required></textarea>
+      <mat-error i18n *ngIf="isSubmitPressed && !userActionForm.controls.comments.value"
+        i18n="Comments Error|Explains Comments is mandatory field">
+        Comments is mandatory
+      </mat-error>
+    </mat-form-field>
+    <div class="flex flex-col md:flex-row">
+      <div class="mat-form-field w-full pt-2">
+        <label>
+          <b i18n="Action Label|Label which explains user to enter action">Action</b>
+        </label>
+        <div class="pt-1">
+          <mat-radio-group color="primary" formControlName="isExtend" class="example-radio-group">
+            <mat-radio-button class="example-radio-button" [value]="false" i18n>
+              Mark for deletion
+            </mat-radio-button>
+            <mat-radio-button class="example-radio-button" [value]="true" i18n>
+              Extend
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div *ngIf="userActionForm.controls.isExtend.value" class="w-full pt-2">
+        <label>
+          <b i18n>Set New Expiry date</b>
+          <br />
+        </label>
+        <mat-form-field class="example-full-width">
+          <input matInput formControlName="expiryDate" [min]="minDate" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="flex relative mat-form-field-appearance-fill padding-0" *ngIf="isSubmitPressed && showError">
+          <div class="mat-form-field-subscript-wrapper mat-error" i18n>
+            Update expiry date
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-form-field pt-2" *ngIf="!userActionForm.controls.isExtend.value">
+      <div class="flex w-100">
+        <mat-checkbox formControlName="action" i18n></mat-checkbox>
+        <div class="margin-left-s" i18n>I understand that by clicking "Proceed" will mark the
+          content for deletion. And the action is irreversible.</div>
+      </div>
+      <div class="flex relative mat-form-field-appearance-fill"
+        *ngIf="isSubmitPressed && !userActionForm.controls.action.value">
+        <div class="mat-form-field-subscript-wrapper mat-error padding-0" i18n>
+          Accept the declaration
+        </div>
+      </div>
+    </div>
+    <div class="margin-top-s margin-bottom-s right-align">
+      <button cdkFocusInitial mat-dialog-close [disabled]="onAction" mat-raised-button i18n>Cancel</button>
+      <button class="margin-left-s" (click)="submitData()" [disabled]="onAction" mat-raised-button color="primary">
+        <mat-spinner [diameter]="25" color="primary" *ngIf="onAction"></mat-spinner>
+        <ng-container *ngIf="!onAction" i18n>Proceed</ng-container>
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

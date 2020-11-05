@@ -1,0 +1,135 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.text-intro {
+  @include breakpoint-xs {
+    margin-bottom: 44px;
+  }
+}
+
+.login-container {
+  max-width: 1100px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 36px;
+  margin-bottom: 36px;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  min-height: calc(100vh - 128px);
+  align-items: stretch;
+
+  @include breakpoint-xs {
+    margin: 0 16px;
+  }
+
+  .oval-container {
+    height: 116px;
+    width: 116px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    box-shadow: 1px 0px 4px;
+    transform: translate(-50%, -50%);
+    left: 35%;
+    z-index: 1;
+
+    @include breakpoint-xs {
+      top: 160px;
+      transform: translate(-50%, -50%);
+      left: 50%;
+    }
+  }
+
+  .app-logo {
+    max-width: 70px;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    padding: 16px;
+    transform: translate(0px, -50%);
+
+    z-index: 2;
+  }
+
+  .product-logo {
+    width: 100px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0px, -50%);
+    left: calc(35% - 50px);
+    z-index: 2;
+  }
+
+  .intro-section {
+    position: relative;
+    width: 35%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 70px 48px 48px;
+
+    @include breakpoint-xs {
+      width: 100%;
+      min-height: 160px;
+    }
+  }
+
+  .login-section {
+    width: 65%;
+    box-sizing: border-box;
+    position: relative;
+    padding: 48px 12px 48px 70px;
+
+    @include breakpoint-xs {
+      width: 100%;
+      padding: 64px 8px 16px 8px;
+      min-height: calc(100vh - 220px);
+    }
+  }
+
+  .login-btn {
+    position: relative;
+    align-items: center;
+    top: 36%;
+    margin-bottom: 48px;
+
+    @include breakpoint-xs {
+      top: 8%;
+    }
+  }
+
+  .log-btn {
+    margin: 16px;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    width: 300px;
+
+    @include breakpoint-xs {
+      width: 220px;
+    }
+  }
+
+  .buttons-public {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .bottom-section {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    @include breakpoint-xs {
+      display: none;
+    }
+  }
+
+  .zero-margin-bottom {
+    margin-bottom: 0px;
+  }
+}

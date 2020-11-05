@@ -1,0 +1,92 @@
+.name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.overflow-prevent {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.width-40 {
+  min-width: 20%;
+  max-width: 34%;
+}
+
+.width-30 {
+  min-width: 20%;
+  max-width: 33%;
+}
+
+.content {
+  margin: 0px 5px;
+  &::before {
+    content: '| ';
+  }
+}
+
+.content-card {
+  padding: 0px;
+  width: 265px;
+}
+
+.mat-card-image {
+  width: 265px;
+  margin: 0px;
+  padding: 0px;
+  height: 150px;
+}
+
+.icon {
+  top: 3px;
+  position: relative;
+}
+
+.white {
+  color: white;
+}
+
+mat-card-content {
+  margin-top: -7px !important;
+  padding: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.custom-icon {
+  font-size: 18px;
+  position: relative;
+  top: 3px;
+  padding-right: 8px;
+}
+
+.mr-0-imp {
+  margin-right: 0px !important;
+}
+
+.img {
+  height: 14px;
+  width: 20px;
+  padding-right: 5px;
+}
+
+.checkmark {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.circle {
+  -moz-border-radius: 50px/50px;
+  -webkit-border-radius: 50px 50px;
+  position: relative;
+  top: 8px;
+  border-radius: 50px/50px;
+  border: solid 4px green;
+  width: 10px;
+  height: 8px;
+}

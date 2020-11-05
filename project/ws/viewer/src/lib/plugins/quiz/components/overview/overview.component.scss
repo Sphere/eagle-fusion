@@ -1,0 +1,20 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.overview-container {
+  min-height: 100%;
+  box-sizing: border-box;
+  @extend %page-center;
+  max-height: 10000 !important;
+  padding: $size-s;
+}
+
+.card-section {
+  width: 90%;
+  margin: $size-m;
+
+  // @include breakpoint-gt-sm {
+  //   width: 45%;
+  //   margin: $size-s;
+  // }
+}

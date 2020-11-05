@@ -1,0 +1,54 @@
+<!-- <a [routerLink]="widgetData?.artifactUrl">
+  <mat-card
+    class="channel-card flex mat-elevation-z1 mb-8 mr-8 ws-mat-primary-border-top-bolder border-t-5"
+  >
+    <div class="flex-1 min-w-0 flex flex-column">
+      <div class="flex-1 min-w-0 mx-2">
+        <h2 class="mat-title margin-bottom-xs leading-tight pt-1">{{ widgetData?.name }}</h2>
+        <h3 class="mat-subheading-2 leading-tight">{{ widgetData?.description }}</h3>
+      </div> -->
+<!-- <div
+        *ngIf="widgetData?.publishedOn"
+        class="ws-mat-primary-text font-weight-500 mat-body px-2 py-1"
+      >
+        <ng-container *ngIf="!widgetData?.expiryDate">
+          <ng-container i18n>since</ng-container>
+          {{ widgetData?.publishedOn | date }}
+        </ng-container>
+        <ng-container *ngIf="widgetData?.expiryDate">
+          {{ widgetData?.publishedOn | date }} - {{ widgetData?.expiryDate | date }}
+        </ng-container>
+      </div> -->
+<!-- </div>
+    <img alt="thumbnail" i18n-alt [src]="widgetData?.appIcon" class="card-image h-full" />
+  </mat-card>
+</a> -->
+<a
+  [ngClass]="{ 'cursor-not-allowed': widgetData?.disable }"
+  [routerLink]="!widgetData?.disable ? widgetData?.url : null"
+>
+  <div
+    [ngClass]="{ 'opacity-50': widgetData?.disable }"
+    class="channel-card flex mat-elevation-z1 mb-8 mr-8 ws-mat-primary-border-top-bolder border-t-5"
+  >
+    <div class="flex-1 min-w-0 flex flex-column">
+      <div class="flex-1 min-w-0 mx-2">
+        <h2 class="mat-title margin-bottom-xs leading-tight pt-1">{{ widgetData?.name }}</h2>
+        <h3 class="mat-subheading-2 leading-tight">{{ widgetData?.description }}</h3>
+      </div>
+      <div
+        *ngIf="widgetData?.startDate"
+        class="ws-mat-primary-text font-weight-500 mat-body px-2 py-1"
+      >
+        <ng-container *ngIf="!widgetData?.endDate">
+          <ng-container i18n>since</ng-container>
+          {{ widgetData?.startDate }}
+        </ng-container>
+        <ng-container *ngIf="widgetData?.endDate">
+          {{ widgetData?.startDate }} - {{ widgetData?.endDate }}
+        </ng-container>
+      </div>
+    </div>
+    <img [src]="widgetData?.image" class="card-image h-full" />
+  </div>
+</a>

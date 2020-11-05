@@ -1,0 +1,76 @@
+.box {
+  box-sizing: border-box !important
+}
+
+.parentClass {
+  position: relative;
+  border-left: dashed grey 1px;
+  border-right: dashed grey 1px;
+  border-bottom: dashed grey 1px;
+
+  &:first-child {
+    border-top: dashed grey 1px;
+  }
+}
+
+.childClass {
+  border-right: dashed grey 1px;
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.center {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  min-height: 80px;
+  line-height: 80px;
+}
+
+.circle {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  position: relative;
+  top: -30px;
+  left: 20px;
+  font-size: 48px;
+  cursor: pointer;
+}
+
+.small-button {
+  margin: 0px !important;
+  top: -15px !important;
+  height: 32px;
+  width: 32px;
+  transition: 0.5s;
+}
+
+.small-icon {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}
+
+.insert {
+  font-size: 24px;
+}
+
+.insert-botton {
+  height: 28px;
+  width: 28px;
+  left: -15px;
+  bottom: -15px;
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}

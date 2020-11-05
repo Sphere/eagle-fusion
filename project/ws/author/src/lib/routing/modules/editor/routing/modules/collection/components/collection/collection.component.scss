@@ -1,0 +1,51 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.mat-sidenav-container {
+  min-height: 650px;
+  overflow: unset;
+}
+
+.mat-sidenav {
+  overflow: unset;
+}
+
+.mat-drawer-content {
+  padding-left: 3px;
+}
+
+.sticky {
+  position: sticky;
+  top: 50px;
+}
+
+.close-preview {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hidden {
+  display: none;
+}
+.transitionD {
+  transition: all 0.5s;
+}
+.ui {
+  border: 1px solid rgb(26, 25, 25);
+  border-top-left-radius: 0px;
+  border-left-color: white;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  box-shadow: 0.1px 2px 8px grey;
+  width: 42px;
+}
+
+.toHide {
+  visibility: hidden;
+}

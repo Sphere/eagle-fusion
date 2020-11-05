@@ -1,0 +1,19 @@
+<mat-toolbar class="ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: '/page/home' }"></ws-widget-btn-page-back>
+  <span class="margin-left-s" i18n>Channels</span>
+</mat-toolbar>
+
+
+<nav *ngIf="channelsConfig?.tabs" mat-align-tabs="center" mat-tab-nav-bar>
+  <a
+    *ngFor="let tab of tabs; let i = index"
+    mat-tab-link
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+    [routerLink]="tab.routerLink"
+  >
+    {{ tab.name }}
+  </a>
+</nav>
+<router-outlet></router-outlet>

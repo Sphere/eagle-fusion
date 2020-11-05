@@ -1,0 +1,42 @@
+<div class="margin-m">
+  <h3 class="mat-title" i18n>Write your SQL statement, stored procedure or anonymous block</h3>
+  <ace-editor class="code-container" (textChanged)="raiseInputChange()" [(text)]="userQuery" theme="eclipse" [mode]="'sql'" [options]="options" #editor></ace-editor>
+  <div class="margin-top-s">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="executed"
+      (click)="run() ;raiseClickEvent()"
+      i18n="button run"
+    >
+      Run
+    </button>
+  </div>
+</div>
+<div class="margin-m">
+  <h4 class="mat-title">Query result</h4>
+  <div class="result-container">
+    <div class="margin-top-s query-result" *ngIf="executedResult">
+      <span
+        *ngIf="errorMessage || executedResult?.status?.message"
+        [ngClass]="{
+          'ws-mat-primary-text': executedResult?.validationStatus,
+          'ws-mat-warn-text': !executedResult?.validationStatus
+        }"
+      >
+        {{ errorMessage || executedResult?.status?.message }}
+      </span>
+      <viewer-execution-result
+        *ngIf="executedResult?.data"
+        [executedResult]="executedResult"
+      ></viewer-execution-result>
+    </div>
+  </div>
+</div>
+
+<input
+  #someErrorOccurred
+  type="hidden"
+  i18n-value
+  value="Some error occurred. Please try again later!"
+/>

@@ -1,0 +1,34 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}
+
+.w300 {
+  min-width: 200px;
+  max-width: 300px; // width: 300px;
+}
+
+.marginSmall {
+  margin: $size-s $size-s $size-s 0;
+}
+
+.icon {
+  transform: scale(1.5);
+  margin: $size-s $size-xs $size-s $size-xs;
+}
+
+.event-name {
+  line-height: 1.5;
+}
+
+.circle {
+  height: $size-m;
+  width: $size-m;
+  border-radius: $size-xs;
+  background-color: red;
+}

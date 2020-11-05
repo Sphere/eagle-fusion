@@ -1,0 +1,26 @@
+@import 'ws-vars';
+
+.cohorts-head {
+  padding: $size-xs $size-m;
+}
+.unit-cohort {
+  display: flex;
+  align-items: center;
+  margin-bottom: $size-m;
+  .cohort-image {
+    $user-image-size: 32px;
+    width: $user-image-size;
+    height: $user-image-size;
+    font-size: $user-image-size;
+  }
+}
+.cohortSection{
+  margin:50px auto;
+  width: 70%;
+}
+.flex{
+  display: flex;
+}
+.chorotsBlock{
+background: #ffffff;
+}

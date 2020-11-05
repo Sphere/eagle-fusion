@@ -1,0 +1,150 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.result {
+  font-weight: bold;
+  margin: 3px;
+  padding: 2px;
+  background-color: #d6d6d6;
+  border-radius: 5px;
+  color: #888;
+}
+
+.mat-list-item {
+  font-size: 14px !important;
+  font-weight: bold;
+}
+
+.mat-table {
+  border: 1px solid #0000001f;
+  box-shadow: none;
+}
+
+.padding-xs {
+  padding: 5px !important;
+}
+
+.table-name {
+  color: #004c7e;
+  font-weight: 700;
+}
+.code-container {
+  min-height: 20vh;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.mat-cell,
+.mat-header-cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  text-align: left;
+  padding: 5px;
+}
+
+.table-result {
+  border: 1px solid #cecece;
+  min-height: 175px;
+
+  // @include breakpoint-xs {
+  //   width: 100% !important;
+  // }
+
+  // @include breakpoint-sm {
+  //   width: 45%;
+  // }
+}
+
+.table-width-1-1 {
+  width: 100%;
+}
+
+.table-width-1-2 {
+  width: 49%;
+}
+
+::ng-deep .table-bordered {
+  border: 1px solid #cecece;
+  border-collapse: collapse;
+  width: auto;
+}
+
+::ng-deep .table-bordered > tbody > tr > td,
+::ng-deep .table-bordered > thead > tr > th {
+  border: 1px solid #cecece;
+  padding: 7px;
+}
+
+::ng-deep .table-bordered thead {
+  text-align: left;
+}
+
+// ::ng-deep .table-striped > tbody > tr:nth-child(odd) > td {
+//   background-color: #f9f9f9;
+// }
+
+// .refresh-btn {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+// }
+
+.expected-result .mat-header-cell,
+.executed-result .mat-header-cell,
+.telltext-success {
+  color: #1e6942 !important;
+  background-color: #c7ffb3 !important;
+}
+
+.telltext-failed {
+  color: red !important;
+  background-color: #ec4c6338 !important;
+}
+
+.font-weight {
+  font-weight: 800;
+}
+
+.table-scroll {
+  overflow: auto;
+  padding: 15px;
+}
+
+.mat-header-cell {
+  flex: 0 0 25% !important;
+  min-width: 70px !important;
+}
+
+.query-success {
+  color: green;
+}
+
+.query-failed {
+  color: red;
+}
+
+.tell-text {
+  border: 1px solid #cecece;
+}
+
+::ng-deep .row {
+  overflow: auto !important;
+}
+
+.mat-row,
+.mat-header-row {
+  height: 34px !important;
+}
+
+::ng-deep .ace_hidden-cursors .ace_cursor {
+  opacity: 0 !important;
+}
+
+.dbStructure-table {
+  overflow-y: auto;
+  height: 213px;
+}
+
+.rdbmsheadings{
+  margin: 0!important;
+  border-bottom: 1px solid #cecece;
+}

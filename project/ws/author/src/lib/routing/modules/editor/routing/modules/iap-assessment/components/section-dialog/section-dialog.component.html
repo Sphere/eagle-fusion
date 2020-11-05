@@ -1,0 +1,283 @@
+<div mat-dialog-content>
+  <form [formGroup]="addSectionForm">
+    <div class="margin-top-xs">
+      <p class="font-weight-bold margin-remove-bottom required" i18n>
+        Section Name
+      </p>
+      <mat-form-field appearance="outline" class="margin-top-xs w100">
+        <input
+          autocomplete="off"
+          matInput
+          placeholder="Enter section name"
+          formControlName="sectionName"
+        />
+      </mat-form-field>
+    </div>
+    <div class="margin-top-xs">
+      <p class="font-weight-bold margin-remove-bottom" i18n>
+        Section Description
+      </p>
+      <mat-form-field appearance="outline" class="margin-top-xs w100">
+        <textarea
+          matInput
+          placeholder="Enter section description"
+          formControlName="sectionDescription"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div class="flex flex-end margin-bottom-xl "></div>
+  </form>
+  <mat-spinner
+    class="loader"
+    *ngIf="loaderFlag"
+    color="primary"
+    mode="indeterminate"
+    diameter="60"
+  ></mat-spinner>
+  <span
+    class="mat-h3"
+    *ngIf="!loaderFlag && objectiveQuestionsData.length === 0 && groupQuestionsData.length === 0"
+  >
+    You haven't added questions to this section.
+  </span>
+  <div
+    class="questions-container"
+    *ngIf="objectiveQuestionsData && objectiveQuestionsData.length !== 0"
+  >
+    <p class="font-weight-bold" i18n>Questions:</p>
+
+    <mat-card *ngFor="let question of objectiveQuestionsData; let i = index" class="question-card">
+      <div class="question-header margin-bottom-sm">
+        <div>Q{{ i + 1 }} of {{ objectiveQuestionsData.length }}</div>
+        <div class="flex-auto"></div>
+        <div
+          (click)="removeQuestions(question)"
+          class="cursor-pointer"
+          i18n-matTooltip
+          matTooltip="Remove question from section"
+        >
+          <mat-icon>remove_circle_outline</mat-icon>
+        </div>
+      </div>
+      <mat-divider [inset]="true"></mat-divider>
+
+      <div class="problem-stmt populate-innerhtml" [innerHTML]="question.problemStatement"></div>
+
+      <div class="options-container">
+        <div *ngFor="let number of [1, 2, 3, 4, 5, 6]">
+          <div class="option margin-bottom-sm" *ngIf="question['option' + number]">
+            <mat-radio-button
+              [disabled]="true"
+              *ngIf="question.questionType == 'SCQ'"
+            ></mat-radio-button>
+            <mat-checkbox [disabled]="true" *ngIf="question.questionType == 'MCQ'"></mat-checkbox>
+            <span class="populate-innerhtml" [innerHTML]="question['option' + number]"></span>
+          </div>
+        </div>
+      </div>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title i18n>
+              More details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div>
+            <mat-list class="w100">
+              <mat-list-item>
+                <div class="list-item">
+                  <div>
+                    Topic: &nbsp;
+                    {{
+                      question.topic !== '' && question.topic !== null
+                        ? question.topic
+                        : 'Not provided'
+                    }}
+                  </div>
+                  <div>Question type: &nbsp; {{ question.questionType }}</div>
+                </div>
+              </mat-list-item>
+              <mat-divider [inset]="true"></mat-divider>
+
+              <mat-list-item>
+                <div class="list-item">
+                  <div *ngIf="question.questionType !== 'fib'">
+                    Solution: &nbsp;{{ question.solution.split('').join(',') }}
+                  </div>
+                  <div *ngIf="question.questionType == 'fib'">
+                    Solution: &nbsp;{{ question.solution }}
+                  </div>
+                  <div>Difficulty: &nbsp; {{ question.difficulty }}</div>
+                </div>
+              </mat-list-item>
+              <mat-divider [inset]="true"></mat-divider>
+
+              <mat-list-item>
+                <div class="list-item">
+                  <div class="word-break">
+                    Tags: &nbsp;
+                    {{ question.tags.length == 0 ? 'Not provided' : question.tags.join(',') }}
+                  </div>
+                  <div>Maximum marks: &nbsp; {{ question.maxMarks }}</div>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+  <div class="questions-container" *ngIf="groupQuestionsData && groupQuestionsData.length !== 0">
+    <p class="font-weight-bold" i18n>Group Questions:</p>
+
+    <mat-card *ngFor="let group of groupQuestionsData; let i = index" class="question-card">
+      <div class="question-header margin-bottom-sm">
+        <div>GQ{{ i + 1 }} of {{ groupQuestionsData.length }}</div>
+        <div class="flex-auto"></div>
+        <div
+          (click)="removeGroup(group)"
+          class="cursor-pointer"
+          i18n-matTooltip
+          matTooltip="Remove group from section"
+        >
+          <mat-icon>remove_circle_outline</mat-icon>
+        </div>
+      </div>
+      <mat-divider [inset]="true"></mat-divider>
+      <div>
+        <mat-list class="w100">
+          <mat-list-item>
+            <div class="list-item">
+              <div>Title: &nbsp; {{ group.title }}</div>
+              <div>Group type: &nbsp; {{ group.groupType }}</div>
+            </div>
+          </mat-list-item>
+          <mat-divider [inset]="true"></mat-divider>
+
+          <mat-list-item>
+            <div class="list-item">
+              <div class="word-break">
+                Tags: &nbsp; {{ group.tags.length == 0 ? 'Not provided' : group.tags.join(',') }}
+              </div>
+              <div>
+                Topic: &nbsp;
+                {{ group.topic !== '' && group.topic !== null ? group.topic : 'Not provided' }}
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title i18n>
+              View Questions in the Group
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-card
+            *ngFor="let question of group.questionsData; let i = index"
+            class="question-card"
+          >
+            <div class="question-header margin-bottom-sm">
+              <div>Q{{ i + 1 }} of {{ group.questionsData.length }}</div>
+              <div class="flex-auto"></div>
+            </div>
+            <mat-divider [inset]="true"></mat-divider>
+
+            <div
+              class="problem-stmt populate-innerhtml"
+              [innerHTML]="question.problemStatement"
+            ></div>
+
+            <div class="options-container">
+              <div *ngFor="let number of [1, 2, 3, 4, 5, 6]">
+                <div class="option margin-bottom-sm" *ngIf="question['option' + number]">
+                  <mat-radio-button
+                    [disabled]="true"
+                    *ngIf="question.questionType == 'SCQ'"
+                  ></mat-radio-button>
+                  <mat-checkbox
+                    [disabled]="true"
+                    *ngIf="question.questionType == 'MCQ'"
+                  ></mat-checkbox>
+                  <span class="populate-innerhtml" [innerHTML]="question['option' + number]"></span>
+                </div>
+              </div>
+            </div>
+
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title i18n>
+                    More details
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div>
+                  <mat-list class="w100">
+                    <mat-list-item>
+                      <div class="list-item">
+                        <div>
+                          Topic: &nbsp;
+                          {{
+                            question.topic !== '' && question.topic !== null
+                              ? question.topic
+                              : 'Not provided'
+                          }}
+                        </div>
+                        <div>Question type: &nbsp; {{ question.questionType }}</div>
+                      </div>
+                    </mat-list-item>
+                    <mat-divider [inset]="true"></mat-divider>
+
+                    <mat-list-item>
+                      <div class="list-item">
+                        <div *ngIf="question.questionType !== 'fib'">
+                          Solution: &nbsp;{{ question.solution.split('').join(',') }}
+                        </div>
+                        <div *ngIf="question.questionType == 'fib'">
+                          Solution: &nbsp;{{ question.solution }}
+                        </div>
+                        <div>Difficulty: &nbsp; {{ question.difficulty }}</div>
+                      </div>
+                    </mat-list-item>
+                    <mat-divider [inset]="true"></mat-divider>
+
+                    <mat-list-item>
+                      <div class="list-item">
+                        <div class="word-break">
+                          Tags: &nbsp;
+                          {{ question.tags.length == 0 ? 'Not provided' : question.tags.join(',') }}
+                        </div>
+                        <div>Maximum marks: &nbsp; {{ question.maxMarks }}</div>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-card>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <div class="flex flex-end w100">
+    <button
+      type="button"
+      mat-raised-button
+      class="ws-mat-primary-background margin-top-m"
+      [mat-dialog-close]="addSectionForm"
+      [disabled]="!addSectionForm.value.sectionName"
+    >
+      <div class="flex flex-middle ">
+        <p class="text-white margin-remove-bottom" i18n>Save Changes</p>
+      </div>
+    </button>
+  </div>
+</div>

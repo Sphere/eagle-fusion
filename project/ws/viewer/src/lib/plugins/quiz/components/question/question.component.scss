@@ -1,0 +1,67 @@
+@import 'ws-vars';
+
+.app-class .mat-list-option {
+  padding-top: $size-m;
+  padding-bottom: $size-m;
+  height: auto;
+}
+
+.wrap-mat-radio-label {
+  white-space: normal;
+}
+
+.quiz-question {
+  overflow-x: auto;
+}
+
+.quiz-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.quiz-radio-button {
+  margin: 5px;
+  padding: 8px;
+}
+
+.quiz-selected-value {
+  margin: 15px 0;
+}
+
+.margin-bottom-m {
+  margin-bottom: $size-m;
+}
+
+.correct-option {
+  color: #357a38 !important;
+}
+
+.incorrect-option {
+  color: #f0506e;
+}
+
+.question {
+  width: 40%;
+  max-width: 200px;
+  height: auto;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 4px 0px 4px 0px;
+  word-wrap: break-word;
+  text-align: center;
+}
+.answer {
+  width: 40%;
+  max-width: 200px;
+  height: auto;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 2px 0px 2px 0px;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.background-well {
+  background: #eee;
+}

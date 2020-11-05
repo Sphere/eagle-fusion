@@ -1,0 +1,19 @@
+<div class="text-center flex flex-wrapped margin-top-m flex-around" *ngIf="leaderData?.length">
+  <a
+    [routerLink]="leader.routerLink"
+    *ngFor="let leader of leaderData"
+    class="mat-card card margin-m"
+  >
+    <img alt="Leader" class="mat-lite-background" [src]="leader?.profileImage" />
+    <div class="text-center">
+      <h2 class="margin-remove mat-h2 margin-top-xs">{{ leader?.name }}</h2>
+      <h3 class="mat-h3">{{ leader?.designation }}</h3>
+    </div>
+  </a>
+</div>
+
+<div class="text-center margin-top-m">
+  <h2 class="mat-h2" i18n *ngIf="!leaderData?.length">
+    Leaders details will appear here
+  </h2>
+</div>

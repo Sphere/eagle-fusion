@@ -1,0 +1,49 @@
+<div
+  class="banner-container"
+  (swipeleft)="slideTo(currentIndex + 1)"
+  (swiperight)="slideTo(currentIndex - 1)"
+  *ngIf="widgetData?.length"
+>
+  <a
+    (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"
+    [routerLink]="!isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'"
+    class="banner-overlay"
+  ></a>
+  <div
+    class="banner WidgetInstanceId"
+    *ngFor="let slide of widgetData; let i = index"
+    [hidden]="i !== currentIndex"
+  >
+    <img
+      i18n-alt
+      alt="Page Banner"
+      [src]="slide.banners"
+      wsUtilsImageResponsive
+      class="banner-image"
+    />
+  </div>
+  <div class="banner-meta">
+    <a
+      [routerLink]="!isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'"
+      class="banner-title text-truncate"
+      *ngIf="widgetData[currentIndex].title"
+      [title]="widgetData[currentIndex].title"
+    >
+      {{ widgetData[currentIndex].title }}
+    </a>
+    <div class="dots-container" *ngIf="widgetData?.length > 1">
+      <span
+        class="dot"
+        [ngClass]="{ active: j === currentIndex }"
+        *ngFor="let slide of widgetData; let j = index"
+        (click)="slideTo(j)"
+      ></span>
+    </div>
+  </div>
+  <a *ngIf="widgetData?.length > 1" role="button" class="prev" (click)="slideTo(currentIndex - 1)"
+    >&#10094;</a
+  >
+  <a *ngIf="widgetData?.length > 1" role="button" class="next" (click)="slideTo(currentIndex + 1)"
+    >&#10095;</a
+  >
+</div>

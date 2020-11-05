@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  <h3 class="mat-h3" i18n="want to send mail">Do you want to send content to your mailbox ?</h3>
+</div>
+<div class="flex-row-reverse" mat-dialog-actions>
+  <button
+    mat-button
+    [color]="'primary'"
+    (click)="close(mailBody.value, successToast.value, errorToast.value)"
+    i18n-aria-label
+    aria-label="send content over mail"
+    i18n
+  >
+    Send
+  </button>
+  <button mat-button mat-dialog-close i18n i18n-aria-label aria-label="Don't send this content">
+    Cancel
+  </button>
+</div>
+
+<input
+  type="hidden"
+  i18n-aria-value
+  aria-value="Default mail body for sending the content to user mail box"
+  i18n-value
+  value="This mail is sent by Wingspan on request."
+  #mailBody
+/>
+<input
+  type="hidden"
+  i18n-aria-value
+  aria-value="Success toast message for sending the content to user mail box"
+  i18n-value
+  value="Content is sent to your inbox"
+  #successToast
+/>
+<input
+  type="hidden"
+  i18n-aria-value
+  aria-value="Error Toast message for sending the content to user mail box"
+  i18n-value
+  value="Failed to send the resource to your inbox."
+  #errorToast
+/>

@@ -1,0 +1,26 @@
+@import '~src/styles/ws-vars';
+@import '~src/styles/ws-mixins';
+
+.banner {
+  height: 200px;
+  width: 100%;
+
+  @include breakpoint-xs {
+    height: 240px;
+  }
+
+  @media only screen and (max-width: 706px) {
+    flex-wrap: wrap;
+    height: 280px;
+    margin-bottom: 24px;
+  }
+}
+
+.description {
+  font-size: 1.28em;
+
+  @media only screen and (max-width: 463px) {
+    font-size: 0.95em;
+  }
+
+}

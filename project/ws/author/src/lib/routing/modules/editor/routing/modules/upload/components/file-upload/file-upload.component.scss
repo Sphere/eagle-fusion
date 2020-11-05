@@ -1,0 +1,119 @@
+.op100 {
+  opacity: 1;
+}
+
+.upload-box {
+  border: 2px dashed rgba(28, 28, 28, 0.6);
+  border-radius: 2%;
+  // width: 235px;
+  flex: 1;
+  position: relative;
+}
+
+.instruction {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 2rem;
+
+  @media only screen and(max-width: 769px) {
+    margin: 0rem;
+  }
+
+}
+
+.flex-Update-r {
+  flex-direction: row;
+
+  @media only screen and(max-width: 1060px) {
+    flex-direction: column;
+  }
+}
+
+.flex-Update {
+  flex-direction: row;
+
+  @media only screen and(max-width: 769px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.upload_cloud {
+  font-size: 10em;
+  height: auto;
+  width: auto;
+}
+
+.new-text-upload {
+  font-size: 12px;
+}
+
+.up-lbl {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.p-custom-20 {
+  padding: 7rem 7rem 2rem 7rem;
+}
+
+.new-text {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+
+}
+
+ul li {
+  margin: 4px 0;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile+label {
+  font-size: 1.25em;
+  color: white;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.top-heading {
+  position: relative;
+}
+
+.information {
+  // margin-left: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 769px) {
+  .top-heading {
+    flex-direction: column;
+  }
+
+  .information {
+    margin-left: 0rem;
+    margin-top: 1rem;
+  }
+}

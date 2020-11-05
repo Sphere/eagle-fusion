@@ -1,0 +1,43 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.champions-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.champions-list-item {
+  margin: $size-s 0;
+  height: auto !important;
+  display: flex;
+  justify-content: space-between;
+  outline: none;
+}
+
+.champions-user-img {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.champions-name,
+.champions-desc {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}
+
+.flexlist {
+  @include breakpoint-gt-s {
+    justify-content: space-around;
+  }
+}

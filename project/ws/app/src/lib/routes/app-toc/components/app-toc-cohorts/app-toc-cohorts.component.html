@@ -1,0 +1,158 @@
+<section *ngIf="enableFeature">
+  <h2 class="mat-toolbar cohorts-head shadow">Cohorts</h2>
+  <mat-accordion [multi]="false">
+    <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.ACTIVE_USERS)" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Learners</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
+          <h3 *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS].hasError" class="mat-error text-center" i18n>
+            Failed to fetch active users
+          </h3>
+          <h3 *ngIf="
+              !cohortResults[cohortTypesEnum.ACTIVE_USERS].hasError &&
+              !cohortResults[cohortTypesEnum.ACTIVE_USERS].contents.length
+            " class="text-center" i18n>
+            None
+          </h3>
+          <div *ngFor="let cohort of cohortResults[cohortTypesEnum.ACTIVE_USERS].contents"
+            [ngTemplateOutlet]="unitCohort" [ngTemplateOutletContext]="{ user: cohort }"></div>
+        </div>
+        <div *ngIf="!cohortResults[cohortTypesEnum.ACTIVE_USERS]" class="text-center">
+          <mat-spinner [strokeWidth]="3" [diameter]="40" class="display-inline-block"></mat-spinner>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.TOP_PERFORMERS)">
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Top performers</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div *ngIf="cohortResults[cohortTypesEnum.TOP_PERFORMERS]">
+          <h3 *ngIf="cohortResults[cohortTypesEnum.TOP_PERFORMERS].hasError" class="mat-error text-center" i18n>
+            Failed to fetch top performers
+          </h3>
+          <h3 *ngIf="
+              !cohortResults[cohortTypesEnum.TOP_PERFORMERS].hasError &&
+              !cohortResults[cohortTypesEnum.TOP_PERFORMERS].contents.length
+            " class="text-center" i18n>
+            None
+          </h3>
+          <div *ngFor="let cohort of cohortResults[cohortTypesEnum.TOP_PERFORMERS].contents"
+            [ngTemplateOutlet]="unitCohort" [ngTemplateOutletContext]="{ user: cohort }"></div>
+        </div>
+        <div *ngIf="!cohortResults[cohortTypesEnum.TOP_PERFORMERS]" class="text-center">
+          <mat-spinner [strokeWidth]="3" [diameter]="40" class="display-inline-block"></mat-spinner>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+    <!-- <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.COMMON_GOALS)">
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Shares same goal</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div *ngIf="cohortResults[cohortTypesEnum.COMMON_GOALS]">
+          <h3
+            *ngIf="cohortResults[cohortTypesEnum.COMMON_GOALS].hasError"
+            class="mat-error text-center"
+            i18n
+          >
+            Failed to fetch users with same goals
+          </h3>
+          <h3
+            *ngIf="
+              !cohortResults[cohortTypesEnum.COMMON_GOALS].hasError &&
+              !cohortResults[cohortTypesEnum.COMMON_GOALS].contents.length
+            "
+            class="text-center"
+            i18n
+          >
+            None
+          </h3>
+          <div
+            *ngFor="let cohort of cohortResults[cohortTypesEnum.COMMON_GOALS].contents"
+            [ngTemplateOutlet]="unitCohort"
+            [ngTemplateOutletContext]="{ user: cohort }"
+          ></div>
+        </div>
+        <div *ngIf="!cohortResults[cohortTypesEnum.COMMON_GOALS]" class="text-center">
+          <mat-spinner [strokeWidth]="3" [diameter]="40" class="display-inline-block"></mat-spinner>
+        </div>
+      </ng-template>
+    </mat-expansion-panel> -->
+    <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.AUTHORS)">
+      <mat-expansion-panel-header>
+        <mat-panel-title i18n>Authors</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div *ngIf="cohortResults[cohortTypesEnum.AUTHORS]">
+          <h3 *ngIf="cohortResults[cohortTypesEnum.AUTHORS].hasError" class="mat-error text-center" i18n>
+            Failed to fetch authors
+          </h3>
+          <h3 *ngIf="
+              !cohortResults[cohortTypesEnum.AUTHORS].hasError &&
+              !cohortResults[cohortTypesEnum.AUTHORS].contents.length
+            " class="text-center" i18n>
+            None
+          </h3>
+          <div *ngFor="let cohort of cohortResults[cohortTypesEnum.AUTHORS].contents" [ngTemplateOutlet]="unitCohort"
+            [ngTemplateOutletContext]="{ user: cohort }"></div>
+        </div>
+        <div *ngIf="!cohortResults[cohortTypesEnum.AUTHORS]" class="text-center">
+          <mat-spinner [strokeWidth]="3" [diameter]="40" class="display-inline-block"></mat-spinner>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+    <!-- <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.EDUCATORS)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Educators</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div *ngIf="cohortResults[cohortTypesEnum.EDUCATORS]">
+          <h3 *ngIf="cohortResults[cohortTypesEnum.EDUCATORS].hasError" class="mat-error text-center" i18n>
+            Failed to fetch educators
+          </h3>
+          <h3 *ngIf="
+              !cohortResults[cohortTypesEnum.EDUCATORS].hasError &&
+              !cohortResults[cohortTypesEnum.EDUCATORS].contents.length
+            " class="text-center" i18n>
+            None
+          </h3>
+          <div *ngFor="let cohort of cohortResults[cohortTypesEnum.EDUCATORS].contents" [ngTemplateOutlet]="unitCohort" [ngTemplateOutletContext]="{ user: cohort }"></div>
+        </div>
+        <div *ngIf="!cohortResults[cohortTypesEnum.EDUCATORS]" class="text-center">
+          <mat-spinner [strokeWidth]="3" [diameter]="40" class="display-inline-block"></mat-spinner>
+        </div>
+      </ng-template>
+    </mat-expansion-panel> -->
+  </mat-accordion>
+
+  <ng-template #unitCohort let-user="user">
+    <div class="unit-cohort">
+      <ws-widget-user-image class="cohort-image" [email]="user.email"></ws-widget-user-image>
+      <div (click)="goToUserProfile(user)" [ngClass]="{'cursor-pointer': enablePeopleSearch}"
+        class="width-expand padding-left-xs">
+        <div class="mat-body-strong cohorts-name">
+          {{
+            { firstName: user.first_name, lastName: user.last_name, email: user.email }
+              | pipeNameTransform
+          }}
+        </div>
+        <div class="mat-caption cohorts-desc">{{ user.desc }}</div>
+      </div>
+      <div class="width-auto">
+        <ws-widget-btn-mail-user [widgetData]="{ content: content, emails: [user.email] }"></ws-widget-btn-mail-user>
+        <ws-widget-btn-call *ngIf="user.phone_No !== '0'" [widgetData]="{
+            userName:
+              {
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email
+              } | pipeNameTransform,
+            userPhone: user.phone_No
+          }"></ws-widget-btn-call>
+      </div>
+    </div>
+  </ng-template>
+</section>

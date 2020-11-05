@@ -1,0 +1,18 @@
+<ng-container *ngIf="widgetData?.targetId?.length" [ngSwitch]="statusFollowed">
+  <button name="follow-button" mat-icon-button *ngSwitchCase="'NOT_FOLLOWED'" (click)="follow($event)" aria-label="Follow" i18n-aria-label
+    matTooltip="Follow" i18n-matTooltip="Follow Button">
+    <mat-icon>
+      add_to_photos
+    </mat-icon>
+  </button>
+
+  <button name="unfollow-button"  mat-icon-button *ngSwitchCase="'FOLLOWED'" (click)="unfollow($event)" aria-label="UnFollow" i18n-aria-label
+    matTooltip="UnFollow" i18n-matTooltip="UnFollow Button">
+    <mat-icon>
+      filter_none
+    </mat-icon>
+  </button>
+  <button name="follow-action-pending-button"  mat-icon-button matTooltip="Please wait" i18n-matTooltip="Follow Button Wait" *ngSwitchCase="'PENDING'">
+    <mat-icon>hourglass_empty</mat-icon>
+  </button>
+</ng-container>

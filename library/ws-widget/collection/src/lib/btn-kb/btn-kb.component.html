@@ -1,0 +1,12 @@
+<!-- added *ngIf="false" for disabling -->
+<!-- <button
+  *ngIf="false && showBtn"
+  mat-icon-button
+  (click)="openPinToKbDialog()"
+  i18n-matTooltip
+  matTooltip="Pin To Knowledge Board"
+> -->
+<button name="pin-to-kb-icon-button" *ngIf="showBtn" mat-icon-button (click)="openPinToKbDialog()" i18n-aria-label
+  aria-label="Knowledge Board" i18n-matTooltip matTooltip="Pin To Knowledge Board" [disabled]="status==='Deleted'">
+  <mat-icon svgIcon="pin"></mat-icon>
+</button>

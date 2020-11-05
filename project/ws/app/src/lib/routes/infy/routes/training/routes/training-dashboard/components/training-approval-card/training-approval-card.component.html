@@ -1,0 +1,47 @@
+<mat-card>
+  <section class="flex flex-between">
+    <div class="flex width-3-4">
+      <div class="margin-left-xs margin-right-xs width-3-4">
+        <div class="mat-body-2 text-truncate">{{ trainingRequest.user_name }}</div>
+        <div class="mat-caption text-truncate">{{ trainingRequest.designation | uppercase }}</div>
+      </div>
+    </div>
+    <button #btnReject mat-stroked-button color="primary" (click)="onBtnRejectClick()" i18n>
+      Reject
+    </button>
+  </section>
+
+  <section class="margin-top-m">
+    <div class="mat-body-2 text-truncate">{{ trainingRequest.content_name }}</div>
+    <div class="mat-caption">
+      <ng-container
+        [ngTemplateOutlet]="deliveryType"
+        [ngTemplateOutletContext]="{ $implicit: trainingRequest.delivery_type }"
+      ></ng-container>
+    </div>
+    <div class="mat-caption text-truncate">
+      <ng-container i18n="training registration date">Registered on </ng-container>
+      <ng-container>{{ trainingRequest.registration_date | date: 'dd MMM yyyy' }}</ng-container>
+    </div>
+
+    <div class="flex margin-top-xs margin-bottom-xs">
+      <div class="mat-body-2 margin-right-xs" i18n>Start Date</div>
+      <div class="mat-body text-truncate">{{ trainingRequest.start_dt | date: 'dd MMM yyyy' }}</div>
+    </div>
+  </section>
+
+  <div class="flex">
+    <div class="mat-body-2 margin-right-xs" i18n>Location</div>
+    <div class="mat-body text-truncate">{{ trainingRequest.location }}</div>
+  </div>
+</mat-card>
+
+<!-- Templates -->
+<!-- Delivery Type -->
+<ng-template #deliveryType let-type>
+  <span [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'Classroom'" i18n>CLASSROOM TRAINING</ng-container>
+    <ng-container *ngSwitchCase="'Virtual Classroom'" i18n>VIRTUAL TRAINING</ng-container>
+    <ng-container *ngSwitchCase="'Blended Classroom'" i18n>BLENDED TRAINING</ng-container>
+  </span>
+</ng-template>

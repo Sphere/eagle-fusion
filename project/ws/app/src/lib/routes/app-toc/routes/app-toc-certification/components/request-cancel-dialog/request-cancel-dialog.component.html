@@ -1,0 +1,21 @@
+<h2 class="mat-title" i18n>Cancel Request?</h2>
+
+<p class="mat-body" [ngSwitch]="requestType">
+  <ng-container *ngSwitchCase="'proctor_approval'" i18n>
+    Are you sure you want to cancel this booking?
+  </ng-container>
+  <ng-container *ngSwitchCase="'budget_approval'" i18n>
+    Are you sure you want to cancel this budget approval request?
+  </ng-container>
+  <ng-container *ngSwitchCase="'result_verification'" i18n>
+    Are you sure you want to withdraw this result verification request?
+  </ng-container>
+  <ng-container *ngSwitchDefault i18n>
+    Are you sure you want to cancel this request?
+  </ng-container>
+</p>
+
+<span class="mr-1">
+  <button mat-flat-button [color]="'primary'" i18n (click)="cancelRequest()">Yes</button>
+</span>
+<button mat-stroked-button mat-dialog-close [color]="'primary'" i18n>No</button>

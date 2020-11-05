@@ -1,0 +1,90 @@
+<div [hidden]="isRestricted">
+  <div class="discussion-body mb-6">
+    <div *ngIf="discussionFetchStatus === 'none'" class="no-conversation mat-toolbar" i18n>
+      There aren’t any conversations yet
+    </div>
+    <ws-widget-discussion-post
+      [post]="reply"
+      (deleteSuccess)="onDeletePost(i)"
+      *ngFor="let reply of discussionResult.result; let i = index"
+    ></ws-widget-discussion-post>
+    <div
+      *ngIf="discussionFetchStatus === 'fetching'"
+      class="margin-top-s margin-bottom-s text-center"
+    >
+      <mat-spinner class="display-inline-block" [strokeWidth]="5"></mat-spinner>
+    </div>
+    <div class="text-center margin-top-s" *ngIf="discussionFetchStatus === 'hasMore'">
+      <button
+        name="discussion-forum-show-more-posts-button"
+        mat-stroked-button
+        [color]="'primary'"
+        [disabled]="discussionFetchStatus === 'fetching'"
+        class="width-1-1"
+        type="button"
+        i18n
+        (click)="fetchDiscussion()"
+      >
+        Show More Posts
+      </button>
+    </div>
+  </div>
+  <div class="discussion-header mat-toolbar shadow" [hidden]="widgetData.isLoggedInUserRestricted">
+    <p class="ws-mat-primary-text font-medium text-xl" i18n>Start a new thread</p>
+    <div class="question-container">
+      <ws-widget-user-image
+        class="user-image"
+        [userId]="userId"
+        [email]="userEmail"
+        [userName]="userName"
+        [imageType]="'name-initial'"
+      >
+      </ws-widget-user-image>
+      <div class="editor width-expand mat-app-background">
+        <!-- [minLength]="'20'" -->
+        <ws-widget-editor-quill
+          (textData)="onTextChange($event)"
+          #editorQuill
+        ></ws-widget-editor-quill>
+      </div>
+    </div>
+    <div class="text-right margin-top-xs">
+      <!-- <mat-checkbox class="mx-2 text-sm font-small" i18n>Notify me when someone replies to my post</mat-checkbox> -->
+      <button
+        name="discussion-forum-post-button"
+        [disabled]="!isValidPost || isPostingDiscussion || widgetData?.isDisabled"
+        type="button"
+        (click)="publishConversation(error.value)"
+        mat-raised-button
+        color="primary"
+        i18n
+        [title]="widgetData?.isDisabled ? postDisabled.value : postEnabled.value"
+      >
+        Post
+      </button>
+      <div *ngIf="isPostingDiscussion" class="text-center">
+        <mat-spinner class="display-inline-block" [diameter]="30" [strokeWidth]="3"></mat-spinner>
+      </div>
+      <div></div>
+    </div>
+    <div></div>
+  </div>
+</div>
+
+<div [hidden]="!isRestricted">
+  <div class="discussion-body mb-6">
+    <div class="no-conversation mat-toolbar" i18n>
+      Discussion Forum is disabled currently.
+    </div>
+  </div>
+</div>
+<!-- PID to corses of group and get all user of that group -->
+<input type="hidden" i18n-value value="Conversation published successfully" #publish />
+<input type="hidden" i18n-value value="Unable to save. Please retry" #error />
+<input type="hidden" i18n-value value="Post" #postEnabled />
+<input
+  type="hidden"
+  i18n-value
+  value="Post to Dashboard is disabled for authoring preview mode"
+  #postDisabled
+/>

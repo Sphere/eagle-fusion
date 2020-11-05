@@ -1,0 +1,110 @@
+<section class="my-4 px-4 container-balanced">
+  <div>
+    <mat-form-field>
+      <mat-select [formControl]="statusControl" placeholder="Completion Status" i18n-placeholder>
+        <mat-option [value]="'completed'" i18n>Completed</mat-option>
+        <mat-option [value]="'notcompleted'" i18n>Not Completed</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <section class="margin-top-l">
+    <ng-container [ngSwitch]="certificationsFetchStatus">
+      <ng-container *ngSwitchCase="'done'">
+        <ng-container *ngIf="pastCertifications.length">
+          <ng-container
+            *ngFor="let pastCertification of pastCertifications"
+            [ngTemplateOutlet]="pastCertificationCard"
+            [ngTemplateOutletContext]="{ $implicit: pastCertification }"
+          ></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="!pastCertifications.length">
+          <section class="text-center mat-body margin-top-xl" i18n>
+            There are no certifications that you have given in the past.
+          </section>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'error'">
+        <section class="text-center mat-body margin-top-xl" i18n>
+          An error occured while fetching past certifications.
+        </section>
+      </ng-container>
+
+      <!-- <ng-container *ngSwitchCase="'fetching'">
+        <section class="flex flex-center">
+          <app-spinner [spinColor]="'primary'"></app-spinner>
+        </section>
+      </ng-container> -->
+    </ng-container>
+  </section>
+</section>
+
+<!-- Certifiation card -->
+<ng-template #pastCertificationCard let-pastCertification>
+  <section class="margin-top-s margin-bottom-s">
+    <mat-card>
+      <section class="flex flex-column flex-between">
+        <section class="margin-bottom-m">
+          <div class="mat-caption text-truncate uppercase">
+            <ng-container
+              [ngTemplateOutlet]="certificationType"
+              [ngTemplateOutletContext]="{ $implicit: pastCertification.certification_type }"
+            ></ng-container>
+          </div>
+          <h2 class="mat-title margin-remove-bottom width-1-1 text-truncate">
+            {{ pastCertification.certification_name }}
+          </h2>
+        </section>
+
+        <div class="hidden sm:block">
+          <div class="flex flex-between">
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>EXAM DATE</div>
+              <div class="mat-body text-truncate">
+                {{ pastCertification.examDate | pipeDateConcat }}
+              </div>
+            </div>
+            <div class="width-1-3" *ngIf="pastCertification.result_type">
+              <div class="mat-body-2 text-truncate" i18n>RESULT TYPE</div>
+              <div class="mat-body text-truncate">{{ pastCertification.result_type }}</div>
+            </div>
+            <div class="width-1-3">
+              <div class="mat-body-2 text-truncate" i18n>RESULT</div>
+              <div class="mat-body text-truncate">{{ pastCertification.result }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sm:hidden">
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">calendar_today</mat-icon>
+            <div class="margin-left-xs mat-body">
+              <span class="mat-body-2 margin-right-xs" i18n>Exam Date</span>
+              <span class="mat-body">{{ pastCertification.examDate | pipeDateConcat }}</span>
+            </div>
+          </div>
+
+          <div class="margin-bottom-xs margin-top-xs flex">
+            <mat-icon [inline]="true">score</mat-icon>
+            <div class="margin-left-xs mat-body">
+              <span class="mat-body-2 margin-right-xs" i18n>Result</span>
+              <span class="mat-body"
+                >{{ pastCertification.result_type }} {{ pastCertification.result }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </mat-card>
+  </section>
+</ng-template>
+
+<!-- Templates -->
+<ng-template #certificationType let-certificationType>
+  <ng-container [ngSwitch]="certificationType">
+    <ng-container *ngSwitchCase="'Internal'" i18n>Internal Certification</ng-container>
+    <ng-container *ngSwitchCase="'External'" i18n>External Certification</ng-container>
+  </ng-container>
+</ng-template>

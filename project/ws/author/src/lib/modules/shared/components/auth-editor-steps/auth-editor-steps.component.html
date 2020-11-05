@@ -1,0 +1,41 @@
+<div class="flex margin-left-xl flex-middle margin-top-m margin-bottom-m flex-wrap">
+  <div>
+    <p class="ws-mat-primary-text font-weight-bold title margin-right-xs" i18n>
+      CONTENT CREATION
+      <mat-icon class=" ws-mat-primary-text margin-bottom-xxs create-icon">create</mat-icon>
+    </p>
+  </div>
+  <div class="margin-left grid">
+    <div *ngFor="let step of steps; let i = index" class="stepper-grid">
+      <div
+        class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer"
+        [ngClass]="{
+          'cursor-disable': step.disabled,
+          'ws-mat-primary-background': currentStep >= i
+        }"
+        (click)="!step.disabled ? change.next(i) : null"
+        i18n
+      >
+        {{ i + 1 }}
+      </div>
+      <p
+        class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-pointer stepper-title"
+        [ngClass]="{
+          'cursor-disable': step.disabled,
+          'ws-mat-primary-text op100': currentStep >= i
+        }"
+        (click)="!step.disabled ? change.next(i) : null"
+        i18n
+      >
+        <span [ngClass]="{ 'ws-mat-primary-border-bottom-bolder': currentStep === i }">
+          {{ step.title }}
+        </span>
+      </p>
+      <span
+        *ngIf="i < steps?.length - 1"
+        class=" border border-solid text-gray-500 mx-3"
+        [ngClass]="{ 'ws-mat-primary-text': currentStep > i }"
+      ></span>
+    </div>
+  </div>
+</div>

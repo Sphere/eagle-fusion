@@ -1,0 +1,31 @@
+<!-- <mat-form-field class="width-1-1 leading-normal" appearance="fill">
+  <mat-chip-list #ids>
+    <mat-chip *ngFor="let id of idsList" [selectable]="true" [removable]="true" (removed)="remove(id)"
+      [color]="'primary'">
+      {{ id }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+
+    <input i18n-placeholder placeholder="Please enter ids" [matChipInputFor]="ids"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+      (matChipInputTokenEnd)="addAll($event)" />
+  </mat-chip-list>
+</mat-form-field>
+
+<button class="float-right" i18n mat-raised-button (click)="save()" [disabled]="idsList.length === 0"
+  [color]="'primary'">
+  Save
+</button> -->
+<ws-widget-picker-content (change)="updateSelectedIds($event)"
+  [widgetData]="{ preselected: selectedIds, enablePreselected: true }">
+</ws-widget-picker-content>
+<button class="float-right" i18n mat-raised-button (click)="save()" [color]="'primary'">
+  Save
+</button>
+<ng-container *ngIf="!isFetchingMeta; else loader">
+
+  <div cdkDropList class="strip-content" (cdkDropListDropped)="drop($event)">
+    <div class="strip-box" *ngFor="let content of selectedContentMeta" cdkDrag>{{content.name}}</div>
+  </div>
+</ng-container>
+<ng-template #loader>loading</ng-template>

@@ -1,0 +1,18 @@
+<ng-container [ngSwitch]="types" *ngIf="flagEnabled">
+
+  <button mat-icon-button *ngSwitchCase="'EMPTYFLAG'" aria-label="Rejected" i18n-aria-label matTooltip="Flag"
+    i18n-matTooltip="Flag Button" (click)="openDialog(invalidUser.value)">
+    <mat-icon>outlined_flag</mat-icon>
+  </button>
+  <button mat-icon-button matBadgeColor=" accent" *ngSwitchCase="'FILLEDFLAG'" aria-label="Accepted" i18n-aria-label
+    matTooltip="unflag" i18n-matTooltip="Unflag Button" (click)="unflag()">
+    <mat-icon class="highlight">assistant_photo</mat-icon>
+  </button>
+
+
+  <button mat-icon-button matTooltip="Please wait" i18n-matTooltip="Like Button Wait" *ngSwitchCase="'PENDING'">
+    <mat-icon>hourglass_empty</mat-icon>
+  </button>
+</ng-container>
+
+<input type="hidden" i18n-value value="You cannot like your own post" #invalidUser />

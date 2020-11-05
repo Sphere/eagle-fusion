@@ -1,0 +1,20 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+.tile-card{
+  width:31%;
+  margin: $size-s;
+   @include breakpoint-xs {
+      width: 85%;
+      margin: $size-s;
+    }
+
+    @include breakpoint-s {
+      width: 45%;
+      margin: $size-s;
+    }
+    @include breakpoint-m {
+      width: 30%;
+      margin: $size-s;
+    }
+}

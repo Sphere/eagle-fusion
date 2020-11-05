@@ -1,0 +1,870 @@
+<ng-container *ngIf="
+    (!showLoggedInCard && widgetData) &&
+    (widgetData.deletedMode === 'hide' && !isLiveOrMarkForDeletion
+      ? false
+      : !(widgetData?.intranetMode === 'hide' && showIntranetContent))
+  " [ngSwitch]="widgetData.cardSubType">
+  <ng-container *ngSwitchCase="'minimal'" [ngTemplateOutlet]="cardMinimal"></ng-container>
+  <ng-container *ngSwitchCase="'space-saving'" [ngTemplateOutlet]="cardSpaceSaving"></ng-container>
+  <ng-container *ngSwitchCase="'basic-info'" [ngTemplateOutlet]="cardBasicInformation"></ng-container>
+  <ng-container *ngSwitchCase="'card-user-details'" [ngTemplateOutlet]="cardWithUserDetails"></ng-container>
+  <ng-container *ngSwitchCase="'card-description-back'" [ngTemplateOutlet]="cardDescriptionBack"></ng-container>
+  <ng-container *ngSwitchCase="'basic-details'" [ngTemplateOutlet]="cardBasicDetails"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardStandard"></ng-container>
+</ng-container>
+<ng-container *ngIf="(showLoggedInCard &&  widgetData) &&
+    (widgetData.deletedMode === 'hide' && !isLiveOrMarkForDeletion
+      ? false
+      : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
+
+  <mat-card class="card-standard-container mr-6" [ngClass]="{
+        greyOut:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+    [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+    [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
+    [mdePopoverOffsetY]="-340">
+    <div class="display-contents" [ngClass]="{
+          disableClick:
+            widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+              ? true
+              : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+        }">
+      <ng-container *ngIf="!isCardFlipped">
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+          matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+          matTooltip="Available only in Company's network"
+          *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+        <a (click)="login('S')"  class="rounded-t" role="link" aria-label="Content"
+          i18n-aria-label="Content | Click to view">
+          <div style="position: relative; z-index: 1;">
+            <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
+              [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+              class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+            <div class="source-div mt-4">
+            </div>
+          </div>
+        </a>
+        <mat-card-content>
+
+          <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+            [matTooltip]="widgetData.content.name" style="margin-top:65px; margin-left: -11px;">
+            {{ widgetData.content.name }}
+          </div>
+          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description"
+            style="margin-left: -11px;">
+            {{ widgetData.content.description | pipeHtmlTagRemoval }}
+          </div>
+          <!-- <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-0">
+              <div class="flex items-start">
+                <ng-container [ngTemplateOutlet]="rating"></ng-container>
+                <div *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
+                  <mat-icon>access_time</mat-icon>
+                  <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+                </div>
+  
+              </div>
+              <div class="flex items-center">
+                <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
+                  [matMenuTriggerFor]="cardMenu">
+                  <mat-icon>more_vertical</mat-icon>
+                </button>
+              </div>
+            </div> -->
+
+        </mat-card-content>
+      </ng-container>
+      <ng-container *ngIf="isCardFlipped">
+        <div class="flex items-center">
+          <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+          <button mat-icon-button (click)="isCardFlipped = false">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <p class="text-justify mat-body-1">
+          {{ widgetData.content.reason }}
+        </p>
+      </ng-container>
+    </div>
+
+  </mat-card>
+
+  <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false">
+    <mat-card class="popover-card">
+      <mat-card-content>
+        <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
+          {{ widgetData.content.name }}
+        </div>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+          {{ widgetData.content.description | pipeHtmlTagRemoval }}
+        </div>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+          {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
+        </div>
+        <p>Course contents: {{ widgetData?.content?.children?.length}}</p>
+        <p *ngIf="widgetData.content?.creatorContacts">Author: {{ widgetData.content?.creatorContacts[0]?.name}}</p>
+        <p *ngIf="widgetData.content?.publishedOn">Published on: {{widgetData.content?.publishedOn | date }}</p>
+        <p *ngIf="widgetData.content?.uniqueUsersCount">Users enrolled: {{widgetData.content?.uniqueUsersCount}}</p>
+        <p *ngIf="widgetData.content?.sourceName">Source: {{widgetData.content.sourceName}}</p>
+        <p *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
+          <span>Duration: </span>
+          <mat-icon>access_time</mat-icon>
+          <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+        </p>
+        <div class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+          <div class="flex items-start">
+            <ng-container [ngTemplateOutlet]="rating"></ng-container>
+          </div>
+        </div>
+        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+          <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base" (click)="loginRedirect('S',  widgetData.content.identifier)"> Login
+          </button>
+
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mde-popover>
+
+</ng-container>
+
+<ng-template #cardMinimal>
+  <div [attr.name]="'widget-card-content ' + widgetData.content.name" class="card-minimal-container mr-6" [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()">
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+        matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+        matTooltip="Available only in Company's network"
+        *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="card-link" role="link"
+        aria-label="Content" i18n-aria-label="Content | Click to view">
+        <img [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+          class="card-thumbnail ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+          [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+      </a>
+      <div class="card-overlay">
+        <h3 *ngIf="widgetData.content.name" class="text-truncate card-title">
+          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link">
+            {{ widgetData.content.name }}
+          </a>
+        </h3>
+        <div class="flex justify-between items-center">
+          <div>
+            <ws-widget-display-content-type i18n-title title="Content Type"
+              *ngIf="widgetData.content?.displayContentType" class="mr-4 font-normal"
+              [displayContentType]="widgetData.content?.displayContentType">
+            </ws-widget-display-content-type>
+            <span *ngIf="widgetData.content.duration" i18n-title title="Duration">
+              {{ widgetData.content.duration | pipeDurationTransform: 'hms' }}
+            </span>
+          </div>
+          <button mat-icon-button i18n-aria-label aria-label="action items" [matMenuTriggerFor]="cardMenu">
+            <mat-icon>more_vertical</mat-icon>
+          </button>
+        </div>
+      </div>
+      <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+        [contentId]="widgetData.content?.identifier"></ws-widget-content-progress>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #cardSpaceSaving>
+  <mat-card [attr.name]="'widget-card-content ' + widgetData.content.name" class="card-space-saving-container mr-6"
+    [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()">
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <ng-container *ngIf="!isCardFlipped">
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+          matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+          matTooltip="Available only in Company's network"
+          *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
+          <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+            class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+            [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        </a>
+        <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+          [contentId]="widgetData.content?.identifier"></ws-widget-content-progress>
+        <mat-card-content>
+          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+            i18n-aria-label>
+            <div class="card-header-meta">
+              <ws-widget-display-content-type i18n-title title="Content Type"
+                *ngIf="widgetData.content?.displayContentType" class="ws-mat-primary-text font-normal"
+                [displayContentType]="widgetData.content?.displayContentType">
+              </ws-widget-display-content-type>
+              <span *ngIf="widgetData.content.duration" class="text-gray-600" i18n-title title="Duration">
+                &nbsp;&nbsp;|&nbsp;&nbsp;{{
+                  widgetData.content.duration | pipeDurationTransform: 'hms'
+                }}
+              </span>
+            </div>
+            <div class="ws-mat-primary-text mat-title text-truncate title-text" title="Title" i18n-title>
+              {{ widgetData.content.name }}
+            </div>
+          </a>
+          <div class="mt-4 flex justify-between items-center flip-actions">
+            <div>
+              <div *ngIf="widgetData.content.sourceName" class="ws-mat-primary-text mat-subheading-1 source-name"
+                i18n-title title="Source">
+                {{ widgetData.content.sourceName }}
+              </div>
+              <div *ngIf="widgetData.content.complexityLevel" i18n-title title="Complexity Level" class="text-gray-600">
+                {{ widgetData.content.complexityLevel }}
+              </div>
+            </div>
+            <div class="flex">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+              <button type="button" (click)="isCardFlipped = !isCardFlipped" mat-icon-button i18n-aria-label
+                aria-label="action items">
+                <mat-icon>flip_to_back</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </ng-container>
+      <ng-container *ngIf="isCardFlipped">
+        <mat-card-content>
+          <div class="card-header-meta">
+            <ws-widget-display-content-type i18n-title title="Content Type"
+              *ngIf="widgetData.content?.displayContentType" class="ws-mat-primary-text font-normal"
+              [displayContentType]="widgetData.content?.displayContentType">
+            </ws-widget-display-content-type>
+            <span *ngIf="widgetData.content.duration" class="text-gray-600" i18n-title title="Duration">
+              &nbsp;&nbsp;|&nbsp;&nbsp;{{
+                widgetData.content.duration | pipeDurationTransform: 'hms'
+              }}
+            </span>
+          </div>
+          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" aria-label="Content"
+            i18n-aria-label="Content | Click to view" class="ws-mat-primary-text mat-title text-truncate title-text">
+            {{ widgetData.content.name }}
+          </a>
+          <div *ngIf="widgetData?.content?.description" class="mt-4 flip-desc-text ws-mat-text-block-fade-gradient">
+            {{ widgetData?.content?.description }}
+          </div>
+          <div class="mt-4 flex justify-between items-center flip-actions">
+            <div>
+              <div *ngIf="widgetData.content.sourceName" class="ws-mat-primary-text mat-subheading-1 source-name"
+                i18n-title title="Source">
+                {{ widgetData.content.sourceName }}
+              </div>
+              <div *ngIf="widgetData.content.complexityLevel" i18n-title title="Complexity Level" class="text-gray-600">
+                {{ widgetData.content.complexityLevel }}
+              </div>
+            </div>
+            <div class="flex">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+              <button type="button" (click)="isCardFlipped = !isCardFlipped" mat-icon-button aria-label="action items">
+                <mat-icon>flip_to_front</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </ng-container>
+    </div>
+  </mat-card>
+</ng-template>
+
+<ng-template #cardStandard>
+  <mat-card class="card-standard-container mr-6" [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+    [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2"  [mdePopoverOffsetX]="290"
+    [mdePopoverOffsetY]="-340">
+    <!-- <ws-widget-content-progress
+      class="progress-bar"
+      *ngIf="widgetData.content?.identifier"
+      [contentId]="widgetData.content?.identifier"
+    ></ws-widget-content-progress> -->
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <ng-container *ngIf="!isCardFlipped">
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+          matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+          matTooltip="Available only in Company's network"
+          *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
+          <div style="position: relative; z-index: 1;">
+            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+              [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+              [title]="widgetData.content.name" />
+            <div class="source-div">
+              <!-- [src]="sourseIcon(widgetData.content.sourceName)" -->
+              <!-- <img [src]="widgetData.content.creatorLogo" [id]="'source_' + widgetData.content.identifier" -->
+              <!-- class="source-icon" [wsUtilsDefaultThumbnail]="defaultSLogo" -->
+              <!-- [alt]="widgetData.content.sourceName || iGOT" [title]="widgetData.content.sourceName" /> -->
+            </div>
+          </div>
+        </a>
+        <button *ngIf="showFlip" class="detail-button ws-mat-primary-lite-background-op30" mat-icon-button
+          (click)="isCardFlipped = true" aria-label="Details" i18n-aria-label="Details | Click to see details">
+          <mat-icon>flip_to_back</mat-icon>
+        </button>
+        <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+          [contentId]="widgetData.content?.identifier"></ws-widget-content-progress>
+
+        <mat-card-content>
+          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+            i18n-aria-label>
+
+            <div class="text-gray-time complexity flex-between flex-center" >
+              <!-- <div *ngIf="widgetData.content.complexityLevel" i18n-title title="Complexity Level">
+                {{ widgetData.content.complexityLevel }}
+              </div> -->
+              <div *ngIf="showIsMode" i18n i18n-title title="Newly Added"
+                class="mode-tag px-2 ws-mat-accent-background">
+                Newly Added
+              </div>
+
+              <!-- <div *ngIf="widgetData.content.duration" class="duration" i18n-title title="Duration">
+                <mat-icon class="text-green-400">access_time</mat-icon>
+                <span class="time-text">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+              </div> -->
+            </div>
+
+            <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+              style="margin-left: -11px;" [matTooltip]="widgetData.content.name">
+              {{ widgetData.content.name }}
+            </div>
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title
+              title="Description">
+              {{ widgetData.content.description | pipeHtmlTagRemoval }}
+              <!-- {{widgetData.content | json}} -->
+              <!-- {{widgetData.content.sourceName}} -->
+            </div>
+          </a>
+
+          <!-- <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-0 py-0">
+            <div class="flex items-start">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+              <div *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
+                <mat-icon>access_time</mat-icon>
+                <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+              </div>
+
+            </div>
+            <div class="flex items-center">
+              <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
+                [matMenuTriggerFor]="cardMenu">
+                <mat-icon>more_vertical</mat-icon>
+              </button>
+            </div>
+          </div> -->
+
+        </mat-card-content>
+      </ng-container>
+      <ng-container *ngIf="isCardFlipped">
+        <div class="flex items-center">
+          <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+          <button mat-icon-button (click)="isCardFlipped = false">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <p class="text-justify mat-body-1">
+          {{ widgetData.content.reason }}
+        </p>
+      </ng-container>
+    </div>
+
+  </mat-card>
+
+
+  <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+    <mat-card class="popover-card">
+      <mat-card-content>
+        <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
+          {{ widgetData.content.name }}
+        </div>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+          {{ widgetData.content.description | pipeHtmlTagRemoval }}
+        </div>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+          {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
+        </div>
+        <p>Course contents: {{ widgetData?.content?.children?.length}}</p>
+        <p *ngIf="widgetData.content?.creatorContacts">Author: {{ widgetData.content?.creatorContacts[0]?.name}}</p>
+        <p *ngIf="widgetData.content?.publishedOn">Published on: {{widgetData.content?.publishedOn | date }}</p>
+        <p *ngIf="widgetData.content?.uniqueUsersCount">Users enrolled: {{widgetData.content?.uniqueUsersCount}}</p>
+        <p *ngIf="widgetData.content?.sourceName">Source: {{widgetData.content.sourceName}}</p>
+        <p *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
+          <span>Duration: </span>
+          <mat-icon>access_time</mat-icon>
+          <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+        </p>
+        <!-- {{widgetData.content | json}} -->
+        <div class="mt-0 flex justify-between items-center left-0 right-0 px-0 py-0">
+          <div class="flex items-start">
+            <ng-container [ngTemplateOutlet]="rating"></ng-container>
+          </div>
+        </div>
+        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+          <button mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
+            [routerLink]="(widgetData.content | pipeContentRoute).url">
+            View Course </button>
+
+          <div class="flex flex-middle">
+            <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
+            <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+              [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
+            </ws-widget-btn-content-like>
+
+            <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
+            </ws-widget-btn-playlist>
+            <ws-widget-btn-content-download [widgetData]="
+                widgetData.content
+                  | pipePartialContent
+                    : [
+                        'identifier',
+                        'contentType',
+                        'resourceType',
+                        'mimeType',
+                        'downloadUrl',
+                        'isExternal',
+                        'artifactUrl'
+                      ]
+              "></ws-widget-btn-content-download>
+
+            <!-- <mat-icon class="px-2 cursor-pointer" aria-label="Comment" i18n-aria-label matTooltip="Comment"
+              i18n-matTooltip="Comment Button" [routerLink]="(widgetData.content | pipeContentRoute).url"
+              [queryParams]="(widgetData.content | pipeContentRoute).queryParams" [fragment]="'discussion-forum'">
+              comment</mat-icon> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mde-popover>
+
+</ng-template>
+
+<ng-template #cardDescriptionBack>
+  <mat-card [attr.name]="'widget-card-content ' + widgetData.content.name" class="card-Client-container mr-6" [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()">
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <ng-container *ngIf="!isCardFlipped">
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+          matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+        <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+          matTooltip="Available only in Company's network"
+          *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
+          <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+            class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+            [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        </a>
+        <button class="detail-button ws-mat-primary-lite-background-op30" mat-icon-button (click)="isCardFlipped = true"
+          aria-label="Details" i18n-aria-label="Details | Click to see details">
+          <mat-icon>flip_to_back</mat-icon>
+        </button>
+        <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+          [contentId]="widgetData.content?.identifier"></ws-widget-content-progress>
+        <mat-card-content>
+          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+            i18n-aria-label>
+            <div class="text-gray-600 complexity flex-middle">
+              <mat-icon matTooltip="{{ imageIcon[1] }}">{{ imageIcon[0] }}</mat-icon>
+
+              <div class="ws-mat-primary-text pl-2 text-lg title-text margin-bottom-xs margin-top-xs">
+                {{ widgetData.content.name }}
+              </div>
+              <!-- <mat-icon>check_circle_outline</mat-icon> -->
+            </div>
+            <div class="text-gray-600 duration flex-between flex-center pb-1">
+              <div *ngIf="widgetData.content.duration" i18n-title title="Duration" class="overflow-hidden">
+                {{ widgetData.content.duration | pipeDurationTransform: 'hms' }}
+              </div>
+              <div *ngIf="widgetData.content.viewCount && widgetData.content.viewCount.Client" class="duration-time"
+                i18n-title title="View Count">
+                {{ widgetData.content.viewCount.Client | pipeCountTransform }} views
+              </div>
+              <div *ngIf="!widgetData.content.viewCount || !widgetData.content.viewCount.Client" class="duration-time"
+                i18n-title title="View Count">
+                No views
+              </div>
+              <div *ngIf="widgetData.content.resourceType" class="resource-type" i18n-title title="resource Type">
+                {{ widgetData.content.resourceType }}
+              </div>
+            </div>
+
+            <!-- <mat-chip-list>
+              <mat-chip color="accent" selected>
+                OnBoarding
+              </mat-chip>
+            </mat-chip-list> -->
+          </a>
+          <mat-divider></mat-divider>
+          <div class="flex flex-middle">
+            <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
+            <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+              [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
+            </ws-widget-btn-content-like>
+
+            <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
+            </ws-widget-btn-playlist>
+            <ws-widget-btn-content-download [widgetData]="
+                widgetData.content
+                  | pipePartialContent
+                    : [
+                        'identifier',
+                        'contentType',
+                        'resourceType',
+                        'mimeType',
+                        'downloadUrl',
+                        'isExternal',
+                        'artifactUrl'
+                      ]
+              "></ws-widget-btn-content-download>
+
+            <!-- <mat-icon class="px-2 cursor-pointer" aria-label="Comment" i18n-aria-label matTooltip="Comment"
+              i18n-matTooltip="Comment Button" [routerLink]="(widgetData.content | pipeContentRoute).url"
+              [queryParams]="(widgetData.content | pipeContentRoute).queryParams" [fragment]="'discussion-forum'">
+              comment</mat-icon> -->
+          </div>
+        </mat-card-content>
+      </ng-container>
+      <ng-container *ngIf="isCardFlipped">
+        <div class="flex items-center">
+          <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Description</h2>
+          <button mat-icon-button (click)="isCardFlipped = false">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <p class="text-description-trim mat-body-1">
+          {{ widgetData.content.description }}
+        </p>
+      </ng-container>
+    </div>
+  </mat-card>
+</ng-template>
+
+<ng-template #cardBasicInformation>
+  <mat-card [attr.name]="'widget-card-content ' + widgetData.content.name" class="card-basic-infomartion-container mr-6"
+    [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()">
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+        matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+        matTooltip="Available only in Company's network"
+        *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
+        aria-label="Content" i18n-aria-label="Content | Click to view">
+        <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+          class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+          [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+          [contentId]="widgetData.content?.identifier"></ws-widget-content-progress>
+      </a>
+
+      <mat-card-content class="m-small">
+        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+          i18n-aria-label>
+          <div class="ws-mat-primary-background text-truncate px-4 py-2 -mx-4 text-white">
+            <span *ngIf="widgetData.content?.complexityLevel">{{
+              widgetData.content?.complexityLevel
+            }}</span>
+
+            <span i18n *ngIf="widgetData.content?.subTitle">
+              |
+            </span>
+            <span matTooltipPosition="right" [matTooltip]="widgetData.content?.subTitle">
+              {{ widgetData.content?.subTitle }}
+            </span>
+          </div>
+          <div class="ws-mat-primary-text mat-title title-text title-truncate">
+            {{ widgetData.content.name }}
+          </div>
+          <div class="h-5">
+            <div *ngIf="showContentTag && widgetData.contentTags && widgetData.contentTags.tag" i18n
+              class="mode-tag px-2 ws-mat-primary-background">
+              {{ widgetData.contentTags.tag }}
+            </div>
+          </div>
+        </a>
+      </mat-card-content>
+      <div class="flex justify-between items-center">
+        <img alt="source img" [src]="widgetData.content.sourceIconUrl" *ngIf="widgetData.content.sourceIconUrl"
+          class="source-image mr-1" />
+        <div *ngIf="widgetData.content.sourceName" class="source-name w-64 text-truncate" i18n-title title="Source">
+          {{ widgetData.content.sourceName }}
+        </div>
+        <button type="button" mat-icon-button i18n-aria-label aria-label="action items" [matMenuTriggerFor]="cardMenu">
+          <mat-icon>more_vertical</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</ng-template>
+
+<ng-template #cardWithUserDetails>
+  <mat-card [attr.name]="'widget-card-content ' + widgetData.content.name" class="card-with-user-details-container mr-6"
+    [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()">
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+        matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+        matTooltip="Available only in Company's network"
+        *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
+        aria-label="Content" i18n-aria-label="Content | Click to view">
+        <div *ngIf="
+            widgetData.content?.creatorDetails?.length ||
+            widgetData.content?.creatorContacts?.length
+          " class="flex flex-wrap items-center mb-2">
+          <ws-widget-user-image class="author-image" [userName]="
+              widgetData.content?.creatorDetails && (widgetData.content?.creatorDetails)[0]?.name
+                ? (widgetData.content?.creatorDetails)[0]?.name
+                : (widgetData.content?.creatorContacts)[0]?.name
+            " [userId]="
+              widgetData.content?.creatorDetails && (widgetData.content?.creatorDetails)[0]?.id
+                ? (widgetData.content?.creatorDetails)[0]?.id
+                : (widgetData.content?.creatorContacts)[0]?.id
+            " [imageType]="'name-initial'"></ws-widget-user-image>
+          <div class="width-expand">
+            <div class="margin-remove font-semibold text-truncate">
+              <!-- {{
+                widgetData.content?.creatorDetails && (widgetData.content?.creatorDetails)[0].name
+                  ? (widgetData.content?.creatorDetails)[0]?.name === 'null null'
+                    ? 'Not disclosed'
+                    : (widgetData.content?.creatorDetails)[0]?.name
+                  : (widgetData.content?.creatorContacts)[0]?.name === 'null null'
+                  ? 'Not disclosed'
+                  : (widgetData.content?.creatorContacts)[0]?.name
+              }} -->
+              {{ checkDisplayName }}
+            </div>
+          </div>
+        </div>
+
+        <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+          class="card-img ws-mat-primary-lite-background" [ngClass]="{ 'greyed-img': isGreyedImage }"
+          [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+          [title]="widgetData.content.name" />
+        <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+          [contentId]="widgetData.content?.identifier"></ws-widget-content-progress>
+      </a>
+      <mat-card-content>
+        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+          i18n-aria-label>
+          <div *ngIf="widgetData.content?.resourceType || widgetData.content?.contentType"
+            class="back-color px-4 py-2 -mx-4 text-white">
+            <ws-widget-display-content-type i18n-title title="Content Type"
+              *ngIf="widgetData.content?.displayContentType" class="font-normal text-xs"
+              [displayContentType]="widgetData.content?.displayContentType">
+            </ws-widget-display-content-type>
+          </div>
+          <div class="ws-mat-primary-text mat-title title-text title-truncate">
+            {{ widgetData.content.name }}
+          </div>
+        </a>
+      </mat-card-content>
+      {{ widgetData.content.duration | pipeDurationTransform: 'hms' }}
+      <div *ngIf="widgetData.content.duration" class="duration" i18n-title title="Duration1">
+        <mat-icon>access_time</mat-icon>
+        <span class="time-text">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+      </div>
+      <div class="flex items-center justify-between flex-row-reverse space-0 mb-0">
+        <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+          [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
+        </ws-widget-btn-content-like>
+
+        <div *ngIf="showContentTag" i18n class="mode-tag px-2 ws-mat-primary-background">
+          {{ widgetData.contentTags.tag }}
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</ng-template>
+
+<ng-template #rating>
+  <div class="flex items-center mr-2">
+    <mat-icon class="mr-1" *ngIf="widgetData.content.averageRating == 5" color="accent">star</mat-icon>
+    <mat-icon class="mr-1" *ngIf="widgetData.content.averageRating && widgetData.content.averageRating != 5"
+      color="accent">star_half</mat-icon>
+    <mat-icon class="mr-1" *ngIf="!widgetData.content.averageRating">star_border</mat-icon>
+    <span class="fs-13">{{ widgetData.content.averageRating | number: '1.1-1' }}</span>
+  </div>
+</ng-template>
+
+<mat-menu #cardMenu="matMenu">
+  <ng-template matMenuContent>
+    <div mat-menu-item>
+      <ws-widget-btn-content-download [widgetData]="
+          widgetData.content
+            | pipePartialContent
+              : [
+                  'identifier',
+                  'contentType',
+                  'resourceType',
+                  'mimeType',
+                  'downloadUrl',
+                  'isExternal',
+                  'artifactUrl'
+                ]
+        "></ws-widget-btn-content-download>
+      <ws-widget-btn-content-like [widgetData]="widgetData.content | pipePartialContent: ['identifier']">
+      </ws-widget-btn-content-like>
+      <ws-widget-btn-content-mail-me [widgetData]="widgetData.content"></ws-widget-btn-content-mail-me>
+      <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
+      <ws-widget-btn-channel-analytics [widgetData]="widgetData.content"></ws-widget-btn-channel-analytics>
+      <ws-widget-btn-kb [contentId]="widgetData?.content?.identifier" [forPreview]="false"
+        [contentName]="widgetData?.content?.name" [contentType]="widgetData?.content?.contentType">
+      </ws-widget-btn-kb>
+      <ws-widget-btn-follow [widgetData]="{
+          targetId: widgetData?.content?.identifier,
+          type: widgetData?.content?.contentType
+        }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow>
+      <ws-widget-btn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
+      <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
+      </ws-widget-btn-playlist>
+      <ws-widget-btn-kb-analytics [widgetData]="
+          widgetData.content
+            | pipePartialContent
+              : [
+                  'identifier',
+                  'contentType',
+                  'resourceType',
+                  'mimeType',
+                  'downloadUrl',
+                  'isExternal',
+                  'artifactUrl'
+                ]
+        "></ws-widget-btn-kb-analytics>
+    </div>
+  </ng-template>
+</mat-menu>
+
+<ng-template #cardBasicDetails>
+  <mat-card [attr.name]="'widget-card-content ' + widgetData.content.name" class="card-standard-container mr-6"
+    [ngClass]="{
+      greyOut:
+        widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+          ? true
+          : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()">
+    <div class="display-contents" [ngClass]="{
+        disableClick:
+          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+            ? true
+            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+      }">
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+        matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+      <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+        matTooltip="Available only in Company's network"
+        *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
+        aria-label="Content" i18n-aria-label="Content | Click to view">
+        <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+          class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+          [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+      </a>
+      <mat-card-content>
+        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+          i18n-aria-label>
+          <div class="text-gray-600 complexity flex-between flex-center">
+            <div *ngIf="widgetData.content.duration" class="duration" i18n-title title="Duration">
+              {{ widgetData.content.duration | pipeDurationTransform: 'hms' }}
+            </div>
+          </div>
+          <div class="ws-mat-primary-text mat-title title-text title-truncate">
+            {{ widgetData.content.name }}
+          </div>
+          <div class="description-text ws-mat-text-block-fade-gradient mb-5" i18n-title title="Description">
+            {{ widgetData.content.description | pipeHtmlTagRemoval }}
+          </div>
+          <div class="text-gray-600 complexity flex-end">
+            <div class="flex items-center">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+              <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
+                [matMenuTriggerFor]="cardMenu">
+                <mat-icon>more_vertical</mat-icon>
+              </button>
+            </div>
+          </div>
+        </a>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</ng-template>

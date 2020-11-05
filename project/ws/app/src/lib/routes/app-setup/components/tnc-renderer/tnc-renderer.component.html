@@ -1,0 +1,147 @@
+<div class="tnc-container" id="tnc">
+  <h2 class="mat-title tnc-title">
+    <mat-icon *ngIf="generalTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
+    </mat-icon>
+    <ng-container i18n="tnc heading">Terms & Conditions</ng-container>
+  </h2>
+  <div class="mat-app-background padding-s margin-bottom-s">
+    <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
+      Terms and Conditions have been updated.
+    </h3>
+    <div class="flex items-center justify-between flex-wrapped">
+      <div *ngIf="generalTnc?.version" class="small-screen-width">
+        <ng-container i18n>T&C Version: </ng-container>
+        <span class="ws-mat-primary-text">{{ generalTnc?.version }}</span>
+      </div>
+      <mat-form-field *ngIf="generalTnc" class="small-screen-width" appearance="outline">
+        <mat-select [(value)]="generalTnc.language" (selectionChange)="changeTncLang($event)">
+
+          <mat-select-trigger>
+            <span class="flag-icon-{{ generalTnc?.language | lowercase}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span>&nbsp;&nbsp;{{generalTnc?.language | uppercase}}</span>
+          </mat-select-trigger>
+          <mat-option value="en" *ngIf="isLocaleAvailable('en')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/en.png">&nbsp;&nbsp;
+              <ng-container>English&nbsp;&nbsp;</ng-container>
+              <ng-container i18n> English (EN)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="de" *ngIf="isLocaleAvailable('de')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/de.png">&nbsp;&nbsp;
+              <ng-container>Deutsch&nbsp;&nbsp;</ng-container>
+              <ng-container i18n> German (DE)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="ar" *ngIf="isLocaleAvailable('ar')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/ar.png">&nbsp;&nbsp;
+              <ng-container>عربى&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>Arabic (AR)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="zh-CN" *ngIf="isLocaleAvailable('zh-CN')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/zh.png">&nbsp;&nbsp;
+              <ng-container>中文&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>Chinese (zh-CN)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="fr" *ngIf="isLocaleAvailable('fr')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/fr.png">&nbsp;&nbsp;
+              <ng-container>Français&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>French (FR)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="fr-ca" *ngIf="isLocaleAvailable('fr-ca')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/fr.png">&nbsp;&nbsp;
+              <ng-container>Français-Canada&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>French Canada (fr-ca)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="nl" *ngIf="isLocaleAvailable('nl')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/nl.png">&nbsp;&nbsp;
+              <ng-container>Dutch&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>Dutch (NL)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="ja" *ngIf="isLocaleAvailable('ja')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/ja.png">&nbsp;&nbsp;
+              <ng-container>日本人&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>Japanese (JA)</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="es" *ngIf="isLocaleAvailable('es')">
+            <a mat-line>
+              <img [ngStyle]="{
+                                                                    height:  '14px',
+                                                                     width:  '20px'
+                                                                  }" src="/assets/common/flags/es.png">&nbsp;&nbsp;
+              <ng-container>Español&nbsp;&nbsp;</ng-container>
+              <ng-container i18n>Spanish (ES)</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+  <article [innerHTML]="generalTnc?.content" class="text-justify"></article>
+  <mat-divider></mat-divider>
+  <h2 class="mat-title tnc-title">
+    <mat-icon *ngIf="dpTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
+    </mat-icon>
+    <ng-container i18n="data privacy heading">Data Privacy</ng-container>
+  </h2>
+  <div class="mat-app-background padding-s margin-bottom-s">
+    <h3 *ngIf="!dpTnc?.isAccepted && dpTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
+      Data privacy has been upgraded.
+    </h3>
+    <div class="flex items-center justify-between">
+
+      <div *ngIf="dpTnc?.version">
+        <ng-container i18n>Data Privacy Version: </ng-container>
+        <span class="ws-mat-primary-text">{{ dpTnc?.version }}</span>
+      </div>
+
+    </div>
+    <!-- <div *ngIf="dpTnc?.isAccepted">
+            <ng-container i18n>Accepted on </ng-container>
+            <span class="ws-mat-primary-text">{{ dpTnc?.acceptedDate | date }}</span>
+          </div> -->
+    <!-- <div *ngIf="!dpTnc?.isAccepted && dpTnc?.acceptedVersion.length">
+            <ng-container i18n>Accepted Version: </ng-container>
+            <span class="ws-mat-primary-text">{{ dpTnc?.acceptedVersion }}</span>
+          </div> -->
+  </div>
+  <article [innerHTML]="dpTnc?.content | pipeSafeSanitizer: 'html'" class="text-justify"></article>
+</div>

@@ -1,0 +1,19 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.content {
+  margin: $size-m $size-xs $size-m 0;
+}
+
+.content-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}

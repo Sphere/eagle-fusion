@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <a mat-icon-button routerLink="/app/infy/navigator">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: navigator suggestions" class="margin-left-xs">For Leaders</span>
+</mat-toolbar>
+
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="content-strip">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l" i18n>
+        Good News for Business and Technology Leaders
+      </h1>
+      <p class="mat-title margin-top-xl" i18n>
+        Learn the latest technologies and gain competitive advantage
+      </p>
+    </div>
+  </div>
+
+  <div class="margin-top-l margin-bottom-l">
+    <p class="mat-h2 text-center">Select a Pillar</p>
+    <ws-app-pentagon [default]="'Accelerate'" (trackClicked)="trackClicked($event)"></ws-app-pentagon>
+  </div>
+
+  <div class="margin-top-xl margin-bottom-xl">
+    <div class="margin-top-m margin-bottom-m margin-left-xl" *ngIf="idsObtained">
+      <ng-container *ngIf="selectedTrack === 'Accelerate'" [wsResolverWidget]="accelerateWidgetResolverData">
+      </ng-container>
+      <ng-container *ngIf="selectedTrack === 'Assure'" [wsResolverWidget]="assureWidgetResolverData"></ng-container>
+      <ng-container *ngIf="selectedTrack === 'Experience'" [wsResolverWidget]="experienceWidgetResolverData">
+      </ng-container>
+      <ng-container *ngIf="selectedTrack === 'Insight'" [wsResolverWidget]="insightWidgetResolverData"></ng-container>
+      <ng-container *ngIf="selectedTrack === 'Innovate'" [wsResolverWidget]="innovateWidgetResolverData"></ng-container>
+    </div>
+  </div>
+</div>

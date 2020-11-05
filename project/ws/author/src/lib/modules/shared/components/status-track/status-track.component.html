@@ -1,0 +1,84 @@
+<div mat-dialog-title class="relative">
+  <h2 mat-dialog-title i18n>Action History</h2>
+  <button
+    i18n-matTooltip
+    [matTooltip]="'Close'"
+    *ngIf="isDialog"
+    mat-button
+    class="close-icon"
+    mat-dialog-close
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <div class="progress" *ngIf="workFlow.length">
+    <div
+      class="progress-step"
+      [class.active]="state.isActive"
+      [class.complete]="state.isCompleted"
+      *ngFor="let state of workFlow; let i = index"
+    >
+      <ws-auth-status-display
+        [needStyle]="false"
+        [status]="state.processName"
+      ></ws-auth-status-display>
+      <div class="info" *ngIf="state.isCompleted && state.name">
+        - {{ state.name }} <br />
+        on {{ state.date | date }}
+      </div>
+      <div class="info" *ngIf="state.isActive && state.owner">Pending with {{ state.owner }}</div>
+      <div class="info" *ngIf="!state.isActive && !state.isCompleted && state.owner">
+        Assigned to {{ state.owner }}
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="isClient1"
+    (click)="showModal = true"
+    class="flex w-full justify-end ws-mat-primary-text my-4 pointer"
+  >
+    <span class="cursor-pointer">Complete Flow</span>
+  </div>
+  <div [ngClass]="{ 'my-4': !isClient1 }" class="custom-height custom-scroll">
+    <b i18n="History|History of Comments" i18n>History</b>
+    <ng-container *ngIf="workFlowLog.length">
+      <mat-card *ngFor="let comment of workFlowLog" class="example-container margin-10">
+        <div class="w-full pb-2 text-base">
+          <span class="circle pr-2"></span>
+          <span>
+            <ng-container *ngIf="comment.action === 'approved'" i18n>Approved</ng-container>
+            <ng-container *ngIf="comment.action === 'rejected'" i18n>Rejected</ng-container>
+            <ng-container *ngIf="comment.action === 'deleted'" i18n>Deleted</ng-container>
+            <ng-container *ngIf="comment.action === 'submitted'" i18n>Submitted</ng-container>
+            <ng-container *ngIf="comment.action === 'retrieved'" i18n>Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'expired'" i18n>Expired</ng-container>
+            <ng-container *ngIf="comment.action === 'markedForDeletion'" i18n
+              >Marked For Deletion</ng-container
+            >
+            <ng-container *ngIf="comment.action === 'unPublished'" i18n>Unpublished</ng-container>
+            <ng-container *ngIf="comment.action === 'restored'" i18n>Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'pulledBack'" i18n>Moved to Draft</ng-container>
+          </span>
+          <span i18n> by </span>
+          <span>{{ comment.name || 'System' }}</span>
+          <span i18n> on </span>
+          <span>{{ comment.date | date }}</span>
+        </div>
+        <div class="pl-5">
+          {{ comment.comment }}
+        </div>
+      </mat-card>
+    </ng-container>
+    <ng-container *ngIf="!workFlowLog.length" i18n>
+      <div class="ws-mat-warn-text pt-4">
+        No Logs found.
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+
+<div class="custom-modal" [class.showModal]="showModal">
+  <span (click)="showModal = false" class="modal-close cursor-pointer">&times;</span>
+  <img src="/assets/images/authoring/client1.png" class="modal-image" />
+</div>

@@ -1,0 +1,30 @@
+<mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
+</mat-progress-bar>
+
+<!-- <ws-widget-sticky-header> -->
+<ws-app-nav-bar class="top-nav-bar" *ngIf="
+    isNavBarRequired && (isXSmall$ | async) === false && (authSvc.isLoggedIn$ | async) === true
+  " [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
+<!-- </ws-widget-sticky-header> -->
+<div class="height-adjust" [ngClass]="{
+    'height-on-bottom custom-scroll':
+      (isXSmall$ | async) === true && (authSvc.isLoggedIn$ | async) === true && showNavbar,
+      'height-adjust-setup' : isSetupPage,
+    'height-on-top':
+      (isXSmall$ | async) === false &&
+      (authSvc.isLoggedIn$ | async) === true &&
+      showNavbar &&
+      isNavBarRequired
+  }">
+  <router-outlet></router-outlet>
+</div>
+<ws-app-footer class="app-footer" [ngClass]="{ 'padding-bottom: 56px': !isSetupPage}"
+  *ngIf="(authSvc.isLoggedIn$ | async) === true && showNavbar"></ws-app-footer>
+<ws-app-nav-bar class="bottom-nav-bar" [hidden]="!showNavbar"
+  *ngIf="isNavBarRequired && (isXSmall$ | async) === true && (authSvc.isLoggedIn$ | async) === true" [mode]="'bottom'">
+</ws-app-nav-bar>
+
+<ng-container #previewContainer></ng-container>
+
+<input #appUpdateTitle type="hidden" i18n-value value="App Update" />
+<input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />

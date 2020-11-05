@@ -1,0 +1,129 @@
+<section class="container-balanced px-4 pb-8">
+  <div class="heading flex flex-between flex-wrapped margin-top-xl margin-bottom-l">
+    <p class="mat-body margin" i18n>
+      Make a new training request for your team.
+    </p>
+    <button mat-stroked-button color="primary" (click)="openJITList()" i18n>
+      Your Requests
+    </button>
+  </div>
+
+  <section class="form-container">
+    <form [formGroup]="jitForm" (ngSubmit)="onSubmitJITRequest()" (keydown.enter)="$event.preventDefault()">
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <input matInput i18n-placeholder placeholder="Search for courses, or enter your own course name" #search
+            [matAutocomplete]="auto" formControlName="searchedContent" (input)="onSearchUserInput()" />
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let result of searchResults" [value]="result.name"
+              (click)="onClickSearchResult(result)">
+              <div class="mat-body">{{ result.name }}</div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <!-- <div>
+        <mat-form-field
+          class="w-full margin-top-s margin-bottom-s"
+          floatLabel="never"
+          *ngIf="!showSearchBox"
+        >
+          <input matInput readonly formControlName="contentName" />
+        </mat-form-field>
+      </div> -->
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <textarea matInput placeholder="Description of the Training" i18n-placeholder
+            formControlName="trainingDescription" required></textarea>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <input matInput [matDatepicker]="startDatePicker" placeholder="Preferred Starting Date" i18n-placeholder
+            [min]="currentDate" formControlName="startDate" required />
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <input matInput type="number" placeholder="Number of Participants" i18n-placeholder
+            formControlName="participantCount" required />
+          <mat-hint i18n>Minimum 5 participants.</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <mat-label>
+            <span class="mat-body" i18n>Track</span>
+          </mat-label>
+          <input matInput i18n-placeholder placeholder="Track" [value]="track" />
+
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <mat-label>
+            <span class="mat-body" i18n>Location</span>
+          </mat-label>
+          <mat-select matInput formControlName="location" required>
+            <mat-option class="mat-body" *ngFor="let location of locations$ | async" [value]="location.code">
+              {{ location.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <mat-label>
+            <span class="mat-body" i18n="knowledge level of training participants">
+              Participant Profile</span>
+          </mat-label>
+          <mat-select matInput formControlName="participantProfile" required>
+            <mat-option class="mat-body" value="Beginner" i18n>Beginner</mat-option>
+            <mat-option class="mat-body" value="Intermediate" i18n>Intermediate</mat-option>
+            <mat-option class="mat-body" value="Expert" i18n>Expert</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <mat-label>
+            <span i18n class="mat-body"> Level of Training</span>
+          </mat-label>
+          <mat-select matInput formControlName="trainingLevel" required>
+            <mat-option value="Basic" class="mat-body">Basic</mat-option>
+            <mat-option value="Advanced" class="mat-body">Advanced</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="w-full margin-top-s margin-bottom-s">
+          <textarea matInput placeholder="Additional Information" i18n-placeholder
+            formControlName="additionalInfo"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="margin-bottom-m">
+        <mat-checkbox matInput formControlName="trainingByVendor" i18n>
+          <div class="mat-body">Conduct training by vendor</div>
+          <div class="mat-caption">(My unit will sponsor the budget)</div>
+        </mat-checkbox>
+      </div>
+
+      <button mat-stroked-button color="primary" type="submit" [disabled]="submitStatus === 'sending'" i18n>
+        Submit
+      </button>
+    </form>
+  </section>
+</section>

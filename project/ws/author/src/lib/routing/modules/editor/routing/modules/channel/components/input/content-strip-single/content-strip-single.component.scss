@@ -1,0 +1,29 @@
+.column-wise {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-design {
+  margin: 10px 0;
+}
+
+.row-wise {
+  display: flex;
+  flex-direction: row;
+}
+
+.space {
+  justify-content: space-between;
+}
+
+.radioButton {
+  margin-right: 5px;
+}
+
+.no-margin {
+  margin: 0px !important;
+}
+
+.right-design {
+  justify-content: space-between;
+}

@@ -1,0 +1,90 @@
+<ng-container>
+  <div class="mat-title margin-left-xl margin-top-xl" i18n>My Learning</div>
+  <div *ngIf="timeSpentFetchStatus === 'fetching'" class="margin-xl padding-xl flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="timeSpentFetchStatus === 'done'"
+    class="margin-top-l margin-left-xl flex flex-start flex-around flex-wrapped">
+    <ws-app-tile class="tile-card" [icon]="'access_time'" [value]="timeSpent" [subTitle]="'My Learning Mins'">
+    </ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'update'" [value]="timeSpentData?.points_and_ranks?.user_points_earned"
+      [subTitle]="'My Learning Points'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'grade'" [value]="timeSpentData?.total_badges_earned" [subTitle]="'Badges'">
+    </ws-app-tile>
+  </div>
+  <div *ngIf="timeSpentFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+    <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      We are gathering the data to provide insights!
+    </h2>
+  </div>
+</ng-container>
+<ng-container>
+  <div class="mat-title margin-left-xl margin-top-xl" i18n>My Achievements</div>
+  <div *ngIf="assessmentFetchStatus === 'fetching'" class="margin-xl padding-xl flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="assessmentFetchStatus === 'done'"
+    class="margin-top-l margin-left-xl flex flex-start flex-around flex-wrapped">
+    <ws-app-tile class="tile-card" [icon]="'border_color'" [value]="assessments?.assessments?.length"
+      [subTitle]="'Total Assessments'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'border_color'" [value]="pendingAssessments"
+      [subTitle]="'Pending Assessments'"></ws-app-tile>
+  </div>
+  <div *ngIf="assessmentFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+    <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      We are gathering the data to provide insights!
+    </h2>
+  </div>
+</ng-container>
+<ng-container>
+  <div class="mat-title margin-left-xl margin-top-xl" i18n>My Collaboration</div>
+  <div *ngIf="userProgressFetchStatus === 'fetching'" class="margin-xl padding-xl flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="userProgressFetchStatus === 'done'"
+    class="margin-top-l margin-left-xl flex flex-start flex-around flex-wrapped">
+    <ws-app-tile class="tile-card" [icon]="'adjust'" [value]="userProgressData?.goal_shared_by_me?.length"
+      [subTitle]="'Goals Shared by Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'adjust'" [value]="userProgressData?.goal_shared_to_me?.length"
+      [subTitle]="'Goals Shared To Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'description'" [value]="userProgressData?.artifacts_shared?.length"
+      [subTitle]="'Artifacts Shared by Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="' playlist_play'" [value]="userProgressData?.playlist_shared_to_me?.length"
+      [subTitle]="'Playlist Shared by Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="' playlist_play'" [value]="userProgressData?.goal_shared_to_me?.length"
+      [subTitle]="'Playlist Shared To Me'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'account_circle'" [value]="userProgressData?.experts_contacted?.length"
+      [subTitle]="'Experts I Contacted'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'library_books'" [value]="nsoData?.content_created.length"
+      [subTitle]="'Content Created'"></ws-app-tile>
+  </div>
+  <div *ngIf="userProgressFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+    <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      We are gathering the data to provide insights!
+    </h2>
+  </div>
+</ng-container>
+<ng-container>
+  <div class="mat-title margin-left-xl margin-top-xl" i18n>My other feature usage</div>
+  <div *ngIf="userProgressFetchStatus === 'fetching'" class="margin-xl padding-xl flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="userProgressFetchStatus === 'done'"
+    class="margin-top-l  margin-left-xl margin-bottom-xl flex flex-start flex-around flex-wrapped">
+    <ws-app-tile class="tile-card" [icon]="'thumb_up'" [value]="nsoData?.likes_detail?.length" [subTitle]="'Likes'">
+    </ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'search'" [value]="nsoData?.feature_usage_stats?.search_count"
+      [subTitle]="'Search'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'videocam'" [value]="nsoData?.feature_usage_stats?.tv_count"
+      [subTitle]="'Infy TV'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'radio'" [value]="nsoData?.feature_usage_stats?.radio_count"
+      [subTitle]="'Infy Radio'"></ws-app-tile>
+    <ws-app-tile class="tile-card" [icon]="'live_tv'" [value]="nsoData?.feature_usage_stats?.live_count"
+      [subTitle]="'Infy Live'"></ws-app-tile>
+  </div>
+  <div *ngIf="userProgressFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+    <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      We are gathering the data to provide insights!
+    </h2>
+  </div>
+</ng-container>

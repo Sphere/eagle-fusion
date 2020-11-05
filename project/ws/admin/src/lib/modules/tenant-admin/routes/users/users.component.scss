@@ -1,0 +1,55 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+.user-image {
+    font-size: 50px;
+}
+.user-card{
+  margin-top: 1rem;
+  width: 40%;
+  margin-right: 1rem;
+  border-radius: 0!important;
+  border: 1px solid  #c0bebe;
+  @include breakpoint-s {
+    min-width: 95%;
+     margin-right:0;
+  }
+  @include breakpoint-xs {
+    min-width: 90%;
+     margin-right:0;
+  }
+}
+.user-background{
+  min-height: 4rem;
+  height: auto;
+}
+
+.user-h2{
+   margin-bottom: 0.25rem;
+}
+
+.main-card{
+  min-height:50vh;
+}
+.search-icon{
+  font-size:6rem
+}
+
+.empty-message{
+  margin-left: 3rem!important;
+  margin-top: 4rem!important;
+}
+
+.empty-block{
+  height:35vh
+}
+
+.search-block{
+  padding: 1rem;
+  @include breakpoint-lt-m{
+    padding: 0;
+  }
+}
+// .user-card:hover{
+//   border: 1px solid  #005f87;
+
+// }

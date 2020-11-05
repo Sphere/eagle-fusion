@@ -1,0 +1,21 @@
+<nav class="margin-top-s" mat-align-tabs="center" mat-stretch-tabs mat-tab-nav-bar>
+  <a mat-tab-link *ngIf="enabledTab?.learningTime?.available" [routerLink]="'/app/profile/learning/time'"
+    routerLinkActive #rlaTime="routerLinkActive" [active]="rlaTime.isActive">
+    <mat-icon>
+      history
+    </mat-icon>
+    <span class="margin-left-m mat-body-strong" i18n>
+      Time
+    </span>
+  </a>
+  <a mat-tab-link *ngIf="enabledTab?.learningHistory?.available" [routerLink]="'/app/profile/learning/history'"
+    routerLinkActive #rlaHistory="routerLinkActive" [active]="rlaHistory.isActive">
+    <mat-icon>
+      date_range
+    </mat-icon>
+    <span class="margin-left-m mat-body-strong" i18n>
+      History
+    </span>
+  </a>
+</nav>
+<router-outlet></router-outlet>

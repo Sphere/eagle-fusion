@@ -1,0 +1,34 @@
+<div class="dialog-conatiner">
+  <div class="container">
+    <p class="mat-h1 ws-mat-primary-text font-weight-bold padding-remove margin-left-s">Catalog
+    </p>
+    <button class="close-button margin-right-m ws-mat-primary-background-op30" (click)="onClose()">
+      <mat-icon aria-label="Next" role="button">close</mat-icon>
+    </button>
+  </div>
+  <p class="mat-h4 margin-left-s">Select the appropriate tags for your content</p>
+  <div class="content">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" *ngIf="status === 'done'">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+        <button mat-icon-button disabled></button>
+        <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)"
+          (change)="todoLeafItemSelectionToggle(node)">{{ node.name }}</mat-checkbox>
+      </mat-tree-node>
+
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding class="tree-node">
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.filename">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+          </mat-icon>
+        </button>
+        <mat-checkbox *ngIf="node.checkable" [checked]="descendantsAllSelected(node)"
+          [indeterminate]="descendantsPartiallySelected(node)" (change)="todoItemSelectionToggle(node)">{{ node.name }}
+        </mat-checkbox>
+        <span class="mat-body font-weight-500" *ngIf="!node.checkable">{{ node.name }}</span>
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+  <div style="float: right;">
+    <button mat-button (click)="onClose()" i18n>Done</button>
+  </div>
+</div>

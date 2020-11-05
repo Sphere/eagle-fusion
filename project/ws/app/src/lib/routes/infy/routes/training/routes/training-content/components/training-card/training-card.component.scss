@@ -1,0 +1,11 @@
+@import 'ws-vars';
+
+.training-card {
+  width: 320px;
+  box-sizing: border-box;
+}
+
+.training-options-container {
+  top: -$size-xs;
+  right: -$size-xs;
+}

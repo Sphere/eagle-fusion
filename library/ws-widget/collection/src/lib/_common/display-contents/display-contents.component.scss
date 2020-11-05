@@ -1,0 +1,48 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.greyed-out {
+  filter: opacity(0.5) grayscale(1);
+  cursor: auto;
+
+
+}
+
+.width-expand {
+  @include breakpoint-xs {
+    margin: auto;
+    flex-direction: column;
+  }
+}
+
+.content-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.image-section-a {
+  @include breakpoint-xs {
+    margin: auto;
+  }
+}
+
+.image-section {
+  width: 103px;
+  height: 67px;
+
+  @include breakpoint-xs {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.content-progress-percent {
+  position: absolute;
+  bottom: 4px;
+}
+
+.transformx-minus-100 {
+  transform: translate(-100%);
+}

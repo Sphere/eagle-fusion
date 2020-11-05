@@ -1,0 +1,44 @@
+@import 'ws-common';
+//@import 'ws-vars';
+
+.blog-container {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  @include breakpoint-xs {
+      padding: 8px;
+    }
+
+.text-overwrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .text-abstract-trim {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+  }
+  .icon-section {
+    width: 10%;
+    text-align: center;
+
+    @include breakpoint-xs {
+      width: 15%;
+    }
+
+    .vote-count {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.grey-icons {
+  color: #a9a9a9;
+}

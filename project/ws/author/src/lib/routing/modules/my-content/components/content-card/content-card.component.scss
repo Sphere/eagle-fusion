@@ -1,0 +1,110 @@
+@import '~src/styles/_ws-vars';
+$card-padding: $size-m;
+$action-btn-size: 2.5 * $size-m; // 40px
+.card-container {
+  position: relative;
+  width: 265px;
+  height: 100%;
+}
+
+mat-card {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.cursor {
+  cursor: auto;
+}
+
+.card-img {
+  height: 150px;
+}
+
+.action-buttons {
+  float: right;
+}
+.d-flex {
+  display: flex;
+}
+.item1 {
+  padding: 10px 10px 10px 30px;
+  width: 7%;
+
+  img {
+    width: 48px;
+    margin-top: 0.6rem;
+  }
+}
+
+.item2 {
+  padding: 10px;
+  width: 75%;
+  font-size: 16px;
+}
+.item3 {
+  padding: 10px;
+  width: 15%;
+}
+.max-width-name {
+  width: 122px;
+  max-width: 140px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.fs-13 {
+  font-size: 13px;
+}
+mat-card-actions {
+  position: absolute;
+  bottom: $card-padding;
+  width: calc(100% - #{$card-padding});
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-card-content {
+  margin-top: 0px;
+  margin-bottom: ($card-padding / 2) + $action-btn-size;
+  margin-left: -0.5 * $card-padding;
+  margin-right: -0.5 * $card-padding;
+}
+
+mat-card-actions {
+  position: absolute;
+  bottom: $card-padding;
+  width: calc(100% - #{$card-padding});
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.background-color {
+  background-color: #c7c7c7;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.position-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.opacity {
+  opacity: 0.6;
+  font-weight: bold;
+}
+
+.border-bottom {
+  border-bottom: 1px solid lightgrey;
+}

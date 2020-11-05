@@ -1,0 +1,39 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+$user-size: 70px;
+.forum-view-container {
+  @extend %page-center;
+  //padding: $size-m;
+  margin-bottom: $size-xl;
+  box-sizing: border-box;
+
+  // @include breakpoint-xs {
+  //     padding: 16px;
+  // }
+
+  .user-image {
+    min-width: $user-size;
+    height: $user-size;
+    border-radius: 50%;
+    object-fit: cover;
+
+    @include breakpoint-xs {
+      display: none;
+    }
+  }
+
+  $description-line-count: 2;
+  $description-line-height: 1.4em;
+
+  .description-text {
+    position: relative;
+    overflow: hidden;
+    height: $description-line-count * $description-line-height;
+    line-height: $description-line-height;
+  }
+}
+
+.grey-icons {
+  color: #A9A9A9;
+}

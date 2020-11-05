@@ -1,0 +1,226 @@
+<div class="margin-top-m margin-left-xl">
+  <div class="flex mt-8 margin-bottom-xl top-heading flex-Update">
+    <div class="upload-box flex flex-middle flex-col justify-center p-20 cursor-pointer" (click)="fileInput.click()"
+      wsAuthDragDrop (fileDropped)="onDrop($event)">
+      <button *ngIf="file || fileUploadForm.controls.artifactUrl.value" mat-icon-button
+        class="close-button padding-remove ws-mat-primary-background-op30 text-white"
+        (click)="clearUploadedFile(); $event.stopPropagation()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <span class="font-weight-500" [hidden]="file">
+        <input type="file" #fileInput class="inputfile" accept=".mp3,.mp4,.pdf,.zip,.m4v"
+          (change)="onDrop($event.target.files[0]); fileInput.value = null" />
+        <label for="file" class="up-lbl mat-h2 ws-mat-primary-text flex flex-middle justify-center">
+          <mat-icon class="upload_cloud">cloud_upload</mat-icon>
+          <span i18n>Drag and drop files here</span>
+          <span i18n>or</span>
+          <span>Browse files</span>
+        </label>
+      </span>
+      <div *ngIf="file || fileUploadForm.controls.artifactUrl.value" class="flex flex-middle justify-center">
+        <ng-container [ngSwitch]="mimeType">
+          <mat-icon class="ws-mat-primary-text" *ngSwitchCase="'audio/mpeg'">
+            music_note
+          </mat-icon>
+          <mat-icon class="ws-mat-primary-text" *ngSwitchCase="'application/x-mpegURL'">
+            videocam
+          </mat-icon>
+          <mat-icon class="ws-mat-primary-text" *ngSwitchCase="'application/pdf'">
+            picture_as_pdf
+          </mat-icon>
+          <mat-icon class="ws-mat-primary-text" *ngSwitchCase="'application/html'">
+            request_quote
+          </mat-icon>
+        </ng-container>
+        <p class="margin-left-xs mat-h3 font-weight-500 margin-remove-bottom">
+          <ng-container *ngIf="file; else elseBlock">
+            {{ file?.name }}
+          </ng-container>
+          <ng-template #elseBlock>
+            {{ fileUploadForm.controls.artifactUrl.value.split('/').pop() }}
+            <ng-container> </ng-container>
+          </ng-template>
+        </p>
+      </div>
+    </div>
+    <div class="instruction">
+      <div class="information">
+        <p class="ws-mat-primary-text font-weight-500" i18n>Instructions to upload a file</p>
+        <ul>
+          <li *ngIf="fileUploadForm.controls.artifactUrl.value" i18n>
+            File was already uploaded. You may use Preview to view it.
+          </li>
+          <li i18n>Files allowed - pdf, mp3, mp4, m4v zip</li>
+          <li i18n>Max. file size - 200MB</li>
+        </ul>
+
+      </div>
+      <div class="flex margin-top-m margin-bottom-xl flex-Update-r">
+        <div class="flex flex-middle margin-top-xs padding-top-l">
+          <mat-checkbox [checked]="iprAccepted" (change)="iprChecked()"></mat-checkbox>
+          <p class="margin-left-xs margin-remove-bottom">
+            <span i18n>I have read and I agree with the </span>
+            <span class="ws-mat-primary-text font-weight-bold cursor-pointer" (click)="showIpr()" i18n>IPR
+              Declaration</span>
+          </p>
+        </div>
+        <span class="spacer"></span>
+        <button type="button" mat-raised-button class="ws-mat-primary-background margin-top-xl"
+          [disabled]="!enableUpload" (click)="triggerUpload()">
+          <div class="flex flex-middle justify-center">
+            <mat-icon class="text-white">publish</mat-icon>
+            <p class="text-white margin-left-s margin-remove-bottom">
+              <span i18n>Upload</span>
+            </p>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #guideline>
+  <div class="margin-top-m margin-bottom-m">
+    <div style="position: relative;">
+      <h3 class="mat-h3 font-weight-bold margin-remove-bottom" i18n>
+        Guidelines for zip file upload
+      </h3>
+      <button class="close-button primary-button" (click)="closeDialog()">
+        <mat-icon aria-label="Next" role="button">close</mat-icon>
+      </button>
+    </div>
+    <div style="overflow: auto; max-height: 400px">
+      <div class="mat-form-field mt-4">
+        <div class="flex w-100">
+          <mat-checkbox [(ngModel)]="fileUploadCondition.fileName" i18n></mat-checkbox>
+          <div class="margin-left-s" i18n>All the folder and file names should not contains any special character
+            including space</div>
+        </div>
+        <div class="flex relative mat-form-field-appearance-fill mt-4"
+          *ngIf="fileUploadCondition.isSubmitPressed && !fileUploadCondition.fileName">
+          <div class="mat-form-field-subscript-wrapper mat-error no-padding" i18n>
+            Accept the declaration
+          </div>
+        </div>
+      </div>
+      <div class="mat-form-field mt-4">
+        <div class="flex w-100">
+          <mat-checkbox [(ngModel)]="fileUploadCondition.eval" i18n></mat-checkbox>
+          <div class="margin-left-s" i18n>Should not have any code which will cause security vulnerability like usage
+            eval function</div>
+        </div>
+        <div class="flex relative mat-form-field-appearance-fill mt-4"
+          *ngIf="fileUploadCondition.isSubmitPressed && !fileUploadCondition.eval">
+          <div class="mat-form-field-subscript-wrapper mat-error no-padding" i18n>
+            Accept the declaration
+          </div>
+        </div>
+      </div>
+      <div class="mat-form-field mt-4">
+        <div class="flex w-100">
+          <mat-checkbox [(ngModel)]="fileUploadCondition.externalReference" i18n></mat-checkbox>
+          <div class="margin-left-s" i18n>All the dependencies should be included in the zip. Should not refer to
+            external
+            websites to load any assets like images, css or js</div>
+        </div>
+        <div class="flex relative mat-form-field-appearance-fill mt-4"
+          *ngIf="fileUploadCondition.isSubmitPressed && !fileUploadCondition.externalReference">
+          <div class="mat-form-field-subscript-wrapper mat-error no-padding" i18n>
+            Accept the declaration
+          </div>
+        </div>
+      </div>
+      <div class="mat-form-field mt-4">
+        <div class="flex w-100">
+          <mat-checkbox [(ngModel)]="fileUploadCondition.iframe" i18n></mat-checkbox>
+          <div class="margin-left-s" i18n>Should not include any iframe. If required contact the Platform Admin.</div>
+        </div>
+        <div class="flex relative mat-form-field-appearance-fill mt-4"
+          *ngIf="fileUploadCondition.isSubmitPressed && !fileUploadCondition.iframe">
+          <div class="mat-form-field-subscript-wrapper mat-error no-padding" i18n>
+            Accept the declaration
+          </div>
+        </div>
+      </div>
+      <div class="mat-form-field mt-4">
+        <div class="flex w-100">
+          <mat-checkbox [(ngModel)]="fileUploadCondition.preview" i18n></mat-checkbox>
+          <div class="margin-left-s" i18n>After successful upload of zip file ensure everything is working fine by
+            previewing the content. If there is any inconsistency check in the developer mode to know the exact
+            reason</div>
+        </div>
+        <div class="flex relative mat-form-field-appearance-fill mt-4"
+          *ngIf="fileUploadCondition.isSubmitPressed && !fileUploadCondition.preview">
+          <div class="mat-form-field-subscript-wrapper mat-error no-padding" i18n>
+            Accept the declaration
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-center">
+    <button type="button" mat-raised-button class="margin-top-m ws-mat-primary-background" (click)="fileUploadCondition.isSubmitPressed = true;
+        fileUploadCondition.fileName &&
+        fileUploadCondition.iframe &&
+        fileUploadCondition.eval &&
+        fileUploadCondition.preview &&
+        fileUploadCondition.externalReference ? closeDialog() : null">
+      <div class="flex flex-middle justify-center">
+        <p class="margin-remove-bottom agree-text" i18n>I Agree</p>
+      </div>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #errorFile>
+  <div class="margin-top-m margin-bottom-m">
+    <div style="position: relative;">
+      <h3 class="mat-h3 font-weight-bold margin-remove-bottom" i18n>
+        Following files or folders have special characters in their names
+      </h3>
+      <button class="close-button primary-button" (click)="closeDialog()">
+        <mat-icon aria-label="Next" role="button">close</mat-icon>
+      </button>
+    </div>
+    <div style="overflow: auto; max-height: 400px" class="mat-form-field mt-4" id="errorFiles">
+      <div *ngFor="let name of errorFileList">{{name}}</div>
+    </div>
+  </div>
+  <div class="flex justify-center">
+    <button type="button" mat-raised-button class="ws-mat-primary-background margin-top-m" (click)="closeDialog()">
+      <div class="flex flex-middle justify-center">
+        <p class="margin-remove-bottom agree-text" i18n>I Understand</p>
+      </div>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #selectFile>
+  <div class="margin-top-m margin-bottom-m">
+    <div style="position: relative;">
+      <h3 class="mat-h3 font-weight-bold margin-remove-bottom" i18n>
+        Select the entry file
+      </h3>
+      <button class="close-button primary-button" (click)="closeDialog()">
+        <mat-icon aria-label="Next" role="button">close</mat-icon>
+      </button>
+    </div>
+    <div style="overflow: auto; max-height: 400px" class="mt-4">
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="flex flex-1 flex-column example-radio-group"
+        [(ngModel)]="fileUploadCondition.url">
+        <mat-radio-button class="example-radio-button" *ngFor="let file of fileList" [value]="file">
+          {{file}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="flex justify-center">
+    <button type="button" mat-raised-button color="primary" class="margin-top-m ws-mat-primary-background"
+      (click)="closeDialog()">
+      <div class="flex flex-middle justify-center">
+        <p class="margin-remove-bottom agree-text" i18n>Done</p>
+      </div>
+    </button>
+  </div>
+</ng-template>

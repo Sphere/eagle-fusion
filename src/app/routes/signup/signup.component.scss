@@ -1,0 +1,9 @@
+@import 'ws-common';
+@import 'ws-mixins';
+.signup-container {
+    box-sizing: border-box;
+    padding: $size-m;
+    @extend %page-center;
+    @extend %height-mat-toolbar-sibling;
+    box-sizing: border-box;
+}

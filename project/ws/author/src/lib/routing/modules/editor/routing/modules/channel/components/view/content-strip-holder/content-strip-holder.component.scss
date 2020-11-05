@@ -1,0 +1,18 @@
+@import 'ws-mixins';
+
+.view-more {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  .icon {
+    $icon-size: 24px;
+    font-size: $icon-size;
+    width: $icon-size;
+    height: $icon-size;
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+}

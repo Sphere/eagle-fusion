@@ -1,0 +1,24 @@
+@import 'ws-mixins';
+mat-card{
+  box-shadow: 0 10px 20px 10px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important
+
+}
+
+.playerVideo{
+  height:400px !important;
+}
+.textView{
+  border: 1px solid;
+  border-radius: 2px;
+  padding:24px !important;
+  min-height: 250px !important;
+}
+
+ .pdfVideoPadding{
+   @include breakpoint-lt-s {
+      padding:0;
+    }
+
+
+
+ }

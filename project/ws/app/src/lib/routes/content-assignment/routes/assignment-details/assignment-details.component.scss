@@ -1,0 +1,51 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+
+table {
+  width: 100%;
+}
+
+
+.create-goal-fab {
+  position: relative;
+  z-index: 2;
+}
+
+.hidden-xs {
+  @include breakpoint-xs {
+    display: none;
+  }
+}
+
+.hidden-gt-xs {
+  @include breakpoint-gt-xs {
+    display: none;
+  }
+}
+
+.margin-left-xxs {
+  margin-left: $size-xs / 2;
+}
+
+mat-progress-bar.green-color .mat-progress-bar-fill::after {
+  background-color: #4CAF50 !important;
+}
+
+mat-progress-bar.amber-color .mat-progress-bar-fill::after {
+  background-color:  #FFC107 !important;
+}
+
+mat-progress-bar.red-color .mat-progress-bar-fill::after {
+  background-color:  #F44336 !important;
+}
+
+
+.mat-cell {
+  padding: 0px 6px 0px 6px !important;
+}
+
+.mat-header-cell {
+  padding: 0px 6px 0px 6px !important;
+}

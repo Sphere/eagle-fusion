@@ -1,0 +1,32 @@
+@import 'ws-mixins';
+
+:host.video-full {
+  .video-js {
+    height: 100%;
+    width: 100%;
+  }
+}
+.video-js {
+    height: 100%;
+    width: 100%;
+  }
+.youtube-iframe {
+  width: 100%;
+  height: 100%;
+  @include breakpoint-gt-xs{
+    height:30em;
+  }
+
+}
+
+
+
+// .wrapper {
+//   position:relative;
+//   width: 100%;
+//   height: 30em;
+//   @media only screen and(max-width: 930px) {
+//     height:12em;
+
+//   }
+// }

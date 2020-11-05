@@ -1,0 +1,36 @@
+<div class="padding-xl" [innerHTML]="newData?.question" *ngIf="newData"></div>
+<div class="flex flex-wrapped flex-center flex-container" *ngIf="newData">
+  <div class="flex-container1">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header *ngIf="newData?.htmlPresent" i18n="htmlPicker expansion panel one heading">
+          HTML
+        </mat-expansion-panel-header>
+        <div id="editor1" ace-editor [(text)]="newData.html" [mode]="'html'" [theme]="'cobalt'" [options]="options" [readOnly]="!newData.htmlPresent"
+          [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event) ; raiseInputChange()"></div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="newData?.cssPresent">
+        <mat-expansion-panel-header i18n="htmlPicker expansion panel two heading">
+          CSS
+        </mat-expansion-panel-header>
+        <div id="editor2" ace-editor [(text)]="newData.css" [mode]="'css'" [theme]="'cobalt'" [options]="options" [readOnly]="!newData.cssPresent"
+          [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="onChange($event) ; raiseInputChange()"></div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="newData?.javascriptPresent">
+        <mat-expansion-panel-header i18n="htmlPicker expansion panel three heading">
+          JS
+        </mat-expansion-panel-header>
+        <button mat-raised-button color="primary" style="margin-bottom:2%" (click)="update() ; raiseClickEvent()" i18n="htmlPicker expansion panel three button">
+          Execute
+        </button>
+        <div id="editor3" ace-editor [(text)]="newData.javascript" [mode]="'javascript'" [theme]="'cobalt'" [options]="options" [readOnly]="!newData.javascriptPresent"
+          [autoUpdateContent]="true" [durationBeforeCallback]="1000" (textChanged)="raiseInputChange()"></div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="flex-container-div">
+    <iframe id="my-output" title="Html Picker"> </iframe>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back
+    [widgetData]="{ url: router?.url.replace('/edit', ''), titles: [{title:'Edit Playlist', url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span i18n="page title: playlist edit" class="margin-left-xs">Edit Playlist</span> -->
+</mat-toolbar>
+<div class="page-container margin-top-xl margin-bottom-xl">
+
+  <mat-card class="card2">
+    <form #playlistForm [formGroup]="editPlaylistForm">
+      <h2 class="mat-h2 margin-bottom-xs" i18n>Update Title</h2>
+      <mat-form-field class="width-1-1 margin-bottom-m" appearance="fill">
+        <mat-label i18n>Title Name</mat-label>
+        <mat-error i18n>Playlist title should be 1-100 characters</mat-error>
+        <input name="playlist-name-input-playlist-create" matInput formControlName="title" class="width-1-1"
+          autocomplete="off" required />
+      </mat-form-field>
+      <div class="flex flex-row-reverse">
+        <!-- !changedContentIds.size) || editPlaylistForm.value.title === playlist.name-->
+        <button name="done-button-playlist-edit" mat-raised-button color="primary"
+          [disabled]="upsertPlaylistStatus === 'fetching' " (click)="editPlaylist()" class="margin-right-m">
+          <ng-container *ngIf="upsertPlaylistStatus !== 'fetching'" i18n>Update</ng-container>
+          <ng-container *ngIf="upsertPlaylistStatus === 'fetching'" i18n>Please Wait...</ng-container>
+        </button>
+        <a name="cancel-button-playlist-edit" mat-button i18n [routerLink]="router?.url.replace('/edit', '')">Cancel</a>
+      </div>
+    </form>
+  </mat-card>
+
+  <mat-card class="card2">
+    <ws-widget-picker-content [widgetData]="{ preselected: selectedContentIds, availableFilters: 'contentType' }"
+      (change)="contentChanged($event?.content, $event?.checked)">
+    </ws-widget-picker-content>
+    <!-- <ws-widget-content-picker-v2 (change)="contentChanged($event?.content, $event?.checked)" [widgetData]="{
+    preselected: selectedContentIds,
+    preAppliedFilters: {
+       contentType: ['Course', 'Collection', 'Learning Path', 'Resource']
+     },
+     includedFilters: {contentType: {
+       displayName: 'Content Type',
+       values: ['Course', 'Collection', 'Resource']
+     }},
+     sortableFields: {
+       lastUpdatedOn: 'Last Updated',
+       viewCount: 'Views',
+       averageRating: 'Avg Rating'
+     }
+    }">
+  </ws-widget-content-picker-v2> -->
+  </mat-card>
+</div>
+
+<input #editPlaylistError type="hidden" i18n-value value="Error occurred while editing playlist" />
+<input #editPlaylistSuccess type="hidden" i18n-value value="Playlist updated successfully!!" />

@@ -1,0 +1,32 @@
+<mat-icon [ngSwitch]="notificationEvent">
+  <!-- Learning Events -->
+  <ng-container *ngSwitchCase="notificationEvents.ShareGoal">
+    adjust
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.SharePlaylist">
+    playlist_play
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.ShareContent">
+    menu_book
+  </ng-container>
+
+  <!-- Authoring Events -->
+  <ng-container *ngSwitchCase="notificationEvents.AddContributor">
+    create
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.SendContent">
+    create
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.RejectContent">
+    create
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.PublishContent">
+    create
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.DelegateContent">
+    create
+  </ng-container>
+  <ng-container *ngSwitchCase="notificationEvents.ApproveContent">
+    create
+  </ng-container>
+</mat-icon>

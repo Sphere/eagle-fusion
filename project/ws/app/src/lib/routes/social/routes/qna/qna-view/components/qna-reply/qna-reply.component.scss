@@ -1,0 +1,70 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+$border-color: #a1a1a156;
+$icon-container-size: 60px;
+mat-spinner {
+  display: inline-block;
+}
+.card-view {
+  padding: 20px 0;
+  .icon-section {
+    width: 10%;
+    min-width: $icon-container-size;
+    text-align: center;
+
+    .isAccepted {
+      color: green;
+      font-weight: 600;
+      font-size: $size-xl;
+      height: $size-xl;
+      width: $size-xl;
+    }
+
+    .vote-count {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .body-section {
+    margin: 0 $size-m;
+  }
+
+  .user-details {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    .user-profile-image {
+      $user-size: 50px;
+      margin: 0px 10px 0px 0px;
+      width: $user-size;
+      height: $user-size;
+      font-size: $user-size;
+      display: block;
+    }
+  }
+
+  .comment-container {
+    margin: $size-s 0px - ($size-xs/2) 0px;
+    border-top: 1px solid $border-color;
+
+    .comment {
+      border-bottom: 1px solid $border-color;
+      padding: ($size-xs / 2) 0 ($size-xs / 2) $size-m !important;
+    }
+  }
+
+  .comment-form {
+    width: 100%;
+    margin-top: $size-m;
+    display: flex;
+    align-items: center;
+  }
+}

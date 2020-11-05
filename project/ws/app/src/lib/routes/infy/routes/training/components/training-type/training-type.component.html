@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="trainingType">
+  <ng-container *ngSwitchCase="trainingTypes.Classroom" i18n>Classroom Training</ng-container>
+  <ng-container *ngSwitchCase="trainingTypes.Virtual" i18n>Virtual Training</ng-container>
+  <ng-container *ngSwitchCase="trainingTypes.Blended" i18n>Blended Training</ng-container>
+  <ng-container *ngSwitchDefault i18n>Training</ng-container>
+</ng-container>

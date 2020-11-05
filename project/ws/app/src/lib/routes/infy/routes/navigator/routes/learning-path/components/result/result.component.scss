@@ -1,0 +1,147 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+@import 'ws-common';
+
+.sidenav-container {
+  height: 100%;
+}
+
+// Contents of SideNav Menu
+.sidenav {
+  width: 25%;
+  min-width: 300px;
+  padding-left: $size-m;
+  background: inherit;
+  box-shadow: none;
+}
+
+// Contents of Side Nav Content
+.sidenav-content {
+  margin: 0;
+  padding: 0 $size-m $size-l;
+  box-sizing: border-box;
+  min-height: calc(100vh);
+}
+
+.day-mode {
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: none !important;
+  }
+}
+
+.sidenav-content-header {
+  height: 40px;
+}
+
+.lp_name {
+  display: block;
+  margin: 10px;
+}
+
+.mat-list-option {
+  margin: 5px 0px;
+  padding: 5px;
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.hide-filter-btn {
+  visibility: hidden;
+}
+
+.heading {
+  margin: 0;
+}
+
+.margin-top {
+  align-items: baseline;
+  margin-top: $size-s;
+}
+
+.mat-selection-list {
+  outline: none;
+}
+
+.filter-name {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.label {
+  margin-bottom: 10px;
+}
+
+.app-class .mat-list-option {
+  height: auto;
+}
+
+.checklist {
+  margin: 8px 0;
+
+  .mat-icon {
+    font-size: 20px;
+  }
+}
+
+.checklist-desc {
+  margin-left: 50px;
+  margin-top: -10px;
+  padding-bottom: 10px;
+}
+
+.mat-list-option:hover {
+  background: none;
+}
+
+
+.lp-name {
+  // margin-bottom: -10px;
+  font-weight: 500
+}
+
+.member-image {
+  width: 180px;
+  // height: 100%;
+  margin-left: $size-m;
+
+  @media only screen and (max-width: 736px) {
+    width: 150px;
+    height: 90px;
+  }
+}
+
+
+.radio {
+  margin: 0px -2px;
+  align-items: center;
+
+  .mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+  }
+}
+
+.courses-profile {
+  margin-left: 2px;
+
+}
+
+.topic-container {
+  @media only screen and (max-width: 736px) {
+    flex-wrap: wrap;
+  }
+}
+
+.topic-text {
+  @media only screen and (max-width: 736px) {
+    margin-top: 12px;
+  }
+}
+
+
+.margin-left-xss {
+  margin-left: 4px !important;
+}

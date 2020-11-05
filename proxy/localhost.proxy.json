@@ -1,0 +1,65 @@
+{
+  "/apis/*": {
+    "target": "https://d34vfqm2mqjn7i.cloudfront.net",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": "/apis"
+    }
+  },
+  "/content-api/*": {
+    "target": "http://localhost:3004",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": ""
+    }
+  },
+  "/content-store/*": {
+    "target": "http://localhost:3005",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": ""
+    }
+  },
+  "/chat-bot/*": {
+    "target": "http://localhost:3006",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": ""
+    }
+  },
+  "/mobile-apps/*": {
+    "target": "http://localhost:3007",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": ""
+    }
+  },
+  "/LA/*": {
+    "target": "http://localhost:3008",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": ""
+    }
+  },
+  "/assets/*": {
+    "target": "http://127.0.0.1:8080",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "/apis": ""
+    }
+  }
+}

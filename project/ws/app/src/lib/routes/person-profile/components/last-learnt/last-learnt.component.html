@@ -1,0 +1,98 @@
+<mat-tab-group class="heightgroup">
+  <mat-tab label="Resources">
+    <ng-template mat-tab-label i18n>
+      Resources
+    </ng-template>
+    <div>
+      <ng-container *ngFor="let content of filteredContent">
+        <div *ngIf="content?.contentType === 'resource'">
+          <ng-container *ngFor="let resourceContent of content.contents">
+            <div>
+              <mat-card class="card m-1 mat-elevation-z0 md:my-1 sm:my-1">
+                <mat-card-content>
+                  <div class="flex">
+                    <div class="flex flex-between w-full">
+                      <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold title-text font-family"
+                        [matTooltip]="resourceContent.name">
+                        {{resourceContent.name}}</p>
+                      <p class=" ml-2 margin-remove-bottom category  font-family"
+                        *ngIf="resourceContent.progress === 1">
+                        Completed</p>
+                      <p class=" ml-2 margin-remove-bottom category  font-family"
+                        *ngIf="resourceContent.progress !== 1">
+                        Learning</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </mat-tab>
+  <mat-tab label="Badges Earned">
+    <ng-template mat-tab-label i18n>
+      Modules
+    </ng-template>
+    <div class="flex flex-wrap badgesearned">
+      <div *ngIf="!filteredContent?.length" class="pl-4 py-4">
+        <span class="ws-mat-primary-text" i18n>No Modules learnt</span>
+      </div>
+      <ng-container *ngFor="let content of filteredContent">
+        <div *ngIf="content?.contentType === 'module'">
+          <ng-container *ngFor="let resourceContent of content.contents">
+            <div>
+              <mat-card class="card m-1 mat-elevation-z0 md:my-1 sm:my-1">
+                <mat-card-content>
+                  <div class="flex">
+                    <div class="flex flex-between w-full">
+                      <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold title-text font-family"
+                        [matTooltip]="resourceContent.name">
+                        {{resourceContent.name}}</p>
+                      <p class=" ml-2 margin-remove-bottom category  font-family"
+                        *ngIf="resourceContent.progress === 1">
+                        Completed</p>
+                      <p class=" ml-2 margin-remove-bottom category  font-family"
+                        *ngIf="resourceContent.progress !== 1">
+                        Learning</p>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+
+    </div>
+  </mat-tab>
+  <mat-tab label="Skills">
+    <ng-template mat-tab-label i18n>
+      Courses
+    </ng-template>
+    <ng-container *ngFor="let content of filteredContent">
+      <div *ngIf="content?.contentType === 'course'">
+        <ng-container *ngFor="let resourceContent of content.contents">
+          <div>
+            <mat-card class="card m-1 mat-elevation-z0 md:my-1 sm:my-1">
+              <mat-card-content>
+                <div class="flex">
+                  <div class="flex flex-between w-full">
+                    <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold title-text font-family"
+                      [matTooltip]="resourceContent.name">
+                      {{resourceContent.name}}</p>
+                    <p class=" ml-2 margin-remove-bottom category  font-family" *ngIf="resourceContent.progress === 1">
+                      Completed</p>
+                    <p class=" ml-2 margin-remove-bottom category  font-family" *ngIf="resourceContent.progress !== 1">
+                      Learning</p>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </mat-tab>
+</mat-tab-group>

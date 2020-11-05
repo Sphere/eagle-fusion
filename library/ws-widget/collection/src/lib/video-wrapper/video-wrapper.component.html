@@ -1,0 +1,4 @@
+<ws-widget-player-video *ngIf="!widgetData?.externalData?.iframeSrc" [widgetData]="widgetData?.videoData">
+</ws-widget-player-video>
+<ws-widget-embedded-page *ngIf="widgetData?.externalData?.iframeSrc" [widgetData]="widgetData?.externalData">
+</ws-widget-embedded-page>

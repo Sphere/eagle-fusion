@@ -1,0 +1,65 @@
+<div class="text-center signup-container">
+  <h2 class="mat-title" i18n="section heading create new goal">
+    Sign up
+  </h2>
+  <form class="example-form" [formGroup]="signupForm">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>First Name</mat-label>
+      <input type="text" matInput placeholder="First name" formControlName="fname">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Last Name</mat-label>
+      <input type="text" matInput placeholder="Last name" formControlName="lname">
+    </mat-form-field>
+    <!-- <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Mobile Number</mat-label>
+      <input type="number" matInput placeholder="Mobile number" formControlName="mobile">
+    </mat-form-field> -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Unique Code</mat-label>
+      <input type="text" matInput placeholder="Unique code" formControlName="code">
+    </mat-form-field>
+    <div class="border"></div>
+
+    <div class="mt-4 flex justify-end">
+      <!-- <div class="center flex items-center"> -->
+      <!-- <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
+            <mat-spinner [diameter]="30"></mat-spinner>
+          </div> -->
+      <button mat-raised-button
+        color="primary"
+        type="submit" 
+        i18n 
+        [disabled]="uploadSaveData || !signupForm?.valid"
+        (click)="onSubmit(signupForm)">
+
+        <ng-container i18n>Save Changes</ng-container>
+      </button>
+
+
+
+      <!-- <button type="reset" (click)="onReset()" class="pl-4 mat-button">Cancel</button> -->
+    </div>
+  </form>
+</div>
+
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="Signup successful"
+  value="Thanks for Signing up"
+  #toastSuccess
+/>
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="unable to signup"
+  value="Error Signing up!"
+  #toastError
+/>

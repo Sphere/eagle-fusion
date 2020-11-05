@@ -1,0 +1,99 @@
+<mat-form-field class="language-drop-down-width" appearance="outline">
+  <mat-select [(value)]="appLanguage" (selectionChange)="langChanged($event)">
+
+    <mat-select-trigger>
+      <span class="flag-icon-{{ appLanguage | lowercase}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>&nbsp;&nbsp;{{appLanguage | uppercase}}</span>
+    </mat-select-trigger>
+    <mat-option value="en" *ngIf="isLocaleAvailable('')" [disabled]="!isLocaleEnabled('')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/en.png">&nbsp;&nbsp;
+        <ng-container>English&nbsp;&nbsp;</ng-container>
+        <ng-container i18n> English (EN)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="de" *ngIf="isLocaleAvailable('de')" [disabled]="!isLocaleEnabled('de')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/de.png">&nbsp;&nbsp;
+        <ng-container>Deutsch&nbsp;&nbsp;</ng-container>
+        <ng-container i18n> German (DE)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="ar" *ngIf="isLocaleAvailable('ar')" [disabled]="!isLocaleEnabled('ar')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/ar.png">&nbsp;&nbsp;
+        <ng-container>عربى&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>Arabic (AR)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="zh-CN" *ngIf="isLocaleAvailable('zh-CN')" [disabled]="!isLocaleEnabled('zh-CN')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/zh.png">&nbsp;&nbsp;
+        <ng-container>中文&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>Chinese (zh-CN)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="fr" *ngIf="isLocaleAvailable('fr')" [disabled]="!isLocaleEnabled('fr')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/fr.png">&nbsp;&nbsp;
+        <ng-container>Français&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>French (FR)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="fr-ca" *ngIf="isLocaleAvailable('fr-ca')" [disabled]="!isLocaleEnabled('fr-ca')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/fr.png">&nbsp;&nbsp;
+        <ng-container>Français-Canada&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>French Canada (fr-ca)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="nl" *ngIf="isLocaleAvailable('nl')" [disabled]="!isLocaleEnabled('nl')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/nl.png">&nbsp;&nbsp;
+        <ng-container>Dutch&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>Dutch (NL)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="ja" *ngIf="isLocaleAvailable('ja')" [disabled]="!isLocaleEnabled('ja')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/ja.png">&nbsp;&nbsp;
+        <ng-container>日本人&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>Japanese (JA)</ng-container>
+      </a>
+    </mat-option>
+    <mat-option value="es" *ngIf="isLocaleAvailable('es')" [disabled]="!isLocaleEnabled('es')">
+      <a mat-line>
+        <img [ngStyle]="{
+                                                    height:  '14px',
+                                                     width:  '20px'
+                                                  }" src="/assets/common/flags/es.png">&nbsp;&nbsp;
+        <ng-container>Español&nbsp;&nbsp;</ng-container>
+        <ng-container i18n>Spanish (ES)</ng-container>
+      </a>
+    </mat-option>
+  </mat-select>
+</mat-form-field>

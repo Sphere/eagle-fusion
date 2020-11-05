@@ -1,0 +1,338 @@
+<mat-toolbar>
+  <a mat-icon-button [routerLink]="'/app/features'">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: leaderboard" class="margin-left-xs">Admin</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<mat-sidenav-container class="nav-container">
+  <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
+    <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
+      <div class="flex flex-between flex-baseline">
+        <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
+        <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
+          (click)="sideNavBarOpened = false">
+          <mat-icon class="">clear</mat-icon>
+        </button>
+      </div>
+    </h4>
+    <section class="margin-top-l margin-bottom-l">
+      <mat-form-field class=" margin-left-m">
+        <mat-select [value]="sprintSelected" (selectionChange)="sprintChanged($event)">
+          <mat-option value="fy">
+            <a mat-line>
+              <ng-container>FY'20&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="h1">
+            <a mat-line>
+              <ng-container>H1'19&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+          <mat-option value="h2">
+            <a mat-line>
+              <ng-container>H2'19&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Role</mat-label>
+        <mat-select #selectedRole [ngModel]="selectedRole" (ngModelChange)="roleChanged(selectedRole)">
+          <mat-option [value]="role" *ngFor="let role of rolesList">
+            <a mat-line>
+              <ng-container>{{role}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Region</mat-label>
+        <mat-select #selectedRegion [ngModel]="selectedRegion" (ngModelChange)="regionChanged(selectedRegion)">
+          <mat-option [value]="region" *ngFor="let region of ['All','NTH', 'EST', 'STH', 'CEN', 'WST']">
+            <a mat-line>
+              <ng-container>{{region}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Dealer Code</mat-label>
+        <mat-select #selectedDealer [ngModel]="selectedDealer" (ngModelChange)="dealerChanged(selectedDealer)">
+          <mat-option [value]="dealer" *ngFor="let dealer of dealers">
+            <a mat-line>
+              <ng-container>{{dealer}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class=" margin-left-m">
+        <mat-label i18n>Select Guild Group</mat-label>
+        <mat-select #selectedGroup [ngModel]="selectedGroup" (ngModelChange)="groupChanged(selectedGroup)">
+          <mat-option [value]="group" *ngFor="let group of [1,2,3,4,5]">
+            <a mat-line>
+              <ng-container>{{group}}&nbsp;&nbsp;</ng-container>
+            </a>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <div class="flex flex-between">
+      <div>
+        <mat-form-field class="width-expand margin-top-s" appearance="fill" floatLabel="never">
+          <button matTooltipPosition="before" matTooltip="Search" (click)="handleSearchQuery(query)" mat-icon-button
+            matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+          <mat-label i18n>Search users</mat-label>
+          <input matInput (keyup.enter)="handleSearchQuery(query)" [(ngModel)]="query" autocomplete="off"
+            class="resize-none" />
+        </mat-form-field>
+      </div>
+      <div class="dimensions">
+        <h4 class="ws-mat-primary-text font-size-m font-weight-bold">
+          <span i18n> Apply Filters</span>
+          <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </h4>
+      </div>
+      <div class="margin-left-m margin-top-l margin-bottom-l">
+        <a mat-raised-button type="button" color="primary" i18n
+          (click)="updatePoints(leaderBoardData);exportToExcel(leaderBoardData)">
+          Save
+        </a>
+      </div>
+    </div>
+
+    <ng-container *ngIf="fetchStatus !== 'fetching'">
+      <mat-card class="my-0" *ngIf="leaderBoardData.length">
+        <section class="p-4 align">
+          <section class="item-container flex">
+            <section class="width-1-10 flex flex-column flex-center">
+              <div class="flex flex-column flex-between">
+                <div class="font-size-m">STARS ID</div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                    <div class="text-truncate font-size-m">
+                      Name
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Role
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Dealer's Name
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Guild Group
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Dealer Code
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Guild Points
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Points Approved
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Current Points
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="font-size-m text-truncate width-1-1">
+                    Reason
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+        </section>
+        <section class="p-4 align" *ngFor="let leaderboardItem of leaderBoardData; let i=index">
+          <section class="item-container flex">
+            <section class="width-1-10 flex flex-column flex-center">
+              <div class="flex flex-column flex-between">
+                <div class="mat-body-2">{{ leaderboardItem.UserSourceSystemId }}</div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                    <div class="text-truncate mat-body-2">
+                      {{
+                      {
+                        firstName: leaderboardItem.FirstName
+                      } | pipeNameTransform
+                    }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="mat-caption text-truncate width-1-1">
+                    {{ leaderboardItem.Column2 }}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="mat-caption text-truncate width-1-1">
+                    {{ leaderboardItem.groupName }}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="mat-caption text-truncate width-1-1">
+                    {{ leaderboardItem.Column1 }}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="mat-caption text-truncate width-1-1">
+                    {{ leaderboardItem.dealerCode }}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="mat-caption text-truncate width-1-1">
+                    {{ leaderboardItem.TotalPoints }}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 flex flex-column flex-center">
+              <div class="flex flex-column flex-between">
+                <input class="border" matInput type="number" name="points+'i'"
+                  [(ngModel)]="leaderboardItem.pointsApproved" autocomplete="off" />
+              </div>
+            </section>
+            <section class="width-1-10 margin-left-m flex-grow-1 flex flex-column flex-center">
+              <div class="flex">
+                <div class="flex flex-column flex-between width-1-1">
+                  <div class="flex flex-column flex-grow-1 flex-center">
+                  </div>
+                  <div class="mat-caption text-truncate width-1-1">
+                    {{ leaderboardItem.pointsApproved }}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="width-1-10 flex flex-column flex-center">
+              <div class="flex flex-column flex-between">
+                <input class="border" matInput name="reason+'i'" [(ngModel)]="leaderboardItem.reason"
+                  autocomplete="off" />
+              </div>
+            </section>
+          </section>
+        </section>
+        <mat-divider></mat-divider>
+      </mat-card>
+
+      <section class="mat-body text-center margin-top-l" *ngIf="fetchStatus !== 'fetching' && !leaderBoardData.length">
+        <ng-container>
+          There is no data available for this sprint.
+        </ng-container>
+      </section>
+    </ng-container>
+
+    <section class="margin-top-xl flex flex-center" *ngIf="fetchStatus === 'fetching'">
+      <mat-progress-spinner [color]="'primary'" [strokeWidth]="5" [diameter]="60" [mode]="'indeterminate'">
+      </mat-progress-spinner>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

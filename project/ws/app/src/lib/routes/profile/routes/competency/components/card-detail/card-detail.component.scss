@@ -1,0 +1,40 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.container-details {
+  padding: 0 $size-xl * 2;
+  box-sizing: border-box;
+  margin-top: 16px;
+}
+
+.graph-section {
+  width: 64%;
+}
+
+.details-section {
+  width: 32%;
+}
+
+.title-detail {
+  margin-bottom: 8px;
+}
+
+%border-bottom {
+  border-bottom: 3px solid;
+}
+
+.border-bottom-success {
+  @extend %border-bottom;
+  border-color: green;
+}
+
+.border-bottom-fail {
+  @extend %border-bottom;
+  border-color: red;
+}
+.details-card {
+  padding: 0px;
+}
+.nav-btn {
+  margin: 16px 0px 16px 16px;
+}

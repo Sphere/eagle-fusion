@@ -1,0 +1,31 @@
+.sidenav {
+  width: 20%;
+  min-width: 200px;
+  background: inherit;
+  box-shadow: none;
+}
+
+mat-sidenav-container {
+  // height: 100%;
+  min-height: 350px;
+}
+
+// mat-sidenav-content {
+//   overflow-x: hidden !important;
+//   padding: 0 10px;
+// }
+
+
+.filterButton {
+  border: 1px solid #cecece;
+  border-radius: .75rem;
+}
+
+.filterButton:hover {
+  border-radius: .75rem;
+}
+
+.searchBox {
+  min-width: 200px;
+  width: 400px;
+}

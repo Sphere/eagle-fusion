@@ -1,0 +1,62 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.editor-wrapper {
+  max-width: 700px;
+  margin: auto;
+  padding: $size-m;
+  height: calc(100vh - 168px - 52px);
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.title-textarea {
+  width: 100%;
+  border: 0px;
+  outline: none;
+  font-size: 2rem;
+  resize: none;
+  padding-top: 4px;
+  line-height: 1;
+}
+
+.abstract-textarea {
+  width: 100%;
+  border: 0px;
+  outline: none;
+  font-size: 1.2rem;
+  resize: none;
+  line-height: 1.2;
+}
+
+// .editor {
+//   display: block;
+//   min-height: 150px;
+//   margin-top: $size-m;
+//   padding: 0 24px;
+//   border: 1px solid;
+//       border-radius: 8px;
+// }
+
+.error-text {
+  color: red;
+}
+
+.save-options {
+  position: fixed;
+  bottom: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+
+  @include breakpoint-xs {
+    bottom: 128px;
+  }
+}
+
+.margin-right-s {
+  margin-right: $size-s;
+}

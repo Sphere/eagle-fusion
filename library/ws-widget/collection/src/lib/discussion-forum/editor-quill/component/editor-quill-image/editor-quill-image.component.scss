@@ -1,0 +1,14 @@
+.quill-editor {
+  display: block;
+  height: 100%;
+  // min-height: 50px;
+  border-radius: 20px;
+}
+
+.error-text {
+  color: red;
+}
+.invisible-input-cont input {
+  width: 0px;
+  height: 0px;
+}

@@ -1,0 +1,29 @@
+<mat-card class="relative rounded-none">
+  <div class="flex items-center mb-1">
+    <div class="flex-1 min-w-0">
+      <div class="mat-title margin-bottom-xs">{{ accept?.sharedWith?.name }}</div>
+      <ws-app-goal-deadline-text [endDate]="accept?.endDate"></ws-app-goal-deadline-text>
+      <div class="my-1 flex items-center">
+        <mat-icon class="mr-2">access_time</mat-icon>
+        <ng-container i18n>Accepted on</ng-container>
+        <span class="mat-body-strong ml-1">{{ accept?.startDate | date }}</span>
+      </div>
+    </div>
+    <button name="expand-button-goal-accept-card" mat-icon-button (click)="isExpanded = !isExpanded">
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="accept?.progress" class="goal-progress-percent"
+    [ngClass]="{ 'transformx-minus-100': accept?.progress > 0.2 }" [ngStyle]="goalProgressBarStyle">
+    {{ accept?.progress * 100 | number: '1.0-0'   }}%
+    <ng-container i18n>achieved</ng-container>
+  </div>
+  <mat-progress-bar class="goal-progress" mode="determinate" value="{{ accept?.progress * 100 | number: '1.0-0' }}">
+  </mat-progress-bar>
+</mat-card>
+<mat-card *ngIf="isExpanded" class="rounded-none">
+  <div class="ml-8">
+    <ws-widget-display-contents durationType="remaining" [contents]="accept?.resourceProgressTracker">
+    </ws-widget-display-contents>
+  </div>
+</mat-card>

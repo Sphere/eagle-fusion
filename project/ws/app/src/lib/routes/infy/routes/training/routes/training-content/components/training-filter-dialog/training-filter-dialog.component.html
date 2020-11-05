@@ -1,0 +1,71 @@
+<section class="width-1-1">
+  <h2 class="mat-title" i18n>Filter Trainings</h2>
+
+  <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()">
+    <mat-form-field class="width-1-1">
+      <mat-label>
+        <span i18n>Location</span>
+      </mat-label>
+      <mat-select formControlName="location">
+        <mat-option *ngFor="let location of trainingLocations" [value]="location.name"
+          >{{ location.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="margin-top-s mat-caption" i18n>Starting between the following dates:</div>
+
+    <mat-form-field class="width-1-1">
+      <input
+        required
+        matInput
+        [matDatepicker]="picker1"
+        placeholder="Starting between ..."
+        [min]="currentDate"
+        formControlName="fromDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="width-1-1">
+      <input
+        required
+        matInput
+        [matDatepicker]="picker2"
+        placeholder="... and ..."
+        [min]="filterForm.value.fromDate ? filterForm.value.fromDate : currentDate"
+        formControlName="toDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <section>
+      <mat-checkbox [color]="'primary'" formControlName="assessmentOnly" i18n>
+        Trainings with assessment
+      </mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox [color]="'primary'" formControlName="seatsAvailableOnly" i18n>
+        Trainings with seats available
+      </mat-checkbox>
+    </section>
+
+    <section>
+      <mat-checkbox [color]="'primary'" formControlName="eligibleOnly" i18n>
+        Eligible trainings
+      </mat-checkbox>
+    </section>
+
+    <section class="padding-top-m">
+      <button mat-raised-button color="primary" type="submit" i18n [disabled]="!filterForm.valid">
+        Apply
+      </button>
+      <button mat-stroked-button color="primary" type="reset" class="margin-left-m" i18n>
+        Reset
+      </button>
+    </section>
+  </form>
+</section>

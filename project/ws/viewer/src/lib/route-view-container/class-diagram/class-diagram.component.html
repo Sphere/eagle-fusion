@@ -1,0 +1,11 @@
+<viewer-plugin-class-diagram
+  *ngIf="isFetchingDataComplete && !isLtMedium"
+  [contentName]="classDiagramData?.name"
+  [identifier]="classDiagramData?.identifier"
+  [classDiagram]="classDiagramManifest"
+></viewer-plugin-class-diagram>
+<mat-card *ngIf="isFetchingDataComplete && isLtMedium" class="margin-m">
+  <mat-card-title i18n="only viewed in desktop or laptop">
+    This content can be viewed only in Desktop/Laptop.
+  </mat-card-title>
+</mat-card>

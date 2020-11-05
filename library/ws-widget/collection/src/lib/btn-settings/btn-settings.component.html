@@ -1,0 +1,130 @@
+<button i18n-aria-label aria-label="Settings" mat-icon-button name="settingsIconHomePage"
+  [matMenuTriggerFor]="settingsMenu" i18n-matTooltip matTooltip="Settings">
+  <mat-icon>settings</mat-icon>
+</button>
+
+<mat-menu #settingsMenu="matMenu" name="settingsOptionsListContainerHomePage" xPosition="before">
+  <div mat-menu-item>
+    <mat-slide-toggle color="primary" [formControl]="darkModeForm" labelPosition="before">
+      <mat-icon>brightness_medium</mat-icon>
+      <span i18n>Dark Mode</span>
+    </mat-slide-toggle>
+  </div>
+  <!-- <mat-slide-toggle color="primary" [formControl]="isRTLForm" labelPosition="before">
+  </mat-slide-toggle> -->
+  <!-- <div mat-menu-item (click)="toggleRTL()">
+    <mat-icon>{{
+      isRTLForm ? 'format_textdirection_r_to_l' : 'format_textdirection_l_to_r'
+    }}</mat-icon>
+    <span i18n *ngIf="isRTLForm.value">Change to left-to-right</span>
+    <span i18n *ngIf="!isRTLForm.value">Change to right-to-left</span>
+  </div> -->
+  <button mat-menu-item [matMenuTriggerFor]="languagesMenu" *ngIf="isLanguageEnabled">
+    <mat-icon>translate</mat-icon>
+    <span i18n>Languages</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="fontSizeMenu">
+    <mat-icon>format_size</mat-icon>
+    <span i18n>Font Size</span>
+  </button>
+  <button *ngIf="themes.length && themes.length > 1" mat-menu-item [matMenuTriggerFor]="themesMenu">
+    <mat-icon>format_color_fill</mat-icon>
+    <span i18n>Themes</span>
+  </button>
+
+  <!-- <button mat-menu-item>
+    <mat-icon>keyboard</mat-icon>
+    <span i18n>Keyboard Shortcuts</span>
+  </button> -->
+  <a mat-menu-item routerLink="/app/profile/settings">
+    <mat-icon>expand_more</mat-icon>
+    <span i18n>All Settings</span>
+  </a>
+</mat-menu>
+
+<mat-menu #fontSizeMenu="matMenu">
+  <button mat-menu-item class="content-v-center" *ngFor="let font of fonts" (click)="changeFont(font.fontClass)">
+    <mat-icon>{{
+      activeFontClass === font.fontClass ? 'radio_button_checked' : 'radio_button_unchecked'
+    }}</mat-icon>
+    <span [style.fontSize]="font.baseFontSize">
+      <span i18n>Base font size</span>
+      ({{ font.baseFontSize }})
+    </span>
+  </button>
+</mat-menu>
+
+<mat-menu #themesMenu="matMenu">
+  <button class="content-v-center" mat-menu-item *ngFor="let theme of themes" (click)="changeTheme(theme.themeClass)">
+    <mat-icon>{{
+      activeThemeClass === theme.themeClass ? 'radio_button_checked' : 'radio_button_unchecked'
+    }}</mat-icon>
+    <span class="theme-color-circle" [style.backgroundColor]="theme.color.primary"></span>
+    <span class="theme-color-circle" [style.backgroundColor]="theme.color.accent"></span>
+    <span class="theme-color-circle" [style.backgroundColor]="theme.color.warn"></span>
+  </button>
+</mat-menu>
+
+<mat-menu #languagesMenu="matMenu">
+  <mat-nav-list dense role="navigation">
+    <a mat-list-item (click)="updateUserLang('')" [disableRipple]="!isLocaleEnabled('')" *ngIf="isLocaleAvailable('')">
+      <mat-icon mat-list-icon>{{ localeIcon('') }}</mat-icon>
+      <h4 mat-line>English</h4>
+      <p mat-line i18n="English language name and its language code (en) in braces">English (en)</p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('de')" [disableRipple]="!isLocaleEnabled('de')"
+      *ngIf="isLocaleAvailable('de')">
+      <mat-icon mat-list-icon>{{ localeIcon('de') }}</mat-icon>
+      <h4 mat-line>Deutsch</h4>
+      <p mat-line i18n="German language name and its language code (de) in braces">German (de)</p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('ar')" [disableRipple]="!isLocaleEnabled('ar')"
+      *ngIf="isLocaleAvailable('ar')">
+      <mat-icon mat-list-icon>{{ localeIcon('ar') }}</mat-icon>
+      <h4 mat-line>عربى</h4>
+      <p mat-line i18n="Arabic language name and its language code (ar) in braces">Arabic (ar)</p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('zh-CN')" [disableRipple]="!isLocaleEnabled('zh-CN')"
+      *ngIf="isLocaleAvailable('zh-CN')">
+      <mat-icon mat-list-icon>{{ localeIcon('zh-CN') }}</mat-icon>
+      <h4 mat-line>中文</h4>
+      <p mat-line i18n="Chinese language name and its language code (zh-CN) in braces">
+        Chinese (zh-CN)
+      </p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('fr')" [disableRipple]="!isLocaleEnabled('fr')"
+      *ngIf="isLocaleAvailable('fr')">
+      <mat-icon mat-list-icon>{{ localeIcon('fr') }}</mat-icon>
+      <h4 mat-line>Français</h4>
+      <p mat-line i18n="French language name and its language code (fr) in braces">French (fr)</p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('fr-ca')" [disableRipple]="!isLocaleEnabled('fr-ca')"
+      *ngIf="isLocaleAvailable('fr-ca')">
+      <mat-icon mat-list-icon>{{ localeIcon('fr-ca') }}</mat-icon>
+      <h4 mat-line>Français-Canada</h4>
+      <p mat-line i18n="French language name and its language code (fr-ca) in braces">
+        French Canada (fr-ca)
+      </p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('nl')" [disableRipple]="!isLocaleEnabled('nl')"
+      *ngIf="isLocaleAvailable('nl')">
+      <mat-icon mat-list-icon>{{ localeIcon('nl') }}</mat-icon>
+      <h4 mat-line>Dutch</h4>
+      <p mat-line i18n="Dutch language name and its language code (nl) in braces">Dutch (nl)</p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('ja')" [disableRipple]="!isLocaleEnabled('ja')"
+      *ngIf="isLocaleAvailable('ja')">
+      <mat-icon mat-list-icon>{{ localeIcon('ja') }}</mat-icon>
+      <h4 mat-line>日本人</h4>
+      <p mat-line i18n="Japanese language name and its language code (ja) in braces">
+        Japanese (ja)
+      </p>
+    </a>
+    <a mat-list-item (click)="updateUserLang('es')" [disableRipple]="!isLocaleEnabled('es')"
+      *ngIf="isLocaleAvailable('es')">
+      <mat-icon mat-list-icon>{{ localeIcon('es') }}</mat-icon>
+      <h4 mat-line>Español</h4>
+      <p mat-line i18n="Spanish language name and its language code (es) in braces">Spanish (es)</p>
+    </a>
+  </mat-nav-list>
+</mat-menu>

@@ -1,0 +1,64 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+@import 'ws-common';
+
+.sidenav-container {
+  height: 100%;
+  min-height: 80vh;
+}
+// Contents of SideNav Menu
+.sidenav {
+  width: 25%;
+  min-width: 300px;
+  padding: $size-s;
+  background: inherit;
+  box-shadow: none;
+}
+
+// Contents of Side Nav Content
+.sidenav-content {
+  margin: 0;
+  padding: 0 $size-m $size-l;
+  box-sizing: border-box;
+  min-height: calc(100vh - 145px);
+}
+.day-mode {
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: none !important;
+  }
+}
+
+.sidenav-content-header {
+  height: 40px;
+}
+
+.best-result {
+  float: right;
+  margin: 5px;
+}
+
+.concept {
+  text-align: center;
+  margin-right: $size-s;
+  height: 100px;
+  min-width: 5 * $size-l;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-s;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.search-card {
+  display: block;
+  margin-bottom: $size-xs;
+}
+
+.catalog-link {
+  border-bottom: 1px dotted;
+}
+
+.hide-filter-btn {
+  visibility: hidden;
+}

@@ -1,0 +1,152 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+.tiles-css {
+    width: 30%;
+    margin: $size-m;
+
+    @include breakpoint-xs {
+      width: 90%;
+      margin: $size-s;
+    }
+
+    @include breakpoint-s {
+      width: 45%;
+      margin: $size-s;
+    }
+  }
+
+  .lh-list {
+    .lh-list-item {
+      height: auto !important;
+      margin: 1rem 0;
+      .lh-list-item-card {
+        width: 100%;
+        margin: 0 auto;
+        @include breakpoint-s {
+          width: 75%;
+        }
+        @include breakpoint-m {
+          width: 60%;
+        }
+        @include breakpoint-l {
+          width: 50%;
+        }
+        @include breakpoint-xl {
+          width: 40%;
+        }
+      }
+    }
+  }
+  .goals-wrapper{
+    width: 95%;
+    margin:auto;
+    .card-container{
+        width: 100%;
+        .card{
+          // background-color: white;
+          width: 95.6%;
+          margin: $size-m;
+          padding:0px;
+
+        @include breakpoint-xs {
+          width: 100%;
+          margin: $size-s;
+        }
+
+        @include breakpoint-s {
+          width: 100%;
+          margin: $size-s;
+        }
+      }
+    }
+  }
+  .goal-class{
+    width: 80%;
+    margin: 1% 10% 1% 10%;
+    @include breakpoint-xs {
+      width: 80%;
+      margin: 2% 5% 1% 5%;
+    }
+
+    @include breakpoint-s {
+      width: 80%;
+      margin: 1% 10% 1% 10%;
+    }
+  }
+  .progress {
+    .progress-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-circular {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .progress-circular-container {
+        position: relative;
+        margin-right: .7rem;
+      }
+      .progress-circular-empty {
+        position: absolute;
+      }
+      .progress-circular-value {
+        position: absolute;
+        top: 33%;
+        width: 100%;
+        text-align: center;
+        font-weight: 500;
+      }
+    }
+    .progress-content {
+      width: 90%;
+      &-type {
+        font-weight: 500;
+      }
+    }
+    .progress-name {
+      font-weight: 500;
+    }
+    .progress-progress {
+      &-value {
+        font-size: 1.3rem;
+      }
+    }
+    .progress-expand {
+      width: 10%;
+      &-button {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+    .progress-spinner {
+      margin: 0 auto;
+      margin-top: 1rem;
+    }
+    .progress-children {
+      margin-top: 1rem;
+      .progress {
+        margin-top: 1rem;
+      }
+      .progress-children-container {
+        padding-left: $size-l;
+        padding-bottom: $size-l;
+      }
+    }
+  }
+.tile-card{
+  width:20%;
+   @include breakpoint-xs {
+      width: 85%;
+      margin: $size-s;
+    }
+
+    @include breakpoint-s {
+      width: 45%;
+      margin: $size-s;
+    }
+    @include breakpoint-m {
+      width: 30%;
+      margin: $size-s;
+    }
+}

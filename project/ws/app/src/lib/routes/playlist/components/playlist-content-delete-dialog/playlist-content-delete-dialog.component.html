@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>
+  <ng-container i18n>Are you sure you want to remove </ng-container>
+  <strong>"{{ playlistTitle }}"</strong>?
+</h2>
+<mat-dialog-actions class="flex-row-reverse">
+  <button name="cancel-button-playlist-content-delete" class="margin-left-xs" mat-button
+    (click)="dialogRef.close(false)" mat-dialog-close i18n>
+    Cancel
+  </button>
+  <button name="yes-button-playlist-content-delete" mat-raised-button color="primary" (click)="dialogRef.close(true)"
+    i18n>Yes</button>
+</mat-dialog-actions>

@@ -1,0 +1,36 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+
+  <span i18n class="margin-left-xs">My Blogs</span>
+  <span class="spacer"></span>
+  <a [routerLink]="'/app/social/blogs/edit'" mat-raised-button i18n>Write a Blog</a>
+</mat-toolbar>
+
+<div class="my-blogs-container">
+  <mat-tab-group
+    dynamicHeight="true"
+    [color]="'accent'"
+    [selectedIndex]="activeTabIndex"
+    (selectedIndexChange)="updateActiveTab($event)"
+  >
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <ng-container 18n>Drafts</ng-container>
+      </ng-template>
+      <ng-template matTabContent>
+        <ws-app-blog-result
+          [blogMode]="'edit'"
+          [postRequest]="myDraftsRequest"
+        ></ws-app-blog-result>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <ng-container 18n>Published</ng-container>
+      </ng-template>
+      <ng-template matTabContent>
+        <ws-app-blog-result [postRequest]="myTimelineRequest"></ws-app-blog-result>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

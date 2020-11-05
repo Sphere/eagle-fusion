@@ -1,0 +1,51 @@
+<div #parent class="relative" (mouseenter)="parent.hover = true" (mouseleave)="parent.hover = false"
+  class="flex flex-wrap parentClass px-6 pb-12" *ngFor="let row of processedWidgets; let i = index"
+  (mouseenter)="parent.hover = true" (mouseleave)="parent.hover = false" [ngClass]="containerClass"
+  (drop)="drop_handler($event, i)" (dragover)="dragover_handler($event, i)">
+  <div #child (mouseenter)="child.hover = true" (mouseleave)="child.hover = false" class="box relative"
+    *ngFor="let col of row" [ngClass]="col.className" [ngStyle]="col?.styles">
+    <div *ngIf="!col.isEmpty" [hidden]="!child.hover" class="inline-flex editIcon">
+      <button (click)="triggerDelete(col.id)" i18n-matTooltip class="editorBtn ws-mat-accent-background"
+        matTooltip="Delete">
+        <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Delete icon">close</mat-icon>
+      </button>
+      <button (click)="triggerEdit(col.id)" i18n-matTooltip class="editorBtn ws-mat-primary-background"
+        matTooltip="Edit">
+        <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Edit icon">edit</mat-icon>
+      </button>
+      <button *ngIf="row.length > 1" i18n-matTooltip class="editorBtn ws-mat-primary-background" matTooltip="Move Left"
+        (click)="swapPosition('moveLeft', col.id)">
+        <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Move Left icon">keyboard_arrow_left
+        </mat-icon>
+      </button>
+      <button (click)="swapPosition('moveRight', col.id)" *ngIf="row.length > 1" i18n-matTooltip
+        class="editorBtn ws-mat-primary-background" matTooltip="Move Right">
+        <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Move Right icon">keyboard_arrow_right
+        </mat-icon>
+      </button>
+    </div>
+    <ws-auth-viewer-v2 [id]="col.id"></ws-auth-viewer-v2>
+  </div>
+  <div [hidden]="!parent.hover" class="inline-flex flex-col rowIcon">
+    <button i18n-matTooltip (click)="triggerDelete(i)" class="editorBtn ws-mat-accent-background" matTooltip="Delete">
+      <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Delete icon">close</mat-icon>
+    </button>
+    <button *ngIf="processedWidgets.length > 1" i18n-matTooltip (click)="swapPosition('moveTop', i)"
+      class="editorBtn ws-mat-primary-background" matTooltip="Move Up">
+      <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Move Top icon">keyboard_arrow_up</mat-icon>
+    </button>
+    <button *ngIf="processedWidgets.length > 1" i18n-matTooltip (click)="swapPosition('moveBottom', i)"
+      class="editorBtn ws-mat-primary-background" matTooltip="Move Down">
+      <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Move Bottom icon">keyboard_arrow_down
+      </mat-icon>
+    </button>
+    <button *ngIf="processedWidgets.length > 1" i18n-matTooltip (click)="addRow(i + 1)"
+      class="editorBtn ws-mat-primary-background" matTooltip="Insert new Row">
+      <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Copy icon">add_box</mat-icon>
+    </button>
+  </div>
+</div>
+<button mat-icon-button class=" mat-elevation-z5 ws-mat-accent-background small-button padding-remove  margin-top-m"
+  i18n-matTooltip matTooltip="Add a new row" (click)="addRow()">
+  <mat-icon class="text-white small-icon">add</mat-icon>
+</button>

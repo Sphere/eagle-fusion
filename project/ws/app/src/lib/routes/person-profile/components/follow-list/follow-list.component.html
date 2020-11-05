@@ -1,0 +1,41 @@
+<div class="flex flex-wrap badgesearned mt-4">
+  <ng-container>
+    <ng-container>
+      <mat-card class="flex-middle followcard mat-elevation-z0 padding-remove text-center w-full">
+        <mat-card-content>
+          <ng-container>
+            <div class="pt-4 text-center"
+              *ngIf="followerCurrentDisplay.length === 0 && followersFetchStatus === 'fetching'">
+              <p class="font-family fetching" i18n>Fetching followers ...</p>
+            </div>
+            <div class="pt-4 text-center" *ngIf="followerCurrentDisplay?.length === 0 ">
+              <p class="fetching font-family" i18n>No followers</p>
+            </div>
+            <div class="pt-4 text-center" *ngIf="followersFetchStatus === 'error'">
+              <p class="mat-error" i18n>Failed to fetch followers.</p>
+            </div>
+            <ws-app-view-followperson *ngFor="let person of followerCurrentDisplay" [wid]="person.identifier"
+              [name]="person.name" [userFollows]="person.identifier === currentUserId ? true : false">
+            </ws-app-view-followperson>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+    <ng-container>
+      <div class="flex flex-1 flex-end p-1" *ngIf="followers?.length > pageDisplaySize">
+        <button mat-icon-button *ngIf="!previousFollowersDisable"
+          class="navigationbutton ws-mat-primary-lite-background-important"
+          [ngClass]="{'disable':previousFollowersDisable}" (click)="fetchPreviousFollowers()">
+          <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':previousFollowersDisable}">navigate_before
+          </mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="!nextFollowersDisable"
+          class="navigationbutton ws-mat-primary-lite-background-important" [ngClass]="{'disable':nextFollowersDisable}"
+          (click)="fetchNextFollowers()">
+          <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':nextFollowersDisable}">
+            navigate_next</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

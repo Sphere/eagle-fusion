@@ -1,0 +1,82 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+.small-screen-width{
+  @include breakpoint-xs {
+    width: 100%;
+
+  }
+}
+.tnc-container {
+  padding: $size-l;
+  margin: auto;box-sizing: border-box;
+    overflow: auto;
+    max-height: 70%;
+    min-height: 65%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-bottom: 40px;
+    border: 0.5px groove;
+    border-radius: 4px;
+  @include breakpoint-xs {
+    margin:  8px;
+    padding: 4px;
+
+  }
+  @include breakpoint-gt-xs {
+    max-width: 90%;
+  }
+  @include breakpoint-gt-s {
+    max-width: 80%;
+  }
+  @include breakpoint-gt-m {
+    max-width: 1024px;
+  }
+}
+
+.accept-btn-icon {
+  margin-right: $size-s;
+}
+
+.tnc-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-top: 16px;;
+}
+
+
+%flag-icon {
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.flag-icon-en{
+    background:url('/assets/common/flags/en.png');
+  @extend %flag-icon;
+  }
+.flag-icon-de{
+  @extend %flag-icon;
+    background:url('/assets/common/flags/de.png');
+  }.flag-icon-ar{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/ar.png');
+  }.flag-icon-fr-ca{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/fr.png');
+  }.flag-icon-zh-cn{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/zh.png');
+  }.flag-icon-fr{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/fr.png');
+  }.flag-icon-nl{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/nl.png');
+  }.flag-icon-ja{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/ja.png');
+  }.flag-icon-es{
+    @extend %flag-icon;
+    background:url('/assets/common/flags/es.png');
+  }

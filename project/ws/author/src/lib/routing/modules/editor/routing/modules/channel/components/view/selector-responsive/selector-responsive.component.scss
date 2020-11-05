@@ -1,0 +1,20 @@
+.small-button {
+  height: 28px;
+  width: 28px;
+  transition: 0.2s;
+}
+
+.small-icon {
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.2s;
+}
+
+.changeButton {
+  float: right;
+}

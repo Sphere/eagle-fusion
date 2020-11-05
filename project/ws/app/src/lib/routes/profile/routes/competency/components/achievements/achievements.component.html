@@ -1,0 +1,72 @@
+<div *ngIf="apiFetchStatus === 'fetching'" class="padding-top-l flex flex-center">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- <mat-card class="assessment-add-more mat-elevation-z4 text-center">
+    <a class="w-full" [routerLink]="redirectUrl.path" [queryParams]="redirectUrl.qParams">
+      <mat-card-title>
+        <mat-icon class="assessment-icon">add_circle_outline</mat-icon>
+      </mat-card-title>
+      <mat-card-content>
+        <h3 class="mat-title font-bold">
+          <span i18n>Take</span> {{ achievementType }}
+        </h3>
+      </mat-card-content>
+    </a>
+  </mat-card> -->
+<div *ngIf="apiFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
+  <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+    We are gathering the data to provide insights!
+  </h2>
+</div>
+<div *ngIf="apiFetchStatus === 'done'" class="p-4 assessment block">
+  <ng-container *ngIf="assessmentsList?.length === 0">
+    <div class="margin-xl">
+      <h2 class="flex flex-canter flex-middle coming-soon-msg p-4 flex ws-mat-primary-text">
+        <span i18n>You have not completed any </span>
+        <span class="margin-left-xs">{{ achievementType }}.</span>
+        <span class="margin-left-xs" i18n>Please completed one to view it here...</span>
+      </h2>
+    </div>
+  </ng-container>
+  <div *ngIf="assessmentsList.length" class="flex flex-center flex-around flex-wrapped">
+    <mat-card [ngClass]="{
+        'border-bottom-success': assessment.isPassed,
+        'border-bottom-fail': !assessment.isPassed
+      }" class="assessment-add-card mat-elevation-z4" *ngFor="let assessment of assessmentsList">
+      <img alt="image whether qualified" *ngIf="assessment.isPassed" i18n-alt="image whether qualified"
+        src="\assets\images\profile\Passed.svg" />
+      <img alt="image whether qualified" *ngIf="!assessment.isPassed" i18n-alt="image whether qualified"
+        src="\assets\images\profile\Failed.svg" />
+
+      <mat-card-title class="flex p-6 pb-0">
+        <mat-icon class="assessment-icon" *ngIf="achievementType === 'certificate'">card_membership</mat-icon>
+        <mat-icon class="assessment-icon" *ngIf="achievementType === 'assessment'">assignment</mat-icon>
+
+        <h3 class="mat-title font-bold title-text pl-4">
+          {{ assessment.title }}
+        </h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="flex flex-middle flex-center">
+          <mat-icon>emoji_events</mat-icon>
+          <ng-container class="padding-left-xs ws-mat-green-text font-bold" *ngIf="assessment.isPassed">
+            <span i18n>SCORE : </span> {{ assessment.score }}</ng-container>
+          <ng-container class="padding-left-xs ws-mat-red-text font-bold" *ngIf="!assessment.isPassed">
+            <span i18n>SCORE : </span> {{ assessment.score }}</ng-container>
+        </div>
+        <div class="pb-6 text-center">
+          <span i18n>Percentile : </span> {{ assessment.percentile }}</div>
+        <mat-divider></mat-divider>
+        <div class="flex pl-4 justify-between">
+          <div class="flex flex-middle">{{ assessment.date | date }}</div>
+          <!-- <a mat-button class="pr-0" i18n [routerLink]="'/app/profile/competency/' + achievementType + '/details'"
+            [queryParams]="{ id: assessment.id, type: achievementType }">
+            <span class="mat-subheading-1 ws-mat-primary-text font-bold">KNOW MORE</span>
+            <mat-icon color="primary" class="font-bold">play_arrow</mat-icon>
+          </a> -->
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

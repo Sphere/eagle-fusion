@@ -1,0 +1,17 @@
+.status {
+  display: inline-block;
+  &.error {
+    padding-left: 10px;
+    border-left: 5px solid orangered;
+    color: red;
+  }
+  &.warning {
+    padding-left: 10px;
+    border-left: 5px solid orange;
+    color: orange;
+  }
+  &.success {
+    padding-left: 10px;
+    border-left: 5px solid green;
+  }
+}

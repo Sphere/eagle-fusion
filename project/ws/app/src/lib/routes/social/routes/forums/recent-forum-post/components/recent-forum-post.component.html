@@ -1,0 +1,23 @@
+<div class="w-5/5 ">
+  <div style="padding-bottom: 0.5rem;margin-bottom:1%" *ngFor="let result of timelineData?.result">
+    <ws-app-forum-card [post]=result></ws-app-forum-card>
+  </div>
+  <!-- <div
+      class=" h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center
+                overflow-hidden" style="background-image: url('https://tailwindcss.com/img/card-left.jpg')"
+                title="Woman holding a mug">
+            </div> -->
+  <!-- pre-existing components-->
+  <h2 class="text-center margin-top-m" i18n *ngIf="timelineFetchStatus === 'none'">
+    There are no forum posts present
+  </h2>
+  <div *ngIf="timelineFetchStatus === 'fetching'" class="text-center margin-top-s">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="timelineFetchStatus === 'hasMore'" class="text-center">
+    <button (click)="fetchTimelineData('subsequentCall')" type="button" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>&nbsp;
+      <ng-container>View More</ng-container>
+    </button>
+  </div>
+</div>

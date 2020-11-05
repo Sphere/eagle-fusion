@@ -1,0 +1,30 @@
+<ws-utils-horizontal-scroller *ngIf="audioData" [loadStatus]="'done'">
+  <div class="py-4" *ngFor="let aud of audioData, let i = index">
+    <mat-card class="card-container" (mouseenter)="showStatusForCard=i" (mouseleave)="showStatusForCard = isAudioPlaying? showStatusForCard : null">
+      <button class="delete-button" (click)="deleteAudio(i)" mat-icon-button aria-label="delete this audio" matTooltip="Delete audio"
+        i18n-aria-label i18n-matTooltip>
+        <mat-icon>close</mat-icon>
+      </button>
+      <div>
+        <div class="flex items-center w-full justify-start">
+          <mat-icon class="ws-mat-primary-text pb-2 large-icon">music_note</mat-icon>
+          <span>{{aud.label}}</span>
+        </div>
+        <div class="flex flex-col items-center justify-center pt-2" [ngClass]="{'opacity-50':!(showStatusForCard === i)}">
+          <div class="icon-container ws-mat-primary-background-op30" (click)="audioControl(aud.srclang)">
+            <mat-icon class="cursor-pointer" *ngIf="!isAudioPlaying" aria-label="play this audio" i18n-aria-label>
+              play_arrow
+            </mat-icon>
+            <mat-icon class="cursor-pointer" *ngIf="isAudioPlaying" aria-label="stop playing the audio" i18n-aria-label>
+              stop
+            </mat-icon>
+          </div>
+          <span class="m-1 cursor-pointer" i18n *ngIf="!isAudioPlaying" (click)="audioControl( aud.srclang)">Play</span>
+          <span class="m-1 cursor-pointer" i18n *ngIf="isAudioPlaying" (click)="audioControl(aud.srclang)">Stop</span>
+          <!-- <span class="" *ngIf="aud.duration">{{aud.duration}}</span> -->
+        </div>
+      </div>
+      <audio class="hidden" controlsList="nodownload" [id]="aud.srclang" [src]="aud.URL"></audio>
+    </mat-card>
+  </div>
+</ws-utils-horizontal-scroller>

@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Send Mail</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>{{ data.content.name }}</mat-label>
+    <textarea matInput i18n-placeholder placeholder="I need your help in 'Elaborate your query'" #mailBody
+      rows="5"></textarea>
+  </mat-form-field>
+  <div class="mat-caption" *ngIf="sendStatus === 'INVALID_ID'" i18n>
+    Invalid Ids. Failed to send mail.
+  </div>
+  <div class="text-center" *ngIf="mailSendInProgress">
+    <mat-spinner class="spinner"></mat-spinner>
+  </div>
+</div>
+<div mat-dialog-actions class="flex-row-reverse">
+  <button mat-raised-button [disabled]="mailSendInProgress || !mailBody.value" [color]="'primary'"
+    (click)="send(mailBody.value, successToast.value, errorToast.value, invalidIdToast.value)" i18n-aria-label
+    aria-label="Send Your Query" i18n>
+    Send Mail
+  </button>
+</div>
+<input type="hidden" i18n-value value="Mail Sent" #successToast />
+<input type="hidden" i18n-value value="Invalid id. Unable to send mail." #invalidIdToast />
+<input type="hidden" i18n-value value="Unable to share mail. Please try again" #errorToast />

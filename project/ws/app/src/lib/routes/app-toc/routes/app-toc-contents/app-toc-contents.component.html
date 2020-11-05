@@ -1,0 +1,87 @@
+<div class="contents-container">
+  <div class="main-container">
+    <ng-container *ngIf="content?.children?.length; else noChildren">
+      <div class="toc-section">
+        <h2 class="margin-remove">Table of contents {{contentType}}</h2>
+        <button type="button" *ngIf="!contextPath || contextPath !== 'Collection' &&  content?.children[0]?.category === 'Collection'" color="primary"
+          (click)="expandAll = !expandAll" mat-button>
+          <ng-container *ngIf="!expandAll" i18n>Expand All</ng-container>
+          <ng-container *ngIf="expandAll" i18n>Collapse All</ng-container>
+        </button>
+      </div>
+      <div class="content-card" *ngFor="let card of content?.children; trackBy: contentTrackBy">
+        <ws-app-toc-content-card [forPreview]="forPreview" [expandAll]="expandAll" [rootId]="contextId"
+          [rootContentType]="contextPath" [content]="card"></ws-app-toc-content-card>
+      </div>
+    </ng-container>
+    <ng-template #noChildren>
+      <div *ngIf="!isPlayable"
+        class="ws-mat-primary-default-text ws-mat-primary-lite-background px-6 py-8 font-normal text-base" i18n>
+        The preview for this type of content is unavailable. Please click on Start button above to view.
+      </div>
+      <ng-container *ngIf="isPlayable" [wsResolverWidget]="contentPlayWidgetConfig"></ng-container>
+    </ng-template>
+  </div>
+  <!-- <div class="side-container">
+    Part Of
+    <div class="margin-bottom-l" *ngIf="contentParents?.length">
+      <h2 class="margin-remove" i18n>This content is also part of</h2>
+      <mat-nav-list>
+        <a
+          [routerLink]="'../../' + parent?.identifier + '/overview'"
+          mat-list-item
+          *ngFor="
+            let parent of contentParents | pipeLimitTo: (expandPartOf ? contentParents?.length : 3);
+            trackBy: contentTrackBy
+          "
+        >
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <h4 matLine>{{ parent?.name }}</h4>
+          <p matLine>{{ parent?.displayContentType }}</p>
+        </a>
+        <div *ngIf="contentParents?.length > 3" class="text-right">
+          <button type="button" mat-button color="primary" (click)="expandPartOf = !expandPartOf">
+            <ng-container *ngIf="!expandPartOf">
+              <ng-container i18n>View </ng-container>
+              <ng-container>{{ contentParents?.length - 3 }}</ng-container>
+              <ng-container i18n> More</ng-container>
+            </ng-container>
+            <ng-container *ngIf="expandPartOf" i18n>View Less</ng-container>
+          </button>
+        </div>
+      </mat-nav-list>
+    </div> -->
+  <!-- Playground resources -->
+  <!-- <div class="playgrounds-container" *ngIf="content?.playgroundResources?.length">
+      <h2 i18n>Playgrounds</h2>
+      <ws-utils-horizontal-scroller [loadStatus]="'done'">
+        <div
+          *ngFor="let playground of content?.playgroundResources; trackBy: contentTrackBy"
+          class="plg-card mat-elevation-z3"
+        >
+          <img
+            class="plg-img ws-mat-primary-lite-background"
+            i18n-alt
+            alt="playground"
+            [src]="playground?.appIcon"
+            [wsUtilsDefaultThumbnail]="defaultThumbnail"
+          />
+          <div class="plg-overlay">
+            <h3 class="margin-remove">
+              <a [routerLink]="resourceLink(playground).url">
+                {{ playground.name | pipeLimitTo: 50 }}
+              </a>
+            </h3>
+            <ws-widget-btn-content-like
+              [widgetData]="playground | pipePartialContent: ['identifier']"
+            >
+            </ws-widget-btn-content-like>
+            <ws-widget-btn-content-share></ws-widget-btn-content-share>
+            <ws-widget-btn-goals></ws-widget-btn-goals>
+            <ws-widget-btn-playlist></ws-widget-btn-playlist>
+          </div>
+        </div>
+      </ws-utils-horizontal-scroller>
+    </div> -->
+  <!-- </div> -->
+</div>

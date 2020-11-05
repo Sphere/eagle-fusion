@@ -1,0 +1,13 @@
+<button
+  name="discussion-forum-delete-button"
+  type="button"
+  *ngIf="postId"
+  (click)="confirmDelete()"
+  mat-icon-button
+  i18n-aria-label
+  aria-label="Delete Post"
+  i18n-matTooltip
+  matTooltip="Delete"
+>
+  <mat-icon>delete</mat-icon>
+</button>

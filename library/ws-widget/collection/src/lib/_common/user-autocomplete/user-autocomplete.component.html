@@ -1,0 +1,39 @@
+<mat-form-field class="w-full">
+  <mat-chip-list #chipList>
+    <mat-chip *ngFor="let selectedUser of selectedUsers" [selectable]="true" [removable]="true"
+      (removed)="removeUser(selectedUser)">
+      {{ selectedUser.first_name }} {{ selectedUser.last_name }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+    <input i18n-placeholder placeholder="Search users" #userInputForm [formControl]="userFormControl"
+      [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption class="ws-widget-user-autocomplete"
+    (optionSelected)="selectUser($event, duplicate.value, selfShareError.value)">
+    <mat-option *ngIf="fetchTagsStatus === 'fetching'" i18n>Fetching users...</mat-option>
+    <mat-option *ngIf="
+        (fetchTagsStatus === 'done' || fetchTagsStatus === 'error') && !autocompleteAllUsers.length
+      " i18n>
+      No user found. Please check the value entered.</mat-option>
+    <mat-option *ngFor="let autocompleteUser of autocompleteAllUsers" [value]="autocompleteUser">
+      <div class="flex items-center">
+        <ws-widget-user-image class="user-image" [email]="autocompleteUser.email"
+          [userName]="autocompleteUser.first_name + ' ' + autocompleteUser.last_name" [imageType]="'name-initial'">
+        </ws-widget-user-image>
+        <div class="ml-3 width-expand">
+          <div>{{ autocompleteUser.first_name }} {{ autocompleteUser.last_name }}</div>
+          <div class="mat-caption text-truncate">
+            {{ autocompleteUser.email }}
+            <ng-container *ngIf="autocompleteUser.department_name">
+              ,
+            </ng-container>
+            {{ autocompleteUser.department_name }}
+          </div>
+        </div>
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<input type="hidden" i18n-value value="User already added" #duplicate />
+<input type="hidden" i18n-value value="Please select a user other than yourself." #selfShareError />

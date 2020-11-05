@@ -1,0 +1,20 @@
+{
+  "extends": "../../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "lib",
+      "camelCase",
+      "ws-app",
+      "wsApp"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "ws-app",
+      "kebab-case",
+      "lib"
+    ]
+  }
+}

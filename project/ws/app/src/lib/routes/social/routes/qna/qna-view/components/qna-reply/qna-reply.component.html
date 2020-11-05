@@ -1,0 +1,178 @@
+<div class="card-view" *ngIf="item">
+  <div class="flex">
+    <div class="icon-section">
+      <ws-widget-btn-social-vote
+        class="block"
+        [voteType]="'upVote'"
+        [postId]="item.id"
+        [activity]="item.activity"
+        [iconType]="'triangle'"
+        [postCreatorId]="item?.postCreator?.postCreatorId"
+      ></ws-widget-btn-social-vote>
+      <div class="vote-count">
+        {{ item.activity.activityData.upVote - item.activity.activityData.downVote }}
+      </div>
+      <ws-widget-btn-social-vote
+        class="block"
+        [voteType]="'downVote'"
+        [postId]="item.id"
+        [activity]="item.activity"
+        [iconType]="'triangle'"
+        [postCreatorId]="item?.postCreator?.postCreatorId"
+      ></ws-widget-btn-social-vote>
+      <button
+        i18n-matTooltip
+        matTooltip="Accept answer"
+        class="margin-top-s"
+        type="button"
+        mat-icon-button
+        *ngIf="
+          !isAcceptedAnswer &&
+          userId === parentPostCreatorId &&
+          this.userId !== this.item.postCreator.postCreatorId
+        "
+        (click)="acceptAnswer(acceptAnswerMsg.value)"
+      >
+        <mat-icon *ngIf="!isAcceptingAnswerInProgress" [ngClass]="{ isAccepted: isAcceptedAnswer }"
+          >check</mat-icon
+        >
+        <mat-icon *ngIf="isAcceptingAnswerInProgress">hourglass_empty</mat-icon>
+      </button>
+      <mat-icon *ngIf="isAcceptedAnswer" class="isAccepted">check</mat-icon>
+      <ws-widget-btn-social-like
+        *ngIf="showSocialLike"
+        class="block flex-middle margin-top-xs"
+        [postCreatorId]="item?.postCreator?.postCreatorId"
+        [postId]="item.id"
+        [activity]="item.activity"
+      >
+      </ws-widget-btn-social-like>
+    </div>
+    <div class="body-section width-expand">
+      <div
+        *ngIf="!editMode"
+        class="margin-bottom-s"
+        [innerHtml]="item.postContent.body | pipeSafeSanitizer: 'html'"
+      ></div>
+      <div *ngIf="editMode" class="margin-top-s margin-bottom-s padding-s ws-mat-primary-border">
+        <ws-widget-editor-quill
+          [minLength]="'20'"
+          [htmlText]="item.postContent?.body"
+          (textData)="onTextChange($event)"
+        >
+        </ws-widget-editor-quill>
+        <div class="text-right">
+          <button
+            type="button"
+            class="margin-top-s"
+            [disabled]="!replyPostEnabled"
+            mat-raised-button
+            color="primary"
+            i18n
+            (click)="editReply(editFailMsg.value)"
+          >
+            Update
+          </button>
+          <button
+            type="button"
+            class="margin-top-s margin-left-s"
+            mat-stroked-button
+            color="primary"
+            i18n
+            (click)="editMode = false"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+      <mat-chip-list>
+        <mat-chip *ngFor="let tag of item.tags" i18n-matTooltip matTooltip="Associated Tag"
+          >{{ tag.name }}
+        </mat-chip>
+      </mat-chip-list>
+      <div class="flex flex-between margin-top-xs">
+        <div class="ws-mat-primary-text">
+          <ng-container *ngIf="userId === item?.postCreator?.postCreatorId">
+            <a role="button" class="cursor-pointer" i18n (click)="editMode = true">edit</a
+            >&nbsp;&nbsp;
+            <a role="button" class="cursor-pointer" i18n (click)="deleteReply(deleteFailMsg.value)"
+              >delete</a
+            >
+          </ng-container>
+        </div>
+        <div class="user-details">
+          <div class="created-details">
+            <span class="ws-mat-primary-text">
+              {{ item.postCreator.name }}
+            </span>
+            <div class="mat-caption">
+              <span>{{ item.dtCreated | date }}</span>
+              <ng-container i18n> at </ng-container>
+              <span>{{ item.dtCreated | date: 'shortTime' }}</span>
+            </div>
+          </div>
+          <ws-widget-user-image
+            class="user-profile-image"
+            [email]="item.postCreator.emailId"
+          ></ws-widget-user-image>
+        </div>
+      </div>
+      <div class="comment-container" *ngIf="commentData?.replyPost?.length">
+        <div class="comment" *ngFor="let comment of commentData?.replyPost">
+          <div>
+            {{ comment.postContent.body }}
+            <span class="ws-mat-primary-text"> - {{ comment.postCreator.name }} </span>
+            <span class="mat-caption"> {{ comment.dtCreated | date }}</span>
+            <span class="mat-caption" i18n> at</span>
+            <span class="mat-caption"> {{ comment.dtCreated | date: 'shortTime' }}</span>
+          </div>
+        </div>
+        <div class="text-right" *ngIf="commentData?.postCount > 0">
+          <button
+            type="button"
+            [disabled]="commentFetchStatus === 'fetching'"
+            (click)="fetchQuestionComments()"
+            mat-button
+            color="primary"
+            i18n
+          >
+            Load More Comments
+          </button>
+        </div>
+      </div>
+      <div
+        class="text-center margin-top-s"
+        *ngIf="commentFetchStatus === 'fetching' || isPostingComment"
+      >
+        <mat-spinner [diameter]="30" [strokeWidth]="3"></mat-spinner>
+      </div>
+      <form class="comment-form">
+        <mat-form-field class="width-1-1">
+          <input
+            matInput
+            placeholder="Add a comment"
+            value="commentAddRequest.postContent.body"
+            type="text"
+            name="comment"
+            [(ngModel)]="commentAddRequest.postContent.body"
+          />
+        </mat-form-field>
+        <button
+          mat-stroked-button
+          [disabled]="!commentAddRequest.postContent.body.length || isPostingComment"
+          color="primary"
+          class="margin-left-s"
+          i18n="Post comment of question"
+          (click)="postComment()"
+          i18n
+        >
+          Post
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" i18n-value value="You cannot accept your own answer" #acceptAnswerMsg />
+<input type="hidden" i8n-value value="Something went wrong! Unable to delete." #deleteFailMsg />
+<input type="hidden" i8n-value value="Something went wrong! Unable to post." #editFailMsg />

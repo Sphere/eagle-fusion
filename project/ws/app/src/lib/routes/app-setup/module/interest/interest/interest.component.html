@@ -1,0 +1,56 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="position-relative small-height-toolbar">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <div class="center-align" i18n>What do you want to learn?</div>
+</mat-toolbar>
+<div class="m-4">
+  <div i18n>Select the topics you are interested in and pick content that suits you.</div>
+
+  <ws-utils-horizontal-scroller class="block pt-4 mx-4" *ngIf="interestsData?.length" [loadStatus]="'done'"
+    [onHover]='true'>
+    <div class="concept mat-subheading-1 padding-bottom-xs"
+      [ngClass]="{ 'ws-mat-primary-border-bottom-bolder': i === selectedContent  , 'ws-mat-primary-text':isInterestAdded(concept)}"
+      (click)=" selectInterest(i)" *ngFor="let concept of interestsData ; index as i">
+      <ng-container>{{ concept }}</ng-container>
+
+      <mat-icon class="item-icon" [ngClass]="isInterestAdded(concept) ? 'show' : 'hide'">done</mat-icon>
+    </div>
+  </ws-utils-horizontal-scroller>
+  <div *ngIf="fetchStatus === 'fetching'" class="margin-top-s text-center">
+    <mat-spinner class="display-inline-block" [diameter]="30" [strokeWidth]="3"></mat-spinner>
+    <div class="mat-caption" class="margin-top-xs" i18n>Fetching interests</div>
+  </div>
+  <div *ngIf="fetchStatus === 'error'" class="margin-top-s text-center">
+    <div class="mat-caption" class="margin-top-xs" i18n>Error while fetching interests</div>
+  </div>
+  <div class="flex-container" *ngIf="fetchStatus === 'done' && interestContent.length">
+    <div *ngFor="let content of interestContent" class="flex">
+
+      <mat-card class="card-container">
+        <mat-checkbox [checked]="addedInterest?.has(content?.identifier)"
+          (change)="interestAdd(content?.identifier, $event.checked)" class="status-danger">
+        </mat-checkbox>
+
+        <div class="display-contents">
+          <img mat-card-image [src]="content.appIcon" class="card-img ws-mat-primary-lite-background"
+            [alt]="content.name" [title]="content.name" />
+        </div>
+        <mat-card-content>
+          <div class="ws-mat-primary-text mat-subheading-2">
+            {{ content.name }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+
+    </div>
+
+  </div>
+
+  <button class="tnc-bottom-navbar" color="primary" (click)="addInterest()" mat-raised-button i18n>
+    Done
+  </button>
+
+</div>
+
+<input #createPlaylistSuccess type="hidden" i18n-value value="Contents are successfully added" />
+<input #createPlaylistError type="hidden" i18n-value value="Error creating playlist" />

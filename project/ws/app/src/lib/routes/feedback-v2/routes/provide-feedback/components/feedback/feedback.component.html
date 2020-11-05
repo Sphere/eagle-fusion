@@ -1,0 +1,93 @@
+<section class="container-balanced mat-toolbar p-4 rounded ">
+  <ng-container [ngTemplateOutlet]="sentimentForm"
+    *ngIf="!feedbackConfig || (feedbackConfig && feedbackConfig.feedbackSentimentMode)"></ng-container>
+
+  <ng-container [ngTemplateOutlet]="singleInputForm" *ngIf="feedbackConfig && !feedbackConfig.feedbackSentimentMode">
+  </ng-container>
+</section>
+
+<!-- Templates -->
+<ng-template #sentimentForm>
+  <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+    <section class="w-full mb-8">
+      <h3 class="mat-h3" i18n>What was helpful?</h3>
+      <div class="mat-body">
+        <mat-form-field class="w-full">
+          <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+            formControlName="positive" placeholder="Type your feedback here" i18n-placeholder></textarea>
+          <mat-hint i18n>
+            Limit to 2000 characters.
+          </mat-hint>
+          <mat-error i18n>
+            You have exceeded 2000 characters.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <section class="w-full">
+      <section>
+        <h3 class="mat-h3" i18n>What can be improved?</h3>
+        <div class="mat-body">
+          <mat-form-field class="w-full">
+            <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+              formControlName="negative" placeholder="Type your feedback here" i18n-placeholder></textarea>
+            <mat-hint i18n>
+              Limit to 2000 characters.
+            </mat-hint>
+            <mat-error i18n>
+              You have exceeded 2000 characters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+    </section>
+    <div class="mt-4 flex justify-end">
+      <div class="mr-2">
+        <mat-progress-spinner [color]="'primary'" [diameter]="40" [strokeWidth]="4" [mode]="'indeterminate'" *ngIf="
+            positiveFeedbackSendStatus === 'sending' || negativeFeedbackSendStatus === 'sending'
+          "></mat-progress-spinner>
+      </div>
+      <button mat-flat-button color="primary" type="submit" [disabled]="
+          feedbackForm.pristine ||
+          feedbackForm.invalid ||
+          positiveFeedbackSendStatus === 'sending' ||
+          negativeFeedbackSendStatus === 'sending'
+        ">
+        <ng-container i18n>Submit</ng-container>
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #singleInputForm>
+  <form [formGroup]="singleFeedbackForm" (ngSubmit)="submitSingleFeedback()">
+    <section class="w-full mb-8">
+      <div class="mat-body">
+        <mat-form-field class="w-full">
+          <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+            formControlName="feedback" placeholder="Type your feedback here" i18n-placeholder></textarea>
+          <mat-hint i18n>
+            Limit to 2000 characters.
+          </mat-hint>
+          <mat-error i18n>
+            You have exceeded 2000 characters.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+    <div class="mt-4 flex justify-end">
+      <div class="mr-2">
+        <mat-progress-spinner [color]="'primary'" [diameter]="40" [strokeWidth]="4" [mode]="'indeterminate'"
+          *ngIf="singleFeedbackSendStatus === 'sending'"></mat-progress-spinner>
+      </div>
+      <button mat-flat-button color="primary" type="submit" [disabled]="
+          singleFeedbackForm.pristine ||
+          singleFeedbackForm.invalid ||
+          singleFeedbackSendStatus === 'sending'
+        ">
+        <ng-container i18n>Submit</ng-container>
+      </button>
+    </div>
+  </form>
+</ng-template>

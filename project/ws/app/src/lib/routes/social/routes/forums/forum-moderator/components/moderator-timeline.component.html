@@ -1,0 +1,75 @@
+<div class="w-5/5">
+  <mat-list-item *ngFor="let result of timelineData?.result">
+    <mat-card style="padding-bottom: 0.5rem; margin-bottom: 1%;" *ngIf="!result.hidden">
+      <div class="margin-bottom-s">
+        <div class="flex">
+          <div class="h-auto" style="width: 91%;">
+            <mat-card-header>
+              <mat-card-title class="ws-mat-primary-text mat-h2 blog-title">{{ result.postContent.title }}
+              </mat-card-title>
+              <mat-card-subtitle class="mat-caption text-grey-darker text-base">
+                {{ result.postContent.abstract }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <div class="md:flex items-center" style="margin-bottom: 3%;">
+              <div class="flex md:flex-middle">
+                <mat-icon>person</mat-icon>
+                <div class="px-2">
+                  <span class="ws-mat-primary-text text-sm">
+                    {{ result.postCreator.name }}
+                  </span>
+                  <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+                    {{ result.dtLastModified | date }}
+                  </div>
+                </div>
+              </div>
+              <div class="flex md:flex-middle md:pl-10 md:pt-0 pt-2">
+                <mat-icon>supervisor_account</mat-icon>
+                <div class="px-2">
+                  <span class="ws-mat-primary-text text-sm">
+                    {{ result.source.forumName }}
+                  </span>
+                  <div i18n class="mat-caption">Forum</div>
+                </div>
+              </div>
+            </div>
+            <mat-card-content>
+              <p class="mat-caption" style="word-wrap: break-word;">
+                {{ result.postContent.body }}
+              </p>
+            </mat-card-content>
+          </div>
+        </div>
+        <div class="w-auto h-auto flex flex-end">
+          <div class="flex flex-between justify-center">
+            <div class="text-grey-darker text-center px-2">
+              <ws-app-btn-moderator [type]="'REJECT'" (customevent)="updateFromChild($event)"
+                (click)="rejectUpdate(result.id)" [postIdReceived]="result.id"></ws-app-btn-moderator>
+            </div>
+            <div class="text-grey-darker text-center px-2">
+              <ws-app-btn-moderator [type]="'ACCEPT'" (customevent)="updateFromChild($event)"
+                (click)="acceptUpdate(result.id)" [postIdReceived]="result.id"></ws-app-btn-moderator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </mat-list-item>
+
+  <!-- pre-existing components-->
+  <h2 class="text-center margin-top-m" i18n *ngIf="timelineFetchStatus === 'none'">
+    Nothing has been posted as of yet to moderate
+  </h2>
+  <div *ngIf="timelineFetchStatus === 'fetching'" class="text-center margin-top-s">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- <div *ngIf="timelineFetchStatus === 'hasMore'" class="text-center">
+    <button (click)="fetchTimelineData('subsequentCall')" type="button" mat-raised-button color="primary"> -->
+  <div *ngIf="timelineFetchStatus === 'hasMore'" class="text-center pt-2">
+    <button (click)="fetchTimelineData('subsequentCall')" type="button" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>&nbsp;
+      <ng-container>View More</ng-container>
+    </button>
+  </div>
+</div>

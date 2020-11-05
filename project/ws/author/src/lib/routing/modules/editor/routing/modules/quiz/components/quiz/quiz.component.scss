@@ -1,0 +1,161 @@
+.cursor-disable {
+  cursor: not-allowed !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 65%;
+}
+
+.margin-left {
+  margin-left: 120px;
+  @media only screen and(max-width: 930px) {
+    // margin-top: 24px;
+    margin-left: 80px;
+  }
+
+  @media only screen and(max-width: 824px) {
+    margin-left: 40px;
+  }
+
+  @media only screen and(max-width: 699px) {
+    padding-top: 24px;
+  }
+
+  @media only screen and(max-width: 585px) {
+    margin-left: 0px;
+  }
+}
+
+.stepper-container {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.stepper-grid {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.2fr auto 1fr;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.fullView {
+  height: 100vh;
+  overflow: hidden;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+}
+
+.close-preview {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 110px;
+  right: 0px;
+  z-index: 50;
+}
+
+.small-button {
+  height: 32px;
+  width: 32px;
+  transition: 0.5s;
+  margin-right: 4px;
+}
+
+.normal-button {
+  border-radius: 50%;
+  height: 40px;
+  display: flex;
+  width: 40px;
+  z-index: 3;
+  justify-content: center;
+}
+
+.button-grid{
+  display: grid;
+  width: 160px;
+  grid-template-columns: 0.2fr 0.95fr;
+}
+
+.button-text{
+      align-self: center;
+    padding-top: 17px;
+    padding-left: 4px;
+}
+
+.margin-right-xxs{
+  margin-right: 4px;
+}
+
+mat-sidenav-container{
+  overflow: inherit !important;
+  min-height: 500px;
+}
+
+mat-sidenav{
+  overflow: auto;
+  width: auto;
+  max-width: 240px;
+}
+
+.border-bottom{
+  border-bottom: 2px #005f87 solid;
+}
+
+.op60{
+  opacity: .3;
+  cursor: not-allowed;
+}
+
+.margin-left-s{
+  margin-left: 12px !important;
+}
+.margin-right-xs{
+  margin-right: 8px !important;
+}
+
+.bordered{
+  border: 2px solid #cecece
+}
+
+.small-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}
+.small-operators {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}

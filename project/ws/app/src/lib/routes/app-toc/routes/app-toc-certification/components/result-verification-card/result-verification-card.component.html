@@ -1,0 +1,244 @@
+<mat-card class="margin-top-m margin-bottom-m">
+  <mat-card-title>
+    <div class="flex flex-between">
+      <div i18n>Upload Result</div>
+      <div>
+        <mat-icon
+          [color]="'primary'"
+          *ngIf="
+            certification?.verification_request?.status === 'Submitted' ||
+            certification?.verification_request?.status === 'Recalled'
+          "
+        >
+          check_circle_outline
+        </mat-icon>
+        <mat-icon
+          [color]="'primary'"
+          *ngIf="certification?.verification_request?.status === 'Uploaded'"
+        >
+          save
+        </mat-icon>
+        <mat-icon
+          [color]="'primary'"
+          *ngIf="certification?.verification_request?.status === 'Approved'"
+        >
+          check_circle
+        </mat-icon>
+      </div>
+    </div>
+  </mat-card-title>
+  <mat-card-subtitle>
+    <ng-container *ngIf="!certification?.verification_request?.status" i18n>
+      Upload a certificate or result as proof of completion.
+    </ng-container>
+    <ng-container *ngIf="certification?.verification_request?.status === 'Uploaded'" i18n>
+      You have uploaded the result! Now submit it to the verifier.
+    </ng-container>
+    <ng-container *ngIf="certification?.verification_request?.status === 'Submitted'" i18n>
+      You have submitted the result to the verifier!
+    </ng-container>
+    <ng-container *ngIf="certification?.verification_request?.status === 'Approved'" i18n>
+      Your result has been verified!
+    </ng-container>
+  </mat-card-subtitle>
+  <mat-card-content class="flex flex-between">
+    <section>
+      <ng-container *ngIf="!certification?.verification_request?.status">
+        <p class="mat-body-2" i18n>What's required?</p>
+        <ul class="mat-caption margin-remove">
+          <li class="text-italic" i18n>
+            An electronic proof of the certification.
+          </li>
+        </ul>
+      </ng-container>
+
+      <ng-container *ngIf="certification?.verification_request?.status">
+        <section>
+          <div>
+            <span class="mat-body-2" i18n>Exam Date</span>
+            <span class="mat-body margin-left-xs">
+              {{ certification?.verification_request?.exam_date | pipeDateConcat }}
+            </span>
+          </div>
+          <div>
+            <span class="mat-body-2" i18n>Result</span>
+            <span class="mat-body margin-left-xs">{{
+              certification?.verification_request?.result
+            }}</span>
+          </div>
+          <div>
+            <span class="mat-body-2" i18n>Verifier</span>
+            <span class="mat-body margin-left-xs">{{
+              certification?.verification_request?.verifierEmail
+            }}</span>
+          </div>
+          <div>
+            <span class="mat-body-2" i18n>Status</span>
+            <span class="mat-body margin-left-xs">{{
+              certification?.verification_request?.status
+            }}</span>
+          </div>
+        </section>
+      </ng-container>
+    </section>
+    <section class="hidden sm:block">
+      <div class="flex flex-column">
+        <button
+          *ngIf="!certification?.verification_request?.status"
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 margin-bottom-xs"
+          [disabled]="downloadStatus === 'fetching'"
+          [routerLink]="['./resultUpload']"
+          i18n
+        >
+          Upload
+        </button>
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 margin-bottom-xs"
+          (click)="withdrawResult()"
+          [disabled]="resultWithdrawStatus === 'sending'"
+          *ngIf="certification?.verification_request?.status === 'Submitted'"
+        >
+          <ng-container *ngIf="resultWithdrawStatus !== 'sending'" i18n>Withdraw</ng-container>
+          <ng-container *ngIf="resultWithdrawStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Withdrawing...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner
+                  [color]="'primary'"
+                  [diameter]="16"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+        <button
+          *ngIf="
+            certification?.verification_request?.status === 'Uploaded' ||
+            certification?.verification_request?.status === 'Recalled' ||
+            certification?.verification_request?.status === 'Rejected'
+          "
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 margin-bottom-xs"
+          [disabled]="resultWithdrawStatus === 'sending'"
+          [routerLink]="['./resultUpload']"
+          i18n
+        >
+          Submit Result
+        </button>
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 margin-bottom-xs"
+          (click)="downloadProof()"
+          [disabled]="downloadStatus === 'fetching'"
+          *ngIf="
+            certification?.verification_request?.status === 'Uploaded' ||
+            certification?.verification_request?.status === 'Submitted' ||
+            certification?.verification_request?.status === 'Recalled'
+          "
+        >
+          <ng-container *ngIf="downloadStatus !== 'fetching'" i18n>Download</ng-container>
+          <ng-container *ngIf="downloadStatus === 'fetching'">
+            <div class="flex flex-between">
+              <div i18n>Downloading...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner
+                  [color]="'primary'"
+                  [diameter]="16"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+      </div>
+    </section>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <section class="sm:hidden">
+      <div class="flex flex-column">
+        <button
+          *ngIf="!certification?.verification_request?.status"
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 margin-bottom-xs"
+          [disabled]="downloadStatus === 'fetching'"
+          [routerLink]="['./resultUpload']"
+          i18n
+        >
+          Upload
+        </button>
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 margin-bottom-xs"
+          (click)="withdrawResult()"
+          [disabled]="resultWithdrawStatus === 'sending'"
+          *ngIf="certification?.verification_request?.status === 'Submitted'"
+        >
+          <ng-container *ngIf="resultWithdrawStatus !== 'sending'" i18n>Withdraw</ng-container>
+          <ng-container *ngIf="resultWithdrawStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Withdrawing...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner
+                  [color]="'primary'"
+                  [diameter]="16"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+        <button
+          *ngIf="
+            certification?.verification_request?.status === 'Uploaded' ||
+            certification?.verification_request?.status === 'Recalled' ||
+            certification?.verification_request?.status === 'Rejected'
+          "
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 hidden-gt-xs margin-bottom-xs"
+          [disabled]="resultWithdrawStatus === 'sending'"
+          [routerLink]="['./resultUpload']"
+          i18n
+        >
+          Submit Result
+        </button>
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          class="width-1-1 hidden-gt-xs margin-bottom-xs"
+          (click)="downloadProof()"
+          [disabled]="downloadStatus === 'fetching'"
+          *ngIf="
+            certification?.verification_request?.status === 'Uploaded' ||
+            certification?.verification_request?.status === 'Submitted' ||
+            certification?.verification_request?.status === 'Recalled'
+          "
+        >
+          <ng-container *ngIf="downloadStatus !== 'fetching'" i18n>Download</ng-container>
+          <ng-container *ngIf="downloadStatus === 'fetching'">
+            <div class="flex flex-between">
+              <div i18n>Downloading...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner
+                  [color]="'primary'"
+                  [diameter]="16"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+      </div>
+    </section>
+  </mat-card-actions>
+</mat-card>

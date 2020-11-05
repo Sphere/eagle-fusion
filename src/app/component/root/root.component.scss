@@ -1,0 +1,61 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+ws-app-nav-bar {
+  z-index: 1000;
+}
+
+.route-change {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+}
+
+.height-on-bottom {
+  overflow: auto;
+  // padding-bottom: 56px;
+  box-sizing: border-box;
+}
+
+.height-on-top {
+  padding-top: 72px;
+}
+
+.top-nav-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+.bottom-nav-bar {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.height-adjust {
+  min-height: calc(100vh - (56px + 52px));
+
+  @include breakpoint-xs {
+    min-height: calc(100vh - (56px + 72px));
+  }
+}
+
+.new-width {
+  margin-left: auto;
+  margin-right: auto;
+  // max-width: 1267px;
+  // display: flex;
+  flex: 1;
+}
+
+.app-footer {
+  display: block;
+  padding-bottom: 56px;
+
+  @include breakpoint-gt-xs {
+    padding: 0;
+  }
+}

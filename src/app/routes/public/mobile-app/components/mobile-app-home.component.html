@@ -1,0 +1,137 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Mobile Apps',url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n="page title: mobile apps" class="margin-left-xs">Mobile Apps</span>
+  </span> -->
+</mat-toolbar>
+<mat-card class="mobile-app-container">
+  <mat-tab-group *ngIf="mobileLinks" dynamicHeight mat-align-tabs="center" [selectedIndex]="selectedTabIndex">
+    <mat-tab fragment="android" *ngIf="isAndriod">
+      <ng-template mat-tab-label>
+        <span i18n="android tab" class="mat-body-2" accesskey="1">ANDROID</span>
+      </ng-template>
+      <ng-container *ngIf="mobileLinks?.appName && mobileLinks?.nameProvidedByClient">
+        <h3 class="text-center margin-top-m">
+          <span i18n>Download the app</span>
+          <span> {{ mobileLinks?.appName }} </span>
+          <span i18n> to access </span>
+          <span> {{ mobileLinks?.nameProvidedByClient }} </span>
+          <span i18n> from your mobile device</span>
+        </h3>
+      </ng-container>
+      <ng-container *ngIf="mobileLinks?.appsAndroid || mobileLinks?.appsAndroidMirror">
+        <ng-container *ngIf="!isClient">
+          <h3 i18n="application mfa description" class="margin-top-s mat-h3">
+            This application requires Multi Factor Authentication (MFA) as set by your organization.
+            Please note the following before you install this app.
+          </h3>
+          <ul>
+            <li i18n="application instructions 1">
+              Post installation you will have to log in with the MFA. To reset or configure MFA, go
+              to your organization portal
+            </li>
+          </ul>
+        </ng-container>
+
+        <div class="text-center margin-top-m">
+          <a *ngIf="mobileLinks && isAndroidPlayStoreLink" class="margin-top-xs" [href]="mobileLinks?.appsAndroid"
+            mat-raised-button type="button" i18n="download android app from play store" color="primary">OPEN IN PLAY
+            STORE</a>
+
+          <a *ngIf="mobileLinks?.appsAndroidMirror && isAndroidPlayStoreLink" [href]="mobileLinks?.appsAndroidMirror"
+            class="margin-top-xs margin-left-s" mat-raised-button type="button" color="primary" accesskey="J" download>
+            <mat-icon>cloud_download</mat-icon>
+            <span class="padding-left-xs" i18n="download android app">Download from our server</span>
+            <sup>*</sup>
+          </a>
+          <ng-container *ngIf="mobileLinks?.androidQR || mobileLinks?.androidMirrorQR">
+            <h3 class="mat-h3 margin-top-m" i18n="app download option">
+              Or scan QR code to download:
+            </h3>
+            <div class="flex justify-around">
+              <div *ngIf="mobileLinks?.androidQR">
+                <img i18n-alt alt="android qr code" class="mobile-qr-image" [src]="mobileLinks?.androidQR" />
+                <h3 i18n class="ws-mat-primary-text">Playstore</h3>
+              </div>
+              <div *ngIf="mobileLinks?.androidMirrorQR">
+                <img *ngIf="mobileLinks?.androidMirrorQR" i18n-alt alt="android qr code" class="mobile-qr-image"
+                  [src]="mobileLinks?.androidMirrorQR" />
+                <h3 i18n class="ws-mat-primary-text">Server</h3>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <h3 class="margin-top-m text-center" *ngIf="mobilePlatformCode?.length">
+          <ng-container i18n>When prompted for code, please enter</ng-container>
+          <span class="ws-mat-primary-text"> "{{ mobilePlatformCode }}" </span>
+        </h3>
+        <h3 class="margin-top-m text-center" *ngIf="mobileLinks?.instructions">
+          {{ mobileLinks?.instructions }}
+        </h3>
+        <div *ngIf="mobileLinks?.appsAndroidMirror && isAndroidPlayStoreLink">
+          <p i18n="app unknown source notify" class="mat-caption">
+            * If prompted, allow installation from unknown sources. You can disable this option
+            after the app installation is complete.
+          </p>
+        </div>
+      </ng-container>
+      <h2 class="text-center margin-top-s" *ngIf="!mobileLinks?.appsAndroid && !mobileLinks?.appsAndroidMirror" i18n>
+        Coming Soon...
+      </h2>
+    </mat-tab>
+    <mat-tab fragment="ios" *ngIf="isIos">
+      <ng-template mat-tab-label>
+        <span i18n="ios tab" class="mat-body-2" accesskey="2">iOS</span>
+      </ng-template>
+      <ng-container *ngIf="mobileLinks?.appName && mobileLinks?.nameProvidedByClient">
+        <h3 class="text-center margin-top-m">
+          <span i18n>Download the app</span>
+          <span> {{ mobileLinks?.appName }} </span>
+          <span i18n> to access </span>
+          <span> {{ mobileLinks?.nameProvidedByClient }} </span>
+          <span i18n> from your mobile device</span>
+        </h3>
+      </ng-container>
+      <ng-container *ngIf="mobileLinks?.appsIos">
+        <ng-container *ngIf="!isClient">
+          <h3 i18n="application mfa description" class="margin-top-s mat-h3">
+            This application requires Multi Factor Authentication (MFA) as set by your organization.
+            Please note the following before you install this app.
+          </h3>
+          <ul>
+            <li i18n="application instructions 1">
+              Post installation you will have to log in with the MFA. To reset or configure MFA, go
+              to your organization portal
+            </li>
+          </ul>
+        </ng-container>
+
+        <div class="text-center margin-top-m">
+          <a *ngIf="mobileLinks?.appsIos" class="margin-top-xs" [href]="mobileLinks?.appsIos" mat-raised-button
+            type="button" i18n="download ios app from app store" color="primary">OPEN IN APP STORE</a>
+
+          <ng-container *ngIf="mobileLinks?.iosQR">
+            <h3 class="mat-h3 margin-top-m" i18n="app download option">
+              Or scan QR code to download:
+            </h3>
+            <img i18n-alt alt="ios qr code" class="mobile-qr-image" [src]="mobileLinks?.iosQR" />
+          </ng-container>
+        </div>
+        <h3 class="margin-top-m text-center" *ngIf="mobilePlatformCode">
+          <ng-container i18n>When prompted for code, please enter</ng-container>
+          <span class="ws-mat-primary-text"> "{{ mobilePlatformCode }}" </span>
+        </h3>
+        <h3 class="margin-top-m text-center" *ngIf="mobileLinks?.instructions">
+          {{ mobileLinks?.instructions }}
+        </h3>
+      </ng-container>
+      <h2 class="text-center margin-top-s" *ngIf="!mobileLinks?.appsAndroid && !mobileLinks?.appsAndroidMirror" i18n>
+        Coming Soon...
+      </h2>
+    </mat-tab>
+  </mat-tab-group>
+  <h2 class="mat-h2 app-unavailable" *ngIf="!mobileLinks" i18n>
+    Mobile Apps are not yet available for the Web-App
+  </h2>
+</mat-card>

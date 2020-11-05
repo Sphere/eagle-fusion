@@ -1,0 +1,207 @@
+<div mat-dialog-content>
+  <mat-tab-group
+    mat-stretch-tabs
+    dynamicHeight
+    [selectedIndex]="selectedTabIndex"
+    (selectedTabChange)="tabChange($event)"
+  >
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span i18n>Likes</span>
+        <ng-container *ngIf="activityUsersResult.like.data?.total"
+          >&nbsp;({{ activityUsersResult.like.data?.total }})
+        </ng-container>
+      </ng-template>
+      <ng-template matTabContent>
+        <div *ngFor="let user of activityUsersResult.like.data?.users">
+          <ng-container
+            *ngTemplateOutlet="userTemplate; context: { $implicit: user }"
+          ></ng-container>
+          <mat-divider></mat-divider>
+        </div>
+        <div
+          *ngIf="activityUsersResult.like.fetchStatus === 'fetching'"
+          class="text-center margin-top-m"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+        <div
+          *ngIf="
+            activityUsersResult.like.data?.total > activityUsersResult.like.data?.users?.length
+          "
+          class="text-right"
+        >
+          <button
+            name="user-likes-see-more-button"
+            [disabled]="activityUsersResult.like.fetchStatus === 'fetching'"
+            type="button"
+            mat-button
+            (click)="fetchActivityUsers('like')"
+            i18n
+          >
+            See More
+          </button>
+        </div>
+        <h3
+          *ngIf="activityUsersResult.like.fetchStatus === 'none'"
+          class="text-center margin-top-m"
+          i18n
+        >
+          No likes
+        </h3>
+        <h3
+          *ngIf="
+            activityUsersResult.like.fetchStatus === 'error' &&
+            !activityUsersResult.like.data?.users?.length
+          "
+          class="text-center margin-top-m"
+          i18n
+        >
+          Error fetching likes
+        </h3>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span i18n>Up Votes</span>
+        <ng-container *ngIf="activityUsersResult.upvote.data?.total">
+          &nbsp;({{ activityUsersResult.upvote.data?.total }})
+        </ng-container>
+      </ng-template>
+      <ng-template matTabContent>
+        <div *ngFor="let user of activityUsersResult.upvote.data?.users">
+          <ng-container
+            *ngTemplateOutlet="userTemplate; context: { $implicit: user }"
+          ></ng-container>
+          <mat-divider></mat-divider>
+        </div>
+        <div
+          *ngIf="activityUsersResult.upvote.fetchStatus === 'fetching'"
+          class="text-center margin-top-m"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+        <div
+          *ngIf="
+            activityUsersResult.upvote.data?.total > activityUsersResult.upvote.data?.users?.length
+          "
+          class="text-right"
+        >
+          <button
+            name="user-upvotes-see-more-button"
+            [disabled]="activityUsersResult.upvote.fetchStatus === 'fetching'"
+            type="button"
+            mat-button
+            (click)="fetchActivityUsers('upvote')"
+            i18n
+          >
+            See More
+          </button>
+        </div>
+        <h3
+          *ngIf="activityUsersResult.upvote.fetchStatus === 'none'"
+          class="text-center margin-top-m"
+          i18n
+        >
+          No up votes
+        </h3>
+        <h3
+          *ngIf="
+            activityUsersResult.upvote.fetchStatus === 'error' &&
+            !activityUsersResult.upvote.data?.users?.length
+          "
+          class="text-center margin-top-m"
+          i18n
+        >
+          Error fetching up votes
+        </h3>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span i18n>Down Votes</span>
+        <ng-container *ngIf="activityUsersResult.downvote.data?.total">
+          &nbsp;({{ activityUsersResult.downvote.data?.total }})
+        </ng-container>
+      </ng-template>
+      <ng-template matTabContent>
+        <div *ngFor="let user of activityUsersResult.downvote.data?.users">
+          <ng-container
+            *ngTemplateOutlet="userTemplate; context: { $implicit: user }"
+          ></ng-container>
+          <mat-divider></mat-divider>
+        </div>
+        <div
+          *ngIf="activityUsersResult.downvote.fetchStatus === 'fetching'"
+          class="text-center margin-top-m"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+        <div
+          *ngIf="
+            activityUsersResult.downvote.data?.total >
+            activityUsersResult.downvote.data?.users?.length
+          "
+          class="text-right"
+        >
+          <button
+            name="user-downvotes-see-more-button"
+            [disabled]="activityUsersResult.downvote.fetchStatus === 'fetching'"
+            type="button"
+            mat-button
+            (click)="fetchActivityUsers('downvote')"
+            i18n
+          >
+            See More
+          </button>
+        </div>
+        <h3
+          *ngIf="activityUsersResult.downvote.fetchStatus === 'none'"
+          class="text-center margin-top-m"
+          i18n
+        >
+          No down votes
+        </h3>
+        <h3
+          *ngIf="
+            activityUsersResult.downvote.fetchStatus === 'error' &&
+            !activityUsersResult.downvote.data?.users?.length
+          "
+          class="text-center margin-top-m"
+          i18n
+        >
+          Error fetching down votes
+        </h3>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<ng-template #userTemplate let-user>
+  <div class="flex flex-middle padding-top-xs padding-bottom-xs">
+    <ws-widget-user-image [email]="user.email"></ws-widget-user-image>
+    <h3 class="margin-remove width-expand">
+      {{ user.name }}
+    </h3>
+    <button
+      name="follow-user-button"
+      type="button"
+      mat-stroked-button
+      color="primary"
+      [disabled]="userFollowFetchStatus === 'fetching'"
+      *ngIf="user.id !== userId"
+      (click)="toggleFollow(user)"
+    >
+      <ng-container *ngIf="userFollowFetchStatus !== 'fetching'">
+        <ng-container *ngIf="!ifFollowing(user.id)">
+          <mat-icon class="follow-icon">person_add</mat-icon>
+          <ng-container i18n>Follow</ng-container>
+        </ng-container>
+        <ng-container *ngIf="ifFollowing(user.id)">
+          <mat-icon>check</mat-icon>&nbsp;
+          <ng-container i18n>Following</ng-container>
+        </ng-container>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>

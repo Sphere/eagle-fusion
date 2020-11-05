@@ -1,0 +1,113 @@
+<!-- <div class="m-0 lg:m-4">
+  <div class="flex flex-middle flex-between">
+    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>Knowledge Boards</p>
+    <div class="flex-end" [hidden]="suggestionsLimit >= following?.length">
+      <div class="flex">
+        <p class="margin-remove-bottom ws-mat-primary-text font-family mat-h4 cursor-pointer"
+          [hidden]="suggestionsLimit >= following?.length" [routerLink]='' (click)="viewAllKb()" i18n>View All</p>
+        <mat-icon
+          class="ws-mat-primary-text margin-left-xs pointer mat-icon cursor-pointer notranslate material-icons mat-icon-no-color"
+          role="img" (click)="viewAllKb()" aria-hidden="true">play_circle_fillec</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 text-center" *ngIf="followingFetchStatus === 'fetching'">
+    <span i18n>Fetching KBs followed ...</span>
+  </div>
+  <p class="ws-mat-primary-text margin-top-xs pl-4 py-4 " *ngIf="followingFetchStatus === 'done' && !following?.length"
+    i18n>User
+    is not
+    following any knowledge board.</p>
+  <p class="mat-error" *ngIf="followingFetchStatus === 'error'" i18n>Failed to fetch knowledge boards followed.
+  </p>
+  <div class="flex flex-wrap remove-margin">
+    <mat-card class="flex flex-wrap m-2 padding-remove card-container"
+      *ngFor="let board of following | pipeLimitTo: suggestionsLimit;">
+      <mat-card-content class="flex">
+        <a (click)="raiseTelemetry()" [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
+          <img [src]="board.appIcon" [id]="'card_' + board.identifier" class="card-img ws-mat-primary-lite-background"
+            [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="board.name" [title]="board.name" />
+        </a>
+        <div class="mx-4 my-2">
+          <a class="font-family" (click)="raiseTelemetry()" [routerLink]="'/app/knowledge-board/'+ board?.identifier"
+            role="link" aria-label="Content" i18n-aria-label>
+            <p class="font-family mat-h3 font-weight-normal title-text text title-size" [matTooltip]="board.name">
+              {{ board.name }}</p>
+            <p class="font-family ws-mat-text-block-fade-gradient mat-h4 text descr-size">{{ board.description }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> -->
+
+<!--
+<div class="m-0">
+  <div class="mt-4 text-center" *ngIf="followingFetchStatus === 'fetching'">
+    <span i18n>Fetching KBs followed ...</span>
+  </div>
+  <p class="ws-mat-primary-text margin-top-xs pl-4 py-4 " *ngIf="followingFetchStatus === 'done' && !following?.length"
+    i18n>User
+    is not
+    following any knowledge board.</p>
+  <p class="mat-error" *ngIf="followingFetchStatus === 'error'" i18n>Failed to fetch knowledge boards followed.
+  </p>
+  <mat-card class="flex flex-wrap m-2 md:my-1 sm:my-1 card-container mat-elevation-z1  padding-remove"
+    *ngFor="let board of following">
+    <mat-card-content>
+      <div class="flex flex-between">
+        <div class="flex">
+          <a (click)="raiseTelemetry()" [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link"
+            aria-label="Content" i18n-aria-label="Content | Click to view">
+            <img [src]="board.appIcon" [id]="'card_' + board.identifier"
+              class="m-2 card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+              [alt]="board.name" [title]="board.name" />
+          </a>
+          <a class="font-family mx-2 my-2" (click)="raiseTelemetry()"
+            [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link" aria-label="Content" i18n-aria-label>
+            <p class="font-family mat-h3 font-weight-normal ws-mat-text-block-fade-gradient title-text text title-size"
+              [matTooltip]="board.name">
+              {{ board.name }}</p>
+          </a>
+        </div>
+        <ws-widget-btn-follow [widgetData]="{
+                        targetId: board?.identifier,
+                        type: board?.contentType
+                      }"></ws-widget-btn-follow>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> -->
+
+<div class="m-0 lg:py-2 card-height">
+  <div class="pt-4 text-center" *ngIf="followingFetchStatus === 'fetching'">
+    <p class="font-family fetching" i18n>Fetching KBs followed ...</p>
+  </div>
+  <div class="pt-4 text-center" *ngIf="!following?.length && followingFetchStatus === 'done'">
+    <div class="flex flex-center">
+      <span class="font-family fetching">{{name}}</span>
+      <span class="font-family fetching" i18n>'s not following any knowledge board.</span>
+    </div>
+  </div>
+  <div class="pt-4 text-center" *ngIf="followingFetchStatus === 'error'">
+    <p class="mat-error" i18n>Failed to fetch knowledge boards followed.</p>
+  </div>
+  <ws-utils-horizontal-scroller *ngIf="following?.length" [loadStatus]="'done'">
+    <mat-card class="mx-2 padding-remove card" *ngFor="let board of following">
+      <mat-card-content class="">
+        <div class="p-2">
+          <img [src]="board.appIcon" [id]="'card_' + board.identifier" class="image ws-mat-primary-lite-background"
+            [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="board.name" [title]="board.name" />
+          <p class="font-family mat-h3 font-weight-normal ws-mat-text-block-fade-gradient title-text text title-size  mx-2"
+            [matTooltip]="board.name">
+            {{ board.name }}</p>
+          <a class="font-family mat-caption mx-2 flex flex-middle" (click)="raiseTelemetry()"
+            [routerLink]="'/app/knowledge-board/'+ board?.identifier" i18n>
+            View Board <mat-icon class="pl-1">arrow_right_alt</mat-icon>
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ws-utils-horizontal-scroller>
+</div>

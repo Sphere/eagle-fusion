@@ -1,0 +1,34 @@
+@import "ws-common";
+@import "ws-vars";
+
+table {
+  width: 100%;
+}
+.schedule {
+  @include breakpoint-xs {
+    width: 90%;
+    margin: $size-s;
+  }
+
+  @include breakpoint-s {
+    width: 90%;
+    margin: $size-s;
+  }
+
+  // @include breakpoint-gt-s {
+  //   width: 90%;
+  //   margin: $size-s;
+  // }
+}
+// .location-filter {
+//   width: 25%;
+// }
+
+.register {
+  text-decoration: underline !important;
+  color: darkblue;
+}
+
+// .search-bar {
+//   width: 50%;
+// }

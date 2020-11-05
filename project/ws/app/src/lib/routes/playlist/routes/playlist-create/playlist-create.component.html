@@ -1,0 +1,44 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back
+    [widgetData]="{ url: 'back', titles: [{title:'Playlist', url:'back'},{title:'Create Playlist', url:'none'}] }">
+
+  </ws-widget-btn-page-back>
+  <!-- <span i18n="page title: playlist create" class="margin-left-xs">Create Playlist</span> -->
+</mat-toolbar>
+<main class="page-container margin-top-xl margin-bottom-xl">
+  <form #playlistForm [formGroup]="createPlaylistForm">
+    <mat-card class="card2">
+      <h2 class="mat-h2 margin-bottom-xs" i18n>Add Title</h2>
+      <mat-form-field class="width-1-1 margin-bottom-m" appearance="fill">
+        <mat-label i18n>Title Name</mat-label>
+        <mat-error i18n>Playlist title should be 1-100 characters</mat-error>
+        <input name="playlist-name-input-playlist-create" matInput formControlName="title" class="width-1-1"
+          autocomplete="off" required />
+      </mat-form-field>
+      <ng-container *ngIf="isShareEnabled">
+        <h2 class="mat-h2 margin-top-m margin-bottom-xs" i18n>Share With</h2>
+        <ws-widget-user-autocomplete class="block" (usersList)="updateUsers($event)"></ws-widget-user-autocomplete>
+        <mat-form-field class="text-area w-full">
+          <textarea matInput name="user-search-input-playlist-create" formControlName="message" i18n-placeholder
+            placeholder="Your message..." rows="5" #txtBody></textarea>
+        </mat-form-field>
+      </ng-container>
+      <div class="flex flex-row-reverse">
+        <button mat-button class="ws-mat-button-theme" name="create-button-playlist-create" (click)="onFormSubmit()"
+          type="button" [disabled]="createPlaylistStatus === 'fetching'" mat-raised-button color="primary">
+          <ng-container *ngIf="createPlaylistStatus === 'fetching'">Please Wait...</ng-container>
+          <ng-container *ngIf="createPlaylistStatus !== 'fetching'">Create</ng-container>
+        </button>
+      </div>
+    </mat-card>
+    <mat-card class="card2">
+      <h2 class="mat-h2 margin-bottom-xs" i18n>Search Content</h2>
+      <ws-widget-picker-content [widgetData]="pickerContentData"
+        (change)="onContentSelectionChanged($event?.content, $event?.checked)">
+      </ws-widget-picker-content>
+    </mat-card>
+  </form>
+</main>
+
+<input #selectContent type="hidden" i18n-value value="Select at least one content to create playlist" />
+<input #createPlaylistError type="hidden" i18n-value value="Error creating playlist" />

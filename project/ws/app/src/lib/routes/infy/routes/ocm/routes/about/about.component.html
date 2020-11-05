@@ -1,0 +1,4 @@
+<mat-card class="pad container-height-adjust" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <div *ngIf="config.about" class="about" [innerHtml]="config.about"></div>
+</mat-card>

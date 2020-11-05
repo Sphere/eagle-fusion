@@ -1,0 +1,153 @@
+<mat-toolbar class="mat-primary-lite-background">
+  <div>
+    <a mat-icon-button routerLink="/app/infy/navigator/tech/learning-path/">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <span i18n="page title: navigator explore" class="margin-left-xs">What Can I Learn? </span>
+  </div>
+</mat-toolbar>
+<mat-sidenav-container class="sidenav-container" autosize *ngIf="status === 'done'">
+  <mat-sidenav #sideNavBar class="sidenav" [opened]="sideNavBarOpened" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+    <div class="flex flex-between margin-top margin-left-m">
+      <h2 class="mat-h2 text-bold" i18n>Select Topics</h2>
+      <mat-divider class="margin-bottom-m"></mat-divider>
+
+      <button type="button" (click)="sideNavBarOpened = !sideNavBarOpened" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div>
+      <mat-checkbox *ngFor="let tech of filterList" (change)="techChange(tech.technologyName)" [checked]="tech.checked"
+        class="width-expand fit-checkbox-to-width">
+        <span class="flex">
+          <span class="width-expand text-truncate mat-subheading-2 filter-name text-bold ">{{
+            tech.technologyName
+          }}</span>
+        </span>
+      </mat-checkbox>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content" *ngIf="status === 'done'">
+    <div class="content-strip" *ngIf="suggestedLp.length">
+      <ng-container>
+        <span class="mat-headline text-bold heading ws-mat-primary-text" i18n>
+          Learning Paths based on your selected topic(s)
+        </span>
+        <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+          (click)="sideNavBarOpened = !sideNavBarOpened" matTooltip="Show Topics">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </ng-container>
+
+      <mat-selection-list #suggestedCheckList class="app-class mat-title">
+        <ng-container *ngFor="let lp of suggestedLp">
+          <mat-list-option checkboxPosition="before" [value]="lp?.lp_id">
+            <div class="flex margin-top-m margin-bottom-m topic-container ">
+              <img [src]="lp.lp_image" class="member-image" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+              <div class=" margin-left-l  text-truncate topic-text">
+                <span class="ws-mat-primary-text mat-title">{{ lp.lp_name }}</span>
+
+                <div class="flex radio mat-body-1">
+                  <mat-icon>access_time</mat-icon>
+                  <p class="margin-left-xss text-bold mat-h5 margin-remove-bottom">
+                    {{lp.profiles[0]?.profile_time + ' DAYS' }}</p>
+                </div>
+                <span class="mat-subheading-2 text-bold courses-profile">
+                  {{ lp.lp_description }}
+                </span>
+              </div>
+            </div>
+          </mat-list-option>
+        </ng-container>
+      </mat-selection-list>
+      <div class="margin-top-l flex flex-wrap">
+        <button *ngIf="shouldClipSuggested" mat-raised-button color="primary" (click)="viewMoreLp('suggested')"
+          class="margin-right-m" i18n>
+          View more
+        </button>
+        <button *ngIf="displayLessSuggested" mat-raised-button color="primary" (click)="viewLessLp('suggested')"
+          class="margin-left-m" i18n>
+          View Less
+        </button>
+      </div>
+      <div class="text-center margin-top-l">
+        <button *ngIf="!goalsAddingInProgess" mat-raised-button color="primary"
+          [disabled]="!suggestedCheckList.selectedOptions.selected.length"
+          (click)="createGoalClicked(suggestedCheckList.selectedOptions.selected, 'suggested')" i18n>
+          Create Goal
+        </button>
+        <mat-spinner *ngIf="goalsAddingInProgess" class="display-inline-block"></mat-spinner>
+      </div>
+    </div>
+    <div class="content-strip" *ngIf="skillsList?.length && otherLp.length">
+      <ng-container>
+        <span class="mat-headline text-bold heading ws-mat-primary-text" i18n>
+          Other Learning Paths which you might like
+        </span>
+        <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+          (click)="sideNavBarOpened = !sideNavBarOpened" matTooltip="Show Topics">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </ng-container>
+
+      <mat-selection-list #othersCheckList class="app-class">
+        <ng-container *ngFor="let lp of otherLp">
+          <mat-list-option checkboxPosition="before" [value]="lp?.lp_id">
+            <div class="flex margin-top-m margin-bottom-m">
+              <img [src]="lp.lp_image" class="member-image" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+              <div class=" margin-left-l  text-truncate">
+                <span class="ws-mat-primary-text mat-title">{{ lp.lp_name }}</span>
+
+                <p class="flex radio mat-body-1">
+                  <mat-icon>access_time</mat-icon>
+                  <span class="margin-left-xs/2 text-bold">{{lp.profiles[0]?.profile_time + ' DAYS' }}</span>
+                </p>
+                <span class="mat-subheading-2 text-bold courses-profile">
+                  {{ lp.lp_description }}
+                </span>
+              </div>
+            </div>
+          </mat-list-option>
+        </ng-container>
+        <!-- <ng-container *ngFor="let lp of otherLp">
+          <mat-list-option checkboxPosition="before" [value]="lp?.lp_id">
+            <div class="lp-name">
+              <p class="mat-title text-bold checklist">{{ lp.lp_name }}</p>
+            </div>
+          </mat-list-option>
+          <div class="checklist-desc">
+            <p class="flex checklist mat-body-1">
+              <mat-icon>access_time</mat-icon>
+              <span class="margin-left-xs/2 text-bold">{{
+                lp.profiles[0]?.profile_time + ' DAYS'
+              }}</span>
+            </p>
+            <span class="mat-subheading-2 text-bold">
+              {{ lp.lp_description }}
+            </span>
+          </div>
+          <mat-divider class="margin-bottom-m margin-top-m"></mat-divider>
+        </ng-container> -->
+      </mat-selection-list>
+      <div class="margin-top-l flex flex-wrap">
+        <button *ngIf="shouldClipOthers" mat-raised-button color="primary" (click)="viewMoreLp('other')"
+          class="margin-right-m" i18n>
+          View More
+        </button>
+        <button *ngIf="displayLessOthers" mat-raised-button color="primary" (click)="viewLessLp('other')"
+          class="margin-left-m" i18n>
+          View Less
+        </button>
+      </div>
+      <div class="text-center margin-top-l">
+        <button *ngIf="!goalsAddingInProgess && otherLp.length" mat-raised-button color="primary"
+          [disabled]="!othersCheckList.selectedOptions.selected.length"
+          (click)="createGoalClicked(othersCheckList.selectedOptions.selected, 'others')" i18n>
+          Create Goal
+        </button>
+        <mat-spinner *ngIf="goalsAddingInProgess" class="display-inline-block"></mat-spinner>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

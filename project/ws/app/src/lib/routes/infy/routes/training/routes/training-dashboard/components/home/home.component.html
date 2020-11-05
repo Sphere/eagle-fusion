@@ -1,0 +1,16 @@
+<mat-tab-group
+  mat-align-tabs="center"
+  (selectedTabChange)="navigateToTab($event)"
+  [(selectedIndex)]="currentTabIndex"
+>
+  <mat-tab label="Training Schedule" i18n-label></mat-tab>
+  <mat-tab label="Feedback" i18n-label></mat-tab>
+  <mat-tab label="Trainings Planned by Your Team" i18n-label></mat-tab>
+  <mat-tab
+    *ngIf="(trainingPrivileges$ | async)?.canRequestJIT"
+    label="Request for Training"
+    i18n-label
+  ></mat-tab>
+</mat-tab-group>
+
+<router-outlet></router-outlet>

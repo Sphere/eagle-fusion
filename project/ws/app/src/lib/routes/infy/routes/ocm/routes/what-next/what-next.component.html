@@ -1,0 +1,76 @@
+<mat-card class="pad" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <div class="flex flex-wrapped">
+    <div class="width-1-2">
+      <mat-calendar
+        class="w300 margin-m margin-remove-left"
+        [dateClass]="dateClass()"
+        [selected]="selectedDate"
+        (selectedChange)="onSelect($event)"
+      ></mat-calendar>
+    </div>
+
+    <div class="width-1-2" *ngIf="selectedDate">
+      <div class="margin-remove-left margin-m ">
+        <h2 class="font-weight-500 mat-h2">
+          {{ displaySelectedDate }}
+        </h2>
+        <!-- <ws-spinner [spinSize]="'small'" *ngIf="fetchingEvents" class="text-center"></ws-spinner> -->
+        <div *ngIf="tabs && !tabs.length && !fetchingEvents">
+          <h3 class="margin-bottom-xs mat-h3 font-weight-500" i18n>No Events.</h3>
+          <p class="mat-caption" i18n>Click on highlighted dates for releases</p>
+        </div>
+        <mat-tab-group
+          mat-align-tabs="center"
+          [(selectedIndex)]="selectedIndex"
+          [dynamicHeight]="true"
+          (selectedTabChange)="getFilteredEventsData($event.index)"
+          *ngIf="tabs && tabs.length"
+        >
+          <mat-tab *ngFor="let tab of tabs">
+            <ng-template mat-tab-label>
+              <span accesskey="1">{{ tab | titlecase }}</span>
+            </ng-template>
+            <h3
+              *ngIf="!filteredEvents && !fetchingEvents"
+              class="margin-top-m mat-h3 font-weight-500"
+              i18n
+            >
+              No events.
+            </h3>
+            <ng-container *ngIf="filteredEvents && filteredEvents.length && !fetchingEvents">
+              <div *ngFor="let event of filteredEvents">
+                <div class="flex flex-middle marginSmall ">
+                  <mat-icon class="icon ">event</mat-icon>
+                  <div class="margin-left-s ">
+                    <div class="event-name mat-body-strong ">{{ event.eventTitle }}</div>
+                    <div *ngIf="event.eventDesc" class="mat-caption ">{{ event.eventDesc }}</div>
+                  </div>
+                  <div>
+                    <button
+                      mat-icon-button
+                      *ngIf="event?.items"
+                      (click)="
+                        showReleaseItems[event.eventTitle] = !showReleaseItems[event.eventTitle]
+                      "
+                    >
+                      <mat-icon *ngIf="!showReleaseItems[event.eventTitle]"
+                        >keyboard_arrow_down</mat-icon
+                      >
+                      <mat-icon *ngIf="showReleaseItems[event.eventTitle]"
+                        >keyboard_arrow_up</mat-icon
+                      >
+                    </button>
+                  </div>
+                </div>
+                <ul class="margin-left-m " *ngIf="showReleaseItems[(event?.eventTitle)]">
+                  <li *ngFor="let item of event?.items">{{ item }}</li>
+                </ul>
+              </div>
+            </ng-container>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</mat-card>

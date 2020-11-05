@@ -1,0 +1,11 @@
+.highlight {
+  color: #f48024;
+}
+
+.like-count {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

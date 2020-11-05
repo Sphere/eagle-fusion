@@ -1,0 +1,51 @@
+<mat-toolbar color="primary">
+  <a mat-icon-button routerLink="/app/infy/navigator">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: navigator suggestions" class="margin-left-xs">Skill based Suggestions</span>
+</mat-toolbar>
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="banner-description margin-bottom-m padding-top-m">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+        What Can I Learn?
+      </h1>
+      <h2 i18n class="mat-title margin-top-xl">
+        Get suggestions based on current skills.
+      </h2>
+    </div>
+  </div>
+  <div class="" *ngIf="!technologies.length">
+    <h2 class="mat-display-1 text-center margin-top-xl" i18n>Please wait while we are getting the data</h2>
+  </div>
+  <div class="margin-top-l margin-bottom-l padding-left-l padding-right-l" *ngIf="technologies.length">
+    <h1 class="mat-headline ws-mat-primary-text padding-top-xs padding-bottom-l padding-left-l" i18n>Select topics to
+      get suggestions</h1>
+    <!-- <div [ngClass]="{ scrollable: isMobile }"> -->
+    <!-- <div *ngIf="searchInProgress" class="margin-top-xl"> -->
+    <!-- <mat-spinner></mat-spinner> -->
+    <!-- </div> -->
+    <h2 class="heading uk-position-center" *ngIf="!searchInProgress && technologies?.length === 0" i18n>
+      No Results for your search
+    </h2>
+    <div class="padding-left-l margin-left-l margin-right-l">
+      <mat-chip-list>
+        <ng-container *ngFor="let tech of technologies">
+          <mat-chip class="mat-chips padding-left-m padding-right-m" *ngIf="isSelected(tech)" color="primary" selected
+            (click)="toggleChipSelection(tech)">
+            {{ tech }}
+            <mat-icon matChipRemove (click)="toggleChipSelection(tech)">cancel</mat-icon>
+          </mat-chip>
+          <mat-chip *ngIf="!isSelected(tech)" (click)="toggleChipSelection(tech)">{{ tech }}</mat-chip>
+        </ng-container>
+      </mat-chip-list>
+    </div>
+    <!-- </div> -->
+  </div>
+  <div class="text-center" *ngIf="technologies.length">
+    <button mat-raised-button [disabled]="!selectedTechChips?.size" color="primary" (click)="navigateToSuggestions()"
+      i18n>
+      Get Suggestions
+    </button>
+  </div>
+</div>

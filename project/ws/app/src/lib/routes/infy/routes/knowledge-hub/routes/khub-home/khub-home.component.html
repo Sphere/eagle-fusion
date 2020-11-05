@@ -1,0 +1,37 @@
+<mat-toolbar id="khubHome-id-12" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span i18n="page title: Khub home" class="margin-left-xs">Knowledge Hub</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+<!-- <div class="text-center note-text">
+  <span>Submit your knowledge artifacts </span>
+</div> -->
+<!-- <div
+  class="note-text"
+  style="position: absolute;top: 70%;"
+  [matTooltip]="'This detail is currently available only on Infosys Network'"
+>
+  <span>Visit KShop classic </span
+  ><a
+    href="http://iscls4apps/MyKshop/ASPX/MyKshopAllHomePage.aspx"
+    target="_blank"
+    style="color:cadetblue;"
+    >Here</a
+  >
+</div> -->
+<div *ngIf="loader" class="margin-top-m flex flex-center">
+  <mat-spinner></mat-spinner>
+  <!-- <h3>Loading...</h3> -->
+</div>
+<div class="scroller-dev" *ngFor="let data of resultObj">
+  <h1 class="mat-h1">{{ data.title }}</h1>
+  <ws-utils-horizontal-scroller [loadStatus]="'done'">
+    <ws-app-item-tile class="card-display" *ngFor="let item of data.data" [data]="item">
+    </ws-app-item-tile>
+  </ws-utils-horizontal-scroller>
+</div>
+<div *ngIf="error.load" class="flex flex-center">
+  <!-- <page-error-internal-server></page-error-internal-server> -->
+  <!-- <h3>Some Error Occured</h3> -->
+  <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
+</div>

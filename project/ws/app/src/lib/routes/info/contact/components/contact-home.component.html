@@ -1,0 +1,64 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Contact Us',url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n="page title: contact" class="margin-left-xs">Contact Us</span>
+  </span> -->
+</mat-toolbar>
+
+<section class="contact-container">
+  <mat-card class="contact-card">
+    <mat-card-title i18n="contact section one heading">
+      Raise an AHD
+    </mat-card-title>
+    <br />
+    <mat-card-content>
+      <ng-container i18n="contact section one description">
+        Go to Sparsh :
+      </ng-container>
+      <ng-container>
+        http://sparshv2/Pages/Home.aspx. Web Apps > AHD > Education, Training and Assessment > ETA
+        Wingspan
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions class="contact-card-actions">
+      <a mat-button href="http://infysd10/CAisd/pdmweb3.exe" rel="noopener noreferrer" target="_blank"
+        i18n="contact section one action button">
+        Click to raise AHD
+      </a>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="contact-card">
+    <mat-card-title i18n="contact section two heading">
+      Mail us
+    </mat-card-title>
+    <br />
+    <mat-card-content>
+      <ng-container i18n="contact section two description">
+        You can also mail us at
+      </ng-container>
+      <ng-container>
+        {{ contactUsMail }}
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions class="contact-card-actions">
+      <a mat-button href="mailto:{{ contactUsMail }}" i18n="contact section two action button">
+        Click to mail
+      </a>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="contact-card">
+    <mat-card-title i18n="contact section three heading">
+      Talk to us
+    </mat-card-title>
+    <br />
+    <mat-card-content i18n="contact section three description one">
+      You can call us and we will help you out
+    </mat-card-content>
+    <mat-card-actions class="contact-card-actions">
+      <p i18n="contact section three description two">
+        Dial *22345 from your voip phones
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</section>

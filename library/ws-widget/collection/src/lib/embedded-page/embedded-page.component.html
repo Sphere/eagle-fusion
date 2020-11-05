@@ -1,0 +1,4 @@
+<iframe *ngIf="iframeSrc" [id]="widgetData?.iframeId" [src]="iframeSrc" allowfullscreen webkitallowfullscreen
+  mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;"
+  frameborder="0" [title]="widgetData?.title" [ngStyle]="widgetData?.containerStyle"
+  [ngClass]="widgetData?.containerClass"></iframe>

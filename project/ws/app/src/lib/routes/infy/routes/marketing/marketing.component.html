@@ -1,0 +1,125 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <div class="flex flex-middle">
+    <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+    <button type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span i18n="page title: marketing" class="margin-left-xs">Marketing</span>
+  </div>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav class="sidenav" [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
+    <mat-nav-list class="padding-remove-top">
+      <a
+        mat-list-item
+        [routerLink]="'/app/infy/marketing/brandAssets'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item one"
+        accesskey="1"
+        >Brand Assets</a
+      >
+      <a
+        mat-list-item
+        aria-label="ODC Access Related Faqs"
+        class=""
+        [routerLink]="'/app/infy/marketing/experience'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item two"
+        accesskey="2"
+        >Experiential Showcase</a
+      >
+      <a
+        mat-list-item
+        aria-label="Compatibility Related Faqs"
+        class=""
+        [routerLink]="'/app/infy/marketing/hubs'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item three"
+        accesskey="3"
+        >Hubs</a
+      >
+      <a
+        mat-list-item
+        aria-label="Installation Related Faqs"
+        class=""
+        [routerLink]="'/app/infy/marketing/clientStories'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item four"
+        accesskey="4"
+        >Client Stories</a
+      >
+      <a
+        mat-list-item
+        aria-label="Progress Completion Related Faqs"
+        class=""
+        [routerLink]="'/app/infy/marketing/services'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item five"
+        accesskey="5"
+        >Services</a
+      >
+      <a
+        mat-list-item
+        aria-label="Video Related Faqs"
+        class=""
+        [routerLink]="'/app/infy/marketing/marketing-industries'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item six"
+        accesskey="6"
+        >Industries</a
+      >
+      <a
+        mat-list-item
+        aria-label="Authoring Related Faqs"
+        class=""
+        [routerLink]="'/app/infy/marketing/marketing-products'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick()"
+        i18n="page faq side nav item seven"
+        accesskey="7"
+        >Products and Subsidiaries</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div *ngIf="screenSizeIsLtMedium" class="flex flex-middle">
+      <!-- <button type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
+        <mat-icon>menu</mat-icon>
+      </button> -->
+      <h2 class="mat-subheading-2 margin-remove padding-left-xs" [ngSwitch]="currentTab">
+        <span *ngSwitchCase="'brandAssets'" i18n="page faq mobile top nav item one" accesskey="1"
+          >Brand Assets</span
+        >
+        <span *ngSwitchCase="'experience'" i18n="page faq mobile top nav item two" accesskey="2"
+          >Experiential Showcase</span
+        >
+        <span *ngSwitchCase="'hubs'" i18n="page faq mobile top nav item three" accesskey="3"
+          >Hubs</span
+        >
+        <span *ngSwitchCase="'clientStories'" i18n="page faq mobile top nav item four" accesskey="4"
+          >Client Stories</span
+        >
+        <span *ngSwitchCase="'services'" i18n="page faq mobile top nav item five" accesskey="5"
+          >Services</span
+        >
+        <span *ngSwitchCase="'industries'" i18n="page faq mobile top nav item six" accesskey="6"
+          >Industries</span
+        >
+        <span
+          *ngSwitchCase="'productSubsidiary'"
+          i18n="page faq mobile top nav item seven"
+          accesskey="7"
+          >Products and Subsidiaries</span
+        >
+      </h2>
+    </div>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,33 @@
+<section>
+  <h2 class="mat-title" i18n="reject training request" i18n>Reject This Request?</h2>
+
+  <div class="margin-top-s margin-bottom-s">
+    <div class="flex">
+      <mat-icon>person</mat-icon>
+      <p class="margin-left-xs">{{ request.user_name }}</p>
+    </div>
+    <div class="flex">
+      <mat-icon>school</mat-icon>
+      <p class="margin-left-xs">{{ request.content_name }}</p>
+    </div>
+    <div class="flex">
+      <mat-icon>location_on</mat-icon>
+      <p class="margin-left-xs">{{ request.location }}</p>
+    </div>
+  </div>
+
+  <form [formGroup]="rejectForm" (ngSubmit)="onReject()">
+    <mat-form-field>
+      <textarea
+        matInput
+        placeholder="Provide a reason (0-1000 characters)"
+        i18n-placeholder="reject reason"
+        formControlName="reason"
+      ></textarea>
+    </mat-form-field>
+
+    <div class="margin-top-s">
+      <button mat-raised-button color="primary" i18n>Reject</button>
+    </div>
+  </form>
+</section>

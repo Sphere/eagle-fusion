@@ -1,0 +1,59 @@
+<mat-card class="pad container-height-adjust" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <h3 class="mat-h3">{{ config?.desc }}</h3>
+  <div class="text-center contribution margin-bottom-m">
+    <div *ngFor="let data of config?.contributionList" (click)="contributionTypeClicked(data)">
+      <div class="circle ws-mat-primary-background">
+        <mat-icon class="icon" [ngClass]="{ selected: mailRequest.type === data.name }">{{
+          data?.iconName
+        }}</mat-icon>
+      </div>
+      <strong>{{ data?.name | uppercase }}</strong>
+    </div>
+  </div>
+  <form #contributeForm="ngForm" (submit)="sendMail(contributeForm)" [hidden]="!showAnwserInput">
+    <mat-form-field class="width-1-1 margin-m">
+      <textarea
+        required
+        [placeholder]="fixedEmailText"
+        minlength="10"
+        [disabled]="submitInProgress"
+        rows="7"
+        [(ngModel)]="mailRequest.answer"
+        matInput
+        name="answer"
+        #answerText="ngModel"
+      ></textarea>
+      <mat-error i18n> Min length should be 10 characters </mat-error>
+    </mat-form-field>
+    <div class="flex flex-row-reverse margin-top-s">
+      <button
+        [disabled]="contributeForm.form.invalid || submitInProgress"
+        type="submit"
+        mat-raised-button
+        [color]="'primary'"
+        i18n
+      >
+        Send Mail
+      </button>
+      <button mat-button i18n="reset form" type="reset">Reset</button>
+    </div>
+  </form>
+</mat-card>
+
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="send mail succesful"
+  value="Thanks for your contribution."
+  #toastSuccess
+/>
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="unable to submit feedback"
+  value="Error sending mail!"
+  #toastError
+/>

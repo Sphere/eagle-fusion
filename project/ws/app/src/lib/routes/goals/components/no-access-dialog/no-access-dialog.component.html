@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <ng-container [ngSwitch]="data?.type">
+    <ng-container i18n *ngSwitchCase="'share'"
+      >You cannot share this goal with anyone as you do not have access to all the
+      contents.</ng-container
+    >
+    <ng-container i18n *ngSwitchCase="'add'"
+      >You cannot add this goal as you do not have access to all the contents.</ng-container
+    >
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex-row-reverse">
+  <button mat-button mat-dialog-close i18n>Close</button>
+</mat-dialog-actions>

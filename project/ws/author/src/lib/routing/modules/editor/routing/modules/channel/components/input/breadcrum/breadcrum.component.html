@@ -1,0 +1,53 @@
+<form [formGroup]="form">
+  <div formArrayName="path">
+    <div *ngFor="let p of path.controls; let i = index">
+      <mat-card class="card-design">
+        <div class="row-wise top-bar-design">
+          <mat-card-title class="cardTitle-design">Level {{ i + 1 }}</mat-card-title>
+          <button
+            type="button"
+            mat-mini-fab
+            color="warn"
+            *ngIf="path.controls.length > 1"
+            (click)="remove(i)"
+          >
+            <mat-icon>delete forever</mat-icon>
+          </button>
+        </div>
+        <br />
+        <mat-divider></mat-divider>
+        <br />
+        <div [formGroupName]="i">
+          <p><b class="font-weight-bold required" i18n>Title</b></p>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              i18n-placeholder
+              placeholder="Enter title"
+              formControlName="text"
+              #text
+            />
+            <mat-error *ngIf="!text.value && isSubmitPressed" i18n>
+              Above field is required
+            </mat-error>
+          </mat-form-field>
+          <p><b class="font-weight-bold" i18n>URL</b></p>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              i18n-placeholder
+              placeholder="Enter URL"
+              formControlName="clickUrl"
+              #clickUrl
+            />
+          </mat-form-field>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</form>
+<br />
+<button type="button" mat-raised-button (click)="addPath('', '')">
+  <mat-icon>add box</mat-icon>
+  <ng-container i18n>Add New Path</ng-container>
+</button>

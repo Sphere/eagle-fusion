@@ -1,0 +1,43 @@
+<mat-card class="margin-top-m margin-bottom-m">
+  <mat-card-title i18n>At Assessment Center</mat-card-title>
+  <mat-card-subtitle i18n>
+    Give this exam at given assessment centers in a classroom environment.
+  </mat-card-subtitle>
+  <mat-card-content class="flex flex-between">
+    <section>
+      <p class="mat-body-2" i18n>What's required?</p>
+      <ul class="mat-caption margin-remove">
+        <li class="text-italic" i18n>
+          A pre-booked slot for the certification exam.
+        </li>
+        <li class="text-italic" i18n>
+          Your physical presence at the assessment center.
+        </li>
+      </ul>
+    </section>
+    <section class="hidden sm:block">
+      <a
+        mat-flat-button
+        [color]="'primary'"
+        class="width-1-1"
+        [routerLink]="['./acc']"
+        i18n
+      >
+        Book a Slot
+      </a>
+    </section>
+  </mat-card-content>
+  <mat-card-actions>
+    <section class="sm:hidden">
+      <a
+        mat-flat-button
+        [color]="'primary'"
+        class="width-1-1"
+        [routerLink]="['./acc']"
+        i18n
+      >
+        Book a Slot
+      </a>
+    </section>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,192 @@
+<section class="my-4">
+  <h2 class="mat-title text-center" i18n>Budget Approval</h2>
+  <p class="mat-body text-center" i18n>
+    Request for reimbursement of the certification's monetary cost.
+  </p>
+
+  <div class="width-balancer-1-2 margin-auto">
+    <form
+      [formGroup]="budgetForm"
+      (submit)="onSubmit()"
+      (keydown.enter)="$event.preventDefault()"
+    >
+      <!-- Currency -->
+      <section class="my-2">
+        <mat-form-field class="w-full">
+          <mat-select
+            formControlName="currency"
+            placeholder="Currency"
+            i18n-placeholder
+          >
+            <ng-container *ngIf="currencies">
+              <mat-option
+                *ngFor="let currency of currencies"
+                [value]="currency.currency"
+              >
+                {{ currency.currency }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-hint *ngIf="currencyFetchStatus === 'fetching'" i18n>
+            Fetching currencies...
+          </mat-hint>
+          <mat-hint
+            *ngIf="currencyFetchStatus === 'done' && currencies.length"
+            i18n
+          >
+            Please select a currency.
+          </mat-hint>
+          <mat-hint
+            *ngIf="currencyFetchStatus === 'done' && !currencies.length"
+            i18n
+          >
+            There are no currencies available.
+          </mat-hint>
+          <mat-error *ngIf="currencyFetchStatus === 'error'" i18n>
+            There was an error fetching currencies.
+          </mat-error>
+          <mat-progress-spinner
+            matSuffix
+            *ngIf="currencyFetchStatus === 'fetching'"
+            [color]="'primary'"
+            [diameter]="16"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </mat-form-field>
+      </section>
+
+      <!-- Amount -->
+      <section class="my-2">
+        <mat-form-field class="w-full">
+          <input
+            matInput
+            type="number"
+            formControlName="amount"
+            placeholder="Amount"
+            i18n-placeholder
+          />
+          <mat-hint i18n>Enter an amount.</mat-hint>
+          <mat-error
+            i18n
+            *ngIf="
+              budgetForm.controls['amount'].dirty &&
+              !budgetForm.controls['amount'].value
+            "
+          >
+            Please enter an amount
+          </mat-error>
+          <mat-error
+            i18n
+            *ngIf="
+              budgetForm.controls['amount'].value &&
+              budgetForm.controls['amount'].invalid
+            "
+          >
+            Please enter a valid amount.
+          </mat-error>
+        </mat-form-field>
+      </section>
+
+      <!-- Approver Email ID -->
+      <section class="my-2">
+        <mat-form-field class="w-full">
+          <input
+            matInput
+            formControlName="approverEmail"
+            placeholder="Approver's Email ID"
+            i18n-placeholder
+          />
+
+          <mat-progress-spinner
+            matSuffix
+            *ngIf="
+              managerFetchStatus === 'fetching' ||
+              budgetForm.controls['approverEmail'].pending
+            "
+            [color]="'primary'"
+            [diameter]="16"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+          <mat-icon
+            matSuffix
+            [color]="'primary'"
+            *ngIf="budgetForm.controls['approverEmail'].valid"
+          >
+            check_circle_outline
+          </mat-icon>
+          <mat-icon
+            matSuffix
+            [color]="'error'"
+            *ngIf="
+              budgetForm.controls['approverEmail'].invalid &&
+              budgetForm.controls['approverEmail'].dirty
+            "
+          >
+            error_outline
+          </mat-icon>
+
+          <mat-hint *ngIf="managerFetchStatus === 'fetching'" i18n>
+            Fetching default approver...
+          </mat-hint>
+          <mat-hint
+            *ngIf="
+              managerFetchStatus !== 'fetching' &&
+              budgetForm.controls['approverEmail'].pending
+            "
+            i18n
+          >
+            Validating email...
+          </mat-hint>
+          <mat-hint
+            *ngIf="
+              managerFetchStatus === 'done' &&
+              !budgetForm.controls['approverEmail'].value
+            "
+            i18n
+          >
+            Enter an approver's email ID (a JL6 line manager or any JL7+
+            employee).
+          </mat-hint>
+          <mat-hint i18n *ngIf="budgetForm.controls['approverEmail'].valid">
+            This is a valid approver email ID.
+          </mat-hint>
+
+          <mat-error
+            *ngIf="
+              budgetForm.controls['approverEmail'].value &&
+              budgetForm.controls['approverEmail'].invalid
+            "
+            i18n
+          >
+            Not a valid approver email ID.
+          </mat-error>
+        </mat-form-field>
+      </section>
+
+      <div class="text-center">
+        <button
+          mat-stroked-button
+          [color]="'primary'"
+          type="submit"
+          [disabled]="!budgetForm.valid || requestSendStatus === 'sending'"
+        >
+          <ng-container *ngIf="requestSendStatus !== 'sending'" i18n
+            >Send Request</ng-container
+          >
+          <ng-container *ngIf="requestSendStatus === 'sending'">
+            <div class="flex flex-between">
+              <div i18n>Sending...</div>
+              <div class="flex flex-column flex-center">
+                <mat-progress-spinner
+                  [color]="'primary'"
+                  [diameter]="16"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+            </div>
+          </ng-container>
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

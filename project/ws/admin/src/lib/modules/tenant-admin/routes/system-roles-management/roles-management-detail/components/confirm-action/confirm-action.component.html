@@ -1,0 +1,15 @@
+<ng-container>
+  <div mat-dialog-content>
+    <h2 *ngIf="data.func === 'add'" i18n>Are you sure to add role?</h2>
+    <h2 *ngIf="data.func === 'remove'" i18n>Are you sure to remove role?</h2>
+  </div>
+  <div mat-dialog-actions class="flex flex-wrap justify-end">
+    <button *ngIf="data.func === 'add'" mat-raised-button color="primary" type="button" (click)="add()">
+      <span i18n>Add</span>
+    </button>
+    <button *ngIf="data.func === 'remove'" mat-raised-button color="primary" type="button" (click)="remove()">
+      <span i18n>Remove</span>
+    </button>
+    <button i18n mat-button type="button" (click)="close()">Cancel</button>
+  </div>
+</ng-container>

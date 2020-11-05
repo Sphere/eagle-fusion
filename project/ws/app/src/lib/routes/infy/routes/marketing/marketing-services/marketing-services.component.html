@@ -1,0 +1,42 @@
+<div>
+  <div class="flex display-toggle-margin">
+    <img
+      i18n-alt
+      alt="pentagon filter"
+      src="\assets\images\marketing\pentagon-filter.svg"
+      (click)="displayType = 'pentagon'"
+      class="pentagon-toggle cur-pointer"
+      [ngClass]="{
+        'big-pentagon': displayType === 'pentagon',
+        'small-pentagon': displayType === 'a2z'
+      }"
+    />
+    <span class="mat-title mx-2"> | </span>
+    <span
+      class="mat-title cur-pointer"
+      (click)="displayType = 'a2z'"
+      i18n="marketing services a-z offerings"
+      [ngClass]="{ 'bold-text': displayType === 'a2z' }"
+      >A-Z</span
+    >
+  </div>
+  <ws-app-pentagon
+    *ngIf="displayType === 'pentagon'"
+    [default]="'Accelerate'"
+    (trackClicked)="trackClicked($event)"
+  >
+  </ws-app-pentagon>
+  <section *ngIf="selectedPillar" class="margin-top-m content-strip mat-elevation-z2">
+    <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
+    <mat-list role="list" *ngIf="displayType === 'a2z'">
+      <mat-list-item
+        class="cur-pointer"
+        role="listitem"
+        *ngFor="let offering of azOfferings"
+        (click)="navigateToSubTrack(offering)"
+      >
+        {{ offering.displayName }}
+      </mat-list-item>
+    </mat-list>
+  </section>
+</div>

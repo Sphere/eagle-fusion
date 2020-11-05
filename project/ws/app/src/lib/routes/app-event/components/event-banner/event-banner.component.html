@@ -1,0 +1,226 @@
+<div *ngIf="isRegisteredUser">
+  <ng-container [ngSwitch]="bannerTemplates[currentIndex]">
+    <ng-container
+      *ngSwitchCase="'registeredBanner'"
+      [ngTemplateOutlet]="registeredBanner"
+    ></ng-container>
+    <ng-container *ngSwitchCase="'timeBanner'" [ngTemplateOutlet]="timeBanner"></ng-container>
+  </ng-container>
+</div>
+<div
+  *ngIf="!isRegisteredUser"
+  [ngStyle]="{ 'background-image': 'url(' + data.Home.EventImageURL[1] + ')' }"
+  class="banner-container flex"
+>
+  <ng-container *ngTemplateOutlet="UnregisteredBanner"> </ng-container>
+</div>
+<ng-template #UnregisteredBanner>
+  <div class="banner w-full margin-top-m py-4 justify-center image-box__background">
+    <div class="mb-8">
+      <p class="font-bold text-4xl pb-4">
+        {{ data.Home.EventName }}
+      </p>
+      <p class="event-date text-xl font-normal pb-8">
+        {{ data.Home.EventSubtitle }}
+      </p>
+      <p class="event-description mt-4 text-lg">
+        {{ data.Home.EventDescription }}
+      </p>
+    </div>
+    <div class="flex justify-center event-slots">
+      <div class="mr-4">
+        <p class="text-3xl font-semibold pb-2 margin-remove-bottom">
+          {{ data.Home.EventRegistrations }}
+        </p>
+        <p class="text-md margin-remove-bottom">Registered</p>
+      </div>
+      <mat-divider [vertical]="true" class="vertical-divider"></mat-divider>
+      <div class="ml-4">
+        <p class="text-3xl font-semibold pb-2 margin-remove-bottom">
+          {{ data.Home.EventSlotsRemaining }}
+        </p>
+        <p class="text-md margin-remove-bottom">Slots Remaining</p>
+      </div>
+    </div>
+    <div class="mt-8 mb-6 flex justify-center">
+      <div class="mr-4">
+        <button
+          class="w-36 xrBtn"
+          [routerLink]="'/app/events/meetup/nextup/1/sessions/vr'"
+          mat-raised-button
+          type="button"
+        >
+          Experience in XR!
+        </button>
+      </div>
+      <div class="mr-4">
+        <button
+          class="w-36 registerBtn ws-mat-primary-background text-lg"
+          mat-raised-button
+          type="button"
+          (click)="onClickRegister()"
+        >
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="image-box__overlay"></div>
+</ng-template>
+
+<ng-template #registeredBanner>
+  <div
+    class="banner-container flex flex-column justify-between"
+    [ngStyle]="{ 'background-image': 'url(' + data.Home.EventImageURL[0] + ')' }"
+  >
+    <div class="banner py-4 image-box__background">
+      <div class="banner-content flex flex-wrap justify-around">
+        <div class="p-2">
+          <p class="margin-remove-bottom font-normal text-lg py-4">Coming up next</p>
+          <p class="pb-4 font-bold text-3xl">
+            {{ data.SessionCards.Sessions.Session1.SessionTitle }}
+          </p>
+          <div class="py-2">
+            <p class="text-lg font-semibold margin-bottom-xs">
+              {{ data.SessionCards.Sessions.Session1.Speaker }}
+            </p>
+            <p class="text-lg font-normal margin-remove-bottom">
+              {{ data.SessionCards.Sessions.Session1.SessionDescription.Organization }}
+            </p>
+          </div>
+          <p class="font-normal text-xl margin-remove-bottom pt-4 pb-6">
+            Starting in
+            <span class="ws-mat-warn-text text-2xl">
+              <ng-container *ngIf="allRemainingTime[0]?.hours > 10">
+                {{ allRemainingTime[0]?.hours }}
+              </ng-container>
+              <ng-container
+                *ngIf="allRemainingTime[0]?.hours < 10 && allRemainingTime[0]?.hours > 0"
+                >0{{ allRemainingTime[0]?.hours }}</ng-container
+              >
+              <ng-container *ngIf="allRemainingTime[0]?.hours < 0">
+                00
+              </ng-container>
+            </span>
+            <span class="ws-mat-warn-text text-2xl">: </span>
+            <span class="ws-mat-warn-text text-2xl">
+              <ng-container *ngIf="allRemainingTime[0]?.mins > 10">
+                {{ allRemainingTime[0]?.mins }}
+              </ng-container>
+              <ng-container *ngIf="allRemainingTime[0]?.mins < 10 && allRemainingTime[0]?.mins > 0"
+                >0{{ allRemainingTime[0]?.mins }}</ng-container
+              >
+              <ng-container *ngIf="allRemainingTime[0]?.hours < 0 && allRemainingTime[0]?.mins < 0">
+                00
+              </ng-container>
+            </span>
+            <span> mins</span>
+          </p>
+          <button
+            [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'"
+            mat-raised-button
+            color="primary"
+            type="button"
+          >
+            Join Now!
+          </button>
+          <p class="pt-6 text-lg margin-remove-bottom font-normal">
+            {{ data.Home.EventRegistrations }} people you know are joining this
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="dots-container">
+      <span
+        class="dot"
+        [ngClass]="{ active: j === currentIndex }"
+        *ngFor="let slide of bannerTemplates; let j = index"
+        (click)="slideTo(j)"
+      ></span>
+    </div>
+    <div class="image-box__overlay"></div>
+  </div>
+</ng-template>
+
+<ng-template #timeBanner>
+  <div
+    class="banner-container flex flex-column justify-between"
+    [ngStyle]="{ 'background-image': 'url(' + data.Home.EventImageURL[0] + ')' }"
+  >
+    <div class="banner bannerdiv flex justify-around image-box__background">
+      <!-- <div> -->
+      <div class="div-circle-stable">
+        <mat-progress-spinner
+          class="circle-dimension-stable"
+          mode="determinate"
+          color="white"
+          value="100"
+        >
+        </mat-progress-spinner>
+        <p class="timerh1 font-semibold text-6xl flex justify-center">
+          <span class="ws-mat-primary-text">
+            <ng-container *ngIf="allRemainingTime[0]?.hours > 10">
+              {{ allRemainingTime[0]?.hours }}
+            </ng-container>
+            <ng-container *ngIf="allRemainingTime[0]?.hours < 10 && allRemainingTime[0]?.hours > 0"
+              >0{{ allRemainingTime[0]?.hours }}</ng-container
+            >
+            <ng-container *ngIf="allRemainingTime[0]?.hours < 0">
+              00
+            </ng-container>
+          </span>
+          <span>:</span>
+          <span class="ws-mat-warn-text">
+            <ng-container *ngIf="allRemainingTime[0]?.mins > 10">
+              {{ allRemainingTime[0]?.mins }}
+            </ng-container>
+            <ng-container *ngIf="allRemainingTime[0]?.mins < 10 && allRemainingTime[0]?.mins > 0"
+              >0{{ allRemainingTime[0]?.mins }}</ng-container
+            >
+            <ng-container *ngIf="allRemainingTime[0]?.hours < 0 && allRemainingTime[0]?.mins < 0">
+              00
+            </ng-container>
+          </span>
+        </p>
+        <span>
+          &nbsp;
+        </span>
+        <p class="font-normal text-lg">Hours To Go</p>
+      </div>
+      <mat-progress-spinner
+        [color]="'warn'"
+        class="circle-dimension"
+        [value]="100"
+        mode="determinate"
+      >
+      </mat-progress-spinner>
+      <!-- </div> -->
+      <div class="banner2-text">
+        <p class="font-semibold text-3xl mb-4 timebannerText" i18n>
+          Participate in the Brand Thinking quiz and win rewards
+        </p>
+        <button
+          class="h-10 w-24 my-4 quizBtn"
+          [routerLink]="'/app/events/meetup/nextup/1/sessions/quiz'"
+          mat-raised-button
+          color="primary"
+          type="button"
+        >
+          Start Quiz
+        </button>
+        <p class="mt-8 text-lg font-normal text-lg">
+          {{ data.Home.EventRegistrations }} have participated in the Brand Thinking quiz
+        </p>
+      </div>
+    </div>
+    <div class="dots-container">
+      <span
+        class="dot"
+        [ngClass]="{ active: j === currentIndex }"
+        *ngFor="let slide of bannerTemplates; let j = index"
+        (click)="slideTo(j)"
+      ></span>
+    </div>
+    <div class="image-box__overlay"></div>
+  </div>
+</ng-template>

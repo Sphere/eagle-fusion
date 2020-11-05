@@ -1,0 +1,24 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.tree-invisible {
+  display: none;
+}
+
+.tree ul,
+.tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  margin: 0 !important;
+}
+
+.tree-node-text {
+  display: inline-block;
+  width: 100%;
+}

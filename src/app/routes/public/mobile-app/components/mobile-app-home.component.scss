@@ -1,0 +1,26 @@
+@import 'ws-vars';
+@import 'ws-common';
+
+.mobile-app-container {
+  @extend %page-center;
+  padding-top: 0;
+  padding-bottom: 8px;
+  margin: 16px 0px;
+  // min-height: 100%;
+  min-height: calc(100vh - 144px);
+  box-sizing: border-box;
+}
+
+.mobile-qr-image {
+  width: 180px;
+  height: 180px;
+  @include breakpoint-xs {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.app-unavailable {
+  text-align: center;
+  padding-top: $size-xl;
+}

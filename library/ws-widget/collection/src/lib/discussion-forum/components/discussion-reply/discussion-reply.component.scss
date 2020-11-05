@@ -1,0 +1,34 @@
+@import 'ws-vars';
+
+.reply-container {
+  // display: flex;
+  margin-top: $size-xs / 2;
+  padding: $size-s;
+}
+.datePost{
+  margin: auto 0;
+  align-items: center;
+}
+.user-image {
+  $size: 36px;
+  width: $size;
+  height: $size;
+}
+
+.postSection{
+  align-items: center
+}
+
+@media only screen and (max-width:469px){
+  .datePost{
+    justify-content: space-between;
+    margin: auto 0;
+    align-items: center;
+    width: 100%;
+  }
+  .postSection{
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,20 @@
+<div class="card-container">
+  <mat-card>
+    <div class="info">
+      <span class="date mat-body">{{ badge.DateOfwinning | date }}</span>
+      <mat-icon i18n-matTooltip matTooltip="Completed" class="ws-mat-green-text check">check_circle</mat-icon>
+    </div>
+    <div class="badge-container">
+      <div class="image-container">
+        <img class="small-badge" [src]="badge.BadgeImagePath" [alt]="badge.BadgeName"
+          [matTooltip]="badge.CongratsMessage" />
+      </div>
+      <div class=" badge-data">
+        <div class="mat-title title text-align">
+          {{ badge.BadgeName }}
+        </div>
+        <div class="mat-body text-align">{{badge.AfterCompletionCriteria }}</div>
+      </div>
+    </div>
+  </mat-card>
+</div>

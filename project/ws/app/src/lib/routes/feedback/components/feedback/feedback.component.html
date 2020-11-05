@@ -1,0 +1,177 @@
+<mat-card class="feedback-container">
+  <mat-tab-group
+    color="accent"
+    dynamicHeight
+    mat-align-tabs="center"
+    [selectedIndex]="currentTabIndex"
+    (selectedIndexChange)="updateRoute($event)"
+  >
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span i18n class="mat-body-2">Rate Platform</span>
+      </ng-template>
+      <ng-container
+        *ngTemplateOutlet="feedbackHolder; context: { $implicit: feedbackRequest.application }"
+      >
+      </ng-container>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span i18n class="mat-body-2">Rate Content</span>
+      </ng-template>
+      <ng-container
+        *ngTemplateOutlet="
+          feedbackHolder;
+          context: { $implicit: feedbackRequest.applicationcontent }
+        "
+      >
+      </ng-container>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span i18n class="mat-body-2">Report an issue</span>
+      </ng-template>
+      <div class="text-center">
+        <img alt [src]="feedbackBugImg" />
+        <h2 class="mat-h2" i18n>Got Stuck?</h2>
+        <div class="margin-top-m">
+          <form #bugForm="ngForm" (submit)="submitFeedback(feedbackRequest.bug, bugForm)">
+            <mat-form-field class="field-container" floatLabel="never">
+              <textarea
+                [name]="feedbackRequest.bug.feedbackType + '_issue'"
+                [(ngModel)]="feedbackRequest.bug.feedback[0].answer"
+                matInput
+                i18n-placeholder
+                placeholder="Give us details and we'll make it work"
+                required
+                minlength="10"
+              ></textarea>
+              <mat-error i18n="feedback bug detailed report">
+                Give us a detailed report (min. 10 characters)
+              </mat-error>
+            </mat-form-field>
+            <button
+              [disabled]="bugForm.form.invalid || submitInProgress"
+              class="margin-top-xl"
+              type="submit"
+              mat-raised-button
+              [color]="'primary'"
+              i18n
+            >
+              Submit Feedback
+            </button>
+            <button i18n="reset feedback form" mat-button type="reset">Reset</button>
+          </form>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
+
+<ng-template #feedbackHolder let-request>
+  <div class="text-center">
+    <form #feedbackForm="ngForm" (submit)="submitFeedback(request, feedbackForm)">
+      <label class="rating-container text-center">
+        <mat-form-field class="rating-form-field">
+          <input
+            class="rating-input"
+            matInput
+            required
+            type="number"
+            #rating="ngModel"
+            [(ngModel)]="request.rating"
+            [name]="request.feedbackType + '_rating'"
+            min="1"
+            [max]="5"
+            [pattern]="numbersPattern"
+          />
+          <mat-error [hidden]="rating.valid && rating.touched" i18n>
+            Rating is required
+          </mat-error>
+        </mat-form-field>
+        <button
+          type="button"
+          class="rating-button"
+          mat-icon-button
+          *ngFor="let _ of ratingLoop; let i = index"
+          (click)="request.rating = i + 1"
+          color="accent"
+        >
+          <mat-icon class="rating-icon">
+            {{ (request.rating || -1) > i ? 'star' : 'star_border' }}</mat-icon
+          >
+        </button>
+      </label>
+      <div class="margin-top-m">
+        <mat-form-field class="field-container">
+          <mat-label i18n>I liked</mat-label>
+          <textarea
+            *ngIf="request.feedbackType === 'application'"
+            [name]="request.feedbackType + '_liked'"
+            [(ngModel)]="request.feedback[0].answer"
+            matInput
+            i18n-placeholder
+            placeholder="Tell us what you liked (optional)"
+          ></textarea>
+          <textarea
+            *ngIf="request.feedbackType === 'applicationcontent'"
+            [name]="request.feedbackType + '_liked'"
+            [(ngModel)]="request.feedback[0].answer"
+            matInput
+            i18n-placeholder
+            placeholder="Like the content? Share your comments (optional)"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <div class="margin-top-s">
+        <mat-form-field class="field-container">
+          <mat-label i18n>I wish</mat-label>
+          <textarea
+            *ngIf="request.feedbackType === 'application'"
+            [name]="request.feedbackType + '_wished'"
+            [(ngModel)]="request.feedback[1].answer"
+            matInput
+            i18n-placeholder
+            placeholder="What more would you like to see? (optional)"
+          ></textarea>
+          <textarea
+            *ngIf="request.feedbackType === 'applicationcontent'"
+            [name]="request.feedbackType + '_wished'"
+            [(ngModel)]="request.feedback[1].answer"
+            matInput
+            i18n-placeholder
+            placeholder="How can we enhance your learning? (optional)"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <button
+        [disabled]="feedbackForm.form.invalid || submitInProgress"
+        class="margin-top-xl"
+        type="submit"
+        mat-raised-button
+        [color]="'primary'"
+        i18n
+      >
+        Submit Feedback
+      </button>
+      <button mat-button i18n="reset feedback form" type="reset">Reset</button>
+    </form>
+  </div>
+</ng-template>
+
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="feedback submit successful"
+  value="Thanks for your feedback"
+  #toastSuccess
+/>
+<input
+  type="hidden"
+  i18-value
+  i18-aria-value
+  aria-value="unable to submit feedback"
+  value="Error submitting feedback!"
+  #toastError
+/>

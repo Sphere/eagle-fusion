@@ -1,0 +1,64 @@
+.op100 {
+  opacity: 1;
+}
+
+.upload-box {
+  border: 2px dashed rgba(28, 28, 28, 0.6);
+  border-radius: 2%;
+  width: 235px;
+}
+
+.text-white {
+  color: #fff;
+}
+
+ul li {
+  margin: 20px 0;
+}
+
+input{
+  line-height: 1px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  color: white;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.close-button {
+  top: -70px;
+  left: 60px;
+}
+
+
+.padding-remove-bottom {
+  padding: 0;
+}
+
+.flex-grow60{
+  flex-grow: 0.6;
+}
+
+
+.input{
+  font-size: 16px;
+}
+
+.margin-left15{
+  margin-left: 15rem;
+}
+
+.margin-left5{
+  margin-left: 5rem;
+}

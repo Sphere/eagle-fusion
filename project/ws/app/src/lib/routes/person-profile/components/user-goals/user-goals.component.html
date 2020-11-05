@@ -1,0 +1,39 @@
+<div class="m-0">
+  <!-- <div class="flex flex-between">
+    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>Goals</p>
+    <div class="flex-end" [hidden]="suggestionsLimit >= userGoals?.completedGoals?.length">
+      <div class="flex">
+        <p class="margin-remove-bottom ws-mat-primary-text font-family" [routerLink]='' i18n>View All
+        </p>
+        <mat-icon
+          class="ws-mat-primary-text margin-left-xs pointer mat-icon notranslate material-icons mat-icon-no-color"
+          role="img" aria-hidden="true">play_circle_fillec</mat-icon>
+      </div>
+    </div>
+  </div> -->
+  <!-- <p class="ws-mat-primary-text margin-top-xs pl-4 py-4 "
+    *ngIf="fetchGoalsStatus === 'done' && !userGoals?.completedGoals?.length" i18n> User has not completed any goals.
+  </p>
+  <div class="flex flex-wrap remove-margin">
+    <mat-card class="flex flex-wrap m-2 p-4 goal-card-container"
+      *ngFor="let goal of userGoals.completedGoals | pipeLimitTo: suggestionsLimit;">
+      <div class="flex mb-2">
+        <mat-card-content class="margin-remove-bottom">
+          <div class="width-expand">
+            <h3 class="mat-subheading-2 font-weight-500 margin-remove-bottom hide-text" [matTooltip]="goal.name">
+              {{ goal?.name }}</h3>
+          </div>
+          <span *ngIf="goal.endDate" class="flex flex-middle pt-2">
+            <mat-icon class="negative-margin-left-xxs" [color]="'primary'">
+              flag
+            </mat-icon>
+            <p class="margin-left-xs margin-remove-bottom">
+              <span class="mat-caption" i18n>Deadline on </span>
+              <span class="mat-body-strong mat-caption">{{ goal.endDate | date }}</span>
+            </p>
+          </span>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div> -->
+</div>

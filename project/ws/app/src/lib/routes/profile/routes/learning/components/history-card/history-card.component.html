@@ -1,0 +1,68 @@
+<mat-card class="plans-card-module goal-class">
+  <mat-grid-list *ngIf="!historyData?.screenSizeIsLtMedium" cols="5" rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="historyData?.isExternal" [href]="historyData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ historyData?.name }}</span></a>
+        <a *ngIf="!historyData?.isExternal" [href]="historyData?.contentUrl"><span
+            class="mat-body-1">{{ historyData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="historyData?.isExternal" [href]="historyData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ historyData?.name }}</span></a>
+        <a *ngIf="!historyData?.isExternal" [href]="historyData?.contentUrl"><span
+            class="text-xs">{{ historyData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <ws-app-progress-radial [mode]="'determinate'" [progress]="historyData?.progress" [isClient]="true">
+      </ws-app-progress-radial>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">
+        {{ historyData?.completed }}
+      </p>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">
+        {{ historyData?.completedUsers }}
+      </p>
+    </mat-grid-tile>
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-list *ngIf="historyData?.screenSizeIsLtMedium" cols="4" rowHeight="70px">
+    <mat-grid-tile>
+      <div class="text-inside-grid hidden sm:block">
+        <a *ngIf="historyData?.isExternal" [href]="historyData?.contentUrl" target="_blank"><span
+            class="mat-body-1">{{ historyData?.name }}</span></a>
+        <a *ngIf="!historyData?.isExternal" [href]="historyData?.contentUrl"><span
+            class="mat-body-1">{{ historyData?.name }}</span></a>
+      </div>
+      <div class="text-inside-grid block sm:hidden">
+        <a *ngIf="historyData?.isExternal" [href]="historyData?.contentUrl" target="_blank"><span
+            class="text-xs">{{ historyData?.name }}</span></a>
+        <a *ngIf="!historyData?.isExternal" [href]="historyData?.contentUrl"><span
+            class="text-xs">{{ historyData?.name }}</span></a>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <ws-app-progress-radial [mode]="'determinate'" [progress]="historyData?.progress" [isClient]="true">
+      </ws-app-progress-radial>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <p class="text-outside-grid">
+        {{ historyData?.completed }}
+      </p>
+    </mat-grid-tile>
+    <!-- <mat-grid-tile>
+       <p class="text-outside-grid">
+         {{ historyData?.completedUsers }}
+       </p>
+     </mat-grid-tile> -->
+    <mat-grid-tile style="overflow: visible!important;">
+      <ng-container [wsResolverWidget]="widgetPieGraph"></ng-container>
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-card>

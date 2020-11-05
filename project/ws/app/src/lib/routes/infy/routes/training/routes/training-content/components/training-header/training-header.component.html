@@ -1,0 +1,96 @@
+<section class="padding-bottom-s">
+  <h1 class="mat-headline text-truncate">{{ content.name }}</h1>
+
+  <div class="text-truncate">
+    <span class="mat-body-2 uppercase">
+      <ng-container [ngSwitch]="content.contentType">
+        <ng-container *ngSwitchCase="contentTypes.PROGRAM" i18n
+          >Program</ng-container
+        >
+        <ng-container *ngSwitchCase="contentTypes.COURSE" i18n
+          >Course</ng-container
+        >
+        <ng-container *ngSwitchCase="contentTypes.MODULE" i18n
+          >Module</ng-container
+        >
+        <ng-container *ngSwitchCase="contentTypes.RESOURCE" i18n
+          >Resource</ng-container
+        >
+        <ng-container *ngSwitchDefault i18n>Content</ng-container>
+      </ng-container>
+    </span>
+    <span class="mat-body-2" *ngIf="trainingCount">
+      | {{ trainingCount }}
+      <ng-container *ngIf="trainingCount !== 1" i18n="<x> trainings available">
+        trainings available
+      </ng-container>
+      <ng-container *ngIf="trainingCount === 1" i18n="training available">
+        training available
+      </ng-container>
+    </span>
+  </div>
+
+  <div class="margin-top-s">
+    <a
+      mat-flat-button
+      [color]="'primary'"
+      class="margin-right-s"
+      [routerLink]="'/app/toc/' + content.identifier + '/overview'"
+      i18n="view TOC; view table of contents"
+    >
+      View TOC
+    </a>
+
+    <a
+      mat-flat-button
+      [color]="'primary'"
+      class="'margin-right-s'"
+      i18n="request for training"
+      *ngIf="trainingPrivileges && trainingPrivileges.canRequestJIT"
+      [routerLink]="['/app/infy/training/dashboard/jit/request-training']"
+      [queryParams]="{ contentId: content.identifier }"
+    >
+      Request Training
+    </a>
+
+    <ng-container
+      *ngIf="
+        content.contentType === 'Course' &&
+        !content.isExternal &&
+        watchlistStatus
+      "
+    >
+      <button
+        mat-icon-button
+        [color]="'primary'"
+        matTooltip="Receive updates when new trainings are available."
+        i18n-matTooltip
+        *ngIf="!watchlistStatus.inWatchlist"
+        [disabled]="watchlistAddStatus === 'sending'"
+        (click)="addToWatchlist()"
+      >
+        <mat-icon *ngIf="watchlistAddStatus !== 'sending'">add_alert</mat-icon>
+        <mat-icon *ngIf="watchlistAddStatus === 'sending'"
+          >hourglass_full</mat-icon
+        >
+      </button>
+
+      <button
+        mat-icon-button
+        [color]="'primary'"
+        matTooltip="Stop receiving updates for new trainings."
+        i18n-matTooltip
+        *ngIf="watchlistStatus.inWatchlist"
+        [disabled]="watchlistRemoveStatus === 'sending'"
+        (click)="removeFromWatchlist()"
+      >
+        <mat-icon *ngIf="watchlistRemoveStatus !== 'sending'"
+          >notifications_off</mat-icon
+        >
+        <mat-icon *ngIf="watchlistRemoveStatus === 'sending'"
+          >hourglass_full</mat-icon
+        >
+      </button>
+    </ng-container>
+  </div>
+</section>

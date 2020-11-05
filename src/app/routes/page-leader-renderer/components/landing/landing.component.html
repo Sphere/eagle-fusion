@@ -1,0 +1,102 @@
+<mat-toolbar class = "ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: '/app/infy/channels/leadership' }"></ws-widget-btn-page-back>
+  <span class="margin-left-s" i18n>Leadership</span>
+</mat-toolbar>
+
+
+<div class="landing-container" *ngIf="leaderData && !errorFetchingJson">
+  <div class="flex">
+    <div class="profile display-side-items">
+      <div class="sticky-top padding-left-xs text-center">
+        <img alt="profileImg" class="mat-lite-background" [src]="leaderData?.profile?.profileImage" />
+        <div class="text-center">
+          <h2 class="margin-remove margin-top-xs">{{ leaderData?.profile.name }}</h2>
+          <h3 class="margin-remove-bottom margin-top-xs">{{ leaderData?.profile.designation }}</h3>
+          <div class="flex flex-middle flex-center icons">
+            <mat-icon class="cursor-pointer" (click)="openSendMailDialog()">email</mat-icon>
+            <button *ngIf="!isFollowDisabled" type="button" mat-icon-button [disabled]="isFetchingFollow"
+              class="follow-btn margin-left-xs"
+              [color]="loggedUserFollowData && isFollowing(leaderUuid) ? 'primary' : null"
+              (click)="toggleFollow(leaderUuid)">
+              <mat-icon *ngIf="!loggedUserFollowData || (loggedUserFollowData && !isFollowing(leaderUuid))">
+                add_circle_outline</mat-icon>
+              <mat-icon *ngIf="loggedUserFollowData && isFollowing(leaderUuid)">check_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <nav class="nav-links">
+          <a *ngFor="let tab of tabs; let i = index" [routerLink]="[]" [queryParams]="{ tab: tab }" accesskey="i"
+            routerLinkActive="active mat-primary-text">
+            {{ tab | titlecase }}
+          </a>
+        </nav>
+      </div>
+    </div>
+    <div class="banner-and-tabs width-expand">
+      <ng-container [wsResolverWidget]="(leaderData?.tabs)[currentIndex]?.banners"></ng-container>
+
+      <mat-divider></mat-divider>
+      <div class="display-on-small">
+        <div class="flex flex-middle flex-between margin-s">
+          <div class="flex flex-middle">
+            <img alt="Leader" class="mat-lite-background" [src]="leaderData?.profile?.profileImage" />
+            <div class="margin-left-s">
+              <h2 class="margin-remove margin-top-xs">{{ leaderData?.profile.name }}</h2>
+              <h3 class="margin-remove-bottom margin-top-xs">
+                {{ leaderData?.profile.designation }}
+              </h3>
+              <div class="flex flex-middle icons">
+                <mat-icon class="cursor-pointer" (click)="openSendMailDialog()">email</mat-icon>
+                <button *ngIf="!isFollowDisabled" type="button" mat-icon-button [disabled]="isFetchingFollow"
+                  class="follow-btn margin-left-xs"
+                  [color]="loggedUserFollowData && isFollowing(leaderUuid) ? 'primary' : null"
+                  (click)="toggleFollow(leaderUuid)">
+                  <mat-icon *ngIf="
+                      !loggedUserFollowData || (loggedUserFollowData && !isFollowing(leaderUuid))
+                    ">
+                    add_circle_outline</mat-icon>
+                  <mat-icon *ngIf="loggedUserFollowData && isFollowing(leaderUuid)">check_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-tab-group mat-align-tabs="center" dynamicHeight [selectedIndex]="currentIndex"
+          (selectedIndexChange)="onIndexChange($event)">
+          <mat-tab *ngFor="let tab of tabs; let i = index">
+            <ng-template mat-tab-label>
+              <span [ngClass]="{ 'mat-body-2': currentIndex === i }" accesskey="i">{{
+                tab | titlecase
+              }}</span>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <ws-about [about]="leaderData?.about" [profile]="leaderData?.profile" [hidden]="currentIndex !== 0">
+      </ws-about>
+      <ws-tweets [twitterUrl]="leaderData?.twitterUrl" [hidden]="currentIndex !== 1"></ws-tweets>
+      <ws-articles [articles]="leaderData?.articles" [hidden]="currentIndex !== 2"></ws-articles>
+      <ws-conversations [widgetSearchRequest]="leaderData?.stripSearchRequest" [hidden]="currentIndex !== 3">
+      </ws-conversations>
+      <ws-communications [widgetSearchRequest]="leaderData?.communicationSearchRequest" [hidden]="currentIndex !== 4">
+      </ws-communications>
+      <ws-discuss [pageId]="leaderData?.discussId" [leaderProfile]="leaderData?.profile" [hidden]="currentIndex !== 5">
+      </ws-discuss>
+    </div>
+  </div>
+</div>
+
+<div class="text-center margin-top-m">
+  <h2 class="mat-h2" i18n *ngIf="!leaderData && !errorFetchingJson">
+    No Data Available for this leader.
+  </h2>
+  <h2 class="mat-h2" i18n *ngIf="errorFetchingJson">
+    Something went wrong. Not able to load the content.
+  </h2>
+</div>
+
+<input #followed type="hidden" i18n-value value="You started following" />
+<input #unfollowed type="hidden" i18n-value value="You unfollowed" />
+<input #followUnfollowError type="hidden" i18n-value value="Error occured. Please try again later." />

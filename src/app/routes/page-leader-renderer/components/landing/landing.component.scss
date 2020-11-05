@@ -1,0 +1,86 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+$app-background-lite-color: #f5f6f7;
+
+.icon {
+  cursor: pointer;
+}
+
+.landing-container {
+  max-width: 1200px;
+
+  margin: auto;
+  margin-bottom: $size-l;
+
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+}
+
+.profile {
+  display: block;
+  margin-right: $size-l;
+  img {
+    $image-size: 162px;
+    width: $image-size;
+    height: $image-size;
+    border-radius: 50%;
+    margin-top: $size-s;
+  }
+  .designation {
+    margin-bottom: $size-xs;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav-links {
+    margin-top: $size-xl;
+    a {
+      display: block;
+      padding: $size-xs / 2 0;
+      padding-left: $size-xs;
+      margin-bottom: $size-xs / 2;
+    }
+    a.active {
+      font-weight: 600;
+    }
+  }
+  @include breakpoint-lt-m {
+    display: none;
+  }
+}
+.banner-and-tabs {
+  img {
+    $img-size: 80px;
+    width: $img-size;
+    height: $img-size;
+    border-radius: 50%;
+  }
+  .display-on-small {
+    display: none;
+    @include breakpoint-lt-m {
+      display: block;
+    }
+  }
+}
+
+.display-side-items {
+  display: none;
+  @include breakpoint-gt-s {
+    display: block;
+  }
+}
+
+.icons {
+  height: $size-xl;
+}
+
+.follow-btn {
+  width: $size-l;
+  background: none;
+}

@@ -1,0 +1,68 @@
+<mat-toolbar role="navigation" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back',titles:[{title:'Search',url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span i18n="page title: search" class="margin-left-xs hidden-inline-s">Search</span> -->
+  <span class="spacer"></span>
+</mat-toolbar>
+<div role="main" class="flex search justify-center px-4 mt-12">
+  <div class="w-full md:w-10/12 lg:w-6/12">
+    <h1 class="text-center mat-title" i18n>What do you want to learn?</h1>
+    <div role="form" class="flex border border-solid search-border">
+      <div [ngClass]="{'border-right': languageSearch?.length}" class="flex items-center">
+        <button class="lang-btn margin-right-s" *ngIf="languageSearch?.length" mat-button
+          [matMenuTriggerFor]="sortLang">
+          <span class="uppercase">
+            {{ searchQuery.l.split(',').length === 1 ? searchQuery.l : 'pref' || 'en' }}
+          </span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+      </div>
+      <div class="w-full search">
+        <form (submit)="search(query.value)" class="w-full search-form flex">
+          <mat-form-field class="w-full" appearance="none">
+            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput
+              placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
+          </mat-form-field>
+          <mat-autocomplete (optionSelected)="search($event.option.value)" #auto="matAutocomplete">
+            <mat-option *ngIf="query.value" [value]="query.value">{{query.value}}</mat-option>
+            <mat-option *ngFor="let query of autoCompleteResults" [value]="query._source.searchTerm">
+              {{query._source.searchTerm}}</mat-option>
+          </mat-autocomplete>
+        </form>
+      </div>
+      <div (click)="search()" class="flex items-center justify-center w-16 cursor-pointer">
+        <mat-icon>search</mat-icon>
+      </div>
+    </div>
+    <div class="flex flex-wrap md:flex-no-wrap justify-around mt-10">
+      <a *ngFor="let filter of suggestedFilters" matRipple role="button" i18n-aria-label aria-label="Suggested filter"
+        [routerLink]="filter?.url" [queryParams]="filter?.queryParams" class="w-1/3 filter-button">
+        <mat-icon class="mb-2">{{filter.icon}}</mat-icon>
+        <span class="font-normal">{{filter.title}}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<mat-menu #sortLang="matMenu">
+  <ng-template matMenuContent>
+    <div *ngFor="let lang of languageSearch; index as i">
+      <button mat-menu-item (click)="searchLanguage(lang)">
+        <span class="flex items-center w-full">
+          <span class="mr-2 flex items-center">
+            <img *ngIf="lang.split(',').length > 1" [ngStyle]="{ height: '17px' ,width :'17px'}"
+              src="/assets/common/flags/pref.png">
+            <img *ngIf="lang.split(',').length === 1" [ngStyle]="{
+                        height: lang === 'all' ? '17px': '14px',
+                         width: lang === 'all' ? '17px': '20px'
+                      }" src="/assets/common/flags/{{lang}}.png">
+          </span>
+          <span>{{ lang }}</span>
+          <mat-icon class="ml-2" *ngIf="lang === searchQuery.l">check</mat-icon>
+        </span>
+      </button>
+      <mat-divider *ngIf="(preferredLanguages?.split(',').length > 1 ? i==1 : i==0) && languageSearch.includes('all')">
+      </mat-divider>
+    </div>
+  </ng-template>
+</mat-menu>

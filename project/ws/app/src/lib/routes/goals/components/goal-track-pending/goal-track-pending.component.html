@@ -1,0 +1,44 @@
+<main class="my-4">
+  <h3 *ngIf="!trackGoal?.pending?.length" class="text-center mat-title" i18n>No Pending items</h3>
+  <div *ngIf="trackGoal?.pending?.length" class="mb-4">
+    <table mat-table [dataSource]="dataSourcePending" class="mat-elevation-z2 w-full" *ngIf="dataSourcePending">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef id="select">
+          <mat-checkbox (change)="$event ? masterTogglePending() : null"
+            [checked]="selectionPending.hasValue() && isAllSelectedPending()"
+            [indeterminate]="selectionPending.hasValue() && !isAllSelectedPending()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectionPending.toggle(row) : null"
+            [checked]="selectionPending.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef i18n id="user">User</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.sharedWith?.name  }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsPending"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsPending" (click)="selectionPending.toggle(row)"></tr>
+    </table>
+
+    <div class="mt-4 flex flex-row-reverse">
+      <button name="remind-button-goal-track-pending" *ngIf="!remindAPIProgress" [disabled]="!selectionPending.selected?.length" mat-raised-button
+        color="primary" i18n (click)="remind()">
+        Remind
+      </button>
+      <mat-spinner *ngIf="remindAPIProgress" [diameter]="30"></mat-spinner>
+    </div>
+
+  </div>
+</main>
+
+<input #remindError type="hidden" i18n-value value="Error sending mail" />
+<input #remindSuccess type="hidden" i18n-value value="Sending Reminder mail..." />

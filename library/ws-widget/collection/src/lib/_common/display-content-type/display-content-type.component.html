@@ -1,0 +1,97 @@
+<ng-container *ngIf="displayContentType">
+  <span [ngSwitch]="displayContentType" class="content-type-class">
+    <ng-container *ngSwitchCase="displayContentTypeEnum.ASSESSMENT" i18n>Assessment</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.AUDIO" i18n>Audio</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.CHANNEL" i18n>Channel</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.CERTIFICATION" i18n
+      >Certification</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.CLASS_DIAGRAM" i18n
+      >Class Diagram</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.COURSE" i18n>Course</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.DEFAULT" i18n>Content</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.DRAG_DROP" i18n>Drag & Drop</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.EXTERNAL_CERTIFICATION" i18n
+      >External Certification</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.EXTERNAL_COURSE" i18n
+      >External Course</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.HANDS_ON" i18n>Hands-On</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.IAP" i18n>Hands-On Assessment</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.INSTRUCTOR_LED" i18n
+      >Instructor-Led</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.INTERACTIVE_VIDEO" i18n
+      >Interactive Video</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.KNOWLEDGE_ARTIFACT" i18n
+      >Knowledge Artifact</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.KNOWLEDGE_BOARD" i18n
+      >Knowledge Board</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.LEARNING_JOURNEY" i18n
+      >Learning Journey</ng-container
+    >
+    <ng-container *ngSwitchCase="displayContentTypeEnum.MODULE" i18n>Module</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.PDF" i18n>Pdf</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.PROGRAM" i18n>Program</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.QUIZ" i18n>Quiz</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.RESOURCE" i18n>Resource</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.VIDEO" i18n>Video</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.WEB_MODULE" i18n>Web Module</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.WEB_PAGE" i18n>Web Page</ng-container>
+    <ng-container *ngSwitchCase="displayContentTypeEnum.YOUTUBE" i18n>Youtube</ng-container>
+    <ng-container *ngSwitchDefault i18n>{{displayContentType}}</ng-container>
+  </span>
+  </ng-container>
+<!-- <ng-container *ngIf="displayContentType">{{displayContentType}}</ng-container> -->
+<!-- <span [ngSwitch]="displayContentType">
+  <ng-container *ngSwitchCase="displayContentTypeEnum.ASSESSMENT" i18n>Assessment</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.AUDIO" i18n>Audio</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.CHANNEL" i18n>Channel</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.CERTIFICATION" i18n
+    >Certification</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.CLASS_DIAGRAM" i18n
+    >Class Diagram</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.COURSE" i18n>Course</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.DEFAULT" i18n>Content</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.DRAG_DROP" i18n>Drag & Drop</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.EXTERNAL_CERTIFICATION" i18n
+    >External Certification</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.EXTERNAL_COURSE" i18n
+    >External Course</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.HANDS_ON" i18n>Hands-On</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.IAP" i18n>Hands-On Assessment</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.INSTRUCTOR_LED" i18n
+    >Instructor-Led</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.INTERACTIVE_VIDEO" i18n
+    >Interactive Video</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.KNOWLEDGE_ARTIFACT" i18n
+    >Knowledge Artifact</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.KNOWLEDGE_BOARD" i18n
+    >Knowledge Board</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.LEARNING_JOURNEY" i18n
+    >Learning Journey</ng-container
+  >
+  <ng-container *ngSwitchCase="displayContentTypeEnum.MODULE" i18n>Module</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.PDF" i18n>Pdf</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.PROGRAM" i18n>Program</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.QUIZ" i18n>Quiz</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.RESOURCE" i18n>Resource</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.VIDEO" i18n>Video</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.WEB_MODULE" i18n>Web Module</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.WEB_PAGE" i18n>Web Page</ng-container>
+  <ng-container *ngSwitchCase="displayContentTypeEnum.YOUTUBE" i18n>Youtube</ng-container>
+  <ng-container *ngSwitchDefault i18n>Content</ng-container>
+</span> -->

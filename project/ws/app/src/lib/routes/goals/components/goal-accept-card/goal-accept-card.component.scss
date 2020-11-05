@@ -1,0 +1,18 @@
+.goal-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.goal-progress-percent {
+  position: absolute;
+  bottom: 4px;
+}
+
+.transformx-minus-100 {
+  transform: translate(-100%);
+}
+
+.rounded-none {
+  border-radius: 0px !important;
+}

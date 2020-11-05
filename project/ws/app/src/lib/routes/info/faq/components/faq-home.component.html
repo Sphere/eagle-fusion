@@ -1,0 +1,359 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <button type="button" mat-icon-button *ngIf="faqConfigs?.length > 1" (click)="sideNavBarOpened = !sideNavBarOpened">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Support',url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n="page title: faq" class="margin-left-xs">Support</span>
+  </span> -->
+</mat-toolbar>
+<div *ngIf="!isFaqFeature">
+  <h1 i18n class="mat-title margin-top-xl text-center">
+    Frequently asked questions can be configured here.
+  </h1>
+</div>
+<mat-sidenav-container class="sidenav-content-min-112">
+  <mat-sidenav class="sidenav" [mode]="mode$ | async" [(opened)]="sideNavBarOpened" *ngIf="faqConfigs?.length > 1">
+    <mat-nav-list *ngFor="let faqConfig of faqConfigs; let i = index">
+      <a mat-list-item aria-label="Faqs Related" [ngClass]="{ 'mat-toolbar active-tab': i === selectedTabIndex }"
+        (click)="sideNavOnClick(i)">{{ faqConfig.groupName }}</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- <div *ngIf="screenSizeIsLtMedium" class="flex flex-middle padding-m">
+      <button type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h2
+        class="mat-subheading-2 margin-remove padding-left-xs"
+        *ngFor="let faqConfig of faqConfigs; let i = index"
+      >
+        <span
+          (click)="sideNavOnClick(i)"
+          [ngClass]="{ 'mat-toolbar active-tab': i === selectedTabIndex }"
+          >{{ faqConfig.groupName }}</span
+        >
+      </h2>
+    </div> -->
+    <section class="padding-m" *ngFor="let selectedTabDatum of selectedTabData">
+      <p class="mat-body-2">
+        {{ selectedTabDatum.heading }}
+      </p>
+      <p *ngIf="selectedTabDatum.value" class="mat-body-1"
+        [innerHTML]="selectedTabDatum.value | pipeSafeSanitizer: 'html'">
+        <!-- [innerHTML]="selectedTabDatum.value | pipeSafeSanitizer: 'html'" -->
+      </p>
+    </section>
+    <!-- <section class="padding-m" [ngSwitch]="currentTab">
+      <mat-card *ngSwitchCase="'login'">
+        <p class="mat-body-2" i18n="faq page panel one question one">
+          Q1. Unable to login to Wingspan
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel one answer one section one">
+            For using Wingspan you have to register yourself for Multi-Factor Authentication.<br />
+            Please login to Wingspan from
+          </ng-container>
+          <ng-container>
+            https://wingspan.com
+          </ng-container>
+          <ng-container i18n="faq page panel one answer one section two">
+            <br />
+            Wingspan is an internet facing application there are two scenarios.<br />
+            1. You are accessing Wingspan on Infosys Intranet (VPN yes but not IConnect)<br />
+            2. You are accessing Wingspan on Internet (from your personal laptop/desktop/Mobile
+            browser/Android/iOS native applications)<br />
+            In 1) you will not have to do separate authentication, your windows login will be
+            automatically used for letting you in Wingspan<br />
+            In 2) You need to register yourself first for Multi-Factor Authentication (MFA) at
+          </ng-container>
+          <ng-container>
+          </ng-container>
+          <ng-container i18n="faq page panel one answer one section three">
+            on intranet and register.<br />
+            The passcode or pin you set up here will be used for login later.<br />
+            Once you enter your Infosys user name and password on a Microsoft Page, you will receive
+            a call prompting you to use the passcode/pin to authenticate yourself.<br />
+            You can also either register or change your pin if you have forgotten.
+          </ng-container>
+        </p>
+        <mat-divider></mat-divider>
+        <p class="mat-body-2" i18n="faq page panel one question two">
+          Q2. Unable to logon to Wingspan, enclosed blue screen error
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer two">
+          Request to kindly clear your cookies and cache of the desktop browser once before
+          trying.<br />
+          Also you can use Incognito mode or Private Browsing modes of Chrome and IE.<br />
+          Restart the browser and try accessing Wingspan.
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel one question three">
+          Q3. Login credentials for Wingspan
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel one answer three section one">
+            Please visit:<br />
+          </ng-container>
+          <ng-container i18n="faq page panel one answer three section two">
+            and register yourself for Multi-Factors Authentication.<br />
+            You can set a passcode of your choice. Select Call-In method for authentication.<br />
+            For accessing Wingspan this is a “must” criteria.<br />
+            1. Visit
+          </ng-container>
+          <ng-container>
+            https://wingspan.com
+          </ng-container>
+          <ng-container i18n="faq page panel one answer three section three">
+            <br />
+            2. Press Login Button<br />
+            3. If you are on Infosys Network, you will not have to just enter your Infosys Mail
+            ID<br />
+            4. If you are on Internet, on button click, you will be taken to Microsoft Login Site.
+            Please enter your Infosys Mail ID<br />
+            5. You will be taken to stsakaash site which is from Infosys. Here you provide your
+            email id and password(Infosys account)<br />
+            6. You will receive a phone call from Microsoft on your registered phone number<br />
+            7. You are required to key-in your passcode and #<br />
+            8. If your authentication is successful, the web browser will automatically take you to
+            Wingspan.
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel one question four">
+          Q4. Unable to logon to Wingspan , getting Microsoft Login page
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer four">
+          Clear the browser cache and cookies (going as far back as possible).<br />
+          This issue is mainly for user who use other Infosys O365 Applications like Mail, VPN,
+          Yammer and many more.<br />
+          The token issued by Microsoft when you used such an application is stored in the cookies
+          and Microsoft needs to be forced to issue a fresh token which will allow access the Wingspan
+          application which is also a O365 Application.<br />
+          Clear the cache and cookies and restart the browser and try accessing Wingspan
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel one question five">
+          Q5. Account Already Exists
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer five">
+          Raise an AHD
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel one question six">
+          Q6. I am not able to get my PIN to enter with password in Wingspan application. Would you
+          please help me with this?
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel one answer six section one">
+            Can you mail CCD-Helpdesk (Global Support)
+          </ng-container>
+          <ng-container>
+          </ng-container>
+          <ng-container i18n="faq page panel one answer six section two">
+            and get them to reset the same?
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel one question seven">
+          Q7. Downtime
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer seven">
+          Request you to kindly clear your cookies and cache of the desktop browser once before
+          trying.<br />
+          Also you can use Incognito mode or Private Browsing modes of Chrome and IE.
+        </p>
+      </mat-card>
+      <mat-card *ngSwitchCase="'odcAccess'">
+        <p class="mat-body-2" i18n="faq page panel two question one">
+          Q1. ODC Connectivity
+        </p>
+        <p class="mat-body-1" i18n="faq page panel two answer one">
+          If you are working from an ODC, it is possible it might have been blocked.<br />
+          Please raise a CCD AHD under “Local Connectivity Issues” category and mention that you are
+          unable to access Wingspan.
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel two question two">
+          Q2. Browser Issue
+        </p>
+        <p class="mat-body-1" i18n="faq page panel two answer two">
+          It looks like you are not either having Internet Access or ODC has blocked the access to
+          Wingspan.<br />
+          Please raise a CCD AHD under “Local Connectivity Issues”
+        </p>
+      </mat-card>
+      <mat-card *ngSwitchCase="'compatibility'">
+        <p class="mat-body-2" i18n="faq page panel three question one">
+          Q1. Compatibility
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel three answer one">
+            It looks like you are using IE in Compatibility Mode (IE7 or IE11) please open developer
+            // //console.log and switch to IE11 or IE10.<br />
+            Please follow the video:<br />
+          </ng-container>
+          <ng-container>
+            https://www.youtube.com/watch?v=XGEYmkI66jQ
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel three question two">
+          Q2. Browser Issue
+        </p>
+        <p class="mat-body-1" i18n="faq page panel three answer two">
+          It looks like you are using IE in Compatibility Mode (IE7 or IE11) please open developer
+          // //console.log and switch to IE11 or IE10
+        </p>
+      </mat-card>
+      <mat-card *ngSwitchCase="'installation'">
+        <p class="mat-body-2" i18n="faq page panel four question one">
+          Q1. Regarding Wingspan installation on Smart Phone
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel four answer one section one">
+            There are 2 ways for doing the same in android:<br />
+            1. open Wingspan in browser and click on burger menu. Now click mobile apps under android
+            click the link. From there you can directly download the app like other apps.<br />
+            2. Directly open the play store and search for "Infosys Wingspan" and install the apps.
+            Before going with the above step make sure to go through with the following steps if you
+            have not done before/ using it for the first time using Infosys network.<br />
+            Please visit:<br />
+          </ng-container>
+          <ng-container> https://rasssp.ad.wingspan.com/MultiFactorAuth/<br /> </ng-container>
+          <ng-container i18n="faq page panel four answer one section two">
+            and register yourself for Multi-Factors Authentication.<br />
+            You can set a passcode of your choice.<br />
+            Select Call-In method for authentication.<br />
+            For accessing Wingspan this is a “must” criteria.<br />
+            1. Visit
+          </ng-container>
+          <ng-container> https://wingspan.com<br /> </ng-container>
+          <ng-container i18n="faq page panel four answer one section three">
+            2. Press Login Button<br />
+            3. If you are on Infosys Network, you will not have to just enter your Infosys Mail
+            ID<br />
+            4. If you are on Internet, on button click, you will be taken to Microsoft Login Site.
+            Please enter your Infosys Mail ID<br />
+            5. You will be taken to stsakaash site which is from Infosys. Here you provide your
+            email id and password(Infosys account)<br />
+            6. You will receive a phone call from Microsoft on your registered phone number<br />
+            7. You are required to key-in your passcode and #<br />
+            8. If your authentication is successful, the web browser will automatically take you to
+            Wingspan.<br />
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel four question two">
+          Q2. IOS - To Install IOS App
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel four answer two section one">
+            Kindly find the steps enclosed below for your request please.<br />
+            To install the app, Safari Web browser is required.<br />
+            Please follow the following steps<br />
+            1. Go to
+          </ng-container>
+          <ng-container>
+            https://wingspan.com
+          </ng-container>
+          <ng-container i18n="faq page panel four answer two section two">
+            on Safari browser on your iPhone (This will not work on Google Chrome or other
+            browsers)<br />
+            2. Login to the app (using MFA)<br />
+            3. Go to “Mobile Apps” under the ☰<br />
+            4. Click on IOS tab<br />
+            5. Click on Download<br />
+            You will be prompted to Install the app, Please click on install.<br />
+            Once you accept the installation, the app would start the download process in the
+            background and the AppIcon would be visible on the home screen of your phone<br />
+            Fix for “Untrusted Developer” Error (Comes up if Wingspan is the first app installed from
+            “Infosys Limited”)<br />
+            To fix this, you need to Trust the Developer “Infosys Limited”. Setting to trust the app
+            are as follows<br />
+            1. Go to Device Management in your iPhone (Settings > General > Device Management)<br />
+            2. Click on “Infosys Limited” Under the Enterprise Apps<br />
+            3. Click on “Trust”<br />
+            4. Re-launch the app.<br />
+
+            Mobile app needs your one-time Login after the first launch.
+          </ng-container>
+        </p>
+      </mat-card>
+      <mat-card *ngSwitchCase="'progressCompletion'">
+        <p class="mat-body-2" i18n="faq page panel five question one">
+          Q1. I recently completed a course in Wingspan (Introduction to data science )and I passed the
+          assessment exam also. But it is not reflecting in my dashboard. Can you please look into
+          this?
+        </p>
+        <p class="mat-body-1" i18n="faq page panel five answer one">
+          Wingspan does not calculate progress instantly. It is a batch process and data might take 15
+          minutes to reflect.
+        </p>
+      </mat-card>
+      <mat-card *ngSwitchCase="'video'">
+        <p class="mat-body-2" i18n="faq page panel six question one">
+          Q1. Issues playing the video content.
+        </p>
+        <p class="mat-body-1" i18n="faq page panel six answer one">
+          Please raise a CCD AHD to reinstall Audio Video Drivers. This issue happens when either
+          audio or video drivers are corrupt or not installed.
+        </p>
+      </mat-card>
+      <mat-card *ngSwitchCase="'authoring'">
+        <p class="mat-body-2" i18n="faq page panel seven question one">
+          Q1. Upload a content in Wingspan
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel seven answer one section one">
+            Please find demo video enclosed on how to upload content in Wingspan.<br />
+            Kindly use the below URL :<br />
+          </ng-container>
+          <ng-container>
+          </ng-container>
+          <ng-container i18n="faq page panel seven answer one section one">
+            Please use Chrome for accessing the staging environment.<br />
+            To create content through Authoring Tool :<br />
+            Link :
+          </ng-container>
+          <ng-container>
+            https://staging.com/home
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2" i18n="faq page panel seven question two">
+          Q2. Could you please guide me on how to record a video in Wingspan with real time voice over.
+        </p>
+        <p class="mat-body-1" i18n="faq page panel seven answer two">
+          Wingspan does not have the capabilities to record videos or author PDF or HTML Content directly
+          on its authoring tool.<br />
+          If you have created Videos either using screen-capture using tools like Captivate,
+          Camtasia or converting PPTs to Videos with voiceover or even using a video recording
+          device like Phones, Video Cameras, Wingspan allows you to create courses out of such
+          content.<br />
+          Course creation involves providing a good amount of meta-data for non-text based contents
+          such as Videos.
+        </p>
+      </mat-card>
+    </section> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

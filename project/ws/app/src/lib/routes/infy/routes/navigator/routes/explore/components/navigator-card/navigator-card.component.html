@@ -1,0 +1,30 @@
+<div class="card-container" *ngIf="fetchStatus === 'done'">
+  <mat-card>
+    <div class="card">
+      <div class="width-auto" [matTooltip]="navigatorCard.title">
+        <img class="card-image" [src]="navigatorCard.thumbnail" [alt]="navigatorCard.title" *ngIf="navigatorCard.thumbnail != ''"
+          (click)="imageClicked(navigatorCard.type)" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      </div>
+      <div class="card-information">
+        <div class="mat-headline title text-truncate">{{ navigatorCard.title }}</div>
+        <div class="grid">
+          <div class="mat-body-1 title description " *ngIf="!screenSizeIsLtMedium">
+            {{ navigatorCard.description | pipeLimitTo: 138 }}
+          </div>
+          <div class="button-holder" *ngIf="navigatorCard.type === 'lp'">
+            <a mat-flat-button [routerLink]="'/app/infy/navigator/lp/' + navigatorCard.routeButton" [queryParams]="{ showProfile: true }">
+              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>KNOW MORE</span>
+              <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+            </a>
+          </div>
+          <div class="button-holder" *ngIf="navigatorCard.type === 'fs'">
+            <a mat-flat-button [routerLink]="'/app/infy/navigator/fs/program/' + navigatorCard.routeButton">
+              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>KNOW MORE</span>
+              <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

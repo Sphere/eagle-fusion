@@ -1,0 +1,95 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+
+%container-padding {
+  padding: $size-xl 2 * $size-xl;
+  @include breakpoint-xs {
+    padding: $size-m $size-l;
+  }
+}
+
+.toc-body {
+  @extend %container-padding;
+  padding-top: 0px !important;
+  background-color: #fafafa;
+}
+
+.meta-section {
+  flex: 1;
+  min-width: 1px;
+
+  .unit-meta-item {
+    border-radius: 2px;
+    box-sizing: border-box;
+    margin-bottom: $size-m;
+  }
+
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.resDescription{
+    font-size: 16px;
+    line-height: 23px;
+}
+.topic-button {
+  display: block;
+  width: 32%;
+  margin: 4px 0;
+
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.shareBtn{
+  border-radius: 6px;
+}
+.info-section {
+  width: 28%;
+  min-width: 250px;
+  margin-left: 24px;
+
+  @include breakpoint-xs {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.author {
+  padding: $size-s 0;
+  display: flex;
+
+  .author-image {
+    margin-right: $size-s;
+    $size: 44px;
+    height: $size;
+    width: $size;
+  }
+}
+
+@media only screen and (min-width:600px){
+  .toc-discussion-container-sm{
+    display: none;
+  }
+  .info-section{
+    padding-left: 50px;
+  }
+}
+
+@media only screen and (max-width:599px){
+  .toc-discussion-container{
+    display: none;
+  }
+  .info-section{
+    padding-top: 30px;
+  }
+}
+.greyOut {
+  filter: grayscale(1);
+  opacity: 0.7;
+  cursor: auto !important;
+  pointer-events: none;
+}

@@ -1,0 +1,31 @@
+<section class="container-balanced mat-toolbar p-4 rounded ">
+  <form [formGroup]="serviceRequestForm" (ngSubmit)="submitServiceRequest()">
+    <section class="w-full mb-8">
+      <h3 class="mat-h3" i18n>What services would you like from our platform?</h3>
+      <div class="mat-body">
+        <mat-form-field class="w-full">
+          <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+            formControlName="serviceRequest" placeholder="Type your feedback here" i18n-placeholder></textarea>
+          <mat-hint i18n>
+            Limit to 2000 characters.
+          </mat-hint>
+          <mat-error i18n>
+            You have exceeded 2000 characters.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <div class="mt-4 flex justify-end">
+      <div class="mr-2">
+        <mat-progress-spinner [color]="'primary'" [diameter]="40" [strokeWidth]="4" [mode]="'indeterminate'"
+          *ngIf="sendStatus === 'sending'"></mat-progress-spinner>
+      </div>
+      <button mat-flat-button color="primary" type="submit" [disabled]="
+          serviceRequestForm.pristine || serviceRequestForm.invalid || sendStatus === 'sending'
+        ">
+        <ng-container i18n>Submit</ng-container>
+      </button>
+    </div>
+  </form>
+</section>

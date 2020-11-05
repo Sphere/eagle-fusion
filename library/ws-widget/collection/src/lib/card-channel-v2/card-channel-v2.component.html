@@ -1,0 +1,86 @@
+<!-- <a [routerLink]="widgetData?.artifactUrl">
+  <mat-card
+    class="channel-card flex mat-elevation-z1 mb-8 mr-8 ws-mat-primary-border-top-bolder border-t-5"
+  >
+    <div class="flex-1 min-w-0 flex flex-column">
+      <div class="flex-1 min-w-0 mx-2">
+        <h2 class="mat-title margin-bottom-xs leading-tight pt-1">{{ widgetData?.name }}</h2>
+        <h3 class="mat-subheading-2 leading-tight">{{ widgetData?.description }}</h3>
+      </div> -->
+<!-- <div
+        *ngIf="widgetData?.publishedOn"
+        class="ws-mat-primary-text font-weight-500 mat-body px-2 py-1"
+      >
+        <ng-container *ngIf="!widgetData?.expiryDate">
+          <ng-container i18n>since</ng-container>
+          {{ widgetData?.publishedOn | date }}
+        </ng-container>
+        <ng-container *ngIf="widgetData?.expiryDate">
+          {{ widgetData?.publishedOn | date }} - {{ widgetData?.expiryDate | date }}
+        </ng-container>
+      </div> -->
+<!-- </div>
+    <img alt="thumbnail" i18n-alt [src]="widgetData?.appIcon" class="card-image h-full" />
+  </mat-card>
+</a> -->
+{{ widgetData | json }}
+<div class="card-minimal-container">
+  <a
+    [routerLink]="widgetData?.artifactUrl"
+    class="card-link"
+    role="link"
+    aria-label="Content"
+    i18n-aria-label="Content | Click to view"
+  >
+    <!-- <img
+      [src]="widgetData.appIcon"
+      [id]="'card_' + widgetData.identifier"
+      class="card-thumbnail ws-mat-primary-lite-background"
+      [wsUtilsDefaultThumbnail]="defaultThumbnail"
+      [alt]="widgetData.name"
+      [title]="widgetData.name"
+    /> -->
+    <img
+      [src]="widgetData.appIcon"
+      [id]="'card_' + widgetData.identifier"
+      class="card-thumbnail ws-mat-primary-lite-background"
+      [alt]="widgetData.name"
+      [title]="widgetData.name"
+    />
+  </a>
+  <div class="card-overlay">
+    <h3 *ngIf="widgetData.name" class="text-truncate card-title">
+      <a [routerLink]="widgetData?.artifactUrl" role="link">
+        {{ widgetData.name }}
+      </a>
+    </h3>
+    <div class="flex justify-between items-center">
+      <div>
+        <!-- <ws-widget-display-content-type
+          i18n-title
+          title="Content Type"
+          *ngIf="widgetData?.displayContentType"
+          class="mr-4 font-normal capitalize"
+          [displayContentType]="widgetData?.displayContentType"
+        >
+        </ws-widget-display-content-type> -->
+        <span *ngIf="widgetData.expiryDate" i18n-title title="Duration">
+          {{ widgetData.expiryDate | pipeDurationTransform: 'hms' }}
+        </span>
+      </div>
+      <!-- <button
+        mat-icon-button
+        i18n-aria-label
+        aria-label="action items"
+        [matMenuTriggerFor]="cardMenu"
+      >
+        <mat-icon>more_vertical</mat-icon>
+      </button> -->
+    </div>
+  </div>
+  <!-- <ws-widget-content-progress
+    class="progress-bar"
+    *ngIf="widgetData?.identifier"
+    [contentId]="widgetData?.identifier"
+  ></ws-widget-content-progress> -->
+</div>

@@ -1,0 +1,20 @@
+<iframe
+  *ngIf="iframeUrl"
+  title="IAP Assessment Viewer"
+  i18n-title="iap assessment viewer"
+  [src]="iframeUrl"
+  allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope;  microphone; camera;"
+  id="iap-iframe"
+  class="iap-iframe"
+></iframe>
+
+<div [ngClass]="{ 'proctoring-warning-holder': proctoringWarning }">
+  <mat-card class="proctoring-warning" [hidden]="!proctoringWarning">
+    <h2 class="mat-h2" i18n="proctoring warning">
+      Accessible only on fullscreen. Click Okay to continue
+    </h2>
+    <button type="button" i18n mat-flat-button [color]="'primary'" (click)="enterFullScreen()">
+      Okay
+    </button>
+  </mat-card>
+</div>

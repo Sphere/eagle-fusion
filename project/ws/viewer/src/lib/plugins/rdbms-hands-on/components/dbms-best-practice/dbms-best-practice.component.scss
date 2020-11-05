@@ -1,0 +1,100 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+pre {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: left;
+  overflow: auto;
+  height: auto;
+  width: 380px;
+  // @include breakpoint-xs {
+  //   width: auto;
+  // }
+
+  // @include breakpoint-sm {
+  //   width: auto;
+  // }
+}
+
+.padding-xs {
+  padding: 5px !important;
+}
+
+.refresh-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.mat-table {
+  border: 1px solid #0000001f;
+  box-shadow: none;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  background-color: #ddd;
+  flex: 0 0 25% !important;
+  min-width: 75px !important;
+}
+
+.font-weight {
+  font-weight: 800;
+}
+
+.table-result {
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  height: 181px;
+  overflow-y: auto;
+  width: 50%;
+  // @include breakpoint-xs {
+  //   width: auto;
+  // }
+
+  // @include breakpoint-sm {
+  //   width: 45%;
+  // }
+}
+
+.table-name {
+  color: #004c7e;
+  font-weight: 700;
+}
+
+.result {
+  font-weight: bold;
+  margin: 3px;
+  padding: 2px;
+  background-color: #d6d6d6;
+  border-radius: 5px;
+  color: #888;
+  min-width: 280px;
+}
+
+.query-success {
+  color: green;
+}
+
+.query-failed {
+  color: red;
+}
+
+.mat-row,
+.mat-header-row {
+  height: 34px !important;
+}
+
+.mat-expansion-panel-header {
+  height: 34px !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0px !important;
+}

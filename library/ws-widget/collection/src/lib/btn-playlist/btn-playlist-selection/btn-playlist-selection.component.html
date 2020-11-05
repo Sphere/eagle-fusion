@@ -1,0 +1,45 @@
+<section [hidden]="!createPlaylistMode">
+  <h2 class="mat-h2 margin-bottom-xs" i18n>Enter Playlist Details</h2>
+  <mat-form-field class="width-1-1 margin-bottom-m" appearance="fill">
+    <mat-label i18n>Name</mat-label>
+    <mat-error i18n>Playlist title should be 1-100 characters</mat-error>
+    <input name="playlist-name-input-playlist-selection" type="text" matInput [formControl]="playlistNameFormControl"
+      #playlistName class="width-1-1" autocomplete="off" />
+  </mat-form-field>
+</section>
+<div class="playlists-collection custom-scroll" *ngIf="!createPlaylistMode">
+  <mat-selection-list *ngIf="fetchPlaylistStatus !== 'fetching'" (selectionChange)="selectionChange($event?.option)">
+    <mat-list-option name="playlist-name-playlist-selection" *ngFor="let playlist of playlists"
+      [selected]="selectedPlaylists.has(playlist?.id)" [value]="playlist?.id" checkboxPosition="before">
+      {{ playlist?.name }}
+    </mat-list-option>
+  </mat-selection-list>
+  <div class="p-4 text-center" *ngIf="fetchPlaylistStatus === 'fetching'">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
+<div class="mt-2 flex flex-row-reverse">
+  <ng-container *ngIf="!createPlaylistMode">
+    <button name="done-button-playlist-selection" mat-raised-button color="primary" [disabled]="isDoneDisabled()"
+      [mat-dialog-close]="true" i18n>Done</button>
+    <button name="create-new-button-playlist-selection" mat-raised-button class="margin-right-xs" color="primary" i18n
+      (click)="createPlaylistMode = true" i18n>Create
+      New</button>
+  </ng-container>
+  <ng-container *ngIf="createPlaylistMode">
+    <button name="create-button-playlist-selection" mat-raised-button color="primary"
+      [disabled]="playlistNameFormControl.invalid" i18n class="margin-right-xs"
+      (click)="createPlaylist(playlistName.value, playlistCreate.value, playlistCreateFail.value)" i18n>
+      Create
+    </button>
+    <button name="cancel-button-playlist-selection" mat-button [mat-dialog-close]="true" i18n>Cancel</button>
+  </ng-container>
+</div>
+
+<input name="content-added-message-playlist" #contentAdd type="hidden" i18n-value value="Content Added" />
+<input name="content-removed-message-playlist" #contentRemove type="hidden" i18n-value value="Content Removed" />
+<input name="create-success-message-playlist" #playlistCreate type="hidden" i18n-value value="Playlist Created" />
+<input name="create-fail-message-playlist" #playlistCreateFail type="hidden" i18n-value
+  value="Playlist Creation Failed" />
+<input name="update-fail-message-playlist" #contentUpdateError type="hidden" i18n-value
+  value="Error Updating Content" />

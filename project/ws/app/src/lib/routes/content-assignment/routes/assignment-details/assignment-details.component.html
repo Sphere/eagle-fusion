@@ -1,0 +1,93 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back *ngIf="router.url.startsWith('/app/content-assignment')" [widgetData]="{ url: 'back' }">
+  </ws-widget-btn-page-back>
+  <span i18n="page title: My Assignments" class="margin-left-xs">My Assignments</span>
+  <div class="spacer"></div>
+  <div class="hidden-xs">
+    <button mat-button (click)="getAssignments()">
+      <mat-icon>refresh</mat-icon>&nbsp;
+      <span i18n>Refresh</span>
+    </button>
+    <button mat-button (click)="router.navigate([assignmentUrl])">
+      <mat-icon>add</mat-icon>&nbsp;
+      <span i18n>New assignment</span>
+    </button>
+
+  </div>
+  <button class="hidden-gt-xs" mat-icon-button [matMenuTriggerFor]="assignmentMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+
+<section class="mx-auto mt-4 my-1 px-4 width-9-10">
+
+  <div *ngIf="fetchDetailStatus === 'done'">
+    <h2 class="mat-subheading-2">
+      View recent 10 assignments:
+    </h2>
+    <mat-table [dataSource]=" dataSource" multiTemplateDataRows class="mat-elevation-z8 margin-bottom-l">
+      <ng-container matColumnDef="assignment_id">
+        <mat-header-cell i18n *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let assignment"> {{assignment.assignment_id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="assigned_on">
+        <mat-header-cell i18n *matHeaderCellDef> Assigned On </mat-header-cell>
+        <mat-cell *matCellDef="let assignment">
+
+          <span>
+            {{assignment.assigned_on | date: 'dd MMM, hh:mm aa'}}
+          </span>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="assignedUserCount">
+        <mat-header-cell i18n *matHeaderCellDef> User Count </mat-header-cell>
+        <mat-cell *matCellDef="let assignment"> {{assignment.assignedUserCount}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="percentageProcessingCompleted">
+        <mat-header-cell i18n *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let assignment">
+          <!-- <mat-progress-bar
+            ng-class="'amber-colour':( assignment.percentageProcessingCompleted>0 &&  assignment.percentageProcessingCompleted<100), 'green-colour':( assignment.percentageProcessingCompleted===100), 'red-colour':( assignment.percentageProcessingCompleted===0)}"
+            mode="determinate" value="{{assignment.percentageProcessingCompleted}}">
+          </mat-progress-bar> -->
+          <span>
+            {{assignment.percentageProcessingCompleted}}%
+          </span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+    </mat-table>
+  </div>
+
+  <div *ngIf="fetchDetailStatus==='none'">
+    <div class="create-goal-fab width-expand text-center width-1-1">
+      <div class="page-container mx-2 md:mx-4">
+        <h2 class="mat-subheading-2 mx-2 md:mx-4">You have created no assignments yet!</h2>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="fetchDetailStatus==='fetching'">
+    <div class="text-center p-4">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
+</section>
+
+<mat-menu #assignmentMenu="matMenu" overlapTrigger="true">
+  <button mat-menu-item (click)="getAssignments()">
+    <mat-icon>refresh</mat-icon>&nbsp;
+    <span i18n>Refresh</span>
+  </button>
+  <button mat-menu-item (click)="router.navigate([assignmentUrl])">
+    <mat-icon>add</mat-icon>&nbsp;
+    <span i18n>New assignment</span>
+  </button>
+</mat-menu>
+
+<input #detailsFetchError type="hidden" i18n-value value="Error fetching assignment details" />

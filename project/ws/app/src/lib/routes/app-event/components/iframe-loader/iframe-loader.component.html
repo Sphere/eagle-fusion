@@ -1,0 +1,8 @@
+<div #iframe>
+<iframe  class="h-screen" width="100%"  [src]="iframeSrc"></iframe>
+<button class="buttonz h-12 w-12  mat-elevation-z6 ws-mat-primary-background" mat-icon-button>
+  <div class="text-white">
+    <ws-widget-btn-fullscreen [widgetData]="{ fsContainer:iframe}"></ws-widget-btn-fullscreen>
+  </div>
+</button>
+</div>

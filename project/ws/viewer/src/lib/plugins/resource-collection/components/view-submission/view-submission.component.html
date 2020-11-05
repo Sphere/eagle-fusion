@@ -1,0 +1,25 @@
+<ng-container>
+  <div class="flex flex-between">
+    <h2 mat-dialog-title class="font-weight-bold title margin-right-xs" i18n>
+      Submission
+    </h2>
+    <button mat-dialog-close mat-icon-button class="float-right cursor-pointer" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</ng-container>
+<ng-container *ngIf="submissionAnswerText.length>0">
+  <mat-dialog-content class="w-full">
+    <div class="textView">
+      <div *ngFor="let answers of submissionAnswerText">
+        <p>{{answers}}</p>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-container>
+<ng-container *ngIf="pdfData|| videoData">
+  <mat-dialog-content class="h-full pdfVideoPadding">
+    <ws-widget-player-pdf *ngIf="pdfData" [widgetData]="pdfData"></ws-widget-player-pdf>
+    <ws-widget-player-video *ngIf="videoData" [widgetData]="videoData"></ws-widget-player-video>
+  </mat-dialog-content>
+</ng-container>

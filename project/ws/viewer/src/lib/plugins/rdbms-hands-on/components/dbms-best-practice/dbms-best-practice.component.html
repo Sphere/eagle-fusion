@@ -1,0 +1,125 @@
+<div class="refresh-btn">
+  <button title="Refresh Database" mat-icon-button color="primary" (click)="initializeDb(true)">
+    <mat-icon>refresh</mat-icon>
+  </button>
+</div>
+<!-- <ws-spinner *ngIf="initialLoading"></ws-spinner> -->
+<ng-container *ngIf="loadedTables?.length && !initialLoading">
+  <mat-accordion multi="true">
+    <mat-expansion-panel
+      class="table-scroll margin-top-m"
+      [expanded]="!i"
+      *ngFor="let table of loadedTables; let i = index"
+    >
+      <mat-expansion-panel-header class="padding-remove-left">
+        <mat-panel-title class="font-weight">
+          {{ table.tableName }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <table mat-table [dataSource]="table.tableData" class="mat-elevation-z8" style="width:100%;">
+        <!-- Columns -->
+        <ng-container *ngFor="let colName of table.tableColumns" matColumnDef="{{ colName }}">
+          <th class="font-weight" mat-header-cell *matHeaderCellDef>{{ colName }}</th>
+          <td mat-cell class="text-left" *matCellDef="let element">{{ element[colName] }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="table.tableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: table.tableColumns"></tr>
+      </table>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>
+<div
+  class="margin-top-s text-justify"
+  [innerHtml]="contentData?.problemStatement"
+  *ngIf="contentData?.problemStatement"
+></div>
+<!-- <div class="table-result margin-top-s" *ngIf="dbStructure?.length">
+  <div class="result">Database structure</div>
+  <div class="padding-xs" *ngFor="let db of dbStructure">
+    <span class="table-name">{{db.tablename}}</span>
+    <span> {{ ' ' + db.columnname}} </span>
+  </div>
+</div> -->
+<ng-container *ngIf="contentData?.dropdown; else queryExecution">
+  <form [formGroup]="dropdownQueryForm" class="margin-s">
+    <mat-form-field>
+      <mat-select
+        placeholder="Make a selection"
+        (selectionChange)="onSelectionChange($event.value)"
+      >
+        <mat-option *ngFor="let item of dropdownData; let index = index" [value]="index">{{
+          item.dropdownTitle
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="selectedOption">
+      <div class="text-justify">{{ selectedOption?.concept }}</div>
+      <ng-container *ngTemplateOutlet="queryExecution"></ng-container>
+    </div>
+  </form>
+</ng-container>
+
+<ng-template #queryExecution>
+  <div class="margin-top-s flex flex-between flex-wrapped">
+    <div>
+      <label class="font-weight">Original query</label>
+      <pre class="margin-top-s" [innerHTML]="selectedOption?.originalQuery"></pre>
+      <div class="margin-top-s">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="executed"
+          (click)="run(true)"
+          i18n="button run"
+        >
+          Run
+        </button>
+      </div>
+      <viewer-execution-result
+        *ngIf="originalQueryResult"
+        [executedResult]="originalQueryResult"
+      ></viewer-execution-result>
+    </div>
+    <div>
+      <label class="font-weight">Enhanced query</label>
+      <pre class="margin-top-s" [innerHTML]="selectedOption?.enhancedQuery"></pre>
+      <div class="margin-top-s">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="executed"
+          (click)="run(false)"
+          i18n="button run"
+        >
+          Run
+        </button>
+      </div>
+      <viewer-execution-result
+        *ngIf="enhancedQueryResult"
+        [executedResult]="enhancedQueryResult"
+      ></viewer-execution-result>
+    </div>
+  </div>
+  <div
+    *ngIf="
+      errorMessage || originalQueryResult?.status?.message || enhancedQueryResult?.status?.message
+    "
+    class=" margin-top-xs text-justify"
+    [ngClass]="{ 'query-failed': errorMessage, 'query-success': !erroMessage }"
+  >
+    {{
+      errorMessage || originalQueryResult?.status?.message || enhancedQueryResult?.status?.message
+    }}
+  </div>
+  <div *ngIf="contentData?.bottomText" class="margin-top-s text-justify">
+    {{ contentData?.bottomText }}
+  </div>
+  <div *ngIf="telltext" class="margin-top-s text-justify">
+    {{ telltext }}
+  </div>
+</ng-template>
+
+<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
+<input #someErrorOccurred type="hidden" i18n-value value="Some error occurred. Please try again later!" />

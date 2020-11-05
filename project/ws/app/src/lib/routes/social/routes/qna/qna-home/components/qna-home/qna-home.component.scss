@@ -1,0 +1,21 @@
+.qna-home-container {
+  border-radius: 0;
+  box-sizing: border-box;
+  min-height: calc(100vh - 112px);
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px 0;
+  .qna-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.margin-remove {
+  margin: 0;
+}
+
+::ng-deep .mat-button-toggle-label-content{
+  line-height: 36px !important;
+}

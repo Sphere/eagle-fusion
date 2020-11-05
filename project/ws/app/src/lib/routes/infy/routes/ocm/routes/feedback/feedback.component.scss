@@ -1,0 +1,56 @@
+@import 'ws-common';
+@import 'ws-mixins';
+
+.field-container {
+  width: 100%;
+  margin: auto;
+
+  @include breakpoint-gt-m {
+    width: 70%;
+  }
+
+  @include breakpoint-gt-xs {
+    width: 85%;
+  }
+}
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}
+
+.rating-form-field {
+  width: 100%;
+  margin-bottom: $size-l;
+  opacity: 0;
+  height: 0;
+}
+
+.rating-container {
+  display: block;
+  margin-bottom: $size-l;
+  margin-top: -$size-l;
+
+  .feedback-form-field {
+    margin-bottom: 0;
+  }
+
+  .rating-input {
+    height: 0px !important;
+    display: block;
+  }
+}
+
+.rating-icon {
+  $icon-size: 32px;
+  font-size: $icon-size;
+  width: $icon-size;
+  height: $icon-size;
+}
+
+.rating-button {
+  $size: 48px;
+  width: $size;
+  height: $size;
+}

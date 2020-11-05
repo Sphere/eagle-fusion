@@ -1,0 +1,137 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+$medium-badge-size: 90px;
+$small-badge-size: 50px;
+$badge-padding: 12px;
+
+.card-container {
+  // display: inline-block;
+  // position: relative;
+  // width: 330px;
+  // margin: 25px 25px;
+  // cursor: pointer;
+  display: flex;
+  width: 250px;
+  min-height: 249px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 8px;
+  opacity: 1;
+  margin: 15px;
+
+  @media only screen and (max-width: 1239px) {
+    width: 300px;
+  }
+
+  @media only screen and (max-width: 798px) {
+    width: 270px;
+  }
+
+  @media only screen and (max-width: 735px) {
+    width: 260px;
+  }
+
+  @media only screen and(max-width: 718px) {
+    width: 330px;
+  }
+
+  @media only screen and(max-width: 438px) {
+    width: 270px;
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-container {
+  width: $medium-badge-size;
+  height: $medium-badge-size;
+
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
+    opacity: 1;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.title-div {
+  flex-direction: column-reverse;
+  margin-bottom: $size-s;
+
+  span {
+    font-size: 25px;
+    line-height: 30px;
+  }
+}
+
+.badge-data {
+  margin-top: 5px;
+  margin-left: $size-m;
+}
+
+.mat-title {
+ font-size: 16px;
+}
+
+.entity-container {
+  display: flex;
+  flex-direction: column;
+  padding: 7px 0 7px 0;
+  cursor: pointer;
+}
+
+.hover-text {
+  display: flex;
+  font-weight: 300;
+  justify-content: center;
+  padding-bottom: $size-xs;
+}
+
+.divider {
+  width: 80%;
+}
+
+.expanded {
+  height: auto;
+  padding-bottom: 8px;
+}
+
+.animated {
+  transition-duration: 800ms;
+}
+
+.components {
+  opacity: 1;
+  transform: translate(23.8rem, -15.38rem);
+
+  @media only screen and (max-width: 1239px) {
+    transform: translate(21.8rem, -15.38rem);
+  }
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.op60 {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cursor-disable {
+  cursor: not-allowed;
+}

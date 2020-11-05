@@ -1,0 +1,64 @@
+<div class="m-4 py-4 qnaCard">
+  <div *ngIf="qnaFetchStatus === 'fetching'" class="text-center margin-top-s socialText">
+    <p class=" font-family fetching" i18n>Fetching Question and Answers ...</p>
+  </div>
+  <p class="ws-mat-primary-text margin-top-xs" i18n *ngIf="qnafetch?.length === 0 && qnaFetchStatus === 'done'">
+    No questions have been asked yet
+  </p>
+  <!-- <p class="mat-error" *ngIf="qnaFetchStatus === 'error'" i18n>Failed to fetch questions and answers.
+  </p> -->
+  <div class="flex flex-column inheritHeight">
+    <div class="flex flex-wrap remove-margin flex-start">
+      <ng-container *ngFor="let qna of qnaDisplay">
+        <div class="pt-2 margin-bottom-sm-1 w-full borderbottom">
+          <!-- + blog.id -->
+          <a [routerLink]="'/app/social/blogs/' + qna.id">
+            <p class="mat-h4 ml-2 margin-remove-bottom text-truncate font-weight-bold  font-family">
+              {{qna?.postContent?.title}}</p>
+            <!-- <h2 class="ws-mat-primary-text mat-h2 text-truncate margin-remove-bottom">{{qna?.postContent?.title}}</h2> -->
+            <div class="flex flex-between socialRow">
+              <div class="flex flex-between w-3/5">
+                <span class="text-center">
+                  <div class="text-sm socialText">{{qna?.activity.activityData.upVote}}</div>
+                  <div class="text-xs socialText" i18n>Vote</div>
+                </span>
+                <span class="text-center">
+                  <div class="text-sm socialText">{{qna?.replyCount}}</div>
+                  <div class="text-xs socialText" i18n>Answers</div>
+                </span>
+                <span class="text-center" *ngIf="showSocialLike">
+                  <div class="text-sm socialText">{{qna?.activity.activityData.like}}</div>
+                  <div class="text-xs socialText" i18n>Likes</div>
+                </span>
+              </div>
+              <div class="flex flex-end w-2/5">
+                <mat-divider [vertical]=true style="height: 35px; margin-right: 15px"></mat-divider>
+                <span class="text-center">
+                  <div class="" i18n>Asked on</div>
+                  <div class="">{{qna?.dtPublished | date}}</div>
+                </span>
+              </div>
+            </div>
+          </a>
+          <!-- <mat-divider class="m-4"></mat-divider> -->
+        </div>
+      </ng-container>
+    </div>
+
+  </div>
+  <div class="flex-end w-full p-1">
+    <div class="flex flex-1 flex-end p-1" *ngIf="qnafetch.length > pageDisplaySize">
+      <button mat-icon-button *ngIf="!previousQnaDisable"
+        class="navigationbutton ws-mat-primary-lite-background-important" [ngClass]="{'disable':previousQnaDisable}"
+        (click)="fetchPreviousQna()">
+        <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':previousQnaDisable}">
+          navigate_before</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="!nextQnaDisable" class="navigationbutton ws-mat-primary-lite-background-important"
+        [ngClass]="{'disable':nextQnaDisable}" (click)="fetchNextQna()">
+        <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':nextQnaDisable}">
+          navigate_next</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

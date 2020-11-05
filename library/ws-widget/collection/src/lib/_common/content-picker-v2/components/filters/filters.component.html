@@ -1,0 +1,15 @@
+<div class="flex flex-between padding-left-m padding-right-m pt-1">
+  <h2 i18n>Filters</h2>
+  <mat-icon (click)="closeFilter()" class="cursor-pointer">close</mat-icon>
+</div>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let key of objKeys(includedFilters)">
+    <mat-expansion-panel-header>
+      {{includedFilters[key].displayName}}
+    </mat-expansion-panel-header>
+    <div *ngFor="let value of includedFilters[key].values">
+      <mat-checkbox [checked]="appliedFilters[key]?.has(value)" (change)="filterChange($event.checked, key, value)">
+        {{value}}</mat-checkbox>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

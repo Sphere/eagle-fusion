@@ -1,0 +1,45 @@
+@import 'ws-vars';
+@import 'ws-common';
+.page-title {
+  margin-bottom: $size-xl;
+}
+
+.contact-card {
+  margin-bottom: $size-m;
+}
+.contact-card-actions {
+  text-align: right;
+}
+
+.contact-info {
+  padding: 16px 64px;
+  text-align: center;
+
+  @include breakpoint-xs {
+    padding: 8px 16px;
+  }
+}
+
+.faq-img-section {
+  padding: 16px 72px;
+
+  @include breakpoint-xs {
+    padding: 8px 16px;
+  }
+
+  .info-section {
+    width: 47%;
+
+    @include breakpoint-xs {
+      width: 100%;
+    }
+  }
+
+  .contact-section {
+    width: 47%;
+
+    @include breakpoint-xs {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,162 @@
+<form [formGroup]="form">
+  <mat-label class="required" i18n>Image</mat-label>
+  <br />
+  <button
+    class="button-design"
+    type="button"
+    mat-raised-button
+    color="primary"
+    (click)="imageFile.click()"
+  >
+    <ng-container *ngIf="!form.controls.imageSrc.value" i18n>Choose Image</ng-container>
+    <ng-container *ngIf="form.controls.imageSrc.value" i18n>Change Image</ng-container>
+    <input
+      type="file"
+      (change)="upload($event.target.files[0]); imageFile.value = null"
+      class="hidden"
+      #imageFile
+      accept="image/*"
+    />
+  </button>
+  <br />
+  <div *ngIf="form.controls.imageSrc.value" class="image-map" style="position: relative;">
+    <img #image class="img" [src]="form.controls.imageSrc.value" />
+    <canvas
+      #canvas
+      class="canvas"
+      width="0%"
+      height="0%"
+      (mousedown)="mouseDownEvent($event)"
+      (mouseup)="mouseUpEvent($event)"
+      (mouseout)="mouseOutEvent($event)"
+      (mousemove)="mouseMoveEvent($event)"
+      (contextmenu)="onRightClick($event)"
+    ></canvas>
+  </div>
+  <br />
+  <mat-label i18n-lable label="Image Map Details"></mat-label>
+  <mat-radio-group
+    aria-labelledby="example-radio-group-label"
+    name="imageMapCard"
+    class="example-radio-group"
+    (change)="drawOutsideBorder($event.value)"
+    [(ngModel)]="selectedRadio"
+    [ngModelOptions]="{ standalone: true }"
+  >
+    <div class="flex-wrap">
+      <div formArrayName="map" *ngFor="let image of paths.controls; let i = index">
+        <div class="row-wise top-bar-design" [formGroupName]="i">
+          <div class="width-2 my-8">
+            <mat-radio-button class="example-radio-button" name="imageMapCard" [value]="i" [id]="i">
+            </mat-radio-button>
+          </div>
+          <div class="width-20">
+            <mat-form-field class="w-full" appearance="outline">
+              <mat-label i18n>Title</mat-label>
+              <input
+                matInput
+                [value]="paths.at(i).controls.title.value"
+                i18n-placeholder
+                placeholder="Title"
+                formControlName="title"
+                #title
+              />
+              <mat-error *ngIf="!title.value" i18n>
+                The above field is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="width-20">
+            <mat-form-field class="w-full" appearance="outline">
+              <mat-label i18n>Alternate Text For Image</mat-label>
+              <input
+                [value]="paths.at(i).controls.alt.value"
+                matInput
+                i18n-placeholder
+                placeholder="Alternate"
+                formControlName="alt"
+                #alt
+              />
+            </mat-form-field>
+          </div>
+          <div class="width-12">
+            <mat-form-field>
+              <mat-label i18n>URL Type</mat-label>
+              <mat-select
+                #urlType
+                [value]="
+                  (anchorId && anchorId.value) ||
+                  (paths.at(i).controls.link && !paths.at(i).controls.link.value)
+                    ? 'anchor'
+                    : 'url'
+                "
+                (selectionChange)="selectionChange($event, i)"
+              >
+                <mat-option value="anchor">Same Page Link</mat-option>
+                <mat-option value="url">Other Page Link</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="width-20">
+            <mat-form-field
+              class="w-full"
+              appearance="outline"
+              [hideRequiredMarker]="paths.value.hideRequired"
+              *ngIf="!urlType || (urlType && urlType.value === 'anchor')"
+            >
+              <mat-label i18n>Provide Anchor Id</mat-label>
+              <input
+                matInput
+                i18n-placeholder
+                (change)="setLinkValue(i, anchorId.value)"
+                placeholder="Provide Anchor Id"
+                #anchorId
+              />
+            </mat-form-field>
+            <mat-form-field
+              class="w-full"
+              appearance="outline"
+              [hideRequiredMarker]="paths.value.hideRequired"
+              *ngIf="urlType && urlType.value !== 'anchor'"
+            >
+              <mat-label i18n>Provide URL</mat-label>
+              <input
+                matInput
+                i18n-placeholder
+                placeholder="Provide URL"
+                formControlName="link"
+                #link1
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="width-16">
+            <mat-form-field>
+              <mat-label i18n>Target</mat-label>
+              <mat-select #target formControlName="target">
+                <mat-option value="_blank" i18n>Open in New Window</mat-option>
+                <mat-option value="_self" i18n>Open in Same Window</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="width-2 float-right">
+            <button type="button" mat-flat-button (click)="removeButtonClick(i)">
+              <mat-icon>delete forever</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-radio-group>
+</form>
+<br />
+<button
+  type="button"
+  mat-raised-button
+  *ngIf="form.controls.imageSrc.value"
+  (click)="addImageMapForm()"
+  color="primary"
+>
+  <mat-icon>add box</mat-icon>
+  <ng-container i18n>Add A New Area</ng-container>
+</button>

@@ -1,0 +1,71 @@
+<h2 class="mat-h2 m-0" i18n>Feedback</h2>
+
+<section class="mb-2">
+  <div class="mat-body" i18n>Filter by:</div>
+  <form [formGroup]="filterForm" id="filterForm" (ngSubmit)="applyFilters()">
+    <mat-form-field
+      class="w-full"
+      [color]="'primary'"
+      *ngIf="filterDialogData.viewedBy === feedbackRoles.User"
+    >
+      <mat-select
+        multiple
+        formControlName="feedbackType"
+        placeholder="Feedback type"
+        i18n-placeholder
+      >
+        <mat-option [value]="feedbackTypes.Content" i18n>
+          Content Feedback
+        </mat-option>
+        <mat-option
+          [value]="feedbackTypes.Platform"
+          *ngIf="showFeedbackTypeFilter(feedbackTypes.Platform)"
+          i18n
+        >
+          Platform Feedback
+        </mat-option>
+        <mat-option
+          [value]="feedbackTypes.ContentRequest"
+          *ngIf="showFeedbackTypeFilter(feedbackTypes.ContentRequest)"
+          i18n
+        >
+          Content Requests
+        </mat-option>
+        <mat-option
+          [value]="feedbackTypes.ServiceRequest"
+          *ngIf="showFeedbackTypeFilter(feedbackTypes.ServiceRequest)"
+          i18n
+        >
+          Other Requests
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" [color]="'primary'" *ngIf="showContentTypeControl()">
+      <mat-select
+        multiple
+        formControlName="contentType"
+        placeholder="Content type"
+        i18n-placeholder
+      >
+        <mat-option [value]="contentTypes.PROGRAM" i18n>Program</mat-option>
+        <mat-option [value]="contentTypes.COURSE" i18n>Course</mat-option>
+        <mat-option [value]="contentTypes.MODULE" i18n>Module</mat-option>
+        <mat-option [value]="contentTypes.RESOURCE" i18n>Resource</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="showLimited">
+      <ng-container *ngIf="filterDialogData.viewedBy === feedbackRoles.User" i18n>
+        Show only unread items
+      </ng-container>
+      <ng-container *ngIf="filterDialogData.viewedBy !== feedbackRoles.User" i18n>
+        Show only unanswered items
+      </ng-container>
+    </mat-checkbox>
+  </form>
+</section>
+
+<section>
+  <button mat-flat-button color="primary" type="submit" form="filterForm" i18n>Apply</button>
+</section>

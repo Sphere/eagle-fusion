@@ -1,0 +1,87 @@
+questions-container{
+  margin-top: 16px;
+}
+
+.w100{
+  width:100%;
+}
+
+.question-card{
+
+  .question-header{
+    display:flex;
+  }
+  .problem-stmt{
+    width:100%;
+    margin:1%;
+    // p,div,img,h1,h2,h3,h4,h5,h6{
+    //   margin: 0;
+    // }
+  }
+.loader{
+  position: relative;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%,-50%)
+}
+
+  .options-container{
+    margin: 8px 0 16px 6%;
+
+    .option{
+      display: flex;
+      mat-checkbox{
+        margin-right: 12px;
+      }
+    }
+  }
+
+  margin-bottom: 16px;
+}
+.loader{
+  position: relative;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%)
+}
+
+.populate-innerhtml::ng-deep{
+  *{
+    margin: 0px;
+    max-width:100%;
+    *{
+      margin: 0px;
+      max-width:100%;
+      *{
+        width:100%;
+        max-width: 100%;
+        *{
+          max-width:100%;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+.word-break{
+  word-break: break-word;
+  white-space: unset !important;
+}
+
+.margin-bottom-sm{
+  margin-bottom: 1%;
+}
+
+.list-item{
+  display:flex;
+  width:100%;
+  *{
+    width: 50%;
+  }
+}
+.flex{
+  display:flex;
+}
+.flex-auto{
+  flex: 1 1 auto;
+}

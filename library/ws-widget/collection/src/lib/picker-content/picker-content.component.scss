@@ -1,0 +1,18 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.btn-filter {
+  padding-bottom: 1.34375em;
+}
+
+.margin-bottom-xxs {
+  margin-bottom: $size-xs / 2 !important;
+}
+
+.leading-none {
+  line-height: 1 !important;
+}
+
+.resize-none {
+  resize: none;
+}

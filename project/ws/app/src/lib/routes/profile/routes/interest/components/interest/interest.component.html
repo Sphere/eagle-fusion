@@ -1,0 +1,91 @@
+<div class="p-4">
+  <div class="search-holder">
+    <div class="flex flex-middle mb-4 cursor-pointer" (click)="showInfo = !showInfo">
+      <h2 class="mat-h2 ws-mat-primary-text font-weight-bold margin-remove" i18n>
+        What are your interests?
+      </h2>
+      <mat-icon class="ml-4">info</mat-icon>
+    </div>
+    <h3 class="mat-h3 ws-mat-primary-text" *ngIf="showInfo">
+      <ng-container i18n>Pick the topics below you’re interested in and help </ng-container>
+      <ng-container>{{appName}}</ng-container>
+      <ng-container i18n> to get to know you better. The platform will use this information to improve
+        your learning recommendations. The more often you use </ng-container>
+      {{appName}}
+      <ng-container i18n>, the better the recommendations will be. Take the first step to your
+        personalized learning experience!</ng-container>
+    </h3>
+    <mat-form-field class="width-1-1 search-width" floatLabel="never" appearance="outline">
+      <input type="text" placeholder="Search Topics" i18n-placeholder="interest search" matInput
+        [formControl]="interestControl" [matAutocomplete]="auto" i18n-aria-label aria-label="search topics"
+        #interestSearch />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
+      (optionSelected)="optionSelected($event.option.value)">
+      <mat-option *ngIf="interestSearch.value" [value]="interestSearch.value">{{
+        interestSearch.value
+      }}</mat-option>
+      <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">{{ option }}</mat-option>
+    </mat-autocomplete>
+  </div>
+
+  <div class="interest-holder">
+    <h2 class="mat-h2 ws-mat-primary-text font-weight-bold" i18n>
+      My Interests
+    </h2>
+    <div class="mt-4 text-center" *ngIf="isFetchingUserInterests">
+      <mat-spinner></mat-spinner>
+    </div>
+    <h4 *ngIf="!isFetchingUserInterests && userInterestsFetchError" i18n>
+      Unable to fetch interests
+    </h4>
+    <h4 *ngIf="
+        !isFetchingUserInterests &&
+        !userInterests?.length &&
+        !userInterestsFetchError
+      " i18n>
+      No interests
+    </h4>
+    <mat-chip-list>
+      <mat-chip color="primary" selected *ngFor="let userInterest of userInterests" [removable]="true"
+        (removed)="removeInterest(userInterest)">
+        <a class="cursor-pointer" (click)="removeInterest(userInterest)">{{
+          userInterest
+        }}</a>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+
+    <ng-container *ngIf="suggestedInterests?.length">
+      <h2 class="mat-h2 ws-mat-primary-text font-weight-bold margin-top-l" i18n>
+        Our Suggestions
+      </h2>
+      <mat-chip-list>
+        <mat-chip #selectedChip class="ws-mat-primary-border-bold suggestions-chip" *ngFor="
+            let suggestedInterest of suggestedInterests
+              | pipeLimitTo: suggestionsLimit;
+            let i = index
+          " (removed)="addInterest(suggestedInterest, true, i)">
+          <a class="cursor-pointer" (click)="addInterest(suggestedInterest, true, i)">{{ suggestedInterest }}</a>
+          <mat-icon matChipRemove class="ws-mat-primary-text">add_circle</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      <div class="text-right padding-top-xs padding-bottom-l" [hidden]="suggestionsLimit >= suggestedInterests.length">
+        <button class="ws-mat-primary-text font-weight-bold" type="button" i18n-aria-label
+          aria-label="see more interests" mat-button (click)="suggestionsLimit = suggestedInterests.length">
+          <ng-container i18n>View </ng-container>
+          <ng-container>
+            {{ suggestedInterests.length - suggestionsLimit }}
+          </ng-container>
+          <ng-container i18n> more</ng-container>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <input type="hidden" i18-value i18-aria-value aria-value="Interests add successful" value="Saved" #toastSuccess />
+</div>
+<input type="hidden" i18-value i18-aria-value aria-value="Duplicate interest in user list"
+  value="Interest already present" #toastDuplicate />
+<input type="hidden" i18-value i18-aria-value aria-value="Unable to save interests" value="Interests update failed"
+  #toastFailure />

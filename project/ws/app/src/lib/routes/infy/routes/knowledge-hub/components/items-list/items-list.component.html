@@ -1,0 +1,30 @@
+<div class="items-list">
+  <header *ngIf="item.data.length > 0" class="heading-items" [ngClass]="item.type">
+    <label class="title-labels ws-mat-primary-text text-xl font-medium">
+      <span class="countTypes">{{ item.data.length }}</span>
+      <span> {{ item.headingText }}</span>
+    </label>
+  </header>
+  <footer class="items-collection">
+    <ul>
+      <li [ngClass]="item.itemsMinShown == 6 ? 'items-box' : 'items-full-length'" *ngFor="let str of item.data | slice: 0:showMoreLess.limit">
+        <div *ngIf="str">
+          <p *ngIf="item.type == 'contribution'">
+            <a ng-if="str.id !== null">{{ str?.title }}</a>
+            <!-- [routerLink]="'/app/infy/khub/view/project' + str?.id + '/PROMPT'" -->
+          </p>
+          <p *ngIf="item.type == 'risk'" title="Description : {{ str?.description }}">
+            {{ str?.name }}
+          </p>
+          <p *ngIf="item.type == 'strategy' || item.type == 'tool'">
+            {{ str?.name }}
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="types" *ngIf="item.data.length > item.itemsMinShown" (click)="changeItemShow()">
+      {{ showMoreLess.text }}
+    </div>
+  </footer>
+</div>

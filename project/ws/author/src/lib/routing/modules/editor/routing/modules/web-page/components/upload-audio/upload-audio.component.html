@@ -1,0 +1,38 @@
+<div [ngClass]="{'opacity-50': isUploading}">
+    <div mat-dialog-title class="flex justify-between">
+        <h1 class="ws-mat-primary-text">
+            <mat-icon>cloud_upload</mat-icon>&emsp;
+            <span i18n>Upload audio</span>
+        </h1>
+        <button mat-icon-button mat-dialog-close i18n-aria-label aria-label="close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="flex justify-between items-center" mat-dialog-content>
+        <div class="flex flex-col pr-6 w-2/5">
+            <label>
+                <b i18n>Language</b>
+            </label>
+            <mat-form-field class="margin-top-xs w-full" appearance="outline">
+                <mat-select [(ngModel)]="uploadedAudio.srclang" required="true">
+                    <mat-option *ngFor="let lang of allLanguages" [value]="lang.srclang">
+                        {{lang.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cursor-pointer h-12 w-2/5 upload-box flex items-center justify-center" (click)="fileInput.click()">
+            <span class="font-weight-500" [hidden]="file">
+                <input class="upload-audio" type="file" accept="audio/mp3,audio/*;capture=microphone" (change)="onDrop($event.target.files[0]); fileInput.value = null"
+                    #fileInput />
+            </span>
+            <label for="file" class="mat-h2 margin-bottom-remove ws-mat-primary-text cursor-pointer flex flex-middle justify-center">
+                <mat-icon style="margin-right:4px">add</mat-icon>
+                <span i18n>Browse</span>
+            </label>
+        </div>
+    </div>
+</div>
+<!-- <div mat-dialog-actions class="flex-row-reverse">
+    <button i18n mat-raised-button color="primary" [mat-dialog-close]="result">Change</button>
+</div> -->

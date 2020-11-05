@@ -1,0 +1,74 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="margin-left-xs">Write a Post</span>
+</mat-toolbar>
+
+<mat-card class="editor-wrapper">
+  <form>
+    <div>
+      <textarea matInput class="mat-typography title-textarea" i18n-placeholder placeholder="Title" required
+        minlength="10" maxlength="80" name="title" [(ngModel)]="title" autofocus #blogTitle="ngModel"></textarea>
+      <p *ngIf="(blogTitle.dirty || blogTitle.touched) && blogTitle.invalid" class="error-text mat-caption" i18n>
+        *Title range: 10-80 characters
+      </p>
+    </div>
+
+    <div class="margin-top-m">
+      <textarea matInput class="mat-typography abstract-textarea" i18n-placeholder placeholder="Abstract" required
+        minlength="10" maxlength="150" name="abstract" [(ngModel)]="abstract" autofocus
+        #blogAbstract="ngModel"></textarea>
+      <p *ngIf="(blogAbstract.dirty || blogAbstract.touched) && blogAbstract.invalid" class="error-text mat-caption"
+        i18n>
+        *Abstract range: 10-150 characters
+      </p>
+    </div>
+
+    <mat-form-field class="width-1-1">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let selectedTag of selectedTags" [selectable]="true" [removable]="true"
+          (removed)="removeTag(selectedTag)">
+          {{ selectedTag.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input i18n-placeholder placeholder="Relevant tags" #tagsInput [formControl]="tagsCtrl" [matAutocomplete]="auto"
+          [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event, duplicate.value, invalidTag.value)">
+        <mat-option *ngIf="fetchTagsStatus === 'fetching'">...</mat-option>
+        <mat-option *ngIf="
+                (fetchTagsStatus === 'done' || fetchTagsStatus === 'error') &&
+                !autocompleteAllTags.length
+              ">
+          No tag found</mat-option>
+        <mat-option *ngFor="let filteredTag of autocompleteAllTags" [value]="filteredTag">
+          {{ filteredTag.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <ws-widget-editor-quill class="editor" (textData)="onTextChange($event)" [htmlText]="body"></ws-widget-editor-quill>
+  </form>
+
+  <div class="flex flex-middle flex-center margin-top-m">
+    <button *ngIf="editMode === 'update'" class="margin-right-s" (click)="update(saved.value, error.value)"
+      [disabled]="isCreatingPost || !actionBtnsEnabled || blogTitle.invalid || blogAbstract.invalid" mat-raised-button
+      color="primary" i18n>
+      Save
+    </button>
+    <button *ngIf="(editMode === 'create' || editMode === 'draft') && !isCreatingPost" class="margin-right-s"
+      (click)="publishBlog(publish.value, error.value)"
+      [disabled]="isCreatingPost || !actionBtnsEnabled || blogTitle.invalid || blogAbstract.invalid" mat-raised-button
+      color="primary" i18n="Post of Ask a Question">
+      Publish
+    </button>
+    <div *ngIf="isCreatingPost">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</mat-card>
+
+<input type="hidden" i18n-value value="Post updated successfully" #saved />
+<input type="hidden" i18n-value value="Post saved in the drafts" #savedDraft />
+<input type="hidden" i18n-value value="Created Post is under review." #publish />
+<input type="hidden" i18n-value value="Unable to save. Please retry" #error />
+<input type="hidden" i18n-value value="Tag already added" #duplicate />
+<input type="hidden" i18n-value value="You can add tag from dropdown only" #invalidTag />

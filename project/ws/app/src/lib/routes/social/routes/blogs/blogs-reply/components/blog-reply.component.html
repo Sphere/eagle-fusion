@@ -1,0 +1,71 @@
+<mat-card class="margin-top-s">
+  <div class="flex flex-middle flex-between">
+    <div class="flex flex-middle">
+      <ws-widget-user-image [email]="reply?.postCreator?.emailId"></ws-widget-user-image>
+      <div class="padding-left-s width-expand flex flex-between">
+        <div>
+          <span class="mat-primary-text">
+            {{ reply?.postCreator?.name }}
+          </span>
+          <div class="mat-caption">
+            {{ reply?.dtLastModified | date }}
+            <ng-container i18n> at </ng-container>
+            <ng-container>{{ reply?.dtLastModified | date: 'shortTime' }}</ng-container>
+          </div>
+        </div>
+        <button type="button" *ngIf="userId === reply?.postCreator?.postCreatorId" mat-icon-button
+          [matMenuTriggerFor]="editMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+    </div>
+    <ws-app-btn-flag [postCreatorId]='reply?.postCreator?.emailId' [postId]="reply?.id"
+      [flagged]="reply?.activity?.userActivity?.flag">
+    </ws-app-btn-flag>
+  </div>
+  <mat-menu #editMenu="matMenu">
+    <ng-template matMenuContent>
+      <button type="button" (click)="editMode = true" mat-menu-item i18n>Edit</button>
+      <button type="button" (click)="deleteReply(deleteFailMsg.value)" mat-menu-item i18n>
+        Delete
+      </button>
+    </ng-template>
+  </mat-menu>
+  <div *ngIf="!editMode" class="reply-content margin-top-s"
+    [innerHTML]="reply?.postContent?.body | pipeSafeSanitizer: 'html'"></div>
+  <div *ngIf="editMode" class="margin-top-s padding-s mat-primary-border">
+    <ws-widget-editor-quill (textData)="onTextChange($event)" [htmlText]="reply?.postContent?.body" [minLength]="'10'">
+    </ws-widget-editor-quill>
+    <!-- <ws-editor-quill
+      [minLength]="'10'"
+      [htmlText]="reply?.postContent?.body"
+      (textData)="onTextChange($event)"
+    >
+    </ws-editor-quill> -->
+    <div class="text-right">
+      <button type="button" class="margin-top-s" [disabled]="!replyPostEnabled" mat-raised-button color="primary" i18n
+        (click)="editReply(editFailMsg.value)">
+        Update
+      </button>
+      <button type="button" class="margin-top-s margin-left-s" mat-stroked-button color="primary" i18n
+        (click)="editMode = false">
+        Cancel
+      </button>
+    </div>
+  </div>
+  <span class="margin-top-s flex flex-between" *ngIf="reply?.activity && reply?.status === 'Active'">
+    <span>
+      <ws-widget-btn-social-vote [postId]="reply?.id" [activity]="reply?.activity" [voteType]="'upVote'"
+        [postCreatorId]="reply?.postCreator?.postCreatorId"></ws-widget-btn-social-vote>
+      <ws-widget-btn-social-vote class="margin-left-s" [postId]="reply?.id" [activity]="reply?.activity"
+        [voteType]="'downVote'" [postCreatorId]="reply?.postCreator?.postCreatorId">
+      </ws-widget-btn-social-vote>
+    </span>
+    <ws-widget-btn-social-like *ngIf="showSocialLike" [postId]="reply?.id"
+      [postCreatorId]="reply?.postCreator?.postCreatorId" [activity]="reply?.activity">
+    </ws-widget-btn-social-like>
+  </span>
+</mat-card>
+
+<input type="hidden" i8n-value value="Something went wrong! Unable to delete." #deleteFailMsg />
+<input type="hidden" i8n-value value="Something went wrong! Unable to post." #editFailMsg />

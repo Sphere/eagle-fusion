@@ -1,0 +1,26 @@
+.progress-circular {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .progress-circular-container {
+    position: relative;
+    margin-right: .7rem;
+  }
+
+  .progress-circular-empty {
+    position: absolute;
+  }
+
+  .progress-circular-value {
+    position: absolute;
+    top: 33%;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .progress-circular-full {
+    position: absolute;
+  }
+}

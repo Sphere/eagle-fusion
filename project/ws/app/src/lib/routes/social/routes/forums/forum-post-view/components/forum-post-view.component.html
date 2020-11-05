@@ -1,0 +1,63 @@
+<div class="forum-view-container">
+  <!-- <pre>{{postsOfForum | json}}</pre>
+  <pre>{{forumViewData| json}}</pre> -->
+  <mat-card class="padding-xs" *ngIf="forumViewData">
+    <img alt="thumbnail-image" class="image-container" [src]="forumViewData.thumbnail ? forumViewData.thumbnail : 'https://line25.com/wp-content/uploads/2016/06/2-Man-holds-the-program-code.jpg'"
+    />
+
+    <div class="ws-mat-primary-text mat-headline title-text title-truncate">
+      {{ forumViewData.name }}
+    </div>
+    <div class="description-text mb-4" i18n-title title="Description">
+      {{ forumViewData.description }}
+    </div>
+    <div class="flex flex-middle">
+      <div>
+        <div class="flex flex-middle">
+          <mat-icon>
+            account_circle
+          </mat-icon>
+          <div class="px-2 pb-2">
+            <div class="ws-mat-primary-text title-text">
+              {{ forumViewData.forumCreator.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="spacer"></span>
+      <!-- <mat-icon class="px-2">group</mat-icon>
+      <span class="pr-4">{{forumViewData.followerCount}}</span> -->
+      <!-- <mat-icon class="px-2 grey-icons">chat</mat-icon>
+      <span>{{ forumViewData.postCount }}</span> -->
+    </div>
+    <div class="pb-4">
+      <span class="ws-mat-primary-text title-text">
+        <span i18n>Modified:
+        </span>{{ forumViewData.dtLastModified | date }}</span>
+    </div>
+
+    <mat-divider></mat-divider>
+    <h3 class="pt-3">
+      <strong>
+        <ng-container i18n> Posts </ng-container>
+        <ng-container *ngIf="postsOfForum.length"> ({{ forumViewData.postCount }})</ng-container>
+      </strong>
+    </h3>
+
+    <mat-card style="margin-bottom: 1%;" class="flex flex-middle flex-center ws-mat-primary-text mat-title cursor-pointer" (click)="writePost()">
+      Create Post
+      <mat-icon>add</mat-icon>
+    </mat-card>
+
+    <div *ngFor="let post of postsOfForum">
+      <ws-app-forum-card [post]="post" [partOfRequired]="false"></ws-app-forum-card>
+    </div>
+  </mat-card>
+
+  <div *ngIf="timelineFetchStatus === 'hasMore'" class="text-center pt-3">
+    <button (click)="fetchPosts()" type="button" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>&nbsp;
+      <ng-container i18n>View More</ng-container>
+    </button>
+  </div>
+</div>

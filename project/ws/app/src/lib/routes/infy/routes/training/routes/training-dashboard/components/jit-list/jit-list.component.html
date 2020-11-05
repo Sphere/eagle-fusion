@@ -1,0 +1,38 @@
+<section class="container-balanced">
+  <div class="heading flex flex-between flex-wrapped margin-top-xl margin-bottom-l">
+    <div class="mat-body" i18n>
+      See the training requests you have made for your team, or raise new ones.
+    </div>
+    <div class="btn-switch">
+      <button mat-stroked-button color="primary" (click)="openJITForm()">
+        <mat-icon inline="true">add</mat-icon>
+        <span class="margin-left-xs" i18n>New Training</span>
+      </button>
+    </div>
+  </div>
+
+  <section
+    class="margin-top-m margin-bottom-m flex flex-wrapped flex-center"
+    *ngIf="fetchStatus === 'done'"
+  >
+    <div class="card-container" *ngFor="let jitRequest of jitRequests">
+      <ws-app-jit-card [jitRequest]="jitRequest"></ws-app-jit-card>
+    </div>
+
+    <div class="margin-top-l" *ngIf="!jitRequests.length">
+      <p class="text-center" i18n>You have not raised any requests for training your team.</p>
+    </div>
+  </section>
+
+  <section class="margin-top-l" *ngIf="fetchStatus === 'fetching'">
+    <div class="flex flex-center">
+      <!-- <ws-spinner [spinColor]="'primary'"></ws-spinner> -->
+    </div>
+  </section>
+</section>
+
+<ng-template #error>
+  <div class="text-center mat-body" i18n>
+    Could not fetch training requests for your team.
+  </div>
+</ng-template>

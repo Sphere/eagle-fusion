@@ -1,0 +1,30 @@
+@import 'ws-vars';
+
+.negative-margin-left-xxs {
+  margin-left: -4px !important;
+}
+
+.goal-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.goal-progress-percent {
+  position: absolute;
+  bottom: 4px;
+}
+
+.transformx-minus-100 {
+  transform: translate(-100%);
+}
+
+.expand-goal-btn {
+  position: absolute;
+  bottom: 4px;
+  right: $size-m;
+}
+
+.border-radius-0 {
+  border-radius: 0 !important;
+}

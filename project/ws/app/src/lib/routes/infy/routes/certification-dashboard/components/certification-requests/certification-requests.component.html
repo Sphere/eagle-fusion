@@ -1,0 +1,57 @@
+<section class="my-4 px-4 container-balanced">
+  <div class="flex flex-between">
+    <button
+      mat-mini-fab
+      [color]="'primary'"
+      (click)="openFilterDialog()"
+      matTooltip="Filter"
+      i18n-matTooltip
+    >
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </div>
+
+  <section class="margin-top-l">
+    <ng-container [ngSwitch]="itemFetchStatus">
+      <ng-container *ngSwitchCase="'done'">
+        <ng-container *ngIf="approvalItems.length" [ngSwitch]="pageType">
+          <ng-container *ngSwitchCase="'approver'">
+            <section class="margin-bottom-s" *ngFor="let approvalItem of approvalItems">
+              <ws-app-approval-card
+                [approvalItem]="approvalItem"
+                [itemSubject]="itemSubject"
+              ></ws-app-approval-card>
+            </section>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'user'">
+            <section class="margin-bottom-s" *ngFor="let requestItem of approvalItems">
+              <ws-app-user-request-card
+                [requestItem]="requestItem"
+                [itemSubject]="itemSubject"
+              ></ws-app-user-request-card>
+            </section>
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="!approvalItems.length">
+          <section class="text-center mat-body margin-top-xl" i18n>
+            You have no request items.
+          </section>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'error'">
+        <section class="text-center mat-body margin-top-xl" i18n>
+          An error occured while fetching request items.
+        </section>
+      </ng-container>
+
+      <!-- <ng-container *ngSwitchCase="'fetching'">
+        <section class="flex flex-center">
+          <app-spinner [spinColor]="'primary'"></app-spinner>
+        </section>
+      </ng-container> -->
+    </ng-container>
+  </section>
+</section>

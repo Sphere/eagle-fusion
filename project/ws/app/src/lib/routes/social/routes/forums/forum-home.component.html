@@ -1,0 +1,99 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <button type="button" mat-icon-button (click)="
+        !screenSizeIsLtMedium ? (showText = !showText) : sideNavBar.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="ml-2" i18n>Forum</span>
+  <span class="spacer"></span>
+  <ng-container *ngIf="(isXSmall$ | async) === true && forumCreation">
+    <a mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vertical</mat-icon>
+    </a>
+    <mat-menu #menu="matMenu">
+      <a i18n [routerLink]="'/app/social/forums/me'" mat-menu-item>My Forums</a>
+      <a i18n [routerLink]="'/app/social/forums/edit'" mat-menu-item>Create Forums</a>
+    </mat-menu>
+  </ng-container>
+  <ng-container *ngIf="(isXSmall$ | async) === false && forumCreation">
+    <a mat-raised-button color="primary" i18n [routerLink]="'/app/social/blogs/me'" class="margin-right-s">My Forums</a>
+    <a mat-raised-button color="primary" class="margin-left-s" i18n [routerLink]="'/app/social/blogs/edit'">Create
+      Forums</a>
+  </ng-container>
+</mat-toolbar>
+<mat-sidenav-container autosize="true" class="sidenav-content-min-height">
+  <mat-sidenav #sideNavBar [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+    <mat-nav-list class="margin-left-s margin-right-xs">
+      <a mat-list-item routerLinkActive="mat-toolbar" [routerLink]="'/app/social/forums/view-forum'"
+        (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null" matTooltip="Forum" i18n-matTooltip="Forum">
+        <mat-icon>forum</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium"
+          i18n>Forums</span>
+      </a>
+      <a mat-list-item routerLinkActive="mat-toolbar" *ngIf="showModerateTab"
+        [routerLink]="'/app/social/forums/moderator-timeline'"
+        (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null">
+        <mat-icon>rate_review</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium"
+          i18n>Moderate</span>
+      </a>
+      <a mat-list-item routerLinkActive="mat-toolbar" [routerLink]="'/app/social/forums/recent-forumpost'"
+        (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null">
+        <mat-icon>post_add</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium" i18n>Latest
+          posts</span>
+      </a>
+      <a mat-list-item routerLinkActive="mat-toolbar" [routerLink]="'/app/social/forums/my-forum-post'"
+        (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null">
+        <mat-icon>insert_comment</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium" i18n>My
+          posts</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="padding-xs">
+    <div class="w-full">
+      <div *ngIf="!showFilter && filterEnabled" class="text-right">
+        <button mat-icon-button *ngIf="!showFilter" (click)="showFilter = !showFilter;">
+          <mat-icon>filter_list</mat-icon>
+        </button></div>
+      <div *ngIf="showFilter && filterEnabled" class="py-3">
+        <ws-app-filter-dispaly [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse"
+          (filterClose)="closeFilter(false)" [filtersResetAble]="filtersResetAble">
+        </ws-app-filter-dispaly>
+        <mat-card *ngIf="predefinedAdminFiltersExist">
+          <mat-card-content>
+            <!-- <h2 class="example-h2">Checkbox configuration</h2> -->
+
+            <section class="example-section">
+              <mat-checkbox class="example-margin" [(ngModel)]="query" (change)="changeAdminQueryFilter()">Q&A
+              </mat-checkbox>
+              <mat-checkbox class="example-margin" [(ngModel)]="forumPosts" (change)="changeAdminForumFilter()">Forum
+                Posts
+              </mat-checkbox>
+              <mat-checkbox class="example-margin" [(ngModel)]="blogPosts" (change)="changeAdminBlogFilter()">Blog Posts
+              </mat-checkbox>
+            </section>
+
+
+
+          </mat-card-content>
+        </mat-card>
+
+
+
+        <!--filters for admin end-->
+        <mat-card *ngIf="predefinedFiltersExist">
+          <mat-card-content>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+              [(ngModel)]="favoriteSeason">
+              <mat-radio-button class="example-radio-button width-expand" *ngFor="let season of seasons"
+                [value]="season" (change)="emitCurrentPreFilter(season)">
+                {{ season }}
+              </mat-radio-button>
+            </mat-radio-group>
+            <!-- <div>Your favorite season is: {{favoriteSeason}}</div> -->
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <mat-divider *ngIf="showFilter && filterEnabled" class="py-2"></mat-divider>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

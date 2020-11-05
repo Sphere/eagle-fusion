@@ -1,0 +1,47 @@
+<mat-toolbar  class="mat-primary mat-elevation-z3">
+  
+    <span class="material-icons" routerLink="/page/home" i18n-matTooltip matTooltip="Home">
+        home
+        </span>
+    
+    <img [src]="appIcon " alt=" Logo" class="app-logo viewer-logo" />
+   
+   
+
+    <ng-container *ngIf="courseNameHeader">
+        <a routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-dim">
+          <img [src]="appIcon" alt="Application Logo" class="app-logo" />
+        </a>
+        <h3 class="mt-name margin-left-l">{{courseNameHeader}}</h3>
+  
+        <span class="spacer width-1-1"></span>
+
+        <mat-icon i18n-matTooltip matTooltip="Course Settings" class="margin-right-l" (click)="showCourseSettings()">settings</mat-icon>
+
+        <div
+        *ngFor="let button of requiredConfig || []"
+        class="button-grid cursor-pointer"
+        (click)="action.next(button.event)"
+      >
+        <button mat-raised-button class=" header-btn text-white ws-mat-primary-background mat-button-base margin-right-l">
+          <!-- <mat-icon class="text-white small-icon ws-mat-primary-text">{{ button.icon }}</mat-icon> -->
+          {{ button.title }}
+        </button>
+       
+      </div>
+
+       
+        <!-- <button  mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="headerService.saveCourseContent()">
+          Save</button> -->
+  
+         
+      </ng-container>
+  
+
+  
+   <span class="header-spacer"></span>
+  
+ 
+  
+   
+  </mat-toolbar>

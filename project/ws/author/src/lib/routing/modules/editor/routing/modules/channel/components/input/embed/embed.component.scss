@@ -1,0 +1,10 @@
+.required {
+  &::after {
+    color: red;
+    content: " *";
+  }
+}
+
+.child {
+  width: 100%;
+}

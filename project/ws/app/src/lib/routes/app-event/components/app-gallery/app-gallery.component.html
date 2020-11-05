@@ -1,0 +1,66 @@
+<ng-container>
+  <div class="p-12 m-auto galleryBlock">
+    <div class="flex flex-wrap flex-row galleryHead">
+      <div class="w-1/2">
+        <div class="text-left gallery-header">
+          {{ data.EventName }}
+        </div>
+      </div>
+      <div class="w-1/2">
+        <div class="text-right">
+          <mat-form-field>
+            <mat-label>Select Event</mat-label>
+            <mat-select class="event-select" [value]="data.EventName">
+              <mat-option value="{{ data.EventName }}">{{ data.EventName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="gallery-content mt-8">
+      <mat-grid-list [cols]="noOfCol" rowHeight="4:3" gutterSize="8px" class="gallery-grid-list">
+        <mat-grid-tile class="gallery-tile" *ngFor="let image of imageData">
+          <mat-grid-tile-header class="ws-mat-primary-background gallery-tile-header">
+            <h2>{{image.SessionId}}</h2>
+          </mat-grid-tile-header>
+          <div class="galleryImg">
+            <img (click)="openGallery(true,image.ImageUrl)" [src]="image.ImageUrl[0]">
+          </div>
+          <mat-grid-tile-footer class="ws-mat-primary">Highlights</mat-grid-tile-footer>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+
+</ng-container>
+<h2 *ngIf="error" class="mat-error margin-top-m text-center" i18n>
+  Check your network connection and reload the page.
+</h2>
+
+<div class="overlay-container" *ngIf="isOpened">
+  <div class="flex flex-column w-60">
+    <div class="float-right">
+      <button mat-icon-button class="cursor-pointer" color="warn" (click)="openGallery(false)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="flex">
+      <div class="flex items-center">
+        <button mat-raised-button mat-icon-button type="button" (click)="slideTo(currentIndex - 1)">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div>
+        <img class="mat-elevation-z4 gallery-image" [src]="imageGallery[currentIndex]">
+        <!-- <p class="text-lg font-semibold">{{image.SessionId}}</p> -->
+      </div>
+      <div class="flex items-center">
+        <button mat-raised-button mat-icon-button type="button" (click)="slideTo(currentIndex + 1)">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

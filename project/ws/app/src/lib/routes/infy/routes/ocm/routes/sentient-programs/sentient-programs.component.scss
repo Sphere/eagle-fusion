@@ -1,0 +1,52 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.logo {
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: $size-m;
+}
+
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}
+
+.sentient-programs-card {
+  justify-content: space-between;
+
+  @include breakpoint-lt-l {
+    justify-content: space-around;
+  }
+}
+
+.card {
+  @include breakpoint-lt-s {
+    justify-content: center;
+  }
+}
+
+.program {
+  margin: $size-s;
+  height: 7em;
+  min-width: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-s;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex: 1;
+  color: white;
+}
+
+.selected {
+  font-weight: 500;
+  font-size: 1.4em !important;
+}
+
+.title {
+  font-size: 1.3em;
+}

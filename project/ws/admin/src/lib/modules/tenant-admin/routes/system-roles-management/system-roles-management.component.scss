@@ -1,0 +1,77 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+
+
+mat-card{
+  box-shadow: 0 10px 20px 10px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
+  min-height: 40rem !important;
+   @include breakpoint-lt-m {
+      width: 100%;
+      margin:  1em 12em 2em -1em;
+    }
+
+}
+
+:host ::ng-deep .searchStyle {
+  .mat-form-field-infix {
+    padding-left:10px;
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: 180px;
+    border-top: 0;
+    padding-top: 1em;
+  }
+}
+
+
+.searchTerm {
+    border-radius: 0.5rem;
+    border: 1px solid #cecece !important;
+    height: 3em;
+    width: 26em;
+     @include breakpoint-xs {
+       margin-left: 0em;
+       margin-top:1em;
+       width:100%;
+    }
+    @include breakpoint-m {
+       margin-left: 0em;
+       margin-top:0em;
+       width:18em;
+    }
+    @include breakpoint-s {
+       margin-left: 0em;
+       margin-top:0em;
+       width:20em;
+    }
+}
+
+.privilagebutton{
+
+  width: 344px !important;
+  border-radius: 0.8rem!important;
+  border: 1px solid  #c0bebe;
+}
+.privilagebutton:hover{
+  border: 1px solid  #005f87;
+
+}
+
+
+.warn-card {
+  padding: 1em;
+  margin: 1em;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+.warn-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin: 16px;
+}

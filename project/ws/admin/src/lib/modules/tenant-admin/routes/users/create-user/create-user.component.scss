@@ -1,0 +1,74 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+
+
+mat-expansion-panel {
+  box-shadow: none!important;
+  ::ng-deep .mat-expansion-panel-body {
+  @include breakpoint-xs {
+    padding:0;
+  }
+}
+}
+
+.pannelheading{
+  margin:0!important;
+}
+
+.mat-expansion-panel-header{
+  @include breakpoint-xs {
+    padding-left:0;
+  }
+}
+.mat-expansion-panel-spacing{
+  margin: 0px 0;
+}
+
+.mat-radio-group{
+  margin: 15px;
+}
+
+.Email {
+  width: 49%;
+  @include breakpoint-lt-m {
+    width: 100%;
+  }
+}
+.genbutton{
+  height: 3.35rem;
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.width-expand {
+  min-width: 60%;
+}
+
+.button-row{
+  border-top-style: none;
+.button{
+  margin-right: 1rem;
+}
+}
+.flex-div{
+  @include breakpoint-lt-m {
+    flex-wrap: wrap;
+    div {
+      width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+.changeWidth {
+   @include breakpoint-lt-m {
+    width:100%;
+  }
+}
+.mat-stroked-button{
+  margin-right:0.75rem;
+}
+.mat-radio-group{
+  margin: 0;
+}

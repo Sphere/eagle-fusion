@@ -1,0 +1,27 @@
+<section class="mat-toolbar p-4">
+  <div class="flex mat-body">
+    <div class="flex flex-col flex-center">
+      <ws-widget-user-image [email]="threadItem.feedbackBy.email"></ws-widget-user-image>
+    </div>
+
+    <div class="flex-grow ml-1">
+      <div class="w-full sm:flex sm:flex-between">
+        <h3 class="mat-h3 truncate m-0 flex-grow">{{ threadItem.feedbackBy.name }}</h3>
+        <div class="mat-caption hidden sm:block">
+          {{ threadItem.createdOn | date: 'dd MMM yyyy hh:mm a' }}
+        </div>
+      </div>
+
+      <div class="mat-caption sm:hidden">
+        {{ threadItem.createdOn | date: 'dd MMM yyyy hh:mm a' }}
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-4 mat-body">
+    <div
+      class="feedback-text"
+      [innerHTML]="threadItem.feedbackText | pipeSafeSanitizer: 'html'"
+    ></div>
+  </div>
+</section>

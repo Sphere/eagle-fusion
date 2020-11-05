@@ -1,0 +1,60 @@
+<mat-card class="card-container" *ngIf="roleOffering">
+  <div [routerLink]="'/app/infy/navigator/role/' + roleOffering.role_id"
+    [queryParams]="{ variant: selectedVariant?.variant_id }" class="width-auto cursor-pointer">
+    <img class="card-image" [src]="roleOffering.role_image" [alt]="roleOffering.role_name"
+      *ngIf="roleOffering.role_image != ''" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+  </div>
+  <div class="card-information">
+    <div class="mat-headline title text-truncate">{{ roleOffering.role_name }}</div>
+    <div class="mat-body-1 title description" *ngIf="roleOffering.variants.length >= 2">
+      {{ roleOffering.role_description | pipeLimitTo: 137 }}
+    </div>
+    <div class="mat-body-1 title description" *ngIf="roleOffering.variants.length <= 1">
+      {{ roleOffering.role_description | pipeLimitTo: 298 }}
+    </div>
+    <div class="radio-buttons">
+      <mat-radio-group *ngIf="allVariants.length > 1" class="radio-buttons">
+        <div class="mat-subheading-1 ws-mat-primary-text margin-left-xs font-weight-bold margin-bottom-xs"
+          *ngIf="allVariants.length <= 3">
+          Showing {{ variants.length }} variants
+        </div>
+        <div class="mat-subheading-1 ws-mat-primary-text margin-left-xs font-weight-bold margin-bottom-xs"
+          *ngIf="allVariants.length > 3">
+          Showing {{ variants.length }} of {{ allVariants.length }} variants
+        </div>
+        <mat-radio-button *ngFor="let variant of variants; let idx = index" color="primary"
+          class="variant-radio-label mat-body" [name]="variant.variant_name" [value]="variant.variant_id"
+          [checked]="selectedVariant.variant_id === variant.variant_id" (change)="onSelectionChange(variant)">
+          {{ variant.variant_name }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="flex" [ngClass]="{'flex-between': showLess, 'flex-end' : !showLess}">
+      <div class="flex " *ngIf="showLess">
+        <button class="ws-mat-border flex-end" mat-button *ngIf="allVariants.length > 3"
+          (click)="changeVariants('prev')">
+          <mat-icon class="small-icon">keyboard_arrow_left</mat-icon>
+
+          Prev
+        </button>
+      </div>
+      <div class="flex flex-end" *ngIf="showMore">
+        <button class="ws-mat-border" style mat-button *ngIf="allVariants.length > 3" (click)="changeVariants('next')">
+          Next
+          <mat-icon class="small-icon">keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="button-holder">
+      <button mat-flat-button class="margin-top-xs">
+        <a mat-flat-button class="ws-mat-primary-border margin-right-s padding-left-xs padding-right-xs"
+          [routerLink]="'/app/infy/navigator/role/' + roleOffering.role_id"
+          [queryParams]="{ variant: selectedVariant?.variant_id }">
+          <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>PURSUE OFFERING</span>
+          <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+        </a>
+      </button>
+    </div>
+  </div>
+</mat-card>

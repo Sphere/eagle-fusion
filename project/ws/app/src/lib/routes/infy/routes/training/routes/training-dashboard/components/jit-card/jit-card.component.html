@@ -1,0 +1,70 @@
+<mat-card>
+  <div class="margin-bottom-s flex flex-between">
+    <div class="width-9-10">
+      <h2 class="mat-title margin-bottom-xs text-truncate">{{ jitRequest.content_name }}</h2>
+      <div class="mat-caption">
+        <span i18n>Request ID:</span>
+        <span>{{ jitRequest.jit_request_id }}</span>
+      </div>
+    </div>
+    <div class="width-1-10">
+      <button mat-icon-button [matMenuTriggerFor]="jitCardMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+
+    <mat-menu #jitCardMenu>
+      <button mat-menu-item [matMenuTriggerFor]="trackAnchorMenu">
+        <span i18n>Track Anchor</span>
+      </button>
+
+      <button mat-menu-item [matMenuTriggerFor]="trackLeadMenu">
+        <span i18n>Track Lead</span>
+      </button>
+    </mat-menu>
+
+    <mat-menu #trackAnchorMenu>
+      <ng-template matMenuContent>
+        <a mat-menu-item *ngFor="let anchor of trackAnchors" href="mailto:{{ anchor }}">
+          <mat-icon>email</mat-icon>
+          {{ anchor }}
+        </a>
+      </ng-template>
+    </mat-menu>
+
+    <mat-menu #trackLeadMenu>
+      <ng-template matMenuContent>
+        <a mat-menu-item *ngFor="let lead of trackLeads" href="mailto:{{ lead }}">
+          <mat-icon>email</mat-icon>
+          {{ lead }}
+        </a>
+      </ng-template>
+    </mat-menu>
+  </div>
+
+  <div class="margin-bottom-s">
+    <div>
+      <span class="mat-body-2" i18n>Start Date: </span>
+      <span class="mat-body">{{ jitRequest.start_date }}</span>
+    </div>
+
+    <div>
+      <span class="mat-body-2" i18n>Participants: </span>
+      <span class="mat-body">{{ jitRequest.no_of_participants }}</span>
+    </div>
+  </div>
+
+  <div class="margin-bottom-s" *ngIf="jitRequest.track_name || jitRequest.track_code">
+    <div>
+      <span class="mat-body-2" i18n>Track: </span>
+      <span class="mat-body text-truncate">{{
+        jitRequest.track_name ? jitRequest.track_name : jitRequest.track_code
+      }}</span>
+    </div>
+  </div>
+
+  <div>
+    <span class="mat-body-2" i18n>Status: </span>
+    <div class="mat-body text-truncate width-1-1">{{ jitRequest.status }}</div>
+  </div>
+</mat-card>

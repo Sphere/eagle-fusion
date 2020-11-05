@@ -1,0 +1,22 @@
+.node-name {
+  position: relative;
+  top: 2px;
+  max-width: 185px;
+  min-width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.node-icon {
+  padding-left: 5px;
+  padding-right: 10px;
+  top: 1px;
+  position: relative;
+}
+
+div {
+  display: flex;
+}

@@ -1,0 +1,12 @@
+.buttonz{
+  position: fixed;
+  display: flex;
+  bottom: 12%;
+  right: 6%;
+  z-index: 50;
+  opacity: 0.2;
+}
+
+.buttonz:hover ,.buttonz:active {
+  opacity: 0.9;
+}

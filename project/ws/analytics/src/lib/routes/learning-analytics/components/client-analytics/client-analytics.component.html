@@ -1,0 +1,87 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <div class="flex flex-middle">
+    <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+    <button type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="margin-left-xs">{{ analytics?.mainTitle }}</span>
+  </div>
+  <span class="spacer"></span>
+  <form *ngIf="!screenSizeIsLtMedium" [formGroup]="searchForm"
+    class="search-form margin-s flex flex-around flex-wrapped">
+    <mat-form-field class="search">
+      <input type="text" placeholder="search" aria-label="Search" matInput [formControl]="searchControl"
+        (keydown)="onPress($event)" autocomplete="off" />
+      <mat-icon class="cursor-pointer" (click)="search(searchControl.value)" matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav class="sidenav" [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
+    <mat-nav-list class="padding-remove-top">
+      <a *ngIf="analytics?.tabs?.home?.enabled" mat-list-item [routerLink]="'/analytics/home'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button" (click)="sideNavOnClick('home')"
+        accesskey="1">
+        <mat-icon>home</mat-icon>
+        <span class="margin-left-xs">{{ analytics?.tabs?.home?.displayName }}</span>
+      </a>
+      <a *ngIf="analytics?.tabs?.content?.enabled" mat-list-item aria-label="Content"
+        [routerLink]="'/analytics/content'" routerLinkActive="faq-active-class mat-toolbar mat-stroked-button"
+        (click)="sideNavOnClick('content')" accesskey="2">
+        <mat-icon>library_books</mat-icon>
+        <span class="margin-left-xs">{{ analytics?.tabs?.content?.displayName }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div *ngIf="screenSizeIsLtMedium" class="flex flex-middle">
+      <!-- <button type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
+        <mat-icon>menu</mat-icon>
+      </button> -->
+      <h2 class="mat-subheading-2 margin-remove padding-left-xs" [ngSwitch]="currentTab">
+        <span *ngSwitchCase="'home'" accesskey="1">
+          <mat-icon>home</mat-icon>
+          <span class="margin-left-xs" i18n>{{ analytics?.tabs?.home?.displayName }}</span>
+        </span>
+        <span *ngSwitchCase="'content'" accesskey="2">
+          <mat-icon>library_books</mat-icon>
+          <span class="margin-left-xs" i18n>{{ analytics?.tabs?.content?.displayName }}</span>
+        </span>
+      </h2>
+    </div>
+    <div class="margin-top-m">
+      <form *ngIf="
+          screenSizeIsLtMedium
+        " [formGroup]="searchForm" class="search-form margin-s flex flex-around flex-wrapped">
+        <mat-form-field class="search">
+          <input type="text" placeholder="search" aria-label="Search" matInput [formControl]="searchControl"
+            (keydown)="onPress($event)" autocomplete="off" />
+          <mat-icon class="cursor-pointer" (click)="search(searchControl.value)" matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+      <ng-container>
+        <ws-analytics-quarter-filters (filterEvent)="callFilteredGet($event)"></ws-analytics-quarter-filters>
+      </ng-container>
+      <ng-container *ngIf="contentData?.last_updated_on">
+        <div class="mat-body-1 flex flex-middle remove-margin-top margin-m">
+          <span i18n>Last Updated on :</span>
+          <span>{{ contentData?.last_updated_on | date: 'EEEE, MMMM d, y' }}</span>
+        </div>
+      </ng-container>
+      <div class="m-4 flex flex-start flex-middle flex-wrapped" *ngIf="
+          filterData.length > 0
+        ">
+        <h4 class="filter" i18n>Showing data for :</h4>
+        <mat-chip-list class="ml-4" #chipList aria-label="filter">
+          <mat-chip *ngFor="let filter of filterData" [selectable]="selectable" [removable]="removable"
+            (removed)="remove(filter)">
+            {{ filter.filterName }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

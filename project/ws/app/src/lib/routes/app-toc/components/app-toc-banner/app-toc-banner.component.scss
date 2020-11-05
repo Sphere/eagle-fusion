@@ -1,0 +1,223 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+%container-padding {
+  padding: 38px  2 * $size-xl $size-xl 147px;
+
+  @include breakpoint-xs {
+    padding: $size-xl $size-l;
+  }
+}
+
+.banner-container {
+  color: white;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  // background-attachment: fixed;
+}
+
+.header-synopsis-gradient {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.3) 100%)
+    /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0.8) 100%);
+*/
+}
+
+.fs-28 {
+  font-size: $size-lg !important;
+}
+
+
+.header-left {
+  flex :1;
+  min-width : 50%
+}
+.header-right{
+   min-width: 40%;
+   background-size: 100% 100%;
+}
+
+.header-synopsis {
+  height: 100%;
+  @extend %container-padding;
+  box-sizing: border-box;
+  background: #FBF5F2;
+
+  .header-title {
+    display: flex;
+    align-items: center;
+
+    .text-truncate-title {
+      max-width: 100%;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+  }
+
+  .header-meta-banner {
+    height: 135px;
+    overflow: hidden;
+  }
+
+  .header-meta {
+    line-height: 1.5;
+  }
+
+  .header-actions {
+    display: flex;
+    margin-top: 24px;
+
+    // .action-btns {
+    //   margin-left: auto;
+    //   order: 2;
+    // }
+
+  }
+}
+
+.banner-overview-container {
+  display: flex;
+  justify-content: space-between;
+
+  .overview-description {
+    flex: 1;
+    min-width: 1px;
+    margin-right: $size-l;
+
+    @include breakpoint-xs {
+      margin-right: 0;
+    }
+  }
+
+  .overview-intro {
+    $image-height: 135px;
+    width: (16 / 9) * $image-height;
+    height: $image-height;
+    border: 1px solid;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+
+    .overview-intro-overlay {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      color: white;
+      width: 48px;
+      height: 48px;
+      font-size: 48px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      padding: $size-xs;
+
+      &:active {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+    }
+
+    @include breakpoint-xs {
+      display: none;
+    }
+  }
+}
+
+.analytics-meta {
+  font-weight: 500;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.hidden-block-xs {
+  display: block;
+
+  @include breakpoint-xs {
+    display: none;
+  }
+}
+
+.visible-block-xs {
+  display: none;
+
+  @include breakpoint-xs {
+    display: block;
+  }
+}
+
+
+.breadcrumb {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: .625rem 1rem 0 0;
+}
+
+.breadcrumb, .breadcrumb-item {
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.breadcrumb-item+.breadcrumb-item {
+  margin-left: .5rem;
+}
+
+.breadcrumb-item {
+
+  align-items: center;
+  display: flex;
+}
+
+.breadcrumb-item.active {
+  color: rgba(0,0,0,.87);
+  font-weight: bolder;
+}
+
+.breadcrumb-item+.breadcrumb-item:before {
+  font-size: 1.714286em;
+  line-height: .583333em;
+  vertical-align: -.302198em;
+  font-family: Material Icons;
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  color: rgba(0,0,0,.54);
+  content: "chevron_right";
+  display: inline-block;
+  margin-right: .5rem;
+}
+.flex-wrap-reverse {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .header-right, .header-left{
+    width: 100%;
+  }
+  .header-right {
+    background-size: cover;
+    min-height: 150px;
+  }
+  .header-synopsis {
+    padding-left: 10px;
+  }
+  .flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
+  }
+}

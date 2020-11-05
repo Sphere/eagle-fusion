@@ -1,0 +1,100 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+.plans-card-module {
+  .goal-class {
+    width: 100%;
+    // margin: 1% 150% 1% 10%;
+    @include breakpoint-xs {
+      width: 80%;
+      margin: 2% 5% 1% 5%;
+    }
+
+    @include breakpoint-s {
+      width: 80%;
+      margin: 1% 10% 1% 10%;
+    }
+  }
+  .progress {
+    .progress-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-circular {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .progress-circular-container {
+        position: relative;
+        margin-right: 0.7rem;
+      }
+      .progress-circular-empty {
+        position: absolute;
+      }
+      .progress-circular-value {
+        position: absolute;
+        top: 33%;
+        width: 100%;
+        text-align: center;
+        font-weight: 500;
+      }
+    }
+    .progress-content {
+      width: 90%;
+      &-type {
+        font-weight: 500;
+      }
+    }
+    .progress-name {
+      font-weight: 500;
+    }
+    .progress-progress {
+      &-value {
+        font-size: 1.3rem;
+      }
+    }
+    .progress-expand {
+      width: 10%;
+      &-button {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+    .progress-spinner {
+      margin: 0 auto;
+      margin-top: 1rem;
+    }
+    .progress-children {
+      margin-top: 1rem;
+      .progress {
+        margin-top: 1rem;
+      }
+      .progress-children-container {
+        padding-left: $size-l;
+        padding-bottom: $size-l;
+      }
+    }
+  }
+}
+.text-inside-grid {
+  position: absolute;
+  left: 5px;
+}
+.text-outside-grid {
+  position: absolute;
+  right: 5px;
+}
+.hidden-block-xs {
+  display: block;
+
+  @include breakpoint-xs {
+    display: none;
+  }
+}
+
+.visible-block-xs {
+  display: none;
+
+  @include breakpoint-xs {
+    display: block;
+  }
+}

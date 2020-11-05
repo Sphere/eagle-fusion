@@ -1,0 +1,17 @@
+.toc-links {
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    .link-active {
+      font-weight: bold;
+      border-bottom: 2px solid;
+    }
+    ::ng-deep .mat-tab-links {
+      display: flex;
+      justify-content: center !important;
+    }
+    ::ng-deep .mat-tab-link {
+      opacity:1;
+    }
+  }

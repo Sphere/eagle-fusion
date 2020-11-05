@@ -1,0 +1,30 @@
+<nav mat-align-tabs="center" mat-stretch-tabs mat-tab-nav-bar>
+  <a *ngIf="enabledTab?.badges?.enabled && badgesEnabled" mat-tab-link [routerLink]="'/app/profile/competency/badges'"
+    routerLinkActive #rlaBadge="routerLinkActive" [active]="rlaBadge.isActive">
+    <mat-icon>
+      stars
+    </mat-icon>
+    <span class="margin-left-m mat-body-strong" i18n>
+      Badges
+    </span>
+  </a>
+  <a *ngIf="enabledTab?.assessments?.enabled" mat-tab-link [routerLink]="'/app/profile/competency/assessment'"
+    routerLinkActive #rlaAssessment="routerLinkActive" [active]="rlaAssessment.isActive">
+    <mat-icon>
+      assignment
+    </mat-icon>
+    <span class="margin-left-m mat-body-strong" i18n>
+      Assessments
+    </span>
+  </a>
+  <!-- <a *ngIf="enabledTab?.certifications?.enabled" mat-tab-link [routerLink]="'/app/profile/competency/certificate'"
+    routerLinkActive #rlaCertification="routerLinkActive" [active]="rlaCertification.isActive">
+    <mat-icon>
+      card_membership
+    </mat-icon>
+    <span class="margin-left-m mat-body-strong" i18n>
+      Certifications
+    </span>
+  </a> -->
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,12 @@
+<button
+  mat-icon-button
+  i18n-aria-label="Send mail action button ARIA label"
+  aria-label="Send Mail"
+  i18n-matTooltip
+  matTooltip="Ask a query"
+  *ngIf="isShareEnabled && widgetData?.emails?.length"
+  (click)="openQueryMailDialog($event)"
+>
+  <mat-icon>mail_outline</mat-icon>
+  <span i18n *ngIf="widgetData?.labelled">Email</span>
+</button>

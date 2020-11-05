@@ -1,0 +1,38 @@
+<section class="container-balanced">
+  <div class="margin-top-l text-center">
+    <p class="mat-body" i18n *ngIf="trainingRequests && trainingRequests.length">
+      These are the trainings planned by your team members. You can reject them within 3 days of
+      registration.
+    </p>
+  </div>
+
+  <section class="flex flex-wrapped flex-between">
+    <ng-container *ngIf="fetchStatus === 'done'">
+      <div class="card-container" *ngFor="let request of trainingRequests">
+        <ws-app-training-approval-card
+          [trainingRequest]="request"
+          (trainingRejected)="onTrainingRejected($event)"
+        >
+        </ws-app-training-approval-card>
+      </div>
+      <p class="mat-body margin-top-xl text-center width-1-1" *ngIf="!trainingRequests.length" i18n>
+        There are no trainings planned by your team members.
+      </p>
+    </ng-container>
+
+    <ng-container *ngIf="fetchStatus === 'fetching'">
+      <div class="margin-top-xl flex flex-center width-1-1">
+        <div>
+          <!-- <ws-spinner [spinColor]="'primary'"></ws-spinner> -->
+        </div>
+      </div>
+    </ng-container>
+  </section>
+</section>
+
+<!-- Templates -->
+<ng-template #error>
+  <div class="text-center" i18n>
+    There was an error fetching trainings.
+  </div>
+</ng-template>

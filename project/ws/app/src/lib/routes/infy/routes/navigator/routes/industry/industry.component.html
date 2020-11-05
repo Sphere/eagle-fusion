@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <a mat-icon-button routerLink="/app/infy/navigator">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: navigator industries" class="margin-left-xs">Industries</span>
+  <span class="spacer"></span>
+</mat-toolbar>
+
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-lite-background">
+    <div class="banner-description margin-bottom-m padding-top-m">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+        Select an Industry to get started
+      </h1>
+      <h2 i18n class="mat-title margin-top-xl">
+        Get courses based on the selected industry.
+      </h2>
+    </div>
+  </div>
+  <div class="grid-display my-10 px-10">
+    <ng-container *ngFor="let tab of tabs">
+      <div class="grid-data" [ngStyle]="tab.style">
+        {{ tab.name }}
+      </div>
+    </ng-container>
+  </div>
+</div>

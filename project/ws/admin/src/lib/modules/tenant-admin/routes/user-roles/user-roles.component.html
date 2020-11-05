@@ -1,0 +1,9 @@
+<ws-widget-user-autocomplete (usersList)="getUserList($event)"></ws-widget-user-autocomplete>
+<div class="flex flex-wrap" *ngIf="userList.length">
+  <div class="sm:w-1/2 lg:w-1/3" *ngFor="let user of userList">
+    <mat-card (click)="openDialog(user)" class="m-4 cursor-pointer">
+      <mat-card-title>{{user.first_name}}</mat-card-title>
+      <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+    </mat-card>
+  </div>
+</div>

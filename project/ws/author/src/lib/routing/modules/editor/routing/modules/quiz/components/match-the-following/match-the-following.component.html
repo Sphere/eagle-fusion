@@ -1,0 +1,194 @@
+<form [formGroup]="quizForm" *ngIf="contentLoaded">
+  <!-- <div class="header1">
+        <mat-card #matchTheFollowing class="padding customheader flex border-b-4 items-center flex-row forMob">
+            <div class="mx-4 mb-0" [ngClass]="{'w-4/12 sm:w-5/12': !showHint,'item1':showHint}">
+                <mat-card-title class="text-center p-1 padding-title" *ngIf="editColName !=='colAName'">
+                    <span class="break-words ws-mat-primary-text ">{{quizForm.controls['colAName'].value}} </span>
+                    <button class="edit-btn" (click)="editColNameFn('colAName')" type="button" mat-icon-button i18n-matTooltip matTooltipPosition="below"
+                        matTooltip="Edit column name" i18n-aria-label aria-label="edit column name">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </mat-card-title>
+                <div class="text-center" *ngIf="editColName ==='colAName'">
+                    <mat-form-field class="w-8/12 myfield" appearance="outline">
+                        <input formControlName='colAName' type="text" #colAName matInput i18n-aria-label aria-label="enter column name" (blur)="saveChanges()">
+                        <mat-error *ngIf="!quizForm.controls['colAName'].value">
+                            <p i18n>Column name should be</p>
+                            {{matchOptions.colNameMinLength}}-{{matchOptions.colNameMaxLength}}
+                            <p i18n>characters</p>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class="mx-4 mb-0" [ngClass]="{'w-4/12 sm:w-5/12': !showHint,'item1':showHint}">
+                <mat-card-title class=" text-center p-1 padding-title2" *ngIf="editColName !=='colBName'">
+                    <span class="break-words ws-mat-primary-text"> {{quizForm.controls['colBName'].value}} </span>
+                    <button class="edit-btn" (click)="editColNameFn('colBName')" type="button" mat-icon-button i18n-matTooltip matTooltipPosition="below"
+                        matTooltip="Edit column name" i18n-aria-label aria-label="edit column name">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </mat-card-title>
+                <div class="text-center " *ngIf="editColName ==='colBName'">
+                    <mat-form-field class="w-8/12 myfield" appearance="outline">
+                        <input formControlName="colBName" type="text" #colBName matInput i18n-aria-label aria-label="enter column name" (blur)="saveChanges()">
+                        <mat-error *ngIf="!quizForm.controls['colBName'].value">
+                            <p i18n>Column name should be</p>
+                            {{matchOptions.colNameMinLength}}-{{matchOptions.colNameMaxLength}}
+                            <p i18n>characters</p>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="absolute right-0 sm:pr-6 xl:pr-8 ">
+                <button class="small-button padding-remove ws-mat-primary-background mat-elevation-z6" (click)="addOption()" type="button"
+                    mat-icon-button i18n-matTooltip matTooltipPosition="below" matTooltip="Add option" i18n-aria-label aria-label="add new option">
+                    <mat-icon class="text-white">add</mat-icon>
+                </button>
+            </div>
+    </mat-card>
+  </div> -->
+  <div class="flex addpadding items-center margin-top-l margin-bottom-m">
+    <p class="mat-h3 font-weight-bold margin-remove" i18n>Add Options</p>
+    <button class="mat-elevation-z5 small-button padding-remove ws-mat-primary-background margin-left-s" (click)="addOption()"
+      type="button" mat-icon-button i18n-matTooltip matTooltipPosition="below" matTooltip="Add option" i18n-aria-label aria-label="add option">
+      <mat-icon class="text-white small-icon">add</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="!isSmallScreen" class="forMob">
+    <div class="optionlist" cdkDropList (cdkDropListDropped)="drop($event)">
+      <mat-card *ngFor="let option of selectedQuiz.options; let i = index" formArrayName="options" class="custom w-full" cdkDrag
+        cdkDragBoundary=" .optionlist">
+        <div class="custom-placeholder" *cdkDragPlaceholder></div>
+        <div class="flex w-full justify-between" [formGroupName]="i">
+          <div class="flex romanN text-center items-center pl-4">{{ i + 1 | romanconvert }}.</div>
+          <div class="cursor-auto item1 item-spacing" [ngClass]="{ 'width-31': showHint }">
+            <!-- fxFlex.lt-sm="34%" fxFlex.lt-md="35%" fxFlex="37%" -->
+            <mat-form-field class="w-full myfield" appearance="outline">
+              <input matInput formControlName="text" i18n-aria-label aria-label="enter text" />
+            </mat-form-field>
+          </div>
+          <div class="cursor-auto item1 item-spacing" [ngClass]="{ 'width-31': showHint }">
+            <mat-form-field class="w-full myfield" appearance="outline">
+              <input matInput formControlName="match" i18n-aria-label aria-label="enter match" />
+            </mat-form-field>
+          </div>
+          <div class="flex hint-button justify-center item-spacing" *ngIf="showHint">
+            <button class="inline-flex py-2 px-4 items-center hint" (click)="openCkEditor(i)" mat-button i18n-aria-label aria-label="edit hint"
+              type="button">
+              <mat-icon class="fill-current w-4 h-4 mr-2">info</mat-icon>
+              <span class="padding-1" i18n>Hint</span>
+            </button>
+          </div>
+          <div class="flex justify-center width-4 items-center item-spacing">
+            <button mat-icon-button (click)="removeOption(i)" i18n-aria-label aria-label="Delete this option" i18n-matTooltip matTooltipPosition="below"
+              matTooltip="Delete this option" type="button">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div *ngIf="isSmallScreen">
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <mat-card *ngFor="let option of selectedQuiz.options; let i = index" formArrayName="options" class="custom" cdkDrag cdkDragBoundary=" .optionlist">
+        <div class="custom-placeholder" *cdkDragPlaceholder></div>
+        <div class="w-full" [formGroupName]="i">
+          <div class="flex-col">
+            <div class="flex justify-between">
+              <div class="flex romanN text-center items-center pl-4">
+                {{ i + 1 | romanconvert }}.
+              </div>
+              <div class="flex-e items-center pr-1">
+                <button mat-icon-button (click)="removeOption(i)" [disabled]="selectedQuiz.options.length === matchOptions.minOptions" i18n-aria-label
+                  aria-label="Delete this option" [ngClass]="{
+                    'cursor-not-allowed': selectedQuiz.options.length === matchOptions.minOptions
+                  }" i18n-matTooltip matTooltipPosition="below" matTooltip="Delete this option" type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="flex moreMob forInput">
+              <div class="flex items-center minorChange">
+                <div class="w-1/3" *ngIf="isSmallScreenMobile">
+                  <h2 class="mat-h2 text-center pt-3 ws-mat-primary-text" i18n>COL-A</h2>
+                  <!--<mat-card-title class="text-center p-1 padding-title"
+                                        *ngIf="editColName !=='colAName'">
+                                        <span
+                                            class="break-words ws-mat-primary-text ">{{quizForm.controls['colAName'].value}}
+                                        </span>
+                                         <button class="edit-btn" (click)="editColNameFn('colAName')" type="button"
+                                            mat-icon-button i18n-matTooltip matTooltipPosition="below"
+                                            matTooltip="Edit column name" i18n-aria-label aria-label="edit column name">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </mat-card-title>-->
+                  <!-- <div class="text-center" *ngIf="editColName ==='colAName'">
+                                        <mat-form-field class="w-8/12 myfield" appearance="outline">
+                                            <input formControlName='colAName' type="text" #colAName matInput
+                                                i18n-aria-label aria-label="enter column name" (blur)="saveChanges()">
+                                            <mat-error *ngIf="!quizForm.controls['colAName'].value">
+                                                <p i18n>Column name should be</p>
+                                                {{matchOptions.colNameMinLength}}-{{matchOptions.colNameMaxLength}}
+                                                <p i18n>characters</p>
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                    </div> -->
+                </div>
+
+                <div class="cursor-auto flex-grow pr-1 minorChange WidthForsmall paddforInput">
+                  <mat-form-field class="myfield w-full" appearance="outline">
+                    <input matInput formControlName="text" i18n-aria-label aria-label="enter text" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="flex items-center minorChange">
+                <div class="w-1/3" *ngIf="isSmallScreenMobile">
+                  <h2 class="mat-h2 text-center pt-3 ws-mat-primary-text" i18n>COL-B</h2>
+                  <!--<mat-card-title class=" text-center pl-2 p-1 padding-title"
+                                        *ngIf="editColName !=='colBName'">
+                                        <span class="break-words ws-mat-primary-text">
+                                            {{quizForm.controls['colBName'].value}} </span>
+                                         <button class="edit-btn" (click)="editColNameFn('colBName')" type="button"
+                                            mat-icon-button i18n-matTooltip matTooltipPosition="below"
+                                            matTooltip="Edit column name" i18n-aria-label aria-label="edit column name">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </mat-card-title>-->
+                  <!-- <div class="text-center " *ngIf="editColName ==='colBName'">
+                                        <mat-form-field class="w-8/12 myfield" appearance="outline">
+                                            <input formControlName="colBName" type="text" #colBName matInput
+                                                i18n-aria-label aria-label="enter column name" (blur)="saveChanges()">
+                                            <mat-error *ngIf="!quizForm.controls['colBName'].value">
+                                                <p i18n>Column name should be</p>
+                                                {{matchOptions.colNameMinLength}}-{{matchOptions.colNameMaxLength}}
+                                                <p i18n>characters</p>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div> -->
+                </div>
+
+                <div class="cursor-auto pr-1 flex-grow minorChange WidthForsmall paddforInput">
+                  <mat-form-field class="myfield w-full" appearance="outline">
+                    <input matInput formControlName="match" i18n-aria-label aria-label="enter match" />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-start forhint" *ngIf="showHint">
+              <div class="pl-3 hint-button justify-center item-spacing">
+                <button class="inline-flex py-2 px-4 items-center hint remove-padding" (click)="openCkEditor(i)" mat-icon-button i18n-aria-label
+                  aria-label="edit hint" type="button">
+                  <mat-icon class="fill-current w-4 h-4 mr-2">info</mat-icon>
+                  <span class="padding-1" i18n>Hint</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</form>

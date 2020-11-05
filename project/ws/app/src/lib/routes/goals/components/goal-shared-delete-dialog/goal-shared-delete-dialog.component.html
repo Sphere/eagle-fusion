@@ -1,0 +1,27 @@
+<ng-container *ngIf="deleteGoalStatus !== 'fetching'; else deleteProgress">
+  <h2 class="mat-title margin-remove-bottom">
+    <ng-container i18n>Are you sure you want to delete</ng-container>
+    <span class="font-weight-500"> {{ goal?.name }}</span>
+    <ng-container i18n>?</ng-container>
+  </h2>
+  <mat-selection-list #users class="mb-2">
+    <mat-list-option *ngFor="let user of goal?.sharedWith" [value]="user?.userId" checkboxPosition="before">
+      {{ user?.name }}
+    </mat-list-option>
+  </mat-selection-list>
+  <div class="flex flex-row-reverse">
+    <button name="done-button-goal-shared-delete-dialog"  mat-button i18n [disabled]="!users.selectedOptions.selected?.length"
+      (click)="deleteGoalForUser(users.selectedOptions.selected)">
+      Done
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #deleteProgress>
+  <div class="flex items-center">
+    <mat-spinner [diameter]="30"></mat-spinner>
+    <h3 class="mat-subheading-2 margin-left-m margin-remove-bottom" i18n>Deleting</h3>
+  </div>
+</ng-template>
+
+<input #errorDeleteForUser type="hidden" i18n-value value="Error deleting goal for user" />

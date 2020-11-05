@@ -1,0 +1,45 @@
+<div class="forum-view-container">
+  <div class="py-2" *ngFor="let result of forumViewResponse?.result">
+    <mat-card class="cursor-pointer">
+      <div class="flex flex-middle" (click)="showForumDetail(result)">
+        <div class="sm:pr-4">
+          <img alt="thumbnail-image" class="user-image"
+            [src]="result.thumbnail ? result.thumbnail : 'https://line25.com/wp-content/uploads/2016/06/2-Man-holds-the-program-code.jpg'" />
+        </div>
+        <div class="w-full">
+          <span class="ws-mat-primary-text mat-h1 pb-2 title-text title-truncate">{{ result.name }}</span>
+          <div class="description-text ws-mat-text-block-fade-gradient mb-3 pt-2" i18n-title title="Description">
+            {{ result.description  }}
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-middle">
+        <div>
+          <div class="flex flex-middle pb-2">
+            <mat-icon>
+              account_circle
+            </mat-icon>
+            <div class="px-2">
+              <div class="ws-mat-primary-text">
+                {{result.forumCreator.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="spacer"></span>
+        <!-- <mat-icon class="px-2">group</mat-icon>
+        <span class="pr-4">{{result.followerCount}}</span> -->
+        <mat-icon class="px-2 grey-icons">chat</mat-icon>
+        <span>{{result.postCount}}</span>
+      </div>
+      <span class="ws-mat-primary-text"><span i18n>Modified: </span>{{result.dtLastModified | date}}</span>
+      <ws-widget-btn-social-like *ngIf="showSocialLike" [postId]="post?.postId"
+        [postCreatorId]="post?.mainPost?.postCreator?.postCreatorId" [activity]="post?.mainPost?.activity">
+      </ws-widget-btn-social-like>
+    </mat-card>
+  </div>
+  <h2 class="text-center i18n margin-top-m" *ngIf="!forumViewResponse?.result.length">
+    There are no forums present
+  </h2>
+
+</div>

@@ -1,0 +1,238 @@
+<mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedIndex"
+  (selectedTabChange)="updateCurrentTabIndex($event)">
+  <mat-tab i18n-label label="General">
+    <section class="user-settings-container">
+      <mat-card class="margin-bottom-l" *ngIf="isLanguageEnabled">
+        <mat-card-content class="padding-bottom-s">
+          <h3 class="mat-subheading-2 flex flex-middle">
+            <mat-icon class="margin-right-s">translate</mat-icon>
+            <ng-container i18n="settings: choose a language">Choose your Language</ng-container>
+          </h3>
+          <section>
+            <mat-form-field class="language-drop-down-width">
+              <mat-select [value]="appLanguage" (selectionChange)="langChanged($event)">
+                <mat-option value="en" *ngIf="isLocaleAvailable('')" [disabled]="!isLocaleEnabled('')">
+                  <a mat-line>
+                    <ng-container>English&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n> English (en)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="de" *ngIf="isLocaleAvailable('de')" [disabled]="!isLocaleEnabled('de')">
+                  <a mat-line>
+                    <ng-container>Deutsch&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n> German (de)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="ar" *ngIf="isLocaleAvailable('ar')" [disabled]="!isLocaleEnabled('ar')">
+                  <a mat-line>
+                    <ng-container>عربى&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>Arabic (ar)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="zh-CN" *ngIf="isLocaleAvailable('zh-CN')" [disabled]="!isLocaleEnabled('zh-CN')">
+                  <a mat-line>
+                    <ng-container>中文&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>Chinese (zh-CN)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="fr" *ngIf="isLocaleAvailable('fr')" [disabled]="!isLocaleEnabled('fr')">
+                  <a mat-line>
+                    <ng-container>Français&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>French (fr)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="fr-ca" *ngIf="isLocaleAvailable('fr-ca')" [disabled]="!isLocaleEnabled('fr-ca')">
+                  <a mat-line>
+                    <ng-container>Français-Canada&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>French Canada (fr-ca)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="nl" *ngIf="isLocaleAvailable('nl')" [disabled]="!isLocaleEnabled('nl')">
+                  <a mat-line>
+                    <ng-container>Dutch&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>Dutch (nl)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="ja" *ngIf="isLocaleAvailable('ja')" [disabled]="!isLocaleEnabled('ja')">
+                  <a mat-line>
+                    <ng-container>日本人&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>Japanese (ja)</ng-container>
+                  </a>
+                </mat-option>
+                <mat-option value="es" *ngIf="isLocaleAvailable('es')" [disabled]="!isLocaleEnabled('es')">
+                  <a mat-line>
+                    <ng-container>Español&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n>Spanish (es)</ng-container>
+                  </a>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+
+          <mat-divider></mat-divider>
+
+          <div class="flex flex-middle py-4 cursor-pointer" (click)="showContentLang = !showContentLang">
+            <mat-icon *ngIf="showContentLang">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="!showContentLang">chevron_right</mat-icon>
+
+            <span i18n class="px-4">Do you want to select additional languages for Content?</span>
+          </div>
+          <mat-selection-list class="flex flex-wrapped" [hidden]="!showContentLang" [formControl]="contentLangForm"
+            (selectionChange)="contentLangChanged()">
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('') || isPrimary('en') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('')"
+              [disabled]="!isLocaleEnabled('') || isPrimary('en')" [value]="'en'" [selected]="isPrimary('en')"
+              class="width-content-lang">
+              <h4 mat-line>English</h4>
+              <p mat-line i18n>English (en)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('de') || isPrimary('de') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('de')"
+              [disabled]="!isLocaleEnabled('de') || isPrimary('de')" [value]="'de'" [selected]="isPrimary('de')"
+              class="width-content-lang">
+              <h4 mat-line>Deutsche</h4>
+              <p mat-line i18n>German (de)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('ar') || isPrimary('ar') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('ar')"
+              [disabled]="!isLocaleEnabled('ar') || isPrimary('ar')" [value]="'ar'" [selected]="isPrimary('ar')"
+              class="width-content-lang">
+              <h4 mat-line>عربى</h4>
+              <p mat-line i18n>Arabic (ar)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('zh-CN') || isPrimary('zh-CN') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('zh-CN')"
+              [disabled]="!isLocaleEnabled('zh-CN') || isPrimary('zh-CN')" [value]="'zh-CN'"
+              [selected]="isPrimary('zh-CN')" class="width-content-lang">
+              <h4 mat-line>中文</h4>
+              <p mat-line i18n>Chinese (zh-CN)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('fr') || isPrimary('fr') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('fr')"
+              [disabled]="!isLocaleEnabled('fr') || isPrimary('fr')" [value]="'fr'" [selected]="isPrimary('fr')"
+              class="width-content-lang">
+              <h4 mat-line>français</h4>
+              <p mat-line i18n>French (fr)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('fr-ca') || isPrimary('fr-ca') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('fr-ca')"
+              [disabled]="!isLocaleEnabled('fr-ca') || isPrimary('fr-ca')" [value]="'fr-ca'"
+              [selected]="isPrimary('fr-ca')" class="width-content-lang">
+              <h4 mat-line>francais-canada</h4>
+              <p mat-line i18n>French Canada (fr-ca)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('nl') || isPrimary('nl') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('nl')"
+              [disabled]="!isLocaleEnabled('nl') || isPrimary('nl')" [value]="'nl'" [selected]="isPrimary('nl')"
+              class="width-content-lang">
+              <h4 mat-line>Dutch</h4>
+              <p mat-line i18n>Dutch (nl)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('ja') || isPrimary('ja') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('ja')"
+              [disabled]="!isLocaleEnabled('ja') || isPrimary('ja')" [value]="'ja'" [selected]="isPrimary('ja')"
+              class="width-content-lang">
+              <h4 mat-line>日本人</h4>
+              <p mat-line i18n>Japanese (ja)</p>
+            </mat-list-option>
+            <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('es') || isPrimary('es') ? 0.4 : 1 }"
+              [checkboxPosition]="'before'" [selected]="isPrimary('es')" *ngIf="isLocaleAvailable('es')"
+              [disabled]="!isLocaleEnabled('es') || isPrimary('es')" [value]="'es'" class="width-content-lang">
+              <h4 mat-line>Español</h4>
+              <p mat-line i18n>Spanish (es)</p>
+            </mat-list-option>
+          </mat-selection-list>
+          <mat-divider></mat-divider>
+          <div class="flex flex-middle flex-between mt-4">
+            <span *ngIf="mode === 'settings'" i18n class="ws-mat-primary-text">After changing the application language,
+              the
+              application will reload</span>
+            <div *ngIf="mode === 'settings'">
+              <a mat-raised-button type="button" color="primary" (click)="applyChanges()" i18n>
+                Apply
+              </a>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="margin-bottom-l">
+        <mat-card-content class="padding-bottom-s">
+          <h3 class="mat-subheading-2 flex flex-middle">
+            <mat-icon class="margin-right-s">text_fields</mat-icon>
+            <ng-container i18n="settings: choose a font size">Choose a suitable font-size</ng-container>
+          </h3>
+          <button mat-menu-item class="content-v-center" *ngFor="let font of fonts"
+            (click)="changeFont(font.fontClass)">
+            <mat-icon>{{
+              activeFontClass === font.fontClass ? 'radio_button_checked' : 'radio_button_unchecked'
+            }}</mat-icon>
+            <span [style.fontSize]="font.baseFontSize">
+              <span i18n>Base font size</span>
+              ({{ font.baseFontSize }})
+            </span>
+          </button>
+        </mat-card-content>
+      </mat-card>
+      <!-- <mat-card class="margin-bottom-m margin-top-m">
+        <mat-card-content>
+          <div class="flex flex-between flex-wrap">
+            <h3 class="theme-mode mat-subheading-2 flex flex-middle" *ngIf="themes.length && themes.length > 1">
+              <mat-icon class="margin-right-s">format_color_fill</mat-icon>
+              <ng-container i18n="settings: choose a theme">
+                Choose your theme
+              </ng-container>
+            </h3>
+            <mat-slide-toggle class="mode-toggle" color="primary" [formControl]="darkModeForm" labelPosition="before">
+              <div class="flex flex-middle">
+                <mat-icon>brightness_medium</mat-icon>
+                <span i18n class="padding-left-s">Dark Mode</span>
+              </div>
+            </mat-slide-toggle>
+            <mat-slide-toggle *ngIf="showIntranetSettings" class="mode-toggle" color="primary"
+              matTooltip="Available only in Company's network" [formControl]="intranetContentForm"
+              labelPosition="before">
+              <div class="flex flex-middle">
+                <mat-icon>link</mat-icon>
+                <span i18n class="padding-left-s">Show intranet Content</span>
+              </div>
+
+            </mat-slide-toggle>
+
+          </div>
+
+          <ul *ngIf="themes.length && themes.length > 1" class="flex flex-between flex-wrapped padding-remove">
+            <li *ngFor="let themeObj of themes" class="theme-section" matRipple
+              (click)="changeTheme(themeObj.themeClass)">
+              <div class="flex flex-around margin-bottom-m theme-pad" [style.color]="themeObj.themeName">
+                <div class="btn-circle mat-elevation-z5" [style.backgroundColor]="themeObj.color.primary"></div>
+                <div class="btn-circle mat-elevation-z5" [style.backgroundColor]="themeObj.color.accent"></div>
+                <div class="btn-circle mat-elevation-z5" [style.backgroundColor]="themeObj.color.warn"></div>
+              </div>
+              <mat-icon>{{
+                activeThemeKey === themeObj.themeClass
+                  ? 'radio_button_checked'
+                  : 'radio_button_unchecked'
+              }}</mat-icon>
+              <span>{{ themeObj.themeName }}</span>
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card> -->
+    </section>
+  </mat-tab>
+  <mat-tab i18n-label label="Notifications">
+    <ws-app-notification-settings class="user-settings-container block"></ws-app-notification-settings>
+  </mat-tab>
+  <!-- <mat-tab *ngIf="showProfileSettings" i18n-label label="Profile">
+    <ws-app-profile-settings class="user-settings-container block"></ws-app-profile-settings>
+  </mat-tab> -->
+</mat-tab-group>
+<input type="hidden" i18n-value="Toast msg after successfully saving preferences" value="Preferences Saved"
+  #successToast />
+<input type="hidden" i18n-value="Toast msg after failed to save preferences" value="Failed to save preference"
+  #failureToast />
+<input type="hidden" id="lang-change-toast" i18n-value
+  value="This feature is in beta and hence parts of the site may appear in English only." />
+<input type="hidden" id="lang-change-toast" i18n-value value="This feature is in beta and hence parts of the site may
+      appear in English only. " />
+<input type="hidden" #maxContentLangToast i18n-value value="Only 2 content language are allowed" />

@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="itemType">
+  <ng-container *ngSwitchCase="'proctor_approval'" i18n>PROCTOR APPROVAL</ng-container>
+  <ng-container *ngSwitchCase="'budget_approval'" i18n>BUDGET APPROVAL</ng-container>
+  <ng-container *ngSwitchCase="'result_verification'" i18n>VERIFICATION REQUEST</ng-container>
+  <ng-container *ngSwitchDefault i18n>REQUEST</ng-container>
+</ng-container>

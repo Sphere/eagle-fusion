@@ -1,0 +1,77 @@
+<!-- <div id="certification-width" style="width: 1in; left: 100%; position: fixed; top: 100%;"></div>
+
+<mat-card *ngIf="certificationStatus !== 'eligible'">
+  <mat-card-content>
+    <p *ngIf="certificationStatus === 'loading'" class="text-center" i18n>Loading assessment.</p>
+    <ng-container [ngSwitch]="certificationStatus">
+      <p *ngSwitchCase="'failed'">
+        <ng-container i18n
+          >You have already attempted this assessment. You can attempt again from
+        </ng-container>
+        <ng-container *ngIf="certificateContent?.nextCertificationAttemptDate">{{
+          certificateContent?.nextCertificationAttemptDate
+        }}</ng-container>
+        <ng-container *ngIf="!certificateContent?.nextCertificationAttemptDate" i18n
+          >15 days since your last attempt.</ng-container
+        >
+      </p>
+      <p *ngSwitchCase="'passed'" [hidden]="!certificateContent?.recentCertificationAttemptScore">
+        <ng-container i18n>You have scored &nbsp;</ng-container>
+        <ng-container>{{ certificateContent?.recentCertificationAttemptScore }} </ng-container>
+        <ng-container i18n>in last attempt.</ng-container>
+      </p>
+      <p *ngSwitchCase="'error'" i18n>Certification fetch failed</p>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
+
+<ng-container *ngIf="certificationStatus === 'eligible'">
+  <mat-card *ngIf="screenSizeIssue">
+    <mat-card-content>
+      <h2 class="mat-h2" i18n>Screen size issue</h2>
+      <p i18n>This content is suited only for BIGGER SCREEN SIZE devices</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="showPreloadMessage">
+    <mat-card-content>
+      <h2 class="mat-h2 text-center" i18n>Alert!</h2>
+      <p i18n>
+        Virtual proctored assessments use your Laptop camera and mic to capture video and audio.
+        This captured video and audio will be used for identifying any malpractices, and will be
+        deleted safely. Request you to use other options for taking these assessments, if you do not
+        like your video and audio being captured by the system.
+      </p>
+      <div class="text-center">
+        <p>
+          <span i18n> Starting in </span> <span> {{ startTimerSeconds }} </span>
+          <span i18n="certification: time left in seconds"> seconds... </span>
+        </p>
+        <button type="button" mat-raised-button [color]="'primary'" (click)="loadContent()" i18n>
+          Start Now
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div [ngClass]="{ 'proctoring-warning-holder': proctoringWarning }">
+    <mat-card class="proctoring-warning" [hidden]="!proctoringWarning">
+      <h2 class="mat-h2" i18n="proctoring warning">
+        Accessible only on fullscreen. Click Okay to continue
+      </h2>
+      <button type="button" i18n mat-flat-button [color]="'primary'" (click)="enterFullScreen()">
+        Okay
+      </button>
+    </mat-card>
+  </div>
+
+  <iframe
+    *ngIf="iframeUrl"
+    title="Certification"
+    i18n-title
+    [src]="iframeUrl"
+    allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope;  microphone; camera;"
+    class="certifications-iframe"
+    id="certification-iframe"
+  ></iframe>
+</ng-container> -->

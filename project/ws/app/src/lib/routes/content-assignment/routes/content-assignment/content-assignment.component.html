@@ -1,0 +1,292 @@
+<mat-toolbar>
+  <ws-widget-btn-page-back *ngIf="router.url.startsWith('/app/content-assignment')" [widgetData]="{ url: 'back' }">
+  </ws-widget-btn-page-back>
+  <span i18n="page title: Content Assignment" class="margin-left-xs">Content Assignment</span>
+
+</mat-toolbar>
+<mat-horizontal-stepper (selectionChange)="searchUsers()"
+  class="mx-auto sm:padding-remove md:mt-4 md:p-4 md:w-11/12 sm:w-full" linear #stepper>
+  <mat-step [completed]="checkContentSelection()">
+    <ng-template class="mat-subheading-2 click-disabled" matStepLabel i18n>
+      <div *ngIf="screenSizeIsLtMedium">
+        <div>
+          Select
+        </div>
+        <div>
+          Content
+        </div>
+      </div>
+      <div *ngIf="!screenSizeIsLtMedium">
+        Select Content
+      </div>
+    </ng-template>
+    <main>
+      <section class="flex">
+        <div class="flex-1 min-w-0 ">
+          <h2 *ngIf="!screenSizeIsLtMedium" class="mat-subheading-2 mx-2 md:mx-4" i18n>Select contents to assign to
+            users:</h2>
+          <div class="mb-8">
+            <ws-widget-picker-content [content]="'resource'" [searchableContentTypes]="['Course']" [removeSubset]="true"
+              [widgetData]=" { availableFilters: 'contentType' , preselected: selectedContentIds,
+                  enablePreselected: true, showChips: true, chipNamesHash: chipNamesHash }"
+              (change)="contentChanged($event?.content, $event?.checked)">
+            </ws-widget-picker-content>
+          </div>
+        </div>
+      </section>
+      <section class="flex">
+        <div class="flex-1 min-w-0  mb-8">
+          <div class="flex flex-row-reverse">
+            <button mat-raised-button class="margin-left-s" (click)="searchUsers()" matStepperNext color="primary"
+              type="button" i18n>
+              Next
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </mat-step>
+  <mat-step>
+    <ng-template class="mat-subheading-2 click-disabled" matStepLabel i18n>
+      <div *ngIf="screenSizeIsLtMedium">
+        <div>
+          Select
+        </div>
+        <div>
+          Users
+        </div>
+      </div>
+      <div *ngIf="!screenSizeIsLtMedium">
+        Select Users
+      </div>
+    </ng-template>
+    <div>
+      <div class="flex">
+        <div class="flex-1 min-w-0 ">
+          <h2 *ngIf="!screenSizeIsLtMedium" class="mat-subheading-2 mx-2 md:mx-4" i18n>
+            Select users to assign contents to:
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="flex">
+      <mat-form-field class="width-expand margin-top-s" appearance="fill" floatLabel="never">
+        <button matTooltipPosition="before" matTooltip="Search" (click)="handleSearchQuery()" mat-icon-button matSuffix>
+          <mat-icon>search</mat-icon>
+        </button>
+        <mat-label i18n>Search users</mat-label>
+        <input matInput (keyup.enter)="handleSearchQuery()" [(ngModel)]="query" autocomplete="off"
+          class="resize-none" />
+      </mat-form-field>
+    </div>
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav [opened]="sideNavBarOpened" [mode]="screenSizeIsLtMedium ? 'over' : 'side'"
+        (closed)="closeFilter(false)" #sideNavBar class="sidenav">
+        <ws-app-user-filter-display class="scrollbox" #appFilterDisplay [filtersResetAble]="filtersResetAble"
+          [sideNavBarOpened]="sideNavBarOpened" [filterSearchRequest]="searchReqBody"
+          (change)="applyFilter($event?.filters)" [filtersResponse]="filtersResponse"
+          (filterClose)="closeFilter($event)">
+        </ws-app-user-filter-display>
+      </mat-sidenav>
+      <mat-sidenav-content class="py-1">
+        <div class="flex items-center">
+          <div [ngClass]="{'w-4/5': userType==='manager'?true:false, 'w-1/2': userType==='admin'?true:false}">
+            <div>
+              <div class="flex flex-row items-center">
+                <mat-radio-group *ngIf="userType==='manager'" (change)="changeUserSelectionMode($event.value)"
+                  aria-label="Select an option">
+                  <span class="mx-2">
+                    <mat-radio-button [checked]="directReportees" class="my-1" value="directReportees">
+                      Show direct reportees
+                    </mat-radio-button>
+                  </span>
+                  <span class="mx-2">
+                    <mat-radio-button [checked]="allReportees" class="my-1" value="allReportees">
+                      Show all reportees
+                    </mat-radio-button>
+                  </span>
+                </mat-radio-group>
+              </div>
+              <div class="flex flex-row items-center mx-3">
+                <mat-checkbox [checked]="!manualSelectionMode" (change)="selectAllUsers($event.checked)" class="my-1">
+                  Select all users
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+
+          <div [ngClass]="{'w-1/5': userType==='manager'?true:false, 'w-1/2': userType==='admin'?true:false}"
+            class="flex self-start flex-row-reverse">
+            <div
+              [ngClass]="{'flex-col': userType==='manager'?true:false, 'flex-row-reverse': userType==='admin'?true:false}"
+              class="flex">
+              <div [ngClass]="{'my-2': userType==='manager'?true:false}" class="mr-2">
+                <button class="w-auto square-button sm:px-1" matTooltipPosition="before" matTooltip="Filters"
+                  mat-stroked-button [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+                  (click)="sideNavBarOpened = !sideNavBarOpened">
+                  <mat-icon>filter_list</mat-icon>
+                </button>
+              </div>
+              <div class="mr-2">
+                <button class="w-auto square-button sm:px-1" matTooltipPosition="before" matTooltip="Sort"
+                  mat-stroked-button [matMenuTriggerFor]="sortMenu">
+                  <mat-icon>sort</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <mat-menu #sortMenu="matMenu">
+              <button class="mat-flat-button flex justify-between" mat-menu-item>
+                <span class="mx-2">
+                  <button matTooltipPosition="before" matTooltip="Sort ascending" class="mat-elevation-z0"
+                    [color]="sortOrder==='asc' ? 'accent' : ''" (click)="sortAscOrDesc('asc')" mat-mini-fab>
+                    Asc
+                  </button>
+                </span>
+                <span class="mx-2">
+                  <button i18n matTooltipPosition="before" matTooltip="Sort descending" class="mat-elevation-z0"
+                    [color]="sortOrder==='desc' ? 'accent' : ''" (click)="sortAscOrDesc('desc')" mat-mini-fab>
+                    Desc
+                  </button>
+                </span>
+              </button>
+              <mat-radio-group (change)="sortBy($event.value)">
+                <button mat-menu-item>
+                  <mat-radio-button i18n [checked]="searchReqBody?.sort[0]?.hasOwnProperty('full_name')"
+                    value="full_name">
+                    Name
+                  </mat-radio-button>
+                </button>
+                <button mat-menu-item>
+                  <mat-radio-button i18n [checked]="searchReqBody?.sort[0]?.hasOwnProperty('dealer_code')"
+                    value="dealer_code">
+                    Dealer Code
+                  </mat-radio-button>
+                </button>
+                <button mat-menu-item>
+                  <mat-radio-button i18n [checked]="searchReqBody?.sort[0]?.hasOwnProperty('dealer_name')"
+                    value="dealer_name">
+                    Dealer Name
+                  </mat-radio-button>
+                </button>
+              </mat-radio-group>
+            </mat-menu>
+          </div>
+        </div>
+
+        <div class="margin-remove-top" *ngIf="fetchUserStatus ==='done'">
+          <div *ngIf="fetchUserStatus ==='done'" class='p-2 flex-1 self-end'>
+            <span i18n="search route hits showing">Showing </span>
+            <span>{{ length }} </span>
+            <span *ngIf="length > 1" i18n="search route hits results">users </span>
+            <span *ngIf="length <= 1" i18n="search route hits result">user </span>
+          </div>
+          <div *ngIf="filtersResponse" class="m-2">
+            <mat-chip-list aria-label="Filter selection">
+              <span *ngFor="let filter of filtersResponse">
+                <span *ngFor="let content of filter?.values">
+                  <span *ngIf="content?.checked">
+                    <mat-chip removable>
+                      {{content?.displayName}}
+                      <mat-icon matChipRemove
+                        (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
+                        *ngIf="filter?.type!==userAdminLevel">cancel</mat-icon>
+                    </mat-chip>
+                  </span>
+                </span>
+              </span>
+            </mat-chip-list>
+          </div>
+
+          <div *ngFor="let user of userData">
+            <div class="px-2 margin-bottom-xs">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header class="height-1-1 padding-right-m padding-left-m">
+                  <div class="flex flex-middle my-2">
+                    <mat-checkbox [disabled]="!manualSelectionMode"
+                      [checked]="selectedUserIds?.has(user.wid) || !manualSelectionMode"
+                      (change)="userChanged(user.wid, $event.checked)" class="mx-2 md:mr-4">
+                    </mat-checkbox>
+                    <ws-widget-user-image *ngIf="!screenSizeIsLtMedium" class="user-icon-container"
+                      [userName]="user.full_name" [imageType]="'name-initial'">
+                    </ws-widget-user-image>
+                    <div class="width-expand ml-4">
+                      <h2 class="mat-h2 margin-left-xxs margin-remove-top margin-remove-bottom">
+                        {{ user.full_name}}
+                      </h2>
+                    </div>
+                  </div>
+                </mat-expansion-panel-header>
+
+                <div class="width-expand ">
+                  <p class="sm:w-full ws-mat-primary-text font-normal margin-remove-bottom">
+                    <span>
+                      {{ user.job_title }}
+                    </span>
+                  </p>
+                  <p *ngIf="user.source_id"
+                    class="sm:w-full ws-mat-primary-text font-normal margin-remove-top margin-remove-bottom ">
+                    <span *ngIf="user.source_id">
+                      {{ user.source_id }}
+                    </span>
+                  </p>
+                  <p *ngIf="user.email"
+                    class="sm:w-full ws-mat-primary-text font-normal margin-remove-top margin-remove-bottom ">
+                    <span *ngIf="user.email">
+                      {{ user.email }}
+                    </span>
+                  </p>
+                  <p *ngIf="user.dealer_name_branch_code"
+                    class="sm:w-full margin-left-remove ws-mat-primary-text font-normal margin-remove-top margin-remove-bottom">
+                    <span *ngIf="user.dealer_name_branch_code">
+                      {{ user.dealer_name_branch_code }}
+                    </span>
+                  </p>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="fetchUserStatus==='error' || fetchUserStatus==='none' ">
+          <div class="create-goal-fab width-expand text-center width-1-1">
+            <div class="page-container mx-2 md:mx-4">
+              <h2 i18n class="mat-subheading-2 mx-2 md:mx-4">No users fetched!</h2>
+            </div>
+          </div>
+        </div>
+        <div *ngIf=" fetchUserStatus==='fetching'" #fetchingSection>
+          <div class="text-center spinner-height margin-top-xl">
+            <mat-spinner></mat-spinner>
+          </div>
+        </div>
+        <mat-paginator *ngIf="length>10" #paginator [length]="length" [pageSize]="pageSize"
+          (page)="pageEvent = handlePage($event)" [pageIndex]="pageIndex">
+        </mat-paginator>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <section class="flex">
+      <div class="flex w-full content-space p-2">
+        <div class="flex width-1-2 flex-row items-center">
+          <button mat-raised-button class="margin-left-s" matStepperPrevious color="primary" type="button" i18n>
+            Back
+          </button>
+        </div>
+        <div class="flex width-1-2 flex-row-reverse items-center">
+          <button [disabled]="assignDisabled" mat-raised-button class="margin-left-s" color="primary" type="button" i18n
+            (click)="assign()">
+            Assign
+          </button>
+        </div>
+      </div>
+    </section>
+  </mat-step>
+</mat-horizontal-stepper>
+
+
+<input #selectContent type="hidden" i18n-value value="Select atleast one content to continue" />
+<input #selectUsers type="hidden" i18n-value value="Select atleast one user to continue" />
+<input #selectFilters type="hidden" i18n-value value="Select atleast one filter to continue" />
+<input #getAdminLevelError type="hidden" i18n-value value="Unable to get user admin level" />
+<input #contentAssignError type="hidden" i18n-value value="Unable to process the content assignment" />
+<input #contentAssignSuccess type="hidden" i18n-value value="Content assignment successful" />

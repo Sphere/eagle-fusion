@@ -1,0 +1,41 @@
+<div class="overview-container">
+  <mat-card>
+    <div class="flex flex-wrapped flex-center padding-s">
+      <div class="card-section">
+        <h3 class="mat-h3 text-justify">
+          {{ learningObjective | pipeLimitTo: 300 }}
+        </h3>
+      </div>
+      <div class="card-section">
+        <h3 class="mat-h3">
+          <ng-container i18n="quiz difficulty label">Difficulty : </ng-container>
+          {{ complexityLevel }}
+        </h3>
+        <h3 class="mat-h3">
+          <ng-container i18n="quiz duration label">Duration : </ng-container>
+          <ng-container *ngIf="duration">{{
+            duration | pipeDurationTransform: 'hms'
+          }}</ng-container>
+          <ng-container *ngIf="!duration">{{
+            timeLimit | pipeDurationTransform: 'hms'
+          }}</ng-container>
+        </h3>
+        <h3 class="mat-h3">
+          <ng-container i18n="quiz number of questions label">Questions : </ng-container>
+          {{ noOfQuestions }}
+        </h3>
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="userSelection.emit('start')"
+        class="margin-right-m"
+        i18n="button start quiz"
+      >
+        Start
+      </button>
+    </div>
+  </mat-card>
+</div>

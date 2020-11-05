@@ -1,0 +1,56 @@
+<ng-container *ngIf="perspective === 'lastUpdated'" i18n>
+  Last updated
+</ng-container>
+<ng-container *ngIf="perspective === 'deleted'" i18n>
+  Deleted since
+</ng-container>
+<ng-container *ngIf="perspective === 'lastAction'" i18n>
+  Pending since
+</ng-container>
+<ng-container *ngIf="perspective === 'lastPublished'" i18n>
+  Last published
+</ng-container>
+<ng-container *ngIf="perspective === 'lastUnpublished'" i18n>
+  Unpublished since
+</ng-container>
+<ng-container *ngIf="perspective === 'expires'">
+  Expires on
+</ng-container>
+<span class="font-medium">
+  <ng-template #elseBlock> {{ convertedExpiryDate | date }} </ng-template>
+  <ng-container *ngIf="perspective !== 'expires'; else elseBlock">
+    <ng-container> {{ difference }} </ng-container>
+    <ng-container [ngSwitch]="timeDuration">
+      <ng-container *ngSwitchCase="'second'">
+        <ng-container *ngIf="difference === 1">second</ng-container>
+        <ng-container *ngIf="difference !== 1">seconds</ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'minute'"
+        ><ng-container *ngIf="difference === 1">minute</ng-container>
+        <ng-container *ngIf="difference !== 1">minutes</ng-container></ng-container
+      >
+      <ng-container *ngSwitchCase="'hour'"
+        ><ng-container *ngIf="difference === 1">hour</ng-container>
+        <ng-container *ngIf="difference !== 1">hours</ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'day'"
+        ><ng-container *ngIf="difference === 1">day</ng-container>
+        <ng-container *ngIf="difference !== 1">days</ng-container></ng-container
+      >
+      <ng-container *ngSwitchCase="'month'"
+        ><ng-container *ngIf="difference === 1">month</ng-container>
+        <ng-container *ngIf="difference !== 1">months</ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'year'"
+        ><ng-container *ngIf="difference === 1">year</ng-container>
+        <ng-container *ngIf="difference !== 1">years</ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container
+    *ngIf="['lastUpdated', 'deleted', 'lastPublished', 'lastUnpublished'].includes(perspective)"
+    i18n
+  >
+    ago</ng-container
+  >
+</span>

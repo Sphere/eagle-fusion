@@ -1,0 +1,328 @@
+<div *ngIf="fetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-container *ngIf="fetchStatus === 'error'" [wsResolverWidget]="errorWidget"></ng-container>
+<div *ngIf="fetchStatus === 'done' && totalUsers === 0" class="text-center my-8">
+  <h2 i18n>Currently, no data is available</h2>
+</div>
+<div *ngIf="fetchStatus === 'done' && contentData">
+  <ng-container *ngIf="!onExpand">
+    <div class="flex flex-start flex-around m-2 flex-wrapped">
+      <ws-analytics-analytics-tile *ngIf="totalUsers > 0" class="unique-users-card margin-m"
+        (clickEvent)="onClick($event)" [title]="'Total Users'" [category2]="''" [category3]="''" [category1]="''"
+        [uniqueUsers]="totalUsers" [description]="totalUsersDescription">
+      </ws-analytics-analytics-tile>
+      <ws-analytics-analytics-tile *ngIf="hits > 0" class="unique-users-card margin-m" (clickEvent)="onClick($event)"
+        [title]="'# Hits'" [category2]="''" [category3]="''" [category1]="''" [uniqueUsers]="hits"
+        [description]="hitsDescription">
+      </ws-analytics-analytics-tile>
+      <ws-analytics-analytics-tile *ngIf="contentUsers > 0" class="unique-users-card margin-m"
+        (clickEvent)="onClick($event)" [title]="'Users accessing content'" [category2]="''" [category3]="''"
+        [category1]="''" [uniqueUsers]="contentUsers" [description]="contentUsersDescription">
+      </ws-analytics-analytics-tile>
+      <ws-analytics-analytics-tile *ngIf="contentAccessed > 0" class="unique-users-card margin-m"
+        (clickEvent)="onClick($event)" [title]="'# Access to content'" [category2]="''" [category3]="''"
+        [category1]="''" [uniqueUsers]="contentAccessed" [description]="contentAccessedDescription">
+      </ws-analytics-analytics-tile>
+    </div>
+    <div class="flex flex-center flex-wrapped">
+      <mat-card *ngIf="
+          contentData?.dailyNewUsers?.length > 0 ||
+          contentData?.weeklyNewUsers?.length > 0 ||
+          contentData?.monthlyNewUsers?.length > 0
+        " class="graph-card-bar margin-top-m">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              New Users
+            </p>
+          </div>
+          <p class="description" i18n>How many new users visited on each day?</p>
+        </div>
+        <div class="margin-xs">
+          <mat-tab-group>
+            <mat-tab label="Daily" *ngIf="contentData?.dailyNewUsers?.length > 0">
+              <ng-template matTabContent>
+                <div class="margin-s">
+                  <ng-container [wsResolverWidget]="barChartDailyNewUsersData"> </ng-container>
+                </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Weekly" *ngIf="contentData?.weeklyNewUsers?.length > 0">
+              <ng-template matTabContent>
+                <div class="margin-s">
+                  <ng-container [wsResolverWidget]="barChartWeeklyNewUsersData"> </ng-container>
+                </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Monthly" *ngIf="contentData?.monthlyNewUsers?.length > 0">
+              <ng-template matTabContent>
+                <div class="margin-s">
+                  <ng-container [wsResolverWidget]="barChartMonthlyNewUsersData"> </ng-container>
+                </div>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-card>
+    </div>
+    <div class="flex flex-center flex-wrapped" *ngIf="contentData?.daily_users?.length > 0">
+      <mat-card class="graph-card-bar margin-top-m">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              Daily Users
+            </p>
+          </div>
+          <p class="description" i18n>How many users visited on each day?</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="barChartDailyUsageData"> </ng-container>
+        </div>
+      </mat-card>
+    </div>
+    <div *ngIf="contentData?.hourly_usage?.length > 0" class="flex flex-center flex-wrapped">
+      <mat-card class="graph-card-bar margin-top-m">
+        <div class="margin-m flex flex-between flex-middle flex-wrapped">
+          <div>
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              Hourly Usage
+            </p>
+            <p class="description" i18n>How many users visited on each hour?</p>
+          </div>
+          <mat-form-field class="filter-select x-small-typography margin-remove">
+            <mat-select [(value)]="selected" i18n-placeholder placeholder="Filter" [formControl]="filterControl">
+              <mat-option *ngFor="let filter of filterList" [value]="filter" (click)="applyFilter(filter?.key)">
+                {{ filter?.filterName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="filterFetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div *ngIf="filterFetchStatus === 'done'" class="margin-m">
+          <ng-container [wsResolverWidget]="barChartHourlyUsersData"> </ng-container>
+        </div>
+      </mat-card>
+    </div>
+    <div class="flex flex-center flex-wrapped" *ngIf="contentData?.dailyContentUsers?.length > 0">
+      <mat-card class="graph-card-bar margin-top-m">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              Users Accessing Content
+            </p>
+          </div>
+          <p class="description" i18n>How many users accessed the contents on each day?</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="barChartDailyUsersData"> </ng-container>
+        </div>
+      </mat-card>
+    </div>
+    <div class="flex flex-between m-3 flex-wrapped">
+      <ng-container *ngIf="contentData?.region?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Regions
+              </p>
+              <button *ngIf="contentData?.region?.length >= 20" mat-icon-button
+                (click)="onExpandChart('region', 'Region')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by regions</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartRegionData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.dealer?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Dealer
+              </p>
+              <button *ngIf="contentData?.dealer?.length >= 20" mat-icon-button
+                (click)="onExpandChart('dealer', 'Dealer')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by dealer</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartDealerData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <!-- <ng-container *ngIf="contentData?.content_source?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>Users by
+                Sources
+              </p>
+              <button *ngIf="contentData?.content_source?.length >= 20" mat-icon-button
+                (click)="onExpandChart('content_source', 'Source')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by source</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartSourceData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container> -->
+      <ng-container *ngIf="contentData?.guild_group?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Guild Groups
+              </p>
+              <button *ngIf="contentData?.guild_group?.length >= 20" mat-icon-button
+                (click)="onExpandChart('guild_group', 'GuildGroup')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by guild groups</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartGuildData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.role?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Roles
+              </p>
+              <button *ngIf="contentData?.role?.length >= 20" mat-icon-button (click)="onExpandChart('role', 'Role')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by roles</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartRoleData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.organizationLocationCity?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Cities
+              </p>
+              <button *ngIf="contentData?.organizationLocationCity?.length >= 20" mat-icon-button
+                (click)="onExpandChart('organizationLocationCity', 'City')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by city</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartCityData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.organizationLocationCountry?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Countries
+              </p>
+              <button *ngIf="contentData?.organizationLocationCountry?.length >= 20" mat-icon-button
+                (click)="onExpandChart('organizationLocationCountry', 'City')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by country</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartCountryData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.devices?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Devices
+              </p>
+              <mat-slide-toggle class="mr-2" (change)="onStatusChange()">
+              </mat-slide-toggle>
+            </div>
+            <p class="description" i18n>
+              This chart displays # of unique users for each device type
+            </p>
+          </div>
+          <div class="margin-m">
+            <ng-container *ngIf="!showCategory" [wsResolverWidget]="barChartDeviceData"> </ng-container>
+            <ng-container *ngIf="showCategory" [wsResolverWidget]="pieChartDeviceCategoryData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.department?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Departments
+              </p>
+              <button *ngIf="contentData?.departments?.length >= 20" mat-icon-button
+                (click)="onExpandChart('departments', 'Department')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by departments</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartDepartmentData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+      <ng-container *ngIf="contentData?.subDepartment?.length > 0">
+        <mat-card class="graph-card-client margin-s">
+          <div class="margin-top-m margin-left-m">
+            <div class="flex flex-between flex-middle">
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+                Users by Sub-Departments
+              </p>
+              <button *ngIf="contentData?.subDepartment?.length >= 20" mat-icon-button
+                (click)="onExpandChart('subDepartment', 'SubDepartment')">
+                <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+              </button>
+            </div>
+            <p class="description" i18n>This chart displays # of unique users by sub-Department</p>
+          </div>
+          <div class="margin-m">
+            <ng-container [wsResolverWidget]="barChartSubDepartmentData"> </ng-container>
+          </div>
+        </mat-card>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="onExpand">
+    <mat-card class="margin-s">
+      <button mat-raised-button color="primary" class="margin-top-xl margin-left-s" matTooltip="Back" i18n-matTooltip
+        (click)="onClose()">
+        Back
+      </button>
+      <div class="margin-top-m">
+        <ng-container [wsResolverWidget]="barChartExpandData"> </ng-container>
+      </div>
+    </mat-card>
+  </ng-container>
+</div>

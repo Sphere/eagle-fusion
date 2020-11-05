@@ -1,0 +1,22 @@
+<ng-container *ngIf="content">
+  <section class="py-8 h-full container-balanced mx-auto px-4">
+    <ws-app-training-header
+      [content]="content"
+      [trainingCount]="trainingCount"
+      [trainingPrivileges]="trainingPrivileges"
+    ></ws-app-training-header>
+    <mat-divider></mat-divider>
+
+    <section class="padding-top-m">
+      <router-outlet></router-outlet>
+    </section>
+  </section>
+</ng-container>
+
+<ng-container *ngIf="!content">
+  <section class="padding-xl">
+    <h2 class="mat-title text-center" i18n>
+      Sorry, there was an error while fetching the content.
+    </h2>
+  </section>
+</ng-container>

@@ -1,0 +1,77 @@
+<ng-container *ngIf="previewMode" [ngTemplateOutlet]="previewCardTemplate"></ng-container>
+<ng-container *ngIf="!previewMode" [ngTemplateOutlet]="unresolvedTemplate"></ng-container>
+
+<ng-template #unresolvedTemplate>
+  <mat-card class="margin-m">
+    <mat-card-header>
+      <div mat-card-avatar class="mat-card-avatar-override">
+        <mat-icon color="warn">report_problem</mat-icon>
+      </div>
+      <mat-card-title>
+        <ng-container i18n>
+          Error in Resolving Json for Widget
+        </ng-container>
+      </mat-card-title>
+    </mat-card-header>
+    <div class="flex flex-wrap flex-between">
+      <div>
+        <div class="margin-top-s">
+          <span class="mat-body-2" i18n>
+            Widget Type :
+          </span>
+          {{ widgetType }}
+        </div>
+        <div class="margin-top-s">
+          <span class="mat-body-2" i18n>
+            Widget Sub Type :
+          </span>
+          {{ widgetSubType }}
+        </div>
+      </div>
+      <div>
+        <ng-container *ngIf="widgetData">
+          <button
+            mat-raised-button
+            class="margin-top-m"
+            color="primary"
+            *ngIf="!showData"
+            (click)="showData = true"
+          >
+            <ng-container i18n>See Details</ng-container>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <button
+            mat-raised-button
+            class="margin-top-m"
+            color="primary"
+            *ngIf="showData"
+            (click)="showData = false"
+          >
+            <ng-container i18n>Hide Details</ng-container>
+            <mat-icon>arrow_drop_up</mat-icon>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+    <ng-container *ngIf="widgetData">
+      <pre *ngIf="showData" class="margin-top-s"><span i18n class="mat-body-2">Widget Data :</span>
+{{ widgetData | json }}
+    </pre>
+    </ng-container>
+  </mat-card>
+</ng-template>
+<ng-template #previewCardTemplate>
+  <mat-card>
+    <div class="w-full">
+      <div class="p-4">
+        <div class="text-3xl font-semibold text-center leading-tight" i18n>
+          Content not available
+        </div>
+        <br />
+        <div class="text-base font-medium text-center leading-normal" i18n>
+          Please add widget or provide data to widget template
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</ng-template>

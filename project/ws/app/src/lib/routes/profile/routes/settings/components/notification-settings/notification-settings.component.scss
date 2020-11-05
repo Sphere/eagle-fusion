@@ -1,0 +1,24 @@
+@import 'ws-vars';
+
+.notifications-container {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 0;
+
+  .group-name-container {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    .group-name {
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+}
+
+.event-name {
+  font-weight: 500;
+}

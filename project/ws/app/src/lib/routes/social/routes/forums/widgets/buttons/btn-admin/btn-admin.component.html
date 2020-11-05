@@ -1,0 +1,20 @@
+<ng-container [ngSwitch]="type">
+
+
+  <button mat-fab *ngSwitchCase="'REJECT'" aria-label="Rejected" i18n-aria-label matTooltip="Reject"
+    i18n-matTooltip="Reject Button" (click)="reject()" style="background-color: chocolate;">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <button mat-fab *ngSwitchCase="'ACCEPT'" aria-label="Accepted" i18n-aria-label matTooltip="Accept"
+    i18n-matTooltip="Accept Button" style="background-color: cadetblue;" (click)="openAdminReviveDialog()">
+    <mat-icon>done_outline</mat-icon>
+  </button>
+  <button mat-fab *ngSwitchCase="'FLAGGEDACCEPT'" aria-label="Accepted" i18n-aria-label matTooltip="Accept"
+    i18n-matTooltip="Accept Button" (click)="openAdminAcceptDialog()" style="background-color: cadetblue;">
+    <mat-icon>done_outline</mat-icon>
+  </button>
+
+  <button mat-icon-button matTooltip="Please wait" i18n-matTooltip="Like Button Wait" *ngSwitchCase="'PENDING'">
+    <mat-icon [color]="color">hourglass_empty</mat-icon>
+  </button>
+</ng-container>

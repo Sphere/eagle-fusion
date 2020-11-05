@@ -1,0 +1,86 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+// @import 'ws-animation';
+$color-thin-gray: #d8d8d8;
+$color-cdg-lightest-gray: #f5f5f5;
+$color-primary-skyblue-dark: #1976d2;
+$color-primary-darkgreen: #2c806f;
+$color-primary-lightgreen: #4caf50;
+$color-primary-lightgreen-light: rgba(165, 175, 76, 0.63);
+$color-cdg-tag-blue: #4a5cbf;
+$color-cdg-tool: #28a9b2;
+$color-white: white;
+.items-list {
+  // padding: 10px 6px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  .items-collection {
+    .items-box {
+      display: inline-block;
+      // border: 1px solid $color-thin-gray;
+      // vertical-align: top;
+      // margin: 4px 1px 1px 4px;
+      // padding: 15px 14px;
+      width: 32.5%;
+      height: 65px;
+      // background-color: $color-cdg-lightest-gray;
+      p {
+        text-align: initial;
+      }
+    }
+    .types {
+      margin-left: 84%;
+      margin-top: 5px;
+      cursor: pointer;
+      color: $color-primary-skyblue-dark;
+    }
+    .items-full-length {
+      vertical-align: top;
+      // border: 1px solid $color-thin-gray;
+      // margin: 4px 1px 1px 4px;
+      // padding: 10px;
+      // background-color: $color-cdg-lightest-gray;
+      font-size: 15px;
+      color: black;
+    }
+  }
+  .heading-items {
+    padding-top: 6px;
+    padding-left: 7px;
+    padding-bottom: 6px;
+    border-radius: 2px;
+    .title-labels {
+      color: $color-white;
+      font-weight: 600;
+      .countTypes {
+        // @include font-size(16px);
+        font-family: Segoe UI, Arial, sans-serif;
+      }
+    }
+  }
+  .innovate {
+    border: 1px solid $color-primary-lightgreen;
+    background-color: $color-primary-lightgreen;
+  }
+  // .contribution {
+  //   background-color: $color-primary-darkgreen;
+  //   border: 1px solid $color-primary-darkgreen;
+  // }
+  .risk {
+    border: 1px solid $color-primary-lightgreen-light;
+    background-color: $color-primary-lightgreen-light;
+  }
+  .strategy {
+    border: 1px solid $color-cdg-tag-blue;
+    background-color: $color-cdg-tag-blue;
+  }
+  // .tool {
+  //   background-color: $color-cdg-tool;
+  //   border: 1px solid $color-cdg-tool;
+  // }
+  .yammer {
+    background-color: salmon;
+    border: 1px solid salmon;
+  }
+}

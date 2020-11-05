@@ -1,0 +1,69 @@
+@import '~src/styles/ws-vars';
+@import '~src/styles/ws-mixins';
+
+.banner {
+  // background-image: url("/assets/common//navigator/banners/bi_nso.jpg");
+  background-position: right;
+  background-size: cover;
+  height: 200px;
+  width: 100%;
+
+  @media only screen and (max-width: 725px) {
+    height: 230px;
+  }
+
+  @include breakpoint-xs {
+    height: 250px;
+  }
+}
+
+.banner-description {
+  padding: 0 $size-xl;
+  margin: 0 16px;
+
+}
+
+.text-white {
+  color: white;
+}
+
+.desc-container {
+  margin: $size-l;
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.practice-certification {
+  display: flex;
+
+  @media only screen and (max-width: 709px) {
+    display: block;
+    margin: auto;
+  }
+}
+
+.text-center {
+  align-content: center;
+}
+
+.fs-desc {
+  @include breakpoint-xs {
+    font-size: 0.95 rem;
+  }
+}
+
+.small-banner-text {
+  @include breakpoint-xs {
+    font-size: 1.5rem;
+  }
+}
+
+.small-banner-description {
+  font-size: 1.3rem;
+
+  @media only screen and (max-width: 756px) {
+    font-size: 1.1rem;
+  }
+}

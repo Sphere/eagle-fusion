@@ -1,0 +1,213 @@
+@import 'ws-vars';
+@import 'ws-common';
+@import 'ws-mixins';
+
+.about-content {
+  @extend %height-mat-toolbar-sibling;
+}
+
+.banner-overview-container {
+  justify-content: space-between;
+  .overview-description {
+    @include breakpoint-xs {
+      width: 100%;
+      margin-right: 0px;
+    }
+  }
+  width: 70%;
+  text-align: center;
+}
+
+.overview-container {
+  margin: 24px;
+  @include breakpoint-xs {
+    margin: 16px;
+  }
+}
+
+.overview-intro {
+  width: 280px;
+  border: 1px solid;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+
+  .overview-intro-overlay {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    color: white;
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: $size-xs;
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+
+// .overview-intro {
+//   border: 1px solid;
+//   box-sizing: border-box;
+//   position: relative;
+//   @include breakpoint-xs {
+//     display: none;
+//   }
+// }
+
+.about-info-footer {
+  @extend %about-info;
+}
+
+$description-line-count: 2;
+$description-height-size: 1.2em;
+.title-text {
+  position: relative;
+  overflow: hidden;
+  line-height: 1.2;
+  height: $description-line-count * $description-height-size;
+}
+
+.assessment-icon {
+  $image-size: 36px;
+  width: $image-size;
+  height: $image-size;
+  font-size: $image-size;
+}
+
+.description-application {
+  width: 44%;
+  padding: 16px;
+  @include breakpoint-xs {
+    width: 100%;
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+  }
+}
+
+.learning-overview {
+  box-sizing: border-box;
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.learning-world {
+  box-sizing: border-box;
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.video-container {
+  width: 30%;
+  box-sizing: border-box;
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.about-info {
+  @extend %about-info;
+  height: 228px;
+
+  @include breakpoint-s {
+    height: 300px;
+  }
+
+  @include breakpoint-xs {
+    height: 340px;
+  }
+}
+
+%about-info {
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 2 * $size-xl $size-xl;
+
+  color: black;
+
+  .header-synopsis {
+    box-sizing: border-box;
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      display: block;
+    }
+    .header-meta {
+      margin-bottom: $size-xl;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+  }
+
+  @include breakpoint-xs {
+    padding: $size-l $size-s;
+  }
+}
+
+.padd-right-gt-m {
+  @include breakpoint-gt-m {
+    padding-right: $size-m;
+  }
+}
+
+.about-overview-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.about-section-full {
+  padding: $size-xl;
+  font-size: initial;
+}
+
+.vertical-align-super {
+  vertical-align: super;
+  padding-left: $size-m;
+  font-weight: bold;
+}
+
+.container-margin {
+  margin: 24px;
+
+  @include breakpoint-xs {
+    margin: 8px;
+  }
+}
+
+.benefit-card {
+  width: 290px;
+  margin: 4px 20px 12px 4px;
+  box-sizing: border-box;
+  min-width: 320px;
+  padding: 8px;
+  min-height: 150px;
+}
+
+.insights-read-more {
+  text-align: right;
+}
+
+.about-intro-desc {
+  max-width: 600px;
+}
+
+.heading-bottom {
+  padding-bottom: $size-m;
+}

@@ -1,0 +1,194 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.graph-card {
+  padding: 0px;
+  width: 30%;
+  margin-top: 1.5rem;
+
+  @include breakpoint-m {
+    width: 33%;
+    margin-top: 1.5rem;
+  }
+
+  @include breakpoint-lt-m {
+    width: 48%;
+    margin-top: 1.5rem;
+  }
+
+  @include breakpoint-s {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  @include breakpoint-xs {
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+}
+
+.description-container {
+  flex: 1;
+  box-sizing: border-box;
+
+  .learning-container {
+    @include breakpoint-gt-s {
+      height: 100%;
+    }
+  }
+
+  .badges-container {
+    min-height: 160px;
+    margin-bottom: 16px;
+  }
+
+  .badge {
+    $badge-padding: 16px;
+    $medium-badge-size: 90px;
+    padding: $badge-padding;
+    width: $medium-badge-size + 2 * $badge-padding;
+    padding-top: 0;
+    box-sizing: border-box;
+    text-align: center;
+
+    @include breakpoint-xs {
+      $badge-padding: 8px;
+      $medium-badge-size: 48px;
+      padding: $badge-padding;
+      width: $medium-badge-size + 2 * $badge-padding;
+    }
+
+    .medium-badge {
+      width: $medium-badge-size;
+      height: $medium-badge-size;
+      border-radius: 50%;
+      padding-top: 8px;
+    }
+  }
+}
+
+.learning-graph {
+  width: 97%;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  @include breakpoint-xs {
+    margin: 16px;
+  }
+
+  @include breakpoint-lt-m {
+    width: 100%;
+    margin: 16px;
+  }
+}
+
+.learning-container {
+  margin: 16px 16px 16px 16px;
+  width: 97%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  @include breakpoint-xs {
+    margin: 0px;
+  }
+
+  @include breakpoint-lt-m {
+    width: 100%;
+    margin: 0px;
+  }
+
+  .graph-data {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+
+    @include breakpoint-lt-m {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .form-data {
+      max-width: 120px;
+    }
+  }
+
+  .calendar-container {
+    display: grid;
+    grid-template-columns: 0.3fr 0.7fr;
+    width: 100%;
+
+
+    @media only screen and (max-width: 829px) {
+      grid-template-columns: 0.3fr 1fr;
+    }
+
+    @media only screen and (max-width: 646px) {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+  }
+
+  .calendar-data {
+    padding: 4px 4px 0px 4px;
+    // height: 95%;
+  }
+
+  .radar-card {
+    padding: 0px;
+    width: 100%;
+  }
+
+  .chart-container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  .track-data {
+    margin-left: 16px;
+    width: 97%;
+
+    @media only screen and (max-width: 829px) {
+      width: 96.7%;
+
+    }
+
+    @media only screen and (max-width: 646px) {
+      margin-top: 16px;
+    }
+  }
+
+  .bubble-card {
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+
+  }
+
+  .radar-data {
+    width: 50%;
+
+    @include breakpoint-lt-m {
+      width: 100%;
+      margin-top: 16px;
+    }
+  }
+
+  .card-section {
+    width: 30%;
+    margin: $size-m;
+
+    @include breakpoint-xs {
+      width: 90%;
+      margin: $size-s;
+    }
+
+    @include breakpoint-s {
+      width: 45%;
+      margin: $size-s;
+    }
+  }
+}

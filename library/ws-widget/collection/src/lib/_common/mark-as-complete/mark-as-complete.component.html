@@ -1,0 +1,47 @@
+<ng-container *ngIf="content?.progress?.progressSupported && showStart.show">
+  <mat-card class="mb-4 block">
+    <h2 class="margin-remove-bottom"><span i18n>Learning Progress </span>
+      <a i18n-aria-label aria-label="Learning Progress FAQ" [routerLink]="'/app/info/faq'"
+        [queryParams]="{tab: 'mark_as_complete'}">
+        <mat-icon matTooltip="FAQ" class="align-text-top ws-mat-primary-text">help</mat-icon>
+      </a>
+    </h2>
+    <h3><span i18n>Status: </span>
+      <ng-container *ngIf="content?.progress?.progressStatus; let status">
+        <span i18n *ngIf="status === 'open'">Open</span>
+        <span i18n *ngIf="status === 'started'">Started</span>
+        <span i18n *ngIf="status === 'completed'">Completed</span>
+      </ng-container>
+    </h3>
+    <ng-container *ngIf="content?.progress?.markAsCompleteReason !== 'not.supported'">
+      <mat-divider></mat-divider>
+      <!-- <ng-container *ngIf="content?.progress?.showMarkAsComplete">
+        <h4 i18n class="pt-3">I confirm that I have gone through this content and want to mark it as complete.</h4>
+        <div class="flex justify-center">
+          <button i18n mat-raised-button color="primary" (click)="confirm()">Mark as Complete</button>
+        </div>
+      </ng-container> -->
+      <ng-container *ngIf="!content?.progress?.showMarkAsComplete">
+        <h4 class="pt-3" *ngIf="content?.progress?.markAsCompleteReason; let msg">
+          <span i18n *ngIf="msg === 'pass.required'">Content will be marked as complete once you pass this
+            assessment.</span>
+          <span i18n *ngIf="msg === 'submission.required'">Content will be marked as complete once you submit this
+            quiz/exercise.</span>
+          <span i18n
+            *ngIf="msg === 'external.vendor.provided' && content?.progress?.progressStatus !== 'completed'">Your
+            learning progress for this content is captured externally and will be updated in this portal once it is
+            received.</span>
+          <span i18n
+            *ngIf="msg === 'external.vendor.provided' && content?.progress?.progressStatus === 'completed'">Your
+            progress was automatically captured from its source.</span>
+          <span i18n *ngIf="msg === 'has.children'">This content is hierarchical. Progress will be calculated on the
+            basis
+            of children resources</span>
+          <span i18n *ngIf="msg === 'already.completed'">Completed</span>
+          <span i18n *ngIf="msg === 'instructor.led'">Progress will be calculated based on your classroom
+            attendance.</span>
+        </h4>
+      </ng-container>
+    </ng-container>
+  </mat-card>
+</ng-container>

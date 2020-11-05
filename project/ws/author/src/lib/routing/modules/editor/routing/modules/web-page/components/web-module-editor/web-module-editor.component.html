@@ -1,0 +1,287 @@
+<div class="margin-top-xl margin-l-l margin-r-l" [hidden]="previewMode">
+  <!-- <div class="flex margin-left-xl flex-middle margin-bottom-xl flex-wrap">
+    <div class="flex flex-middle">
+      <p class="ws-mat-primary-text font-weight-bold title margin-right-xs" i18n>
+        CONTENT CREATION
+      </p>
+      <mat-icon class="ws-mat-primary-text margin-bottom-xxs">create</mat-icon>
+    </div>
+    <div class="margin-left grid" *ngIf="currentStep >= 0">
+      <div class="stepper-grid" [ngClass]="{ 'cursor-disable': true }">
+        <div class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer" [ngClass]="{
+            'ws-mat-primary-background cursor-disable': currentStep >= 1
+          }">
+          1
+        </div>
+        <p class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-pointer" [ngClass]="{ 'ws-mat-primary-text opacity-100': currentStep >= 1 }"
+          i18n>
+          Choose Type
+        </p>
+        <span class="border border-solid text-gray-500 mx-3" [ngClass]="{ 'ws-mat-primary-text': currentStep >= 2 }"></span>
+      </div>
+      <div class="stepper-grid">
+        <div class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer" [ngClass]="{ 'ws-mat-primary-background': currentStep >= 2 }"
+          (click)="customStepper(2)" i18n>
+          2
+        </div>
+        <p class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-pointer" [ngClass]="{
+            'ws-mat-primary-text opacity-100': currentStep >= 2,
+            'ws-mat-primary-border-bottom-bolder': currentStep === 2
+          }" (click)="customStepper(2)" i18n>
+          Content
+        </p>
+        <span class="border border-solid text-gray-500 mx-3" [ngClass]="{ 'ws-mat-primary-text': currentStep === 3 }"></span>
+      </div>
+      <div class="flex flex-middle">
+        <div class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer" [ngClass]="{ 'ws-mat-primary-background': currentStep === 3 }"
+          (click)="customStepper(3)" i18n>
+          3
+        </div>
+        <p class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-pointer" [ngClass]="{
+            'ws-mat-primary-text opacity-100': currentStep === 3,
+            'ws-mat-primary-border-bottom-bolder': currentStep === 3
+          }" (click)="customStepper(3)" i18n>
+          Details
+        </p>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="margin-left-xl margin-top-s margin-bottom-xs">
+    <div class="flex flex-middle">
+      <p class="margin-remove-bottom mat-h3 font-weight-bold" i18n>Language</p>
+    </div>
+    <div class="flex flex-middle">
+      <p class="p-2" *ngFor="let content of allContents" [ngClass]="{
+          'ws-mat-primary-border-bottom-bolder': currentId === content.identifier
+        }" (click)="changeContent(content)">
+        {{ content.locale | uppercase }}
+      </p>
+      <button mat-icon-button class="small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
+        <mat-icon class="text-white small-icon" [matMenuTriggerFor]="menu" aria-label="create content in other languages" i18n-aria-label
+          i18n-matTooltip matTooltip="Add a language">
+          add</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let lang of allLanguages" (click)="createInAnotherLanguage(lang.srclang)">
+          {{ lang.label }}
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+  <div class="mat-app-background mb-10">
+    <div class="margin-top-xl margin-right-xl" *ngIf="currentStep === 2">
+      <ng-container *ngIf="contentLoaded">
+        <div class="flex justify-between">
+          <button (click)="sideNavBar.toggle()" *ngIf="mediumScreenSize" mat-icon-button i18n-matTooltip aria-label="open menu" i18n-aria-label>
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <mat-sidenav-container autosize="true" class="nav-container">
+          <mat-sidenav #sideNavBar class="h-full custom-scroll-small" [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
+            <div class="mat-app-background z-50 sticky top-0">
+              <div class="w-full flex flex-row-reverse" *ngIf="!mediumScreenSize">
+                <button *ngIf="showContent" mat-icon-button (click)="showContent = !showContent" aria-label="Minimize the side panel" i18n-aria-label
+                  i18n-matTooltip matTooltip="Minimize the side panel" matTooltipShowDelay="1000" matTooltipPosition="after">
+                  <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+                <button *ngIf="!showContent" (click)="showContent = !showContent" mat-icon-button matTooltip="Maximize the side panel" matTooltipShowDelay="1000"
+                  matTooltipPosition="after" aria-label="Maximize the side panel" i18n-aria-label i18n-matTooltip>
+                  <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+              </div>
+              <ng-container *ngIf="mediumScreenSize || !mediumScreenSize && showContent">
+                <div class="flex items-center pl-1 pt-3 sm:pt-0 pb-1">
+                  <mat-card-title class="text-xl text-center w-9/12 ws-mat-primary-text" i18n>Pages</mat-card-title>
+                  <button (click)="addPage()" class="padding-remove margin-right-s ws-mat-primary-background mat-elevation-z6 margin-left-s self-center"
+                    i18n-aria-label aria-label="add new page" i18n-matTooltip matTooltip="Add new page" mat-icon-button>
+                    <mat-icon class="text-white">
+                      add</mat-icon>
+                  </button>
+                </div>
+              </ng-container>
+            </div>
+            <ng-container>
+              <div cdkDropList class="example-list " (cdkDropListDropped)="drop($event)" *ngIf="mediumScreenSize || !mediumScreenSize && showContent">
+                <div class="custom-placeholder border border-solid" *cdkDragPlaceholder></div>
+                <mat-card class="custom w-full mt-3" *ngFor="let page of userData[currentId].pages;index as i" [ngClass]="{'ws-mat-primary-background':i === selectedPage && !userData[currentId].pages[i].isInvalid, 'invalidQues': userData[currentId].pages[i].isInvalid}"
+                  cdkDrag (click)="changePage(i)" cdkDragBoundary=".example-list" i18n-aria-label aria-label="select page">
+                  <div class="w-full flex items-center justify-between">
+                    <span>
+                      <span i18n>Page</span>-{{i+1}}
+                    </span>
+                    <button mat-icon-button (click)="onDelete(i,$event)" matTooltip="Delete this Page" aria-label="delete page" i18n-aria-label
+                      i18n-matTooltip>
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </mat-card>
+              </div>
+            </ng-container>
+            <div class="flex flex-col w-full pt-4 custom-scroll" *ngIf="!showContent && !mediumScreenSize">
+              <button class="m-1 bordered" *ngFor="let page of userData[currentId].pages;index as i" i18n-aria-label aria-label="select page"
+                type="button" (click)="changePage(i)" mat-icon-button [ngClass]="{'ws-mat-primary-background':i === selectedPage && !userData[currentId].pages[i].isInvalid, 'invalidQues': userData[currentId].pages[i].isInvalid}">
+                {{i+1}}
+              </button>
+            </div>
+          </mat-sidenav>
+          <mat-sidenav-content>
+            <ng-container *ngIf="userData[currentId].pages.length">
+              <div class="pl-3">
+                <p class="font-weight-bold " i18n="Title label|Label which explains the user to enter title">
+                  Title
+                </p>
+                <mat-form-field class="w-full" appearance="outline">
+                  <input [ngModel]="userData[currentId].pageJson[selectedPage].title" #title aria-label="page title|input for user to enter title"
+                    matInput type="text" maxlength="500" (ngModelChange)="forTitle($event)" />
+                  <mat-hint align="end">{{ title.value.length }} / 500</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="pl-3 pt-4 web-module-container">
+                <p class="font-weight-bold" i18n="Title label|Label which explains the user to enter title">
+                  Content
+                </p>
+
+                <ws-auth-plain-ckeditor [content]="(userData)? userData[currentId].pages[selectedPage].body : ''" (value)="onBodyChange($event)"
+                  [id]="currentId">
+                </ws-auth-plain-ckeditor>
+
+              </div>
+              <!-- <div class="p-3">
+                <mat-accordion>
+                  <mat-expansion-panel [(expanded)]="showAudioCard">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <p class="font-weight-bold pb-1 self-center  margin-remove-bottom" i18n>
+                          Audios
+                        </p>
+                        <button mat-icon-button color='primary' (click)="$event.stopPropagation();audioADD()" aria-label="add audio" matTooltip="add audio file"
+                          i18n-aria-label i18n-matTooltip>
+                          <mat-icon>add_circle_outline</mat-icon>
+                        </button>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="mb-4 ws-mat-primary-lite-background pr-4">
+                      <ws-auth-audio-strips *ngIf="userData[currentId].pageJson[selectedPage].audio.length" [data]="userData[currentId].pageJson[selectedPage].audio"
+                        (audioDeleted)="deleteAudio($event)"></ws-auth-audio-strips>
+                      <div class="h-12 py-4 flex items-center justify-center" *ngIf="!userData[currentId].pageJson[selectedPage].audio.length">
+                        <span i18n>No audios found for this page</span>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div> -->
+              <div class="p-3 mt-4">
+                <mat-card class="audios-card-container">
+                  <div class="cursor-pointer flex flex-row justify-between px-4 pt-2" aria-label="click to expand card" i18n-aria-label (click)="showAudioCard=!showAudioCard">
+                    <div class="flex">
+                      <p class="font-weight-bold pb-1 self-center  margin-remove-bottom" i18n>
+                        Audios
+                      </p>
+                      <button aria-label="add audio" id="abtn" mat-icon-button color='primary' (click)="$event.stopPropagation();audioADD()" matTooltip="Add audio file">
+                        <mat-icon>add_circle_outline</mat-icon>
+                      </button>
+                    </div>
+                    <div class="self-center">
+                      <mat-icon class="self-end" *ngIf="!showAudioCard">keyboard_arrow_down</mat-icon>
+                      <mat-icon class="self-end" *ngIf="showAudioCard">keyboard_arrow_up</mat-icon>
+                    </div>
+                  </div>
+                  <div class="mb-4 pr-8" *ngIf="showAudioCard">
+                    <ws-auth-audio-strips [data]="userData[currentId].pageJson[selectedPage].audio" [doRegex]="true" (audioDeleted)="deleteAudio($event)"
+                      *ngIf="userData[currentId].pageJson[selectedPage].audio
+                      && userData[currentId].pageJson[selectedPage].audio.length">
+                    </ws-auth-audio-strips>
+                    <div class="h-12 py-4 flex items-center justify-center" *ngIf="!userData[currentId].pageJson[selectedPage].audio
+                    || !userData[currentId].pageJson[selectedPage].audio.length">
+                      <span i18n>No audios found for this page</span>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="flex justify-between px-1 py-4">
+                <button class="ws-mat-primary-background mat-elevation-z6 margin-left-s" (click)="changePage(selectedPage-1)" [disabled]="selectedPage === 0"
+                  [ngClass]="{ 'opacity-25 cursor-disable': selectedPage === 0 }" mat-button i18n-aria-label aria-label="previos page">
+                  <span class="text-white" i18n>Previous</span>
+                </button>
+                <button class="ws-mat-primary-background mat-elevation-z6 margin-left-s" i18n-aria-label aria-label="next page" mat-button
+                  (click)="changePage(selectedPage+1)" [disabled]="selectedPage === userData[currentId].pages.length - 1" [ngClass]="{'opacity-25 cursor-disable': selectedPage === userData[currentId].pages.length - 1}">
+                  <span class="text-white" i18n>Next</span>
+                </button>
+              </div>
+              <button (click)="action('save')"  mat-menu-item>
+                <!-- <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Save content">
+                  Save</mat-icon> -->
+                <ng-container i18n>Save</ng-container>
+              </button>
+            </ng-container>
+            <div class="flex items-center justify-center h-64" *ngIf="!userData[currentId].pages.length">
+              <span i18n>No pages found, Kindly add!</span>
+            </div>
+          </mat-sidenav-content>
+        </mat-sidenav-container>
+      </ng-container>
+    </div>
+    <div class="margin-top-xl margin-left-xl margin-right-xl" *ngIf="currentStep === 3">
+      <ws-auth-edit-meta [nextAction]="'publish'" [isSubmitPressed]="submitPressed" (data)="action($event)">
+      </ws-auth-edit-meta>
+    </div>
+  </div>
+  <div class="buttons margin-top-xl">
+    <!-- <div class="button-grid margin-right-xxs cursor-pointer" (click)="toggleSettingButtons()">
+      <button mat-icon-button class="padding-remove ws-mat-primary-background mat-elevation-z6">
+        <mat-icon class="text-white" *ngIf="showSettingButtons" i18n-matTooltip matTooltip="Close">close</mat-icon>
+        <mat-icon class="text-white" *ngIf="!showSettingButtons">more_vert</mat-icon>
+      </button>
+      <p class="mat-h5 margin-remove button-text padding-remove-top" *ngIf="showSettingButtons" i18n-matTooltip matTooltip="Close">
+        Close
+      </p>
+    </div> -->
+    <!-- <ng-container *ngIf="showSettingButtons">
+      <div class="button-grid cursor-pointer" (click)="action('preview')">
+        <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-l" i18n-matTooltip matTooltip="Preview">
+          <mat-icon class="text-white small-icon ws-mat-primary-text">remove_red_eye</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="preview">
+          Preview
+        </p>
+      </div>
+      <div class="button-grid cursor-pointer" (click)="action('save')">
+        <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-m" i18n-matTooltip matTooltip="Save">
+          <mat-icon class="text-white small-icon ws-mat-primary-text">save</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="save">
+          Save
+        </p>
+      </div>
+      <div class="button-grid cursor-pointer" (click)="action('push'); submitPressed = true">
+        <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-m" i18n-matTooltip matTooltip="Publish">
+          <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" *ngIf="getAction() === 'sendForReview'" i18n-matTooltip matTooltip="Send for review">
+          Send For Review
+        </p>
+        <p class="mat-h5 margin-remove button-text" *ngIf="getAction() === 'review'" i18n-matTooltip matTooltip="Review">
+          Review
+        </p>
+        <p class="mat-h5 margin-remove button-text" *ngIf="getAction() === 'publish'" i18n-matTooltip matTooltip="Publish">
+          Publish
+        </p>
+
+      </div>
+      <div *ngIf="canDelete()" class="button-grid cursor-pointer" (click)="action('delete')">
+        <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-m" i18n-matTooltip matTooltip="Delete">
+          <mat-icon class="text-white small-icon ws-mat-primary-text">delete</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="Delete" i18n>
+          Delete
+        </p>
+      </div>
+    </ng-container> -->
+  </div>
+</div>
+<div *ngIf="previewMode">
+  <mat-icon (click)="closePreview()" class="close-preview" matTooltip="Back" i18n-matTooltip="Back button to go to previous page">
+    arrow_back</mat-icon>
+  <ws-auth-viewer [identifier]="currentId" [mimeTypeRoute]="mimeTypeRoute"></ws-auth-viewer>
+</div>

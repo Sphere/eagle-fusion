@@ -1,0 +1,35 @@
+.draft {
+  color: white;
+  background-color: #ffae42;
+}
+
+.review {
+  color: white;
+  background-color: #32aeb3;
+}
+
+.deleted {
+  color: white;
+  background-color: red;
+}
+
+.expired {
+  color: white;
+  background-color: grey;
+}
+
+.live {
+  color: white;
+  background-color: green;
+}
+
+.overflow-prevent {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.processing {
+  background-color: #ff0cb4;
+  color: white;
+}

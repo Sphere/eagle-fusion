@@ -1,0 +1,46 @@
+<section class="mb-4">
+  <div class="mat-caption">
+    <ws-app-request-item-type [itemType]="data.approvalItem.record_type"></ws-app-request-item-type>
+  </div>
+  <h3 class="mat-h3 text-truncate">{{ data.approvalItem.certification_name }}</h3>
+</section>
+
+<section class="mb-4">
+  <ng-container [ngSwitch]="data.approvalItem.record_type">
+    <ng-container *ngSwitchCase="'proctor_approval'">
+      <p class="mat-body" i18n>
+        Are you sure you wish to cancel this At-Desk booking?
+      </p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'budget_approval'">
+      <p class="mat-body" i18n>
+        Are you sure you wish to cancel this budget approval request?
+      </p>
+      <p class="mat-body">
+        <ng-container i18n>
+          Amount:
+        </ng-container>
+        {{ data.approvalItem.currency }} {{ data.approvalItem.amount }}
+      </p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'result_verification'">
+      <ng-container [ngSwitch]="data.actionType">
+        <p class="mat-body" *ngSwitchCase="'accept'">
+          Are you sure you wish to accept {{ data.approvalItem.user.name }}'s document proof?
+        </p>
+        <p class="mat-body" *ngSwitchCase="'decline'">
+          Are you sure you wish to decline {{ data.approvalItem.user.name }}'s document proof?
+        </p>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <section>
+    <button mat-flat-button [color]="'primary'" class="margin-right-xs" i18n (click)="onAction()">
+      Yes
+    </button>
+    <button mat-stroked-button mat-dialog-close [color]="'primary'" i18n>No</button>
+  </section>
+</section>

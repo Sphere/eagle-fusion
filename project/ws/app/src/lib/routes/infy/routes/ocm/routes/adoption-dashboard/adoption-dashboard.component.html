@@ -1,0 +1,71 @@
+<mat-card class="margin-l pad" *ngIf="config">
+  <h2 class="mat-h2 font-weight-500">{{ config?.title }}</h2>
+  <h3 class="mat-h3 font-weight-500" *ngIf="!config.dashboardsList" i18n>
+    Stats will appear here.
+  </h3>
+  <div class="flex flex-wrapped flex-middle">
+    <div class="width-1-4">
+      <mat-radio-group
+        class="radioGroup"
+        [(ngModel)]="currentStat"
+        aria-label="Select an option"
+        (change)="statsClicked()"
+      >
+        <mat-radio-button
+          class="margin-m"
+          [value]="dashboard.titleKey"
+          *ngFor="let dashboard of config?.dashboardsList"
+        >
+          {{ dashboard.title | titlecase }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="width-3-4">
+      <div class="text-center">
+        <div
+          class="flex flex-center margin-l"
+          *ngIf="
+            (currentStat === 'Wingspan' && lexStatFetchStatus === 'fetching') ||
+            (currentStat === 'infyme' && infyMeStatFetchStatus === 'fetching')
+          "
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+        <h3
+          class="mat-h3"
+          *ngIf="
+            (currentStat === 'Wingspan' && lexStatFetchStatus === 'error') ||
+            (currentStat === 'infyme' && infyMeStatFetchStatus === 'error')
+          "
+          i18n
+        >
+          Error fetching Data
+        </h3>
+      </div>
+      <div class="flex flex-around flex-wrapped">
+        <ng-container *ngFor="let stat of stats">
+          <ng-container *ngIf="stat?.titleKey === currentStat">
+            <a
+              [ngClass]="{ 'cursor-auto': !counterEnabled }"
+              [routerLink]="
+                counterEnabled
+                  ? currentStat === 'Wingspan'
+                    ? '/app/infy/counter'
+                    : '/app/infy/counter/infy-me'
+                  : null
+              "
+              class="text-center margin-s"
+            >
+              <mat-icon *ngIf="stat.iconName" class="icon margin-bottom-m">{{
+                stat.iconName
+              }}</mat-icon>
+              <h1 class="mat-h1 margin-bottom-xs">{{ stat.count }}</h1>
+              <h3 class="mat-subheading-2 margin-remove-bottom">{{ stat.title }}</h3>
+            </a>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</mat-card>

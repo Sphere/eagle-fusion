@@ -1,0 +1,9 @@
+@import 'ws-common';
+
+.container {
+  @extend %page-center;
+}
+
+.width-balancer-1-2 {
+  max-width: 400px;
+}

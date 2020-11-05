@@ -1,0 +1,125 @@
+<mat-sidenav-container role="main" class="sidenav-container" autosize *ngIf="!error.load">
+  <mat-sidenav #sideNavBar class="sidenav" [opened]="sideNavBarOpened" (closed)="closeFilter(false)"
+    [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+    <ws-app-filter-display #appFilterDisplay *ngIf="searchResults?.result?.length" [filtersResetAble]="filtersResetAble"
+      [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse" [routeComp]="routeComp"
+      (filterClose)="closeFilter($event)"></ws-app-filter-display>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.length">
+    <div>
+      <span i18n="search route hits showing">Showing </span>
+      <span>{{ searchResults.totalHits }} </span>
+      <span *ngIf="searchResults.totalHits > 1" i18n="search route hits results">results </span>
+      <span *ngIf="searchResults.totalHits <= 1" i18n="search route hits result">result </span>
+      <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred languages</span>
+        <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
+          *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
+        </span>
+      </span>
+      <ng-container *ngIf="searchResults?.doYouMean || searchResults?.queryUsed">
+        <span>.</span><span>&nbsp;</span>
+        <span *ngIf="searchResults?.doYouMean"><span i18n>Did you mean</span><span>&nbsp;“</span><span
+            [innerHTML]="searchResults?.doYouMean" (click)="didYouMeanSearch(searchResults?.doYouMean)"
+            class="cursor-pointer ws-mat-primary-text cursor-pointer"></span>”
+          ?</span>
+        <span *ngIf="searchResults?.queryUsed"><span i18n>Showing results
+            for</span><span>&nbsp;“</span>{{searchResults?.queryUsed}}”. <span i18n>Search instead for</span>
+          <span>&nbsp;“</span><span class="cursor-pointer ws-mat-primary-text cursor-pointer"
+            (click)="searchInsteadFor()">{{searchRequestObject.query}}</span>”.</span>
+      </ng-container>
+      <ng-container *ngIf="exactResult.show && applyPhraseSearch">
+        <span i18n="search route hits for showing exact match">for the exact match on
+        </span>
+        <span>{{ searchRequestObject?.query }}, </span>
+        <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer" i18n>Click here </a>
+        <span i18n="search route hits for showing actual query">to explore more. </span>
+      </ng-container>
+      <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+        (click)="sideNavBarOpened = !sideNavBarOpened">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    </div>
+    <div class="margin-bottom-m">
+      <mat-chip-list aria-label="Filter selection">
+        <span *ngFor="let filter of filtersResponse">
+          <span *ngFor="let content of filter?.content">
+            <span *ngIf="content?.checked">
+              <mat-chip [removable]="removable">
+                {{translatedFilters[filter?.displayName]?.value[content?.displayName] || content?.displayName}}
+                <mat-icon matChipRemove
+                  (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
+                  *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+            </span>
+            <span *ngIf="content?.children?.length>0">
+              <span *ngFor="let children of content?.children">
+                <span *ngIf="children?.checked">
+                  <mat-chip [removable]="removable">{{children?.displayName}}
+                    <mat-icon matChipRemove
+                      (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :children?.type})"
+                      *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </mat-chip-list>
+    </div>
+    <div *ngIf="searchResults?.result?.length">
+      <ws-app-learning-card class="search-card" *ngFor="let result of searchResults.result; trackBy: contentTrackBy"
+        [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
+      <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
+        <mat-spinner></mat-spinner>
+        <!-- <h2 class="h2-title">
+          Loading...
+        </h2> -->
+      </div>
+      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus != 'done'"
+        [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
+        <mat-icon>add</mat-icon>
+        <ng-container i18n="search: more results">View More</ng-container>
+      </button>
+    </div>
+  </mat-sidenav-content>
+  <div *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.length"
+    class="overflow-y-hidden margin-top-m flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-xl text-center">
+    <h2 class="mat-h2" i18n="search route no result">No result</h2>
+    <h3 class="mat-h3" i18n="search route you may try">You may try</h3>
+    <div class="padding-left-s">
+      <h4 [hidden]="!filtersResetAble">
+        <ng-container i18n="search route remove filters"> Removing Filters </ng-container>
+        <button (click)="removeFilters()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
+      <h4 *ngIf="searchRequest?.lang!=='en' && searchRequest?.lang?.split(',').length === 1">
+        <ng-container i18n="search route remove language"> Removing Language </ng-container>
+        <button (click)="removeLanguage()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
+      <!-- <h4>
+            <span i18n>Browsing</span>&nbsp;
+            <a [routerLink]="'/catalog'" i18n class="catalog-link">Catalog</a>
+          </h4> -->
+      <h4>Different keywords</h4>
+    </div>
+  </div>
+
+  <div *ngIf="searchRequestStatus === 'error'" class="text-center margin-top-m">
+    <!-- <h2 class="h2-title" i18n="search result fetch error">
+      Some error occurred! Please retry
+    </h2> -->
+    <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
+  </div>
+</mat-sidenav-container>
+<div *ngIf="error.load">
+  <!-- <h2 class="h2-title flex flex-center" i18n="search result fetch error">
+    Some error occurred! Please retry
+  </h2> -->
+  <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
+</div>

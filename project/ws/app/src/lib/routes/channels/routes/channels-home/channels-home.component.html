@@ -1,0 +1,36 @@
+<mat-toolbar>
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span i18n="page title: channels" class="margin-left-xs">Channels</span>
+</mat-toolbar>
+<div class="container-balanced">
+  <mat-accordion>
+    <ng-container *ngFor="let label of labelFilters">
+      <mat-expansion-panel (opened)="fetchChannel(label)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h2 class="mat-h2">
+              {{ label?.displayName }}
+            </h2>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!-- <div *ngIf="categories[label.type]; else loading" class="flex flex-wrap -mr-8"> -->
+        <div *ngIf="categories[label.type]; else loading" class="flex flex-wrap flex-around">
+          <!-- <div class="w-full sm:w-1/2 lg:w-1/3" *ngFor="let content of categories[label.type]"> -->
+          <div *ngFor="let content of categories[label.type]" class="margin-bottom-m">
+            <ws-widget-card-content
+              [widgetData]="{
+                content: content,
+                cardSubType: 'minimal'
+              }"
+            ></ws-widget-card-content>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</div>
+<ng-template #loading>
+  <div class="flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

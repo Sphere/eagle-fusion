@@ -1,0 +1,21 @@
+<div class="card-container">
+  <mat-card>
+    <div class="card">
+      <div class="width-auto" [matTooltip]="navigatorCard.title">
+        <img class="card-image" [src]="navigatorCard.thumbnail" [alt]="navigatorCard.title"
+          *ngIf="navigatorCard.thumbnail != ''" />
+      </div>
+      <div class="card-information">
+        <div class="mat-headline title text-truncate">{{ navigatorCard.title }}</div>
+        <div class="mat-body-1 title ">{{ navigatorCard.description | pipeLimitTo: 138 }}</div>
+        <div class="button-holder">
+          <button mat-flat-button (click)="launchCertification()">
+            <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>LAUNCH NOW</span>
+            <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

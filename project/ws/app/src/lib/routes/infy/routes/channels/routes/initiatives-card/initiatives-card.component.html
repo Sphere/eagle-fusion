@@ -1,0 +1,14 @@
+<div
+  *ngIf="initiativesData && initiativesData?.length"
+  class="text-center margin-top-m flex flex-wrapped flex-around"
+>
+  <a *ngFor="let channel of initiativesData" class="margin-m" [routerLink]="channel?.routerLink">
+    <mat-card class="card cursor-pointer">
+      <mat-icon class="icon">{{ channel?.iconName }}</mat-icon>
+      <h2 class="mat-h2 title font-weight-bold margin-top-l" *ngIf="channel?.title">
+        {{ channel?.title }}
+      </h2>
+      <div *ngIf="channel.desc" class="margin-top-l">{{ channel?.desc }}</div>
+    </mat-card>
+  </a>
+</div>

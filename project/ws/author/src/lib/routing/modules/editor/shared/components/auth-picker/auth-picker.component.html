@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Add Content</h1>
+<mat-dialog-content>
+  <mat-chip-list class="mb-4 block">
+    <mat-chip *ngFor="let content of selectedContents" [removable]="true"
+      (removed)="selectedContentChanged(content, false)">
+      <ng-container *ngIf="content.name; else noName">{{ content.name || '' }}</ng-container>
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+  <div class="flex">
+    <mat-form-field class="width-expand margin-right-m" appearance="fill" floatLabel="never">
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-label i18n>Search content</mat-label>
+      <input matInput [(ngModel)]="query" (ngModelChange)="debounceSubject.next(true)" autocomplete="off"
+        class="resize-none" />
+    </mat-form-field>
+    <div class="btn-filter">
+      <mat-slide-toggle [(ngModel)]="showMine" (change)="debounceSubject.next(true)" i18n>Show only my contents
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <h2 *ngIf="searchFetchStatus === 'error'" class="mat-title" i18n>
+    Error fetching data
+  </h2>
+  <h2 *ngIf="searchFetchStatus === 'done' && !searchResults?.length" class="mat-title" i18n>
+    No results
+  </h2>
+  <div class="flex flex-wrap -mr-4" *ngIf="searchFetchStatus === 'done'">
+    <div class="w-full sm:w-1/2 mb-4 flex" *ngFor="let content of searchResults">
+      <mat-checkbox [checked]="
+          selectedContentIds?.has(content?.identifier) || preSelected?.has(content?.identifier)
+        " [disabled]="preSelected?.has(content?.identifier)" (change)="selectedContentChanged(content, $event.checked)"
+        class="leading-none pr-4">
+      </mat-checkbox>
+      <img class="w-24 h-16 ws-mat-primary-lite-background" [src]="content?.appIcon"
+        [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon" i18n-alt />
+      <div class="flex-1 min-w-0">
+        <div class="flex">
+          <h3
+            class="flex-1 min-w-0 mat-subheading-2 margin-remove-bottom margin-left-xs margin-right-xs truncate leading-none pb-1">
+            <ng-container *ngIf="content.name; else noName">{{ content.name || '' }}</ng-container>
+          </h3>
+        </div>
+        <p class="margin-remove-bottom margin-left-xs margin-right-xs">
+          <ng-container *ngIf="content?.duration">{{ content.duration | pipeDurationTransform: 'hms' }}
+          </ng-container>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mr-4" *ngIf="searchFetchStatus === 'fetching'">
+    <div class="w-full sm:w-1/2 mb-4 flex" *ngFor="let _ of ' '.repeat(10).split('')">
+      <div class="w-24 h-16 ws-mat-primary-lite-background"></div>
+      <div class="flex-1 min-w-0">
+        <div class="h-5 ml-2 mr-8 mb-2 bg-gray-400"></div>
+        <div class="h-4 ml-2 mr-32 bg-gray-400"></div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noName i18n>Untitled Content</ng-template>
+</mat-dialog-content>
+<div mat-dialog-actions class="float-right">
+  <button mat-stroked-button [mat-dialog-close] cdkFocusInitial i18n>Cancel</button>
+  <button mat-raised-button (click)="close()" [disabled]="!selectedContents || !selectedContents.length" color="primary"
+    i18n>
+    Add
+  </button>
+</div>

@@ -1,0 +1,96 @@
+<mat-card class="animate-tile" [ngStyle]="{ 'border-top': data.color, padding: '5px' }" (click)="goToView()">
+  <div class="my-tile">
+    <div style="font-size: 12px;height: 20px;">
+      <span class="text-{{ data?.source?.toLowerCase() }}">{{ data.source }}</span>
+      <span class="itemtile-row first-row" style="margin-left: -15px;display: inline;font-size:10px">{{ data.dateCreated | date: 'yyyy' }}</span>
+      <span style="float: right;color: rgb(143, 138, 138);margin-right: 10px;">{{ data.itemType | pipeLimitTo: 12 }}
+      </span>
+    </div>
+    <h3 class="title-row" *ngIf="data.source !== 'PROMT'">
+      {{ data.title | pipeLimitTo: 27 }}
+    </h3>
+    <h3 class="title-row" *ngIf="data.source === 'PROMT'">
+      {{ data.title }}
+    </h3>
+    <p class="description-row" *ngIf="data.source !== 'PROMT'">
+      {{ data.description | pipeLimitTo: 130 }}
+    </p>
+    <!-- <p
+      class="description-row"
+      *ngIf="data.source == 'PROMT' && data.projectScope !== null"
+      [matTooltip]="data.projectScope"
+    >
+      <span i18n="tile: Khub tile Scope Label">Project Scope:</span>
+      {{ data.projectScope | trimAndReduce: 110 }}
+    </p>
+    <p
+      class="description-row"
+      *ngIf="
+        data.source == 'PROMT' &&
+        data.projectScope === null &&
+        data.businessContext !== null
+      "
+      [matTooltip]="data.businessContext"
+    >
+      <span i18n="tile: Khub tile Business Context Label"
+        >Business Context:</span
+      >
+      {{ data.businessContext | trimAndReduce: 110 }}
+    </p>
+    <p
+      class="description-row"
+      *ngIf="
+        data.source == 'PROMT' &&
+        data.projectScope === null &&
+        data.businessContext === null &&
+        data.objectives !== null
+      "
+    >
+      <span i18n="tile: Khub tile Business Objective Label"
+        >Infosys Objective:</span
+      >
+      {{ data.objectives | trimAndReduce: 110 }}
+    </p> -->
+    <section class="itemtile-row" style="max-height:16px;">
+      <header *ngIf="data?.topics?.length">
+        <article class="itemtile-tags-wrap">
+          <article class="tag" *ngFor="let tag of data?.topics | slice: 0:2">
+            <span *ngIf="tag" title="{{ tag }}">{{ tag | pipeLimitTo: 20 }}</span>
+          </article>
+        </article>
+        <i class="more-tags material-icons" *ngIf="data?.topics?.length > 2">more
+          <article class="all-tags">
+            <p *ngFor="let tag_ of data?.topics | slice: 0:12">
+              <span>{{ tag_ }}</span>
+            </p>
+          </article>
+        </i>
+      </header>
+    </section>
+    <div class="tile-footer flex flex-wrapped" *ngIf="data?.author?.length || data?.pm?.length" [ngStyle]="{
+        position: ref === 'home' ? 'absolute' : 'absolute',
+        bottom: ref === 'home' ? '3%' : '3%'
+      }">
+      <a *ngIf="data?.author?.length" class="flex">
+        <!-- <app-user-image
+          class="user-profile-image"
+          [email]="data.author[0].mailId"
+        ></app-user-image> -->
+        <span class="user-profile-image">
+          <mat-icon class="user-icon">person</mat-icon>
+        </span>
+        <span style="margin-top: 7%;"> {{ data.author[0].name | pipeLimitTo: 25 }}</span>
+      </a>
+      <a *ngIf="!data?.author?.length && data?.pm?.length" class="flex" [matTooltip]="data.pm[0].name">
+        <!-- <app-user-image
+          class="user-profile-image"
+          [email]="data.author[0].mailId"
+        ></app-user-image> -->
+        <span class="user-profile-image">
+          <mat-icon class="user-icon">person</mat-icon>
+        </span>
+        <span style="margin-top: 7%;"> {{ data.pm[0].name | pipeLimitTo: 25 }}</span>
+      </a>
+    </div>
+  </div>
+</mat-card>

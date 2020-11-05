@@ -1,0 +1,49 @@
+<ng-container *ngIf="selectedQuiz">
+  <!-- <mat-card-title class="text-xl ws-mat-primary-text p-3 pl-2" i18n>Details</mat-card-title> -->
+  <div class="headerpadding margin-top-l mat-h3 font-weight-bold" i18n>Problem Statement</div>
+  <ng-container
+    *ngIf="
+      selectedQuiz.questionType === 'mtf' ||
+      selectedQuiz.questionType === 'mcq-mca' ||
+      selectedQuiz.questionType === 'mcq-sca' ||
+      selectedQuiz.questionType === 'fitb'
+    "
+  >
+    <div class="editorpadding">
+      <ws-auth-plain-ckeditor
+        [content]="quizStoreSvc.getQuiz(quizIndex)?.question || ''"
+        (value)="updateSelectedQuiz($event, 'question')"
+        [id]="currentId"
+      ></ws-auth-plain-ckeditor>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="selectedQuiz.questionType === 'mtf'">
+    <ws-auth-match-the-following
+      [currentId]="currentId"
+      [showHint]="showHint"
+      [submitPressed]="submitPressed"
+      (value)="updateSelectedQuiz($event)"
+    ></ws-auth-match-the-following>
+  </ng-container>
+
+  <ng-container
+    *ngIf="selectedQuiz.questionType === 'mcq-mca' || selectedQuiz.questionType === 'mcq-sca'"
+  >
+    <ws-auth-multiple-choice-question
+      [currentId]="currentId"
+      [showHint]="showHint"
+      [submitPressed]="submitPressed"
+      (value)="updateSelectedQuiz($event)"
+    ></ws-auth-multiple-choice-question>
+  </ng-container>
+
+  <ng-container *ngIf="selectedQuiz.questionType === 'fitb'">
+    <ws-auth-fill-ups-editor
+      [currentId]="currentId"
+      [showHint]="showHint"
+      [submitPressed]="submitPressed"
+      (value)="updateSelectedQuiz($event)"
+    ></ws-auth-fill-ups-editor>
+  </ng-container>
+</ng-container>

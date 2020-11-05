@@ -1,0 +1,49 @@
+<main *ngIf="commonGoals?.length; else error" class="pt-4">
+  <ng-container *ngFor="let group of commonGoals">
+    <section class="flex items-center cursor-pointer" (click)="getGoalGroup(group?.id)">
+      <button mat-icon-button (click)="$event.stopPropagation(); getGoalGroup(group?.id)">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ isExpanded[group?.id] ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+      <h2 class="mat-title margin-remove-bottom">{{ group?.name }}</h2>
+    </section>
+    <section class="ml-10 mt-2" *ngIf="isExpanded[group?.id]">
+      <ng-container
+        *ngIf="groupFetchStatus[group?.id] !== 'fetching'; else goalGroupLoading"
+      ></ng-container>
+      <ng-container *ngIf="group?.goals?.length === 0"
+        >You have already created all the goals in this category.
+      </ng-container>
+      <ng-container *ngFor="let goal of group?.goals">
+        <ng-container
+          *ngTemplateOutlet="goalSection; context: { groupId: group?.id, $implicit: goal }"
+        >
+        </ng-container>
+      </ng-container>
+    </section>
+  </ng-container>
+</main>
+
+<ng-template #goalSection let-groupId="groupId" let-goal>
+  <div class="mb-2">
+    <ws-app-goal-common-card
+      [goal]="goal"
+      (goalCreated)="goalCreated(groupId, goal?.id)"
+    ></ws-app-goal-common-card>
+  </div>
+</ng-template>
+<ng-template #error>
+  <div i18n class="text-lg leading-none my-3">
+    No Common goals present.
+  </div>
+</ng-template>
+
+<ng-template #goalGroupLoading>
+  <div class="mb-2" *ngFor="let _ of ' '.repeat(5).split(' ')">
+    <mat-card>
+      <div class="w-64 h-4 bg-gray-400 mb-2"></div>
+      <div class="w-56 h-3 bg-gray-400"></div>
+    </mat-card>
+  </div>
+</ng-template>

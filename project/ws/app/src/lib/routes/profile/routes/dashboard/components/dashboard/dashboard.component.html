@@ -1,0 +1,149 @@
+<div class="profile-container">
+  <div class="flex flex-wrap mb-4">
+    <mat-card class="about-me ">
+      <span class="font-bold mat-title margin-zero pl-4" i18n="profile">
+        Profile </span>
+      <span class="spacer"></span>
+
+      <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/user-profile/details'">
+        <mat-icon>edit</mat-icon>
+        <span i18n class="px-2">Edit</span>
+      </button>
+      <div class="user-avatar ws-mat-primary-lite-background-on-day">
+        <ws-widget-user-image class="user-image" [email]="userEmail" [imageType]="'rounded'"></ws-widget-user-image>
+        <div class="user-name">
+          <h2 class="pl-4 ws-mat-primary-text sm:pl-0">{{ userName }}</h2>
+          <h3 class="font-bold  margin-zero pl-4 sm:pl-0">{{ departmentName }}</h3>
+        </div>
+      </div>
+
+
+      <div class="p-4" *ngIf="enabledTabs?.subFeatures?.interests">
+        <div class="flex flex-middle mb-4">
+          <mat-icon>tag_faces</mat-icon>
+          <span class="font-bold mat-title margin-zero pl-4" i18n="interest you follow">
+            Your Interests</span>
+          <span class="spacer"></span>
+
+          <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/profile/interest'">
+            <mat-icon> edit</mat-icon>
+            <span i18n class="px-2">Modify</span>
+          </button>
+
+          <!-- <a
+            mat-raised-button
+            type="button"
+            class="interest-edit"
+            i18n
+            [routerLink]="'/app/profile/interest'"
+            >Edit
+          </a> -->
+        </div>
+        <div *ngIf="!interests?.length" class="pl-4 py-4">
+          <span i18n="no interest">No interest added</span>
+        </div>
+        <mat-chip-list>
+          <mat-chip color="primary" selected *ngFor="let interest of interests">
+            {{ interest }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-card>
+
+    <div *ngIf="enabledTabs?.subFeatures?.calendar && apiFetchStatus !=='error'"
+      class=" calendar-data description-container padding-xl mat-elevation-z2 ">
+      <div class=" text-center" *ngIf="apiFetchStatus === 'fetching'">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="apiFetchStatus === 'done'">
+        <div class="w-full">
+          <div class="flex flex-middle">
+            <mat-icon>history</mat-icon>
+            <h2 class="font-bold mat-title margin-zero pl-2" i18n="learning time">Learning Time</h2>
+          </div>
+          <!-- <div class="flex flex-middle">
+            <h2 i18n>Total learning hours</h2>
+            <button type="button" mat-icon-button (click)="showInfo('myLearningHours')" i18n-matTooltip
+              matTooltip="info" class="margin-left-xs margin-bottom-m">
+              <mat-icon>info</mat-icon>
+            </button>
+          </div> -->
+          <p *ngIf="totalLearningHours > 0">
+            <span class="ws-mat-primary-text mat-display-1 margin-remove-bottom font-bold margin-left-xl">
+              {{ totalLearningHours | pipeDurationTransform: 'hms' }}
+            </span><sup class="star">*</sup>
+          </p>
+          <p *ngIf="totalLearningHours === 0">
+            <span class="ws-mat-primary-text mat-display-1 margin-remove-bottom font-bold margin-left-xl">
+              0
+            </span>
+            <sup class="star">*</sup>
+          </p>
+          <div class="w-full margin-left-xl margin-top-s" *ngIf="timeSpentData">
+            <h4>
+              <ng-container *ngIf="orgWideTimePercent !== 0" i18n> You are </ng-container>
+              <ng-container *ngIf="orgWideTimePercent > 0 || orgWideTimePercent < 0">
+                {{ orgWideTimePercent }}
+              </ng-container>
+              <ng-container *ngIf="orgWideTimePercent > 0" i18n>
+                % more than org-wide average
+              </ng-container>
+              <ng-container *ngIf="orgWideTimePercent < 0" i18n>
+                % less than org-wide average
+              </ng-container>
+              <ng-container *ngIf="orgWideTimePercent === 0" i18n>
+                You are with org wide average
+              </ng-container>
+            </h4>
+          </div>
+          <div class="flex flex-middle">
+            <mat-icon>history</mat-icon>
+            <h2 class="font-bold mat-title margin-zero pl-2" i18n="learning points">Learning Points</h2>
+          </div>
+          <p class="ws-mat-primary-text mat-display-1 margin-remove-bottom font-bold margin-left-xl">
+            {{ userPointsEarned }}
+          </p>
+          <div class="w-full margin-left-xl margin-top-s" *ngIf="timeSpentData">
+            <!-- <h4 i18n>Learning points compared to Org</h4> -->
+            <h4>
+              <ng-container *ngIf="orgWidePointsPercent !== 0" i18n> You are </ng-container>
+              <ng-container *ngIf="orgWidePointsPercent > 0 || orgWidePointsPercent < 0">
+                {{ orgWidePointsPercent }}
+              </ng-container>
+              <ng-container *ngIf="orgWidePointsPercent > 0" i18n>
+                % more than org-wide average
+              </ng-container>
+              <ng-container *ngIf="orgWidePointsPercent < 0" i18n>
+                % less than org-wide average
+              </ng-container>
+              <ng-container *ngIf="orgWidePointsPercent === 0" i18n>
+                You are with org wide average
+              </ng-container>
+            </h4>
+          </div>
+        </div>
+        <p class="mat-caption msg content-end text-right" i18n>* Last 12 Months only</p>
+        <div *ngIf="timeSpentData?.last_updated_on"
+          class="mat-caption flex flex-middle content-end justify-end remove-margin-top">
+          <ng-container>
+            <span i18n>Last Updated on :</span>
+            <span class="ml-2"> {{ timeSpentData?.last_updated_on | date: 'MMM d, y'}}</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="enabledTabs?.subFeatures?.pendingCourses && coursePending?.length > 0" class="margin-top-xl">
+    <h1 class="mat-h1" i18n>Pending Courses</h1>
+    <div class="text-center" *ngIf="historyFetchStatus === 'fetching'">
+      <mat-spinner></mat-spinner>
+    </div>
+    <ws-utils-horizontal-scroller *ngIf="historyFetchStatus === 'done'" [loadStatus]="'done'">
+      <ws-app-course-pending-card class="margin-bottom-xl" *ngFor="let pending of coursePending" [cardData]="pending">
+      </ws-app-course-pending-card>
+    </ws-utils-horizontal-scroller>
+  </div>
+  <div *ngIf="enabledTabs?.subFeatures?.latest">
+    <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
+  </div>
+</div>

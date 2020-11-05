@@ -1,0 +1,63 @@
+<mat-card>
+  <div class="mat-body-2 text-truncate margin-bottom-m">
+    {{ training.date_range }}
+  </div>
+
+  <div class="margin-bottom-xs">
+    <div class="flex">
+      <mat-icon>location_on</mat-icon>
+      <p class="margin-left-xs">
+        <span class="mat-body-2" i18n> Location: </span>
+        <span class="mat-body">{{ training.location }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="margin-bottom-xs">
+    <div class="flex">
+      <mat-icon>school</mat-icon>
+      <p class="margin-left-xs">
+        <span class="mat-body-2" i18n>Educator: </span>
+        <span class="mat-body">{{ training.educator.name }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="flex flex-between flex-wrap">
+    <a
+      mat-stroked-button
+      color="primary"
+      *ngIf="training.content_feedback_required && !training.content_feedback_given"
+      [routerLink]="'../' + training.offering_id + '/content'"
+      [queryParams]="{ form: training.content_feedback_form }"
+      i18n="content feedback"
+    >
+      Content Feedback
+    </a>
+    <a
+      mat-stroked-button
+      color="primary"
+      *ngIf="training.instructor_feedback_required && !training.instructor_feedback_given"
+      [routerLink]="'../' + training.offering_id + '/instructor'"
+      [queryParams]="{ form: training.instructor_feedback_form }"
+      i18n="instructor feedback"
+    >
+      Instructor Feedback
+    </a>
+  </div>
+</mat-card>
+
+<!-- Templates -->
+<ng-template #trainingType let-type>
+  <span [ngSwitch]="type" class="text-truncate">
+    <ng-container *ngSwitchCase="'Classroom'" i18n="classroom training"
+      >CLASSROOM TRAINING</ng-container
+    >
+    <ng-container *ngSwitchCase="'Virtual Classroom'" i18n="virtual classroom training"
+      >VIRTUAL TRAINING</ng-container
+    >
+    <ng-container *ngSwitchCase="'Blended Classroom'" i18n="blended training"
+      >BLENDED TRAINING</ng-container
+    >
+  </span>
+</ng-template>

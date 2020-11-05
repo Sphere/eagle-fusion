@@ -1,0 +1,48 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+@mixin breakpoint-xs {
+  @media only screen and (max-width: 599px) {
+    @content;
+  }
+}
+
+@mixin breakpoint-s {
+  @media only screen and (min-width: 600px) and (max-width: 959px) {
+    @content;
+  }
+}
+
+
+.concept {
+  text-align: center;
+  margin-right: $size-s;
+  height: 100px;
+  min-width: 5 * $size-l;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-s;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}
+
+.card-section {
+  min-width: 380px;
+  width: 30%;
+  margin: $size-m;
+
+  @include breakpoint-xs {
+    width: 100%;
+    margin: $size-s;
+  }
+
+  @include breakpoint-s {
+    width: 45%;
+    margin: $size-s;
+  }
+}

@@ -1,0 +1,335 @@
+<ng-container *ngIf="!history?.isClient">
+  <ng-container *ngIf="history?.enabled">
+    <div class="text-right margin-top-m margin-right-xl">
+      <mat-slide-toggle class="mat-body" (change)="onStatusChange()">
+        <ng-container>
+          <span i18n>Completed</span>
+        </ng-container>
+      </mat-slide-toggle>
+    </div>
+    <ng-container>
+      <mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTabIndex"
+        (selectedIndexChange)="onTabChange($event)">
+        <mat-tab *ngIf="enabledTabs?.programs">
+          <ng-template mat-tab-label>
+            <span accesskey="1" i18n>Programs</span>
+          </ng-template>
+          <ng-container *ngIf="lhContent[0]">
+            <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[0] }"></ng-container>
+          </ng-container>
+        </mat-tab>
+        <mat-tab *ngIf="enabledTabs?.courses">
+          <ng-template mat-tab-label>
+            <span accesskey="2" i18n>Courses</span>
+          </ng-template>
+          <ng-container *ngIf="lhContent[1]">
+            <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[1] }"></ng-container>
+          </ng-container>
+        </mat-tab>
+        <mat-tab *ngIf="enabledTabs?.modules">
+          <ng-template mat-tab-label>
+            <span accesskey="3" i18n>Learning Modules</span>
+          </ng-template>
+          <ng-container *ngIf="lhContent[2]">
+            <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[2] }"></ng-container>
+          </ng-container>
+        </mat-tab>
+        <mat-tab *ngIf="enabledTabs?.resources">
+          <ng-template mat-tab-label>
+            <span accesskey="4" i18n>Resources</span>
+          </ng-template>
+          <ng-container *ngIf="lhContent[3]">
+            <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[3] }"></ng-container>
+          </ng-container>
+        </mat-tab>
+        <!-- <mat-tab>
+      <ng-template mat-tab-label>
+        <span accesskey="5" i18n>Certifications</span>
+      </ng-template>
+      <ng-container *ngIf="lhContent[4]">
+        <ng-container
+          *ngTemplateOutlet="historyView; context: { $implicit: lhContent[4] }"
+        ></ng-container>
+      </ng-container>
+    </mat-tab> -->
+      </mat-tab-group>
+
+      <ng-template #historyView let-lhData>
+        <section class="lh-container">
+          <section class="lh-history">
+            <ng-template [ngIf]="lhData.loading && lhData.isLoadingFirstTime" [ngIfElse]="content">
+              <div class="lh-spinner text-center">
+                <mat-spinner></mat-spinner>
+              </div>
+            </ng-template>
+
+            <ng-template #content>
+              <ng-template [ngIf]="!lhData.content.result.length" [ngIfElse]="progressList">
+                <div i18n="learning history : no content" class="mat-body lh-no-data">
+                  No content found.
+                </div>
+              </ng-template>
+
+              <ng-template #progressList>
+                <mat-list role="list" class="lh-list">
+                  <mat-list-item class="lh-list-item" *ngFor="let result of lhData?.content.result">
+                    <mat-card class="lh-list-item-card">
+                      <ws-app-learning-history-progress [item]="result" [isParent]="true">
+                      </ws-app-learning-history-progress>
+                    </mat-card>
+                  </mat-list-item>
+                </mat-list>
+              </ng-template>
+            </ng-template>
+          </section>
+          <ng-container *ngIf="lhData.contentType !== 'certification'">
+            <button i18n="view more" mat-button [color]="'primary'" class="lh-btn-view-more"
+              (click)="getUserProgress(lhData)" *ngIf="
+                lhData.content.page_state !== '-1' &&
+                lhData.content.result.length &&
+                !lhData.loading
+              " accesskey="+">
+              View More
+            </button>
+            <div class="lh-spinner text-center" *ngIf="lhData.loading && !lhData.isLoadingFirstTime">
+              <mat-spinner></mat-spinner>
+            </div>
+          </ng-container>
+        </section>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <div *ngIf="!history?.enabled">
+    <div class="margin-xl mat-elevation-z2">
+      <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+        We are gathering the data to provide insights!
+      </h2>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="history?.isClient">
+  <div *ngIf="history?.enabled && showHistory" class="button-row margin-left-m ">
+    <div *ngIf="userProgressData?.last_updated_on" class="mat-caption justify-end margin-right-s flex flex-middle">
+      <ng-container>
+        <span i18n>Last Updated on :</span>
+        <span class="ml-2"> {{ userProgressData?.last_updated_on | date: 'MMM d, y' }}</span>
+      </ng-container>
+    </div>
+    <div *ngIf="progressData && courseFetchStatus === 'done' && history?.showCount"
+      class="flex flex-start flex-around m-2 flex-wrapped">
+      <ws-app-history-tile *ngIf="courseData?.learning_history?.length > 0 && enabledTabs.courses"
+        class="unique-users-card margin-s" (clickEvent)="onClick($event)" [title]="'# Courses'" [category2]="''"
+        [category3]="''" [category1]="''" [uniqueUsers]="courseData?.learning_history?.length"
+        [description]="coursesDescription">
+      </ws-app-history-tile>
+      <ws-app-history-tile *ngIf="moduleData?.learning_history?.length > 0 && enabledTabs.modules"
+        class="unique-users-card margin-s" (clickEvent)="onClick($event)" [title]="'# Modules'" [category2]="''"
+        [category3]="''" [category1]="''" [uniqueUsers]="moduleData?.learning_history?.length"
+        [description]="modulesDescription">
+      </ws-app-history-tile>
+      <ws-app-history-tile *ngIf="resourceData?.learning_history?.length > 0 && enabledTabs.resources"
+        class="unique-users-card margin-s" (clickEvent)="onClick($event)" [title]="'# Resources'" [category2]="''"
+        [category3]="''" [category1]="''" [uniqueUsers]="resourceData?.learning_history?.length"
+        [description]="resourcesDescription">
+      </ws-app-history-tile>
+    </div>
+    <div *ngIf="history?.isFilter" class="text-right margin-xs">
+      <mat-form-field class="filter-select x-small-typography margin-remove">
+        <mat-select [(value)]="selected" i18n-placeholder placeholder="Filter" [formControl]="filterControl">
+          <mat-option *ngFor="let filter of filterList" [value]="filter" (click)="applyFilter(filter)">
+            {{ filter }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-tab-group mat-align-tabs="center" (selectedIndexChange)="onTabChangeClient($event)">
+      <mat-tab *ngIf="enabledTabs?.courses">
+        <ng-template mat-tab-label>
+          <span accesskey="1" class="font-bold" i18n>Courses</span>
+        </ng-template>
+        <div *ngIf="courseFetchStatus === 'done'">
+          <mat-card *ngIf="!screenSizeIsLtMedium">
+            <mat-grid-list cols="5" rowHeight="35px">
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-inside-grid">Courses</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Total Users</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Completed Users</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
+            </mat-grid-list>
+          </mat-card>
+          <mat-card *ngIf="screenSizeIsLtMedium">
+            <mat-grid-list cols="4" rowHeight="35px">
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-inside-grid">Courses</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Total Users</p>
+              </mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Completed Users</p>
+              </mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
+            </mat-grid-list>
+          </mat-card>
+          <div *ngFor="let data of progressData | slice: page.p1:page.p1 + 10">
+            <ws-app-history-card [historyData]="data"></ws-app-history-card>
+          </div>
+          <mat-paginator *ngIf="progressData?.length > 10" showFirstLastButtons [length]="progressData.length"
+            [pageSize]="10" (page)="changePage($event, 1)">
+          </mat-paginator>
+          <div *ngIf="progressData.length === 0" class="progress">
+            <div class="progress-container">
+              <div class="progress-content flex flex-center flex-wrapped margin-top-xl">
+                <h4 i18n>No courses found</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="courseFetchStatus === 'error'" class="learning-container">
+          <h4 i18n class="coming-soon-msg p-4 flex flex-center ws-mat-primary-text">
+            We are gathering the data to provide insights!
+          </h4>
+        </div>
+        <div *ngIf="courseFetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+          <mat-spinner></mat-spinner>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="enabledTabs?.modules">
+        <ng-template mat-tab-label>
+          <span accesskey="2" class="font-bold" i18n>Modules</span>
+        </ng-template>
+        <ng-container *ngIf="modulesFetchStatus === 'done'">
+          <mat-card *ngIf="!screenSizeIsLtMedium">
+            <mat-grid-list cols="5" rowHeight="35px">
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-inside-grid">Modules</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Total Users</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Completed Users</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
+            </mat-grid-list>
+          </mat-card>
+          <mat-card *ngIf="screenSizeIsLtMedium">
+            <mat-grid-list cols="4" rowHeight="35px">
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-inside-grid">Modules</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Total Users</p>
+              </mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Completed Users</p>
+              </mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
+            </mat-grid-list>
+          </mat-card>
+          <div *ngFor="let data of progressData | slice: page.p2:page.p2 + 10">
+            <ws-app-history-card [historyData]="data"></ws-app-history-card>
+          </div>
+          <mat-paginator *ngIf="progressData?.length > 10" showFirstLastButtons [length]="progressData.length"
+            [pageSize]="10" (page)="changePage($event, 2)">
+          </mat-paginator>
+          <div *ngIf="progressData.length === 0" class="progress">
+            <div class="progress-container">
+              <div class="progress-content flex flex-center margin-top-xl">
+                <h4 i18n>No modules found</h4>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="modulesFetchStatus === 'error'" class="learning-container">
+          <h4 i18n class="coming-soon-msg p-4 flex flex-center ws-mat-primary-text">
+            We are gathering the data to provide insights!
+          </h4>
+        </div>
+        <div *ngIf="modulesFetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+          <mat-spinner></mat-spinner>
+        </div>
+      </mat-tab>
+      <mat-tab *ngIf="enabledTabs?.resources">
+        <ng-template mat-tab-label>
+          <span accesskey="3" class="font-bold" i18n>Resources</span>
+        </ng-template>
+        <ng-container *ngIf="resourceFetchStatus === 'done'">
+          <mat-card *ngIf="!screenSizeIsLtMedium">
+            <mat-grid-list cols="5" rowHeight="35px">
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-inside-grid">Resources</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Total Users</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Completed Users</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
+            </mat-grid-list>
+          </mat-card>
+          <mat-card *ngIf="screenSizeIsLtMedium">
+            <mat-grid-list cols="4" rowHeight="35px">
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-inside-grid">Resources</p>
+              </mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Total Users</p>
+              </mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>
+                <p class="text-outside-grid">Completed Users</p>
+              </mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
+            </mat-grid-list>
+          </mat-card>
+          <div *ngFor="let data of progressData | slice: page.p2:page.p2 + 10">
+            <ws-app-history-card [historyData]="data"></ws-app-history-card>
+          </div>
+          <mat-paginator *ngIf="progressData?.length > 10" showFirstLastButtons [length]="progressData.length"
+            [pageSize]="10" (page)="changePage($event, 2)">
+          </mat-paginator>
+          <div *ngIf="progressData.length === 0" class="progress">
+            <div class="progress-container">
+              <div class="progress-content flex flex-center margin-top-xl">
+                <h4 i18n>No resources found</h4>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="resourceFetchStatus === 'error'" class="learning-container">
+          <h4 i18n class="flex flex-center coming-soon-msg p-4 ws-mat-primary-text">
+            We are gathering the data to provide insights!
+          </h4>
+        </div>
+        <div *ngIf="resourceFetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+          <mat-spinner></mat-spinner>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div *ngIf="!history?.enabled || !showHistory">
+    <div class="margin-xl mat-elevation-z2">
+      <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+        We are gathering the data to provide insights!
+      </h2>
+    </div>
+  </div>
+</ng-container>

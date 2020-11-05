@@ -1,0 +1,180 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <button type="button" mat-icon-button (click)="
+        !screenSizeIsLtMedium ? (showText = !showText) : sideNavBar.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="ml-2" i18n>Forum</span>
+</mat-toolbar>
+<mat-sidenav-container class="example-container" *ngIf="shouldRun">
+  <mat-sidenav #sidenav [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'" Sidenav
+    content>
+    <div class="w-full">
+      <div *ngIf="!showFilter && filterEnabled" class="text-right">
+        <button mat-icon-button *ngIf="!showFilter" (click)="showFilter = !showFilter;">
+          <mat-icon>filter_list</mat-icon>
+        </button></div>
+      <div *ngIf="showFilter && filterEnabled">
+        <mat-card *ngIf="predefinedAdminFiltersExist">
+          <mat-card-content>
+            <!-- <h2 class="example-h2">Checkbox configuration</h2> -->
+
+            <!-- <section class="example-section">
+                    <mat-checkbox class="example-margin" [(ngModel)]="query" (change)="changeAdminQueryFilter()">Q&A
+                    </mat-checkbox>
+                    <mat-checkbox class="example-margin" [(ngModel)]="forumPosts" (change)="changeAdminForumFilter()">Forum
+                      Posts
+                    </mat-checkbox>
+                    <mat-checkbox class="example-margin" [(ngModel)]="blogPosts" (change)="changeAdminBlogFilter()">Blog
+                      Posts
+                    </mat-checkbox>
+                  </section> -->
+
+
+
+          </mat-card-content>
+        </mat-card>
+
+        <ws-app-filter-dispaly [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse"
+          (filterClose)="closeFilter(false)" [filtersResetAble]="filtersResetAble">
+        </ws-app-filter-dispaly>
+
+
+
+        <!--filters for admin end-->
+
+      </div>
+
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <p>
+      <mat-checkbox [(ngModel)]="opened">sidenav.opened</mat-checkbox>
+    </p>
+    <p><button mat-button (click)="sidenav.toggle()">sidenav.toggle()</button></p>
+    <p>Events:</p>
+    <div class="flex items-center border search border-solid search-border" style="width: 75%; margin-left: 12.5%">
+
+      <div class="w-full search">
+
+        <mat-form-field appearance="none" class="autocomplete-form" color="primary" style="width:100%;;"
+          [floatLabel]="'never'">
+          <input type="search" class="border-2 border-gray-300 bg-white pr-16 rounded-lg text-sm focus:outline-none"
+            i18n-placeholder="search content" [placeholder]="placeHolder" i18-aria-label aria-label="Query"
+            style="width:100%;" matInput [(ngModel)]="queryEntered" />
+          The query entered is {{queryEntered}}
+        </mat-form-field>
+
+      </div>
+      <div class="flex items-center justify-center w-8 sm:w-16 cursor-pointer">
+        <mat-icon (click)="getSearchResults('firstCall')">search</mat-icon>
+      </div>
+    </div>
+
+
+    <mat-card style="padding-bottom: 0.5rem;margin-bottom:1%" *ngFor="let result of searchResult?.result">
+
+      <!-- <div
+          class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+          style="background-image: url('https://tailwindcss.com/img/card-left.jpg')" title="Woman holding a mug">
+        </div> -->
+      <div
+        class="border-r border-b border-l border-grey-light lg:border-l-0 lg:border-t lg:border-grey-light bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+        <div class="mb-8">
+
+          <p class="text-sm text-grey-dark flex items-center">
+            <svg class="text-grey w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path
+                d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+            </svg>
+            Members only
+          </p>
+          <button class="text-xs" style="position: relative;left: 94%;">
+
+            <i class="material-icons">outlined_flag</i>
+          </button>
+          <div class="text-black font-bold text-xl mb-2" style="display:inline-block">{{ result.postContent.title }}
+          </div>
+          <p class="text-grey-darker text-base">{{ result.postContent.abstract }}</p>
+        </div>
+
+        <div class="flex items-center">
+
+
+          <img (click)="openDialog()" class="w-10 h-10 rounded-full mr-4"
+            src="https://pbs.twimg.com/profile_images/885868801232961537/b1F6H4KC_400x400.jpg"
+            alt="Avatar of Jonathan Reinink">
+          <span class="change_color_on_hover" (click)="openDialog()">
+            <div class="text-sm ">
+              <p class="text-black leading-none">Jonathan Reinink</p>
+              <p class="text-grey-dark">Aug 18</p>
+
+            </div>
+          </span>
+          <img class="w-10 h-10 rounded-full mr-4"
+            src="https://cdn1.vectorstock.com/i/1000x1000/77/05/bearded-coder-hacker-vector-17477705.jpg"
+            alt="Avatar of Jonathan Reinink">
+          <span class="change_color_on_hover" (click)="openDialogForum()">
+            <div class="text-sm">
+              <p class="text-black leading-none">Java Devops</p>
+              <p class="text-grey-dark">Forum</p>
+
+            </div>
+          </span>
+
+        </div>
+        <div class="inline-flex items-center my-1">
+          <div class="flex hover:bg-grey-lighter p-1">
+            <svg class="w-4 fill-current text-grey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path
+                d="M10 15l-4 4v-4H2a2 2 0 0 1-2-2V3c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8zM5 7v2h2V7H5zm4 0v2h2V7H9zm4 0v2h2V7h-2z" />
+            </svg>
+            <span class="ml-2 text-xs font-semibold text-grey">3k </span>
+          </div>
+
+
+          <div class="flex hover:bg-grey-lighter p-1 ml-2">
+            <!-- <svg class="w-4 fill-current text-grey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.08 12.16A2.99 2.99 0 0 1 0 10a3 3 0 0 1 5.08-2.16l8.94-4.47a3 3 0 1 1 .9 1.79L5.98 9.63a3.03 3.03 0 0 1 0 .74l8.94 4.47A2.99 2.99 0 0 1 20 17a3 3 0 1 1-5.98-.37l-8.94-4.47z"/></svg>
+                                <span class="ml-2 text-xs font-semibold text-grey">Share</span> -->
+            sss
+            <button class="text-xs">
+              <ws-widget-btn-social-vote class="block" [voteType]="'upVote'" [postId]="result.id"
+                [postCreatorId]="result.postCreator.postCreatorId" [activity]="result.activity" [iconType]="'triangle'">
+              </ws-widget-btn-social-vote><span class="ml-2 text-xs font-semibold text-grey">1700</span>
+            </button>
+            <ws-widget-btn-social-vote class="block" [voteType]="'upVote'" [postId]="result.id"
+              [postCreatorId]="result.postCreator.postCreatorId" [activity]="result.activity" [iconType]="'triangle'">
+              <span class="ml-2 text-xs font-semibold text-grey">1700</span>
+            </ws-widget-btn-social-vote>
+            <button class="text-xs">
+              <svg class="w-5 fill-current text-grey" style="color: lightgreen;" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <path d="M7 10v8h6v-8h5l-8-8-8 8h5z" /></svg>
+              <span class="ml-2 text-xs font-semibold text-grey">1700</span>
+            </button>
+
+          </div>
+          <div class="flex hover:bg-grey-lighter p-1 ml-2">
+            <button class="text-xs">
+              <svg class="w-5 fill-current text-grey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M7 10V2h6v8h5l-8 8-8-8h5z" /></svg>
+
+              <span class="ml-2 text-xs font-semibold text-grey">700</span>
+            </button>
+          </div>
+          <div class="flex hover:bg-grey-lighter p-1 ml-2 rotate-90">
+            <svg class="w-4 fill-current text-grey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path
+                d="M10 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

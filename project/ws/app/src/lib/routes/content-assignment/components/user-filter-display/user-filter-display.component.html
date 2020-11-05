@@ -1,0 +1,69 @@
+<div class="scroll-box">
+  <div class="scroll-bar-wrap">
+
+    <div class="flex flex-between flex-middle">
+      <h2 class="mat-h2 margin-remove padding-left-m" i18n>Filters</h2>
+      <span class="spacer"></span>
+      <button [hidden]="!filtersResetAble" (click)="removeFilters()" type="button" mat-icon-button>
+        <mat-icon>restore</mat-icon>
+      </button>
+      <button mat-icon-button (click)="filterClose.emit(!sideNavBarOpened)" aria-label="icon-button with close icon">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <mat-accordion multi="true" *ngIf="filtersResponse">
+      <mat-expansion-panel [expanded]="filter.checked" *ngFor="let filter of filtersResponse">
+        <mat-expansion-panel-header>{{ filter.displayName }}
+        </mat-expansion-panel-header>
+        <ng-container *ngTemplateOutlet="
+        filtersHolder;
+        context: {
+          $implicit: { filters: filter.values, filterType: filter.type, parentDisplayName: filter.displayName }
+        }
+      "></ng-container>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <ng-template #filtersHolder let-unitFiltersCollection>
+      <ul class="">
+        <li *ngFor="let unitFilter of unitFiltersCollection.filters">
+          <div class=" flex flex-middle">
+            <button (click)="unitFilter.isExpanded = !unitFilter.isExpanded" mat-icon-button type="button"
+              *ngIf="unitFilter?.children?.length">
+              <mat-icon *ngIf="!unitFilter.isExpanded">chevron_right</mat-icon>
+              <mat-icon *ngIf="unitFilter.isExpanded">expand_less</mat-icon>
+            </button>
+
+            <ng-container *ngTemplateOutlet="
+            unitFilterHolder;
+            context: {
+              $implicit: {
+                unitFilter: unitFilter,
+                filterType: unitFiltersCollection.filterType,
+                parentDisplayName: unitFiltersCollection.parentDisplayName
+              }
+            }
+          "></ng-container>
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+
+    <ng-template #unitFilterHolder let-unitFilterObject>
+      <mat-checkbox
+        *ngIf="(unitFilterObject.unitFilter.checked || unitFilterObject.filterType!==userAdminLevel) || userType==='manager'"
+        [disabled]="unitFilterObject.unitFilter.checked && unitFilterObject.filterType===userAdminLevel && userType==='admin'"
+        (change)="applyFilters(unitFilterObject, $event?.checked)" [checked]="unitFilterObject.unitFilter.checked"
+        class="width-expand fit-checkbox-to-width">
+        <span class="flex">
+          <span class="width-expand text-truncate">{{ unitFilterObject.unitFilter.displayName }}
+          </span>
+        </span>
+      </mat-checkbox>
+      <span class="width-auto padding-left-s"
+        *ngIf="(unitFilterObject.unitFilter.checked || unitFilterObject.filterType!==userAdminLevel) || userType==='manager'">{{ unitFilterObject.unitFilter.count }}
+      </span>
+    </ng-template>
+
+  </div>
+</div>

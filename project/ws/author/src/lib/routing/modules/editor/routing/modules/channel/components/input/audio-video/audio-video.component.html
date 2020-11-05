@@ -1,0 +1,94 @@
+<ng-container *ngIf="inputType === 'upload'">
+  <button class="button" mat-stroked-button (click)="videoFile.click()">
+    <ng-container *ngIf="!content?.url">
+      <span class="required">
+        <ng-container i18n *ngIf="isVideo">
+          Choose Video (less than 200MB)
+        </ng-container>
+        <ng-container i18n *ngIf="!isVideo">
+          Choose Audio (less than 200MB)
+        </ng-container>
+      </span>
+    </ng-container>
+    <ng-container *ngIf="content?.url">
+      <ng-container i18n *ngIf="isVideo">
+        Change Video (less than 200MB)
+      </ng-container>
+      <ng-container i18n *ngIf="!isVideo">
+        Change Audio (less than 200MB)
+      </ng-container>
+    </ng-container>
+    <input type="file" (change)="upload($event.target.files[0], isVideo ? 'video' : 'audio'); videoFile.value = null"
+      class="hidden" #videoFile [accept]="isVideo ? '.mp4' : '.mp3'" />
+  </button>
+
+  <button class="button" mat-stroked-button (click)="imageFile.click()">
+    <ng-container *ngIf="!content?.posterImage" i18n>Choose Poster Image (less than 1MB)</ng-container>
+    <ng-container *ngIf="content?.posterImage" i18n>Change Poster Image (less than 1MB)</ng-container>
+    <input type="file" (change)="upload($event.target.files[0], 'image'); imageFile.value = null" class="hidden"
+      #imageFile accept="image/*" />
+  </button>
+</ng-container>
+
+<ng-container *ngIf="inputType !== 'upload'">
+  <mat-label i18n>* Type in content Id or use the search below to choose</mat-label>
+  <ws-auth-chips (data)="onContentSelection(undefined, $event)" [placeholderType]="'collection'" [type]="'array'"
+    [content]="contentId"></ws-auth-chips>
+
+  <ws-widget-picker-content [showFilter]="false" [customSearchFilters]="filters" [selectionType]="'radio'"
+    [widgetData]="pickerContentData" [selectedContentTypes]="['Resource']" [content]="'resource'"
+    (change)="onContentSelection($event)">
+  </ws-widget-picker-content>
+</ng-container>
+
+<div class="button">
+  <p i18n>AutoPlay</p>
+  <mat-slide-toggle [checked]="content?.autoplay" (change)="update('autoPlay', !content.autoplay)">
+  </mat-slide-toggle>
+</div>
+
+<!-- <div class="button">
+  <p i18n>Enable Cookies</p>
+  <mat-slide-toggle
+    [checked]="content?.setCookie"
+    (change)="update('setCookie', !content.setCookie)"
+  >
+  </mat-slide-toggle>
+</div>
+
+<div class="button">
+  <p i18n>Disable Telemetry</p>
+  <mat-slide-toggle
+    [checked]="content?.disableTelemetry"
+    (change)="update('disableTelemetry', !content.disableTelemetry)"
+  ></mat-slide-toggle>
+</div> -->
+
+<mat-form-field class="button">
+  <mat-label i18n>Resume From</mat-label>
+  <input type="number" matInput #resumePoint name="resumePoint" [value]="content?.resumePoint || 0"
+    (change)="update('resumePoint', resumePoint.value)" />
+</mat-form-field>
+
+<!-- <div class="button">
+  <ng-container i18n>Subtitles</ng-container>
+  <mat-chip-list *ngIf="content.subtitles" #subTitleList i18n-aria-label aria-label="Subtitle files">
+    <mat-chip *ngFor="let subtitle of content.subtitles; let i = index" [removable]="true"
+      (removed)="removeSubtitle(i)">
+      {{ subtitle.label }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+
+  <mat-form-field>
+    <mat-select i18n-placeholder placeholder="Add Subtitle (.vtt format)" [(value)]="selectedSubtitle">
+      <mat-option *ngFor="let subtitle of subTitles" (click)="subInput.click(); selectedSubtitle = subtitle"
+        [value]="subtitle">
+        {{ subtitle.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <input type="file" accept=".vtt" (change)="upload($event.target.files[0], 'subtitle'); subInput.value = null"
+    class="hidden" #subInput />
+</div> -->

@@ -1,0 +1,44 @@
+<div class="flex flex-wrap badgesearned mt-4">
+  <ng-container>
+    <ng-container>
+      <mat-card class="flex-middle followcard mat-elevation-z0 padding-remove text-center w-full">
+        <mat-card-content>
+          <ng-container>
+            <!-- <div class="pt-4 text-center" *ngIf="followingCurrentDisplay === 0 && followersFetchStatus === 'fetching'">
+              <p class="font-family fetching" i18n>Fetching following users ...</p>
+            </div> -->
+            <div class="pt-4 text-center" *ngIf="followingCurrentDisplay?.length === 0">
+              <div class="flex flex-center">
+                <span class="font-family fetching">{{name}}</span>
+                <span class="font-family fetching" i18n>'s not following anyone</span>
+              </div>
+            </div>
+            <!-- <div class="pt-4 text-center">
+              <p class="mat-error" i18n>Failed to fetch followers.</p>
+            </div> -->
+            <ws-app-view-followperson *ngFor="let person of followingCurrentDisplay" [wid]="person.identifier"
+              [name]="person.name">
+            </ws-app-view-followperson>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+    <ng-container>
+      <div class="flex flex-1 flex-end p-1" *ngIf="following.length > pageDisplaySize">
+        <button mat-icon-button *ngIf="!previousFollowingDisable"
+          class="navigationbutton ws-mat-primary-lite-background-important"
+          [ngClass]="{'disable':previousFollowingDisable}" (click)="fetchPreviousFollowing()">
+          <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':previousFollowingDisable}">navigate_before
+          </mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="!nextFollowingDisable"
+          class="navigationbutton ws-mat-primary-lite-background-important" [ngClass]="{'disable':nextFollowingDisable}"
+          (click)="fetchNextFollowing()">
+          <mat-icon class="cursor-pointer text-black" [ngClass]="{'disable':nextFollowingDisable}">
+            navigate_next</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+
+  </ng-container>
+</div>

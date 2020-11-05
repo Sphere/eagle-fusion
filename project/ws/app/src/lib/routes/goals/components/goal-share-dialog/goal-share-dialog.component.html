@@ -1,0 +1,48 @@
+<ng-container *ngIf="shareGoalStatus !== 'fetching'; else fetchingSection">
+  <h2 class="mat-title margin-bottom-xs" i18n>Share this goal with</h2>
+  <div mat-dialog-content>
+    <ws-widget-user-autocomplete (usersList)="updateUsers($event)"></ws-widget-user-autocomplete>
+    <h2 class="mat-title margin-bottom-xs" i18n>Give them a message</h2>
+    <p>
+      <mat-form-field appearance="fill" class="w-full" floatLabel="never">
+        <textarea name="share-message-input-goal-share-dialog" rows="3" matInput [(ngModel)]="message"
+          placeholder="For eg: I hope this will help you expand your skillset" i18n-placeholder autocomplete="off"
+          class="resize-none"></textarea>
+      </mat-form-field>
+    </p>
+  </div>
+
+  <div class="mat-caption ws-mat-warn-text" *ngIf="showPartiallySharedMessage">
+    <ng-container i18n>Goal not shared with the following users: </ng-container>
+    <div *ngIf="apiResponse.unauthorized_users?.length">
+      <ng-container i18n> Unauthorized users : </ng-container>
+      {{ apiResponse.unauthorized_users.join(', ') }}
+    </div>
+    <div *ngIf="apiResponse.already_shared?.length">
+      <ng-container i18n> Already shrared users : </ng-container>
+      {{ apiResponse.already_shared.join(', ') }}
+    </div>
+    <div *ngIf="apiResponse.invalid_users?.length">
+      <ng-container i18n> Invalid users : </ng-container>
+      {{ apiResponse.invalid_users.join(', ') }}
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="flex flex-row-reverse">
+    <button name="done-button-goal-share-dialog"  [disabled]="!shareWithEmailIds?.length" mat-button i18n (click)="shareGoal()">
+      Done
+    </button>
+  </div>
+</ng-container>
+
+<ng-template #fetchingSection>
+  <div class="flex items-center">
+    <mat-spinner [diameter]="30"></mat-spinner>
+    <h3 class="mat-subheading-2 margin-left-m margin-remove-bottom" i18n>Sharing</h3>
+  </div>
+</ng-template>
+
+<input #errorShare type="hidden" i18n-value value="Error sharing goal" />
+<input #successShare type="hidden" i18n-value value="Goal shared successfully" />
+<input #sharedPartially type="hidden" i18n-value value="Goal shared with some of the users." />
+<input #allInvalidIds type="hidden" i18n-value value="Your goal has not been shared with anyone" />

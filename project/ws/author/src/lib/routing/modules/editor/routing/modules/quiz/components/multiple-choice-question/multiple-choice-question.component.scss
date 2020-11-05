@@ -1,0 +1,180 @@
+.romanN {
+  min-width: 25px;
+  max-width: 25px;
+}
+
+.padding {
+  padding: 22px;
+}
+
+.titlePadding {
+  padding-left: 1.25rem;
+  @media only screen and (max-width: 1279px) {
+    padding-left: 1.25rem;
+  }
+  @media only screen and (min-width: 1280px) {
+    padding-left: 2.5rem;
+  }
+}
+
+.customheader.mat-card {
+  margin: 0;
+  padding-left: 60px;
+  padding-right: 0px;
+  @media only screen and (max-width: 599px) {
+    padding-left: 0rem;
+  }
+}
+
+.header1 {
+  padding-left: 13px;
+}
+
+.small-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}
+
+.small-button {
+  height: 32px;
+  width: 32px;
+  transition: 0.5s;
+  margin-right: 4px;
+}
+
+.padding-ttl {
+  padding-left: 1.5rem;
+  @media only screen and (max-width: 599px) {
+    padding-left: 0rem;
+  }
+}
+.custom {
+  display: flex;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  box-sizing: border-box;
+  cursor: grab;
+  padding: 5px;
+  @media only screen and (max-width: 600px) {
+    margin-left: 32px;
+    margin-right: 1px;
+  }
+  @media only screen and (min-width: 601px) and (max-width: 960px) {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+}
+
+.optionlist {
+  padding: 0 1rem;
+  @media only screen and (max-width: 960px) {
+    padding-left: 32px;
+    padding-right: 1px;
+  }
+}
+
+.padding-1 {
+  padding: 1px;
+}
+
+.remove-padding {
+  padding: 0px !important;
+}
+
+.custom-placeholder {
+  border: dotted 3px #999;
+  min-height: 85px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.optionlist .cdk-drop-list-dragging .custom:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  opacity: 1;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+::ng-deep .myfield .mat-form-field-wrapper {
+  padding: 0px !important;
+}
+
+.mat-button {
+  padding: 14px !important;
+}
+
+.edit-btn {
+  position: relative;
+  top: -4px;
+}
+
+.hint-button {
+  width: 15%;
+  min-width: 5rem;
+}
+
+.item1 {
+  max-width: 15%;
+  flex: 1 1 100%;
+}
+
+.item2 {
+  max-width: 75%;
+  flex: 1 1 100%;
+
+  @media only screen and (max-width: 959px) {
+    max-width: 58%;
+  }
+}
+
+.item3 {
+  max-width: 94%;
+}
+
+.item-spacing {
+  margin-right: 15px;
+  margin-left: 10px;
+  @media only screen and (max-width: 599px) {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+}
+
+.width-4 {
+  min-width: 4rem;
+}
+
+.forHeight {
+  height: 45px;
+}
+.matheight {
+  height: 155px;
+}
+
+.addpadding {
+  padding-left: 0.75rem;
+  @media only screen and (max-width: 960px) {
+    padding-left: 32px;
+  }
+}

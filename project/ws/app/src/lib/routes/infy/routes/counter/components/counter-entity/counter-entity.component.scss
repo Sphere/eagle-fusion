@@ -1,0 +1,21 @@
+@import 'ws-vars';
+
+.counter-head {
+  background: black;
+  text-align: center;
+  color: #ffffab;
+  padding: $size-l;
+
+  mat-icon {
+    $icon-size: 50px;
+    font-size: $icon-size;
+    width: $icon-size;
+    height: $icon-size;
+  }
+
+  .header-highlight {
+    font-size: 3.5rem !important;
+    line-height: 1.6;
+    color: #fff;
+  }
+}

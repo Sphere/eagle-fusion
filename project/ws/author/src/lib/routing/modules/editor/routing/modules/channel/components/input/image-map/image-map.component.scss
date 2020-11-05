@@ -1,0 +1,91 @@
+.required {
+  &::after {
+    color: red;
+    content: ' *';
+  }
+}
+
+.row-wise {
+  display: flex;
+  flex-direction: row;
+}
+
+.column-wise {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-design {
+  width: 94%;
+  border: 1px solid #eeeeee;
+  margin: 30px auto;
+}
+.form-array-design {
+  overflow-x: hidden;
+}
+
+.top-bar-design {
+  justify-content: space-between;
+}
+
+.cardTitle-design {
+  margin: auto 0;
+}
+
+.image-map {
+  position: relative;
+  overflow: auto;
+}
+
+.img {
+  position: absolute;
+  z-index: 1;
+}
+
+.canvas {
+  position: relative;
+  z-index: 20;
+}
+
+.button-design {
+  margin: 10px 0;
+}
+
+.radio-design {
+  margin: auto;
+}
+
+.formGroup-design {
+  overflow: hidden;
+}
+
+.example-radio-button {
+  bottom: 7px;
+  position: relative;
+}
+
+.row-design {
+  display: flex;
+}
+
+.width-20 {
+  width: 20%;
+}
+
+.width-16 {
+  width: 16%;
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.width-12 {
+  width: 12%;
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.width-2 {
+  width: 2%;
+}

@@ -1,0 +1,83 @@
+<section class="mb-2" *ngIf="threadHead.feedbackType === feedbackTypes.Content">
+  <div>
+    <a [routerLink]="['/app/toc', threadHead.contentId]">
+      <h2 class="mat-title content-name">{{ threadHead.contentTitle }}</h2>
+    </a>
+  </div>
+  <div class="mat-body-2 uppercase my-auto">
+    <ng-container [ngSwitch]="threadHead.contentType">
+      <ng-container *ngSwitchCase="contentTypes.PROGRAM" i18n>Program</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.COURSE" i18n>Course</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.MODULE" i18n>Module</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.RESOURCE" i18n>Resource</ng-container>
+      <ng-container *ngSwitchDefault i18n>Content</ng-container>
+    </ng-container>
+  </div>
+</section>
+
+<!-- <section class="flex mat-body mb-2">
+  <div class="flex flex-col flex-center">
+    <ws-widget-user-image [email]="threadHead.feedbackBy.email"></ws-widget-user-image>
+  </div>
+
+  <div class="flex-grow ml-2">
+    <h3 class="mat-h3 truncate thread-head-name">
+      <ng-container *ngIf="threadHead.feedbackBy.userId !== userId">
+        {{ threadHead.feedbackBy.name }}
+      </ng-container>
+      <ng-container *ngIf="threadHead.feedbackBy.userId === userId">
+        <ng-container
+          *ngIf="
+            threadHead.feedbackType === feedbackTypes.Content ||
+            threadHead.feedbackType === feedbackTypes.Platform
+          "
+          i18n
+        >
+          You gave this feedback
+        </ng-container>
+        <ng-container
+          *ngIf="
+            threadHead.feedbackType === feedbackTypes.ContentRequest ||
+            threadHead.feedbackType === feedbackTypes.ServiceRequest
+          "
+          i18n
+        >
+          You raised this request
+        </ng-container>
+      </ng-container>
+    </h3>
+
+    <div class="mat-caption">
+      {{ threadHead.createdOn | date: 'dd MMM yyyy hh:mm a' }}
+    </div>
+  </div>
+</section> -->
+
+<!-- <section class="mx-2 my-auto" *ngIf="feedbackConfig">
+  <button
+    mat-flat-button
+    [color]="'primary'"
+    [matMenuTriggerFor]="categoryMenu"
+    *ngIf="!feedbackCategory && viewedBy !== feedbackRoles.User"
+  >
+    <mat-icon>category</mat-icon>
+    <span class="ml-1" i18n>Assign category</span>
+  </button>
+
+  <mat-menu #categoryMenu="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let category of feedbackConfig.feedbackCategories"
+      (click)="updateCategory(category)"
+    >
+      {{ category }}
+    </button>
+  </mat-menu>
+
+  <mat-chip-list *ngIf="feedbackCategory">
+    <mat-chip [color]="'primary'" [removable]="true" (removed)="updateCategory('none')">
+      {{ feedbackCategory }}
+      <mat-icon matChipRemove *ngIf="viewedBy !== feedbackRoles.User">cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</section> -->

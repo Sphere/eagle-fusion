@@ -1,0 +1,336 @@
+<div mat-dialog-title class="flex flex-between mr-0 py-0">
+  <h2>
+    <ng-container [ngSwitch]="widget.widgetSubType">
+      <ng-container i18n *ngSwitchCase="'cardBreadcrumb'">
+        Breadcrumb
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'playerVideo'">
+        Video
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'videoWrapper'">
+        Video
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'playerAudio'">
+        Audio
+      </ng-container>
+      <ng-container *ngSwitchCase="'elementHtml'">
+        <ng-container i18n *ngIf="widget.widgetData.type === 'image'">
+          Image
+        </ng-container>
+        <ng-container i18n *ngIf="!widget.widgetData.type">
+          Embedd Code
+        </ng-container>
+        <ng-container i18n *ngIf="widget.widgetData.type === 'title'">
+          Title
+        </ng-container>
+        <ng-container i18n *ngIf="widget.widgetData.type === 'text'">
+          Text
+        </ng-container>
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'pageEmbedded'">
+        Iframe
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'sliderBanners'">
+        Banner
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'imageMapResponsive'">
+        Image Map
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'gridLayout'">
+        Grid
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'linearLayout'">
+        Linear
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'tabLayout'">
+        Tab
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'intranetResponsive'">
+        Intranet
+      </ng-container>
+      <ng-container *ngSwitchCase="'selectorResponsive'">
+        <ng-container *ngIf="widget.widgetData.type === 'imageMap'" i18n>
+          Image Map
+        </ng-container>
+        <ng-container *ngIf="widget.widgetData.type === 'image'" i18n>
+          Image
+        </ng-container>
+        <ng-container *ngIf="!widget.widgetData.type">
+          Responsive Image Map / Image
+        </ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'galleryView'">
+        <ng-container *ngIf="widget.widgetData.type === 'image'" i18n>
+          Image Gallery
+        </ng-container>
+        <ng-container *ngIf="widget.widgetData.type === 'video'" i18n>
+          Video Gallery
+        </ng-container>
+        <ng-container *ngIf="!widget.widgetData.type" i18n>
+          Gallery
+        </ng-container>
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'contentStripMultiple'">
+        Content/Series Slider
+      </ng-container>
+      <ng-container i18n *ngSwitchCase="'contentStripSingle'">
+        Entry List
+      </ng-container>
+      <ng-container i18n *ngSwitchDefault>
+        Common Widget
+      </ng-container>
+    </ng-container>
+    <mat-icon class="ml-2 float-right cursor-pointer" i18n-matTooltip matTooltip="Click to copy Anchor Id"
+      (click)="copyId()">file_copy
+    </mat-icon>
+  </h2>
+  <button mat-dialog-close mat-icon-button class="float-right cursor-pointer">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content class="mat-typography">
+  <div>
+    <ng-container [ngSwitch]="widget.widgetSubType">
+      <ng-container *ngSwitchCase="'sliderBanners'">
+        <ws-auth-slider [identifier]="identifier" [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData"
+          (data)="update($event.content)">
+        </ws-auth-slider>
+      </ng-container>
+      <ng-container *ngSwitchCase="'pageEmbedded'">
+        <ws-auth-embed [editorType]="'basic'" [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData"
+          (data)="update($event.content)">
+        </ws-auth-embed>
+      </ng-container>
+      <ng-container *ngSwitchCase="'cardBreadcrumb'">
+        <ws-auth-breadcrum [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData"
+          (data)="update($event.content)">
+        </ws-auth-breadcrum>
+      </ng-container>
+      <ng-container *ngSwitchCase="'playerVideo'">
+        <ws-auth-audio-video [identifier]="identifier" [isVideo]="true" [isSubmitPressed]="isSubmitPressed"
+          [content]="widget.widgetData" (data)="update($event.content)">
+        </ws-auth-audio-video>
+      </ng-container>
+      <ng-container *ngSwitchCase="'videoWrapper'">
+        <ws-auth-media-wrapper [identifier]="identifier" [isVideo]="true" [isSubmitPressed]="isSubmitPressed"
+          [content]="widget.widgetData" (data)="update($event.content)">
+        </ws-auth-media-wrapper>
+      </ng-container>
+      <ng-container *ngSwitchCase="'elementHtml'">
+        <ws-auth-html-v2 [identifier]="identifier" *ngIf="!widget.widgetData.type" [isSubmitPressed]="isSubmitPressed"
+          [content]="widget.widgetData" (data)="update($event.content)"></ws-auth-html-v2>
+        <ws-auth-image-v2 [identifier]="identifier" *ngIf="widget.widgetData && widget.widgetData.type"
+          [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData"></ws-auth-image-v2>
+      </ng-container>
+      <ng-container *ngSwitchCase="'contentStripMultiple'">
+        <ws-auth-content-strip-v2 [identifier]="identifier" [isSubmitPressed]="isSubmitPressed"
+          [content]="widget.widgetData" [size]="size"></ws-auth-content-strip-v2>
+      </ng-container>
+      <ng-container *ngSwitchCase="'selectorResponsive'">
+        <ws-auth-selector-responsive-v2 [identifier]="identifier" [isSubmitPressed]="isSubmitPressed"
+          [content]="widget.widgetData" [size]="size"></ws-auth-selector-responsive-v2>
+      </ng-container>
+      <ng-container *ngSwitchCase="'contentStripSingle'">
+        <ws-auth-content-strip-single [editorMode]="'basic'" [identifier]="identifier"
+          [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData" (data)="update($event.content)">
+        </ws-auth-content-strip-single>
+      </ng-container>
+      <ng-container *ngSwitchCase="'imageMapResponsive'">
+        <ws-auth-image-map [identifier]="identifier" [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData">
+        </ws-auth-image-map>
+      </ng-container>
+      <ng-container *ngSwitchCase="'galleryView'">
+        <ws-auth-gallery-v2 [identifier]="identifier" [isSubmitPressed]="isSubmitPressed" [content]="widget.widgetData"
+          [size]="size"></ws-auth-gallery-v2>
+      </ng-container>
+      <ng-container *ngSwitchCase="'intranetResponsive'">
+        <ws-auth-intranet-selector [identifier]="identifier" [isSubmitPressed]="isSubmitPressed"
+          [content]="widget.widgetData" [size]="size"></ws-auth-intranet-selector>
+      </ng-container>
+    </ng-container>
+  </div>
+  <br />
+  <div class="button">
+    <span class="margin-remove-bottom mat-h3 font-weight-bold margin-right-s" i18n>Style Properties</span>
+    <mat-slide-toggle #toggle [checked]="commonConfig" (change)="commonConfig = !commonConfig">
+    </mat-slide-toggle>
+  </div>
+  <ng-container *ngIf="commonConfig">
+    <br />
+    <div i18n>
+      Change the following values only if you need to alter the layout. Please note that it will
+      affect the overall row behavior
+    </div>
+    <br />
+    <p i18n>Height</p>
+    <div>
+      <mat-radio-group [(ngModel)]="heightProp" (ngModelChange)="setStyle('height')">
+        <mat-radio-button [value]="'auto'" class="example-radio-button" i18n>
+          Automatically Calculate Height
+        </mat-radio-button>
+        <mat-radio-button [value]="'standard'" class="example-radio-button" i18n>
+          Apply Standard Height
+        </mat-radio-button>
+        <mat-radio-button [value]="'custom'" class="example-radio-button" i18n>
+          Provide Custom Height
+        </mat-radio-button>
+      </mat-radio-group>
+      <div class="mt-4" *ngIf="heightProp === 'standard' || heightProp === 'custom'">
+        <mat-form-field class="flex" [ngClass]="{
+            disabled: heightProp === 'standard'
+          }" appearance="outline">
+          <input matInput type="number" [(ngModel)]="height" i18n-placeholder placeholder="Height" />
+          <mat-select style="width: 30%;" name="heightUnit" [(ngModel)]="heightUnit">
+            <mat-option value="px">px</mat-option>
+            <mat-option value="%">%</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <br />
+    <p i18n>Width</p>
+    <div>
+      <mat-radio-group [(ngModel)]="widthProp" (ngModelChange)="setStyle('width')">
+        <mat-radio-button [value]="'auto'" class="example-radio-button" i18n>
+          Automatically Calculate Width
+        </mat-radio-button>
+        <mat-radio-button [value]="'standard'" class="example-radio-button" i18n>
+          Apply Standard Width
+        </mat-radio-button>
+        <mat-radio-button [value]="'custom'" class="example-radio-button" i18n>
+          Provide Custom Width
+        </mat-radio-button>
+      </mat-radio-group>
+      <div class="mt-4" *ngIf="widthProp === 'standard' || widthProp === 'custom'">
+        <mat-form-field class="flex" [ngClass]="{
+            disabled: widthProp === 'standard'
+          }" appearance="outline">
+          <input matInput type="number" [(ngModel)]="width" i18n-placeholder placeholder="width" />
+          <mat-select style="width: 30%;" name="widthUnit" [(ngModel)]="widthUnit">
+            <mat-option value="px">px</mat-option>
+            <mat-option value="%">%</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <br />
+    <ng-container *ngIf="isMarginAvailable">
+      <p i18n>Margin</p>
+      <div class="row-wise">
+        <div class="mr-4">
+          <mat-form-field class="flex" appearance="outline">
+            <mat-label i18n>Margin-Left</mat-label>
+            <input matInput type="number" [(ngModel)]="marginLeft" i18n-placeholder placeholder="Margin-Left" />
+            <mat-select style="width: 30%;" name="marginLeftUnit" [(ngModel)]="marginLeftUnit">
+              <mat-option value="px">px</mat-option>
+              <mat-option value="%">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mr-4">
+          <mat-form-field class="flex" appearance="outline">
+            <mat-label i18n>Margin-Right</mat-label>
+            <input matInput type="number" i18n-placeholder placeholder="Margin-Right" [(ngModel)]="marginRight" />
+            <mat-select style="width: 30%;" name="marginRightUnit" [(ngModel)]="marginRightUnit">
+              <mat-option value="px">px</mat-option>
+              <mat-option value="%">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row-wise">
+        <div class="mr-4">
+          <mat-form-field class="flex" appearance="outline">
+            <mat-label i18n>Margin-Top</mat-label>
+            <input matInput type="number" [(ngModel)]="marginTop" i18n-placeholder placeholder="Margin-Top" />
+            <mat-select style="width: 30%;" name="marginTopUnit" [(ngModel)]="marginTopUnit">
+              <mat-option value="px">px</mat-option>
+              <mat-option value="%">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mr-4">
+          <mat-form-field class="flex" appearance="outline">
+            <mat-label i18n>Margin-Bottom</mat-label>
+            <input matInput type="number" i18n-placeholder placeholder="Margin-Bottom" [(ngModel)]="marginBottom" />
+            <mat-select style="width: 30%;" name="marginBottomUnit" [(ngModel)]="marginBottomUnit">
+              <mat-option value="px">px</mat-option>
+              <mat-option value="%">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </ng-container>
+    <!-- <br />
+     <p i18n>Padding</p>
+    <div class="row-wise">
+      <div class="mr-4">
+        <mat-form-field class="flex" appearance="outline">
+          <input
+            matInput
+            type="number"
+            i18n-placeholder
+            placeholder="Padding-Left"
+            [(ngModel)]="paddingLeft"
+          />
+          <mat-select style="width: 30%;" name="paddingLeftUnit" [(ngModel)]="paddingLeftUnit">
+            <mat-option value="px">px</mat-option>
+            <mat-option value="%">%</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mr-4">
+        <mat-form-field class="flex" appearance="outline">
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="paddingRight"
+            i18n-placeholder
+            placeholder="Padding-Right"
+          />
+          <mat-select style="width: 30%;" name="paddingRightUnit" [(ngModel)]="paddingRightUnit">
+            <mat-option value="px">px</mat-option>
+            <mat-option value="%">%</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row-wise">
+      <div class="mr-4">
+        <mat-form-field class="flex" appearance="outline">
+          <input
+            matInput
+            type="number"
+            i18n-placeholder
+            [(ngModel)]="paddingTop"
+            placeholder="Padding-Top"
+          />
+          <mat-select style="width: 30%;" name="paddingTopUnit" [(ngModel)]="paddingTopUnit">
+            <mat-option value="px">px</mat-option>
+            <mat-option value="%">%</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mr-4">
+        <mat-form-field class="flex" appearance="outline">
+          <input
+            matInput
+            type="number"
+            i18n-placeholder
+            placeholder="Padding-Bottom"
+            [(ngModel)]="paddingBottom"
+          />
+           <mat-select style="width: 30%;" name="paddingBottomUnit" [(ngModel)]="paddingBottomUnit">
+            <mat-option value="px">px</mat-option>
+            <mat-option value="%">%</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div> -->
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial i18n>Cancel</button>
+  <button mat-button (click)="close()" i18n>Change</button>
+</mat-dialog-actions>

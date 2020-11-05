@@ -1,0 +1,13 @@
+<b i18n="History|History of Comments">History</b>
+<mat-card *ngFor="let comment of comments.reverse()" class="example-container margin-10">
+  <mat-card-header>
+    <mat-icon class="avatar" mat-card-avatar>account_circle</mat-icon>
+    <mat-card-title>{{comment.name}}</mat-card-title>
+    <mat-card-subtitle>{{comment.date | date}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{comment.comment}}
+    </p>
+  </mat-card-content>
+</mat-card>

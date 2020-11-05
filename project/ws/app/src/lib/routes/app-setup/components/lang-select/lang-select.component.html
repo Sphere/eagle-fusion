@@ -1,0 +1,16 @@
+<div class="lang-container">
+  <h1 class="mat-title padding-top"><span i18n>Hi </span><span>{{userName}},</span><span i18n> good to see you!</span>
+  </h1>
+  <h3 class="mat-body" i18n>What language do you prefer?</h3>
+  <ws-widget-language-selector (langChangedEvent)="langChanged($event)" class="language-drop-down-width">
+  </ws-widget-language-selector>
+
+
+  <a mat-raised-button color='primary' class="next-button" (click)="applyLang()">
+    <span i18n>Next</span>&nbsp;
+
+  </a>
+
+
+
+</div>

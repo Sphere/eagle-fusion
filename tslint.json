@@ -1,0 +1,54 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint-config-airbnb", "tslint-angular"],
+  "rules": {
+    "component-selector": [true, "element", "ws", "viewer", "kebab-case"],
+    "directive-selector": [true, "attribute", "ws", "camelCase"],
+    "semicolon": [true, "never"],
+    "ter-indent": [false],
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "ter-arrow-parens": [true, "as-needed"],
+    "no-console": true,
+    "interface-name": [true, "always-prefix"],
+    "max-line-length": [
+      true,
+      {
+        "limit": 140,
+        "ignore-pattern": "^import |^export {(.*?)}",
+        "check-strings": true,
+        "check-regex": true
+      }
+    ],
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-leading-underscore",
+        "require-const-for-all-caps"
+      ]
+    },
+    "function-name": [
+      true,
+      {
+        "function-regex": "^[a-z$][\\w\\d]+[$]?",
+        "method-regex": "^[a-z$][\\w\\d]+[$]?",
+        "private-method-regex": "^[a-z$][\\w\\d]+[$]?",
+        "protected-method-regex": "^[a-z$][\\w\\d]+[$]?",
+        "static-method-regex": "^[a-z$][\\w\\d]+[$]?"
+      }
+    ],
+    "trailing-comma": {
+      "options": {
+        "multiline": {
+          "arrays": "always",
+          "exports": "always",
+          "functions": "ignore",
+          "imports": "always",
+          "objects": "always",
+          "typeLiterals": "never"
+        },
+        "singleline": "never"
+      }
+    }
+  }
+}

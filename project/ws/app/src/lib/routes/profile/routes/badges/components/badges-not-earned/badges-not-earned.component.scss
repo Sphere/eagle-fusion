@@ -1,0 +1,76 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+$medium-badge-size: 90px;
+$small-badge-size: 50px;
+$badge-padding: 12px;
+
+.card-container {
+  position: relative;
+  width: 290px;
+  height: 100%;
+  margin: 20px 20px;
+
+  // @include breakpoint-s {
+  //   width: 300px;
+  // }
+
+  @media only screen and (max-width: 805px) {
+    width: 300px;
+  }
+
+  @media only screen and (max-width: 520px) {
+    width: 380px;
+  }
+
+  @media only screen and(max-width: 432px) {
+    width: 300px;
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.small-badge {
+  width: $medium-badge-size;
+  min-height: 90px;
+}
+
+.badge-data {
+  margin-top: 5px;
+  margin-left: 16px;
+}
+
+.date {
+  margin-left: $size-xs;
+}
+
+.mat-card {
+  padding: 0;
+}
+
+.badge-container {
+  display: flex;
+  padding: 16px 16px $size-s 16px;
+}
+
+.image-container {
+  box-sizing: border-box;
+  // width: $medium-badge-size + 2 * $badge-padding;
+}
+
+.mat-progress-bar {
+  height: $size-xs - ($size-xs * 0.4);
+  border-radius: 4%;
+  border: none;
+}
+
+.hover-text {
+  display: flex;
+  font-weight: 300;
+  justify-content: center;
+  padding-bottom: $size-xs;
+  height: 28px;
+}

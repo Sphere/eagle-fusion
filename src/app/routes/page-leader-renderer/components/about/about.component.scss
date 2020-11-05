@@ -1,0 +1,14 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.about-container {
+  margin-top: $size-m;
+  line-height: 1.5;
+  font-size: 1.15em;
+  @include breakpoint-lt-m {
+    padding: $size-xs;
+  }
+  @include breakpoint-lt-l {
+    padding-right: $size-xs;
+  }
+}

@@ -1,0 +1,141 @@
+<mat-toolbar class="detailBar" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <!-- <a *ngIf="isAuthor" [routerLink]="'/author/editor/' + content?.identifier" mat-button>
+    <mat-icon>create</mat-icon>
+    <span i18n class="ml-2">Edit</span>
+  </a> -->
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Resource Detail',url:'none'}] }">
+  </ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n>Resource Detail</span>
+  </span> -->
+  <span class="spacer"></span>
+  <!-- <a *ngIf="isAuthor" [routerLink]="'/author/editor/' + content?.identifier" mat-button>
+    <mat-icon>create</mat-icon>
+    <span i18n class="ml-2">Edit</span>
+  </a> -->
+  <mat-spinner [diameter]="30" *ngIf="deletingContent"></mat-spinner>
+  <a [disabled]="deletingContent" *ngIf="isAuthor" (click)="deleteContent()" mat-button>
+    <mat-icon>delete</mat-icon>
+    <span i18n class="ml-2">Delete</span>
+  </a>
+
+</mat-toolbar>
+
+<section class="toc-body">
+  <div class="flex flex-between flex-wrapped mt-4">
+    <div class="meta-section">
+      <div class="unit-meta-item pr-8">
+        <div *ngIf="content?.creatorDetails?.length">
+          <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+              authors: content?.creatorDetails,
+              title: 'AUTHOR'
+            }">
+          </ng-container>
+        </div>
+        <div *ngIf="content?.name" class="mt-6">
+          <p class="ws-mat-primary-text text-4xl font-bold break-words" style="line-height: initial;">
+            {{ content?.name | uppercase }}
+          </p>
+        </div>
+        <div *ngIf="content?.body" class="unit-meta-item pt-4 py-2">
+          <p class="item-heading text-xl font-medium ws-mat-primary-text" i18n>
+            Resource Description
+          </p>
+          <div class="break-words" class="resDescription" [innerHTML]="content?.body"></div>
+        </div>
+        <div *ngIf="showDescription && content?.description" class="unit-meta-item pt-4 py-2">
+          <p class="item-heading font-medium text-xl ws-mat-primary-text" i18n>
+            Resource Description
+          </p>
+          <p class="mat-subheading-1 text-base font-small" class="resDescription" [innerHTML]="content?.description">
+          </p>
+        </div>
+      </div>
+
+      <!--Share & Download-->
+      <div class="flex mt-8 mr-4"
+        [ngClass]="{ greyOut: content?.status === 'Deleted' || 'Expired' && !isLiveOrMarkForDeletion }">
+        <!-- *ngIf="content && isDownloadable" -->
+        <div class="mr-4" *ngIf="content && isDownloadable">
+          <button style="height: 40px;" mat-raised-button mat-warn class="ws-mat-accent-background text-white"
+            (click)="download()">
+            <mat-icon class="text-white">cloud_download</mat-icon>
+            <span i18n class="px-2 text-lg font-medium text-white">Download</span>
+          </button>
+        </div>
+        <div color="primary" class="shareBtn ws-mat-primary-text ws-mat-primary-border-bold">
+          <ws-widget-btn-content-share [widgetData]="content" [showText]="true"></ws-widget-btn-content-share>
+        </div>
+      </div>
+      <!-- <p *ngIf="content?.mimeType">{{content.mimeType}}</p>
+      <p *ngIf="content?.size">{{content?.size}}</p> -->
+
+      <!--Discussion forum-->
+      <div class="toc-discussion-container my-8">
+        <p class="ws-mat-primary-text text-xl font-medium py-2" i18n>Comments</p>
+        <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion>
+      </div>
+    </div>
+    <!--SIDEBAR-->
+    <div class="info-section">
+      <div class="my-4">
+        <p class="text-xl pb-2 font-medium ws-mat-primary-text" i18n>Resources Details</p>
+        <div *ngIf="content?.resourceType">
+          <p class="item-heading ws-mat-primary-text text-lg font-medium mb-2" i18n>
+            Resource Type
+          </p>
+          <p class="width-expand font-medium">{{ content?.resourceType }}</p>
+        </div>
+        <div *ngIf="content?.complexityLevel">
+          <p class="item-heading text-lg ws-mat-primary-text font-medium mb-2" i18n>
+            Grade Level
+          </p>
+          <p class="width-expand font-medium">{{ content?.complexityLevel }}</p>
+        </div>
+      </div>
+      <!--Discussion forum-->
+      <div class="toc-discussion-container-sm my-8">
+        <p class="ws-mat-primary-text text-xl font-medium py-2">Comments</p>
+        <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion>
+      </div>
+      <div class="mt-8">
+        <p class="text-xl font-medium ws-mat-primary-text" i18n>Related Resources</p>
+        <div *ngIf="relatedResource && relatedResource?.length > 0 && !fetchingRelatedResources"
+          class="flex flex-wrap relatedRes-lg mt-8">
+          <div *ngFor="let content of relatedResource" class="mb-8">
+            <ws-widget-card-content [widgetData]="{
+                  content: content,
+                  cardSubType: 'card-user-details'
+                }"></ws-widget-card-content>
+          </div>
+        </div>
+        <!-- <ws-utils-horizontal-scroller class="padding-xl relatedRes-sm block" [loadStatus]="'done'">
+          <div *ngIf="relatedResource && relatedResource?.length > 0 && !fetchingRelatedResources" class="flex mt-8">
+            <div *ngFor="let content of relatedResource" class="mb-8">
+              <ws-widget-card-content [widgetData]="{
+                                          content: content,
+                                          cardSubType: 'card-user-details'
+                                        }"></ws-widget-card-content>
+            </div>
+          </div>
+        </ws-utils-horizontal-scroller> -->
+        <div *ngIf="relatedResource && relatedResource?.length === 0 && !fetchingRelatedResources">
+          <p class="font-medium" i18n>There are no related resources</p>
+        </div>
+        <div *ngIf="fetchingRelatedResources" class="text-center">
+          <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #creators let-authors="authors" let-title="title">
+  <div *ngFor="let author of authors" class="author">
+    <ws-widget-user-image class="author-image" [userId]="author?.id" [userName]="author.name"
+      [imageType]="'name-initial'"></ws-widget-user-image>
+    <div class="width-expand flex flex-middle flex-between">
+      <div class="item-heading font-medium text-base ws-mat-primary-text">{{ author.name }}</div>
+    </div>
+  </div>
+</ng-template>

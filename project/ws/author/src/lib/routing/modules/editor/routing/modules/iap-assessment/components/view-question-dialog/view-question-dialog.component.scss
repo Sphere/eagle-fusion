@@ -1,0 +1,47 @@
+.dialog-container{
+}
+
+.flex{
+  display:flex;
+}
+.flex-end{
+  flex-direction : row-reverse;
+}
+.w100{
+  width: 100%;
+}
+
+.problem-statement{
+  margin-bottom: 1%;
+  *{
+    margin: 0;
+  }
+}
+
+.options{
+  margin-left: 6%;
+  margin-bottom: 16px;
+}
+
+.option{
+  mat-checkbox{
+    margin-right: 12px;
+  }
+}
+
+.solution-pane{
+  *{
+    width: 50%;
+    border : 0.0001rem solid black;
+  }
+}
+
+.close-btn{
+  display: flex;
+  flex-direction : row-reverse;
+  width:100%;
+}
+
+.text-white{
+  color: #fff;
+}

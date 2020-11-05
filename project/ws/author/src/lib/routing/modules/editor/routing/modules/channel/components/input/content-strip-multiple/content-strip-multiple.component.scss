@@ -1,0 +1,35 @@
+.left {
+  padding-left: 25px
+}
+
+.radio-group-design {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.radio-button-design {
+  margin: 5px;
+}
+
+.button-design{
+  width: 40%;
+  margin: 5px 0;
+}
+
+.mat-label-design{
+  width: 40%;
+  margin: auto 0;
+
+}
+
+.div-design{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start
+}
+
+.full-width{
+  width: 100%;
+}
+

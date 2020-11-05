@@ -1,0 +1,29 @@
+<div>
+  <!-- <ng-container *ngIf="errorFetchingTnc" [wsResolverWidget]="errorWidget"></ng-container> -->
+  <ws-tnc-renderer *ngIf="tncData" (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">
+  </ws-tnc-renderer>
+</div>
+
+<div class="tnc-bottom-navbar" *ngIf="!isPublic && tncData">
+  <button *ngIf="!tncData?.isAccepted" [disabled]="isAcceptInProgress" (click)="acceptTnc(confirm)" color="primary"
+    mat-flat-button>
+    <ng-container *ngIf="!isAcceptInProgress" i18n>Accept & Proceed</ng-container>
+    <ng-container *ngIf="isAcceptInProgress" i18n>Please Wait...</ng-container>
+  </button>
+  <a *ngIf="tncData?.isAccepted" type="button" color="primary" mat-flat-button routerLink="/app/features" i18n>
+    Done
+  </a>
+</div>
+
+<ng-template #confirm>
+  <div mat-dialog-content i18n>
+    Click Yes to take you to the link you tried to access
+  </div>
+  <div mat-dialog-actions class="flex-row-reverse">
+    <button mat-flat-button color="primary" [mat-dialog-close]=true i18n>
+      Yes
+    </button>
+    <button mat-button class="margin-right-xs" [mat-dialog-close]=false cdkFocusInitial i18n>No</button>
+  </div>
+
+</ng-template>

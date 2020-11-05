@@ -1,0 +1,54 @@
+<mat-card class="setup-container">
+  <mat-horizontal-stepper labelPosition="bottom" [selectedIndex]="currentIndex" (selectionChange)="onChange($event)">
+    <mat-step i18n-label label="About us" state="about">
+      <ws-app-about-video></ws-app-about-video>
+    </mat-step>
+    <mat-step i18n-label label="Interests" state="interest">
+      <ws-app-interest #userInterest></ws-app-interest>
+    </mat-step>
+    <mat-step i18n-label label="Settings" state="setting">
+      <ws-app-settings #userSettings [mode]="'setup'" (langChangedEvent)="langChanged($event)"></ws-app-settings>
+    </mat-step>
+
+    <ng-template matStepperIcon="about">
+      <mat-icon>music_video</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="interest">
+      <mat-icon>tag_faces</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="setting">
+      <mat-icon>settings</mat-icon>
+    </ng-template>
+  </mat-horizontal-stepper>
+  <div class="flex flex-between">
+    <button [disabled]="currentIndex < 1" mat-raised-button color="primary" (click)="prevBtn()">
+      <mat-icon>chevron_left</mat-icon>
+      <span class="padding-left-xs" i18n>Prev</span>
+    </button>
+    <a mat-raised-button type="button" color="primary" *ngIf="currentIndex !== 2" [routerLink]="'/page/home'"
+      i18n>Skip</a>
+    <button mat-raised-button type="button" color="primary" *ngIf="currentIndex == 2" (click)="applyChanges(confirm)"
+      i18n>
+      Done
+    </button>
+
+    <button mat-raised-button [disabled]="currentIndex > 1" color="primary"
+      class="flex item-centre margin-left-s margin-right-s" (click)="nextBtn()">
+      <span class="padding-left-xs" i18n>Next</span>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</mat-card>
+
+<ng-template #confirm>
+  <div mat-dialog-content i18n>
+    Click Yes to take you to the link you tried to access
+  </div>
+  <div mat-dialog-actions class="flex-row-reverse">
+    <button mat-flat-button color="primary" [mat-dialog-close]=true i18n>
+      Yes
+    </button>
+    <button mat-button class="margin-right-xs" [mat-dialog-close]=false cdkFocusInitial i18n>No</button>
+  </div>
+
+</ng-template>

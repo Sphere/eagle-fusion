@@ -1,0 +1,32 @@
+<div class="text-center mat-body" [ngSwitch]="langCode">
+  <ng-container *ngSwitchCase="'en' || ''" i18n>
+    English
+  </ng-container>
+  <ng-container *ngSwitchCase="'de'" i18n>
+    German
+  </ng-container>
+  <ng-container *ngSwitchCase="'ar'" i18n>
+    Arabic
+  </ng-container>
+  <ng-container *ngSwitchCase="'zh-CN'" i18n>
+    Chinese
+  </ng-container>
+  <ng-container *ngSwitchCase="'fr'" i18n>
+    French
+  </ng-container>
+  <ng-container *ngSwitchCase="'fr-ca'" i18n>
+    French Canada
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'nl'" i18n>
+    Dutch
+  </ng-container>
+  <ng-container *ngSwitchCase="'ja'" i18n>
+    Japanese
+  </ng-container>
+  <ng-container *ngSwitchCase="'es'" i18n>
+    Spanish
+  </ng-container>
+
+
+</div>

@@ -1,0 +1,73 @@
+<mat-card class="intro-mat-card">
+  <div class="intro width-auto">
+    <div>
+      <div class="text-info width-auto">
+        <div class="intro-text">
+          <span class="text-light width-auto" i18n>Congratulations</span>
+          <span> {{userName}}</span>
+        </div>
+      </div>
+
+      <div class="text-hover">
+        <span class="mat-title" i18n>for recently earning</span>
+      </div>
+    </div>
+    <ng-container>
+      <div class="flex badge-recent" *ngIf="badgesWon && badgesWon.length>0">
+        <div class="width-auto badge-container" [matTooltip]="badgesWon[0].Description">
+          <img class="medium-badge" [src]="badgesWon[0].BadgeImagePath" [alt]="badgesWon[0].BadgeName" />
+        </div>
+        <div class="">
+          <div class="mat-body" *ngIf="badgesWon[0].DateOfwinning">
+            {{ badgesWon[0].DateOfwinning | date }}
+          </div>
+          <h2 class="mat-h2">{{ badgesWon[0].BadgeName }}</h2>
+          <div class="mat-body-1 margin-remove">"{{ badgesWon[0].AfterCompletionCriteria }}"</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-card>
+<ng-container *ngIf="badgesWon && badgesWon.length >0">
+  <div class="margin-top-l">
+    <span class="headings mat-headline ws-mat-primary-text mb-10 " color="primary"
+      *ngIf="badgesWon && badgesWon.length >0" i18n>Your
+      Achievements</span>
+    <div *ngIf="badgesWon && badgesWon.length >0" class="card-container margin-top-m">
+      <ws-utils-horizontal-scroller>
+        <div class="card-holder dimensionBadge">
+          <ng-container *ngFor="let badge of badgesWon">
+            <ws-app-badges-card [badge]="badge"></ws-app-badges-card>
+          </ng-container>
+        </div>
+      </ws-utils-horizontal-scroller>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="badgesYetToWin!=undefined">
+  <div class="margin-top-xl">
+    <span class="headings mat-headline ws-mat-primary-text margin-top-xl" color="primary" i18n>Your Next Target</span>
+    <div class="card-container-not-earned op-80 margin-top-l" *ngFor="let key of objectKeys(badgesYetToWin)">
+      <div class="text-hover">
+        <span class="mat-title" color="primary">
+          {{key}}
+        </span>
+      </div>
+      <ws-utils-horizontal-scroller>
+        <div class="card-holder">
+          <ng-container *ngFor="let badge of badgesYetToWin[key]">
+            <ws-app-badges-not-earned class="dimension" [badge]="badge"></ws-app-badges-not-earned>
+          </ng-container>
+        </div>
+      </ws-utils-horizontal-scroller>
+    </div>
+  </div>
+</ng-container>
+
+<!-- <div class="text-center mat-body margin-bottom-s">
+  <ng-container i18n>Last updated on </ng-container>
+  {{ badges.DateOfwinning }}
+
+</div> -->

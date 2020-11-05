@@ -1,0 +1,32 @@
+.challengecard {
+  border-radius: 8px !important;
+  border: 1px dashed #05a7c9 !important;
+  min-width: 230px !important;
+}
+
+.title {
+  font-weight: 500 !important;
+  margin-left: 0.5rem !important;
+  margin-bottom: 0px !important;
+  margin-top: 8px !important;
+}
+
+.activity-button {
+  border-radius: 8px !important;
+  background-color: #05a7c9 !important;
+  margin-top: 8px !important;
+  margin-right: 8px !important;
+
+}
+
+
+.description {
+  color: #9BAEBD !important;
+  position: relative;
+  padding-bottom: 0px;
+  margin-left: 0.5rem !important;
+}
+
+.disablebutton {
+  visibility: hidden;
+}

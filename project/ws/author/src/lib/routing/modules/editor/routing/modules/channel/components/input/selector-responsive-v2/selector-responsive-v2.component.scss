@@ -1,0 +1,37 @@
+.radioButton {
+  padding-right: 10px;
+}
+
+.row-wise {
+  display: flex;
+  flex-direction: row;
+}
+
+.input-label,
+.add-tab-button,
+.delete-tab-button {
+  margin: 8px;
+}
+
+.padding-left-right {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+}
+
+.mat-icon-button {
+  padding: 0;
+  min-width: 0;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  line-height: 21px;
+  border-radius: 50%;
+}
+
+.width-16 {
+  width: 16%;
+  .mat-form-field {
+    width: 100%;
+  }
+}

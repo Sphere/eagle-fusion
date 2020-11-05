@@ -1,0 +1,43 @@
+<mat-card class="margin-top-m margin-bottom-m">
+  <mat-card-title i18n>At Desk</mat-card-title>
+  <mat-card-subtitle i18n>
+    Take the exam at from any location under individual supervision.
+  </mat-card-subtitle>
+  <mat-card-content class="flex flex-between">
+    <section>
+      <p class="mat-body-2" i18n>What's required?</p>
+      <ul class="mat-caption margin-remove">
+        <li class="text-italic" i18n>
+          Internet connectivity.
+        </li>
+        <li class="text-italic" i18n>
+          An invigilator to supervise you during the certification exam.
+        </li>
+      </ul>
+    </section>
+    <section class="hidden sm:block">
+      <button
+        mat-flat-button
+        [color]="'primary'"
+        class="width-1-1"
+        [routerLink]="['./atDesk']"
+        i18n
+      >
+        Book a Slot
+      </button>
+    </section>
+  </mat-card-content>
+  <mat-card-actions>
+    <section class="sm:hidden">
+      <button
+        mat-flat-button
+        [color]="'primary'"
+        class="width-1-1 hidden-gt-xs"
+        [routerLink]="['./atDesk']"
+        i18n
+      >
+        Book a Slot
+      </button>
+    </section>
+  </mat-card-actions>
+</mat-card>

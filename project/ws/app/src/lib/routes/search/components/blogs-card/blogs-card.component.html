@@ -1,0 +1,24 @@
+<a [routerLink]="'/app/social/blogs/' + result.id">
+  <h2 class="mat-h2 blog-title">{{ result.title }}</h2>
+  <p class="mat-caption text-truncate">{{ result.abstract }}</p>
+  <!-- <p class="mat-caption text-truncate">{{ result.body }}</p> -->
+</a>
+<div class="flex flex-between flex-middle">
+  <div>
+    <!-- <a class="mat-primary-text"
+      [routerLink]="'/profile/' + result.postCreator.emailId"> -->
+    <span class="mat-primary-text">
+      {{ result.postCreator.name }}
+    </span>
+    <!-- </a> -->
+    <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+      {{ result.dtLastModified | date }}
+    </div>
+  </div>
+  <!-- <btn-social-like
+    [postId]="result.id"
+    [postCreatorId]="result?.postCreator?.postCreatorId"
+    [activity]="result.activity"
+  >
+  </btn-social-like> -->
+</div>

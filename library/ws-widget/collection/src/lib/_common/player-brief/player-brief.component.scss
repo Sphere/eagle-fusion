@@ -1,0 +1,69 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.info-container {
+  padding: $size-s $size-m;
+  margin-bottom: $size-m;
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    padding: $size-xs 0;
+    box-sizing: border-box;
+
+    h3 {
+      margin: 0;
+    }
+
+    .item-heading {
+      width: 40%;
+      min-width: 80px;
+      max-width: 140px;
+    }
+
+    .item-icon {
+      $icon-size: 20px;
+      width: $icon-size;
+      height: $icon-size;
+      font-size: $icon-size;
+      margin-left: $size-xs;
+    }
+  }
+}
+
+
+.stack-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+  .div-1 {
+    width: 33%;
+    flex: 1;
+    min-width: 1px;
+  }
+  .div-2 {
+    width: 33%;
+    margin-left: 48px;
+    @include breakpoint-s {
+      margin-left: $size-l;
+      min-width: 250px;
+    }
+    @include breakpoint-xs {
+      margin-left: 0;
+      margin-bottom: $size-l;
+      width: 100%;
+    }
+  }
+  .div-3 {
+    width: 33%;
+    flex: 1;
+    order: 2;
+    min-width: 1px;
+  }
+  .unit-meta-item {
+    box-shadow: none !important;
+  }
+}
+.theme-igot.day-mode .ws-mat-accent-text {
+  color: #424242 !important
+}

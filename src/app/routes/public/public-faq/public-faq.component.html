@@ -1,0 +1,164 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'FAQ',url:'none'}] }"></ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n="page title: about" class="margin-left-xs">FAQ</span>
+  </span> -->
+</mat-toolbar>
+<div *ngIf="!isFaqFeature">
+  <h1 i18n class="mat-title margin-top-xl text-center">
+    Frequently asked questions can be configured here.
+  </h1>
+</div>
+<mat-sidenav-container class="sidenav-container" *ngIf="isFaqFeature">
+  <mat-sidenav class="sidenav" [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
+    <mat-nav-list>
+      <a mat-list-item aria-label="Login Related Faqs" class="" [routerLink]="'/public/faq/login'"
+        routerLinkActive="faq-active-class mat-toolbar mat-stroked-button" (click)="sideNavOnClick()"
+        i18n="page faq side nav item one" accesskey="1">Login</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div *ngIf="screenSizeIsLtMedium" class="flex flex-middle padding-m">
+      <button type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h2 class="mat-subheading-2 margin-remove px-2" [ngSwitch]="currentTab">
+        <span *ngSwitchCase="'login'" i18n="page faq mobile top nav item one" accesskey="1">Login</span>
+      </h2>
+    </div>
+    <section class="padding-m leading-relaxed" [ngSwitch]="currentTab">
+      <mat-card class="nav-container" *ngSwitchCase="'login'">
+        <p class="mat-body-2" i18n="faq page panel one question one">
+          Q1. Unable to login to Wingspan
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel one answer one section one">
+            For using Wingspan you have to register yourself for Multi-Factor Authentication.<br />
+            Please login to Wingspan from
+          </ng-container>
+          <ng-container>
+            https://wingspan.com
+          </ng-container>
+          <ng-container i18n="faq page panel one answer one section two">
+            <br />
+            Wingspan is an internet facing application there are two scenarios.<br />
+            1. You are accessing Wingspan on Infosys Intranet (VPN yes but not IConnect)<br />
+            2. You are accessing Wingspan on Internet (from your personal laptop/desktop/Mobile
+            browser/Android/iOS native applications)<br />
+            In 1) you will not have to do separate authentication, your windows login will be
+            automatically used for letting you in Wingspan<br />
+            In 2) You need to register yourself first for Multi-Factor Authentication (MFA) at
+          </ng-container>
+          <ng-container>
+            https://rasssp.ad.wingspan.com/MultiFactorAuth/
+          </ng-container>
+          <ng-container i18n="faq page panel one answer one section three">
+            on intranet and register.<br />
+            The passcode or pin you set up here will be used for login later.<br />
+            Once you enter your Infosys user name and password on a Microsoft Page, you will receive
+            a call prompting you to use the passcode/pin to authenticate yourself.<br />
+            You can also either register or change your pin if you have forgotten.
+          </ng-container>
+        </p>
+        <mat-divider></mat-divider>
+        <p class="mat-body-2 pt-4" i18n="faq page panel one question two">
+          Q2. Unable to logon to Wingspan, enclosed blue screen error
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer two">
+          Request to kindly clear your cookies and cache of the desktop browser once before
+          trying.<br />
+          Also you can use Incognito mode or Private Browsing modes of Chrome and IE.<br />
+          Restart the browser and try accessing Wingspan.
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2 pt-4" i18n="faq page panel one question three">
+          Q3. Login credentials for Wingspan
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel one answer three section one">
+            Please visit:<br />
+          </ng-container>
+          <ng-container> https://mtf.ad.wingspan.com/MultiFactorAuth/<br /> </ng-container>
+          <ng-container i18n="faq page panel one answer three section two">
+            and register yourself for Multi-Factors Authentication.<br />
+            You can set a passcode of your choice. Select Call-In method for authentication.<br />
+            For accessing Wingspan this is a “must” criteria.<br />
+            1. Visit
+          </ng-container>
+          <ng-container>
+            https://wingspan.com
+          </ng-container>
+          <ng-container i18n="faq page panel one answer three section three">
+            <br />
+            2. Press Login Button<br />
+            3. If you are on Infosys Network, you will not have to just enter your Infosys Mail
+            ID<br />
+            4. If you are on Internet, on button click, you will be taken to Microsoft Login Site.
+            Please enter your Infosys Mail ID<br />
+            5. You will be taken to stsakaash site which is from Infosys. Here you provide your
+            email id and password(Infosys account)<br />
+            6. You will receive a phone call from Microsoft on your registered phone number<br />
+            7. You are required to key-in your passcode and #<br />
+            8. If your authentication is successful, the web browser will automatically take you to
+            Wingspan.
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2 pt-4" i18n="faq page panel one question four">
+          Q4. Unable to logon to Wingspan , getting Microsoft Login page
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer four">
+          Clear the browser cache and cookies (going as far back as possible).<br />
+          This issue is mainly for user who use other Infosys O365 Applications like Mail, VPN,
+          Yammer and many more.<br />
+          The token issued by Microsoft when you used such an application is stored in the cookies
+          and Microsoft needs to be forced to issue a fresh token which will allow access the
+          Wingspan application which is also a O365 Application.<br />
+          Clear the cache and cookies and restart the browser and try accessing Wingspan
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2 pt-4" i18n="faq page panel one question five">
+          Q5. Account Already Exists
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer five">
+          Raise an AHD
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2 pt-4" i18n="faq page panel one question six">
+          Q6. I am not able to get my PIN to enter with password in Wingspan application. Would you
+          please help me with this?
+        </p>
+        <p class="mat-body-1">
+          <ng-container i18n="faq page panel one answer six section one">
+            Can you mail CCD-Helpdesk (Global Support)
+          </ng-container>
+          <ng-container>
+            ccd_gsc@wingspan.com
+          </ng-container>
+          <ng-container i18n="faq page panel one answer six section two">
+            and get them to reset the same?
+          </ng-container>
+        </p>
+
+        <mat-divider></mat-divider>
+
+        <p class="mat-body-2 pt-4" i18n="faq page panel one question seven">
+          Q7. Downtime
+        </p>
+        <p class="mat-body-1" i18n="faq page panel one answer seven">
+          Request you to kindly clear your cookies and cache of the desktop browser once before
+          trying.<br />
+          Also you can use Incognito mode or Private Browsing modes of Chrome and IE.
+        </p>
+      </mat-card>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>

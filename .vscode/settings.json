@@ -1,0 +1,168 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "editor.autoIndent": "advanced",
+  "editor.codeLens": true,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorStyle": "line",
+  // "editor.fontFamily": "Dank Mono, Operator Mono, Fira Code, Inconsolata, Menlo, Consolas",
+  "editor.fontLigatures": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "editor.letterSpacing": 0.5,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2,
+  "files.defaultLanguage": "typescript",
+  "files.exclude": {
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/*.js.map": {
+      "when": "$(basename)"
+    },
+    "**/.DS_Store": true,
+    "**/.git": true
+  },
+  "files.hotExit": "onExit",
+  "files.trimTrailingWhitespace": true,
+  "peacock.affectActivityBar": true,
+  "peacock.affectStatusBar": true,
+  "peacock.affectTitleBar": false,
+  "peacock.favoriteColors": [{
+      "name": "Angular Red",
+      "value": "#b52e31"
+    },
+    {
+      "name": "Auth0 Orange",
+      "value": "#eb5424"
+    },
+    {
+      "name": "Azure Blue",
+      "value": "#007fff"
+    },
+    {
+      "name": "C# Purple",
+      "value": "#68217A"
+    },
+    {
+      "name": "Gatsby Purple",
+      "value": "#639"
+    },
+    {
+      "name": "Go Cyan",
+      "value": "#5dc9e2"
+    },
+    {
+      "name": "Java Blue-Gray",
+      "value": "#557c9b"
+    },
+    {
+      "name": "JavaScript Yellow",
+      "value": "#f9e64f"
+    },
+    {
+      "name": "Mandalorian Blue",
+      "value": "#1857a4"
+    },
+    {
+      "name": "Node Green",
+      "value": "#215732"
+    },
+    {
+      "name": "React Blue",
+      "value": "#00b3e6"
+    },
+    {
+      "name": "Something Different",
+      "value": "#832561"
+    },
+    {
+      "name": "Vue Green",
+      "value": "#42b883"
+    }
+  ],
+  "peacock.keepBadgeColor": false,
+  "peacock.keepForegroundColor": false,
+  "stylelint.enable": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#8a2ca2",
+    "activityBar.activeBackground": "#8a2ca2",
+    "activityBar.activeBorder": "#af9530",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#af9530",
+    "activityBarBadge.foreground": "#15202b",
+    "statusBar.background": "#68217a",
+    "statusBarItem.hoverBackground": "#8a2ca2",
+    "statusBar.foreground": "#e7e7e7"
+  },
+  "cSpell.words": [
+    "azuremediaplayer",
+    "behavioural",
+    "brotli",
+    "datepicker",
+    "ekstep",
+    "embeddable",
+    "exitfullscreen",
+    "followsourceid",
+    "followtargetid",
+    "iframe",
+    "wingspan",
+    "keycloak",
+    "leaderboard",
+    "mailto",
+    "mixins",
+    "sameorigin",
+    "sidenav",
+    "swipeleft",
+    "swiperight",
+    "timedout",
+    "unfollow",
+    "unpublish",
+    "videojs",
+    "wmode",
+    "youtube"
+  ],
+  "workbench.settings.enableNaturalLanguageSearch": false,
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "tslint.configFile": "tslint.json",
+  "update.showReleaseNotes": false,
+  "peacock.color": "#68217a",
+  "prettier.semi": false,
+  "prettier.printWidth": 100,
+  "prettier.singleQuote": true,
+  "prettier.jsxSingleQuote": true,
+  "prettier.useEditorConfig": false,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "typescript.format.semicolons": "remove",
+  "typescriptHero.imports.insertSemicolons": false,
+  "autoimport.useSemiColon": false,
+  "javascript.format.semicolons": "remove",
+  "liveServer.settings.port": 5501,
+  "git.autofetch": true,
+  "tslint.alwaysShowRuleFailuresAsWarnings": false,
+  "prettier.trailingComma": "all",
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "prettier.arrowParens": "avoid",
+  "[scss]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  }
+}

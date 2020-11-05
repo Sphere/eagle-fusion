@@ -1,0 +1,21 @@
+@import 'ws-mixins';
+
+::ng-deep .cke_button__uploadimage_icon {
+  background-position: 0 -672px !important;
+}
+
+::ng-deep .cke_button__uploadfile_icon {
+  background-position: 0 -1176px !important;
+}
+
+::ng-deep .cke_button__blank_icon {
+  background-position: 0 -782px !important;
+}
+
+::ng-deep #cke_1_contents {
+  min-height: 100px !important;
+}
+
+::ng-deep.cke_dialog_container {
+  z-index: 10010 !important;
+}

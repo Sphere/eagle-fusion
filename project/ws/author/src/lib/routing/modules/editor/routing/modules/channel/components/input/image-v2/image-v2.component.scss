@@ -1,0 +1,28 @@
+.row-wise {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.column-wise {
+  display: flex;
+  flex-direction: column;
+}
+
+.required {
+  &::after {
+    color: red;
+    content: ' *';
+  }
+}
+
+.small-card-design {
+  min-width: 100px;
+  margin-right: 0.5em;
+}
+
+.mat-card-image {
+  margin-bottom: -20px !important;
+  border-bottom-left-radius: inherit !important;
+  border-bottom-right-radius: inherit !important;
+}

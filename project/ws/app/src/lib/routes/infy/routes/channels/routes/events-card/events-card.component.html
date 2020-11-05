@@ -1,0 +1,37 @@
+<div
+  *ngIf="eventsData && eventsData?.length"
+  class="margin-top-m text-center flex flex-wrapped flex-around"
+>
+  <a *ngFor="let event of eventsData" class="margin-m" [routerLink]="event?.routerLink">
+    <mat-card class="event cursor-pointer">
+      <mat-icon class="event-icon">event</mat-icon>
+      <h2 class="mat-h2 event-name font-weight-bold margin-top-l" *ngIf="event?.eventName">
+        {{ event?.eventName }}
+      </h2>
+      <div>
+        <div [ngTemplateOutlet]="startTime" [ngTemplateOutletContext]="{ $implicit: event }"></div>
+        <div [ngTemplateOutlet]="endTime" [ngTemplateOutletContext]="{ $implicit: event }"></div>
+      </div>
+    </mat-card>
+  </a>
+</div>
+
+<ng-template #startTime let-event>
+  <span class="mat-body-strong">
+    <ng-container *ngIf="isCurrentTimeSmall(event.startTime); else eventStarted" i18n
+      >Starts:
+    </ng-container>
+    <ng-template #eventStarted i18n>Started: </ng-template>
+  </span>
+  <span class="mat-body date-value">{{ event.startTime | date }}</span>
+</ng-template>
+
+<ng-template #endTime let-event>
+  <span class="mat-body-strong">
+    <ng-container *ngIf="isCurrentTimeSmall(event.endTime); else eventEnded" i18n
+      >Ends:
+    </ng-container>
+    <ng-template #eventEnded i18n>Ended: </ng-template>
+  </span>
+  <span class="mat-body date-value">{{ event.endTime | date }}</span>
+</ng-template>

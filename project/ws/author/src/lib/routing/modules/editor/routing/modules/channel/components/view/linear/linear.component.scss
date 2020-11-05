@@ -1,0 +1,19 @@
+.parent {
+  border: dashed grey 1px;
+  margin: 1px;
+  position: relative;
+
+  .editIcon {
+    position: absolute;
+    right: 2px;
+    cursor: pointer;
+    visibility: hidden;
+    z-index: 100;
+  }
+
+  &:hover {
+    .editIcon {
+      visibility: visible;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<div class="error-not-found flex flex-wrapped margin-left-m margin-top-xl margin-right-m">
+  <div class="error-logo">
+    <img
+      alt
+      class="error-image"
+      *ngIf="errorData"
+      [src]="isDarkMode ? errorData?.errorImageDark : errorData?.errorImageLite"
+    />
+    <div class="error-message ws-mat-primary-text font-weight-bold" i18n>
+      The Feature is disabled
+    </div>
+  </div>
+  <div class="error-support">
+    <div class="support-message" i18n>
+      You are accessing the feature which is currently disabled for this instance.
+    </div>
+  </div>
+</div>

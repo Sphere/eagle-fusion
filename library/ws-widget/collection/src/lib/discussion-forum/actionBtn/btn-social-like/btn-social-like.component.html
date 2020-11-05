@@ -1,0 +1,40 @@
+<button
+  name="discussion-forum-like-button"
+  type="button"
+  (click)="updateLike(invalidUser.value)"
+  [hidden]="!postId"
+  mat-icon-button
+  i18n-aria-label
+  aria-label="Like / Unlike"
+  i18n-matTooltip
+  matTooltip="Like / Unlike"
+>
+  <mat-icon
+    *ngIf="!activity?.userActivity?.like && !isUpdating"
+    [matBadgeHidden]="!activity?.activityData.like"
+    [matBadge]="activity?.activityData.like"
+    matBadgeColor="accent"
+    matBadgeSize="small"
+    >favorite_border</mat-icon
+  >
+  <mat-icon
+    class="highlight"
+    *ngIf="activity?.userActivity?.like && !isUpdating"
+    [matBadgeHidden]="!activity?.activityData.like"
+    [matBadge]="activity?.activityData.like"
+    matBadgeColor="accent"
+    matBadgeSize="small"
+    >favorite</mat-icon
+  >
+  <mat-icon *ngIf="isUpdating">hourglass_empty</mat-icon>
+</button>
+<!-- <span
+  [hidden]="!postId"
+  (click)="openLikesDialog()"
+class="like-count mat-primary-text"
+  role="button"
+  *ngIf="activity?.activityData?.like"
+  >{{ activity?.activityData.like }}</span
+> -->
+
+<input type="hidden" i18n-value value="You cannot like your own post" #invalidUser />

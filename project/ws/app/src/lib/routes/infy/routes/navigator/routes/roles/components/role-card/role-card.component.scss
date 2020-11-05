@@ -1,0 +1,100 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+$medium-badge-size: 90px;
+$small-badge-size: 50px;
+$badge-padding: 12px;
+
+.card-container {
+  position: relative;
+  width: 290px;
+
+  @include breakpoint-xs {
+    width: 230px;
+  }
+}
+
+.card-image {
+  width: 290px;
+  border-radius: 8px 8px 0 0;
+  height: 150px;
+
+  @include breakpoint-xs {
+    width: 230px;
+  }
+}
+
+.mat-card {
+  padding: 0;
+  height: 100%;
+
+
+}
+
+.card-information {
+  margin: $size-s $size-m;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-holder {
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 0;
+  align-content: center;
+  border: none;
+  margin: $size-s 0;
+
+  button {
+    padding-right: 0;
+  }
+
+  span {
+    margin-right: 5px;
+  }
+
+  @include breakpoint-xs {
+    margin-top: 10px;
+  }
+}
+
+.title {
+  margin-left: $size-xs;
+}
+
+.description {
+  height: 80px;
+}
+
+.radio-buttons {
+  margin-top: $size-xs;
+  display: flex;
+  flex-direction: column;
+  height: 151.58px;
+  position: relative;
+}
+
+.variant-radio-label {
+  margin: $size-xs;
+}
+
+.mat-radio-group {
+  height: 151.58px;
+  overflow: hidden;
+}
+
+
+.small-icon {
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: 0.5fr 0.5fr;
+}
+
+.end {
+  justify-content: flex-end;
+}

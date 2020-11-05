@@ -1,0 +1,99 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+@import 'ws-common';
+
+ws-app-search-input .autocomplete-form {
+  width: 100%;
+  font-size: 0.75em;
+  display: block;
+  margin: auto;
+}
+
+ws-app-search-input input {
+  padding-left: .5rem !important;
+}
+
+ws-app-search-input .search .mat-form-field-wrapper {
+   padding-bottom: 0px !important;
+   .mat-form-field-infix{
+      border-top-width: 5px !important;
+      padding: 0px;
+      padding-bottom: 5px;
+   }
+
+}
+
+ws-app-search-input .search-border {
+  border-radius: .75rem;
+  border-color: #cecece;
+}
+
+ws-app-search-input .border-right {
+  border-right: 1px solid #cecece;
+}
+
+
+ws-app-search-input .lang-btn {
+  margin-right: 0 !important;
+}
+
+ws-app-search-input .search-tabs-group {
+  @extend %height-mat-toolbar-sibling;
+}
+
+ws-app-search-input .search-page-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: $size-xl;
+  padding-top: $size-xl;
+  text-align: center;
+  margin: auto;
+  width: 80%;
+  max-width: 600px;
+
+  .form-container {
+    display: block;
+  }
+}
+
+ws-app-search-input .hidden {
+  display: none !important;
+  width: 0;
+  height: 0;
+}
+
+ws-app-search-input .feature-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: $size-m;
+  padding-bottom: $size-m;
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    padding: $size-xs;
+    height: auto;
+    box-sizing: border-box;
+    border-radius: 0;
+    @include breakpoint-xs {
+      width: 50%;
+    }
+  }
+
+  .feature-icon {
+    $icon-size: 2.25 * $size-m;
+    width: $icon-size;
+    height: $icon-size;
+    font-size: $size-l;
+    @include breakpoint-gt-xs {
+      margin-right: 0;
+      margin-bottom: $size-s;
+    }
+  }
+}

@@ -1,0 +1,127 @@
+<div class="margin-top-xl">
+  <div *ngIf="scheduleFetchStatus === 'fetching'" class="flex flex-center">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="scheduleFetchStatus === 'error'" class="text-center my-8">
+    <h2 i18n>No Data Available</h2>
+  </div>
+
+  <div [hidden]="scheduleFetchStatus !== 'done'">
+    <form class="flex flex-around flex-wrapped" [formGroup]="scheduleForm">
+      <mat-form-field class="schedule">
+        <input matInput name="Search Bar" placeholder="Enter a Course Name" formControlName="search" />
+      </mat-form-field>
+      <!-- <button mat-icon-button color="primary" (click)="applyDateFilter()">
+                <mat-icon>search</mat-icon>
+              </button> -->
+      <mat-form-field class="schedule">
+        <mat-select name="location" placeholder="Location" formControlName="location">
+          <mat-option *ngFor="let location of locationSet" [value]="location">
+            {{ location }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="schedule">
+        <input name="dateStart" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
+          placeholder="Start Date" formControlName="dateStart" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="schedule">
+        <input matInput name="dateEnd" [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" placeholder="End Date"
+          formControlName="dateEnd" />
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <div>
+        <button class="margin-top-xs margin-bottom-l" [matTooltip]="'Apply filter'" mat-raised-button color="primary"
+          type="submit" (click)="applyDateFilter()" i18n>
+          Apply
+        </button>
+        <button class="margin-top-xs margin-bottom-l margin-left-m" [matTooltip]="'Reset'" mat-raised-button
+          color="primary" type="reset" (click)="resetDateFilter()" i18n>
+          Reset
+        </button>
+      </div>
+    </form>
+
+    <div class="mat-elevation-z8 margin-bottom-xl">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="courseTitle">
+          <th mat-header-cell *matHeaderCellDef class="mat-title" i18n>
+            Course Title
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.title }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" i18n>
+            Start Date
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.dtStartDate | date: "d MMM" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" i18n>
+            End Date
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.dtEndDate | date: "d MMM" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" i18n>
+            Location
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.location | titlecase }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="register">
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center">
+            Register
+          </th>
+          <td class="text-center register cursor-pointer" color="primary" mat-cell *matCellDef="let element">
+            <mat-spinner *ngIf="fetching[element?.intCourseOfferingId]"></mat-spinner>
+            <div *ngIf="!fetching[element?.intCourseOfferingId]">
+              <p class="register" *ngIf="!element?.isRegister" (click)="register(element?.intCourseOfferingId)" i18n>
+                Register
+              </p>
+              <p class="register" *ngIf="element?.isRegister" (click)="deRegister(element?.intCourseOfferingId)" i18n>
+                De-register
+              </p>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator #paginator [hidden]="!dataSource" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+<input #successDeRegContent type="hidden" i18n-value value="De-registered Successfully" />
+<input #alreadyDeRegContent type="hidden" i18n-value value="Already de-registered" />
+<input #notRegContent type="hidden" i18n-value value="Not registered for that course" />
+<input #expireContent type="hidden" i18n-value value="De-registration date expired" />
+<input #failedDeRegContent type="hidden" i18n-value value="De-registration failed" />
+<input #successRegContent type="hidden" i18n-value value="Registered Successfully" />
+<input #existsRegContent type="hidden" i18n-value value="Another course is registered on that Day" />
+<input #alreadyRegContent type="hidden" i18n-value value="Already registered" />
+<input #notExistsContent type="hidden" i18n-value value="Course Id does not exists" />
+<input #failedRegContent type="hidden" i18n-value value="Registration failed" />
+<input #seatsFullContent type="hidden" i18n-value value="Seats are full" />
+<input #notMetContent type="hidden" i18n-value value="Pre-requisite are not met" />
+<input #closedRegContent type="hidden" i18n-value value="Registration closed" />
+<input #conflictsRegContent type="hidden" i18n-value value="Conflicts with the selected date" />

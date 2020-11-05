@@ -1,0 +1,12 @@
+<div [hidden]="isRestricted">
+  <div class="mat-toolbar discussion-head shadow">
+    <!-- (click)="showDiscussionForum = !showDiscussionForum">
+    <mat-icon *ngIf="showDiscussionForum">keyboard_arrow_down</mat-icon>
+    <mat-icon *ngIf="!showDiscussionForum">chevron_right</mat-icon> -->
+
+    <h2>Discussion Forum</h2>
+  <!-- </div> -->
+  <ng-container *ngIf="showDiscussionForum">
+    <div [wsResolverWidget]="discussionForumWidget"></div>
+  </ng-container>
+</div>

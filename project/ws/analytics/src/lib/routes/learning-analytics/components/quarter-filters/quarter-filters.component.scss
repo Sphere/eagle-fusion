@@ -1,0 +1,72 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.quarter-filter-wrapper {
+  margin: 5px 0px 0px 16px;
+
+  // font-size: $user-size;
+  .quarter {
+
+    padding-right: 8px;
+  }
+
+  .quarter-and-year {
+    padding: 7px 7px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    // &:hover{
+    //     background-color: #ffeb3b;
+    // }
+  }
+
+  .calendar {
+    padding: 7px 6px 3px 8px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+  }
+
+  .quarter-apply {
+    padding: 3px 6px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    color: white;
+    background-color: #2c806f;
+    cursor: pointer;
+  }
+
+  .selected {
+    background-color: #ffeb3b;
+    color: #303030;
+  }
+}
+
+// .quarter {
+//     margin-top: -1%;
+// }
+.apply {
+  background-color: #2c806f;
+  color: white;
+}
+
+.on-small {
+  @include breakpoint-xs {
+    margin: $size-s;
+  }
+}
+
+.calendar-today {
+  padding: 7px 3px 3px 7px;
+}
+
+.icons {
+  font-size: 20px;
+}
+
+.icon-close {
+  font-size: 22px;
+}
+
+.last {
+  padding: 3px;
+}

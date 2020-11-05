@@ -1,0 +1,45 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.progress {
+  .progress-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-content {
+    width: 90%;
+    &-type {
+      font-weight: 500;
+    }
+  }
+  .progress-name {
+    font-weight: 500;
+  }
+  .progress-progress {
+    &-value {
+      font-size: 1.3rem;
+    }
+  }
+  .progress-expand {
+    width: 10%;
+    &-button {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  .progress-spinner {
+    margin: 0 auto;
+    margin-top: 1rem;
+  }
+  .progress-children {
+    margin-top: 1rem;
+    .progress {
+      margin-top: 1rem;
+    }
+    .progress-children-container {
+      padding-left: $size-l;
+      padding-bottom: $size-l;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<div class="articles-container">
+  <mat-card class="margin-top-s" *ngFor="let article of articles">
+    <div class="flex">
+      <a class="icon" [href]="article.url" target="_blank">
+        <img alt="icon" class="article-img" [src]="article?.iconUrl" />
+      </a>
+      <div class="width-expand">
+        <h2 class="margin-remove mat-h2 text-truncate">
+          <a [href]="article.url" target="_blank">
+            <div class="title margin-bottom-xs">{{ article?.title }}</div>
+          </a>
+        </h2>
+        <div class="date">{{ article?.postedOn | titlecase }}</div>
+        <div class="text-truncate">{{ article?.abstract }}</div>
+      </div>
+    </div>
+  </mat-card>
+</div>

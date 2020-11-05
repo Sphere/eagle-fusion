@@ -1,0 +1,56 @@
+<mat-card class="blog-container">
+  <div *ngIf="post" class="text-overwrap w-full">
+    <div class="flex flex-middle flex-between">
+      <a [routerLink]="'/app/social/forums/post/' + post.id" class="ws-mat-primary-text mat-title text-overwrap pb-2">
+        {{ post.postContent.title }}
+      </a>
+      <ws-app-btn-flag [postCreatorId]="post.postCreator?.postCreatorId" [postId]="post.id"
+        [flagged]="post.activity.userActivity.flag">
+      </ws-app-btn-flag>
+    </div>
+
+    <div class="mb-4 mt-1 text-abstract-trim">
+      {{ post.postContent.abstract }}
+    </div>
+    <div class="flex flex-middle">
+      <mat-icon>account_circle</mat-icon>
+      <div class="px-2 ws-mat-primary-text">
+        {{ post.postCreator.name }}
+      </div>
+      <div class="px-2" *ngIf="post.source.forumName && partOfRequired">
+        <span class="ws-mat-primary-text"><span i18n>Part Of: </span>{{ post.source.forumName }}</span>
+      </div>
+    </div>
+    <div class="flex flex-between" *ngIf="post.activity">
+      <div class="flex flex-middle">
+        <span class="ws-mat-primary-text mat-caption pr-4"><span i18n>Modified:
+          </span>{{ post.dtLastModified | date }}</span>
+
+        <ws-widget-btn-social-vote [postId]="post.id" [activity]="post.activity" [voteType]="'upVote'"
+          [postCreatorId]="post.postCreator?.postCreatorId">
+        </ws-widget-btn-social-vote>
+        <ws-widget-btn-social-vote class="margin-left-s" [postId]="post.id" [activity]="post.activity"
+          [voteType]="'downVote'" [postCreatorId]="post.postCreator?.postCreatorId"></ws-widget-btn-social-vote>
+        <!-- <ws-app-btn-flag [postCreatorId]='post.postCreator?.postCreatorId' [postId]="post.id"
+            [flagged]="post.activity.userActivity.flag">
+            </ws-app-btn-flag> -->
+
+      </div>
+      <span class="ws-mat-primary-text flex flex-middle">
+        <mat-icon class="px-2 grey-icons">comment</mat-icon>{{ post.replyCount }}
+      </span>
+    </div>
+  </div>
+
+  <!-- <span class="spacer"></span> -->
+
+  <!--  <div class="icon-section" *ngIf="post">
+    <ws-widget-btn-social-vote class="block" [voteType]="'upVote'" [postId]="post.id" [activity]="post.activity"
+      [iconType]="'triangle'" [postCreatorId]="post?.postCreator?.postCreatorId"></ws-widget-btn-social-vote>
+    <div class="vote-count">
+      {{ post.activity.activityData.upVote - post.activity.activityData.downVote }}
+    </div>
+    <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="post.id" [activity]="post.activity"
+      [iconType]="'triangle'" [postCreatorId]="post?.postCreator?.postCreatorId"></ws-widget-btn-social-vote>
+  </div> -->
+</mat-card>

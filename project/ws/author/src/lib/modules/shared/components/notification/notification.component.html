@@ -1,0 +1,254 @@
+<p *ngIf="canShow('success')">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Success">thumb_up</mat-icon>
+  <span i18n>Your action is successful</span>
+</p>
+
+<p *ngIf="canShow('failure')">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Unable to complete action. Try again</span>
+</p>
+
+<p *ngIf="type === notify.CONTENT_CREATE_SUCCESS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Success">thumb_up</mat-icon>
+  <span i18n>New content created. Add details</span>
+</p>
+
+<p *ngIf="type === notify.INVALID_FORMAT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Invalid format</span>
+</p>
+
+<p *ngIf="type === notify.DELETED">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Content was already deleted</span>
+</p>
+
+<p *ngIf="type === notify.PUBLISH_SUCCESS_LATE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Success">thumb_up</mat-icon>
+  <span i18n>Content published successfully. Will reflect in few mins</span>
+</p>
+
+<p *ngIf="type === notify.FORCE_SAVE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Save and try again</span>
+</p>
+
+<p *ngIf="type === notify.SIZE_ERROR">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Size is greater than allowed, check info</span>
+</p>
+
+<p *ngIf="type === notify.DATA_PRESENT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Data is already present</span>
+</p>
+
+<p *ngIf="type === notify.MANDATORY_FIELD_ERROR">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Fill all the mandatory fields</span>
+</p>
+
+<p *ngIf="type === notify.BODY_OR_URL">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Fail">error</mat-icon>
+  <span i18n>Provide either URL or Body</span>
+</p>
+
+<p *ngIf="type === notify.UP_TO_DATE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Content is up-to date</span>
+</p>
+
+<p *ngIf="type === notify.IPR_DECLARATION">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Read IPR Declaration and accept the terms!</span>
+</p>
+
+<p *ngIf="type === notify.IPR_DECLARATION_PF">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Please accept the Resource Hub Terms & Conditions</span>
+</p>
+
+<p *ngIf="type === notify.UPLOAD_FILE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Upload the file!</span>
+</p>
+
+<p *ngIf="type === notify.TRANSCODE_FAIL">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Transcoding of video failed. May Experience slowness!</span>
+</p>
+
+<p *ngIf="type === notify.CURATE_MANDATORY_MISS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Check Thumbnail, Name, Description, Subtitle, Duration is provided</span>
+</p>
+
+<p *ngIf="type === notify.KBOARD_MANDATORY_MISS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Check Thumbnail, Name, Description is provided</span>
+</p>
+
+<p *ngIf="type === notify.CREATE_MANDATORY_MISS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Check Thumbnail, Name, Description, Subtitle, Duration is provided</span>
+</p>
+
+<p *ngIf="type === notify.NO_ROLE" class="flex">
+  <mat-icon class="icon self-center" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n class="self-center">Selected user does not to have publish/review rights, please contact admin to get publish/review rights for this user or
+    select another user who has publish/review rights</span>
+</p>
+<p *ngIf="type === notify.NO_ACCESS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>You don't have access!</span>
+</p>
+
+<p *ngIf="type === notify.WINDOW_SIZE_ERROR">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>This screen is designed for 12" and above!</span>
+</p>
+
+<p *ngIf="type === notify.NOT_READY">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Functionality is not enabled yet!</span>
+</p>
+<p *ngIf="type === notify.NO_CONTENT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>There is no content!</span>
+</p>
+<p *ngIf="type === notify.LINK_UPLOAD">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Enter the link!</span>
+</p>
+<p *ngIf="type === notify.COPY">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Copied!</span>
+</p>
+<p *ngIf="type === notify.CREATE_CONTENT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Create Content and save it and try again!</span>
+</p>
+<p *ngIf="type === notify.DUPLICTE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Did not add “ID/s” as they are duplicate/s!</span>
+</p>
+<p *ngIf="type === notify.DELETE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Delete data from "Paste Generated Code Tab"</span>
+</p>
+<p *ngIf="type === notify.RESOLUTION_MISMATCH">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Check number columns required for this widget</span>
+</p>
+<p *ngIf="type === notify.PROCESS_FAIL">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Unable to process file</span>
+</p>
+<p *ngIf="type === notify.MULTI_STRIP_VIOLATION">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Select automatic height to fix alignment issues</span>
+</p>
+
+<!-- Assessment editor 'MAX_QUIZ_REACHED',
+  MAX_OPTIONS_REACHED = 'MAX_QUIZ_REACHED', -->
+<p *ngIf="type === notify.RESOURCE_NO_QUIZ">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Resource should have atlest one Quiz!</span>
+</p>
+<p *ngIf="type === notify.ASSESSMENT_MIN_QUIZ">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Assessment should have atlest 10 Quizzes!</span>
+</p>
+<p *ngIf="type === notify.MAX_QUIZ_REACHED">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Maximum Quiz allowed is reached!</span>
+</p>
+<p *ngIf="type === notify.MAX_OPTIONS_REACHED">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Maximum Options allowed is reached!</span>
+</p>
+<p *ngIf="type === notify.QUESTION_EMPTY">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Problem statement cannot be empty!</span>
+</p>
+<p *ngIf="type === notify.QUESTION_SPACES_ALONE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Problem statement cannot contain spaces alone!</span>
+</p>
+<p *ngIf="type === notify.OPTION_EMPTY">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Options field cannot be empty!</span>
+</p>
+<p *ngIf="type === notify.OPTION_SPACES_ALONE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Options field cannot contain spaces alone!</span>
+</p>
+<p *ngIf="type === notify.FILLUPS_BLANKS_OPTIONS" class="flex">
+  <mat-icon class="icon self-center" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span class="self-center" i18n>In Fill-ups, the number of Blanks should be equal to number of Answers!</span>
+</p>
+<p *ngIf="type === notify.MCQ_NO_OPTION_CORRECT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Atleast one option should be correct for MCQ!</span>
+</p>
+<p *ngIf="type === notify.MCQ_ALL_OPTIONS_CORRECT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>All the options cannot be correct for MCQ!</span>
+</p>
+
+<!-- web-module -->
+<p *ngIf="type === notify.WEB_MODULE_MIN_PAGE_REQUIRED">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Module must have atleast one page</span>
+</p>
+<p *ngIf="type === notify.WEB_MODULE_PAGE_EMPTY">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Page content can not be empty</span>
+</p>
+<p *ngIf="type === notify.WEB_MODULE_AUDIO_ALL_LANGUAGE_PRESENT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>You have already added audios for all languages</span>
+</p>
+<!-- class diagram -->
+<p *ngIf="type === notify.EMPTY_PROBLEM_STATEMENT">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Problem statement cannot be empty</span>
+</p>
+<p *ngIf="type === notify.CLASS_DIAGRAM_NO_CLASS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Atleast one class is required</span>
+</p>
+<p *ngIf="type === notify.EMPTY_CLASS_NAME">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Class name cannot be empty</span>
+</p>
+<p *ngIf="type === notify.CLASS_NO_ATTRIBUTE_NO_METHOD">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span i18n>Class should have atleast one attribute or method</span>
+</p>
+<p *ngIf="type === notify.CLASS_USED_IN_RELATION">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Can't delete a class tah is used in a relation</span>
+</p>
+<p *ngIf="type === notify.CLASS_NAME_TAKEN">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>This class is already defined</span>
+</p>
+<p *ngIf="type === notify.RELATION_MIN_CLASS_REQUIRED">
+  <mat-icon class="icon self-center" aria-hidden="false" i18n-aria-label aria-label="Notification">notification_important</mat-icon>
+  <span class="self-center" i18n>Atleast two classes are required to create a relation</span>
+</p>
+<p *ngIf="type === notify.RELATION_EXISTS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>This relation is already declared</span>
+</p>
+
+<!-- auth role request notification -->
+<p *ngIf="type === notify.ROLE_REQUEST_SUBMIT_SUCCESS">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Your request has been submit.</span>
+</p>
+<p *ngIf="type === notify.ROLE_REQUEST_SUBMIT_FAILURE">
+  <mat-icon class="icon" aria-hidden="false" i18n-aria-label aria-label="Notification">error</mat-icon>
+  <span i18n>Unable to submit your request. Try again </span>
+</p>

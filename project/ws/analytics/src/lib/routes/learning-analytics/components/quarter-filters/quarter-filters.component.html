@@ -1,0 +1,61 @@
+<article class="quarter-filter-wrapper">
+  <section class="flex flex-wrapped" *ngIf="!quarterOrInput">
+    <div class="quarter" *ngFor="let year of config.years">
+      <div matRipple class="quarter-and-year" [ngClass]="{ selected: year.value === config.selectedYear }"
+        (click)="changeYear(year.value)">
+        <p class="mat-body-1 font-bold margin-remove-bottom">{{ year.key }}</p>
+      </div>
+    </div>
+    <div class="quarter" *ngFor="let quarter of config.quarters">
+      <div matRipple class="quarter-and-year" [ngClass]="{
+          selected: config.selectedQuarters.indexOf(quarter.id) > -1
+        }" (click)="selectQuarters(quarter)">
+        <p class="mat-body-1 font-bold margin-remove-bottom">{{ quarter.name }}</p>
+      </div>
+    </div>
+    <div class="quarter">
+      <div class="calendar calendar-today">
+        <mat-icon class="icons" (click)="toggleInput(); config.type = 'input'">calendar_today</mat-icon>
+      </div>
+    </div>
+    <div class="quarter">
+      <button mat-raised-button color="primary" (click)="applyDateFilter()">
+        <p class="mat-body-1 margin-top-xs" i18n>Apply</p>
+      </button>
+    </div>
+  </section>
+  <section class="flex flex-wrapped" *ngIf="quarterOrInput">
+    <!-- <form [formGroup]="dateForm"> -->
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" [max]="maxDate" placeholder="Start Date"
+        (dateInput)="inputChange('start', $event)" [formControl]="dateStart" autocomplete="off" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker1" [max]="maxDate" placeholder="End Date"
+        (dateInput)="inputChange('end', $event)" [formControl]="dateEnd" autocomplete="off" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <!-- </form> -->
+    <div class="quarter">
+      <div class="quarter-and-year calendar-today">
+        <mat-icon class="icon-close" (click)="toggleInput(); config.type = 'default'"
+          [matTooltip]="'Select year and quarter'">close</mat-icon>
+      </div>
+    </div>
+    <div class="quarter">
+      <div class="quarter-and-year" [ngClass]="{ selected: config.type == 'last30' }"
+        (click)="selectToday(); config.type = 'last30'" i18n>
+        <p class="mat-body-1 last font-bold margin-remove-bottom">Last 30 days</p>
+      </div>
+    </div>
+    <div class="quarter">
+      <button mat-raised-button color="primary" (click)="applyDateFilter()">
+        <p class="mat-body-1 font-bold margin-top-xs" i18n>Apply</p>
+      </button>
+    </div>
+  </section>
+</article>
+  <input #errorContent type="hidden" i18n-value value="End date should be greater than or equal to start date" />

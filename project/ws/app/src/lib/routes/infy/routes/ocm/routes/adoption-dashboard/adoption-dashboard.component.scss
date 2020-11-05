@@ -1,0 +1,23 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.pad {
+  padding: $size-m;
+  @include breakpoint-gt-xs {
+    padding: $size-m $size-xl;
+  }
+}
+
+.radioGroup {
+  @include breakpoint-gt-s {
+    display: grid;
+  }
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-top: $size-xl;
+}
+
+.icon {
+  transform: scale(1.5);
+}

@@ -1,0 +1,215 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+@import 'ws-common';
+
+// Contents of SideNav Menu
+.sidenav {
+  // width: 20%;
+  // min-width: 250px;
+  // padding: $size-s;
+  background: inherit;
+  box-shadow: none;
+}
+
+mat-sidenav-container {
+  height: 100%;
+ // min-height: 80vh;
+}
+
+// Contents of Side Nav Content
+mat-sidenav-content {
+  margin: 0;
+  padding: 0 $size-m $size-l;
+  box-sizing: border-box;
+  min-height: calc(100vh - 145px);
+  overflow-x: hidden !important;
+}
+
+
+
+.qna-home-container {
+  background-color: rosybrown;
+  border-radius: 0;
+  box-sizing: border-box;
+  min-height: calc(100vh - 112px);
+  width: 60%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px 0;
+  .qna-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.margin-remove {
+  margin: 0;
+}
+
+
+.day-mode {
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: none !important;
+  }
+}
+
+.sidenav-content-header {
+  height: 40px;
+}
+
+.best-result {
+  float: right;
+  margin: 5px;
+}
+
+.concept {
+  text-align: center;
+  margin-right: $size-s;
+  height: 100px;
+  min-width: 5 * $size-l;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $size-s;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.search-card {
+  display: block;
+  margin-bottom: $size-xs;
+}
+
+.catalog-link {
+  border-bottom: 1px dotted;
+}
+
+.hide-filter-btn {
+  visibility: hidden;
+}
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 30px;
+    padding: 0 12px;
+}
+example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.example-radio-button {
+  margin: 5px;
+  margin-right: 30%
+}
+  .tempcolor{
+background-color: #3f51b5;
+  }
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+
+
+.line-height-username1 {
+	line-height: 3.75rem;
+}
+.change_color_on_hover :hover{
+	background-color: #e7eaf3;
+	cursor: pointer;
+}
+.mat-form-field + .mat-form-field {
+	margin-left: 8px;
+  }
+
+  h1 {
+	color: #FFFFFF ;
+	left: 20px ;
+	position: absolute ;
+	top: 0px ;
+	}
+
+	ul.avatars {
+	display: flex ; /* Causes LI items to display in row. */
+	list-style-type: none ;
+	margin: auto ; /* Centers vertically / horizontally in flex container. */
+	padding: 0px 7px 0px 0px ;
+
+	/*
+	By using the row-reverse layout, the visual ordering will be opposite of
+	the DOM ordering. This will allows us to stack the items in the opposite
+	direction of the natural stacking order without having to mess with the
+	zIndex value. The MAJOR DOWNSIDE is that the HTML itself now reads
+	backwards, which super janky.
+	*/
+	flex-direction: row-reverse ;
+	}
+
+	li.avatars__item {
+	height: 49px ;
+	margin: 0px 0px 0px 0px ;
+	padding: 0px 0px 0px 0px ;
+	position: relative ;
+	width: 42px ; /* Forces flex items to be smaller than their contents. */
+	}
+
+	/*
+	These items are all 49px wide while the flex-item (in which they live) is
+	only 42px wide. As such, there will be several pixels of overflow content,
+	which will be stacked using the natural DOM-based stacking order.
+	*/
+	img.avatars__img,
+	span.avatars__initials,
+	span.avatars__others {
+	background-color: #596376 ;
+	border: 2px solid #1F2532 ;
+	border-radius: 100px 100px 100px 100px ;
+	color: #FFFFFF ;
+	display: block ;
+	font-family: sans-serif ;
+	font-size: 12px ;
+	font-weight: 100 ;
+	height: 45px ;
+	line-height: 45px ;
+	text-align: center ;
+	width: 45px ;
+	}
+
+	span.avatars__others {
+	background-color: #1E8FE1 ;
+	}
+	.line-height-username1 {
+		line-height: 3.75rem;
+	}
+	.example-card {
+		max-width: 400px;
+	  }
+
+	  .example-header-image {
+		background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+		background-size: cover;
+	  }
+    .hide-filter-btn {
+  visibility: hidden;
+}
+
+ .vote-count {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }

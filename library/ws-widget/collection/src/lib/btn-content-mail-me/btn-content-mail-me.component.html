@@ -1,0 +1,11 @@
+<button
+  mat-icon-button
+  i18n-aria-label
+  aria-label="Send Content to your mailbox"
+  i18n-matTooltip
+  matTooltip="Send the content to your mail box"
+  *ngIf="enabled"
+  (click)="confirm()"
+>
+  <mat-icon>contact_mail</mat-icon>
+</button>

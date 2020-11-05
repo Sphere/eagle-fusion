@@ -1,0 +1,33 @@
+<!-- <div mat-dialog-title>
+  Problem statement
+</div> -->
+
+<div class="dialog-container">
+  <!-- div to display problem statement  -->
+  <div class="problem-statement" [innerHTML]="data.problemStatement"></div>
+
+  <div class="options" *ngIf="data.questionType == 'SCQ' || data.questionType == 'MCQ'">
+    <!-- loop to display options -->
+    <div *ngFor="let num of [1,2,3,4,5,6]">
+      <div class="option flex" *ngIf="data['option'+ num ]">
+        <mat-radio-button *ngIf="data.questionType == 'SCQ'" [disabled]="true"></mat-radio-button>
+        <mat-checkbox *ngIf="data.questionType == 'MCQ'" [disabled]="true"></mat-checkbox>
+        <span [innerHTML]="data['option'+ num ]"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex solution-pane w100">
+    <div *ngIf="data.questionType !== 'fib' ">Solution: &nbsp;{{data.solution.split("").join(',')}}</div>
+    <div *ngIf="data.questionType == 'fib' ">Solution: &nbsp;{{data.solution}}</div>
+  </div>
+
+</div>
+
+<div mat-dialog-actions>
+  <div class="close-btn">
+    <button mat-raised-button class="ws-mat-primary-background" [mat-dialog-close]="data">
+      <span class="text-white" i18n>Close</span>
+    </button>
+  </div>
+</div>

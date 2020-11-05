@@ -1,0 +1,161 @@
+<mat-toolbar [color]="pageNavbar?.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'About',url:'none'}] }"></ws-widget-btn-page-back>
+  <!-- <span class="margin-left-xs text-truncate">
+    <span i18n="page title: about" class="margin-left-xs">About</span>
+  </span> -->
+</mat-toolbar>
+
+<section class="about-content leading-relaxed" *ngIf="aboutPage">
+  <div class="about-info" *ngIf="aboutPage?.banner" [style.backgroundImage]="headerBanner">
+    <div class="about-info-bg header-synopsis" align="center">
+      <div class="header-title">
+        <h1 class="mat-display-2 margin-bottom-l">
+          {{ aboutPage?.banner?.title }}
+        </h1>
+      </div>
+      <div class="header-meta">
+        <div class="banner-overview-container flex flex-wrap">
+          <h2 class="overview-description">
+            {{ aboutPage?.banner?.description }}
+          </h2>
+
+          <div *ngIf="videoLink" class="overview-intro ws-mat-primary-lite-background">
+            <iframe [src]="videoLink" i18n-title title="about-video" allow="fullscreen" class="about-video"
+              width="100%"></iframe>
+          </div>
+        </div>
+        <a mat-raised-button *ngIf="aboutPage?.banner?.moreInfo" type="button" [href]="aboutPage?.banner?.moreInfo"
+          target="_blank" color="primary" i18n="about first section action button">Read More
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="overview-container text-justify" *ngIf="aboutPage?.innerHtmlWithTitle">
+    <h1 class="mat-heading">
+      {{ aboutPage?.innerHtmlWithTitle?.title }}
+    </h1>
+    <div [innerHTML]="aboutPage?.innerHtmlWithTitle?.para | pipeSafeSanitizer: 'html'"></div>
+  </section>
+  <section class="container-margin text-justify" *ngIf="aboutPage?.section1">
+    <h1 class="mat-heading">
+      {{ aboutPage?.section1?.title }}
+    </h1>
+    <div class="flex flex-between flex-wrap pb-4">
+      <div class="learning-overview">
+        <p *ngFor="let content of aboutPage?.section1?.leftParas">
+          {{ content }}
+        </p>
+      </div>
+      <div class="learning-overview" *ngIf="aboutPage?.section1?.rightParas?.length>0">
+        <p *ngFor="let content of aboutPage?.section1?.rightParas">
+          {{ content }}
+        </p>
+      </div>
+    </div>
+    <div class="text-center ws-mat-primary-background mat-toolbar mat-primary p-4" *ngIf="aboutPage?.section2">
+      <h1 class="mat-heading">
+        {{ aboutPage?.section2?.description }}
+      </h1>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="pt-4" *ngIf="aboutPage?.section3">
+      <h1 class="mat-heading">
+        {{ aboutPage?.section3?.title }}
+      </h1>
+
+      <!-- <div class="overview-intro ws-mat-primary-lite-background">
+          <iframe
+            [src]="videoLink"
+            i18n-title
+            title="about-video"
+            allow="fullscreen"
+            class="about-video"
+            width="100%"
+          ></iframe>
+        </div> -->
+
+      <div class="learning-world" *ngIf="aboutPage?.section3">
+        <p *ngFor="let content of aboutPage?.section3?.rightParas">
+          {{ content }}
+        </p>
+      </div>
+    </div>
+
+    <section class="m-4" *ngIf="aboutPage?.features">
+      <div *ngIf="aboutPage?.features.length>0">
+        <div class="text-justify" *ngFor="let key of aboutPage?.features">
+          <div>
+            <h4>
+              {{key.title}}
+            </h4>
+          </div>
+          <div>{{key.description}}</div>
+       <br />
+
+        </div>
+
+
+      </div>
+    </section>
+    <!-- <section class="m-4" *ngIf="aboutPage?.features">
+      <h1 class="mat-heading">
+        {{ aboutPage?.features?.title }}
+      </h1>
+      <p class="text-justify">
+        {{ aboutPage?.features?.description }}
+      </p>
+      <mat-accordion *ngIf="aboutPage?.features?.list.length>0">
+        <mat-expansion-panel class="text-justify" *ngFor="let key of objectKeys(aboutPage?.features?.list)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ key }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div [innerHTML]="(aboutPage?.features?.list)[key] | pipeSafeSanitizer: 'html'"></div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </section> -->
+    <mat-divider></mat-divider>
+  </section>
+  <!-- <section class="container-margin" *ngIf="aboutPage?.section4">
+    <div class="about-info-footer ws-primary-tinted-50" [style.backgroundImage]="footerBanner">
+      <h1 class="mat-heading">
+        {{ aboutPage?.section4.title }}
+      </h1>
+
+      <ws-utils-horizontal-scroller class="padding-s" [loadStatus]="'done'">
+        <mat-card class="benefit-card" *ngFor="let card of aboutPage?.section4.cards">
+          <mat-card-title class="flex p-6 pb-0">
+            <mat-icon class="assessment-icon">{{ card.icon }}</mat-icon>
+
+            <h3 class="mat-title font-bold title-text pl-4">
+              {{ card.title }}
+            </h3>
+          </mat-card-title>
+
+          <mat-card-content>
+            <p class="text-justify" *ngFor="let content of card.para">
+              {{ content }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </ws-utils-horizontal-scroller>
+    </div>
+    <section>
+      <div
+        *ngIf="aboutPage?.section5"
+        class="about-section-full text-justify ws-mat-primary-background mat-toolbar mat-primary"
+      >
+        <h1 class="mat-heading">
+          {{ aboutPage?.section5?.title }}
+        </h1>
+
+        <p class="text-justify">
+          {{ aboutPage?.section5?.subtitle }}
+        </p>
+        <p>
+          {{ aboutPage?.section5?.para }}
+        </p>
+      </div>
+    </section>
+  </section> -->
+</section>

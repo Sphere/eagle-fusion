@@ -1,0 +1,231 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.profile-container {
+  margin: 16px 16px 0 16px;
+
+  @include breakpoint-xs {
+    margin: 16px 16px 0 16px;
+  }
+
+  .margin-zero {
+    margin-bottom: 0px;
+  }
+
+  .about-me {
+    width: 45%;
+    min-width: 220px;
+    margin-right: 24px;
+    padding-bottom: 16px;
+
+    @include breakpoint-lt-m {
+      width: 100%;
+      margin-right: 0px;
+
+      margin-bottom: 16px;
+    }
+
+    .user-avatar {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+
+      .user-name {
+        display: flex;
+        margin-left: 16px;
+        flex-direction: column;
+      }
+
+      h2 {
+        margin: 0;
+      }
+    }
+
+    .interest-container {
+      margin: 16px;
+
+      .interest-chip {
+        background-color: transparent !important;
+        margin: 16px;
+      }
+    }
+
+    .user-image {
+      $size: 68px;
+      width: $size;
+      height: $size;
+      font-size: $size;
+      display: inline-block;
+
+      @include breakpoint-xs {
+        $size: 48px;
+        width: $size;
+        height: $size;
+        font-size: $size;
+      }
+    }
+  }
+
+  .description-container {
+    flex: 1;
+    box-sizing: border-box;
+
+    .learning-container {
+      @include breakpoint-gt-s {
+        height: 100%;
+      }
+    }
+
+    .badges-container {
+      min-height: 160px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      $badge-padding: 16px;
+      $medium-badge-size: 90px;
+      padding: $badge-padding;
+      width: $medium-badge-size + 2 * $badge-padding;
+      padding-top: 0;
+      box-sizing: border-box;
+      text-align: center;
+
+      @include breakpoint-xs {
+        $badge-padding: 8px;
+        $medium-badge-size: 48px;
+        padding: $badge-padding;
+        width: $medium-badge-size + 2 * $badge-padding;
+      }
+
+      .medium-badge {
+        width: $medium-badge-size;
+        height: $medium-badge-size;
+        border-radius: 50%;
+        padding-top: 8px;
+      }
+    }
+  }
+
+  .learning-time {
+    width: 35%;
+    min-height: 150px;
+    box-sizing: border-box;
+    position: relative;
+
+    @include breakpoint-xs {
+      margin-left: 0px;
+      width: 100%;
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    .title-no {
+      position: absolute;
+      top: 45%;
+    }
+  }
+
+  .most-used {
+    width: 100%;
+    box-sizing: border-box;
+
+    @include breakpoint-lt-m {
+      margin-left: 0px;
+      width: 100%;
+    }
+
+    @include breakpoint-m {
+      width: 100%;
+      margin-top: 16px;
+    }
+  }
+
+  .calendar-data {
+    width: 45%;
+    padding: 16px;
+
+    @include breakpoint-lt-m {
+      width: 100%;
+      margin: 4px;
+    }
+
+    @include breakpoint-m {
+      width: 100%;
+      margin: 4px;
+    }
+
+    .title-feature {
+      height: 16%;
+    }
+
+    .description-feature {
+      height: 84%;
+      align-content: space-between;
+
+      .img-feature {
+        height: 49%;
+        box-sizing: border-box;
+
+        .container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        .image {
+          display: block;
+          height: auto;
+          object-fit: cover;
+        }
+
+        .overlay {
+          position: absolute;
+          bottom: 0;
+          background: rgb(0, 0, 0);
+          background: rgba(0, 0, 0, 0.5);
+          color: #f1f1f1;
+          width: 100%;
+          transition: 0.5s ease;
+          color: white;
+          padding: 8px 0px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.msg {
+  margin: 0px !important;
+}
+
+.kb-chip {
+  height: auto;
+}
+
+.star {
+  font-size: 20px;
+}
+
+// .left-second {
+//   width: 32%;
+// }
+
+// .right-second {
+//   width: 64%;
+//   margin: 16px;
+// }
+
+// .badges-details {
+//   width: 64%;
+// }
+
+//
+
+// .calendar {
+//   width: 64%;
+// }
+
+// .learning-details {
+//   width: 32%;
+// }

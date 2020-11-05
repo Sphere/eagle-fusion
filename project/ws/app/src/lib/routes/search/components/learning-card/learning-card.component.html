@@ -1,0 +1,115 @@
+<ng-container *ngIf="displayType === 'basic'">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <a [routerLink]="'/'">{{ content.name }}</a>
+      </mat-card-title>
+      <mat-card-subtitle class="margin-remove-bottom">{{ content?.description | pipeLimitTo: 250 }}
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</ng-container>
+
+<ng-container *ngIf="displayType === 'advanced'">
+  <mat-card *ngIf="content" class="advanced-view relative">
+    <div *ngIf="content.status === 'Deleted' || content.status === 'Expired'" i18n-aria-label
+      aria-label="Content expired or deleted" i18n-matTooltip matTooltip="Content may be expired or deleted"
+      class="status-danger"></div>
+    <mat-card-content>
+      <div class="flex flex-middle" [title]="content.name">
+        <a (click)="raiseTelemetry()" [routerLink]="(content | pipeContentRoute).url"
+          [queryParams]="(content | pipeContentRoute).queryParams" class="image-section">
+          <img i18n-alt alt="thumbnail" class="mat-lite-background" [src]="content.appIcon"
+            [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+        </a>
+        <div class="width-expand card-content">
+          <h1 [title]="content.name" class="margin-remove-top margin-remove-bottom flex flex-middle">
+            <mat-icon *ngIf="contentProgress > 0.99" i18n-matTooltip matTooltip="Completed" class="completed-icon">
+              check_circle</mat-icon>
+            <a (click)="raiseTelemetry()" [routerLink]="(content | pipeContentRoute).url"
+              [queryParams]="(content | pipeContentRoute).queryParams"
+              class="margin-remove-bottom text-truncate mat-title">{{ content.name }}</a>
+          </h1>
+          <div>
+            <ws-widget-display-content-type i18n-matTooltip matTooltip="Content Type"
+              *ngIf="content?.displayContentType" class="ws-mat-primary-text font-normal"
+              [displayContentType]="content?.contentType==='Collection'
+              ?'Module'
+              :(content?.contentType==='Learning Path'?'Program':content?.contentType)">
+            </ws-widget-display-content-type>
+            <span *ngIf="content.complexityLevel">
+              | {{ content.complexityLevel | titlecase }}</span>
+            <span *ngIf="content.exclusiveContent">
+              | <span class="ws-mat-primary-text font-normal">Paid Content</span></span>
+          </div>
+          <div>
+            <span *ngIf="content.duration">{{ content.duration | pipeDurationTransform }} | </span>
+            <!-- | pipeDurationTransform -->
+            <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s">{{
+              content.lastUpdatedOn | date: "MMM'' yy"
+            }}</span>
+            <!-- commented earlier -->
+            <!-- <span *ngIf="content.me_totalSessionsCount > 1"> | {{ content.me_totalSessionsCount | countTransform }} views</span> -->
+          </div>
+          <div *ngIf="content.trainingLHubCount" class="mat-body-2">
+            <span>{{ content.trainingLHubCount }}</span>
+            <span>
+              <ng-container *ngIf="content?.trainingLHubCount > 1" i18n>
+                trainings available</ng-container>
+              <ng-container *ngIf="content?.trainingLHubCount === 1" i18n>
+                training available</ng-container>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="width-expand padding-top-xs" [ngClass]="{ 'text-truncate': !isExpanded }">
+          <div (click)="isExpanded = !isExpanded" class="mat-body text-justify" [innerHTML]="description">
+
+          </div>
+        </div>
+        <div class="width-auto">
+          <button aria-label="Toggle Expand" i18n-aria-label (click)="isExpanded = !isExpanded" mat-icon-button>
+            <mat-icon>{{ isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="isExpanded" class="flex flex-between">
+        <span>
+          <ws-widget-btn-content-download [widgetData]="{
+              contentId: content.identifier,
+              contentType: content.contentType,
+              resourceType: content.resourceType,
+              mimeType: content.mimeType,
+              downloadUrl: content.downloadUrl,
+              isExternal: content.isExternal,
+              artifactUrl: content.artifactUrl
+
+            }"></ws-widget-btn-content-download>
+          <ws-widget-btn-content-like [widgetData]="{ contentId: content.identifier }"></ws-widget-btn-content-like>
+          <ws-widget-btn-content-share [widgetData]="content"></ws-widget-btn-content-share>
+          <ws-widget-btn-channel-analytics [widgetData]="content">
+          </ws-widget-btn-channel-analytics>
+          <ws-widget-btn-kb-analytics [widgetData]="
+                    content
+                      | pipePartialContent
+                        : [
+                            'identifier',
+                            'contentType',
+                            'resourceType',
+                            'mimeType',
+                            'downloadUrl',
+                            'isExternal',
+                            'artifactUrl'
+                          ]
+                  "></ws-widget-btn-kb-analytics>
+          <ws-widget-btn-kb [contentId]="content?.identifier" [forPreview]='false' [contentType]="content?.contentType">
+          </ws-widget-btn-kb>
+          <!-- <ws-widget-btn-playlist></ws-widget-btn-playlist> -->
+          <ws-widget-btn-goals></ws-widget-btn-goals>
+          <ws-widget-btn-content-mail-me></ws-widget-btn-content-mail-me>
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

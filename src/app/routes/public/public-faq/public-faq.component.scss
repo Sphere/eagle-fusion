@@ -1,0 +1,39 @@
+@import 'ws-common';
+@import 'ws-vars';
+
+.sidenav-container {
+  @extend %height-mat-toolbar-sibling;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.faq-container {
+  margin: $size-l;
+}
+
+.page-heading {
+  margin-bottom: $size-xl;
+}
+
+.sidenav {
+  width: 25%;
+  min-width: 250px;
+  background: inherit;
+  padding: 0px 16px 0px 16px;
+}
+
+.faq-active-class {
+  border-right-color: transparent;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.nav-container {
+  padding: 36px;
+  margin: 16px;
+  @include breakpoint-xs {
+    padding: 16px;
+  }
+}

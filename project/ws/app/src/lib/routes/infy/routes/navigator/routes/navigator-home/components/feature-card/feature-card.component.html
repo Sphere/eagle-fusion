@@ -1,0 +1,19 @@
+<mat-card
+  class="feature-container position-relative  ws-mat-primary-border-top-bolder"
+  [ngClass]="{ disable: !active }"
+>
+  <a [routerLink]="url" [queryParams]="{ id: groupId }">
+    <div class="card-header ws-mat-primary-background"></div>
+    <div class="flex height-1-1">
+      <div class="width-1-1 text-left">
+        <div class="flex">
+          <h2 class="mat-h2 card-title width-expand card-txt ws-mat-primary-text">
+            {{ name }}
+          </h2>
+          <mat-icon class="ws-mat-primary-text">play_arrow</mat-icon>
+        </div>
+        <p class="margin-remove card-txt mat-subheading-1 text-bold">{{ description }}</p>
+      </div>
+    </div>
+  </a>
+</mat-card>

@@ -1,0 +1,29 @@
+<mat-toolbar [color]="configSvc.pageNavBar?.color" [ngStyle]="configSvc.pageNavBar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <span class="margin-left-s" i18n>Track Goal</span>
+</mat-toolbar>
+<main class="max-w-3xl m-auto p-4">
+  <h2 class="mat-title margin-bottom-xs">{{ goal?.name }}</h2>
+  <div *ngIf="goal?.duration">
+    <ng-container i18n>Target time for completion</ng-container>
+    {{goal?.duration}}
+    <ng-container>day(s)</ng-container>
+  </div>
+  <div class="margin-bottom-s" *ngIf="goal?.sharedWith?.length > 0">
+    <ng-container>shared with </ng-container>
+    {{goal?.sharedWith?.length > 1 ? goal?.sharedWith?.length + ' people' : goal?.sharedWith?.length + ' person'}}
+  </div>
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="./accepted" queryParamsHandling="merge" routerLinkActive #accepted="routerLinkActive"
+      [active]="accepted.isActive" i18n>
+      Accepted
+    </a>
+    <a mat-tab-link routerLink="./rejected" queryParamsHandling="merge" routerLinkActive #rejected="routerLinkActive"
+      [active]="rejected.isActive">Rejected
+    </a>
+    <a mat-tab-link routerLink="./pending" queryParamsHandling="merge" routerLinkActive #pending="routerLinkActive"
+      [active]="pending.isActive">Pending
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</main>

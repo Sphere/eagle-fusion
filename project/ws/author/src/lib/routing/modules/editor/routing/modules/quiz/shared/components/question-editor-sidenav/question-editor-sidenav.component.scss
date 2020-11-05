@@ -1,0 +1,86 @@
+.custom {
+  padding: 20px 10px;
+  height: 55px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: grab;
+}
+
+.new-display {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  opacity: 1;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.bordered {
+  border: 1px solid #cecece;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.questionlist.cdk-drop-list-dragging .custom:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.invalidQues {
+  background-color: rgb(236, 68, 68) !important;
+  color: #fff !important;
+  ;
+}
+
+.ws-mat-primary-background {
+  color: #fff !important;
+}
+
+.custom-placeholder {
+  border: dotted 3px #999;
+  min-height: 85px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  opacity: 0;
+}
+
+::ng-deep .myfield .mat-form-field-wrapper {
+  padding: 0px !important;
+}
+
+.small-button {
+  height: 32px;
+  width: 32px;
+  transition: 0.5s;
+  margin-right: 4px;
+}
+
+.small-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  transition: 0.5s;
+}
+
+.m-1 {
+  margin: 0.25rem !important;
+}
+
+.cursor-disable {
+  cursor: not-allowed !important;
+}

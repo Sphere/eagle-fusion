@@ -1,0 +1,131 @@
+<form [formGroup]="form" class="column-wise">
+  <div>
+    <p i18n>Key</p>
+    <mat-form-field class="w-full" appearance="outline">
+      <input matInput i18n-placeholder placeholder="Key" formControlName="key" #key />
+    </mat-form-field>
+  </div>
+  <div>
+    <p i18n>Title</p>
+    <mat-form-field class="w-full" appearance="outline">
+      <input matInput i18n-placeholder placeholder="Title" formControlName="title" #title />
+    </mat-form-field>
+  </div>
+  <div class="button">
+    <p class="mat-label-design" i18n>Loader</p>
+    <mat-slide-toggle
+      class="button-design"
+      [checked]="this.content?.loader || ''"
+      formControlName="loader"
+    >
+    </mat-slide-toggle>
+  </div>
+
+  <div formGroupName="stripConfig">
+    <div class="button mat-form-field-wrapper">
+      <p class="mat-label-design" i18n>Do you require Post-Card</p>
+      <mat-slide-toggle class="button-design" formControlName="postCardForSearch">
+      </mat-slide-toggle>
+    </div>
+    <div class="mat-form-field-wrapper">
+      <p class=" margin-remove-bottom" i18n>Content Card Type</p>
+      <mat-form-field>
+        <mat-select formControlName="cardSubType">
+          <mat-option value="standard" i18n>Standard</mat-option>
+          <mat-option value="minimal" i18n>Minimal</mat-option>
+          <mat-option value="space-saving" i18n>Space-Saving</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <p i18n>Filters</p>
+  <ws-auth-ace-editor
+    [mode]="'json'"
+    [content]="form.controls.filters.value || {}"
+    (data)="form.controls.filters.setValue($event)"
+  >
+  </ws-auth-ace-editor>
+  <br />
+
+  <mat-radio-group
+    aria-labelledby="data-type"
+    [(ngModel)]="requestType"
+    [ngModelOptions]="{ standalone: true }"
+  >
+    <mat-radio-button class="radio-button-design" value="ids" i18n>
+      Content IDs
+    </mat-radio-button>
+    <mat-radio-button class="radio-button-design" value="api" i18n>
+      Provide URL for fetching content
+    </mat-radio-button>
+    <mat-radio-button class="radio-button-design" value="search" i18n>
+      Provide Search Request
+    </mat-radio-button>
+    <mat-radio-button class="radio-button-design" value="searchV6" i18n>
+      Provide Search Request
+    </mat-radio-button>
+    <mat-radio-button class="radio-button-design" value="searchRecommendation" i18n>
+      Provide Search Request
+    </mat-radio-button>
+  </mat-radio-group>
+  <ng-container [ngSwitch]="requestType">
+    <!-- <div *ngSwitchCase="'search'">
+      <br>
+      <mat-form-field appearance="outline" class="full-width">
+        <input matInput (change)="update('search', $event)" i18n-placeholder placeholder="Paste URL of search result" [value]="form.controls.request.get('search').value || ''">
+      </mat-form-field>
+    </div> -->
+    <div *ngSwitchCase="'search'">
+      <ws-auth-ace-editor
+        [mode]="'json'"
+        [content]="form?.controls?.request?.get('search')?.value || {}"
+        (data)="update('api', $event)"
+      >
+      </ws-auth-ace-editor>
+    </div>
+    <div *ngSwitchCase="'searchV6'">
+      <ws-auth-ace-editor
+        [mode]="'json'"
+        [content]="form?.controls?.request?.get('searchV6')?.value || {}"
+        (data)="update('searchV6', $event)"
+      >
+      </ws-auth-ace-editor>
+    </div>
+    <div *ngSwitchCase="'searchRegionRecommendation'">
+      <ws-auth-ace-editor
+        [mode]="'json'"
+        [content]="form?.controls?.request?.get('searchRegionRecommendation')?.value || {}"
+        (data)="update('api', $event)"
+      >
+      </ws-auth-ace-editor>
+    </div>
+    <div *ngSwitchCase="'api'">
+      <ws-auth-ace-editor
+        [mode]="'json'"
+        [content]="form?.controls?.request?.get('api')?.value || {}"
+        (data)="update('api', $event)"
+      >
+      </ws-auth-ace-editor>
+    </div>
+
+    <div *ngSwitchCase="'ids'">
+      <h3 i18n>
+        Provide Content IDs in the order in which it needs to appear. ( You can find the id of a
+        content by going to its details page or player. It will be part of its url and looks like
+        “lex_auth_012893540415217664101”).
+      </h3>
+      <ws-auth-chips
+        (data)="update('ids', $event)"
+        [type]="array"
+        [content]="form?.controls?.request?.get('ids')?.value || []"
+      ></ws-auth-chips>
+      <ws-widget-picker-content
+        [widgetData]="pickerContentData"
+        (change)="onContentSelectionChanged($event)"
+        [dataType]="dataType"
+      >
+      </ws-widget-picker-content>
+    </div>
+  </ng-container>
+</form>

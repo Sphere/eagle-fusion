@@ -1,0 +1,52 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.events-container {
+
+  // text-align: center;
+  @include breakpoint-xs {
+    padding: 0 0 $size-m 0;
+  }
+
+  @include breakpoint-gt-xs {
+    padding: 0 2*$size-l;
+  }
+
+  .live-event-container {
+    height: calc(100vh - 2 * 64px);
+
+    .live-event {
+      max-width: 160vh;
+      max-height: calc(100vh - 64px);
+      width: 100%;
+      height: 100%;
+      display: block;
+      margin: auto;
+    }
+  }
+}
+
+.beta-badge {
+  position: absolute;
+  top: -$size-s;
+  font-size: $size-m;
+  padding: 0.5 * $size-xs 2 * $size-xs;
+}
+
+.go-live {
+  position: absolute;
+  top: $size-xs;
+  right: $size-xs;
+}
+
+.live-card {
+  width: 48%;
+  box-sizing: border-box;
+  margin-bottom: $size-s;
+}
+
+@include breakpoint-xs {
+  .live-card {
+    width: 100%;
+  }
+}

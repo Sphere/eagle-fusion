@@ -1,0 +1,15 @@
+<label id="example-radio-group-label">Select the reason for rejecting the post</label>
+<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedType">
+  <mat-radio-button class="example-radio-button" *ngFor="let flagType of flagTypes" [value]="flagType"
+    (change)="changeButtonStatus()">
+    {{flagType}}
+  </mat-radio-button>
+</mat-radio-group>
+<div>Your reason is: {{selectedType}}</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="confirmed()" [disabled]="confirmButtonStatus" color="primary"
+    style="margin-right: 10%;" i18n>
+    Confirm
+  </button>
+  <button mat-flat-button color="warn" class="margin-right-xs" (click)="dialogRef.close(false)" i18n>Discard</button>
+</div>

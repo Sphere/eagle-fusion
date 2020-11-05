@@ -1,0 +1,46 @@
+<section class="page-container">
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="/app/goals/me/all" routerLinkActive #all="routerLinkActive" [active]="all.isActive"
+      i18n>
+      ALL
+    </a>
+    <a mat-tab-link routerLink="/app/goals/me/completed" routerLinkActive #completed="routerLinkActive"
+      [active]="completed.isActive">COMPLETED
+    </a>
+    <!-- <a mat-tab-link routerLink="/app/goals/me/pending-actions" routerLinkActive #completed="routerLinkActive"
+      [active]="completed.isActive">ACTION REQUIRED
+    </a> -->
+  </nav>
+  <router-outlet></router-outlet>
+
+  <div class="text-center margin-top-xl">
+    <mat-spinner *ngIf="fetchGoalsStatus === 'fetching'"></mat-spinner>
+  </div>
+  <ng-container *ngIf="fetchGoalsStatus !== 'fetching'">
+    <section *ngIf="type === 'all'" class="margin-top-m margin-bottom-xl">
+      <ng-container *ngIf="!(userGoals?.goalsInProgress?.length || userGoals?.completedGoals?.length)">
+        <h2 class="mat-title">You have not added any Goals.</h2>
+        <div class="flex items-center">
+          <h3 class="mat-subheading-2 margin-remove-bottom" i18n>Click on</h3>
+          <a routerLink="/app/goals/create" mat-fab class="margin-left-s margin-right-s">
+            <mat-icon>add</mat-icon>
+          </a>
+          <h3 class="mat-subheading-2 margin-remove-bottom" i18n>to get started</h3>
+        </div>
+      </ng-container>
+      <div *ngFor="let goal of userGoals?.goalsInProgress.concat(userGoals?.completedGoals)" class="margin-bottom-m">
+        <ws-app-goal-card type="me" [goal]="goal" (updateGoals)="updateGoals()" (deletedGoal)="deletedGoal(goal?.id)">
+        </ws-app-goal-card>
+      </div>
+    </section>
+    <section *ngIf="type === 'completed'" class="margin-top-m margin-bottom-xl">
+      <h2 *ngIf="!userGoals?.completedGoals?.length" class="mat-title" i18n>
+        You have not completed any goals yet
+      </h2>
+      <div *ngFor="let goal of userGoals?.completedGoals" class="margin-bottom-m">
+        <ws-app-goal-card type="me" [goal]="goal" (updateGoals)="updateGoals()" (deletedGoal)="deletedGoal(goal?.id)">
+        </ws-app-goal-card>
+      </div>
+    </section>
+  </ng-container>
+</section>

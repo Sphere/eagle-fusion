@@ -1,0 +1,39 @@
+<div style="height: 100vh; z-index: 1000;">
+  <mat-toolbar style="display: flex; justify-content: center; height: auto;">
+    <mat-label class="padding-s font-size-m" i18n>Device Type</mat-label>
+    <mat-form-field class="font-size-m">
+      <mat-select [(value)]="selected">
+        <mat-option style="z-index: 1002;" *ngFor="let device of previewDevices" [value]="device">
+          {{ device.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- <button type="button" mat-icon-button *ngIf="isXSmall" [matMenuTriggerFor]="actionMenu">
+      <mat-icon>more_vertical</mat-icon>
+    </button>
+    <a *ngIf="!isXSmall" class="position-absolute font-size-m" (click)="takeAction()">
+      {{actionType}}
+    </a> -->
+  </mat-toolbar>
+  <div
+    style="display: flex; justify-content: center; overflow: hidden; padding: 8px;"
+    class="mat-toolbar"
+  >
+    <iframe
+      style="overflow: auto;"
+      [src]="iframeUrl | pipeSafeSanitizer: 'resourceUrl'"
+      [width]="selected.width"
+      [height]="selected.height"
+    >
+    </iframe>
+  </div>
+</div>
+<mat-menu #actionMenu="matMenu">
+  <a mat-menu-item (click)="takeAction()">
+    {{ actionType }}
+  </a>
+</mat-menu>
+
+<input #mobile type="hidden" i18n-value value="Mobile" />
+<input #tab type="hidden" i18n-value value="Tab" />
+<input #desktop type="hidden" i18n-value value="Desktop" />

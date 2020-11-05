@@ -1,0 +1,37 @@
+<mat-form-field class="example-chip-list">
+  <mat-chip-list wsAuthSortableList (sort)="sort($event)" #chipList aria-label="Add">
+    <mat-chip
+      class="chip"
+      wsAuthSortable
+      *ngFor="let key of value"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(key)"
+    >
+      {{ key }}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      <mat-chip class="chip" *wsAuthDraggableHelper>
+        {{ key }}
+        <mat-icon class="chip" matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip>
+    <div class="w-full flex">
+      <input
+        [placeholder]="placeholder"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="addAll($event)"
+      />
+      <mat-icon
+        class="float-right cursor-pointer"
+        *ngIf="value && value.length"
+        (click)="copyData()"
+        >file_copy
+      </mat-icon>
+    </div>
+  </mat-chip-list>
+</mat-form-field>
+
+<span style="display: none;" i18n #collection>Enter Content Id </span>
+<span style="display: none;" i18n #class>Enter Class </span>

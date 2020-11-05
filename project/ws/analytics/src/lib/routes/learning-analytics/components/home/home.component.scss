@@ -1,0 +1,92 @@
+@import 'ws-mixins';
+
+.analytics-loader {
+  margin: $size-xl auto;
+  max-width: 320px;
+}
+
+.feature-icon-tile {
+  font-size: 70px;
+}
+
+.tiles-div {
+  margin-left: 12px;
+}
+
+.graph-card-client {
+  padding: 0px;
+  width: 47%;
+
+  @include breakpoint-m {
+    width: 47%;
+  }
+
+  @include breakpoint-lt-m {
+    width: 100%;
+  }
+
+  @include breakpoint-lt-s {
+    width: 100%;
+  }
+}
+
+.graph-card-client-single {
+  padding: 0px;
+  width: 99%;
+}
+
+.tiles {
+  padding: 0px;
+  width: 25%;
+
+  @include breakpoint-m {
+    width: 50%;
+  }
+
+  @include breakpoint-lt-m {
+    width: 50%;
+  }
+
+  @include breakpoint-lt-s {
+    width: 100%;
+  }
+}
+
+.graph-card-bar {
+  padding: 0px;
+  width: 96%;
+
+  @include breakpoint-m {
+    width: 96%;
+  }
+
+  @include breakpoint-lt-m {
+    width: 96%;
+  }
+
+  @include breakpoint-lt-s {
+    width: 100%;
+  }
+}
+
+.graph-bar-card-client {
+  padding: 0px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.unique-users-card {
+  width: 21.5%;
+
+  @include breakpoint-xs {
+    width: 85%;
+  }
+
+  @include breakpoint-s {
+    width: 45%;
+  }
+
+  @include breakpoint-m {
+    width: 21.5%;
+  }
+}

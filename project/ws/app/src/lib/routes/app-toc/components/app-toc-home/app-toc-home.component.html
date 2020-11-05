@@ -1,0 +1,54 @@
+  <div class="appicon-image" >
+  <mat-toolbar role="navigation" i18n-aria-label aria-label="Toolbar" *ngIf="isAuthor && !forPreview"
+    class="detailBar" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+    <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Details',url:'none'}] }">
+    </ws-widget-btn-page-back> -->
+    <!-- <span class="margin-left-xs text-truncate">
+      <span i18n>Details</span>
+    </span> -->
+    <span class="spacer"></span>
+    <a *ngIf="isAuthor && !forPreview" [routerLink]="'/author/editor/' + content?.identifier" mat-button>
+      <mat-icon>create</mat-icon>
+      <span i18n class="ml-2">Edit</span>
+    </a>
+    <!-- <ng-container *ngIf="isAuthor" [wsResolverWidget]="authorBtnWidget"></ng-container> -->
+  </mat-toolbar>
+
+  <ws-app-toc-banner role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
+    [analytics]="analytics" [resumeData]="resumeData">
+  </ws-app-toc-banner>
+</div>
+<ng-container>
+  <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
+    <nav mat-tab-nav-bar class="toc-links mt-8 mat-app-background">
+      <a mat-tab-link [routerLink]="'./overview'" routerLinkActive="ws-mat-primary-text link-active" i18n>Overview</a>
+      <a mat-tab-link *ngIf="content?.resourceType === 'Certification'" [routerLink]="'./certification'"
+        routerLinkActive="ws-mat-primary-text link-active">
+        <ng-container *ngIf="content?.isExternal === true" i18n>Certification</ng-container>
+        <ng-container *ngIf="content?.isExternal === false" i18n>Take Certification</ng-container>
+      </a>
+
+      <a *ngIf="content?.children?.length" mat-tab-link [routerLink]="'./contents'"
+        routerLinkActive="ws-mat-primary-text link-active" i18n>Contents</a>
+      <a *ngIf="enableAnalytics" [disabled]="forPreview" mat-tab-link [routerLink]="'./analytics'"
+        routerLinkActive="ws-mat-primary-text link-active" i18n>Analytics</a>
+      <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active" i18n>Discussions</a>
+      <a mat-tab-link [routerLink]="'./details'"  [queryParams]="{id: content.identifier}" routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a>
+     
+      <a mat-tab-link [routerLink]="'./license'"  routerLinkActive="ws-mat-primary-text link-active" i18n>License</a>
+    </nav>
+    <router-outlet></router-outlet>
+    <ng-container>
+      <!-- <mat-divider class="margin-top-m margin-bottom-m"></mat-divider> -->
+      <!-- <div class="toc-discussion-container" fragment="discussion-forum"> -->
+        <!-- <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion> -->
+        <!-- <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts> -->
+      <!-- </div> -->
+
+   </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #tocError>
+  <div [wsResolverWidget]="errorWidgetData"></div>
+</ng-template>

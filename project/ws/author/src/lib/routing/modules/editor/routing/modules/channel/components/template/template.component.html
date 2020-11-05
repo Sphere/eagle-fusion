@@ -1,0 +1,82 @@
+<h2 i18n>Double click on the desired template to choose the type:</h2>
+<mat-tab-group
+  animationDuration="0ms"
+  class="mat-tab-labels"
+  mat-stretch-tabs
+  (selectedIndexChange)="onIndexChange($event)"
+  [selectedIndex]="selectedIndex"
+>
+  <mat-tab>
+    <ng-template mat-tab-label i18n>
+      Model Templates
+    </ng-template>
+    <div class="margin-top-xl margin-bottom-xl">
+      <div class="flex">
+        <div
+          class="padding ws-mat-primary-background-op30-hover"
+          (dblclick)="send(1)"
+          (click)="selected = '1'"
+          [ngClass]="{ 'ws-mat-primary-background-op30': selected === '1' }"
+        >
+          <mat-card class="example-card"> </mat-card>
+          <h3 class="no-margin" i18n>Blank Content</h3>
+        </div>
+        <!-- <div
+          class="padding  ws-mat-primary-background-op30-hover"
+          (dblclick)="send(2)"
+          (click)="selected = '2'"
+          [ngClass]="{ 'ws-mat-primary-background-op30': selected === '2' }"
+        >
+          <mat-card class="example-card img1"> </mat-card>
+          <h3 class="no-margin" i18n>HTML with Content Strip</h3>
+        </div>
+        <div
+          class="padding  ws-mat-primary-background-op30-hover"
+          (dblclick)="send(3)"
+          (click)="selected = '3'"
+          [ngClass]="{ 'ws-mat-primary-background-op30': selected === '3' }"
+        >
+          <mat-card class="example-card img2"> </mat-card>
+          <h3 class="no-margin" i18n>Image Map with Content Strip</h3>
+        </div> -->
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label i18n>
+      Copy from other contents
+    </ng-template>
+    <div class="margin-top-xl margin-bottom-xl">
+      <div class="flex flex-wrapped flex-dynamic margin-xs">
+        <div
+          class="padding  ws-mat-primary-background-op30-hover"
+          *ngFor="let content of contents"
+          (dblclick)="fetchJson(content.artifactUrl, content.identifier)"
+          [ngClass]="{ 'ws-mat-primary-background-op30': selected === content.identifier }"
+          (click)="selected = content.identifier"
+        >
+          <mat-card
+            class="mat-card commonImg"
+            [style.background-image]="generateBackGroundImage(content.appIcon)"
+          >
+          </mat-card>
+          <h3 class="no-margin">{{ (content.name || '').substr(0, 40) }}</h3>
+        </div>
+      </div>
+    </div>
+    <h2 class="mat-h2 text-center margin-top-m" i18n *ngIf="error">
+      Something went wrong. Not able to load the content.
+    </h2>
+    <h2 class="mat-h2 text-center margin-top-m" i18n *ngIf="noData">
+      No data available.
+    </h2>
+    <div
+      class="text-right margin-right-xxl margin-bottom-m"
+      *ngIf="!error && totalContent > contents.length"
+    >
+      <button mat-raised-button [color]="'primary'" (click)="fetchContent(true)" i18n>
+        Load More...
+      </button>
+    </div>
+  </mat-tab>
+</mat-tab-group>

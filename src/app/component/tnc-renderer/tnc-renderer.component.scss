@@ -1,0 +1,29 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.tnc-container {
+  padding: $size-l;
+  margin: auto;
+  @include breakpoint-xs {
+    padding: 0;
+  }
+  @include breakpoint-gt-xs {
+    max-width: 90%;
+  }
+  @include breakpoint-gt-s {
+    max-width: 80%;
+  }
+  @include breakpoint-gt-m {
+    max-width: 1024px;
+  }
+}
+
+.accept-btn-icon {
+  margin-right: $size-s;
+}
+
+.tnc-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}

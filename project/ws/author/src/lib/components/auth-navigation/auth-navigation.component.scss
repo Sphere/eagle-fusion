@@ -1,0 +1,40 @@
+@import 'ws-mixins';
+
+.icon {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.next-b {
+  width: 12px;
+  height: 18px;
+  transform: matrix(0, 1, -1, 0, 0, 0);
+  background: #00A9F4 0% 0% no-repeat padding-box;
+}
+
+.home-icon {
+  margin: auto 20px auto 20px;
+}
+
+.app-logo {
+  max-width: 100px;
+  max-height: 30px;
+
+  @include breakpoint-xs {
+    max-width: 80px;
+    max-height: 30px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.mat-icon {
+  margin-right: 5px;
+  cursor: pointer;
+}

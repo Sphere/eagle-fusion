@@ -1,0 +1,114 @@
+@import '~src/styles/ws-vars';
+@import '~src/styles/ws-mixins';
+
+.banner {
+  // background-image: url("/assets/common//navigator/banners/bi_nso.jpg");
+  background-position: right;
+  background-size: cover;
+  height: 200px;
+  width: 100%;
+
+  @media only screen and (max-width: 725px) {
+    height: 230px;
+  }
+
+  @include breakpoint-xs {
+    height: 250px;
+  }
+}
+
+.banner-description {
+  padding: 0 $size-xl;
+  margin: 0 16px;
+}
+
+.small-banner-text {
+  @include breakpoint-xs {
+    font-size: 1.5rem;
+  }
+}
+
+.small-banner-description {
+  @include breakpoint-xs {
+    font-size: 1.2rem;
+  }
+}
+
+.card-holder {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  position: relative;
+}
+
+.button-holder {
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 0;
+  align-content: center;
+  border: none;
+
+  span {
+    margin-right: 5px;
+  }
+
+  @include breakpoint-xs {
+    margin-top: ($size-xl * 5) + ($size-xs);
+
+    margin-left: ($size-l + $size-l/2);
+  }
+}
+
+.card-container {
+  position: relative;
+  width: 270px;
+  height: 100%;
+  margin: 20px 20px;
+
+  @include breakpoint-xs {
+    width: 230px;
+    height: 300px;
+  }
+}
+
+.know-more {
+  @include breakpoint-xs {
+    margin-right: 50px;
+    ;
+  }
+}
+
+
+.card-information {
+  margin: $size-s $size-m;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-image {
+  width: 270px;
+  height: 160px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+
+  @include breakpoint-xs {
+    width: 230px;
+  }
+}
+
+.mat-card {
+  padding: 0;
+
+  @include breakpoint-xs {
+    height: 300px;
+  }
+}
+
+
+.know-button {
+  margin-left: 95px;
+
+  @include breakpoint-xs {
+    margin-left: 55px;
+  }
+}

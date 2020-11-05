@@ -1,0 +1,67 @@
+.html-picker-editor {
+  width: 100%;
+}
+.flex-container {
+  // display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  width: 100%;
+}
+
+.flex-container-div {
+  padding: 2%;
+  min-width: 300px;
+  width: 35%;
+}
+
+.flex-container1 {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  min-width: 300px;
+  width: 55%;
+}
+
+.flex-container1 > button {
+  padding: 2%;
+  min-width: 300px;
+  width: 95%;
+}
+
+.flex-container1 > div {
+  padding: 2%;
+  min-width: 300px;
+  width: 90%;
+  height: 300px;
+  overflow: auto;
+}
+
+#editor1 {
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  min-width: 300px;
+}
+
+#editor2 {
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  min-width: 300px;
+}
+
+#editor3 {
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  min-width: 300px;
+}
+
+#my-output {
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  min-width: 300px;
+  border: solid;
+}

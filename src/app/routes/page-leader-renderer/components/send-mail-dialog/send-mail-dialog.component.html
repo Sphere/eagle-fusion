@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Send Message</h1>
+<div mat-dialog-content>
+  <form #sendMailForm="ngForm" (submit)="sendMail(sendMailForm)">
+    <mat-form-field>
+      <textarea
+        required
+        [placeholder]="data?.placeholder"
+        minlength="10"
+        [disabled]="mailSendInProgress"
+        rows="4"
+        [(ngModel)]="mailBodyText"
+        matInput
+        name="answer"
+        #mailBody="ngModel"
+      ></textarea>
+      <mat-error i18n> Min length should be 10 characters </mat-error>
+    </mat-form-field>
+    <!-- <ws-spinner *ngIf="mailSendInProgress" [spinSize]="'small'" [spinWidth]="'thin'" [spinColor]="'primary'"
+      class="margin-top-xs"></ws-spinner> -->
+    <mat-spinner *ngIf="mailSendInProgress"></mat-spinner>
+    <div class="flex flex-row-reverse margin-top-s">
+      <button
+        [disabled]="sendMailForm.form.invalid || mailSendInProgress"
+        type="submit"
+        mat-raised-button
+        [color]="'primary'"
+        i18n
+      >
+        Send Mail
+      </button>
+      <button mat-button i18n="reset form" type="reset">Reset</button>
+    </div>
+  </form>
+</div>
+<input
+  type="hidden"
+  aria-value
+  value="Your message will be conveyed to the leader."
+  #successToast
+/>
+<input type="hidden" aria-value value="Unable to send message. Please try again." #errorToast />
+<input
+  type="hidden"
+  aria-value
+  value="Unable to send message as there are no valid ids."
+  #noValidIdsToast
+/>

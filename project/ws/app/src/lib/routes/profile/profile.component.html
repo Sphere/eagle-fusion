@@ -1,0 +1,84 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <button aria-label="showText? 'Hide side panel' : 'Show side panel'" mat-icon-button (click)="
+      !screenSizeIsLtMedium ? (showText = !showText) : sideNavBar.toggle()
+    ">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>
+    <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
+    <ws-widget-btn-page-back [widgetData]="{ url: 'home', titles: [{title:tabName, url:'none'}] }">
+    </ws-widget-btn-page-back>
+    <!-- <span class="ml-2">{{ tabName }}</span> -->
+  </span>
+  <span class="spacer"></span>
+  <!-- <button (click)="logout()" mat-button>
+    <mat-icon>power_settings_new</mat-icon>&nbsp;
+    <span i18n>Logout</span>
+  </button> -->
+</mat-toolbar>
+
+<mat-sidenav-container autosize="true" class="sidenav-content-min-height">
+  <mat-sidenav #sideNavBar [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+    <mat-nav-list class="margin-left-s margin-right-xs">
+      <a mat-list-item *ngIf="enabledTabs?.dashboard?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.dashboard?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/dashboard" matTooltip="{{enabledTabs?.dashboard?.displayName}}">
+        <mat-icon>account_circle</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium"
+          class="padding-left-s">{{enabledTabs?.dashboard?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.learning?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.learning?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/learning/time" matTooltip="{{enabledTabs?.learning?.displayName}}">
+        <mat-icon>history</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium"
+          class="padding-left-s">{{enabledTabs?.learning?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.achievements?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.achievements?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/competency/badges" matTooltip="{{enabledTabs?.achievements?.displayName}}">
+        <mat-icon>emoji_events</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">
+          {{enabledTabs?.achievements?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.interests?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.interests?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/interest" matTooltip="{{enabledTabs?.interests?.displayName}}">
+        <mat-icon>tag_faces</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium"
+          class="padding-left-s">{{enabledTabs?.interests?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.plans?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.plans?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/plans" matTooltip="{{enabledTabs?.plans?.displayName}}">
+        <mat-icon>calendar_today</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">{{enabledTabs?.plans?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.collaborators?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.collaborators?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/collaborators" matTooltip="{{enabledTabs?.collaborators?.displayName}}">
+        <mat-icon>group</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium"
+          class="padding-left-s">{{enabledTabs?.collaborators?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.featureUsage?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.featureUsage?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/feature-usage" matTooltip="{{enabledTabs?.featureUsage?.displayName}}">
+        <mat-icon>data_usage</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">
+          {{enabledTabs?.featureUsage?.displayName}}</span>
+      </a>
+      <a mat-list-item *ngIf="enabledTabs?.settings?.enabled" routerLinkActive="mat-toolbar"
+        (click)="tabUpdate(enabledTabs?.settings?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
+        routerLink="/app/profile/settings" matTooltip="{{enabledTabs?.settings?.displayName}}">
+        <mat-icon>settings</mat-icon>
+        <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">
+          {{enabledTabs?.settings?.displayName}}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

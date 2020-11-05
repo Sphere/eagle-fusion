@@ -1,0 +1,361 @@
+<div class="flex flex-wrap fullView">
+  <div class="sticky">
+    <mat-icon class="cursor-pointer mat-elevation-z5 open-bar" (click)="drawer.toggle()" aria-hidden="false"
+      *ngIf="!drawer || !drawer.opened" aria-label="Open Tool Bar" i18n-aria-label matTooltip="Click to Open Tool bar"
+      i18n-matTooltip>
+      keyboard_arrow_right
+    </mat-icon>
+  </div>
+  <mat-drawer-container class="sticky mat-elevation-z5" [ngClass]="drawer && drawer.opened ? 'visible' : 'not-visible'"
+    hasBackdrop="false" autosize>
+    <mat-drawer class="mat-elevation-z5" [opened]="true" mode="over">
+      <div class="flex flex-wrap">
+        <h2 i18n class="margin-bottom-s mat-h2 w-3/4">
+          Widget Library:
+        </h2>
+        <div class="w-1/4">
+          <ng-container *ngIf="canShowMode">
+            <b i18n>Editor Mode: </b>
+            <mat-button-toggle-group [value]="mode" (change)="changeEditMode()" name="fontStyle"
+              aria-label="Font Style">
+              <mat-button-toggle value="Basic" i18n>Basic</mat-button-toggle>
+              <mat-button-toggle value="Advanced" i18n>Advanced</mat-button-toggle>
+            </mat-button-toggle-group>
+          </ng-container>
+          <mat-icon aria-hidden="false" (click)="drawer.toggle()" class="cursor-pointer mat-elevation-z5"
+            style="float: right;" *ngIf="drawer && drawer.opened" aria-label="Close Tool Bar" i18n-aria-label
+            matTooltip="Click to Expand Tool bar" i18n-matTooltip>
+            keyboard_arrow_left
+          </mat-icon>
+        </div>
+      </div>
+
+      <ws-utils-horizontal-scroller [loadStatus]="'done'">
+        <mat-form-field style="width: 70px;">
+          <mat-label>Column Width</mat-label>
+          <mat-select [(ngModel)]="columnSize">
+            <mat-option [value]="1"> One </mat-option>
+            <mat-option [value]="2"> Two </mat-option>
+            <mat-option [value]="3"> Three </mat-option>
+            <mat-option [value]="4"> Four </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="item concept mat-toolbar cursor-pointer op60" draggable="false" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_audio')">
+          <mat-icon aria-hidden="false" class="custom op60" aria-label="Example home icon">audiotrack</mat-icon>
+          <span class="caption" i18n>Audio</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer op60" draggable="false" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_audio')">
+          <mat-icon aria-hidden="false" class="custom op60" aria-label="Example home icon">audiotrack</mat-icon>
+          <span class="caption" i18n>Audio</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer op60" draggable="false" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_audio')">
+          <mat-icon aria-hidden="false" class="custom op60" aria-label="Example home icon">audiotrack</mat-icon>
+          <span class="caption" i18n>Audio</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer op60" draggable="false" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_audio')">
+          <mat-icon aria-hidden="false" class="custom op60" aria-label="Example home icon">audiotrack</mat-icon>
+          <span class="caption" i18n>Audio</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_call</mat-icon>
+          <span class="caption" i18n>Video</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_call</mat-icon>
+          <span class="caption" i18n>Video</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_call</mat-icon>
+          <span class="caption" i18n>Video</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_call</mat-icon>
+          <span class="caption" i18n>Video</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_html')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">code</mat-icon>
+          <span class="caption" i18n>Embedd Code</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_html')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">code</mat-icon>
+          <span class="caption" i18n>Embedd Code</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_html')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">code</mat-icon>
+          <span class="caption" i18n>Embedd Code</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_html')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">code</mat-icon>
+          <span class="caption" i18n>Embedd Code</span>
+        </div>
+
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_intranet')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">public</mat-icon>
+          <span class="caption" i18n>Intranet</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_intranet')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">public</mat-icon>
+          <span class="caption" i18n>Intranet</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_intranet')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">public</mat-icon>
+          <span class="caption" i18n>Intranet</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_intranet')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">public</mat-icon>
+          <span class="caption" i18n>Intranet</span>
+        </div>
+
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_text')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">text_fields</mat-icon>
+          <span class="caption" i18n>Text</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_text')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">text_fields</mat-icon>
+          <span class="caption" i18n>Text</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_text')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">text_fields</mat-icon>
+          <span class="caption" i18n>Text</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_text')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">text_fields</mat-icon>
+          <span class="caption" i18n>Text</span>
+        </div>
+
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'title')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">title</mat-icon>
+          <span class="caption" i18n>Title</span>
+        </div>
+
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_resp_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">image</mat-icon>
+          <span class="caption" i18n>Image</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_resp_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">image</mat-icon>
+          <span class="caption" i18n>Image</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_resp_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">image</mat-icon>
+          <span class="caption" i18n>Image</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_resp_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">image</mat-icon>
+          <span class="caption" i18n>Image</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'strip_single')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">list</mat-icon>
+          <span class="caption" i18n>Entry List</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_strip')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">dns</mat-icon>
+          <span class="caption" i18n>Content Slider</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_strip')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">dns</mat-icon>
+          <span class="caption" i18n>Content Slider</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_strip')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">dns</mat-icon>
+          <span class="caption" i18n>Content Slider</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_strip')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">dns</mat-icon>
+          <span class="caption" i18n>Content Slider</span>
+        </div>
+        <!-- <div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_slider')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon"
+            >collections</mat-icon
+          >
+          <span class="caption" i18n>Banner</span>
+        </div>
+        <div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_slider')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon"
+            >collections</mat-icon
+          >
+          <span class="caption" i18n>Banner</span>
+        </div>
+        <div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_slider')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon"
+            >collections</mat-icon
+          >
+          <span class="caption" i18n>Banner</span>
+        </div> -->
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_slider')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">collections</mat-icon>
+          <span class="caption" i18n>Banner</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_iframe')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">filter_frames</mat-icon>
+          <span class="caption" i18n>Iframe</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_iframe')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">filter_frames</mat-icon>
+          <span class="caption" i18n>Iframe</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_iframe')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">filter_frames</mat-icon>
+          <span class="caption" i18n>Iframe</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_iframe')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">filter_frames</mat-icon>
+          <span class="caption" i18n>Iframe</span>
+        </div>
+        <!-- <div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'breadcrum')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon"
+            >menu_open</mat-icon
+          >
+          <span class="caption" i18n>BreadCrum</span>
+        </div> -->
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_resp_map')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">category</mat-icon>
+          <span class="caption" i18n>Image Map</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_resp_map')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">category</mat-icon>
+          <span class="caption" i18n>Image Map</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_resp_map')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">category</mat-icon>
+          <span class="caption" i18n>Image Map</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_resp_map')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">category</mat-icon>
+          <span class="caption" i18n>Image Map</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_gallery_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">perm_media</mat-icon>
+          <span class="caption" i18n>Photo Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_gallery_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">perm_media</mat-icon>
+          <span class="caption" i18n>Photo Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_gallery_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">perm_media</mat-icon>
+          <span class="caption" i18n>Photo Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_gallery_image')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">perm_media</mat-icon>
+          <span class="caption" i18n>Photo Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 1"
+          (dragstart)="dragstart_handler($event, 'one_gallery_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_library</mat-icon>
+          <span class="caption" i18n>Video Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 2"
+          (dragstart)="dragstart_handler($event, 'two_gallery_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_library</mat-icon>
+          <span class="caption" i18n>Video Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 3"
+          (dragstart)="dragstart_handler($event, 'three_gallery_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_library</mat-icon>
+          <span class="caption" i18n>Video Gallery</span>
+        </div>
+        <div class="item concept mat-toolbar cursor-pointer" draggable="true" *ngIf="columnSize === 4"
+          (dragstart)="dragstart_handler($event, 'four_gallery_wrapper')">
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">video_library</mat-icon>
+          <span class="caption" i18n>Video Gallery</span>
+        </div>
+        <!--<div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          (dragstart)="dragstart_handler($event, 'strip')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon">dns</mat-icon>
+          <span class="caption" i18n>Content</span>
+        </div>
+         <div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          (dragstart)="dragstart_handler($event, 'selector')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon"
+            >amp_stories</mat-icon
+          >
+          <span class="caption" i18n>Responsive Container</span>
+        </div>
+        <div
+          class="item concept mat-toolbar cursor-pointer"
+          draggable="true"
+          (dragstart)="dragstart_handler($event, 'gallery')"
+        >
+          <mat-icon aria-hidden="false" class="custom" aria-label="Example home icon"
+            >library_add</mat-icon
+          >
+          <span class="caption" i18n>Gallery Container</span>
+        </div> -->
+      </ws-utils-horizontal-scroller>
+    </mat-drawer>
+  </mat-drawer-container>
+  <br />
+  <div class="box width-100 p-2">
+    <ws-auth-renderer-v2 [id]="parentId" [isSubmitPressed]="isSubmitPressed"></ws-auth-renderer-v2>
+  </div>
+</div>

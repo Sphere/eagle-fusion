@@ -1,0 +1,17 @@
+.correct {
+  color: green;
+}
+.incorrect {
+  color: red;
+}
+.alignment {
+  vertical-align: sub;
+}
+.mat-cell,
+.mat-header-cell {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+.mat-header-cell {
+  font-size: 14px;
+}

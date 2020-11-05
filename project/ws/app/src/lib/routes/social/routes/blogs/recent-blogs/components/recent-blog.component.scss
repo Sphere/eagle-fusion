@@ -1,0 +1,73 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+@import 'ws-common';
+
+.blogs-container {
+  max-width: 900px;
+  margin: auto;
+  padding: $size-m $size-s;
+
+  .blog-content {
+    @include breakpoint-xs {
+      width: 80%;
+    }
+  }
+
+  .icon-section {
+    width: 10%;
+    text-align: center;
+
+    @include breakpoint-xs {
+      width: 15%;
+    }
+
+    .vote-count {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  $description-line-count: 2;
+  $description-line-height: 1.4em;
+
+  .description-text {
+    position: relative;
+    overflow: hidden;
+    height: $description-line-count * $description-line-height;
+    line-height: $description-line-height;
+  }
+}
+
+.search-border {
+  border: solid 1px black;
+  margin-left: 5px;
+}
+.input-search {
+  width:95%;
+  margin-left: 3%;
+  font-size: 15px;
+}
+:host::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+:host::ng-deep .mat-form-field-infix {
+  padding: 0 !important;
+  border: 0 !important;
+}
+.blog-title {
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-x: hidden;
+}
+
+@media (max-width: 435px) {
+  :host::ng-deep .search.w-full {
+    width: 110px;
+  }
+}

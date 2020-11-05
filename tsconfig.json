@@ -1,0 +1,63 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "./",
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "lib": ["es2018", "dom"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist/out-tsc",
+    "paths": {
+      "@ws-widget/resolver": ["library/ws-widget/resolver"],
+      "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
+      "@ws-widget/collection": ["library/ws-widget/collection"],
+      "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
+      "@ws-widget/utils": ["library/ws-widget/utils"],
+      "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
+      "@ws/app": ["project/ws/app"],
+      "@ws/app/*": ["project/ws/app/*"],
+      "@ws/author": ["project/ws/author"],
+      "@ws/author/*": ["project/ws/author/*"],
+      "@ws/admin": ["project/ws/admin"],
+      "@ws/admin/*": ["project/ws/admin/*"],
+      "@ws/analytics": ["project/ws/analytics"],
+      "@ws/analytics/*": ["project/ws/analytics/*"],
+      "@ws/viewer": ["project/ws/viewer"],
+      "@ws/viewer/*": ["project/ws/viewer/*"],
+      "@ws/learning-hub": ["project/ws/learning-hub"],
+      "@ws/learning-hub/*": ["project/ws/learning-hub/*"]
+    },
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "target": "es2015",
+    "typeRoots": ["node_modules/@types", "./custom_typings"],
+    "plugins": [
+      {
+        "name": "@angular/language-service"
+      },
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": false,
+        "ignoreDefinitionFiles": true,
+        "configFile": "./tslint.json",
+        "suppressWhileTypeErrorsPresent": false
+      }
+    ]
+  }
+}

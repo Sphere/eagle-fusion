@@ -1,0 +1,14 @@
+mat-card {
+  box-sizing: border-box;
+}
+
+app-user-image {
+  $user-size: 40px;
+  width: $user-size;
+  height: $user-size;
+  font-size: $user-size;
+}
+
+mat-icon {
+  font-size: 16px !important;
+}

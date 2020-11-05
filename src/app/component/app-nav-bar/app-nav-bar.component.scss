@@ -1,0 +1,202 @@
+@import 'ws-mixins';
+
+.tourGuideBtn {
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.fix-ww {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex: 1;
+}
+
+.custom {
+  height: 80px;
+}
+
+.tourGuideBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.tourGuideBtn mat-icon {
+  width: 28%;
+  // color: rgba(0, 0, 0, 0.54);
+}
+
+.logo-dim {
+  max-width: 150px;
+  display: block;
+  width: 100%;
+  padding-top: 3px;
+}
+.header-btn {
+  margin: 14px 5px 14px;
+}
+.app-logo {
+  height: auto;
+  max-width: 100%;
+  width: 120px;
+  max-height: 60px;
+
+  @include breakpoint-xs {
+    max-width: 80px;
+  }
+}
+.site-description {
+  font-size: 14px;
+  // display: inline-block;
+  // margin: 0;
+  // letter-spacing: .04em;
+  // font-weight: 400;
+  // max-width: 120px;
+  padding-left: 11px;
+  // padding-right: 35px;
+  margin-left: 11px;
+  border-left: 1px solid #473f3b;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  // font-size: 9px;
+  line-height: 1.33333em;
+  p {
+    margin-top: 10px
+  }
+}
+
+.mt-name {
+  margin-top: 14px;
+}
+
+@media screen and (min-width: 768px) {
+  .site-description {
+//       max-width: 185px;
+//       padding-left: 20px;
+//       margin-left: 30px;
+//       padding-right: 0;
+      font-size: 14px;
+      line-height: 1.14286em;
+  }
+}
+
+
+@media screen and (min-width: 980px) {
+   .logo-dim, .site-description {
+      // -webkit-flex-shrink:0;
+      // -ms-flex-negative: 0;
+      // flex-shrink: 0;
+  }
+}
+.title {
+  font-size: 12px !important;
+  line-height: 26px !important;
+  font-weight: 300 !important;
+}
+
+.search-card-view {
+  position: absolute;
+  width: 280px;
+  z-index: 992;
+  top: 10px;
+  right: 50px;
+  padding: 10px 0px 0px 0px;
+
+  @include breakpoint-l {
+    top: 20px;
+    left: 980px;
+  }
+
+  @include breakpoint-m {
+    top: 20px;
+    left: 980px;
+  }
+
+  @include breakpoint-xs {
+    top: 0px;
+    right: 50px;
+  }
+
+  @include breakpoint-s {
+    top: 20px;
+    left: 450px;
+  }
+}
+
+@import 'ws-vars';
+
+.menu-section {
+  padding: 8px;
+}
+
+.features-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+.btn-feature {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.75em;
+  margin: 0.25em;
+  width: 4em;
+
+  .btn-feature-icon {
+    font-size: 2em;
+    height: 2em;
+    width: 2em;
+    text-align: center;
+    line-height: 2em;
+  }
+
+  .btn-feature-name {
+    text-align: center;
+    margin-top: 0.15em;
+  }
+}
+
+.margin-bottom-xs {
+  margin-bottom: $size-xs;
+}
+
+.pipe-icon {
+  width: $size-l;
+  transform: scaleY(2);
+}
+
+.search-small-logo {
+  display: none;
+}
+
+.new-align-center {
+  flex: 1;
+  text-align: right;
+}
+
+.my-search {
+  display: flex;
+  margin-left: 8px;
+  margin-right: 0;
+  text-align: center;
+  flex: 1;  
+  height: 50px;
+  margin-top: 6px;
+  max-width: 470px;
+}
+
+@media only screen and (max-width: 760px) {
+  .my-search {
+    display: none;
+  }
+
+  .search-small-logo {
+    display: flex;
+  }
+}
+
+// @media
+// 760px

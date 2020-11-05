@@ -1,0 +1,91 @@
+<mat-toolbar color="primary">
+  <a mat-icon-button routerLink="/app/infy/navigator">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span i18n="page title: navigator industries" class="margin-left-xs">Industries</span>
+  <span class="spacer"></span>
+  <button mat-raised-button (click)="navigateToAnalytics()"> {{selectedTab}} Analytics</button>
+</mat-toolbar>
+
+<mat-tab-group mat-align-tabs="center" (selectedTabChange)="navigate($event)" [selectedIndex]="getSelectedIndex()"
+  dynamicHeight="true">
+  <mat-tab [label]="tab" *ngFor="let tab of tabs">
+    <ng-template matTabContent>
+      <div *ngIf="industriesData && industriesData[selectedTab]">
+        <div class="flex flex-center flex-wrapped padding-s">
+          <div class="card-section margin-bottom-xl" *ngIf="fetchSubDomains() && fetchSubDomains()[0]">
+            <mat-card class="height-1-1">
+              <h2 class="mat-title" i18n>Select a SubDomain</h2>
+              <mat-chip-list>
+                <mat-chip *ngFor="let subdomain of fetchSubDomains()" class="width-1-1"
+                  [selected]="subdomain === selectedSubDomain" color="primary" (click)="subDomainClicked(subdomain)">
+                  <span class="width-1-1 text-center text-truncate">{{ subdomain }}</span>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-card>
+          </div>
+          <div class="card-section margin-bottom-xl">
+            <mat-card class="height-1-1">
+              <h2 class="mat-title margin-bottom-m">
+                <ng-container i18n>Select a </ng-container>
+                <ng-container *ngIf="selectedType === displayTypes[0]" i18n>Mega Trend</ng-container>
+                <ng-container *ngIf="selectedType !== displayTypes[0]" i18n>Pillar</ng-container>
+              </h2>
+              <mat-radio-group [(ngModel)]="selectedType" class="flex flex-around margin-bottom-m">
+                <mat-radio-button [value]="displayTypes[1]" i18n>Digital Pentagon</mat-radio-button>
+                <mat-radio-button [value]="displayTypes[0]" i18n>Mega Trend</mat-radio-button>
+              </mat-radio-group>
+              <ws-app-pentagon *ngIf="selectedType === displayTypes[1]" [default]="'Accelerate'"
+                (trackClicked)="trackClicked($event)"></ws-app-pentagon>
+
+              <mat-chip-list *ngIf="selectedType === displayTypes[0]">
+                <mat-chip *ngFor="let trend of industriesData[selectedTab][selectedSubDomain]['megatrends']"
+                  class="width-1-1" [selected]="trend.trendName === selectedTrend" color="primary"
+                  (click)="updateMegaTrends(trend)">
+                  <span class="width-1-1 text-center text-truncate">{{ trend.trendName }}</span>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-card>
+          </div>
+          <div class="card-section margin-bottom-xl" *ngIf="selectedType === displayTypes[1]">
+            <mat-card class="height-1-1">
+              <h2 class="mat-title" *ngIf="
+                  industriesData[selectedTab] &&
+                  industriesData[selectedTab][selectedSubDomain] &&
+                  industriesData[selectedTab][selectedSubDomain][selectedPillar]?.length
+                " i18n>
+                Select a Theme
+              </h2>
+              <h2 class="mat-title text-center margin-top-xl"
+                *ngIf="!industriesData[selectedTab][selectedSubDomain][selectedPillar]?.length" i18n>
+                No themes for this Pillar
+              </h2>
+              <mat-chip-list>
+                <mat-chip *ngFor="
+                    let theme of industriesData[selectedTab][selectedSubDomain][selectedPillar]
+                  " class="width-1-1" [selected]="theme.themeName === selectedTheme" color="primary"
+                  (click)="roleClicked(theme.themeName)">
+                  <span class="width-1-1 text-center text-truncate">{{ theme.themeName }}</span>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-card>
+          </div>
+        </div>
+        <section *ngIf="selectedType === displayTypes[0] && megaTrendSelected" class="content-strip">
+          <ng-container [wsResolverWidget]="megaTrendwidgetResolverData"></ng-container>
+        </section>
+        <div *ngIf="
+            industriesData[selectedTab][selectedSubDomain][selectedPillar]?.length &&
+            industriesData[selectedTab]['hasData'] &&
+            selectedType === displayTypes[1]
+          " id="contentStrips">
+          <div *ngIf="fetchingContentData" class="margin-top-xl">
+            <!-- <app-spinner></app-spinner> -->
+            <ng-container [wsResolverWidget]="navigatorwidgetResolverData"></ng-container>
+
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

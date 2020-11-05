@@ -1,0 +1,76 @@
+<ng-container *ngIf="!previewIdentifier">
+  <ws-auth-editor-action-buttons (action)="action($event)" [buttonConfig]="actionButton">
+  </ws-auth-editor-action-buttons>
+  <ws-auth-editor-steps
+    [steps]="stepper"
+    [currentStep]="currentStep"
+    (change)="currentStep = $event"
+  >
+  </ws-auth-editor-steps>
+  <div *ngIf="mediumScreen">
+    <div class="ui" [ngClass]="{ toHide: !leftArrow }">
+      <button
+        class="p-1"
+        mat-icon-button
+        (click)="sidenav.toggle(); leftArrow = !leftArrow"
+        i18n-aria-label
+        aria-label="Open side panel"
+        i18n-matTooltip
+        matTooltipPosition="right"
+        matTooltip="Open side panel"
+      >
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-sidenav-container autosize="true" id="auth-toc" class="example-container">
+    <mat-sidenav
+      #sidenav
+      [mode]="mode$ | async"
+      [(opened)]="sideBarOpened"
+      (closedStart)="sidenavClose()"
+    >
+      <div class="sticky">
+        <ws-auth-table-of-contents
+          (action)="subAction($event)"
+          (closeEvent)="sidenav.toggle(); leftArrow = !leftArrow"
+        ></ws-auth-table-of-contents>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="pl-6 pr-6 ml-6">
+      <div>
+        <ws-auth-edit-meta
+          [parentContent]="currentParentId"
+          [class.hidden]="viewMode !== 'meta'"
+          [isSubmitPressed]="isSubmitPressed"
+          (data)="action($event)"
+        ></ws-auth-edit-meta>
+        <ws-auth-url-upload
+          [isCollectionEditor]="true"
+          *ngIf="viewMode === 'curate'"
+          [isSubmitPressed]="isSubmitPressed"
+          (data)="action($event)"
+        ></ws-auth-url-upload>
+        <ws-auth-file-upload
+          [isCollectionEditor]="true"
+          *ngIf="viewMode === 'upload'"
+          [isSubmitPressed]="isSubmitPressed"
+          (data)="action($event)"
+        >
+        </ws-auth-file-upload>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
+<div *ngIf="previewIdentifier">
+  <mat-icon
+    (click)="closePreview()"
+    class="close-preview"
+    matTooltip="Back"
+    i18n-matTooltip="Back button to go to previous page"
+  >
+    arrow_back</mat-icon
+  >
+  <ws-auth-viewer [identifier]="previewIdentifier" [mimeTypeRoute]="mimeTypeRoute"></ws-auth-viewer>
+</div>

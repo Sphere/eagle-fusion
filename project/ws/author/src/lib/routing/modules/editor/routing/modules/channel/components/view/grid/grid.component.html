@@ -1,0 +1,15 @@
+<div class="flex flex-wrap parentClass" *ngFor="let row of processedWidgets; let i = index"
+  (mouseenter)="hover[i] = true" (mouseleave)="hover[i] = false" [ngClass]="containerClass">
+  <div class="box child childClass" *ngFor="let col of row" [ngClass]="col.className" [ngStyle]="col?.styles">
+    <ws-auth-renderer [id]="col.id" [isSubmitPressed]="isSubmitPressed"></ws-auth-renderer>
+  </div>
+  <button mat-icon-button class=" mat-elevation-z5 insert-botton padding-remove" [ngClass]="{'visible': hover[i]}"
+    *ngIf="i !== (processedWidgets || []).length -1" i18n-matTooltip matTooltip="Insert a new row"
+    (click)="addRow(i+1)">
+    <mat-icon class="text-white small-icon ws-mat-primary-text">add_box</mat-icon>
+  </button>
+</div>
+<button mat-icon-button class=" mat-elevation-z5 ws-mat-accent-background small-button padding-remove  margin-top-m"
+  i18n-matTooltip matTooltip="Add a new row" (click)="addRow()">
+  <mat-icon class="text-white small-icon">add</mat-icon>
+</button>

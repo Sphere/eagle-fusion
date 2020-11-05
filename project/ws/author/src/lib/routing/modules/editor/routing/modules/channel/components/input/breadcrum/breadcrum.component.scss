@@ -1,0 +1,38 @@
+.required {
+  &::after {
+    color: red;
+    content: " *";
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.row-wise {
+  display: flex;
+  flex-direction: row;
+}
+
+.column-wise {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-design {
+  margin-top: 30px;
+}
+
+.page-design {
+  width: 60%;
+  margin: 50px auto;
+
+}
+
+.top-bar-design {
+  justify-content: space-between;
+}
+
+.cardTitle-design {
+  margin: auto 0;
+}

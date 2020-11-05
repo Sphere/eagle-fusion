@@ -1,0 +1,6 @@
+export * from './lib/widget-resolver.module'
+export * from './lib/widget-resolver.service'
+export * from './lib/widget-resolver.model'
+export * from './lib/widget-resolver.permissions'
+export * from './lib/widget-base.component'
+export * from './lib/login-resolver.service'

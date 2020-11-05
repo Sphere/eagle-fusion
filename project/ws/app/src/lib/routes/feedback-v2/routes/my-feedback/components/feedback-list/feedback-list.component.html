@@ -1,0 +1,195 @@
+<section class="pt-8">
+  <h3 class="mat-h3" [ngSwitch]="viewedBy" *ngIf="feedbackData && feedbackData.hits">
+    <ng-container *ngSwitchCase="feedbackRoles.User" i18n>
+      Feedback that you have given.
+    </ng-container>
+    <ng-container *ngSwitchCase="feedbackRoles.Author" i18n>
+      Feedback that you have received for your content.
+    </ng-container>
+    <ng-container *ngSwitchCase="feedbackRoles.Platform" i18n>
+      Feedback on the platform.
+    </ng-container>
+    <ng-container *ngSwitchCase="feedbackRoles.Content" i18n>
+      View and reply to content requests.
+    </ng-container>
+    <ng-container *ngSwitchCase="feedbackRoles.Service" i18n>
+      View and reply to service requests.
+    </ng-container>
+  </h3>
+</section>
+
+<section
+  [ngClass]="{ flex: viewedBy === feedbackRoles.User || viewedBy === feedbackRoles.Author }"
+  *ngIf="hasHits"
+>
+  <div class="w-full pr-2">
+    <form [formGroup]="searchForm" (ngSubmit)="fetchFeedbacks()">
+      <mat-form-field class="w-full" [color]="'primary'">
+        <input type="text" matInput formControlName="query" placeholder="Search" i18n-placeholder />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="mb-4" *ngIf="viewedBy !== feedbackRoles.User && viewedBy !== feedbackRoles.Author">
+    <mat-checkbox [formControl]="unseenCtrl">
+      <ng-container *ngIf="viewedBy === feedbackRoles.User" i18n>
+        Show only unread items
+      </ng-container>
+      <ng-container *ngIf="viewedBy !== feedbackRoles.User" i18n>
+        Show only unanswered items
+      </ng-container>
+    </mat-checkbox>
+  </div>
+  <button
+    mat-mini-fab
+    color="primary"
+    matTooltip="Filter"
+    i18n-matTooltip
+    (click)="openFilterDialog()"
+    *ngIf="viewedBy === feedbackRoles.User || viewedBy === feedbackRoles.Author"
+  >
+    <mat-icon>filter_list</mat-icon>
+  </button>
+</section>
+
+<ng-container *ngIf="feedbackFetchStatus === 'done' && feedbackData">
+  <ng-container *ngIf="feedbackData.result.length">
+    <mat-list>
+      <ng-container *ngFor="let feedback of feedbackData.result">
+        <ng-container
+          [ngTemplateOutlet]="listItemDefault"
+          [ngTemplateOutletContext]="{ $implicit: feedback }"
+          *ngIf="viewedBy !== feedbackRoles.User"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="listItemUser"
+          [ngTemplateOutletContext]="{ $implicit: feedback }"
+          *ngIf="viewedBy === feedbackRoles.User"
+        ></ng-container>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </ng-container>
+
+  <ng-container *ngIf="!feedbackData.result.length">
+    <section class="my-16 flex flex-center">
+      <h3 class="mat-h3" i18n>
+        No results found.
+      </h3>
+    </section>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="feedbackFetchStatus === 'error'">
+  <section class="my-16 flex flex-center">
+    <h3 class="mat-h3" i18n>
+      There was an error while searching for feedback.
+    </h3>
+  </section>
+</ng-container>
+
+<!-- Templates -->
+
+<!-- Normal list item -->
+<ng-template #listItemDefault let-feedback>
+  <mat-list-item
+    matRipple
+    class="mat-toolbar cursor-pointer"
+    (click)="onFeedbackItemClick(feedback)"
+  >
+    <div mat-list-avatar>
+      <ws-widget-user-image [email]="feedback.feedbackBy.email"></ws-widget-user-image>
+    </div>
+    <div mat-line>
+      <div class="w-full sm:flex sm:flex-between">
+        <h3
+          class="mat-h3 truncate m-0 flex-grow"
+          [style.font-weight]="!feedback.replied ? 500 : 'inherit'"
+        >
+          {{ feedback.feedbackBy.name }}
+        </h3>
+        <div
+          class="mat-caption hidden sm:block"
+          [style.font-weight]="!feedback.replied ? 500 : 'inherit'"
+        >
+          {{ feedback.lastActivityOn | date: 'dd MMM yyyy hh:mm a' }}
+        </div>
+      </div>
+    </div>
+    <div mat-line>
+      <span class="mat-caption sm:hidden" [style.font-weight]="!feedback.replied ? 500 : 'inherit'">
+        {{ feedback.lastActivityOn | date: 'dd MMM yyyy hh:mm a' }}
+      </span>
+    </div>
+    <div mat-line class="flex" *ngIf="feedback.feedbackType === feedbackTypes.Content">
+      <span class="truncate m-0 mat-body-2">
+        {{ feedback.contentTitle }}
+      </span>
+    </div>
+    <div mat-line class="flex">
+      <span
+        mat-line
+        class="truncate m-0"
+        [style.font-weight]="!feedback.replied ? 500 : 'inherit'"
+        [innerHTML]="feedback.feedbackText | pipeSafeSanitizer: 'html'"
+      ></span>
+    </div>
+  </mat-list-item>
+</ng-template>
+
+<!-- User list item -->
+<ng-template #listItemUser let-feedback>
+  <mat-list-item
+    matRipple
+    class="mat-toolbar cursor-pointer"
+    (click)="onFeedbackItemClick(feedback)"
+  >
+    <div mat-line>
+      <!-- <div class="w-full sm:flex sm:flex-between">
+        <h3
+          class="mat-h3 truncate m-0 flex-grow"
+          [style.font-weight]="feedback.replied && !feedback.seenReply ? 500 : 'inherit'"
+        >
+          <ws-app-feedback-type [feedbackType]="feedback.feedbackType"></ws-app-feedback-type>
+        </h3>
+        <div
+          class="mat-caption hidden sm:block"
+          [style.font-weight]="feedback.replied && !feedback.seenReply ? 500 : 'inherit'"
+        >
+          {{ feedback.lastActivityOn | date: 'dd MMM yyyy hh:mm a' }}
+        </div>
+      </div> -->
+      <div class="sm:text-right">
+        <span
+          class="mat-caption hidden sm:block"
+          [style.font-weight]="feedback.replied && !feedback.seenReply ? 500 : 'inherit'"
+        >
+          {{ feedback.lastActivityOn | date: 'dd MMM yyyy hh:mm a' }}
+        </span>
+      </div>
+    </div>
+
+    <div mat-line>
+      <span
+        class="mat-caption sm:hidden"
+        [style.font-weight]="feedback.replied && !feedback.seenReply ? 500 : 'inherit'"
+      >
+        {{ feedback.lastActivityOn | date: 'dd MMM yyyy hh:mm a' }}
+      </span>
+    </div>
+
+    <div mat-line class="flex" *ngIf="feedback.feedbackType === feedbackTypes.Content">
+      <span class="truncate m-0 mat-body-2">
+        {{ feedback.contentTitle }}
+      </span>
+    </div>
+
+    <div mat-line class="flex">
+      <span
+        class="truncate m-0"
+        [style.font-weight]="feedback.replied && !feedback.seenReply ? 500 : 'inherit'"
+        [innerHTML]="feedback.feedbackText | pipeSafeSanitizer: 'html'"
+      ></span>
+    </div>
+  </mat-list-item>
+</ng-template>

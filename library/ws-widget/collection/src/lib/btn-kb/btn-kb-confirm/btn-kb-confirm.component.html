@@ -1,0 +1,15 @@
+<div class="margin-m">
+  <div mat-dialog-content>
+    <h3>
+
+      <ng-container i18n>
+        Your changes are not saved. Are you sure?
+      </ng-container>
+
+    </h3>
+  </div>
+  <div mat-dialog-actions class="flex flex-row-reverse">
+    <button class="margin-left-xs" i18n mat-raised-button (click)="saveChanges()">No</button>
+    <button i18n mat-raised-button color="primary" (click)="ignoreChanges()">Yes</button>
+  </div>
+</div>

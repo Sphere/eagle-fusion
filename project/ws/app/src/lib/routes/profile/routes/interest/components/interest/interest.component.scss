@@ -1,0 +1,21 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.interest-holder {
+  width: 90%;
+  display: block;
+  margin: auto;
+  margin-bottom: 24px;
+}
+.search-holder {
+  display: block;
+  margin-left: 5%;
+}
+
+.search-width {
+  width: 50% !important;
+}
+
+.suggestions-chip {
+  background-color: transparent !important;
+}

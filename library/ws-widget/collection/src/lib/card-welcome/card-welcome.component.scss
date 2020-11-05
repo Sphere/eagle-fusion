@@ -1,0 +1,93 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+.user-image {
+  $icon-size: 36px;
+  font-size: $icon-size;
+  height: $icon-size;
+  width: $icon-size;
+  margin-right: 16px;
+}
+
+.title {
+  // font-weight: bold !important;
+  // font-weight: 300 !important;
+  // font-size: 24px !important;
+  flex:  1;
+  margin-bottom: 0;
+}
+.welcome-section {
+  align-items: center;
+  // display: flex;
+  flex-flow: row wrap;
+  padding: 8px;
+}
+.button-items {
+  display: flex;
+  align-items: flex-start;
+  flex: 6;
+}
+.mat-expansion-panel-header-title{
+  margin-left: 5px;;
+}
+mat-expansion-panel-header{
+  padding: 0;
+}
+.activity-button {
+  border-radius: 2px !important;
+  background-color: #05a7c9 !important;
+
+}
+
+.expansion-panel {
+  border-radius: 4px;
+  opacity: 1;
+  box-shadow: none !important;
+}
+
+.divider {
+  margin-bottom: 1.5rem !important;
+  padding-right: 24px !important;
+
+  @include breakpoint-lt-m {
+    margin-top: 0.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+}
+
+mat-expansion-panel-body {
+  padding-right: 0px !important;
+}
+
+.activity-card {
+  margin: 0.5rem;
+  min-width: 194px !important;
+  min-height: 171px !important;
+}
+
+.subtitle {
+  margin-top: 0.5rem !important;
+}
+
+.btn-display-top {
+  margin-top: 0.25rem !important;
+
+  @include breakpoint-lt-m {
+    display: none;
+  }
+}
+
+.btn-display-bottom {
+  margin-top: 0.25rem !important;
+
+  @include breakpoint-gt-m {
+    display: none
+  }
+
+  @include breakpoint-m {
+    display: none;
+
+  }
+
+}

@@ -1,0 +1,13 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+img {
+  $image-size: 11em;
+  width: $image-size;
+  height: $image-size;
+  border-radius: 50%;
+  margin-top: $size-s;
+}
+.card {
+  width: 14em;
+}

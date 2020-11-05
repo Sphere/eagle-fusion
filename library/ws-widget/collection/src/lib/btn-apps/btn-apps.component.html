@@ -1,0 +1,49 @@
+<button i18n-aria-label aria-label="Apps" *ngIf="!widgetData?.showTitle" mat-icon-button [matMenuTriggerFor]="appsMenu"
+  [ngClass]="{ 'ws-mat-accent-text': isUrlOpened }" i18n-matTooltip matTooltip="Apps" name="appsIconHomePage">
+  <mat-icon>apps</mat-icon>
+</button>
+<a role="button" matRipple *ngIf="widgetData?.showTitle" [ngClass]="{ 'ws-mat-accent-text': isUrlOpened }"
+  class="flex items-center flex-col cursor-pointer px-2 box-sizing-box" [matMenuTriggerFor]="appsMenu">
+  <mat-icon>apps</mat-icon>
+  <span [ngClass]="instanceVal === 'RootOrg' ? 'title font-sans' : 'mat-caption'" i18n>Apps</span>
+</a>
+<mat-menu #appsMenu="matMenu" xPosition="before" yPosition="above">
+  <section *ngIf="pinnedApps?.length && isPinFeatureAvailable" class="p-4 md:p-4 sm:p-2">
+    <div class="flex justify-between">
+      <h2 class="mat-title margin-bottom-xs" i18n>Pinned</h2>
+      <a mat-button [routerLink]="widgetData?.allListingUrl" *ngIf="widgetData?.allListingUrl">
+        <span class="flex items-center">
+          <span i18n>All</span>&nbsp;
+          <mat-icon>chevron_right</mat-icon>
+        </span>
+      </a>
+    </div>
+    <div class="flex flex-wrap -mx-2 -mt-1">
+      <ng-container *ngFor="let pinnedWidget of pinnedApps" [wsResolverWidget]="pinnedWidget"></ng-container>
+    </div>
+  </section>
+  <section *ngIf="featuredApps" class="p-4 md:p-4 sm:p-2">
+    <div class="flex justify-between">
+      <h2 class="mat-title margin-bottom-xs" i18n>Featured</h2>
+      <a mat-button [routerLink]="widgetData?.allListingUrl" *ngIf="widgetData?.allListingUrl">
+        <span class="flex items-center">
+          <span i18n>All</span>&nbsp;
+          <mat-icon>chevron_right</mat-icon>
+        </span>
+      </a>
+    </div>
+    <div class="flex flex-wrap -mx-2 -mt-1">
+      <ng-container *ngFor="let featuredWidget of featuredApps" [wsResolverWidget]="featuredWidget"></ng-container>
+    </div>
+  </section>
+  <a mat-menu-item [routerLink]="widgetData?.allListingUrl" class="all-features" *ngIf="widgetData?.allListingUrl">
+    <mat-icon>expand_more</mat-icon>
+    <span i18n>Explore all features</span>
+  </a>
+  <div class="flex flex-row-reverse">
+    <button (click)="logout()" color="warn" mat-button>
+      <mat-icon>power_settings_new</mat-icon>&nbsp;
+      <span i18n>Logout</span>
+    </button>
+  </div>
+</mat-menu>

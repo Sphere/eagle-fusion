@@ -1,0 +1,12 @@
+<div class="progress-circular">
+  <div class="progress-circular-container">
+    <div class="progress-circular-empty"></div>
+    <mat-progress-spinner *ngIf="isClient" class="progress-circular-full" [color]="'accent'"
+      [mode]="mode === 'indeterminate' ? 'indeterminate' : 'determinate'" [value]="100" [strokeWidth]="3">
+    </mat-progress-spinner>
+    <mat-progress-spinner [color]="'primary'" [mode]="mode === 'indeterminate' ? 'indeterminate' : 'determinate'"
+      [value]="progress! * 100" [strokeWidth]="3">
+    </mat-progress-spinner>
+    <div class="progress-circular-value">{{ progress! * 100 | number: '1.0-0' }}%</div>
+  </div>
+</div>

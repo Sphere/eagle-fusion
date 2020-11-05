@@ -1,0 +1,31 @@
+@import 'ws-mixins';
+.container-balanced {
+  margin-left: auto;
+  margin-right: auto;
+
+  @include breakpoint-xs {
+    max-width: 320px;
+  }
+
+  @include breakpoint-s {
+    max-width: 500px;
+  }
+
+  @include breakpoint-m {
+    max-width: 672px;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 1008px;
+  }
+}
+
+.card-container {
+  max-width: 320px;
+  width: 320px;
+  margin: $size-xs auto;
+
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}

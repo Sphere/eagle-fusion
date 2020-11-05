@@ -1,0 +1,170 @@
+@import 'ws-mixins';
+@mixin layout-width {
+  // @include breakpoint-gt-sm {
+  //   width: 100%;
+  // }
+}
+
+:host::ng-deep.new-class {
+  padding: 16px;
+  position: absolute;
+  z-index: 4;
+  border: 1px solid #2e6f9a;
+  box-shadow: 2px 2px 19px #e0e0e0;
+  -o-box-shadow: 2px 2px 19px #e0e0e0;
+  -webkit-box-shadow: 2px 2px 19px #e0e0e0;
+  -moz-box-shadow: 2px 2px 19px #e0e0e0;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  opacity: 0.8;
+  cursor: move;
+  min-height: 150px;
+  background-color: white;
+  font-size: 12px;
+  -webkit-transition: background-color 0.25s ease-in;
+  -moz-transition: background-color 0.25s ease-in;
+  transition: background-color 0.25s ease-in;
+}
+
+.sidebar > div {
+  margin: 0 auto;
+  background: #f9f8f8;
+  padding: 10px !important;
+  padding-top: 0px !important;
+  border: 1px solid #333;
+  box-shadow: 0 0 0.3em rgba(0, 0, 0, 0.8);
+  margin-bottom: 5px;
+}
+
+.cls-diagram-container {
+  border: 2px solid black;
+  min-height: 400px;
+}
+
+#card-slots,
+#card-pile {
+  background: rgba(228, 228, 228, 1);
+  padding: 10px !important;
+  padding-top: 2px !important;
+  box-shadow: 0.1em 0.1em 0.4em rgba(0, 0, 0, 0.8);
+}
+
+#card-slots div,
+#card-pile div {
+  font-size: 12px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background: #fff;
+  width: 96%;
+}
+
+.cls-diagram-area {
+  @include layout-width;
+  display: flex;
+  justify-content: space-between;
+  // @include breakpoint-lt-sm {
+  //   flex-direction: column;
+  // }
+  .sidebar {
+    width: 20%;
+    margin-top: 20px;
+    margin-left: 10px;
+    // @include breakpoint-lt-sm {
+    //   width: 70%;
+    //   margin-left: 25px;
+    // }
+    // @include breakpoint-sm {
+    //   width: 30%;
+    //   margin-left: 25px;
+    // }
+    // @include breakpoint-md {
+    //   width: 30%;
+    //   margin-left: 25px;
+    // }
+  }
+  #wrapper {
+    width: 80%;
+    // @include breakpoint-lt-sm {
+    //   width: 100%;
+    // }
+  }
+}
+
+#card-pile div {
+  background: #666;
+  color: #fff;
+  text-shadow: 0 0 3px #000;
+}
+
+.mat-form-field {
+  width: 137px !important;
+}
+
+:host::ng-deep .class-container {
+  width: 140px;
+  background: white;
+  position: relative;
+}
+
+:host::ng-deep .class-container > div > ul {
+  margin: 0;
+  padding-left: 0px;
+  list-style-type: none;
+  text-align: left;
+  padding-left: 5px;
+}
+
+:host::ng-deep.attributes {
+  border-bottom: 1px solid black;
+}
+
+:host::ng-deep div[class^='class'] > div:not(:first-child) {
+  min-height: 65px;
+  position: relative;
+}
+:host::ng-deep div[class^='class'] > div:first-child {
+  min-height: 20px;
+  border-bottom: 2px solid black;
+  position: relative;
+  font-weight: bold;
+}
+
+:host::ng-deep.aLabel {
+  background-color: white;
+  opacity: 0.8;
+  padding: 0.3em;
+  border-radius: 0.5em;
+  border: 1px solid #346789;
+  cursor: pointer;
+  -webkit-transition: background-color 0.25s ease-in;
+  -moz-transition: background-color 0.25s ease-in;
+  transition: background-color 0.25s ease-in;
+}
+
+:host::ng-deep.drag-icon {
+  position: absolute;
+  bottom: 91%;
+  right: 5px;
+  width: 1em;
+  height: 1em;
+  background-color: orange;
+  cursor: pointer;
+  box-shadow: 0 0 2px black;
+  -webkit-transition: -webkit-box-shadow 0.25s ease-in;
+  -moz-transition: -moz-box-shadow 0.25s ease-in;
+  transition: box-shadow 0.25s ease-in;
+}
+
+.statemachine-class-diagram {
+  height: 750px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.submitted {
+  color: green;
+}
+
+.notSubmitted {
+  color: red;
+}

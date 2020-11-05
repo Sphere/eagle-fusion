@@ -1,0 +1,30 @@
+@import 'ws-mixins';
+
+.button-class{
+    margin-top: 100px;
+  }
+
+  .small-height-toolbar{
+  @include breakpoint-xs {
+    height: 32px;
+    padding: 8px;
+  }
+}
+
+  .margin-tops-l{
+    margin-top: 80px;
+  }
+
+  .margin-tops-s{
+    margin-top: 24px;
+  }
+
+  .margin-tops-xl{
+    margin-top: 160px;
+  }
+
+  .btn-done{
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+  }

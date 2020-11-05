@@ -1,0 +1,125 @@
+<mat-toolbar color="primary" *ngIf="fetchStatus === 'done'">
+  <a mat-icon-button routerLink="/app/infy/navigator/roles">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <span class="margin-left-xs">{{ selectedRole.role_name }}</span>
+</mat-toolbar>
+
+<div class="margin-bottom-xl">
+  <div class="banner ws-mat-primary-background-op50">
+    <div class="content-strip margin-bottom-m ">
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l" i18n>
+        Learning Paths in the Selected Offering
+      </h1>
+      <h2 i18n class="mat-title margin-top-xl">
+        Create goals to track your learning and get certified.
+      </h2>
+    </div>
+  </div>
+  <div class="margin-top-xl description" *ngIf="fetchStatus === 'done'">
+    <div class="mat-subheading-2 text-bold">{{ selectedRole.role_description }}</div>
+    <div class="margin-top-m" *ngFor="let group of selectedVariant?.group; let idx = index">
+      <h1 class="mat-headline padding-top-l text-bold margin-bottom-xs">
+        {{ group.lp_groupname }} Certification
+        <span class="mat-subheading-2 text-bold margin-left-xs" *ngIf="group.certification_mandatory">
+          (Mandatory)
+        </span>
+        <span class="mat-subheading-2 text-bold margin-left-xs" *ngIf="!group.certification_mandatory">
+          (Optional)
+        </span>
+      </h1>
+
+      <h2 class="mat-title marg">{{ group.lp_groupdesc }}</h2>
+
+      <mat-radio-group *ngIf="fetchStatus === 'done' && groupMemberData[idx].length > 1">
+        <ng-container *ngFor="let member of groupMemberData[idx]; let memberIdx = index">
+          <mat-radio-button name="member.lp_name" [value]="member.lp_id" [checked]="memberIdx === 0" (change)="groupMemberChanged(memberIdx)"
+            class="mat-title">
+            <div class="flex margin-top-m margin-bottom-m">
+              <img [src]="member.lp_image" class="member-image" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+              <div class=" margin-left-l  text-truncate">
+                <span class="ws-mat-primary-text">{{ member.lp_name }}</span>
+
+                <p class="flex radio mat-body-1">
+                  <mat-icon>access_time</mat-icon>
+                  <span class="margin-left-xs/2 text-bold mat-h5 margin-remove">10 DAYS</span>
+                </p>
+                <div class="mat-subheading-2 text-bold text-truncate margin-top-s">
+                  {{ member.lp_description }}
+                </div>
+                <button mat-raised-button color="primary" class="left margin-bottom-xs">
+                  <a [routerLink]="'/app/infy/navigator/role-details/' + selectedVariant?.variant_id" [queryParams]="{id: member.lp_id}">Know More
+                  </a>
+                </button>
+              </div>
+            </div>
+          </mat-radio-button>
+
+          <mat-divider class="margin-bottom-m"></mat-divider>
+        </ng-container>
+      </mat-radio-group>
+      <ng-container *ngIf="groupMemberData[idx].length === 1">
+        <div *ngFor="let member of groupMemberData[idx]; let memberIdx = index" class="mat-title margin-top-xl">
+          <div class="flex margin-top-m margin-bottom-m">
+            <img [src]="member.lp_image" [wsUtilsDefaultThumbnail]="defaultThumbnail" class="member-image" />
+            <div class=" margin-left-l  text-truncate">
+              <span class="ws-mat-primary-text">{{ member.lp_name }}</span>
+
+              <p class="flex radio mat-body-1">
+                <mat-icon>access_time</mat-icon>
+                <span class="margin-left-xs/2 text-bold mat-h5 margin-remove" i18n>10 DAYS</span>
+              </p>
+              <div class="mat-subheading-2 text-bold text-truncate">
+                {{ member.lp_description }}
+              </div>
+              <button mat-raised-button color="primary" class="left margin-bottom-xs">
+                <a [routerLink]="'/app/infy/navigator/role-details/' + selectedVariant?.variant_id" [queryParams]="{id: member.lp_id}">Know More
+                </a>
+              </button>
+            </div>
+          </div>
+          <mat-divider class="margin-bottom-m"></mat-divider>
+        </div>
+      </ng-container>
+      <div class="text-right margin-top-xl">
+        <button *ngIf="!goalsAddingInProgess" mat-raised-button color="primary" (click)="createGoalClicked(group)" i18n>
+          Add to Goal
+        </button>
+        <mat-spinner *ngIf="goalsAddingInProgess" class="display-inline-block"></mat-spinner>
+      </div>
+    </div>
+    <div class="margin-top-xl margin-bottom-xl mat-headline text-bold">
+      <p class="mat-headline text-bold margin-bottom-l margin-left-xl" i18n *ngIf="hasCertifications">
+        Certifications Based on the Selected Learning
+        <ng-container *ngIf="selectedMemberList.length >1">Paths
+        </ng-container>
+        <ng-container *ngIf="selectedMemberList.length == 1">Path
+        </ng-container>
+      </p>
+      <div class="flex flex-wrapped margin-left-xl">
+        <div>
+          <!-- <mat-chip-list>
+            <div class="margin-left-xl flexflex-wrapped">
+              <mat-chip *ngFor="let member of selectedMemberList">
+                {{ member }}
+              </mat-chip>
+            </div>
+          </mat-chip-list> -->
+        </div>
+        <div class="flex alternatives" *ngIf="hasAlternatives && hasCertifications">
+          <button mat-raised-button color="primary" (click)="displayAlternatives()">
+            <p class="margin-remove" *ngIf="!showAlternatives">Show Alternatives</p>
+            <p class="margin-remove" *ngIf="showAlternatives">Hide Alternatives</p>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="fetchStatus === 'done'" class="margin-top-m">
+        <ng-container [wsResolverWidget]="certificationsResolverData"></ng-container>
+      </div>
+      <div *ngIf="showAlternatives">
+        <ng-container [wsResolverWidget]="alternateCertificationsResolverData"></ng-container>
+      </div>
+
+    </div>
+  </div>
+</div>

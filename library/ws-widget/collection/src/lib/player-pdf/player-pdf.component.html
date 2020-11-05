@@ -1,0 +1,51 @@
+<section #fullScreenContainer class="pdf-container">
+  <!-- <mat-toolbar class="pdf-nav-bar" color="primary" *ngIf="widgetData?.hideControls"> -->
+    <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pdf-page-container">
+      <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="container" #pdfContainer></div>
+    </div>
+  <mat-toolbar class="pdf-nav-bar flex justify-center" color="red" *ngIf="widgetData?.hideControls">
+    <button mat-icon-button [disabled]="currentPage.value < 2" (click)="loadPageNum(currentPage.value - 1)"
+      aria-label="previous" i18n-aria-label>
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <mat-form-field class="auto-mat-form-field-input-infix">
+      <span matPrefix i18n *ngIf="!isSmallViewPort">Page</span>
+      <input label="PageNumber" aria-label="Page Number" i18n-aria-label class="pdf-page-num" type="number" min="1"
+        [max]="totalPages" [formControl]="currentPage" matInput />
+      <span matSuffix>of {{ totalPages }}</span>
+    </mat-form-field>
+    <button mat-icon-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(currentPage.value + 1)"
+      aria-label="next" i18n-aria-label>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <button mat-icon-button [disabled]="zoom.value <= MIN_SCALE" (click)="changeScale('zoomout')" aria-label="zoom out"
+      i18n-aria-label>
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="zoom.value >= MAX_SCALE" (click)="changeScale('zoomin')" aria-label="zoom in"
+      i18n-aria-label>
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+
+    <!-- <button mat-icon-button [matMenuTriggerFor]="zoomMenu" *ngIf="isSmallViewPort">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+    <mat-menu #zoomMenu="matMenu" xPosition="before" yPosition="below">
+      <div mat-menu-item>
+        <mat-slider min="0.2" max="3" step="0.05" [formControl]="zoom" tickInterval> </mat-slider>
+        {{ zoom.value }}<span>X</span>
+      </div>
+    </mat-menu>
+    <mat-slider *ngIf="!isSmallViewPort" thumbLabel min="0.2" max="3" step="0.05" [formControl]="zoom"></mat-slider> -->
+
+    <button mat-icon-button (click)="refresh()" aria-label="refresh" i18n-aria-label>
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <div class="pdf-fullscreen">
+      <ws-widget-btn-fullscreen (fsState)="fullScreenState($event)" (click)="refresh()"
+        [widgetData]="{ fsContainer: fullScreenContainer }">
+      </ws-widget-btn-fullscreen>
+    </div>
+  </mat-toolbar>
+</section>

@@ -1,0 +1,517 @@
+<ng-container *ngIf="!onExpand">
+  <div *ngIf="userProgressData && courseFetchStatus === 'done'" class="flex flex-start flex-around m-2 flex-wrapped">
+    <ws-analytics-analytics-tile *ngIf="userProgressData?.course_count > 0" class="unique-users-card margin-m"
+      (clickEvent)="onClick($event)" [title]="'# Courses'" [category2]="''" [category3]="''" [category1]="''"
+      [uniqueUsers]="userProgressData?.course_count" [description]="coursesDescription">
+    </ws-analytics-analytics-tile>
+    <ws-analytics-analytics-tile *ngIf="userProgressData?.collection_count > 0" class="unique-users-card margin-m"
+      (clickEvent)="onClick($event)" [title]="'# Modules'" [category2]="''" [category3]="''" [category1]="''"
+      [uniqueUsers]="userProgressData?.collection_count" [description]="modulesDescription">
+    </ws-analytics-analytics-tile>
+    <ws-analytics-analytics-tile *ngIf="userProgressData?.resource_count > 0" class="unique-users-card margin-m"
+      (clickEvent)="onClick($event)" [title]="'# Resources'" [category2]="''" [category3]="''" [category1]="''"
+      [uniqueUsers]="userProgressData?.resource_count" [description]="resourcesDescription">
+    </ws-analytics-analytics-tile>
+  </div>
+  <div *ngIf="userProgressData && courseFetchStatus === 'done'" class="flex flex-between m-3 flex-wrapped">
+    <ng-container *ngIf="userProgressData?.resource_type?.length > 0">
+      <mat-card class="graph-card-client margin-s">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>Users by Content Category
+            </p>
+            <button *ngIf="userProgressData?.resource_type?.length >= 20" mat-icon-button
+              (click)="onExpandChart('resource_type', 'ResourceType', 'users')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <p class="description" i18n>This chart displays # of unique users by content category</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="barChartResourceTypeData"> </ng-container>
+        </div>
+      </mat-card>
+    </ng-container>
+    <ng-container *ngIf="userProgressData?.resource_type?.length > 0">
+      <mat-card class="graph-card-client margin-s">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>Views by Content Category
+            </p>
+            <button *ngIf="userProgressData?.resource_type?.length >= 20" mat-icon-button
+              (click)="onExpandChart('resource_type', 'ResourceType', 'views')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <p class="description" i18n>This chart displays # of views by content category</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="barChartResourceTypeViewData"> </ng-container>
+        </div>
+      </mat-card>
+    </ng-container>
+    <ng-container *ngIf="userProgressData?.mime_type?.length > 0">
+      <mat-card class="graph-card-client margin-s">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              Users by Mime Type
+            </p>
+            <button *ngIf="userProgressData?.mime_type?.length >= 20" mat-icon-button
+              (click)="onExpandChart('mime_type', 'MimeType', 'users')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <p class="description" i18n>This chart displays # of unique users by mime Type</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="barChartMimeTypeData"> </ng-container>
+        </div>
+      </mat-card>
+    </ng-container>
+    <ng-container *ngIf="userProgressData?.mime_type?.length > 0">
+      <mat-card class="graph-card-client margin-s">
+        <div class="margin-top-m margin-left-m">
+          <div class="flex flex-between flex-middle">
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              Views by Mime Type
+            </p>
+            <button *ngIf="userProgressData?.mime_type?.length >= 20" mat-icon-button
+              (click)="onExpandChart('mime_type', 'MimeType', 'views')">
+              <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
+            </button>
+          </div>
+          <p class="description" i18n>This chart displays # of views by mime Type</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="barChartMimeTypeViewData"> </ng-container>
+        </div>
+      </mat-card>
+    </ng-container>
+    <!-- <ng-container *ngIf="userProgressData?.content_type?.length > 0">
+      <mat-card class="graph-card-client margin-s">
+        <div class="margin-top-m margin-left-m">
+          <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>Users by
+            Content Type
+          </p>
+          <p class="description" i18n>This chart displays # of unique users for each content type</p>
+        </div>
+        <div class="margin-m">
+          <ng-container [wsResolverWidget]="pieContentTypeChartData"> </ng-container>
+        </div>
+      </mat-card>
+    </ng-container> -->
+  </div>
+  <ng-container>
+    <mat-card class="graph-bar-card-client">
+      <div class="margin-top-m margin-left-m">
+        <div class="flex flex-between flex-middle">
+          <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>Content usage
+          </p>
+        </div>
+        <p class="description" i18n>Details of all the contents accessed</p>
+      </div>
+      <ng-container>
+        <div class="button-row margin-left-m ">
+          <mat-tab-group mat-align-tabs="left" (selectedIndexChange)="onTabChangeClient($event)">
+            <mat-tab *ngIf="analytics?.subTabs?.courses">
+              <ng-template mat-tab-label>
+                <span accesskey="1" class="font-bold" i18n>Courses</span>
+              </ng-template>
+              <div *ngIf="courseFetchStatus === 'done'">
+                <mat-card *ngIf="!screenSizeIsLtMedium">
+                  <mat-grid-list *ngIf="showTime && showViews" cols="5" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Course Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="showTime && !showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Course Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showTime && showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Course Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showTime && !showViews" cols="3" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Course Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile> -->
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                </mat-card>
+                <mat-card *ngIf="screenSizeIsLtMedium">
+                  <mat-grid-list *ngIf="showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Course Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showViews" cols="3" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Course Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile> -->
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                </mat-card>
+                <div *ngFor="let data of progressData | slice:page.p1:page.p1+10">
+                  <ws-analytics-content-card [contentData]="data"></ws-analytics-content-card>
+                </div>
+                <mat-paginator *ngIf="progressData?.length > 10" showFirstLastButtons [length]="progressData.length"
+                  [pageSize]="10" (page)="changePage($event,1)">
+                </mat-paginator>
+                <div *ngIf="progressData.length === 0" class="progress">
+                  <div class="progress-container">
+                    <div class="progress-content flex flex-center flex-wrapped margin-top-xl">
+                      <h4 i18n>No course progress Data found</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="courseFetchStatus === 'error'" class="learning-container text-center">
+                <h4 i18n class="text-center coming-soon-msg p-4 flex ws-mat-primary-text">
+                  We are gathering the data to provide insights! Coming soon...
+                </h4>
+              </div>
+              <div *ngIf="courseFetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+                <mat-spinner></mat-spinner>
+              </div>
+            </mat-tab>
+            <mat-tab *ngIf="analytics?.subTabs?.modules">
+              <ng-template mat-tab-label>
+                <span accesskey="2" class="font-bold" i18n>Modules</span>
+              </ng-template>
+              <ng-container *ngIf="modulesFetchStatus === 'done'">
+                <mat-card *ngIf="!screenSizeIsLtMedium">
+                  <mat-grid-list *ngIf="showTime && showViews" cols="5" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Module Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showTime && showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Module Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="showTime && !showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Module Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Total Views</p>
+                     </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showTime && !showViews" cols="3" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Module Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Total Views</p>
+                     </mat-grid-tile> -->
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                        <p class="text-outside-grid">Average Time (mins)</p>
+                      </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                </mat-card>
+                <mat-card *ngIf="screenSizeIsLtMedium">
+                  <mat-grid-list *ngIf="showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Module Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showViews" cols="3" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Module Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Total Views</p>
+                     </mat-grid-tile> -->
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                </mat-card>
+                <div *ngFor="let data of progressData | slice:page.p2:page.p2+10">
+                  <ws-analytics-content-card [contentData]="data"></ws-analytics-content-card>
+                </div>
+                <mat-paginator *ngIf="progressData?.length > 10" showFirstLastButtons [length]="progressData.length"
+                  [pageSize]="10" (page)="changePage($event,2)">
+                </mat-paginator>
+                <div *ngIf="progressData.length === 0" class="progress">
+                  <div class="progress-container">
+                    <div class="progress-content flex flex-center margin-top-xl">
+                      <h4 i18n>No module progress data found</h4>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <div *ngIf="modulesFetchStatus === 'error'" class="learning-container text-center">
+                <h4 i18n class="text-center coming-soon-msg p-4 flex ws-mat-primary-text">
+                  We are gathering the data to provide insights! Coming soon...
+                </h4>
+              </div>
+              <div *ngIf="modulesFetchStatus === 'fetching'" class="flex flex-center padding-xl margin-xl">
+                <mat-spinner></mat-spinner>
+              </div>
+            </mat-tab>
+            <mat-tab *ngIf="analytics?.subTabs?.resources">
+              <ng-template mat-tab-label>
+                <span accesskey="3" class="font-bold" i18n>Resources</span>
+              </ng-template>
+              <ng-container *ngIf="resourceFetchStatus === 'done'">
+                <mat-card *ngIf="!screenSizeIsLtMedium">
+                  <mat-grid-list *ngIf="showTime && showViews" cols="5" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Resource Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showTime && showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Resource Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Average Time (mins)</p>
+                     </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="showTime && !showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Resource Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Total Views</p>
+                     </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showTime && !showViews" cols="3" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Resource Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Total Views</p>
+                     </mat-grid-tile> -->
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                       <p class="text-outside-grid">Average Time (mins)</p>
+                     </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                </mat-card>
+                <mat-card *ngIf="screenSizeIsLtMedium">
+                  <mat-grid-list *ngIf="showViews" cols="4" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Resource Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                  <mat-grid-list *ngIf="!showViews" cols="3" rowHeight="35px">
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-inside-grid">Resource Name</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Users</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Total Views</p>
+                    </mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>
+                      <p class="text-outside-grid">Average Time (mins)</p>
+                    </mat-grid-tile> -->
+                    <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Progress</mat-grid-tile>
+                    <!-- <mat-grid-tile class="font-semibold text-xs md:text-sm xl:text-sm" i18n>Source</mat-grid-tile> -->
+                  </mat-grid-list>
+                </mat-card>
+                <div *ngFor="let data of progressData | slice:page.p2:page.p2+10">
+                  <ws-analytics-content-card [contentData]="data"></ws-analytics-content-card>
+                </div>
+                <mat-paginator *ngIf="progressData?.length > 10" showFirstLastButtons [length]="progressData.length"
+                  [pageSize]="10" (page)="changePage($event,2)">
+                </mat-paginator>
+                <div *ngIf="progressData.length === 0" class="progress">
+                  <div class="progress-container">
+                    <div class="progress-content flex flex-center margin-top-xl">
+                      <h4 i18n>No resource progress data found</h4>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <div *ngIf="resourceFetchStatus === 'error'" class="learning-container text-center">
+                <h4 i18n class="text-center coming-soon-msg p-4 flex ws-mat-primary-text">
+                  We are gathering the data to provide insights! Coming soon...
+                </h4>
+              </div>
+              <div *ngIf="resourceFetchStatus === 'fetching'" class="flex flex-center margin-xl padding-xl">
+                <mat-spinner></mat-spinner>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </ng-container>
+    </mat-card>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="onExpand">
+  <mat-card class="margin-s">
+    <button mat-raised-button color="primary" class="margin-top-xl margin-left-s" matTooltip="Back" i18n-matTooltip
+      (click)="onClose()">
+      Back
+    </button>
+    <div class="margin-top-m">
+      <ng-container [wsResolverWidget]="barChartExpandData"> </ng-container>
+    </div>
+  </mat-card>
+</ng-container>

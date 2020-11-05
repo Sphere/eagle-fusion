@@ -1,0 +1,295 @@
+<div class="margin-top-xl margin-l-l margin-r-l" [hidden]="previewMode">
+  <div class="flex margin-left-xl flex-middle margin-bottom-xl flex-wrap">
+    <div class="flex flex-middle">
+      <p class="ws-mat-primary-text font-weight-bold title margin-right-xs" i18n>
+        CONTENT CREATION
+      </p>
+      <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">create</mat-icon>
+    </div>
+    <div class="margin-left grid" *ngIf="currentStep >= 0">
+      <div class="stepper-grid " [ngClass]="{ 'cursor-disable': disableCursor === true }">
+        <div
+          class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer"
+          [ngClass]="{ 'ws-mat-primary-background cursor-disable': currentStep >= 1 }"
+          (click)="customStepper(1)"
+          i18n
+        >
+          1
+        </div>
+        <p
+          class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-disable"
+          [ngClass]="{ 'ws-mat-primary-text op100': currentStep >= 1 }"
+          i18n
+        >
+          Choose Type
+        </p>
+        <span
+          class=" border border-solid text-gray-500 mx-3"
+          [ngClass]="{ 'ws-mat-primary-text': currentStep >= 2 }"
+        ></span>
+      </div>
+      <div class="stepper-grid">
+        <div
+          class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer"
+          [ngClass]="{ 'ws-mat-primary-background': currentStep >= 2 }"
+          (click)="customStepper(2)"
+          i18n
+        >
+          2
+        </div>
+        <p
+          class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-pointer"
+          [ngClass]="{
+            'ws-mat-primary-text op100': currentStep >= 2,
+            'ws-mat-primary-border-bottom-bolder': currentStep === 2
+          }"
+          (click)="customStepper(2)"
+          i18n
+        >
+          Content
+        </p>
+        <span
+          class=" border border-solid text-gray-500 mx-3"
+          [ngClass]="{ 'ws-mat-primary-text': currentStep === 3 }"
+        ></span>
+      </div>
+      <div class="flex flex-middle">
+        <div
+          class="ws-mat-primary-background-op30 stepper-container text-white cursor-pointer"
+          [ngClass]="{ 'ws-mat-primary-background': currentStep === 3 }"
+          (click)="customStepper(3)"
+          i18n
+        >
+          3
+        </div>
+        <p
+          class="margin-left-xs margin-remove-bottom font-weight-500 op30 cursor-pointer"
+          [ngClass]="{
+            'ws-mat-primary-text op100': currentStep === 3,
+            'ws-mat-primary-border-bottom-bolder': currentStep === 3
+          }"
+          (click)="customStepper(3)"
+          i18n
+        >
+          Details
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class=" margin-left-xl margin-top-s margin-bottom-xs">
+    <div class="flex flex-middle">
+      <p class="margin-remove-bottom mat-h3 font-weight-bold" i18n>Language</p>
+    </div>
+    <div class="flex flex-middle">
+      <p
+        class="margin-left-s margin-top-xs font-weight-500 margin-top-s cursor-pointer"
+        *ngFor="let content of contents"
+        [ngClass]="{
+          'ws-mat-primary-border-bottom-bolder': currentContent === content.identifier
+        }"
+        (click)="changeContent(content)"
+      >
+        {{ content.locale | uppercase }}
+      </p>
+      <button
+        mat-icon-button
+        class=" small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
+      >
+        <mat-icon
+          class="text-white small-icon"
+          [matMenuTriggerFor]="menu"
+          i18n-matTooltip
+          matTooltip="Add a language"
+          >add</mat-icon
+        >
+      </button>
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let lang of allLanguages"
+          (click)="createInAnotherLanguage(lang.srclang)"
+        >
+          {{ lang.label | uppercase }}
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <div class=" margin-left-xl margin-top-s margin-bottom-xs" *ngIf="mode === 'Advanced'">
+    <ul>
+      <li i18n>
+        Alignment of various items such as image, colour, border and your applied CSS may not
+        reflect in edit mode.
+        <br />
+        Use “Preview” to see actual rendering of the page in different devices.
+      </li>
+      <li i18n>
+        Use “Save” at the top right corner to save your changes. Changes made in any of the widgets
+        are not saved automatically.
+      </li>
+    </ul>
+  </div>
+
+  <div id="upload-container" class="mat-primary-background">
+    <div class="margin-top-xl margin-left-xl margin-right-xl" *ngIf="currentStep === 2">
+      <ws-auth-template
+        *ngIf="isNew[currentContent]"
+        [currentContent]="currentContent"
+        (data)="fromTemplate($event)"
+      ></ws-auth-template>
+      <ws-auth-page-editor
+        *ngIf="!isNew[currentContent] && mode === 'Advanced'"
+        [isSubmitPressed]="isSubmitPressed"
+        (data)="action($event)"
+        [canShowMode]="canShowMode"
+        [mode]="mode"
+      >
+      </ws-auth-page-editor>
+      <ws-auth-page-editor-v2
+        *ngIf="!isNew[currentContent] && mode === 'Basic'"
+        [canShowMode]="canShowMode"
+        [isSubmitPressed]="isSubmitPressed"
+        (data)="action($event)"
+        [mode]="mode"
+      >
+      </ws-auth-page-editor-v2>
+    </div>
+    <div class="margin-top-xl margin-left-xl margin-right-xl" *ngIf="currentStep === 3">
+      <ws-auth-edit-meta
+        [isSubmitPressed]="isSubmitPressed"
+        (data)="action($event)"
+      ></ws-auth-edit-meta>
+    </div>
+  </div>
+
+  <div class="buttons margin-top-xl">
+    <div class="button-grid margin-right-xxs cursor-pointer" (click)="toggleSettingButtons()">
+      <button mat-icon-button class="padding-remove ws-mat-primary-background mat-elevation-z6">
+        <mat-icon class="text-white" *ngIf="showSettingButtons" i18n-matTooltip matTooltip="Close"
+          >close</mat-icon
+        >
+        <mat-icon class="text-white" *ngIf="!showSettingButtons">more_vert</mat-icon>
+      </button>
+      <p
+        class="mat-h5 margin-remove button-text padding-remove-top"
+        *ngIf="showSettingButtons"
+        i18n-matTooltip
+        matTooltip="Close"
+      >
+        Close
+      </p>
+    </div>
+    <ng-container *ngIf="showSettingButtons">
+      <div class="button-grid cursor-pointer" (click)="action('preview')">
+        <button
+          mat-icon-button
+          class=" mat-elevation-z5 small-button padding-remove  margin-top-l"
+          i18n-matTooltip
+          matTooltip="Preview"
+        >
+          <mat-icon class="text-white small-icon ws-mat-primary-text">remove_red_eye</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="preview">
+          Preview
+        </p>
+      </div>
+      <div class="button-grid cursor-pointer" (click)="action('save')">
+        <button
+          mat-icon-button
+          class=" mat-elevation-z5 small-button padding-remove  margin-top-m"
+          i18n-matTooltip
+          matTooltip="Save"
+        >
+          <mat-icon class="text-white small-icon ws-mat-primary-text">save</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="save">
+          Save
+        </p>
+      </div>
+      <div
+        class="button-grid cursor-pointer"
+        *ngIf="getAction() === 'sendForReview'"
+        (click)="action('push'); isSubmitPressed = true"
+      >
+        <button
+          mat-icon-button
+          class=" mat-elevation-z5 small-button padding-remove  margin-top-m"
+          i18n-matTooltip
+          matTooltip="Send For Review"
+        >
+          <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="send for review">
+          Send For Review
+        </p>
+      </div>
+      <div
+        class="button-grid cursor-pointer"
+        *ngIf="getAction() === 'review'"
+        (click)="action('push'); isSubmitPressed = true"
+      >
+        <button
+          mat-icon-button
+          class=" mat-elevation-z5 small-button padding-remove  margin-top-m"
+          i18n-matTooltip
+          matTooltip="Review"
+        >
+          <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="Review">
+          Review
+        </p>
+      </div>
+      <div
+        class="button-grid cursor-pointer"
+        *ngIf="getAction() === 'publish'"
+        (click)="action('push'); isSubmitPressed = true"
+      >
+        <button
+          mat-icon-button
+          class=" mat-elevation-z5 small-button padding-remove  margin-top-m"
+          i18n-matTooltip
+          matTooltip="Publish"
+        >
+          <mat-icon class="text-white small-icon ws-mat-primary-text">rate_review</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="Publish">
+          Publish
+        </p>
+      </div>
+      <div class="button-grid cursor-pointer" (click)="action('delete')">
+        <button
+          mat-icon-button
+          class=" mat-elevation-z5 small-button padding-remove  margin-top-m"
+          i18n-matTooltip
+          matTooltip="Delete"
+        >
+          <mat-icon class="text-white small-icon ws-mat-primary-text">delete</mat-icon>
+        </button>
+        <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="Delete" i18n>
+          Delete
+        </p>
+      </div>
+      <!-- <button (click)="fullScreenToggle()" mat-icon-button
+        class=" mat-elevation-z5 small-button padding-remove  margin-top-m" i18n-matTooltip matTooltip="Fullscreen">
+        <mat-icon class="text-white small-icon ws-mat-primary-text">fullscreen</mat-icon>
+      </button> -->
+      <!-- <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-m" i18n-matTooltip matTooltip="Copy">
+            <mat-icon class="text-white small-icon ws-mat-primary-text">crop_portrait</mat-icon>
+          </button> -->
+    </ng-container>
+  </div>
+</div>
+
+<div *ngIf="previewMode">
+  <mat-icon
+    (click)="closePreview()"
+    class="close-preview"
+    matTooltip="Back"
+    i18n-matTooltip="Back button to go to previous page"
+  >
+    arrow_back</mat-icon
+  >
+  <ws-auth-viewer [identifier]="currentContent" [mimeTypeRoute]="mimeTypeRoute"></ws-auth-viewer>
+</div>

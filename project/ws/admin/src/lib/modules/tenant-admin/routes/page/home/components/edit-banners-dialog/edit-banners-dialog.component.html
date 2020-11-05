@@ -1,0 +1,25 @@
+<ng-container *ngIf="!isUploading; else loader">
+  <button i18n mat-raised-button [color]="'primary'">
+    Save
+  </button>
+  <ng-container *ngFor="let banner of data.banner.banners | keyvalue">
+    <mat-card class="my-2">
+      <ng-container [ngSwitch]="banner.key">
+        <mat-card-title *ngSwitchCase="'xs'">Extra Small</mat-card-title>
+        <mat-card-title *ngSwitchCase="'s'">Small</mat-card-title>
+        <mat-card-title *ngSwitchCase="'m'">Medium</mat-card-title>
+        <mat-card-title *ngSwitchCase="'l'">Large</mat-card-title>
+        <mat-card-title *ngSwitchCase="'xl'">Extra Large</mat-card-title>
+      </ng-container>
+      <mat-card-content>
+        <img class="h-full w-full" [src]="banner.value">
+      </mat-card-content>
+      <mat-card-actions>
+        <input type="file" name="banner" (change)="selectBanner($event.target.files[0], banner.key)">
+      </mat-card-actions>
+    </mat-card>
+  </ng-container>
+</ng-container>
+<ng-template #loader>
+  Loading
+</ng-template>

@@ -1,0 +1,92 @@
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+  <ws-widget-btn-page-back [widgetData]="{ url: '/app/social/qna' }"></ws-widget-btn-page-back>
+  <span i18n="page title: Ask a Question" class="ml-2">Ask a Question</span>
+</mat-toolbar>
+
+<mat-card class="editor-wrapper custom-scroll">
+  <form>
+    <div class="flex align-center">
+      <button mat-icon-button class="ws-mat-primary-text" (click)="toggleTitleInfo = !toggleTitleInfo">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+      <div class="w-screen">
+        <textarea class="mat-typography title-textarea" i18n-placeholder placeholder="Title" required minlength="10"
+          maxlength="150" name="title" [(ngModel)]="title" autofocus #postTitle="ngModel"></textarea>
+        <p *ngIf="(postTitle.dirty || postTitle.touched) && postTitle.invalid" class="error-text mat-caption" i18n>
+          *Title range: 10-150 characters
+        </p>
+        <div *ngIf="toggleTitleInfo" class="ws-mat-primary-text mb-4" i18n>
+          Your title helps people quickly understand what your question is about so they can answer
+          it.
+        </div>
+      </div>
+    </div>
+
+    <div class="flex align-center">
+      <button mat-icon-button class="ws-mat-primary-text" (click)="toggleTagsInfo = !toggleTagsInfo">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+      <div class="w-screen">
+        <mat-form-field class="w-full">
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let selectedTag of selectedTags" [selectable]="true" [removable]="true"
+              (removed)="removeTag(selectedTag)">
+              {{ selectedTag.name }}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input i18n-placeholder placeholder="Relevant tags" #tagsInput [formControl]="tagsCtrl"
+              [matAutocomplete]="auto" [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete"
+            (optionSelected)="selectTag($event, duplicate.value, invalidTag.value)">
+            <mat-option *ngIf="fetchTagsStatus === 'fetching'">...</mat-option>
+            <mat-option *ngIf="
+                (fetchTagsStatus === 'done' || fetchTagsStatus === 'error') &&
+                !autocompleteAllTags.length
+              ">
+              No tag found</mat-option>
+            <mat-option *ngFor="let filteredTag of autocompleteAllTags" [value]="filteredTag">
+              {{ filteredTag.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <div *ngIf="toggleTagsInfo" class="ws-mat-primary-text mb-4" i18n>
+          Tags help the right people find and answer your question.
+        </div>
+      </div>
+    </div>
+
+    <ws-widget-editor-quill-image class="editor" [id]="'qna'" (textData)="onTextChange($event)" [minLength]="'20'" [htmlText]="body">
+    </ws-widget-editor-quill-image>
+  </form>
+</mat-card>
+
+<div class="mat-toolbar save-options">
+  <button *ngIf="editMode === 'create'" class="margin-right-s" (click)="saveDraft(savedDraft.value, error.value)"
+    [disabled]="isCreatingPost || !actionButtonsEnabled || postTitle.invalid" mat-raised-button color="primary" i18n>
+    Save as Draft
+  </button>
+  <button *ngIf="editMode === 'create' || editMode === 'draft'" class="margin-right-s"
+    (click)="publishPost(publish.value, error.value)"
+    [disabled]="isCreatingPost || !actionButtonsEnabled || postTitle.invalid" mat-raised-button color="primary"
+    i18n="Post of Ask a Question">
+    Publish
+  </button>
+  <button *ngIf="editMode === 'update'" class="margin-right-s" (click)="update(saved.value, error.value)"
+    [disabled]="isCreatingPost || !actionButtonsEnabled || postTitle.invalid" mat-raised-button color="primary" i18n>
+    Save
+  </button>
+  <button *ngIf="editMode === 'draft'" class="margin-right-s" (click)="saveDraft(saved.value, error.value)"
+    [disabled]="isCreatingPost || !actionButtonsEnabled || postTitle.invalid" mat-raised-button color="primary" i18n>
+    Save
+  </button>
+  <mat-spinner *ngIf="isCreatingPost" [diameter]="30"></mat-spinner>
+</div>
+
+<input type="hidden" i18n-value value="Question updated successfully" #saved />
+<input type="hidden" i18n-value value="Question saved in the drafts" #savedDraft />
+<input type="hidden" i18n-value value="Question published successfully" #publish />
+<input type="hidden" i18n-value value="Tag already added" #duplicate />
+<input type="hidden" i18n-value value="You can add tag from dropdown only" #invalidTag />
+<input type="hidden" i18n-value value="Unable to save. Please retry" #error />

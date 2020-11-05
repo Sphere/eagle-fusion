@@ -1,0 +1,25 @@
+<section class="padding-top-l padding-bottom-l">
+  <h3 class="mat-h3" i18n>Upcoming Trainings</h3>
+  <button
+    mat-mini-fab
+    [color]="'primary'"
+    (click)="onClickBtnFilter()"
+    [matBadge]="appliedFiltersCount"
+    matBadgeColor="accent"
+    matTooltip="Filter"
+    i18n-matTooltip
+  >
+    <mat-icon>filter_list</mat-icon>
+  </button>
+
+  <section class="margin-top-l flex flex-wrap flex-center">
+    <div class="margin-right-s margin-bottom-s" *ngFor="let upcomingTraining of upcomingTrainings">
+      <ws-app-training-card
+        [training]="upcomingTraining"
+        [trainingPrivileges]="trainingPrivileges"
+        (registered)="onRegister($event)"
+        (deregistered)="onDeregister($event)"
+      ></ws-app-training-card>
+    </div>
+  </section>
+</section>

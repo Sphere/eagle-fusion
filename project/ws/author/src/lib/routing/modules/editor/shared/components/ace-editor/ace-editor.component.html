@@ -1,0 +1,4 @@
+<div>
+  <ace-editor #editor [(text)]="text" [mode]="mode" [options]="options" [readOnly]="false" [autoUpdateContent]="false"
+    (textChanged)="onChange($event)" [theme]="'textmate'" [durationBeforeCallback]="1000"></ace-editor>
+</div>
