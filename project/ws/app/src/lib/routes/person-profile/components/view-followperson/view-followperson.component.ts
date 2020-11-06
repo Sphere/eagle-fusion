@@ -102,8 +102,8 @@ export class ViewFollowpersonComponent implements OnInit {
   //   }
   //   )
   // }
-  proceedToProfile(emailId: string) {
-    this.router.navigateByUrl(`/app/person-profile?emailId=${emailId}`)
+  proceedToProfile(wid: string) {
+    this.router.navigateByUrl(`/app/person-profile?userId=${wid}`)
   }
 
   private openSnackBar(message: string) {

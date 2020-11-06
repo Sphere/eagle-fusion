@@ -243,7 +243,7 @@
           <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="author.name || ''"
             [email]="author.email"></ws-widget-user-image>
           <div class="width-expand flex flex-middle flex-between">
-            <h3 class="margin-remove"><a class="margin-remove text-md font-normal" (click)="goToProfile(author.email)" [ngClass]="{'cursor-pointer': true}">{{ author.name }}</a></h3>
+            <h3 class="margin-remove"><a class="margin-remove text-md font-normal" (click)="goToProfile(author.id)" [ngClass]="{'cursor-pointer': true}">{{ author.name }}</a></h3>
             <ws-widget-btn-mail-user *ngIf="askAuthorEnabled" [widgetData]="{ content: content, emails: [author.email] }">
             </ws-widget-btn-mail-user>
           </div>
