@@ -162,8 +162,8 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
         .pipe(retry(2))
     }
   }
-  goToProfile(email: string) {
-      this.router.navigate(['/app/person-profile'], { queryParams: { emailId: email } })
+  goToProfile(id: string) {
+      this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
   }
 
 }
