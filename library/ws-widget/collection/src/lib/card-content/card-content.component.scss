@@ -255,7 +255,7 @@
     top: 100px;
     background: white;
     z-index: 3;
-    border: 1px solid #DEDFE0;
+    border: 1px solid #dedfe0;
     min-width: 72px;
     min-height: 72px;
     max-width: 72px;
@@ -305,8 +305,6 @@
       font-size: 10px;
     }
 
- 
-
     .time-text {
       margin: 0px 5px 0px 6px;
     }
@@ -331,6 +329,7 @@
     margin: 12px 0 5px;
     position: relative;
     overflow: hidden;
+    font-weight: 500;
     height: $title-line-count * $title-line-height;
     line-height: $title-line-height;
   }
@@ -339,6 +338,7 @@
   $description-line-height: 1.5em;
 
   .description-text {
+    font: 400 14px/20px Roboto;
     // font-size: 15px;
     position: relative;
     overflow: hidden;
@@ -355,6 +355,7 @@
   height: 100%;
   box-sizing: border-box;
   min-height: 303px;
+  font-weight: 500;
 
   .card-img {
     height: 150px;
@@ -482,11 +483,29 @@ $title-line-count: 2;
   font-size: 14px;
   line-height: 24px;
   padding-bottom: 0;
+  font-weight: 500;
 }
 .popover-card {
   min-width: 350px;
   max-width: 350px;
   min-height: 500px;
-  box-shadow:  1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
+}
+.mat-h1,
+.fw-500,
+.mat-raised-button {
+  font-weight: 500 !important;
+}
+
+.mat-raised-button {
+  font-size: 16px;
+}
+.mat-typography {
+  font: 400 14px/20px Roboto;
+}
+
+.orange-text {
+  color: #de7e3d;
+  font-weight: 500;
 }

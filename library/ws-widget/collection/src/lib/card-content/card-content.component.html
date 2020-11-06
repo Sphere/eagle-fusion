@@ -38,7 +38,7 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="login('S')"  class="rounded-t" role="link" aria-label="Content"
+        <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
@@ -66,7 +66,7 @@
                   <mat-icon>access_time</mat-icon>
                   <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
                 </div>
-  
+
               </div>
               <div class="flex items-center">
                 <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
@@ -99,32 +99,38 @@
         <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
           {{ widgetData.content.name }}
         </div>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
-          {{ widgetData.content.description | pipeHtmlTagRemoval }}
-        </div>
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <p>Course contents: {{ widgetData?.content?.children?.length}}</p>
-        <p *ngIf="widgetData.content?.creatorContacts">Author: {{ widgetData.content?.creatorContacts[0]?.name}}</p>
-        <p *ngIf="widgetData.content?.publishedOn">Published on: {{widgetData.content?.publishedOn | date }}</p>
-        <p *ngIf="widgetData.content?.uniqueUsersCount">Users enrolled: {{widgetData.content?.uniqueUsersCount}}</p>
-        <p *ngIf="widgetData.content?.sourceName">Source: {{widgetData.content.sourceName}}</p>
-        <p *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
-          <span>Duration: </span>
+        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span class="orange-text">Published on: </span>
+          {{widgetData.content?.publishedOn | date }}</div>
+        <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
+          <span class="mr-1">Duration: </span>
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
-        </p>
-        <div class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-          <div class="flex items-start">
-            <ng-container [ngTemplateOutlet]="rating"></ng-container>
-          </div>
+          <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+            <div class="flex items-start">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+            </div>
+          </span>
         </div>
+        <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.children?.length}}</p>
+        <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
+          </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
+
+        <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
+          {{widgetData.content?.uniqueUsersCount}}</p>
+        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
+        </p>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+          <div class="fw-500 mb-1">Course Description</div>
+          {{ widgetData.content.description | pipeHtmlTagRemoval }}
+        </div>
+
         <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-          <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base" (click)="loginRedirect('S',  widgetData.content.identifier)"> Login
+          <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
+            (click)="loginRedirect('S',  widgetData.content.identifier)"> Login
           </button>
-
-
         </div>
       </mat-card-content>
     </mat-card>
@@ -305,7 +311,7 @@
           : widgetData?.intranetMode === 'greyOut' && showIntranetContent
     }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
     [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
-    [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2"  [mdePopoverOffsetX]="290"
+    [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
     [mdePopoverOffsetY]="-340">
     <!-- <ws-widget-content-progress
       class="progress-bar"
@@ -352,7 +358,7 @@
             [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
             i18n-aria-label>
 
-            <div class="text-gray-time complexity flex-between flex-center" >
+            <div class="text-gray-time complexity flex-between flex-center">
               <!-- <div *ngIf="widgetData.content.complexityLevel" i18n-title title="Complexity Level">
                 {{ widgetData.content.complexityLevel }}
               </div> -->
@@ -420,27 +426,32 @@
         <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
           {{ widgetData.content.name }}
         </div>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
-          {{ widgetData.content.description | pipeHtmlTagRemoval }}
-        </div>
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <p>Course contents: {{ widgetData?.content?.children?.length}}</p>
-        <p *ngIf="widgetData.content?.creatorContacts">Author: {{ widgetData.content?.creatorContacts[0]?.name}}</p>
-        <p *ngIf="widgetData.content?.publishedOn">Published on: {{widgetData.content?.publishedOn | date }}</p>
-        <p *ngIf="widgetData.content?.uniqueUsersCount">Users enrolled: {{widgetData.content?.uniqueUsersCount}}</p>
-        <p *ngIf="widgetData.content?.sourceName">Source: {{widgetData.content.sourceName}}</p>
-        <p *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
-          <span>Duration: </span>
+        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span class="orange-text">Published on: </span>
+          {{widgetData.content?.publishedOn | date }}</div>
+        <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
+          <span class="mr-1">Duration: </span>
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+          <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+            <div class="flex items-start">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+            </div>
+          </span>
+        </div>
+        <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.children?.length}}</p>
+        <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
+          </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
+
+        <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
+          {{widgetData.content?.uniqueUsersCount}}</p>
+        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <!-- {{widgetData.content | json}} -->
-        <div class="mt-0 flex justify-between items-center left-0 right-0 px-0 py-0">
-          <div class="flex items-start">
-            <ng-container [ngTemplateOutlet]="rating"></ng-container>
-          </div>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+          <div class="fw-500 mb-1">Course Description</div>
+          {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
         <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
           <button mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
