@@ -10,20 +10,21 @@ $banner-min-height: 200px;
   position: relative;
   margin: auto;
 }
-.slider-header-text{
+.slider-header-text {
   text-align: center;
 }
-.slider-header-subtext{
-  text-align:center;
-  width:60%;
+.slider-header-subtext {
+  text-align: center;
+  width: 60%;
 }
 .text-block {
   position: absolute;
   bottom: 60px;
   width: 100%;
-  color: black;
+  color: #03506b;
   padding-left: 0;
   padding-right: 20px;
+  text-transform: uppercase;
 }
 
 .banner-overlay {
@@ -160,10 +161,10 @@ $banner-min-height: 200px;
 
 @media (max-width: 600px) {
   .slider-header-text {
-    font: 400 20px/16px Roboto !important
+    font: 400 20px/16px Roboto !important;
   }
 
   .slider-header-subtext {
-    font: 500 15px/20px Roboto !important
+    font: 500 15px/20px Roboto !important;
   }
 }

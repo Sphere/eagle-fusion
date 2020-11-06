@@ -7,23 +7,26 @@
   @include breakpoint-xs {
     max-width: 80px;
   }
-
-
-  }
-.title-app{
-    @include breakpoint-xs {
+}
+.title-app {
+  @include breakpoint-xs {
     visibility: hidden;
-  }}
+  }
+}
 
-  .small-font-size{
-    @include breakpoint-xs {
+.small-font-size {
+  @include breakpoint-xs {
     font-size: smaller !important;
   }
-  }
+}
 
-  .padding-remove-small{
-    @include breakpoint-xs {
-
+.padding-remove-small {
+  @include breakpoint-xs {
     padding: 0 !important;
-    }
   }
+}
+
+.login-btn.mat-raised-button {
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
+}

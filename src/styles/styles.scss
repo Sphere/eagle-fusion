@@ -189,7 +189,6 @@ iframe {
 }
 
 mat-toolbar {
-
   &.mat-toolbar-row,
   &.mat-toolbar-single-row {
     height: 80px;
@@ -445,7 +444,6 @@ h3.shepherd-title {
 }
 
 .tour-darkmode {
-
   background: #303030 !important;
   color: #fff;
 
@@ -459,7 +457,7 @@ h3.shepherd-title {
   }
 
   .shepherd-arrow:before {
-    content: "";
+    content: '';
     transform: rotate(45deg);
     background: #303030 !important;
   }
@@ -481,7 +479,7 @@ h3.shepherd-title {
 //   overflow: hidden;
 // }
 
-.checkbox-sidenav>div.mat-drawer-inner-container {
+.checkbox-sidenav > div.mat-drawer-inner-container {
   height: auto !important;
   overflow: hidden !important;
 }
@@ -494,7 +492,6 @@ h3.shepherd-title {
   color: #102b4e !important;
 }
 
-
 .mat-flat-button {
   font-weight: bold;
   border: 1px solid;
@@ -503,7 +500,8 @@ h3.shepherd-title {
   border-radius: 8px !important;
 }
 
-.post-content img, .ql-editor img {
+.post-content img,
+.ql-editor img {
   max-width: 100%;
 }
 .author {
@@ -517,7 +515,6 @@ h3.shepherd-title {
     width: $size;
   }
 }
-
 
 .mat-grid-tile .mat-figure {
   top: 0;
@@ -540,18 +537,23 @@ h3.shepherd-title {
   }
 }
 
-.theme-igot.day-mode .mat-list-base .mat-list-item {
-  color: #7b6961 !important;
-  font-size: 14px !important;
-  font-weight: 500;
+.mat-body,
+.mat-body-1,
+.mat-typography {
+  font: 400 14px/20px Roboto;
+  color: #424242 !important;
+}
+.mat-h1,
+.fw-500 {
+  font-weight: 500 !important;
 }
 .mat-raised-button {
   line-height: 40px !important;
   box-shadow: none !important;
-  background-color: #F5D58D;
+  background-color: #f5d58d;
 }
 .theme-igot.day-mode .mat-raised-button.mat-primary {
-  background-color: #F5D58D !important;
+  background-color: #f5d58d !important;
   line-height: 40px !important;
 }
 
@@ -580,15 +582,15 @@ h3.shepherd-title {
   width: 100%;
 }
 
-#fullScreenContainer:hover > div{
+#fullScreenContainer:hover > div {
   opacity: 1;
 }
-
 
 span.title {
   display: none !important;
 }
-a.width-auto:hover + span, .next-button:hover > span{
+a.width-auto:hover + span,
+.next-button:hover > span {
   display: inline-block !important;
 }
 
@@ -596,9 +598,8 @@ a.width-auto:hover + span, .next-button:hover > span{
   opacity: 0.4;
 }
 
-
 .mat-button-focus-overlay {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 .mat-menu-content:not(:empty) {
   padding-top: 0 !important;
@@ -615,22 +616,20 @@ a.width-auto.mat-button {
   padding-bottom: 11px;
   border-radius: 0 !important;
 
- 
- 
-
   mat-icon {
     color: #fff;
     font-size: 42px;
   }
 }
-.prev-button .title, .next-button .title {
+.prev-button .title,
+.next-button .title {
   display: inline-block;
   background-color: #f0efef !important;
   padding: 23px 10px 19px;
   color: #000;
 }
 .next-button .title {
- padding-right: 0px;
+  padding-right: 0px;
 }
 .prev-button .title {
   padding-left: 0px;
