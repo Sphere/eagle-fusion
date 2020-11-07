@@ -18,7 +18,7 @@ export class BtnPlaylistSelectionComponent implements OnInit {
 
   @Input() contentId!: string
   @Output() playlistCreateEvent = new EventEmitter()
-
+  
   fetchPlaylistStatus: TFetchStatus = 'none'
   playlists: NsPlaylist.IPlaylist[] = []
 
@@ -39,7 +39,7 @@ export class BtnPlaylistSelectionComponent implements OnInit {
 
   ngOnInit() {
     this.fetchPlaylistStatus = 'fetching'
-    this.playlistSvc.getAllPlaylistsApi(false).subscribe(response => {
+    this.playlistSvc.getAllPlaylistsApi(true).subscribe(response => {
       this.fetchPlaylistStatus = 'done'
       this.playlists = response.user
       this.playlists = this.playlists.concat(response.share)
