@@ -108,8 +108,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             .map(e => e.key)
             .forEach(k => this.fetchStripFromKeyForLogin(k, false))
         })
-        this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
-         } else {
+      this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
+    } else {
       this.initData()
     }
   }
@@ -499,7 +499,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       if (stripInfo.mode === 'below') {
         this.stripsResultDataMap[data.key].stripInfo = {
           ...stripInfo,
-          visibilityMode: stripInfo.visibilityMode === 'hidden' ? 'visible' : 'hidden',
+          visibilityMode: 'visible',
         }
       }
     }

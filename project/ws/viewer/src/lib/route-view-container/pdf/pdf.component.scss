@@ -118,3 +118,17 @@
   max-height: 85vh;
   overflow: scroll;
 }
+
+.next-button .width-auto {
+  top: -7px;
+}
+.prev-button .width-auto {
+  top: -7px;
+}
+
+@media (min-width: 961px) {
+  .pdf.player-nav-links {
+    width: 72%;
+    position: fixed;
+  }
+}

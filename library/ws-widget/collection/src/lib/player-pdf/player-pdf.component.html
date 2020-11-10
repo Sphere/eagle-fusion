@@ -1,8 +1,5 @@
 <section #fullScreenContainer class="pdf-container">
   <!-- <mat-toolbar class="pdf-nav-bar" color="primary" *ngIf="widgetData?.hideControls"> -->
-    <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pdf-page-container">
-      <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="container" #pdfContainer></div>
-    </div>
   <mat-toolbar class="pdf-nav-bar flex justify-center" color="red" *ngIf="widgetData?.hideControls">
     <button mat-icon-button [disabled]="currentPage.value < 2" (click)="loadPageNum(currentPage.value - 1)"
       aria-label="previous" i18n-aria-label>
@@ -48,4 +45,7 @@
       </ws-widget-btn-fullscreen>
     </div>
   </mat-toolbar>
+  <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pdf-page-container">
+    <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="container" #pdfContainer></div>
+  </div>
 </section>

@@ -48,8 +48,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   tocConfig: any
   contentTypes = NsContent.EContentTypes
   discussionForumWidget: NsWidgetResolver.IRenderConfigWithTypedData<
-  NsDiscussionForum.IDiscussionForumInput
-> | null = null
+    NsDiscussionForum.IDiscussionForumInput
+  > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
 
@@ -137,13 +137,13 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   getDiscussionConfig() {
     this.viewerDataSubscription = this.viewerSvc
-    .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
-    .subscribe(data => {
-      this.htmlData = data
-      this.formDiscussionForumWidget(this.htmlData)
-      if (this.discussionForumWidget) {
-        this.discussionForumWidget.widgetData.isDisabled = true
-      }
+      .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
+      .subscribe(data => {
+        this.htmlData = data
+        this.formDiscussionForumWidget(this.htmlData)
+        if (this.discussionForumWidget) {
+          this.discussionForumWidget.widgetData.isDisabled = true
+        }
       })
   }
 

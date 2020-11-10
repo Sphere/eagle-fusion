@@ -1,10 +1,10 @@
 <h1 mat-dialog-title>Send Mail</h1>
-<div mat-dialog-content>
-  <mat-form-field>
-    <mat-label>{{ data.content.name }}</mat-label>
-    <textarea matInput i18n-placeholder placeholder="I need your help in 'Elaborate your query'" #mailBody
-      rows="5"></textarea>
-  </mat-form-field>
+<div>
+
+  <mat-label>{{ data.content.name }}</mat-label>
+  <textarea matInput i18n-placeholder placeholder="I need your help in 'Elaborate your query'" #mailBody
+    rows="5"></textarea>
+
   <div class="mat-caption" *ngIf="sendStatus === 'INVALID_ID'" i18n>
     Invalid Ids. Failed to send mail.
   </div>

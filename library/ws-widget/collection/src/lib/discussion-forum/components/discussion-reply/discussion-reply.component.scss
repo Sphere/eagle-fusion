@@ -3,30 +3,60 @@
 .reply-container {
   // display: flex;
   margin-top: $size-xs / 2;
-  padding: $size-s;
+  margin-bottom: -40px;
+  padding: 15px 0 0 15px;
 }
-.datePost{
-  margin: auto 0;
+.datePost {
+  margin-top: -7px;
   align-items: center;
+  margin-left: 32px;
+  max-width: 95%;
 }
 .user-image {
   $size: 36px;
   width: $size;
   height: $size;
 }
-
-.postSection{
-  align-items: center
+.act-icons {
+  width: 12%;
+  text-align: right;
 }
 
-@media only screen and (max-width:469px){
-  .datePost{
+.postSection {
+  align-items: center;
+}
+.like-btn {
+  top: -15px;
+  position: relative;
+  &:hover {
+    opacity: 1;
+  }
+}
+.reply {
+  margin-bottom: -20px;
+}
+.action-icons,
+.mr-1pct {
+  margin-right: 11%;
+}
+.del-reply {
+  top: -6px;
+  position: relative;
+  opacity: 0.7;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 469px) {
+  .datePost {
     justify-content: space-between;
     margin: auto 0;
     align-items: center;
     width: 100%;
   }
-  .postSection{
+  .postSection {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;

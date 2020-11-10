@@ -29,6 +29,8 @@ export class VideoComponent implements OnInit {
   nextResourceUrl: string | null = null
   collectionType: any
   viewerDataServiceSubscription: any
+  prevTitle: string | null | undefined
+  nextTitle: string | null | undefined
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
               private viewerDataSvc: ViewerDataService) { }
@@ -42,6 +44,8 @@ export class VideoComponent implements OnInit {
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+      this.prevTitle = data.previousTitle
+      this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })

@@ -578,7 +578,7 @@ h3.shepherd-title {
   position: absolute;
   top: 50%;
   z-index: 999;
-  opacity: 0;
+  opacity: 1; // Change this
   width: 100%;
 }
 
@@ -593,7 +593,19 @@ a.width-auto:hover + span,
 .next-button:hover > span {
   display: inline-block !important;
 }
-
+.-mr-15 {
+  right: 15px;
+  position: relative;
+  top: -8px;
+}
+.-ml-15 {
+  position: relative;
+  right: 14px;
+  top: -8px;
+}
+.fs-small {
+  font-size: 16px;
+}
 .theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
   opacity: 0.4;
 }
@@ -610,29 +622,54 @@ a.width-auto:hover + span,
 }
 
 a.width-auto.mat-button {
-  width: 50px;
-  background-color: #f0efef !important;
-  padding-top: 15px;
+  width: 30px;
+  min-width: 35px;
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  padding-top: 20px;
   padding-bottom: 11px;
   border-radius: 0 !important;
+  font-size: 18px !important;
 
   mat-icon {
     color: #fff;
-    font-size: 42px;
+    font-size: 38px;
+  }
+}
+.padding-dynamic .mat-card {
+  box-shadow: none !important;
+}
+
+.prev-button .width-auto {
+  left: -26px;
+  top: -5px;
+}
+.next-button .width-auto {
+  right: -26px;
+  top: -5px;
+}
+.blue-link {
+  color: #5996e6;
+}
+.opac-7 {
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
   }
 }
 .prev-button .title,
 .next-button .title {
   display: inline-block;
   background-color: #f0efef !important;
-  padding: 23px 10px 19px;
+  padding: 9px 10px 12px;
   color: #000;
 }
 .next-button .title {
-  padding-right: 0px;
+  padding-right: 5px;
+  margin-right: -24px;
 }
 .prev-button .title {
-  padding-left: 0px;
+  padding-left: 5px;
+  margin-left: -25px !important;
 }
 
 ::ng-deep .pdf-fullscreen > button > span > img {
