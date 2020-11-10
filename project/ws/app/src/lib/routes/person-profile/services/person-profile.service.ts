@@ -15,7 +15,8 @@ const API_END_POINTS = {
   getFollowingv3: `${PROTECTED_SLAG_V8}/user/follow/getFollowingv3`,
   getFollowing: `${PROTECTED_SLAG_V8}/user/follow/getFollowing`,
   getAllPlaylists: `${PROTECTED_SLAG_V8}/user/playlist`,
-  getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV3`,
+  getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
+ // getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
   getUserGoals: (type: NsGoal.EGoalTypes, sourceFields: string, wid: string) =>
     `/apis/protected/v8/user/goals/${type}?sourceFields=${sourceFields}&wid=${wid}`,
 }
@@ -59,10 +60,17 @@ export class PersonProfileService {
       id: wid,
     })
   }
-  fetchdetails(wid: string): Observable<IFollowDetails> {
-    return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, {
-      wid,
-    })
+  fetchdetails(wid?: string): Observable<IFollowDetails> {
+    try {
+      if (!wid) {
+        return this.http.get<IFollowDetails>(API_END_POINTS.getDetails)
+      }
+
+        return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, { wid })
+
+    } catch (e) {
+      return e
+    }
 
   }
 

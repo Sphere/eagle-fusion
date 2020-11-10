@@ -2,8 +2,8 @@
   <mat-card-content>
     <div class="flex">
       <div class="flex flex-between w-full">
-        <div class="flex flex-middle flex-wrap cursor-pointer" (click)="proceedToProfile(emailId)">
-          <img src="/assets/images/profile/blank-profilePcture.png" class="object-cover followimg" />
+        <div class="flex flex-middle flex-wrap cursor-pointer" (click)="proceedToProfile(wid)">
+          <!-- <img src="/assets/images/profile/blank-profilePcture.png" class="object-cover followimg" /> -->
           <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold followname font-family">{{name}}</p>
         </div>
         <div class="flex flex-end m-2" *ngIf="isFollowAvailable">

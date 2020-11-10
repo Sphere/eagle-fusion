@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
-import { BtnFollowService, UserAutocompleteService, NsAutoComplete } from '@ws-widget/collection/src/public-api'
+import { BtnFollowService } from '@ws-widget/collection/src/public-api'
 import { PersonProfileService } from '../../services/person-profile.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, ValueService, TFetchStatus } from '@ws-widget/utils/src/public-api'
-import { IFollowerId } from '../../person-profile.model'
+import { IFollowerId, IFollowDetails } from '../../person-profile.model'
 import { ProfileService } from '../../../profile/services/profile.service'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
@@ -18,7 +18,7 @@ export class PersonProfileComponent implements OnInit {
   constructor(
     private followSvc: BtnFollowService,
     private personprofileSvc: PersonProfileService,
-    private fetchUser: UserAutocompleteService,
+    // private fetchUser: UserAutocompleteService,
     private route: ActivatedRoute,
     private router: Router,
     private profileSvc: ProfileService,
@@ -28,8 +28,8 @@ export class PersonProfileComponent implements OnInit {
   ) {
     this.router.onSameUrlNavigation = 'reload'
     this.route.queryParams.subscribe(params => {
-      this.emailId = params['emailId']
-      this.fetchUserDetails(this.emailId)
+      this.currentUserId = params['userId']
+      this.fetchUserDetails(this.currentUserId)
     })
   }
   isFollow = false
@@ -43,7 +43,7 @@ export class PersonProfileComponent implements OnInit {
   statusFollowed: 'FOLLOWED' | 'NOT_FOLLOWED' | 'PENDING' | 'ERROR' = 'PENDING'
   targetId = ''
   basePicUrl = `/apis/protected/v8/user/details/wtoken`
-  userDetails: NsAutoComplete.IUserAutoComplete | undefined
+  userDetails: IFollowDetails | undefined
   suggestionsInterestLimit = 7
   emailId = ''
   userName = ''
@@ -133,33 +133,33 @@ export class PersonProfileComponent implements OnInit {
     )
 
   }
-  fetchUserDetails(emailId: string) {
+  fetchUserDetails(wid: string) {
     this.followingCount = 0
     this.isFollowButtonEnabled = true
     this.following = []
     this.followersCount = 0
     this.followers = []
     if (this.configSvc.userProfile) {
-      if (emailId === this.configSvc.userProfile.email) {
+      if (wid === this.configSvc.userProfile.userId) {
         this.isFollowButtonEnabled = false
       }
     }
-    if (this.emailId) {
-      this.fetchUser.fetchAutoComplete(emailId).subscribe(
-        (data: NsAutoComplete.IUserAutoComplete[]) => {
-          this.userDetails = data[0]
+    if (this.currentUserId) {
+      this.personprofileSvc.fetchdetails(this.currentUserId).subscribe(
+        (data: IFollowDetails) => {
+          this.userDetails = data
           if (this.userDetails) {
-            this.targetId = this.userDetails.wid
+            this.targetId = this.userDetails.wid || ''
             // tslint:disable-next-line: max-line-length
             if (this.userDetails && this.userDetails.first_name) {
               this.iconChar = `${this.userDetails.first_name[0]}${this.userDetails.last_name ? this.userDetails.last_name[0] : ''}`
               this.userName = `${this.userDetails.first_name} ${this.userDetails.last_name ? this.userDetails.last_name : ''}`
             }
-            this.firstName = this.userDetails.first_name
+            this.firstName = this.userDetails && this.userDetails.first_name ? this.userDetails.first_name : ''
             this.fetchInterest()
             this.fetchFollowers()
             this.fetchFollowing()
-            this.fetchDetails()
+            // this.fetchDetails()
           } else {
             this.statusFollowed = 'ERROR'
             this.openSnackBar('Error while fetching user details')
