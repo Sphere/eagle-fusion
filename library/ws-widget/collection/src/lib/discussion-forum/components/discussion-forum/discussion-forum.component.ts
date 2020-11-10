@@ -22,6 +22,7 @@ export class DiscussionForumComponent extends WidgetBaseComponent
   @ViewChild('postDisabled', { static: true }) postDisabled: ElementRef<
     HTMLInputElement
   > | null = null
+  showCommentBox = false
 
   conversationRequest: NsDiscussionForum.IPostRequestV2 = {
     postId: [],

@@ -12,7 +12,7 @@
                   <div class="prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
                       accesskey="<" [disabled]="!prevResourceUrl">
-                      <mat-icon class="icon-tour -ml-15"> chevron_left </mat-icon>
+                      <span class="material-icons icon-tour ">chevron_left</span>
                     </a>
                     <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
                         Chapter</span><br />{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
@@ -24,7 +24,7 @@
                         Chapter</span><br />{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
                       accesskey=">" [disabled]="!nextResourceUrl">
-                      <mat-icon class="icon-tour -mr-15"> chevron_right</mat-icon>
+                      <span class="material-icons icon-tour  align-right-arrow">chevron_right</span>
                     </a>
                   </div>
                 </div>
