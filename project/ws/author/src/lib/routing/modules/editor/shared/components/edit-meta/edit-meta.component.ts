@@ -552,7 +552,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
           currentMeta.thumbnail = originalMeta.thumbnail
         }
         // currentMeta.resourceType=currentMeta.categoryType;
-        
+
         if (currentMeta.status === 'Draft') {
           const parentData = this.contentService.parentUpdatedMeta()
 

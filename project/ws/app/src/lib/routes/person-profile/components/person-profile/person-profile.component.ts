@@ -18,7 +18,7 @@ export class PersonProfileComponent implements OnInit {
   constructor(
     private followSvc: BtnFollowService,
     private personprofileSvc: PersonProfileService,
-   // private fetchUser: UserAutocompleteService,
+    // private fetchUser: UserAutocompleteService,
     private route: ActivatedRoute,
     private router: Router,
     private profileSvc: ProfileService,
@@ -151,13 +151,15 @@ export class PersonProfileComponent implements OnInit {
           if (this.userDetails) {
             this.targetId = this.userDetails.wid || ''
             // tslint:disable-next-line: max-line-length
-            this.iconChar = `${this.userDetails.first_name[0]}${this.userDetails.last_name ? this.userDetails.last_name[0] : ''}`
-            this.userName = `${this.userDetails.first_name} ${this.userDetails.last_name ? this.userDetails.last_name : ''}`
-            this.firstName = this.userDetails.first_name || ''
+            if (this.userDetails && this.userDetails.first_name) {
+              this.iconChar = `${this.userDetails.first_name[0]}${this.userDetails.last_name ? this.userDetails.last_name[0] : ''}`
+              this.userName = `${this.userDetails.first_name} ${this.userDetails.last_name ? this.userDetails.last_name : ''}`
+            }
+            this.firstName = this.userDetails && this.userDetails.first_name ? this.userDetails.first_name : ''
             this.fetchInterest()
             this.fetchFollowers()
             this.fetchFollowing()
-           // this.fetchDetails()
+            // this.fetchDetails()
           } else {
             this.statusFollowed = 'ERROR'
             this.openSnackBar('Error while fetching user details')
