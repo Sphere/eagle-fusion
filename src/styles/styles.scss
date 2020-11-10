@@ -593,15 +593,19 @@ a.width-auto:hover + span,
 .next-button:hover > span {
   display: inline-block !important;
 }
-.-mr-15 {
+.align-right-arrow {
   right: 15px;
   position: relative;
-  top: -8px;
+  top: -4px;
+  color: #fff;
+  font-size: 27px;
 }
-.-ml-15 {
+.align-left-arrow { // change this
   position: relative;
-  right: 14px;
-  top: -8px;
+  right: 12px;
+  top: -4px;
+  color: #fff;
+  font-size: 27px;
 }
 .fs-small {
   font-size: 16px;
