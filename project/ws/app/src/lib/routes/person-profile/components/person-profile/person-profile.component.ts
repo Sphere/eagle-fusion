@@ -151,8 +151,10 @@ export class PersonProfileComponent implements OnInit {
           if (this.userDetails) {
             this.targetId = this.userDetails.wid
             // tslint:disable-next-line: max-line-length
-            this.iconChar = `${this.userDetails.first_name[0]}${this.userDetails.last_name ? this.userDetails.last_name[0] : ''}`
-            this.userName = `${this.userDetails.first_name} ${this.userDetails.last_name ? this.userDetails.last_name : ''}`
+            if (this.userDetails && this.userDetails.first_name) {
+              this.iconChar = `${this.userDetails.first_name[0]}${this.userDetails.last_name ? this.userDetails.last_name[0] : ''}`
+              this.userName = `${this.userDetails.first_name} ${this.userDetails.last_name ? this.userDetails.last_name : ''}`
+            }
             this.firstName = this.userDetails.first_name
             this.fetchInterest()
             this.fetchFollowers()
