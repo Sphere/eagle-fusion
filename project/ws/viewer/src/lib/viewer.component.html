@@ -16,7 +16,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="sidenavContent" #scrollableContent>
-  
+
       <section *ngIf="status === 'error'">
         <div *ngIf="errorWidgetData?.widgetData?.errorType" [wsResolverWidget]="errorWidgetData"></div>
         <div *ngIf="error.errorType === errorType.mimeTypeMismatch">
@@ -62,7 +62,7 @@
       <section *ngIf="status === 'pending'">
         <mat-spinner></mat-spinner>
       </section>
-      <router-outlet class="ssss" (activate)="getContentData($event)"></router-outlet>
+      <router-outlet (activate)="getContentData($event)"></router-outlet>
 
       <mat-tab-group>
         <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
@@ -122,10 +122,14 @@
                 </mat-card>
               </ng-template>
 
-              <div class="mt-5 ml-5 mb-4">
-                <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts>
 
-              </div>
+              <!-- <div class="mt-5 ml-5 mb-4">
+
+                <ws-app-toc-cohorts [content]="content" class="cohorts">
+
+                </ws-app-toc-cohorts>
+
+              </div> -->
 
             </div>
             <div class="div-2">
@@ -137,7 +141,7 @@
           <!-- *ngIf="discussionForumWidget && isRestricted" -->
           <div class="padding-m">
             <div class="video-discussion-forum-in">
-              <h2 class="mat-toolbar discussion-head">Discussion Forum</h2>
+
               <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
             </div>
           </div>

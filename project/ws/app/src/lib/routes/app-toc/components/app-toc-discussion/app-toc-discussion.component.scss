@@ -3,3 +3,10 @@
 .discussion-head {
   padding: $size-xs $size-m;
 }
+
+::ng-deep .discussion-body .mat-card {
+  box-shadow: none !important;
+  margin-top: -3px;
+  padding-top: 0;
+  padding-bottom: 0;
+}

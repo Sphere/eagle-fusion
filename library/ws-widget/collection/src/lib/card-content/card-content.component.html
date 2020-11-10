@@ -441,6 +441,7 @@
             </div>
           </span>
         </div>
+        widgetData.content ==>{{widgetData.content | json}}
         <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.children?.length}}</p>
         <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
           </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>

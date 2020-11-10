@@ -64,9 +64,9 @@
   .col-width-1 {
     min-width: 320px;
   }
-  .logo-margin {
-    margin-left: 135px;
-  }
+  // .logo-margin {
+  //   margin-left: 135px;
+  // }
 }
 
 @media (min-width: 1501px) and (max-width: 1869px) {
@@ -114,7 +114,7 @@
 }
 
 img.docs-footer-aastar-logo {
-  max-width: 205px;
+  max-width: 70%;
 }
 .docs-footer-copyright {
   display: flex;
@@ -122,4 +122,8 @@ img.docs-footer-aastar-logo {
   justify-content: center;
   min-width: 225px;
   margin-top: 16px;
+}
+
+.docs-footer-version {
+  min-width: 175px;
 }

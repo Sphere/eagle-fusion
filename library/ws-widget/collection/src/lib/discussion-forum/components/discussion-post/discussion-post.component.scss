@@ -2,12 +2,31 @@
 
 .main-post-user-image {
   $size: 40px;
-  width: $size;
+  min-width: $size;
   height: $size;
 }
-.datePost{
-  margin: auto 0;
+.datePost {
+  margin-left: 42px;
   align-items: center;
+  flex-wrap: wrap;
+  order: initial;
+  justify-content: flex-start;
+  margin-top: -7px;
+  width: 100%;
+  left: 9px;
+  position: absolute;
+}
+.thread-title {
+  height: auto;
+  top: initial;
+  width: 100%;
+}
+.align-edit {
+  margin-top: -3px;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
 }
 .write-reply-container {
   display: flex;
@@ -26,6 +45,7 @@
     // background: white;
     padding-left: $size-s;
     cursor: pointer;
+    font-size: 15px;
   }
   .write-reply-editor {
     display: block;
@@ -38,19 +58,37 @@
   background: white;
 }
 
-.postSection{
-  align-items: center
+.postSection {
+  align-items: center;
 }
-@media only screen and (max-width:469px){
-  .datePost{
+.ql-container {
+  font-size: 16px;
+  font-weight: 600;
+}
+@media only screen and (max-width: 469px) {
+  .datePost {
     justify-content: space-between;
     margin: auto 0;
     align-items: center;
     width: 100%;
   }
-  .postSection{
+  .postSection {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 599px) {
+  .main-post-user-image {
+    width: 72px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .write-reply-placeholder,
+  .mr-1pct,
+  .align-edit {
+    margin-right: 1%;
   }
 }

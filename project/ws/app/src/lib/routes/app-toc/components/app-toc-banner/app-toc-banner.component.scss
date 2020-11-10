@@ -2,7 +2,7 @@
 @import 'ws-mixins';
 
 %container-padding {
-  padding: 38px  2 * $size-xl $size-xl 147px;
+  padding: 38px 2 * $size-xl $size-xl 147px;
 
   @include breakpoint-xs {
     padding: $size-xl $size-l;
@@ -19,30 +19,30 @@
 }
 
 .header-synopsis-gradient {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.3) 100%)
-    /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.3) 100%);
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0.8) 100%);
 */
 }
 
 .fs-28 {
-  font-size: $size-lg !important;
+  font-size: 32px !important;
+  font-weight: 500 !important;
 }
-
 
 .header-left {
-  flex :1;
-  min-width : 50%
+  flex: 1;
+  min-width: 50%;
 }
-.header-right{
-   min-width: 40%;
-   background-size: 100% 100%;
+.header-right {
+  min-width: 40%;
+  background-size: 100% 100%;
 }
 
 .header-synopsis {
   height: 100%;
   @extend %container-padding;
   box-sizing: border-box;
-  background: #FBF5F2;
+  background: #fbf5f2;
 
   .header-title {
     display: flex;
@@ -73,7 +73,6 @@
     //   margin-left: auto;
     //   order: 2;
     // }
-
   }
 }
 
@@ -151,43 +150,42 @@
   }
 }
 
-
 .breadcrumb {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   list-style: none;
-  padding: .625rem 1rem 0 0;
+  padding: 0.625rem 1rem 0 0;
 }
 
-.breadcrumb, .breadcrumb-item {
+.breadcrumb,
+.breadcrumb-item {
   -ms-flex-align: center;
   align-items: center;
   display: -ms-flexbox;
   display: flex;
 }
 
-.breadcrumb-item+.breadcrumb-item {
-  margin-left: .5rem;
+.breadcrumb-item + .breadcrumb-item {
+  margin-left: 0.5rem;
 }
 
 .breadcrumb-item {
-
   align-items: center;
   display: flex;
 }
 
 .breadcrumb-item.active {
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
   font-weight: bolder;
 }
 
-.breadcrumb-item+.breadcrumb-item:before {
+.breadcrumb-item + .breadcrumb-item:before {
   font-size: 1.714286em;
-  line-height: .583333em;
-  vertical-align: -.302198em;
+  line-height: 0.583333em;
+  vertical-align: -0.302198em;
   font-family: Material Icons;
-  -webkit-font-feature-settings: "liga";
-  font-feature-settings: "liga";
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   font-style: normal;
@@ -197,17 +195,18 @@
   text-transform: none;
   white-space: nowrap;
   word-wrap: normal;
-  color: rgba(0,0,0,.54);
-  content: "chevron_right";
+  color: rgba(0, 0, 0, 0.54);
+  content: 'chevron_right';
   display: inline-block;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 .flex-wrap-reverse {
   flex-wrap: wrap;
 }
 
 @media (max-width: 600px) {
-  .header-right, .header-left{
+  .header-right,
+  .header-left {
     width: 100%;
   }
   .header-right {
