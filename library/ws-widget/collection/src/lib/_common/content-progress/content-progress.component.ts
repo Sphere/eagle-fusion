@@ -18,6 +18,12 @@ export class ContentProgressComponent implements OnChanges {
 
   constructor(private progressSvc: ContentProgressService) {}
 
+  ngOnInit(){
+    if(this.progress){
+      this.progress = this.progress * 100
+      this.progress = Number(parseFloat(String(this.progress)).toFixed(0))
+    }
+  }
   ngOnChanges() {
     if (this.contentId && !this.progress && !this.forPreview) {
       this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
