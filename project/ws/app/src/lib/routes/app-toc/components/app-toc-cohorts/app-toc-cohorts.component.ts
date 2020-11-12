@@ -52,7 +52,7 @@ export class AppTocCohortsComponent implements OnInit {
 
   goToUserProfile(user: NsAutoComplete.IUserAutoComplete) {
     if (this.enablePeopleSearch) {
-      this.router.navigate(['/app/person-profile'], { queryParams: { emailId: user.email } })
+      this.router.navigate(['/app/person-profile'], { queryParams: { userId: user.user_id } })
     }
   }
 

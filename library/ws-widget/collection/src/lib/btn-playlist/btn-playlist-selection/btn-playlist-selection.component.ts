@@ -18,7 +18,7 @@ export class BtnPlaylistSelectionComponent implements OnInit {
 
   @Input() contentId!: string
   @Output() playlistCreateEvent = new EventEmitter()
-  
+
   fetchPlaylistStatus: TFetchStatus = 'none'
   playlists: NsPlaylist.IPlaylist[] = []
 

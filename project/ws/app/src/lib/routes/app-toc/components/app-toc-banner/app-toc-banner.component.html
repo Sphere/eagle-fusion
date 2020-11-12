@@ -179,7 +179,7 @@
 
     </div>
   </div>
-  <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier">
+  <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier" [progress]="content?.progress?.progress">
   </ws-widget-content-progress>
 
   <mat-menu #actionMenu="matMenu">

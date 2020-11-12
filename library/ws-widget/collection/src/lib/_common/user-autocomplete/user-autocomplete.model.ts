@@ -12,6 +12,7 @@ export namespace NsAutoComplete {
     first_name: string
     last_name: string
     root_org: string
-    wid: string
+    wid: string,
+    user_id?: string
   }
 }

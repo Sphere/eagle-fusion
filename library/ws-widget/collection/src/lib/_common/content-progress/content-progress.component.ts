@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core'
+import { Component, Input, OnChanges , OnInit } from '@angular/core'
 import { ContentProgressService } from './content-progress.service'
 
 @Component({
@@ -6,7 +6,7 @@ import { ContentProgressService } from './content-progress.service'
   templateUrl: './content-progress.component.html',
   styleUrls: ['./content-progress.component.scss'],
 })
-export class ContentProgressComponent implements OnChanges {
+export class ContentProgressComponent implements OnInit, OnChanges {
   @Input()
   contentId = ''
 
@@ -18,6 +18,12 @@ export class ContentProgressComponent implements OnChanges {
 
   constructor(private progressSvc: ContentProgressService) {}
 
+  ngOnInit() {
+    if (this.progress) {
+      this.progress = this.progress * 100
+      this.progress = Number(parseFloat(String(this.progress)).toFixed(0))
+    }
+  }
   ngOnChanges() {
     if (this.contentId && !this.progress && !this.forPreview) {
       this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
