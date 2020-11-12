@@ -17,13 +17,13 @@
                       </span>
                     </a>
                     <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
-                        Chapter</span><br />{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
+                        Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
                     </span>
                   </div>
 
                   <div class="next-button">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
-                        Chapter</span><br />{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
+                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
                       accesskey=">" [disabled]="!nextResourceUrl">
                       <span class="material-icons align-right-arrow">
@@ -59,8 +59,18 @@
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="youtubeData">
             </ws-widget-btn-content-share>
             <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
-            <ws-widget-btn-playlist [forPreview]="forPreview"></ws-widget-btn-playlist>
-            <ws-widget-btn-content-feedback [forPreview]="forPreview"></ws-widget-btn-content-feedback>
+            <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
+              contentId: youtubeData?.identifier,
+              contentName: youtubeData?.name,
+              contentType: 'Course',
+              mode: 'dialog',
+              isDisabled: isPreview
+            }"></ws-widget-btn-playlist>
+            <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" [widgetData]="{
+                  identifier: youtubeData?.identifier,
+                  name: youtubeData?.name,
+                  isDisabled: isPreview
+                }"></ws-widget-btn-content-feedback-v2>
           </div>
         </mat-card>
       </div>

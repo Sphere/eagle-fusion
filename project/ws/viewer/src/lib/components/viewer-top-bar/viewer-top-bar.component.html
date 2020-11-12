@@ -1,5 +1,5 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
-   <a *ngIf="logo" routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
+  <a *ngIf="logo" routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
     <img *ngIf="appIcon" [src]="appIcon" alt="Application Logo" class="viewer-app-logo" />
   </a>
   <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
@@ -18,7 +18,7 @@
         : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview'
     }"></ws-widget-btn-page-back>
   <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
-  
+
   <img *ngIf="!isAuthor" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo" />
 
   <span *ngIf="logo" class="text-left width-1-5 margin-left-l text-truncate">
@@ -26,10 +26,9 @@
   </span>
 
 
- <span class="header-spacer"></span>
-
- <div class="flex justify-center mt-3">
-  <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+  <span class="header-spacer"></span>
+  <div class="flex justify-center mt-3" *ngIf="!isSmall">
+    <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
       pdfData
         | pipePartialContent
           : [
@@ -43,35 +42,33 @@
             ]
     "></ws-widget-btn-content-download> -->
     <!-- screenContent ==>{{ obj| json}} -->
-  <ws-widget-btn-content-like [forPreview]="forPreview" *ngIf="collection" [widgetData]="{
+    <ws-widget-btn-content-like [forPreview]="forPreview" *ngIf="collection" [widgetData]="{
       identifier: collection.identifier,
       isDisabled: isPreview
     }"></ws-widget-btn-content-like>
-  <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection"
-    [isDisabled]="isPreview">
-  </ws-widget-btn-content-share>
-  <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
-  <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
+    <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview">
+    </ws-widget-btn-content-share>
+    <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
+    <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
       contentId: collection?.identifier,
       contentName: collection?.name,
       contentType: 'Course',
       mode: 'dialog',
       isDisabled: isPreview
     }"></ws-widget-btn-playlist>
-  <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" [widgetData]="{
+    <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" [widgetData]="{
       identifier: collection?.identifier,
       name: collection?.name,
       isDisabled: isPreview
     }"></ws-widget-btn-content-feedback-v2>
 
-    <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'" 
-    [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
+    <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+      [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
 
-</div>
+  </div>
 
 
-  <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto"
-    (click)="toggleSideBar()" accesskey="M">
+  <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
     <mat-icon [ngClass]="logo ? 'hidden' : 'xsmall'">menu</mat-icon>
   </a>
 </mat-toolbar>

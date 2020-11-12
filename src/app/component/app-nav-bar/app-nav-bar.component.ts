@@ -4,6 +4,8 @@ import { IBtnAppsConfig, CustomTourService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, NsInstanceConfig, NsPage } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
+import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
+import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -11,7 +13,7 @@ import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
   styleUrls: ['./app-nav-bar.component.scss'],
 })
 export class AppNavBarComponent implements OnInit, OnChanges {
-  allowAuthor = true
+  allowAuthor = false
   @Input() mode: 'top' | 'bottom' = 'top'
   // @Input()
   // @HostBinding('id')
@@ -41,6 +43,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private configSvc: ConfigurationsService,
     private tourService: CustomTourService,
     private router: Router,
+    private accessService: AccessControlService
   ) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.restrictedFeatures) {
@@ -59,6 +62,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {
         if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {

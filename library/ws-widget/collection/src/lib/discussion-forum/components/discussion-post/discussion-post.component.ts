@@ -186,4 +186,10 @@ export class DiscussionPostComponent implements OnInit {
   toggleReplies() {
     this.showReplies = !this.showReplies
   }
+  showCommentBox(el: HTMLElement) {
+    this.replyPlaceholderToggler = !this.replyPlaceholderToggler
+    setTimeout(() => {
+      el.scrollIntoView()
+    }, 500)
+  }
 }

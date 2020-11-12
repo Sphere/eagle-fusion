@@ -21,13 +21,13 @@
                       </span>
                     </a>
                     <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
-                        Chapter</span><br />{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
+                        Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
                     </span>
                   </div>
 
                   <div class="next-button">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
-                        Chapter</span><br />{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
+                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
                       accesskey=">" [disabled]="!nextResourceUrl">
                       <span class="material-icons align-right-arrow">

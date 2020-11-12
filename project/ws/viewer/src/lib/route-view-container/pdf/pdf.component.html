@@ -6,7 +6,7 @@
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverPdfData"></ng-container>
-              <div class="pdf player-nav-links">
+              <div #navpdf class="pdf player-nav-links">
                 <div class="flex justify-between html">
                   <div class="pdf prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
@@ -16,13 +16,13 @@
                       </span>
                     </a>
                     <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
-                        Chapter</span><br />{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
+                        Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
                     </span>
                   </div>
 
                   <div class="pdf next-button">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
-                        Chapter</span><br />{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
+                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
                       accesskey=">" [disabled]="!nextResourceUrl">
                       <span class="material-icons align-right-arrow">
@@ -35,6 +35,44 @@
             </div>
 
           </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="vidoe-title margin-top-m" *ngIf="pdfData">
+        <mat-card *ngIf="isSmall" class="unit-meta-item">
+          <div class="flex">
+            <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+                                pdfData
+                                  | pipePartialContent
+                                    : [
+                                        'identifier',
+                                        'contentType',
+                                        'resourceType',
+                                        'mimeType',
+                                        'downloadUrl',
+                                        'isExternal',
+                                  'artifactUrl'
+                                      ]
+                              "></ws-widget-btn-content-download>
+            <ws-widget-btn-content-like [forPreview]="forPreview"
+              [widgetData]="pdfData | pipePartialContent: ['identifier']">
+            </ws-widget-btn-content-like>
+            <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="pdfData">
+            </ws-widget-btn-content-share>
+            <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
+            <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
+                              contentId: pdfData?.identifier,
+                              contentName: pdfData?.name,
+                              contentType: 'Course',
+                              mode: 'dialog',
+                              isDisabled: isPreview
+                            }"></ws-widget-btn-playlist>
+            <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" [widgetData]="{
+                                  identifier: pdfData?.identifier,
+                                  name: pdfData?.name,
+                                  isDisabled: isPreview
+                                }"></ws-widget-btn-content-feedback-v2>
+          </div>
         </mat-card>
       </div>
     </div>

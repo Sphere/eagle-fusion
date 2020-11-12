@@ -2,12 +2,12 @@
   <div class="flex postSection margin-top-s">
     <ws-widget-user-image class="main-post-user-image" [userId]="userId" [userName]="post.postCreator.name"
       [imageType]="'name-initial'" [email]="post.postCreator.emailId"></ws-widget-user-image>
-    <div class="ql-container margin-left-s margin-auto text-base leading-normal font-medium thread-title cursor-pointer"
+    <div class="ql-container margin-left-s margin-auto text-base  thread-title cursor-pointer"
       *ngIf="!editMode && post.postContent.title.length" [innerHTML]="post.postContent.title" (click)="toggleReplies()">
     </div>
 
     <div name="discussion-post-respond-toggle-button" [hidden]="replyPlaceholderToggler"
-      (click)="replyPlaceholderToggler = !replyPlaceholderToggler" class="write-reply-placeholder mt-1 blue-link"
+      (click)="showCommentBox(commentBox)" class="write-reply-placeholder mt-1 blue-link uppercase cursor-pointer"
       role="button" i18n>
       Reply
     </div>
@@ -31,7 +31,7 @@
   </div>
 
 
-  <div class="padding-left-s width-expand flex  datePost">
+  <div class="padding-left-m width-expand flex  datePost">
 
     <div class="mat-caption" *ngIf="!post?.lastEdited?.dtLastEdited?.length">
       Started On {{ post?.dtLastModified | date }}
@@ -46,7 +46,8 @@
     <span *ngIf="post.postCreator.name" class="ws-mat-primary-text margin-left-s margin-right-s">by
       {{ post.postCreator.name }}</span>
 
-    <span (click)="toggleReplies()" class="blue-link">{{postReplies.length}} Replies</span>
+    <span (click)="toggleReplies()" class="blue-link cursor-pointer">{{postReplies.length}}
+      {{postReplies.length > 1 ? 'Replies': 'Reply'}}</span>
 
     <!-- <button type="button" mat-icon-button [matMenuTriggerFor]="editMenu" name="discussion-post-more-options-button"
      >
@@ -98,7 +99,7 @@
   <div *ngIf="replyFetchStatus === 'hasMore' || isNewRepliesAvailable"
     class="text-center margin-top-xs margin-bottom-s flex flex-around">
     <button name="discussion-post-load-previous-replies-button" type="button" mat-stroked-button color="primary"
-      *ngIf="replyFetchStatus === 'hasMore'" (click)="fetchPostReplies()" i18n>
+      *ngIf="replyFetchStatus === 'hasMore'" (click)="fetchPostReplies(); showReplies=true" i18n>
       Load Previous Replies
     </button>
     <button name="discussion-post-load-new-replies-button" type="button" mat-stroked-button color="primary"
@@ -110,7 +111,7 @@
     <!-- <ws-widget-user-image class="write-reply-user-image" [userName]="userName" [imageType]="'name-initial'"
       [email]="userEmail" [userId]="userId"></ws-widget-user-image> -->
     <div class="padding-left-m width-expand">
-      <div [hidden]="!replyPlaceholderToggler">
+      <div [hidden]="!replyPlaceholderToggler" #commentBox>
         <!-- [minLength]="'10'" -->
         <ws-widget-editor-quill class="write-reply-editor" (textData)="onReplyTextChange($event)"
           #discussionReplyEditor></ws-widget-editor-quill>
@@ -119,8 +120,8 @@
             (click)="publishReply(editFailMsg.value)" type="button" mat-raised-button color="primary" i18n>
             Reply
           </button>
-          <button name="discussion-post-cancel-reply-button" type="button" class="margin-left-xs" mat-stroked-button
-            (click)="cancelReply()" i18n>
+          <button name="discussion-post-cancel-reply-button" type="button" class="margin-left-xs cancel-btn"
+            mat-stroked-button (click)="cancelReply()" i18n>
             Cancel
           </button>
           <div *ngIf="isPostingReply" class="text-center">

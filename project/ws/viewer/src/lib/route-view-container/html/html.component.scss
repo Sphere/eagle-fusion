@@ -144,3 +144,26 @@
   margin: 0 8px 0 -7px;
   padding: 0 7px;
 }
+
+.prev-button .width-auto {
+   @include breakpoint-xs {
+     left: -7px;
+    top: -5px;
+  }
+  @include breakpoint-s {
+    left: -8px;
+  }
+}
+.player-nav-links {
+  @include breakpoint-xs {
+    width: 96%;
+  }
+  @include breakpoint-s {
+    width: 97%;
+  }
+}
+.next-button .width-auto {
+   @include breakpoint-xs {
+    right: -16px;
+   }
+}

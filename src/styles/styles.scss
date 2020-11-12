@@ -578,8 +578,11 @@ h3.shepherd-title {
   position: absolute;
   top: 50%;
   z-index: 999;
-  opacity: 1; // Change this
+  opacity: 0; // Change this
   width: 100%;
+  @include breakpoint-xs {
+    opacity: 1;
+  }
 }
 
 #fullScreenContainer:hover > div {
@@ -599,16 +602,21 @@ a.width-auto:hover + span,
   top: -4px;
   color: #fff;
   font-size: 27px;
+  @include breakpoint-xs {
+    right: 17px;
+  }
 }
 .align-left-arrow { // change this
   position: relative;
-  right: 12px;
+  right: 15px;
   top: -4px;
   color: #fff;
   font-size: 27px;
 }
 .fs-small {
-  font-size: 16px;
+    font-size: 13px;
+    margin-bottom: -1px;
+    display: block;
 }
 .theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
   opacity: 0.4;
@@ -634,13 +642,16 @@ a.width-auto.mat-button {
   border-radius: 0 !important;
   font-size: 18px !important;
 
-  mat-icon {
+  .material-icons {
     color: #fff;
     font-size: 38px;
   }
 }
 .padding-dynamic .mat-card {
   box-shadow: none !important;
+  @include breakpoint-xs {
+    padding: 24px
+  }
 }
 
 .prev-button .width-auto {
@@ -666,14 +677,22 @@ a.width-auto.mat-button {
   background-color: #f0efef !important;
   padding: 9px 10px 12px;
   color: #000;
+  font-size: 18px;
 }
 .next-button .title {
   padding-right: 5px;
   margin-right: -24px;
+  text-align: right;
+   @include breakpoint-xs {
+    margin-right: -17px;
+  }
 }
 .prev-button .title {
   padding-left: 5px;
   margin-left: -25px !important;
+  @include breakpoint-xs {
+    margin-left: -8px !important;
+  }
 }
 
 ::ng-deep .pdf-fullscreen > button > span > img {
