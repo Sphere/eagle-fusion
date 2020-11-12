@@ -59,13 +59,19 @@
   }
   @include breakpoint-lt-m {
     height: 60vh;
+    width: 97.5%;
   }
   @include breakpoint-lt-s {
     height: 55vh;
+    width: 89%;
   }
   @include breakpoint-xs {
     position: relative;
     top: 0;
+    left: 14px;
+  }
+  @include breakpoint-m {
+    width: 96.6%;
   }
 }
 
@@ -75,6 +81,11 @@
 
 .prev-button .width-auto {
   left: -34px;
+}
+.align-arrow {
+   margin-left: -12px;
+   top: -3px;
+    position: relative;
 }
 
 .prev-button .title {

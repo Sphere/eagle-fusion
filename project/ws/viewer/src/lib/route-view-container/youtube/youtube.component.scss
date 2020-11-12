@@ -50,13 +50,10 @@
   margin: 0 8px 0 0px;
   padding: 0 7px;
   @include breakpoint-xs {
-    position: fixed;
-    top: 55px;
-    left: 0px;
+    top: 11px;
+    left: 14px;
     height: 40vh;
-    width: 100vw;
-    z-index: 1000;
-    background: black;
+    width: 86vw;
   }
   .nav-btn-wrapper {
     pointer-events: none;
@@ -167,4 +164,10 @@ a.width-auto {
 
 ::ng-deep #fullScreenContainer #youtubeTag {
   min-height: 75vh;
+}
+
+.next-button .title {
+  @include breakpoint-xs {
+    margin-right: -27px;
+  }
 }

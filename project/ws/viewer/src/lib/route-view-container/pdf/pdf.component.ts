@@ -1,9 +1,9 @@
 import { ViewerDataService } from './../../viewer-data.service'
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
-import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 
 @Component({
   selector: 'viewer-pdf-container',
@@ -36,9 +36,15 @@ export class PdfComponent implements OnInit {
   collectionType: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
+  @ViewChild('navpdf', { static: false }) navpdf!: ElementRef
+  isSmall = false
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
+  }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {

@@ -6,7 +6,7 @@
         </div>
       </mat-list>
 
-      <mat-list class="flex-1 col-width">
+      <mat-list class="flex-1 col-width" [ngClass]="{'ml-20': !isXSmall}">
         <mat-list-item> <a routerLink="/app/info/about" i18n> <span i18n>About Us</span></a> </mat-list-item>
         <mat-list-item><a href="https://www.aastar.org/vision/" target="_blank"><span i18n>Vision</span></a>
         </mat-list-item>
@@ -17,8 +17,8 @@
       </mat-list>
     </div>
 
-    <div class="text-center flex">
-      <div>
+    <div class="text-center" [ngClass]="{'flex': !isXSmall}">
+      <div class="w-mobile">
         <h2 class="footer-heading">An initiative of</h2>
         <a href="https://rohininilekani.org/" target="_blank"><img class="footer-image mt-1"
             src="https://www.aastar.org/wp-content/uploads/2020/03/nilekani-philanthropies-logo.png"

@@ -6,9 +6,9 @@
   min-width: 1px;
 }
 
-.viewer-sidenav-container {
-  height: calc(100vh - 56px);
-}
+// .viewer-sidenav-container {
+//   height: calc(100vh - 56px);
+// }
 
 .viewer-sidenav {
   width: 100%;
@@ -43,6 +43,9 @@
   overflow-x: hidden;
 }
 
+.mat-drawer-content {
+  overflow-x: hidden;
+}
 // .info-container {
 //   padding: $size-s $size-m;
 //   margin-bottom: $size-m;

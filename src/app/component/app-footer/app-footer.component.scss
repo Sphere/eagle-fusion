@@ -50,6 +50,11 @@
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
   font-size: 14px !important;
 }
+.w-mobile {
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
 
 // @media only screen and (max-width: 760px) {
 //   .footer-container {

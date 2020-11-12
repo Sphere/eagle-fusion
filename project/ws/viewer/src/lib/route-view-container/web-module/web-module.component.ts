@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
-import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { ViewerDataService } from '../../viewer-data.service'
 
 @Component({
@@ -29,9 +29,14 @@ export class WebModuleComponent implements OnInit {
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
+  isSmall = false
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
+  }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {

@@ -12,14 +12,14 @@
   order: initial;
   justify-content: flex-start;
   margin-top: -7px;
-  width: 100%;
+  width: 95%;
   left: 9px;
   position: absolute;
 }
 .thread-title {
   height: auto;
   top: initial;
-  width: 100%;
+  width: 87%;
 }
 .align-edit {
   margin-top: -3px;
@@ -62,8 +62,7 @@
   align-items: center;
 }
 .ql-container {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
 }
 @media only screen and (max-width: 469px) {
   .datePost {
@@ -91,4 +90,7 @@
   .align-edit {
     margin-right: 1%;
   }
+}
+.cancel-btn {
+  line-height: 38px;
 }
