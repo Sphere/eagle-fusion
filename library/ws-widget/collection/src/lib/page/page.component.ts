@@ -74,7 +74,6 @@ export class PageComponent extends WidgetBaseComponent
       if (routeData.pageData && routeData.pageData.data) {
         this.error = null
         this.pageData = routeData.pageData.data
-        console.log('this.pageData==>', this.pageData)
         if (this.pageData && this.pageData.navigationBar) {
           this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
           this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
