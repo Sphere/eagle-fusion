@@ -185,12 +185,14 @@ $banner-min-height: 200px;
 @media (max-width: 500px) {
   .text-block {
     padding-left: 4%;
+    bottom: 100px;
   }
   .slider-header-subtext {
     margin-bottom: 0px !important;
   }
   .slider-header-text {
     font: 500 15px/20px Roboto !important;
+    padding-right: 22%;
   }
 }
 @media (max-width: 400px) {

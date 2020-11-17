@@ -573,6 +573,9 @@ h3.shepherd-title {
   &:hover {
     opacity: 1;
   }
+  @include breakpoint-xs {
+    padding: 4px
+  }
 }
 .player-nav-links {
   position: absolute;
@@ -626,8 +629,11 @@ a.width-auto:hover + span,
   background-color: transparent !important;
 }
 .mat-menu-content:not(:empty) {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  // padding-top: 0 !important;
+  // padding-bottom: 0 !important;
+}
+.theme-igot.day-mode .mat-menu-item-highlighted:not([disabled]) {
+      background: rgb(255 255 255) !important;
 }
 .mat-menu-panel {
   min-height: auto !important;
@@ -653,7 +659,9 @@ a.width-auto.mat-button {
     padding: 24px
   }
 }
-
+.theme-igot.day-mode .mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
+}
 .prev-button .width-auto {
   left: -26px;
   top: -5px;
@@ -703,4 +711,22 @@ a.width-auto.mat-button {
   filter: invert(0.2);
   width: 30px;
   margin-top: -3px;
+}
+button.action-button, a.action-button {
+  @include breakpoint-xs {
+    width: 28px;
+  }
+}
+.padding-dynamic .unit-meta-item {
+  .action-button {
+    @include breakpoint-xs {
+      width: 35px;
+    }
+  }
+    background-color: #f7f7f7 !important;
+}
+.unit-meta-item .flex  {
+  @include breakpoint-xs {
+     justify-content: center;
+  }
 }

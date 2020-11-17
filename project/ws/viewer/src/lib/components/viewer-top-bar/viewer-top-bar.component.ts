@@ -41,6 +41,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   isAuthor = false
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
   isSmall = false
+  collectionIdentifier: any
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -79,6 +80,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     // }
 
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
     const collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     if (collectionId && collectionType) {
       // if (

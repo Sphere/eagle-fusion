@@ -9,7 +9,7 @@
         a
         New
         Discussion</a>
-      <ng-container *ngIf="showCommentBox">
+      <div [hidden]="!showCommentBox">
         <div class="question-container mt-10">
           <ws-widget-user-image class="user-image" [userId]="userId" [email]="userEmail" [userName]="userName"
             [imageType]="'name-initial'">
@@ -30,9 +30,8 @@
           <div *ngIf="isPostingDiscussion" class="text-center">
             <mat-spinner class="display-inline-block" [diameter]="30" [strokeWidth]="3"></mat-spinner>
           </div>
-          <div></div>
         </div>
-      </ng-container>
+      </div>
       <div></div>
     </div>
     <ws-widget-discussion-post [post]="reply" (deleteSuccess)="onDeletePost(i)"

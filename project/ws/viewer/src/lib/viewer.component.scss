@@ -82,6 +82,7 @@
   .div-1 {
     flex: 1;
     min-width: 1px;
+    overflow-x: hidden;
   }
   .mat-card {
     box-shadow: none !important;
@@ -109,4 +110,8 @@
 
 ::ng-deep .mat-tab-label-active {
   border-bottom: solid 3px #969696;
+}
+
+.theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
 }

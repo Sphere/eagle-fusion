@@ -32,7 +32,11 @@
 }
 .footer-image {
   height: auto;
-  max-width: 70%;
+  max-width: 58%;
+  @include breakpoint-xs {
+    max-width: 32%;
+    max-height: 50px;
+  }
 }
 
 .footer-heading {
@@ -45,6 +49,11 @@
   color: #353535 !important;
   font-size: 16px !important;
   font-weight: 500;
+}
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+   @include breakpoint-xs {
+      flex-direction: column !important;
+   }
 }
 
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
@@ -109,6 +118,9 @@
 .docs-footer {
   background: #f7f7f7;
   color: #fff;
+  @include breakpoint-xs {
+    margin-top: -20px;
+  }
 }
 
 .docs-footer-list {
@@ -120,6 +132,10 @@
 
 img.docs-footer-aastar-logo {
   max-width: 70%;
+  @include breakpoint-xs {
+    max-width: 45%;
+    text-align: center;
+  }
 }
 .docs-footer-copyright {
   display: flex;
@@ -131,4 +147,7 @@ img.docs-footer-aastar-logo {
 
 .docs-footer-version {
   min-width: 175px;
+  @include breakpoint-xs {
+    text-align: center;
+  }
 }
