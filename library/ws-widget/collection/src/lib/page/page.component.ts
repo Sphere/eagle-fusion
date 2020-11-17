@@ -2,11 +2,12 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/cor
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, EventService, LoggerService, NsPage, ValueService, WsEvents } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, NsPage, ValueService, WsEvents, LogoutComponent } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
 import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
+import { MatDialog } from '@angular/material'
 
 @Component({
   selector: 'ws-widget-page',
@@ -36,6 +37,7 @@ export class PageComponent extends WidgetBaseComponent
     private tour: CustomTourService,
     private domSanitizer: DomSanitizer,
     private respondSvc: SubapplicationRespondService,
+    private dialog: MatDialog,
   ) {
     super()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -46,9 +48,9 @@ export class PageComponent extends WidgetBaseComponent
   }
   ngOnInit() {
     if (this.configSvc.instanceConfig) {
-      if (this.configSvc.instanceConfig.logos.navbarLogo) {
+      if (this.configSvc.instanceConfig.logos.app) {
         this.navbarIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.configSvc.instanceConfig.logos.navbarLogo,
+          this.configSvc.instanceConfig.logos.app,
         )
       }
       if (this.configSvc.restrictedFeatures) {
@@ -72,6 +74,7 @@ export class PageComponent extends WidgetBaseComponent
       if (routeData.pageData && routeData.pageData.data) {
         this.error = null
         this.pageData = routeData.pageData.data
+        console.log('this.pageData==>', this.pageData)
         if (this.pageData && this.pageData.navigationBar) {
           this.navBackground = this.pageData.navigationBar.background || this.configSvc.pageNavBar
           this.links = this.isXSmall ? this.getNavLinks() : this.getNavLinks().filter(data =>
@@ -173,6 +176,11 @@ export class PageComponent extends WidgetBaseComponent
     }
     return []
   }
+
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
+
   ngOnDestroy() {
     if (this.pageData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded)

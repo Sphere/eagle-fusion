@@ -68,3 +68,18 @@
   margin: auto;
   display: flex
 }
+::ng-deep .mat-tab-header-pagination-before {
+  padding-left: 0 !important;
+  margin-left: -5px;
+}
+::ng-deep .mat-tab-header-pagination-after {
+  padding-right: 0 !important;
+  margin-right: -5px;
+}
+::ng-deep .mat-expansion-panel-header, ::ng-deep .theme-igot.day-mode .mat-expansion-panel-header {
+    margin-top: -5px;
+    border-bottom: solid 1px #d9d9d9;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 16px;
+}

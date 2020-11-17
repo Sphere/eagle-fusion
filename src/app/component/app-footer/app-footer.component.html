@@ -1,6 +1,6 @@
 <div class="mat-toolbar mat-ws-mat-primary-text footer-container py-5 px-4 sm:px-8 md:px-10ss">
   <div class="mat-body" [ngClass]="{'flex flex-between w-full': !isXSmall}">
-    <div class="flex">
+    <div [ngClass]="{'flex': !isXSmall}">
       <mat-list class="flex-1 col-width">
         <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" class="docs-footer-aastar-logo">
         </div>

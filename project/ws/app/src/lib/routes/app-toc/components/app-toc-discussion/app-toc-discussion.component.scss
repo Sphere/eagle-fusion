@@ -1,4 +1,5 @@
 @import 'ws-vars';
+@import 'ws-mixins';
 
 .discussion-head {
   padding: $size-xs $size-m;
@@ -9,4 +10,9 @@
   margin-top: -3px;
   padding-top: 0;
   padding-bottom: 0;
+  @include breakpoint-xs {
+    padding-top: 16px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+  }
 }

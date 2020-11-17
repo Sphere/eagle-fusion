@@ -1,5 +1,5 @@
 @import 'ws-vars';
-
+@import 'ws-mixins';
 .main-post-user-image {
   $size: 40px;
   min-width: $size;
@@ -9,12 +9,16 @@
   margin-left: 42px;
   align-items: center;
   flex-wrap: wrap;
-  order: initial;
   justify-content: flex-start;
   margin-top: -7px;
   width: 95%;
   left: 9px;
   position: absolute;
+  @include breakpoint-xs {
+    margin-left: 26px;
+    position: relative;
+    width: auto;
+  }
 }
 .thread-title {
   height: auto;
@@ -66,21 +70,10 @@
 }
 @media only screen and (max-width: 469px) {
   .datePost {
-    justify-content: space-between;
-    margin: auto 0;
-    align-items: center;
-    width: 100%;
-  }
-  .postSection {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 599px) {
-  .main-post-user-image {
-    width: 72px !important;
+    // justify-content: space-between;
+    // margin: auto 0;
+    // align-items: center;
+    // width: 100%;
   }
 }
 
@@ -93,4 +86,8 @@
 }
 .cancel-btn {
   line-height: 38px;
+}
+
+::ng-deep .theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
 }
