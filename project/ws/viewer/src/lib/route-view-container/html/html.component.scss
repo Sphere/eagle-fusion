@@ -167,3 +167,12 @@
     right: -16px;
    }
 }
+
+.prev-button .title {
+  @include breakpoint-xs {
+    margin-left: -8px !important;
+  }
+  @include breakpoint-s {
+    margin-left: -8px !important;
+  }
+}

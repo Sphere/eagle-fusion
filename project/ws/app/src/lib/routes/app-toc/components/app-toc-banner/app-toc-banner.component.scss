@@ -43,6 +43,9 @@
   @extend %container-padding;
   box-sizing: border-box;
   background: #fbf5f2;
+  @include breakpoint-s {
+    padding: 20px;
+  }
 
   .header-title {
     display: flex;

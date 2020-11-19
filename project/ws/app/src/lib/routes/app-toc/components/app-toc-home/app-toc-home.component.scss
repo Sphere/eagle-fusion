@@ -11,6 +11,10 @@
 .toc-body {
   @extend %container-padding;
   padding-top: 0px !important;
+  @include breakpoint-s {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
   .toc-links {
     position: sticky;
     top: 0px;

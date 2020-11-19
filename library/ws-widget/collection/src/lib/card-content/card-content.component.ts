@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, EventService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
@@ -7,6 +7,7 @@ import { NsGoal } from '../btn-goals/btn-goals.model'
 import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
+import { MdePopoverTrigger } from '@material-extended/mde'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -15,6 +16,7 @@ import { NsCardContent } from './card-content.model'
 })
 export class CardContentComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {
+  @ViewChild("target", { static: false }) target!: MdePopoverTrigger
   @Input() widgetData!: NsCardContent.ICard
   defaultThumbnail = ''
   defaultSLogo = ''
@@ -22,6 +24,8 @@ export class CardContentComponent extends WidgetBaseComponent
   isCardFlipped = false
   showIsMode = false
   showContentTag = false
+  offSetXValue: number | undefined
+  offSetYValue: number | undefined
 
   btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
   btnGoalsConfig: NsGoal.IBtnGoal | null = null
@@ -38,6 +42,8 @@ export class CardContentComponent extends WidgetBaseComponent
     private authSvc: AuthKeycloakService,
   ) {
     super()
+    this.offSetXValue = 290
+    this.offSetYValue = -340
   }
 
   ngOnInit() {

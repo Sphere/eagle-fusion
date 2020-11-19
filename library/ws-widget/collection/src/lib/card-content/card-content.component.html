@@ -186,7 +186,8 @@
         </div>
       </div>
       <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-        [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress"></ws-widget-content-progress>
+        [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+      </ws-widget-content-progress>
     </div>
   </div>
 </ng-template>
@@ -219,7 +220,8 @@
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         </a>
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress"></ws-widget-content-progress>
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        </ws-widget-content-progress>
         <mat-card-content>
           <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
             [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
@@ -309,10 +311,10 @@
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
           : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
-    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
-    [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
-    [mdePopoverOffsetY]="-340">
+    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
+    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="500"
+    [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="offSetXValue"
+    [mdePopoverOffsetY]="offSetYValue">
     <!-- <ws-widget-content-progress
       class="progress-bar"
       *ngIf="widgetData.content?.identifier"
@@ -351,7 +353,8 @@
           <mat-icon>flip_to_back</mat-icon>
         </button>
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress"></ws-widget-content-progress>
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        </ws-widget-content-progress>
 
         <mat-card-content>
           <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
@@ -523,7 +526,8 @@
           <mat-icon>flip_to_back</mat-icon>
         </button>
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress"></ws-widget-content-progress>
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        </ws-widget-content-progress>
         <mat-card-content>
           <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
             [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
@@ -630,7 +634,8 @@
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress"></ws-widget-content-progress>
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        </ws-widget-content-progress>
       </a>
 
       <mat-card-content class="m-small">
@@ -730,7 +735,8 @@
           [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
           [title]="widgetData.content.name" />
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress"></ws-widget-content-progress>
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        </ws-widget-content-progress>
       </a>
       <mat-card-content>
         <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"

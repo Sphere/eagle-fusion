@@ -6,14 +6,12 @@
   height: $size;
 }
 .datePost {
-  margin-left: 42px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-top: -7px;
-  width: 95%;
-  left: 9px;
-  position: absolute;
+    margin-left: 38px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: -7px;
+    width: 95%;
   @include breakpoint-xs {
     margin-left: 26px;
     position: relative;
@@ -86,8 +84,4 @@
 }
 .cancel-btn {
   line-height: 38px;
-}
-
-::ng-deep .theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
-  box-shadow: none !important;
 }
