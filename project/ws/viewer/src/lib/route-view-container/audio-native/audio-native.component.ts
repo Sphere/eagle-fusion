@@ -28,9 +28,10 @@ export class AudioNativeComponent implements OnInit {
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
+  collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: ViewerDataService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -46,5 +47,7 @@ export class AudioNativeComponent implements OnInit {
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
   }
 }

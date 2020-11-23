@@ -55,7 +55,7 @@
                   'artifactUrl'
                       ]
               "></ws-widget-btn-content-download>
-            <ws-widget-btn-content-like [widgetData]="audioData | pipePartialContent: ['identifier']">
+            <ws-widget-btn-content-like [widgetData]="{ identifier: collectionIdentifier} ">
             </ws-widget-btn-content-like>
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="audioData">
             </ws-widget-btn-content-share>

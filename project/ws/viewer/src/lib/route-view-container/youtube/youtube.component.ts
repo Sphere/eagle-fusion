@@ -31,6 +31,7 @@ export class YoutubeComponent implements OnInit {
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
+  collectionIdentifier!: string
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
     private viewerDataSvc: ViewerDataService) { }
@@ -49,5 +50,7 @@ export class YoutubeComponent implements OnInit {
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
   }
 }

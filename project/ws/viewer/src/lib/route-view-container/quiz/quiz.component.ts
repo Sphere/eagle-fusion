@@ -30,6 +30,7 @@ export class QuizComponent implements OnInit {
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
   isSmall = false
+  collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: ViewerDataService,
     private valueSvc: ValueService) {
@@ -51,5 +52,7 @@ export class QuizComponent implements OnInit {
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
   }
 }

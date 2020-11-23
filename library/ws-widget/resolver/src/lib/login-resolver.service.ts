@@ -23,12 +23,12 @@ export class LoginResolverService {
     private domSanitizer: DomSanitizer,
     private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
-  private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
+    private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
-  private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
+    private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
   private availableRegisteredWidgets: Map<
-  string,
-  NsWidgetResolver.IRegistrationConfig
+    string,
+    NsWidgetResolver.IRegistrationConfig
   > | null = null
   static getWidgetKey(config: NsWidgetResolver.IBaseConfig) {
     return `widget:${config.widgetType}::${config.widgetSubType}`
@@ -62,7 +62,7 @@ export class LoginResolverService {
         allWidgetsConfigurations.forEach(u => {
           const k = LoginResolverService.getWidgetKey(u)
           if (k === 'widget:layout::gridLayout' || k === 'widget:slider::sliderBanners'
-          || k === 'widget:contentStrip::contentStripMultiple' || k === 'widget:card::cardContent') {
+            || k === 'widget:contentStrip::contentStripMultiple' || k === 'widget:card::cardContent') {
             registrationConfig.set(k, u)
           }
         })
@@ -70,12 +70,12 @@ export class LoginResolverService {
       }
     }
     if (this.availableRegisteredWidgets && this.availableRegisteredWidgets.has(key)) {
-        const config = this.availableRegisteredWidgets.get(key)
-        if (config && config.component) {
-          return this.widgetResolved(containerRef, receivedConfig, config.component)
-        }
-        // Not properly registered
-        return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
+      const config = this.availableRegisteredWidgets.get(key)
+      if (config && config.component) {
+        return this.widgetResolved(containerRef, receivedConfig, config.component)
+      }
+      // Not properly registered
+      return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
       // }
       // No Permission
       return this.widgetResolved(containerRef, receivedConfig, InvalidPermissionComponent)

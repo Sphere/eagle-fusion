@@ -10,7 +10,7 @@
 
   </div>
 
-  <div class="flex reply">
+  <div class="reply" [ngClass]=" {'flex': !isSmall}">
 
     <div class="padding-left-s width-expand datePost">
       <div class="mat-caption" *ngIf="!reply?.lastEdited?.dtLastEdited?.length">

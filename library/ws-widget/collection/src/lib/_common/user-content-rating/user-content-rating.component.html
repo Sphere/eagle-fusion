@@ -1,5 +1,5 @@
 <ng-container *ngIf="enableFeature && contentId">
-  <mat-card>
+  <div>
     <h2 i18n>Rate the content</h2>
     <div class="flex">
       <button i18n-aria-label aria-label="Rating" name="user-content-rating-star-{{i+1}}"
@@ -9,5 +9,5 @@
           {{ (userRating || -1) > i ? 'star' : 'star_border' }}</mat-icon>
       </button>
     </div>
-  </mat-card>
+  </div>
 </ng-container>
