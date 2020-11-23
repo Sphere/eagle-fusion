@@ -1,10 +1,14 @@
 @import 'ws-vars';
+@import 'ws-mixins';
 
 .reply-container {
   // display: flex;
   margin-top: $size-xs / 2;
   margin-bottom: -40px;
   padding: 15px 0 0 15px;
+  @include breakpoint-xs {
+    margin-bottom: -20px;
+  }
 }
 .datePost {
   margin-top: -7px;
@@ -20,6 +24,15 @@
 .act-icons {
   width: 12%;
   text-align: right;
+  @include breakpoint-xs {
+    width: 35%;
+    text-align: left;
+    margin-left: 8%;
+    margin-top: 2%;
+      .thumb-icon {
+        top: 5px;
+      }
+  }
 }
 
 .postSection {
@@ -30,6 +43,9 @@
   position: relative;
   &:hover {
     opacity: 1;
+  }
+  @include breakpoint-xs {
+    top: -10px;
   }
 }
 .reply {
@@ -49,6 +65,9 @@
   cursor: pointer;
   &:hover {
     opacity: 1;
+  }
+  @include breakpoint-xs {
+    top: -2px;
   }
 }
 

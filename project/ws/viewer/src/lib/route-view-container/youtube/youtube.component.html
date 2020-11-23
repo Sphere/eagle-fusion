@@ -53,8 +53,7 @@
                   'artifactUrl'
                       ]
               "></ws-widget-btn-content-download>
-            <ws-widget-btn-content-like [forPreview]="forPreview"
-              [widgetData]="youtubeData | pipePartialContent: ['identifier']">
+            <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{identifier: collectionIdentifier}">
             </ws-widget-btn-content-like>
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="youtubeData">
             </ws-widget-btn-content-share>

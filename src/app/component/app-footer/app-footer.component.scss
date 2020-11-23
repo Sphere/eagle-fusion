@@ -50,11 +50,7 @@
   font-size: 16px !important;
   font-weight: 500;
 }
-::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
-   @include breakpoint-xs {
-      flex-direction: column !important;
-   }
-}
+
 
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
   font-size: 14px !important;

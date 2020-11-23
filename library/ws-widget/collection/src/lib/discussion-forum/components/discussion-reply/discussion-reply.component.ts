@@ -4,6 +4,8 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-widget-discussion-reply',
@@ -18,18 +20,29 @@ export class DiscussionReplyComponent implements OnInit {
   editMode = false
   replyPostEnabled = false
   updatedBody: string | undefined
+  isSmall = false
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService,
     private discussionSvc: WsDiscussionForumService,
+    private breakpointObserver: BreakpointObserver,
   ) {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
     }
   }
 
-  ngOnInit() { }
+
+  isSmallScreen$ = this.breakpointObserver
+    .observe(Breakpoints.XSmall)
+    .pipe(map(breakPointState => breakPointState.matches))
+
+  ngOnInit() {
+    this.isSmallScreen$.subscribe(isSmall => {
+      this.isSmall = isSmall
+    })
+  }
 
   deletePost(failMsg: string) {
     const dialogRef = this.dialog.open(DialogSocialDeletePostComponent, {

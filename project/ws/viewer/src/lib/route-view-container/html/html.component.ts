@@ -33,6 +33,7 @@ export class HtmlComponent implements OnInit, OnChanges {
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
+  collectionIdentifier: any
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -72,6 +73,8 @@ export class HtmlComponent implements OnInit, OnChanges {
     // }).catch((ex) => {
     //   console.warn("Please refresh Page", ex)
     // })
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
 
   }
 

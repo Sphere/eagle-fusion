@@ -54,8 +54,7 @@
                                   'artifactUrl'
                                       ]
                               "></ws-widget-btn-content-download>
-            <ws-widget-btn-content-like [forPreview]="forPreview"
-              [widgetData]="pdfData | pipePartialContent: ['identifier']">
+            <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier}">
             </ws-widget-btn-content-like>
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="pdfData">
             </ws-widget-btn-content-share>

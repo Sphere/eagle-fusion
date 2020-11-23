@@ -38,6 +38,7 @@ export class PdfComponent implements OnInit {
   nextTitle: string | null | undefined
   @ViewChild('navpdf', { static: false }) navpdf!: ElementRef
   isSmall = false
+  collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
     private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
@@ -61,5 +62,8 @@ export class PdfComponent implements OnInit {
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })
+
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
   }
 }
