@@ -190,6 +190,6 @@ export class DiscussionPostComponent implements OnInit {
     this.replyPlaceholderToggler = !this.replyPlaceholderToggler
     setTimeout(() => {
       el.scrollIntoView()
-    }, 500)
+    },         500)
   }
 }

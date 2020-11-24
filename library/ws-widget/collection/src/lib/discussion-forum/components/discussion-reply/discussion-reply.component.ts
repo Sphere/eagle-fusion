@@ -33,7 +33,6 @@ export class DiscussionReplyComponent implements OnInit {
     }
   }
 
-
   isSmallScreen$ = this.breakpointObserver
     .observe(Breakpoints.XSmall)
     .pipe(map(breakPointState => breakPointState.matches))

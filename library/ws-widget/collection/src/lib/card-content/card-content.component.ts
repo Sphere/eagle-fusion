@@ -16,7 +16,7 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 })
 export class CardContentComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {
-  @ViewChild("target", { static: false }) target!: MdePopoverTrigger
+  @ViewChild('target', { static: false }) target!: MdePopoverTrigger
   @Input() widgetData!: NsCardContent.ICard
   defaultThumbnail = ''
   defaultSLogo = ''

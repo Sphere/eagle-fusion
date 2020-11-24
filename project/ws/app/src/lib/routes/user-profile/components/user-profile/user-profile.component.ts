@@ -606,9 +606,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       otherDetailsOfficeAddress: data.employmentDetails.officialPostalAddress,
       otherDetailsOfficePinCode: data.employmentDetails.pinCode,
       skillAquiredDesc: data.skills.additionalSkills,
-      certificationDesc: data.skills.certificateDetails
+      certificationDesc: data.skills.certificateDetails,
     },
-      { emitEvent: true })
+                                   { emitEvent: true })
     this.cd.detectChanges()
     this.cd.markForCheck()
     this.setDropDownOther(organisation)
@@ -806,7 +806,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     if (profileRequest.personalDetails.maritalStatus === '') {
       delete profileRequest.personalDetails.maritalStatus
     }
-    if (profileRequest.personalDetails.telephone === "") {
+    if (profileRequest.personalDetails.telephone === '') {
       delete profileRequest.personalDetails.telephone
     }
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
