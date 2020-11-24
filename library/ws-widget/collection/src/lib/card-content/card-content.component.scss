@@ -225,6 +225,7 @@
 
 .card-standard-container {
   $card-padding: $size-m;
+  padding-bottom: 0px !important;
   $action-btn-size: 2.5 * $size-m;
   $card-width: 270px;
   position: relative;
