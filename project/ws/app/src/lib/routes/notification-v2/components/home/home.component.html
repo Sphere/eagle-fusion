@@ -85,7 +85,8 @@
 
     <div class="mt-4">
       <button mat-flat-button *ngIf="infoNotificationsNextPage && infoNotificationsNextPage !== '-1'"
-        [disabled]="infoNotificationsFetchStatus === 'fetching'" (click)="fetchInfoNotifications()" i18n>
+        [disabled]="infoNotificationsFetchStatus === 'fetching'" [hidden]="allSeen.length <= 0"
+        (click)="fetchInfoNotifications()" i18n>
         View More
       </button>
     </div>

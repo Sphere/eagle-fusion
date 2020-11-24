@@ -671,7 +671,7 @@ a.width-auto.mat-button {
   top: -5px;
 }
 .blue-link {
-  color: #5996e6;
+  color: #5996e6 !important;
 }
 .opac-7 {
   opacity: 0.7;
@@ -725,5 +725,13 @@ button.action-button, a.action-button {
 .unit-meta-item .flex  {
   @include breakpoint-xs {
      justify-content: center;
+  }
+}
+table {
+  width: 100%;
+  @include breakpoint-xs {
+  td {
+    max-width: 0;
+  }
   }
 }

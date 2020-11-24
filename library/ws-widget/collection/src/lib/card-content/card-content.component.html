@@ -17,7 +17,7 @@
       ? false
       : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
 
-  <mat-card class="card-standard-container mr-6" [ngClass]="{
+  <mat-card class="card-standard-container mr-6" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
         greyOut:
           widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
             ? true
@@ -25,7 +25,7 @@
       }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
     [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
     [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
-    [mdePopoverOffsetY]="-340">
+    [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
     <div class="display-contents" [ngClass]="{
           disableClick:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
@@ -59,23 +59,6 @@
             style="margin-left: -11px;">
             {{ widgetData.content.description | pipeHtmlTagRemoval }}
           </div>
-          <!-- <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-0">
-              <div class="flex items-start">
-                <ng-container [ngTemplateOutlet]="rating"></ng-container>
-                <div *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
-                  <mat-icon>access_time</mat-icon>
-                  <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
-                </div>
-
-              </div>
-              <div class="flex items-center">
-                <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                  [matMenuTriggerFor]="cardMenu">
-                  <mat-icon>more_vertical</mat-icon>
-                </button>
-              </div>
-            </div> -->
-
         </mat-card-content>
       </ng-container>
       <ng-container *ngIf="isCardFlipped">
@@ -93,7 +76,7 @@
 
   </mat-card>
 
-  <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false">
+  <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
     <mat-card class="popover-card">
       <mat-card-content>
         <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
@@ -102,10 +85,10 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span class="orange-text">Published on: </span>
+        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span>Published on: </span>
           {{widgetData.content?.publishedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
-          <span class="mr-1">Duration: </span>
+          <span class="mr-1 orange-text">Duration: </span>
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
           <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
@@ -136,6 +119,67 @@
     </mat-card>
   </mde-popover>
 
+  <ng-template #elseBlock1>
+
+    <mat-card class="card-standard-container mr-6" [ngClass]="{
+          greyOut:
+            widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+              ? true
+              : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+        }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+      [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+      [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="10"
+      [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
+      <div class="display-contents" [ngClass]="{
+            disableClick:
+              widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                ? true
+                : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+          }">
+        <ng-container *ngIf="!isCardFlipped">
+          <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+            matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+          <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+            matTooltip="Available only in Company's network"
+            *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+          <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
+            i18n-aria-label="Content | Click to view">
+            <div style="position: relative; z-index: 1;">
+              <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
+                [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+                class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+              <div class="source-div mt-4">
+              </div>
+            </div>
+          </a>
+          <mat-card-content>
+
+            <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+              [matTooltip]="widgetData.content.name" style="margin-top:65px; margin-left: -11px;">
+              {{ widgetData.content.name }}
+            </div>
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description"
+              style="margin-left: -11px;">
+              {{ widgetData.content.description | pipeHtmlTagRemoval }}
+            </div>
+          </mat-card-content>
+        </ng-container>
+        <ng-container *ngIf="isCardFlipped">
+          <div class="flex items-center">
+            <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+            <button mat-icon-button (click)="isCardFlipped = false">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <p class="text-justify mat-body-1">
+            {{ widgetData.content.reason }}
+          </p>
+        </ng-container>
+      </div>
+
+    </mat-card>
+  </ng-template>
 </ng-container>
 
 <ng-template #cardMinimal>
@@ -306,7 +350,7 @@
 </ng-template>
 
 <ng-template #cardStandard>
-  <mat-card class="card-standard-container mr-6" [ngClass]="{
+  <mat-card class="card-standard-container mr-6" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
       greyOut:
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
@@ -314,12 +358,8 @@
     }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
     [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="500"
     [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="offSetXValue"
-    [mdePopoverOffsetY]="offSetYValue">
-    <!-- <ws-widget-content-progress
-      class="progress-bar"
-      *ngIf="widgetData.content?.identifier"
-      [contentId]="widgetData.content?.identifier"
-    ></ws-widget-content-progress> -->
+    [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
+
     <div class="display-contents" [ngClass]="{
         disableClick:
           widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
@@ -341,10 +381,7 @@
               [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
               [title]="widgetData.content.name" />
             <div class="source-div">
-              <!-- [src]="sourseIcon(widgetData.content.sourceName)" -->
-              <!-- <img [src]="widgetData.content.creatorLogo" [id]="'source_' + widgetData.content.identifier" -->
-              <!-- class="source-icon" [wsUtilsDefaultThumbnail]="defaultSLogo" -->
-              <!-- [alt]="widgetData.content.sourceName || iGOT" [title]="widgetData.content.sourceName" /> -->
+
             </div>
           </div>
         </a>
@@ -362,18 +399,10 @@
             i18n-aria-label>
 
             <div class="text-gray-time complexity flex-between flex-center">
-              <!-- <div *ngIf="widgetData.content.complexityLevel" i18n-title title="Complexity Level">
-                {{ widgetData.content.complexityLevel }}
-              </div> -->
               <div *ngIf="showIsMode" i18n i18n-title title="Newly Added"
                 class="mode-tag px-2 ws-mat-accent-background">
                 Newly Added
               </div>
-
-              <!-- <div *ngIf="widgetData.content.duration" class="duration" i18n-title title="Duration">
-                <mat-icon class="text-green-400">access_time</mat-icon>
-                <span class="time-text">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
-              </div> -->
             </div>
 
             <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
@@ -384,26 +413,8 @@
               title="Description">
               {{ widgetData.content.description | pipeHtmlTagRemoval }}
               <!-- {{widgetData.content | json}} -->
-              <!-- {{widgetData.content.sourceName}} -->
             </div>
           </a>
-
-          <!-- <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-0 py-0">
-            <div class="flex items-start">
-              <ng-container [ngTemplateOutlet]="rating"></ng-container>
-              <div *ngIf="widgetData.content.duration" class="duration ml-2" i18n-title title="Duration">
-                <mat-icon>access_time</mat-icon>
-                <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
-              </div>
-
-            </div>
-            <div class="flex items-center">
-              <button type="button" mat-icon-button i18n-aria-label aria-label="action items"
-                [matMenuTriggerFor]="cardMenu">
-                <mat-icon>more_vertical</mat-icon>
-              </button>
-            </div>
-          </div> -->
 
         </mat-card-content>
       </ng-container>
@@ -421,9 +432,92 @@
     </div>
 
   </mat-card>
+  <ng-template #elseBlock>
+    <mat-card class="card-standard-container mr-6" [ngClass]="{
+          greyOut:
+            widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+              ? true
+              : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+        }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
+      [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="500"
+      [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="10"
+      [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
 
+      <div class="display-contents" [ngClass]="{
+            disableClick:
+              widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                ? true
+                : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+          }">
+        <ng-container *ngIf="!isCardFlipped">
+          <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+            matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+          <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+            matTooltip="Available only in Company's network"
+            *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
+            aria-label="Content" i18n-aria-label="Content | Click to view">
+            <div style="position: relative; z-index: 1;">
+              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+                [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+                [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+                [title]="widgetData.content.name" />
+              <div class="source-div">
 
-  <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+              </div>
+            </div>
+          </a>
+          <button *ngIf="showFlip" class="detail-button ws-mat-primary-lite-background-op30" mat-icon-button
+            (click)="isCardFlipped = true" aria-label="Details" i18n-aria-label="Details | Click to see details">
+            <mat-icon>flip_to_back</mat-icon>
+          </button>
+          <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
+            [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          </ws-widget-content-progress>
+
+          <mat-card-content>
+            <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+              [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
+              i18n-aria-label>
+
+              <div class="text-gray-time complexity flex-between flex-center">
+                <div *ngIf="showIsMode" i18n i18n-title title="Newly Added"
+                  class="mode-tag px-2 ws-mat-accent-background">
+                  Newly Added
+                </div>
+              </div>
+
+              <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+                style="margin-left: -11px;" [matTooltip]="widgetData.content.name">
+                {{ widgetData.content.name }}
+              </div>
+              <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title
+                title="Description">
+                {{ widgetData.content.description | pipeHtmlTagRemoval }}
+                <!-- {{widgetData.content | json}} -->
+              </div>
+            </a>
+
+          </mat-card-content>
+        </ng-container>
+        <ng-container *ngIf="isCardFlipped">
+          <div class="flex items-center">
+            <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+            <button mat-icon-button (click)="isCardFlipped = false">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <p class="text-justify mat-body-1">
+            {{ widgetData.content.reason }}
+          </p>
+        </ng-container>
+      </div>
+
+    </mat-card>
+  </ng-template>
+
+  <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
     <mat-card class="popover-card">
       <mat-card-content>
         <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
@@ -432,10 +526,10 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span class="orange-text">Published on: </span>
+        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span>Published on: </span>
           {{widgetData.content?.publishedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
-          <span class="mr-1">Duration: </span>
+          <span class="mr-1  orange-text">Duration: </span>
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
           <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">

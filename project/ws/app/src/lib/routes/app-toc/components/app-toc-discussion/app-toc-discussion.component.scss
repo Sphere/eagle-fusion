@@ -3,6 +3,11 @@
 
 .discussion-head {
   padding: $size-xs $size-m;
+  @include breakpoint-xs {
+    padding: 8px 16px 16px 0;
+    margin-left: -3px;
+    margin-right: -10px;
+  }
 }
 
 ::ng-deep .discussion-body .mat-card {

@@ -40,7 +40,7 @@ export class BtnMailUserComponent extends WidgetBaseComponent
     this.raiseTelemetry()
     this.dialog.open(
       BtnMailUserDialogComponent, {
-      width: '32vw',
+      width: '600px',
       height: 'auto',
 
       data: this.widgetData,

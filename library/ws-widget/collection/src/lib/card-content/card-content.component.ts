@@ -34,6 +34,7 @@ export class CardContentComponent extends WidgetBaseComponent
 
   isIntranetAllowedSettings = false
   showLoggedInCard = false
+  showEndPopup = false
   constructor(
     private events: EventService,
     private configSvc: ConfigurationsService,
@@ -87,6 +88,14 @@ export class CardContentComponent extends WidgetBaseComponent
     if (this.widgetData.contentTags) {
       this.showContentTag =
         this.checkCriteria() && this.checkContentTypeCriteria() && this.checkMimeTypeCriteria()
+    }
+  }
+
+  showTarget(event: any) {
+    if (window.innerWidth - event.clientX < 280) {
+      this.showEndPopup = true
+    } else {
+      // console.log('this.showEndPopup', this.showEndPopup)
     }
   }
 
@@ -152,6 +161,8 @@ export class CardContentComponent extends WidgetBaseComponent
 
   ngAfterViewInit() {
     // this.assignThumbnail()
+    this.offSetXValue = 290
+    this.offSetYValue = -340
   }
 
   get checkDisplayName(): string {

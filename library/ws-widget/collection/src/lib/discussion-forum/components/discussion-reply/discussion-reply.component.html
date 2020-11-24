@@ -13,23 +13,27 @@
   <div class="reply" [ngClass]=" {'flex': !isSmall}">
 
     <div class="padding-left-s width-expand datePost">
-      <div class="mat-caption" *ngIf="!reply?.lastEdited?.dtLastEdited?.length">
+      <div class="mat-caption reply-margin-mob" *ngIf="!reply?.lastEdited?.dtLastEdited?.length">
         Started on {{ reply.dtLastModified | date }}
         <ng-container i18n> at </ng-container>
         <ng-container>{{ reply.dtLastModified | date: 'shortTime' }}</ng-container>
-
-        <div class="mat-caption" *ngIf="reply?.lastEdited?.dtLastEdited?.length">
-          {{ reply.lastEdited?.dtLastEdited | date }}
-          <ng-container i18n> at </ng-container>
-          <ng-container>{{ reply.lastEdited?.dtLastEdited | date: 'shortTime' }}</ng-container>
-        </div>
-
         <span class="ml-1">by
           {{ reply.postCreator.name }}
         </span>
-
       </div>
+      <div class="mat-caption reply-margin-mob" *ngIf="reply?.lastEdited?.dtLastEdited?.length">
+        Started on {{ reply.lastEdited?.dtLastEdited | date }}
+        <ng-container i18n> at </ng-container>
+        <ng-container>{{ reply.lastEdited?.dtLastEdited | date: 'shortTime' }}</ng-container>
+        <span class="ml-1">by
+          {{ reply.postCreator.name }}
+        </span>
+      </div>
+
+
+
     </div>
+
 
     <div class="act-icons">
       <span *ngIf="reply.activity && reply.status === 'Active'" class="like-btn"
