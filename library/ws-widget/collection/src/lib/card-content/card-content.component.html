@@ -17,7 +17,7 @@
       ? false
       : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
 
-  <mat-card class="card-standard-container mr-6" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
+  <mat-card class="card-standard-container mr-8" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
         greyOut:
           widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
             ? true
@@ -121,7 +121,7 @@
 
   <ng-template #elseBlock1>
 
-    <mat-card class="card-standard-container mr-6" [ngClass]="{
+    <mat-card class="card-standard-container mr-8" [ngClass]="{
           greyOut:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
               ? true
@@ -350,7 +350,7 @@
 </ng-template>
 
 <ng-template #cardStandard>
-  <mat-card class="card-standard-container mr-6" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
+  <mat-card class="card-standard-container mr-8" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
       greyOut:
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
@@ -433,7 +433,7 @@
 
   </mat-card>
   <ng-template #elseBlock>
-    <mat-card class="card-standard-container mr-6" [ngClass]="{
+    <mat-card class="card-standard-container mr-8" [ngClass]="{
           greyOut:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
               ? true
@@ -576,11 +576,6 @@
                         'artifactUrl'
                       ]
               "></ws-widget-btn-content-download>
-
-            <!-- <mat-icon class="px-2 cursor-pointer" aria-label="Comment" i18n-aria-label matTooltip="Comment"
-              i18n-matTooltip="Comment Button" [routerLink]="(widgetData.content | pipeContentRoute).url"
-              [queryParams]="(widgetData.content | pipeContentRoute).queryParams" [fragment]="'discussion-forum'">
-              comment</mat-icon> -->
           </div>
         </div>
       </mat-card-content>

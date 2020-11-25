@@ -16,7 +16,7 @@
                   stripsResultDataMap[key]?.showOnLoader ||
                   stripsResultDataMap[key]?.showOnError
                 " [ngClass]="
-                  !widgetData.isChannelStrip ? 'px-4 sm:px-8 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
+                  !widgetData.isChannelStrip ? 'px-4 sm\:px-48 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
                 " [id]="key">
           <div *ngIf="!callPublicApi" [ngClass]="{ pad: stripsResultDataMap[key]?.stripBackground }"
             [ngStyle]="{ 'background-color': stripsResultDataMap[key]?.stripBackground }">

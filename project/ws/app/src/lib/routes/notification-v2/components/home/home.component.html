@@ -49,9 +49,11 @@
 
     <div class="mt-4">
       <button mat-flat-button *ngIf="actionNotificationsNextPage && actionNotificationsNextPage !== '-1'"
-        [disabled]="actionNotificationsFetchStatus === 'fetching'" (click)="fetchActionNotifications()" i18n>
+        [disabled]="actionNotificationsFetchStatus === 'fetching'" (click)="fetchActionNotifications()"
+        [hidden]="allSeen.length <= 0" i18n>
         View More
       </button>
+      <!-- <span *ngIf="allSeen.length <= 0">All notifications are read</span> -->
     </div>
   </div>
 
@@ -89,6 +91,7 @@
         (click)="fetchInfoNotifications()" i18n>
         View More
       </button>
+      <!-- <span *ngIf="allSeen.length <= 0">All notifications are read</span> -->
     </div>
   </div>
 

@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
         .updateNotificationSeenStatus(notification.notificationId, notification.classifiedAs)
         .subscribe(() => {
           notification.seen = true
-        },         noop)
+        }, noop)
     }
 
     this.notificationSvc.mapRoute(notification)
@@ -126,6 +126,9 @@ export class HomeComponent implements OnInit {
   }
 
   displayActionNotifications() {
+    this.allSeen = this.infoNotifications.filter(item => {
+      return !item.seen
+    })
     if (this.hideSeen) {
       return this.actionNotifications.filter(item => {
         return !item.seen

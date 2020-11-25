@@ -1,5 +1,5 @@
-<div class="mat-toolbar mat-ws-mat-primary-text footer-container py-5 px-4 sm:px-8 md:px-10ss">
-  <div class="mat-body" [ngClass]="{'flex flex-between w-full': !isXSmall}">
+<div class="mat-toolbar mat-ws-mat-primary-text footer-container py-5 px-4 sm:px-48 md:px-10ss">
+  <div class="mat-body" [ngClass]="{'flex flex-between w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}">
       <mat-list class="flex-1 col-width">
         <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" class="docs-footer-aastar-logo">
@@ -17,7 +17,7 @@
       </mat-list>
     </div>
 
-    <div class="text-center" [ngClass]="{'flex': !isXSmall}">
+    <div class="text-center" [ngClass]="{'flex': !isXSmall }">
       <div class="w-mobile">
         <h2 class="footer-heading">An initiative of</h2>
         <a href="https://rohininilekani.org/" target="_blank"><img class="footer-image mt-1"

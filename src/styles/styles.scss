@@ -735,3 +735,9 @@ table {
   }
   }
 }
+@media  (max-device-width: 768px) and (orientation: landscape) {
+.slider-header-text {
+    width: 62%;
+    float: left;
+}
+}

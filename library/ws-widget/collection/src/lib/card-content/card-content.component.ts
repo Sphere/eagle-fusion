@@ -92,8 +92,9 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   showTarget(event: any) {
-    if (window.innerWidth - event.clientX < 280) {
+    if (window.innerWidth - event.clientX < 483) {
       this.showEndPopup = true
+      this.target.targetOffsetX = event.clientX + 1
     } else {
       // console.log('this.showEndPopup', this.showEndPopup)
     }

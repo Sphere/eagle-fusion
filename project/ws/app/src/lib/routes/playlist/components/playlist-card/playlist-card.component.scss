@@ -231,6 +231,7 @@
 
   @include breakpoint-xs {
     flex-direction: column;
+    padding: 1em;
   }
 }
 
