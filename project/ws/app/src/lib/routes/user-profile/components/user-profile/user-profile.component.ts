@@ -798,26 +798,31 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     const profileRequest = this.constructReq(form)
     // manipulate request to remove gender, category & marital status
 
-    if (profileRequest.personalDetails.gender === '') {
-      delete profileRequest.personalDetails.gender
-    }
-    if (profileRequest.personalDetails.category === '') {
-      delete profileRequest.personalDetails.category
-    }
-    if (profileRequest.personalDetails.maritalStatus === '') {
-      delete profileRequest.personalDetails.maritalStatus
-    }
-    if (profileRequest.personalDetails.telephone === '') {
-      delete profileRequest.personalDetails.telephone
-    }
+    // if (profileRequest.personalDetails.gender === '') {
+    //   delete profileRequest.personalDetails.gender
+    // }
+    // if (profileRequest.personalDetails.category === '') {
+    //   delete profileRequest.personalDetails.category
+    // }
+    // if (profileRequest.personalDetails.maritalStatus === '') {
+    //   delete profileRequest.personalDetails.maritalStatus
+    // }
+    // if (profileRequest.personalDetails.telephone === '') {
+    //   delete profileRequest.personalDetails.telephone
+    // }
     // tslint:disable-next-line
-    const fields  = ['category', 'countryCode', 'dob', 'domicileMedium', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
+    const fields  = ['category', 'countryCode', 'dob','officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
+    profileRequest.personalDetails.officialEmail = profileRequest.personalDetails.primaryEmail
     fields.map((item: any) => {
      // tslint:disable-next-line
       if (!profileRequest.personalDetails[item as keyof IUserProfileFields2] || profileRequest.personalDetails[item as keyof IUserProfileFields2]===''){
         delete profileRequest.personalDetails[item as keyof IUserProfileFields2]
       }
     })
+    if (profileRequest.personalDetails.telephone) {
+      profileRequest.personalDetails.telephone = String(profileRequest.personalDetails.telephone)
+    }
+    console.log('ProfileRequest', profileRequest)
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
         form.reset()
