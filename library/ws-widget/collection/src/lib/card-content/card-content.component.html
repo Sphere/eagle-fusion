@@ -77,7 +77,7 @@
   </mat-card>
 
   <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
-    <mat-card class="popover-card">
+    <mat-card class="popover-card xs-hidden">
       <mat-card-content>
         <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
           {{ widgetData.content.name }}
@@ -518,7 +518,7 @@
   </ng-template>
 
   <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
-    <mat-card class="popover-card">
+    <mat-card class="popover-card xs-hidden">
       <mat-card-content>
         <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
           {{ widgetData.content.name }}

@@ -2,7 +2,7 @@
   <mat-accordion [multi]="false">
     <mat-expansion-panel [expanded]="currentPanel === 'tnc'" (opened)="currentPanel = 'tnc'"
       (closed)="currentPanel = 'dp'" *ngIf="generalTnc">
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="tnc">
         <mat-panel-title>
           <h2 class="mat-title tnc-title">
             <mat-icon *ngIf="generalTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
@@ -57,7 +57,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="currentPanel === 'dp'" (closed)="currentPanel = 'tnc'"
       (opened)="currentPanel = 'dp'" (afterExpand)="reCenterPanel()" *ngIf="dpTnc">
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="tnc">
         <mat-panel-title>
           <h2 class="mat-title tnc-title">
             <mat-icon *ngIf="dpTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline

@@ -207,6 +207,9 @@
   // box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
   border-radius: 4px;
+  @include breakpoint-xs {
+     height: 11rem;
+  }
 }
 
 .expand-play-list-btn {
@@ -263,7 +266,7 @@
 
   @include breakpoint-xs {
     // margin-left: 0;
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
   }
 }

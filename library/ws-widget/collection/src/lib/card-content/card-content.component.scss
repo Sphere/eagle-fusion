@@ -510,3 +510,9 @@ $title-line-count: 2;
   color: #de7e3d;
   font-weight: 500;
 }
+
+.xs-hidden {
+  @include breakpoint-xs {
+    display: none;
+  }
+}
