@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://d34vfqm2mqjn7i.cloudfront.net",
+    "target": "https://learning.aastar.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

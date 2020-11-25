@@ -1,79 +1,45 @@
-<!-- <div *ngIf="allowAuthor"
-class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l padding-remove-left create-button">
-<button mat-button class="font-weight-bold margin-remove-bottom mat-h3 ws-mat-primary-text ws-mat-primary-border"
-  [routerLink]="'/author/create'" id="ws-auth-root-home-btn-create" name="ws-auth-root-home-btn-create">
-  <ng-container i18n>Create Content</ng-container>
-  <mat-icon class="ws-mat-primary-text margin-left-m margin-bottom-xxs">create</mat-icon>
-</button>
-</div> -->
 <mat-drawer-container class="example-container">
-  <mat-drawer mode="side" class="width-240" opened>
+  <mat-drawer mode="side" opened>
+    <div *ngIf="allowAuthor"
+    class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l padding-remove-left create-button">
+    <button mat-button class="font-weight-bold margin-remove-bottom mat-h3 ws-mat-primary-text ws-mat-primary-border"
+      [routerLink]="'/author/create'" id="ws-auth-root-home-btn-create" name="ws-auth-root-home-btn-create">
+      <ng-container i18n>Create Content</ng-container>
+      <mat-icon class="ws-mat-primary-text margin-left-m margin-bottom-xxs">create</mat-icon>
+    </button>
+  </div>
     <ng-container *ngIf="isNewDesign">
-      <mat-accordion expanded *ngIf="allowAuthor">
-        <mat-expansion-panel [expanded]="true" class="no-shadow">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span class="font-weight-500" i18n>My Content</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-list role="list">
-            <mat-list-item mat-button role="listitem" class="draftss">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'draft' }"
-                [routerLinkActive]="status=='draft'" [class.active]="status=='draft'" class="draft" i18n>Draft</a>
-            </mat-list-item>
-            <mat-list-item mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'inreview' }" i18n>Sent for review</a>
-            </mat-list-item>
-            <mat-list-item mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'published' }" i18n>Published</a>
-            </mat-list-item>
-            <mat-list-item mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'unpublished' }" i18n>Unpublished</a>
-            </mat-list-item>
-            <mat-list-item *ngIf="allowExpiry" mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'expiry' }" i18n>Expiring</a>
-            </mat-list-item>
-            <mat-list-item *ngIf="allowRestore" mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'deleted' }" i18n>Deleted</a>
-            </mat-list-item>
-          </mat-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </ng-container>
-
-
-    <ng-container *ngIf="isNewDesign">
-      <mat-accordion expanded *ngIf="allowAuthor">
-        <mat-expansion-panel [expanded]="true" class="no-shadow">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span class="font-weight-500" i18n>My Content</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-list role="list">
-            <mat-list-item mat-button role="listitem" class="draftss">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'draft' }"
-                [routerLinkActive]="status=='draft'" [class.active]="status=='draft'" class="draft" i18n>Draft</a>
-            </mat-list-item>
-            <mat-list-item mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'inreview' }" i18n>Sent for review</a>
-            </mat-list-item>
-            <mat-list-item mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'published' }" i18n>Published</a>
-            </mat-list-item>
-            <mat-list-item mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'unpublished' }" i18n>Unpublished</a>
-            </mat-list-item>
-            <mat-list-item *ngIf="allowExpiry" mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'expiry' }" i18n>Expiring</a>
-            </mat-list-item>
-            <mat-list-item *ngIf="allowRestore" mat-button role="listitem">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'deleted' }" i18n>Deleted</a>
-            </mat-list-item>
-          </mat-list>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </ng-container>
+    <mat-accordion expanded *ngIf="allowAuthor">
+      <mat-expansion-panel [expanded]="true" class="no-shadow">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="font-weight-500" i18n>My Content</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list role="list">
+          <mat-list-item mat-button role="listitem" class="draftss">
+            <a routerLink="/author/my-content" [queryParams]="{ status: 'draft' }" [routerLinkActive]="status=='draft'" 
+            [class.active]="status=='draft'" class="draft" i18n>Draftpp</a>
+          </mat-list-item>
+          <mat-list-item mat-button role="listitem">
+            <a routerLink="/author/my-content" [queryParams]="{ status: 'inreview' }" i18n>Sent for review</a>
+          </mat-list-item>
+          <mat-list-item mat-button role="listitem">
+            <a routerLink="/author/my-content" [queryParams]="{ status: 'published' }" i18n>Published</a>
+          </mat-list-item>
+          <mat-list-item mat-button role="listitem">
+            <a routerLink="/author/my-content" [queryParams]="{ status: 'unpublished' }" i18n>Unpublished</a>
+          </mat-list-item>
+          <mat-list-item *ngIf="allowExpiry" mat-button role="listitem">
+            <a routerLink="/author/my-content" [queryParams]="{ status: 'expiry' }" i18n>Expiring</a>
+          </mat-list-item>
+          <mat-list-item *ngIf="allowRestore" mat-button role="listitem">
+            <a routerLink="/author/my-content" [queryParams]="{ status: 'deleted' }" i18n>Deleted</a>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
     <ng-container *ngIf="!isNewDesign">
       <mat-accordion expanded *ngIf="allowAuthor">
         <mat-expansion-panel [expanded]="true" class="no-shadow">
@@ -82,11 +48,7 @@ class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l p
               <span class="font-weight-500" i18n>My Content</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <!-- Shown when logged in as admin-->
           <mat-list role="list">
-            <!-- <mat-list-item mat-button role="listitem" [routerLinkActive]="['active']">
-              <a routerLink="/author/my-content" [queryParams]="{ status: 'all' }" i18n>All</a>
-            </mat-list-item> -->
             <mat-list-item mat-button role="listitem" [routerLinkActive]="['active']">
               <a routerLink="/author/my-content" [queryParams]="{ status: 'draft' }" i18n>Draft</a>
             </mat-list-item>
@@ -132,195 +94,157 @@ class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l p
     </ng-container>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-sidenav-container class="nav-container">
-      <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
-        <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
-          <div class="flex flex-between flex-baseline">
-            <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
-            <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
-              (click)="sideNavBarOpened = false">
-              <mat-icon class="">clear</mat-icon>
-            </button>
-          </div>
-        </h4>
-        <mat-tree *ngIf="cardContent && cardContent.length" class="margin-s" [dataSource]="dataSource"
-          [treeControl]="filterMenuTreeControl">
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <ng-container>
-              <mat-checkbox color="primary" [value]="node.displayName" (change)="filterApplyEvent(node)"
-                [(ngModel)]="node.checked" class="checklist-leaf-node">{{ node.displayName + ' (' + node.count + ')' }}
-              </mat-checkbox>
-            </ng-container>
-          </mat-tree-node>
-          <mat-tree-node [ngClass]="{
+<mat-sidenav-container class="nav-container">
+  <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
+    <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
+      <div class="flex flex-between flex-baseline">
+        <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
+        <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
+          (click)="sideNavBarOpened = false">
+          <mat-icon class="">clear</mat-icon>
+        </button>
+      </div>
+    </h4>
+    <mat-tree *ngIf="cardContent && cardContent.length" class="margin-s" [dataSource]="dataSource"
+      [treeControl]="filterMenuTreeControl">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <ng-container>
+          <mat-checkbox color="primary" [value]="node.displayName" (change)="filterApplyEvent(node)"
+            [(ngModel)]="node.checked" class="checklist-leaf-node">{{ node.displayName + ' (' + node.count + ')' }}
+          </mat-checkbox>
+        </ng-container>
+      </mat-tree-node>
+      <mat-tree-node [ngClass]="{
           hidden:
             (status === 'draft' && node.displayName === 'Published Date') ||
             (status === 'inreview' && node.displayName === 'Published Date')
         }" class="border-bottom" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-            <div class="grid">
-              <h5 class="font-size-m margin-top-xs margin-remove-bottom" matTreeNodeToggle>
-                {{ node.displayName }}
-              </h5>
-              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.displayName">
-                <mat-icon class="mat-icon-rtl-mirror">
-                  {{ filterMenuTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-                </mat-icon>
-              </button>
-            </div>
-          </mat-tree-node>
-        </mat-tree>
-      </mat-sidenav>
-
-
-      <mat-sidenav-content class="sidenav-content">
-        <div class="outer-flex">
-          <div class="content-box">
-            <nav class="flex flex-middle flex-wrap p-4 ws-mat-primary-text">
-              <div class="mat-subheading-2 margin-remove-bottom">
-                <a i18n>
-                  My Contents
-                </a>
-              </div>
-              <mat-icon class="px-1">chevron_right</mat-icon>
-              <!-- <div class="mat-subheading-2 margin-remove-bottom">
-                <a routerLink="/author/my-content" [queryParams]="{ status: 'all' }" i18n>
-                  All
-                </a>
-              </div>
-              <mat-icon class="px-1" *ngIf="status !== 'all'">chevron_right</mat-icon> -->
-              <div class="mat-subheading-2 margin-remove-bottom">
-                <a routerLink="/author/my-content" *ngIf="status === 'draft'" [queryParams]="{ status: 'draft' }"
-                  i18n>Draft</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'inreview'" [queryParams]="{ status: 'inreview' }"
-                  i18n>Sent for review</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'review'" [queryParams]="{ status: 'review' }"
-                  i18n>Review</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'publish'" [queryParams]="{ status: 'publish' }"
-                  i18n>Publish</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'published'"
-                  [queryParams]="{ status: 'published' }" i18n>Published</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'unpublished'"
-                  [queryParams]="{ status: 'unpublished' }" i18n>Unpublished</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'expiry'" [queryParams]="{ status: 'expiry' }"
-                  i18n>Expiring</a>
-                <a routerLink="/author/my-content" *ngIf="status === 'deleted'" [queryParams]="{ status: 'deleted' }"
-                  i18n>Deleted</a>
-              </div>
-            </nav>
-            <div class="flex flex-wrapped flex-between margin-horizontal-s margin-top-xs">
-              <div>
-                <h4 *ngIf="filterMenuItems.length" class="ws-mat-primary-text font-size-m font-weight-bold">
-                  <span i18n> Apply Filters</span>
-                  <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
-                    <mat-icon>filter_list</mat-icon>
-                  </button>
-                </h4>
-                <mat-chip-list *ngIf="filters && filters.length" #chipList aria-label="Filter">
-                  <mat-chip [selectable]="true" [removable]="false">
-                    <span class="ws-mat-primary-text" i18n>Clear All</span>
-                    <mat-icon [color]="'primary'" (click)="clearAllFilters()" matChipRemove>cancel</mat-icon>
-                  </mat-chip>
-                  <mat-chip *ngFor="let item of filters; let i = index" [selectable]="true" [removable]="true"
-                    (removed)="filterApplyEvent(item)">
-                    <span class="ws-mat-primary-text">{{ item.displayName }}</span>
-                    <mat-icon [color]="'primary'" matChipRemove>cancel</mat-icon>
-                  </mat-chip>
-                </mat-chip-list>
-              </div>
-              <div class="flex items-center search border border-solid search-border">
-                <div class="border-right flex items-center" *ngIf="allLanguages?.length">
-                  <button mat-button [matMenuTriggerFor]="sortLang">
-                    <span *ngIf="searchLanguage">{{ searchLanguage | uppercase }}</span>
-                    <span *ngIf="!searchLanguage" i18n>ALL</span>
-                    <mat-icon>arrow_drop_down</mat-icon>
-                  </button>
-                </div>
-                <div class="width-3-4 pl-2">
-                  <mat-form-field class="w-full" appearance="none" [floatLabel]="'never'">
-                    <input type="text" (keyup.enter)="search()" matInput #searchInput name="searchBox"
-                      placeholder="Search for content" />
-                  </mat-form-field>
-                </div>
-                <div (click)="search()" class="flex items-center justify-center w-16 pointer">
-                  <mat-icon>search</mat-icon>
-                </div>
-              </div>
-              <div class="flex items-center">
-                <div (click)="listview=false"><span class="mr-2">
-                    <mat-icon class="pointer">border_all</mat-icon>
-                  </span>
-                </div>
-                <div (click)="listview=true"><span><mat-icon class="pointer">list</mat-icon></span></div>
-              </div>
-
-            </div>
-            <div *ngIf="cardContent" class="flex flex-wrapped flex-dynamic margin-xs">
-              <ng-template #oldDesign>
-                <div [ngClass]="listview == true ? 'full-width-field': 'margin-l'" *ngFor="let content of cardContent">
-                  <ws-auth-root-content-card [data]="content" [forExpiry]="status === 'expiry'" [changeView]="listview"
-                    [forDelete]="status === 'deleted'" [ordinals]="ordinals" (action)="action($event)">
-                  </ws-auth-root-content-card>
-                </div>
-              </ng-template>
-              <ng-container *ngIf="newDesign; else oldDesign">
-                <ws-auth-content-card-v2 (action)="action({ type: $event.action, data: $event.content })"
-                  [perspective]="currentAction" *ngFor="let content of cardContent" [content]="content">
-                </ws-auth-content-card-v2>
-              </ng-container>
-            </div>
-            <div class="text-right margin-right-xxl margin-bottom-m" *ngIf="showLoadMore">
-              <button mat-raised-button [color]="'primary'" (click)="loadMore()" i18n>Load More...</button>
-            </div>
-            <div class="flat-no-data-alert margin-m" *ngIf="!fetchError && cardContent && !cardContent.length">
-              <mat-icon class="large-icon">info</mat-icon>
-              <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>No data found</span>
-            </div>
-            <div class="flat-error-alert margin-m" *ngIf="fetchError">
-              <mat-icon class="large-icon">info</mat-icon>
-              <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>Unable to fetch data</span>
-            </div>
-          </div>
-          <div class="sidebar mt-10">
-            <div class="info-section mb-6">
-              <h3 class="mb-3">In case it helps</h3>
-              <div>Test test Test testTest testTest testTest testTest testTest testTest testTest testTest testTest
-                testTest testTest testTest testTest testTest testTest testTest test </div>
-              <a mat-button href="https://www.google.com/" target="_blank">Try it now</a>
-            </div>
-            <div class="info-section mb-6">
-              <h3 class="mb-3">In case it helps</h3>
-              <div>Test test Test testTest testTest testTest testTest testTest testTest testTest testTest testTest
-                testTest testTest testTest testTest testTest testTest testTest test </div>
-              <a mat-button href="https://www.google.com/" target="_blank">Try it now</a>
-            </div>
-            <div class="info-section mb-6">
-              <h3 class="mb-3">In case it helps</h3>
-              <div>Test test Test testTest testTest testTest testTest testTest testTest testTest testTest testTest
-                testTest testTest testTest testTest testTest testTest testTest test </div>
-              <a mat-button href="https://www.google.com/" target="_blank">Try it now</a>
-            </div>
-
-          </div>
+        <div class="grid">
+          <h5 class="font-size-m margin-top-xs margin-remove-bottom" matTreeNodeToggle>
+            {{ node.displayName }}
+          </h5>
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.displayName">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{ filterMenuTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+            </mat-icon>
+          </button>
         </div>
-      </mat-sidenav-content>
-
-
-    </mat-sidenav-container>
-    <mat-menu #sortLang="matMenu">
-      <ng-template matMenuContent>
-        <button mat-menu-item class="flex flex-between" (click)="setCurrentLanguage('')">
-          <span i18n class="flex items-center w-full">ALL
-            <mat-icon class="ml-2" *ngIf="searchLanguage === ''">check</mat-icon>
-          </span>
-        </button>
-        <button mat-menu-item class="flex flex-between" *ngFor="let lang of allLanguages"
-          (click)="setCurrentLanguage(lang.srclang)">
-          <span class="flex items-center w-full">
-            <span>{{ lang.label | uppercase }}</span>
-            <mat-icon class="ml-2" *ngIf="lang.srclang === searchLanguage">check</mat-icon>
-          </span>
-        </button>
+      </mat-tree-node>
+    </mat-tree>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <nav class="flex flex-middle flex-wrap p-4 ws-mat-primary-text">
+      <div class="mat-subheading-2 margin-remove-bottom">
+        <a i18n>
+          My Contents
+        </a>
+      </div>
+      <mat-icon class="px-1">chevron_right</mat-icon>
+      <div class="mat-subheading-2 margin-remove-bottom">
+        <a routerLink="/author/my-content" [queryParams]="{ status: 'all' }" i18n>
+          All
+        </a>
+      </div>
+      <mat-icon class="px-1" *ngIf="status !== 'all'">chevron_right</mat-icon>
+      <div class="mat-subheading-2 margin-remove-bottom">
+        <a routerLink="/author/my-content" *ngIf="status === 'draft'" [queryParams]="{ status: 'draft' }" i18n>Draft</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'inreview'" [queryParams]="{ status: 'inreview' }"
+          i18n>Sent for review</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'review'" [queryParams]="{ status: 'review' }"
+          i18n>Review</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'publish'" [queryParams]="{ status: 'publish' }"
+          i18n>Publish</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'published'" [queryParams]="{ status: 'published' }"
+          i18n>Published</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'unpublished'" [queryParams]="{ status: 'unpublished' }"
+          i18n>Unpublished</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'expiry'" [queryParams]="{ status: 'expiry' }"
+          i18n>Expiring</a>
+        <a routerLink="/author/my-content" *ngIf="status === 'deleted'" [queryParams]="{ status: 'deleted' }"
+          i18n>Deleted</a>
+      </div>
+    </nav>
+    <div class="flex flex-wrapped flex-between margin-horizontal-s margin-top-xs">
+      <div>
+        <h4 *ngIf="filterMenuItems.length" class="ws-mat-primary-text font-size-m font-weight-bold">
+          <span i18n> Apply Filters</span>
+          <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+        </h4>
+        <mat-chip-list *ngIf="filters && filters.length" #chipList aria-label="Filter">
+          <mat-chip [selectable]="true" [removable]="false">
+            <span class="ws-mat-primary-text" i18n>Clear All</span>
+            <mat-icon [color]="'primary'" (click)="clearAllFilters()" matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <mat-chip *ngFor="let item of filters; let i = index" [selectable]="true" [removable]="true"
+            (removed)="filterApplyEvent(item)">
+            <span class="ws-mat-primary-text">{{ item.displayName }}</span>
+            <mat-icon [color]="'primary'" matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="flex items-center search border border-solid search-border">
+        <div class="border-right flex items-center" *ngIf="allLanguages?.length">
+          <button mat-button [matMenuTriggerFor]="sortLang">
+            <span *ngIf="searchLanguage">{{ searchLanguage | uppercase }}</span>
+            <span *ngIf="!searchLanguage" i18n>ALL</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        </div>
+        <div class="width-3-4 pl-2">
+          <mat-form-field class="w-full" appearance="none" [floatLabel]="'never'">
+            <input type="text" (keyup.enter)="search()" matInput #searchInput name="searchBox"
+              placeholder="Search for content" />
+          </mat-form-field>
+        </div>
+        <div (click)="search()" class="flex items-center justify-center w-16 pointer">
+          <mat-icon>search</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="cardContent" class="flex flex-wrapped flex-dynamic margin-xs">
+      <ng-template #oldDesign>
+        <div class="margin-l" *ngFor="let content of cardContent">
+          <ws-auth-root-content-card [data]="content" [forExpiry]="status === 'expiry'"
+            [forDelete]="status === 'deleted'" [ordinals]="ordinals" (action)="action($event)">
+          </ws-auth-root-content-card>
+        </div>
       </ng-template>
-    </mat-menu>
-  </mat-drawer-content>
+      <ng-container *ngIf="newDesign; else oldDesign">
+        <ws-auth-content-card-v2 (action)="action({ type: $event.action, data: $event.content })"
+          [perspective]="currentAction" *ngFor="let content of cardContent" [content]="content">
+        </ws-auth-content-card-v2>
+      </ng-container>
+    </div>
+    <div class="text-right margin-right-xxl margin-bottom-m" *ngIf="showLoadMore">
+      <button mat-raised-button [color]="'primary'" (click)="loadMore()" i18n>Load More...</button>
+    </div>
+    <div class="flat-no-data-alert margin-m" *ngIf="!fetchError && cardContent && !cardContent.length">
+      <mat-icon class="large-icon">info</mat-icon>
+      <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>No data found</span>
+    </div>
+    <div class="flat-error-alert margin-m" *ngIf="fetchError">
+      <mat-icon class="large-icon">info</mat-icon>
+      <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>Unable to fetch data</span>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<mat-menu #sortLang="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item class="flex flex-between" (click)="setCurrentLanguage('')">
+      <span i18n class="flex items-center w-full">ALL
+        <mat-icon class="ml-2" *ngIf="searchLanguage === ''">check</mat-icon>
+      </span>
+    </button>
+    <button mat-menu-item class="flex flex-between" *ngFor="let lang of allLanguages"
+      (click)="setCurrentLanguage(lang.srclang)">
+      <span class="flex items-center w-full">
+        <span>{{ lang.label | uppercase }}</span>
+        <mat-icon class="ml-2" *ngIf="lang.srclang === searchLanguage">check</mat-icon>
+      </span>
+    </button>
+  </ng-template>
+</mat-menu>
+</mat-drawer-content>
 </mat-drawer-container>

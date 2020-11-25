@@ -65,21 +65,18 @@ export class AuthEditorOptionsComponent implements OnInit {
   }
 
   formChildren(contentTypeConfig: any, currentDepth: number): ICustomCreateEntity[] {
-
     const topLevel = Array.from(this.creationContent.values())
     const child: ICustomCreateEntity[] = []
-
     topLevel.forEach(v => {
       if (
-        v.id !== 'resource' &&
-        v.id !== 'collection' &&
+        !v.parent &&
         contentTypeConfig.allowedCreationType &&
         contentTypeConfig.allowedCreationType.includes(v.id) &&
         this.authInitService.collectionConfig.maxDepth >=
         currentDepth + (DEPTH_RUE[v.contentType] || 1)
       ) {
         child.push(
-          this.recursiveAddFunction(v),
+          this.recursiveAddFunction(v, contentTypeConfig.allowedCreationType, currentDepth),
         )
       }
     })
@@ -87,6 +84,8 @@ export class AuthEditorOptionsComponent implements OnInit {
   }
   recursiveAddFunction(
     content: ICreateEntity,
+    allowedType: string[],
+    currentDepth: number,
   ): ICustomCreateEntity {
     const children: ICustomCreateEntity[] = []
     const returnValue: ICustomCreateEntity = {
@@ -95,21 +94,19 @@ export class AuthEditorOptionsComponent implements OnInit {
       name: content.name,
       icon: content.icon,
     }
-    // if (content.id === 'resource' && content.children) {
-    //   // console.log('children==>', content.children)
-    //   content.children.forEach(v => {
-    //     const entity = this.authInitService.creationEntity.get(v)
-    //     // console.log('entity==>', entity)
-    //     if (
-    //       entity &&
-    //       allowedType.includes(entity.id) &&
-    //       this.authInitService.collectionConfig.maxDepth >=
-    //       currentDepth + (DEPTH_RUE[entity.contentType] || 1)
-    //     ) {
-    //       children.push(this.recursiveAddFunction(entity, allowedType, currentDepth))
-    //     }
-    //   })
-    // }
+    if (content.children) {
+      content.children.forEach(v => {
+        const entity = this.authInitService.creationEntity.get(v)
+        if (
+          entity &&
+          allowedType.includes(entity.id) &&
+          this.authInitService.collectionConfig.maxDepth >=
+          currentDepth + (DEPTH_RUE[entity.contentType] || 1)
+        ) {
+          children.push(this.recursiveAddFunction(entity, allowedType, currentDepth))
+        }
+      })
+    }
     return returnValue
   }
 

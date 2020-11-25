@@ -8,7 +8,6 @@ import {
   Output,
   ViewChild,
   TemplateRef,
-  OnChanges,
 } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
@@ -38,11 +37,10 @@ import { AuthInitService } from './../../../../../../../../services/init.service
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
 })
-export class FileUploadComponent implements OnInit, OnChanges {
+export class FileUploadComponent implements OnInit {
   @ViewChild('guideline', { static: false }) guideline!: TemplateRef<HTMLElement>
   @ViewChild('errorFile', { static: false }) errorFile!: TemplateRef<HTMLElement>
   @ViewChild('selectFile', { static: false }) selectFile!: TemplateRef<HTMLElement>
-  @Input() callSave = false
   fileUploadForm!: FormGroup
   iprAccepted = false
   file!: File | null
@@ -90,11 +88,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
     })
   }
 
-  ngOnChanges() {
-    if (this.callSave) {
-      this.triggerUpload()
-    }
-  }
   triggerDataChange() {
     const updatedMeta = this.contentService.getUpdatedMeta(this.currentContent)
     if (
@@ -120,9 +113,9 @@ export class FileUploadComponent implements OnInit, OnChanges {
     this.canUpdate = true
     this.fileUploadForm.markAsPristine()
     this.fileUploadForm.markAsUntouched()
-    // if (meta.artifactUrl) {
-    //   this.iprAccepted = true
-    // }
+    if (meta.artifactUrl) {
+      this.iprAccepted = true
+    }
   }
 
   createForm() {
@@ -142,10 +135,9 @@ export class FileUploadComponent implements OnInit, OnChanges {
         this.storeData()
       }
     })
-
-    // this.fileUploadForm.controls.artifactUrl.valueChanges.subscribe(() => {
-    //   this.iprAccepted = false
-    // })
+    this.fileUploadForm.controls.artifactUrl.valueChanges.subscribe(() => {
+      this.iprAccepted = false
+    })
   }
 
   onDrop(file: File) {
@@ -180,7 +172,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
         duration: NOTIFICATION_TIME * 1000,
       })
     } else {
-      if (fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.m4v')) {
+      if (fileName.toLowerCase().endsWith('.mp4')) {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
           width: this.isMobile ? '90vw' : '600px',
           height: 'auto',
@@ -217,7 +209,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     this.file = file
     this.mimeType = fileName.toLowerCase().endsWith('.pdf')
       ? 'application/pdf'
-      : (fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.m4v'))
+      : (fileName.toLowerCase().endsWith('.mp4') ||fileName.toLowerCase().endsWith('.m4v'))
         ? 'application/x-mpegURL'
         : fileName.toLowerCase().endsWith('.zip')
           ? 'application/html'
@@ -255,6 +247,13 @@ export class FileUploadComponent implements OnInit, OnChanges {
       this.snackBar.openFromComponent(NotificationComponent, {
         data: {
           type: Notify.UPLOAD_FILE,
+        },
+        duration: NOTIFICATION_TIME * 1000,
+      })
+    } else if (!this.iprAccepted) {
+      this.snackBar.openFromComponent(NotificationComponent, {
+        data: {
+          type: Notify.IPR_DECLARATION,
         },
         duration: NOTIFICATION_TIME * 1000,
       })
@@ -329,7 +328,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
             },
             duration: NOTIFICATION_TIME * 1000,
           })
-          this.data.emit('save')
+          this.data.emit('saveAndNext')
         },
         () => {
           this.loaderService.changeLoad.next(false)

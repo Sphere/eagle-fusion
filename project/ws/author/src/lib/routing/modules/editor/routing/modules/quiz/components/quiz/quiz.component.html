@@ -1,5 +1,5 @@
 <div class="margin-top-xl margin-l-l margin-r-l" [hidden]="previewMode">
-  <!-- <div class="flex margin-left-xl flex-middle margin-bottom-xl flex-wrap">
+  <div class="flex margin-left-xl flex-middle margin-bottom-xl flex-wrap">
     <div class="flex flex-middle">
       <p class="ws-mat-primary-text font-weight-bold title margin-right-xs" i18n>CONTENT CREATION</p>
       <mat-icon class=" ws-mat-primary-text margin-bottom-xxs">create</mat-icon>
@@ -44,9 +44,9 @@
         </p>
       </div>
     </div>
-  </div> -->
+  </div>
 
-  <div class=" margin-left-xl margin-top-s margin-bottom-xs hidden">
+  <div class=" margin-left-xl margin-top-s margin-bottom-xs">
     <div class="flex flex-middle">
       <p class="margin-remove-bottom mat-h3 font-weight-bold" i18n>Language</p>
     </div>
@@ -73,7 +73,7 @@
     <div class="margin-top-xl margin-right-xl" *ngIf="currentStep === 2">
       <ng-container *ngIf="contentLoaded">
         <div class="flex justify-between">
-          <button (click)="sideNavBar.toggle()"  mat-icon-button>
+          <button (click)="sideNavBar.toggle()" *ngIf="mediumScreenSize" mat-icon-button>
             <mat-icon>menu</mat-icon>
           </button>
           <!-- <button type="button" (click)="showErrorLog()" mat-icon-button>
@@ -92,7 +92,7 @@
                             </mat-card-title> -->
               <ws-auth-question-editor *ngIf="questionsArr.length && canEditJson" [submitPressed]="canValidate">
               </ws-auth-question-editor>
-              <div class="flex justify-between px-1 pt-6 pb-6" *ngIf="questionsArr && canEditJson">
+              <div class="flex justify-between px-1 pt-6" *ngIf="questionsArr && canEditJson">
                 <button class=" ws-mat-primary-background mat-elevation-z6 margin-left-s" (click)="changeQuiz(-1)" [disabled]="selectedQuizIndex === 0"
                   [ngClass]="{'opacity-25 cursor-disable':selectedQuizIndex === (0)}" mat-button i18n-aria-label aria-label="navigate to next quiz">
                   <span class="text-white small-operators" i18n>Previous</span>
@@ -120,26 +120,7 @@
       </ws-auth-edit-meta>
     </div>
   </div>
-  <button (click)="action('save')"  mat-menu-item>
-
-    <ng-container i18n>Save</ng-container>
-  </button>
-<!--
-  <button (click)="action('save')"  mat-menu-item>
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Save content">
-      Save</mat-icon>
-    <ng-container i18n>Save</ng-container>
-  </button> -->
-
-  <!-- <div class="flex justify-end px-1 pt-6 pb-6">
-  <button class=" ws-mat-primary-background mat-elevation-z6 margin-left-s"
-  mat-button  (click)="action('save')"
-  i18n-aria-label aria-label="save">
-  <span class="text-white small-operators" i18n>Save</span>
-</button>
-</div> -->
-
-  <!-- <div class="buttons margin-top-xl">
+  <div class="buttons margin-top-xl">
     <div class="button-grid margin-right-xxs cursor-pointer" (click)="toggleSettingButtons()">
       <button mat-icon-button class="padding-remove ws-mat-primary-background mat-elevation-z6">
         <mat-icon class="text-white" *ngIf="showSettingButtons" i18n-matTooltip matTooltip="Close">close</mat-icon>
@@ -190,17 +171,17 @@
           Delete
         </p>
       </div>
-      <div class="button-grid cursor-pointer" (click)="fullScreenToggle()">
+      <!--<div class="button-grid cursor-pointer" (click)="fullScreenToggle()">
                 <button mat-icon-button class=" mat-elevation-z5 small-button padding-remove  margin-top-m" i18n-matTooltip matTooltip="Fullscreen">
                     <mat-icon class="text-white small-icon ws-mat-primary-text">fullscreen</mat-icon>
                 </button>
                 <p class="mat-h5 margin-remove button-text" i18n-matTooltip matTooltip="fullscreen" i18n>
                     Fullscreen
                 </p>
-            </div>
+            </div>-->
     </ng-container>
   </div>
-</div> -->
+</div>
 
 <div *ngIf="previewMode">
   <mat-icon (click)="closePreview()" class="close-preview" matTooltip="Back" i18n-matTooltip="Back button to go to previous page">

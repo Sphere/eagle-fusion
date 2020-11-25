@@ -8,7 +8,7 @@
         <mat-icon>close</mat-icon>
       </button>
       <span class="font-weight-500" [hidden]="file">
-        <input type="file" #fileInput class="inputfile" accept=".mp3,.mp4,.pdf,.zip,.m4v"
+        <input type="file" #fileInput class="inputfile" accept=".mp3,.mp4,.pdf,.zip"
           (change)="onDrop($event.target.files[0]); fileInput.value = null" />
         <label for="file" class="up-lbl mat-h2 ws-mat-primary-text flex flex-middle justify-center">
           <mat-icon class="upload_cloud">cloud_upload</mat-icon>
@@ -50,7 +50,7 @@
           <li *ngIf="fileUploadForm.controls.artifactUrl.value" i18n>
             File was already uploaded. You may use Preview to view it.
           </li>
-          <li i18n>Files allowed - pdf, mp3, mp4, m4v zip</li>
+          <li i18n>Files allowed - pdf, mp3, mp4, m4v & zip</li>
           <li i18n>Max. file size - 200MB</li>
         </ul>
 
