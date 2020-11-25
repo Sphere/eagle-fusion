@@ -822,7 +822,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     if (profileRequest.personalDetails.telephone) {
       profileRequest.personalDetails.telephone = String(profileRequest.personalDetails.telephone)
     }
-    console.log('ProfileRequest', profileRequest)
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
         form.reset()
