@@ -17,7 +17,7 @@ import {
   INation,
   IdegreesMeta,
   IdesignationsMeta,
-  IUserProfileFields2
+  IUserProfileFields2,
 } from '../../models/user-profile.model'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'

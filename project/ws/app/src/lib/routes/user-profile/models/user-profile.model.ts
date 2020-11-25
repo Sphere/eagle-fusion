@@ -27,7 +27,6 @@ export interface IUserProfileDetailsFromRegistry {
   'residenceAddress': string
 }
 
-
 export interface IUserProfileFields2 {
   'firstname'?: string,
   'middlename'?: string,
