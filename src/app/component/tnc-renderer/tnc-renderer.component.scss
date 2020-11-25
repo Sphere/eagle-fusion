@@ -27,3 +27,7 @@
   align-items: center;
   margin: 0;
 }
+::ng-deep .mat-expansion-panel-header {
+  border-bottom: solid 1px #424242;
+    border-radius: 0 !important;
+}
