@@ -17,6 +17,7 @@ import {
   INation,
   IdegreesMeta,
   IdesignationsMeta,
+  IUserProfileFields2,
 } from '../../models/user-profile.model'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'
@@ -813,8 +814,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     const fields  = ['category', 'countryCode', 'dob', 'domicileMedium', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
     fields.map((item: any) => {
      // tslint:disable-next-line
-      if(!profileRequest.personalDetails[item] || profileRequest.personalDetails[item]===''){
-        delete profileRequest.personalDetails[item]
+      if (!profileRequest.personalDetails[item as keyof IUserProfileFields2] || profileRequest.personalDetails[item as keyof IUserProfileFields2]===''){
+        delete profileRequest.personalDetails[item as keyof IUserProfileFields2]
       }
     })
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(

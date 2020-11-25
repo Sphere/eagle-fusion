@@ -27,6 +27,26 @@ export interface IUserProfileDetailsFromRegistry {
   'residenceAddress': string
 }
 
+export interface IUserProfileFields2 {
+  'firstname'?: string,
+  'middlename'?: string,
+  'surname'?: string,
+  'dob'?: string,
+  'nationality'?: string,
+  'domicileMedium'?: string,
+  'gender'?: string,
+  'maritalStatus'?: string,
+  'category'?: string,
+  'knownLanguages'?: [string],
+  'countryCode'?: string,
+  'mobile'?: string,
+  'telephone'?: string,
+  'primaryEmail': string,
+  'officialEmail': string,
+  'personalEmail'?: string,
+  'postalAddress'?: string,
+  'pincode'?: string,
+}
 export interface ILanguages {
   name: string
 }
