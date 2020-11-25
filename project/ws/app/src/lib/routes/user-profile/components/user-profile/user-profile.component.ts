@@ -809,6 +809,14 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     if (profileRequest.personalDetails.telephone === '') {
       delete profileRequest.personalDetails.telephone
     }
+    // tslint:disable-next-line
+    const fields  = ['category', 'countryCode', 'dob', 'domicileMedium', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
+    fields.map((item: any) => {
+     // tslint:disable-next-line
+      if(!profileRequest.personalDetails[item] || profileRequest.personalDetails[item]===''){
+        delete profileRequest.personalDetails[item]
+      }
+    })
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
         form.reset()
