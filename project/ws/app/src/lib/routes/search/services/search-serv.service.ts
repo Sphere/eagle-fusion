@@ -66,6 +66,13 @@ export class SearchServService {
   }
 
   searchV6Wrapper(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
+    if (request.filters) {
+      request.filters['contentType'] = ['Course', 'Program']
+    } else {
+      request.filters = {
+        contentType : ['Course', 'Program'],
+      }
+    }
     const v6Request: NSSearch.ISearchV6Request = {
       locale: request.locale,
       pageNo: request.pageNo || undefined,
