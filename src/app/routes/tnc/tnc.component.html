@@ -6,11 +6,11 @@
 
 <div class="tnc-bottom-navbar" *ngIf="!isPublic && tncData">
   <button *ngIf="!tncData?.isAccepted" [disabled]="isAcceptInProgress" (click)="acceptTnc(confirm)" color="primary"
-    mat-flat-button>
+    mat-raised-button>
     <ng-container *ngIf="!isAcceptInProgress" i18n>Accept & Proceed</ng-container>
     <ng-container *ngIf="isAcceptInProgress" i18n>Please Wait...</ng-container>
   </button>
-  <a *ngIf="tncData?.isAccepted" type="button" color="primary" mat-flat-button routerLink="/app/features" i18n>
+  <a *ngIf="tncData?.isAccepted" type="button" color="primary" mat-raised-button routerLink="/app/features" i18n>
     Done
   </a>
 </div>

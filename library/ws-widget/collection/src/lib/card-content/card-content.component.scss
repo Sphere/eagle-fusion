@@ -227,7 +227,7 @@
   $card-padding: $size-m;
   padding-bottom: 0px !important;
   $action-btn-size: 2.5 * $size-m;
-  $card-width: 270px;
+  $card-width: 276px;
   position: relative;
   width: $card-width;
   height: 100%;
@@ -281,8 +281,8 @@
   }
 
   .card-img {
-    min-width: 269px;
-    max-width: 269px;
+    min-width: 276px;
+    max-width: 276px;
     /* max-height: 148px; */
     display: block;
     object-fit: contain;

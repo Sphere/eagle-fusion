@@ -39,7 +39,7 @@
 .app-logo {
   height: auto;
   max-width: 100%;
-  width: 120px;
+  width: 150px;
   max-height: 60px;
 
   @include breakpoint-xs {
@@ -198,5 +198,10 @@
   }
 }
 
+.hide-md {
+  @include breakpoint-s {
+    display:none;
+  }
+}
 // @media
 // 760px

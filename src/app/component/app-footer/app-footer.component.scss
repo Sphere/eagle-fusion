@@ -147,3 +147,10 @@ img.docs-footer-aastar-logo {
     text-align: center;
   }
 }
+
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+  @include breakpoint-xs {
+      display: block !important;
+      text-align: center;
+  }
+}

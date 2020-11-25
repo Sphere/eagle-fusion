@@ -2,7 +2,7 @@
 @import 'ws-mixins';
 
 %container-padding {
-  padding: 38px 2 * $size-xl $size-xl 147px;
+  padding: 38px 2 * $size-xl $size-xl 12rem;
 
   @include breakpoint-xs {
     padding: $size-xl $size-l;
