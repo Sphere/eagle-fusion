@@ -32,6 +32,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   @Input() complexityLevel = ''
   @Input() duration = 0
   @Input() collectionId = ''
+  @Input() viewStateChange: boolean | undefined
   @Input() quizJson = {
     timeLimit: 0,
     questions: [
@@ -96,6 +97,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   ngOnChanges(changes: SimpleChanges) {
+    if (this.viewStateChange) {
+      this.viewState = 'initial'
+    }
     for (const change in changes) {
       if (change === 'quiz') {
         if (

@@ -15,7 +15,7 @@
 
     </mat-sidenav>
 
-    <mat-sidenav-content class="sidenavContent" #scrollableContent>
+    <mat-sidenav-content class="sidenavContent">
 
       <section *ngIf="status === 'error'">
         <div *ngIf="errorWidgetData?.widgetData?.errorType" [wsResolverWidget]="errorWidgetData"></div>
@@ -64,12 +64,17 @@
       </section>
       <router-outlet (activate)="getContentData($event)"></router-outlet>
 
-      <mat-tab-group>
+      <mat-tab-group animationDuration="0ms" class="minhightab">
+        <mat-tab i18n-label label="Discussion">
+          <!-- *ngIf="discussionForumWidget && isRestricted" -->
+          <div class="padding-m">
+            <div class="video-discussion-forum-in">
+
+              <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
+            </div>
+          </div>
+        </mat-tab>
         <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
-          <!-- "tocConfig?.atAGlance?.displayContentType?.enabled && content?.displayContentType"==>{{ tocConfig?.atAGlance?.displayContentType?.enabled && content?.displayContentType}}  -->
-
-          <!-- tocConfig==>{{tocConfig | json}} -->
-
           <div class="stack-container">
             <div class="div-1">
               <mat-card class="unit-meta-item mt-5 ml-5 mb-4">
@@ -137,15 +142,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab i18n-label label="Discussion">
-          <!-- *ngIf="discussionForumWidget && isRestricted" -->
-          <div class="padding-m">
-            <div class="video-discussion-forum-in">
 
-              <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
-            </div>
-          </div>
-        </mat-tab>
         <mat-tab i18n-label label="License">
           <div class="mt-5 ml-5 mb-4 mr-5">
             <h2 class="margin-bottom-m">License terms</h2>
