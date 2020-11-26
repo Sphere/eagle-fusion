@@ -235,15 +235,15 @@
   box-sizing: border-box;
   box-shadow: transparent 0 0 !important;
 
-  .progress-bar {
+.progress-bar {
     display: block;
-    width: calc(100% + #{2 * $card-padding - 2});
-    margin-left: -#{$card-padding - 1};
+    width: calc(100% + #{2 * $card-padding});
+    margin-left: -#{$card-padding};
     // margin-top: -$card-padding;
     display: flex;
     // width: calc(100% + 30px);
     // margin-left: -15px;
-    margin-top: 62px;
+    margin-top: 66px;
     background: bisque;
   }
 
