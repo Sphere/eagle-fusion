@@ -24,7 +24,7 @@
             : widgetData?.intranetMode === 'greyOut' && showIntranetContent
       }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
     [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
-    [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
+    [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
     [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
     <div class="display-contents" [ngClass]="{
           disableClick:
@@ -128,7 +128,7 @@
               : widgetData?.intranetMode === 'greyOut' && showIntranetContent
         }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
       [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
-      [mdePopoverEnterDelay]="500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="10"
+      [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="10"
       [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
       <div class="display-contents" [ngClass]="{
             disableClick:
@@ -356,7 +356,7 @@
           ? true
           : widgetData?.intranetMode === 'greyOut' && showIntranetContent
     }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
-    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="500"
+    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500"
     [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="offSetXValue"
     [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
 
@@ -439,7 +439,7 @@
               ? true
               : widgetData?.intranetMode === 'greyOut' && showIntranetContent
         }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
-      [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="500"
+      [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500"
       [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="10"
       [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
 
