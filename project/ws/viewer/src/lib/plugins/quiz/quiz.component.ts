@@ -17,6 +17,7 @@ import { OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
+import { ViewerUtilService } from './../../viewer-util.service'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -80,6 +81,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
+    private viewerSvc: ViewerUtilService
   ) { }
 
   ngOnInit() {
@@ -97,6 +99,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   ngOnChanges(changes: SimpleChanges) {
+    this.viewerSvc.castResource.subscribe((content: any) => {
+      if (content && content.type === 'Assessment') {
+        this.viewState = 'initial'
+      }
+    })
     if (this.viewStateChange) {
       this.viewState = 'initial'
     }
