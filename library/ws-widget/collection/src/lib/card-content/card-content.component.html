@@ -52,11 +52,10 @@
         <mat-card-content>
 
           <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-            [matTooltip]="widgetData.content.name" style="margin-top:65px; margin-left: -11px;">
+            style="margin-top:65px; margin-left: -11px;">
             {{ widgetData.content.name }}
           </div>
-          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description"
-            style="margin-left: -11px;">
+          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
             {{ widgetData.content.description | pipeHtmlTagRemoval }}
           </div>
         </mat-card-content>
@@ -79,7 +78,7 @@
   <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
     <mat-card class="popover-card xs-hidden">
       <mat-card-content>
-        <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
+        <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
           {{ widgetData.content.name }}
         </div>
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
@@ -156,11 +155,10 @@
           <mat-card-content>
 
             <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-              [matTooltip]="widgetData.content.name" style="margin-top:65px; margin-left: -11px;">
+              style="margin-top:65px; margin-left: -11px;">
               {{ widgetData.content.name }}
             </div>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description"
-              style="margin-left: -11px;">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
               {{ widgetData.content.description | pipeHtmlTagRemoval }}
             </div>
           </mat-card-content>
@@ -406,11 +404,10 @@
             </div>
 
             <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-              style="margin-left: -11px;" [matTooltip]="widgetData.content.name">
+              style="margin-left: -11px;">
               {{ widgetData.content.name }}
             </div>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title
-              title="Description">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title>
               {{ widgetData.content.description | pipeHtmlTagRemoval }}
               <!-- {{widgetData.content | json}} -->
             </div>
@@ -489,11 +486,10 @@
               </div>
 
               <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-                style="margin-left: -11px;" [matTooltip]="widgetData.content.name">
+                style="margin-left: -11px;">
                 {{ widgetData.content.name }}
               </div>
-              <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title
-                title="Description">
+              <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title>
                 {{ widgetData.content.description | pipeHtmlTagRemoval }}
                 <!-- {{widgetData.content | json}} -->
               </div>
@@ -520,7 +516,7 @@
   <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
     <mat-card class="popover-card xs-hidden">
       <mat-card-content>
-        <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient" [matTooltip]="widgetData.content.name">
+        <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
           {{ widgetData.content.name }}
         </div>
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
@@ -546,7 +542,7 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title>
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
@@ -957,7 +953,7 @@
           <div class="ws-mat-primary-text mat-title title-text title-truncate">
             {{ widgetData.content.name }}
           </div>
-          <div class="description-text ws-mat-text-block-fade-gradient mb-5" i18n-title title="Description">
+          <div class="description-text ws-mat-text-block-fade-gradient mb-5" i18n-title>
             {{ widgetData.content.description | pipeHtmlTagRemoval }}
           </div>
           <div class="text-gray-600 complexity flex-end">
