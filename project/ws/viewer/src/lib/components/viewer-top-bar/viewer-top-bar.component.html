@@ -19,7 +19,7 @@
     }"></ws-widget-btn-page-back>
   <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
 
-  <img *ngIf="!isAuthor" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo" />
+  <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo" />
 
   <span *ngIf="logo" class="text-left width-1-5 margin-left-l text-truncate">
     {{ collection?.name }}

@@ -659,6 +659,11 @@ a.width-auto.mat-button {
     padding: 24px
   }
 }
+.padding-dynamic {
+  @include breakpoint-gt-s {
+    min-height: 600px;
+  }
+}
 .theme-igot.day-mode .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }
