@@ -139,6 +139,9 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   //   this.searchModel = value
   //   // this.searchModelChange.emit(this.searchModel)
   // }
+  sendStatus(content: any) {
+    this.viewSvc.editResourceData(content)
+  }
 
   private getContentProgressHash() {
     this.contentProgressSvc.getProgressHash().subscribe(progressHash => {
@@ -186,11 +189,11 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
-     // TODO console.log('content',content);
+      // TODO console.log('content',content);
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
-     // TODO  console.log('vtx',viewerTocCardContent)
+      // TODO  console.log('vtx',viewerTocCardContent)
       return viewerTocCardContent
     } catch (err) {
       switch (err.status) {

@@ -235,7 +235,7 @@
   box-sizing: border-box;
   box-shadow: transparent 0 0 !important;
 
-  .progress-bar {
+.progress-bar {
     display: block;
     width: calc(100% + #{2 * $card-padding});
     margin-left: -#{$card-padding};

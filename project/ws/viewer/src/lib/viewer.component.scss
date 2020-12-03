@@ -6,6 +6,11 @@
   min-width: 1px;
 }
 
+.minhightab {
+  @include breakpoint-gt-xs {
+ min-height: 450px;
+  }
+}
 // .viewer-sidenav-container {
 //   height: calc(100vh - 56px);
 // }

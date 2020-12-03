@@ -9,14 +9,15 @@
                 <viewer-plugin-quiz [identifier]="quizData?.identifier" [artifactUrl]="quizData?.artifactUrl"
                   [name]="quizData?.name" [learningObjective]="quizData?.learningObjective"
                   [complexityLevel]="quizData?.complexityLevel" [duration]="quizData?.duration" [quizJson]="quizJson"
-                  [collectionId]="collectionId"></viewer-plugin-quiz>
+                  [collectionId]="collectionId" [viewStateChange]="stateChange">
+                </viewer-plugin-quiz>
               </ng-container>
 
               <div class="player-nav-links">
                 <div class="flex justify-between html">
                   <div class="prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
-                      accesskey="<" [disabled]="!prevResourceUrl">
+                      accesskey="<" [disabled]="!prevResourceUrl" (click)="stateChange=true">
                       <span class="material-icons align-left-arrow">
                         chevron_left
                       </span>
@@ -30,7 +31,7 @@
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
-                      accesskey=">" [disabled]="!nextResourceUrl">
+                      accesskey=">" [disabled]="!nextResourceUrl" (click)="stateChange=true">
                       <span class="material-icons align-right-arrow">
                         chevron_right
                       </span>

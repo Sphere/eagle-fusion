@@ -255,10 +255,10 @@
 
     .mat-chip.mat-standard-chip {
       color: $colorAccent !important;
-      background: $colorAccentLight;
+      background: $dark-text;
 
       mat-icon {
-        color: $colorAccentDark !important;
+        color: $colorAccent !important;
         opacity: 1 !important;
       }
     }
@@ -466,4 +466,8 @@
   ws-widget-btn-catalog {
     margin-top: 7px;
   }
+}
+
+.theme-igot.day-mode .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: #f5d58d !important;
 }
