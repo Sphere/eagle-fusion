@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common'
 import { DashboardComponent } from './components/dashboard/dashboard.component'
 import { HorizontalScrollerModule, PipeDurationTransformModule, DefaultThumbnailModule } from '@ws-widget/utils'
 import { UserImageModule, CardKnowledgeModule } from '@ws-widget/collection'
+import { InterestModule } from './../interest/interest.module'
+
 import {
   MatCardModule,
   MatChipsModule,
@@ -38,6 +40,7 @@ import { CoursePendingCardComponent } from './components/course-pending-card/cou
     CardKnowledgeModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    InterestModule,
   ],
 })
-export class DashboardModule {}
+export class DashboardModule { }

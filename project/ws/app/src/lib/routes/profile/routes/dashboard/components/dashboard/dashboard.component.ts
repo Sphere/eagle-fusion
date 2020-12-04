@@ -8,6 +8,8 @@ import { ProfileService } from '../../../../services/profile.service'
 import { InterestService } from '../../../interest/services/interest.service'
 import { NSLearningHistory } from '../../../learning/models/learning.models'
 import { LearningHistoryService } from '../../../learning/services/learning-history.service'
+import { map, catchError } from 'rxjs/operators'
+import { of } from 'rxjs'
 
 interface ILearningHistoryContent {
   content: NSLearningHistory.ILearningHistory
@@ -107,6 +109,11 @@ export class DashboardComponent implements OnInit {
       this.userEmail = this.configSvc.userProfile.email || ''
       this.departmentName = this.configSvc.userProfile.departmentName || ''
     }
+    console.log('this.interestUserResolve.resolve()', this.interestSvc.fetchUserInterestsV2().pipe(
+      map(data => ({ data, error: null })),
+      catchError(error => of({ error, data: null })),
+    )
+    )
   }
 
   ngOnInit() {
