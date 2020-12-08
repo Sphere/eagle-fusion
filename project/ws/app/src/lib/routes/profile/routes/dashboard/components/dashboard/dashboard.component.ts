@@ -1,3 +1,4 @@
+import { ITimeSpent } from './../../../learning/models/learning.models'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
@@ -18,6 +19,11 @@ interface ILearningHistoryContent {
   loading: boolean
   isLoadingFirstTime: boolean
   fetchStatus: 'fetching' | 'done' | 'error'
+}
+export interface ITimeResolveData {
+  start: Date
+  end: Date
+  data: ITimeSpent
 }
 @Component({
   selector: 'ws-app-dashboard',
@@ -146,29 +152,29 @@ export class DashboardComponent implements OnInit {
     //     this.badgeApiFetchStatus = 'error'
     //   },
     // )
-    if (this.enabledTabs.subFeatures.calendar) {
-      this.profileSvc.timeSpent(this.startDate, this.endDate, this.contentType, this.isCompleted).subscribe(
-        (timeSpentTrack: NSProfileData.ITimeSpentResponse) => {
-          this.timeSpentData = timeSpentTrack
-          this.apiFetchStatus = 'done'
-          if (this.timeSpentData) {
-            this.userPointsEarned = this.timeSpentData.points_and_ranks.user_points_earned
-            this.orgWideTimePercent = Math.round(
-              this.timeSpentData.timespent_user_vs_org_wide.usage_percent,
-            )
-            this.orgWidePointsPercent = Math.round(
-              this.timeSpentData.points_and_ranks.points_user_vs_org_wide.points_percent,
-            )
-            this.totalLearningHours = Math.round(this.timeSpentData.time_spent_by_user)
+    // if (this.enabledTabs.subFeatures.calendar) {
+    this.profileSvc.timeSpent(this.startDate, this.endDate, this.contentType, this.isCompleted).subscribe(
+      (timeSpentTrack: NSProfileData.ITimeSpentResponse) => {
+        this.timeSpentData = timeSpentTrack
+        this.apiFetchStatus = 'done'
+        if (this.timeSpentData) {
+          this.userPointsEarned = this.timeSpentData.points_and_ranks.user_points_earned
+          this.orgWideTimePercent = Math.round(
+            this.timeSpentData.timespent_user_vs_org_wide.usage_percent,
+          )
+          this.orgWidePointsPercent = Math.round(
+            this.timeSpentData.points_and_ranks.points_user_vs_org_wide.points_percent,
+          )
+          this.totalLearningHours = Math.round(this.timeSpentData.time_spent_by_user)
 
-            // this.trackWiseDataFetch(this.learningTimeData.track_wise_user_timespent)
-            this.specialDatesSet()
-          }
-        },
-        () => {
-          this.apiFetchStatus = 'error'
-        })
-    }
+          // this.trackWiseDataFetch(this.learningTimeData.track_wise_user_timespent)
+          this.specialDatesSet()
+        }
+      },
+      () => {
+        this.apiFetchStatus = 'error'
+      })
+    // }
     if (this.enabledTabs.subFeatures.pendingCourses) {
       this.learnHstSvc.fetchContentProgress(this.pageNum, this.pageSize, this.selectedStatusType, 'course').subscribe(
         (data: NSLearningHistory.ILearningHistory) => {

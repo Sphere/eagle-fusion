@@ -4,7 +4,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component'
 import { HorizontalScrollerModule, PipeDurationTransformModule, DefaultThumbnailModule } from '@ws-widget/utils'
 import { UserImageModule, CardKnowledgeModule } from '@ws-widget/collection'
 import { InterestModule } from './../interest/interest.module'
-
+import { LearningModule } from './../learning/learning.module'
+import { CompetencyModule } from './../competency/competency.module'
 import {
   MatCardModule,
   MatChipsModule,
@@ -41,6 +42,8 @@ import { CoursePendingCardComponent } from './components/course-pending-card/cou
     MatProgressSpinnerModule,
     MatTooltipModule,
     InterestModule,
+    LearningModule,
+    CompetencyModule,
   ],
 })
 export class DashboardModule { }

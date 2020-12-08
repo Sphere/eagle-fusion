@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import {
@@ -29,6 +30,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserProfileRoutingModule } from './user-profile-routing.module'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { UserProfileService } from './services/user-profile.service'
+import { LoaderService } from '@ws/author/src/public-api'
 
 @NgModule({
   declarations: [UserProfileComponent],
@@ -63,6 +65,6 @@ import { UserProfileService } from './services/user-profile.service'
     MatTabsModule,
     MatAutocompleteModule,
   ],
-  providers: [UserProfileService],
+  providers: [UserProfileService, LoaderService],
 })
 export class UserProfileModule { }

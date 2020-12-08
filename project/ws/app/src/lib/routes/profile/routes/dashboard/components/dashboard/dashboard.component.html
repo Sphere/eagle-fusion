@@ -50,9 +50,13 @@
       </div>
     </mat-card>
     <ws-app-interest></ws-app-interest>
-
-    <div *ngIf="enabledTabs?.subFeatures?.calendar && apiFetchStatus !=='error'"
-      class=" calendar-data description-container padding-xl mat-elevation-z2 ">
+    <mat-card class="w-full">
+      <ws-app-learning-home></ws-app-learning-home>
+    </mat-card>
+    <mat-card class="w-full">
+      <ws-app-competency-home></ws-app-competency-home>
+    </mat-card>
+    <div class=" calendar-data description-container padding-xl mat-elevation-z2 ">
       <div class=" text-center" *ngIf="apiFetchStatus === 'fetching'">
         <mat-spinner></mat-spinner>
       </div>
@@ -134,7 +138,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="enabledTabs?.subFeatures?.pendingCourses && coursePending?.length > 0" class="margin-top-xl">
+  <div *ngIf="coursePending?.length > 0" class="margin-top-xl">
     <h1 class="mat-h1" i18n>Pending Courses</h1>
     <div class="text-center" *ngIf="historyFetchStatus === 'fetching'">
       <mat-spinner></mat-spinner>
@@ -144,7 +148,7 @@
       </ws-app-course-pending-card>
     </ws-utils-horizontal-scroller>
   </div>
-  <div *ngIf="enabledTabs?.subFeatures?.latest">
+  <div>
     <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
   </div>
 </div>

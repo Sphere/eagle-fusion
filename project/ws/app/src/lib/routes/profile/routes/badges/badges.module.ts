@@ -29,5 +29,6 @@ import { HorizontalScrollerModule, DefaultThumbnailModule } from '@ws-widget/uti
     HorizontalScrollerModule,
     DefaultThumbnailModule,
   ],
+  exports: [BadgesComponent, BadgesCardComponent, BadgesNotEarnedComponent],
 })
 export class BadgesModule { }

@@ -18,7 +18,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container autosize="true" class="sidenav-content-min-height">
-  <mat-sidenav #sideNavBar [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+  <!-- <mat-sidenav #sideNavBar [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
     <mat-nav-list class="margin-left-s margin-right-xs">
       <a mat-list-item *ngIf="enabledTabs?.dashboard?.enabled" routerLinkActive="mat-toolbar"
         (click)="tabUpdate(enabledTabs?.dashboard?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
@@ -41,13 +41,13 @@
         <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">
           {{enabledTabs?.achievements?.displayName}}</span>
       </a>
-      <!-- <a mat-list-item *ngIf="enabledTabs?.interests?.enabled" routerLinkActive="mat-toolbar"
+      <a mat-list-item *ngIf="enabledTabs?.interests?.enabled" routerLinkActive="mat-toolbar"
         (click)="tabUpdate(enabledTabs?.interests?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
         routerLink="/app/profile/interest" matTooltip="{{enabledTabs?.interests?.displayName}}">
         <mat-icon>tag_faces</mat-icon>
         <span *ngIf="showText || screenSizeIsLtMedium"
           class="padding-left-s">{{enabledTabs?.interests?.displayName}}</span>
-      </a> -->
+      </a>
       <a mat-list-item *ngIf="enabledTabs?.plans?.enabled" routerLinkActive="mat-toolbar"
         (click)="tabUpdate(enabledTabs?.plans?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
         routerLink="/app/profile/plans" matTooltip="{{enabledTabs?.plans?.displayName}}">
@@ -68,15 +68,15 @@
         <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">
           {{enabledTabs?.featureUsage?.displayName}}</span>
       </a>
-      <!-- <a mat-list-item *ngIf="enabledTabs?.settings?.enabled" routerLinkActive="mat-toolbar"
+      <a mat-list-item *ngIf="enabledTabs?.settings?.enabled" routerLinkActive="mat-toolbar"
         (click)="tabUpdate(enabledTabs?.settings?.displayName); screenSizeIsLtMedium ? sideNavBar.toggle() : null"
         routerLink="/app/profile/settings" matTooltip="{{enabledTabs?.settings?.displayName}}">
         <mat-icon>settings</mat-icon>
         <span *ngIf="showText || screenSizeIsLtMedium" class="padding-left-s">
           {{enabledTabs?.settings?.displayName}}</span>
-      </a> -->
+      </a>
     </mat-nav-list>
-  </mat-sidenav>
+  </mat-sidenav> -->
 
   <mat-sidenav-content class="sidenav-content">
     <router-outlet></router-outlet>
