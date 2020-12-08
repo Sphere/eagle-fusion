@@ -579,11 +579,13 @@ h3.shepherd-title {
 }
 .player-nav-links {
   position: absolute;
-  top: 50%;
+  // top: 50%;
+  bottom: - 57px;
   opacity: 0; // Change this
   width: 100%;
   @include breakpoint-xs {
     opacity: 1;
+     top: 50%;
   }
 }
 
