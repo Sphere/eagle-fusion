@@ -8,7 +8,7 @@
         <mat-icon>close</mat-icon>
       </button>
       <span class="font-weight-500" [hidden]="file">
-        <input type="file" #fileInput class="inputfile" accept=".mp3,.mp4,.pdf,.zip"
+        <input type="file" #fileInput class="inputfile" accept=".mp3,.mp4,.pdf,.zip,.m4v"
           (change)="onDrop($event.target.files[0]); fileInput.value = null" />
         <label for="file" class="up-lbl mat-h2 ws-mat-primary-text flex flex-middle justify-center">
           <mat-icon class="upload_cloud">cloud_upload</mat-icon>
