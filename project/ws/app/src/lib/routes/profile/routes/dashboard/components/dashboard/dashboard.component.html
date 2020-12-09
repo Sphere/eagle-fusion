@@ -18,36 +18,7 @@
       </div>
 
 
-      <div class="p-4" *ngIf="enabledTabs?.subFeatures?.interests">
-        <div class="flex flex-middle mb-4">
-          <mat-icon>tag_faces</mat-icon>
-          <span class="font-bold mat-title margin-zero pl-4" i18n="interest you follow">
-            Your Interests</span>
-          <span class="spacer"></span>
 
-          <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/profile/interest'">
-            <mat-icon> edit</mat-icon>
-            <span i18n class="px-2">Modify</span>
-          </button>
-
-          <!-- <a
-            mat-raised-button
-            type="button"
-            class="interest-edit"
-            i18n
-            [routerLink]="'/app/profile/interest'"
-            >Edit
-          </a> -->
-        </div>
-        <div *ngIf="!interests?.length" class="pl-4 py-4">
-          <span i18n="no interest">No interest added</span>
-        </div>
-        <mat-chip-list>
-          <mat-chip color="primary" selected *ngFor="let interest of interests">
-            {{ interest }}
-          </mat-chip>
-        </mat-chip-list>
-      </div>
     </mat-card>
     <ws-app-interest></ws-app-interest>
     <mat-card class="w-full">
@@ -148,6 +119,31 @@
       </ws-app-course-pending-card>
     </ws-utils-horizontal-scroller>
   </div>
+  <mat-card>
+    <div class="p-4" *ngIf="enabledTabs?.subFeatures?.interests">
+      <div class="flex flex-middle mb-4">
+        <mat-icon>tag_faces</mat-icon>
+        <span class="font-bold mat-title margin-zero pl-4" i18n="interest you follow">
+          Your Interests</span>
+        <span class="spacer"></span>
+
+        <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/profile/interest'">
+          <mat-icon> edit</mat-icon>
+        </button>
+
+        <!-- <a mat-raised-button type="button" class="interest-edit" i18n [routerLink]="'/app/profile/interest'">Edit
+        </a> -->
+      </div>
+      <div *ngIf="!interests?.length" class="pl-4 py-4">
+        <span i18n="no interest">No interest added</span>
+      </div>
+      <mat-chip-list>
+        <mat-chip color="primary" selected *ngFor="let interest of interests">
+          {{ interest }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-card>
   <div>
     <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
   </div>
