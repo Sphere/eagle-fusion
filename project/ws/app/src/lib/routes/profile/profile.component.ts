@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit() {
     const tab = this.router.url.split('/')[3]
@@ -56,6 +56,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (!this.screenSizeIsLtMedium) {
       this.showText = !this.showText
     }
+    console.log('test')
   }
   ngOnDestroy() {
     if (this.defaultSideNavBarOpenedSubscription) {

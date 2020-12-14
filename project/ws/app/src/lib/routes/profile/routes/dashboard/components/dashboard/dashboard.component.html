@@ -18,40 +18,16 @@
       </div>
 
 
-      <div class="p-4" *ngIf="enabledTabs?.subFeatures?.interests">
-        <div class="flex flex-middle mb-4">
-          <mat-icon>tag_faces</mat-icon>
-          <span class="font-bold mat-title margin-zero pl-4" i18n="interest you follow">
-            Your Interests</span>
-          <span class="spacer"></span>
 
-          <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/profile/interest'">
-            <mat-icon> edit</mat-icon>
-            <span i18n class="px-2">Modify</span>
-          </button>
-
-          <!-- <a
-            mat-raised-button
-            type="button"
-            class="interest-edit"
-            i18n
-            [routerLink]="'/app/profile/interest'"
-            >Edit
-          </a> -->
-        </div>
-        <div *ngIf="!interests?.length" class="pl-4 py-4">
-          <span i18n="no interest">No interest added</span>
-        </div>
-        <mat-chip-list>
-          <mat-chip color="primary" selected *ngFor="let interest of interests">
-            {{ interest }}
-          </mat-chip>
-        </mat-chip-list>
-      </div>
     </mat-card>
-
-    <div *ngIf="enabledTabs?.subFeatures?.calendar && apiFetchStatus !=='error'"
-      class=" calendar-data description-container padding-xl mat-elevation-z2 ">
+    <ws-app-interest></ws-app-interest>
+    <mat-card class="w-full">
+      <ws-app-learning-home></ws-app-learning-home>
+    </mat-card>
+    <mat-card class="w-full">
+      <ws-app-competency-home></ws-app-competency-home>
+    </mat-card>
+    <div class=" calendar-data description-container padding-xl mat-elevation-z2 ">
       <div class=" text-center" *ngIf="apiFetchStatus === 'fetching'">
         <mat-spinner></mat-spinner>
       </div>
@@ -133,7 +109,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="enabledTabs?.subFeatures?.pendingCourses && coursePending?.length > 0" class="margin-top-xl">
+  <div *ngIf="coursePending?.length > 0" class="margin-top-xl">
     <h1 class="mat-h1" i18n>Pending Courses</h1>
     <div class="text-center" *ngIf="historyFetchStatus === 'fetching'">
       <mat-spinner></mat-spinner>
@@ -143,7 +119,32 @@
       </ws-app-course-pending-card>
     </ws-utils-horizontal-scroller>
   </div>
-  <div *ngIf="enabledTabs?.subFeatures?.latest">
+  <mat-card>
+    <div class="p-4" *ngIf="enabledTabs?.subFeatures?.interests">
+      <div class="flex flex-middle mb-4">
+        <mat-icon>tag_faces</mat-icon>
+        <span class="font-bold mat-title margin-zero pl-4" i18n="interest you follow">
+          Your Interests</span>
+        <span class="spacer"></span>
+
+        <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/profile/interest'">
+          <mat-icon> edit</mat-icon>
+        </button>
+
+        <!-- <a mat-raised-button type="button" class="interest-edit" i18n [routerLink]="'/app/profile/interest'">Edit
+        </a> -->
+      </div>
+      <div *ngIf="!interests?.length" class="pl-4 py-4">
+        <span i18n="no interest">No interest added</span>
+      </div>
+      <mat-chip-list>
+        <mat-chip color="primary" selected *ngFor="let interest of interests">
+          {{ interest }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-card>
+  <div>
     <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
   </div>
 </div>

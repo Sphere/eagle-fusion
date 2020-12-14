@@ -15,7 +15,7 @@
   .about-me {
     width: 45%;
     min-width: 220px;
-    margin-right: 24px;
+    margin: 0 auto;
     padding-bottom: 16px;
 
     @include breakpoint-lt-m {
