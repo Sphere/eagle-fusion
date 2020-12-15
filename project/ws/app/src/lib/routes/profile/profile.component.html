@@ -1,9 +1,9 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
-  <button aria-label="showText? 'Hide side panel' : 'Show side panel'" mat-icon-button (click)="
+  <!-- <button aria-label="showText? 'Hide side panel' : 'Show side panel'" mat-icon-button (click)="
       !screenSizeIsLtMedium ? (showText = !showText) : sideNavBar.toggle()
     ">
     <mat-icon>menu</mat-icon>
-  </button>
+  </button> -->
   <span>
     <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
     <ws-widget-btn-page-back [widgetData]="{ url: 'home', titles: [{title:tabName, url:'none'}] }">
