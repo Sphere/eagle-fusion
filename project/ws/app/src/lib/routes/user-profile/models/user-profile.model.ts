@@ -24,8 +24,12 @@ export interface IUserProfileDetailsFromRegistry {
   'category': string,
   'primaryEmail': string,
   'maritalStatus': string,
-  'residenceAddress': string
-  'academics': any
+  'residenceAddress': string,
+  'academics': any,
+  'photo': string,
+  'personalDetails': any,
+  'professionalDetails': any,
+  'skills': any,
 }
 
 export interface IUserProfileFields2 {

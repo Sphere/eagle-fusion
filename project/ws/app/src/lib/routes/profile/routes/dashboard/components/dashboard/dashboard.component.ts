@@ -108,6 +108,7 @@ export class DashboardComponent implements OnInit {
   graduate = 0
   postGraduate = 0
   showAcademicElse = true
+  showInterest = false
 
   constructor(
     private configSvc: ConfigurationsService,
