@@ -32,7 +32,7 @@ export interface ITimeResolveData {
 })
 
 export class DashboardComponent implements OnInit {
-  @ViewChild('myElem', { static: false }) MyProp!: ElementRef
+  @ViewChild('myElem', { static: false }) myProp!: ElementRef
   startDate = '2018-04-01'
   endDate = '2020-03-31'
   specialDates: number[] = []
@@ -253,8 +253,8 @@ export class DashboardComponent implements OnInit {
           this.historyFetchStatus = 'done'
         })
     }
-    if (this.MyProp) {
-      this.MyProp.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" })
+    if (this.myProp) {
+      this.myProp.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 

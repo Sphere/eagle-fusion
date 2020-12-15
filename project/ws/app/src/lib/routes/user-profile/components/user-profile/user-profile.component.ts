@@ -9,7 +9,7 @@ import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
 import { UserProfileService } from '../../services/user-profile.service'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import {
   INationality,
   ILanguages,
@@ -27,7 +27,6 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
-import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -88,7 +87,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   isForcedUpdate = false
   userProfileData!: any
   showBackBtn!: boolean
-  @ViewChild("usetMatTab", { static: false }) usetMatTab!: MatTabGroup
+  @ViewChild('usetMatTab', { static: false }) usetMatTab!: MatTabGroup
   navigatedFromProfile = false
 
   constructor(
@@ -168,12 +167,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this._Activatedroute.snapshot.queryParams.edit !== '') {
       this.showBackBtn = true
       this.navigatedFromProfile = true
-      this.goToNextTabIndex(this.usetMatTab, parseInt(this._Activatedroute.snapshot.queryParams.edit))
+      const indexValue = Number(this._Activatedroute.snapshot.queryParams.edit)
+      this.goToNextTabIndex(this.usetMatTab, indexValue)
     }
   }
 
   private goToNextTabIndex(tabGroup: MatTabGroup, index: number | null) {
-    if (!tabGroup || !(tabGroup instanceof MatTabGroup)) return
+    if (!tabGroup || !(tabGroup instanceof MatTabGroup)) { return }
 
     // const tabCount = tabGroup._tabs.length;
     tabGroup.selectedIndex = index
@@ -648,7 +648,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
