@@ -1,22 +1,3 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
-  <!-- <button aria-label="showText? 'Hide side panel' : 'Show side panel'" mat-icon-button (click)="
-      !screenSizeIsLtMedium ? (showText = !showText) : sideNavBar.toggle()
-    ">
-    <mat-icon>menu</mat-icon>
-  </button> -->
-  <span>
-    <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
-    <ws-widget-btn-page-back [widgetData]="{ url: 'home', titles: [{title:tabName, url:'none'}] }">
-    </ws-widget-btn-page-back>
-    <!-- <span class="ml-2">{{ tabName }}</span> -->
-  </span>
-  <span class="spacer"></span>
-  <!-- <button (click)="logout()" mat-button>
-    <mat-icon>power_settings_new</mat-icon>&nbsp;
-    <span i18n>Logout</span>
-  </button> -->
-</mat-toolbar>
-
 <mat-sidenav-container autosize="true" class="sidenav-content-min-height">
   <!-- <mat-sidenav #sideNavBar [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
     <mat-nav-list class="margin-left-s margin-right-xs">

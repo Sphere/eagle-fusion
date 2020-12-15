@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit } from '@angular/core'
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { Subscription, Observable } from 'rxjs'
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { MatSnackBar, MatChipInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialog } from '@angular/material'
+import { MatSnackBar, MatChipInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialog, MatTabGroup } from '@angular/material'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'
 import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
@@ -27,6 +27,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -37,7 +38,7 @@ import { LoaderService } from '@ws/author/src/public-api'
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
 })
-export class UserProfileComponent implements OnInit, OnDestroy {
+export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   createUserForm: FormGroup
   unseenCtrl!: FormControl
   unseenCtrlSub!: Subscription
@@ -86,6 +87,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   photoUrl!: string | ArrayBuffer | null
   isForcedUpdate = false
   userProfileData!: any
+  showBackBtn!: boolean
+  @ViewChild("usetMatTab", { static: false }) usetMatTab!: MatTabGroup
+  navigatedFromProfile = false
 
   constructor(
     private snackBar: MatSnackBar,
@@ -96,6 +100,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private dialog: MatDialog,
     private loader: LoaderService,
+    private _Activatedroute: ActivatedRoute,
   ) {
     this.createUserForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -158,6 +163,22 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.getUserDetails()
     this.fetchMeta()
   }
+
+  ngAfterViewInit() {
+    if (this._Activatedroute.snapshot.queryParams.edit !== '') {
+      this.showBackBtn = true
+      this.navigatedFromProfile = true
+      this.goToNextTabIndex(this.usetMatTab, parseInt(this._Activatedroute.snapshot.queryParams.edit))
+    }
+  }
+
+  private goToNextTabIndex(tabGroup: MatTabGroup, index: number | null) {
+    if (!tabGroup || !(tabGroup instanceof MatTabGroup)) return
+
+    // const tabCount = tabGroup._tabs.length;
+    tabGroup.selectedIndex = index
+  }
+
   fetchMeta() {
     this.userProfileSvc.getMasterNationlity().subscribe(
       data => {
@@ -627,7 +648,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -856,7 +877,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.uploadSaveData = false
         this.configSvc.profileDetailsStatus = true
         this.openSnackbar(this.toastSuccess.nativeElement.value)
-        this.router.navigate(['page', 'home'])
+        if (!this.navigatedFromProfile) {
+          this.router.navigate(['page', 'home'])
+        } else {
+          this.router.navigate(['app', 'profile', 'dashboard'])
+        }
+
       },
       () => {
         this.openSnackbar(this.toastError.nativeElement.value)

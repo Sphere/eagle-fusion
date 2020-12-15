@@ -374,6 +374,12 @@ input.mat-input-element {
     width: auto;
     height: auto;
   }
+  .photo {
+    object-fit: cover;
+    border-radius: 50%;
+    height: inherit;
+    width: 100%;
+  }
   .camera-wrapper {
     background: #f5d58d 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 4px #00000029;
@@ -391,10 +397,15 @@ input.mat-input-element {
       font-size: 11px;
       width: auto;
       height: auto;
+      margin-top: 7px;
     }
   }
 }
 
+.back-text {
+      top: -8px;
+    position: relative;
+}
 ::ng-deep .mat-checkbox-inner-container {
   height: 23px !important;
   width: 23px !important;

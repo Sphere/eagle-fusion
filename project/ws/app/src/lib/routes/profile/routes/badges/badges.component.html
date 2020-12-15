@@ -48,8 +48,8 @@
   <mat-divider></mat-divider>
   <div class="margin-top-l">
     <h2 class="headings mat-headline ws-mat-primary-text mb-10" i18n>Your Achievements</h2>
-    <div class="card-container margin-top-m">
-      <ws-utils-horizontal-scroller>
+    <div class="card-container margin-top-m" *ngIf="badges?.earned.length > 0; else noAchieveTemplate">
+      <ws-utils-horizontal-scroller class="achievement">
         <div class="card-holder">
           <ng-container *ngFor="let badge of badges?.earned">
             <ws-app-badges-card [badge]="badge"></ws-app-badges-card>
@@ -57,6 +57,9 @@
         </div>
       </ws-utils-horizontal-scroller>
     </div>
+    <ng-template #noAchieveTemplate>
+      <p class="mb-10">No Achievements yet</p>
+    </ng-template>
   </div>
   <mat-divider></mat-divider>
 </ng-container>
@@ -77,7 +80,7 @@
 
 <ng-container *ngIf="status === 'done'">
   <div class="margin-top-xl">
-    <h2 class="font-bold mat-title margin-zero pl-4 margin-top-xl" color="primary" *ngIf="badges?.canEarn?.length" i18n>
+    <h2 class="font-bold mat-title margin-zero margin-top-xl" color="primary" *ngIf="badges?.canEarn?.length" i18n>
       Your next target</h2>
     <div *ngIf="badges?.canEarn?.length" class="card-container-not-earned op-80 margin-top-l">
       <div *ngIf="badges?.canEarn?.length" class="card-holder-not-earned" #cardContents>
@@ -85,10 +88,10 @@
           <ws-app-badges-not-earned [badge]=" badge">
           </ws-app-badges-not-earned>
         </div>
-        <div class="w-full flex items-end flex-col cursor-pointer" *ngIf="show < badges?.canEarn?.length"
+        <div class="w-full flex items-end flex-col cursor-pointer color-blue" *ngIf="show < badges?.canEarn?.length"
           (click)="increaseShow()">Show more
         </div>
-        <div class="w-full flex items-end flex-col  cursor-pointer" *ngIf="show > badges?.canEarn?.length"
+        <div class="w-full flex items-end flex-col  cursor-pointer color-blue" *ngIf="show > badges?.canEarn?.length"
           (click)="decreaseShow()">Show less
         </div>
       </div>

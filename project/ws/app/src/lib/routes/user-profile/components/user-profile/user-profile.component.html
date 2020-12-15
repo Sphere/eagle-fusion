@@ -1,8 +1,13 @@
 <div class="profile-container">
   <div class="profile-box">
+    <a *ngIf="showBackBtn" [routerLink]="'/app/profile/dashboard'">
+      <mat-icon>arrow_back_ios</mat-icon>
+
+      <span class="back-text"> Back</span>
+    </a>
     <form class="" [formGroup]="createUserForm">
       <mat-tab-group animationDuration="0ms" class="mat-tab-labels w-full" mat-stretch-tabs
-        [selectedIndex]="selectedIndex" (selectedTabChange)="selectedIndex = $event.index">
+        [selectedIndex]="selectedIndex" (selectedTabChange)="selectedIndex = $event.index" #usetMatTab>
         <mat-tab>
           <ng-template mat-tab-label i18n>
             Personal Details

@@ -8,14 +8,18 @@
   @include breakpoint-xs {
     margin: 16px 16px 0 16px;
   }
+
+.color-blue {
+  color: #18acec
+}
 .info-btn {
   border-radius: 50px;
-  color: #19a6ed !important;
-    border-color: #19a6ed;
+  color: rgba(0, 0, 0, 0.87) !important;
+    border-color: #f5d58d;
         margin-left: 15px;
     &:hover {
-      background-color: #19a6ed;
-      color: #ffffff !important;
+      background-color: #f5d58d;
+      color: rgba(0, 0, 0, 0.87) !important;
     }
 }
 .academic-row {
@@ -28,11 +32,11 @@
   }
 
   .about-me {
-    width: 75%;
     min-width: 220px;
     margin: 0 auto;
     padding-bottom: 16px;
     margin-bottom: 2rem;
+    background-color: #f0f0f0;
 
     @include breakpoint-lt-m {
       width: 100%;
@@ -253,3 +257,10 @@
 // .learning-details {
 //   width: 32%;
 // }
+
+  @media (min-width: 600px) {
+   .profile-container div.sm\:px-48 {
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+  }
+  }
