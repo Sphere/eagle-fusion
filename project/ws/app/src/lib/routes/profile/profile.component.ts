@@ -56,7 +56,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (!this.screenSizeIsLtMedium) {
       this.showText = !this.showText
     }
-    console.log('test')
   }
   ngOnDestroy() {
     if (this.defaultSideNavBarOpenedSubscription) {

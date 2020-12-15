@@ -25,6 +25,7 @@ export interface IUserProfileDetailsFromRegistry {
   'primaryEmail': string,
   'maritalStatus': string,
   'residenceAddress': string
+  'academics': any
 }
 
 export interface IUserProfileFields2 {
@@ -102,8 +103,8 @@ export interface IProfileMetaApiData {
 }
 
 export interface IProfileAcademics {
-    nameOfQualification: string,
-    type: string,
-    nameOfInstitute: string,
-    yearOfPassing: string,
+  nameOfQualification: string,
+  type: string,
+  nameOfInstitute: string,
+  yearOfPassing: string,
 }

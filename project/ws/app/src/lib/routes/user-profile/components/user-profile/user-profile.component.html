@@ -88,6 +88,22 @@
                           </mat-error>
                         </mat-form-field>
                       </div>
+
+                      <div class="input-wrapper margin-top-s">
+                        <p class=" margin-remove-bottom form-label required"
+                          i18n="About label|Label which explains the user to enter About">
+                          About
+                        </p>
+                        <mat-form-field appearance="outline" class="margin-top-xs">
+                          <!-- <input matInput #about formControlName="about" i18n-placeholder placeholder="Enter About" /> -->
+                          <textarea matInput #about formControlName="about" i18n-placeholder
+                            placeholder="Enter About"></textarea>
+                          <mat-error [hidden]="false" i18n="About Error|Explains about is required">
+                            About is mandatory
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
                       <div class="input-wrapper margin-top-s">
                         <p class=" margin-remove-bottom form-label"
                           i18n="Nationality|Label which explains the user to enter Nationality">

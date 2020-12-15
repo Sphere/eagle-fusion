@@ -3,20 +3,36 @@
 
 .profile-container {
   margin: 16px 16px 0 16px;
+  padding-top: 25px;
 
   @include breakpoint-xs {
     margin: 16px 16px 0 16px;
   }
-
+.info-btn {
+  border-radius: 50px;
+  color: #19a6ed !important;
+    border-color: #19a6ed;
+        margin-left: 15px;
+    &:hover {
+      background-color: #19a6ed;
+      color: #ffffff !important;
+    }
+}
+.academic-row {
+      display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+}
   .margin-zero {
     margin-bottom: 0px;
   }
 
   .about-me {
-    width: 45%;
+    width: 75%;
     min-width: 220px;
     margin: 0 auto;
     padding-bottom: 16px;
+    margin-bottom: 2rem;
 
     @include breakpoint-lt-m {
       width: 100%;
@@ -25,17 +41,25 @@
       margin-bottom: 16px;
     }
 
-    .user-avatar {
-      display: flex;
-      align-items: center;
-      padding: 16px;
-
-      .user-name {
-        display: flex;
-        margin-left: 16px;
-        flex-direction: column;
+    .avatar {
+    max-width: 150px;
+    max-height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -95px;
+}
+ .user-name {
+       text-align: center;
       }
 
+    .user-avatar {
+      padding: 16px;
+       flex:1;
+   display: flex;
+   justify-content: center;
       h2 {
         margin: 0;
       }

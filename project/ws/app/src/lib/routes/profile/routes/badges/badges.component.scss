@@ -133,7 +133,7 @@ mat-card {
 .card-container {
   position: relative;
   min-height: 100px;
-  margin: 0 $content-margin-left;
+  // margin: 0 $content-margin-left;
   z-index: 1;
 
   @include breakpoint-xs {

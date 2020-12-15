@@ -110,19 +110,19 @@ export class LearningTimeComponent implements OnInit, AfterViewInit, OnDestroy {
   monthDict: {
     [key: string]: string
   } = {
-    Jan: '01',
-    Feb: '02',
-    Mar: '03',
-    Apr: '04',
-    May: '05',
-    Jun: '06',
-    Jul: '07',
-    Aug: '08',
-    Sep: '09',
-    Oct: '10',
-    Nov: '11',
-    Dec: '12',
-  }
+      Jan: '01',
+      Feb: '02',
+      Mar: '03',
+      Apr: '04',
+      May: '05',
+      Jun: '06',
+      Jul: '07',
+      Aug: '08',
+      Sep: '09',
+      Oct: '10',
+      Nov: '11',
+      Dec: '12',
+    }
 
   trackGraphDataLabel = ''
   trackWiseData: NSLearningGraph.ITrackWiseData | null = null
@@ -412,8 +412,8 @@ export class LearningTimeComponent implements OnInit, AfterViewInit, OnDestroy {
                   r.timespent_in_mins / 10 <= 3
                     ? 3
                     : r.timespent_in_mins / 10 > 3 && r.timespent_in_mins / 10 <= 30
-                    ? r.timespent_in_mins / 10
-                    : 30,
+                      ? r.timespent_in_mins / 10
+                      : 30,
                 actual: r.timespent_in_mins,
                 text: r.track,
               })
@@ -630,7 +630,7 @@ export class LearningTimeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxDate.setTime(endDate.getTime() - 86400000)
     this.minDate.setTime(startDate.getTime() + 86400000)
     this.today.setTime(new Date().getTime() - 86400000)
-    this.router.navigate(['app', 'profile', 'learning', 'time'], {
+    this.router.navigate(['app', 'profile', 'dashboard'], {
       queryParams: { start: startDate.getTime(), end: endDate.getTime() },
     })
   }
@@ -638,7 +638,7 @@ export class LearningTimeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxDate.setTime(endDate.getTime() - 86400000)
     this.minDate.setTime(startDate.getTime() - 5443200000)
     this.today.setTime(new Date().getTime() - 86400000)
-    this.router.navigate(['app', 'profile', 'learning', 'time'], {
+    this.router.navigate(['app', 'profile', 'dashboard'], {
       queryParams: { start: startDate.getTime(), end: endDate.getTime() },
     })
   }
@@ -677,7 +677,7 @@ export class LearningTimeComponent implements OnInit, AfterViewInit, OnDestroy {
   changeRangeDisplay() {
     this.showDateRange = !this.showDateRange
     localStorage.setItem('showDateRange', JSON.stringify(this.showDateRange))
-    this.router.navigate(['app', 'profile', 'learning', 'time'])
+    this.router.navigate(['app', 'profile', 'dashboard'])
   }
 
   async createChart() {

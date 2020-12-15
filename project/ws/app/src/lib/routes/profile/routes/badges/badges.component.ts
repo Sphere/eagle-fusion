@@ -26,6 +26,7 @@ export class BadgesComponent implements OnInit {
   @ViewChild('cardContents', { read: ElementRef, static: false }) public cardContents:
     | ElementRef
     | undefined
+  show = 4
 
   constructor(
     private route: ActivatedRoute,
@@ -159,5 +160,12 @@ export class BadgesComponent implements OnInit {
     this.badges.closeToEarning = [
 
     ]
+  }
+
+  increaseShow() {
+    this.show += 4
+  }
+  decreaseShow() {
+    this.show = 4
   }
 }
