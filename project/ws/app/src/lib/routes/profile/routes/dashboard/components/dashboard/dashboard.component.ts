@@ -131,47 +131,46 @@ export class DashboardComponent implements OnInit {
             const academics = this.userProfileData.academics
             academics.forEach((academic: any) => {
 
-
-              if (academic.type == 'X_STANDARD') {
+              if (academic.type === 'X_STANDARD') {
                 const xstandardArray = academic
 
-                for (var key in xstandardArray) {
+                for (const key in xstandardArray) {
 
-                  if (xstandardArray[key] === "") {
-                    this.xStandardValues++
+                  if (xstandardArray[key] === '') {
+                    this.xStandardValues = this.xStandardValues + 1
                   }
                 }
               }
 
-              if (academic.type == 'XII_STANDARD') {
+              if (academic.type === 'XII_STANDARD') {
                 const xiistandardArray = academic
 
-                for (var key in xiistandardArray) {
+                for (const key in xiistandardArray) {
 
-                  if (xiistandardArray[key] === "") {
-                    this.xiiStandardValues++
+                  if (xiistandardArray[key] === '') {
+                    this.xiiStandardValues = this.xiiStandardValues + 1
                   }
                 }
               }
 
-              if (academic.type == 'GRADUATE') {
+              if (academic.type === 'GRADUATE') {
                 const graduateArray = academic
 
-                for (var key in graduateArray) {
+                for (const key in graduateArray) {
 
-                  if (graduateArray[key] === "") {
-                    this.graduate++
+                  if (graduateArray[key] === '') {
+                    this.graduate = this.graduate + 1
                   }
                 }
               }
 
-              if (academic.type == 'POSTGRADUATE') {
+              if (academic.type === 'POSTGRADUATE') {
                 const postGraduateArray = academic
 
-                for (var key in postGraduateArray) {
+                for (const key in postGraduateArray) {
 
-                  if (postGraduateArray[key] === "") {
-                    this.postGraduate++
+                  if (postGraduateArray[key] === '') {
+                    this.postGraduate = this.postGraduate + 1
                   }
                 }
               }
