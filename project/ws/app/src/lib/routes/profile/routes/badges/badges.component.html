@@ -4,52 +4,51 @@
   </h2>
 </mat-card>
 
-<mat-card class="intro-mat-card">
-  <div class="intro width-auto devide">
-    <div>
-      <div class="text-info width-auto">
+<div class="intro width-auto devide">
+  <div class="mt-4">
+    <!-- <div class="text-info width-auto">
         <mat-icon class="icon-medium mb-10" color="primary">star</mat-icon>
         <div class="intro-text">
           <span class="text-light width-auto mb-10" i18n>Congratulations</span>
           <span>{{ userName }}</span>
         </div>
-      </div>
+      </div> -->
 
-      <div class="text-hover">
-        <span class="mat-title margin-left" i18n>for recently earning</span>
+
+    <h2 class="headings mat-headline ws-mat-primary-text mb-10" i18n>Recent earning</h2>
+
+  </div>
+  <ng-container *ngFor=" let badge of badges.recent">
+    <div class="flex badge-recent">
+      <div class="width-auto badge-container" [matTooltip]="badge.how_to_earn">
+        <img class="medium-badge" [src]="badge.image" [alt]="badge.badge_name" />
+      </div>
+      <div class="">
+        <div class="mat-body" *ngIf="badge.last_received_date">
+          {{ badge.last_received_date | date }}
+        </div>
+        <h2 class="mat-h2">{{ badge.badge_name }}</h2>
+        <div class="mat-body-1 margin-remove">"{{ badge.message }}"</div>
       </div>
     </div>
-    <ng-container *ngFor="let badge of badges.recent">
-      <div class="flex badge-recent">
-        <div class="width-auto badge-container" [matTooltip]="badge.how_to_earn">
-          <img class="medium-badge" [src]="badge.image" [alt]="badge.badge_name" />
-        </div>
-        <div class="">
-          <div class="mat-body" *ngIf="badge.last_received_date">
-        {{ badge.last_received_date | date }}
-          </div>
-          <h2 class="mat-h2">{{ badge.badge_name }}</h2>
-          <div class="mat-body-1 margin-remove">"{{ badge.message }}"</div>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-  <div class="text-center mat-body flex flex-end items-center">
-   
+  </ng-container>
+</div>
+<div class="text-center mat-body flex flex-end items-center">
 
-    <button type="button" i18n-matTooltip matTooltip="Re Calculate Badges" mat-icon-button (click)="reCalculateBadges()"
-      [disabled]="isUpdating" class="ws-mat-primary-text">
-      <mat-icon [ngClass]="{ rotate: isUpdating }">refresh</mat-icon>
-    </button>
-  </div>
 
-</mat-card>
+  <button type="button" i18n-matTooltip matTooltip="Re Calculate Badges" mat-icon-button (click)="reCalculateBadges()"
+    [disabled]="isUpdating" class="ws-mat-primary-text">
+    <mat-icon [ngClass]="{ rotate: isUpdating }">refresh</mat-icon>
+  </button>
+</div>
+
+
 
 <ng-container *ngIf="status === 'done'">
+  <mat-divider></mat-divider>
   <div class="margin-top-l">
-    <span class="headings mat-headline ws-mat-primary-text mb-10 " color="primary" *ngIf="badges?.earned?.length"
-      i18n>Your Achievements</span>
-    <div *ngIf="badges?.earned?.length" class="card-container margin-top-m">
+    <h2 class="headings mat-headline ws-mat-primary-text mb-10" i18n>Your Achievements</h2>
+    <div class="card-container margin-top-m">
       <ws-utils-horizontal-scroller>
         <div class="card-holder">
           <ng-container *ngFor="let badge of badges?.earned">
@@ -59,6 +58,7 @@
       </ws-utils-horizontal-scroller>
     </div>
   </div>
+  <mat-divider></mat-divider>
 </ng-container>
 
 <ng-container *ngIf="status === 'done'">
@@ -77,12 +77,19 @@
 
 <ng-container *ngIf="status === 'done'">
   <div class="margin-top-xl">
-    <span class="headings mat-headline ws-mat-primary-text margin-top-xl" color="primary"
-      *ngIf="badges?.canEarn?.length" i18n>Your next target</span>
+    <h2 class="font-bold mat-title margin-zero pl-4 margin-top-xl" color="primary" *ngIf="badges?.canEarn?.length" i18n>
+      Your next target</h2>
     <div *ngIf="badges?.canEarn?.length" class="card-container-not-earned op-80 margin-top-l">
       <div *ngIf="badges?.canEarn?.length" class="card-holder-not-earned" #cardContents>
-        <div *ngFor="let badge of badges?.canEarn">
-          <ws-app-badges-not-earned [badge]="badge"></ws-app-badges-not-earned>
+        <div *ngFor="let badge of badges?.canEarn | slice:0:show; let i=index">
+          <ws-app-badges-not-earned [badge]=" badge">
+          </ws-app-badges-not-earned>
+        </div>
+        <div class="w-full flex items-end flex-col cursor-pointer" *ngIf="show < badges?.canEarn?.length"
+          (click)="increaseShow()">Show more
+        </div>
+        <div class="w-full flex items-end flex-col  cursor-pointer" *ngIf="show > badges?.canEarn?.length"
+          (click)="decreaseShow()">Show less
         </div>
       </div>
     </div>

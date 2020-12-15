@@ -20,6 +20,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CalendarModule } from '../../module/calendar-module/calendar.module'
 import { RouterModule } from '@angular/router'
 import { CoursePendingCardComponent } from './components/course-pending-card/course-pending-card.component'
+import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 
 @NgModule({
   declarations: [DashboardComponent, CoursePendingCardComponent],
@@ -45,5 +46,6 @@ import { CoursePendingCardComponent } from './components/course-pending-card/cou
     LearningModule,
     CompetencyModule,
   ],
+  providers: [UserProfileService]
 })
 export class DashboardModule { }

@@ -43,6 +43,7 @@ const routes: Routes = [
       interests: InterestUserResolve,
       learningHistory: LearningHistoryResolver,
     },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'competency',

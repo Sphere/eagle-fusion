@@ -1,3 +1,4 @@
+import { UserProfileService } from './../../../../../user-profile/services/user-profile.service'
 import { ITimeSpent } from './../../../learning/models/learning.models'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
@@ -9,8 +10,7 @@ import { ProfileService } from '../../../../services/profile.service'
 import { InterestService } from '../../../interest/services/interest.service'
 import { NSLearningHistory } from '../../../learning/models/learning.models'
 import { LearningHistoryService } from '../../../learning/services/learning-history.service'
-import { map, catchError } from 'rxjs/operators'
-import { of } from 'rxjs'
+import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
 
 interface ILearningHistoryContent {
   content: NSLearningHistory.ILearningHistory
@@ -102,6 +102,13 @@ export class DashboardComponent implements OnInit {
   pageNum = ''
   ongoingCertifications: NSLearningHistory.ILearningHistoryItem[] = []
   passedCertifications: NSLearningHistory.ILearningHistoryItem[] = []
+  userProfileData!: IUserProfileDetailsFromRegistry
+  xStandardValues = 0
+  xiiStandardValues = 0
+  graduate = 0
+  postGraduate = 0
+  showAcademicElse = true
+
   constructor(
     private configSvc: ConfigurationsService,
     // private badgesSvc: BadgesService,
@@ -109,17 +116,85 @@ export class DashboardComponent implements OnInit {
     private learnHstSvc: LearningHistoryService,
     private interestSvc: InterestService,
     private activatedRoute: ActivatedRoute,
+    private userProfileSvc: UserProfileService,
   ) {
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
       this.userEmail = this.configSvc.userProfile.email || ''
       this.departmentName = this.configSvc.userProfile.departmentName || ''
+
+      this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+        data => {
+          if (data && data.length) {
+            this.userProfileData = data[0]
+            // if (this.userProfileData.academics) {
+            const academics = this.userProfileData.academics
+            academics.forEach((academic: any) => {
+
+
+              if (academic.type == 'X_STANDARD') {
+                const xstandardArray = academic
+
+                for (var key in xstandardArray) {
+
+                  if (xstandardArray[key] === "") {
+                    this.xStandardValues++
+                  }
+                }
+              }
+
+              if (academic.type == 'XII_STANDARD') {
+                const xiistandardArray = academic
+
+                for (var key in xiistandardArray) {
+
+                  if (xiistandardArray[key] === "") {
+                    this.xiiStandardValues++
+                  }
+                }
+              }
+
+              if (academic.type == 'GRADUATE') {
+                const graduateArray = academic
+
+                for (var key in graduateArray) {
+
+                  if (graduateArray[key] === "") {
+                    this.graduate++
+                  }
+                }
+              }
+
+              if (academic.type == 'POSTGRADUATE') {
+                const postGraduateArray = academic
+
+                for (var key in postGraduateArray) {
+
+                  if (postGraduateArray[key] === "") {
+                    this.postGraduate++
+                  }
+                }
+              }
+
+            })
+
+            if (this.xStandardValues > 1 || this.xiiStandardValues > 1 || this.graduate > 1 || this.postGraduate > 1) {
+              this.showAcademicElse = true
+            }
+            // }
+            // const academics = this.populateAcademics(data[0])
+            // this.setDegreeValuesArray(academics)
+            // this.setPostDegreeValuesArray(academics)
+            // const organisations = this.populateOrganisationDetails(data[0])
+            // this.constructFormFromRegistry(data[0], academics, organisations)
+            // this.populateChips(data[0])
+
+          }
+          // this.handleFormData(data[0])
+        },
+        (_err: any) => {
+        })
     }
-    console.log('this.interestUserResolve.resolve()', this.interestSvc.fetchUserInterestsV2().pipe(
-      map(data => ({ data, error: null })),
-      catchError(error => of({ error, data: null })),
-    )
-    )
   }
 
   ngOnInit() {
