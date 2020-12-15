@@ -46,6 +46,6 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     LearningModule,
     CompetencyModule,
   ],
-  providers: [UserProfileService]
+  providers: [UserProfileService],
 })
 export class DashboardModule { }
