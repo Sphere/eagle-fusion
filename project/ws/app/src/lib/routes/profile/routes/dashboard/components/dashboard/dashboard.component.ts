@@ -1,6 +1,6 @@
 import { UserProfileService } from './../../../../../user-profile/services/user-profile.service'
 import { ITimeSpent } from './../../../learning/models/learning.models'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -32,6 +32,7 @@ export interface ITimeResolveData {
 })
 
 export class DashboardComponent implements OnInit {
+  @ViewChild('myElem', { static: false }) MyProp!: ElementRef
   startDate = '2018-04-01'
   endDate = '2020-03-31'
   specialDates: number[] = []
@@ -107,7 +108,7 @@ export class DashboardComponent implements OnInit {
   xiiStandardValues = 0
   graduate = 0
   postGraduate = 0
-  showAcademicElse = true
+  showAcademicElse = false
   showInterest = false
 
   constructor(
@@ -205,15 +206,7 @@ export class DashboardComponent implements OnInit {
     this.followFetchStatus = 'fetching'
     this.historyFetchStatus = 'fetching'
     this.apiFetchStatus = 'fetching'
-    this.interestSvc.fetchUserInterestsV2().subscribe(
-      (data: string[]) => {
-        this.interests = data
-        this.interestFetchStatus = 'done'
-      },
-      () => {
-        this.interestFetchStatus = 'error'
-      },
-    )
+    this.fetchInterests()
     // this.badgesSvc.fetchBadges().subscribe(
     //   (data: IBadgeResponse) => {
     //     this.badgesData = data
@@ -260,6 +253,26 @@ export class DashboardComponent implements OnInit {
           this.historyFetchStatus = 'done'
         })
     }
+    if (this.MyProp) {
+      this.MyProp.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+  }
+
+  fetchInterests() {
+    this.interestSvc.fetchUserInterestsV2().subscribe(
+      (data: string[]) => {
+        this.interests = data
+        this.interestFetchStatus = 'done'
+      },
+      () => {
+        this.interestFetchStatus = 'error'
+      },
+    )
+  }
+
+  closeInterest() {
+    this.showInterest = false
+    this.fetchInterests()
   }
 
   specialDatesSet() {
