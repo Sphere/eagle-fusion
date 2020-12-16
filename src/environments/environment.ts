@@ -4,7 +4,7 @@
 
 export const environment: IEnvironment = {
   production: false,
-  sitePath: 'learning.aastar.org',
+  sitePath: 'sphere.aastrika.org',
 }
 interface IEnvironment {
   production: boolean

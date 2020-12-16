@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  sitePath: 'learning.aastar.org',
+  sitePath: 'sphere.aastrika.org',
 }
