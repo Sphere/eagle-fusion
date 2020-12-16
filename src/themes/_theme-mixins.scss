@@ -255,7 +255,7 @@
 
     .mat-chip.mat-standard-chip {
       color: $colorAccent !important;
-      background: $dark-text;
+      background: $dark-text !important;
 
       mat-icon {
         color: $colorAccent !important;

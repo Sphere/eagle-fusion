@@ -224,7 +224,7 @@
     <div class="resource-meta width-expand">
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
         queryParamsHandling="preserve" (click)="sendStatus(content)">
-        <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove text-truncate flex">
+        <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }}
           <mat-icon *ngIf="
               contentProgressHash &&
@@ -234,10 +234,12 @@
             check_circle_outline</mat-icon>
         </h3>
         <span class="mat-body-1">
-          <span>{{ content.type | pipeLimitTo: 300 }}</span> </span><span class="mat-body-1 margin-left-xxs"
-          *ngIf="content?.complexity"><span>| {{ content?.complexity | pipeLimitTo: 300 }}</span>
+          <span>{{ content.type | pipeLimitTo: 300 }}</span> </span>
+        <span class="margin-left-xxs">| {{ content?.duration | pipeDurationTransform: 'hms' }}</span>
+        <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
+            {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
-        <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove text-truncate flex">
+        <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon *ngIf="
               contentProgressHash &&
@@ -247,7 +249,7 @@
             check_circle_outline</mat-icon>
         </h1>
       </a>
-      <span class="margin-left-xs">{{ content?.duration | pipeDurationTransform: 'hms' }}</span>
+
     </div>
   </div>
 </ng-template>

@@ -75,5 +75,8 @@ import { HistoryTileComponent } from './components/history-tile/history-tile.com
     AnalyticsModule,
   ],
   providers: [LearningTimeResolver, LearningHistoryResolver],
+  exports: [LearningTimeComponent,
+    LearningHistoryComponent,
+    LearningHomeComponent],
 })
-export class LearningModule {}
+export class LearningModule { }

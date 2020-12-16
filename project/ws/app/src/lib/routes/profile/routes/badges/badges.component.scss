@@ -33,6 +33,16 @@ mat-card {
   }
 }
 
+.achievement > [hidden] {
+    display: block !important;
+}
+ ::ng-deep ws-utils-horizontal-scroller > button.prevBtn.hidden-touch, ::ng-deep .nextBtn.hidden-touch {
+    display: block !important;
+ }
+
+.color-blue {
+  color: #1ba6e3
+}
 .op-60 {
   opacity: 0.6;
 }
@@ -133,7 +143,7 @@ mat-card {
 .card-container {
   position: relative;
   min-height: 100px;
-  margin: 0 $content-margin-left;
+  // margin: 0 $content-margin-left;
   z-index: 1;
 
   @include breakpoint-xs {

@@ -37,7 +37,13 @@ const routes: Routes = [
     },
     resolve: {
       pageData: PageResolve,
+      badges: BadgesResolver2,
+      competencyData: CompetencyResolverService,
+      timeSpentData: LearningTimeResolver,
+      interests: InterestUserResolve,
+      learningHistory: LearningHistoryResolver,
     },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'competency',
