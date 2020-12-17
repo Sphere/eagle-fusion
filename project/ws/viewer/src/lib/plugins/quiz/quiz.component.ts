@@ -126,9 +126,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.telemetrySubscription) {
       this.telemetrySubscription.unsubscribe()
     }
+    this.startTime = 0
+    this.timeLeft = 0
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe()
+    }
     if (event === 'start') {
       this.startQuiz()
     } else if (event === 'skip') {

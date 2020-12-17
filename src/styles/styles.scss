@@ -687,8 +687,37 @@ a.width-auto.mat-button {
 .padding-dynamic {
   @include breakpoint-gt-s {
     min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
+body.custom-scroll::-webkit-scrollbar, .padding-dynamic::-webkit-scrollbar {
+    width: 0.8em;
+}
+
+body.custom-scroll::-webkit-scrollbar-track {
+     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.padding-dynamic::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+body.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+ .padding-dynamic::-webkit-scrollbar {
+  background-color: rgb(223, 221, 221);
+  outline: 1px solid rgb(162, 206, 250);
+}
+
 .theme-igot.day-mode .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }
