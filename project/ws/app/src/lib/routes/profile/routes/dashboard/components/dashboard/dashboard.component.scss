@@ -263,4 +263,11 @@
     padding-left: 4rem !important;
     padding-right: 4rem !important;
   }
+  ::ng-deep .profile-strip div.sm\:px-48 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  ::ng-deep .profile-strip h1.header-font {
+    font-size: 23px !important;
+  }
   }

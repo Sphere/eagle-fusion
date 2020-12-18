@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { TFetchStatus, LoggerService, ConfigurationsService } from '@ws-widget/utils'
 import { IBadgeResponse } from './badges.model'
-import { ActivatedRoute } from '@angular/router'
 import { Subscription, fromEvent } from 'rxjs'
 import { BadgesService } from './badges.service'
 import { MatSnackBar } from '@angular/material'
@@ -29,7 +28,6 @@ export class BadgesComponent implements OnInit {
   show = 4
 
   constructor(
-    private route: ActivatedRoute,
     private badgesSvc: BadgesService,
     private logger: LoggerService,
     private snackBar: MatSnackBar,
@@ -57,12 +55,11 @@ export class BadgesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.paramSubscription = this.route.data.subscribe(async data => {
+    this.badgesSvc.fetchBadges().subscribe(data => {
       this.logger.log('Data check from resolver', data)
-      this.badges = data.badges.data
+      this.badges = data
       this.status = 'done'
     })
-    // this.logger.log('var check', this.badges)
     setTimeout(
       () => {
         this.initializeObserver()
