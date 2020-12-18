@@ -580,11 +580,27 @@ h3.shepherd-title {
 .player-nav-links {
   position: absolute;
   top: 50%;
-  opacity: 0; // Change this
+  opacity: 0;
   width: 100%;
   @include breakpoint-xs {
     opacity: 1;
   }
+}
+
+ #fullScreenContainer > div {
+      pointer-events: none;
+    position: absolute;
+    // top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+#fullScreenContainer > div > div.flex {
+justify-content: space-between;
+    position: relative;
+    width: 100%;
 }
 
 #fullScreenContainer:hover > div {
@@ -594,9 +610,18 @@ h3.shepherd-title {
 span.title {
   display: none !important;
 }
+
+#fullScreenContainer:hover div.player-nav-links {
+  opacity: 1;
+}
+
 a.width-auto:hover + span,
 .next-button:hover > span {
   display: inline-block !important;
+}
+a.width-auto {
+    display: inline-block;
+    pointer-events: auto;
 }
 .align-right-arrow {
   right: 15px;
@@ -662,8 +687,37 @@ a.width-auto.mat-button {
 .padding-dynamic {
   @include breakpoint-gt-s {
     min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
+body.custom-scroll::-webkit-scrollbar, .padding-dynamic::-webkit-scrollbar {
+    width: 0.8em;
+}
+
+body.custom-scroll::-webkit-scrollbar-track {
+     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.padding-dynamic::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+body.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+ .padding-dynamic::-webkit-scrollbar {
+  background-color: rgb(223, 221, 221);
+  outline: 1px solid rgb(162, 206, 250);
+}
+
 .theme-igot.day-mode .mat-expansion-panel:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }

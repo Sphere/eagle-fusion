@@ -1,70 +1,13 @@
-<!-- <mat-icon aria-hidden="false" class="menu-icon ws-mat-primary-text" [class.ws-mat-warn-text]="isInvalid"
+<mat-icon aria-hidden="false" class="menu-icon ws-mat-primary-text" [class.ws-mat-warn-text]="isInvalid"
   [class.ws-mat-primary-text]="!isInvalid" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" i18n-aria-label
-  aria-label="Menu for content">more_vert</mat-icon> -->
-
-  <button [hidden]="!allowedChild.length" [class.op500]="!allowedChild.length" mat-menu-item
-    [matMenuTriggerFor]="child.childMenu">
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Create New Child">
-      more_vert</mat-icon>
-    <!-- <ng-container i18n>Create New Child</ng-container> -->
-    <ws-auth-collection-matmenu [type]="'createChild'" [childType]="allowedChild"
-      (action)="click($event.action, $event.type)" #child></ws-auth-collection-matmenu>
-      <button (click)="click('delete')" [disabled]="!node.parentId && node.editable"
-      [class.op500]="!node.parentId && node.editable" mat-menu-item>
-      <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Delete content">
-        </mat-icon>
-    </button>
-  </button>
+  aria-label="Menu for content">more_vert</mat-icon>
+<mat-menu #menu="matMenu">
   <button *ngIf="node.category === 'Resource'" [class.op500]="!canEdit" [matMenuTriggerFor]="edit" mat-menu-item
     [disabled]="!canEdit || (metaEditDisabled && contentEditDisabled)">
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Edit content"> more_vert
+    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Edit content">edit
     </mat-icon>
-    <!-- <ng-container i18n>Edit</ng-container> -->
+    <ng-container i18n>Edit</ng-container>
   </button>
-
-
-<!-- <mat-menu #menu="matMenu"> -->
-  <!--
-  <button *ngIf="node.category === 'Resource'" mat-menu-item (click)="click('preview')">
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Preview">
-      remove_red_eye</mat-icon>
-    <ng-container i18n>Preview</ng-container>
-  </button>-->
-  <!-- <button (click)="click('delete')" [disabled]="!node.parentId && node.editable"
-    [class.op500]="!node.parentId && node.editable" mat-menu-item>
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Delete content">
-      delete</mat-icon>
-    <ng-container i18n>Delete</ng-container>
-  </button>  -->
-  <!-- <button [matMenuTriggerFor]="sibling.childMenu" [disabled]="!node.parentId || !allowedSibling.length"
-    [class.op500]="!node.parentId || !allowedSibling.length" mat-menu-item>
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Create New Sibling">
-      next_week</mat-icon>
-    <ng-container i18n>Create New Sibling</ng-container>
-    <ws-auth-collection-matmenu [type]="'createSibling'" [childType]="allowedSibling"
-      (action)="click($event.action, $event.type)" #sibling></ws-auth-collection-matmenu>
-  </button> -->
-
-  <!-- <button *ngIf="node.category !== 'Resource'" [disabled]="!canEdit || contentEditDisabled"
-    [class.op500]="!canEdit || contentEditDisabled" mat-menu-item (click)="click('addChild')">
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Add a Child">
-      library_add</mat-icon>
-    <ng-container i18n>Add a Child</ng-container>
-  </button> -->
-<!-- </mat-menu> -->
-
-<mat-menu #edit="matMenu">
-  <!-- <button [disabled]="contentEditDisabled" [class.op500]="contentEditDisabled" mat-menu-item
-    (click)="click('editContent')">
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Edit content">build
-    </mat-icon>
-    <ng-container i18n>Edit Content</ng-container>
-  </button>
-  <button mat-menu-item [disabled]="metaEditDisabled" [class.op500]="metaEditDisabled" (click)="click('editMeta')">
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Edit content">ballot
-    </mat-icon>
-    <ng-container i18n>Edit Meta</ng-container>
-  </button> -->
   <button *ngIf="node.category === 'Resource'" mat-menu-item (click)="click('preview')">
     <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Preview">
       remove_red_eye</mat-icon>
@@ -75,5 +18,41 @@
     <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Delete content">
       delete</mat-icon>
     <ng-container i18n>Delete</ng-container>
+  </button>
+  <button [matMenuTriggerFor]="sibling.childMenu" [disabled]="!node.parentId || !allowedSibling.length"
+    [class.op500]="!node.parentId || !allowedSibling.length" mat-menu-item>
+    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Create New Sibling">
+      next_week</mat-icon>
+    <ng-container i18n>Create New Sibling</ng-container>
+    <ws-auth-collection-matmenu [type]="'createSibling'" [childType]="allowedSibling"
+      (action)="click($event.action, $event.type)" #sibling></ws-auth-collection-matmenu>
+  </button>
+  <button [disabled]="!allowedChild.length" [class.op500]="!allowedChild.length" mat-menu-item
+    [matMenuTriggerFor]="child.childMenu">
+    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Create New Child">
+      create_new_folder</mat-icon>
+    <ng-container i18n>Create New Child</ng-container>
+    <ws-auth-collection-matmenu [type]="'createChild'" [childType]="allowedChild"
+      (action)="click($event.action, $event.type)" #child></ws-auth-collection-matmenu>
+  </button>
+  <button *ngIf="node.category !== 'Resource'" [disabled]="!canEdit || contentEditDisabled"
+    [class.op500]="!canEdit || contentEditDisabled" mat-menu-item (click)="click('addChild')">
+    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Add a Child">
+      library_add</mat-icon>
+    <ng-container i18n>Add a Child</ng-container>
+  </button>
+</mat-menu>
+
+<mat-menu #edit="matMenu">
+  <button [disabled]="contentEditDisabled" [class.op500]="contentEditDisabled" mat-menu-item
+    (click)="click('editContent')">
+    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Edit content">build
+    </mat-icon>
+    <ng-container i18n>Edit Content</ng-container>
+  </button>
+  <button mat-menu-item [disabled]="metaEditDisabled" [class.op500]="metaEditDisabled" (click)="click('editMeta')">
+    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Edit content">ballot
+    </mat-icon>
+    <ng-container i18n>Edit Meta</ng-container>
   </button>
 </mat-menu>

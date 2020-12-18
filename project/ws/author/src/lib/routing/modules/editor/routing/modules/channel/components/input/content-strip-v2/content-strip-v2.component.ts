@@ -363,7 +363,7 @@ export class ContentStripV2Component implements OnInit {
       },
       widgetType: 'element',
       widgetSubType: 'elementHtml',
-      widgetHostClass: '',
+      widgetHostClass: 'mat-elevation-z4',
       widgetHostStyle: {},
       widgetInstanceId: '',
     }

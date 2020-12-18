@@ -13,19 +13,6 @@ import { AuthEditorOptionsComponent } from './components/auth-editor-options/aut
 import { AuthTableOfContentsComponent } from './components/auth-table-of-contents/auth-table-of-contents.component'
 import { AuthTableTreeLabelComponent } from './components/auth-table-tree-label/auth-table-tree-label.component'
 import { CollectionComponent } from './components/collection/collection.component'
-import { CourseCollectionComponent } from './components/course-collection/course-collection.component'
-import { AuthTocComponent } from './components/auth-toc/auth-toc.component'
-import { QuizModule } from './../quiz/quiz.module'
-import { CourseHeaderComponent } from './components/course-header/course-header.component'
-import { BtnPageBackModule } from '@ws-widget/collection'
-import { WebPageModule } from './../web-page/web-page.module'
-
-import {
-  MatToolbarModule,
-  MatIconModule,
-  MatButtonModule,
-  MatTooltipModule,
-} from '@angular/material'
 
 @NgModule({
   declarations: [
@@ -34,9 +21,6 @@ import {
     AuthEditorOptionsComponent,
     AuthTableTreeLabelComponent,
     AuthCollectionMatmenuComponent,
-    CourseCollectionComponent,
-    AuthTocComponent,
-    CourseHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -48,13 +32,6 @@ import {
     AuthViewerModule,
     UploadModule,
     CurateModule,
-    QuizModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    BtnPageBackModule,
-    WebPageModule,
   ],
 })
 export class CollectionModule {}

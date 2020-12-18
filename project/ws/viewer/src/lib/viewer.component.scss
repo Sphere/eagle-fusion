@@ -48,6 +48,11 @@
   overflow-x: hidden;
 }
 
+viewer-quiz {
+    display: flex;
+    width: 100%;
+    flex-flow: column;
+}
 .mat-drawer-content {
   overflow-x: hidden;
 }
