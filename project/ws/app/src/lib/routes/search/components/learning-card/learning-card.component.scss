@@ -9,8 +9,12 @@
     height: 100%;
   }
 }
-.theme-igot.day-mode .search-card .mat-card:not([class*=mat-elevation-z]) {
+::ng-deep .theme-igot.day-mode .search-card .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
+}
+
+.search-card {
+  border-bottom: solid 1px grey;
 }
 
 .card-content {
