@@ -15,6 +15,7 @@ import {
   WIDGET_RESOLVER_SCOPED_CONFIG,
 } from './widget-resolver.constant'
 import { WidgetBaseComponent } from './widget-base.component'
+import { ExploreResolverDirective } from './explore-resolver.directive'
 @NgModule({
   declarations: [
     WidgetBaseComponent,
@@ -24,9 +25,10 @@ import { WidgetBaseComponent } from './widget-base.component'
     InvalidRegistrationComponent,
     InvalidPermissionComponent,
     UnresolvedComponent,
+    ExploreResolverDirective,
   ],
   imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
-  exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective],
+  exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective, ExploreResolverDirective],
   entryComponents: [
     RestrictedComponent,
     InvalidRegistrationComponent,

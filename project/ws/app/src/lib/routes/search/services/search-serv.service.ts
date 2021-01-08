@@ -62,15 +62,17 @@ export class SearchServService {
 
   getLearning(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
     request.locale = (request.locale && request.locale.length && request.locale[0] !== 'all') ? request.locale : []
-    return this.searchV6Wrapper(request)
-  }
 
-  searchV6Wrapper(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
+    this.getSearchConfig().then(config => {
+      request.visibleFilters = config.search.visibleFilters
+      request.excludeSourceFields = config.search.excludeSourceFields
+    }).catch(_err => { })
+    // return this.searchV6Wrapper(request)
     if (request.filters) {
       request.filters['contentType'] = ['Course', 'Program']
     } else {
       request.filters = {
-        contentType : ['Course', 'Program'],
+        contentType: ['Course', 'Program'],
       }
     }
     const v6Request: NSSearch.ISearchV6Request = {
@@ -86,17 +88,85 @@ export class SearchServService {
           }),
         },
       ],
-      visibleFilters: {},
+      visibleFilters: request.visibleFilters,
       includeSourceFields: ['creatorLogo'],
       isStandAlone: request.hasOwnProperty('isStandAlone') ? request.isStandAlone : undefined,
       sort: request.hasOwnProperty('sort') ? request.sort && request.sort.length ? request.sort : undefined : undefined,
     }
-    this.getSearchConfig().then(config => {
-      v6Request.visibleFilters = config.search.visibleFilters
-      v6Request.excludeSourceFields = config.search.excludeSourceFields
-    }).catch(_err => { })
     return this.searchApi.getSearchV6Results(v6Request)
   }
+
+  searchV6Wrapper(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
+    if (request.filters) {
+      request.filters['contentType'] = ['Course', 'Program']
+    } else {
+      request.filters = {
+        contentType: ['Course', 'Program'],
+      }
+    }
+
+    const v6Request: NSSearch.ISearchV6Request = {
+      locale: request.locale,
+      pageNo: request.pageNo || undefined,
+      pageSize: request.pageSize || undefined,
+      query: request.query,
+      didYouMean: request.didYouMean,
+      filters: [
+        {
+          andFilters: Object.keys(request.filters || {}).map(key => {
+            return { [key]: request.filters[key] }
+          }),
+        },
+      ],
+      visibleFilters: request.visibleFilters,
+      includeSourceFields: ['creatorLogo'],
+      isStandAlone: request.hasOwnProperty('isStandAlone') ? request.isStandAlone : undefined,
+      sort: request.hasOwnProperty('sort') ? request.sort && request.sort.length ? request.sort : undefined : undefined,
+    }
+
+    // if (v6Request.visibleFilters) {
+    // v6Request.visibleFilters = {
+    //   "learningMode": {
+    //     "displayName": "Mode"
+    //   },
+    //   "duration": {
+    //     "displayName": "Duration"
+    //   },
+    //   "exclusiveContent": {
+    //     "displayName": "Costs"
+    //   },
+    //   "complexityLevel": {
+    //     "displayName": "Level"
+    //   },
+    //   "catalogPaths": {
+    //     "displayName": "Catalog",
+    //     "order": [
+    //       {
+    //         "_key": "asc"
+    //       }
+    //     ]
+    //   },
+    //   "sourceShortName": {
+    //     "displayName": "Source"
+    //   },
+    //   "resourceType": {
+    //     "displayName": "Format"
+    //   },
+    //   "region": {
+    //     "displayName": "Region"
+    //   },
+    //   "concepts": {
+    //     "displayName": "Concepts"
+    //   },
+    //   "lastUpdatedOn": {
+    //     "displayName": "Published Date"
+    //   }
+    // }
+    // }
+    // console.log('v6Request', v6Request)
+    return this.searchApi.getSearchV6Results(v6Request)
+  }
+
   fetchSocialSearchUsers(request: ISearchSocialSearchPartialRequest) {
     const req: ISocialSearchRequest = {
       org: this.configSrv.activeOrg,

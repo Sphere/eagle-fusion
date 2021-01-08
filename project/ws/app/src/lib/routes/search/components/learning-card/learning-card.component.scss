@@ -9,6 +9,9 @@
     height: 100%;
   }
 }
+.theme-igot.day-mode .search-card .mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
+}
 
 .card-content {
   padding: 0 $size-xs;

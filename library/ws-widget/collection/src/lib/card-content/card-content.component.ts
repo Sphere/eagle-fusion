@@ -49,7 +49,7 @@ export class CardContentComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
-    if (url.indexOf('login') > 0) {
+    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
     this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
