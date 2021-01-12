@@ -5,6 +5,8 @@ import { Subscription, fromEvent } from 'rxjs'
 import { BadgesService } from './badges.service'
 import { MatSnackBar } from '@angular/material'
 import { debounceTime, throttleTime } from 'rxjs/operators'
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
 @Component({
   selector: 'ws-app-badges',
@@ -26,6 +28,8 @@ export class BadgesComponent implements OnInit {
     | ElementRef
     | undefined
   show = 4
+  imageUrl = "/fusion-assets/icons/certificate.jpg"
+
 
   constructor(
     private badgesSvc: BadgesService,
@@ -47,9 +51,7 @@ export class BadgesComponent implements OnInit {
     if (this.userName) {
       this.userName = this.userName.split(' ')[0]
     }
-    // if (this.authSvc.userEmail) {
-    // this.userEmail = this.authSvc.userEmail
-    // }
+
     this.disablePrev = true
     this.disableNext = false
   }
@@ -159,10 +161,54 @@ export class BadgesComponent implements OnInit {
     ]
   }
 
+  getBase64Image(img: any) {
+    var canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+    if (img) {
+      canvas.width = img.width
+      canvas.height = img.height
+      if (ctx) {
+        ctx.drawImage(img, 0, 0)
+      }
+    }
+    var dataURL = canvas.toDataURL("image/jpeg")
+    return dataURL
+  }
+
   increaseShow() {
     this.show += 4
   }
   decreaseShow() {
     this.show = 4
+  }
+  downloadPdf() {
+    let doc = new jsPDF('landscape', 'mm', [297, 210])
+    let width = doc.internal.pageSize.getWidth()
+    let height = doc.internal.pageSize.getHeight()
+
+
+    let imageData = this.getBase64Image(document.getElementById('imageUrl'))
+    doc.addImage(imageData, "JPG", 0, 0, width, height)
+
+
+    doc.setFontSize(20)
+    doc.setTextColor(100);
+
+    (doc as any).autoTable({
+      body: [
+        [{
+          content: this.badges.recent[0].badge_name + '\n' + "by " + this.userName + '\n' +
+            'Completed on ' + this.badges.recent[0].first_received_date, colSpan: 2, rowSpan: 2, styles: { halign: 'center' }
+        }],
+      ],
+      theme: 'plain',
+      columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
+      margin: { top: 80 },
+
+
+    })
+
+    // Download PDF document
+    doc.save('certificate.pdf')
   }
 }

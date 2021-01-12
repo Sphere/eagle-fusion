@@ -15,6 +15,10 @@
         {{ badge.badge_name }}
       </div>
       <div class="mat-body margin-top-s">{{ badge.message }}</div>
+
+      <button (click)="downloadPdf()" *ngIf="badge.badge_type === 'C'" mat-raised-button class="
+        ws-mat-primary-background mat-button-base mt-5">Download
+        Certificate</button>
     </div>
   </div>
 </mat-card>
