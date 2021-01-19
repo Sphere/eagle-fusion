@@ -237,7 +237,7 @@
 
 .progress-bar {
     display: block;
-    width: calc(100% + #{2 * $card-padding});
+    width: calc(100% + #{2 * $card-padding} + 2px);
     margin-left: -#{$card-padding};
     // margin-top: -$card-padding;
     display: flex;
@@ -289,6 +289,12 @@
     /* border-top: 1px solid red; */
     // border-top-left-radius: 8px;
     // border-top-right-radius: 8px;
+     border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top: solid 1px #ddd;
+    border-right: solid 1px #ddd;
+    border-left: solid 1px #ddd;
+
   }
 
   .complexity {
@@ -489,7 +495,7 @@ $title-line-count: 2;
 .popover-card {
   min-width: 350px;
   max-width: 350px;
-  min-height: 500px;
+  max-height: 500px;
   box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
 }
@@ -515,4 +521,25 @@ $title-line-count: 2;
   @include breakpoint-xs {
     display: none;
   }
+}
+
+span.img-overlay {
+  background: rgba(0,0,0,0.2);
+  height: 157px;
+  width: 278px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: -157px;
+  top: -15px;
+  left: -15px;
+  transition: all ease 0.5s;
+}
+
+a.rounded-t:hover span.img-overlay {
+  display:block;
+   transition: all ease 0.5s;
+}
+
+::ng-deep .theme-igot.day-mode .mat-progress-bar-buffer {
+    background-color: bisque;
 }
