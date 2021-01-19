@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { IBadgeRecent } from '../../../badges/badges.model'
-import jspdf from 'jspdf'
+import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 
 @Component({

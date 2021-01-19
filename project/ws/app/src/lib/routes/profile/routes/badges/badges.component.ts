@@ -5,7 +5,7 @@ import { Subscription, fromEvent } from 'rxjs'
 import { BadgesService } from './badges.service'
 import { MatSnackBar } from '@angular/material'
 import { debounceTime, throttleTime } from 'rxjs/operators'
-import jspdf from 'jspdf'
+import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 
 @Component({
