@@ -362,7 +362,7 @@ export class InitService {
       if (background.pageNavBar) {
         this.configSvc.pageNavBar = background.pageNavBar
       }
-      console.log('primaryNavbar', this.configSvc.primaryNavBarConfig)
+     
       if (this.configSvc.instanceConfig.primaryNavBarConfig) {
         this.configSvc.primaryNavBarConfig = this.configSvc.instanceConfig.primaryNavBarConfig
       }
