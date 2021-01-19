@@ -183,4 +183,11 @@ export class DiscussionForumComponent extends WidgetBaseComponent
       this.discussionConverstionResult = Object.keys(data)
     })
   }
+
+  cancelPost() {
+    this.showCommentBox = !this.showCommentBox
+    if (this.editorQuill) {
+      this.editorQuill.resetEditor()
+    }
+  }
 }
