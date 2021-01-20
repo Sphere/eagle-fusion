@@ -15,10 +15,13 @@
         {{ badge.badge_name }}
       </div>
       <div class="mat-body margin-top-s">{{ badge.message }}</div>
-
-      <button (click)="downloadPdf()" *ngIf="badge.badge_type === 'C'" mat-raised-button class="
+      <ng-container *ngIf="badge.badge_type">
+        <button (click)="downloadPdf()"
+          *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R'" mat-raised-button
+          class="
         ws-mat-primary-background mat-button-base mt-5">Download
-        Certificate</button>
+          Certificate</button>
+      </ng-container>
     </div>
   </div>
 </mat-card>
