@@ -155,7 +155,6 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
    }
 
     if (node.id !== this.selectedNode) {
-     console.log('clikced', node.identifier)
       this.action.emit({ type: 'editContent', identifier: node.identifier, nodeClicked: true })
       this.selectedNode = node.id
       this.editorStore.currentContent = node.identifier

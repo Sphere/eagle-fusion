@@ -370,7 +370,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
         }
       }
     })
-    console.log('META', meta)
     this.contentService.setUpdatedMeta(meta, this.currentContent)
   }
 
