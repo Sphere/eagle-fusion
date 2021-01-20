@@ -178,15 +178,29 @@ export class CollectionStoreService {
     dropNode: IContentTreeNode,
     adjacentId?: number,
     dropLocation: 'above' | 'below' = 'below',
+    topicObj?: any,
+    fileType?: string
   ): Promise<boolean> {
     try {
       const meta = this.authInitService.creationEntity.get(type) as ICreateEntity
+      const parentData = this.contentService.parentUpdatedMeta()
       const requestBody = {
-        name: 'Untitled Content',
-        description: '',
+        name: topicObj ? topicObj.topicName : 'New Content',
+        description: topicObj ? topicObj.topicDescription : '',
         mimeType: meta.mimeType,
         contentType: meta.contentType,
-        resourceType: meta.resourceType,
+        resourceType: parentData.categoryType || '',
+        categoryType : parentData.categoryType || '',
+        fileType : fileType || '',
+
+        // thumbnail: parentData.thumbnail,
+        // appIcon: parentData.appIcon,
+        posterImage: parentData.posterImage,
+        sourceName: parentData.sourceName,
+        subTitle: parentData.subTitle,
+        body: parentData.body,
+     //   sourceName : parentData.sourceName,
+
         locale:
           // tslint:disable-next-line: ter-computed-property-spacing
           this.contentService.originalContent[
@@ -195,7 +209,18 @@ export class CollectionStoreService {
           ].locale || 'en',
         ...(meta.additionalMeta || {}),
       }
+      // requestBody.posterImage = parentData.posterImage
+      // requestBody.sourceName = parentData.sourceName
+      // requestBody.subTitle = parentData.subTitle
+      // requestBody.body = parentData.body
+      // requestBody.categoryType = parentData.categoryType
+
       const content = await this.editorService.createAndReadContent(requestBody).toPromise()
+      // if (content) {
+      //  // content.thumbnail = parentData.thumbnail
+      //  // content.appIcon = parentData.appIcon
+
+      // }
       this.contentService.setOriginalMeta(content)
       const contentDataMap = new Map<string, NSContent.IContentMeta>()
       const treeStructure = this.resolver.buildTreeAndMap(
@@ -355,20 +380,23 @@ export class CollectionStoreService {
             if (canAllow) {
               canPresent = true
               childTypeMap[index] = childTypeMap[index] + 1
-              if (element.position === 'n' && position !== children.length - 1) {
-                let isSameChild = true
-                children.slice(position).forEach(sibling => {
-                  const siblingChild = this.contentService.getUpdatedMeta(sibling.identifier)
-                  isSameChild = this.contentService.checkConditionV2(
-                    siblingChild,
-                    element.conditions,
-                  )
-                  if (!isSameChild) {
-                    errorMsg.push(`${childContent.name || 'Untitled Content'} should be last child`)
-                    return
-                  }
-                })
+              if (position) {
+                return
               }
+              // if (element.position === 'n' && position !== children.length - 1) {
+              //   let isSameChild = true
+              //   children.slice(position).forEach(sibling => {
+              //     const siblingChild = this.contentService.getUpdatedMeta(sibling.identifier)
+              //     isSameChild = this.contentService.checkConditionV2(
+              //       siblingChild,
+              //       element.conditions,
+              //     )
+              //     // if (!isSameChild) {
+              //     //   errorMsg.push(`${childContent.name || 'Untitled Content'} should be last child`)
+              //     //   return
+              //     // }
+              //   })
+              // }
               return
             }
           })
@@ -421,6 +449,7 @@ export class CollectionStoreService {
       if (!this.contentService.isValid(lexId)) {
         errorMsg.push('Mandatory fields are missing')
       }
+
       if (content.category === 'Resource') {
         if (content.mimeType === 'application/html' && !content.artifactUrl && !content.body) {
           errorMsg.push('Provide URL or populate "Body" field')

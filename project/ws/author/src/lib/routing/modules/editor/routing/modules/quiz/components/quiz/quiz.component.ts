@@ -1,5 +1,5 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core'
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, Input, Output, EventEmitter, OnChanges } from '@angular/core'
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar'
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { map, mergeMap, tap, catchError } from 'rxjs/operators'
@@ -47,7 +47,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
   styleUrls: ['./quiz.component.scss'],
   providers: [QuizResolverService],
 })
-export class QuizComponent implements OnInit, OnDestroy {
+export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   selectedQuizIndex!: number
   allContents: NSContent.IContentMeta[] = []
@@ -70,6 +70,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   activeIndexSubscription?: Subscription
   questionsArr: any[] = []
   quizConfig!: any
+  quizData!: any
   /**
    * reviwer and publisher cannot add or delete or edit quizs but can rearrange them
    */
@@ -81,6 +82,11 @@ export class QuizComponent implements OnInit, OnDestroy {
     .pipe(map((res: BreakpointState) => res.matches))
   mode$ = this.mediumSizeBreakpoint$.pipe(map(isMedium => (isMedium ? 'over' : 'side')))
   // @ViewChild(MatSidenavContainer) sidenavContainer: MatSidenavContainer;
+
+  @Input() isCollectionEditor = false
+  @Input() isSubmitPressed = false
+  @Output() data = new EventEmitter<string>()
+  @Input() callSave = false
 
   constructor(
     private router: Router,
@@ -108,18 +114,54 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.showSettingButtons = this.accessControl.rootOrg === 'client1'
     if (this.activateRoute.parent && this.activateRoute.parent.parent) {
       this.activateRoute.parent.parent.data.subscribe(v => {
-        if (v.contents && v.contents.length) {
-          this.allContents.push(v.contents[0].content)
-          this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] = v.contents[0].data
-            ? v.contents[0].data.questions
-            : []
-          this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
-          this.resourceType = v.contents[0].content.categoryType || 'Quiz'
-          this.quizDuration = v.contents[0].content.duration || 300
-          this.questionsArr =
-            this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
-          this.contentLoaded = true
+        let courseChildren =  v.contents[0].content.children
+        // Children
+        const firstLevelChilds = courseChildren.filter((item: any) => {
+          return item.category === 'Collection'
+        })
+        // find assements
+        let firstLevelchildArray: any = []
+
+         firstLevelChilds.map((item: any) => {
+
+          firstLevelchildArray = firstLevelchildArray.concat(item.children)
+        })
+        courseChildren = courseChildren.concat(firstLevelchildArray)
+
+        // Children
+        if (courseChildren) {
+          courseChildren.forEach((element: NSContent.IContentMeta) => {
+            if (element.mimeType === 'application/quiz') {
+              // do a get for the data
+              this.allContents.push(element)
+
+              this.editorService.getDataForContent(element.identifier).subscribe(data => {
+                v.contents = data
+
+                this.quizStoreSvc.collectiveQuiz[element.identifier] = v.contents[0].data
+                ? v.contents[0].data.questions
+                : []
+
+              this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
+              this.resourceType = v.contents[0].content.categoryType || 'Quiz'
+              this.quizDuration = v.contents[0].content.duration || 300
+              this.questionsArr =
+                this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
+              this.contentLoaded = true
+              }
+              )
+
+            }
+          })
+
         }
+        // this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
+        // this.resourceType = v.contents[0].content.categoryType || 'Quiz'
+        // this.quizDuration = v.contents[0].content.duration || 300
+        // this.questionsArr =
+        //   this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
+        this.contentLoaded = true
+
         if (!this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier]) {
           this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] = []
         }
@@ -153,6 +195,11 @@ export class QuizComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngOnChanges() {
+    // if (this.callSave) {
+    //   this.save()
+    // }
+  }
   customStepper(step: number) {
     if (step === 1) {
       this.disableCursor = true
@@ -236,6 +283,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         },
       },
     }
+
     return this.editorService
       .updateContent(requestBody)
       .pipe(tap(() => this.metaContentService.resetOriginalMeta(meta, id)))
@@ -244,6 +292,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   wrapperForTriggerSave() {
     this.loaderService.changeLoad.next(true)
     const updatedQuizData = this.quizStoreSvc.collectiveQuiz[this.currentId]
+
     const hasTimeChanged =
       (this.metaContentService.upDatedContent[this.currentId] || {}).duration &&
       this.quizDuration !== this.metaContentService.upDatedContent[this.currentId].duration
@@ -380,6 +429,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         }
       })
     })
+    this.resourceType = this.metaContentService.getUpdatedMeta(this.currentId).categoryType
     // console.log(dataWithAns, dataWithOutAns)
     const uploadData = this.resourceType === ASSESSMENT ? dataWithOutAns : dataWithAns
     return forkJoin([

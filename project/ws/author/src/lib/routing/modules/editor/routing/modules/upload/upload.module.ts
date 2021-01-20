@@ -6,10 +6,11 @@ import { EditorSharedModule } from '../../../shared/shared.module'
 import { FileUploadComponent } from './components/file-upload/file-upload.component'
 import { UploadComponent } from './components/upload/upload.component'
 import { UploadRoutingModule } from './upload-routing.module'
+import { MatSidenavModule } from '@angular/material'
 
 @NgModule({
   declarations: [UploadComponent, FileUploadComponent],
   exports: [FileUploadComponent],
-  imports: [CommonModule, SharedModule, EditorSharedModule, UploadRoutingModule, AuthViewerModule],
+  imports: [CommonModule, SharedModule, EditorSharedModule, UploadRoutingModule, AuthViewerModule, MatSidenavModule],
 })
 export class UploadModule {}

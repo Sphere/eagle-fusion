@@ -1,3 +1,4 @@
+import { CreateCourseComponent } from './routing/modules/create/components/create-course/create-course.component'
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { GeneralGuard } from '../../../../../src/app/guards/general.guard'
@@ -53,6 +54,18 @@ const routes: Routes = [
     },
     canActivate: [GeneralGuard],
     component: CreateComponent,
+    resolve: {
+      script: InitResolver,
+    },
+  },
+  {
+    path: 'create-course',
+    data: {
+      // load: ['create', 'ordinals'],
+      requiredFeatures: ['authoring'],
+    },
+    canActivate: [GeneralGuard],
+    component: CreateCourseComponent,
     resolve: {
       script: InitResolver,
     },

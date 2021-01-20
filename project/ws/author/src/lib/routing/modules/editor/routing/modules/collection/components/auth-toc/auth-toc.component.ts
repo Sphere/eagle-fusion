@@ -155,6 +155,7 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
    }
 
     if (node.id !== this.selectedNode) {
+     console.log('clikced', node.identifier)
       this.action.emit({ type: 'editContent', identifier: node.identifier, nodeClicked: true })
       this.selectedNode = node.id
       this.editorStore.currentContent = node.identifier
@@ -390,7 +391,6 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
       duration: NOTIFICATION_TIME * 1000,
     })
     this.loaderService.changeLoad.next(false)
-    this.data.emit('refresh')
   }
 
   takeAction(action: string, node: IContentTreeNode, type?: string) {
