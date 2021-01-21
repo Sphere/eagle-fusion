@@ -129,7 +129,7 @@ export namespace NsInstanceConfig {
     appTransparent: string
     aboutFooter: string
     aboutHeader: string
-    appBottomNav?: string
+    appBottomNav: string
     company: string
     developedBy: string
     poweredBy: string

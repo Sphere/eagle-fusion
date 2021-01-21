@@ -3,6 +3,10 @@
 ::ng-deep .theme-igot.day-mode .mat-typography h3.sub-heading {
   line-height: 22px;
 }
+::ng-deep .theme-igot.day-mode .mat-tree {
+    background: #f8f8f8 !important;
+}
+
 .treemode-slider {
   text-align: right;
   padding-right: $size-m;
@@ -32,10 +36,21 @@
     list-style-type: none;
   }
 }
-
-.content-active, .content-active h3 {
+li.li-active > div.mat-tree-node {
+    background-color: #e5e5e5;
+}
+.li-active ul{
+    background: #e5e5e5;
+    padding-left: 0;
+    margin-left: 0;
+}
+ span.content-active {
   font-size: 1.02rem;
   font-weight: 500;
+}
+.content-active > span , .content-active h3 {
+  font-weight: normal;
+  font-size: 1rem;
 }
 
 .content-duration {
@@ -114,5 +129,5 @@ app-content-icon {
 }
 
 ::ng-deep mat-tree-node .li-active {
-  background-color: #fcf7f5;
+  background-color: #ede5d6;
 }

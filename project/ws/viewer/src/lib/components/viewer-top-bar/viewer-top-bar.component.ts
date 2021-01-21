@@ -95,7 +95,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
             this.collection = data
             if (this.configSvc.instanceConfig) {
               this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-                this.configSvc.instanceConfig.logos.app,
+                this.configSvc.instanceConfig.logos.appBottomNav,
               )
             }
             // tslint:disable-next-line:no-shadowed-variable
