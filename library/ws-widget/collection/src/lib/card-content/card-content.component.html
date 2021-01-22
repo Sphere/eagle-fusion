@@ -17,7 +17,7 @@
       ? false
       : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
 
-  <mat-card class="card-standard-container mr-8" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
+  <mat-card class="card-standard-container mr-8 1" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
         greyOut:
           widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
             ? true
@@ -41,10 +41,10 @@
         <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
-              [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
-              class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.appIcon"
+              [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+              [title]="widgetData.content.name" />
             <span class="img-overlay"></span>
             <div class="source-div mt-4">
             </div>
@@ -105,7 +105,7 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
@@ -121,7 +121,7 @@
 
   <ng-template #elseBlock1>
 
-    <mat-card class="card-standard-container mr-8" [ngClass]="{
+    <mat-card class="card-standard-container mr-8 2" [ngClass]="{
           greyOut:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
               ? true
@@ -145,10 +145,10 @@
           <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
-              <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
-                [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
-                class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-                [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+                [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+                [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+                [title]="widgetData.content.name" />
               <span class="img-overlay"></span>
               <div class="source-div mt-4">
               </div>
@@ -351,7 +351,7 @@
 </ng-template>
 
 <ng-template #cardStandard>
-  <mat-card class="card-standard-container mr-8" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
+  <mat-card class="card-standard-container mr-8 3" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
       greyOut:
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
@@ -434,7 +434,7 @@
 
   </mat-card>
   <ng-template #elseBlock>
-    <mat-card class="card-standard-container mr-8" [ngClass]="{
+    <mat-card class="card-standard-container mr-8 4" [ngClass]="{
           greyOut:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
               ? true
