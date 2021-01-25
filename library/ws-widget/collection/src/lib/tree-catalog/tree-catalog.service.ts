@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators'
 import { NSSearch } from '../_services/widget-search.model'
 
 const API_END_POINTS = {
-  catalog: '/apis/protected/v8/catalog',
+  catalog: '/apis/public/v8/homePage/catalog',
 }
 
 @Injectable({

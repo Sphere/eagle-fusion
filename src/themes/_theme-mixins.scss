@@ -27,16 +27,13 @@
   $iconColor: mat-color($foreground, icon);
   $colorGreen: #5fa800;
   $colorRed: #ff0000;
-  $footerColor: #f3f3f0;
+  $footerColor: #f7f7f7;
   $pdfFooterColor: #edf1e5;
-  $footerTextColor: #7b6961 ;
+  $footerTextColor: #353535;
   $dark-text: #424242;
   $linkActiveColor: #929292;
 
-
   outline-color: mat-color($accent, lighter);
-
-
 
   .icon-svg {
     fill: $iconColor;
@@ -50,19 +47,17 @@
   .ws-mat-primary-lite-background-op30 {
     background: rgba($colorPrimaryLight, 0.3);
   }
-    .mat-toolbar {
-      background-color: $footerColor !important;
-  }
+
   .mat-toolbar.pdf-nav-bar {
     background-color: $pdfFooterColor !important;
   }
- 
+
   .ws-mat-primary-background-op70 {
     background: rgba($colorPrimary, 0.7);
   }
 
   .mat-progress-bar-fill::after {
-    background: red;
+    background: #009900;
   }
 
   .mat-mini-fab {
@@ -71,10 +66,9 @@
   }
 
   @if $is-dark {
-
     .mat-progress-spinner circle,
     .mat-spinner circle {
-      stroke: #FFFFFF;
+      stroke: #ffffff;
     }
 
     mat-toolbar {
@@ -119,13 +113,11 @@
     // .mat-tab-group
     .mat-tab-nav-bar,
     .mat-form-field-outline-thick .mat-ink-bar {
-      background-color: $linkActiveColor !important
+      background-color: $linkActiveColor !important;
     }
 
-
-
     .mat-ink-bar {
-      background-color: $colorAccentLight !important
+      background-color: $colorAccentLight !important;
     }
 
     .mat-option.mat-selected:not(.mat-option-multiple) {
@@ -135,7 +127,7 @@
 
     .mat-mini-fab {
       background: #777777 0% 0% no-repeat padding-box !important;
-      border: 2px solid #CCCCCC;
+      border: 2px solid #cccccc;
       box-shadow: 0px 10px 30px #99999933 !important;
     }
 
@@ -184,14 +176,11 @@
     .mat-form-field-outline-thick .mat-ink-bar {
       background-color: $colorPrimaryDark !important;
     }
-  }
-
-  @else {
+  } @else {
     .mat-radio-button {
       background-color: transparent !important;
 
       .mat-radio-container {
-
         .mat-radio-inner-circle {
           background-color: $colorPrimaryDark !important;
         }
@@ -212,7 +201,7 @@
     }
 
     .mat-ink-bar {
-      background-color: $linkActiveColor !important
+      background-color: $linkActiveColor !important;
     }
 
     .mat-input-element {
@@ -242,7 +231,7 @@
     }
 
     .mat-option.mat-selected:not(.mat-option-multiple) {
-      background: $colorAccent !important
+      background: $colorAccent !important;
     }
 
     .ws-mat-primary-text {
@@ -253,6 +242,9 @@
       color: $dark-text;
     }
 
+    .ws-mat-yellow-text{
+      color: #f5d58d;
+    }
     .ws-mat-primary-lite-background-on-day {
       background-color: $colorBackground;
     }
@@ -266,18 +258,16 @@
 
     .mat-chip.mat-standard-chip {
       color: $colorAccent !important;
-      background: $colorAccentLight;
+      background: $dark-text !important;
 
       mat-icon {
-        color: $colorAccentDark !important;
-        opacity: 1 !important
+        color: $colorAccent !important;
+        opacity: 1 !important;
       }
     }
   }
 
-
   @if $is-dark {
-
     a[href^='/'][target='_self'],
     a[href^='http'],
     a[href^='mailto'],
@@ -287,10 +277,7 @@
       background-color: $colorPrimaryDark !important;
       // background-color: red !important;
     }
-  }
-
-  @else {
-
+  } @else {
     a[href^='/'][target='_self'],
     a[href^='http'],
     a[href^='mailto'],
@@ -434,9 +421,11 @@
     position: absolute;
     width: 90%;
     margin-top: 24%;
-    background: linear-gradient(to bottom,
-        rgba(mat-color($background, card), 0),
-        mat-color($background, card) 100%);
+    background: linear-gradient(
+      to bottom,
+      rgba(mat-color($background, card), 0),
+      mat-color($background, card) 100%
+    );
   }
 
   .mat-button-toggle-checked {
@@ -480,4 +469,8 @@
   ws-widget-btn-catalog {
     margin-top: 7px;
   }
+}
+
+.theme-igot.day-mode .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: #f5d58d !important;
 }

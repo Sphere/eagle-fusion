@@ -380,20 +380,23 @@ export class CollectionStoreService {
             if (canAllow) {
               canPresent = true
               childTypeMap[index] = childTypeMap[index] + 1
-              if (element.position === 'n' && position !== children.length - 1) {
-                let isSameChild = true
-                children.slice(position).forEach(sibling => {
-                  const siblingChild = this.contentService.getUpdatedMeta(sibling.identifier)
-                  isSameChild = this.contentService.checkConditionV2(
-                    siblingChild,
-                    element.conditions,
-                  )
-                  if (!isSameChild) {
-                    errorMsg.push(`${childContent.name || 'Untitled Content'} should be last child`)
-                    return
-                  }
-                })
+              if (position) {
+                return
               }
+              // if (element.position === 'n' && position !== children.length - 1) {
+              //   let isSameChild = true
+              //   children.slice(position).forEach(sibling => {
+              //     const siblingChild = this.contentService.getUpdatedMeta(sibling.identifier)
+              //     isSameChild = this.contentService.checkConditionV2(
+              //       siblingChild,
+              //       element.conditions,
+              //     )
+              //     // if (!isSameChild) {
+              //     //   errorMsg.push(`${childContent.name || 'Untitled Content'} should be last child`)
+              //     //   return
+              //     // }
+              //   })
+              // }
               return
             }
           })

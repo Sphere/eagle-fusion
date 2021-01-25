@@ -1,8 +1,7 @@
-
 @import 'ws-mixins';
 
 .footer-container {
-  background-color: #f3f3f0;
+  background-color: #f7f7f7;
   display: flex;
   justify-content: space-between;
   @include breakpoint-xs {
@@ -12,12 +11,11 @@
 }
 
 .font-12 {
-  font-size: 12px !important;
+  font-size: 14px !important;
 }
 
 .text-dark {
-  color: #7b6961 !important;
-  
+  color: #353535 !important;
 }
 .mat-figure {
   top: 0;
@@ -34,19 +32,33 @@
 }
 .footer-image {
   height: auto;
-  max-width : 70%;
+  max-width: 58%;
+  @include breakpoint-xs {
+    max-width: 32%;
+    max-height: 50px;
+  }
 }
 
 .footer-heading {
   font-size: 16px !important;
+  font-weight: 500;
 }
+
 .mat-list-base .mat-list-item {
   height: 37px !important;
+  color: #353535 !important;
+  font-size: 16px !important;
+  font-weight: 500;
 }
 
-.theme-igot.day-mode .mat-list-base .mat-list-item a{
- font-size: 14px !important;
 
+.theme-igot.day-mode .mat-list-base .mat-list-item a {
+  font-size: 14px !important;
+}
+.w-mobile {
+  @include breakpoint-xs {
+    width: 100%;
+  }
 }
 
 // @media only screen and (max-width: 760px) {
@@ -55,14 +67,56 @@
 //   }
 // }
 
-@media only screen and ( min-width: 2000px ) {
+@media (min-width: 1870px) {
+  .col-width {
+    min-width: 315px;
+  }
+  .col-width-1 {
+    min-width: 320px;
+  }
+  // .logo-margin {
+  //   margin-left: 135px;
+  // }
+}
+
+@media (min-width: 1501px) and (max-width: 1869px) {
+  .col-width {
+    min-width: 30%;
+  }
+  .col-width-1 {
+    min-width: 32%;
+  }
+}
+
+@media (min-width: 1320px) and (max-width: 1500px) {
+  .col-width {
+    min-width: 25%;
+  }
+  .col-width-1 {
+    min-width: 27%;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1319px) {
+  .col-width {
+    min-width: 19%;
+  }
+  .col-width-1 {
+    min-width: 22%;
+  }
+}
+
+@media only screen and (min-width: 2000px) {
   footer.docs-footer.-mt-20 {
     margin-top: -12rem;
   }
 }
 .docs-footer {
-  background: #f3f3f0;
-  color: #fff
+  background: #f7f7f7;
+  color: #fff;
+  @include breakpoint-xs {
+    margin-top: -20px;
+  }
 }
 
 .docs-footer-list {
@@ -73,12 +127,30 @@
 }
 
 img.docs-footer-aastar-logo {
-  max-width: 137px;
+  max-width: 70%;
+  @include breakpoint-xs {
+    max-width: 45%;
+    text-align: center;
+  }
 }
-.docs-footer-copyright{
+.docs-footer-copyright {
   display: flex;
   flex: 1;
-  justify-content: flex-end;
+  justify-content: center;
   min-width: 225px;
   margin-top: 16px;
+}
+
+.docs-footer-version {
+  min-width: 175px;
+  @include breakpoint-xs {
+    text-align: center;
+  }
+}
+
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+  @include breakpoint-xs {
+      display: block !important;
+      text-align: center;
+  }
 }

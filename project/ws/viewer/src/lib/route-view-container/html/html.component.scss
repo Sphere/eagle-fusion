@@ -139,4 +139,43 @@
 
 #fullScreenContainer {
   min-height: 75vh;
+  width: 99%;
+  position: relative;
+  margin: 0 8px 0 -7px;
+  padding: 0 7px;
+}
+
+ #fullScreenContainer > div {
+    left: 5px;
+ }
+.prev-button .width-auto {
+   @include breakpoint-xs {
+     left: -7px;
+    top: -5px;
+  }
+  @include breakpoint-s {
+    left: -8px;
+  }
+}
+.player-nav-links {
+  @include breakpoint-xs {
+    width: 96%;
+  }
+  @include breakpoint-s {
+    width: 97%;
+  }
+}
+.next-button .width-auto {
+   @include breakpoint-xs {
+    right: -16px;
+   }
+}
+
+.prev-button .title {
+  @include breakpoint-xs {
+    margin-left: -8px !important;
+  }
+  @include breakpoint-s {
+    margin-left: -8px !important;
+  }
 }

@@ -17,15 +17,23 @@
                   <div class="prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
                       accesskey="<" [disabled]="!prevResourceUrl">
-                      <img src="/assets/images/navigation-left.png" class="svg" />
-                    </a> <span class="title" *ngIf="prevTitle">{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}} </span>
+                      <span class="material-icons align-left-arrow">
+                        chevron_left
+                      </span>
+                    </a>
+                    <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
+                        Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
+                    </span>
                   </div>
 
                   <div class="next-button">
-                    <span class="title" *ngIf="nextTitle">{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
+                    <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
+                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
                       accesskey=">" [disabled]="!nextResourceUrl">
-                      <img src="/assets/images/navigation-right.png" class="svg" />
+                      <span class="material-icons align-right-arrow">
+                        chevron_right
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -50,7 +58,7 @@
                   'artifactUrl'
                       ]
               "></ws-widget-btn-content-download>
-            <ws-widget-btn-content-like [widgetData]="audioData | pipePartialContent: ['identifier']">
+            <ws-widget-btn-content-like [widgetData]="{ identifier: collectionIdentifier} ">
             </ws-widget-btn-content-like>
             <ws-widget-btn-content-share [forPreview]="forPreview"></ws-widget-btn-content-share>
             <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
@@ -63,7 +71,7 @@
   </div>
   <div class="padding-m" *ngIf="discussionForumWidget && isRestricted">
     <div class="video-discussion-forum-in margin-bottom-m">
-      <h2 class="mat-toolbar discussion-head">Discussion Forum</h2>
+
       <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
     </div>
   </div>

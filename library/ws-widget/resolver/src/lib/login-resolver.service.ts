@@ -23,12 +23,12 @@ export class LoginResolverService {
     private domSanitizer: DomSanitizer,
     private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
-  private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
+    private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
-  private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
+    private scopedConfig: null | NsWidgetResolver.IRegistrationConfig[]) { }
   private availableRegisteredWidgets: Map<
-  string,
-  NsWidgetResolver.IRegistrationConfig
+    string,
+    NsWidgetResolver.IRegistrationConfig
   > | null = null
   static getWidgetKey(config: NsWidgetResolver.IBaseConfig) {
     return `widget:${config.widgetType}::${config.widgetSubType}`
@@ -54,28 +54,32 @@ export class LoginResolverService {
     const key = LoginResolverService.getWidgetKey(receivedConfig)
     const registrationConfig: Map<string, NsWidgetResolver.IRegistrationConfig> = new Map()
     const allWidgetsConfigurations: NsWidgetResolver.IRegistrationConfig[] = []
-    if (key === 'widget:layout::gridLayout' && this.availableRegisteredWidgets && this.availableRegisteredWidgets.size === 0) {
+    if ((key === 'widget:layout::gridLayout' || key === 'widget:layout::linearLayout') &&
+      this.availableRegisteredWidgets && this.availableRegisteredWidgets.size === 0) {
 
       if (this.globalConfig && Array.isArray(this.globalConfig)) {
         allWidgetsConfigurations.push(...this.globalConfig)
-
         allWidgetsConfigurations.forEach(u => {
           const k = LoginResolverService.getWidgetKey(u)
-          if (k === 'widget:layout::gridLayout' || k === 'widget:slider::sliderBanners'
-          || k === 'widget:contentStrip::contentStripMultiple' || k === 'widget:card::cardContent') {
+          if (k === 'widget:layout::gridLayout' || k === 'widget:layout::linearLayout' || k === 'widget:slider::sliderBanners'
+            || k === 'widget:contentStrip::contentStripMultiple' || k === 'widget:card::cardContent'
+            || k === 'widget:actionButton::actionButtonCatalog'
+            || k === 'widget:tree::treeCatalog' ||
+            k === 'widget:actionButton::buttonFeature' || k === 'widget:card::cardBreadcrumb') {
             registrationConfig.set(k, u)
           }
         })
         this.availableRegisteredWidgets = registrationConfig
       }
     }
+
     if (this.availableRegisteredWidgets && this.availableRegisteredWidgets.has(key)) {
-        const config = this.availableRegisteredWidgets.get(key)
-        if (config && config.component) {
-          return this.widgetResolved(containerRef, receivedConfig, config.component)
-        }
-        // Not properly registered
-        return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
+      const config = this.availableRegisteredWidgets.get(key)
+      if (config && config.component) {
+        return this.widgetResolved(containerRef, receivedConfig, config.component)
+      }
+      // Not properly registered
+      return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
       // }
       // No Permission
       return this.widgetResolved(containerRef, receivedConfig, InvalidPermissionComponent)

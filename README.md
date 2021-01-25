@@ -18,3 +18,6 @@ check if its available
 - Yes -> check for current page rendering
   -> Yes => render
   -> No => stop rendering
+
+command to start - npm start
+Modify - localhost.proxy.json under proxy to point to the correct backend services

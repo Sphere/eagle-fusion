@@ -1,4 +1,10 @@
 @import 'ws-mixins';
+.application-logo {
+      max-width: 150px;
+    display: block;
+    width: 100%;
+    padding-top: 8px;
+}
 
 .app-logo {
   max-height: 52px;
@@ -6,24 +12,43 @@
 
   @include breakpoint-xs {
     max-width: 80px;
+    margin-top: 9px;
   }
-
-
-  }
-.title-app{
-    @include breakpoint-xs {
+}
+.title-app {
+  @include breakpoint-xs {
     visibility: hidden;
-  }}
-
-  .small-font-size{
-    @include breakpoint-xs {
+  }
+}
+.my-search {
+    display: flex;
+    margin-left: 8px;
+    margin-right: 0;
+    text-align: center;
+    flex: 1;
+    height: 50px;
+    margin-top: 6px;
+    max-width: 470px;
+}
+.fix-ww {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex: 1;
+}
+.small-font-size {
+  @include breakpoint-xs {
     font-size: smaller !important;
   }
-  }
+}
 
-  .padding-remove-small{
-    @include breakpoint-xs {
-
+.padding-remove-small {
+  @include breakpoint-xs {
     padding: 0 !important;
-    }
   }
+}
+
+.login-btn.mat-raised-button {
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
+}

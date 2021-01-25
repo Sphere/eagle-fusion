@@ -32,8 +32,7 @@
           </h1>
           <div>
             <ws-widget-display-content-type i18n-matTooltip matTooltip="Content Type"
-              *ngIf="content?.displayContentType" class="ws-mat-primary-text font-normal"
-              [displayContentType]="content?.contentType==='Collection'
+              *ngIf="content?.displayContentType" class="ws-mat-primary-text font-normal" [displayContentType]="content?.contentType==='Collection'
               ?'Module'
               :(content?.contentType==='Learning Path'?'Program':content?.contentType)">
             </ws-widget-display-content-type>
@@ -62,7 +61,7 @@
           </div>
         </div>
       </div>
-      <div class="flex">
+      <!-- <div class="flex">
         <div class="width-expand padding-top-xs" [ngClass]="{ 'text-truncate': !isExpanded }">
           <div (click)="isExpanded = !isExpanded" class="mat-body text-justify" [innerHTML]="description">
 
@@ -73,8 +72,8 @@
             <mat-icon>{{ isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
           </button>
         </div>
-      </div>
-      <div *ngIf="isExpanded" class="flex flex-between">
+      </div> -->
+      <!-- <div *ngIf="isExpanded" class="flex flex-between">
         <span>
           <ws-widget-btn-content-download [widgetData]="{
               contentId: content.identifier,
@@ -105,11 +104,11 @@
                   "></ws-widget-btn-kb-analytics>
           <ws-widget-btn-kb [contentId]="content?.identifier" [forPreview]='false' [contentType]="content?.contentType">
           </ws-widget-btn-kb>
-          <!-- <ws-widget-btn-playlist></ws-widget-btn-playlist> -->
+          <ws-widget-btn-playlist></ws-widget-btn-playlist>
           <ws-widget-btn-goals></ws-widget-btn-goals>
           <ws-widget-btn-content-mail-me></ws-widget-btn-content-mail-me>
         </span>
-      </div>
+      </div> -->
     </mat-card-content>
   </mat-card>
 </ng-container>

@@ -49,7 +49,7 @@ export namespace NsContentStripMultiple {
   }
   export interface IStripInfo {
     mode: 'below' | 'popup' | 'modal'
-    visibilityMode?: 'hidden' | 'visible'
+    visibilityMode?: 'visible'
     icon: {
       icon: string
       scale: number

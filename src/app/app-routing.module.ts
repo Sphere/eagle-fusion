@@ -175,7 +175,7 @@ const routes: Routes = [
     resolve: {
       searchPageData: PageResolve,
     },
-    canActivate: [GeneralGuard],
+    // canActivate: [EmptyRouteGuard],
   },
   {
     path: 'app/social',
@@ -342,7 +342,7 @@ const routes: Routes = [
       pageData: ExploreDetailResolve,
     },
     component: PageComponent,
-    canActivate: [GeneralGuard],
+    // canActivate: [GeneralGuard],
   },
   {
     path: 'page-leaders',

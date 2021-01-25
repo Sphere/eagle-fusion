@@ -40,6 +40,8 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   obj: NsContent.IContent | null = null
   isAuthor = false
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
+  isSmall = false
+  collectionIdentifier: any
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -52,6 +54,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.logo = !isXSmall
+      this.isSmall = isXSmall
     })
     // console.log('enableFullScreen==>', this.enableFullScreen)
   }
@@ -77,6 +80,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     // }
 
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
     const collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     if (collectionId && collectionType) {
       // if (
@@ -116,7 +120,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
             this.viewerSvc.castResource.subscribe(user => this.screenContent = user)
           })
       } catch (e) {
-      // TODO  console.log(e)
+        // TODO  console.log(e)
       }
     }
 

@@ -39,6 +39,7 @@ export class DiscussionPostComponent implements OnInit {
   }
   postReplies: NsDiscussionForum.ITimelineResult[] = []
   isNewRepliesAvailable = false
+  showReplies = false
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -181,5 +182,14 @@ export class DiscussionPostComponent implements OnInit {
     if (this.discussionReplyEditor) {
       this.discussionReplyEditor.resetEditor()
     }
+  }
+  toggleReplies() {
+    this.showReplies = !this.showReplies
+  }
+  showCommentBox(el: HTMLElement) {
+    this.replyPlaceholderToggler = !this.replyPlaceholderToggler
+    setTimeout(() => {
+      el.scrollIntoView()
+    },         500)
   }
 }

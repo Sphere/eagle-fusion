@@ -37,7 +37,9 @@ const routes: Routes = [
     },
     resolve: {
       pageData: PageResolve,
+      timeSpentData: LearningTimeResolver,
     },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'competency',

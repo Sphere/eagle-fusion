@@ -1,17 +1,60 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
-  <a name="application-logo" class="padding-remove-small" routerLink="." i18n-matTooltip matTooltip="Home">
+  <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
+    matTooltip="Home">
     <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" />
     <!-- <span class="title-app mx-2" *ngIf="appName">| {{appName}}</span> -->
   </a>
+  <div class="fix-ww">
+    <!-- <ws-widget-btn-catalog></ws-widget-btn-catalog> -->
+    <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+      *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
+    </ng-container>
 
+    <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1" [ref]="'home'">
+    </ws-app-search-input-home>
+    <span class="spacer"></span>
+    <div ngClass="search-small-logo">
+      <!-- <ng-container [wsLoginResolverWidget]="{
+              'widgetType': 'actionButton',
+              'widgetSubType': 'buttonFeature',
+              'widgetData': {
+                'toolTop': 'Search',
+                'actionBtnId': 'feature_search',
+                'config': {
+                  'type': 'mat-icon-button'
+                }
+              }
+            }"></ng-container> -->
+      <ng-container [wsExploreResolverWidget]="{
+                            'widgetType': 'actionButton',
+                            'widgetSubType': 'buttonFeature',
+                            'widgetData': {
+                              'toolTop': 'Search',
+                              'actionBtnId': 'feature_search',
+                              'config': {
+                                'type': 'mat-icon-button'
+                              }
+                            }
+                          }"></ng-container>
+    </div>
+  </div>
+  <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+    *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
+  </ng-container>
   <span class="spacer"></span>
 
   <div class="flex justify-center flex-col login-btn">
-   
-
-    <button *ngIf="isClientLogin" name="login_client_button" color="primary" mat-raised-button i18n="login: client"
-      (click)="login('S')" class="login-btn header-btn text-white ws-mat-primary-background mat-button-base">
-      <span class="mat-title">Login</span>
+    <button *ngIf="!authSvc.isAuthenticated" name="login_client_button" color="primary" mat-raised-button
+      i18n="login: client" (click)="login('S')" class="login-btn header-btn ws-mat-primary-background mat-button-base">
+      Login
     </button>
   </div>
 </mat-toolbar>
+<ng-template #navbarSide let-item="item">
+  <ng-container *ngIf="item.type === 'widgetButton'">
+    <ng-container *ngIf="item.config.widgetSubType === 'actionButtonCatalog'" [wsExploreResolverWidget]="item.config">
+    </ng-container>
+  </ng-container>
+  <!-- <ws-widget-btn-feature *ngIf="item.type === 'featureButton'" [id]="item.config.actionBtnId" [widgetData]="item.config"
+    [showFixedLength]="true"></ws-widget-btn-feature> -->
+</ng-template>

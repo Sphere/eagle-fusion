@@ -16,7 +16,7 @@
                   stripsResultDataMap[key]?.showOnLoader ||
                   stripsResultDataMap[key]?.showOnError
                 " [ngClass]="
-                  !widgetData.isChannelStrip ? 'px-4 sm:px-8 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
+                  !widgetData.isChannelStrip ? 'px-4 sm\:px-48 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
                 " [id]="key">
           <div *ngIf="!callPublicApi" [ngClass]="{ pad: stripsResultDataMap[key]?.stripBackground }"
             [ngStyle]="{ 'background-color': stripsResultDataMap[key]?.stripBackground }">
@@ -28,15 +28,15 @@
                         : ''
                     ">
               <div class="flex items-center flex-1">
-                <h1 class="mat-h1 margin-remove inline-block" *ngIf="stripsResultDataMap[key]?.stripTitle">
+                <h1 class="mat-h1 header-font margin-remove inline-block" *ngIf="stripsResultDataMap[key]?.stripTitle">
                   {{ stripsResultDataMap[key]?.stripTitle }}
                 </h1>
 
-                <button *ngIf="stripsResultDataMap[key]?.stripInfo?.icon" type="button" mat-icon-button
+                <!-- <button *ngIf="stripsResultDataMap[key]?.stripInfo?.icon" type="button" mat-icon-button
                   (click)="toggleInfo(stripsResultDataMap[key])" i18n-matTooltip matTooltip="info"
                   class="margin-left-xs">
                   <mat-icon>{{ stripsResultDataMap[key]?.stripInfo?.icon.icon }}</mat-icon>
-                </button>
+                </button> -->
                 <span class="spacer"></span>
                 <!-- viewAll -->
                 <div
@@ -56,7 +56,7 @@
                 (click)="showAccordionData = !showAccordionData">{{ showAccordionData ? 'expand_less' : 'expand_more' }}
               </mat-icon>
             </div>
-            <div class="mb-4" *ngIf="stripsResultDataMap[key]?.stripInfo?.visibilityMode === 'visible'">
+            <div class="mb-4">
               <ng-container [wsResolverWidget]="stripsResultDataMap[key]?.stripInfo?.widget"></ng-container>
             </div>
             <div *ngIf="stripsResultDataMap[key]?.showOnLoader" class="text-center my-2">
@@ -69,7 +69,7 @@
             <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length && showAccordion(key)"
               [loadStatus]="'done'">
 
-              <ng-container>                
+              <ng-container>
                 <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsResolverWidget]="widget">
                 </ng-container>
               </ng-container>
@@ -87,20 +87,23 @@
 
     </ng-container>
 
-    <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-12" *ngIf="stripsResultDataMap[key].showStrip && callPublicApi">
-      <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length "
-        [loadStatus]="'done'">
-        
-          <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsLoginResolverWidget]="widget">
-          </ng-container>
-        
-        <!-- <div *ngIf="stripsResultDataMap[key]?.viewMoreUrl" class="ml-4 mr-6 mb-2 view-more ws-mat-primary-text">
-        <a [routerLink]="stripsResultDataMap[key]?.viewMoreUrl?.path"
-          [queryParams]="stripsResultDataMap[key]?.viewMoreUrl?.queryParams">
-          <mat-icon class="icon">arrow_forward</mat-icon>
-          <h3 i18n>View All</h3>
-        </a>
-      </div> -->
+    <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5"
+      *ngIf="stripsResultDataMap[key].showStrip && callPublicApi && !explorePage">
+      <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length " [loadStatus]="'done'">
+
+        <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsLoginResolverWidget]="widget">
+        </ng-container>
+      </ws-utils-horizontal-scroller>
+    </div>
+
+    <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5"
+      *ngIf="stripsResultDataMap[key].showStrip && callPublicApi && explorePage">
+
+      <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length " [loadStatus]="'done'">
+
+
+        <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsExploreResolverWidget]="widget">
+        </ng-container>
       </ws-utils-horizontal-scroller>
     </div>
   </ng-container>

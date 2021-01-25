@@ -46,7 +46,7 @@ input[type=number] {
         min-width: 340px;
         margin-right:30px;
         display: contents;
-        &:last-child { 
+        &:last-child {
           margin-right: 0;
         }
       }
@@ -64,7 +64,7 @@ input[type=number] {
         min-width: 340px;
         margin-right:30px;
         // display: contents;
-        &:last-child { 
+        &:last-child {
           margin-right: 0;
         }
         &.w-auto{
@@ -78,10 +78,10 @@ input[type=number] {
       }
     }
   }
-  
+
 
   .heading{
-    font: 16px 'Poppins-medium';
+    font-size: 16px;
     color: #222222;
     &.mt-10 {
         margin-top: 2.5rem !important;
@@ -113,7 +113,6 @@ input[type=number] {
   .radio-toolbar label {
     display: inline-block;
     padding: 7px 21px;
-    font-family: Poppins;
     font-size: 14px;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #5F5F5F;
@@ -125,24 +124,23 @@ input[type=number] {
   }
 
 .radio-toolbar input[type="radio"]:checked + label {
-  background: #00A9F4 0% 0% no-repeat padding-box;
+  background: #f5d58d 0% 0% no-repeat padding-box;
   border-radius: 6px;
-  border-color: #00A9F4;
-  color: #fff;
+  border-color: #f5d58d;
+  color: #4d4d4d;
 }
 
 .radio-toolbar input[type="radio"]:focus + label {
-  background: #00A9F4 0% 0% no-repeat padding-box;
+  background: #f5d58d 0% 0% no-repeat padding-box;
   border-radius: 6px;
-  border-color: #00A9F4;
+  border-color: #f5d58d;
   color: #fff;
 }
 
 
 .radio-toolbar label:hover {
-  background: none;
-  border-color: #00A9F4;
-  color: #00A9F4;
+  border-color: #f5d58d;
+  color: #4d4d4d;
 }
 
   ::ng-deep .mat-form-field {
@@ -168,7 +166,7 @@ input[type=number] {
   }
 
   .btn-success{
-    background-color: #34D6A4 !important;
+    background-color: #f5d58d !important;
     border-radius: 8px;
     width: 240px;
     box-shadow: none;
@@ -261,8 +259,7 @@ input[type=number] {
   }
 }
 
-.form-label{
-  font-family: Poppins-regular;
+.form-label {
   color: #222222;
   font-size: 14px;
   margin-bottom: .5rem;
@@ -270,11 +267,9 @@ input[type=number] {
 
 input.mat-input-element {
   color: #5F5F5F;
-  font-family: "Poppins-regular";
 }
 
 ::ng-deep.mat-radio-group {
-  font-family: "Poppins-regular";
   padding-bottom: 1.34375em;
 }
 
@@ -284,22 +279,21 @@ input.mat-input-element {
 
 ::ng-deep.mat-chip{
   font-weight: normal;
-  background: #F1F9FF 0% 0% no-repeat padding-box !important;
+  background: #4d4d4d 0% 0% no-repeat padding-box !important;
   border-radius: 12px !important;
-  color: #00A9F4 !important;
-  font-family: Poppins-regular;
+  color: #f5d58d !important;
 
   &:hover{
-    
+
     filter: brightness(90%);
 
   }
 
-  
+
 
  .mat-chip-remove{
     opacity: 1 !important;
-    color: #00A9F4 !important;
+    color: #f5d58d !important;
     border-radius: 50%;
   }
 }
@@ -309,7 +303,7 @@ input.mat-input-element {
 }
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background{
-  background: #00A9F4 0% 0% no-repeat padding-box !important;
+  background: #f5d58d 0% 0% no-repeat padding-box !important;
   border-radius: 4px;
 }
 
@@ -325,19 +319,18 @@ input.mat-input-element {
 ::ng-deep .mat-tab-label-container .mat-tab-list {
   .mat-tab-labels .mat-tab-label{
     font-size: 18px;
-    font-family: Poppins-medium;
     color: #222222;
   }
-  
+
   .mat-tab-labels .mat-tab-label-active{
     .mat-tab-label-content {
-      color: #00A9F4;
+      color: #f5d58d;
     }
   }
-  
+
   .mat-ink-bar{
     height: 3px;
-    background-color: #00A9F4 !important;
+    background-color: #f5d58d !important;
   }
 }
 
@@ -349,10 +342,9 @@ input.mat-input-element {
   &::placeholder{
     color: #BEBEBE;
     font-size: 14px;
-    font-family: 'Poppins Regular', 'Noto Sans', sans-serif;
   }
   &:focus {
-    border: 2px solid #00A9F4;
+    border: 2px solid #f5d58d;
     outline: none;
   }
 
@@ -375,15 +367,21 @@ input.mat-input-element {
   background: #D9F2FE 0% 0% no-repeat padding-box;
   border: 2px solid #FFFFFF;
   position: relative;
-  
+
   mat-icon.person {
-    color: #00A9F4;
+    color: #f5d58d;
     font-size: 4rem;
     width: auto;
     height: auto;
   }
+  .photo {
+    object-fit: cover;
+    border-radius: 50%;
+    height: inherit;
+    width: 100%;
+  }
   .camera-wrapper {
-    background: #00A9F4 0% 0% no-repeat padding-box;
+    background: #f5d58d 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 4px #00000029;
     position: absolute;
     height: 20px;
@@ -399,10 +397,15 @@ input.mat-input-element {
       font-size: 11px;
       width: auto;
       height: auto;
+      margin-top: 7px;
     }
   }
 }
 
+.back-text {
+      top: -8px;
+    position: relative;
+}
 ::ng-deep .mat-checkbox-inner-container {
   height: 23px !important;
   width: 23px !important;
@@ -427,7 +430,7 @@ input.mat-input-element {
     .btn-success{
       margin-right:0;
     }
-  
+
   .profile-cols{
     padding: 1rem;
     .section-input{
@@ -435,7 +438,7 @@ input.mat-input-element {
         min-width: 100%;
         margin-right:30px;
         display: contents;
-        &:last-child { 
+        &:last-child {
           margin-right: 0;
         }
       }
@@ -455,6 +458,6 @@ input.mat-input-element {
       }
     }
   }
-} 
-  
+}
+
 }

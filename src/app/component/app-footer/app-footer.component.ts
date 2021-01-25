@@ -12,6 +12,7 @@ export class AppFooterComponent {
   isXSmall = false
   termsOfUser = true
   appIcon: SafeUrl | null = null
+  isMedium = false
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -25,6 +26,9 @@ export class AppFooterComponent {
     }
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
+    })
+    this.valueSvc.isLtMedium$.subscribe(isMedium => {
+      this.isMedium = isMedium
     })
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(

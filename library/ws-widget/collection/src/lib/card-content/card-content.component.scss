@@ -225,24 +225,25 @@
 
 .card-standard-container {
   $card-padding: $size-m;
+  padding-bottom: 0px !important;
   $action-btn-size: 2.5 * $size-m;
-  $card-width: 270px;
+  $card-width: 276px;
   position: relative;
   width: $card-width;
   height: 100%;
-  min-height: 280px;
+  min-height: 254px;
   box-sizing: border-box;
   box-shadow: transparent 0 0 !important;
 
-  .progress-bar {
+.progress-bar {
     display: block;
-    width: calc(100% + #{2 * $card-padding - 2});
-    margin-left: -#{$card-padding - 1};
+    width: calc(100% + #{2 * $card-padding});
+    margin-left: -#{$card-padding};
     // margin-top: -$card-padding;
     display: flex;
     // width: calc(100% + 30px);
     // margin-left: -15px;
-    margin-top: 62px;
+    margin-top: 66px;
     background: bisque;
   }
 
@@ -255,7 +256,7 @@
     top: 100px;
     background: white;
     z-index: 3;
-    border: 1px solid #DEDFE0;
+    border: 1px solid #dedfe0;
     min-width: 72px;
     min-height: 72px;
     max-width: 72px;
@@ -280,8 +281,8 @@
   }
 
   .card-img {
-    min-width: 269px;
-    max-width: 269px;
+    min-width: 276px;
+    max-width: 276px;
     /* max-height: 148px; */
     display: block;
     object-fit: contain;
@@ -304,8 +305,6 @@
       color: white;
       font-size: 10px;
     }
-
- 
 
     .time-text {
       margin: 0px 5px 0px 6px;
@@ -331,6 +330,7 @@
     margin: 12px 0 5px;
     position: relative;
     overflow: hidden;
+    font-weight: 500;
     height: $title-line-count * $title-line-height;
     line-height: $title-line-height;
   }
@@ -339,6 +339,7 @@
   $description-line-height: 1.5em;
 
   .description-text {
+    font: 400 14px/20px Roboto;
     // font-size: 15px;
     position: relative;
     overflow: hidden;
@@ -355,6 +356,7 @@
   height: 100%;
   box-sizing: border-box;
   min-height: 303px;
+  font-weight: 500;
 
   .card-img {
     height: 150px;
@@ -482,11 +484,35 @@ $title-line-count: 2;
   font-size: 14px;
   line-height: 24px;
   padding-bottom: 0;
+  font-weight: 500;
 }
 .popover-card {
   min-width: 350px;
   max-width: 350px;
   min-height: 500px;
-  box-shadow:  1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
+}
+.mat-h1,
+.fw-500,
+.mat-raised-button {
+  font-weight: 500 !important;
+}
+
+.mat-raised-button {
+  font-size: 16px;
+}
+.mat-typography {
+  font: 400 14px/20px Roboto;
+}
+
+.orange-text {
+  color: #de7e3d;
+  font-weight: 500;
+}
+
+.xs-hidden {
+  @include breakpoint-xs {
+    display: none;
+  }
 }

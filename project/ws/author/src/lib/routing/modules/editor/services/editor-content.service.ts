@@ -70,6 +70,7 @@ export class EditorContentService {
   }
 
   setOriginalMeta(meta: NSContent.IContentMeta) {
+
     this.originalContent[meta.identifier] = JSON.parse(JSON.stringify(meta))
   }
 

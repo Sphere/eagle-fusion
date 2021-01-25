@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   infoNotificationsNextPage?: string
   private pageSize: number
   hideSeen: Boolean = true
+  allSeen!: INotification[]
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -113,21 +114,27 @@ export class HomeComponent implements OnInit {
   }
 
   displayInfoNotifications() {
+    this.allSeen = this.infoNotifications.filter(item => {
+      return !item.seen
+    })
     if (this.hideSeen) {
       return this.infoNotifications.filter(item => {
         return !item.seen
       })
     }
-      return this.infoNotifications
+    return this.infoNotifications
   }
 
   displayActionNotifications() {
+    this.allSeen = this.infoNotifications.filter(item => {
+      return !item.seen
+    })
     if (this.hideSeen) {
       return this.actionNotifications.filter(item => {
         return !item.seen
       })
     }
-      return this.actionNotifications
+    return this.actionNotifications
   }
 
   toggleSeen() {
@@ -138,6 +145,6 @@ export class HomeComponent implements OnInit {
     if (this.hideSeen) {
       return 'Show All'
     }
-      return 'Hide Read'
+    return 'Hide Read'
   }
 }

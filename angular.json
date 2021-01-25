@@ -87,7 +87,8 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/fusion-assets/telemetry.min.js",
-              "node_modules/shepherd.js/dist/js/shepherd.min.js"
+              "node_modules/shepherd.js/dist/js/shepherd.min.js",
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ]
           },
           "configurations": {

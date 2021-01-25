@@ -1,5 +1,5 @@
 <section *ngIf="enableFeature">
-  <h2 class="mat-toolbar cohorts-head shadow">Cohorts</h2>
+  <!-- <h2 class="mat-toolbar cohorts-head shadow">Cohorts</h2> -->
   <mat-accordion [multi]="false">
     <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.ACTIVE_USERS)" [expanded]="true">
       <mat-expansion-panel-header>
@@ -142,7 +142,7 @@
         <div class="mat-caption cohorts-desc">{{ user.desc }}</div>
       </div>
       <div class="width-auto">
-        <ws-widget-btn-mail-user [widgetData]="{ content: content, emails: [user.email] }"></ws-widget-btn-mail-user>
+        <ws-widget-btn-mail-user [widgetData]="{ content: identifier, emails: [user.email] }"></ws-widget-btn-mail-user>
         <ws-widget-btn-call *ngIf="user.phone_No !== '0'" [widgetData]="{
             userName:
               {

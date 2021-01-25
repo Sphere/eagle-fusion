@@ -180,7 +180,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
         duration: NOTIFICATION_TIME * 1000,
       })
     } else {
-      if (fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.m4v') ) {
+      if (fileName.toLowerCase().endsWith('.mp4') || fileName.toLowerCase().endsWith('.m4v')) {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
           width: this.isMobile ? '90vw' : '600px',
           height: 'auto',

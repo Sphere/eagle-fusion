@@ -1,139 +1,225 @@
-<div class="profile-container">
-  <div class="flex flex-wrap mb-4">
-    <mat-card class="about-me ">
-      <span class="font-bold mat-title margin-zero pl-4" i18n="profile">
-        Profile </span>
-      <span class="spacer"></span>
+<div class="profile-container px-4 sm:px-48 md:px-10ss py-0 my-0">
+  <div class="mb-4">
+    <mat-card class="about-me mb-4">
+      <img mat-card-image src="https://d34vfqm2mqjn7i.cloudfront.net/assets/images/profile-bg.jpg"
+        style="height: 168px;">
+      <section class="flex justify-center">
+        <div class="user-avatar flex-1">
 
-      <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/user-profile/details'">
-        <mat-icon>edit</mat-icon>
-        <span i18n class="px-2">Edit</span>
-      </button>
-      <div class="user-avatar ws-mat-primary-lite-background-on-day">
-        <ws-widget-user-image class="user-image" [email]="userEmail" [imageType]="'rounded'"></ws-widget-user-image>
-        <div class="user-name">
-          <h2 class="pl-4 ws-mat-primary-text sm:pl-0">{{ userName }}</h2>
-          <h3 class="font-bold  margin-zero pl-4 sm:pl-0">{{ departmentName }}</h3>
+          <div class="profile-img-wrapper avatar mt-10" *ngIf="userProfileData?.photo">
+            <img class="photo" [src]="userProfileData?.photo" [alt]="Avatar">
+
+          </div>
+
         </div>
-      </div>
-
-
-      <div class="p-4" *ngIf="enabledTabs?.subFeatures?.interests">
-        <div class="flex flex-middle mb-4">
-          <mat-icon>tag_faces</mat-icon>
-          <span class="font-bold mat-title margin-zero pl-4" i18n="interest you follow">
-            Your Interests</span>
-          <span class="spacer"></span>
-
-          <button mat-button class="interest-edit" color="primary" [routerLink]="'/app/profile/interest'">
-            <mat-icon> edit</mat-icon>
-            <span i18n class="px-2">Modify</span>
-          </button>
-
-          <!-- <a
-            mat-raised-button
-            type="button"
-            class="interest-edit"
-            i18n
-            [routerLink]="'/app/profile/interest'"
-            >Edit
-          </a> -->
+        <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'"
+          [queryParams]="{edit: true}">
+          <mat-icon>edit</mat-icon>
+        </span>
+      </section>
+      <div class="user-name">
+        <h2 class="pl-4 ws-mat-primary-text margin-zero sm:pl-0">{{ userName }}
+          {{userProfileData?.personalDetails.surname}}</h2>
+        <div>
+          {{userProfileData?.professionalDetails[0].designation === 'Other' ? userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation }}
         </div>
-        <div *ngIf="!interests?.length" class="pl-4 py-4">
-          <span i18n="no interest">No interest added</span>
-        </div>
-        <mat-chip-list>
-          <mat-chip color="primary" selected *ngFor="let interest of interests">
-            {{ interest }}
-          </mat-chip>
-        </mat-chip-list>
+        <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }} /
+          {{userProfileData?.personalDetails?.mobile}}</div>
       </div>
     </mat-card>
 
-    <div *ngIf="enabledTabs?.subFeatures?.calendar && apiFetchStatus !=='error'"
-      class=" calendar-data description-container padding-xl mat-elevation-z2 ">
-      <div class=" text-center" *ngIf="apiFetchStatus === 'fetching'">
-        <mat-spinner></mat-spinner>
-      </div>
-      <div *ngIf="apiFetchStatus === 'done'">
-        <div class="w-full">
-          <div class="flex flex-middle">
-            <mat-icon>history</mat-icon>
-            <h2 class="font-bold mat-title margin-zero pl-2" i18n="learning time">Learning Time</h2>
-          </div>
-          <!-- <div class="flex flex-middle">
-            <h2 i18n>Total learning hours</h2>
-            <button type="button" mat-icon-button (click)="showInfo('myLearningHours')" i18n-matTooltip
-              matTooltip="info" class="margin-left-xs margin-bottom-m">
-              <mat-icon>info</mat-icon>
-            </button>
-          </div> -->
-          <p *ngIf="totalLearningHours > 0">
-            <span class="ws-mat-primary-text mat-display-1 margin-remove-bottom font-bold margin-left-xl">
-              {{ totalLearningHours | pipeDurationTransform: 'hms' }}
-            </span><sup class="star">*</sup>
-          </p>
-          <p *ngIf="totalLearningHours === 0">
-            <span class="ws-mat-primary-text mat-display-1 margin-remove-bottom font-bold margin-left-xl">
-              0
-            </span>
-            <sup class="star">*</sup>
-          </p>
-          <div class="w-full margin-left-xl margin-top-s" *ngIf="timeSpentData">
-            <h4>
-              <ng-container *ngIf="orgWideTimePercent !== 0" i18n> You are </ng-container>
-              <ng-container *ngIf="orgWideTimePercent > 0 || orgWideTimePercent < 0">
-                {{ orgWideTimePercent }}
-              </ng-container>
-              <ng-container *ngIf="orgWideTimePercent > 0" i18n>
-                % more than org-wide average
-              </ng-container>
-              <ng-container *ngIf="orgWideTimePercent < 0" i18n>
-                % less than org-wide average
-              </ng-container>
-              <ng-container *ngIf="orgWideTimePercent === 0" i18n>
-                You are with org wide average
-              </ng-container>
-            </h4>
-          </div>
-          <div class="flex flex-middle">
-            <mat-icon>history</mat-icon>
-            <h2 class="font-bold mat-title margin-zero pl-2" i18n="learning points">Learning Points</h2>
-          </div>
-          <p class="ws-mat-primary-text mat-display-1 margin-remove-bottom font-bold margin-left-xl">
-            {{ userPointsEarned }}
-          </p>
-          <div class="w-full margin-left-xl margin-top-s" *ngIf="timeSpentData">
-            <!-- <h4 i18n>Learning points compared to Org</h4> -->
-            <h4>
-              <ng-container *ngIf="orgWidePointsPercent !== 0" i18n> You are </ng-container>
-              <ng-container *ngIf="orgWidePointsPercent > 0 || orgWidePointsPercent < 0">
-                {{ orgWidePointsPercent }}
-              </ng-container>
-              <ng-container *ngIf="orgWidePointsPercent > 0" i18n>
-                % more than org-wide average
-              </ng-container>
-              <ng-container *ngIf="orgWidePointsPercent < 0" i18n>
-                % less than org-wide average
-              </ng-container>
-              <ng-container *ngIf="orgWidePointsPercent === 0" i18n>
-                You are with org wide average
-              </ng-container>
-            </h4>
-          </div>
-        </div>
-        <p class="mat-caption msg content-end text-right" i18n>* Last 12 Months only</p>
-        <div *ngIf="timeSpentData?.last_updated_on"
-          class="mat-caption flex flex-middle content-end justify-end remove-margin-top">
-          <ng-container>
-            <span i18n>Last Updated on :</span>
-            <span class="ml-2"> {{ timeSpentData?.last_updated_on | date: 'MMM d, y'}}</span>
-          </ng-container>
+    <ws-app-learning-home #myElem></ws-app-learning-home>
+    <mat-divider></mat-divider>
+
+    <div class="flex flex-middle">
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="About">
+        About</span>
+      <span class="spacer"></span>
+      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 0}"
+        *ngIf="userProfileData?.personalDetails?.about != undefined && userProfileData?.personalDetails?.about != ''">
+        <mat-icon>edit</mat-icon>
+      </span>
+    </div>
+    <div
+      *ngIf="userProfileData?.personalDetails?.about != undefined && userProfileData?.personalDetails?.about != ''; else showElseTemplate">
+      <div class="academic-row mb-4">
+
+        <button mat-fab disabled>
+          <mat-icon mat-list-icon>person</mat-icon>
+        </button>
+        <div class="ml-2">
+          <div class="mt-2">{{userProfileData?.personalDetails.about}}</div>
         </div>
       </div>
     </div>
+    <mat-divider></mat-divider>
+    <!-- <h2 class="font-bold mat-title margin-zero pl-4 py-4" i18n="Education">
+      Education</h2> -->
+    <div class="flex flex-middle">
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Education">
+        Education</span>
+      <span class="spacer"></span>
+      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}"
+        *ngIf="!showAcademicElse">
+        <mat-icon>edit</mat-icon>
+      </span>
+    </div>
+
+    <div>
+
+
+      <div class="academic-row" *ngFor="let academic of userProfileData?.academics">
+        <div class="flex" *ngIf="xStandardValues === 1 && academic.type == 'X_STANDARD'">
+          <button mat-fab disabled>
+            <mat-icon mat-list-icon>school</mat-icon>
+          </button>
+          <div class="ml-2">
+            <div><span>Class X</span>
+              {{academic.nameOfQualification}}</div>
+            <div>{{academic.nameOfInstitute}}</div>
+            <div class="mb-4">{{academic.yearOfPassing}}</div>
+          </div>
+        </div>
+
+        <div class="flex" *ngIf="xiiStandardValues === 1 && academic?.type == 'XII_STANDARD'">
+          <button mat-fab disabled>
+            <mat-icon mat-list-icon>school</mat-icon>
+          </button>
+          <div class="ml-2">
+            <div><span>Class XII</span>
+              {{academic.nameOfQualification}}</div>
+            <div>{{academic.nameOfInstitute}}</div>
+            <div class="mb-4">{{academic.yearOfPassing}}</div>
+          </div>
+        </div>
+        <!-- graduate==>{{graduate}} -->
+        <div class="flex" *ngIf="academic?.nameOfQualification != '' && academic?.type == 'GRADUATE'">
+          <button mat-fab disabled>
+            <mat-icon mat-list-icon>school</mat-icon>
+          </button>
+          <div class="ml-2">
+            <div>
+              <div>Graduate: </div>
+              {{academic.nameOfQualification}}
+            </div>
+            <div>{{academic.nameOfInstitute}}</div>
+            <div class="mb-4">{{academic.yearOfPassing}}</div>
+          </div>
+        </div>
+
+        <div class="flex" *ngIf="academic?.nameOfQualification != '' && academic?.type == 'POSTGRADUATE'">
+          <button mat-fab disabled>
+            <mat-icon mat-list-icon>school</mat-icon>
+          </button>
+          <div class="ml-2">
+            <div>
+              <div>Post Graduate :</div>
+              {{academic.nameOfQualification}}
+            </div>
+            <div>{{academic.nameOfInstitute}}</div>
+            <div class="mb-4">{{academic.yearOfPassing}}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <ng-template #showElseTemplate>
+      <div class="mb-8">
+        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+          [queryParams]="{edit: 0}">+ Add
+          your info</button>
+      </div>
+    </ng-template>
+
+    <ng-template #showElseProfession>
+      <div class="mb-8">
+        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+          [queryParams]="{edit: 2}">+ Add
+          your info</button>
+      </div>
+    </ng-template>
+
+    <ng-template #showElseSkills>
+      <div class="mb-8">
+        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+          [queryParams]="{edit: 3}">+ Add
+          your info</button>
+      </div>
+    </ng-template>
+
+    <div *ngIf="showAcademicElse" class="mb-8">
+      <div class="ml-4 mb-4">You have not added your info in Profile</div>
+      <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+        [queryParams]="{edit: 1}">+ Add your
+        info</button>
+
+    </div>
+    <mat-divider></mat-divider>
+    <!-- <h2 class="font-bold mat-title margin-zero pl-4 py-4" i18n=" Professional info">
+      Professional info</h2> -->
+    <div class="flex flex-middle">
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Professional info">
+        Professional info</span>
+      <span class="spacer"></span>
+      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
+        *ngIf="userProfileData?.professionalDetails[0]?.designation != ''">
+        <mat-icon>edit</mat-icon>
+      </span>
+    </div>
+    <div *ngIf="userProfileData?.professionalDetails[0]?.designation != ''; else showElseProfession">
+
+
+      <div class="academic-row" *ngFor="let profession of userProfileData?.professionalDetails">
+        <button mat-fab disabled>
+          <mat-icon mat-list-icon>account_balance</mat-icon>
+        </button>
+        <div class="ml-2">
+          <div>{{profession.designation}}</div>
+          <div>{{profession.description}}</div>
+          <div>{{profession.industry}}</div>
+          <div class="mb-4">{{profession.doj}}</div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <mat-divider></mat-divider>
+    <!-- <h2 class="font-bold mat-title margin-zero pl-4 py-4" i18n="Education">
+      Skills & Certification</h2> -->
+    <div class="flex flex-middle">
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Skills and Certification">
+        Skills & Certification</span>
+      <span class="spacer"></span>
+      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
+        *ngIf="userProfileData?.skills?.additionalSkills !=''">
+        <mat-icon>edit</mat-icon>
+      </span>
+    </div>
+    <div *ngIf="userProfileData?.skills?.additionalSkills !=''; else showElseSkills">
+
+      <div class="academic-row mb-4">
+        <button mat-fab disabled>
+          <mat-icon mat-list-icon>account_balance</mat-icon>
+        </button>
+        <div class="ml-2">
+          <div class="mt-2">{{userProfileData?.skills?.additionalSkills}}</div>
+          <div class="mt-2">{{userProfileData?.interests?.hobbies}}</div>
+          <div class="mb-4">{{userProfileData?.skills?.certificateDetails}}</div>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+    <ws-app-competency-home></ws-app-competency-home>
+
+
+
   </div>
-  <div *ngIf="enabledTabs?.subFeatures?.pendingCourses && coursePending?.length > 0" class="margin-top-xl">
+  <div *ngIf="coursePending?.length > 0">
     <h1 class="mat-h1" i18n>Pending Courses</h1>
     <div class="text-center" *ngIf="historyFetchStatus === 'fetching'">
       <mat-spinner></mat-spinner>
@@ -143,7 +229,40 @@
       </ws-app-course-pending-card>
     </ws-utils-horizontal-scroller>
   </div>
-  <div *ngIf="enabledTabs?.subFeatures?.latest">
+  <mat-divider></mat-divider>
+
+  <ng-template #interestTemplate>
+    <div class="p-4 mb-4">
+      <div class="flex flex-middle mb-4">
+        <span class="font-bold mat-title margin-zero" i18n="interest you follow">
+          Your Interests</span>
+        <span class="spacer"></span>
+
+        <button mat-button class="interest-edit" color="primary" (click)="showInterest=true">
+          <mat-icon> edit</mat-icon>
+        </button>
+
+      </div>
+      <div *ngIf="!interests?.length" class="pl-4 py-4">
+        <span i18n="no interest">No interest added</span>
+      </div>
+      <mat-chip-list class="mb-5">
+        <mat-chip color="primary" selected *ngFor="let interest of interests">
+          {{ interest }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </ng-template>
+  <div class="w-full flex items-end flex-col" *ngIf="showInterest; else interestTemplate">
+
+    <button mat-icon-button color="primary" class="" (click)="closeInterest()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <ws-app-interest></ws-app-interest>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="profile-strip">
     <ng-container [wsResolverWidget]="widgetResolverData"></ng-container>
   </div>
 </div>

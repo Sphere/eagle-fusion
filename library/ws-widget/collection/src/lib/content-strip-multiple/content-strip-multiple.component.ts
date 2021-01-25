@@ -62,6 +62,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
   changeEventSubscription: Subscription | null = null
   callPublicApi = false
+  explorePage = false
 
   constructor(
     private contentStripSvc: ContentStripMultipleService,
@@ -80,9 +81,11 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     this.isFromAuthoring = this.searchArray.some((word: string) => {
       return url.indexOf(word) > -1
     })
-    if (url.indexOf('login') > 0) {
+    if (url.indexOf('explore') > 0) {
+      this.explorePage = true
+    }
+    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
       this.callPublicApi = true
-
       // Fetch the data
       for (const strip of this.widgetData.strips) {
         if (this.checkForEmptyWidget(strip)) {
@@ -108,8 +111,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             .map(e => e.key)
             .forEach(k => this.fetchStripFromKeyForLogin(k, false))
         })
-        this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
-         } else {
+      this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
+    } else {
       this.initData()
     }
   }
@@ -499,7 +502,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       if (stripInfo.mode === 'below') {
         this.stripsResultDataMap[data.key].stripInfo = {
           ...stripInfo,
-          visibilityMode: stripInfo.visibilityMode === 'hidden' ? 'visible' : 'hidden',
+          visibilityMode: 'visible',
         }
       }
     }

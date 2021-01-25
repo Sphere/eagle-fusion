@@ -3,6 +3,7 @@ import { NsContent } from '@ws-widget/collection'
 import { NSQuiz } from '../../plugins/quiz/quiz.model'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerDataService } from '../../viewer-data.service'
+import { ValueService } from '@ws-widget/utils'
 
 @Component({
   selector: 'viewer-quiz-container',
@@ -20,6 +21,7 @@ export class QuizComponent implements OnInit {
     isAssessment: false,
   }
   @Input() isPreviewMode = false
+  stateChange = false
   isTypeOfCollection = false
   collectionId: string | null = null
   prevResourceUrl: string | null = null
@@ -28,8 +30,15 @@ export class QuizComponent implements OnInit {
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
+  isSmall = false
+  collectionIdentifier: any
 
-  constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: ViewerDataService) {}
+  constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: ViewerDataService,
+              private valueSvc: ValueService) {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isSmall = isXSmall
+    })
+  }
 
   ngOnInit() {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
@@ -44,5 +53,7 @@ export class QuizComponent implements OnInit {
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    this.collectionIdentifier = collectionId
   }
 }

@@ -107,7 +107,6 @@
   padding-top: $size-m;
   @include breakpoint-xs {
     padding: $size-xs;
-    padding-top: 40vh;
   }
 }
 
@@ -138,8 +137,9 @@
 }
 
 .video-player {
-  width: 100%;
+  width: 99%;
   height: 75vh;
+  margin: 0 auto;
   position: relative;
   @include breakpoint-lt-xl {
     height: 70vh;
@@ -153,22 +153,20 @@
   @include breakpoint-lt-s {
     height: 55vh;
   }
-  @include breakpoint-xs {
-    display: none;
-  }
+  // @include breakpoint-xs {
+  //   display: none;
+  // }
 }
 
 .video-player-m {
-  position: fixed;
-  top: 55px;
   left: 0px;
   height: 40vh;
   width: 100vw;
   z-index: 1000;
   background: black;
-  @include breakpoint-gt-xs {
-    display: none;
-  }
+  // @include breakpoint-gt-xs {
+  //   display: none;
+  // }
 }
 
 .vidoe-title {
@@ -231,4 +229,17 @@
 .audio-player-embed {
   height: 100vh;
   width: 100vw;
+}
+.next-button .width-auto {
+    right: -35px;
+}
+.prev-button .width-auto {
+    left: -35px;
+}
+
+.prev-button .title {
+    margin-left: -35px !important;
+}
+.next-button .title {
+    margin-right: -35px;
 }

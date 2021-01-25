@@ -1,7 +1,7 @@
 <div [ngClass]="{
     'banner-container': bannerUrl,
     'ws-mat-primary-lite-background-on-day': !bannerUrl
-  }" >
+  }">
   <div class="flex flex-between flex-wrap-reverse">
     <div class="header-left">
       <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
@@ -26,8 +26,7 @@
         </div>
         <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
           <!-- Overview Section -->
-          <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
-           >
+          <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner">
             <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
               {{ content?.subTitle | pipeLimitTo: 250 }}
             </h2>
@@ -59,7 +58,9 @@
 
             <!-- {{fetchCohorts(cohortTypesEnum.ACTIVE_USERS)}} -->
             <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
-              {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active Learners
+              <a [routerLink]="'./details'" [queryParams]="{id: content.identifier}">
+                Cohorts :<span class="blue-link"> {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active Learners
+                </span></a>
             </div>
           </div>
 
@@ -119,20 +120,21 @@
             ">
                   <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
                     [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
-                    [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="margin-right-m ws-mat-primary-background"
-                    mat-flat-button>
+                    [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
+                    class="margin-right-m ws-mat-primary-background" mat-flat-button>
                     <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
                       {{resumeData?"Resume":"Start"}}
                     </ng-container>
                   </a>
                   <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
-                    [routerLink]="firstResourceLink?.url" class="margin-right-m ws-mat-primary-background" mat-flat-button>
+                    [routerLink]="firstResourceLink?.url" class="margin-right-m ws-mat-primary-background"
+                    mat-flat-button>
                     <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment</ng-container>
                   </a>
                 </ng-container>
                 <ng-container *ngIf="actionBtnStatus == 'reject' && content?.registrationUrl">
-                  <a [href]="content?.registrationUrl" target="_blank" [color]="'primary'" class="margin-right-m ws-mat-primary-background" i18n
-                    mat-flat-button>Register</a>
+                  <a [href]="content?.registrationUrl" target="_blank" [color]="'primary'"
+                    class="margin-right-m ws-mat-primary-background" i18n mat-flat-button>Register</a>
                 </ng-container>
               </div>
             </ng-container>
@@ -153,9 +155,37 @@
               <div class="hidden-block-xs">
                 <ng-container [ngTemplateOutlet]="actions"></ng-container>
               </div>
-              <button mat-icon-button class="visible-block-xs" [matMenuTriggerFor]="actionMenu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
+              <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button *ngIf="editButton"
+                [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                <img src="/assets/images/edit.png" class="action-icons" />
+              </a>
+              <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
+                *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                <img src="/assets/images/upload.svg" class="action-icons" />
+              </a>
+              <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+                      content
+                        | pipePartialContent
+                          : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
+                                  'artifactUrl']
+                    "></ws-widget-btn-content-download>
+              <ws-widget-btn-content-like [forPreview]="forPreview"
+                [widgetData]="content | pipePartialContent: ['identifier']">
+              </ws-widget-btn-content-like>
+              <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+              </ws-widget-btn-content-share>
+              <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
+                [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
+              </ws-widget-btn-kb>
+              <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
+                [widgetData]="btnGoalsConfig">
+              </ws-widget-btn-goals>
+              <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
+                [widgetData]="btnPlaylistConfig">
+              </ws-widget-btn-playlist>
+              <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+                [widgetData]="content | pipePartialContent: ['identifier', 'name']">
+              </ws-widget-btn-content-feedback-v2>
             </div>
           </div>
           <p class="margin-top-l margin-remove-bottom" *ngIf="content?.isInIntranet && showIntranetMsg">
@@ -178,7 +208,8 @@
 
     </div>
   </div>
-  <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier">
+  <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
+    [progress]="content?.progress?.progress">
   </ws-widget-content-progress>
 
   <mat-menu #actionMenu="matMenu">
@@ -188,33 +219,6 @@
   </mat-menu>
 
   <ng-template #actions>
-    <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button *ngIf="editButton"
-      [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-      <img src="/assets/images/edit.png" class="action-icons"/>
-    </a>
-    <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
-      *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-      <img src="/assets/images/upload.svg" class="action-icons"/>
-    </a>
-    <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-      content
-        | pipePartialContent
-          : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
-                  'artifactUrl']
-    "></ws-widget-btn-content-download>
-    <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="content | pipePartialContent: ['identifier']">
-    </ws-widget-btn-content-like>
-    <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content"></ws-widget-btn-content-share>
-    <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier" [contentName]="content?.name"
-      [contentType]="content?.contentType" [status]="content?.status">
-    </ws-widget-btn-kb>
-    <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
-      [widgetData]="btnGoalsConfig">
-    </ws-widget-btn-goals>
-    <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
-    </ws-widget-btn-playlist>
-    <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
-      [widgetData]="content | pipePartialContent: ['identifier', 'name']">
-    </ws-widget-btn-content-feedback-v2>
+
   </ng-template>
   <ng-template #authView i18n>View</ng-template>

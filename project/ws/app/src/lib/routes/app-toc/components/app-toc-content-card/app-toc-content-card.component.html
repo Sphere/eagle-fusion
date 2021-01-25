@@ -116,14 +116,7 @@
           </div>
         </div>
       </a>
-      
-        <button *ngIf="content?.artifactUrl && !isXSmall" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
-          <mat-icon>more_vertical</mat-icon>
-        </button>
-     
-      <!-- <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
-        <mat-icon>more_vertical</mat-icon>
-      </button> -->
+
     </div>
     <!-- <div class="resource-meta width-expand">
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
@@ -139,25 +132,3 @@
     </div> -->
   </div>
 </ng-container>
-
-<mat-menu #buttonMenu="matMenu">
-  <!-- <a mat-menu-item [routerLink]="'../../' + content?.identifier + '/overview'" [queryParams]="contextPath"
-    class="flex flex-middle">
-    <mat-icon>toc</mat-icon>
-    <h3 class="margin-remove" i18n>
-      View Details
-    </h3>
-  </a> -->
-  <div mat-menu-item>
-    <ws-widget-btn-content-download [widgetData]="
-        content
-          | pipePartialContent
-            : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal']
-      "></ws-widget-btn-content-download>
-    <ws-widget-btn-content-like [widgetData]="content | pipePartialContent: ['identifier']">
-    </ws-widget-btn-content-like>
-    <ws-widget-btn-content-share [widgetData]="content"></ws-widget-btn-content-share>
-    <ws-widget-btn-goals></ws-widget-btn-goals>
-    <ws-widget-btn-playlist></ws-widget-btn-playlist>
-  </div>
-</mat-menu>

@@ -3,6 +3,15 @@
 .highlight {
   color: #f48024 !important;
 }
+.thumb-icon {
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
+}
+.highlight .thumb-icon {
+  opacity: 1;
+}
 
 .vote-triangle {
   $size: 2 * $size-l;

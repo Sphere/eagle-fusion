@@ -4,9 +4,12 @@ $medium-badge-size: 90px;
 $small-badge-size: 50px;
 $badge-padding: 12px;
 
+.line-ht-24 {
+  line-height: 24px !important;
+}
 .card-container {
   position: relative;
-  width: 350px;
+  width: 320px;
   height: 180px;
   margin: 20px 10px;
 }
@@ -21,7 +24,7 @@ $badge-padding: 12px;
 }
 
 .badge-data {
-  margin-top: 5px;
+  margin-top: -25px;
   margin-left: 16px;
 }
 

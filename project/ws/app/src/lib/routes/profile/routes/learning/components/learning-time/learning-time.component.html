@@ -1,15 +1,15 @@
 <div>
   <div class="learning-container flex flex-wrap flex-center">
-    <div class="width-1-1 learning-graph margin-bottom-xl margin-right-m block p-6 mat-elevation-z2">
-      <div *ngIf="timeSpentData?.lastUpdatedDate" class="mat-caption justify-end flex flex-middle">
+    <div class="width-1-1 learning-graph margin-bottom-xl margin-right-m block">
+      <!-- <div *ngIf="timeSpentData?.lastUpdatedDate" class="mat-caption justify-end flex flex-middle">
         <ng-container>
           <span i18n>Last Updated on :</span>
           <span class="ml-2"> {{ timeSpentData?.lastUpdatedDate | date: 'MMM d, y' }}</span>
         </ng-container>
-      </div>
+      </div> -->
       <div class="flex flex-middle">
         <h2 *ngIf="chartsList?.dimensionsChart" i18n>User avg Compared to Org</h2>
-        <h2 *ngIf="!chartsList?.dimensionsChart" i18n>Learning Time</h2>
+        <h2 class="margin-zero" *ngIf="!chartsList?.dimensionsChart" i18n>Learning Time</h2>
         <button type="button" mat-icon-button (click)="showInfo('learningTimePerDay')" i18n-matTooltip matTooltip="info"
           class="margin-left-xs margin-bottom-m">
           <mat-icon>info</mat-icon>
@@ -17,7 +17,7 @@
       </div>
       <ng-container *ngIf="learningTimePerDay" i18n>This chart shows Time that you are viewing learning content on a
         particular day compared to the org.-wide average.</ng-container>
-      <div class="text-center">
+      <div class="text-center -my-2">
         <mat-checkbox i18n [checked]="showDateRange" [color]="'primary'" (change)="changeRangeDisplay()">Date Range
         </mat-checkbox>
       </div>

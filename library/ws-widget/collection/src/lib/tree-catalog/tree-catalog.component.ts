@@ -27,11 +27,11 @@ export class TreeCatalogComponent extends WidgetBaseComponent
     this.catalogSvc
       .getCatalog(this.widgetData.url, this.widgetData.type, this.widgetData.tags)
       .subscribe(
-        catalog => {
+        (catalog: any[]) => {
           this.catalogTreeFetchStatus = 'done'
           if (catalog) {
             if (catalog.length === 1 && catalog[0].children) {
-              this.catalogTree = catalog[0].children.map(item => this.transformToTreeRecursive(item))
+              this.catalogTree = catalog[0].children.map((item: NSSearch.IFilterUnitContent) => this.transformToTreeRecursive(item))
             } else {
               this.catalogTree = catalog.map(item => this.transformToTreeRecursive(item))
             }

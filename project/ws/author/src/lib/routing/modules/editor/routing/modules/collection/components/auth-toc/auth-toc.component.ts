@@ -390,7 +390,6 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
       duration: NOTIFICATION_TIME * 1000,
     })
     this.loaderService.changeLoad.next(false)
-    this.data.emit('refresh')
   }
 
   takeAction(action: string, node: IContentTreeNode, type?: string) {

@@ -12,9 +12,8 @@
 .padding-dynamic {
   padding: $size-xs;
   padding-top: $size-m;
-  @include breakpoint-xs {
+    @include breakpoint-xs {
     padding: $size-xs;
-    padding-top: 40vh;
   }
 }
 
@@ -44,10 +43,14 @@
   }
 }
 
-.video-player, #fullScreenContainer {
-  width: 100%;
+.video-player,
+#fullScreenContainer {
+  width: 98.6%;
   height: 75vh;
   position: relative;
+  min-height: 75vh;
+  margin: 0 6px 0 0px;
+  padding: 0 9px;
   @include breakpoint-lt-xl {
     height: 70vh;
   }
@@ -56,21 +59,41 @@
   }
   @include breakpoint-lt-m {
     height: 60vh;
+    width: 97.5%;
   }
   @include breakpoint-lt-s {
     height: 55vh;
+    width: 89%;
   }
   @include breakpoint-xs {
-    position: fixed;
-    top: 55px;
-    left: 0px;
-    height: 40vh;
-    width: 100vw;
-    z-index: 1000;
-    background: black;
+    position: relative;
+    top: 0;
+    left: 14px;
+  }
+  @include breakpoint-m {
+    width: 96.6%;
   }
 }
 
+.next-button .width-auto {
+  right: -16px;
+}
+
+.prev-button .width-auto {
+  left: -34px;
+}
+.align-arrow {
+   margin-left: -12px;
+   top: -3px;
+    position: relative;
+}
+
+.prev-button .title {
+    margin-left: -34px !important;
+}
+.next-button .title {
+    margin-right: -16px;
+}
 ::ng-deep #youtubeTag {
   min-height: 75vh;
 }

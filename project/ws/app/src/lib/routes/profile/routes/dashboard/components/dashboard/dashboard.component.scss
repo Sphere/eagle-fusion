@@ -3,20 +3,40 @@
 
 .profile-container {
   margin: 16px 16px 0 16px;
+  padding-top: 25px;
 
   @include breakpoint-xs {
     margin: 16px 16px 0 16px;
   }
 
+.color-blue {
+  color: #18acec
+}
+.info-btn {
+  border-radius: 50px;
+  color: rgba(0, 0, 0, 0.87) !important;
+    border-color: #f5d58d;
+        margin-left: 15px;
+    &:hover {
+      background-color: #f5d58d;
+      color: rgba(0, 0, 0, 0.87) !important;
+    }
+}
+.academic-row {
+      display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+}
   .margin-zero {
     margin-bottom: 0px;
   }
 
   .about-me {
-    width: 45%;
     min-width: 220px;
-    margin-right: 24px;
+    margin: 0 auto;
     padding-bottom: 16px;
+    margin-bottom: 2rem;
+    background-color: #f0f0f0;
 
     @include breakpoint-lt-m {
       width: 100%;
@@ -25,17 +45,25 @@
       margin-bottom: 16px;
     }
 
-    .user-avatar {
-      display: flex;
-      align-items: center;
-      padding: 16px;
-
-      .user-name {
-        display: flex;
-        margin-left: 16px;
-        flex-direction: column;
+    .avatar {
+    max-width: 150px;
+    max-height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -95px;
+}
+ .user-name {
+       text-align: center;
       }
 
+    .user-avatar {
+      padding: 16px;
+       flex:1;
+   display: flex;
+   justify-content: center;
       h2 {
         margin: 0;
       }
@@ -229,3 +257,17 @@
 // .learning-details {
 //   width: 32%;
 // }
+
+  @media (min-width: 600px) {
+   .profile-container div.sm\:px-48 {
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+  }
+  ::ng-deep .profile-strip div.sm\:px-48 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+  ::ng-deep .profile-strip h1.header-font {
+    font-size: 23px !important;
+  }
+  }
