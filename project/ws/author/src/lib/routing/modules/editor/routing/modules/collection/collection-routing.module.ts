@@ -1,11 +1,12 @@
-import { CollectionComponent } from './components/collection/collection.component'
+import { CourseCollectionComponent } from './components/course-collection/course-collection.component'
+// import { CollectionComponent } from './components/collection/collection.component'
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
 const routes: Routes = [
   {
     path: '',
-    component: CollectionComponent,
+    component: CourseCollectionComponent,
   },
 ]
 

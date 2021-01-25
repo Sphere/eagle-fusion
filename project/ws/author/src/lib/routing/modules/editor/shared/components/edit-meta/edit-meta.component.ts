@@ -35,6 +35,7 @@ import { IFormMeta } from './../../../../../../interface/form'
 import { AccessControlService } from './../../../../../../modules/shared/services/access-control.service'
 import { AuthInitService } from './../../../../../../services/init.service'
 import { LoaderService } from './../../../../../../services/loader.service'
+// import { CollectionStoreService } from './../../../routing/modules/collection/services/store.service'
 import {
   debounceTime,
   distinctUntilChanged,
@@ -54,7 +55,9 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() data = new EventEmitter<string>()
   @Input() isSubmitPressed = false
   @Input() nextAction = 'done'
-  @Input() stage = 3
+  @Input() stage = 1
+  @Input() type = ''
+
   location = CONTENT_BASE_STATIC
   selectable = true
   removable = true
@@ -88,7 +91,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA]
   selectedIndex = 0
   hours = 0
-  minutes = 0
+  minutes = 1
   seconds = 0
   @Input() parentContent: string | null = null
   routerSubscription!: Subscription
@@ -97,6 +100,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   showMoreGlance = false
   complexityLevelList: string[] = []
   isEditEnabled = false
+  public sideNavBarOpened = false
 
   @ViewChild('creatorContactsView', { static: false }) creatorContactsView!: ElementRef
   @ViewChild('trackContactsView', { static: false }) trackContactsView!: ElementRef
@@ -112,6 +116,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   timer: any
 
   filteredOptions$: Observable<string[]> = of([])
+  saveParent: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -155,7 +160,6 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.regionCtrl = new FormControl()
     this.accessPathsCtrl = new FormControl()
     this.accessPathsCtrl.disable()
-
     this.creatorContactsCtrl.valueChanges
       .pipe(
         debounceTime(500),
@@ -329,6 +333,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private set content(contentMeta: NSContent.IContentMeta) {
+
     this.contentMeta = contentMeta
     this.isEditEnabled = this.contentService.hasAccess(
       contentMeta,
@@ -427,7 +432,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           if (v === 'expiryDate') {
             this.contentForm.controls[v].setValue(
-              new Date(new Date().setMonth(new Date().getMonth() + 6)),
+              new Date(new Date().setMonth(new Date().getMonth() + 60)),
             )
           } else {
             this.contentForm.controls[v].setValue(
@@ -476,7 +481,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   changeMimeType() {
-    const artifactUrl = this.contentForm.controls.artifactUrl.value
+    const artifactUrl = this.contentForm.controls.artifactUrl ? this.contentForm.controls.artifactUrl.value : ''
     if (this.contentForm.controls.contentType.value === 'Course') {
       this.contentForm.controls.mimeType.setValue('application/vnd.ekstep.content-collection')
     } else {
@@ -533,6 +538,56 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       if (originalMeta && this.isEditEnabled) {
         const expiryDate = this.contentForm.value.expiryDate
         const currentMeta: NSContent.IContentMeta = JSON.parse(JSON.stringify(this.contentForm.value))
+
+        const exemptArray  = ['application/quiz', 'application/x-mpegURL', 'audio/mpeg']
+        if (exemptArray.includes(originalMeta.mimeType)) {
+          currentMeta.artifactUrl = originalMeta.artifactUrl
+          currentMeta.mimeType = originalMeta.mimeType
+        }
+        if (!currentMeta.duration && originalMeta.duration) {
+            currentMeta.duration = originalMeta.duration
+        }
+        if (!currentMeta.appIcon && originalMeta.appIcon) {
+          currentMeta.appIcon = originalMeta.appIcon
+          currentMeta.thumbnail = originalMeta.thumbnail
+        }
+        // currentMeta.resourceType=currentMeta.categoryType;
+
+        if (currentMeta.status === 'Draft') {
+          const parentData = this.contentService.parentUpdatedMeta()
+
+         if (parentData  && currentMeta.identifier !== parentData.identifier) {
+         //   currentMeta.thumbnail = parentData.thumbnail !== '' ? parentData.thumbnail : currentMeta.thumbnail
+           // currentMeta.appIcon = parentData.appIcon !== '' ? parentData.appIcon : currentMeta.appIcon
+          //  if (!currentMeta.posterImage) {
+          //   currentMeta.posterImage = parentData.posterImage !== '' ? parentData.posterImage : currentMeta.posterImage
+          //  }
+            if (!currentMeta.subTitle) {
+            currentMeta.subTitle = parentData.subTitle !== '' ?  parentData.subTitle : currentMeta.subTitle
+            }
+            if (!currentMeta.body) {
+            currentMeta.body = parentData.body !== '' ?  parentData.body : currentMeta.body
+            }
+            if (!currentMeta.categoryType) {
+            currentMeta.categoryType = parentData.categoryType !== '' ?  parentData.categoryType : currentMeta.categoryType
+            }
+            if (!currentMeta.resourceType) {
+            currentMeta.resourceType = parentData.resourceType !== '' ?  parentData.resourceType : currentMeta.resourceType
+            }
+
+            if (!currentMeta.sourceName) {
+            currentMeta.sourceName = parentData.sourceName !== '' ?  parentData.sourceName : currentMeta.sourceName
+            }
+         }
+        }
+        // if(currentMeta.categoryType && !currentMeta.resourceType){
+        //   currentMeta.resourceType = currentMeta.categoryType
+        // }
+
+        // if(currentMeta.resourceType && !currentMeta.categoryType){
+        //   currentMeta.categoryType = currentMeta.resourceType
+        // }
+
         const meta = <any>{}
         if (this.canExpiry) {
           currentMeta.expiryDate = `${
@@ -546,8 +601,9 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         Object.keys(currentMeta).map(v => {
           if (
             JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
-            JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta])
+            JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile'
           ) {
+
             if (
               currentMeta[v as keyof NSContent.IContentMeta] ||
               (this.authInitService.authConfig[v as keyof IFormMeta].type === 'boolean' &&
@@ -566,13 +622,32 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           }
         })
+
+        if (this.stage >= 1 && !this.type) {
+          delete meta.artifactUrl
+        }
         this.contentService.setUpdatedMeta(meta, this.contentMeta.identifier)
+
       }
     } catch (ex) {
       this.snackBar.open('Please Save Parent first and refresh page.')
-
+      if (ex) {
+        // this.saveParent = true
+        // this.emitSaveData(true)
+      }
+      // this.contentService.parentContent
     }
+
   }
+  // emitSaveData(flag: boolean) {
+  //   if (flag) {
+  //     this.saveParent = 1
+  //     if (this.saveParent === 1) {
+  //       this.data.emit('save')
+  //     }
+  //     this.saveParent = 2
+  //   }
+  // }
 
   updateContentService(meta: string, value: any, event = false) {
     this.contentForm.controls[meta].setValue(value, { events: event })
@@ -1082,6 +1157,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     // resourceType
     this.contentForm.controls.resourceType.valueChanges.subscribe(() => {
       this.contentForm.controls.categoryType.setValue(this.contentForm.controls.resourceType.value)
+     // this.contentForm.controls.resourceType.setValue(this.contentForm.controls.resourceType.value)
     })
 
     this.contentForm.controls.resourceCategory.valueChanges.subscribe(() => {
