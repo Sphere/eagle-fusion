@@ -1,6 +1,9 @@
 @import 'ws-vars';
 @import 'ws-mixins';
 
+.theme-igot.day-mode .mat-typography .unit-meta-item h2{
+   margin-bottom: 0px;
+}
 .meta-section {
   flex: 1;
   min-width: 1px;
@@ -11,8 +14,10 @@
     margin-bottom: $size-xl;
     margin-top: $size-m;
     clear: both;
+    border-bottom: solid 1px #dfdfdf;
     h2 {
       font-size: 22px;
+      margin-bottom: 0px;
     }
   }
 

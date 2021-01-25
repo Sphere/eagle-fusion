@@ -1,6 +1,16 @@
 @import 'ws-common';
 @import 'ws-mixins';
 
+::ng-deep .theme-igot.day-mode .mat-drawer-container {
+    background-color: transparent;
+}
+.floating-btn {
+  position: fixed;
+  z-index: 9;
+  background-color: #f1f1f1 !important;
+  padding: 9px;
+      min-width: 50px;
+}
 .width-expand {
   flex: 1;
   min-width: 1px;

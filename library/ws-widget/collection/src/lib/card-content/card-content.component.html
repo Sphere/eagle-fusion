@@ -17,7 +17,7 @@
       ? false
       : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
 
-  <mat-card class="card-standard-container mr-8" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
+  <mat-card class="card-standard-container mr-8 1" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
         greyOut:
           widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
             ? true
@@ -41,10 +41,11 @@
         <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
-              [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
-              class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.appIcon"
+              [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+              [title]="widgetData.content.name" />
+            <span class="img-overlay"></span>
             <div class="source-div mt-4">
             </div>
           </div>
@@ -104,7 +105,7 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
@@ -120,7 +121,7 @@
 
   <ng-template #elseBlock1>
 
-    <mat-card class="card-standard-container mr-8" [ngClass]="{
+    <mat-card class="card-standard-container mr-8 2" [ngClass]="{
           greyOut:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
               ? true
@@ -144,10 +145,11 @@
           <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
-              <img mat-card-image style="position: absolute; z-index: 2; margin-top: -32px;"
-                [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
-                class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-                [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+                [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+                [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+                [title]="widgetData.content.name" />
+              <span class="img-overlay"></span>
               <div class="source-div mt-4">
               </div>
             </div>
@@ -260,6 +262,7 @@
           <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
             class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+          <span class="img-overlay"></span>
         </a>
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
@@ -348,7 +351,7 @@
 </ng-template>
 
 <ng-template #cardStandard>
-  <mat-card class="card-standard-container mr-8" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
+  <mat-card class="card-standard-container mr-8 3" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
       greyOut:
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
@@ -378,6 +381,7 @@
               [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
               [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
               [title]="widgetData.content.name" />
+            <span class="img-overlay"></span>
             <div class="source-div">
 
             </div>
@@ -430,7 +434,7 @@
 
   </mat-card>
   <ng-template #elseBlock>
-    <mat-card class="card-standard-container mr-8" [ngClass]="{
+    <mat-card class="card-standard-container mr-8 4" [ngClass]="{
           greyOut:
             widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
               ? true
@@ -460,6 +464,7 @@
                 [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
                 [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
                 [title]="widgetData.content.name" />
+              <span class="img-overlay"></span>
               <div class="source-div">
 
               </div>
@@ -542,7 +547,7 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
@@ -605,6 +610,7 @@
           <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
             class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+          <span class="img-overlay"></span>
         </a>
         <button class="detail-button ws-mat-primary-lite-background-op30" mat-icon-button (click)="isCardFlipped = true"
           aria-label="Details" i18n-aria-label="Details | Click to see details">
@@ -718,6 +724,7 @@
         <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        <span class="img-overlay"></span>
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
         </ws-widget-content-progress>
@@ -819,6 +826,7 @@
           class="card-img ws-mat-primary-lite-background" [ngClass]="{ 'greyed-img': isGreyedImage }"
           [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
           [title]="widgetData.content.name" />
+        <span class="img-overlay"></span>
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
         </ws-widget-content-progress>
@@ -940,6 +948,7 @@
         <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        <span class="img-overlay"></span>
       </a>
       <mat-card-content>
         <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
