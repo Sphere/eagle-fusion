@@ -52,7 +52,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   searchCourseQuery = ''
-  hideSideNav: boolean = false
+  hideSideNav = false
 
   constructor(
     private activatedRoute: ActivatedRoute,

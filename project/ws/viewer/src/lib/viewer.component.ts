@@ -200,13 +200,10 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   toggleSideBar() {
     this.sideNavBarOpened = !this.sideNavBarOpened
-    console.log('this.sideNavBarOpened', this.sideNavBarOpened)
   }
 
   minimizeBar() {
-    console.log('yes')
     this.sideNavBarOpened = !this.sideNavBarOpened
-    console.log('this.sideNavBarOpened', this.sideNavBarOpened)
     if (this.utilitySvc.isMobile) {
       this.sideNavBarOpened = true
     }
