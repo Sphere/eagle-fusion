@@ -1,0 +1,19 @@
+<form class="example-form" [formGroup]="otpForm">
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Enter OTP</mat-label>
+    <input type="text" matInput placeholder="otp" formControlName="otp">
+  </mat-form-field>
+
+
+  <div class="assessment-action-buttons mt-8 d-flex flex-center">
+    <button mat-stroked-button *ngIf="!disableResendButton" class="resend mr-4 w-50" tabindex="0"
+      [ngClass]="{'grey': disableResendButton}" (click)="resendOTP(); disableResendButton = true;">
+      Resend OTP</button>
+
+
+    <button mat-raised-button class="w-50" color="primary"
+      [ngClass]="{'grey':disableSubmitBtn, 'sb-btn-primary':!disableSubmitBtn}" tabindex="0" (click)="verifyOTP()">
+      Submit</button>
+  </div>
+</form>

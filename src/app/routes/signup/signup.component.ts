@@ -20,13 +20,12 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    ) {
+  ) {
     this.signupForm = new FormGroup({
-      fname: new FormControl('', [Validators.required]),
-      lname: new FormControl('', [Validators.required]),
-      // mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      code: new FormControl('', [Validators.required]),
+      fullName: new FormControl('', [Validators.required]),
+      mobile: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
     })
   }
 
@@ -44,16 +43,17 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSubmit(form: any) {
     this.uploadSaveData = true
+    // console.log('form val', form.value)
     this.signupService.signup(form.value).subscribe(
-    () => {
-      form.reset()
-      this.uploadSaveData = false
-      this.openSnackbar(this.toastSuccess.nativeElement.value)
-    },
-    err => {
-      this.openSnackbar(err.error.split(':')[1])
-      this.uploadSaveData = false
-    })
+      () => {
+        form.reset()
+        this.uploadSaveData = false
+        this.openSnackbar(this.toastSuccess.nativeElement.value)
+      },
+      err => {
+        this.openSnackbar(err.error.split(':')[1])
+        this.uploadSaveData = false
+      })
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {

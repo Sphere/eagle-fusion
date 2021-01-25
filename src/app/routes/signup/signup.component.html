@@ -4,62 +4,53 @@
   </h2>
   <form class="example-form" [formGroup]="signupForm">
     <mat-form-field appearance="outline" class="w-full">
-      <mat-label>First Name</mat-label>
-      <input type="text" matInput placeholder="First name" formControlName="fname">
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Last Name</mat-label>
-      <input type="text" matInput placeholder="Last name" formControlName="lname">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput placeholder="Full Name" formControlName="fullName">
     </mat-form-field>
     <!-- <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Mobile Number</mat-label>
-      <input type="number" matInput placeholder="Mobile number" formControlName="mobile">
+      <mat-label>Enter mobile number</mat-label>
+      <input type="text" matInput placeholder="Enter mobile number " formControlName="mobileNumber">
     </mat-form-field> -->
     <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Email</mat-label>
-      <input type="email" matInput placeholder="Email" formControlName="email">
+      <mat-label>Mobile Number</mat-label>
+      <input type="number" matInput placeholder="Mobile number" formControlName="mobile">
+      <span matPrefix class="prefix91">+91-&nbsp;</span>
     </mat-form-field>
     <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Unique Code</mat-label>
-      <input type="text" matInput placeholder="Unique code" formControlName="code">
+      <mat-label>password</mat-label>
+      <input type="password" matInput placeholder="password" formControlName="password">
+
+    </mat-form-field>
+    <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 8 characters. It must include
+      numerals, lower and
+      upper case
+      alphabets and
+      special characters, without any spaces</div>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Confirm password</mat-label>
+      <input type="password" matInput placeholder="confirm password" formControlName="confirmPassword">
     </mat-form-field>
     <div class="border"></div>
 
-    <div class="mt-4 flex justify-end">
+    <div class="mt-4 flex justify-center">
       <!-- <div class="center flex items-center"> -->
       <!-- <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
             <mat-spinner [diameter]="30"></mat-spinner>
           </div> -->
-      <button mat-raised-button
-        color="primary"
-        type="submit" 
-        i18n 
-        [disabled]="uploadSaveData || !signupForm?.valid"
-        (click)="onSubmit(signupForm)">
+      <button mat-raised-button class="md-large-button" color="primary" type="submit" i18n
+        [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
 
-        <ng-container i18n>Save Changes</ng-container>
+        <ng-container i18n>Register</ng-container>
       </button>
-
 
 
       <!-- <button type="reset" (click)="onReset()" class="pl-4 mat-button">Cancel</button> -->
     </div>
   </form>
+  <!--OTP component-->
+  <ws-otp *ngIf="submitted"></ws-otp>
 </div>
 
-<input
-  type="hidden"
-  i18-value
-  i18-aria-value
-  aria-value="Signup successful"
-  value="Thanks for Signing up"
-  #toastSuccess
-/>
-<input
-  type="hidden"
-  i18-value
-  i18-aria-value
-  aria-value="unable to signup"
-  value="Error Signing up!"
-  #toastError
-/>
+<input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"
+  #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />
