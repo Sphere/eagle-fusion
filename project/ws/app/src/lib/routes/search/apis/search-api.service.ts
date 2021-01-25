@@ -10,6 +10,7 @@ const API_END_POINTS = {
   SOCIAL_VIEW_SEARCH_RESULT: `${PROTECTED_SLAG_V8}/social/post/search`,
   SEARCH_AUTO_COMPLETE: `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
+  SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
 }
 @Injectable({
   providedIn: 'root',
@@ -33,16 +34,17 @@ export class SearchApiService {
   }
 
   getSearchV6Results(body: NSSearch.ISearchV6Request): Observable<NSSearch.ISearchV6ApiResult> {
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V6, body).pipe(map((res: NSSearch.ISearchV6ApiResult) => {
-      for (const filter of res.filters) {
-        if (filter.type === 'catalogPaths') {
-          if (filter.content.length === 1) {
-            filter.content = filter.content[0].children || []
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.SEARCH_V6PUBLIC, body)
+      .pipe(map((res: NSSearch.ISearchV6ApiResult) => {
+        for (const filter of res.filters) {
+          if (filter.type === 'catalogPaths') {
+            if (filter.content.length === 1) {
+              filter.content = filter.content[0].children || []
+            }
+            break
           }
-          break
         }
-      }
-      return res
-    }))
+        return res
+      }))
   }
 }

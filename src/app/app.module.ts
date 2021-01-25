@@ -138,7 +138,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
-    TncComponent,
+    TncComponent, AppPublicNavBarComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [

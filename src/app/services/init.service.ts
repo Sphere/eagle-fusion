@@ -88,6 +88,11 @@ export class InitService {
     const authenticated = await this.authSvc.initAuth()
     if (!authenticated) {
       this.settingsSvc.initializePrefChanges(environment.production)
+      // TODO: use the rootOrg and org to fetch the instance
+      const publicConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
       this.updateNavConfig()
       this.logger.info('Not Authenticated')
       this.loginResolverService.initialize()
@@ -357,6 +362,7 @@ export class InitService {
       if (background.pageNavBar) {
         this.configSvc.pageNavBar = background.pageNavBar
       }
+
       if (this.configSvc.instanceConfig.primaryNavBarConfig) {
         this.configSvc.primaryNavBarConfig = this.configSvc.instanceConfig.primaryNavBarConfig
       }

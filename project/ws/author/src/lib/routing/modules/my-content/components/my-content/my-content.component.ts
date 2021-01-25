@@ -54,7 +54,6 @@ export class MyContentComponent implements OnInit, OnDestroy {
   ordinals: any
   isAdmin = false
   currentAction: 'author' | 'reviewer' | 'expiry' | 'deleted' = 'author'
-  listview = true
   @ViewChild('searchInput', { static: false }) searchInputElem: ElementRef<any> = {} as ElementRef<
     any
   >

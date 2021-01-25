@@ -264,25 +264,3 @@ ul li {
     flex-direction: column;
   }
 }
-
-@media (min-width: 961px) {
-  .width-300 {
-    width: 300
-  }
-}
-.cross-btn {
-  margin-left: auto;
-  order: 2;
-  padding-right: 15px;
-}
-
-.inner-section {
-  display: block;
-    margin: 0 -12px;
-    max-height: 78vh;
-    overflow: auto;
-}
-.header-bg {
-  background-color: #edf1e5;
-  margin: -12px;
-}

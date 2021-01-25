@@ -34,9 +34,6 @@ export class CreateComponent implements OnInit, OnDestroy {
   allowExpiry = false
   allowRestore = false
   isNewDesign = false
-  content: ICreateEntity | undefined
-  courseObj = ''
-  courseEntity!: ICreateEntity
 
   constructor(
     private snackBar: MatSnackBar,
@@ -54,11 +51,7 @@ export class CreateComponent implements OnInit, OnDestroy {
         if (v.id === 'resource') {
           this.resourceEntity = v
         } else {
-          if (v.id === 'course') {
-            this.courseEntity = v
-          } else {
-            this.entity.push(v)
-          }
+          this.entity.push(v)
         }
       }
     })
@@ -72,6 +65,7 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.allowExpiry = this.accessControlSvc.authoringConfig.allowExpiry
     this.allowReview = this.canShow('review') && this.accessControlSvc.authoringConfig.allowReview
     this.allowPublish = this.canShow('publish') && this.accessControlSvc.authoringConfig.allowPublish
+
   }
 
   canShow(role: string): boolean {
@@ -92,21 +86,13 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   contentClicked(content: ICreateEntity) {
-    if (content) {
-      // this.showCreateCourseForm = true
-      this.content = content
-    }
-  }
-
-  createCourseClicked() {
     this.loaderService.changeLoad.next(true)
-    if (this.content) {
     this.svc
       .create({
-        contentType: this.content.contentType,
-        mimeType: this.content.mimeType,
+        contentType: content.contentType,
+        mimeType: content.mimeType,
         locale: this.language,
-        ...(this.content.additionalMeta || {}),
+        ...(content.additionalMeta || {}),
       })
       .subscribe(
         (id: string) => {
@@ -138,7 +124,6 @@ export class CreateComponent implements OnInit, OnDestroy {
           })
         },
       )
-    }
   }
 
   setCurrentLanguage(lang: string) {

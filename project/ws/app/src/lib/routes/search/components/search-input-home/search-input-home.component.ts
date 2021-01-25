@@ -100,14 +100,14 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     // if (!this.activated.snapshot.data.searchPageData) {
-      this.searchServSvc.getSearchConfig().then(data => {
-        this.activated.snapshot.data = {
-          searchPageData: { data },
-        }
-      }).then(() => {
-        this.autoFilter()
-        this.init()
-      })
+    this.searchServSvc.getSearchConfig().then(data => {
+      this.activated.snapshot.data = {
+        searchPageData: { data },
+      }
+    }).then(() => {
+      // this.autoFilter()
+      // this.init()
+    })
     // } else {
     //   this.autoFilter();
     //   this.init();

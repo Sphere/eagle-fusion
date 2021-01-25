@@ -40,6 +40,8 @@ export class LearningComponent implements OnInit, OnDestroy {
     locale: [],
     sort: [],
     instanceCatalog: true,
+    visibleFilters: [],
+    excludeSourceFields: [],
   }
   searchResultsSubscription: Subscription | undefined
   filtersResetAble = false
@@ -355,100 +357,105 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (this.searchRequestObject.locale && this.searchRequestObject.locale.length > 1) {
       this.searchRequestObject.didYouMean = false
     }
-    this.searchResultsSubscription = this.searchServ
-      .getLearning(this.searchRequestObject)
-      .subscribe(
-        data => {
-          this.searchResults.totalHits = data.totalHits
-          this.searchServ.raiseSearchResponseEvent(
-            this.searchRequestObject.query,
-            this.searchRequestObject.filters,
-            this.searchResults.totalHits,
-            this.searchRequestObject.locale,
-          )
-          this.searchResults.filters = data.filters
-          this.searchResults.queryUsed = data.queryUsed
-          // this.searchResults.type = data.type
-          this.searchResults.result = [...this.searchResults.result, ...data.result]
-          this.searchResults.doYouMean = data.doYouMean
-          this.searchResults.queryUsed = data.queryUsed
-          // this.handleFilters(this.searchResults.filters)
-          const filteR = this.searchServ.handleFilters(
-            this.searchResults.filters,
-            this.selectedFilterSet,
-            this.searchRequest.filters,
-            this.activated.snapshot.data.pageroute !== 'learning' ? true : false,
-          )
-          this.filtersResponse = filteR.filtersRes
-          if (
-            this.searchResults.totalHits === 0 && this.isDefaultFilterApplied
-          ) {
-            this.removeDefaultFiltersApplied()
-            this.getResults(undefined, didYouMean)
-            return
-          } if (this.searchResults.totalHits === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
-            this.searchWithPreferredLanguage()
-            this.getResults(undefined, didYouMean)
-            return
-          } if (
-            this.searchResults.totalHits === 0 &&
-            this.searchRequestObject.query.indexOf(' ') === -1
-          ) {
-            this.noContent = true
-          } else if ( // No results with phrase search disabled and space separated words
-            this.searchResults.totalHits === 0 &&
-            this.searchRequestObject.query.indexOf(' ') > -1 &&
-            !this.applyPhraseSearch
-          ) {
-            this.noContent = true
-          } else if (
-            this.searchResults.totalHits === 0 &&
-            this.searchRequestObject.query.indexOf(' ') > -1 &&
-            withQuotes
-          ) {
-            this.noContent = true
-          } else if (
-            this.searchResults.totalHits === 0 &&
-            this.searchRequestObject.query.indexOf(' ') > -1 && this.applyPhraseSearch
-          ) {
-            this.searchRequestObject.pageNo = 0
-            this.getResults(true, didYouMean)
-            return
-          } else if (
-            this.searchResults.totalHits === 0 &&
-            this.searchRequestObject.query.indexOf(' ') === -1 &&
-            this.searchRequestObject.instanceCatalog
-          ) {
-            this.searchRequestObject.pageNo = 0
-            this.searchRequestObject.instanceCatalog = false
-            this.getResults(true, didYouMean)
-            return
-          } else if (
-            this.searchResults.totalHits > 0 &&
-            this.searchRequestObject.query.indexOf(' ') > -1 &&
-            !this.exactResult.applied
-          ) {
-            this.exactResult.show = true
-            this.exactResult.text = this.searchRequestObject.query.replace(/['"]+/g, '')
-          }
-          if (this.searchResults.result.length < this.searchResults.totalHits) {
-            this.searchRequestStatus = 'hasMore'
-          } else {
-            this.searchRequestStatus = 'done'
-          }
-          if (this.searchResults.result.length < this.searchResults.totalHits) {
-            // tslint:disable-next-line: no-non-null-assertion
-            this.searchRequestObject.pageNo! += 1
-          }
+    this.searchServ.getSearchConfig().then(config => {
+      this.searchRequestObject.visibleFilters = config.search.visibleFilters
+      this.searchRequestObject.excludeSourceFields = config.search.excludeSourceFields
+      this.searchResultsSubscription = this.searchServ
+        .getLearning(this.searchRequestObject)
+        .subscribe(
+          data => {
+            this.searchResults.totalHits = data.totalHits
+            this.searchServ.raiseSearchResponseEvent(
+              this.searchRequestObject.query,
+              this.searchRequestObject.filters,
+              this.searchResults.totalHits,
+              this.searchRequestObject.locale,
+            )
+            this.searchResults.filters = data.filters
+            this.searchResults.queryUsed = data.queryUsed
+            // this.searchResults.type = data.type
+            this.searchResults.result = [...this.searchResults.result, ...data.result]
+            this.searchResults.doYouMean = data.doYouMean
+            this.searchResults.queryUsed = data.queryUsed
+            // this.handleFilters(this.searchResults.filters)
+            const filteR = this.searchServ.handleFilters(
+              this.searchResults.filters,
+              this.selectedFilterSet,
+              this.searchRequest.filters,
+              this.activated.snapshot.data.pageroute !== 'learning' ? true : false,
+            )
+            this.filtersResponse = filteR.filtersRes
+            if (
+              this.searchResults.totalHits === 0 && this.isDefaultFilterApplied
+            ) {
+              this.removeDefaultFiltersApplied()
+              this.getResults(undefined, didYouMean)
+              return
+            } if (this.searchResults.totalHits === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+              this.searchWithPreferredLanguage()
+              this.getResults(undefined, didYouMean)
+              return
+            } if (
+              this.searchResults.totalHits === 0 &&
+              this.searchRequestObject.query.indexOf(' ') === -1
+            ) {
+              this.noContent = true
+            } else if ( // No results with phrase search disabled and space separated words
+              this.searchResults.totalHits === 0 &&
+              this.searchRequestObject.query.indexOf(' ') > -1 &&
+              !this.applyPhraseSearch
+            ) {
+              this.noContent = true
+            } else if (
+              this.searchResults.totalHits === 0 &&
+              this.searchRequestObject.query.indexOf(' ') > -1 &&
+              withQuotes
+            ) {
+              this.noContent = true
+            } else if (
+              this.searchResults.totalHits === 0 &&
+              this.searchRequestObject.query.indexOf(' ') > -1 && this.applyPhraseSearch
+            ) {
+              this.searchRequestObject.pageNo = 0
+              this.getResults(true, didYouMean)
+              return
+            } else if (
+              this.searchResults.totalHits === 0 &&
+              this.searchRequestObject.query.indexOf(' ') === -1 &&
+              this.searchRequestObject.instanceCatalog
+            ) {
+              this.searchRequestObject.pageNo = 0
+              this.searchRequestObject.instanceCatalog = false
+              this.getResults(true, didYouMean)
+              return
+            } else if (
+              this.searchResults.totalHits > 0 &&
+              this.searchRequestObject.query.indexOf(' ') > -1 &&
+              !this.exactResult.applied
+            ) {
+              this.exactResult.show = true
+              this.exactResult.text = this.searchRequestObject.query.replace(/['"]+/g, '')
+            }
+            if (this.searchResults.result.length < this.searchResults.totalHits) {
+              this.searchRequestStatus = 'hasMore'
+            } else {
+              this.searchRequestStatus = 'done'
+            }
+            if (this.searchResults.result.length < this.searchResults.totalHits) {
+              // tslint:disable-next-line: no-non-null-assertion
+              this.searchRequestObject.pageNo! += 1
+            }
 
-          this.getTrainingsLHub(this.searchResults)
-        },
-        error => {
-          this.error.load = true
-          this.error.message = error
-          this.searchRequestStatus = 'done'
-        },
-      )
+            this.getTrainingsLHub(this.searchResults)
+          },
+          error => {
+            this.error.load = true
+            this.error.message = error
+            this.searchRequestStatus = 'done'
+          },
+        )
+    }).catch(_err => { })
+
   }
 
   contentTrackBy(item: NsContent.IContent) {

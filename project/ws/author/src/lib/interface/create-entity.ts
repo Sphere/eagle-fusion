@@ -15,5 +15,4 @@ export interface ICreateEntity {
   url?: string
   isCollection?: boolean
   additionalMeta?: { [key: string]: any }
-  isExternal?: boolean
 }

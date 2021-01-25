@@ -25,42 +25,6 @@ mat-card {
   height: 150px;
 }
 
-.action-buttons {
-  float: right;
-}
-.d-flex {
-  display: flex;
-}
-.item1 {
-  padding: 10px 10px 10px 30px;
-  width: 7%;
-
-  img {
-    width: 48px;
-    margin-top: 0.6rem;
-  }
-}
-
-.item2 {
-  padding: 10px;
-  width: 75%;
-  font-size: 16px;
-}
-.item3 {
-  padding: 10px;
-  width: 15%;
-}
-.max-width-name {
-  width: 122px;
-  max-width: 140px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.fs-13 {
-  font-size: 13px;
-}
 mat-card-actions {
   position: absolute;
   bottom: $card-padding;
@@ -106,5 +70,5 @@ mat-card-actions {
 }
 
 .border-bottom {
-  border-bottom: 1px solid lightgrey;
+   border-bottom: 1px solid lightgrey;
 }

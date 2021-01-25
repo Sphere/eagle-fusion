@@ -196,7 +196,7 @@ mat-card {
 .card-container-not-earned {
   position: relative;
   min-height: 100px;
-  margin: 0 $content-margin-left - ($content-margin-left / 2);
+  // margin: 0 $content-margin-left - ($content-margin-left / 2);
 
   @include breakpoint-lt-m {
     margin: 0 ($content-margin-left/2);
@@ -217,7 +217,6 @@ mat-card {
   overflow-x: auto;
   overflow-y: hidden;
   position: relative;
-  padding-left: 20px;
 
   @media only screen and (max-width: 520px) {
   }
