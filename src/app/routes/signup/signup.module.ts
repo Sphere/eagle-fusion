@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatFormFieldModule, MatChipsModule, MatInputModule, MatIconModule, MatButtonModule } from '@angular/material'
 import { SignupComponent } from './signup.component'
-import { SignupRoutingModule } from './signup-routing.module';
-import { OtpComponent } from './otp/otp.component'
+import { SignupRoutingModule } from './signup-routing.module'
 
 @NgModule({
-  declarations: [SignupComponent, OtpComponent],
+  declarations: [SignupComponent],
   imports: [
     SignupRoutingModule,
     CommonModule,
