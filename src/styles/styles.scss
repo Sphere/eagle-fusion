@@ -580,7 +580,7 @@ h3.shepherd-title {
 .player-nav-links {
   position: absolute;
   top: 50%;
-  opacity: 0;
+  // opacity: 0; // uncomment this
   width: 100%;
   @include breakpoint-xs {
     opacity: 1;
