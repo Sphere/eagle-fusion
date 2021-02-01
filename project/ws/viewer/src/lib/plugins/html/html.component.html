@@ -1,4 +1,4 @@
-<mat-card class="ws-mat-primary-lite-background-on-day margin-top-s"
+<mat-card class="ws-mat-primary-lite-background-on-day margin-top-s ml-5"
   *ngIf="showIframeSupportWarning || isIntranetUrl || htmlContent?.isInIntranet">
   <mat-card-content>
     <h2 class="mat-h2" *ngIf="
@@ -67,8 +67,7 @@
   </mat-card-content>
 </mat-card>
 
-<h2 class="text-center mat-primary-text margin-top-m load"
-  *ngIf="showIsLoadingMessage "i18n>
+<h2 class="text-center mat-primary-text margin-top-m load" *ngIf="showIsLoadingMessage " i18n>
   Please wait! Content requested is loading
 </h2>
 

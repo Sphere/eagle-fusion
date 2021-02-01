@@ -574,9 +574,16 @@ h3.shepherd-title {
     opacity: 1;
   }
   @include breakpoint-xs {
-    padding: 4px
+    padding: 4px;
   }
 }
+.floating-btn img,
+.floating-back-btn img {
+  width: 35px;
+  margin-top: 1px;
+  opacity: 0.65;
+}
+
 .player-nav-links {
   position: absolute;
   top: 50%;
@@ -587,19 +594,19 @@ h3.shepherd-title {
   }
 }
 
- #fullScreenContainer > div {
-      pointer-events: none;
-    position: absolute;
-    // top: 0;
-    left: 0;
-    width: 100%;
-    align-items: center;
+#fullScreenContainer > div {
+  pointer-events: none;
+  position: absolute;
+  // top: 0;
+  left: 0;
+  width: 100%;
+  align-items: center;
 }
 
 #fullScreenContainer > div > div.flex {
-justify-content: space-between;
-    position: relative;
-    width: 100%;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
 }
 
 #fullScreenContainer:hover > div {
@@ -619,8 +626,8 @@ a.width-auto:hover + span,
   display: inline-block !important;
 }
 a.width-auto {
-    display: inline-block;
-    pointer-events: auto;
+  display: inline-block;
+  pointer-events: auto;
 }
 .align-right-arrow {
   right: 15px;
@@ -632,7 +639,8 @@ a.width-auto {
     right: 17px;
   }
 }
-.align-left-arrow { // change this
+.align-left-arrow {
+  // change this
   position: relative;
   right: 15px;
   top: -4px;
@@ -640,9 +648,9 @@ a.width-auto {
   font-size: 27px;
 }
 .fs-small {
-    font-size: 13px;
-    margin-bottom: -1px;
-    display: block;
+  font-size: 13px;
+  margin-bottom: -1px;
+  display: block;
 }
 .theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
   opacity: 0.4;
@@ -651,12 +659,9 @@ a.width-auto {
 .mat-button-focus-overlay {
   background-color: transparent !important;
 }
-.mat-menu-content:not(:empty) {
-  // padding-top: 0 !important;
-  // padding-bottom: 0 !important;
-}
+
 .theme-igot.day-mode .mat-menu-item-highlighted:not([disabled]) {
-      background: rgb(255 255 255) !important;
+  background: rgb(255 255 255) !important;
 }
 .mat-menu-panel {
   min-height: auto !important;
@@ -680,7 +685,7 @@ a.width-auto.mat-button {
 .padding-dynamic .mat-card {
   box-shadow: none !important;
   @include breakpoint-xs {
-    padding: 24px
+    padding: 24px;
   }
 }
 .padding-dynamic {
@@ -693,18 +698,19 @@ a.width-auto.mat-button {
     overflow-x: hidden;
   }
 }
-body.custom-scroll::-webkit-scrollbar, .padding-dynamic::-webkit-scrollbar {
-    width: 1em;
+body.custom-scroll::-webkit-scrollbar,
+.padding-dynamic::-webkit-scrollbar {
+  width: 1em;
 }
 
 body.custom-scroll::-webkit-scrollbar-track {
-     box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 .padding-dynamic::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 body.custom-scroll::-webkit-scrollbar-thumb {
@@ -712,12 +718,12 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   outline: 1px solid slategrey;
 }
 
- .padding-dynamic::-webkit-scrollbar {
+.padding-dynamic::-webkit-scrollbar {
   background-color: rgb(223, 221, 221);
   outline: 1px solid rgb(162, 206, 250);
 }
 
-.theme-igot.day-mode .mat-expansion-panel:not([class*=mat-elevation-z]) {
+.theme-igot.day-mode .mat-expansion-panel:not([class*='mat-elevation-z']) {
   box-shadow: none !important;
 }
 .prev-button .width-auto {
@@ -749,7 +755,7 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   padding-right: 5px;
   margin-right: -24px;
   text-align: right;
-   @include breakpoint-xs {
+  @include breakpoint-xs {
     margin-right: -17px;
   }
 }
@@ -767,7 +773,8 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   width: 30px;
   margin-top: -3px;
 }
-button.action-button, a.action-button {
+button.action-button,
+a.action-button {
   @include breakpoint-xs {
     width: 28px;
   }
@@ -778,28 +785,28 @@ button.action-button, a.action-button {
       width: 35px;
     }
   }
-    background-color: #f7f7f7 !important;
+  background-color: #f7f7f7 !important;
 }
-.unit-meta-item .flex  {
+.unit-meta-item .flex {
   @include breakpoint-xs {
-     justify-content: center;
+    justify-content: center;
   }
 }
 table {
   width: 100%;
   @include breakpoint-xs {
-  td {
-    max-width: 0;
-  }
+    td {
+      max-width: 0;
+    }
   }
 }
-@media  (max-device-width: 768px) and (orientation: landscape) {
-.slider-header-text {
+@media (max-device-width: 768px) and (orientation: landscape) {
+  .slider-header-text {
     width: 62%;
     float: left;
-}
+  }
 }
 .md-large-button {
-    width: 100%;
-    height: 50px;
+  width: 100%;
+  height: 50px;
 }

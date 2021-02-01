@@ -6,7 +6,7 @@
   width: $size-s;
   height: $size-m;
   transform: matrix(0, 1, -1, 0, 0, 0);
-  background: #00A9F4 0% 0% no-repeat padding-box;
+  background: #00a9f4 0% 0% no-repeat padding-box;
 }
 
 .home-icon {
@@ -20,6 +20,24 @@
 .min-width {
   min-width: 55px;
 }
-// .main-back {
-//   font-size: $size-m;
-// }
+.bottom-arrow a {
+  position: absolute;
+  bottom: -51px;
+  z-index: 9;
+  left: 0;
+  font-size: 1em;
+}
+a.floating-back-btn {
+  background-color: #d8d8d8 !important;
+  margin-left: -25px;
+  border-radius: 0;
+  padding: 6px 12px 6px 25px;
+  &:hover {
+    .text {
+      display: inline;
+    }
+  }
+  .text {
+    display: none;
+  }
+}

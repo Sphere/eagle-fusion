@@ -1,5 +1,5 @@
 <div class="flex flex-1" [class.min-width]="showBackIcon">
-  <a i18n-aria-label aria-label="Back" *ngIf="widgetData.url && widgetData.url !== 'none'"
+  <a i18n-aria-label aria-label="Back" *ngIf="widgetData.url && widgetData.url !== 'none' && !playerScreen"
     [routerLink]="backUrl.routeUrl" [queryParams]="backUrl.queryParams" [fragment]="backUrl?.fragment" mat-icon-button>
     <mat-icon class="ws-mat-default-text" *ngIf="!showBackIcon">home</mat-icon>
     <span class="material-icons mr-5 back-icon" *ngIf="showBackIcon"> keyboard_backspace</span>
@@ -15,4 +15,11 @@
       </a>
     </div>
   </ng-container>
+</div>
+<div *ngIf="playerScreen" class="bottom-arrow">
+  <a mat-stroked-button *ngIf="widgetData.url && widgetData.url !== 'none'" class="floating-back-btn"
+    [routerLink]="backUrl.routeUrl" [queryParams]="backUrl.queryParams" [fragment]="backUrl?.fragment">
+    <img src="/assets/images/nav-left.png" />
+    <span class="text"> Course detail</span>
+  </a>
 </div>
