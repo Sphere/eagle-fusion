@@ -19,6 +19,9 @@
 .viewer-app-logo {
   max-height: 60px;
   margin-top: 10px;
+  border-right: solid 1px #b9b8b8;
+  margin-right: -52px;
+   padding-right: 10px;
   @include breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
@@ -47,4 +50,8 @@
 
 .hidden {
   display: none !important
+}
+
+mat-toolbar {
+  position: relative;
 }

@@ -7,9 +7,21 @@
 .floating-btn {
   position: fixed;
   z-index: 9;
-  background-color: #f1f1f1 !important;
-  padding: 9px;
+  background-color: #d8d8d8 !important;
+  padding: 3px 8px 3px 5px;
+  transition: linear 1s;
+      top: 134px;
+      border-radius: 0;
       min-width: 50px;
+      .text{
+        font-size: 1.25em;
+      }
+      span {
+        display: none;
+      }
+   &:hover span {
+     display: inline;
+   }
 }
 .width-expand {
   flex: 1;

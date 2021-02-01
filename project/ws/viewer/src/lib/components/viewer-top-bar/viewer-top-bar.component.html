@@ -1,7 +1,6 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <a *ngIf="logo" routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
-    <img *ngIf="appIcon" src="https://d34vfqm2mqjn7i.cloudfront.net/assets/instances/eagle/app_logos/source.png"
-      alt="Application Logo" class="viewer-app-logo" />
+    <img *ngIf="appIcon" src="/assets/images/logo.png" alt="Application Logo" class="viewer-app-logo" />
   </a>
   <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
       url: isTypeOfCollection
@@ -9,7 +8,7 @@
           ? '/app/playlist/me/' + collectionId
           : (forPreview ? '/author' : '/app') + '/toc/' + collectionId + '/overview'
         : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview'
-    }"></ws-widget-btn-page-back>
+    }" [playerScreen]='true'></ws-widget-btn-page-back>
   <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{
       url: isTypeOfCollection
