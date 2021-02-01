@@ -22,7 +22,6 @@ export class BtnPageBackComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
-    console.log('playerScreen', this.playerScreen)
     this.presentUrl = this.router.url
     if (this.widgetData && this.widgetData.url) {
       if (this.widgetData.url.indexOf('overview') > -1) {
