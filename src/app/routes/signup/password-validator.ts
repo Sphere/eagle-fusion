@@ -1,21 +1,21 @@
-import { AbstractControl } from '@angular/forms'
-export class PasswordValidation {
+import { FormGroup } from '@angular/forms'
 
-  // @ts-ignore: Object is possibly 'null'.
-  static MatchPassword(AC: AbstractControl) {
-    // @ts-ignore: Object is possibly 'null'.
-    let password = AC.get('password').value
-    // @ts-ignore: Object is possibly 'null'.
-    if (AC.get('confirmPassword').touched || AC.get('confirmPassword').dirty) {
-      // @ts-ignore: Object is possibly 'null'.
-      let verifyPassword = AC.get('confirmPassword').value
+// custom validator to check that two fields match
+export function mustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName]
+    const matchingControl = formGroup.controls[matchingControlName]
 
-      if (password != verifyPassword) {
-        // @ts-ignore: Object is possibly 'null'.
-        AC.get('confirmPassword').setErrors({ MatchPassword: true })
-      } else {
-        return null
-      }
+    if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+      // return if another validator has already found an error on the matchingControl
+      return
+    }
+
+    // set error on matchingControl if validation fails
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true })
+    } else {
+      matchingControl.setErrors(null)
     }
   }
 }
