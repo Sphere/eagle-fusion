@@ -52,7 +52,7 @@
         <mat-label>Confirm password</mat-label>
         <input type="password" matInput placeholder="confirm password" formControlName="confirmPassword">
         <mat-error
-          *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors?.MatchPassword">
+          *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors">
           Password does not match</mat-error>
       </mat-form-field>
       <div class="border"></div>

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from './signup.service'
-import { PasswordValidation } from './password-validator'
+import { mustMatch } from './password-validator'
 
 @Component({
   selector: 'ws-signup',
@@ -20,8 +20,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   emailOrMobile: any
   phone = false
   email: any
-  showAllFields: boolean = false
-  isMobile: boolean = false
+  showAllFields = false
+  isMobile = false
   constructor(
     private snackBar: MatSnackBar,
     private signupService: SignupService,
@@ -32,8 +32,8 @@ export class SignupComponent implements OnInit, OnDestroy {
       lastName: new FormControl('', [Validators.required]),
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl([''])
-    }, { validator: PasswordValidation.MatchPassword })
+      confirmPassword: new FormControl(['']),
+    },                              { validator: mustMatch('password', 'confirmPassword') })
   }
 
   ngOnInit() {
@@ -45,10 +45,10 @@ export class SignupComponent implements OnInit, OnDestroy {
   verifyEntry() {
     let phone = this.emailOrMobile
 
-    phone = phone.replace(/[^0-9+#]/g, "")
+    phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-      console.log("Its valid mobile number")
+      // console.log('Its valid mobile number')
       this.isMobile = true
       // Call OTP Api, show resend Button true
     } else {
