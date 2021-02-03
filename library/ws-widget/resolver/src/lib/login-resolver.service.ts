@@ -54,21 +54,25 @@ export class LoginResolverService {
     const key = LoginResolverService.getWidgetKey(receivedConfig)
     const registrationConfig: Map<string, NsWidgetResolver.IRegistrationConfig> = new Map()
     const allWidgetsConfigurations: NsWidgetResolver.IRegistrationConfig[] = []
-    if (key === 'widget:layout::gridLayout' && this.availableRegisteredWidgets && this.availableRegisteredWidgets.size === 0) {
+    if ((key === 'widget:layout::gridLayout' || key === 'widget:layout::linearLayout') &&
+      this.availableRegisteredWidgets && this.availableRegisteredWidgets.size === 0) {
 
       if (this.globalConfig && Array.isArray(this.globalConfig)) {
         allWidgetsConfigurations.push(...this.globalConfig)
-
         allWidgetsConfigurations.forEach(u => {
           const k = LoginResolverService.getWidgetKey(u)
-          if (k === 'widget:layout::gridLayout' || k === 'widget:slider::sliderBanners'
-            || k === 'widget:contentStrip::contentStripMultiple' || k === 'widget:card::cardContent') {
+          if (k === 'widget:layout::gridLayout' || k === 'widget:layout::linearLayout' || k === 'widget:slider::sliderBanners'
+            || k === 'widget:contentStrip::contentStripMultiple' || k === 'widget:card::cardContent'
+            || k === 'widget:actionButton::actionButtonCatalog'
+            || k === 'widget:tree::treeCatalog' ||
+            k === 'widget:actionButton::buttonFeature' || k === 'widget:card::cardBreadcrumb') {
             registrationConfig.set(k, u)
           }
         })
         this.availableRegisteredWidgets = registrationConfig
       }
     }
+
     if (this.availableRegisteredWidgets && this.availableRegisteredWidgets.has(key)) {
       const config = this.availableRegisteredWidgets.get(key)
       if (config && config.component) {

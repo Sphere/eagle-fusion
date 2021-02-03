@@ -52,6 +52,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   searchCourseQuery = ''
+  hideSideNav = false
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -388,5 +389,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
 
   minimizenav() {
     this.hidenav.emit(false)
+    this.hideSideNav = !this.hideSideNav
   }
 }

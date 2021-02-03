@@ -22,7 +22,7 @@
             [ngStyle]="{ 'background-color': stripsResultDataMap[key]?.stripBackground }">
             <div class="flex items-center justify-between" [ngClass]="
                       !widgetData.isChannelStrip
-                        ? 'mb-2'
+                        ? 'mb-1'
                         : stripsResultDataMap[key]?.stripTitle
                         ? 'mb-8'
                         : ''
@@ -87,19 +87,23 @@
 
     </ng-container>
 
-    <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5" *ngIf="stripsResultDataMap[key].showStrip && callPublicApi">
+    <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5"
+      *ngIf="stripsResultDataMap[key].showStrip && callPublicApi && !explorePage">
       <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length " [loadStatus]="'done'">
 
         <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsLoginResolverWidget]="widget">
         </ng-container>
+      </ws-utils-horizontal-scroller>
+    </div>
 
-        <!-- <div *ngIf="stripsResultDataMap[key]?.viewMoreUrl" class="ml-4 mr-6 mb-2 view-more ws-mat-primary-text">
-        <a [routerLink]="stripsResultDataMap[key]?.viewMoreUrl?.path"
-          [queryParams]="stripsResultDataMap[key]?.viewMoreUrl?.queryParams">
-          <mat-icon class="icon">arrow_forward</mat-icon>
-          <h3 i18n>View All</h3>
-        </a>
-      </div> -->
+    <div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5"
+      *ngIf="stripsResultDataMap[key].showStrip && callPublicApi && explorePage">
+
+      <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length " [loadStatus]="'done'">
+
+
+        <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsExploreResolverWidget]="widget">
+        </ng-container>
       </ws-utils-horizontal-scroller>
     </div>
   </ng-container>

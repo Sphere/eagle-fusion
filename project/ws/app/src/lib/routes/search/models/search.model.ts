@@ -1,4 +1,6 @@
 export interface ISearchRequest {
+  excludeSourceFields?: any
+  visibleFilters?: any
   filters: {
     [key: string]: string[]
   }
@@ -18,6 +20,7 @@ export interface ISearchRequest {
   sort?: { [sortType: string]: 'asc' | 'desc' }[]
   locale?: string[]
   didYouMean?: boolean
+  // visibleFilters: any
 }
 
 export interface IFilterUnitResponse {

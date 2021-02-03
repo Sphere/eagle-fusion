@@ -21,6 +21,10 @@
         </div>
         <div class="text-right margin-top-xs">
           <!-- <mat-checkbox class="mx-2 text-sm font-small" i18n>Notify me when someone replies to my post</mat-checkbox> -->
+          <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"
+            mat-stroked-button (click)="cancelPost()" i18n>
+            Cancel
+          </button>
           <button name="discussion-forum-post-button"
             [disabled]="!isValidPost || isPostingDiscussion || widgetData?.isDisabled" type="button"
             (click)="publishConversation(error.value)" mat-raised-button color="primary" i18n

@@ -26,6 +26,8 @@ import {
 import { delay } from 'rxjs/operators'
 import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
+import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
+import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -62,11 +64,19 @@ export class RootComponent implements OnInit, AfterViewInit {
     private rootSvc: RootService,
     private btnBackSvc: BtnPageBackService,
     private changeDetector: ChangeDetectorRef,
+    private loginServ: LoginResolverService,
+    private exploreService: ExploreResolverService
   ) {
     this.mobileAppsSvc.init()
   }
 
   ngOnInit() {
+    if (!this.loginServ.isInitialized) {
+      this.loginServ.initialize()
+    }
+    if (!this.exploreService.isInitialized) {
+      this.exploreService.initialize()
+    }
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {

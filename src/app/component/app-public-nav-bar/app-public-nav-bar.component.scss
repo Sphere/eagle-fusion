@@ -1,4 +1,10 @@
 @import 'ws-mixins';
+.application-logo {
+      max-width: 150px;
+    display: block;
+    width: 100%;
+    padding-top: 8px;
+}
 
 .app-logo {
   max-height: 52px;
@@ -14,7 +20,22 @@
     visibility: hidden;
   }
 }
-
+.my-search {
+    display: flex;
+    margin-left: 8px;
+    margin-right: 0;
+    text-align: center;
+    flex: 1;
+    height: 50px;
+    margin-top: 6px;
+    max-width: 470px;
+}
+.fix-ww {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex: 1;
+}
 .small-font-size {
   @include breakpoint-xs {
     font-size: smaller !important;

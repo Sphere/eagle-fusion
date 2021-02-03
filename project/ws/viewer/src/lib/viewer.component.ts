@@ -203,6 +203,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   minimizeBar() {
+    this.sideNavBarOpened = !this.sideNavBarOpened
     if (this.utilitySvc.isMobile) {
       this.sideNavBarOpened = true
     }

@@ -145,6 +145,9 @@
   padding: 0 7px;
 }
 
+ #fullScreenContainer > div {
+    left: 5px;
+ }
 .prev-button .width-auto {
    @include breakpoint-xs {
      left: -7px;

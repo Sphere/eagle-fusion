@@ -15,9 +15,14 @@ export class BtnCatalogComponent extends WidgetBaseComponent
   @Input() widgetData!: any
   catalogItems: NSSearch.IFilterUnitContent[] | null = null
   catalogFetchStatus: TFetchStatus = 'none'
+  loginPage = false
 
   constructor(private catalogSvc: TreeCatalogService) {
     super()
+    const url = window.location.href
+    if (url.indexOf('login') > 0) {
+      this.loginPage = true
+    }
   }
 
   getCatalog() {

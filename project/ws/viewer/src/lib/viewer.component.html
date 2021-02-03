@@ -2,6 +2,9 @@
   <viewer-viewer-top-bar *ngIf="fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" (fsState)="fullScreenState($event)" [screenContent]="content">
   </viewer-viewer-top-bar>
+  <button *ngIf="!sideNavBarOpened" class="floating-btn" mat-raised-button (click)="minimizeBar()"><img
+      src="/assets/images/nav-right.png"> <span class="text"> Course Content</span>
+  </button>
   <viewer-viewer-top-bar *ngIf="!fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" [screenContent]="content">
   </viewer-viewer-top-bar>

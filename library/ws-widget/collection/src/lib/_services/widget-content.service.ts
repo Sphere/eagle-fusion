@@ -39,7 +39,7 @@ export class WidgetContentService {
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
-    ) { }
+  ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {
     const url = API_END_POINTS.MARK_AS_COMPLETE_META(identifier)
