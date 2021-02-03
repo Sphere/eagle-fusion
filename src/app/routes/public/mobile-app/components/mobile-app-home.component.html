@@ -1,10 +1,10 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Mobile Apps',url:'none'}] }">
-  </ws-widget-btn-page-back>
-  <!-- <span class="margin-left-xs text-truncate">
+  </ws-widget-btn-page-back> -->
+<!-- <span class="margin-left-xs text-truncate">
     <span i18n="page title: mobile apps" class="margin-left-xs">Mobile Apps</span>
   </span> -->
-</mat-toolbar>
+<!-- </mat-toolbar> -->
 <mat-card class="mobile-app-container">
   <mat-tab-group *ngIf="mobileLinks" dynamicHeight mat-align-tabs="center" [selectedIndex]="selectedTabIndex">
     <mat-tab fragment="android" *ngIf="isAndriod">

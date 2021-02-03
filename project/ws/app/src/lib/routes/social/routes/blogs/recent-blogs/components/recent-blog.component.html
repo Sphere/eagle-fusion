@@ -1,29 +1,30 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
-  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
 
   <span i18n class="margin-left-xs">Recent Blogs</span>
   <span class="spacer"></span>
   <div class="search-box">
-  <div class="flex items-center border search border-solid search-border">
+    <div class="flex items-center border search border-solid search-border">
 
-    <div class="w-full search">
+      <div class="w-full search">
 
-      <mat-form-field appearance="none" class="autocomplete-form" color="primary" style="width:100%;;"
-        [floatLabel]="'never'">
-        <input type="search" class="border-2 border-gray-300 bg-white pr-16 rounded-lg text-sm focus:outline-none input-search"
-          i18n-placeholder="search content" [placeholder]="placeHolder" i18-aria-label aria-label="Query"
-           matInput [(ngModel)]="queryEntered" />
+        <mat-form-field appearance="none" class="autocomplete-form" color="primary" style="width:100%;;"
+          [floatLabel]="'never'">
+          <input type="search"
+            class="border-2 border-gray-300 bg-white pr-16 rounded-lg text-sm focus:outline-none input-search"
+            i18n-placeholder="search content" [placeholder]="placeHolder" i18-aria-label aria-label="Query" matInput
+            [(ngModel)]="queryEntered" />
 
-      </mat-form-field>
+        </mat-form-field>
 
-    </div>
-    <a [routerLink]="['/app/social/socialSearch/view-search']" [queryParams]="{search:queryEntered}">
-      <div class="flex items-center justify-center w-8 sm:w-10 cursor-pointer">
-        <mat-icon>search</mat-icon>
       </div>
-    </a>
+      <a [routerLink]="['/app/social/socialSearch/view-search']" [queryParams]="{search:queryEntered}">
+        <div class="flex items-center justify-center w-8 sm:w-10 cursor-pointer">
+          <mat-icon>search</mat-icon>
+        </div>
+      </a>
+    </div>
   </div>
-</div>
   <ng-container *ngIf="(isXSmall$ | async) === true">
     <a mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vertical</mat-icon>

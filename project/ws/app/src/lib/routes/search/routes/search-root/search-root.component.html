@@ -1,12 +1,12 @@
-<mat-toolbar role="navigation" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar role="navigation" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'back',titles:[{title:'Search',url:'none'}]  }">
-  </ws-widget-btn-page-back>
-  <!-- <span i18n="page title: search" class="margin-left-xs">Search</span> -->
-  <!-- <span class="spacer"></span>
+  </ws-widget-btn-page-back> -->
+<!-- <span i18n="page title: search" class="margin-left-xs">Search</span> -->
+<!-- <span class="spacer"></span>
   <ws-app-search-input *ngIf="searchTabs?.tabs[selectedIndex]?.titleKey!='people'" class="search-box"
     [placeHolder]="searchTabs.placeHolder[route]" [ref]="'search'">
   </ws-app-search-input> -->
-</mat-toolbar>
+<!-- </mat-toolbar> -->
 <mat-tab-group mat-align-tabs="center" *ngIf="searchTabs.tabs.length > 1"
   class="search-tabs-group full-height-tab-group" [selectedIndex]="selectedIndex"
   (selectedIndexChange)="routeTabs($event)">
