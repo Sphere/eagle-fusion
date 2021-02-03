@@ -7,7 +7,7 @@
 </mat-toolbar>
 
 <section class="contact-container">
-  <mat-card class="contact-card">
+  <!-- <mat-card class="contact-card">
     <mat-card-title i18n="contact section one heading">
       Raise an AHD
     </mat-card-title>
@@ -27,7 +27,7 @@
         Click to raise AHD
       </a>
     </mat-card-actions>
-  </mat-card>
+  </mat-card> -->
   <mat-card class="contact-card">
     <mat-card-title i18n="contact section two heading">
       Mail us
@@ -38,16 +38,16 @@
         You can also mail us at
       </ng-container>
       <ng-container>
-        {{ contactUsMail }}
+
       </ng-container>
     </mat-card-content>
     <mat-card-actions class="contact-card-actions">
       <a mat-button href="mailto:{{ contactUsMail }}" i18n="contact section two action button">
-        Click to mail
+        {{contactUsMail}}
       </a>
     </mat-card-actions>
   </mat-card>
-  <mat-card class="contact-card">
+  <!-- <mat-card class="contact-card">
     <mat-card-title i18n="contact section three heading">
       Talk to us
     </mat-card-title>
@@ -60,5 +60,5 @@
         Dial *22345 from your voip phones
       </p>
     </mat-card-actions>
-  </mat-card>
+  </mat-card> -->
 </section>
