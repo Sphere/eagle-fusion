@@ -1,9 +1,10 @@
 <mat-card class="card-container">
   <div class="info">
+    badge=>{{badge.badge_id}}
     <span class="date mat-body">{{ badge.last_received_date | date }}</span>
     <button mat-mini-fab color="primary" [matTooltip]="badge.hover_text"
       [ngClass]="{ hidden: badge.badge_type !== 'R' }">
-      {{ badge.received_count }}x
+      {{ badge.received_count }}
     </button>
   </div>
   <div class="flex">
@@ -16,9 +17,8 @@
       </div>
       <div class="mat-body margin-top-s">{{ badge.message }}</div>
       <ng-container *ngIf="badge.badge_type">
-        <button (click)="downloadPdf()"
-          *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R'" mat-raised-button
-          class="
+        <button (click)="downloadPdf()" *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R' &&
+           badge.badge_id === 'lex_auth_01308384668903833673'" mat-raised-button class="
         ws-mat-primary-background mat-button-base mt-5">Download
           Certificate</button>
       </ng-container>
