@@ -20,13 +20,12 @@
       <input type="text" matInput placeholder="otp" formControlName="otp">
     </mat-form-field>
 
-    <button mat-stroked-button *ngIf="isMobile" class="resend mr-4 w-50" tabindex="0" (click)="resendOTP();">
+    <button mat-stroked-button *ngIf="isMobile" class="resend mr-4 w-50" tabindex="0" (click)="resendOTP()">
       Resend OTP</button>
-    <button mat-raised-button class="w-50" color="primary" *ngIf="isMobile" tabindex="0" (click)="verifyOTP()">
-      Next</button>
 
 
-    <div *ngIf="showAllFields">
+
+    <div *ngIf="showAllFields || isMobile">
 
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>First name</mat-label>
@@ -43,11 +42,7 @@
         <input type="password" matInput placeholder="password" formControlName="password">
 
       </mat-form-field>
-      <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 8 characters. It must include
-        numerals, lower and
-        upper case
-        alphabets and
-        special characters, without any spaces</div>
+      <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Confirm password</mat-label>
         <input type="password" matInput placeholder="confirm password" formControlName="confirmPassword">

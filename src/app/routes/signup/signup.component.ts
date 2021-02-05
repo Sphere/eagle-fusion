@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from './signup.service'
 import { mustMatch } from './password-validator'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-signup',
@@ -25,15 +26,15 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    private fb: FormBuilder
+    private fb: FormBuilder, private router: Router,
   ) {
     this.signupForm = this.fb.group({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       otp: new FormControl(''),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                              { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
   }
 
   ngOnInit() {
@@ -51,6 +52,18 @@ export class SignupComponent implements OnInit, OnDestroy {
       // console.log('Its valid mobile number')
       this.isMobile = true
       // Call OTP Api, show resend Button true
+      const request = {
+        mobileNumber: phone
+      }
+      this.signupService.registerWithMobile(request).subscribe(
+        (res) => {
+          console.log('res phone', res) //remove
+        },
+        err => {
+          console.log('err phone', err) //remove
+
+        }
+      )
     } else {
       this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
         this.emailOrMobile
@@ -64,11 +77,19 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   resendOTP() {
     // call resend OTP function
+    this.signupService.registerWithMobile(this.emailOrMobile).subscribe(
+      (res) => {
+        console.log('res phone', res)
+
+      },
+      err => {
+        console.log('err phone', err)//remove
+      }
+    )
   }
 
-  verifyOTP() {
-    this.showAllFields = true
-  }
+
+
   ngOnDestroy() {
     if (this.unseenCtrlSub && !this.unseenCtrlSub.closed) {
       this.unseenCtrlSub.unsubscribe()
@@ -77,17 +98,60 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSubmit(form: any) {
     this.uploadSaveData = true
-    // console.log('form val', form.value)
-    this.signupService.signup(form.value).subscribe(
-      () => {
-        form.reset()
-        this.uploadSaveData = false
-        this.openSnackbar(this.toastSuccess.nativeElement.value)
-      },
-      err => {
-        this.openSnackbar(err.error.split(':')[1])
-        this.uploadSaveData = false
-      })
+    let reqObj
+
+    if (this.email) {
+      reqObj = {
+        data: {
+          firstname: form.value.firstName,
+          lastname: form.value.lastName,
+          username: this.emailOrMobile,
+          email: this.emailOrMobile,
+          password: form.value.password
+        },
+        'type': 'email'
+      }
+      this.signupService.signup(reqObj).subscribe(
+        (res) => {
+          if (res.message === 'Success') {
+            form.reset()
+            this.uploadSaveData = false
+            this.openSnackbar(this.toastSuccess.nativeElement.value)
+          }
+        },
+        err => {
+          this.openSnackbar(err.error.error)
+          this.uploadSaveData = false
+          form.reset()
+        }
+      )
+    } else {
+      const requestBody = {
+
+        data: {
+          firstname: form.value.firstName,
+          lastname: form.value.lastName,
+          username: this.emailOrMobile,
+          password: form.value.password,
+          otp: form.value.otp
+        },
+        mobileNumber: this.emailOrMobile
+
+      }
+      this.signupService.verifyUserMobile(requestBody).subscribe(
+        (res) => {
+          if (res.message === 'Success') {
+            this.router.navigate(['/page/home'])
+          }
+        },
+        err => {
+          this.openSnackbar(err.error.error)
+          form.reset()
+        }
+      )
+
+    }
+
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {

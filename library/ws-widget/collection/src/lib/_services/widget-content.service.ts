@@ -20,7 +20,7 @@ const API_END_POINTS = {
   FETCH_MANIFEST: `${PROTECTED_SLAG_V8}/content/getWebModuleManifest`,
   FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
-  CONTENT_SEARCH_V5: `/apis/public/v8/homePage/searchV6`,
+  CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
   CONTENT_SEARCH_V6: `/apis/public/v8/homePage/searchV6`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
