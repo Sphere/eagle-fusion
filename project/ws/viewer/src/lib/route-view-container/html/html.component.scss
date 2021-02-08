@@ -138,19 +138,27 @@
 }
 
 #fullScreenContainer {
-  min-height: 75vh;
-  width: 99%;
+  // min-height: 75vh;
+  // width: 99%;
+  // position: relative;
+  // margin: 0 8px 0 -7px;
+  // padding: 0 7px;
+
+  width: 100.6%;
+  height: 75vh;
   position: relative;
-  margin: 0 8px 0 -7px;
-  padding: 0 7px;
+  min-height: 75vh;
+  margin: 0 0 0 -11px;
+  padding: 0 9px;
 }
 
- #fullScreenContainer > div {
-    left: 5px;
- }
+#fullScreenContainer > div {
+  left: 5px;
+}
 .prev-button .width-auto {
-   @include breakpoint-xs {
-     left: -7px;
+  left: -13px;
+  @include breakpoint-xs {
+    left: -7px;
     top: -5px;
   }
   @include breakpoint-s {
@@ -166,12 +174,18 @@
   }
 }
 .next-button .width-auto {
-   @include breakpoint-xs {
+  right: -3px;
+  @include breakpoint-xs {
     right: -16px;
-   }
+  }
+}
+
+.next-button .title {
+  margin-right: -3px;
 }
 
 .prev-button .title {
+  margin-left: -12px !important;
   @include breakpoint-xs {
     margin-left: -8px !important;
   }
