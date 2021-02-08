@@ -6,10 +6,6 @@ const routes: Routes = [
     path: '',
     component: SignupComponent,
   },
-  // {
-  //   path: 'forgot-password',
-  //   component: ForgotPasswordComponent,
-  // },
 ]
 
 @NgModule({
