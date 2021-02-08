@@ -4,11 +4,11 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 const API_END_POINTS = {
-  USER_SIGNUP: `apis/public/v8/register/registerUserWithEmail`,
-  REGISTERUSERWITHMOBILE: `apis/public/v8/register/registerUserWithMobile`,
-  VERIFY_OTP: `apis/public/v8/register/verifyUserWithMobileNumber`,
-  RESET_PASSWORD: `apis/public/v8/register/resetPassword`,
-  SETPASSWORD_OTP: `apis/public/v8/register/setPasswordWithOTP`
+  USER_SIGNUP: `/apis/public/v8/register/registerUserWithEmail`,
+  REGISTERUSERWITHMOBILE: `/apis/public/v8/register/registerUserWithMobile`,
+  VERIFY_OTP: `/apis/public/v8/register/verifyUserWithMobileNumber`,
+  RESET_PASSWORD: `/apis/public/v8/register/resetPassword`,
+  SETPASSWORD_OTP: `/apis/public/v8/register/setPasswordWithOTP`,
 }
 
 @Injectable({
@@ -35,24 +35,23 @@ export class SignupService {
   }
 
   verifyUserMobile(data: any) {
-    return this.http.post<any>('https://d34vfqm2mqjn7i.cloudfront.net/' + API_END_POINTS.VERIFY_OTP, data).pipe(
+    return this.http.post<any>(API_END_POINTS.VERIFY_OTP, data).pipe(
       map(response => {
         return response
       })
     )
   }
 
-
   public forgotPassword(request: any): Observable<any> {
 
-    return this.http.post('https://d34vfqm2mqjn7i.cloudfront.net/' + API_END_POINTS.RESET_PASSWORD, request).pipe(
+    return this.http.post(API_END_POINTS.RESET_PASSWORD, request).pipe(
       map((response: any) => {
         return response
       }))
   }
 
   setPasswordWithOtp(request: any): Observable<any> {
-    return this.http.post('https://d34vfqm2mqjn7i.cloudfront.net/' + API_END_POINTS.SETPASSWORD_OTP, request).pipe(
+    return this.http.post(API_END_POINTS.SETPASSWORD_OTP, request).pipe(
       map((response: any) => {
         return response
       }))

@@ -1,4 +1,4 @@
-import { SignupService } from './../signup.service'
+import { SignupService } from '../signup/signup.service'
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
@@ -8,14 +8,15 @@ import { MatSnackBar } from '@angular/material'
 @Component({
   selector: 'ws-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup
-  emailOrMobile: string = ''
+  emailOrMobile = ''
   otp = ''
-  public emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+  public emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
   showOtpPwd = false
+  showCheckEmailText = false
   constructor(private router: Router, private signupService: SignupService,
     private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.forgotPasswordForm = this.fb.group({
@@ -30,34 +31,25 @@ export class ForgotPasswordComponent implements OnInit {
 
   forgotPassword() {
     const requestBody = {
-      username: this.emailOrMobile
+      username: this.emailOrMobile,
     }
 
     this.signupService.forgotPassword(requestBody).subscribe(
-      res => {
-        console.log('res of forgot pwd', res)
+      (res: any) => {
+        // console.log('res of forgot pwd', res)
         if (res.message === 'Success') {
-          // this.toast.showToastr('An email with a link to reset-password will be sent to your email id', 'Success', 'success', '');
-
           let phone = this.emailOrMobile
           phone = phone.replace(/[^0-9+#]/g, '')
           // at least 10 in number
           if (phone.length >= 10) {
-            console.log('Its valid mobile number')
             this.showOtpPwd = true
-
+          } else {
+            this.showCheckEmailText = true
           }
-          else {
-            alert('check your email for reset the password')// change it
-          }
-
-          // this.router.navigate(['/home'])
         }
       },
       (error: any) => {
         if (error === 404) {
-          // this.toast.showToastr('This email ID does not exist.', 'Error', 'error', '');
-
         }
       })
   }
@@ -70,19 +62,18 @@ export class ForgotPasswordComponent implements OnInit {
     const requestBody = {
       username: this.emailOrMobile,
       password: form.value.password,
-      otp: this.otp
+      otp: this.otp,
 
     }
     this.signupService.setPasswordWithOtp(requestBody).subscribe(
       res => {
-        console.log('setPasswordWithOtp res', res) // remove
         if (res) {
           this.openSnackbar('Password changed successfully')
           this.router.navigate(['/login'])
         }
       },
       (error: any) => {
-        console.log('error', error) // remove
+        this.openSnackbar(error)
       }
     )
   }

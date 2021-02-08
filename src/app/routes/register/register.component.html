@@ -13,7 +13,7 @@
 
 
 
-  <form class="example-form mt-8" [formGroup]="signupForm">
+  <form class="example-form" [formGroup]="signupForm">
 
     <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile">
       <mat-label>Enter OTP</mat-label>
@@ -25,7 +25,7 @@
 
 
 
-    <div *ngIf="showAllFields || isMobile">
+    <div *ngIf="showAllFields || isMobile" class="mt-8">
 
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>First name</mat-label>

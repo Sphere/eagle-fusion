@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core'
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
-import { SignupService } from './signup.service'
-// import { mustMatch } from './password-validator'
 import { Router } from '@angular/router'
+import { mustMatch } from '../password-validator'
+import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 
 @Component({
-  selector: 'ws-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  selector: 'ws-app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnDestroy {
   signupForm: FormGroup
   unseenCtrl!: FormControl
   unseenCtrlSub!: Subscription
@@ -25,8 +25,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   isMobile = false
   constructor(
     private snackBar: MatSnackBar,
-    private signupService: SignupService,
     private fb: FormBuilder, private router: Router,
+    private tncService: TncPublicResolverService
   ) {
     this.signupForm = this.fb.group({
       firstName: new FormControl('', [Validators.required]),
@@ -34,13 +34,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                              {})
-  }
-
-  ngOnInit() {
-    // this.unseenCtrlSub = this.signupForm.valueChanges.subscribe(value => {
-    //   console.log('ngOnInit - value', value);
-    // })
+    }, { validator: mustMatch('password', 'confirmPassword') })
   }
 
   verifyEntry() {
@@ -49,17 +43,17 @@ export class SignupComponent implements OnInit, OnDestroy {
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-      // console.log('Its valid mobile number')
       this.isMobile = true
       // Call OTP Api, show resend Button true
       const request = {
         mobileNumber: phone,
       }
-      this.signupService.registerWithMobile(request).subscribe(res => {
-          console.log('res phone', res) // remove
+      this.tncService.registerWithMobile(request).subscribe(
+        (res: any) => {
+          this.openSnackbar(res.message)
         },
-                                                               err => {
-          console.log('err phone', err) // remove
+        (err: any) => {
+          this.openSnackbar(err)
 
         }
       )
@@ -76,12 +70,12 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   resendOTP() {
     // call resend OTP function
-    this.signupService.registerWithMobile(this.emailOrMobile).subscribe(res => {
-        console.log('res phone', res)
-
+    this.tncService.registerWithMobile(this.emailOrMobile).subscribe(
+      (res: any) => {
+        this.openSnackbar(res.message)
       },
-                                                                        err => {
-        console.log('err phone', err)// remove
+      (err: any) => {
+        this.openSnackbar(err)
       }
     )
   }
@@ -107,14 +101,15 @@ export class SignupComponent implements OnInit, OnDestroy {
         },
         type: 'email',
       }
-      this.signupService.signup(reqObj).subscribe(res => {
+      this.tncService.signup(reqObj).subscribe(
+        (res: { message: string }) => {
           if (res.message === 'Success') {
             form.reset()
             this.uploadSaveData = false
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           }
         },
-                                                  err => {
+        (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
           form.reset()
@@ -133,12 +128,13 @@ export class SignupComponent implements OnInit, OnDestroy {
         mobileNumber: this.emailOrMobile,
 
       }
-      this.signupService.verifyUserMobile(requestBody).subscribe(res => {
+      this.tncService.verifyUserMobile(requestBody).subscribe(
+        (res: { message: string }) => {
           if (res.message === 'Success') {
             this.router.navigate(['/page/home'])
           }
         },
-                                                                 err => {
+        (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
           form.reset()
         }

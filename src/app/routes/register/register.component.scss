@@ -1,0 +1,22 @@
+@import 'ws-common';
+@import 'ws-mixins';
+.signup-container {
+  box-sizing: border-box;
+  padding: $size-m;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  box-sizing: border-box;
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+}
+.fs-12 {
+  font-size: 13px;
+}
+.prefix91 {
+  vertical-align: 5px;
+}
+.resend {
+  height: 40px;
+  margin-right: 18px;
+}
