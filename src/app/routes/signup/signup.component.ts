@@ -49,17 +49,17 @@ export class SignupComponent implements OnInit, OnDestroy {
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-      // console.log('Its valid mobile number')
       this.isMobile = true
       // Call OTP Api, show resend Button true
       const request = {
         mobileNumber: phone,
       }
-      this.signupService.registerWithMobile(request).subscribe(res => {
-          console.log('res phone', res) // remove
+      this.signupService.registerWithMobile(request).subscribe(
+        (res: any) => {
+          this.openSnackbar(res.message)
         },
-                                                               err => {
-          console.log('err phone', err) // remove
+        (err: any) => {
+          this.openSnackbar(err)
 
         }
       )
@@ -76,12 +76,12 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   resendOTP() {
     // call resend OTP function
-    this.signupService.registerWithMobile(this.emailOrMobile).subscribe(res => {
-        console.log('res phone', res)
-
+    this.signupService.registerWithMobile(this.emailOrMobile).subscribe(
+      (res: any) => {
+        this.openSnackbar(res.message)
       },
-                                                                        err => {
-        console.log('err phone', err)// remove
+      (err: any) => {
+        this.openSnackbar(err)
       }
     )
   }
@@ -108,12 +108,12 @@ export class SignupComponent implements OnInit, OnDestroy {
         type: 'email',
       }
       this.signupService.signup(reqObj).subscribe(res => {
-          if (res.message === 'Success') {
-            form.reset()
-            this.uploadSaveData = false
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-          }
-        },
+        if (res.message === 'Success') {
+          form.reset()
+          this.uploadSaveData = false
+          this.openSnackbar(this.toastSuccess.nativeElement.value)
+        }
+      },
                                                   err => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
@@ -134,10 +134,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
       }
       this.signupService.verifyUserMobile(requestBody).subscribe(res => {
-          if (res.message === 'Success') {
-            this.router.navigate(['/page/home'])
-          }
-        },
+        if (res.message === 'Success') {
+          this.router.navigate(['/page/home'])
+        }
+      },
                                                                  err => {
           this.openSnackbar(err.error.error)
           form.reset()

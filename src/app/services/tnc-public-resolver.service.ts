@@ -34,7 +34,6 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
     return this.http.get<NsTnc.ITnc>(url)
   }
 
-
   signup(data: any): Observable<any> {
     return this.http.post<any>('/apis/public/v8/register/registerUserWithEmail', data).pipe(
       map(response => {
@@ -42,7 +41,6 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
       }),
     )
   }
-
 
   registerWithMobile(data: any) {
     return this.http.post<any>('/apis/public/v8/register/registerUserWithMobile', data).pipe(

@@ -18,11 +18,11 @@ export class ForgotPasswordComponent implements OnInit {
   showOtpPwd = false
   showCheckEmailText = false
   constructor(private router: Router, private signupService: SignupService,
-    private fb: FormBuilder, private snackBar: MatSnackBar) {
+              private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.forgotPasswordForm = this.fb.group({
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                      { validator: mustMatch('password', 'confirmPassword') })
   }
 
   ngOnInit() {
