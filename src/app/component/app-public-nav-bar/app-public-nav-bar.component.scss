@@ -1,9 +1,9 @@
 @import 'ws-mixins';
 .application-logo {
-      max-width: 150px;
-    display: block;
-    width: 100%;
-    padding-top: 8px;
+  max-width: 150px;
+  display: block;
+  width: 100%;
+  padding-top: 8px;
 }
 
 .app-logo {
@@ -15,26 +15,34 @@
     margin-top: 9px;
   }
 }
+.small-logo {
+  height: 60px;
+  width: 60px;
+}
 .title-app {
   @include breakpoint-xs {
     visibility: hidden;
   }
 }
+
 .my-search {
-    display: flex;
-    margin-left: 8px;
-    margin-right: 0;
-    text-align: center;
-    flex: 1;
-    height: 50px;
-    margin-top: 6px;
-    max-width: 470px;
+  display: flex;
+  margin-left: 8px;
+  margin-right: 0;
+  text-align: center;
+  flex: 1;
+  height: 50px;
+  margin-top: 6px;
+  max-width: 470px;
+  @include breakpoint-xs {
+    margin-right: 7px;
+  }
 }
 .fix-ww {
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    flex: 1;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex: 1;
 }
 .small-font-size {
   @include breakpoint-xs {

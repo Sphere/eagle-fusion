@@ -89,6 +89,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   showBackBtn!: boolean
   @ViewChild('usetMatTab', { static: false }) usetMatTab!: MatTabGroup
   navigatedFromProfile = false
+  mobileNumberLogin = false
+  mobileLoginNumber = ''
 
   constructor(
     private snackBar: MatSnackBar,
@@ -465,7 +467,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           })
       }
     } else {
-      if (this.configSvc.userProfile) {
+      if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
+        if (this.configSvc.userProfile.email.endsWith("aastar.org")) {
+          this.mobileNumberLogin = true
+          this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
+          this.createUserForm.patchValue({
+            mobile: this.mobileLoginNumber,
+          })
+        }
         this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
           data => {
             if (data && data.length) {
@@ -648,7 +657,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */

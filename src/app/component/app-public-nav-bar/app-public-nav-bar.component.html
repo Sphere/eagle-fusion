@@ -1,7 +1,8 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
   <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
     matTooltip="Home">
-    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" />
+    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" *ngIf=" (isXSmall$ | async) === false" />
+    <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
     <!-- <span class="title-app mx-2" *ngIf="appName">| {{appName}}</span> -->
   </a>
   <div class="fix-ww">

@@ -54,7 +54,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
-  showNavigation = false
+  showNavigation = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
