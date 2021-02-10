@@ -232,10 +232,16 @@
 }
 .next-button .width-auto {
   right: -11px;
+  @include breakpoint-xs {
+    right: -26px;
+  }
 }
 
 .prev-button .width-auto {
   left: -11px;
+  @include breakpoint-xs {
+    left: -26px;
+  }
 }
 .prev-button .title {
   margin-left: -12px !important;

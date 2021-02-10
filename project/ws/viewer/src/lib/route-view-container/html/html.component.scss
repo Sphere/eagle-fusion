@@ -176,7 +176,7 @@
 .next-button .width-auto {
   right: -3px;
   @include breakpoint-xs {
-    right: -16px;
+    right: 2px;
   }
 }
 
