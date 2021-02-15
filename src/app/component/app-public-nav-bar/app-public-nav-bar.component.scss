@@ -4,6 +4,9 @@
   display: block;
   width: 100%;
   padding-top: 8px;
+  @include breakpoint-xs {
+    max-width: 60px;
+  }
 }
 
 .app-logo {

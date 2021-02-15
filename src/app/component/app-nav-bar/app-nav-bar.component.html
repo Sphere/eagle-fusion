@@ -1,5 +1,5 @@
 <mat-toolbar [color]="primaryNavbarBackground?.color" [ngStyle]="primaryNavbarBackground?.styles"
-  class="mat-elevation-z3 custom">
+  class="mat-elevation-z3 custom" *ngIf="authorised">
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
       <div class="logo-container flex items-center">
@@ -57,8 +57,7 @@
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
       </ng-container>
     </ng-container>
-
-    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
+    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom' && authorised">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">

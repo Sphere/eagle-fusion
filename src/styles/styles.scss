@@ -810,3 +810,10 @@ table {
   width: 100%;
   height: 50px;
 }
+
+ws-widget-btn-catalog {
+  margin-top: 7px;
+  @include breakpoint-xs {
+    margin-top: -9px;
+  }
+}

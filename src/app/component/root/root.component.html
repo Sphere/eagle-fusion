@@ -1,6 +1,7 @@
 <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
 </mat-progress-bar>
-<ws-app-public-nav-bar *ngIf="!authSvc.isAuthenticated && showNavigation"></ws-app-public-nav-bar>
+<ws-app-public-nav-bar *ngIf="!authSvc.isAuthenticated && showNavigation" (menuClick)="getMenuClickValue($event)">
+</ws-app-public-nav-bar>
 <ws-app-nav-bar class="top-nav-bar" *ngIf="
     isNavBarRequired && (isXSmall$ | async) === false && (authSvc.isLoggedIn$ | async) === true
   " [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
@@ -17,10 +18,10 @@
   }">
   <router-outlet></router-outlet>
 </div>
-<ws-app-footer class="app-footer mt-8" [ngClass]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar">
+<ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar">
 </ws-app-footer>
-<ws-app-nav-bar class="bottom-nav-bar" [hidden]="!showNavbar"
-  *ngIf="isNavBarRequired && (isXSmall$ | async) === true && (authSvc.isLoggedIn$ | async) === true" [mode]="'bottom'">
+<ws-app-nav-bar class="bottom-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === true" [mode]="'bottom'"
+  [hidden]="!showNavbar" [authorised]="authSvc.isAuthenticated">
 </ws-app-nav-bar>
 
 <ng-container #previewContainer></ng-container>
