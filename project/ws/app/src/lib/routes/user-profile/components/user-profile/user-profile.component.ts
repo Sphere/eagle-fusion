@@ -472,7 +472,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mobileNumberLogin = true
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
-            mobile: this.mobileLoginNumber,
+            mobile: Number(this.mobileLoginNumber),
           })
         }
         this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
