@@ -1,17 +1,18 @@
-import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnDestroy, ViewChild, ElementRef, OnInit } from '@angular/core'
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
 import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
+import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 
 @Component({
   selector: 'ws-app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
   signupForm: FormGroup
   unseenCtrl!: FormControl
   unseenCtrlSub!: Subscription
@@ -26,7 +27,8 @@ export class RegisterComponent implements OnDestroy {
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder, private router: Router,
-    private tncService: TncPublicResolverService
+    private tncService: TncPublicResolverService,
+    private authSvc: AuthKeycloakService,
   ) {
     this.signupForm = this.fb.group({
       firstName: new FormControl('', [Validators.required]),
@@ -35,6 +37,12 @@ export class RegisterComponent implements OnDestroy {
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
     }, { validator: mustMatch('password', 'confirmPassword') })
+  }
+
+  ngOnInit() {
+    if (this.authSvc.isAuthenticated) {
+      this.router.navigate(['/page/home'])
+    }
   }
 
   verifyEntry() {
@@ -107,6 +115,9 @@ export class RegisterComponent implements OnDestroy {
             form.reset()
             this.uploadSaveData = false
             this.openSnackbar(this.toastSuccess.nativeElement.value)
+            setTimeout(() => {
+              this.authSvc.login('S', document.baseURI)
+            }, 5000)
           }
         },
         (err: { error: { error: string } }) => {
@@ -131,7 +142,9 @@ export class RegisterComponent implements OnDestroy {
       this.tncService.verifyUserMobile(requestBody).subscribe(
         (res: { message: string }) => {
           if (res.message === 'Success') {
-            this.router.navigate(['/page/home'])
+            setTimeout(() => {
+              this.authSvc.login('S', document.baseURI)
+            }, 5000)
           }
         },
         (err: { error: { error: string } }) => {
