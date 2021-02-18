@@ -34,7 +34,7 @@ export class RegisterComponent implements OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                              { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
   }
 
   verifyEntry() {
@@ -136,6 +136,7 @@ export class RegisterComponent implements OnDestroy {
         },
         (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
+          this.uploadSaveData = false
           form.reset()
         }
       )

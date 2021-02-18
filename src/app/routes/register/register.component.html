@@ -10,9 +10,9 @@
     </h2>
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Email id / Mobile Number</mat-label>
-      <input type="text" matInput placeholder="Mobile number" [(ngModel)]="emailOrMobile">
+      <input type="text" matInput placeholder="Email id / Mobile number" [(ngModel)]="emailOrMobile">
     </mat-form-field>
-    <div class="mt-3 mb-8 text-left" *ngIf="!isMobile">
+    <div class="mt-3 mb-8 text-left" *ngIf="!isMobile && !showAllFields">
       <button mat-raised-button class="submit-btn" color="primary" (click)="verifyEntry()">
         Submit</button>
     </div>
@@ -28,7 +28,6 @@
 
       <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
         Resend OTP</a>
-
 
 
       <div *ngIf="showAllFields || isMobile" class="mt-8">
@@ -58,13 +57,13 @@
         </mat-form-field>
         <div class="border"></div>
 
-        <div class="mt-4 flex justify-center">
+        <div class="mt-4">
           <!-- <div class="center flex items-center"> -->
           <!-- <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
             <mat-spinner [diameter]="30"></mat-spinner>
           </div> -->
-          <button mat-raised-button class="md-large-button" color="primary" type="submit" i18n
-            [disabled]="uploadSaveData" (click)="onSubmit(signupForm)">
+          <button mat-raised-button class="submit-btn" color="primary" type="submit" i18n
+            [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
 
             <ng-container i18n>Register</ng-container>
           </button>
