@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material'
+import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-forgot-password',
@@ -18,11 +19,11 @@ export class ForgotPasswordComponent implements OnInit {
   showOtpPwd = false
   showCheckEmailText = false
   constructor(private router: Router, private signupService: SignupService,
-              private fb: FormBuilder, private snackBar: MatSnackBar) {
+    private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService, ) {
     this.forgotPasswordForm = this.fb.group({
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                                      { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
   }
 
   ngOnInit() {
@@ -58,10 +59,10 @@ export class ForgotPasswordComponent implements OnInit {
     this.router.navigate(['/home'])
   }
 
-  onSubmit(form: any) {
+  onSubmit() {
     const requestBody = {
       username: this.emailOrMobile,
-      password: form.value.password,
+      password: this.forgotPasswordForm.value.password,
       otp: this.otp,
 
     }
@@ -69,11 +70,14 @@ export class ForgotPasswordComponent implements OnInit {
       res => {
         if (res) {
           this.openSnackbar('Password changed successfully')
-          this.router.navigate(['/login'])
+          setTimeout(() => {
+            this.authSvc.login('S', document.baseURI)
+          }, 5000)
         }
       },
       (error: any) => {
-        this.openSnackbar(error)
+        this.openSnackbar(error.error.error)
+        this.otp = ''
       }
     )
   }

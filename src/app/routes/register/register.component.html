@@ -8,14 +8,19 @@
     <h2 class="mat-title" i18n="section heading create new goal">
       Sign up
     </h2>
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Email id / Mobile Number</mat-label>
-      <input type="text" matInput placeholder="Email id / Mobile number" [(ngModel)]="emailOrMobile">
-    </mat-form-field>
-    <div class="mt-3 mb-8 text-left" *ngIf="!isMobile && !showAllFields">
-      <button mat-raised-button class="submit-btn" color="primary" (click)="verifyEntry()">
-        Submit</button>
-    </div>
+    <form (ngSubmit)="verifyEntry()" #signup="ngForm">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email id / Mobile Number</mat-label>
+        <input type="text" matInput placeholder="Email id / Mobile number" [(ngModel)]="emailOrMobile" name="userData"
+          mobile #mobile="ngModel" required>
+      </mat-form-field>
+      <span class="help-block" *ngIf="!mobile.valid && mobile.touched">Please enter a valid email id or
+        mobile!</span>
+      <div class="mt-3 mb-8 text-left" *ngIf="!isMobile && !showAllFields">
+        <button mat-raised-button class="submit-btn" color="primary" [disabled]="!signup.valid">
+          Submit</button>
+      </div>
+    </form>
 
 
 

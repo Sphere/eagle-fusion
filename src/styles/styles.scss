@@ -817,3 +817,91 @@ ws-widget-btn-catalog {
     margin-top: -9px;
   }
 }
+
+.signup-container {
+  box-sizing: border-box;
+  padding: $size-m;
+  margin-left: 10%;
+  margin-top: 5vh;
+  @extend %height-mat-toolbar-sibling;
+  box-sizing: border-box;
+  @include breakpoint-xs {
+    margin-left: 15px;
+  }
+  @include breakpoint-gt-xs {
+    max-width: 45%;
+  }
+}
+
+.split {
+  @include breakpoint-xs {
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+  }
+
+  @include breakpoint-gt-xs {
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    background-color: rgb(255, 255, 255);
+  }
+}
+.centered {
+  @include breakpoint-gt-xs {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+  }
+}
+
+.left {
+  @include breakpoint-xs {
+    display: none;
+  }
+  @include breakpoint-gt-xs {
+    left: 0;
+    background-color: #eaeaea;
+  }
+}
+.right {
+  @include breakpoint-gt-xs {
+    right: 0;
+  }
+}
+.width-40 {
+  @include breakpoint-gt-xs {
+    width: 40%;
+    text-align: center;
+  }
+}
+.width-60 {
+  @include breakpoint-gt-xs {
+    width: 60%;
+  }
+}
+
+.help-block {
+  color: red;
+  margin-top: -15px;
+}
+
+.resend {
+  float: right;
+  color: rgba($color: #000099, $alpha: 1);
+  border: none;
+  cursor: pointer;
+}
+.submit-btn {
+  min-width: 135px;
+}

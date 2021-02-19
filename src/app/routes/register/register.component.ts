@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   verifyEntry() {
+
     let phone = this.emailOrMobile
 
     phone = phone.replace(/[^0-9+#]/g, '')
@@ -123,7 +124,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
-          form.reset()
+          // form.reset()
         }
       )
     } else {
@@ -150,7 +151,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
-          form.reset()
+          // form.reset()
         }
       )
 
