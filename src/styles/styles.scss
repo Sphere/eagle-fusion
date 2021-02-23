@@ -840,9 +840,9 @@ ws-widget-btn-catalog {
     z-index: 1;
     top: 0;
     overflow-x: hidden;
-    padding-top: 20px;
     background-color: rgb(255, 255, 255);
     width: 100%;
+    border-top: solid 8px #f5d58d;
   }
 
   @include breakpoint-gt-xs {

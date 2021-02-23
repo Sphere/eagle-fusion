@@ -146,6 +146,26 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
+                        <p class=" margin-remove-bottom form-label"
+                          i18n="Gender |Label which explains the user to enter Gender">
+                          Gender
+                        </p>
+                        <div class="radio-toolbar">
+                          <input type="radio" id="{{eUserGender.MALE}}" name="gender" formControlName="gender"
+                            [value]="eUserGender.MALE">
+                          <label for="{{eUserGender.MALE}}">{{eUserGender.MALE}}</label>
+
+                          <input type="radio" id="{{eUserGender.FEMALE}}" name="gender" formControlName="gender"
+                            [value]="eUserGender.FEMALE">
+                          <label for="{{eUserGender.FEMALE}}">{{eUserGender.FEMALE}}</label>
+
+                          <input type="radio" id="{{eUserGender.OTHER}}" name="gender" formControlName="gender"
+                            [value]="eUserGender.OTHER">
+                          <label for="{{eUserGender.OTHER}}">{{eUserGender.OTHER}}</label>
+                        </div>
+                      </div>
+
+                      <div class="input-wrapper margin-top-s">
                         <!-- <p class=" margin-remove-bottom form-label required"
                           i18n="Category |Label which explains the user to enter Category">
                           Category
@@ -196,42 +216,7 @@
               <div class="flex flex-column w-full md:w-1/2 ">
                 <div class="profile-cols bg-grey">
 
-                  <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Gender |Label which explains the user to enter Gender">
-                      Gender
-                    </p>
-                    <!-- <mat-radio-group matInput aria-label="Select an option" formControlName="gender">
-                            <span class="mx-2">
-                              <mat-radio-button matInput class="my-1" [value]="eUserGender.MALE">
-                                Male
-                              </mat-radio-button>
-                            </span>
-                            <span class="mx-2">
-                              <mat-radio-button matInput class="my-1" [value]="eUserGender.FEMALE">
-                                Female
-                              </mat-radio-button>
-                            </span>
-                            <span class="mx-2">
-                              <mat-radio-button matInput class="my-1" [value]="eUserGender.OTHER">
-                                Others
-                              </mat-radio-button>
-                            </span>
-                          </mat-radio-group> -->
-                    <div class="radio-toolbar">
-                      <input type="radio" id="{{eUserGender.MALE}}" name="gender" formControlName="gender"
-                        [value]="eUserGender.MALE">
-                      <label for="{{eUserGender.MALE}}">{{eUserGender.MALE}}</label>
 
-                      <input type="radio" id="{{eUserGender.FEMALE}}" name="gender" formControlName="gender"
-                        [value]="eUserGender.FEMALE">
-                      <label for="{{eUserGender.FEMALE}}">{{eUserGender.FEMALE}}</label>
-
-                      <input type="radio" id="{{eUserGender.OTHER}}" name="gender" formControlName="gender"
-                        [value]="eUserGender.OTHER">
-                      <label for="{{eUserGender.OTHER}}">{{eUserGender.OTHER}}</label>
-                    </div>
-                  </div>
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Marital Status |Label which explains the user to enter Marital Status">
@@ -337,7 +322,7 @@
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs no-pb">
                       <input type="primaryEmail" matInput placeholder="Primary Email" #primaryEmail
-                        formControlName="primaryEmail">
+                        formControlName="primaryEmail" readonly>
                       <mat-error [hidden]="false" i18n="Primary Email Error|Explains name is required">
                         Primary Email is mandatory
                       </mat-error>

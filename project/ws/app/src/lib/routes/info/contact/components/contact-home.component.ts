@@ -7,7 +7,7 @@ import { ConfigurationsService, NsPage } from '@ws-widget/utils'
   styleUrls: ['./contact-home.component.scss'],
 })
 export class ContactHomeComponent implements OnInit {
-  contactUsMail = ''
+  contactUsMail = 'information@aastrika.org'
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
 
   constructor(private configSvc: ConfigurationsService) {}

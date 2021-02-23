@@ -16,9 +16,8 @@
       </div>
       <div class="mat-body margin-top-s">{{ badge.message }}</div>
       <ng-container *ngIf="badge.badge_type">
-        <button (click)="downloadPdf()"
-          *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R'" mat-raised-button
-          class="
+        <button (click)="downloadPdf()" *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R' &&
+           badge.badge_id === 'lex_auth_01308384668903833673'" mat-raised-button class="
         ws-mat-primary-background mat-button-base mt-5">Download
           Certificate</button>
       </ng-container>
