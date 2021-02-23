@@ -893,7 +893,8 @@ ws-widget-btn-catalog {
 
 .help-block {
   color: red;
-  margin-top: -15px;
+  top: -15px;
+  position: relative;
 }
 
 .resend {
@@ -901,6 +902,8 @@ ws-widget-btn-catalog {
   color: rgba($color: #000099, $alpha: 1);
   border: none;
   cursor: pointer;
+  top: -10px;
+  position: relative;
 }
 .submit-btn {
   min-width: 135px;

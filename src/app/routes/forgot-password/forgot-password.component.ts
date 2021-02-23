@@ -13,11 +13,13 @@ import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/pub
 })
 export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup
+  email: any
   emailOrMobile = ''
   otp = ''
   public emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
   showOtpPwd = false
   showCheckEmailText = false
+  invalidInput = false
   constructor(private router: Router, private signupService: SignupService,
     private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService, ) {
     this.forgotPasswordForm = this.fb.group({
@@ -31,28 +33,35 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   forgotPassword() {
-    const requestBody = {
-      username: this.emailOrMobile,
-    }
+    let phone = ''
+    phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
+    // at least 10 in number
+    if (phone.length >= 10) {
+      const requestBody = {
+        username: this.emailOrMobile,
+      }
 
-    this.signupService.forgotPassword(requestBody).subscribe(
-      (res: any) => {
-        // console.log('res of forgot pwd', res)
-        if (res.message === 'Success') {
-          let phone = this.emailOrMobile
-          phone = phone.replace(/[^0-9+#]/g, '')
-          // at least 10 in number
-          if (phone.length >= 10) {
-            this.showOtpPwd = true
-          } else {
-            this.showCheckEmailText = true
+      this.signupService.forgotPassword(requestBody).subscribe(
+        (res: any) => {
+          if (res.message === 'Success') {
+            let phone = this.emailOrMobile
+            phone = phone.replace(/[^0-9+#]/g, '')
+            // at least 10 in number
+            if (phone.length >= 10) {
+              this.showOtpPwd = true
+            }
           }
-        }
-      },
-      (error: any) => {
-        if (error === 404) {
-        }
-      })
+        },
+        (error: any) => {
+          if (error === 404) {
+          }
+        })
+    } else if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.emailOrMobile))) {
+      this.showCheckEmailText = true
+    }
+    else {
+      this.invalidInput = true
+    }
   }
 
   resetForm() {
