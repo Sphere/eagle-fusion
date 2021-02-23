@@ -469,7 +469,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
-        if (this.configSvc.userProfile.email.endsWith("aastar.org")) {
+        if (this.configSvc.userProfile.email.endsWith('aastar.org')) {
           this.mobileNumberLogin = true
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
@@ -660,7 +660,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */

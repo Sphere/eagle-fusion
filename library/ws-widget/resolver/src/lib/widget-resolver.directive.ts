@@ -29,9 +29,9 @@ export class WidgetResolverDirective implements OnChanges {
     if (url.indexOf('explore') > 0) {
       if (!this.widgetResolverSvc.isInitialized) {
         this.widgetResolverSvc.initialize(this.configSvc.restrictedWidgets,
-          this.configSvc.userRoles,
-          this.configSvc.userGroups,
-          this.configSvc.restrictedFeatures)
+                                          this.configSvc.userRoles,
+                                          this.configSvc.userGroups,
+                                          this.configSvc.restrictedFeatures)
         if (this.wsResolverWidget) {
           const compRef = this.widgetResolverSvc.resolveWidget(
             this.wsResolverWidget,
