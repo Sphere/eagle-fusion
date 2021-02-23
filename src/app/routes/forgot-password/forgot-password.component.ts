@@ -21,11 +21,11 @@ export class ForgotPasswordComponent implements OnInit {
   showCheckEmailText = false
   invalidInput = false
   constructor(private router: Router, private signupService: SignupService,
-    private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService, ) {
+              private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
     this.forgotPasswordForm = this.fb.group({
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                      { validator: mustMatch('password', 'confirmPassword') })
   }
 
   ngOnInit() {
@@ -44,8 +44,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
           if (res.message === 'Success') {
-            let phone = this.emailOrMobile
-            phone = phone.replace(/[^0-9+#]/g, '')
+            phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
             // at least 10 in number
             if (phone.length >= 10) {
               this.showOtpPwd = true
@@ -58,8 +57,7 @@ export class ForgotPasswordComponent implements OnInit {
         })
     } else if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.emailOrMobile))) {
       this.showCheckEmailText = true
-    }
-    else {
+    } else {
       this.invalidInput = true
     }
   }
@@ -81,7 +79,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.openSnackbar('Password changed successfully')
           setTimeout(() => {
             this.authSvc.login('S', document.baseURI)
-          }, 5000)
+          },         5000)
         }
       },
       (error: any) => {

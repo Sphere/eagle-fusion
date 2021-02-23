@@ -15,7 +15,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 export class AppNavBarComponent implements OnInit, OnChanges {
   allowAuthor = false
   @Input() mode: 'top' | 'bottom' = 'top'
-  @Input() authorised: boolean = false
+  @Input() authorised = false
   // @Input()
   // @HostBinding('id')
   // public id!: string
