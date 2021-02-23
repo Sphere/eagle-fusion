@@ -1,10 +1,9 @@
 <mat-card class="card-container">
   <div class="info">
-    badge=>{{badge.badge_id}}
     <span class="date mat-body">{{ badge.last_received_date | date }}</span>
     <button mat-mini-fab color="primary" [matTooltip]="badge.hover_text"
       [ngClass]="{ hidden: badge.badge_type !== 'R' }">
-      {{ badge.received_count }}
+      {{ badge.received_count }}x
     </button>
   </div>
   <div class="flex">
