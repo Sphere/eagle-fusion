@@ -95,4 +95,11 @@ export class ForgotPasswordComponent implements OnInit {
     })
   }
 
+  gotoHome() {
+    this.router.navigate(['/login'])
+      .then(() => {
+        window.location.reload()
+      })
+  }
+
 }

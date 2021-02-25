@@ -826,7 +826,8 @@ ws-widget-btn-catalog {
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
   @include breakpoint-xs {
-    margin-left: 15px;
+    margin-left: 0px;
+    padding: 0 15px;
   }
   @include breakpoint-gt-xs {
     max-width: 45%;
@@ -907,4 +908,7 @@ ws-widget-btn-catalog {
 }
 .submit-btn {
   min-width: 135px;
+}
+button.cancel-btn {
+  line-height: 38px;
 }

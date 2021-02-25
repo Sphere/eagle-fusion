@@ -3,10 +3,8 @@
     matTooltip="Home">
     <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" *ngIf=" (isXSmall$ | async) === false" />
     <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
-    <!-- <span class="title-app mx-2" *ngIf="appName">| {{appName}}</span> -->
   </a>
   <div class="fix-ww">
-    <!-- <ws-widget-btn-catalog></ws-widget-btn-catalog> -->
     <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
     </ng-container>
@@ -16,17 +14,7 @@
     </ws-app-search-input-home>
     <span class="spacer"></span>
     <div ngClass="search-small-logo">
-      <!-- <ng-container [wsLoginResolverWidget]="{
-              'widgetType': 'actionButton',
-              'widgetSubType': 'buttonFeature',
-              'widgetData': {
-                'toolTop': 'Search',
-                'actionBtnId': 'feature_search',
-                'config': {
-                  'type': 'mat-icon-button'
-                }
-              }
-            }"></ng-container> -->
+
       <ng-container [wsExploreResolverWidget]="{
                             'widgetType': 'actionButton',
                             'widgetSubType': 'buttonFeature',

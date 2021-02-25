@@ -48,31 +48,34 @@ export class RegisterComponent implements OnInit, OnDestroy {
   verifyEntry() {
 
     let phone = this.emailOrMobile
-
-    phone = phone.replace(/[^0-9+#]/g, '')
-    // at least 10 in number
-    if (phone.length >= 10) {
-      this.isMobile = true
-      // Call OTP Api, show resend Button true
-      const request = {
-        mobileNumber: phone,
-      }
-      this.tncService.registerWithMobile(request).subscribe(
-        (res: any) => {
-          this.openSnackbar(res.message)
-        },
-        (err: any) => {
-          this.openSnackbar(err)
-
+    if (phone) {
+      phone = phone.replace(/[^0-9+#]/g, '')
+      // at least 10 in number
+      if (phone.length >= 10) {
+        this.isMobile = true
+        // Call OTP Api, show resend Button true
+        const request = {
+          mobileNumber: phone,
         }
-      )
-    } else {
-      this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        this.emailOrMobile
-      )
-      if (this.email) {
-        this.isMobile = false
-        this.showAllFields = true
+        this.tncService.registerWithMobile(request).subscribe(
+          (res: any) => {
+            if (res.message === 'Success') {
+              this.openSnackbar('OTP is sent to your mobile successfully')
+            }
+          },
+          (err: any) => {
+            this.openSnackbar(err)
+
+          }
+        )
+      } else {
+        this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+          this.emailOrMobile
+        )
+        if (this.email) {
+          this.isMobile = false
+          this.showAllFields = true
+        }
       }
     }
   }
@@ -163,6 +166,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
+  }
+
+  gotoHome() {
+    this.router.navigate(['/login'])
+      .then(() => {
+        window.location.reload()
+      })
   }
 
 }
