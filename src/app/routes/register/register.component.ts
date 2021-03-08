@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                              { validator: mustMatch('password', 'confirmPassword') })
   }
 
   ngOnInit() {
@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            }, 5000)
+            },         5000)
           }
         },
         (err: { error: { error: string } }) => {
@@ -148,7 +148,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           if (res.message === 'Success') {
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            }, 5000)
+            },         5000)
           }
         },
         (err: { error: { error: string } }) => {

@@ -168,7 +168,7 @@ export class WidgetContentService {
       { request: req },
     )
   }
-  searchV6(req: NSSearch.ISearchV6Request): Observable<NSSearch.ISearchV6ApiResult> {
+  searchV6(req: NSSearch.ISearchV6Request) {
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.CONTENT_SEARCH_V6, req)
   }
