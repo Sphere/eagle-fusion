@@ -30,7 +30,6 @@ export class EditorContentService {
   }
 
   getUpdatedMeta(id: string): NSContent.IContentMeta {
-   // console.log('getUpdatedMeta');
     if (this.originalContent[id] || this.upDatedContent[id]) {
       return JSON.parse(
         JSON.stringify({
@@ -70,7 +69,6 @@ export class EditorContentService {
   }
 
   setOriginalMeta(meta: NSContent.IContentMeta) {
-
     this.originalContent[meta.identifier] = JSON.parse(JSON.stringify(meta))
   }
 
@@ -79,25 +77,11 @@ export class EditorContentService {
     delete this.upDatedContent[id]
   }
 
-  resetStatus() {
-    let isDraftPresent
-    Object.keys(this.originalContent).map(v => {
-      isDraftPresent = this.originalContent[v].status === 'Draft'
-    })
-    return isDraftPresent
-  }
-  changeStatusDraft() {
-    Object.keys(this.originalContent).map(v => {
-      this.originalContent[v].status = 'Draft'
-    })
-  }
-
   setUpdatedMeta(meta: NSContent.IContentMeta, id: string, emit = true) {
     this.upDatedContent[id] = {
       ...(this.upDatedContent[id] ? this.upDatedContent[id] : {}),
       ...JSON.parse(JSON.stringify(meta)),
     }
-    this.setOriginalMeta(meta)
     if (emit) {
       this.onContentChange.next(id)
     }
@@ -155,9 +139,6 @@ export class EditorContentService {
     return meta
   }
 
-  parentUpdatedMeta() {
-    return this.getParentUpdatedMeta()
-  }
   createInAnotherLanguage(
     language: string,
     meta = {},
@@ -291,7 +272,7 @@ export class EditorContentService {
       }
     } catch (ex) {
       // tslint:disable-next-line: no-console
-      // console.log(ex);
+      // console.log(ex)
       returnValue = false
     }
     return returnValue

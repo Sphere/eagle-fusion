@@ -33,14 +33,8 @@ export class EntityCardComponent implements OnInit {
       this.router.navigateByUrl(content.url)
     } else if (content.name === 'Resource') {
       this.resourceClicked = !this.resourceClicked
-    } else if (!this.notEnabled &&  content.contentType !== 'Course') {
+    } else if (!this.notEnabled) {
       this.step.emit(content)
-    } else  if (content.contentType === 'Course') {
-      // const navigationExtras: NavigationExtras = {
-      //   state: content,
-      // }
-      this.step.emit(content)
-      // this.router.navigate(['/author/create-course'], navigationExtras)
     }
   }
 }

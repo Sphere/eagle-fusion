@@ -898,4 +898,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         ))
     )
   }
+
+  // getCurrentNode(data: any){
+  //   console.log('data', data)
+  // }
 }
