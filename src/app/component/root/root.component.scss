@@ -53,9 +53,11 @@ ws-app-nav-bar {
 
 .app-footer {
   display: block;
-  padding-bottom: 56px;
 
   @include breakpoint-gt-xs {
     padding: 0;
   }
+  // @include breakpoint-xs {
+  //   padding-bottom: 0px;
+  // }
 }

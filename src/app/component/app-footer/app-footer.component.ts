@@ -13,6 +13,7 @@ export class AppFooterComponent {
   termsOfUser = true
   appIcon: SafeUrl | null = null
   isMedium = false
+  currentYear = new Date().getFullYear()
 
   constructor(
     private configSvc: ConfigurationsService,

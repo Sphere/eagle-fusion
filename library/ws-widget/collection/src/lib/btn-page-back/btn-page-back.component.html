@@ -1,4 +1,4 @@
-<div class="flex flex-1" [class.min-width]="showBackIcon">
+<div class="flex flex-1" [class.min-width]="showBackIcon" *ngIf="playerScreen">
   <a i18n-aria-label aria-label="Back" *ngIf="widgetData.url && widgetData.url !== 'none' && !playerScreen"
     [routerLink]="backUrl.routeUrl" [queryParams]="backUrl.queryParams" [fragment]="backUrl?.fragment" mat-icon-button>
     <mat-icon class="ws-mat-default-text" *ngIf="!showBackIcon">home</mat-icon>

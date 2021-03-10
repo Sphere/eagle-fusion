@@ -5,6 +5,7 @@ import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
+import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Component({
   selector: 'ws-widget-btn-profile',
@@ -34,13 +35,20 @@ export class BtnProfileComponent extends WidgetBaseComponent
   givenName = 'Guest'
   constructor(
     private configSvc: ConfigurationsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userProfileSvc: UserProfileService,
   ) {
     super()
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     this.btnSettingsConfig = { ... this.settingBtnConfig }
-    if (this.configSvc.userProfile) {
-      this.givenName = this.configSvc.userProfile.givenName || ''
+    if (this.configSvc && this.configSvc.userProfile && this.configSvc.userProfile.givenName) {
+      this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+        data => {
+          if (data && data.length) {
+            this.givenName = data[0].personalDetails.firstname || ''
+          }
+        })
+
     }
   }
   ngOnInit() {

@@ -44,7 +44,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   uploadSaveData = false
   selectedIndex = 0
   masterNationality: Observable<INation[]> | undefined
-  countries: INation[] = []
+  states: any
   masterLanguages: Observable<ILanguages[]> | undefined
   masterKnownLanguages: Observable<ILanguages[]> | undefined
   masterNationalities: INation[] = []
@@ -89,6 +89,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   showBackBtn!: boolean
   @ViewChild('usetMatTab', { static: false }) usetMatTab!: MatTabGroup
   navigatedFromProfile = false
+  mobileNumberLogin = false
+  mobileLoginNumber = ''
 
   constructor(
     private snackBar: MatSnackBar,
@@ -184,7 +186,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       data => {
         data.nationalities.map((item: INationality) => {
           this.masterNationalities.push({ name: item.name })
-          this.countries.push({ name: item.name })
+          // this.countries.push({ name: item.name })
           this.countryCodes.push(item.countryCode)
         })
         this.createUserForm.patchValue({
@@ -205,6 +207,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     this.userProfileSvc.getProfilePageMeta().subscribe(
       data => {
+        this.states = data.states
         this.govtOrgMeta = data.govtOrg
         this.industriesMeta = data.industries
         this.degreesMeta = data.degrees
@@ -465,7 +468,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           })
       }
     } else {
-      if (this.configSvc.userProfile) {
+      if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
+        if (this.configSvc.userProfile.email.endsWith('aastar.org')) {
+          this.mobileNumberLogin = true
+          this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
+          this.createUserForm.patchValue({
+            mobile: Number(this.mobileLoginNumber),
+          })
+        }
         this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
           data => {
             if (data && data.length) {
@@ -538,28 +548,30 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       postDegree: [],
     }
     if (data.academics) {
-      data.academics.map((item: any) => {
-        switch (item.type) {
-          case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
-            academics.X_STANDARD.yop10 = item.yearOfPassing
-            break
-          case 'XII_STANDARD': academics.XII_STANDARD.schoolName12 = item.nameOfInstitute
-            academics.XII_STANDARD.yop12 = item.yearOfPassing
-            break
-          case 'GRADUATE': academics.degree.push({
-            degree: item.nameOfQualification,
-            instituteName: item.nameOfInstitute,
-            yop: item.yearOfPassing,
-          })
-            break
-          case 'POSTGRADUATE': academics.postDegree.push({
-            degree: item.nameOfQualification,
-            instituteName: item.nameOfInstitute,
-            yop: item.yearOfPassing,
-          })
-            break
-        }
-      })
+      if (Array.isArray(data.academics)) {
+        data.academics.map((item: any) => {
+          switch (item.type) {
+            case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
+              academics.X_STANDARD.yop10 = item.yearOfPassing
+              break
+            case 'XII_STANDARD': academics.XII_STANDARD.schoolName12 = item.nameOfInstitute
+              academics.XII_STANDARD.yop12 = item.yearOfPassing
+              break
+            case 'GRADUATE': academics.degree.push({
+              degree: item.nameOfQualification,
+              instituteName: item.nameOfInstitute,
+              yop: item.yearOfPassing,
+            })
+              break
+            case 'POSTGRADUATE': academics.postDegree.push({
+              degree: item.nameOfQualification,
+              instituteName: item.nameOfInstitute,
+              yop: item.yearOfPassing,
+            })
+              break
+          }
+        })
+      }
     }
     return academics
   }

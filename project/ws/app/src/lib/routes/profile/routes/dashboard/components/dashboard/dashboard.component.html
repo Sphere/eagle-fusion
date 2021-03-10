@@ -18,9 +18,9 @@
         </span>
       </section>
       <div class="user-name">
-        <h2 class="pl-4 ws-mat-primary-text margin-zero sm:pl-0">{{ userName }}
+        <h2 class="pl-4 ws-mat-primary-text margin-zero sm:pl-0">{{ userProfileData?.personalDetails.firstname }}
           {{userProfileData?.personalDetails.surname}}</h2>
-        <div>
+        <div *ngIf="userProfileData?.professionalDetails[0]">
           {{userProfileData?.professionalDetails[0].designation === 'Other' ? userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation }}
         </div>
         <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }} /
@@ -67,61 +67,62 @@
 
     <div>
 
-
-      <div class="academic-row" *ngFor="let academic of userProfileData?.academics">
-        <div class="flex" *ngIf="xStandardValues === 1 && academic.type == 'X_STANDARD'">
-          <button mat-fab disabled>
-            <mat-icon mat-list-icon>school</mat-icon>
-          </button>
-          <div class="ml-2">
-            <div><span>Class X</span>
-              {{academic.nameOfQualification}}</div>
-            <div>{{academic.nameOfInstitute}}</div>
-            <div class="mb-4">{{academic.yearOfPassing}}</div>
-          </div>
-        </div>
-
-        <div class="flex" *ngIf="xiiStandardValues === 1 && academic?.type == 'XII_STANDARD'">
-          <button mat-fab disabled>
-            <mat-icon mat-list-icon>school</mat-icon>
-          </button>
-          <div class="ml-2">
-            <div><span>Class XII</span>
-              {{academic.nameOfQualification}}</div>
-            <div>{{academic.nameOfInstitute}}</div>
-            <div class="mb-4">{{academic.yearOfPassing}}</div>
-          </div>
-        </div>
-        <!-- graduate==>{{graduate}} -->
-        <div class="flex" *ngIf="academic?.nameOfQualification != '' && academic?.type == 'GRADUATE'">
-          <button mat-fab disabled>
-            <mat-icon mat-list-icon>school</mat-icon>
-          </button>
-          <div class="ml-2">
-            <div>
-              <div>Graduate: </div>
-              {{academic.nameOfQualification}}
+      <ng-container *ngIf="academicsArray">
+        <div class="academic-row" *ngFor="let academic of academicsArray">
+          <div class="flex" *ngIf="xStandardValues === 1 && academic.type == 'X_STANDARD'">
+            <button mat-fab disabled>
+              <mat-icon mat-list-icon>school</mat-icon>
+            </button>
+            <div class="ml-2">
+              <div><span>Class X</span>
+                {{academic.nameOfQualification}}</div>
+              <div>{{academic.nameOfInstitute}}</div>
+              <div class="mb-4">{{academic.yearOfPassing}}</div>
             </div>
-            <div>{{academic.nameOfInstitute}}</div>
-            <div class="mb-4">{{academic.yearOfPassing}}</div>
           </div>
-        </div>
 
-        <div class="flex" *ngIf="academic?.nameOfQualification != '' && academic?.type == 'POSTGRADUATE'">
-          <button mat-fab disabled>
-            <mat-icon mat-list-icon>school</mat-icon>
-          </button>
-          <div class="ml-2">
-            <div>
-              <div>Post Graduate :</div>
-              {{academic.nameOfQualification}}
+          <div class="flex" *ngIf="xiiStandardValues === 1 && academic?.type == 'XII_STANDARD'">
+            <button mat-fab disabled>
+              <mat-icon mat-list-icon>school</mat-icon>
+            </button>
+            <div class="ml-2">
+              <div><span>Class XII</span>
+                {{academic.nameOfQualification}}</div>
+              <div>{{academic.nameOfInstitute}}</div>
+              <div class="mb-4">{{academic.yearOfPassing}}</div>
             </div>
-            <div>{{academic.nameOfInstitute}}</div>
-            <div class="mb-4">{{academic.yearOfPassing}}</div>
           </div>
-        </div>
+          <!-- graduate==>{{graduate}} -->
+          <div class="flex" *ngIf="academic?.nameOfQualification != '' && academic?.type == 'GRADUATE'">
+            <button mat-fab disabled>
+              <mat-icon mat-list-icon>school</mat-icon>
+            </button>
+            <div class="ml-2">
+              <div>
+                <div>Graduate: </div>
+                {{academic.nameOfQualification}}
+              </div>
+              <div>{{academic.nameOfInstitute}}</div>
+              <div class="mb-4">{{academic.yearOfPassing}}</div>
+            </div>
+          </div>
 
-      </div>
+          <div class="flex" *ngIf="academic?.nameOfQualification != '' && academic?.type == 'POSTGRADUATE'">
+            <button mat-fab disabled>
+              <mat-icon mat-list-icon>school</mat-icon>
+            </button>
+            <div class="ml-2">
+              <div>
+                <div>Post Graduate :</div>
+                {{academic.nameOfQualification}}
+              </div>
+              <div>{{academic.nameOfInstitute}}</div>
+              <div class="mb-4">{{academic.yearOfPassing}}</div>
+            </div>
+          </div>
+
+        </div>
+      </ng-container>
     </div>
     <ng-template #showElseTemplate>
       <div class="mb-8">
@@ -158,8 +159,6 @@
 
     </div>
     <mat-divider></mat-divider>
-    <!-- <h2 class="font-bold mat-title margin-zero pl-4 py-4" i18n=" Professional info">
-      Professional info</h2> -->
     <div class="flex flex-middle">
       <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Professional info">
         Professional info</span>
@@ -169,22 +168,25 @@
         <mat-icon>edit</mat-icon>
       </span>
     </div>
-    <div *ngIf="userProfileData?.professionalDetails[0]?.designation != ''; else showElseProfession">
+    <ng-container *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails.length">
+      <div *ngIf="userProfileData?.professionalDetails[0]?.designation != ''; else showElseProfession">
 
 
-      <div class="academic-row" *ngFor="let profession of userProfileData?.professionalDetails">
-        <button mat-fab disabled>
-          <mat-icon mat-list-icon>account_balance</mat-icon>
-        </button>
-        <div class="ml-2">
-          <div>{{profession.designation}}</div>
-          <div>{{profession.description}}</div>
-          <div>{{profession.industry}}</div>
-          <div class="mb-4">{{profession.doj}}</div>
+        <div class="academic-row" *ngFor="let profession of userProfileData?.professionalDetails">
+          <button mat-fab disabled>
+            <mat-icon mat-list-icon>account_balance</mat-icon>
+          </button>
+          <div class="ml-2">
+            <div>{{profession.name}}</div>
+            <div>{{profession.designation}}</div>
+            <div>{{profession.description}}</div>
+            <div>{{profession.location}}</div>
+            <div class="mb-4">{{profession.doj}}</div>
+          </div>
         </div>
-      </div>
 
-    </div>
+      </div>
+    </ng-container>
 
 
     <mat-divider></mat-divider>

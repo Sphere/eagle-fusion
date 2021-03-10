@@ -200,7 +200,12 @@
 
 .hide-md {
   @include breakpoint-s {
-    display:none;
+    display: none;
+  }
+}
+.hide-xs {
+  @include breakpoint-xs {
+    display: none;
   }
 }
 // @media

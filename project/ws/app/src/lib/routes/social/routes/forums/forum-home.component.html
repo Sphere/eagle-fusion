@@ -3,7 +3,7 @@
         !screenSizeIsLtMedium ? (showText = !showText) : sideNavBar.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
-  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
   <span class="ml-2" i18n>Forum</span>
   <span class="spacer"></span>
   <ng-container *ngIf="(isXSmall$ | async) === true && forumCreation">

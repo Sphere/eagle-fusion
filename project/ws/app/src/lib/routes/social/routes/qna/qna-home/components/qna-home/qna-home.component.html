@@ -1,8 +1,8 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
   <span class="ml-2 hidden sm:inline" i18n>Question & Answer Forum</span>
   <span class="ml-2 inline sm:hidden" i18n>Latest Questions</span>
-</mat-toolbar>
+</mat-toolbar> -->
 <div class="qna-home-container">
   <div class="qna-title">
     <h1 class="mat-display-1 margin-remove hidden sm:block" i18n>Latest Questions</h1>
@@ -23,13 +23,16 @@
         <ng-container i18n> Questions</ng-container>
       </h2>
     </div>
-    <mat-button-toggle-group (change)="onTabChange($event)" i18n-name name="questionType" i18n-aria-label aria-label="Select question type">
+    <mat-button-toggle-group (change)="onTabChange($event)" i18n-name name="questionType" i18n-aria-label
+      aria-label="Select question type">
       <mat-button-toggle i18n [checked]="currentTab === eTimelineTypes.ALL" [value]="eTimelineTypes.ALL">All
       </mat-button-toggle>
       <mat-button-toggle i18n [checked]="currentTab === eTimelineTypes.UNANSWERED" [value]="eTimelineTypes.UNANSWERED">
         Unanswered</mat-button-toggle>
-      <mat-button-toggle i18n [checked]="currentTab === eTimelineTypes.MY_TIMELINE" [value]="eTimelineTypes.MY_TIMELINE">My Timeline</mat-button-toggle>
-      <mat-button-toggle i18n [checked]="currentTab === eTimelineTypes.MY_DRAFTS" [value]="eTimelineTypes.MY_DRAFTS">My Drafts
+      <mat-button-toggle i18n [checked]="currentTab === eTimelineTypes.MY_TIMELINE"
+        [value]="eTimelineTypes.MY_TIMELINE">My Timeline</mat-button-toggle>
+      <mat-button-toggle i18n [checked]="currentTab === eTimelineTypes.MY_DRAFTS" [value]="eTimelineTypes.MY_DRAFTS">My
+        Drafts
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>

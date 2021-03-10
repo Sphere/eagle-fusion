@@ -53,7 +53,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     private viewerSvc: ViewerUtilService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.logo = !isXSmall
+      // this.logo = !isXSmall
       this.isSmall = isXSmall
     })
     // console.log('enableFullScreen==>', this.enableFullScreen)

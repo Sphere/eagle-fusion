@@ -54,6 +54,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  showNavigation = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -89,6 +90,13 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.telemetrySvc.start('app', 'view', '')
       this.appStartRaised = true
 
+    } else {
+      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+        this.showNavigation = false
+      } else
+        if ((window.location.href).indexOf('login') > 0) {
+          this.showNavigation = true
+        }
     }
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {

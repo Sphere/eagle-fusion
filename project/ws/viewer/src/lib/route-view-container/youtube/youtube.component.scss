@@ -33,6 +33,20 @@
   }
 }
 
+.prev-button .width-auto {
+  left: -9px;
+  @include breakpoint-xs {
+    left: -22px;
+  }
+}
+
+.next-button .width-auto {
+  right: -7px;
+  @include breakpoint-xs {
+    right: -16px;
+  }
+}
+
 .video-summary {
   width: 30%;
   @include breakpoint-gt-s {
@@ -98,6 +112,9 @@ a.width-auto {
   }
 }
 
+::ng-deep .youtube-outer .mat-card {
+  padding: 0;
+}
 .vidoe-title {
   width: 100%;
 }
@@ -164,6 +181,8 @@ a.width-auto {
 
 ::ng-deep #fullScreenContainer #youtubeTag {
   min-height: 75vh;
+  width: 98%;
+  margin: 0 auto;
 }
 
 .next-button .title {
