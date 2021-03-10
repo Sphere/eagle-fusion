@@ -255,10 +255,10 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       } else {
         const req = {
           query: '',
-          filters: [{ "andFilters": [{ "contentType": ["Course", "Program"] }] }],
+          filters: [{ andFilters: [{ contentType: ['Course', 'Program'] }] }],
         }
         this.contentSvc.searchV6(req).subscribe(result => {
-          let results = result
+          const results = result
           if (results.result.length > 0) {
             const showViewMore = Boolean(
               results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,

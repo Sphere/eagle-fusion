@@ -9,7 +9,7 @@ const API_END_POINTS = {
   USER_BADGE: `${PROTECTED_SLAG_V8}/user/badge`,
   USER_BADGE_RECENT: `${PROTECTED_SLAG_V8}/user/badge/notification`,
   USER_BADGES_UPDATE: `${PROTECTED_SLAG_V8}/user/badge/update`,
-  GENERATE_QRCODE: `${PROTECTED_SLAG_V8}/generateQRCode`
+  GENERATE_QRCODE: `${PROTECTED_SLAG_V8}/generateQRCode`,
 }
 
 @Injectable({

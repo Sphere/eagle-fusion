@@ -13,6 +13,7 @@ export class OverviewComponent implements OnInit {
   @Input() timeLimit = 0
   @Input() noOfQuestions = 0
   @Input() progressStatus = ''
+  @Input() isNqocnContent = false
   @Output() userSelection = new EventEmitter<NSQuiz.TUserSelectionType>()
 
   constructor() { }

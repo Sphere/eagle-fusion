@@ -28,10 +28,10 @@
     </div>
     <div class="text-center">
       <button mat-raised-button color="primary" (click)="userSelection.emit('start')" class="margin-right-m"
-        i18n="button start quiz" [hidden]="progressStatus==='completed'">
+        i18n="button start quiz" [hidden]="progressStatus==='completed' && isNqocnContent">
         Start
       </button>
-      <ng-container *ngIf="progressStatus==='completed'">
+      <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
         <p>You have already completed the Assessment</p>
       </ng-container>
     </div>
