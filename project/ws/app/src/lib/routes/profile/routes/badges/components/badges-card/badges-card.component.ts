@@ -26,6 +26,7 @@ export class BadgesCardComponent implements OnInit {
   constructor(private userProfileSvc: UserProfileService, private badgesSvc: BadgesService) { }
 
   ngOnInit() {
+    console.log
     if (this.badge && this.badge.last_received_date) {
       this.allowDownload = moment(this.badge.last_received_date).isSameOrAfter('2021-03-08')
     }
