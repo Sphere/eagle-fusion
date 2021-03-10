@@ -27,15 +27,13 @@
       </div>
     </div>
     <div class="text-center">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="userSelection.emit('start')"
-        class="margin-right-m"
-        i18n="button start quiz"
-      >
+      <button mat-raised-button color="primary" (click)="userSelection.emit('start')" class="margin-right-m"
+        i18n="button start quiz" [hidden]="progressStatus==='completed'">
         Start
       </button>
+      <ng-container *ngIf="progressStatus==='completed'">
+        <p>You have already completed the Assessment</p>
+      </ng-container>
     </div>
   </mat-card>
 </div>
