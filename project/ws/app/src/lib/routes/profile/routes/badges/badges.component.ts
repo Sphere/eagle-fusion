@@ -220,7 +220,8 @@ export class BadgesComponent implements OnInit {
           [{
             // tslint:disable-next-line:max-line-length
             content: `${this.badges.recent[0].badge_name} \n by ${`${this.titleCaseWord(this.userProfileData.
-              personalDetails.firstname)} ${this.userProfileData.personalDetails.surname}`}\n Completed on ${this.badges.recent[0].first_received_date}`,
+              personalDetails.firstname)} ${this.userProfileData.personalDetails.surname}`}
+               Completed on ${this.badges.recent[0].first_received_date}`,
             colSpan: 2,
             rowSpan: 2,
             styles: { halign: 'center' },
