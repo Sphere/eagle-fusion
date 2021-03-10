@@ -205,7 +205,7 @@ export class BadgesComponent implements OnInit {
 
     let imageData = ''
     // Fernandes course
-    if (badgeId === 'lex_auth_01317364426178560033') {
+    if (badgeId === 'lex_auth_01308384668903833673') {
       const doc = new jsPDF('landscape', 'mm', [297, 210])
       const width = doc.internal.pageSize.getWidth()
       const height = doc.internal.pageSize.getHeight()
@@ -219,9 +219,7 @@ export class BadgesComponent implements OnInit {
         body: [
           [{
             // tslint:disable-next-line:max-line-length
-            content: `${this.badges.recent[0].badge_name} \n by ${`${this.titleCaseWord(this.userProfileData.
-              personalDetails.firstname)} ${this.userProfileData.personalDetails.surname}`}
-               Completed on ${this.badges.recent[0].first_received_date}`,
+            content: `${this.badges.recent[0].badge_name} \n by ${`${this.titleCaseWord(this.userProfileData.personalDetails.firstname)} ${this.userProfileData.personalDetails.surname}`} \n Completed on ${this.badges.recent[0].first_received_date}`,
             colSpan: 2,
             rowSpan: 2,
             styles: { halign: 'center' },

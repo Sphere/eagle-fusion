@@ -55,7 +55,7 @@ export class BadgesCardComponent implements OnInit {
 
     let imageData = ''
     // Fernandes course
-    if (badgeId === 'lex_auth_01317364426178560033') {
+    if (badgeId === 'lex_auth_01308384668903833673') {
       const doc = new jsPDF('landscape', 'mm', [297, 210])
       const width = doc.internal.pageSize.getWidth()
       const height = doc.internal.pageSize.getHeight()
