@@ -58,21 +58,21 @@ export class ContentStripHolderComponent implements OnInit, OnChanges {
     this.widget.children.map(
       v => {
         switch (this.store.getUpdatedContent(v).purpose) {
-          case 'info':
-            this.widgetMap.info = v
-            break
-          case 'noDataWidget':
-            this.widgetMap.noData = v
-            break
-          case 'errorWidget':
-            this.widgetMap.error = v
-            break
-          case 'preWidget':
-            this.widgetMap.preWidgets.push(v)
-            break
-          case 'postWidget':
-            this.widgetMap.postWidgets.push(v)
-            break
+        case 'info':
+          this.widgetMap.info = v
+          break
+        case 'noDataWidget':
+          this.widgetMap.noData = v
+          break
+        case 'errorWidget':
+          this.widgetMap.error = v
+          break
+        case 'preWidget':
+          this.widgetMap.preWidgets.push(v)
+          break
+        case 'postWidget':
+          this.widgetMap.postWidgets.push(v)
+          break
         }
       },
     )

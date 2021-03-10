@@ -11,7 +11,6 @@ export class ContentCardComponent implements OnInit {
   @Input() ordinals: any
   @Input() forExpiry = false
   @Input() forDelete = false
-  @Input() changeView = false
   filteredSubTitles: any[] = []
   translationArray: any = []
   userId!: string

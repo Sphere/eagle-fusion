@@ -1,40 +1,31 @@
 <mat-menu #childMenu="matMenu">
-
   <ng-container *ngFor="let option of childType">
-
-
     <button
-    *ngIf="option.children && option.children.length"
-    mat-menu-item
-    (click)="click(type, option.id)"
+      *ngIf="option.children && option.children.length"
+      mat-menu-item
+      (click)="click(type, option.id)"
       [matMenuTriggerFor]="child.childMenu"
-      >
+    >
       <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text">{{
         option.icon
-      }}</mat-icon>
-      <ng-container>{{ option.name }}</ng-container>
+      }}</mat-icon
+      ><ng-container>{{ option.name }}</ng-container>
       <ws-auth-collection-matmenu
-      [type]="type"
-      [childType]="option.children"
-      (action)="click($event.action, $event.type)"
-      #child
+        [type]="type"
+        [childType]="option.children"
+        (action)="click($event.action, $event.type)"
+        #child
       ></ws-auth-collection-matmenu>
     </button>
     <button
-    *ngIf="!option.children || !option.children.length"
-     mat-menu-item
-     (click)="click(type, option.id)"
-     >
+      *ngIf="!option.children || !option.children.length"
+      mat-menu-item
+      (click)="click(type, option.id)"
+    >
       <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text">{{
         option.icon
-      }}</mat-icon>
-      <ng-container>{{ option.name }}</ng-container>
+      }}</mat-icon
+      ><ng-container>{{ option.name }}</ng-container>
     </button>
-
   </ng-container>
-  <button (click)="click('delete')"  mat-menu-item>
-    <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Delete content">
-      delete</mat-icon>
-    <ng-container i18n>Delete</ng-container>
-    </button>
 </mat-menu>

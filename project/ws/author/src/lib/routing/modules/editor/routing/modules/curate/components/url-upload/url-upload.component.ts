@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-// import { MatSnackBar } from '@angular/material'
-// import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { ConfigurationsService } from '@ws-widget/utils'
-// import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-// import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
+import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
+import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NSContent } from '@ws/author/src/lib/interface/content'
-// import { IprDialogComponent } from '@ws/author/src/lib/modules/shared/components/ipr-dialog/ipr-dialog.component'
-// import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
+import { IprDialogComponent } from '@ws/author/src/lib/modules/shared/components/ipr-dialog/ipr-dialog.component'
+import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { EditorContentService } from '@ws/author/src/lib/routing/modules/editor/services/editor-content.service'
 import { IFormMeta } from './../../../../../../../../interface/form'
 import { AuthInitService } from './../../../../../../../../services/init.service'
@@ -20,7 +20,7 @@ import { URLCheckerClass } from './url-upload.helper'
 })
 export class UrlUploadComponent implements OnInit {
   urlUploadForm!: FormGroup
-  // iprAccepted = false
+  iprAccepted = false
   currentContent = ''
   canUpdate = true
   @Input() isCollectionEditor = false
@@ -29,8 +29,8 @@ export class UrlUploadComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    // private snackBar: MatSnackBar,
-    // private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private contentService: EditorContentService,
     private configSvc: ConfigurationsService,
     private initService: AuthInitService,
@@ -69,8 +69,8 @@ export class UrlUploadComponent implements OnInit {
     })
     this.urlUploadForm.controls.artifactUrl.valueChanges.subscribe(() => {
       if (this.canUpdate) {
-        this.check()
-        // this.iprAccepted = false
+        // this.check()
+        this.iprAccepted = false
       }
     })
   }
@@ -86,11 +86,11 @@ export class UrlUploadComponent implements OnInit {
     this.urlUploadForm.controls.isInIntranet.setValue(meta.isInIntranet || false)
     this.urlUploadForm.controls.isExternal.setValue(true)
     this.canUpdate = true
-    // if (meta.artifactUrl) {
-    //   this.iprAccepted = true
-    // }
     if (meta.artifactUrl) {
-      this.check()
+      this.iprAccepted = true
+    }
+    if (meta.artifactUrl) {
+      // this.check()
     } else {
       this.storeData()
     }
@@ -98,41 +98,41 @@ export class UrlUploadComponent implements OnInit {
     this.urlUploadForm.markAsUntouched()
   }
 
-  // showIpr() {
-  //   const dialogRef = this.dialog.open(IprDialogComponent, {
-  //     width: '70%',
-  //     data: { iprAccept: this.iprAccepted },
-  //   })
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.iprAccepted = result
-  //   })
-  // }
+  showIpr() {
+    const dialogRef = this.dialog.open(IprDialogComponent, {
+      width: '70%',
+      data: { iprAccept: this.iprAccepted },
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      this.iprAccepted = result
+    })
+  }
 
-  // iprChecked() {
-  //   this.iprAccepted = !this.iprAccepted
-  // }
+  iprChecked() {
+    this.iprAccepted = !this.iprAccepted
+  }
 
   submit() {
-    // if (this.urlUploadForm.controls.artifactUrl.value && !this.iprAccepted) {
-    //   this.snackBar.openFromComponent(NotificationComponent, {
-    //     data: {
-    //       type: Notify.IPR_DECLARATION,
-    //     },
-    //     duration: NOTIFICATION_TIME * 1000,
-    //   })
-    // } else {
+    if (this.urlUploadForm.controls.artifactUrl.value && !this.iprAccepted) {
+      this.snackBar.openFromComponent(NotificationComponent, {
+        data: {
+          type: Notify.IPR_DECLARATION,
+        },
+        duration: NOTIFICATION_TIME * 1000,
+      })
+    } else {
       this.storeData()
-      this.data.emit('save')
-    // }
+      this.data.emit('next')
+    }
   }
 
   storeData() {
     const originalMeta = this.contentService.getOriginalMeta(this.currentContent)
     const currentMeta = this.urlUploadForm.value
     const meta: any = {}
-    // if (currentMeta.artifactUrl && !this.iprAccepted) {
-    //   return
-    // }
+    if (currentMeta.artifactUrl && !this.iprAccepted) {
+      return
+    }
     Object.keys(currentMeta).map(v => {
       if (
         JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
@@ -160,7 +160,7 @@ export class UrlUploadComponent implements OnInit {
   }
 
   check() {
-    // const disableIframe = true
+    const disableIframe = true
     const artifactUrl = this.urlUploadForm.controls.artifactUrl.value
     this.canUpdate = false
     if (
@@ -178,7 +178,7 @@ export class UrlUploadComponent implements OnInit {
             this.urlUploadForm.controls.mimeType.setValue('application/html')
             // disableIframe = false
           }
-          // if (v.allowReplace) {
+          if (v.allowReplace) {
             switch (v.source) {
               case 'youtube':
                 this.urlUploadForm.controls.artifactUrl.setValue(
@@ -188,20 +188,20 @@ export class UrlUploadComponent implements OnInit {
                 this.urlUploadForm.controls.mimeType.setValue('video/x-youtube')
                 break
             }
-          // }
-        } else {
-          this.urlUploadForm.controls.isIframeSupported.setValue('No')
+          }
         }
       })
     }
     this.canUpdate = true
     this.storeData()
-    // const iframe = this.urlUploadForm.controls.isIframeSupported
-    // if (disableIframe) {
-    //   iframe.disable()
-    // } else {
-    //   iframe.enable()
-    // }
+    const iframe = this.urlUploadForm.controls.isIframeSupported
+    // tslint:disable-next-line:no-console
+    console.log('disableIframe', disableIframe)
+    if (disableIframe) {
+      iframe.disable()
+    } else {
+      iframe.enable()
+    }
   }
 
   showError(formControl: AbstractControl) {
