@@ -5,15 +5,12 @@
         style="height: 168px;">
       <section class="flex justify-center">
         <div class="user-avatar flex-1">
-
           <div class="profile-img-wrapper avatar mt-10" *ngIf="userProfileData?.photo">
             <img class="photo" [src]="userProfileData?.photo" [alt]="Avatar">
-
           </div>
-
         </div>
-        <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'"
-          [queryParams]="{edit: true}">
+        <span class="interest-edit cursor-pointer" matTooltip="Edit your personal details"
+          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: true}">
           <mat-icon>edit</mat-icon>
         </span>
       </section>
@@ -33,9 +30,10 @@
 
     <div class="flex flex-middle">
       <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="About">
-        About</span>
+        Personal details</span>
       <span class="spacer"></span>
-      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 0}"
+      <span class="interest-edit cursor-pointer" matTooltip="Edit your personal details"
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 0}"
         *ngIf="userProfileData?.personalDetails?.about != undefined && userProfileData?.personalDetails?.about != ''">
         <mat-icon>edit</mat-icon>
       </span>
@@ -59,8 +57,8 @@
       <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Education">
         Education</span>
       <span class="spacer"></span>
-      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}"
-        *ngIf="!showAcademicElse">
+      <span class="interest-edit cursor-pointer" matTooltip="Edit your personal detail"
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="!showAcademicElse">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
@@ -163,7 +161,8 @@
       <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Professional info">
         Professional info</span>
       <span class="spacer"></span>
-      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
+      <span class="interest-edit cursor-pointer" matTooltip="Edit your professional info"
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
         *ngIf="userProfileData?.professionalDetails[0]?.designation != ''">
         <mat-icon>edit</mat-icon>
       </span>
@@ -196,7 +195,8 @@
       <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Skills and Certification">
         Skills & Certification</span>
       <span class="spacer"></span>
-      <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
+      <span class="interest-edit cursor-pointer" matTooltip="Edit your Skills"
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
         *ngIf="userProfileData?.skills?.additionalSkills !=''">
         <mat-icon>edit</mat-icon>
       </span>

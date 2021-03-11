@@ -224,6 +224,9 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         strip.request.search.locale = ['en']
       }
       if (!this.callPublicApi) {
+        if (strip.request.search && strip.request.search.filters) {
+          strip.request.search.filters.lastUpdatedOn = ['year']
+        }
         this.contentSvc.search(strip.request.search).subscribe(
           results => {
             const showViewMore = Boolean(

@@ -75,9 +75,9 @@
 
     <input type="hidden" i18n-value="label: X-axis" value="Date" #labelX />
     <input type="hidden" i18n-value="label: Y-axis" value="Minutes" #labelY />
-    <div class="text-center" *ngIf="apiFetchStatus === 'fetching' && chartsList?.calendarChart">
+    <!-- <div class="text-center" *ngIf="apiFetchStatus === 'fetching' && chartsList?.calendarChart">
       <mat-spinner class="spinner"></mat-spinner>
-    </div>
+    </div> -->
     <!-- <div *ngIf="apiFetchStatus === 'done'" class="flex flex-between flex-wrapped width-1-1 margin-top-l"> -->
     <div *ngIf="apiFetchStatus === 'done'" class="calendar-container">
       <div *ngIf="chartsList?.calendarChart" class="calendar-data mat-elevation-z2">
