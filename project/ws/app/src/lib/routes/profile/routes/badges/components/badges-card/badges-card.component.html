@@ -24,7 +24,8 @@
           Certificate</button>
       </ng-container>
       <!--NQOCN COURSE-->
-      <ng-container *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_01311423170518220869'">
+      <ng-container
+        *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_01311423170518220869' &&  this.allowDownload">
         <button (click)="downloadPdf(badge.badge_id)" mat-raised-button class="
               ws-mat-primary-background mat-button-base mt-5">Download
           Certificate</button>
