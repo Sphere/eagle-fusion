@@ -32,7 +32,7 @@ export class BadgesService {
       .pipe(map(notifications => notifications))
   }
 
-  generateQRCode(req: { firstName: any; lastName: any; course: string; date: string }): Observable<any> {
+  generateQRCode(req: { course: string }): Observable<any> {
     return this.http.post(`${API_END_POINTS.GENERATE_QRCODE}`, req)
   }
 }

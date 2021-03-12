@@ -233,11 +233,9 @@ export class BadgesComponent implements OnInit {
       doc.save('certificate_fernandez.pdf')
     } else {
       const req = {
-        firstName: this.userProfileData.personalDetails.firstname,
-        lastName: this.userProfileData.personalDetails.surname,
-        course: this.badges.recent[0].badge_name,
-        date: this.badges.recent[0].first_received_date,
+        course: badgeId
       }
+
       let responseQRCode = ''
       let dataImage = ''
       this.badgesSvc.generateQRCode(req).subscribe(data => {

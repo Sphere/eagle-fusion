@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
@@ -14,7 +14,8 @@ import { InterestService } from '../../services/interest.service'
   templateUrl: './interest.component.html',
   styleUrls: ['./interest.component.scss'],
 })
-export class InterestComponent implements OnInit {
+export class InterestComponent implements OnInit, OnChanges {
+  @Input() reload = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('toastDuplicate', { static: true }) toastDuplicate!: ElementRef<
     any
@@ -61,6 +62,11 @@ export class InterestComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.reload.currentValue) {
+      this.fetchUserInterests()
+    }
+  }
   ngOnInit() {
     // this.displayMode = this.route.snapshot.queryParamMap.get('mode')
     this.fetchSuggestedInterests()
@@ -72,34 +78,6 @@ export class InterestComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
     )
-
-    // this.filteredOptions$ = this.interestControl.valueChanges.pipe()
-
-    // this.interestSvc.fetchSuggestedInterestV2().subscribe(data => {
-    //   this.autocompleteInterests = Array.from(new Set(data)).sort()
-    //   this.filteredOptions$ = this.interestControl.valueChanges.pipe(
-    //     startWith(''),
-    //     map(value => value.toLowerCase()),
-    //     map(value => {
-    //       return this.autocompleteInterests
-    //         .map(interest => {
-    //           const lowerInterest = interest.toLowerCase()
-    //           let score = 0
-    //           if (lowerInterest === value) {
-    //             score = 100
-    //           } else if (lowerInterest.startsWith(value)) {
-    //             score = 50
-    //           } else if (lowerInterest.includes(value)) {
-    //             score = 10
-    //           }
-    //           return { interest, score }
-    //         })
-    //         .filter(interestScore => interestScore.score > 0)
-    //         .sort((a, b) => b.score - a.score)
-    //         .map(interestScore => interestScore.interest)
-    //     }),
-    //   )
-    // })
   }
 
   /**
