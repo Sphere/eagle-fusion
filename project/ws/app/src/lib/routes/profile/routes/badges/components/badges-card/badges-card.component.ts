@@ -3,7 +3,6 @@ import { IBadgeRecent } from '../../../badges/badges.model'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
 import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
-import { UserProfileService } from './../../../../../user-profile/services/user-profile.service'
 import * as moment from 'moment'
 import { BadgesService } from '../../badges.service'
 
@@ -22,20 +21,13 @@ export class BadgesCardComponent implements OnInit {
   pocqiImageUrl = '/fusion-assets/icons/pocqi-min.jpg'
   allowDownload = false
   myMoment: moment.Moment = moment('2020-01-11')
-  userProfileData!: IUserProfileDetailsFromRegistry
-  constructor(private userProfileSvc: UserProfileService, private badgesSvc: BadgesService) { }
+  @Input() userProfileData!: IUserProfileDetailsFromRegistry
 
+  constructor(private badgesSvc: BadgesService) { }
   ngOnInit() {
     if (this.badge && this.badge.last_received_date) {
       this.allowDownload = moment(this.badge.last_received_date).isSameOrAfter('2021-03-08')
     }
-    this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
-      data => {
-        if (data && data.length) {
-          this.userProfileData = data[0]
-        }
-      })
-
   }
   getBase64Image(img: any) {
     const canvas = document.createElement('canvas')
@@ -84,10 +76,7 @@ export class BadgesCardComponent implements OnInit {
     } else {
 
       const req = {
-        firstName: this.userProfileData.personalDetails.firstname,
-        lastName: this.userProfileData.personalDetails.surname,
-        course: this.badge.badge_name,
-        date: this.badge.first_received_date,
+        course: badgeId,
       }
 
       let responseQRCode = ''

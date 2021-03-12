@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
@@ -14,7 +14,8 @@ import { InterestService } from '../../services/interest.service'
   templateUrl: './interest.component.html',
   styleUrls: ['./interest.component.scss'],
 })
-export class InterestComponent implements OnInit {
+export class InterestComponent implements OnInit, OnChanges {
+  @Input() reload = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('toastDuplicate', { static: true }) toastDuplicate!: ElementRef<
     any
@@ -58,6 +59,12 @@ export class InterestComponent implements OnInit {
     }
     if (this.configSvc.instanceConfig && this.configSvc.instanceConfig.details.appName) {
       this.appName = this.configSvc.instanceConfig.details.appName
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.reload.currentValue) {
+      this.fetchUserInterests()
     }
   }
 
