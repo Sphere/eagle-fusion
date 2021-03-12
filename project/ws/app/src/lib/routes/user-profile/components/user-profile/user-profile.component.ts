@@ -838,7 +838,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async onSubmit(form: any) {
     // DO some customization on the input data
-    console.log('form', form.value)
     form.value.knownLanguages = this.selectedKnowLangs
     form.value.interests = this.personalInterests
     form.value.hobbies = this.selectedHobbies
