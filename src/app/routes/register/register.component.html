@@ -12,7 +12,9 @@
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Email / Mobile Number</mat-label>
         <input type="text" matInput placeholder="Email / Mobile number" [(ngModel)]="emailOrMobile" name="userData"
-          mobile #mobile="ngModel" pattern="^(?:\d{10}|\w+@\w+\.\w{2,3})$" required>
+          mobile #mobile="ngModel"
+          pattern="^([a-z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)?@[a-z][a-zA-Z-0-9]*\.[a-z]+(\.[a-z]+)?)|[7-9][0-9]{9}$"
+          required>
       </mat-form-field>
 
 

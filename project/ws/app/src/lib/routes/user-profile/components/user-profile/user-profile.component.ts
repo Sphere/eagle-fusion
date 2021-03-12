@@ -107,7 +107,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       firstname: new FormControl('', [Validators.required]),
       middlename: new FormControl('', []),
       surname: new FormControl('', [Validators.required]),
-      about: new FormControl('', [Validators.required]),
+      about: new FormControl(''),
       photo: new FormControl('', []),
       countryCode: new FormControl('', [Validators.required]),
       mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
@@ -660,7 +660,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
