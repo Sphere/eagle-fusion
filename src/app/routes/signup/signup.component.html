@@ -3,7 +3,7 @@
     Sign up
   </h2>
   <mat-form-field appearance="outline" class="w-full">
-    <mat-label>Email id / Mobile Number</mat-label>
+    <mat-label>Email Id / Mobile Number</mat-label>
     <input type="text" matInput placeholder="Mobile number" [(ngModel)]="emailOrMobile">
   </mat-form-field>
   <div class="mt-8 mb-8 d-flex flex-center">
@@ -17,7 +17,7 @@
 
     <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile">
       <mat-label>Enter OTP</mat-label>
-      <input type="text" matInput placeholder="otp" formControlName="otp">
+      <input type="text" matInput placeholder="OTP" formControlName="otp">
     </mat-form-field>
 
     <button mat-stroked-button *ngIf="isMobile" class="resend mr-4 w-50" tabindex="0" (click)="resendOTP()">
@@ -38,14 +38,14 @@
 
 
       <mat-form-field appearance="outline" class="w-full">
-        <mat-label>password</mat-label>
-        <input type="password" matInput placeholder="password" formControlName="password">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput placeholder="Password" formControlName="password">
 
       </mat-form-field>
       <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
       <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Confirm password</mat-label>
-        <input type="password" matInput placeholder="confirm password" formControlName="confirmPassword">
+        <mat-label>Confirm Password</mat-label>
+        <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword">
         <mat-error
           *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors">
           Password does not match</mat-error>
@@ -74,4 +74,4 @@
 
 <input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"
   #toastSuccess />
-<input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />
+<input type="hidden" i18-value i18-aria-value aria-value="Unable to Signup" value="Error Signing up!" #toastError />

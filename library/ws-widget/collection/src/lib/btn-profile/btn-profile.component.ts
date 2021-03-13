@@ -32,7 +32,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   btnSettingsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   private pinnedAppsSubs?: Subscription
-  givenName = 'Guest'
+  givenName = ''
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,

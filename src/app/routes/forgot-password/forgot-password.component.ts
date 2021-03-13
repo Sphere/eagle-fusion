@@ -48,6 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
             // at least 10 in number
             if (phone.length === 10) {
               this.showOtpPwd = true
+              this.openSnackbar("OTP sent")
             }
           }
         },
