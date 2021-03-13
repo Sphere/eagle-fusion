@@ -36,7 +36,7 @@ export class ForgotPasswordComponent implements OnInit {
     let phone = ''
     phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
     // at least 10 in number
-    if (phone.length >= 10) {
+    if (phone.length === 10) {
       const requestBody = {
         username: this.emailOrMobile,
       }
@@ -46,17 +46,29 @@ export class ForgotPasswordComponent implements OnInit {
           if (res.message === 'Success') {
             phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
             // at least 10 in number
-            if (phone.length >= 10) {
+            if (phone.length === 10) {
               this.showOtpPwd = true
             }
           }
         },
         (error: any) => {
-          if (error === 404) {
-          }
+          this.openSnackbar(error.error.error)
         })
-    } else if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.emailOrMobile))) {
-      this.showCheckEmailText = true
+        // tslint:disable-next-line: max-line-length
+    } else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.emailOrMobile)) {
+
+      const requestBody = {
+        username: this.emailOrMobile,
+      }
+      this.signupService.forgotPassword(requestBody).subscribe(
+        (res: any) => {
+          if (res.message === 'Success') {
+            this.showCheckEmailText = true
+          }
+        },
+        (error: any) => {
+          this.openSnackbar(error.error.error)
+        })
     } else {
       this.invalidInput = true
     }
