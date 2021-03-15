@@ -6,7 +6,7 @@ import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-import { emailMobileValidators } from '../emailMobile.validator'
+import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
   selector: 'ws-app-register',
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     this.emailForm = this.fb.group({
       userInput: new FormControl(['']),
-    },                             { validators: emailMobileValidators.combinePattern })
+    },                             { validators: EmailMobileValidators.combinePattern })
   }
 
   ngOnInit() {
@@ -86,6 +86,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           }
         )
       } else {
+        // tslint:disable-next-line: max-line-length
         this.email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           this.emailOrMobile
         )
