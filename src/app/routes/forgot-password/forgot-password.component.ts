@@ -1,42 +1,58 @@
 import { SignupService } from '../signup/signup.service'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material'
 import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
+import { emailMobileValidators } from '../emailMobile.validator'
 
 @Component({
   selector: 'ws-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   forgotPasswordForm: FormGroup
   email: any
   emailOrMobile = ''
   otp = ''
-  public emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
   showOtpPwd = false
   showCheckEmailText = false
   invalidInput = false
+  emailForm: FormGroup
+  @ViewChild('resend', { static: false }) resend!: ElementRef
+  showResend = false
+
   constructor(private router: Router, private signupService: SignupService,
-              private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
+    private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
     this.forgotPasswordForm = this.fb.group({
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                                      { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
+
+    this.emailForm = this.fb.group({
+      userInput: new FormControl([''])
+    }, { validators: emailMobileValidators.combinePattern })
   }
 
   ngOnInit() {
 
   }
 
+  ngAfterViewChecked() {
+    // To show the Resend button after 30s
+    setTimeout(() => {
+      this.showResend = true
+    }, 30000)
+  }
+
   forgotPassword() {
     let phone = ''
+    this.emailOrMobile = this.emailForm.value.userInput
     phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
     // at least 10 in number
-    if (phone.length >= 10) {
+    if (phone.length === 10) {
       const requestBody = {
         username: this.emailOrMobile,
       }
@@ -46,17 +62,29 @@ export class ForgotPasswordComponent implements OnInit {
           if (res.message === 'Success') {
             phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
             // at least 10 in number
-            if (phone.length >= 10) {
+            if (phone.length === 10) {
               this.showOtpPwd = true
             }
           }
         },
         (error: any) => {
-          if (error === 404) {
-          }
+          this.openSnackbar(error.error.error)
         })
-    } else if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.emailOrMobile))) {
-      this.showCheckEmailText = true
+      // tslint:disable-next-line: max-line-length
+    } else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.emailOrMobile)) {
+
+      const requestBody = {
+        username: this.emailOrMobile,
+      }
+      this.signupService.forgotPassword(requestBody).subscribe(
+        (res: any) => {
+          if (res.message === 'Success') {
+            this.showCheckEmailText = true
+          }
+        },
+        (error: any) => {
+          this.openSnackbar(error.error.error)
+        })
     } else {
       this.invalidInput = true
     }
@@ -79,7 +107,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.openSnackbar('Password changed successfully')
           setTimeout(() => {
             this.authSvc.login('S', document.baseURI)
-          },         5000)
+          }, 5000)
         }
       },
       (error: any) => {
