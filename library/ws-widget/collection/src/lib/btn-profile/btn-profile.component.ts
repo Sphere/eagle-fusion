@@ -6,9 +6,7 @@ import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-
-import { BtnProfileService } from './btn-profile.service'
-
+import { BtnProfileService } from "./btn-profile.service"
 @Component({
   selector: 'ws-widget-btn-profile',
   templateUrl: './btn-profile.component.html',
@@ -34,9 +32,10 @@ export class BtnProfileComponent extends WidgetBaseComponent
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   btnSettingsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   private pinnedAppsSubs?: Subscription
-  givenName = 'Guest'
+  givenName = ''
+
   subscription!: Subscription
-  name = ''
+
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -61,8 +60,9 @@ export class BtnProfileComponent extends WidgetBaseComponent
     }
   }
 
+
   ngOnInit() {
-    this.subscription = this.btnservice.currentName.subscribe((name: string) => this.name = name)
+    this.subscription = this.btnservice.currentName.subscribe((name: string) => this.givenName = name)
     this.updateName()
     this.setPinnedApps()
   }
