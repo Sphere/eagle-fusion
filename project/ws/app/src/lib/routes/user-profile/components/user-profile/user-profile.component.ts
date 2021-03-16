@@ -27,6 +27,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
+import { BtnProfileService } from "@ws-widget/collection/src/lib/btn-profile/btn-profile.service"
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -102,6 +103,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private loader: LoaderService,
     private _Activatedroute: ActivatedRoute,
+    private btnservice: BtnProfileService
   ) {
     this.createUserForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -660,7 +662,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -885,6 +887,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
+        this.updateBtnProfileName(profileRequest.personalDetails.firstname)
         form.reset()
         this.uploadSaveData = false
         this.configSvc.profileDetailsStatus = true
@@ -900,6 +903,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         this.openSnackbar(this.toastError.nativeElement.value)
         this.uploadSaveData = false
       })
+  }
+
+  updateBtnProfileName(fn: string) {
+    this.btnservice.changeName(fn)
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
