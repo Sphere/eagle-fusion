@@ -10,6 +10,7 @@ export namespace NSSearch {
     labels?: string[]
     resourceCategory?: string[]
     catalogPaths?: string[]
+    lastUpdatedOn?: string[]
   }
   export interface ISearchRequest {
     filters?: IFilterSearchRequest
