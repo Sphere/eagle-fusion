@@ -28,7 +28,7 @@
 
       <div class="mt-3 mb-8 text-left" *ngIf="!isMobile && !showAllFields">
         <button mat-raised-button class="submit-btn" color="primary" [disabled]="!emailForm.valid"
-          (click)="verifyEntry(emailForm)">
+          (click)="verifyEntry()">
           Submit</button>
 
         <button mat-stroked-button class="margin-left-xs cancel-btn" color="default" (click)="gotoHome()">

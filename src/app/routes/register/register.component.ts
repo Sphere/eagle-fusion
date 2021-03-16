@@ -60,31 +60,30 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   verifyEntry() {
-    // console.log('emailForm', this.emailForm.value)
-    // console.log('emailForm.controls', this.emailForm.controls['userInput'])
     this.emailOrMobile = this.emailForm.value.userInput
-
     let phone = this.emailOrMobile
     if (phone) {
-      phone = phone.replace(/[^0-9+#]/g, '')
-      // at least 10 in number
-      if (phone.length >= 10) {
-        this.isMobile = true
-        // Call OTP Api, show resend Button true
-        const request = {
-          mobileNumber: phone,
-        }
-        this.tncService.registerWithMobile(request).subscribe(
-          (res: any) => {
-            if (res.message === 'Success') {
-              this.openSnackbar('OTP is sent to your mobile successfully')
-            }
-          },
-          (err: any) => {
-            this.openSnackbar(err)
-
+      if (phone.length === 10) {
+        phone = /^[6-9]\d{9}$/.test(phone)
+        // at least 10 in number
+        if (phone) {
+          // Call OTP Api, show resend Button true
+          const request = {
+            mobileNumber: phone,
           }
-        )
+          this.tncService.registerWithMobile(request).subscribe(
+            (res: any) => {
+              if (res.message === 'Success') {
+                this.openSnackbar('OTP is sent to your mobile successfully')
+                this.isMobile = true
+              }
+            },
+            (err: any) => {
+              this.openSnackbar(err)
+
+            }
+          )
+        }
       } else {
         // tslint:disable-next-line: max-line-length
         this.email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(

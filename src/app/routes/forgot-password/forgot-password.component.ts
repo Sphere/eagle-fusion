@@ -19,7 +19,6 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   otp = ''
   showOtpPwd = false
   showCheckEmailText = false
-  invalidInput = false
   emailForm: FormGroup
   @ViewChild('resend', { static: false }) resend!: ElementRef
   showResend = false
@@ -50,9 +49,10 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   forgotPassword() {
     let phone = ''
     this.emailOrMobile = this.emailForm.value.userInput
-    phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
-    // at least 10 in number
-    if (phone.length === 10) {
+
+    phone = this.emailOrMobile
+    // Allow only indian mobile numbers
+    if (phone.length === 10 && (/^[6-9]\d{9}$/.test(phone))) {
       const requestBody = {
         username: this.emailOrMobile,
       }
@@ -60,8 +60,8 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
           if (res.message === 'Success') {
-            phone = this.emailOrMobile.replace(/[^0-9+#]/g, '')
-            // at least 10 in number
+            phone = this.emailOrMobile.replace(/^[6-9]\d{9}$/, '')
+            // Allow only indian mobile numbers
             if (phone.length === 10) {
               this.showOtpPwd = true
             }
@@ -83,10 +83,13 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           }
         },
         (error: any) => {
-          this.openSnackbar(error.error.error)
+          if (error.error.error === 'User Not Found') {
+            this.openSnackbar('User data doesnot exist')
+          } else {
+            this.openSnackbar(error.error.error)
+          }
         })
-    } else {
-      this.invalidInput = true
+      this.emailForm.reset()
     }
   }
 
