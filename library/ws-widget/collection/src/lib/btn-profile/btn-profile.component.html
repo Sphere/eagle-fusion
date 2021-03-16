@@ -13,7 +13,7 @@
 <button mat-button i18n-matTooltip matTooltip="User Menu" class="new-margin" #rootTrigger="matMenuTrigger"
   [matMenuTriggerFor]="settingsMenu">
   <mat-icon>account_circle</mat-icon>
-  <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}}</span>
+  <span class="padding-left-xs" i18n>{{ name || 'Guest'}} </span>
   <mat-icon>arrow_drop_down</mat-icon>
 </button>
 

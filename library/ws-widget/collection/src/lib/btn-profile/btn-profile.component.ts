@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
+import { BtnProfileService } from "./btn-profile.service"
+
 @Component({
   selector: 'ws-widget-btn-profile',
   templateUrl: './btn-profile.component.html',
@@ -33,29 +35,47 @@ export class BtnProfileComponent extends WidgetBaseComponent
   btnSettingsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   private pinnedAppsSubs?: Subscription
   givenName = 'Guest'
+
+  subscription!: Subscription
+  name: string = ''
+
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private userProfileSvc: UserProfileService,
+    private btnservice: BtnProfileService
   ) {
     super()
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     this.btnSettingsConfig = { ... this.settingBtnConfig }
+  }
+
+
+  updateName() {
     if (this.configSvc && this.configSvc.userProfile && this.configSvc.userProfile.givenName) {
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
         data => {
           if (data && data.length) {
             this.givenName = data[0].personalDetails.firstname || ''
+            this.btnservice.changeName(this.givenName)
           }
         })
-
     }
   }
+
+
+
+
   ngOnInit() {
+    this.subscription = this.btnservice.currentName.subscribe((name: string) => this.name = name)
+    this.updateName()
     this.setPinnedApps()
   }
 
   ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
     if (this.pinnedAppsSubs) {
       this.pinnedAppsSubs.unsubscribe()
     }

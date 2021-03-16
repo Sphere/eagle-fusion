@@ -28,6 +28,8 @@ import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
 
+import { BtnProfileService } from "@ws-widget/collection/src/lib/btn-profile/btn-profile.service"
+
 @Component({
   selector: 'ws-app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -92,6 +94,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   mobileNumberLogin = false
   mobileLoginNumber = ''
 
+  subscription!: Subscription
+  pname: string = ''
+
+
   constructor(
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
@@ -102,6 +108,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private loader: LoaderService,
     private _Activatedroute: ActivatedRoute,
+    private btnservice: BtnProfileService
   ) {
     this.createUserForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -161,8 +168,16 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
     //   console.log('ngOnInit - value', value);
     // })
+
+    // this.getBtnProfileName()
     this.getUserDetails()
     this.fetchMeta()
+
+  }
+
+
+  getBtnProfileName() {
+    this.subscription = this.btnservice.currentName.subscribe((name: string) => this.pname = name)
   }
 
   ngAfterViewInit() {
@@ -351,6 +366,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.unseenCtrlSub && !this.unseenCtrlSub.closed) {
       this.unseenCtrlSub.unsubscribe()
     }
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe()
+    // }
   }
 
   public selectKnowLanguage(data: any) {
@@ -885,6 +903,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
+
+        this.updateBtnProfileName(profileRequest.personalDetails.firstname)
         form.reset()
         this.uploadSaveData = false
         this.configSvc.profileDetailsStatus = true
@@ -906,6 +926,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  updateBtnProfileName(fn: string) {
+    this.btnservice.changeName(fn)
   }
 
   formNext() {
