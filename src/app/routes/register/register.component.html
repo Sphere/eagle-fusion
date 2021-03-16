@@ -8,28 +8,21 @@
     <h2 class="mat-title" i18n="section heading create new goal">
       Sign up
     </h2>
-    <form (ngSubmit)="verifyEntry()" #signup="ngForm">
+    <form [formGroup]="emailForm" #signup="ngForm">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Email / Mobile Number</mat-label>
-        <input type="text" matInput placeholder="Email / Mobile number" [(ngModel)]="emailOrMobile" name="userData"
-          mobile #mobile="ngModel"
-          pattern="^([a-z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)?@[a-z][a-zA-Z-0-9]*\.[a-z]+(\.[a-z]+)?)|[7-9][0-9]{9}$"
+        <input name="userInput" matInput formControlName="userInput" placeholder="Email Id/ Mobile number" type="text"
           required>
       </mat-form-field>
-
-
-      <span class="help-block" *ngIf="mobile.touched">
-        <p *ngIf="mobile.errors?.required">
-          Email is a required field!
-        </p>
-        <p *ngIf="mobile.errors?.pattern">
-          Please enter a valid email or
-          mobile number!
+      <span class="help-block" *ngIf="emailForm.controls['userInput'].touched">
+        <p *ngIf="emailForm.controls['userInput'].invalid">
+          Email Id / Mobile is a required field!
         </p>
       </span>
 
       <div class="mt-3 mb-8 text-left" *ngIf="!isMobile && !showAllFields">
-        <button mat-raised-button class="submit-btn" color="primary" [disabled]="!signup.valid">
+        <button mat-raised-button class="submit-btn" color="primary" [disabled]="!emailForm.valid"
+          (click)="verifyEntry()">
           Submit</button>
 
         <button mat-stroked-button class="margin-left-xs cancel-btn" color="default" (click)="gotoHome()">
@@ -45,10 +38,10 @@
         <mat-label>Enter OTP</mat-label>
         <input type="text" matInput placeholder="OTP" formControlName="otp">
       </mat-form-field>
-
-      <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
-        Resend OTP</a>
-
+      <span *ngIf="showResend">
+        <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
+          Resend OTP</a>
+      </span>
 
       <div *ngIf="showAllFields || isMobile">
 

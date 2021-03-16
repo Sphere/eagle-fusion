@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, ElementRef, OnInit } from '@angular/core'
+import { Component, OnDestroy, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core'
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material'
@@ -6,14 +6,16 @@ import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
   selector: 'ws-app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   signupForm: FormGroup
+  emailForm: FormGroup
   unseenCtrl!: FormControl
   unseenCtrlSub!: Subscription
   uploadSaveData = false
@@ -24,6 +26,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   email: any
   showAllFields = false
   isMobile = false
+  showResend = false
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder, private router: Router,
@@ -36,7 +39,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                              { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
+
+    this.emailForm = this.fb.group({
+      userInput: new FormControl(['']),
+    }, { validators: EmailMobileValidators.combinePattern })
   }
 
   ngOnInit() {
@@ -45,31 +52,41 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  verifyEntry() {
+  ngAfterViewChecked() {
+    // To show the Resend button after 30s
+    setTimeout(() => {
+      this.showResend = true
+    }, 30000)
+  }
 
+  verifyEntry() {
+    this.emailOrMobile = this.emailForm.value.userInput
     let phone = this.emailOrMobile
     if (phone) {
-      phone = phone.replace(/[^0-9+#]/g, '')
-      // at least 10 in number
-      if (phone.length >= 10) {
-        this.isMobile = true
-        // Call OTP Api, show resend Button true
-        const request = {
-          mobileNumber: phone,
-        }
-        this.tncService.registerWithMobile(request).subscribe(
-          (res: any) => {
-            if (res.message === 'Success') {
-              this.openSnackbar('OTP is sent to your mobile successfully')
-            }
-          },
-          (err: any) => {
-            this.openSnackbar(err)
-
+      if (phone.length === 10) {
+        phone = /^[6-9]\d{9}$/.test(phone)
+        // at least 10 in number
+        if (phone) {
+          // Call OTP Api, show resend Button true
+          const request = {
+            mobileNumber: phone,
           }
-        )
+          this.tncService.registerWithMobile(request).subscribe(
+            (res: any) => {
+              if (res.message === 'Success') {
+                this.openSnackbar('OTP is sent to your mobile successfully')
+                this.isMobile = true
+              }
+            },
+            (err: any) => {
+              this.openSnackbar(err)
+
+            }
+          )
+        }
       } else {
-        this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        // tslint:disable-next-line: max-line-length
+        this.email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           this.emailOrMobile
         )
         if (this.email) {
@@ -121,13 +138,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            },         5000)
+            }, 5000)
           }
         },
         (err: { error: { error: string } }) => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
-          // form.reset()
+          setTimeout(() => {
+            this.emailForm.reset()
+            this.signupForm.reset()
+          }, 3000)
         }
       )
     } else {
@@ -148,7 +168,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           if (res.message === 'Success') {
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            },         5000)
+            }, 5000)
           }
         },
         (err: { error: { error: string } }) => {
@@ -174,5 +194,4 @@ export class RegisterComponent implements OnInit, OnDestroy {
         window.location.reload()
       })
   }
-
 }

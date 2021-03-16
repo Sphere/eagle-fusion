@@ -912,3 +912,6 @@ ws-widget-btn-catalog {
 button.cancel-btn {
   line-height: 38px;
 }
+button.submit-btn[disabled] {
+  opacity: 0.8;
+}
