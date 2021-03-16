@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BtnProfileService {
 
@@ -11,12 +11,10 @@ export class BtnProfileService {
   constructor() { }
 
   private nameSource = new BehaviorSubject(this.givenName)
-  currentName = this.nameSource.asObservable();
+  currentName = this.nameSource.asObservable()
 
   changeName(name: string) {
     this.nameSource.next(name)
   }
 
 }
-
-

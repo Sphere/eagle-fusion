@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
-import { BtnProfileService } from "./btn-profile.service"
+import { BtnProfileService } from './btn-profile.service'
 
 @Component({
   selector: 'ws-widget-btn-profile',
@@ -37,7 +37,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   givenName = 'Guest'
 
   subscription!: Subscription
-  name: string = ''
+  name = ''
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -50,7 +50,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
     this.btnSettingsConfig = { ... this.settingBtnConfig }
   }
 
-
   updateName() {
     if (this.configSvc && this.configSvc.userProfile && this.configSvc.userProfile.givenName) {
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
@@ -62,9 +61,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
         })
     }
   }
-
-
-
 
   ngOnInit() {
     this.subscription = this.btnservice.currentName.subscribe((name: string) => this.name = name)
