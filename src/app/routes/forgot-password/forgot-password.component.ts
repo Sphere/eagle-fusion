@@ -21,6 +21,12 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   showCheckEmailText = false
   emailForm: FormGroup
   @ViewChild('resend', { static: false }) resend!: ElementRef
+  @ViewChild('errorChangingPassword', { static: false }) errorChangingPassword!: ElementRef<any>
+  @ViewChild('errorCreatingUserEmail', { static: true }) errorCreatingUserEmail!: ElementRef<any>
+  @ViewChild('incorrectOTP', { static: true }) incorrectOTP!: ElementRef<any>
+  @ViewChild('userDoesNotExist', { static: true }) userDoesNotExist!: ElementRef<any>
+  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+
   showResend = false
 
   constructor(private router: Router, private signupService: SignupService,
@@ -60,7 +66,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
           if (res.message === 'Success') {
-            phone = this.emailOrMobile.replace(/^[6-9]\d{9}$/, '')
+            phone = this.emailOrMobile
             // Allow only indian mobile numbers
             if (phone.length === 10) {
               this.showOtpPwd = true
@@ -69,9 +75,9 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         },
         (error: any) => {
           if (error.error.error === 'User Not Found') {
-            this.openSnackbar('Mobile number doesnot exist')
+            this.openSnackbar(this.userDoesNotExist.nativeElement.ElementRef)
           } else {
-            this.openSnackbar(error.error.error)
+            this.openSnackbar(this.errorChangingPassword.nativeElement.ElementRef)
           }
         })
       // tslint:disable-next-line: max-line-length
@@ -88,9 +94,9 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         },
         (error: any) => {
           if (error.error.error === 'User Not Found') {
-            this.openSnackbar('User data doesnot exist')
+            this.openSnackbar(this.userDoesNotExist.nativeElement.value)
           } else {
-            this.openSnackbar(error.error.error)
+            this.openSnackbar(this.errorChangingPassword.nativeElement.value)
           }
         })
       this.emailForm.reset()
@@ -111,14 +117,16 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.signupService.setPasswordWithOtp(requestBody).subscribe(
       res => {
         if (res) {
-          this.openSnackbar('Password changed successfully')
+          this.openSnackbar(this.toastSuccess.nativeElement.value)
           setTimeout(() => {
             this.authSvc.login('S', document.baseURI)
           }, 5000)
         }
       },
       (error: any) => {
-        this.openSnackbar(error.error.error)
+        if (error.error.error) {
+          this.openSnackbar(this.incorrectOTP.nativeElement.value)
+        }
         this.otp = ''
       }
     )

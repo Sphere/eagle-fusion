@@ -27,6 +27,8 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   showAllFields = false
   isMobile = false
   showResend = false
+  @ViewChild('errorCreatingUserEmail', { static: true }) errorCreatingUserEmail!: ElementRef<any>
+  @ViewChild('incorrectOTP', { static: true }) incorrectOTP!: ElementRef<any>
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder, private router: Router,
@@ -142,7 +144,9 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           }
         },
         (err: { error: { error: string } }) => {
-          this.openSnackbar(err.error.error)
+          if (err.error.error) {
+            this.openSnackbar(this.errorCreatingUserEmail.nativeElement.value)
+          }
           this.uploadSaveData = false
           setTimeout(() => {
             this.emailForm.reset()
@@ -172,7 +176,9 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           }
         },
         (err: { error: { error: string } }) => {
-          this.openSnackbar(err.error.error)
+          if (err.error.error) {
+            this.openSnackbar(this.incorrectOTP.nativeElement.value)
+          }
           this.uploadSaveData = false
           // form.reset()
         }

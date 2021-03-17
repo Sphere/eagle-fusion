@@ -457,6 +457,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configSvc.userProfile) {
         if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in')) {
           this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -482,6 +484,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
         if (this.configSvc.userProfile.email.endsWith('aastrika.in')) {
           this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
