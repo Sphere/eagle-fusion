@@ -27,7 +27,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
-import { BtnProfileService } from "@ws-widget/collection/src/lib/btn-profile/btn-profile.service"
+import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -675,7 +675,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */

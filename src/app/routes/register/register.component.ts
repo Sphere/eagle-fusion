@@ -41,11 +41,11 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                              { validator: mustMatch('password', 'confirmPassword') })
 
     this.emailForm = this.fb.group({
       userInput: new FormControl(['']),
-    }, { validators: EmailMobileValidators.combinePattern })
+    },                             { validators: EmailMobileValidators.combinePattern })
   }
 
   ngOnInit() {
@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    }, 30000)
+    },         30000)
   }
 
   verifyEntry() {
@@ -140,7 +140,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            }, 5000)
+            },         5000)
           }
         },
         (err: { error: { error: string } }) => {
@@ -151,7 +151,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           setTimeout(() => {
             this.emailForm.reset()
             this.signupForm.reset()
-          }, 3000)
+          },         3000)
         }
       )
     } else {
@@ -172,7 +172,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           if (res.message === 'Success') {
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            }, 5000)
+            },         5000)
           }
         },
         (err: { error: { error: string } }) => {

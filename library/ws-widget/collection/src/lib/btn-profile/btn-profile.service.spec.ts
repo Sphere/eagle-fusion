@@ -6,7 +6,7 @@ import { BtnProfileService } from './btn-profile.service'
 describe('Service: BtnProfile', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BtnProfileService]
+      providers: [BtnProfileService],
     })
   })
 
