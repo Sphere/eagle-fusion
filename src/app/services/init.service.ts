@@ -35,7 +35,7 @@ interface IFeaturePermissionConfigs {
 }
 
 const endpoint = {
-  profilePid: '/apis/protected/v8/user/details/wtoken',
+  profilePid: '/apis/proxies/v8/api/user/v2/read',
   details: `/apis/protected/v8/user/details?ts=${Date.now()}`,
 }
 
