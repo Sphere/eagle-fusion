@@ -228,8 +228,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
           strip.request.search.filters.lastUpdatedOn = ['year']
           strip.request.search.sort = [
             {
-              "lastUpdatedOn": "desc"
-            }
+              lastUpdatedOn: 'desc',
+            },
           ]
         }
         this.contentSvc.search(strip.request.search).subscribe(
