@@ -44,7 +44,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
   @ViewChild('selectFile', { static: false }) selectFile!: TemplateRef<HTMLElement>
   @Input() callSave = false
   fileUploadForm!: FormGroup
-  iprAccepted = false
+  iprAccepted!: boolean
   file!: File | null
   mimeType = ''
   currentContent = ''
@@ -67,6 +67,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
   @Input() canTransCode = false
   isMobile = false
   @Output() data = new EventEmitter<any>()
+  uploadedFileList: { [key: string]: File } = {}
+  updatedIPRList: { [key: string]: boolean } = {}
 
   constructor(
     private formBuilder: FormBuilder,
@@ -86,6 +88,9 @@ export class FileUploadComponent implements OnInit, OnChanges {
     this.triggerDataChange()
     this.contentService.changeActiveCont.subscribe(data => {
       this.currentContent = data
+      this.uploadedFileList = this.contentService.getListOfFiles()
+      this.updatedIPRList = this.contentService.getListOfUpdatedIPR()
+      this.iprAccepted = false
       this.triggerDataChange()
     })
   }
@@ -120,6 +125,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     this.canUpdate = true
     this.fileUploadForm.markAsPristine()
     this.fileUploadForm.markAsUntouched()
+
     // if (meta.artifactUrl) {
     //   this.iprAccepted = true
     // }
@@ -214,6 +220,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
   }
 
   assignFileValues(file: File, fileName: string) {
+
+    this.contentService.updateListOfFiles(this.currentContent, file)
     this.file = file
     this.mimeType = fileName.toLowerCase().endsWith('.pdf')
       ? 'application/pdf'
@@ -236,11 +244,13 @@ export class FileUploadComponent implements OnInit, OnChanges {
     })
     dialogRef.afterClosed().subscribe(result => {
       this.iprAccepted = result
+      this.contentService.updateListOfUpdatedIPR(this.currentContent, result)
     })
   }
 
   iprChecked() {
     this.iprAccepted = !this.iprAccepted
+    this.contentService.updateListOfUpdatedIPR(this.currentContent, this.iprAccepted)
   }
 
   clearUploadedFile() {
@@ -347,6 +357,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     const originalMeta = this.contentService.getOriginalMeta(this.currentContent)
     const currentMeta = this.fileUploadForm.value
     const meta: any = {}
+
     Object.keys(currentMeta).map(v => {
       if (
         JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==

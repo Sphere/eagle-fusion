@@ -27,11 +27,11 @@
           </mat-icon>
         </button>
         <button *ngIf="!node.expandable" mat-icon-button disabled></button>
-        <ws-auth-table-tree-label class="tree-label" [isInvalid]="invalidIds.includes(node.id)" [identifier]="node.identifier"
-          [isDragging]="isDragging" [id]="node.id"></ws-auth-table-tree-label>
-
-        <ws-auth-editor-options  class="editor-options" *ngIf="node.editable" [isInvalid]="invalidIds.includes(node.id)"
-          (action)="takeAction($event.action, node, $event.type)" [node]="node"></ws-auth-editor-options>
+        <ws-auth-table-tree-label class="tree-label" [isInvalid]="invalidIds.includes(node.id)"
+          [identifier]="node.identifier" [isDragging]="isDragging" [id]="node.id"></ws-auth-table-tree-label>
+        <ws-auth-editor-options class="editor-options" *ngIf="node.editable && node.level !== 0"
+          [isInvalid]="invalidIds.includes(node.id)" (action)="takeAction($event.action, node, $event.type)"
+          [node]="node"></ws-auth-editor-options>
         <div *cdkDragPreview>
           <ws-auth-table-tree-label [identifier]="node.identifier" [isDragging]="isDragging" [icon]="
               isDropDisabled
