@@ -87,7 +87,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     if (this.content) {
-    this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -262,6 +262,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     }
     return false
   }
+
+  showOrgprofile(orgId: string) {
+    this.router.navigate(['/app/org-details'], { queryParams: { orgId: orgId } })
+  }
+
   ngOnDestroy() {
     this.tocSvc.analyticsFetchStatus = 'none'
     if (this.routerParamSubscription) {
@@ -463,14 +468,14 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           this.cohortResults[cohortType] = {
             contents: data || [],
             hasError: false,
-            count : data ? data.length : 0,
+            count: data ? data.length : 0,
           }
         },
         () => {
           this.cohortResults[cohortType] = {
             contents: [],
             hasError: true,
-            count : 0,
+            count: 0,
           }
         },
       )
@@ -480,7 +485,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.cohortResults[cohortType] = {
         contents: [],
         hasError: false,
-        count : 0,
+        count: 0,
       }
     }
   }

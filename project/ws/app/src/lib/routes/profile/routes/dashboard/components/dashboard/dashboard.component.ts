@@ -50,7 +50,6 @@ export class DashboardComponent implements OnInit {
   interests: string[] | null = null
   nsoArtifacts: NSProfileData.INsoResponse | null = null
   userName = ''
-  userEmail = ''
   departmentName = ''
   skillData: any
   skillFetchStatus: TFetchStatus = 'none'
@@ -111,6 +110,7 @@ export class DashboardComponent implements OnInit {
   showAcademicElse = false
   showInterest = false
   academicsArray: any[] = []
+  userEmail: string | undefined
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -123,7 +123,8 @@ export class DashboardComponent implements OnInit {
   ) {
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
-      this.userEmail = this.configSvc.userProfile.email || ''
+      this.userEmail = this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in') ?
+        '' : this.configSvc.userProfile.email
       this.departmentName = this.configSvc.userProfile.departmentName || ''
 
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(

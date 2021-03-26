@@ -27,7 +27,6 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
-
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 
 @Component({
@@ -456,8 +455,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.profileDetailsStatus) {
       if (this.configSvc.userProfile) {
-        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastar.org')) {
+        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in')) {
           this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -481,8 +482,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
-        if (this.configSvc.userProfile.email.endsWith('aastar.org')) {
+        if (this.configSvc.userProfile.email.endsWith('aastrika.in')) {
           this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -672,7 +675,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -897,7 +900,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
-
         this.updateBtnProfileName(profileRequest.personalDetails.firstname)
         form.reset()
         this.uploadSaveData = false
@@ -916,14 +918,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       })
   }
 
+  updateBtnProfileName(fn: string) {
+    this.btnservice.changeName(fn)
+  }
+
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
-  }
-
-  updateBtnProfileName(fn: string) {
-    this.btnservice.changeName(fn)
   }
 
   formNext() {

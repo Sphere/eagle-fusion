@@ -283,13 +283,12 @@
                     <div class="flex flex-align combined-field">
                       <mat-form-field appearance="outline" class="margin-top-xs w80">
                         <mat-select formControlName="countryCode" i18n-placeholder placeholder="--Select--">
-                          <mat-option [value]="code" *ngFor="let code of countryCodes" disabled={{mobileNumberLogin}}>
+                          <mat-option [value]="code" *ngFor="let code of countryCodes">
                             {{code}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field appearance="outline" class="margin-top-xs flex-expand w-minus-w80">
-                        <input #mobile type="number" matInput placeholder="Mobile Number" formControlName="mobile"
-                          disabled={{mobileNumberLogin}}>
+                        <input #mobile type="number" matInput placeholder="Mobile Number" formControlName="mobile">
                         <mat-error [hidden]="false" i18n="Mobile Number Error|Explains name is required"
                           *ngIf="createUserForm?.controls['mobile'].errors?.required">
                           Mobile Number is mandatory
@@ -298,7 +297,7 @@
                           Please enter a valid 10 digit mobile number
                         </mat-error>
                         <!-- <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.required">This field is mandatory.</mat-error>
-                        <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.pattern">Minimum 8 charactors needed.</mat-error> -->
+                                        <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.pattern">Minimum 8 charactors needed.</mat-error> -->
                       </mat-form-field>
                     </div>
                   </div>
