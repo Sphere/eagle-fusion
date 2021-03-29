@@ -23,7 +23,7 @@
           }}
         </div>
         <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userEmail ? userEmail : ''}} <span
-            *ngIf="userEmail.length > 0">/</span>
+            *ngIf="userEmail && userEmail.length > 0">/</span>
           {{userProfileData?.personalDetails?.mobile}}</div>
       </div>
     </mat-card>
