@@ -21,9 +21,9 @@ const routes: Routes = []
         path: 'all-courses',
         component: AllCoursesComponent,
         children: routes,
-      }
+      },
     ]),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class OrgRoutingModule { }

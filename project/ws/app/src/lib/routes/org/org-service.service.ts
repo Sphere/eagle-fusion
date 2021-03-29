@@ -15,7 +15,7 @@ if (!environment.production && Boolean(environment.sitePath)) {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrgServiceService {
   sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
@@ -33,9 +33,7 @@ export class OrgServiceService {
   }
 
   getOrgMetadata() {
-    const orgMeta = this.http
-      .get(`${this.sitePath}/orgmeta.config.json`)
-
+    const orgMeta = this.http.get(`${this.sitePath}/orgmeta.config.json`)
     return orgMeta
   }
 

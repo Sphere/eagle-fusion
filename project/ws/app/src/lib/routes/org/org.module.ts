@@ -22,7 +22,6 @@ import {
 } from '@angular/material'
 import { AllCoursesComponent } from './components/all-courses/all-courses.component'
 
-
 @NgModule({
   declarations: [OrgComponent, AllCoursesComponent],
   imports: [
@@ -42,6 +41,6 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
     CardContentModule,
     InfiniteScrollModule,
   ],
-  providers: [PipeContentRoutePipe]
+  providers: [PipeContentRoutePipe],
 })
 export class OrgModule { }

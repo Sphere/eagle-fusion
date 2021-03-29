@@ -5,17 +5,17 @@ import { ActivatedRoute, Router, Data } from '@angular/router'
 @Component({
   selector: 'ws-app-org',
   templateUrl: './org.component.html',
-  styleUrls: ['./org.component.scss']
+  styleUrls: ['./org.component.scss'],
 })
 export class OrgComponent implements OnInit {
   orgName: any
-  courseData!: Object
+  courseData!: any
   routeSubscription: any
   orgData: any
   currentOrgData: any
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-    private router: Router) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -32,72 +32,72 @@ export class OrgComponent implements OnInit {
       }
     })
     const req = {
-      "orgId": [this.orgName],
-      "searchFilters": {
-        "locale": [
-          "en"
+      orgId: [this.orgName],
+      searchFilters: {
+        locale: [
+          'en',
         ],
-        "pageSize": 5,
-        "query": "all",
-        "didYouMean": true,
-        "filters": [
+        pageSize: 5,
+        query: 'all',
+        didYouMean: true,
+        filters: [
           {
-            "andFilters": [
+            andFilters: [
               {
-                "contentType": [
-                  "Course",
-                  "Program"
-                ]
-              }
-            ]
-          }
+                contentType: [
+                  'Course',
+                  'Program',
+                ],
+              },
+            ],
+          },
         ],
-        "visibleFilters": {
-          "learningMode": {
-            "displayName": "Mode"
+        visibleFilters: {
+          learningMode: {
+            displayName: 'Mode',
           },
-          "duration": {
-            "displayName": "Duration"
+          duration: {
+            displayName: 'Duration',
           },
-          "exclusiveContent": {
-            "displayName": "Costs"
+          exclusiveContent: {
+            displayName: 'Costs',
           },
-          "complexityLevel": {
-            "displayName": "Level"
+          complexityLevel: {
+            displayName: 'Level',
           },
-          "catalogPaths": {
-            "displayName": "Catalog",
-            "order": [
+          catalogPaths: {
+            displayName: 'Catalog',
+            order: [
               {
-                "_key": "asc"
-              }
-            ]
+                _key: 'asc',
+              },
+            ],
           },
-          "sourceShortName": {
-            "displayName": "Source"
+          sourceShortName: {
+            displayName: 'Source',
           },
-          "resourceType": {
-            "displayName": "Format"
+          resourceType: {
+            displayName: 'Format',
           },
-          "region": {
-            "displayName": "Region"
+          region: {
+            displayName: 'Region',
           },
-          "concepts": {
-            "displayName": "Concepts"
+          concepts: {
+            displayName: 'Concepts',
           },
-          "lastUpdatedOn": {
-            "displayName": "Published Date"
-          }
+          lastUpdatedOn: {
+            displayName: 'Published Date',
+          },
         },
-        "includeSourceFields": [
-          "creatorLogo"
+        includeSourceFields: [
+          'creatorLogo',
         ],
-        "sort": [
+        sort: [
           {
-            "lastUpdatedOn": "desc"
-          }
-        ]
-      }
+            lastUpdatedOn: 'desc',
+          },
+        ],
+      },
     }
     this.orgService.getDatabyOrgId(req).subscribe(data => {
       this.courseData = data
