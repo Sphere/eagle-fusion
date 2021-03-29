@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material'
 import { DomSanitizer } from '@angular/platform-browser'
-import { BtnSettingsService, WidgetContentService } from '@ws-widget/collection'
+// import { BtnSettingsService, WidgetContentService } from '@ws-widget/collection'
+import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
@@ -22,6 +23,10 @@ import {
   UserPreferenceService,
 } from '@ws-widget/utils'
 import { environment } from '../../environments/environment'
+/* tslint:disable */
+// import _ from 'lodash'
+import * as _ from "lodash"
+// import { retry } from 'rxjs/operators'
 
 interface IDetailsResponse {
   tncStatus: boolean
@@ -52,7 +57,7 @@ export class InitService {
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
-    private widgetContentSvc: WidgetContentService,
+    // private widgetContentSvc: WidgetContentService,
     private loginResolverService: LoginResolverService,
 
     @Inject(APP_BASE_HREF) private baseHref: string,
@@ -111,17 +116,18 @@ export class InitService {
     }
     try {
       // this.logger.info('User Authenticated', authenticated)
-      const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
-      this.configSvc.userPreference = userPrefPromise
-      this.configSvc.userPreference.selectedTheme = 'theme-igot'
-      this.reloadAccordingToLocale()
-      if (this.configSvc.userPreference.pinnedApps) {
-        const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')
-        this.configSvc.pinnedApps.next(new Set(pinnedApps))
-      }
-      if (this.configSvc.userPreference.profileSettings) {
-        this.configSvc.profileSettings = this.configSvc.userPreference.profileSettings
-      }
+      // const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
+      // this.configSvc.userPreference = userPrefPromise
+      // this.configSvc.userPreference.selectedTheme = 'theme-igot'
+      // this.reloadAccordingToLocale()
+      // if (this.configSvc.userPreference.pinnedApps) {
+      //   const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')
+      //   this.configSvc.pinnedApps.next(new Set(pinnedApps))
+      // }
+      // if (this.configSvc.userPreference.profileSettings) {
+      //   this.configSvc.profileSettings = this.configSvc.userPreference.profileSettings
+      // }
+      // await this.fetchUserProfileV2()
       const appsConfigPromise = this.fetchAppsConfig()
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
@@ -163,46 +169,48 @@ export class InitService {
       )
       this.settingsSvc.initializePrefChanges(environment.production)
     }
+
+
     this.updateNavConfig()
-    await this.widgetContentSvc
-      .setS3ImageCookie()
-      .toPromise()
-      .catch(() => {
-        // throw new DataResponseError('COOKIE_SET_FAILURE')
-      })
+    // await this.widgetContentSvc
+    //   .setS3ImageCookie()
+    //   .toPromise()
+    //   .catch(() => {
+    //     // throw new DataResponseError('COOKIE_SET_FAILURE')
+    //   })
     return true
   }
 
-  private reloadAccordingToLocale() {
-    if (window.location.origin.indexOf('http://localhost:') > -1) {
-      return
-    }
-    let pathName = window.location.href.replace(window.location.origin, '')
-    const runningAppLang = this.locale
-    if (pathName.startsWith(`//${runningAppLang}//`)) {
-      pathName = pathName.replace(`//${runningAppLang}//`, '/')
-    }
-    const instanceLocales = this.configSvc.instanceConfig && this.configSvc.instanceConfig.locals
-    if (Array.isArray(instanceLocales) && instanceLocales.length) {
-      const foundInLocales = instanceLocales.some(locale => {
-        return locale.path !== runningAppLang
-      })
-      if (foundInLocales) {
-        if (
-          this.configSvc.userPreference &&
-          this.configSvc.userPreference.selectedLocale &&
-          runningAppLang !== this.configSvc.userPreference.selectedLocale
-        ) {
-          let languageToLoad = this.configSvc.userPreference.selectedLocale
-          languageToLoad = `\\${languageToLoad}`
-          if (this.configSvc.userPreference.selectedLocale === 'en') {
-            languageToLoad = ''
-          }
-          location.assign(`${location.origin}${languageToLoad}${pathName}`)
-        }
-      }
-    }
-  }
+  // private reloadAccordingToLocale() {
+  //   if (window.location.origin.indexOf('http://localhost:') > -1) {
+  //     return
+  //   }
+  //   let pathName = window.location.href.replace(window.location.origin, '')
+  //   const runningAppLang = this.locale
+  //   if (pathName.startsWith(`//${runningAppLang}//`)) {
+  //     pathName = pathName.replace(`//${runningAppLang}//`, '/')
+  //   }
+  //   const instanceLocales = this.configSvc.instanceConfig && this.configSvc.instanceConfig.locals
+  //   if (Array.isArray(instanceLocales) && instanceLocales.length) {
+  //     const foundInLocales = instanceLocales.some(locale => {
+  //       return locale.path !== runningAppLang
+  //     })
+  //     if (foundInLocales) {
+  //       if (
+  //         this.configSvc.userPreference &&
+  //         this.configSvc.userPreference.selectedLocale &&
+  //         runningAppLang !== this.configSvc.userPreference.selectedLocale
+  //       ) {
+  //         let languageToLoad = this.configSvc.userPreference.selectedLocale
+  //         languageToLoad = `\\${languageToLoad}`
+  //         if (this.configSvc.userPreference.selectedLocale === 'en') {
+  //           languageToLoad = ''
+  //         }
+  //         location.assign(`${location.origin}${languageToLoad}${pathName}`)
+  //       }
+  //     }
+  //   }
+  // }
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
     const publicConfig: NsInstanceConfig.IConfig = await this.http
@@ -230,58 +238,79 @@ export class InitService {
     return appsConfig
   }
 
+
+
   private async fetchStartUpDetails(): Promise<IDetailsResponse> {
+    const userRoles: string[] = []
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
-      let userPidProfile: NsUser.IUserPidProfile | null = null
+      let userPidProfile: NsUser.IUserPidProfileV2 | null = null
       try {
         userPidProfile = await this.http
-          .get<NsUser.IUserPidProfile>(endpoint.profilePid)
+          .get<NsUser.IUserPidProfileV2>(endpoint.profilePid)
           .toPromise()
       } catch (e) {
         this.configSvc.userProfile = null
         throw new Error('Invalid user')
       }
       if (userPidProfile) {
-        this.configSvc.unMappedUser = userPidProfile.user
+        this.configSvc.unMappedUser = userPidProfile.result.response
         this.configSvc.userProfile = {
-          country: userPidProfile.user.organization_location_country || null,
-          departmentName: userPidProfile.user.department_name || '',
-          email: userPidProfile.user.email,
-          givenName: userPidProfile.user.first_name,
-          userId: userPidProfile.user.wid,
-          unit: userPidProfile.user.unit_name,
+          country: userPidProfile.result.response.countryCode || null,
+          // departmentName: userPidProfile.result.response.department_name || '',
+          email: userPidProfile.result.response.email,
+          givenName: userPidProfile.result.response.firstName,
+          userId: userPidProfile.result.response.userId,
+          firstName: userPidProfile.result.response.firstName,
+          lastName: userPidProfile.result.response.lastName,
+          rootOrgId: userPidProfile.result.response.rootOrgId,
+          rootOrgName: userPidProfile.result.response.rootOrgName,
+          // unit: userPidProfile.user.unit_name,
           // tslint:disable-next-line:max-line-length
-          userName: `${userPidProfile.user.first_name ? userPidProfile.user.first_name : ' '} ${
-            userPidProfile.user.last_name ? userPidProfile.user.last_name : ' '
-            }`,
-          source_profile_picture: userPidProfile.user.source_profile_picture || '',
-          dealerCode:
-            userPidProfile &&
-              userPidProfile.user.json_unmapped_fields &&
-              userPidProfile.user.json_unmapped_fields.dealer_code
-              ? userPidProfile.user.json_unmapped_fields.dealer_code
-              : null,
-          isManager:
-            userPidProfile &&
-              userPidProfile.user.json_unmapped_fields &&
-              userPidProfile.user.json_unmapped_fields.is_manager
-              ? userPidProfile.user.json_unmapped_fields.is_manager
-              : false,
+          userName: `${userPidProfile.result.response.firstName ? userPidProfile.result.response.firstName : ' '}${userPidProfile.result.response.lastName ? userPidProfile.result.response.lastName : ' '}`,
+
+          // source_profile_picture: userPidProfile.result.response.source_profile_picture || '',
+          dealerCode: null,
+          isManager: false,
+          // dealerCode:
+          //   userPidProfile &&
+          //     userPidProfile.result.response.json_unmapped_fields &&
+          //     userPidProfile.result.response.json_unmapped_fields.dealer_code
+          //     ? userPidProfile.result.response.json_unmapped_fields.dealer_code
+          //     : null,
+          // isManager:
+          //   userPidProfile &&
+          //     userPidProfile.result.response.json_unmapped_fields &&
+          //     userPidProfile.result.response.json_unmapped_fields.is_manager
+          //     ? userPidProfile.result.response.json_unmapped_fields.is_manager
+          //     : false,
           // userName: `${userPidProfile.user.first_name} ${userPidProfile.user.last_name}`,
         }
       }
+      const details = { group: [], profileDetailsStatus: true, roles: (userRoles || []).map(v => v.toLowerCase()), tncStatus: true }
+      this.configSvc.hasAcceptedTnc = details.tncStatus
+      this.configSvc.profileDetailsStatus = details.profileDetailsStatus
+      // this.configSvc.userRoles = new Set((userRoles || []).map(v => v.toLowerCase()))
+      const detailsV: IDetailsResponse = await this.http
+        .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
+        .toPromise()
+      this.configSvc.userGroups = new Set(detailsV.group)
+      this.configSvc.userRoles = new Set((detailsV.roles || []).map(v => v.toLowerCase()))
+      return details
+    } else {
+      return { group: [], profileDetailsStatus: true, roles: userRoles, tncStatus: true }
+
+      // const details: IDetailsResponse = await this.http
+      //   .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
+      //   .toPromise()
+      // this.configSvc.userGroups = new Set(details.group)
+      // this.configSvc.userRoles = new Set(details.roles)
+      // if (this.configSvc.userProfile && this.configSvc.userProfile.isManager) {
+      //   this.configSvc.userRoles.add('is_manager')
+      // }
+      // this.configSvc.hasAcceptedTnc = details.tncStatus
+      // this.configSvc.profileDetailsStatus = details.profileDetailsStatus
+      // return details
     }
-    const details: IDetailsResponse = await this.http
-      .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
-      .toPromise()
-    this.configSvc.userGroups = new Set(details.group)
-    this.configSvc.userRoles = new Set(details.roles)
-    if (this.configSvc.userProfile && this.configSvc.userProfile.isManager) {
-      this.configSvc.userRoles.add('is_manager')
-    }
-    this.configSvc.hasAcceptedTnc = details.tncStatus
-    this.configSvc.profileDetailsStatus = details.profileDetailsStatus
-    return details
   }
 
   private async fetchInstanceConfig(): Promise<NsInstanceConfig.IConfig> {

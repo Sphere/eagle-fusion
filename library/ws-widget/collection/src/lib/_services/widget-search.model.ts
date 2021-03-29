@@ -111,4 +111,57 @@ export namespace NSSearch {
     type: string
     count: string
   }
+
+  export interface ISearchV6RequestV2 {
+    request: {
+      filters: {
+        primaryCategory: any
+      },
+      query: string,
+      sort_by: { lastUpdatedOn: string },
+      fields: string[],
+      facets: string[]
+    }
+  }
+  export interface ISearchV6ApiResultV2 {
+    id: string
+    ver: string
+    ts: string
+    params: IParamsContent
+    responseCode: string
+    result: ISearchData
+    filters: IFilterUnitResponse[]
+  }
+  export interface IParamsContent {
+    resmsgid: string
+    msgid: string
+    status: string
+    err: string
+    errmsg: string
+  }
+  export interface ISearchData {
+    count: number
+    content: NsContent.IContent[]
+    facets: IFacetsData[]
+  }
+  export interface IFacetsData {
+    values: IFacetsValues[]
+    name: string
+  }
+  export interface IFacetsValues {
+    name: string
+    count: number
+  }
+  export interface IFacet {
+    displayName: string,
+    type: string,
+    content: IContentFilter[],
+  }
+  export interface IContentFilter {
+    displayName: string,
+    type: string,
+    count: number,
+    id: string
+  }
+
 }

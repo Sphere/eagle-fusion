@@ -104,9 +104,9 @@ export class PickerContentComponent extends WidgetBaseComponent
     const phraseSearchConfig = await this.searchServSvc.getApplyPhraseSearch()
     const searchConfig = await this.searchServSvc.getSearchConfig()
     const isStandAlone = searchConfig.search.tabs[0].isStandAlone
-    let applyIsStandAlone = false
+    // let applyIsStandAlone = false
     if (isStandAlone || isStandAlone === undefined) {
-      applyIsStandAlone = true
+      // applyIsStandAlone = true
     }
     this.debounceSubscription = this.debounceSubject
       .pipe(
@@ -118,20 +118,13 @@ export class PickerContentComponent extends WidgetBaseComponent
           if (phraseSearch && query.indexOf(' ') > -1 && phraseSearchConfig) {
             query = `"${query}"`
           }
-          return this.searchServSvc.searchV6Wrapper({
-            query,
-            locale: [this.language || 'en'],
-            filters:
-              this.customSearchFilters ?
-                this.customSearchFilters :
-                { contentType: this.selectedContentTypes },
-            isStandAlone: applyIsStandAlone ? applyIsStandAlone : undefined,
-            didYouMean: false,
-          })
+          // tslint:disable-next-line: max-line-length
+          return this.searchServSvc.searchV6Wrapper({ request: { query, filters: { visibility: ['Default'] }, sort_by: { lastUpdatedOn: 'desc' }, fields: [], facets: [] } })
+
         }),
       )
       .subscribe(
-        search => {
+        (search: any) => {
           if (phraseSearch && search.totalHits === 0 && phraseSearchConfig) {
             return this.initializeSearchSubject(false)
           }
@@ -144,14 +137,16 @@ export class PickerContentComponent extends WidgetBaseComponent
           })
           const availableFilters = this.widgetData.availableFilters || ['contentType']
           if (!this.displayFilters && availableFilters) {
-            this.displayFilters = search.filters.filter(filter =>
+            this.displayFilters = search.filters.filter((filter: any) =>
               availableFilters.includes(filter.type),
             )
-            const contentTypes = this.displayFilters.find(filter => filter.type === 'contentType')
-            if (contentTypes) {
-              contentTypes.content = contentTypes.content.filter(type =>
-                this.allowContentTypes.includes(type.type || ''),
-              )
+            if (this.displayFilters) {
+              const contentTypes = this.displayFilters.find((filter: any) => filter.type === 'contentType')
+              if (contentTypes) {
+                contentTypes.content = contentTypes.content.filter(type =>
+                  this.allowContentTypes.includes(type.type || ''),
+                )
+              }
             }
           }
           return

@@ -239,11 +239,33 @@ export namespace NsUser {
     source_profile_picture?: null | string
     dealerCode?: null | string
     isManager?: boolean
+    lastName?: string
+    firstName?: string
+    surName?: string
+    middleName?: string
+    profileImage?: string
+    rootOrgId?: string
+    rootOrgName?: string
+
   }
   export interface IUserPidProfile {
     kid_updated: boolean
     user: IUser
   }
+
+  export interface IUserPidProfileV2 {
+    kid_updated: boolean
+    result: {
+      response: IUserV2
+    }
+  }
+
+  export interface IUserPidProfileVer2 {
+    result: {
+      UserProfile: IUserVer2[]
+    }
+  }
+
   interface ISourceData {
     GID: string
     SNAMPRE: string
@@ -310,4 +332,151 @@ export namespace NsUser {
     json_unmapped_fields?: any
     source_data: ISourceData
   }
+
+  interface IUserV2 {
+    surName: any
+    maskedPhone: string
+    rootOrgName: string
+    subject: []
+    channel: string
+    language: []
+    updatedDate: string
+    managedBy: string
+    flagsValue: number
+    id: string
+    recoveryEmail: string
+    identifier: string
+    thumbnail: string
+    profileVisibility: []
+    updatedBy: string
+    accesscode: string
+    locationIds: []
+    externalIds: []
+    registryId: string
+    rootOrgId: string
+    prevUsedEmail: string
+    firstName: string
+    tncAcceptedOn: string
+    phone: string
+    dob: string
+    grade: []
+    currentLoginTime: string
+    userType: string
+    status: number
+    lastName: string
+    gender: string
+    roles: string[]
+    prevUsedPhone: string
+    stateValidated: boolean
+    isDeleted: boolean
+    organisations: IOrg[]
+    countryCode: string
+    maskedEmail: string
+    tempPassword: string
+    email: string
+    rootOrg: IRootOrg
+    profileSummary: string
+    phoneVerified: boolean
+    recoveryPhone: string
+    userName: string
+    userId: string
+    lastLoginTime: string
+    emailVerified: true
+    framework: {}
+    createdDate: string
+    createdBy: string
+    location: string
+    tncAcceptedVersion: string
+  }
+
+  interface IRootOrg {
+    dateTime: string
+    preferredLanguage: string
+    keys: {}
+    channel: string
+    approvedBy: string
+    description: string
+    updatedDate: string
+    addressId: string
+    orgType: string
+    provider: string
+    orgCode: string
+    locationId: string
+    theme: string
+    id: string
+    isApproved: boolean
+    communityId: string
+    slug: string
+    email: string
+    isSSOEnabled: boolean
+    thumbnail: string
+    updatedBy: string
+    orgName: string
+    locationIds: []
+    externalId: string
+    isRootOrg: boolean
+    rootOrgId: string
+    imgUrl: string
+    approvedDate: string
+    orgTypeId: string
+    homeUrl: string
+    isDefault: boolean
+    createdDate: string
+    contactDetail: string
+    parentOrgId: string
+    createdBy: string
+    hashTagId: string
+    noOfMembers: string
+    status: number
+  }
+
+  interface IOrg {
+    updatedBy: string
+    organisationId: string
+    orgName: string
+    addedByName: string
+    addedBy: string
+    roles: string[]
+    approvedBy: string
+    updatedDate: string
+    userId: string
+    approvaldate: string
+    isDeleted: boolean
+    parentOrgId: string
+    hashTagId: string
+    isRejected: boolean
+    position: string
+    id: string
+    orgjoindate: string
+    isApproved: boolean
+    orgLeftDate: string
+  }
+
+  interface IUserVer2 {
+    'firstname': string,
+    'motherTongue': string,
+    'secondaryEmail': string,
+    'gender': string,
+    '@type': string,
+    'mobile': number,
+    'middlename': string,
+    'telephone': number,
+    'osid': string,
+    'primaryEmailType': string,
+    'knownLanguages': ILanguages[],
+    'wid': string,
+    'nationality': string,
+    'surname': string,
+    'dob': string,
+    'category': string,
+    'primaryEmail': string,
+    'maritalStatus': string,
+    'residenceAddress': string,
+    'result': any
+  }
+
+  export interface ILanguages {
+    name: string
+  }
+
 }
