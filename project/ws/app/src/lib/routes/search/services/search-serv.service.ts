@@ -10,7 +10,7 @@ import { SearchApiService } from '../apis/search-api.service'
 // ISearchRequestV2, ISearchSocialSearchPartialRequest, ISocialSearchRequest } from '../models/search.model'
 import {
   IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2,
-  ISearchSocialSearchPartialRequest, ISocialSearchRequest
+  ISearchSocialSearchPartialRequest, ISocialSearchRequest,
 } from '../models/search.model'
 
 const API_END_POINTS = {
