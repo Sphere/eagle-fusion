@@ -7,7 +7,8 @@
         (click)="clearUploadedFile(); $event.stopPropagation()">
         <mat-icon>close</mat-icon>
       </button>
-      <span class="font-weight-500" [hidden]="file">
+      <!-- <span class="font-weight-500" [hidden]="file"> -->
+      <span class="font-weight-500" [hidden]="uploadedFileList[currentContent]">
         <input type="file" #fileInput class="inputfile" accept=".mp3,.mp4,.pdf,.zip,.m4v"
           (change)="onDrop($event.target.files[0]); fileInput.value = null" />
         <label for="file" class="up-lbl mat-h2 ws-mat-primary-text flex flex-middle justify-center">
@@ -17,7 +18,9 @@
           <span>Browse files</span>
         </label>
       </span>
-      <div *ngIf="file || fileUploadForm.controls.artifactUrl.value" class="flex flex-middle justify-center">
+      <!-- <div *ngIf="file || fileUploadForm.controls.artifactUrl.value" class="flex flex-middle justify-center"> -->
+      <div *ngIf="uploadedFileList[currentContent] || fileUploadForm.controls.artifactUrl.value"
+        class="flex flex-middle justify-center">
         <ng-container [ngSwitch]="mimeType">
           <mat-icon class="ws-mat-primary-text" *ngSwitchCase="'audio/mpeg'">
             music_note
@@ -32,7 +35,7 @@
             request_quote
           </mat-icon>
         </ng-container>
-        <p class="margin-left-xs mat-h3 font-weight-500 margin-remove-bottom">
+        <!-- <p class="margin-left-xs mat-h3 font-weight-500 margin-remove-bottom">
           <ng-container *ngIf="file; else elseBlock">
             {{ file?.name }}
           </ng-container>
@@ -40,7 +43,19 @@
             {{ fileUploadForm.controls.artifactUrl.value.split('/').pop() }}
             <ng-container> </ng-container>
           </ng-template>
+        </p> -->
+
+        <p class="margin-left-xs mat-h3 font-weight-500 margin-remove-bottom">
+          <ng-container *ngIf="uploadedFileList[currentContent]; else elseBlock">
+            {{uploadedFileList[currentContent]?.name}}
+          </ng-container>
+          <ng-template #elseBlock>
+            {{ fileUploadForm.controls.artifactUrl.value.split('/').pop() }}
+            <ng-container> </ng-container>
+          </ng-template>
         </p>
+
+
       </div>
     </div>
     <div class="instruction">
@@ -57,7 +72,9 @@
       </div>
       <div class="flex margin-top-m margin-bottom-xl flex-Update-r">
         <div class="flex flex-middle margin-top-xs padding-top-l">
-          <mat-checkbox [checked]="iprAccepted" (change)="iprChecked()"></mat-checkbox>
+          <!-- <mat-checkbox [checked]="iprAccepted" (change)="iprChecked()"></mat-checkbox> -->
+          <mat-checkbox [checked]="updatedIPRList[currentContent] ? updatedIPRList[currentContent] : false"
+            (change)="iprChecked()"></mat-checkbox>
           <p class="margin-left-xs margin-remove-bottom">
             <span i18n>I have read and I agree with the </span>
             <span class="ws-mat-primary-text font-weight-bold cursor-pointer" (click)="showIpr()" i18n>IPR
