@@ -19,18 +19,36 @@ export class EditorContentService {
   public changeActiveCont = new BehaviorSubject<string>('')
   public onContentChange = new BehaviorSubject<string>('')
 
+  listOfFiles: { [key: string]: File } = {}
+  listOfUpdatedIPR: { [key: string]: boolean } = {}
+
   constructor(
     private accessService: AccessControlService,
     private editorService: EditorService,
     private authInitService: AuthInitService,
   ) { }
 
+  getListOfFiles() {
+    return this.listOfFiles
+  }
+
+  updateListOfFiles(id: string, f: File) {
+    this.listOfFiles[id] = f
+  }
+
+  getListOfUpdatedIPR() {
+    return this.listOfUpdatedIPR
+  }
+
+  updateListOfUpdatedIPR(id: string, v: boolean) {
+    this.listOfUpdatedIPR[id] = v
+  }
+
   getOriginalMeta(id: string): NSContent.IContentMeta {
     return this.originalContent[id]
   }
 
   getUpdatedMeta(id: string): NSContent.IContentMeta {
-   // console.log('getUpdatedMeta');
     if (this.originalContent[id] || this.upDatedContent[id]) {
       return JSON.parse(
         JSON.stringify({
@@ -70,7 +88,6 @@ export class EditorContentService {
   }
 
   setOriginalMeta(meta: NSContent.IContentMeta) {
-
     this.originalContent[meta.identifier] = JSON.parse(JSON.stringify(meta))
   }
 
@@ -97,7 +114,15 @@ export class EditorContentService {
       ...(this.upDatedContent[id] ? this.upDatedContent[id] : {}),
       ...JSON.parse(JSON.stringify(meta)),
     }
-    this.setOriginalMeta(meta)
+
+    if (Object.keys(meta).length === 0) { // empty
+      this.setOriginalMeta(meta)
+    } else {
+      this.originalContent[id] = {
+        ...(this.originalContent[id] ? this.originalContent[id] : {}),
+        ...JSON.parse(JSON.stringify(meta)),
+      }
+    }
     if (emit) {
       this.onContentChange.next(id)
     }
