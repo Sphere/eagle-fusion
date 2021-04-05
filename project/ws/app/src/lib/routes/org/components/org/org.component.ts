@@ -9,13 +9,13 @@ import { ActivatedRoute, Router, Data } from '@angular/router'
 })
 export class OrgComponent implements OnInit {
   orgName: any
-  courseData!: Object
+  courseData!: any
   routeSubscription: any
   orgData: any
   currentOrgData: any
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId

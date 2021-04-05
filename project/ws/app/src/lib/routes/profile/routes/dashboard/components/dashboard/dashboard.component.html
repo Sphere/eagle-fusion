@@ -20,7 +20,8 @@
         <div *ngIf="userProfileData?.professionalDetails[0]">
           {{userProfileData?.professionalDetails[0].designation === 'Other' ? userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation }}
         </div>
-        <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userEmail }} <span *ngIf="userEmail.length > 0">/</span>
+        <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userEmail }} <span
+            *ngIf="userEmail && userEmail?.length > 0">/</span>
           {{userProfileData?.personalDetails?.mobile}}</div>
       </div>
     </mat-card>
