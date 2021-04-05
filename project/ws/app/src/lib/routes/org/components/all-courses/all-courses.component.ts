@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 @Component({
   selector: 'ws-app-all-courses',
   templateUrl: './all-courses.component.html',
-  styleUrls: ['./all-courses.component.scss']
+  styleUrls: ['./all-courses.component.scss'],
 })
 export class AllCoursesComponent implements OnInit {
   orgName: any
@@ -14,10 +14,10 @@ export class AllCoursesComponent implements OnInit {
   array = []
   sum = 15
   throttle = 300
-  scrollDistance = 1;
-  scrollUpDistance = 2;
-  direction = ""
-  start: number = 0;
+  scrollDistance = 1
+  scrollUpDistance = 2
+  direction = ''
+  start = 0
   totalHits: any
   constructor(private activateRoute: ActivatedRoute, private router: Router, private orgService: OrgServiceService) { }
 
@@ -32,72 +32,72 @@ export class AllCoursesComponent implements OnInit {
 
   getCourses() {
     const req = {
-      "orgId": [this.orgName],
-      "searchFilters": {
-        "locale": [
-          "en"
+      orgId: [this.orgName],
+      searchFilters: {
+        locale: [
+          'en',
         ],
-        "pageSize": this.sum,
-        "query": "all",
-        "didYouMean": true,
-        "filters": [
+        pageSize: this.sum,
+        query: 'all',
+        didYouMean: true,
+        filters: [
           {
-            "andFilters": [
+            andFilters: [
               {
-                "contentType": [
-                  "Course",
-                  "Program"
-                ]
-              }
-            ]
-          }
+                contentType: [
+                  'Course',
+                  'Program',
+                ],
+              },
+            ],
+          },
         ],
-        "visibleFilters": {
-          "learningMode": {
-            "displayName": "Mode"
+        visibleFilters: {
+          learningMode: {
+            displayName: 'Mode',
           },
-          "duration": {
-            "displayName": "Duration"
+          duration: {
+            displayName: 'Duration',
           },
-          "exclusiveContent": {
-            "displayName": "Costs"
+          exclusiveContent: {
+            displayName: 'Costs',
           },
-          "complexityLevel": {
-            "displayName": "Level"
+          complexityLevel: {
+            displayName: 'Level',
           },
-          "catalogPaths": {
-            "displayName": "Catalog",
-            "order": [
+          catalogPaths: {
+            displayName: 'Catalog',
+            order: [
               {
-                "_key": "asc"
-              }
-            ]
+                _key: 'asc',
+              },
+            ],
           },
-          "sourceShortName": {
-            "displayName": "Source"
+          sourceShortName: {
+            displayName: 'Source',
           },
-          "resourceType": {
-            "displayName": "Format"
+          resourceType: {
+            displayName: 'Format',
           },
-          "region": {
-            "displayName": "Region"
+          region: {
+            displayName: 'Region',
           },
-          "concepts": {
-            "displayName": "Concepts"
+          concepts: {
+            displayName: 'Concepts',
           },
-          "lastUpdatedOn": {
-            "displayName": "Published Date"
-          }
+          lastUpdatedOn: {
+            displayName: 'Published Date',
+          },
         },
-        "includeSourceFields": [
-          "creatorLogo"
+        includeSourceFields: [
+          'creatorLogo',
         ],
-        "sort": [
+        sort: [
           {
-            "lastUpdatedOn": "desc"
-          }
-        ]
-      }
+            lastUpdatedOn: 'desc',
+          },
+        ],
+      },
     }
     this.orgService.getDatabyOrgId(req).subscribe((response: any) => {
       this.courseData = response.result
@@ -106,15 +106,13 @@ export class AllCoursesComponent implements OnInit {
     })
   }
 
-
   addItems(index: number, sum: number) {
-    for (let i = index; i < sum; ++i) {
+    for (let i = index; i < sum; i += 1) {
       this.array.push(this.courseData[i])
     }
   }
 
   onScrollDown() {
-    alert('scrolled down!!')
     // add another 20 items
     this.start = this.sum
     if (this.totalHits > this.sum) {
@@ -124,6 +122,6 @@ export class AllCoursesComponent implements OnInit {
     }
 
     this.getCourses()
-    this.direction = "down"
+    this.direction = 'down'
   }
 }

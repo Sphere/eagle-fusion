@@ -15,7 +15,7 @@ if (!environment.production && Boolean(environment.sitePath)) {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrgServiceService {
   sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
