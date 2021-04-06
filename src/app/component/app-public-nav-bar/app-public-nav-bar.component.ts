@@ -39,7 +39,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
+    private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -64,11 +64,17 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     // })
 
     const paramsMap = this.activateRoute.snapshot.queryParamMap
+    const href = window.location.href
     if (paramsMap.has('ref')) {
       this.redirectUrl = document.baseURI + paramsMap.get('ref')
-    } else {
-      this.redirectUrl = document.baseURI
-    }
+    } else
+      if (href.indexOf('ref') > 0) {
+        this.redirectUrl = document.baseURI + decodeURIComponent(href.substring(href.indexOf('?') + 5))
+      } else if (href.indexOf('app/toc') > 0) {
+        this.redirectUrl = document.baseURI + window.location.pathname
+      } else {
+        this.redirectUrl = document.baseURI
+      }
 
     // added from app nav
     if (this.configSvc.instanceConfig) {

@@ -107,14 +107,14 @@ export class AllCoursesComponent implements OnInit {
   }
 
   addItems(index: number, sum: number) {
-    /* tslint:disable */
-    for (let i = index; i < sum; i++) {
+
+    for (let i = index; i < sum; i += 1) {
+
       this.array.push(this.courseData[i])
     }
   }
 
   onScrollDown() {
-    alert('scrolled down!!')
     // add another 20 items
     this.start = this.sum
     if (this.totalHits > this.sum) {

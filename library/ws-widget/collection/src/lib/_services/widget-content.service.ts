@@ -173,8 +173,8 @@ export class WidgetContentService {
     req.sort = [
       {
         lastUpdatedOn: 'desc',
-      },
-    ]
+      }]
+
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.CONTENT_SEARCH_V6, req)
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
