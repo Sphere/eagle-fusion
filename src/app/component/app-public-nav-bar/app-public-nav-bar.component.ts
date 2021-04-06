@@ -39,7 +39,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-    private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
+              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -69,7 +69,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.redirectUrl = document.baseURI + paramsMap.get('ref')
     } else
       if (href.indexOf('ref') > 0) {
-        this.redirectUrl = document.baseURI + decodeURIComponent(href.substring(href.indexOf("?") + 5))
+        this.redirectUrl = document.baseURI + decodeURIComponent(href.substring(href.indexOf('?') + 5))
       } else {
         this.redirectUrl = document.baseURI
       }

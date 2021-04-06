@@ -227,7 +227,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         if (strip.request.search && strip.request.search.filters) {
           strip.request.search.sort = [
             {
-              "lastUpdatedOn": "desc"
+              lastUpdatedOn: 'desc',
             }]
           strip.request.search.filters.lastUpdatedOn = ['year']
         }

@@ -15,7 +15,7 @@ export class OrgComponent implements OnInit {
   currentOrgData: any
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-    private router: Router) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
