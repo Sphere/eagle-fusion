@@ -107,7 +107,9 @@ export class AllCoursesComponent implements OnInit {
   }
 
   addItems(index: number, sum: number) {
+
     for (let i = index; i < sum; i += 1) {
+
       this.array.push(this.courseData[i])
     }
   }
@@ -124,4 +126,5 @@ export class AllCoursesComponent implements OnInit {
     this.getCourses()
     this.direction = 'down'
   }
+
 }
