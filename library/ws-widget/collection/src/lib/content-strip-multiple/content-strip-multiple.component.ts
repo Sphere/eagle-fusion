@@ -225,13 +225,13 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       }
       if (!this.callPublicApi) {
         if (strip.request.search && strip.request.search.filters) {
-          strip.request.search.filters.lastUpdatedOn = ['year']
           strip.request.search.sort = [
             {
-              lastUpdatedOn: 'desc',
-            },
-          ]
+              "lastUpdatedOn": "desc"
+            }]
+          strip.request.search.filters.lastUpdatedOn = ['year']
         }
+
         this.contentSvc.search(strip.request.search).subscribe(
           results => {
             const showViewMore = Boolean(
@@ -265,7 +265,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
           query: '',
           filters: [{ andFilters: [{ contentType: ['Course', 'Program'] }] }],
         }
-        this.contentSvc.searchV6(req).subscribe(result => {
+        this.contentSvc.searchV6(req).subscribe((result: any) => {
           const results = result
           if (results.result.length > 0) {
             const showViewMore = Boolean(

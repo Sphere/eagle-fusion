@@ -85,8 +85,9 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span>Published on: </span>
-          {{widgetData.content?.publishedOn | date }}</div>
+
+        <div class="mb-2" *ngIf="widgetData.content?.lastUpdatedOn"><span>Published on: </span>
+          {{widgetData.content?.lastUpdatedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
           <span class="mr-1 orange-text">Duration: </span>
           <mat-icon>access_time</mat-icon>
@@ -413,7 +414,6 @@
             </div>
             <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title>
               {{ widgetData.content.description | pipeHtmlTagRemoval }}
-              <!-- {{widgetData.content | json}} -->
             </div>
           </a>
 
@@ -496,7 +496,6 @@
               </div>
               <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title>
                 {{ widgetData.content.description | pipeHtmlTagRemoval }}
-                <!-- {{widgetData.content | json}} -->
               </div>
             </a>
 
@@ -527,8 +526,9 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span>Published on: </span>
-          {{widgetData.content?.publishedOn | date }}</div>
+
+        <div class="mb-2" *ngIf="widgetData.content?.lastUpdatedOn"><span>Published on: </span>
+          {{widgetData.content?.lastUpdatedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
           <span class="mr-1  orange-text">Duration: </span>
           <mat-icon>access_time</mat-icon>
