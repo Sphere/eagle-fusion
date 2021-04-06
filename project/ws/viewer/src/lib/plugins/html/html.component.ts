@@ -102,16 +102,16 @@ export class HtmlComponent implements OnInit, OnChanges {
       //   )
       // }
       this.showIsLoadingMessage = false
-      if (this.htmlContent.isIframeSupported !== 'No') {
-        setTimeout(
-          () => {
-            if (this.pageFetchStatus === 'fetching') {
-              this.showIsLoadingMessage = true
-            }
-          },
-          3000,
-        )
-      }
+      // if (this.htmlContent.isIframeSupported !== 'No') {
+      //   setTimeout(
+      //     () => {
+      //       if (this.pageFetchStatus === 'fetching') {
+      //         this.showIsLoadingMessage = true
+      //       }
+      //     },
+      //     3000,
+      //   )
+      // }
       this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.htmlContent.artifactUrl,
       )

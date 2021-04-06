@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { BtnProfileService } from "./btn-profile.service"
+import { BtnProfileService } from './btn-profile.service'
 @Component({
   selector: 'ws-widget-btn-profile',
   templateUrl: './btn-profile.component.html',
@@ -36,7 +36,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
   subscription!: Subscription
 
-
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
@@ -60,7 +59,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
     }
   }
-
 
   ngOnInit() {
     this.subscription = this.btnservice.currentName.subscribe((name: string) => this.givenName = name)

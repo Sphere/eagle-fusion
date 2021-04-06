@@ -1,41 +1,22 @@
 <div class="card-container">
   <mat-card>
-    <a
-      [ngClass]="{
-        pointer: data.contentType !== 'Knowledge Board',
-        cursor: data.contentType === 'Knowledge Board'
-      }"
-      [routerLink]="
-        data.contentType !== 'Knowledge Board' ? ['/author/viewer/' + data.identifier] : []
-      "
-      [queryParamsHandling]="data.contentType === 'Knowledge Board' ? 'preserve' : ''"
-    >
-      <img
-        mat-card-image
-        class="card-img mat-lite-background"
-        role="link"
-        [src]="data.appIcon | relativeUrl"
-        (error)="changeToDefaultImg($event)"
-        [alt]="data.name"
-        class="card-img"
-      />
+    <a [ngClass]="{
+            pointer: data.contentType !== 'Knowledge Board',
+            cursor: data.contentType === 'Knowledge Board'
+          }" [routerLink]="(data | pipeContentRoute: true).url" [title]="data.name"
+      [queryParamsHandling]="data.contentType === 'Knowledge Board' ? 'preserve' : ''">
+      <img mat-card-image class="card-img mat-lite-background" role="link" [src]="data.appIcon | relativeUrl"
+        (error)="changeToDefaultImg($event)" [alt]="data.name" class="card-img" />
     </a>
-    <mat-card-content
-      [ngClass]="{
+    <mat-card-content [ngClass]="{
         pointer: data.contentType !== 'Knowledge Board',
         cursor: data.contentType === 'Knowledge Board'
-      }"
-    >
-      <a
-        [ngClass]="{
+      }">
+      <a [ngClass]="{
           pointer: data.contentType !== 'Knowledge Board',
           cursor: data.contentType === 'Knowledge Board'
-        }"
-        [routerLink]="(data | pipeContentRoute: true).url"
-        [title]="data.name"
-        aria-label="Content"
-        i18n-aria-label="Content | Click to view"
-      >
+        }" [routerLink]="(data | pipeContentRoute: true).url" [title]="data.name" aria-label="Content"
+        i18n-aria-label="Content | Click to view">
         <h3 class="ws-mat-primary-text mat-title text-truncate font-weight-bold">
           {{ data.name || 'Untitled Content' }}
         </h3>
@@ -50,22 +31,12 @@
       <button *ngIf="!forExpiry && !forDelete" mat-icon-button [matMenuTriggerFor]="moreMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
-      <button
-        *ngIf="forExpiry"
-        (click)="takeAction('expiryExtend')"
-        i18n-matTooltip
-        matTooltip="Take Action"
-        mat-icon-button
-      >
+      <button *ngIf="forExpiry" (click)="takeAction('expiryExtend')" i18n-matTooltip matTooltip="Take Action"
+        mat-icon-button>
         <mat-icon>date_range</mat-icon>
       </button>
-      <button
-        *ngIf="forDelete"
-        (click)="takeAction('restoreDeleted')"
-        i18n-matTooltip
-        matTooltip="Take Action"
-        mat-icon-button
-      >
+      <button *ngIf="forDelete" (click)="takeAction('restoreDeleted')" i18n-matTooltip matTooltip="Take Action"
+        mat-icon-button>
         <mat-icon>restore_from_trash</mat-icon>
       </button>
     </mat-card-actions>
@@ -114,11 +85,7 @@
 </mat-menu>
 <mat-menu #langMenu="matMenu">
   <ng-container *ngIf="translationArray && translationArray.length">
-    <a
-      mat-menu-item
-      *ngFor="let item of translationArray"
-      [routerLink]="'/author/editor/' + item.identifier"
-    >
+    <a mat-menu-item *ngFor="let item of translationArray" [routerLink]="'/author/editor/' + item.identifier">
       <span>{{ getName(item.locale) }}</span>
     </a>
   </ng-container>
