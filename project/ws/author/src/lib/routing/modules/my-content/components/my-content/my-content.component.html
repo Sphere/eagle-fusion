@@ -146,7 +146,7 @@ class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l p
         <mat-tree *ngIf="cardContent && cardContent.length" class="margin-s" [dataSource]="dataSource"
           [treeControl]="filterMenuTreeControl">
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <ng-container *ngIf="node.displayName === 'Course'">
+            <ng-container>
               <mat-checkbox color="primary" [value]="node.displayName" (change)="filterApplyEvent(node)"
                 [(ngModel)]="node.checked" class="checklist-leaf-node">{{ node.displayName + ' (' + node.count + ')' }}
               </mat-checkbox>
