@@ -46,7 +46,11 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "es2015",
-    "typeRoots": ["node_modules/@types", "./custom_typings"],
+    "typeRoots": [
+      "node_modules/@types",
+      "./custom_typings",
+      "library/ws-widget/collection/node_modules/@types"
+    ],
     "plugins": [
       {
         "name": "@angular/language-service"

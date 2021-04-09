@@ -46,9 +46,11 @@
       <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
         Courses</span>
     </div>
-    <div class="w-100" *ngIf="courseData?.totalHits > 5">
-      <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
-    </div>
+  </div>
+  <div class="w-100" *ngIf="courseData?.result > 5">
+    <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
+  </div>
+  <div class="flex mt-4">
     <ng-container *ngFor="let widget of courseData?.result">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"

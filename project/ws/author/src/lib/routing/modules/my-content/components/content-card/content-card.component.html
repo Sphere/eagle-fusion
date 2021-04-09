@@ -67,20 +67,24 @@
         data.description
       }}</span> -->
     <p class="fs-13 margin-remove flex items-center">
-     <span class="mr-1 max-width-name"> by {{ data.creatorContacts[0].name}} </span> <span class="mr-1" *ngIf="data?.publishedOn"> on
-        {{ data?.publishedOn | date }},</span> 
-        <span class="mr-1" *ngIf="!data?.publishedOn && data?.lastUpdatedOn"> on
-          {{ data?.lastUpdatedOn | date }},</span>
+      <span class="mr-1 max-width-name"> by {{ data.creatorContacts[0].name}} </span> <span class="mr-1"
+        *ngIf="data?.publishedOn"> on
+        {{ data?.publishedOn | date }},</span>
+      <span class="mr-1" *ngIf="!data?.publishedOn && data?.lastUpdatedOn"> on
+        {{ data?.lastUpdatedOn | date }},</span>
 
-      <span class="mr-1"> {{data.viewCount}} Views, </span> <span  class="mr-1"> {{data.uniqueUsersCount}} Learners </span>
+      <span class="mr-1"> {{data.viewCount}} Views, </span> <span class="mr-1"> {{data.uniqueUsersCount}} Learners
+      </span>
       <span class="flex items-center ml-3 mr-2">
         <mat-icon class="mr-1" *ngIf="data.totalRating == 5" color="accent">star</mat-icon>
         <mat-icon class="mr-1" *ngIf="data.totalRating && data.totalRating != 5" color="accent">
           star_half</mat-icon>
         <mat-icon class="mr-1" *ngIf="!data.totalRating">star_border</mat-icon>
-       {{ data.totalRating | number: '1.1-1' }}
+        {{ data.totalRating | number: '1.1-1' }}
       </span>
-      <span *ngIf="data.duration" class="flex items-center ml-3 mr-2"><mat-icon>access_time</mat-icon> {{ data.duration | pipeDurationTransform: 'hms'}}</span>
+      <span *ngIf="data.duration" class="flex items-center ml-3 mr-2">
+        <mat-icon>access_time</mat-icon> {{ data.duration | pipeDurationTransform: 'hms'}}
+      </span>
     </p>
   </div>
 
