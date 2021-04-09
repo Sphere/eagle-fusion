@@ -34,8 +34,9 @@
                         [matTooltip]="content.name">
                         {{content.name}}</p>
                     </div>
-                    <a class="font-family mat-caption mx-2 flex flex-middle" (click)="raiseTelemetry()"
-                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'" i18n>Explore
+                    <a class="font-family mat-caption mx-2 flex flex-middle" *ngIf="content?.contentType === 'Course'"
+                      (click)="raiseTelemetry()" [routerLink]="'/app/toc/'+ content?.identifier + '/overview'"
+                      i18n>Explore
                       <mat-icon class="pl-1">arrow_right</mat-icon></a>
                   </div>
                 </div>
