@@ -65,7 +65,7 @@ export class HtmlComponent implements OnInit, OnChanges {
             () => {
               this.openInNewTab()
             },
-            3000,
+            6000,
           )
           setInterval(
             () => {

@@ -19,4 +19,8 @@ export class ValueService {
     .observe([Breakpoints.XSmall, Breakpoints.Small])
     .pipe(map((res: BreakpointState) => res.matches))
 
+  public isSize$: Observable<boolean> = this.breakpointObserver
+    .observe(['(min-width: 600px)'])
+    .pipe(map((res: BreakpointState) => res.matches))
+
 }
