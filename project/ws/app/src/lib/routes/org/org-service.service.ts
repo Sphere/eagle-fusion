@@ -33,9 +33,7 @@ export class OrgServiceService {
   }
 
   getOrgMetadata() {
-    const orgMeta = this.http
-      .get(`${this.sitePath}/orgmeta.config.json`)
-
+    const orgMeta = this.http.get(`${this.sitePath}/orgmeta.config.json`)
     return orgMeta
   }
 
