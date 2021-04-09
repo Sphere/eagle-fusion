@@ -7,6 +7,7 @@ import { WidgetContentShareService } from '../../_services/widget-content-share.
 import { NsContent } from '../../_services/widget-content.model'
 import { NsShare } from '../../_services/widget-share.model'
 import { ICommon } from '../../_models/common.model'
+import domToImage from 'dom-to-image'
 
 @Component({
   selector: 'ws-widget-btn-content-share-dialog',
@@ -21,6 +22,7 @@ export class BtnContentShareDialogComponent implements OnInit {
   message = ''
   isSocialMediaShareEnabled = false
   sendStatus: 'INVALID_IDS_ALL' | 'SUCCESS' | 'INVALID_ID_SOME' | 'ANY' | 'NONE' = 'NONE'
+  qrdata = window.location.href
   constructor(
     private events: EventService,
     private snackBar: MatSnackBar,
@@ -137,6 +139,16 @@ export class BtnContentShareDialogComponent implements OnInit {
       default:
         return `${locationOrigin}/app/toc/${this.data.content.identifier}/overview`
     }
+  }
+
+  saveAsImage(code: any) {
+    domToImage.toPng(code.qrcElement.nativeElement)
+      .then((dataUrl: string) => {
+        const link = document.createElement('a')
+        link.download = 'qrcode.png'
+        link.href = dataUrl
+        link.click()
+      })
   }
 
   raiseTelemetry() {
