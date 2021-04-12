@@ -1,4 +1,4 @@
-<div class="card-container">
+<div class="card-container" *ngIf="!changeView">
   <mat-card>
     <a [ngClass]="{
             pointer: data.contentType !== 'Knowledge Board',
