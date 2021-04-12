@@ -205,6 +205,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
           publisherDetails: <string[]>[],
           isMetaEditingDisabled: [false],
           isContentEditingDisabled: [false],
+          contentType: ['Course'],
         },
         pageNo: loadMoreFlag ? this.pagination.offset : 0,
         sort: [{ lastUpdatedOn: 'desc' }],
