@@ -39,7 +39,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-    private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
+              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
