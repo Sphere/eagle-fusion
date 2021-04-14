@@ -14,6 +14,74 @@ const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/proxies/v8/sunbirdigot/search',
 
 }
+
+const facetsOb = {
+  facets: [
+    {
+      values: [
+        {
+          name: 'learning resource',
+          count: 59,
+        },
+        {
+          name: 'course',
+          count: 18,
+        },
+        {
+          name: 'asset',
+          count: 20,
+        },
+      ],
+      name: 'primaryCategory',
+    },
+    {
+      values: [
+        {
+          name: 'application/vnd.ekstep.html-archive',
+          count: 4,
+        },
+        {
+          name: 'image/png',
+          count: 2,
+        },
+        {
+          name: 'text/x-url',
+          count: 12,
+        },
+        {
+          name: 'image/jpeg',
+          count: 22,
+        },
+        {
+          name: 'application/pdf',
+          count: 20,
+        },
+        {
+          name: 'application/vnd.ekstep.content-collection',
+          count: 18,
+        },
+        {
+          name: 'application/vnd.ekstep.ecml-archive',
+          count: 3,
+        },
+        {
+          name: 'video/x-youtube',
+          count: 2,
+        },
+        {
+          name: 'video/mp4',
+          count: 13,
+        },
+        {
+          name: 'audio/mpeg',
+          count: 1,
+        },
+      ],
+      name: 'mimeType',
+    },
+  ],
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -54,8 +122,8 @@ export class SearchApiService {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
         const tempArray = Array()
-        if (res.result.facets.length > 0) {
-          res.result.facets.forEach(ele => {
+        if (facetsOb.facets.length > 0) {
+          facetsOb.facets.forEach(ele => {
             const temp: NSSearch.IFacet = {
               displayName: '',
               type: '',

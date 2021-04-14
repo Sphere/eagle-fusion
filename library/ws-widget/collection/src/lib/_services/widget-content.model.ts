@@ -3,6 +3,10 @@ export namespace NsContent {
     continueData: any
   }
 
+  export enum EResourcePrimaryCategories {
+    LEARNING_RESOURCE = 'Learning Resource',
+  }
+
   export interface IContent {
     platform?: any
     addedOn: string

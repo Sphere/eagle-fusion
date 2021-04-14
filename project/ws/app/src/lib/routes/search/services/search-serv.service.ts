@@ -79,6 +79,7 @@ export class SearchServService {
         displayName: 'Mime Type',
       },
     }
+
     const v6Request: NSSearch.ISearchV6RequestV2 = {
       request: {
         query: request.request.query,

@@ -46,16 +46,51 @@ export class WidgetContentService {
     return this.http.get(url).toPromise()
   }
 
+  // fetchContent(
+  //   contentId: string,
+  //   hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
+  //   additionalFields: string[] = [],
+  // ): Observable<NsContent.IContent> {
+  //   console.log('Fetch content 666')
+  //   const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
+  //   return this.http
+  //     .post<NsContent.IContent>(url, { additionalFields })
+  //     .pipe(retry(1))
+  // }
+
   fetchContent(
     contentId: string,
     hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
-    additionalFields: string[] = [],
+    _additionalFields: string[] = [],
+    primaryCategory?: string | null,
   ): Observable<NsContent.IContent> {
-    const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
-    return this.http
-      .post<NsContent.IContent>(url, { additionalFields })
+    // const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
+    let url = ''
+    if (primaryCategory && this.isResource(primaryCategory)) {
+      url = `/apis/proxies/v8/action/content/v3/read/${contentId}`
+    } else {
+      url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=${hierarchyType}`
+    }
+    // return this.http
+    //   .post<NsContent.IContent>(url, { additionalFields })
+    //   .pipe(retry(1))
+    const apiData = this.http
+      .get<NsContent.IContent>(url)
       .pipe(retry(1))
+    // if (apiData && apiData.result) {
+    //   return apiData.result.content
+    // }
+    return apiData
   }
+
+  isResource(primaryCategory: string) {
+    if (primaryCategory) {
+      const isResource = primaryCategory === NsContent.EResourcePrimaryCategories.LEARNING_RESOURCE
+      return isResource
+    }
+    return false
+  }
+
   fetchAuthoringContent(contentId: string): Observable<NsContent.IContent> {
     const url = `${API_END_POINTS.AUTHORING_CONTENT}/${contentId}`
     return this.http.get<NsContent.IContent>(url).pipe(retry(1))

@@ -65,11 +65,12 @@ export class AppTocResolverService
     _state: RouterStateSnapshot,
   ): Observable<IResolveResponse<NsContent.IContent>> {
     const contentId = route.paramMap.get('id')
+    const primaryCategory = route.queryParamMap.get('primaryCategory') || ''
     if (contentId) {
       const forPreview = window.location.href.includes('/author/')
       return (forPreview
         ? this.contentSvc.fetchAuthoringContent(contentId)
-        : this.contentSvc.fetchContent(contentId, 'detail', ADDITIONAL_FIELDS_IN_CONTENT)
+        : this.contentSvc.fetchContent(contentId, 'detail', ADDITIONAL_FIELDS_IN_CONTENT, primaryCategory)
       ).pipe(
         map(data => ({ data, error: null })),
         tap(resolveData => {
@@ -77,9 +78,9 @@ export class AppTocResolverService
           currentRoute = currentRoute[currentRoute.length - 1]
           if (forPreview && currentRoute !== 'contents' && currentRoute !== 'overview') {
             this.router.navigate([
-              `${forPreview ? '/author' : '/app'}/toc/${resolveData.data.identifier}/${
-              resolveData.data.children.length ? 'contents' : 'overview'
-              }`,
+              `${forPreview ? '/author' : '/app'}/toc/${resolveData.data.identifier}/${resolveData.data.children.length ?
+                'contents' : 'overview'
+              }?primaryCategory=${resolveData.data.primaryCategory}`,
             ])
           } else if (
             currentRoute === 'contents' &&
@@ -87,7 +88,8 @@ export class AppTocResolverService
             !resolveData.data.children.length
           ) {
             this.router.navigate([
-              `${forPreview ? '/author' : '/app'}/toc/${resolveData.data.identifier}/overview`,
+              `${forPreview ? '/author' : '/app'}/toc/${resolveData.data.identifier}/overview
+              ?primaryCategory=${resolveData.data.primaryCategory}`,
             ])
           } else if (
             resolveData.data &&
