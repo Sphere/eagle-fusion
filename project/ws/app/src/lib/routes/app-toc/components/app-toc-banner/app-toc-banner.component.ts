@@ -70,6 +70,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
   // learnersCount:Number
+  defaultSLogo = ''
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -87,7 +88,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     if (this.content) {
-    this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -104,6 +105,12 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
+
+    const instanceConfig = this.configSvc.instanceConfig
+    if (instanceConfig) {
+      this.defaultSLogo = instanceConfig.logos.defaultSourceLogo
+    }
+
     if (this.configSvc.restrictedFeatures) {
       this.isGoalsEnabled = !this.configSvc.restrictedFeatures.has('goals')
     }
@@ -463,14 +470,14 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           this.cohortResults[cohortType] = {
             contents: data || [],
             hasError: false,
-            count : data ? data.length : 0,
+            count: data ? data.length : 0,
           }
         },
         () => {
           this.cohortResults[cohortType] = {
             contents: [],
             hasError: true,
-            count : 0,
+            count: 0,
           }
         },
       )
@@ -480,7 +487,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.cohortResults[cohortType] = {
         contents: [],
         hasError: false,
-        count : 0,
+        count: 0,
       }
     }
   }

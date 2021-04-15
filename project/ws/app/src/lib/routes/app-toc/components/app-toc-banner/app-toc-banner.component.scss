@@ -2,7 +2,7 @@
 @import 'ws-mixins';
 
 %container-padding {
-  padding: 38px 2 * $size-xl $size-xl 12rem;
+  padding: $size-xl 2 * $size-xl;
 
   @include breakpoint-xs {
     padding: $size-xl $size-l;
@@ -10,7 +10,7 @@
 }
 
 .banner-container {
-  color: white;
+  // color: white;
   position: relative;
   background-repeat: no-repeat;
   background-position: center;
@@ -19,37 +19,60 @@
 }
 
 .header-synopsis-gradient {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.3) 100%);
+  // background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0.3) 100%)
   /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0.8) 100%);
 */
+  background: inherit;
 }
 
-.fs-28 {
-  font-size: 32px !important;
-  font-weight: 500 !important;
+.fixed-width {
+  max-width: 1230px;
+  display: block;
+  margin: 0 auto;
+  padding: 0 !important;
+
+  @include breakpoint-s {
+    padding: 0 15px !important;
+  }
+
+  @include breakpoint-xs {
+    padding: 0 15px !important;
+  }
 }
 
-.header-left {
-  flex: 1;
-  min-width: 50%;
-}
-.header-right {
-  min-width: 40%;
-  background-size: 100% 100%;
+.fluid-width {
+  width: 100%;
 }
 
 .header-synopsis {
   height: 100%;
   @extend %container-padding;
   box-sizing: border-box;
-  background: #fbf5f2;
-  @include breakpoint-s {
-    padding: 20px;
+
+  .apIcon {
+    min-width: 86px;
+
+    img {
+      height: 72px;
+      width: 72px;
+      object-fit: cover;
+      background-color: #fff;
+      padding: 7px;
+      border-radius: 8px;
+    }
   }
 
   .header-title {
     display: flex;
     align-items: center;
+
+    h1 {
+      // font: 48px/48px Poppins-SemiBold;
+      letter-spacing: 0px;
+      color: #FFFFFF;
+      // font-family: Poppins-SemiBold;
+
+    }
 
     .text-truncate-title {
       max-width: 100%;
@@ -57,6 +80,22 @@
       text-overflow: ellipsis !important;
       white-space: nowrap !important;
     }
+  }
+
+  .rating-number {
+    // font: 24px/35px Poppins-Medium;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+  }
+
+  .rating-count {
+    // font: 18px/27px Poppins-regular;
+    letter-spacing: 0.36px;
+    color: #FFFFFF;
+  }
+
+  .rating mat-icon {
+    color: #fff;
   }
 
   .header-meta-banner {
@@ -68,14 +107,38 @@
     line-height: 1.5;
   }
 
+  .resumeButton {
+    height: 52px;
+    min-width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #34D6A4 0% 0% no-repeat padding-box;
+    box-shadow: 0px 10px 30px #99999933;
+    color: #fff !important;
+
+    ::ng-deep.mat-button-wrapper {
+      // font: 14px/21px Poppins-SemiBold;
+      letter-spacing: 0px;
+      color: #FFFFFF;
+      text-transform: capitalize;
+    }
+  }
+
   .header-actions {
     display: flex;
-    margin-top: 24px;
+    // margin-top: 24px;
 
-    // .action-btns {
-    //   margin-left: auto;
-    //   order: 2;
-    // }
+    &.top {
+      margin-top: 0;
+      margin-bottom: 40px;
+    }
+
+    .action-btns {
+      margin-left: auto;
+      order: 2;
+      // color: white;
+    }
   }
 }
 
@@ -87,6 +150,9 @@
     flex: 1;
     min-width: 1px;
     margin-right: $size-l;
+    // font: Regular 24px/35px Poppins;
+    letter-spacing: 0px;
+    color: #FFFFFF;
 
     @include breakpoint-xs {
       margin-right: 0;
@@ -153,73 +219,44 @@
   }
 }
 
-.breadcrumb {
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  list-style: none;
-  padding: 0.625rem 1rem 0 0;
-}
+.hidden-block-s {
+  display: block;
 
-.breadcrumb,
-.breadcrumb-item {
-  -ms-flex-align: center;
-  align-items: center;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.breadcrumb-item + .breadcrumb-item {
-  margin-left: 0.5rem;
-}
-
-.breadcrumb-item {
-  align-items: center;
-  display: flex;
-}
-
-.breadcrumb-item.active {
-  color: rgba(0, 0, 0, 0.87);
-  font-weight: bolder;
-}
-
-.breadcrumb-item + .breadcrumb-item:before {
-  font-size: 1.714286em;
-  line-height: 0.583333em;
-  vertical-align: -0.302198em;
-  font-family: Material Icons;
-  -webkit-font-feature-settings: 'liga';
-  font-feature-settings: 'liga';
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-rendering: optimizeLegibility;
-  text-transform: none;
-  white-space: nowrap;
-  word-wrap: normal;
-  color: rgba(0, 0, 0, 0.54);
-  content: 'chevron_right';
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-.flex-wrap-reverse {
-  flex-wrap: wrap;
-}
-
-@media (max-width: 600px) {
-  .header-right,
-  .header-left {
-    width: 100%;
+  @include breakpoint-s {
+    display: none;
   }
-  .header-right {
-    background-size: cover;
-    min-height: 150px;
+}
+
+.visible-block-s {
+  display: none;
+
+  @include breakpoint-s {
+    display: block;
   }
-  .header-synopsis {
-    padding-left: 10px;
+}
+
+.info-msg {
+  color: #fff !important;
+  // font: 14px/20px Poppins-Regular;
+  ;
+
+  mat-icon {
+    color: #fff !important;
   }
-  .flex-wrap-reverse {
-    flex-wrap: wrap-reverse;
+}
+
+.sticky-banner {
+  z-index: 999;
+  position: sticky;
+  top: 128px;
+
+  .header-title {
+    h1 {
+      font: normal normal 300 24px/35px;
+    }
+  }
+
+  .overview-description {
+    font: normal normal 300 14px/21px;
   }
 }
