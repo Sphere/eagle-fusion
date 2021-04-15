@@ -43,8 +43,9 @@
             </mat-form-field>
           </div>
           <div class="margin-top-xs width-3-5">
-            <mat-form-field appearance="outline" class="margin-top-xs width-1-4">
-              <textarea matInput i18n-placeholder placeholder="Topic Description" formControlName="topicDescription">
+            <mat-form-field appearance="outline" class="margin-top-xs width-1-3">
+              <textarea matInput i18n-placeholder placeholder="Topic Description" matInput rows="3"
+                formControlName="topicDescription">
             </textarea>
             </mat-form-field>
           </div>
@@ -74,14 +75,27 @@
               <mat-icon>link</mat-icon>
               <span>Attach a link</span>
             </button>
-            <button mat-menu-item (click)="setContentType('upload')">
+            <button mat-menu-item (click)="setContentType('upload', 'zip')">
               <mat-icon>cloud_upload</mat-icon>
-              <span>Upload content</span>
+              <span>Upload scorm</span>
             </button>
             <!-- <button mat-menu-item (click)="setContentType('webModule')">
               <mat-icon>insert_drive_file</mat-icon>
               <span>Web Page</span>
             </button> -->
+            <button mat-menu-item (click)="setContentType('upload', 'pdf')">
+              <mat-icon>picture_as_pdf</mat-icon>
+              <span>Upload PDF</span>
+            </button>
+            <button mat-menu-item (click)="setContentType('upload', 'audio')">
+              <mat-icon>audiotrack</mat-icon>
+              <span>Upload Audio</span>
+            </button>
+            <button mat-menu-item (click)="setContentType('upload', 'video')">
+              <mat-icon>videocam</mat-icon>
+              <span>Upload Video</span>
+            </button>
+
 
           </mat-menu>
         </div>
