@@ -48,12 +48,17 @@ export class CollectionStoreService {
     private resolver: CollectionResolverService,
     private authInitService: AuthInitService,
     private logger: LoggerService,
-  ) {}
+  ) { }
 
   treeStructureChange = new BehaviorSubject<IContentNode | null>(null)
   selectedNodeChange = new BehaviorSubject<number | null>(null)
   get selectedNode() {
     return this.selectedNodeChange.value
+  }
+
+  uploadFileType = new BehaviorSubject<string | null>(null)
+  get uploadFileTypeValue() {
+    return this.uploadFileType.value
   }
 
   allowDrop(dragNode: IContentTreeNode, dropNode: IContentTreeNode): boolean {
@@ -67,8 +72,8 @@ export class CollectionStoreService {
         this.contentService.getUpdatedMeta(dropNode.identifier),
         dropNode.parentId
           ? this.contentService.getUpdatedMeta(
-              (this.flatNodeMap.get(dropNode.parentId) as IContentNode).identifier,
-            )
+            (this.flatNodeMap.get(dropNode.parentId) as IContentNode).identifier,
+          )
           : undefined,
       )
     ) {
@@ -190,8 +195,8 @@ export class CollectionStoreService {
         mimeType: meta.mimeType,
         contentType: meta.contentType,
         resourceType: parentData.categoryType || '',
-        categoryType : parentData.categoryType || '',
-        fileType : fileType || '',
+        categoryType: parentData.categoryType || '',
+        fileType: fileType || '',
 
         // thumbnail: parentData.thumbnail,
         // appIcon: parentData.appIcon,
@@ -199,7 +204,7 @@ export class CollectionStoreService {
         sourceName: parentData.sourceName,
         subTitle: parentData.subTitle,
         body: parentData.body,
-     //   sourceName : parentData.sourceName,
+        //   sourceName : parentData.sourceName,
 
         locale:
           // tslint:disable-next-line: ter-computed-property-spacing
@@ -363,7 +368,7 @@ export class CollectionStoreService {
         if (childConfig.minChildren && children.length < childConfig.minChildren) {
           errorMsg.push(
             `Minimum ${childConfig.minChildren} children is required. But ${
-              children.length ? children.length : 'nothing'
+            children.length ? children.length : 'nothing'
             } present`,
           )
         }
@@ -434,7 +439,7 @@ export class CollectionStoreService {
         Object.keys(subCondition).forEach((v: any, index: number) => {
           returnValue = `${returnValue}${majorIndex > 0 ? ' or ' : ''}${
             index > 0 ? ' ' : ''
-          }${v} in ${subCondition[v].join(' or ')}`
+            }${v} in ${subCondition[v].join(' or ')}`
         })
       })
     }
@@ -475,7 +480,7 @@ export class CollectionStoreService {
       errorId.add(id)
       if (errorMap.has(id)) {
         // tslint:disable-next-line: semicolon    // tslint:disable-next-line: whitespace
-        ;(errorMap.get(id) as IProcessedError).message = (errorMap.get(
+        ; (errorMap.get(id) as IProcessedError).message = (errorMap.get(
           id,
         ) as IProcessedError).message.concat(errorMsg)
       } else {
