@@ -1,10 +1,11 @@
 <div class="card-container" *ngIf="!changeView">
   <mat-card>
     <a [ngClass]="{
-            pointer: data.contentType !== 'Knowledge Board',
-            cursor: data.contentType === 'Knowledge Board'
-          }" [routerLink]="(data | pipeContentRoute: true).url" [title]="data.name"
-      [queryParamsHandling]="data.contentType === 'Knowledge Board' ? 'preserve' : ''">
+        pointer: data.contentType !== 'Knowledge Board',
+        cursor: data.contentType === 'Knowledge Board'
+      }" [routerLink]="
+        data.contentType !== 'Knowledge Board' ? ['/author/viewer/' + data.identifier] : []
+      " [queryParamsHandling]="data.contentType === 'Knowledge Board' ? 'preserve' : ''">
       <img mat-card-image class="card-img mat-lite-background" role="link" [src]="data.appIcon | relativeUrl"
         (error)="changeToDefaultImg($event)" [alt]="data.name" class="card-img" />
     </a>
@@ -21,7 +22,6 @@
           {{ data.name || 'Untitled Content' }}
         </h3>
       </a>
-      <!-- <span class="background-color">Last updated on {{ data.lastPublishedOn }}</span> -->
     </mat-card-content>
     <mat-card-actions>
       <span class="ws-mat-primary-text uppercase font-weight-500">{{ data.contentType }}</span>
@@ -115,10 +115,6 @@
     <mat-icon>delete</mat-icon>
     <span i18n>Delete </span>
   </a>
-  <!-- <a *ngIf="showMenuItem('comments')" mat-menu-item (click)="viewComments()">
-    <mat-icon>comment</mat-icon>
-    <span i18n>View comments</span>
-  </a> -->
   <a *ngIf="showMenuItem('publish')" mat-menu-item (click)="takeAction('publish')">
     <mat-icon>publish</mat-icon>
     <span i18n>Publish</span>
