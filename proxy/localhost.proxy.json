@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://sphere.aastrika.org",
+    "target": "https://d34vfqm2mqjn7i.cloudfront.net",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
@@ -54,7 +54,7 @@
     }
   },
   "/assets/*": {
-    "target": "https://sphere.aastrika.org",
+    "target": "https://d34vfqm2mqjn7i.cloudfront.net",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

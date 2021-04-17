@@ -1,5 +1,5 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core'
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -37,7 +37,7 @@ import { FlatTreeControl } from '@angular/cdk/tree'
   styleUrls: ['./course-collection.component.scss'],
   providers: [CollectionStoreService, CollectionResolverService],
 })
-export class CourseCollectionComponent implements OnInit, OnDestroy {
+export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestroy {
   contents: NSContent.IContentMeta[] = []
   couseCreated = ''
   currentParentId!: string
@@ -141,6 +141,13 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngAfterViewInit() {
+    this.loadCourseSettings()
+  }
+
+  loadCourseSettings() {
+    this.subAction({ type: 'editContent', identifier: this.storeService.parentNode[0], nodeClicked: true })
+  }
   routerValuesCall() {
     this.contentService.changeActiveCont.subscribe(data => {
       this.currentContent = data
@@ -258,7 +265,10 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     // console.log('newchap', this.newChapterName)
   }
 
-  async setContentType(param: string) {
+  async setContentType(param: string, filetype?: string) {
+    if (filetype) {
+      this.storeService.uploadFileType.next(filetype)
+    }
     if (this.createTopicForm && this.createTopicForm.value) {
 
       this.couseCreated = param
@@ -276,7 +286,6 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
 
       const parentNode = node
       this.loaderService.changeLoad.next(true)
-
       const isDone = await this.storeService.createChildOrSibling(
         this.couseCreated,
         parentNode,
@@ -322,10 +331,10 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     if (this.viewMode === 'assessment') {
       this.triggerQuizSave = true
     } else
-    if (this.viewMode === 'upload') {
-    // TODO  console.log('viewmode', this.viewMode)
-      this.triggerUploadSave = true
-    }
+      if (this.viewMode === 'upload') {
+        // TODO  console.log('viewmode', this.viewMode)
+        this.triggerUploadSave = true
+      }
     if (
       Object.keys(updatedContent).length ||
       Object.keys(this.storeService.changedHierarchy).length
@@ -688,13 +697,13 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         break
       case 'editContent':
         if (event.nodeClicked === false) {
-        //  this.save('refresh')
+          //  this.save('refresh')
         }
 
         const content = this.contentService.getUpdatedMeta(event.identifier)
         if (['application/pdf', 'application/x-mpegURL'].includes(content.mimeType)) {
           this.viewMode = 'upload'
-        }  else if (['video/x-youtube', 'application/html'].includes(content.mimeType) && content.fileType === 'link') {
+        } else if (['video/x-youtube', 'application/html'].includes(content.mimeType) && content.fileType === 'link') {
           this.viewMode = 'curate'
         } else if (content.mimeType === 'application/html') {
           this.viewMode = 'upload'
@@ -875,8 +884,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
       case 'InReview':
         return 'review'
       case 'Reviewed':
-       const isDraftPresent = this.contentService.resetStatus()
-       /**Change all content as draft, if one of the content is draft status */
+        const isDraftPresent = this.contentService.resetStatus()
+        /**Change all content as draft, if one of the content is draft status */
         if (isDraftPresent) {
           this.contentService.changeStatusDraft()
           return 'sendForReview'

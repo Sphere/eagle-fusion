@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  sitePath: 'sphere.aastrika.org',
+  sitePath: 'd34vfqm2mqjn7i.cloudfront.net',
 }

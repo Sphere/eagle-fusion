@@ -3,8 +3,8 @@
   <ng-container *ngFor="let option of childType">
 
 
-    <button *ngIf="option.children && option.children.length" mat-menu-item (click)="click(type, option.id)"
-      [matMenuTriggerFor]="child.childMenu">ss
+    <button *ngIf="option.children && option.children.length" mat-menu-item
+      (click)="click(type, option.id, option.subid)" [matMenuTriggerFor]="child.childMenu">
       <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text">{{
         option.icon
       }}</mat-icon>
@@ -12,7 +12,8 @@
       <ws-auth-collection-matmenu [type]="type" [childType]="option.children"
         (action)="click($event.action, $event.type)" #child></ws-auth-collection-matmenu>
     </button>
-    <button *ngIf="!option.children || !option.children.length" mat-menu-item (click)="click(type, option.id)">
+    <button *ngIf="!option.children || !option.children.length" mat-menu-item
+      (click)="click(type, option.id, option.subid)">
       <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text">{{
         option.icon
       }}</mat-icon>

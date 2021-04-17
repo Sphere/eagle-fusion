@@ -32,6 +32,7 @@ import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/compon
 import { mergeMap, tap } from 'rxjs/operators'
 import { IFormMeta } from './../../../../../../../../interface/form'
 import { AuthInitService } from './../../../../../../../../services/init.service'
+import { CollectionStoreService } from './../../../collection/services/store.service'
 
 @Component({
   selector: 'ws-auth-file-upload',
@@ -69,6 +70,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
   @Output() data = new EventEmitter<any>()
   uploadedFileList: { [key: string]: File } = {}
   updatedIPRList: { [key: string]: boolean } = {}
+  filetype!: string | null
+  acceptType!: string | '.mp3,.mp4,.pdf,.zip,.m4v'
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,9 +83,32 @@ export class FileUploadComponent implements OnInit, OnChanges {
     private authInitService: AuthInitService,
     private valueSvc: ValueService,
     private accessService: AccessControlService,
+    private storeService: CollectionStoreService
   ) { }
 
   ngOnInit() {
+    this.filetype = this.storeService.uploadFileTypeValue
+    if (this.filetype === 'audio') {
+      this.acceptType = '.mp3'
+    }
+
+    switch (this.filetype) {
+      case 'audio':
+        this.acceptType = '.mp3'
+        break
+      case 'video':
+        this.acceptType = '.mp4, .m4v'
+        break
+      case 'pdf':
+        this.acceptType = '.pdf'
+        break
+      case 'zip':
+        this.acceptType = '.zip'
+        break
+      default:
+        this.acceptType = '.mp3,.mp4,.pdf,.zip,.m4v'
+    }
+
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
     this.currentContent = this.contentService.currentContent
     this.triggerDataChange()
