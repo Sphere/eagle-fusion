@@ -98,7 +98,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   resendOTP() {
     // call resend OTP function
-    this.tncService.registerWithMobile( {mobileNumber: this.emailOrMobile} ).subscribe(
+    this.tncService.registerWithMobile({ mobileNumber: this.emailOrMobile }).subscribe(
       (res: any) => {
         this.openSnackbar(res.message)
       },

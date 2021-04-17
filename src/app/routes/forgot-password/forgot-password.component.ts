@@ -61,7 +61,6 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         (res: any) => {
           if (res.message === 'Success') {
             // phone = this.emailOrMobile.replace(/^[6-9]\d{9}$/, '')
-          //  console.log(phone)
             // Allow only indian mobile numbers
             if (phone.length === 10) {
               this.showOtpPwd = true
