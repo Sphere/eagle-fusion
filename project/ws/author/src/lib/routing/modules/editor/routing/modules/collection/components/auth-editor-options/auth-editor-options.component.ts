@@ -15,7 +15,7 @@ import { CollectionStoreService } from './../../services/store.service'
 export class AuthEditorOptionsComponent implements OnInit {
   @Input() node!: IContentTreeNode
   @Input() isInvalid = true
-  @Output() action = new EventEmitter<{ action: string; type?: string }>()
+  @Output() action = new EventEmitter<{ action: string; type?: string; subid?: string }>()
   creationContent!: Map<string, ICreateEntity>
   allowedChild: ICustomCreateEntity[] = []
   allowedSibling: ICustomCreateEntity[] = []
@@ -113,7 +113,7 @@ export class AuthEditorOptionsComponent implements OnInit {
     return returnValue
   }
 
-  click(action: string, type?: string) {
-    this.action.emit({ action, type })
+  click(action: string, type?: string, subid?: string) {
+    this.action.emit({ action, type, subid })
   }
 }
