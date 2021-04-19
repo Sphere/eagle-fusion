@@ -19,3 +19,7 @@
 ::ng-deep.cke_dialog_container {
   z-index: 10010 !important;
 }
+
+::ng-deep textarea.cke_source {
+  min-height: 72vh;
+}

@@ -130,7 +130,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
 
               const url = data[0].content.artifactUrl.substring(0, data[0].content.artifactUrl.lastIndexOf('/'))
               this.imagesUrlbase = `${url}/assets/`
-              const formattedObj = JSON.parse(JSON.stringify(data2))
+              const formattedObj = JSON.parse(JSON.stringify(data2[0].data))
 
               if (formattedObj.pageJson) {
                 formattedObj.pageJson.map((obj: ModuleObj) => {
@@ -161,7 +161,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
                 const fileInd = parseInt(formattedObj.pageJson[index].URL.replace('/assets/index', ''), 10)
                 return new Page({ body: pageBody, fileIndex: fileInd })
               })
-              this.userData[data[0].content.identifier] = formattedObj
+              this.userData[data2[0].content.identifier] = formattedObj
             })
           }
         })
