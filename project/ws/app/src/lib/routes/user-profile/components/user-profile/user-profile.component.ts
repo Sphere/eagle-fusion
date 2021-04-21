@@ -881,7 +881,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Construct the request structure for open saber
     const profileRequest = this.constructReq(form)
-    console.log('form', form)
     // manipulate request to remove gender, category & marital status
 
     // if (profileRequest.personalDetails.gender === '') {
