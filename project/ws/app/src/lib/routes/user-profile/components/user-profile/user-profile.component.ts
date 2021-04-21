@@ -122,6 +122,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       gender: new FormControl('', []),
       maritalStatus: new FormControl('', []),
       domicileMedium: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
+      nationalUniqueId: new FormControl('', []),
+      doctorRegNumber: new FormControl('', []),
       knownLanguages: new FormControl([], []),
       residenceAddress: new FormControl('', []),
       category: new FormControl('', []),
@@ -637,6 +640,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       dob: this.getDateFromText(data.personalDetails.dob),
       nationality: data.personalDetails.nationality,
       domicileMedium: data.personalDetails.domicileMedium,
+      regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+      nationalUniqueId: data.personalDetails.nationalUniqueId,
+      doctorRegNumber: data.personalDetails.doctorRegNumber,
       gender: data.personalDetails.gender,
       maritalStatus: data.personalDetails.maritalStatus,
       category: data.personalDetails.category,
@@ -675,7 +681,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -725,6 +731,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         dob: form.value.dob,
         nationality: form.value.nationality,
         domicileMedium: form.value.domicileMedium,
+        regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
+        nationalUniqueId: form.value.nationalUniqueId,
+        doctorRegNumber: form.value.doctorRegNumber,
         gender: form.value.gender,
         maritalStatus: form.value.maritalStatus,
         category: form.value.category,
@@ -872,6 +881,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Construct the request structure for open saber
     const profileRequest = this.constructReq(form)
+    console.log('form', form)
     // manipulate request to remove gender, category & marital status
 
     // if (profileRequest.personalDetails.gender === '') {

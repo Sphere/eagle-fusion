@@ -166,6 +166,48 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
+                        <p class=" margin-remove-bottom form-label"
+                          i18n="Marital Status |Label which explains the user to enter Marital Status">
+                          Marital Status
+                        </p>
+                        <!-- <mat-radio-group matInput aria-label="Select an option" formControlName="maritalStatus">
+                                                  <span class="mx-2">
+                                                    <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.SINGLE">
+                                                      Single
+                                                    </mat-radio-button>
+                                                  </span>
+                                                  <span class="mx-2">
+                                                    <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.MARRIED">
+                                                      Married
+                                                    </mat-radio-button>
+                                                  </span>
+                                                </mat-radio-group> -->
+                        <div class="radio-toolbar">
+                          <input type="radio" id="{{eMaritalStatus.SINGLE}}" name="maritalStatus"
+                            formControlName="maritalStatus" [value]="eMaritalStatus.SINGLE">
+                          <label for="{{eMaritalStatus.SINGLE}}">{{eMaritalStatus.SINGLE}}</label>
+
+                          <input type="radio" id="{{eMaritalStatus.MARRIED}}" name="maritalStatus"
+                            formControlName="maritalStatus" [value]="eMaritalStatus.MARRIED">
+                          <label for="{{eMaritalStatus.MARRIED}}">{{eMaritalStatus.MARRIED}}</label>
+                        </div>
+                      </div>
+
+                      <div class="input-wrapper margin-top-s">
+                        <p class=" margin-remove-bottom form-label"
+                          i18n=" Registered Nurse/ Midwife Number label|Label which explains the user to enter Registered Nurse/ Midwife Number">
+                          Registered Nurse Number(RN)/ Registered Midwife Number(RM)
+                        </p>
+                        <mat-form-field appearance="outline" class="margin-top-xs">
+                          <input matInput #regNurseRegMidwifeNumber formControlName="regNurseRegMidwifeNumber"
+                            i18n-placeholder placeholder="Enter  Registered Nurse/ Midwife Number" />
+                        </mat-form-field>
+                      </div>
+
+
+
+
+                      <div class="input-wrapper margin-top-s">
                         <!-- <p class=" margin-remove-bottom form-label required"
                           i18n="Category |Label which explains the user to enter Category">
                           Category
@@ -215,35 +257,29 @@
               </div>
               <div class="flex flex-column w-full md:w-1/2 ">
                 <div class="profile-cols bg-grey">
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
+                      i18n="NUID number label|Label which explains the user to enter NUID Number">
+                      National Unique Identity Number (NUID) Number
+                    </p>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #nationalUniqueId formControlName="nationalUniqueId" i18n-placeholder
+                        placeholder="Enter NUID Number" />
+                    </mat-form-field>
+                  </div>
 
 
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
-                      i18n="Marital Status |Label which explains the user to enter Marital Status">
-                      Marital Status
+                      i18n="Doctor Registration Number label|Label which explains the user to enter Doctor Registration Number">
+                      Doctor Registration Number
                     </p>
-                    <!-- <mat-radio-group matInput aria-label="Select an option" formControlName="maritalStatus">
-                            <span class="mx-2">
-                              <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.SINGLE">
-                                Single
-                              </mat-radio-button>
-                            </span>
-                            <span class="mx-2">
-                              <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.MARRIED">
-                                Married
-                              </mat-radio-button>
-                            </span>
-                          </mat-radio-group> -->
-                    <div class="radio-toolbar">
-                      <input type="radio" id="{{eMaritalStatus.SINGLE}}" name="maritalStatus"
-                        formControlName="maritalStatus" [value]="eMaritalStatus.SINGLE">
-                      <label for="{{eMaritalStatus.SINGLE}}">{{eMaritalStatus.SINGLE}}</label>
-
-                      <input type="radio" id="{{eMaritalStatus.MARRIED}}" name="maritalStatus"
-                        formControlName="maritalStatus" [value]="eMaritalStatus.MARRIED">
-                      <label for="{{eMaritalStatus.MARRIED}}">{{eMaritalStatus.MARRIED}}</label>
-                    </div>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #doctorRegNumber formControlName="doctorRegNumber" i18n-placeholder
+                        placeholder="Enter Doctor Registration Number" />
+                    </mat-form-field>
                   </div>
+
 
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
@@ -536,9 +572,8 @@
                   </div>
                 </ng-container>
                 <div class="mt-5">
-                  <button mat-raised-button type="button" (click)="addDegree()"
-                    class="text-white margin-right-m btn-success">
-                    <span class="text-white" i18n>Add Other Qualification</span>
+                  <button mat-raised-button type="button" (click)="addDegree()" class="margin-right-m btn-success">
+                    <span i18n>Add Other Qualification</span>
                   </button>
                 </div>
               </div>
@@ -605,9 +640,8 @@
                 </ng-container>
 
                 <div class="mt-5">
-                  <button mat-raised-button type="button" (click)="addPostDegree()"
-                    class="text-white margin-right-m btn-success">
-                    <span class="text-white" i18n>Add Other Qualification</span>
+                  <button mat-raised-button type="button" (click)="addPostDegree()" class="margin-right-m btn-success">
+                    <span i18n>Add Other Qualification</span>
                   </button>
                 </div>
               </div>
@@ -621,12 +655,12 @@
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
               <div class="w-full profile-cols-full bg-grey">
-                <div class="radio-toolbar">
+                <!-- <div class="radio-toolbar">
                   <input type="radio" id="govtOrg" name="isGovtOrg" formControlName="isGovtOrg" [value]="true">
                   <label for="govtOrg">Government Organisation</label>
                   <input type="radio" id="nonGovtOrg" name="isGovtOrg" formControlName="isGovtOrg" [value]="false">
                   <label for="nonGovtOrg">Non-Government Organisation</label>
-                </div>
+                </div> -->
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -1014,13 +1048,13 @@
         <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
           <mat-spinner [diameter]="30"></mat-spinner>
         </div>
-        <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)"
-          class="text-white btn-success btn-responsive" [disabled]="uploadSaveData || createUserForm?.invalid">
-          <span class="text-white" i18n>
+        <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)" class="btn-success btn-responsive"
+          [disabled]="uploadSaveData || createUserForm?.invalid">
+          <span i18n>
             Save Details
           </span>
         </button>
-        <!-- <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white"
+        <!-- <button mat-raised-button type="button" class="ws-mat-primary-background text-white"
           (click)="formNext()">
           <span class="text-white" i18n>Next</span>
         </button> -->
