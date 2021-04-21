@@ -7,7 +7,7 @@ import { environment } from './../../../../../../../src/environments/environment
 let instanceConfigPath: string | null = window.location.host
 
 const API_ENDPOINTS = {
-  searchByOrgID: '/apis/protected/V8/content/searchByOrgID',
+  searchByOrgID: '/apis/public/V8/org/searchByOrgID',
 }
 
 if (!environment.production && Boolean(environment.sitePath)) {
