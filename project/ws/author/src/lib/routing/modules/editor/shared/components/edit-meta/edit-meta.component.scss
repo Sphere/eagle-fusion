@@ -214,7 +214,7 @@ ul li {
   z-index: -1;
 }
 
-.inputfile+label {
+.inputfile + label {
   font-size: 1.25em;
   color: white;
   display: inline-block;
@@ -250,16 +250,16 @@ ul li {
   flex-direction: row;
   justify-content: space-around;
 }
-.mobile-break{
+.mobile-break {
   display: flex;
   flex-direction: row;
 }
-.new-mobile{
+.new-mobile {
   display: flex;
   flex-direction: column;
 }
 // 960
-@media only screen and (max-width:960px) {
+@media only screen and (max-width: 960px) {
   .mobile-break {
     flex-direction: column;
   }
@@ -267,7 +267,7 @@ ul li {
 
 @media (min-width: 961px) {
   .width-300 {
-    width: 300
+    width: 300;
   }
 }
 .cross-btn {
@@ -278,9 +278,9 @@ ul li {
 
 .inner-section {
   display: block;
-    margin: 0 -12px;
-    max-height: 78vh;
-    overflow: auto;
+  margin: 0 -12px;
+  max-height: 78vh;
+  overflow: auto;
 }
 .header-bg {
   background-color: #edf1e5;

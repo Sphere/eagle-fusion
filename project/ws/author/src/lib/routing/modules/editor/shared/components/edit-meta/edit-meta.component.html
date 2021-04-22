@@ -5,7 +5,7 @@
       <mat-icon class="ws-mat-primary-text margin-top-l pointer cross-btn" (click)="sideNavBarOpened=false">
         clear
       </mat-icon>
-    </div>   
+    </div>
     <div class="inner-section">
       <div class="margin-right-l margin-top-l">
 
@@ -501,23 +501,23 @@
       </div>
 
       <div class="margin-top-xs margin-left-xl margin-right-l flex-1" *ngIf="checkCondition('learningMode', 'show')"
-      [ngClass]="{ disable: checkCondition('learningMode', 'disabled') }">
-      <label [ngClass]="{ required: checkCondition('learningMode', 'required') }">
-        <b i18n>Mode</b>
-      </label>
-      <div class="margin-top-l">
-        <mat-form-field appearance="outline" class="margin-top-s"
-          [ngClass]="{ 'mat-form-field-invalid': showError('learningMode') }">
-          <mat-select formControlName="learningMode" i18n-placeholder placeholder="--Select--">
-            <mat-option *ngIf="!checkCondition('learningMode', 'required')" i18n [value]="null">None
-            </mat-option>
-            <mat-option *ngFor="let learningMode of ordinals.learningMode" [value]="learningMode">
-              {{ learningMode }}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="showError('learningMode')" i18n>Mode is mandatory </mat-error>
-        </mat-form-field>
+        [ngClass]="{ disable: checkCondition('learningMode', 'disabled') }">
+        <label [ngClass]="{ required: checkCondition('learningMode', 'required') }">
+          <b i18n>Mode</b>
+        </label>
+        <div class="margin-top-l">
+          <mat-form-field appearance="outline" class="margin-top-s"
+            [ngClass]="{ 'mat-form-field-invalid': showError('learningMode') }">
+            <mat-select formControlName="learningMode" i18n-placeholder placeholder="--Select--">
+              <mat-option *ngIf="!checkCondition('learningMode', 'required')" i18n [value]="null">None
+              </mat-option>
+              <mat-option *ngFor="let learningMode of ordinals.learningMode" [value]="learningMode">
+                {{ learningMode }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="showError('learningMode')" i18n>Mode is mandatory </mat-error>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
 
       <ng-template i18n>
         Stakeholders
@@ -612,16 +612,13 @@
     <!--added end-->
     <div class="margin-top-xl margin-right-l">
       <div class="grid"></div>
-      <div class="flex flex-end margin-top-l margin-bottom-l margin-right-l">
-        <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white margin-right-m"
-          (click)="sideNavBarOpened=false">
-          <span class="text-white" i18n>Cancel</span>
+      <div class="flex flex-left margin-top-l margin-bottom-l margin-right-l">
+        <button mat-button type="button" class="ws-mat-grey-background margin-right-m" (click)="sideNavBarOpened=false">
+          Cancel
         </button>
-        <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white"
-          (click)="data.emit('push'); isSubmitPressed = true">
-          <span class="text-white" i18n>
-            Save
-          </span>
+        <button mat-raised-button type="button" class="ws-mat-primary-background"
+          (click)="data.emit('save'); isSubmitPressed = true">
+          Save
         </button>
       </div>
     </div>
@@ -897,7 +894,7 @@
         </div>
 
         <div class="">
-        
+
 
 
           <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('sourceName', 'show')"
