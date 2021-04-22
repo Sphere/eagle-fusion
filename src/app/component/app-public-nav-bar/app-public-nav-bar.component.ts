@@ -74,6 +74,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       } else if (href.indexOf('app/toc') > 0) {
         this.redirectUrl = document.baseURI + window.location.pathname
         this.login('S')
+      } else if (href.indexOf('org-details') > 0) {
+        this.redirectUrl = href
       } else {
         this.redirectUrl = document.baseURI
       }

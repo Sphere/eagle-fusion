@@ -582,8 +582,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
               currentMeta.sourceShortName = currentMeta.sourceName
             }
           }
-        }
-        else {
+        } else {
           if (currentMeta.sourceName) {
             currentMeta.sourceShortName = currentMeta.sourceName
           }

@@ -681,7 +681,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */

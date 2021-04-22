@@ -1,3 +1,4 @@
+import { AuthKeycloakService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
@@ -15,7 +16,7 @@ export class OrgComponent implements OnInit {
   currentOrgData: any
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router) { }
+              private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -105,7 +106,11 @@ export class OrgComponent implements OnInit {
   }
 
   gotoOverview(identifier: any) {
-    this.router.navigate([`/app/toc/${identifier}/overview`])
+    if (this.authSvc.isAuthenticated) {
+      this.router.navigate([`/app/toc/${identifier}/overview`])
+    } else {
+      this.authSvc.login('S', document.URL)
+    }
   }
 
   showMoreCourses() {

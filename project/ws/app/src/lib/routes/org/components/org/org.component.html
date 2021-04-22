@@ -1,4 +1,4 @@
-<div id="grad-bg"></div>
+<div id="navy-blue-bg"></div>
 <div class="profile-container px-4 sm:px-40 md:px-10ss my-0">
   <div class="mb-4">
     <mat-card class="org-data mb-4">
@@ -7,8 +7,12 @@
         <div class="user-avatar ">
           <div class="flex mt-10">
             <div class="flex-auto mr-4">
-              <div class="image-outer">
+              <div class="image-outer" *ngIf="currentOrgData?.sourceName !== 'WHO'">
                 <img [src]="currentOrgData?.logo " alt=" Logo" class="org-logo" />
+              </div>
+              <div class="image-outer" *ngIf="currentOrgData?.sourceName === 'WHO'">
+                <img src="https://www.rockefellerfoundation.org/wp-content/uploads/WHO-logo-300x300.png" alt=" Logo"
+                  class="org-logo" />
               </div>
             </div>
             <div class="flex-auto">
@@ -16,8 +20,7 @@
               <mat-card-title>
                 <h2>{{orgName}}</h2>
               </mat-card-title>
-              <mat-card-subtitle><span>{{courseData?.totalHits}} Courses</span> <span> 12 Instructors </span><span>2000
-                  Learners</span>
+              <mat-card-subtitle><span>{{courseData?.totalHits}} Courses</span>
               </mat-card-subtitle>
               <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and its
                 limitations</mat-card-subtitle>

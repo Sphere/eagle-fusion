@@ -17,7 +17,7 @@ export class WidgetResolverDirective implements OnChanges {
 
   ngOnChanges() {
     const url = window.location.href
-    if (url.indexOf('login') < 0 && url.indexOf('explore') < 0) {
+    if (url.indexOf('login') < 0 && url.indexOf('explore') < 0 && url.indexOf('org-details') < 0) {
       if (!this.widgetResolverSvc.isInitialized) {
         this.logger.error(
           'Widgets Registration Not Done. Used Before Initialization.',
