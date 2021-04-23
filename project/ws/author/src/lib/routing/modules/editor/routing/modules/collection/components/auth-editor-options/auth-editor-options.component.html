@@ -7,6 +7,7 @@
   <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Create New Child">
     more_vert</mat-icon>
   <!-- <ng-container i18n>Create New Child</ng-container> -->
+  allowedChild==>{{allowedChild | json}}
   <ws-auth-collection-matmenu [type]="'createChild'" [childType]="allowedChild"
     (action)="click($event.action, $event.type, $event.subid)" #child></ws-auth-collection-matmenu>
   <button (click)="click('delete')" [disabled]="!node.parentId && node.editable"
