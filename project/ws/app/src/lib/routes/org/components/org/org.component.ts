@@ -16,10 +16,10 @@ export class OrgComponent implements OnInit {
   routeSubscription: any
   orgData: any
   currentOrgData: any
-  showEndPopup: boolean = false
+  showEndPopup = false
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-    private router: Router, private authSvc: AuthKeycloakService) { }
+              private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -112,7 +112,7 @@ export class OrgComponent implements OnInit {
     if (this.authSvc.isAuthenticated) {
       this.router.navigate([`/app/toc/${identifier}/overview`])
     } else {
-      this.authSvc.login('S', document.baseURI + `/app/toc/${identifier}/overview`)
+      this.authSvc.login('S', `${document.baseURI}/app/toc/${identifier}/overview`)
     }
   }
 

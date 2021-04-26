@@ -97,7 +97,6 @@ export class WebModuleComponent implements OnInit, OnDestroy {
             // this.webmoduleData = data.content.data
             this.webmoduleData = data
 
-
             if (
               this.webmoduleData &&
               (this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE ||
