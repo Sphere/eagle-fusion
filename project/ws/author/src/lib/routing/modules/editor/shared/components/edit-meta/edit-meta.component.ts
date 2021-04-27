@@ -610,22 +610,24 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
             JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
             JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile'
           ) {
+            if ((this.authInitService.authConfig[v as keyof IFormMeta]) !== undefined) {
 
-            if (
-              currentMeta[v as keyof NSContent.IContentMeta] ||
-              (this.authInitService.authConfig[v as keyof IFormMeta].type === 'boolean' &&
-                currentMeta[v as keyof NSContent.IContentMeta] === false)
-            ) {
-              meta[v as keyof NSContent.IContentMeta] = currentMeta[v as keyof NSContent.IContentMeta]
-            } else {
-              meta[v as keyof NSContent.IContentMeta] = JSON.parse(
-                JSON.stringify(
-                  this.authInitService.authConfig[v as keyof IFormMeta].defaultValue[
-                    originalMeta.contentType
-                    // tslint:disable-next-line: ter-computed-property-spacing
-                  ][0].value,
-                ),
-              )
+              if (
+                currentMeta[v as keyof NSContent.IContentMeta] ||
+                (this.authInitService.authConfig[v as keyof IFormMeta].type === 'boolean' &&
+                  currentMeta[v as keyof NSContent.IContentMeta] === false)
+              ) {
+                meta[v as keyof NSContent.IContentMeta] = currentMeta[v as keyof NSContent.IContentMeta]
+              } else {
+                meta[v as keyof NSContent.IContentMeta] = JSON.parse(
+                  JSON.stringify(
+                    this.authInitService.authConfig[v as keyof IFormMeta].defaultValue[
+                      originalMeta.contentType
+                      // tslint:disable-next-line: ter-computed-property-spacing
+                    ][0].value,
+                  ),
+                )
+              }
             }
           }
         })
@@ -1141,11 +1143,12 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       visibility: [],
     })
 
-    this.contentForm.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-      if (this.canUpdate) {
-        this.storeData()
-      }
-    })
+    // Commented To avoid calling the storeData function on every 500ms
+    // this.contentForm.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+    //   if (this.canUpdate) {
+    // this.storeData()
+    //   }
+    // })
 
     this.contentForm.controls.contentType.valueChanges.subscribe(() => {
       this.changeResourceType()

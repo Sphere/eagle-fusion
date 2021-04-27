@@ -9,7 +9,7 @@
         option.icon
       }}</mat-icon>
       <ng-container>{{ option.name }}</ng-container>
-      <ws-auth-collection-matmenu [type]="type" [childType]="option.children"
+      <ws-auth-collection-matmenu class="pp" [type]="type" [childType]="option.children"
         (action)="click($event.action, $event.type)" #child></ws-auth-collection-matmenu>
     </button>
     <button *ngIf="!option.children || !option.children.length" mat-menu-item

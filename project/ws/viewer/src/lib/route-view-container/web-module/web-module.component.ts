@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
@@ -10,7 +10,7 @@ import { ViewerDataService } from '../../viewer-data.service'
   templateUrl: './web-module.component.html',
   styleUrls: ['./web-module.component.scss'],
 })
-export class WebModuleComponent implements OnInit {
+export class WebModuleComponent implements OnInit, AfterViewInit {
   @Input() isFetchingDataComplete = false
   @Input() isErrorOccured = false
   @Input() forPreview = false
@@ -20,6 +20,7 @@ export class WebModuleComponent implements OnInit {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   @Input() isPreviewMode = false
+  @Output() reload: EventEmitter<boolean> = new EventEmitter()
   isTypeOfCollection = false
   collectionId: string | null = null
   isRestricted = false
@@ -57,5 +58,15 @@ export class WebModuleComponent implements OnInit {
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
+  }
+
+  ngAfterViewInit() {
+    this.activatedRoute.data.subscribe(data => {
+      if (data.resourceType === 'web-module' && this.webmoduleData) {
+        if (this.activatedRoute.snapshot.params.resourceId !== this.webmoduleData.identifier) {
+          this.reload.emit(true)
+        }
+      }
+    })
   }
 }
