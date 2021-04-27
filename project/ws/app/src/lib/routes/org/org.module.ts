@@ -8,6 +8,7 @@ import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CardContentModule, PipeContentRoutePipe } from '@ws-widget/collection'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
+import { MdePopoverModule } from '@material-extended/mde'
 
 import {
   MatCardModule,
@@ -40,6 +41,7 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
     WidgetResolverModule,
     CardContentModule,
     InfiniteScrollModule,
+    MdePopoverModule,
   ],
   providers: [PipeContentRoutePipe],
 })

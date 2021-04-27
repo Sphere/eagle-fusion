@@ -50,7 +50,6 @@ export class HtmlComponent implements OnInit, OnChanges {
       ? this.configSvc.instanceConfig.intranetIframeUrls
       : []
 
-    // //console.log(this.htmlContent)
     let iframeSupport: boolean | string | null =
       this.htmlContent && this.htmlContent.isIframeSupported
     if (this.htmlContent && this.htmlContent.artifactUrl) {
@@ -112,9 +111,9 @@ export class HtmlComponent implements OnInit, OnChanges {
           3000,
         )
       }
-      this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.htmlContent.artifactUrl,
-      )
+      const timestamp = new Date('2012.08.10').getTime() / 1000
+      const htmlUrl = `${this.htmlContent.artifactUrl}?${timestamp}`
+      this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(htmlUrl)
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
       this.iframeUrl = null
       this.pageFetchStatus = 'artifactUrlMissing'

@@ -102,15 +102,15 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.showSettingButtons = this.accessService.rootOrg === 'client1'
-    // this.mediumSizeBreakpoint$.subscribe(isLtMedium => {
-    //   this.sideNavBarOpened = !isLtMedium
-    //   this.mediumScreenSize = isLtMedium
-    //   if (isLtMedium) {
-    //     this.showContent = false
-    //   } else {
-    //     this.showContent = true
-    //   }
-    // })
+    this.mediumSizeBreakpoint$.subscribe(isLtMedium => {
+      this.sideNavBarOpened = !isLtMedium
+      this.mediumScreenSize = isLtMedium
+      if (isLtMedium) {
+        this.showContent = false
+      } else {
+        this.showContent = true
+      }
+    })
     if (this.activateRoute.parent && this.activateRoute.parent.parent) {
 
       const id = this.router.url.split('/')[3]

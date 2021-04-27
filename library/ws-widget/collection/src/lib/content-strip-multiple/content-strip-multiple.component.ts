@@ -84,7 +84,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     if (url.indexOf('explore') > 0) {
       this.explorePage = true
     }
-    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
+    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 || url.indexOf('org-details') > 0) {
       this.callPublicApi = true
       // Fetch the data
       for (const strip of this.widgetData.strips) {

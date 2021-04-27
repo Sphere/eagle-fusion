@@ -6,6 +6,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { EventService, WsEvents } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { ViewerDataService } from '../../../public-api'
 
 @Component({
   selector: 'viewer-web-module',
@@ -31,6 +32,7 @@ export class WebModuleComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private eventSvc: EventService,
     private viewSvc: ViewerUtilService,
+    private viewerDataSvc: ViewerDataService
   ) { }
 
   ngOnInit() {
@@ -82,6 +84,43 @@ export class WebModuleComponent implements OnInit, OnDestroy {
     //     this.raiseEvent(WsEvents.EnumTelemetrySubType.HeartBeat)
     //   }
     // })
+  }
+
+  callWebModuleData(e: any) {
+    if (e) {
+      this.viewSvc
+        .getContent(this.viewerDataSvc.resourceId || '')
+        .subscribe(
+          // this.dataSubscription = this.activatedRoute.data.subscribe(
+
+          async data => {
+            // this.webmoduleData = data.content.data
+            this.webmoduleData = data
+
+            if (
+              this.webmoduleData &&
+              (this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE ||
+                this.webmoduleData.mimeType === NsContent.EMimeTypes.WEB_MODULE_EXERCISE)
+            ) {
+              this.webmoduleManifest = await this.transformWebmodule(this.webmoduleData)
+            }
+            if (this.webmoduleData && this.webmoduleData.identifier) {
+              this.webmoduleData.resumePage = 1
+              if (this.activatedRoute.snapshot.queryParams.collectionId) {
+                await this.fetchContinueLearning(this.activatedRoute.snapshot.queryParams.collectionId, this.webmoduleData.identifier)
+              } else {
+                await this.fetchContinueLearning(this.webmoduleData.identifier, this.webmoduleData.identifier)
+              }
+            }
+            if (this.webmoduleData && this.webmoduleManifest) {
+              this.oldData = this.webmoduleData
+
+              this.isFetchingDataComplete = true
+            } else {
+              this.isErrorOccured = true
+            }
+          })
+    }
   }
 
   ngOnDestroy() {

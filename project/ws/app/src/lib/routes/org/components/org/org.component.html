@@ -1,6 +1,11 @@
-<div id="grad-bg"></div>
-<div class="profile-container px-4 sm:px-40 md:px-10ss my-0">
-  <div class="mb-4">
+<div id="navy-blue-bg" [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Others'}">
+  <div class="px-4 sm:px-40 md:px-10ss my-5 mb-5 flex flex-middle" *ngIf="currentOrgData?.sourceName === 'Others'">
+    <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo" /> <span class="ml-5 mylearning">My
+      learning</span>
+  </div>
+</div>
+<div class=" profile-container px-4 sm:px-40 md:px-10ss my-0">
+  <div class="mb-4" *ngIf="currentOrgData?.sourceName !== 'Others'">
     <mat-card class="org-data mb-4">
 
       <section class="flex justify-center">
@@ -16,10 +21,10 @@
               <mat-card-title>
                 <h2>{{orgName}}</h2>
               </mat-card-title>
-              <mat-card-subtitle><span>{{courseData?.totalHits}} Courses</span> <span> 12 Instructors </span><span>2000
-                  Learners</span>
+              <mat-card-subtitle><span>{{courseData?.totalHits}} Courses</span>
               </mat-card-subtitle>
-              <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and its
+              <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and
+                its
                 limitations</mat-card-subtitle>
             </div>
           </div>
@@ -37,8 +42,11 @@
       About</span>
   </div>
   <div class="mt-3 mb-3">
-    {{currentOrgData?.about}}
-
+    <ng-container *ngIf="currentOrgData?.sourceName !== 'Others'">{{currentOrgData?.about}}</ng-container>
+    <ng-container *ngIf="currentOrgData?.sourceName === 'Others'">An e-learning platform for the entire nursing audience
+      which includes
+      practitioners, nurse managers/leaders, nursing faculty and students
+    </ng-container>
   </div>
 
   <div class="w-100">
@@ -50,11 +58,14 @@
   <div class="w-100" *ngIf="courseData?.result > 5">
     <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
   </div>
-  <div class="flex mt-4">
+  <div class="flex-main mt-4">
     <ng-container *ngFor="let widget of courseData?.result">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-          i18n-aria-label="Content | Click to view">
+          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
+          #popoverTrigger="mdePopoverTrigger" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
+          [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-140"
+          (mouseover)="showTarget($event)">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.appIcon"
               [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
@@ -74,6 +85,51 @@
           </div>
         </mat-card-content>
       </mat-card>
+
+      <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
+        <mat-card class="popover-card xs-hidden">
+
+          <mat-card-content>
+            <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
+              {{ widget.name }}
+            </div>
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+              {{ widget.description  }}
+            </div>
+
+            <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>Published on: </span>
+              {{widget?.lastUpdatedOn | date }}</div>
+            <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
+              <span class="mr-1 orange-text">Duration: </span>
+              <mat-icon>access_time</mat-icon>
+              <!-- <span class="time-text fs-13">{{ widget.duration | pipeDurationTransform: 'hms' }}</span> -->
+              <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+                <!-- <div class="flex items-start">
+                  <ng-container [ngTemplateOutlet]="rating"></ng-container>
+                </div> -->
+              </span>
+            </div>
+            <p><span class="fw-500">Number of modules:</span> {{ widget?.children?.length}}</p>
+            <p *ngIf="widget?.creatorContacts"><span class="fw-500">Author:
+              </span>{{ widget?.creatorContacts[0]?.name}}</p>
+
+            <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
+              {{widget?.uniqueUsersCount}}</p>
+            <p *ngIf="widget?.sourceName"><span class="fw-500">Source:</span> {{widget.sourceName}}
+            </p>
+            <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
+              <div class="fw-500 mb-1">Course Description</div>
+              {{ widget.description }}
+            </div>
+
+            <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+              <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
+                (click)="loginRedirect('S',  widget.identifier)"> Login
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mde-popover>
     </ng-container>
   </div>
 
@@ -125,5 +181,12 @@
       content goes hereAbout us content goes hereAbout us content goes hereAbout us content goes hereAbout us content
       goes here
     </div> -->
+  </div>
+</div>
+
+<div class="flex flex-center mt-5 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Others'">
+  <div class="align-logo">
+    <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
+      class="mt-5 mf-logo" />
   </div>
 </div>

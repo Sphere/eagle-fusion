@@ -204,3 +204,58 @@ mat-card.card-standard-container.mr-8 .mat-card {
     rgba(254, 220, 210, 1) 100%
   );
 }
+
+#navy-blue-bg {
+  margin-top: 0px;
+  height: 150px;
+  background: #204667;
+  border-top: solid 50px #ff9646;
+}
+
+.mylearning {
+  font-size: 22px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.inc-logo {
+  border-right: solid 1px grey;
+  padding-right: 20px;
+}
+.suborg-logo {
+  padding-top: 20px;
+  border-top: solid 1px rgba(221, 221, 221, 0.89);
+}
+
+.support-txt {
+  text-transform: uppercase;
+}
+.align-logo {
+  display: flex !important;
+  align-items: center;
+}
+.flex-main {
+  display: flex !important;
+}
+
+@media (max-width: 500px) {
+  .support-txt,
+  .flex-main {
+    display: block !important;
+  }
+  .mf-logo,
+  .inc-logo {
+    width: 95%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .align-logo {
+    display: block !important;
+  }
+  .suborg-logo {
+    float: left;
+    margin-bottom: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
