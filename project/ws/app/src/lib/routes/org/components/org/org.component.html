@@ -12,12 +12,8 @@
         <div class="user-avatar ">
           <div class="flex mt-10">
             <div class="flex-auto mr-4">
-              <div class="image-outer" *ngIf="currentOrgData?.sourceName !== 'WHO'">
+              <div class="image-outer">
                 <img [src]="currentOrgData?.logo " alt=" Logo" class="org-logo" />
-              </div>
-              <div class="image-outer" *ngIf="currentOrgData?.sourceName === 'WHO'">
-                <img src="https://www.rockefellerfoundation.org/wp-content/uploads/WHO-logo-300x300.png" alt=" Logo"
-                  class="org-logo" />
               </div>
             </div>
             <div class="flex-auto">

@@ -176,11 +176,14 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // }
   }
   ngAfterViewInit() {
+    const timestamp = new Date('2012.08.10').getTime() / 1000
     this.contextMenuSubs = fromEvent(this.pdfContainer.nativeElement, 'contextmenu').subscribe(e =>
       e.preventDefault(),
     )
     if (this.widgetData && this.widgetData.pdfUrl) {
-      this.loadDocument(this.widgetData.pdfUrl)
+      // const hrmlurl = `${this.widgetData.artifactUrl}?${timestamp}`
+      const pdfUrl = `${this.widgetData.pdfUrl}?${timestamp}`
+      this.loadDocument(pdfUrl)
       if (this.widgetData.identifier) {
         this.identifier = this.widgetData.identifier
       }
