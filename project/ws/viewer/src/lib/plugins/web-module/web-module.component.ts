@@ -362,7 +362,6 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
           transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
           font-family: Roboto, "Helvetica Neue", sans-serif;
           font-size: 14px;
-          font-weight: 300;
       }
 
       .disabled-button {
@@ -390,9 +389,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     executeJS.type = 'text/javascript'
     executeJS.innerHTML = `
           document.body.classList.add('app-background', '${theme.className}', 'custom-scroll-small');
-          for(var i=0; i < document.querySelectorAll("[style]").length; i++ ) {
-            document.querySelectorAll("[style]")[i].setAttribute('style', null);
-          }
+
           for(var i=0; i < document.querySelectorAll("pre").length; i++ ) {
             document.querySelectorAll("pre")[i].classList.add('prettyprint');
             document.querySelectorAll("pre")[i].setAttribute("id", "codepane"+i);

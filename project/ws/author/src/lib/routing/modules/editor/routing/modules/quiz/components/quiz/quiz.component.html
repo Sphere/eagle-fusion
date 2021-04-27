@@ -57,7 +57,8 @@
         }" (click)="changeContent(content)">
         {{ content.locale | uppercase }}
       </p>
-      <button mat-icon-button class=" small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s" i18n-matTooltip
+      <button mat-icon-button
+        class=" small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s" i18n-matTooltip
         matTooltip="Add a language" aria-label="create content in other languages">
         <mat-icon class="text-white small-icon" [matMenuTriggerFor]="menu">
           add</mat-icon>
@@ -73,7 +74,7 @@
     <div class="margin-top-xl margin-right-xl" *ngIf="currentStep === 2">
       <ng-container *ngIf="contentLoaded">
         <div class="flex justify-between">
-          <button (click)="sideNavBar.toggle()"  mat-icon-button>
+          <button (click)="sideNavBar.toggle()" mat-icon-button>
             <mat-icon>menu</mat-icon>
           </button>
           <!-- <button type="button" (click)="showErrorLog()" mat-icon-button>
@@ -82,7 +83,8 @@
         </div>
         <mat-sidenav-container autosize="true" class="nav-container quiz-list">
           <mat-sidenav #sideNavBar class="h-full custom-scroll" [mode]="mode$ | async" [(opened)]="sideNavBarOpened">
-            <ws-auth-question-editor-sidebar [showContent]="showContent" [type]="'assessment'" [(data)]="questionsArr" [canEdit]="canEditJson"></ws-auth-question-editor-sidebar>
+            <ws-auth-question-editor-sidebar [showContent]="showContent" [type]="'assessment'" [(data)]="questionsArr"
+              [canEdit]="canEditJson"></ws-auth-question-editor-sidebar>
           </mat-sidenav>
           <mat-sidenav-content>
             <div *ngIf="questionsArr.length">
@@ -93,13 +95,16 @@
               <ws-auth-question-editor *ngIf="questionsArr.length && canEditJson" [submitPressed]="canValidate">
               </ws-auth-question-editor>
               <div class="flex justify-between px-1 pt-6 pb-6" *ngIf="questionsArr && canEditJson">
-                <button class=" ws-mat-primary-background mat-elevation-z6 margin-left-s" (click)="changeQuiz(-1)" [disabled]="selectedQuizIndex === 0"
-                  [ngClass]="{'opacity-25 cursor-disable':selectedQuizIndex === (0)}" mat-button i18n-aria-label aria-label="navigate to next quiz">
+                <button class=" ws-mat-primary-background mat-elevation-z6 margin-left-s" (click)="changeQuiz(-1)"
+                  [disabled]="selectedQuizIndex === 0"
+                  [ngClass]="{'opacity-25 cursor-disable':selectedQuizIndex === (0)}" mat-button i18n-aria-label
+                  aria-label="navigate to next quiz">
                   <span class="text-white small-operators" i18n>Previous</span>
                 </button>
-                <button class=" ws-mat-primary-background mat-elevation-z6 margin-left-s" [disabled]="selectedQuizIndex === (questionsArr.length-1)"
-                  mat-button [ngClass]="{'opacity-25 cursor-disable':selectedQuizIndex === (questionsArr.length-1)}" (click)="changeQuiz(1)"
-                  i18n-aria-label aria-label="navigate to previous quiz">
+                <button class=" ws-mat-primary-background mat-elevation-z6 margin-left-s"
+                  [disabled]="selectedQuizIndex === (questionsArr.length-1)" mat-button
+                  [ngClass]="{'opacity-25 cursor-disable':selectedQuizIndex === (questionsArr.length-1)}"
+                  (click)="changeQuiz(1)" i18n-aria-label aria-label="navigate to previous quiz">
                   <span class="text-white small-operators" i18n>Next</span>
                 </button>
               </div>
@@ -120,11 +125,12 @@
       </ws-auth-edit-meta>
     </div>
   </div>
-  <button (click)="action('save')"  mat-menu-item>
-
-    <ng-container i18n>Save</ng-container>
-  </button>
-<!--
+  <div class="flex flex-center">
+    <button mat-raised-button class="text-white ws-mat-primary-background mat-button-base" (click)="action('save')">
+      Save Assessment
+    </button>
+  </div>
+  <!--
   <button (click)="action('save')"  mat-menu-item>
     <mat-icon aria-hidden="false" class="node-icon ws-mat-primary-text" i18n-aria-label aria-label="Save content">
       Save</mat-icon>
@@ -202,8 +208,9 @@
   </div>
 </div> -->
 
-<div *ngIf="previewMode">
-  <mat-icon (click)="closePreview()" class="close-preview" matTooltip="Back" i18n-matTooltip="Back button to go to previous page">
-    arrow_back</mat-icon>
-  <ws-auth-viewer [identifier]="currentId" [mimeTypeRoute]="mimeTypeRoute"></ws-auth-viewer>
-</div>
+  <div *ngIf="previewMode">
+    <mat-icon (click)="closePreview()" class="close-preview" matTooltip="Back"
+      i18n-matTooltip="Back button to go to previous page">
+      arrow_back</mat-icon>
+    <ws-auth-viewer [identifier]="currentId" [mimeTypeRoute]="mimeTypeRoute"></ws-auth-viewer>
+  </div>
