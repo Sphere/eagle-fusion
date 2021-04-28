@@ -62,6 +62,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   ngOnInit() { }
 
   async ngAfterViewInit() {
+    const timestamp = new Date('2012.08.10').getTime() / 1000
     this.widgetData = {
       ...this.widgetData,
     }
@@ -69,6 +70,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       await this.fetchContent()
     }
     if (this.widgetData.url) {
+      this.widgetData.url = `${this.widgetData.url}?${timestamp}`
       if (this.widgetData.isVideojs) {
         this.initializePlayer()
       } else {

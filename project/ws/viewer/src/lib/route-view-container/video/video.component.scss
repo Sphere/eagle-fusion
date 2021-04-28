@@ -8,6 +8,9 @@
   width: 100%;
   flex-wrap: wrap;
 }
+.video-outer mat-card {
+  padding: 0;
+}
 
 .padding-dynamic {
   padding: $size-xs;
