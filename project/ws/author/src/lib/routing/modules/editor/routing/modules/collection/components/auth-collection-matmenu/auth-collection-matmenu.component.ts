@@ -19,7 +19,7 @@ export class AuthCollectionMatmenuComponent implements OnInit {
     const uploadItems = [{ children: [], icon: 'picture_as_pdf', id: 'upload', name: 'Upload PDF', subid: 'pdf' },
     { children: [], icon: 'audiotrack', id: 'upload', name: 'Upload Audio', subid: 'audio' },
     { children: [], icon: 'videocam', id: 'upload', name: 'Upload Video', subid: 'video' },
-    { children: [], icon: 'cloud_upload', id: 'upload', name: 'Upload Scorm', subid: 'zip' },
+    { children: [], icon: 'cloud_upload', id: 'resource', name: 'Upload Scorm', subid: 'zip' },
     ]
     this.childType.forEach((element, index) => {
       if (element.id === 'upload') {
