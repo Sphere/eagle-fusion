@@ -1144,11 +1144,11 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     })
 
     // Commented To avoid calling the storeData function on every 500ms
-    // this.contentForm.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-    //   if (this.canUpdate) {
-    // this.storeData()
-    //   }
-    // })
+    this.contentForm.valueChanges.pipe(debounceTime(1000)).subscribe(() => {
+      if (this.canUpdate) {
+        this.storeData()
+      }
+    })
 
     this.contentForm.controls.contentType.valueChanges.subscribe(() => {
       this.changeResourceType()
