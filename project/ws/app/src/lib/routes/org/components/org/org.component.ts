@@ -16,6 +16,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   orgData: any
   currentOrgData: any
   showEndPopup = false
+  btnText = ''
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
     private router: Router, private authSvc: AuthKeycloakService) { }
@@ -108,6 +109,8 @@ export class OrgComponent implements OnInit, OnDestroy {
     this.orgService.getDatabyOrgId(req).subscribe(data => {
       this.courseData = data
     })
+    this.authSvc.isAuthenticated ? this.btnText = 'View Course' : this.btnText = 'Login'
+
   }
 
   gotoOverview(identifier: any) {
