@@ -3,7 +3,6 @@ import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
-
 @Component({
   selector: 'ws-app-org',
   templateUrl: './org.component.html',
@@ -19,10 +18,13 @@ export class OrgComponent implements OnInit {
   showEndPopup = false
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router, private authSvc: AuthKeycloakService) { }
+    private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
+    if (this.orgName === 'Maternity Foundation') {
+      this.orgService.hideHeaderFooter.next(true)
+    }
     this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
       const currentOrg = this.orgName
       if (response.orgData) {

@@ -125,7 +125,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         setTimeout(() => {
           this.router.navigate([this.error.probableUrl])
           // tslint:disable-next-line: align
-        }, 6000)
+        }, 3000)
       }
       if (this.error && this.error.errorType === this.errorType.previewUnAuthorised) {
       }

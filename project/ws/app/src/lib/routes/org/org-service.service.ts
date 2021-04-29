@@ -1,7 +1,7 @@
 import { map, catchError } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, of } from 'rxjs'
+import { Observable, of, BehaviorSubject } from 'rxjs'
 import { environment } from './../../../../../../../src/environments/environment'
 
 let instanceConfigPath: string | null = window.location.host
@@ -18,6 +18,7 @@ if (!environment.production && Boolean(environment.sitePath)) {
   providedIn: 'root',
 })
 export class OrgServiceService {
+  hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
     ':',
     '_',

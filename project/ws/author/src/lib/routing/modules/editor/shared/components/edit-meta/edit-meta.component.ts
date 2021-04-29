@@ -610,7 +610,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
             JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
             JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile'
           ) {
-            if ((this.authInitService.authConfig[v as keyof IFormMeta]) !== undefined) {
+            if (v === 'sourceShortName' || (this.authInitService.authConfig[v as keyof IFormMeta]) !== undefined) {
 
               if (
                 currentMeta[v as keyof NSContent.IContentMeta] ||
@@ -634,6 +634,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.stage >= 1 && !this.type) {
           delete meta.artifactUrl
         }
+        console.log('meta', meta)
         this.contentService.setUpdatedMeta(meta, this.contentMeta.identifier)
 
       }
