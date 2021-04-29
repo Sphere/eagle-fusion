@@ -19,11 +19,11 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-    private router: Router, private authSvc: AuthKeycloakService) { }
+              private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
-    if (this.orgName === 'Maternity Foundation') {
+    if (this.orgName === 'Indian Nursing Council') {
       this.orgService.hideHeaderFooter.next(true)
     }
     this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
