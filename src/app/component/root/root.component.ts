@@ -56,7 +56,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   appStartRaised = false
   isSetupPage = false
   showNavigation = true
-  hideHeaderFooter: boolean = false
+  hideHeaderFooter = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
