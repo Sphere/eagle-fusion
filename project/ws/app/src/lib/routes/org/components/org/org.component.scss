@@ -238,6 +238,16 @@ mat-card.card-standard-container.mr-8 .mat-card {
   display: flex !important;
 }
 
+.mf-logo {
+  max-width: 75%;
+}
+.popover-card {
+  min-width: 350px;
+  max-width: 350px;
+  max-height: 500px;
+  box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
+  background-color: #fff;
+}
 @media (max-width: 500px) {
   .support-txt,
   .flex-main {
