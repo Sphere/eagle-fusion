@@ -1,6 +1,6 @@
 import { AuthKeycloakService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
 @Component({
@@ -8,7 +8,7 @@ import { MdePopoverTrigger } from '@material-extended/mde'
   templateUrl: './org.component.html',
   styleUrls: ['./org.component.scss'],
 })
-export class OrgComponent implements OnInit {
+export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
   orgName: any
   courseData!: any
@@ -136,5 +136,8 @@ export class OrgComponent implements OnInit {
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
     const url = `/app/toc/${contentId}/overview`
     this.authSvc.login(key, url)
+  }
+  ngOnDestroy() {
+    this.orgService.hideHeaderFooter.next(false)
   }
 }
