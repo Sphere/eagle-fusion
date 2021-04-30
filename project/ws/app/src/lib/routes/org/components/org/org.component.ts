@@ -19,7 +19,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router, private authSvc: AuthKeycloakService) { }
+    private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -137,8 +137,12 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
   }
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
-    const url = `/app/toc/${contentId}/overview`
-    this.authSvc.login(key, url)
+    if (this.authSvc.isAuthenticated) {
+      this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
+    } else {
+      const url = `/app/toc/${contentId}/overview`
+      this.authSvc.login(key, url)
+    }
   }
   ngOnDestroy() {
     this.orgService.hideHeaderFooter.next(false)
