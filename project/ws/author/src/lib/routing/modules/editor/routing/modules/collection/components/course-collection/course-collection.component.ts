@@ -76,6 +76,7 @@ export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestr
   treeControl!: FlatTreeControl<IContentTreeNode>
   triggerQuizSave = false
   triggerUploadSave = false
+  courseId = ''
 
   constructor(
     private contentService: EditorContentService,
@@ -106,6 +107,7 @@ export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit() {
     this.routerValuesCall()
+    this.courseId = this.storeService.parentNode[0]
     this.parentNodeId = this.storeService.currentParentNode
     // this.expandNodesById([this.parentNodeId])
     this.createTopicForm = this.fb.group({
@@ -576,8 +578,10 @@ export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestr
         this.mimeTypeRoute = VIEWER_ROUTE_FROM_MIME(
           this.contentService.getUpdatedMeta(id).mimeType as any,
         )
+
         this.loaderService.changeLoad.next(false)
-        this.previewIdentifier = id
+        const url = `author/viewer/${this.mimeTypeRoute}/${id}?collectionId=${this.courseId}&collectionType=Course`
+        this.router.navigateByUrl(url)
       },
       error => {
         if (error.status === 409) {
