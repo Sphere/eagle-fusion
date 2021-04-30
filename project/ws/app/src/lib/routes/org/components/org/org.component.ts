@@ -23,7 +23,7 @@ export class OrgComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
-    if (this.orgName === 'Maternity Foundation') {
+    if (this.orgName === 'Indian Nursing Council') {
       this.orgService.hideHeaderFooter.next(true)
     }
     this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
@@ -110,6 +110,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.courseData = data
     })
     this.authSvc.isAuthenticated ? this.btnText = 'View Course' : this.btnText = 'Login'
+
 
   }
 
