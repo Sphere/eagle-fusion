@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
@@ -48,9 +48,12 @@ interface ICollectionCard {
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
 })
-export class ViewerTocComponent implements OnInit, OnDestroy {
+export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
+  @ViewChild('highlightItem', { static: false }) highlightItem!: ElementRef<any>
+  @ViewChild('outer', { static: false }) outer!: ElementRef<any>
+  @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
   searchCourseQuery = ''
   hideSideNav = false
 
@@ -125,6 +128,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         }
       }
       if (this.resourceId) {
+        this.checkIndexOfResource()
         this.processCurrentResourceChange()
       }
     })
@@ -132,8 +136,38 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
         this.processCurrentResourceChange()
+        this.checkIndexOfResource()
       }
     })
+  }
+
+  checkIndexOfResource() {
+    if (this.collection) {
+      let index = this.queue.findIndex(x => x.identifier === this.resourceId)
+      this.scrollToUserView(index)
+    }
+  }
+
+  scrollToUserView(index: number) {
+    setTimeout(() => {
+      if (index > 3 && this.highlightItem.nativeElement.offsetTop > 380) {
+        let scrollamount = 0
+        if (this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.scrollTop > 960) {
+          scrollamount = this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.scrollTop
+        } else
+          scrollamount = index * 50
+        this.outer.nativeElement.scrollTop = scrollamount
+        this.highlightItem.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+
+        this.ulTree.nativeElement.scrollTop = this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.clientHeight
+      }
+    }, 3000)
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.checkIndexOfResource()
+    }, 3000)
   }
 
   // updateSearchModel(value) {
