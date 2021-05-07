@@ -318,9 +318,24 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
     if (this.route) {
       this.routeSubscription = this.route.data.subscribe((data: Data) => {
+
         // adding mock data
-        data.content.error = null
-        data.content.data = this.courseMockData.result.content
+        // data.content.error = null
+        // data.content.data = this.courseMockData.result.content
+
+
+        // CHecking for JSON DATA
+        if (this.checkJson(data.content.data.creatorContacts)) {
+          data.content.data.creatorContacts = JSON.parse(data.content.data.creatorContacts)
+        }
+
+        if (this.checkJson(data.content.data.creatorDetails)) {
+          data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
+        }
+
+        if (this.checkJson(data.content.data.reviewer)) {
+          data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
+        }
 
         this.banners = data.pageData.data.banners
         this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
@@ -336,6 +351,16 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     })
   }
 
+
+  checkJson(str: any) {
+    try {
+      JSON.parse(str)
+    } catch (e) {
+      return false
+    }
+    return true
+  }
+
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe()
@@ -346,6 +371,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     const initData = this.tocSvc.initData(data)
     this.content = initData.content
     this.errorCode = initData.errorCode
+
     switch (this.errorCode) {
       case NsAppToc.EWsTocErrorCode.API_FAILURE: {
         this.errorWidgetData.widgetData.errorType = ErrorType.internalServer

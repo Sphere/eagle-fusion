@@ -74,6 +74,8 @@ export class AppTocResolverService
       ).pipe(
         map(data => ({ data, error: null })),
         tap(resolveData => {
+          // content data modified
+          resolveData.data = resolveData.data.result.content
           let currentRoute: string[] | string = window.location.href.split('/')
           currentRoute = currentRoute[currentRoute.length - 1]
           if (forPreview && currentRoute !== 'contents' && currentRoute !== 'overview') {

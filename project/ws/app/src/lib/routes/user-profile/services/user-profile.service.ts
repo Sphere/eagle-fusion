@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { IUserProfileDetails,
+import {
+  IUserProfileDetails,
   ILanguagesApiData,
   INationalityApiData,
   IUserProfileDetailsFromRegistry,
@@ -10,7 +11,8 @@ import { IUserProfileDetails,
 
 const API_ENDPOINTS = {
   updateProfileDetails: '/apis/protected/v8/user/profileDetails/createUserRegistry',
-  getUserdetailsFromRegistry: '/apis/protected/v8/user/profileDetails/getUserRegistry',
+  // getUserdetailsFromRegistry: '/apis/protected/v8/user/profileDetails/getUserRegistry',
+  getUserdetailsFromRegistry: '/apis/protected/v8/user/profileRegistry/getUserRegistryById',
   getUserdetails: '/apis/protected/v8/user/details/detailV1',
   getMasterNationlity: '/apis/protected/v8/user/profileDetails/getMasterNationalities',
   getMasterLanguages: '/apis/protected/v8/user/profileDetails/getMasterLanguages',

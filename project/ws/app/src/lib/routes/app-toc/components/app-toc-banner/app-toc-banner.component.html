@@ -1,7 +1,5 @@
 <div [ngStyle]="{'background-color': ((content?.posterImage || '').length === 7? content?.posterImage : '#F8AD1E')}">
 
-
-
   <div class="header-synopsis fixed-width" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
 
 
@@ -19,7 +17,6 @@
 
 
     <div class="flex flex-row">
-
 
       <div class="flex-auto">
         <!-- <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content"> -->
@@ -51,13 +48,13 @@
           <div class="sm:ml-5 flex flex-col flex-auto">
             <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
 
-              <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
+              <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
                 *ngSwitchCase="'overview'">
                 <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
-                  {{ content?.subTitle | pipeLimitTo: 250 }}
+                  {{ content?.purpose | pipeLimitTo: 250 }}
                 </h2>
                 <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
-                  {{ content?.description | pipeLimitTo: 450 }}
+                  {{ content?.purpose | pipeLimitTo: 450 }}
                 </h3>
                 <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
                   [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
@@ -101,7 +98,7 @@
                 ( {{ 0 | pipeCountTransform }} )</span>
             </div>
 
-            <div class="header-actions mt-8 mb-4" [hidden]="isResource">
+            <div class="header-actions mt-8 mb-4">
               <a [color]="'primary'" class="margin-right-m resumeButton" mat-flat-button>
                 Create Batch
               </a>
@@ -189,15 +186,8 @@
 
   </div>
 
-
-
-
-
-
-
-
-
 </div>
+
 
 <mat-menu #actionMenu="matMenu">
   <div mat-menu-item>
