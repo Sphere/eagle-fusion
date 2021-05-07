@@ -143,7 +143,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkIndexOfResource() {
     if (this.collection) {
-      let index = this.queue.findIndex(x => x.identifier === this.resourceId)
+      const index = this.queue.findIndex(x => x.identifier === this.resourceId)
       this.scrollToUserView(index)
     }
   }
@@ -154,20 +154,21 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         let scrollamount = 0
         if (this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.scrollTop > 960) {
           scrollamount = this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.scrollTop
-        } else
+        } else {
           scrollamount = index * 50
+        }
         this.outer.nativeElement.scrollTop = scrollamount
         this.highlightItem.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
 
         this.ulTree.nativeElement.scrollTop = this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.clientHeight
       }
-    }, 3000)
+    },         3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 3000)
+    },         3000)
   }
 
   // updateSearchModel(value) {
