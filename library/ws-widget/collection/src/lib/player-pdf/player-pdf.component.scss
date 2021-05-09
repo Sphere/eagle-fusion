@@ -15,7 +15,7 @@
   // width: calc(100% - 80px);
   flex: 1;
   text-align: center;
-  overflow: auto;
+  overflow: hidden;
   margin: auto;
 }
 
@@ -27,7 +27,7 @@
   // height: 100%;
   width: 100%;
   min-height: 75vh;
-  max-height: 75vh;
+  // max-height: 75vh;
   display: flex;
   flex-direction: column;
 }

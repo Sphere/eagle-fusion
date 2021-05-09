@@ -29,6 +29,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { HeaderServiceService } from './../../../../../../../../../../../../../src/app/services/header-service.service'
 import { RootService } from 'src/app/component/root/root.service'
 import { FlatTreeControl } from '@angular/cdk/tree'
+declare var $: any
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -148,6 +149,10 @@ export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   loadCourseSettings() {
+    if ($('.toc-root > mat-tree > mat-tree-node')) {
+      $('.toc-root > mat-tree > mat-tree-node').removeClass('selected')
+      $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').addClass('selected')
+    }
     this.subAction({ type: 'editContent', identifier: this.storeService.parentNode[0], nodeClicked: true })
   }
   routerValuesCall() {

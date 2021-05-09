@@ -917,7 +917,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.navigatedFromProfile) {
           this.router.navigate(['page', 'home'])
         } else {
-          this.router.navigate(['app', 'profile', 'dashboard'])
+          const selectedCourse = localStorage.getItem('selectedCourse')
+          if (selectedCourse) {
+            this.router.navigateByUrl(selectedCourse)
+          } else {
+            this.router.navigate(['app', 'profile', 'dashboard'])
+          }
         }
 
       },

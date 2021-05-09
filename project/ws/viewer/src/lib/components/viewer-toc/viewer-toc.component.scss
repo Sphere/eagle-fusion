@@ -4,7 +4,7 @@
   line-height: 22px;
 }
 ::ng-deep .theme-igot.day-mode .mat-tree {
-    background: #f8f8f8 !important;
+  background: #f8f8f8 !important;
 }
 
 .treemode-slider {
@@ -25,9 +25,16 @@
 .toc-tree-invisible {
   display: none;
 }
-
+.outer-ul {
+  overflow-y: auto;
+  max-height: 78vh;
+}
 .toc-tree {
   padding-inline-start: 0px;
+  // max-height: 100vh;
+  // height: 113vh;
+  min-height: 100%;
+  overflow-y: scroll;
 
   ul,
   li {
@@ -37,18 +44,19 @@
   }
 }
 li.li-active > div.mat-tree-node {
-    background-color: #e5e5e5;
+  background-color: #e5e5e5;
 }
-.li-active ul{
-    background: #e5e5e5;
-    padding-left: 2em;
-    margin-left: 0;
+.li-active ul {
+  background: #e5e5e5;
+  padding-left: 2em;
+  margin-left: 0;
 }
- span.content-active {
+span.content-active {
   // font-size: 1.02rem;
   font-weight: 500;
 }
-.content-active > span , .content-active h3 {
+.content-active > span,
+.content-active h3 {
   font-weight: normal;
   font-size: 1rem;
 }

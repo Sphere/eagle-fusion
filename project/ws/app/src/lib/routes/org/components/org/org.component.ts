@@ -117,7 +117,9 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (this.authSvc.isAuthenticated) {
       this.router.navigate([`/app/toc/${identifier}/overview`])
     } else {
-      this.authSvc.login('S', `${document.baseURI}/app/toc/${identifier}/overview`)
+      const url = `/app/toc/${identifier}/overview`
+      localStorage.setItem('selectedCourse', url)
+      this.authSvc.login('S', url)
     }
   }
 
@@ -141,6 +143,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
     } else {
       const url = `/app/toc/${contentId}/overview`
+      localStorage.setItem('selectedCourse', url)
       this.authSvc.login(key, url)
     }
   }

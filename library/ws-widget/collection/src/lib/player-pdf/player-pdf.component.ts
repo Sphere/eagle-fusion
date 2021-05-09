@@ -100,14 +100,14 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     this.currentPage.disable()
     this.valueSvc.isLtMedium$.subscribe(ltMedium => {
       if (ltMedium) {
-        this.zoom.setValue(0.5)
+        this.zoom.setValue(1)
       }
     })
 
     // for size more than 600px
     this.valueSvc.isSize$.subscribe(isSize => {
       if (isSize) {
-        this.zoom.setValue(0.5)
+        this.zoom.setValue(1)
       }
     })
 
@@ -292,20 +292,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     if (!this.pdfContainer || this.pdfInstance === null) {
       return false
     }
+    let viewport
     this.pdfContainer.nativeElement.innerHTML = ''
     const page = await this.pdfInstance.getPage(this.currentPage.value)
-    // if (this.zoom.pristine) {
-    //   const viewportWithNoScale = page.getViewport({ scale: this.DEFAULT_SCALE })
-    //   const zoom = this.containerSection.nativeElement.clientWidth / (viewportWithNoScale.width)
-    //   if (this.zoom.value !== Math.min(2, Math.floor(zoom * 100) / 100)) {
-    //     this.zoom.setValue(Math.min(2, Math.floor(zoom * 100) / 100))
-    //   }
-    // }
+    if (this.zoom.pristine) {
+      viewport = page.getViewport({ scale: this.DEFAULT_SCALE })
+      // const zoom = this.containerSection.nativeElement.clientWidth / (viewportWithNoScale.width)
+      // if (this.zoom.value !== Math.min(2, Math.floor(zoom * 100) / 100)) {
+      //   this.zoom.setValue(Math.min(2, Math.floor(zoom * 100) / 100))
+      // }
+    }
+
     const pageNumStr = this.currentPage.value.toString()
     if (!this.current.includes(pageNumStr)) {
       this.current.push(pageNumStr)
     }
-    const viewport = page.getViewport({ scale: 1 })
+
+    viewport = page.getViewport({ scale: this.zoom.value })
     this.pdfContainer.nativeElement.width = viewport.width
     this.pdfContainer.nativeElement.height = viewport.height
     this.lastRenderTask = new pdfjsViewer.PDFPageView({

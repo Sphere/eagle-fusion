@@ -7,7 +7,7 @@
       </button>
     </div>
   </ng-container>
-  <div *ngIf="drawer" class="transitionD">
+  <div *ngIf="drawer" class="transitionD toc-root">
 
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList cdkDropListSortingDisabled
       (cdkDropListDropped)="drop()" class="px-2">
