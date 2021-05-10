@@ -251,10 +251,30 @@ mat-card.card-standard-container.mr-8 .mat-card {
   box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
 }
+
+
+.photo {
+  position: relative;
+  animation: round 16s infinite;
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+.support-txt {
+vertical-align: baseline;
+  }
+
+.about-text  {
+  font-size:18px;
+}
 @media (max-width: 500px) {
-  .support-txt,
+
   .flex-main {
     display: block !important;
+
+  }
+  .support-txt {
+vertical-align: baseline;
   }
   .mf-logo,
   .inc-logo {
@@ -271,4 +291,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
     margin-left: 10px;
     margin-right: 10px;
   }
+
+
+
 }
