@@ -1,8 +1,9 @@
 <div id="navy-blue-bg" [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
   <div class="px-4 sm:px-40 md:px-10ss my-5 mb-5 flex flex-middle"
     *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
-    <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo" /> <span class="ml-5 mylearning">My
-      learning</span>
+    <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
+      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">SAFE
+      DELIVERY</span>
   </div>
 </div>
 <div class=" profile-container px-4 sm:px-48 md:px-10ss py-0 my-0 mt-12">
@@ -42,26 +43,52 @@
     <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
       About</span>
   </div>
+  <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+    <div class="flex">
+      <div class="flex-1 justify-between about-text">
+        <div class="mt-3 mb-3 " [innerHTML]="currentOrgData?.about">
+        </div>
+
+        <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.Purposes">
+        </div>
+        <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.Audience">
+        </div>
+
+      </div>
+      <div class="flex-1">
+        <div>
+          <img class='photo' src="/fusion-assets/images/inc2.jpg" alt="Image 1" />
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<div *ngIf="currentOrgData?.sourceName != 'Indian Nursing Council'">
+  <div class="flex flex-middle border-bottom">
+    <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
+      About</span>
+  </div>
   <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.about">
   </div>
-
-  <ng-container *ngIf="currentOrgData?.Purposes">
+</div>
+  <!-- <ng-container *ngIf="currentOrgData?.Purposes">
     <div class="flex flex-middle border-bottom">
       <span class="font-bold heading-title margin-zero  pb-0" i18n="Purposes">
         Purposes</span>
     </div>
     <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.Purposes">
     </div>
-  </ng-container>
+  </ng-container> -->
 
-  <ng-container *ngIf="currentOrgData?.Audience">
+  <!-- <ng-container *ngIf="currentOrgData?.Audience">
     <div class="flex flex-middle border-bottom">
       <span class="font-bold heading-title margin-zero  pb-0" i18n="Audience">
         Audience</span>
     </div>
     <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.Audience">
     </div>
-  </ng-container>
+  </ng-container> -->
 
   <div class="w-100">
     <div class="flex flex-middle border-bottom">
@@ -201,8 +228,8 @@
 <div class="flex flex-end mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
   <div class="align-logo flex-center">
     <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
-      class="mt-5 mf-logo" />
-      <!-- <div class="support-txt">Platform powered by</div><img src="/assets/instances/eagle/app_logos/aastar-logo.svg"
-        class="mt-5 footer-aastrika-logo" /> -->
+      class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
+    <div class="support-txt ml-10">Platform powered by</div><img src="/assets/instances/eagle/app_logos/aastar-logo.svg"
+      class="mt-5 ml-5 footer-aastrika-logo" (click)="goToLink('https://aastrika.org')" />
   </div>
 </div>

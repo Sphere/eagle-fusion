@@ -150,4 +150,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.orgService.hideHeaderFooter.next(false)
   }
+  goToLink(a: string) {
+    window.open(a, '_blank')
+  }
 }
