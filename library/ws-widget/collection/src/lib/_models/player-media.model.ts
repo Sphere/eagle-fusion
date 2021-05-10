@@ -1,8 +1,8 @@
 export interface IWidgetsPlayerMediaData {
   subtitles?: {
-    srclang: string;
-    label: string;
-    url: string;
+    srclang: string
+    label: string
+    url: string
   }[]
   identifier?: string
   url?: string
@@ -11,6 +11,7 @@ export interface IWidgetsPlayerMediaData {
   resumePoint?: number
   passThroughData?: any
   posterImage?: string
+  primaryCategory?: string,
   setCookie?: boolean
   disableTelemetry?: boolean
   isVideojs?: boolean

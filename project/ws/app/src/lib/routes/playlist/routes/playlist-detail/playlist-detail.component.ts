@@ -237,10 +237,12 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               firstPlayableContent.mimeType,
               playlist.id,
               'Playlist',
+              undefined,
+              firstPlayableContent.primaryCategory
             )
           }
         })
-      },                                                         _err => {
+      }, _err => {
         this.contentSvc.fetchContent(playlist.contents[0].identifier).subscribe(response => {
           if (response) {
             const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(response)
@@ -249,6 +251,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               firstPlayableContent.mimeType,
               playlist.id,
               'Playlist',
+              undefined,
+              firstPlayableContent.primaryCategory
             )
           }
         })

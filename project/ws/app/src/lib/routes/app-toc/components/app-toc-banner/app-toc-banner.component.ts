@@ -213,6 +213,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         this.isResource ? undefined : this.content.identifier,
         this.isResource ? undefined : this.content.contentType,
         this.forPreview,
+        this.content.primaryCategory,
       )
     }
   }
@@ -319,7 +320,10 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         this.isResource ? undefined : this.content.identifier,
         this.isResource ? undefined : this.content.contentType,
         this.forPreview,
+        this.content.primaryCategory,
       )
+
+      console.log('this.firstResourceLink  === ', this.firstResourceLink)
     }
   }
   private assignPathAndUpdateBanner(url: string) {

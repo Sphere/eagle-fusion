@@ -47,12 +47,39 @@ export const VIEWER_ROUTE_FROM_MIME = (mimeType: NsContent.EMimeTypes) => {
   }
 }
 
+// export function viewerRouteGenerator(
+//   id: string,
+//   mimeType: NsContent.EMimeTypes,
+//   collectionId?: string,
+//   collectionType?: string,
+//   forPreview = false,
+// ): { url: string; queryParams: { [key: string]: any } } {
+//   let collId = collectionId
+//   let collType = collectionType
+//   if (collType && !NsContent.PLAYER_SUPPORTED_COLLECTION_TYPES.includes(collType)) {
+//     collId = undefined
+//     collType = undefined
+//   }
+//   const url = `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(mimeType)}/${id}`
+//   let queryParams = {}
+//   if (collectionId && collectionType) {
+//     queryParams = { collectionId: collId, collectionType: collType }
+//   }
+//   return {
+//     queryParams,
+//     url,
+//   }
+// }
+
+
 export function viewerRouteGenerator(
   id: string,
   mimeType: NsContent.EMimeTypes,
   collectionId?: string,
   collectionType?: string,
   forPreview = false,
+  primaryCategory?: string,
+  batchId?: string,
 ): { url: string; queryParams: { [key: string]: any } } {
   let collId = collectionId
   let collType = collectionType
@@ -62,8 +89,16 @@ export function viewerRouteGenerator(
   }
   const url = `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(mimeType)}/${id}`
   let queryParams = {}
+  if (primaryCategory) {
+    queryParams = {
+      primaryCategory,
+    }
+  }
   if (collectionId && collectionType) {
-    queryParams = { collectionId: collId, collectionType: collType }
+    queryParams = { ...queryParams, collectionId: collId, collectionType: collType }
+  }
+  if (batchId) {
+    queryParams = { ...queryParams, batchId }
   }
   return {
     queryParams,

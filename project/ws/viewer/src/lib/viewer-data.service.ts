@@ -31,6 +31,7 @@ export type TStatus = 'pending' | 'done' | 'error' | 'none'
 export class ViewerDataService {
   resourceId: string | null = null
   resource: NsContent.IContent | null = null
+  primaryCategory: string | null = null
   error: any
   status: TStatus = 'none'
   resourceChangedSubject = new Subject<string>()
@@ -44,11 +45,12 @@ export class ViewerDataService {
 
   constructor() { }
 
-  reset(resourceId: string | null = null, status: TStatus = 'none') {
+  reset(resourceId: string | null = null, status: TStatus = 'none', primaryCategory?: string) {
     this.resourceId = resourceId
     this.resource = null
     this.error = null
     this.status = status
+    this.primaryCategory = primaryCategory || ''
     this.changedSubject.next()
   }
   updateResource(resource: NsContent.IContent | null = null, error: any | null = null) {
@@ -56,6 +58,7 @@ export class ViewerDataService {
       this.resource = resource
       if (resource && resource.identifier) {
         this.resourceId = resource.identifier
+        this.primaryCategory = resource.primaryCategory
       }
       this.error = null
       this.status = 'done'
@@ -67,7 +70,7 @@ export class ViewerDataService {
     this.changedSubject.next()
   }
   updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null }:
-     { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null }) {
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null }) {
     this.tocChangeSubject.next(
       {
         tocAvailable: isValid,
