@@ -145,7 +145,8 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
               this.authSvc.login('S', url)
             },         5000)
           }
-        },err => {
+        },
+        err => {
           const errorMsg = err.error.error ? err.error.error : err
           this.openSnackbar(errorMsg)
           form.reset()
