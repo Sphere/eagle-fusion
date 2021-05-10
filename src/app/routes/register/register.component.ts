@@ -135,13 +135,20 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
             form.reset()
             this.uploadSaveData = false
             this.openSnackbar(this.toastSuccess.nativeElement.value)
+            let url = ''
             setTimeout(() => {
-              this.authSvc.login('S', document.baseURI)
+              if (localStorage.getItem('selectedCourse')) {
+                url = document.baseURI + localStorage.getItem('selectedCourse')
+              } else {
+                url = document.baseURI
+              }
+              this.authSvc.login('S', url)
             },         5000)
           }
-        },
-        (err: { error: { error: string } }) => {
-          this.openSnackbar(err.error.error)
+        },err => {
+          const errorMsg = err.error.error ? err.error.error : err
+          this.openSnackbar(errorMsg)
+          form.reset()
           this.uploadSaveData = false
           setTimeout(() => {
             this.emailForm.reset()
@@ -176,9 +183,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           // form.reset()
         }
       )
-
     }
-
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {

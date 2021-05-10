@@ -608,9 +608,9 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         Object.keys(currentMeta).map(v => {
           if (
             JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
-            JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile'
+            JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile' && v !== 'sourceShortName'
           ) {
-            if (v === 'sourceShortName' || (this.authInitService.authConfig[v as keyof IFormMeta]) !== undefined) {
+            if ((this.authInitService.authConfig[v as keyof IFormMeta]) !== undefined) {
 
               if (
                 currentMeta[v as keyof NSContent.IContentMeta] ||

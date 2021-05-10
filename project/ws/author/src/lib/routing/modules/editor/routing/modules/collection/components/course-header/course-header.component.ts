@@ -5,6 +5,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 import { HeaderServiceService } from './../../../../../../../../../../../../../src/app/services/header-service.service'
 import { IActionButtonConfig, IActionButton } from '@ws/author/src/lib/interface/action-button'
 import { CollectionStoreService } from '../../services/store.service'
+declare var $: any
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -24,14 +25,14 @@ export class CourseHeaderComponent implements OnInit {
   constructor(private configSvc: ConfigurationsService, private domSanitizer: DomSanitizer,
               private headerService: HeaderServiceService,
               private store: CollectionStoreService) {
-                this.headerService.showCourseHeader.subscribe(data => {
-                  this.courseNameHeader = data
-                })
-   }
+    this.headerService.showCourseHeader.subscribe(data => {
+      this.courseNameHeader = data
+    })
+  }
 
   ngOnInit() {
     if (this.configSvc.instanceConfig) {
-       this.domSanitizer.bypassSecurityTrustResourceUrl(
+      this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.appIcon = this.configSvc.instanceConfig.logos.app,
       )
     }
@@ -45,6 +46,11 @@ export class CourseHeaderComponent implements OnInit {
     }
   }
   showCourseSettings() {
-   this.subAction.emit({ type: 'editContent', identifier: this.store.parentNode[0], nodeClicked: true })
+    if ($('.toc-root > mat-tree > mat-tree-node')) {
+      $('.toc-root  > mat-tree > mat-tree-node').removeClass('selected')
+      $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').addClass('selected')
+    }
+    this.subAction.emit({ type: 'editContent', identifier: this.store.parentNode[0], nodeClicked: true })
+
   }
 }

@@ -11,9 +11,9 @@
 
 .padding-dynamic {
   .mat-card {
-     @include breakpoint-xs {
-        padding: 0
-     }
+    @include breakpoint-xs {
+      padding: 0;
+    }
   }
   padding: $size-xs;
   padding-top: $size-m;
@@ -77,14 +77,14 @@
 }
 
 .prev-button .title {
-    margin-left: 0px !important;
+  margin-left: 0px !important;
 }
 
 .next-button .title {
   margin-right: 0px;
 }
 .player-nav-links {
-    top: 75%;
+  top: 50%;
 }
 .video-player-m {
   position: fixed;
@@ -137,32 +137,32 @@
 .next-button .width-auto {
   top: -7px;
   right: 0;
-   @include breakpoint-xs {
-   right:0px;
+  @include breakpoint-xs {
+    right: 0px;
   }
 }
 .prev-button .width-auto {
   top: -7px;
   left: 0;
   @include breakpoint-xs {
-   left:0px;
+    left: 0px;
   }
 }
 
 .prev-button .title {
-   @include breakpoint-xs {
+  @include breakpoint-xs {
     margin-left: -1px !important;
-   }
+  }
 }
 .next-button .title {
-   @include breakpoint-xs {
+  @include breakpoint-xs {
     margin-right: -1px !important;
-   }
+  }
 }
 
 .padding-dynamic .mat-card {
-    padding-right: 0;
-    padding-left: 0;
+  padding-right: 0;
+  padding-left: 0;
 }
 
 // @media (min-width: 961px) {

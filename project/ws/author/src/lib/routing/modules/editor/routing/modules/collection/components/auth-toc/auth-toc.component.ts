@@ -140,9 +140,9 @@ export class AuthTocComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if ($('#cdk-drop-list-0 > mat-tree-node').hasClass('selected') === false) {
-      $('#cdk-drop-list-0 > mat-tree-node:nth-child(2)').trigger('click')
-      $('#cdk-drop-list-0 > mat-tree-node:nth-child(2)').find('button.mat-icon-button').trigger('click')
+    if ($('.toc-root > mat-tree > mat-tree-node').hasClass('selected') === false) {
+      // $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').trigger('click')
+      // $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').find('button.mat-icon-button').trigger('click')
     }
   }
   ngOnDestroy() {
@@ -150,8 +150,8 @@ export class AuthTocComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNodeSelect(node: IContentTreeNode) {
-    if ($('#cdk-drop-list-0 > mat-tree-node').hasClass('selected')) {
-      $('#cdk-drop-list-0 > mat-tree-node:nth-child(2)').removeClass('selected')
+    if ($('.toc-root > mat-tree > mat-tree-node').hasClass('selected')) {
+      $('.toc-root > mat-tree > mat-tree-node').removeClass('selected')
     }
 
     if (node.id !== this.selectedNode) {
