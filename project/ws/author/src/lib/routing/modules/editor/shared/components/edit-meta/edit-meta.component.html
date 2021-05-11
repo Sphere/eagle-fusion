@@ -606,6 +606,44 @@
             </div>
           </div>
           <!--Show in popup-->
+
+          <!--Publisher details starts-->
+          <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('creatorDetails', 'show')"
+            [ngClass]="{ disable: checkCondition('creatorDetails', 'disabled') }">
+            <label>
+              <div class="margin-top-xs">
+                <b i18n>Publishers</b>
+              </div>
+            </label>
+            <div class="margin-top-xs">
+              <mat-form-field appearance="outline" class="margin-top-xs" class="margin-top-xs"
+                [ngClass]="{ 'mat-form-field-invalid': showError('creatorDetails') }">
+                <mat-chip-list #publisherDetailsChipList aria-label="Publisher selection">
+                  <mat-chip *ngFor="let publisher of contentForm.controls.publisherDetails.value"
+                    [selectable]="selectable" [removable]="removable" (removed)="removePublisherDetails(publisher)">
+                    {{ publisher.name }}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input i18n-placeholder placeholder="Enter name" #publisherDetailsView
+                    [formControl]="publisherDetailsCtrl" [matChipInputFor]="publisherDetailsChipList"
+                    [matAutocomplete]="originalPublishersAuto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addPublisherDetails($event)" />
+                </mat-chip-list>
+                <mat-autocomplete #originalPublishersAuto="matAutocomplete"
+                  (optionSelected)="addEmployee($event, 'publisherDetails')">
+                  <mat-option *ngIf="fetchTagsStatus === 'fetching'" i18n>Fetching users...</mat-option>
+                  <mat-option *ngIf="fetchTagsStatus === 'done' && !employeeList.length" i18n>
+                    No user found. Please check the value entered.</mat-option>
+                  <mat-option *ngFor="let publisher of employeeList" [value]="publisher">
+                    {{ publisher.displayName }} | {{ publisher.mail }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- <mat-error class="error-font" *ngIf="showError('creatorDetails')" i18n>Original publisher is mandatory
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <!--Publisher details ends-->
         </div>
       </div>
     </div>
@@ -842,6 +880,26 @@
       </div>
 
       <div class="margin-top-xl ">
+
+        <div class="">
+          <div class="margin-top-xs margin-left-xl flex-1">
+            <label>
+              <b i18n>License Type</b>
+            </label>
+            <div class="margin-top-l">
+              <mat-form-field appearance="outline" class="margin-top-s">
+                <!-- [ngClass]="{ 'mat-form-field-invalid': showError('sourceName') }" -->
+                <mat-select formControlName="learningObjective" i18n-placeholder placeholder="--Select--">
+                  <!-- <mat-option *ngIf="!checkCondition('sourceName', 'required')" i18n [value]="null">None</mat-option> -->
+                  <mat-option *ngFor="let learningObjective of licenseTypes" [value]="learningObjective">
+                    {{ learningObjective }}</mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="showError('sourceName')" i18n>Source is mandatory </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
         <p class="mat-h5 margin-top-s margin-left-xl flex-1" *ngIf="checkCondition('contentType', 'show')">
           * Provide meta details. Depending on the content type, some properties are enabled or
           disabled.
