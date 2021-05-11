@@ -71,8 +71,24 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   getContentData(e: any) {
     e.activatedRoute.data.subscribe((data: { content: { data: NsContent.IContent } }) => {
       if (data.content && data.content.data) {
-        this.content = data.content.data
 
+        // CHecking for JSON DATA
+        // if (this.checkJson(data.content.data.creatorContacts)) {
+        //   /* tslint:disable */
+        //   data.content.data.creatorContacts = JSON.parse(data.content.data.creatorContacts)
+        // }
+
+        // if (this.checkJson(data.content.data.creatorDetails)) {
+        //   /* tslint:disable */
+        //   data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
+        // }
+
+        if (this.checkJson(data.content.data.reviewer)) {
+          data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
+        }
+
+
+        this.content = data.content.data
         this.formDiscussionForumWidget(this.content)
         // if (this.discussionForumWidget) {
         //   this.discussionForumWidget.widgetData.isDisabled = true
@@ -80,6 +96,16 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       }
     })
+  }
+
+
+  checkJson(str: any) {
+    try {
+      JSON.parse(str)
+    } catch (e) {
+      return false
+    }
+    return true
   }
 
   ngOnInit() {
