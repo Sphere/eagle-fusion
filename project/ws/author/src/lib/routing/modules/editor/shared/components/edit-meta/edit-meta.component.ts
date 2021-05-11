@@ -118,6 +118,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   filteredOptions$: Observable<string[]> = of([])
   saveParent: any
 
+  licenseTypes = ['CC BY', 'CC BY-SA', 'CC BY-ND', 'CC BY-NC', 'CC BY-NC-SA', 'CC BY-NC-ND']
   constructor(
     private formBuilder: FormBuilder,
     private uploadService: UploadService,
@@ -421,6 +422,9 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       this.createForm()
     }
     this.canUpdate = false
+    if (this.contentMeta['learningObjective'] === '') {
+      this.contentMeta['learningObjective'] = 'CC BY'
+    }
     Object.keys(this.contentForm.controls).map(v => {
       try {
         if (
@@ -552,7 +556,9 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
           currentMeta.thumbnail = originalMeta.thumbnail
         }
         // currentMeta.resourceType=currentMeta.categoryType;
-
+        // if (currentMeta.learningObjective) {
+        //   console.log('currentMeta.learningObjective', currentMeta.learningObjective)
+        // }
         if (currentMeta.status === 'Draft') {
           const parentData = this.contentService.parentUpdatedMeta()
 
@@ -594,7 +600,6 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         // if(currentMeta.resourceType && !currentMeta.categoryType){
         //   currentMeta.categoryType = currentMeta.resourceType
         // }
-
         const meta = <any>{}
         if (this.canExpiry) {
           currentMeta.expiryDate = `${
@@ -629,11 +634,15 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
                 )
               }
             }
+            if (v === 'learningObjective') {
+              meta['learningObjective'] = currentMeta[v]
+            }
           }
         })
         if (this.stage >= 1 && !this.type) {
           delete meta.artifactUrl
         }
+        // console.log('updated meta', meta)
         this.contentService.setUpdatedMeta(meta, this.contentMeta.identifier)
 
       }
@@ -727,6 +736,29 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     this.contentForm.controls.creatorDetails.value.splice(index, 1)
     this.contentForm.controls.creatorDetails.setValue(
       this.contentForm.controls.creatorDetails.value,
+    )
+  }
+
+  addPublisherDetails(event: MatChipInputEvent): void {
+    const input = event.input
+    const value = (event.value || '').trim()
+    if (value) {
+      this.contentForm.controls.publisherDetails.value.push({ id: '', name: value })
+      this.contentForm.controls.publisherDetails.setValue(
+        this.contentForm.controls.publisherDetails.value,
+      )
+    }
+    // Reset the input value
+    if (input) {
+      input.value = ''
+    }
+  }
+
+  removePublisherDetails(keyword: any): void {
+    const index = this.contentForm.controls.publisherDetails.value.indexOf(keyword)
+    this.contentForm.controls.publisherDetails.value.splice(index, 1)
+    this.contentForm.controls.publisherDetails.setValue(
+      this.contentForm.controls.publisherDetails.value,
     )
   }
 

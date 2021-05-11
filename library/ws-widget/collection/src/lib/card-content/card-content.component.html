@@ -22,7 +22,7 @@
           widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
             ? true
             : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-      }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+      }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar(widgetData.content.identifier)"
     [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
     [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
     [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
@@ -38,8 +38,8 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
-          i18n-aria-label="Content | Click to view">
+        <a (click)="loginRedirect('S', widgetData.content.identifier)" class="rounded-t" role="link"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.appIcon"
               [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
@@ -143,8 +143,8 @@
           <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
             matTooltip="Available only in Company's network"
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-          <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
-            i18n-aria-label="Content | Click to view">
+          <a (click)="loginRedirect('S',  widgetData?.content?.identifier)" class="rounded-t" role="link"
+            aria-label="Content" i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
               <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
                 [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"

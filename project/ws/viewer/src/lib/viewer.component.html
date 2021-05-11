@@ -147,13 +147,12 @@
         </mat-tab>
 
         <mat-tab i18n-label label="License">
-          <div class="mt-5 ml-5 mb-4 mr-5">
+          <div class="mt-5 ml-5 mb-4 mr-5" *ngIf="currentLicense">
             <h2 class="margin-bottom-m">License terms</h2>
-            <p>CC BY 4.0</p>
-
-            <p>CC BY 4.0 For details see below:‎</p>
-            <a class="blue-link" href="https://creativecommons.org/licenses/by/4.0/"
-              target="_blank">https://creativecommons.org/licenses/by/4.0/</a>
+            <p>{{currentLicense[0]?.licenseName}}</p>
+            <p>{{currentLicense[0]?.desc}}</p>
+            <p>{{currentLicense[0]?.licenseName}} For details see below:‎</p>
+            <a class="blue-link" href="{{currentLicense[0]?.link}}" target="_blank">{{currentLicense[0]?.link}}</a>
           </div>
         </mat-tab>
 

@@ -43,6 +43,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     },
   }
   tocConfig: any = null
+  license = 'CC BY'
   constructor(
     private route: ActivatedRoute,
     private contentSvc: WidgetContentService,
@@ -88,6 +89,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data)
     this.content = initData.content
+    if (this.content && this.content.learningObjective) {
+      this.license = this.content.learningObjective || 'CC BY'
+    }
+
     this.errorCode = initData.errorCode
     switch (this.errorCode) {
       case NsAppToc.EWsTocErrorCode.API_FAILURE: {

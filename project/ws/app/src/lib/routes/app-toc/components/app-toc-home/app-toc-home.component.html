@@ -1,6 +1,6 @@
-  <div class="appicon-image" >
-  <mat-toolbar role="navigation" i18n-aria-label aria-label="Toolbar" *ngIf="isAuthor && !forPreview"
-    class="detailBar" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<div class="appicon-image">
+  <mat-toolbar role="navigation" i18n-aria-label aria-label="Toolbar" *ngIf="isAuthor && !forPreview" class="detailBar"
+    [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
     <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Details',url:'none'}] }">
     </ws-widget-btn-page-back> -->
     <!-- <span class="margin-left-xs text-truncate">
@@ -32,20 +32,23 @@
         routerLinkActive="ws-mat-primary-text link-active" i18n>Contents</a>
       <a *ngIf="enableAnalytics" [disabled]="forPreview" mat-tab-link [routerLink]="'./analytics'"
         routerLinkActive="ws-mat-primary-text link-active" i18n>Analytics</a>
-      <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active" i18n>Discussions</a>
-      <a mat-tab-link [routerLink]="'./details'"  [queryParams]="{id: content.identifier}" routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a>
-     
-      <a mat-tab-link [routerLink]="'./license'"  routerLinkActive="ws-mat-primary-text link-active" i18n>License</a>
+      <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active"
+        i18n>Discussions</a>
+      <a mat-tab-link [routerLink]="'./details'" [queryParams]="{id: content.identifier}"
+        routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a>
+
+      <a mat-tab-link [routerLink]="'./license'" [queryParams]="{license: license}"
+        routerLinkActive="ws-mat-primary-text link-active" i18n>License</a>
     </nav>
     <router-outlet></router-outlet>
     <ng-container>
       <!-- <mat-divider class="margin-top-m margin-bottom-m"></mat-divider> -->
       <!-- <div class="toc-discussion-container" fragment="discussion-forum"> -->
-        <!-- <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion> -->
-        <!-- <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts> -->
+      <!-- <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion> -->
+      <!-- <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts> -->
       <!-- </div> -->
 
-   </ng-container>
+    </ng-container>
   </div>
 </ng-container>
 
