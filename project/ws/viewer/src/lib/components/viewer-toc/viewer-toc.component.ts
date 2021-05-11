@@ -102,6 +102,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
+    // console.log('collection ', this.collection)
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       const collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
@@ -169,6 +170,10 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
 
   private processCurrentResourceChange() {
     if (this.collection && this.resourceId) {
+
+      // console.log('this.collection == ', this.collection)
+      // console.log('this.resourceId == ', this.resourceId)
+      // console.log('this.queue === ', this.queue)
       const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
       const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
       const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
@@ -186,10 +191,15 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     _collectionType: string,
   ): Promise<IViewerTocCard | null> {
     try {
-      const content: NsContent.IContent = await (this.forPreview
+      let content: NsContent.IContent = await (this.forPreview
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
+
+      content = content.result.content
+      // console.log('11111111-------', content)
+
+
       // TODO console.log('content',content);
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
@@ -344,23 +354,52 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     }
   }
 
+  // private getCollectionTypeRedirectUrl(
+  //   identifier: string,
+  //   displayContentType?: NsContent.EDisplayContentTypes,
+  // ): string | null {
+  //   switch (displayContentType) {
+  //     case NsContent.EDisplayContentTypes.PROGRAM:
+  //     case NsContent.EDisplayContentTypes.COURSE:
+  //     case NsContent.EDisplayContentTypes.MODULE:
+  //       return `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
+  //     case NsContent.EDisplayContentTypes.GOALS:
+  //       return `/app/goals/${identifier}`
+  //     case NsContent.EDisplayContentTypes.PLAYLIST:
+  //       return `/app/playlist/${identifier}`
+  //     default:
+  //       return null
+  //   }
+  // }
+
+
   private getCollectionTypeRedirectUrl(
     identifier: string,
+    contentType: string = '',
     displayContentType?: NsContent.EDisplayContentTypes,
   ): string | null {
+    let url: string | null
     switch (displayContentType) {
       case NsContent.EDisplayContentTypes.PROGRAM:
       case NsContent.EDisplayContentTypes.COURSE:
       case NsContent.EDisplayContentTypes.MODULE:
-        return `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
+        url = `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
+        break
       case NsContent.EDisplayContentTypes.GOALS:
-        return `/app/goals/${identifier}`
+        url = `/app/goals/${identifier}`
+        break
       case NsContent.EDisplayContentTypes.PLAYLIST:
-        return `/app/playlist/${identifier}`
+        url = `/app/playlist/${identifier}`
+        break
       default:
-        return null
+        url = null
     }
+    if (contentType) {
+      url = `${url}?primaryCategory=${contentType}`
+    }
+    return url
   }
+
 
   private processCollectionForTree() {
     if (this.collection && this.collection.children) {
