@@ -61,12 +61,11 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   verifyEntry() {
     this.emailOrMobile = this.emailForm.value.userInput
-    let phone = this.emailOrMobile
+    const phone = this.emailOrMobile
     if (phone) {
       if (phone.length === 10) {
-        phone = /^[6-9]\d{9}$/.test(phone)
         // at least 10 in number
-        if (phone) {
+        if (/^[6-9]\d{9}$/.test(phone)) {
           // Call OTP Api, show resend Button true
           const request = {
             mobileNumber: phone,
@@ -99,7 +98,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   resendOTP() {
     // call resend OTP function
-    this.tncService.registerWithMobile(this.emailOrMobile).subscribe(
+    this.tncService.registerWithMobile({ mobileNumber: this.emailOrMobile }).subscribe(
       (res: any) => {
         this.openSnackbar(res.message)
       },
@@ -146,7 +145,8 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
               this.authSvc.login('S', url)
             },         5000)
           }
-        },err => {
+        },
+        err => {
           const errorMsg = err.error.error ? err.error.error : err
           this.openSnackbar(errorMsg)
           form.reset()
