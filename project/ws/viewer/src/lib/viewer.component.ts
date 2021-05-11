@@ -52,6 +52,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
+  currentLicense: any
+  currentLicenseName = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -72,6 +74,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     e.activatedRoute.data.subscribe((data: { content: { data: NsContent.IContent } }) => {
       if (data.content && data.content.data) {
         this.content = data.content.data
+        this.currentLicenseName = this.content.learningObjective || 'CC BY'
 
         this.formDiscussionForumWidget(this.content)
         // if (this.discussionForumWidget) {
@@ -84,6 +87,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit() {
     this.getTocConfig()
+    this.getLicenseConfig()
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
       this.activatedRoute.snapshot.queryParams.embed === 'true'
@@ -133,6 +137,20 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     })
 
     // this.getDiscussionConfig()
+  }
+
+  getLicenseConfig() {
+    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+      const licenseData = data
+      if (licenseData) {
+        this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
+      }
+    },                                                      err => {
+        if (err.status === 404) {
+          this.getDiscussionConfig()
+        }
+      })
   }
 
   getDiscussionConfig() {

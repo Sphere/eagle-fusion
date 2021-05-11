@@ -316,11 +316,14 @@ export class CardContentComponent extends WidgetBaseComponent
     return false
   }
 
-  showSnackbar() {
+  showSnackbar(id: string) {
     if (this.showIntranetContent) {
       this.snackBar.open('Content is only available in intranet', undefined, { duration: 2000 })
     } else if (!this.isLiveOrMarkForDeletion) {
       this.snackBar.open('Content may be expired or deleted', undefined, { duration: 2000 })
+    }
+    if (!this.authSvc.isAuthenticated) {
+      this.loginRedirect('S', id)
     }
   }
 
