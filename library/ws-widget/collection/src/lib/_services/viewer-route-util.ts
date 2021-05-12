@@ -9,11 +9,13 @@ export const VIEWER_ROUTE_FROM_MIME = (mimeType: NsContent.EMimeTypes) => {
     case NsContent.EMimeTypes.COLLECTION:
       return 'html'
     case NsContent.EMimeTypes.CHANNEL:
-    case 'application/json' as any:
-      return 'channel'
+    // case 'application/json' as any:
+    //   return 'channel'
     case NsContent.EMimeTypes.CERTIFICATION:
       return 'certification'
     case NsContent.EMimeTypes.HTML:
+    case NsContent.EMimeTypes.ZIP:
+    case NsContent.EMimeTypes.TEXT_WEB:
       return 'html'
     case NsContent.EMimeTypes.IAP:
       return 'iap'
@@ -39,6 +41,7 @@ export const VIEWER_ROUTE_FROM_MIME = (mimeType: NsContent.EMimeTypes) => {
     case NsContent.EMimeTypes.HTML_PICKER:
       return 'html-picker'
     case NsContent.EMimeTypes.QUIZ:
+    case NsContent.EMimeTypes.APPLICATION_JSON:
       return 'quiz'
     case NsContent.EMimeTypes.COLLECTION_RESOURCE:
       return 'resource-collection'
