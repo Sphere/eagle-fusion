@@ -24,7 +24,7 @@ import { Observable, of } from 'rxjs'
 import { map, mergeMap, catchError } from 'rxjs/operators'
 import { CONTENT_READ_MULTIPLE_HIERARCHY } from './../../../../constants/apiEndpoints'
 import { ISearchContent, ISearchResult } from '../../../../interface/search'
-let instanceConfigPath: string | null = window.location.host
+const instanceConfigPath: string | null = window.location.host
 
 @Injectable()
 export class EditorService {
@@ -175,7 +175,6 @@ export class EditorService {
   checkUrl(url: string): Observable<any> {
     return this.apiService.get<any>(url)
   }
-
 
   fetchConfig() {
     return this.apiService.get<any>(`${this.configSvc.sitePath}/license.meta.json`)

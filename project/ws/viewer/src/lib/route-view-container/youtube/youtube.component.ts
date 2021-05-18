@@ -34,7 +34,7 @@ export class YoutubeComponent implements OnInit {
   collectionIdentifier!: string
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService) { }
+              private viewerDataSvc: ViewerDataService) { }
 
   ngOnInit() {
 

@@ -156,23 +156,18 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-
-
   scrollToUserView(index: number) {
-
 
     setTimeout(() => {
       if (index > 3) {
         if (this.highlightItem.nativeElement.classList.contains('li-active')) {
 
-          let highlightItemOffset = this.highlightItem.nativeElement.offsetTop
-          let outerClientHeight = this.outer.nativeElement.clientHeight
-          let liItemHeight = this.highlightItem.nativeElement.clientHeight
-
+          const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
+          const outerClientHeight = this.outer.nativeElement.clientHeight
+          const liItemHeight = this.highlightItem.nativeElement.clientHeight
 
           if (outerClientHeight < (highlightItemOffset + liItemHeight)) {
             this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
-            console.log('this.outer.nativeElement.scrollTop', this.outer.nativeElement.scrollTop)
 
           } else {
             this.outer.nativeElement.scrollTop = 0
@@ -187,9 +182,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
             if (highlightItemOffset - window.innerHeight > 80) {
               window.scrollTo(0, 80)
             }
-          }
-
-          else {
+          } else {
 
             if (this.highlightItem.nativeElement.offsetTop + this.outer.nativeElement.offsetTop > window.innerHeight) {
               this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
@@ -199,13 +192,13 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }
-    }, 3000)
+    },         3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 3000)
+    },         3000)
   }
 
   // updateSearchModel(value) {

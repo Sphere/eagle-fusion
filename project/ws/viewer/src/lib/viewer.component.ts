@@ -90,6 +90,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.content = data.content.data
         this.currentLicenseName = this.content.learningObjective || 'CC BY'
 
+        this.getLicenseConfig()
         this.formDiscussionForumWidget(this.content)
       }
     })
@@ -97,7 +98,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit() {
     this.getTocConfig()
-    this.getLicenseConfig()
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
       this.activatedRoute.snapshot.queryParams.embed === 'true'
