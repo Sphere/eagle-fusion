@@ -34,7 +34,7 @@ export class QuizComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: ViewerDataService,
-              private valueSvc: ValueService) {
+    private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -55,5 +55,13 @@ export class QuizComponent implements OnInit {
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
+  }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
   }
 }

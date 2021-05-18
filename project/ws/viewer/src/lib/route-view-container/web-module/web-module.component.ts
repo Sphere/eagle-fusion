@@ -34,7 +34,7 @@ export class WebModuleComponent implements OnInit, AfterViewInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+    private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -68,5 +68,13 @@ export class WebModuleComponent implements OnInit, AfterViewInit {
         }
       }
     })
+  }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
   }
 }

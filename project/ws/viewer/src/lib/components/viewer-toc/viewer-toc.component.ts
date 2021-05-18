@@ -56,6 +56,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
   searchCourseQuery = ''
   hideSideNav = false
+  reverse = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -144,31 +145,67 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   checkIndexOfResource() {
     if (this.collection) {
       const index = this.queue.findIndex(x => x.identifier === this.resourceId)
+      this.updateNavigation()
       this.scrollToUserView(index)
     }
   }
 
-  scrollToUserView(index: number) {
-    setTimeout(() => {
-      if (index > 3 && this.highlightItem.nativeElement.offsetTop > 380) {
-        let scrollamount = 0
-        if (this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.scrollTop > 960) {
-          scrollamount = this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.scrollTop
-        } else {
-          scrollamount = index * 50
-        }
-        this.outer.nativeElement.scrollTop = scrollamount
-        this.highlightItem.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+  updateNavigation() {
+    this.viewerDataSvc.getPrevClick.subscribe(data => {
+      this.reverse = data
+    })
+  }
 
-        this.ulTree.nativeElement.scrollTop = this.ulTree.nativeElement.clientHeight - this.outer.nativeElement.clientHeight
+
+
+  scrollToUserView(index: number) {
+
+
+    setTimeout(() => {
+      if (index > 3) {
+        if (this.highlightItem.nativeElement.classList.contains('li-active')) {
+
+          let highlightItemOffset = this.highlightItem.nativeElement.offsetTop
+          let outerClientHeight = this.outer.nativeElement.clientHeight
+          let liItemHeight = this.highlightItem.nativeElement.clientHeight
+
+
+          if (outerClientHeight < (highlightItemOffset + liItemHeight)) {
+            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            console.log('this.outer.nativeElement.scrollTop', this.outer.nativeElement.scrollTop)
+
+          } else {
+            this.outer.nativeElement.scrollTop = 0
+          }
+
+          if (highlightItemOffset > 535 && this.reverse === 'next') {
+
+            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            this.outer.nativeElement.scrollTop = window.innerHeight
+            this.highlightItem.nativeElement.offsetTop = 300
+            this.highlightItem.nativeElement.scrollTop = 300
+            if (highlightItemOffset - window.innerHeight > 80) {
+              window.scrollTo(0, 80)
+            }
+          }
+
+          else {
+
+            if (this.highlightItem.nativeElement.offsetTop + this.outer.nativeElement.offsetTop > window.innerHeight) {
+              this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            }
+
+          }
+        }
+
       }
-    },         3000)
+    }, 3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         3000)
+    }, 3000)
   }
 
   // updateSearchModel(value) {

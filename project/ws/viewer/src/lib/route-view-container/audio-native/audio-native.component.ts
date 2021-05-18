@@ -31,7 +31,7 @@ export class AudioNativeComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: ViewerDataService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -49,5 +49,13 @@ export class AudioNativeComponent implements OnInit {
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
+  }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
   }
 }

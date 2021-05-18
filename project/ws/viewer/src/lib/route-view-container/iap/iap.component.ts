@@ -28,7 +28,7 @@ export class IapComponent implements OnInit {
   nextTitle: string | null | undefined
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: ViewerDataService) { }
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =
@@ -42,5 +42,13 @@ export class IapComponent implements OnInit {
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
     })
+  }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
   }
 }
