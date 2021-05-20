@@ -43,7 +43,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     },
   }
   tocConfig: any = null
-  license = 'CC BY'
+  license = ''
   constructor(
     private route: ActivatedRoute,
     private contentSvc: WidgetContentService,
@@ -90,7 +90,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     const initData = this.tocSvc.initData(data)
     this.content = initData.content
     if (this.content && this.content.learningObjective) {
-      this.license = this.content.learningObjective || 'CC BY'
+      this.license = this.content.learningObjective || 'CC BY 4.0'
     }
 
     this.errorCode = initData.errorCode

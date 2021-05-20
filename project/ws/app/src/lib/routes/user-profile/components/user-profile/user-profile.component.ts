@@ -92,6 +92,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   navigatedFromProfile = false
   mobileNumberLogin = false
   mobileLoginNumber = ''
+  nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
+    'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
+    'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
+    'Himachal Pradesh Nurses Registration Council', 'Jammu and Kashmir State Paramedical & Nursing Council',
+    'Jharkhand Nurses Registration Council', 'Karnataka Nursing Council', 'Kerala Nurses & Midwives Council',
+    'Madhya Pradesh Nurses Registration Council', 'Maharashtra Nursing Council', 'Manipur Nursing Council',
+    'Meghalaya Nursing Council', 'Mizoram Nursing Council', 'Odisha Nurses & Midwives Registration Council',
+    'Punjab Nurses Registration Council', 'Rajasthan Nursing Council', 'Tamil Nadu Nurses & Midwives Council',
+    'Tripura Nursing Council', 'Uttar Pradesh Nurses & Midwives Council', 'Uttarakhand Nurses Midwives Council',
+    'West Bengal Nursing Council', 'Telangana State Nurses Midwives Auxiliary Nurse Midwives & Health Visitors Council',
+    'Sikkim Nursing Council', 'Nagaland Nursing Council']
+  filteredOptions: Observable<string[]> | undefined
 
   constructor(
     private snackBar: MatSnackBar,
@@ -125,6 +137,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       regNurseRegMidwifeNumber: new FormControl('', []),
       nationalUniqueId: new FormControl('', []),
       doctorRegNumber: new FormControl('', []),
+      instituteName: new FormControl('', []),
+      nursingCouncil: new FormControl('', []),
       knownLanguages: new FormControl([], []),
       residenceAddress: new FormControl('', []),
       category: new FormControl('', []),
@@ -169,7 +183,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.getUserDetails()
     this.fetchMeta()
-
   }
 
   ngAfterViewInit() {
@@ -222,7 +235,22 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       (_err: any) => {
       })
+
+    // tslint:disable-next-line: no-non-null-assertion
+    this.filteredOptions = this.createUserForm.get('nursingCouncil')!.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.councilFilter(value))
+      )
   }
+
+  private councilFilter(value: string): string[] {
+    const filterValue = value.toLowerCase()
+
+    return this.nursingCouncilNames.filter(option =>
+      option.toLowerCase().includes(filterValue))
+  }
+
   createDegree(): FormGroup {
     return this.fb.group({
       degree: new FormControl('', []),
@@ -643,6 +671,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
       nationalUniqueId: data.personalDetails.nationalUniqueId,
       doctorRegNumber: data.personalDetails.doctorRegNumber,
+      instituteName: data.personalDetails.instituteName,
+      nursingCouncil: data.personalDetails.nursingCouncil,
       gender: data.personalDetails.gender,
       maritalStatus: data.personalDetails.maritalStatus,
       category: data.personalDetails.category,
@@ -734,6 +764,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
         nationalUniqueId: form.value.nationalUniqueId,
         doctorRegNumber: form.value.doctorRegNumber,
+        instituteName: form.value.instituteName,
+        nursingCouncil: form.value.nursingCouncil,
         gender: form.value.gender,
         maritalStatus: form.value.maritalStatus,
         category: form.value.category,
@@ -896,7 +928,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     //   delete profileRequest.personalDetails.telephone
     // }
     // tslint:disable-next-line
-    const fields = ['category', 'countryCode', 'dob', 'officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
+    const fields = ['category', 'countryCode', 'dob', 'officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nursingCouncil', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
     profileRequest.personalDetails.officialEmail = profileRequest.personalDetails.primaryEmail
     fields.map((item: any) => {
       // tslint:disable-next-line

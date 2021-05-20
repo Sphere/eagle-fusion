@@ -49,14 +49,18 @@
                 (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</a>
             </div>
             <div *ngIf="content?.creatorContacts"> Authors :
-              <span *ngFor="let author of content?.creatorContacts">{{author.name}} <ng-container
-                  *ngIf="content?.creatorContacts.length > 1">,</ng-container>
+              <span *ngFor="let author of content?.creatorContacts; let i = index" class="mr-1">{{author.name}}
+                <ng-container *ngIf="content?.creatorContacts.length > 1 && i !== content?.creatorContacts.length - 1">,
+                </ng-container>
               </span>
             </div>
             <div *ngIf="content?.creatorDetails">
-              <div *ngFor="let curator of content?.creatorDetails">
-                Curators : {{curator.name}}
-              </div>
+              Curators :
+              <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+                {{curator.name}} <ng-container
+                  *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+                </ng-container>
+              </span>
             </div>
 
 

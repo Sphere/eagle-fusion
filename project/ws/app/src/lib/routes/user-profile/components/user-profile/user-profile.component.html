@@ -283,6 +283,55 @@
 
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
+                      i18n="Name the Institution label|Label which explains the user to enter Name the Institution">
+                      Name the Institution (for students)
+                    </p>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #instituteName formControlName="instituteName" i18n-placeholder
+                        placeholder="Enter Name the Institution" />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
+                      i18n="Name of Nursing Council label|Label which explains the user to enter Name of Nursing Council">
+                      Name of Nursing Council (for Registered Nurses)
+                    </p>
+
+                    <mat-form-field appearance="outline" class="margin-top-xs w-full">
+                      <input matInput type="text" placeholder="Name of Nursing Council"
+                        i18n-placeholder="Name of Nursing Council" formControlName="nursingCouncil"
+                        [matAutocomplete]="nursing" i18n-aria-label aria-label="nursingCouncil" #nursingCouncil />
+                    </mat-form-field>
+                    <mat-autocomplete #nursing="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{ option }}
+                      </mat-option>
+                    </mat-autocomplete>
+
+
+
+
+
+
+                    <!-- <mat-form-field appearance="outline" class="margin-top-xs w-full">
+                              <input matInput type="text" placeholder="Nationality" i18n-placeholder="Nationality" formControlName="nationality"
+                                [matAutocomplete]="nationalityAutocomplete" i18n-aria-label aria-label="Nationality" #nationality />
+                              <mat-error [hidden]="false" i18n="Nationality Error|Explains name is required">
+                                Nationality is mandatory
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-autocomplete #nationalityAutocomplete="matAutocomplete">
+                              <mat-option *ngFor="let option of masterNationality | async" [value]="option.name">
+                                {{ option.name }}
+                              </mat-option>
+                            </mat-autocomplete> -->
+
+                  </div>
+
+
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
                       i18n="Other Languages Known label|Label which explains the user to enter Other Languages Known">
                       Other Languages Known
                     </p>
@@ -301,8 +350,7 @@
                       <mat-error [hidden]="false" i18n="Telephone Number Error|Explains name is required">
                         Other Languages Known is mandatory
                       </mat-error>
-                      <!-- <input matInput type="text" placeholder="known Languages" i18n-placeholder="known Languages" formControlName="knownLanguages"
-                      [matAutocomplete]="knownLanguagesAuto" i18n-aria-label aria-label="known Languages" #knownLanguages /> -->
+
                     </mat-form-field>
                     <mat-autocomplete #knownLanguagesAuto="matAutocomplete"
                       (optionSelected)="selectKnowLanguage($event)">

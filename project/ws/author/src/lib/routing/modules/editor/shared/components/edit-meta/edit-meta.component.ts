@@ -118,7 +118,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   filteredOptions$: Observable<string[]> = of([])
   saveParent: any
 
-  licenseTypes = ['CC BY', 'CC BY-SA', 'CC BY-ND', 'CC BY-NC', 'CC BY-NC-SA', 'CC BY-NC-ND']
+  licenseTypes: string[] = []
   constructor(
     private formBuilder: FormBuilder,
     private uploadService: UploadService,
@@ -310,8 +310,28 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       distinctUntilChanged(),
       switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
     )
+    this.getLicenses()
   }
 
+  getLicenses() {
+    this.editorService.fetchConfig()
+      .subscribe(
+        data => {
+          if (data && data.licenses && data.licenses.length > 0) {
+            data.licenses.filter((item: { licenseName: string }) => {
+              if (item.licenseName) {
+                this.licenseTypes.push(item.licenseName)
+              }
+            })
+          }
+        },
+        err => {
+          if (err) {
+            this.getLicenses()
+          }
+        }
+      )
+  }
   optionSelected(keyword: string) {
     this.keywordsCtrl.setValue(' ')
     // this.keywordsSearch.nativeElement.blur()

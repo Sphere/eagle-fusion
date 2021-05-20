@@ -8,7 +8,7 @@
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverPdfData"></ng-container>
               <div #navpdf class="pdf player-nav-links">
                 <div class="flex justify-between html">
-                  <div class="pdf prev-button">
+                  <div class="pdf prev-button" (click)="setPrevClick()">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
                       accesskey="<" [disabled]="!prevResourceUrl">
                       <span class="material-icons align-left-arrow">
@@ -20,7 +20,7 @@
                     </span>
                   </div>
 
-                  <div class="pdf next-button">
+                  <div class="pdf next-button" (click)="setNextClick()">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
