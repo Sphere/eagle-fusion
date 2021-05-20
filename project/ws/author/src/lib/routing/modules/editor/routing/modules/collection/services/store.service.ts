@@ -197,6 +197,7 @@ export class CollectionStoreService {
         resourceType: parentData.categoryType || '',
         categoryType: parentData.categoryType || '',
         fileType: fileType || '',
+        learningObjective: parentData.learningObjective || 'CC BY 4.0',
 
         // thumbnail: parentData.thumbnail,
         // appIcon: parentData.appIcon,

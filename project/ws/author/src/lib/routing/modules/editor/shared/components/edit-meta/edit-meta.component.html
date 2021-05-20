@@ -886,7 +886,7 @@
             <label>
               <b i18n>License Type</b>
             </label>
-            <div class="margin-top-l">
+            <div class="margin-top-l" *ngIf="licenseTypes.length > 0">
               <mat-form-field appearance="outline" class="margin-top-s">
                 <!-- [ngClass]="{ 'mat-form-field-invalid': showError('sourceName') }" -->
                 <mat-select formControlName="learningObjective" i18n-placeholder placeholder="--Select--">

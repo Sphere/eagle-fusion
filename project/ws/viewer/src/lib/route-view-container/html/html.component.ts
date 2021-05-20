@@ -78,6 +78,14 @@ export class HtmlComponent implements OnInit, OnChanges {
 
   }
 
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     for (const prop in changes) {
       if (prop === 'htmlData') {

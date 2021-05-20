@@ -49,4 +49,11 @@ export class ResourceCollectionComponent implements OnInit {
       this.nextResourceUrl = data.nextResource
     })
   }
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
+  }
 }

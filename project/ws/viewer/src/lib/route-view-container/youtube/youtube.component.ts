@@ -53,4 +53,12 @@ export class YoutubeComponent implements OnInit {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
   }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
+  }
 }

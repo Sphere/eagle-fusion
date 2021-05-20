@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -54,6 +54,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   htmlData: NsContent.IContent | null = null
   currentLicense: any
   currentLicenseName = ''
+  fixedNavBar = false
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -70,24 +71,33 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.rootSvc.showNavbarDisplay$.next(false)
   }
 
+  @HostListener('window:scroll', ['$event']) onScrollEvent() {
+    const verticalOffset = window.pageYOffset
+      || document.documentElement.scrollTop
+      || document.body.scrollTop || 0
+    if (verticalOffset > 80) {
+      this.fixedNavBar = true
+    } else {
+      if (verticalOffset < 80) {
+        this.fixedNavBar = false
+      }
+    }
+  }
+
   getContentData(e: any) {
     e.activatedRoute.data.subscribe((data: { content: { data: NsContent.IContent } }) => {
       if (data.content && data.content.data) {
         this.content = data.content.data
         this.currentLicenseName = this.content.learningObjective || 'CC BY'
 
+        this.getLicenseConfig()
         this.formDiscussionForumWidget(this.content)
-        // if (this.discussionForumWidget) {
-        //   this.discussionForumWidget.widgetData.isDisabled = true
-        // }
-
       }
     })
   }
 
   ngOnInit() {
     this.getTocConfig()
-    this.getLicenseConfig()
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
       this.activatedRoute.snapshot.queryParams.embed === 'true'
@@ -146,11 +156,12 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (licenseData) {
         this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
       }
-    },                                                      err => {
-        if (err.status === 404) {
-          this.getDiscussionConfig()
-        }
-      })
+    },
+    err => {
+      if (err.status === 404) {
+        this.getLicenseConfig()
+      }
+    })
   }
 
   getDiscussionConfig() {

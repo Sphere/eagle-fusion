@@ -19,7 +19,8 @@ export class AppRetryInterceptorService implements HttpInterceptor {
     if (req.body && req.body.excludeRetry) {
       return next.handle(req)
     }
-    if (req.url.indexOf('registerUserWithMobile') < 0 || req.url.indexOf('setPasswordWithOTP') < 0) {
+    if (req.url.indexOf('registerUserWithMobile') > 0 || req.url.indexOf('setPasswordWithOTP') > 0 ||
+      req.url.indexOf('registerUserWithEmail') > 0) {
       return next.handle(req).pipe(retryWhen(this.genericRetryStrategyVerifyMobile()))
     }
       return next.handle(req).pipe(retryWhen(this.genericRetryStrategy()))
