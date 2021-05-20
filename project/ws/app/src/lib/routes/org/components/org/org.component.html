@@ -2,8 +2,7 @@
   <div class="px-4 sm:px-40 md:px-10ss my-5 mb-5 flex flex-middle"
     *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">SAFE
-      DELIVERY</span>
+      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">Learning Platform for Maternal and Newborn Health Care</span>
   </div>
 </div>
 <div class=" profile-container px-4 sm:px-48 md:px-10ss py-0 my-0 mt-12">
@@ -66,8 +65,6 @@
   </div>
 <div *ngIf="currentOrgData?.sourceName != 'Indian Nursing Council'">
   <div class="flex flex-middle border-bottom">
-    <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
-      About</span>
   </div>
   <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.about">
   </div>
@@ -92,7 +89,7 @@
 
   <div class="w-100">
     <div class="flex flex-middle border-bottom">
-      <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
+      <span class="font-bold heading-title margin-zero  pb-0" i18n="Courses">
         Courses</span>
     </div>
   </div>
