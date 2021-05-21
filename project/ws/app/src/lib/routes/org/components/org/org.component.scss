@@ -215,7 +215,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
 .mylearning {
   font-size: 30px;
   color: #ffffff;
-  text-transform: uppercase;
+  line-height: 1.2em;
 }
 
 .inc-logo {
@@ -226,7 +226,6 @@ mat-card.card-standard-container.mr-8 .mat-card {
   padding-top: 20px;
   border-top: solid 1px rgba(221, 221, 221, 0.89);
 }
-
 
 .align-logo {
   display: flex !important;
@@ -252,7 +251,6 @@ mat-card.card-standard-container.mr-8 .mat-card {
   background-color: #fff;
 }
 
-
 .photo {
   position: relative;
   animation: round 16s infinite;
@@ -261,20 +259,18 @@ mat-card.card-standard-container.mr-8 .mat-card {
   margin-left: 30px;
 }
 .support-txt {
-vertical-align: baseline;
-  }
+  vertical-align: baseline;
+}
 
-.about-text  {
-  font-size:18px;
+.about-text {
+  font-size: 18px;
 }
 @media (max-width: 500px) {
-
   .flex-main {
     display: block !important;
-
   }
   .support-txt {
-vertical-align: baseline;
+    vertical-align: baseline;
   }
   .mf-logo,
   .inc-logo {
@@ -291,7 +287,23 @@ vertical-align: baseline;
     margin-left: 10px;
     margin-right: 10px;
   }
+  .main,
+  .about-outer {
+    display: block !important;
+  }
+  .inc-logo {
+    border: none;
+  }
+  .mylearning {
+    text-align: center;
+  }
+  .photo {
+    margin-left: 0;
+  }
+}
 
-
-
+@media (max-width: 1200px) {
+  .mylearning {
+    font-size: 20px;
+  }
 }

@@ -1,12 +1,12 @@
 <div id="navy-blue-bg" [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
-  <div class="px-4 sm:px-40 md:px-10ss my-5 mb-5 flex flex-middle"
+  <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
     *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
       (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">SAFE
       DELIVERY</span>
   </div>
 </div>
-<div class=" profile-container px-4 sm:px-48 md:px-10ss py-0 my-0 mt-12">
+<div class=" profile-container px-4 sm:px-20 md:px-20 xl:px-40  py-0 my-0 mt-12">
   <div class="mb-4" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <mat-card class="org-data mb-4">
 
@@ -44,7 +44,7 @@
       About</span>
   </div>
   <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
-    <div class="flex">
+    <div class="flex about-outer">
       <div class="flex-1 justify-between about-text">
         <div class="mt-3 mb-3 " [innerHTML]="currentOrgData?.about">
         </div>
@@ -64,14 +64,14 @@
 
     </div>
   </div>
-<div *ngIf="currentOrgData?.sourceName != 'Indian Nursing Council'">
-  <div class="flex flex-middle border-bottom">
-    <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
-      About</span>
+  <div *ngIf="currentOrgData?.sourceName != 'Indian Nursing Council'">
+    <div class="flex flex-middle border-bottom">
+      <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
+        About</span>
+    </div>
+    <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.about">
+    </div>
   </div>
-  <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.about">
-  </div>
-</div>
   <!-- <ng-container *ngIf="currentOrgData?.Purposes">
     <div class="flex flex-middle border-bottom">
       <span class="font-bold heading-title margin-zero  pb-0" i18n="Purposes">
