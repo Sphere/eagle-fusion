@@ -156,7 +156,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (licenseData) {
         this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
       }
-    }, err => {
+    },
+                                                            err => {
       if (err.status === 404) {
         this.getLicenseConfig()
       }
