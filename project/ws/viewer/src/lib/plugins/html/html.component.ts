@@ -111,8 +111,8 @@ export class HtmlComponent implements OnInit, OnChanges {
           3000,
         )
       }
-      const timestamp = new Date('2012.08.10').getTime() / 1000
-      const htmlUrl = `${this.htmlContent.artifactUrl}?${timestamp}`
+      const timestamp = new Date().getTime() / 1000
+      const htmlUrl = `${this.htmlContent.artifactUrl}?timestamp=${timestamp}`
       this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(htmlUrl)
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
       this.iframeUrl = null
@@ -169,14 +169,22 @@ export class HtmlComponent implements OnInit, OnChanges {
   }
 
   onIframeLoadOrError(evt: 'load' | 'error', iframe?: HTMLIFrameElement, event?: any) {
+    // tslint:disable-next-line: no-console
+    console.log('173', evt, iframe, event)
     if (evt === 'error') {
       this.pageFetchStatus = evt
     }
     if (evt === 'load' && iframe && iframe.contentWindow) {
+       // tslint:disable-next-line: no-console
+       console.log('179', iframe , iframe.contentWindow)
       if (event && iframe.onload) {
         iframe.onload(event)
+         // tslint:disable-next-line: no-console
+         console.log('onload')
       }
       iframe.onload = (data => {
+        // tslint:disable-next-line: no-console
+        console.log('data', data.target)
         if (data.target) {
           this.pageFetchStatus = 'done'
           this.showIsLoadingMessage = false
