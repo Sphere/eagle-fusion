@@ -2,7 +2,7 @@
   <div class="px-4 sm:px-40 md:px-10ss my-5 mb-5 flex flex-middle"
     *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">Learning Platform for Maternal and Newborn Health Care</span>
+      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">{{currentOrgData.title || "e-Learning for Maternal and Newborn Health Care" }}</span>
   </div>
 </div>
 <div class=" profile-container px-4 sm:px-48 md:px-10ss py-0 my-0 mt-12">
