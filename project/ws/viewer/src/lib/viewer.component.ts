@@ -234,4 +234,15 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.sideNavBarOpened = true
     }
   }
+
+  public parseJsonData(s: string) {
+    try {
+      const parsedString = JSON.parse(s)
+      return parsedString
+    } catch {
+      return []
+    }
+  }
+
+
 }

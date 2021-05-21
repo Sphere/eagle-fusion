@@ -117,7 +117,8 @@
                   <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
                   <h2 i18n *ngIf="title === 'CONTACT'">Curator/Contact</h2>
                   <mat-divider></mat-divider>
-                  <div *ngFor="let author of authors" class="author">
+                  <!-- <div *ngFor="let author of authors" class="author"> -->
+                  <div *ngFor="let author of parseJsonData(authors)" class="author">
                     <ws-widget-user-image class="author-image" [imageType]="'name-initial'"
                       [userName]="author.name || ''" [email]="author.email"></ws-widget-user-image>
                     <div class="width-expand flex flex-middle flex-between">
