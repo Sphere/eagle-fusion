@@ -74,7 +74,6 @@ export const VIEWER_ROUTE_FROM_MIME = (mimeType: NsContent.EMimeTypes) => {
 //   }
 // }
 
-
 export function viewerRouteGenerator(
   id: string,
   mimeType: NsContent.EMimeTypes,

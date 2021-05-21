@@ -242,7 +242,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
             )
           }
         })
-      }, _err => {
+      },                                                         _err => {
         this.contentSvc.fetchContent(playlist.contents[0].identifier).subscribe(response => {
           if (response) {
             const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(response)

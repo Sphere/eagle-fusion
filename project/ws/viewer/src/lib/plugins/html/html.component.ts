@@ -32,7 +32,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
   iframeName = `piframe_${Date.now()}`
 
-
   constructor(
     private domSanitizer: DomSanitizer,
     public mobAppSvc: MobileAppsService,
@@ -133,7 +132,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
         )
       }
 
-
       if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
         if (this.htmlContent.status !== 'Live') {
           this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -149,7 +147,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
           this.htmlContent.artifactUrl,
         )
       }
-
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
       this.iframeUrl = null
@@ -171,7 +168,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       [`/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`],
       { queryParams: { primaryCategory: this.htmlContent ? this.htmlContent.primaryCategory : '' } })
   }
-
 
   raiseTelemetry(data: any) {
     if (this.htmlContent) {

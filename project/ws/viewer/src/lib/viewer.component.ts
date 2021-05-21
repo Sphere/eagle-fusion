@@ -87,7 +87,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
           data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
         }
 
-
         this.content = data.content.data
         this.formDiscussionForumWidget(this.content)
         // if (this.discussionForumWidget) {
@@ -97,7 +96,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     })
   }
-
 
   checkJson(str: any) {
     try {
@@ -243,6 +241,5 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       return []
     }
   }
-
 
 }

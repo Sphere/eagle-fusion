@@ -322,8 +322,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         this.forPreview,
         this.content.primaryCategory,
       )
-
-      console.log('this.firstResourceLink  === ', this.firstResourceLink)
     }
   }
   private assignPathAndUpdateBanner(url: string) {
