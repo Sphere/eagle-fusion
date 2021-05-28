@@ -40,13 +40,19 @@
   }
 }
 
+.fs-32 {
+  font-size: 32px !important;
+  font-weight: 500 !important;
+}
+
 .fluid-width {
   width: 100%;
 }
 
 .header-synopsis {
   height: 100%;
-  @extend %container-padding;
+  padding: 38px 64px 32px 12rem;
+  background: #fbf5f2;
   box-sizing: border-box;
 
   .apIcon {
@@ -69,9 +75,7 @@
     h1 {
       // font: 48px/48px Poppins-SemiBold;
       letter-spacing: 0px;
-      color: #FFFFFF;
       // font-family: Poppins-SemiBold;
-
     }
 
     .text-truncate-title {
@@ -85,17 +89,15 @@
   .rating-number {
     // font: 24px/35px Poppins-Medium;
     letter-spacing: 0px;
-    color: #FFFFFF;
   }
 
   .rating-count {
     // font: 18px/27px Poppins-regular;
     letter-spacing: 0.36px;
-    color: #FFFFFF;
   }
 
   .rating mat-icon {
-    color: #fff;
+    color: #000;
   }
 
   .header-meta-banner {
@@ -113,14 +115,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #34D6A4 0% 0% no-repeat padding-box;
+    background: #f5d58d 0% 0% no-repeat padding-box;
     box-shadow: 0px 10px 30px #99999933;
-    color: #fff !important;
 
     ::ng-deep.mat-button-wrapper {
       // font: 14px/21px Poppins-SemiBold;
       letter-spacing: 0px;
-      color: #FFFFFF;
       text-transform: capitalize;
     }
   }
@@ -152,7 +152,6 @@
     margin-right: $size-l;
     // font: Regular 24px/35px Poppins;
     letter-spacing: 0px;
-    color: #FFFFFF;
 
     @include breakpoint-xs {
       margin-right: 0;
@@ -236,12 +235,9 @@
 }
 
 .info-msg {
-  color: #fff !important;
   // font: 14px/20px Poppins-Regular;
-  ;
-
   mat-icon {
-    color: #fff !important;
+    // color: #fff !important;
   }
 }
 
@@ -259,4 +255,14 @@
   .overview-description {
     font: normal normal 300 14px/21px;
   }
+}
+
+.header-right {
+  min-width: 40%;
+  background-size: 100% 100%;
+}
+
+.header-left {
+  flex: 1;
+  min-width: 50%;
 }

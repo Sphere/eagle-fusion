@@ -1,10 +1,10 @@
 <div [ngStyle]="{'background-color': ((content?.posterImage || '').length === 7? content?.posterImage : '#F8AD1E')}">
 
-  <div class="header-synopsis fixed-width" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
+  <div [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
 
 
 
-    <div class="pt-10 header-actions top">
+    <!-- <div class="pt-10 header-actions top">
       <div class="action-btns">
         <div class="hidden-block-xs">
           <ng-container [ngTemplateOutlet]="actions"></ng-container>
@@ -13,105 +13,213 @@
           <mat-icon>more_vert</mat-icon>
         </button>
       </div>
-    </div>
+    </div> -->
 
 
-    <div class="flex flex-row">
+    <div class="flex flex-between flex-wrap-reverse">
 
-      <div class="flex-auto">
-        <!-- <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content"> -->
+      <div class="header-left">
+        <div class="header-synopsis">
+          <!-- <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content"> -->
 
 
-        <div class="header-title flex-col sm:flex-row">
-          <div *ngIf="content?.appIcon" class="apIcon">
+          <div class="header-title flex-col sm:flex-row">
+            <!-- <div *ngIf="content?.appIcon" class="apIcon">
             <img [src]="content?.creatorLogo" [id]="'source_' + content.identifier" class="source-icon"
               [wsUtilsDefaultThumbnail]="defaultSLogo" [alt]="content.sourceName || ''" />
-          </div>
-          <div class="sm:ml-5 flex flex-auto" [id]="'m-c-'+ content.identifier">
-            <h1 class="mat-display-2 margin-remove-bottom padding-bottom-xs hidden sm:block" [title]="content?.name">
-              {{ content?.name }}
-            </h1>
-            <h1 class="mat-display-1 margin-remove-bottom padding-bottom-xs block sm:hidden" [title]="content?.name">
-              {{ content?.name }}
-            </h1>
-            <span *ngIf="contentProgress === 1" class="margin-left-s">
-              <mat-icon class="ws-mat-accent-text">check_circle</mat-icon>
-            </span>
-          </div>
-
-        </div>
-
-        <div class="flex flex-col sm:flex-row">
-          <div class="apIcon">
+          </div> -->
+            <div class="sm:ml-5 flex flex-auto" [id]="'m-c-'+ content.identifier">
+              <h1 class="fs-32 mat-display-2 margin-remove-bottom padding-bottom-xs hidden sm:block"
+                [title]="content?.name">
+                {{ content?.name }}
+              </h1>
+              <h1 class="mat-display-1 margin-remove-bottom padding-bottom-xs block sm:hidden" [title]="content?.name">
+                {{ content?.name }}
+              </h1>
+              <span *ngIf="contentProgress === 1" class="margin-left-s">
+                <mat-icon class="ws-mat-accent-text">check_circle</mat-icon>
+              </span>
+            </div>
 
           </div>
-          <div class="sm:ml-5 flex flex-col flex-auto">
-            <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
 
-              <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
-                *ngSwitchCase="'overview'">
-                <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
-                  {{ content?.purpose | pipeLimitTo: 250 }}
-                </h2>
-                <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
-                  {{ content?.purpose | pipeLimitTo: 450 }}
-                </h3>
-                <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
-                  [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
-                  <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
+          <div class="flex flex-col sm:flex-row">
+
+            <div class="sm:ml-5 flex flex-col flex-auto">
+              <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
+
+                <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
+                  *ngSwitchCase="'overview'">
+                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+                    {{ content?.purpose | pipeLimitTo: 250 }}
+                  </h2>
+                  <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
+                    {{ content?.purpose | pipeLimitTo: 450 }}
+                  </h3>
+                  <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
+                    [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
+                    <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
+                  </div>
                 </div>
-              </div>
 
-              <div *ngSwitchCase="'contents'">
-              </div>
-
-              <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
-                *ngSwitchCase="'analytics'">
-                <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
-                  {{ content?.subTitle | pipeLimitTo: 250 }}
-                </h2>
-                <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
-                  {{ content?.description | pipeLimitTo: 450 }}
-                </h3>
-                <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
-                  [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
-                  <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
+                <div *ngSwitchCase="'contents'">
                 </div>
+
+                <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
+                  *ngSwitchCase="'analytics'">
+                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+                    {{ content?.subTitle | pipeLimitTo: 250 }}
+                  </h2>
+                  <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
+                    {{ content?.description | pipeLimitTo: 450 }}
+                  </h3>
+                  <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
+                    [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
+                    <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
+                  </div>
+                </div>
+
+
+                <!-- Table Structure -->
+                <div>
+                  <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
+                    Duration :
+                    {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
+                  <div class="toc-banner-item"
+                    *ngIf="tocConfig?.atAGlance?.expiryDate?.enabled && content?.expiryDate && content?.expiryDate?.startsWith('20')">
+                    {{tocConfig?.atAGlance?.expiryDate?.displayName}} : {{ content?.expiryDate | date }}</div>
+                  <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
+                    {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
+                  </div>
+                  <div *ngIf="content?.sourceName">
+                    Source: <a class="blue-link cursor-pointer"
+                      (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</a>
+                  </div>
+                  <div *ngIf="content?.creatorContacts"> Authors :
+                    <span *ngFor="let author of content?.creatorContacts; let i = index" class="mr-1">{{author.name}}
+                      <ng-container
+                        *ngIf="content?.creatorContacts.length > 1 && i !== content?.creatorContacts.length - 1">,
+                      </ng-container>
+                    </span>
+                  </div>
+                  <div *ngIf="content?.creatorDetails">
+                    Curators :
+                    <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+                      {{curator.name}} <ng-container
+                        *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+                      </ng-container>
+                    </span>
+                  </div>
+
+
+                  <!-- {{fetchCohorts(cohortTypesEnum.ACTIVE_USERS)}} -->
+                  <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
+                    <a [routerLink]="'./details'" [queryParams]="{id: content.identifier}">
+                      Cohorts :<span class="blue-link"> {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active
+                        Learners
+                      </span></a>
+                  </div>
+                </div>
+
+
               </div>
 
+              <!-- <div *ngIf="content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">
+                <span class="mr-2 rating-number">{{ content?.averageRating }}&nbsp;</span>
+                <mat-icon class="mr-2 white" *ngFor="let rating of [1, 2, 3, 4, 5]">
+                  {{ getRatingIcon(rating) }}</mat-icon>
+                <span class="rating-count" *ngIf="content?.totalRating">
+                  ( {{ content?.totalRating | pipeCountTransform }} )</span>
+              </div>
 
-            </div>
+              <div *ngIf="!content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">
+                <span class="mr-2 rating-number"> 0.0 &nbsp;</span>
+                <mat-icon class="mr-2 white" *ngFor="let rating of [1, 2, 3, 4, 5]">
+                  {{ getRatingIcon(rating) }}</mat-icon>
+                <span class="rating-count" *ngIf="!content?.totalRating">
+                  ( {{ 0 | pipeCountTransform }} )</span>
+              </div> -->
 
-            <div *ngIf="content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">
-              <span class="mr-2 rating-number">{{ content?.averageRating }}&nbsp;</span>
-              <mat-icon class="mr-2 white" *ngFor="let rating of [1, 2, 3, 4, 5]">
-                {{ getRatingIcon(rating) }}</mat-icon>
-              <span class="rating-count" *ngIf="content?.totalRating">
-                ( {{ content?.totalRating | pipeCountTransform }} )</span>
-            </div>
 
-            <div *ngIf="!content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">
-              <span class="mr-2 rating-number"> 0.0 &nbsp;</span>
-              <mat-icon class="mr-2 white" *ngFor="let rating of [1, 2, 3, 4, 5]">
-                {{ getRatingIcon(rating) }}</mat-icon>
-              <span class="rating-count" *ngIf="!content?.totalRating">
-                ( {{ 0 | pipeCountTransform }} )</span>
-            </div>
+              <div class="action-btns">
+                <div class="hidden-block-xs">
+                  <ng-container [ngTemplateOutlet]="actions"></ng-container>
+                </div>
+                <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
+                  *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                  <img src="assets/images/edit.png" class="action-icons" />
+                </a>
+                <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
+                  *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                  <img src="/assets/images/upload.svg" class="action-icons" />
+                </a>
+                <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+                          content
+                            | pipePartialContent
+                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
+                                      'artifactUrl']
+                        "></ws-widget-btn-content-download>
+                <ws-widget-btn-content-like [forPreview]="forPreview"
+                  [widgetData]="content | pipePartialContent: ['identifier']">
+                </ws-widget-btn-content-like>
+                <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+                </ws-widget-btn-content-share>
+                <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
+                  [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
+                </ws-widget-btn-kb>
+                <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
+                  [widgetData]="btnGoalsConfig">
+                </ws-widget-btn-goals>
+                <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
+                  [widgetData]="btnPlaylistConfig">
+                </ws-widget-btn-playlist>
+                <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+                  [widgetData]="content | pipePartialContent: ['identifier', 'name']">
+                </ws-widget-btn-content-feedback-v2>
 
-            <div class="header-actions mt-8 mb-4">
-              <a [color]="'primary'" class="margin-right-m resumeButton" mat-flat-button>
-                Create Batch
-              </a>
-            </div>
+              </div>
 
-            <div class="header-actions mt-8 mb-4">
-              <ng-container *ngIf="
+              <div class="header-actions mb-4">
+                <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">
+                  <form>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Select batch to enroll</mat-label>
+                      <mat-select [formControl]="batchControl" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let batch of batchData.content" [value]="batch"
+                          [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
+                          <p>{{batch.name}}
+                            ({{batch.startDate}} - {{batch.endDate || 'present'}})</p>
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="batchControl.hasError('required')">Please choose a batch to start course
+                      </mat-error>
+                    </mat-form-field>
+                  </form>
+                </ng-container>
+                <ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
+                  <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngFor="let batch of batchData.content">
+                    Enrolled batch: {{batch.name}} ({{batch.startDate}} - {{batch.endDate || 'present'}})
+                  </h3>
+                </ng-container>
+                <ng-container *ngIf="batchData && !batchData?.enrolled && !batchData?.content?.length">
+                  <h3 class="margin-remove-bottom pt-4 info-msg" i18n>
+                    No batches
+                  </h3>
+                </ng-container>
+              </div>
+
+              <div class="header-actions mb-4">
+                <a [color]="'primary'" class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
+                  Create Batch
+                </a>
+                <ng-container *ngIf="
                               actionBtnStatus !== 'wait' &&
                               content?.status !== 'Deleted' &&
                               content?.status !== 'Expired'
                             ">
-                <div [hidden]="isResource && !content?.artifactUrl?.length">
-                  <ng-container *ngIf="
+                  <div [hidden]="isResource && !content?.artifactUrl?.length">
+                    <ng-container *ngIf="
                                   actionBtnStatus === 'grant' &&
                                   !(isMobile && content?.isInIntranet) &&
                                   !(
@@ -119,65 +227,60 @@
                                     content?.children.length === 0 &&
                                     !content?.artifactUrl?.length
                                   ) &&
-                                  !(
-                                    content?.contentType === 'Course'
-                                  ) &&
+                      !(
+                        content?.contentType === 'Course' && !batchData?.enrolled
+                      ) &&
                                   !(content?.contentType === 'Resource' && !content?.artifactUrl)
                                 ">
-                    <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
-                      [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
-                      [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
-                      class="margin-right-m resumeButton" mat-flat-button>
-                      <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-                        {{resumeData?"Resume":"Start"}}
-                      </ng-container>
-                    </a>
-                    <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
-                      [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-flat-button>
-                      <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment</ng-container>
-                    </a>
-                  </ng-container>
-                  <ng-container *ngIf="actionBtnStatus == 'reject' && content?.registrationUrl">
-                    <a [href]="content?.registrationUrl" target="_blank" [color]="'primary'" class="margin-right-m" i18n
-                      mat-flat-button>Register</a>
-                  </ng-container>
-                </div>
-              </ng-container>
-              <h3 *ngIf="content?.status === 'Deleted' || content?.status === 'Expired'"
-                class="margin-remove-bottom pt-4 info-msg" i18n>
-                The content is expired or deleted.
-              </h3>
-              <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'Unpublished'">
-                The content has been unpublished.
-              </h3>
-              <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'Draft'">
-                The content is in draft.
-              </h3>
-              <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'InReview'">
-                The content is in review.
-              </h3>
+                      <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
+                        [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
+                        [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
+                        class="margin-right-m resumeButton" mat-flat-button>
+                        <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+                          {{resumeData?"Resume":"Start"}}
+                        </ng-container>
+                      </a>
+                      <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
+                        [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-flat-button>
+                        <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment
+                        </ng-container>
+                      </a>
+                    </ng-container>
+                    <ng-container *ngIf="actionBtnStatus == 'reject' && content?.registrationUrl">
+                      <a [href]="content?.registrationUrl" target="_blank" [color]="'primary'" class="margin-right-m"
+                        i18n mat-flat-button>Register</a>
+                    </ng-container>
+                  </div>
+                </ng-container>
+                <h3 *ngIf="content?.status === 'Deleted' || content?.status === 'Expired'"
+                  class="margin-remove-bottom pt-4 info-msg" i18n>
+                  The content is expired or deleted.
+                </h3>
+                <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'Unpublished'">
+                  The content has been unpublished.
+                </h3>
+                <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'Draft'">
+                  The content is in draft.
+                </h3>
+                <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'InReview'">
+                  The content is in review.
+                </h3>
+              </div>
+
+
+
+
             </div>
-
-
-
-
           </div>
+
+
         </div>
-
-
-
-
-
-
-        <!-- </div> -->
-
       </div>
 
 
 
-
-      <!-- <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.appIcon + ')'}">
-    </div> -->
+      <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
+      </div>
     </div>
 
     <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
@@ -195,33 +298,5 @@
   </div>
 </mat-menu>
 
-<ng-template #actions>
-  <a i18n-aria-label aria-label="Take Action" mat-icon-button *ngIf="reviewButton"
-    [routerLink]="['/author/editor/' + content?.identifier]">
-    <mat-icon>publish</mat-icon>
-  </a>
-  <ws-widget-btn-content-download id="prevfordownload" [forPreview]="forPreview" [widgetData]="
-      content
-        | pipePartialContent
-          : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
-                  'artifactUrl']
-    "></ws-widget-btn-content-download>
-  <ws-widget-btn-content-like id="prevforlike" [forPreview]="forPreview"
-    [widgetData]="content | pipePartialContent: ['identifier']">
-  </ws-widget-btn-content-like>
-  <ws-widget-btn-content-share id="prevforshare" [forPreview]="forPreview" [widgetData]="content">
-  </ws-widget-btn-content-share>
-  <ws-widget-btn-kb [forPreview]="forPreview" id="prev" [contentId]="content?.identifier" [contentName]="content?.name"
-    [contentType]="content?.contentType" [status]="content?.status">
-  </ws-widget-btn-kb>
-  <ws-widget-btn-goals [forPreview]="forPreview" id="goalsforprev" *ngIf="isGoalsEnabled && btnGoalsConfig"
-    [widgetData]="btnGoalsConfig">
-  </ws-widget-btn-goals>
-  <ws-widget-btn-playlist [forPreview]="forPreview" id="playlistforprev" *ngIf="btnPlaylistConfig"
-    [widgetData]="btnPlaylistConfig">
-  </ws-widget-btn-playlist>
-  <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview" id="feedbackforprev"
-    [widgetData]="content | pipePartialContent: ['identifier', 'name']">
-  </ws-widget-btn-content-feedback-v2>
-</ng-template>
+
 <ng-template #authView i18n>View</ng-template>

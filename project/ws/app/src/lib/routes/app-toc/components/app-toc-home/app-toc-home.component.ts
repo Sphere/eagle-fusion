@@ -1,11 +1,15 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { ActivatedRoute, Data } from '@angular/router'
+import { Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core'
+import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
+// import { share } from 'rxjs/operators'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { AccessControlService } from '@ws/author/src/public-api'
+import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 
 export enum ErrorType {
   internalServer = 'internalServer',
@@ -19,15 +23,6 @@ export enum ErrorType {
 })
 export class AppTocHomeComponent implements OnInit, OnDestroy {
 
-  constructor(
-    private route: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private tocSvc: AppTocService,
-    private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-  ) {
-  }
-
   get enableAnalytics(): boolean {
     if (this.configSvc.restrictedFeatures) {
       return !this.configSvc.restrictedFeatures.has('tocAnalytics')
@@ -38,6 +33,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   content: NsContent.IContent | null = null
   errorCode: NsAppToc.EWsTocErrorCode | null = null
   resumeData: NsContent.IContinueLearningData | null = null
+  batchData: NsContent.IBatchListResponse | null = null
+  userEnrollmentList = null
   routeSubscription: Subscription | null = null
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   isCohortsRestricted = false
@@ -62,7 +59,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   }
   tocConfig: any = null
   elementPosition: any
+  batchSubscription: Subscription | null = null
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
+  body: SafeHtml | null = null
+  contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
 
   courseMockData = {
     id: 'api.content.hierarchy.get',
@@ -310,6 +310,18 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private contentSvc: WidgetContentService,
+    private userSvc: WidgetUserService,
+    private tocSvc: AppTocService,
+    private loggerSvc: LoggerService,
+    private configSvc: ConfigurationsService,
+    private domSanitizer: DomSanitizer,
+    private authAccessControlSvc: AccessControlService,
+  ) {
+  }
   ngOnInit() {
     try {
       this.isInIframe = window.self !== window.top
@@ -349,8 +361,16 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.route.fragment.subscribe((fragment: string) => {
       this.currentFragment = fragment || 'overview'
     })
+    this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
+      () => {
+        this.fetchBatchDetails()
+      },
+      () => {
+        // tslint:disable-next-line: no-console
+        console.log('error on batchSubscription')
+      },
+    )
   }
-
 
   checkJson(str: any) {
     try {
@@ -390,16 +410,145 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         break
       }
     }
-    if (this.content && this.content.identifier && !this.forPreview) {
-      this.getContinueLearningData(this.content.identifier)
+    this.getUserEnrollmentList()
+    this.body = this.domSanitizer.bypassSecurityTrustHtml(
+      this.content && this.content.body
+        ? this.forPreview
+          ? this.authAccessControlSvc.proxyToAuthoringUrl(this.content.body)
+          : this.content.body
+        : '',
+    )
+    this.contentParents = {}
+  }
+
+  private getUserEnrollmentList() {
+    if (this.content && this.content.identifier && this.content.primaryCategory !== 'Course') {
+      // const collectionId = this.isResource ? '' : this.content.identifier
+      return this.getContinueLearningData(this.content.identifier)
+    }
+    this.userEnrollmentList = null
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    // this.route.data.subscribe(data => {
+    //   userId = data.profileData.data.userId
+    //   }
+    // )
+    this.userSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        let enrolledCourse: NsContent.ICourse | undefined
+        if (this.content && this.content.identifier && !this.forPreview) {
+          if (courses && courses.length) {
+            enrolledCourse = courses.find(course => {
+              const identifier = this.content && this.content.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+          }
+          // If current course is present in the list of user enrolled course
+          if (enrolledCourse && enrolledCourse.batchId) {
+            // const collectionId = this.isResource ? '' : this.content.identifier
+            this.content.completionPercentage = enrolledCourse.completionPercentage || 0
+            this.content.completionStatus = enrolledCourse.status || 0
+            this.getContinueLearningData(this.content.identifier, enrolledCourse.batchId)
+            this.batchData = {
+              content: [enrolledCourse.batch],
+              enrolled: true,
+            }
+            if (this.getBatchId()) {
+              this.router.navigate(
+                [],
+                {
+                  relativeTo: this.route,
+                  queryParams: { batchId: this.getBatchId() },
+                  queryParamsHandling: 'merge',
+                })
+            }
+          } else {
+            // It's understood that user is not already enrolled
+            // Fetch the available batches and present to user
+            this.fetchBatchDetails()
+          }
+        }
+      },
+      (error: any) => {
+        this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+      },
+    )
+  }
+  public getBatchId(): string {
+    let batchId = ''
+    if (this.batchData && this.batchData.content) {
+      for (const batch of this.batchData.content) {
+        batchId = batch.batchId
+      }
+    }
+    return batchId
+  }
+
+  public fetchBatchDetails() {
+    if (this.content && this.content.identifier) {
+      this.resumeData = null
+      const req = {
+        request: {
+          filters: {
+            courseId: this.content.identifier,
+            status: ['0', '1', '2'],
+            // createdBy: 'fca2925f-1eee-4654-9177-fece3fd6afc9',
+          },
+          sort_by: { createdDate: 'desc' },
+        },
+      }
+      this.contentSvc.fetchCourseBatches(req).subscribe(
+        (data: NsContent.IBatchListResponse) => {
+          this.batchData = data
+          this.batchData.enrolled = false
+          if (this.getBatchId()) {
+            this.router.navigate(
+              [],
+              {
+                relativeTo: this.route,
+                // queryParams: { batchId: this.getBatchId() },
+                queryParamsHandling: 'merge',
+              })
+          }
+        },
+        (error: any) => {
+          this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+        },
+      )
     }
   }
 
-  private getContinueLearningData(contentId: string) {
+  private getContinueLearningData(contentId: string, batchId?: string) {
     this.resumeData = null
-    this.contentSvc.fetchContentHistory(contentId).subscribe(
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    // this.route.data.subscribe(data => {
+    //   userId = data.profileData.data.userId
+    // })
+    const req: NsContent.IContinueLearningDataReq = {
+      request: {
+        batchId,
+        userId,
+        courseId: contentId || '',
+        contentIds: [],
+        fields: ['progressdetails'],
+      },
+    }
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
       data => {
-        this.resumeData = data
+        if (data && data.result && data.result.contentList && data.result.contentList.length) {
+          this.resumeData = data.result.contentList
+          this.tocSvc.updateResumaData(this.resumeData)
+        } else {
+          this.resumeData = null
+        }
       },
       (error: any) => {
         this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)

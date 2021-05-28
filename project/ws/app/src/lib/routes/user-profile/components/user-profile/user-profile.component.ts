@@ -27,7 +27,6 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
-
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 
 @Component({
@@ -93,6 +92,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   navigatedFromProfile = false
   mobileNumberLogin = false
   mobileLoginNumber = ''
+  nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
+    'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
+    'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
+    'Himachal Pradesh Nurses Registration Council', 'Jammu and Kashmir State Paramedical & Nursing Council',
+    'Jharkhand Nurses Registration Council', 'Karnataka Nursing Council', 'Kerala Nurses & Midwives Council',
+    'Madhya Pradesh Nurses Registration Council', 'Maharashtra Nursing Council', 'Manipur Nursing Council',
+    'Meghalaya Nursing Council', 'Mizoram Nursing Council', 'Odisha Nurses & Midwives Registration Council',
+    'Punjab Nurses Registration Council', 'Rajasthan Nursing Council', 'Tamil Nadu Nurses & Midwives Council',
+    'Tripura Nursing Council', 'Uttar Pradesh Nurses & Midwives Council', 'Uttarakhand Nurses Midwives Council',
+    'West Bengal Nursing Council', 'Telangana State Nurses Midwives Auxiliary Nurse Midwives & Health Visitors Council',
+    'Sikkim Nursing Council', 'Nagaland Nursing Council']
+  filteredOptions: Observable<string[]> | undefined
 
   constructor(
     private snackBar: MatSnackBar,
@@ -123,6 +134,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       gender: new FormControl('', []),
       maritalStatus: new FormControl('', []),
       domicileMedium: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
+      nationalUniqueId: new FormControl('', []),
+      doctorRegNumber: new FormControl('', []),
+      instituteName: new FormControl('', []),
+      nursingCouncil: new FormControl('', []),
       knownLanguages: new FormControl([], []),
       residenceAddress: new FormControl('', []),
       category: new FormControl('', []),
@@ -167,7 +183,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.getUserDetails()
     this.fetchMeta()
-
   }
 
   ngAfterViewInit() {
@@ -220,7 +235,22 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       (_err: any) => {
       })
+
+    // tslint:disable-next-line: no-non-null-assertion
+    this.filteredOptions = this.createUserForm.get('nursingCouncil')!.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.councilFilter(value))
+      )
   }
+
+  private councilFilter(value: string): string[] {
+    const filterValue = value.toLowerCase()
+
+    return this.nursingCouncilNames.filter(option =>
+      option.toLowerCase().includes(filterValue))
+  }
+
   createDegree(): FormGroup {
     return this.fb.group({
       degree: new FormControl('', []),
@@ -456,22 +486,26 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.profileDetailsStatus) {
       if (this.configSvc.userProfile) {
-        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastar.org')) {
+        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in')) {
           this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
           })
         }
         this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
-          data => {
-            if (data && data.length) {
-              const academics = this.populateAcademics(data[0])
+          (data: any) => {
+            const userData = data.result.UserProfile
+            if (data && data.result && data.result.UserProfile && userData.length) {
+              const academics = this.populateAcademics(userData[0])
               this.setDegreeValuesArray(academics)
               this.setPostDegreeValuesArray(academics)
-              const organisations = this.populateOrganisationDetails(data[0])
-              this.constructFormFromRegistry(data[0], academics, organisations)
-              this.populateChips(data[0])
+              const organisations = this.populateOrganisationDetails(userData[0])
+              this.constructFormFromRegistry(userData[0], academics, organisations)
+              this.populateChips(userData[0])
+              this.userProfileData = userData[0]
 
             }
             // this.handleFormData(data[0])
@@ -481,8 +515,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
-        if (this.configSvc.userProfile.email.endsWith('aastar.org')) {
+        if (this.configSvc.userProfile.email.endsWith('aastrika.in')) {
           this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -634,6 +670,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       dob: this.getDateFromText(data.personalDetails.dob),
       nationality: data.personalDetails.nationality,
       domicileMedium: data.personalDetails.domicileMedium,
+      regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+      nationalUniqueId: data.personalDetails.nationalUniqueId,
+      doctorRegNumber: data.personalDetails.doctorRegNumber,
+      instituteName: data.personalDetails.instituteName,
+      nursingCouncil: data.personalDetails.nursingCouncil,
       gender: data.personalDetails.gender,
       maritalStatus: data.personalDetails.maritalStatus,
       category: data.personalDetails.category,
@@ -722,6 +763,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         dob: form.value.dob,
         nationality: form.value.nationality,
         domicileMedium: form.value.domicileMedium,
+        regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
+        nationalUniqueId: form.value.nationalUniqueId,
+        doctorRegNumber: form.value.doctorRegNumber,
+        instituteName: form.value.instituteName,
+        nursingCouncil: form.value.nursingCouncil,
         gender: form.value.gender,
         maritalStatus: form.value.maritalStatus,
         category: form.value.category,
@@ -884,7 +930,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     //   delete profileRequest.personalDetails.telephone
     // }
     // tslint:disable-next-line
-    const fields = ['category', 'countryCode', 'dob', 'officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
+    const fields = ['category', 'countryCode', 'dob', 'officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nursingCouncil', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
     profileRequest.personalDetails.officialEmail = profileRequest.personalDetails.primaryEmail
     fields.map((item: any) => {
       // tslint:disable-next-line
@@ -897,7 +943,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
-
         this.updateBtnProfileName(profileRequest.personalDetails.firstname)
         form.reset()
         this.uploadSaveData = false
@@ -906,7 +951,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.navigatedFromProfile) {
           this.router.navigate(['page', 'home'])
         } else {
-          this.router.navigate(['app', 'profile', 'dashboard'])
+          const selectedCourse = localStorage.getItem('selectedCourse')
+          if (selectedCourse) {
+            this.router.navigateByUrl(selectedCourse)
+          } else {
+            this.router.navigate(['app', 'profile', 'dashboard'])
+          }
         }
 
       },
@@ -916,14 +966,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       })
   }
 
+  updateBtnProfileName(fn: string) {
+    this.btnservice.changeName(fn)
+  }
+
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
-  }
-
-  updateBtnProfileName(fn: string) {
-    this.btnservice.changeName(fn)
   }
 
   formNext() {

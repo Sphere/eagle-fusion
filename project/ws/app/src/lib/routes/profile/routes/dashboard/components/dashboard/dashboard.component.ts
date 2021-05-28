@@ -127,71 +127,74 @@ export class DashboardComponent implements OnInit {
       this.departmentName = this.configSvc.userProfile.departmentName || ''
 
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
-        data => {
-          if (data && data.length) {
-            this.userProfileData = data[0]
-            if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
-              this.academicsArray = this.userProfileData.academics
-              const academics = this.userProfileData.academics
-              academics.forEach((academic: any) => {
+        (data: any) => {
+          if (data) {
+            const userData = data.result.UserProfile
+            this.userProfileData = userData[0]
+            if (data && data.result && data.result.UserProfile && userData.length) {
+              if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
+                this.academicsArray = this.userProfileData.academics
+                const academics = this.userProfileData.academics
+                academics.forEach((academic: any) => {
 
-                if (academic.type === 'X_STANDARD') {
-                  const xstandardArray = academic
+                  if (academic.type === 'X_STANDARD') {
+                    const xstandardArray = academic
 
-                  for (const key in xstandardArray) {
+                    for (const key in xstandardArray) {
 
-                    if (xstandardArray[key] === '') {
-                      this.xStandardValues = this.xStandardValues + 1
+                      if (xstandardArray[key] === '') {
+                        this.xStandardValues = this.xStandardValues + 1
+                      }
                     }
                   }
-                }
 
-                if (academic.type === 'XII_STANDARD') {
-                  const xiistandardArray = academic
+                  if (academic.type === 'XII_STANDARD') {
+                    const xiistandardArray = academic
 
-                  for (const key in xiistandardArray) {
+                    for (const key in xiistandardArray) {
 
-                    if (xiistandardArray[key] === '') {
-                      this.xiiStandardValues = this.xiiStandardValues + 1
+                      if (xiistandardArray[key] === '') {
+                        this.xiiStandardValues = this.xiiStandardValues + 1
+                      }
                     }
                   }
-                }
 
-                if (academic.type === 'GRADUATE') {
-                  const graduateArray = academic
+                  if (academic.type === 'GRADUATE') {
+                    const graduateArray = academic
 
-                  for (const key in graduateArray) {
+                    for (const key in graduateArray) {
 
-                    if (graduateArray[key] === '') {
-                      this.graduate = this.graduate + 1
+                      if (graduateArray[key] === '') {
+                        this.graduate = this.graduate + 1
+                      }
                     }
                   }
-                }
 
-                if (academic.type === 'POSTGRADUATE') {
-                  const postGraduateArray = academic
+                  if (academic.type === 'POSTGRADUATE') {
+                    const postGraduateArray = academic
 
-                  for (const key in postGraduateArray) {
+                    for (const key in postGraduateArray) {
 
-                    if (postGraduateArray[key] === '') {
-                      this.postGraduate = this.postGraduate + 1
+                      if (postGraduateArray[key] === '') {
+                        this.postGraduate = this.postGraduate + 1
+                      }
                     }
                   }
+
+                })
+
+                if (this.xStandardValues > 1 || this.xiiStandardValues > 1 || this.graduate > 1 || this.postGraduate > 1) {
+                  this.showAcademicElse = true
                 }
-
-              })
-
-              if (this.xStandardValues > 1 || this.xiiStandardValues > 1 || this.graduate > 1 || this.postGraduate > 1) {
-                this.showAcademicElse = true
               }
-            }
-            // const academics = this.populateAcademics(data[0])
-            // this.setDegreeValuesArray(academics)
-            // this.setPostDegreeValuesArray(academics)
-            // const organisations = this.populateOrganisationDetails(data[0])
-            // this.constructFormFromRegistry(data[0], academics, organisations)
-            // this.populateChips(data[0])
+              // const academics = this.populateAcademics(data[0])
+              // this.setDegreeValuesArray(academics)
+              // this.setPostDegreeValuesArray(academics)
+              // const organisations = this.populateOrganisationDetails(data[0])
+              // this.constructFormFromRegistry(data[0], academics, organisations)
+              // this.populateChips(data[0])
 
+            }
           }
           // this.handleFormData(data[0])
         },

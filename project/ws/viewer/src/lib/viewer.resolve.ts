@@ -104,7 +104,6 @@ export class ViewerResolve
   //   )
   // }
 
-
   resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {
     const resourceType = route.data.resourceType
     this.viewerDataSvc.reset(route.paramMap.get('resourceId'), 'none', route.queryParams['primaryCategory'])
@@ -181,6 +180,5 @@ export class ViewerResolve
       }),
     )
   }
-
 
 }

@@ -1,4 +1,4 @@
-import { Injectable, SkipSelf } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { Data } from '@angular/router'
 import { Subject, Observable } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
@@ -12,6 +12,7 @@ const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const PROXY_SLAG_V8 = '/apis/proxies/v8'
 
 const API_END_POINTS = {
+  BATCH_CREATE: `${PROXY_SLAG_V8}/learner/course/v1/batch/create`,
   CONTENT_PARENTS: `${PROTECTED_SLAG_V8}/content/parents`,
   CONTENT_NEXT: `${PROTECTED_SLAG_V8}/content/next`,
   CONTENT_PARENT: (contentId: string) => `${PROTECTED_SLAG_V8}/content/${contentId}/parent`,
@@ -34,8 +35,10 @@ export class AppTocService {
   analyticsFetchStatus: TFetchStatus = 'none'
   private showSubtitleOnBanners = false
   private canShowDescription = false
+  batchReplaySubject: Subject<any> = new Subject()
+  resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
 
-  constructor(@SkipSelf() private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
 
   get subtitleOnBanners(): boolean {
     return this.showSubtitleOnBanners
@@ -50,6 +53,10 @@ export class AppTocService {
     this.canShowDescription = val
   }
 
+  updateResumaData(data: any) {
+    this.resumeData.next(data)
+  }
+
   showStartButton(content: NsContent.IContent | null): { show: boolean; msg: string } {
     const status = {
       show: false,
@@ -57,7 +64,7 @@ export class AppTocService {
     }
     if (content) {
       if (
-        content.artifactUrl.match(/youtu(.)?be/gi) &&
+        content.artifactUrl && content.artifactUrl.match(/youtu(.)?be/gi) &&
         this.configSvc.userProfile &&
         this.configSvc.userProfile.country === 'China'
       ) {
@@ -311,5 +318,15 @@ export class AppTocService {
         : API_END_POINTS.CONTENT_PARENT(contentId),
       data,
     )
+  }
+
+  createBatch(batchData: any) {
+    return this.http.post(
+      API_END_POINTS.BATCH_CREATE,
+      { request: batchData },
+    )
+  }
+  updateBatchData() {
+    this.batchReplaySubject.next()
   }
 }

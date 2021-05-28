@@ -7,7 +7,13 @@
         ? collectionType === 'Playlist'
           ? '/app/playlist/me/' + collectionId
           : (forPreview ? '/author' : '/app') + '/toc/' + collectionId + '/overview'
-        : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview'
+        : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview',
+      titles: [],
+      queryParams : isTypeOfCollection
+      ? collectionType === 'Playlist'
+        ? {}
+        : {}
+      : {primaryCategory: resourcePrimaryCategory}
     }" [playerScreen]='true'></ws-widget-btn-page-back>
   <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{

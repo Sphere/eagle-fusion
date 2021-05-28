@@ -199,7 +199,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       content = content.result.content
       // console.log('11111111-------', content)
 
-
       // TODO console.log('content',content);
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
@@ -372,7 +371,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-
   private getCollectionTypeRedirectUrl(
     identifier: string,
     contentType: string = '',
@@ -399,7 +397,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     }
     return url
   }
-
 
   private processCollectionForTree() {
     if (this.collection && this.collection.children) {

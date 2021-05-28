@@ -89,6 +89,10 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       // )
       //  {
       // this.collection = this.getPlaylistContent(collectionId, collectionType)
+      this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
+        this.collectionId = params.get('collectionId') as string
+        this.isPreview = params.get('preview') === 'true' ? true : false
+      })
       try {
         this.contentSvc
           .fetchAuthoringContent(collectionId).subscribe(data => {
@@ -107,10 +111,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
                 this.resourceName = this.viewerDataSvc.resource ? this.viewerDataSvc.resource.name : ''
               }
             })
-            this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
-              this.collectionId = params.get('collectionId') as string
-              this.isPreview = params.get('preview') === 'true' ? true : false
-            })
+
             this.viewerDataServiceResourceSubscription = this.viewerDataSvc.changedSubject.subscribe(
               _data => {
                 this.resourceId = this.viewerDataSvc.resourceId as string
