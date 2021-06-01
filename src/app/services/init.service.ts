@@ -116,9 +116,9 @@ export class InitService {
     }
     try {
       // this.logger.info('User Authenticated', authenticated)
-      // const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
-      // this.configSvc.userPreference = userPrefPromise
-      // this.configSvc.userPreference.selectedTheme = 'theme-igot'
+      const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
+      this.configSvc.userPreference = userPrefPromise
+      this.configSvc.userPreference.selectedTheme = 'theme-igot'
       // this.reloadAccordingToLocale()
       // if (this.configSvc.userPreference.pinnedApps) {
       //   const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')

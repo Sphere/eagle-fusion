@@ -52,11 +52,11 @@ export class BtnProfileComponent extends WidgetBaseComponent
   updateName() {
     if (this.configSvc && this.configSvc.userProfile && this.configSvc.userProfile.givenName) {
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
-        data => {
-          if (data && data.length) {
-            this.givenName = data[0].personalDetails.firstname || ''
-            this.btnservice.changeName(this.givenName)
-          }
+        (data: any) => {
+          const userData = data.result.UserProfile
+          this.givenName = userData[0].personalDetails.firstname || ''
+          this.btnservice.changeName(this.givenName)
+
         })
     }
   }

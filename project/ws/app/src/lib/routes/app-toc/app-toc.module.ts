@@ -43,7 +43,7 @@ import { CreateBatchDialogComponent } from './components/create-batch-dialog/cre
 
 // services
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
-// import { ProfileResolverService } from './resolvers/profile-resolver.service'
+import { ProfileResolverService } from './../user-profile/resolvers/profile-resolver.service'
 import { AppTocService } from './services/app-toc.service'
 import { TrainingApiService } from '../infy/routes/training/apis/training-api.service'
 
@@ -205,6 +205,7 @@ import { LicenseComponent } from './components/license/license.component'
     EditorService,
     ApiService,
     AccessControlService,
+    ProfileResolverService,
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent],
   entryComponents: [
