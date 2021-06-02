@@ -28,7 +28,7 @@ import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
-import _ from 'lodash'
+import lodash from 'lodash'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -187,7 +187,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
     //   console.log('ngOnInit - value', value);
     // })
-    // const approvalData = _.compact(_.map(this.approvalConfig, (v, k) => {
+    // const approvalData = lodash.compact(lodash.map(this.approvalConfig, (v, k) => {
     //   return v.approvalRequired ? { [k]: v } : null
     // }))
 
@@ -275,7 +275,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   fetchPendingFields() {
     this.userProfileSvc.listApprovalPendingFields().subscribe(res => {
       if (res && res.result && res.result.data) {
-        this.unApprovedField = _.get(res, 'result.data')
+        this.unApprovedField = lodash.get(res, 'result.data')
       }
     })
   }
@@ -732,20 +732,20 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       orgNameOther: organisation.orgNameOther,
       industryOther: organisation.industryOther,
       designationOther: organisation.designationOther,
-      orgName: _.get(data, 'employmentDetails.departmentName') || '',
-      service: _.get(data, 'employmentDetails.service') || '',
-      cadre: _.get(data, 'employmentDetails.cadre') || '',
-      allotmentYear: this.checkvalue(_.get(data, 'employmentDetails.allotmentYearOfService') || ''),
-      otherDetailsDoj: this.getDateFromText(_.get(data, 'employmentDetails.dojOfService') || ''),
-      payType: _.get(data, 'employmentDetails.payType') || '',
-      civilListNo: _.get(data, 'employmentDetails.civilListNo') || '',
-      employeeCode: this.checkvalue(_.get(data, 'employmentDetails.employeeCode') || ''),
-      otherDetailsOfficeAddress: this.checkvalue(_.get(data, 'employmentDetails.officialPostalAddress') || ''),
-      otherDetailsOfficePinCode: this.checkvalue(_.get(data, 'employmentDetails.pinCode') || ''),
-      skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
-      certificationDesc: _.get(data, 'skills.certificateDetails') || '',
+      orgName: lodash.get(data, 'employmentDetails.departmentName') || '',
+      service: lodash.get(data, 'employmentDetails.service') || '',
+      cadre: lodash.get(data, 'employmentDetails.cadre') || '',
+      allotmentYear: this.checkvalue(lodash.get(data, 'employmentDetails.allotmentYearOfService') || ''),
+      otherDetailsDoj: this.getDateFromText(lodash.get(data, 'employmentDetails.dojOfService') || ''),
+      payType: lodash.get(data, 'employmentDetails.payType') || '',
+      civilListNo: lodash.get(data, 'employmentDetails.civilListNo') || '',
+      employeeCode: this.checkvalue(lodash.get(data, 'employmentDetails.employeeCode') || ''),
+      otherDetailsOfficeAddress: this.checkvalue(lodash.get(data, 'employmentDetails.officialPostalAddress') || ''),
+      otherDetailsOfficePinCode: this.checkvalue(lodash.get(data, 'employmentDetails.pinCode') || ''),
+      skillAquiredDesc: lodash.get(data, 'skills.additionalSkills') || '',
+      certificationDesc: lodash.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -857,11 +857,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     profileReq.personalDetails.personalEmail = form.value.secondaryEmail
 
     let approvalData
-    _.forOwn(this.approvalConfig, (v, k) => {
+    lodash.forOwn(this.approvalConfig, (v, k) => {
       if (!v.approvalRequired) {
-        _.set(profileReq, k, this.getDataforK(k, form))
+        lodash.set(profileReq, k, this.getDataforK(k, form))
       } else {
-        _.set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
+        lodash.set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
         approvalData = this.getDataforKAdd(k, v.approvalFiels, form)
       }
     })
@@ -898,7 +898,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           officialEmail: officeEmail,
           postalAddress: form.value.residenceAddress,
           pincode: form.value.pincode,
-          osid: _.get(this.userProfileData, 'personalDetails.osid') || undefined,
+          osid: lodash.get(this.userProfileData, 'personalDetails.osid') || undefined,
         }
       case 'academics':
         return this.getAcademics(form)
@@ -914,7 +914,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           officialPostalAddress: form.value.otherDetailsOfficeAddress,
           pinCode: form.value.otherDetailsOfficePinCode,
           departmentName: form.value.orgName || form.value.orgNameOther || '',
-          osid: _.get(this.userProfileData, 'employmentDetails.osid') || undefined,
+          osid: lodash.get(this.userProfileData, 'employmentDetails.osid') || undefined,
         }
       case 'professionalDetails':
         return [
@@ -936,12 +936,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   private getDataforKRemove(k: string, fields: string[], form: any) {
     const datak = this.getDataforK(k, form)
-    _.each(datak, (dk, idx) => {
+    lodash.each(datak, (dk, idx) => {
       for (let i = 0; i <= fields.length && dk; i += 1) {
-        const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
-        const newVal = _.get(dk, `${fields[i]}`)
+        const oldVal = lodash.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
+        const newVal = lodash.get(dk, `${fields[i]}`)
         if (oldVal !== newVal) {
-          _.set(dk, fields[i], oldVal)
+          lodash.set(dk, fields[i], oldVal)
         }
       }
     })
@@ -950,16 +950,17 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private getDataforKAdd(k: string, fields: string[], form: any) {
     const datak = this.getDataforK(k, form)
     const lst: any = []
-    _.each(datak, (dk, idx) => {
+    //tslint: disable-next-line
+    lodash.each(datak, (dk:any, idx:any) => {
       for (let i = 0; i <= fields.length && dk; i += 1) {
-        const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
-        const newVal = _.get(dk, `${fields[i]}`)
-        if ((oldVal !== newVal) && dk && _.get(dk, fields[i]) && typeof (_.get(dk, fields[i])) !== 'object') {
+        const oldVal = lodash.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
+        const newVal = lodash.get(dk, `${fields[i]}`)
+        if ((oldVal !== newVal) && dk && lodash.get(dk, fields[i]) && typeof (lodash.get(dk, fields[i])) !== 'object') {
           lst.push({
             fieldKey: k,
             fromValue: { [fields[i]]: oldVal || '' },
             toValue: { [fields[i]]: newVal || '' },
-            osid: _.get(this.userProfileData, `${k}[${idx}].osid`),
+            osid: lodash.get(this.userProfileData, `${k}[${idx}].osid`),
           })
         }
       }
@@ -983,7 +984,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       description: form.value.orgDesc,
       completePostalAddress: '',
       additionalAttributes: {},
-      osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
+      osid: lodash.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
     }
     if (form.value.isGovtOrg) {
       org.organisationType = 'Government'
