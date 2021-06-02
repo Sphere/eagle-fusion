@@ -56,7 +56,6 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       // this.logo = !isXSmall
       this.isSmall = isXSmall
     })
-    // console.log('enableFullScreen==>', this.enableFullScreen)
   }
 
   ngOnChanges() {
@@ -95,8 +94,8 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       })
       try {
         this.contentSvc
-          .fetchAuthoringContent(collectionId).subscribe(data => {
-            this.collection = data
+          .fetchContent(collectionId).subscribe((data: any) => {
+            this.collection = data.result.content
             if (this.configSvc.instanceConfig) {
               this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
                 this.configSvc.instanceConfig.logos.appBottomNav,
