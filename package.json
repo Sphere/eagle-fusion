@@ -59,7 +59,7 @@
     "jspdf-autotable": "^3.5.13",
     "jsplumb": "2.11.2",
     "keycloak-angular": "^6.1.0",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "material-icons": "^0.3.1",
     "moment": "^2.29.1",
     "mustache": "^3.0.2",
