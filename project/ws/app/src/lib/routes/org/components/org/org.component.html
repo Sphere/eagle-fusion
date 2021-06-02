@@ -1,12 +1,12 @@
 <div id="navy-blue-bg" [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
-  <div class="px-4 sm:px-40 md:px-10ss my-5 mb-5 flex flex-middle"
+  <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
     *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">SAFE
-      DELIVERY</span>
+      (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">{{currentOrgData.title ||
+      "e-Learning for Maternal and Newborn Health Care" }}</span>
   </div>
 </div>
-<div class=" profile-container px-4 sm:px-48 md:px-10ss py-0 my-0 mt-12">
+<div class=" profile-container px-4 sm:px-20 md:px-20 xl:px-40  py-0 my-0 mt-12">
   <div class="mb-4" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <mat-card class="org-data mb-4">
 
@@ -44,7 +44,7 @@
       About</span>
   </div>
   <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
-    <div class="flex">
+    <div class="flex about-outer">
       <div class="flex-1 justify-between about-text">
         <div class="mt-3 mb-3 " [innerHTML]="currentOrgData?.about">
         </div>
@@ -64,15 +64,13 @@
 
     </div>
   </div>
-<div *ngIf="currentOrgData?.sourceName != 'Indian Nursing Council'">
-  <div class="flex flex-middle border-bottom">
-    <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
-      About</span>
-  </div>
-  <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.about">
-  </div>
-</div>
-  <!-- <ng-container *ngIf="currentOrgData?.Purposes">
+  <div *ngIf="currentOrgData?.sourceName != 'Indian Nursing Council'">
+    <div class="flex flex-middle border-bottom">
+    </div>
+    <div class="mt-3 mb-3" [innerHTML]="currentOrgData?.about">
+    </div>
+    </div>
+    <!-- <ng-container *ngIf="currentOrgData?.Purposes">
     <div class="flex flex-middle border-bottom">
       <span class="font-bold heading-title margin-zero  pb-0" i18n="Purposes">
         Purposes</span>
@@ -81,7 +79,7 @@
     </div>
   </ng-container> -->
 
-  <!-- <ng-container *ngIf="currentOrgData?.Audience">
+    <!-- <ng-container *ngIf="currentOrgData?.Audience">
     <div class="flex flex-middle border-bottom">
       <span class="font-bold heading-title margin-zero  pb-0" i18n="Audience">
         Audience</span>
@@ -90,93 +88,93 @@
     </div>
   </ng-container> -->
 
-  <div class="w-100">
-    <div class="flex flex-middle border-bottom">
-      <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
-        Courses</span>
+    <div class="w-100">
+      <div class="flex flex-middle border-bottom">
+        <span class="font-bold heading-title margin-zero  pb-0" i18n="Courses">
+          Courses</span>
+      </div>
     </div>
-  </div>
-  <div class="w-100" *ngIf="courseData?.result > 5">
-    <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
-  </div>
-  <div class="flex-main mt-4">
-    <ng-container *ngFor="let widget of courseData?.result">
-      <mat-card class="card-standard-container mr-8 1 cursor-pointer">
-        <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
-          #popoverTrigger="mdePopoverTrigger" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
-          [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-140"
-          (mouseover)="showTarget($event)">
-          <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.appIcon"
-              [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
-              [alt]="widget.name" />
-            <span class="img-overlay"></span>
-            <div class="source-div mt-4">
+    <div class="w-100" *ngIf="courseData?.result > 5">
+      <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
+    </div>
+    <div class="flex-main mt-4">
+      <ng-container *ngFor="let widget of courseData?.result">
+        <mat-card class="card-standard-container mr-8 1 cursor-pointer">
+          <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
+            i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
+            #popoverTrigger="mdePopoverTrigger" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
+            [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-140"
+            (mouseover)="showTarget($event)">
+            <div style="position: relative; z-index: 1;">
+              <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.appIcon"
+                [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+                [alt]="widget.name" />
+              <span class="img-overlay"></span>
+              <div class="source-div mt-4">
+              </div>
             </div>
-          </div>
-        </a>
-        <mat-card-content>
-          <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-            style="margin-top:65px; margin-left: -11px; padding-top: 1px;">
-            {{ widget.name }}
-          </div>
-          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
-            {{ widget.description }}
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
-        <mat-card class="popover-card xs-hidden">
-
+          </a>
           <mat-card-content>
-            <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
+            <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+              style="margin-top:65px; margin-left: -11px; padding-top: 1px;">
               {{ widget.name }}
             </div>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
               {{ widget.description }}
-            </div>
-
-            <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>Published on: </span>
-              {{widget?.lastUpdatedOn | date }}</div>
-            <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
-              <span class="mr-1 orange-text">Duration: </span>
-              <mat-icon>access_time</mat-icon>
-              <!-- <span class="time-text fs-13">{{ widget.duration | pipeDurationTransform: 'hms' }}</span> -->
-              <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-                <!-- <div class="flex items-start">
-                  <ng-container [ngTemplateOutlet]="rating"></ng-container>
-                </div> -->
-              </span>
-            </div>
-            <p><span class="fw-500">Number of modules:</span> {{ widget?.children?.length}}</p>
-            <p *ngIf="widget?.creatorContacts"><span class="fw-500">Author:
-              </span>{{ widget?.creatorContacts[0]?.name}}</p>
-
-            <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
-              {{widget?.uniqueUsersCount}}</p>
-            <p *ngIf="widget?.sourceName"><span class="fw-500">Source:</span> {{widget.sourceName}}
-            </p>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-              <div class="fw-500 mb-1">Course Description</div>
-              {{ widget.description }}
-            </div>
-
-            <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-              <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
-                (click)="loginRedirect('S',  widget.identifier)"> {{btnText}}
-              </button>
             </div>
           </mat-card-content>
         </mat-card>
-      </mde-popover>
-    </ng-container>
-  </div>
+
+        <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
+          <mat-card class="popover-card xs-hidden">
+
+            <mat-card-content>
+              <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
+                {{ widget.name }}
+              </div>
+              <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+                {{ widget.description }}
+              </div>
+
+              <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>Published on: </span>
+                {{widget?.lastUpdatedOn | date }}</div>
+              <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
+                <span class="mr-1 orange-text">Duration: </span>
+                <mat-icon>access_time</mat-icon>
+                <!-- <span class="time-text fs-13">{{ widget.duration | pipeDurationTransform: 'hms' }}</span> -->
+                <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+                  <!-- <div class="flex items-start">
+                  <ng-container [ngTemplateOutlet]="rating"></ng-container>
+                </div> -->
+                </span>
+              </div>
+              <p><span class="fw-500">Number of modules:</span> {{ widget?.children?.length}}</p>
+              <p *ngIf="widget?.creatorContacts"><span class="fw-500">Author:
+                </span>{{ widget?.creatorContacts[0]?.name}}</p>
+
+              <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
+                {{widget?.uniqueUsersCount}}</p>
+              <p *ngIf="widget?.sourceName"><span class="fw-500">Source:</span> {{widget.sourceName}}
+              </p>
+              <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
+                <div class="fw-500 mb-1">Course Description</div>
+                {{ widget.description }}
+              </div>
+
+              <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+                <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
+                  (click)="loginRedirect('S',  widget.identifier)"> {{btnText}}
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mde-popover>
+      </ng-container>
+    </div>
 
 
-  <!-- <mat-divider></mat-divider> -->
-  <!-- <div *ngFor="let author of authors" class="author">
+    <!-- <mat-divider></mat-divider> -->
+    <!-- <div *ngFor="let author of authors" class="author">
       <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="author.name || ''"
         [email]="author.email"></ws-widget-user-image>
       <div class="width-expand flex flex-middle flex-between">
@@ -185,7 +183,7 @@
 
       </div>
     </div> -->
-  <!-- <section class="team-section">
+    <!-- <section class="team-section">
     <div class="flex flex-middle border-bottom">
       <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
         Team</span>
@@ -199,15 +197,15 @@
   </section> -->
 
 
-  <div role="main" class="toc-body">
-    <!-- <mat-tab-group [@.disabled]="true">
+    <div role="main" class="toc-body">
+      <!-- <mat-tab-group [@.disabled]="true">
       <mat-tab label="Courses">
       </mat-tab>
       <mat-tab label="About" (click)="scrollToAbout()"> </mat-tab>
       <mat-tab label="Team" (click)="scrollToTeam()"> </mat-tab>
     </mat-tab-group> -->
 
-    <!-- <div id="aboutus" class="mt-10">
+      <!-- <div id="aboutus" class="mt-10">
       <h2>About</h2>
       About us content goes here, About us content goes hereAbout us
       content goes hereAbout us
@@ -222,14 +220,15 @@
       content goes hereAbout us content goes hereAbout us content goes hereAbout us content goes hereAbout us content
       goes here
     </div> -->
-  </div>
-</div>
+    </div>
+ 
 
-<div class="flex flex-end mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
-  <div class="align-logo flex-center">
-    <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
-      class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
-    <div class="support-txt ml-10">Platform powered by</div><img src="/assets/instances/eagle/app_logos/aastar-logo.svg"
-      class="mt-5 ml-5 footer-aastrika-logo" (click)="goToLink('https://aastrika.org')" />
+  <div class="flex flex-end mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+    <div class="align-logo flex-center">
+      <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
+        class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
+      <div class="support-txt ml-10">Platform powered by</div><img
+        src="/assets/instances/eagle/app_logos/aastar-logo.svg" class="mt-5 ml-5 footer-aastrika-logo"
+        (click)="goToLink('https://aastrika.org')" />
+    </div>
   </div>
-</div>
