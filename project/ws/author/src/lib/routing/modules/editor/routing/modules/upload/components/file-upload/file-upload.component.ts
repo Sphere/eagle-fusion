@@ -431,11 +431,11 @@ export class FileUploadComponent implements OnInit, OnChanges {
     zip.createReader(new zip.BlobReader(this.file as File), (reader: zip.ZipReader) => {
       reader.getEntries((entry: zip.Entry[]) => {
         entry.forEach(element => {
-          if (element.filename.match(/[^A-Za-z0-9_.\-\/]/g)) {
-            this.errorFileList.push(element.filename)
-          } else if (!element.directory) {
+          // if (element.filename.match(/[^A-Za-z0-9_.\-\/]/g)) {
+          //   this.errorFileList.push(element.filename)
+          // } else if (!element.directory) {
             this.fileList.push(element.filename)
-          }
+          // }
         })
         this.processAndShowResult()
       })
