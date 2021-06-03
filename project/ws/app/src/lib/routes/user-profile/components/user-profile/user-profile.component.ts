@@ -187,7 +187,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
     //   console.log('ngOnInit - value', value);
     // })
-    // const approvalData = _.compact(_.map(this.approvalConfig, (v, k) => {
+    // const approvalData = lodash.compact(lodash.map(this.approvalConfig, (v, k) => {
     //   return v.approvalRequired ? { [k]: v } : null
     // }))
 
@@ -950,7 +950,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private getDataforKAdd(k: string, fields: string[], form: any) {
     const datak = this.getDataforK(k, form)
     const lst: any = []
-    _.each(datak, (dk, idx) => {
+    //tslint: disable-next-line
+    _.each(datak, (dk: any, idx: any) => {
       for (let i = 0; i <= fields.length && dk; i += 1) {
         const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
         const newVal = _.get(dk, `${fields[i]}`)
