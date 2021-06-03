@@ -28,7 +28,7 @@ import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -123,7 +123,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.approvalConfig = this.route.snapshot.data.pageData.data
     this.isForcedUpdate = !!this.route.snapshot.paramMap.get('isForcedUpdate')
-    this.fetchPendingFields()
+    // this.fetchPendingFields()
     this.createUserForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
       middlename: new FormControl('', []),
@@ -794,7 +794,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructReq(form: any) {
-    const userid = this.userProfileData.userId || this.userProfileData.id
+    const userid = this.userProfileData.userId || this.userProfileData.id || ''
     const profileReq = {
       id: userid,
       userId: userid,

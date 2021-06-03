@@ -54,9 +54,10 @@ export class BtnProfileComponent extends WidgetBaseComponent
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
         (data: any) => {
           const userData = data.result.UserProfile
-          this.givenName = userData[0].personalDetails.firstname || ''
-          this.btnservice.changeName(this.givenName)
-
+          if (userData.length > 0) {
+            this.givenName = userData[0].personalDetails.firstname || ''
+            this.btnservice.changeName(this.givenName)
+          }
         })
     }
   }
