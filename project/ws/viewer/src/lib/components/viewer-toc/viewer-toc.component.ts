@@ -192,13 +192,13 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }
-    },         3000)
+    }, 3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         3000)
+    }, 3000)
   }
 
   // updateSearchModel(value) {
@@ -255,6 +255,11 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
+      if (content && content.progress) {
+        const progress = content.progress
+        this.viewerDataSvc.progressStatus.next(progress.progressStatus)
+      }
+
       // TODO console.log('content',content);
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
