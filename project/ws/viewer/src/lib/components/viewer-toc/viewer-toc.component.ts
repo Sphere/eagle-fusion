@@ -27,6 +27,7 @@ interface IViewerTocCard {
   duration: number
   type: string
   complexity: string
+  progress: any
   children: null | IViewerTocCard[]
 }
 
@@ -41,6 +42,7 @@ interface ICollectionCard {
   subText2: string
   duration: number
   redirectUrl: string | null
+  LOGO: any
 }
 
 @Component({
@@ -57,6 +59,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   searchCourseQuery = ''
   hideSideNav = false
   reverse = ''
+  LOGO = '/fusion-assets/images/green-checked1.svg'
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -259,7 +262,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
-      // TODO  console.log('vtx',viewerTocCardContent)
+      // TODO console.log("viewcardTocontent", viewerTocCardContent)
       return viewerTocCardContent
     } catch (err) {
       switch (err.status) {
@@ -355,6 +358,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
       complexity: content.complexityLevel,
+      progress: content.progress ? content.progress.progress : '',
       children:
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))

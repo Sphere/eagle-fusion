@@ -116,6 +116,7 @@
           <span>{{ content.type | pipeLimitTo: 300 }}</span> </span><span class="mat-body-1 margin-left-xxs"
           *ngIf="content?.complexity"><span>| {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
+
         <!-- <div class="width-1-1">
               <btn-content-download></btn-content-download>
               <btn-content-like></btn-content-like>
@@ -163,6 +164,15 @@
         <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
             {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
+        <span class="margin-left-xxs margin-top-xxs" *ngIf="content?.progress * 100 === 100; else elseBlock">
+          <img [src]="LOGO" class="image" />
+        </span>
+        <ng-template #elseBlock>
+          <span class="margin-left-xxs">| {{ content?.progress * 100 | number: '1.0-0' }}%</span>
+        </ng-template>
+
+
+
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon *ngIf="
