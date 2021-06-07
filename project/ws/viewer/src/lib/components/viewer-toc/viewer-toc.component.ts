@@ -42,7 +42,7 @@ interface ICollectionCard {
   subText2: string
   duration: number
   redirectUrl: string | null
-  LOGO: any
+  greenTickIcon: string
 }
 
 @Component({
@@ -59,7 +59,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   searchCourseQuery = ''
   hideSideNav = false
   reverse = ''
-  LOGO = '/fusion-assets/images/green-checked3.svg'
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -195,13 +195,13 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }
-    },         3000)
+    }, 3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         3000)
+    }, 3000)
   }
 
   // updateSearchModel(value) {
