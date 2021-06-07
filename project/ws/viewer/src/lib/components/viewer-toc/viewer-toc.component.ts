@@ -59,7 +59,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   searchCourseQuery = ''
   hideSideNav = false
   reverse = ''
-  LOGO = '/fusion-assets/images/green-checked1.svg'
+  LOGO = '/fusion-assets/images/green-checked3.svg'
 
   constructor(
     private activatedRoute: ActivatedRoute,

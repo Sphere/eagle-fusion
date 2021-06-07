@@ -54,9 +54,16 @@
             </ws-widget-display-content-type-icon> -->
               <span role="button" [ngClass]="{ 'content-active': pathSet.has(node.identifier) }" matRipple
                 matTreeNodeToggle class="margin-left-xs mt-2 width-9-10">
+
                 <h3 class="text-truncate margin-remove">{{ node.title }}</h3>
                 <div class="mb-3 width-max-content">
-                  Total: {{ node.duration | pipeDurationTransform: 'hms' }}
+                  Total: {{ node.duration | pipeDurationTransform: 'hms' }} |
+                  <span class="content-top" *ngIf="node?.progress * 100 === 100; else elseIfBlock">
+                    <img [src]="LOGO" class="image" />
+                  </span>
+                  <ng-template #elseIfBlock>
+                    <span class="margin-left-xxs">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
+                  </ng-template>
                 </div>
                 <mat-icon *ngIf="
                   contentProgressHash &&

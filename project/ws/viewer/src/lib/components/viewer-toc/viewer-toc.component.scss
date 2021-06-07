@@ -148,3 +148,9 @@ app-content-icon {
 ::ng-deep mat-tree-node .li-active {
   background-color: #ede5d6;
 }
+
+span.content-top {
+    position: absolute;
+    margin-top: 4px;
+    margin-left: 6px;
+}
