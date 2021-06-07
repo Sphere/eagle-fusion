@@ -389,6 +389,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       subText1: collection.resourceType ? collection.resourceType : collection.contentType,
       subText2: collection.complexityLevel,
       duration: collection.duration,
+      greenTickIcon: this.greenTickIcon,
       redirectUrl: this.getCollectionTypeRedirectUrl(
         collection.identifier,
         collection.displayContentType,
