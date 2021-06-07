@@ -41,6 +41,7 @@ interface ICollectionCard {
   subText1: string
   subText2: string
   duration: number
+  progress: number
   redirectUrl: string | null
   greenTickIcon: string
 }
@@ -358,7 +359,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
       complexity: content.complexityLevel,
-      progress: content.progress.progress,
+      progress: content.progress ? content.progress.progress : content.progress.progress,
       children:
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))
