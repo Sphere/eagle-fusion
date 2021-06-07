@@ -27,7 +27,7 @@ interface IViewerTocCard {
   duration: number
   type: string
   complexity: string
-  progress: any
+  progress: number
   children: null | IViewerTocCard[]
 }
 
