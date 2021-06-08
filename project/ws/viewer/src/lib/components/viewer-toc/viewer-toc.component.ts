@@ -27,6 +27,7 @@ interface IViewerTocCard {
   duration: number
   type: string
   complexity: string
+  progress: null | number
   children: null | IViewerTocCard[]
 }
 
@@ -41,6 +42,7 @@ interface ICollectionCard {
   subText2: string
   duration: number
   redirectUrl: string | null
+  greenTickIcon: string
 }
 
 @Component({
@@ -57,6 +59,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   searchCourseQuery = ''
   hideSideNav = false
   reverse = ''
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -192,13 +195,13 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }
-    },         3000)
+    }, 3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         3000)
+    }, 3000)
   }
 
   // updateSearchModel(value) {
@@ -259,7 +262,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
-      // TODO  console.log('vtx',viewerTocCardContent)
+      // TODO console.log("viewcardTocontent", viewerTocCardContent)
       return viewerTocCardContent
     } catch (err) {
       switch (err.status) {
@@ -355,6 +358,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
       complexity: content.complexityLevel,
+      progress: content.progress ? content.progress.progress : 0,
       children:
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))
@@ -385,6 +389,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       subText1: collection.resourceType ? collection.resourceType : collection.contentType,
       subText2: collection.complexityLevel,
       duration: collection.duration,
+      greenTickIcon: this.greenTickIcon,
       redirectUrl: this.getCollectionTypeRedirectUrl(
         collection.identifier,
         collection.displayContentType,

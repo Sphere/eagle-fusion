@@ -3,8 +3,19 @@
 ::ng-deep .theme-igot.day-mode .mat-typography h3.sub-heading {
   line-height: 22px;
 }
+
 ::ng-deep .theme-igot.day-mode .mat-tree {
   background: #f8f8f8 !important;
+}
+
+.image {
+  position: absolute !important;
+  margin-top: 2px;
+  height: 20px !important;
+}
+
+.margin-left-xxs {
+  position: relative;
 }
 
 .treemode-slider {
@@ -25,10 +36,12 @@
 .toc-tree-invisible {
   display: none;
 }
+
 .outer-ul {
   overflow-y: scroll;
   max-height: 94.5vh;
 }
+
 .toc-tree {
   padding-inline-start: 0px;
   // max-height: 100vh;
@@ -43,19 +56,23 @@
     list-style-type: none;
   }
 }
-li.li-active > div.mat-tree-node {
+
+li.li-active>div.mat-tree-node {
   background-color: #e5e5e5;
 }
+
 .li-active ul {
   background: #e5e5e5;
   padding-left: 2em;
   margin-left: 0;
 }
+
 span.content-active {
   // font-size: 1.02rem;
   font-weight: 500;
 }
-.content-active > span,
+
+.content-active>span,
 .content-active h3 {
   font-weight: normal;
   font-size: 1rem;
@@ -113,15 +130,18 @@ app-content-icon {
   margin: $size-s 0;
   padding: 0 $size-s 0 0;
   width: 100%;
+
   ws-display-content-type-icon {
     display: flex;
     align-items: center;
   }
+
   .resource-meta {
     margin-left: $size-s;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     span {
       opacity: 0.85;
     }
@@ -138,4 +158,10 @@ app-content-icon {
 
 ::ng-deep mat-tree-node .li-active {
   background-color: #ede5d6;
+}
+
+span.content-top {
+  position: relative;
+  margin-top: 4px;
+  margin-left: 6px;
 }
