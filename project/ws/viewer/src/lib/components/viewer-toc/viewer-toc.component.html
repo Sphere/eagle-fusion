@@ -54,9 +54,16 @@
             </ws-widget-display-content-type-icon> -->
               <span role="button" [ngClass]="{ 'content-active': pathSet.has(node.identifier) }" matRipple
                 matTreeNodeToggle class="margin-left-xs mt-2 width-9-10">
+
                 <h3 class="text-truncate margin-remove">{{ node.title }}</h3>
                 <div class="mb-3 width-max-content">
-                  Total: {{ node.duration | pipeDurationTransform: 'hms' }}
+                  Total: {{ node.duration | pipeDurationTransform: 'hms' }} |
+                  <span class="content-top" *ngIf="node?.progress * 100 === 100; else elseChapterPercentage">
+                    <img [src]="greenTickIcon" class="image" />
+                  </span>
+                  <ng-template #elseChapterPercentage>
+                    <span class="margin-left-xxs">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
+                  </ng-template>
                 </div>
                 <mat-icon *ngIf="
                   contentProgressHash &&
@@ -116,6 +123,7 @@
           <span>{{ content.type | pipeLimitTo: 300 }}</span> </span><span class="mat-body-1 margin-left-xxs"
           *ngIf="content?.complexity"><span>| {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
+
         <!-- <div class="width-1-1">
               <btn-content-download></btn-content-download>
               <btn-content-like></btn-content-like>
@@ -163,6 +171,16 @@
         <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
             {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
+        <span class="margin-left-xxs margin-top-xxs"
+          *ngIf="content?.progress * 100 === 100; else elseResourcePercentage">
+          <img [src]="greenTickIcon" class="image" />
+        </span>
+        <ng-template #elseResourcePercentage>
+          <span class="margin-left-xxs">| {{ content?.progress * 100 | number: '1.0-0' }}%</span>
+        </ng-template>
+
+
+
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon *ngIf="
