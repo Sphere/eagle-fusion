@@ -58,10 +58,10 @@
                 <h3 class="text-truncate margin-remove">{{ node.title }}</h3>
                 <div class="mb-3 width-max-content">
                   Total: {{ node.duration | pipeDurationTransform: 'hms' }} |
-                  <span class="content-top" *ngIf="node?.progress * 100 === 100; else elseIfBlock">
+                  <span class="content-top" *ngIf="node?.progress * 100 === 100; else elseChapterPercentage">
                     <img [src]="greenTickIcon" class="image" />
                   </span>
-                  <ng-template #elseIfBlock>
+                  <ng-template #elseChapterPercentage>
                     <span class="margin-left-xxs">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
                   </ng-template>
                 </div>
@@ -171,10 +171,11 @@
         <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
             {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span>
-        <span class="margin-left-xxs margin-top-xxs" *ngIf="content?.progress * 100 === 100; else elseBlock">
+        <span class="margin-left-xxs margin-top-xxs"
+          *ngIf="content?.progress * 100 === 100; else elseResourcePercentage">
           <img [src]="greenTickIcon" class="image" />
         </span>
-        <ng-template #elseBlock>
+        <ng-template #elseResourcePercentage>
           <span class="margin-left-xxs">| {{ content?.progress * 100 | number: '1.0-0' }}%</span>
         </ng-template>
 
