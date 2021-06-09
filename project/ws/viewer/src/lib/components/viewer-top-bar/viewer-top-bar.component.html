@@ -27,18 +27,18 @@
 
 
   <span class="header-spacer"></span>
-  <button mat-raised-button i18n
-    *ngIf="showDownloadCertificate && this.courseStatus ==='completed'; else toolTipDownload"
+  <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus ==='completed'"
     class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="downloadCertificate()">
 
     <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
     Certificate </button>
-  <ng-template #toolTipDownload>
-    <button mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
-      matTooltip="Complete the course to download certificate" aria-label="Displays a tooltip">
-      <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
-      Certificate </button>
-  </ng-template>
+
+  <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus !=='completed'"
+    class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="showCompleteCourseDialog()"
+    aria-label="Displays a tooltip">
+    <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
+    Certificate </button>
+
   <img id="imageUrl" class="img-fluid hidden" crossOrigin="Anonymous" [src]="imageUrl">
   <div class="flex justify-center mt-0" *ngIf="!isSmall">
     <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
