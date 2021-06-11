@@ -7,14 +7,24 @@
 ::ng-deep .theme-igot.day-mode .mat-tree {
   background: #f8f8f8 !important;
 }
-
-.image {
-  position: absolute !important;
-  margin-top: 2px;
-  height: 20px !important;
+.main {
+  flex: 2 0px;
+}
+.aside-1 {
+  order: 1;
 }
 
-.margin-left-xxs {
+.aside-2 {
+  order: 2;
+  align-self: end;
+  position: absolute;
+  right: 5%;
+}
+.image {
+  height: 20px !important;
+}
+.content-top .image {
+  bottom: -5px;
   position: relative;
 }
 
@@ -57,7 +67,7 @@
   }
 }
 
-li.li-active>div.mat-tree-node {
+li.li-active > div.mat-tree-node {
   background-color: #e5e5e5;
 }
 
@@ -72,7 +82,7 @@ span.content-active {
   font-weight: 500;
 }
 
-.content-active>span,
+.content-active > span,
 .content-active h3 {
   font-weight: normal;
   font-size: 1rem;
@@ -164,4 +174,7 @@ span.content-top {
   position: relative;
   margin-top: 4px;
   margin-left: 6px;
+}
+.w-100 {
+  width: 100%;
 }

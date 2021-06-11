@@ -154,8 +154,9 @@
     <!-- <ws-widget-display-content-type-icon class="flex margin-left-xs" [displayContentType]="content?.type">
     </ws-widget-display-content-type-icon> -->
     <div class="resource-meta width-expand">
-      <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
-        queryParamsHandling="preserve" (click)="sendStatus(content)">
+      <a class="w-100" [ngClass]="{ 'content-active': pathSet.has(content.identifier) }"
+        [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)">
+
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }}
           <mat-icon *ngIf="
@@ -165,16 +166,21 @@
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>
         </h3>
-        <span class="mat-body-1">
-          <span>{{ content.type | pipeLimitTo: 300 }}</span> </span>
-        <span class="margin-left-xxs">| {{ content?.duration | pipeDurationTransform: 'hms' }}</span>
-        <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
-            {{ content?.complexity | pipeLimitTo: 300 }}</span>
-        </span>
-        <span class="margin-left-xxs margin-top-xxs"
-          *ngIf="content?.progress * 100 === 100; else elseResourcePercentage">
-          <img [src]="greenTickIcon" class="image" />
-        </span>
+        <div class="main flex" style="position: relative; width: 100%;">
+          <span class="aside-1">
+            <span class="mat-body-1">
+              <span>{{ content.type | pipeLimitTo: 300 }}</span> </span>
+            <span class="margin-left-xxs">| {{ content?.duration | pipeDurationTransform: 'hms' }}</span>
+            <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
+                {{ content?.complexity | pipeLimitTo: 300 }}</span>
+            </span>
+          </span>
+
+          <span class="aside-2 margin-left-xxs margin-top-xxs"
+            *ngIf="content?.progress * 100 === 100; else elseResourcePercentage">
+            <img [src]="greenTickIcon" class="image" />
+          </span>
+        </div>
         <ng-template #elseResourcePercentage>
           <span class="margin-left-xxs">| {{ content?.progress * 100 | number: '1.0-0' }}%</span>
         </ng-template>

@@ -1,7 +1,7 @@
 import { ConfigurationsService } from '@ws-widget/utils'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { noop, Observable, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject, Subject } from 'rxjs'
 import { NsContent } from '@ws-widget/collection'
 
 @Injectable({
@@ -14,6 +14,8 @@ export class ViewerUtilService {
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
+  getHeirarchyProgress = new Subject<any>()
+
   constructor(private http: HttpClient, private configservice: ConfigurationsService) { }
 
   private currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
@@ -44,7 +46,11 @@ export class ViewerUtilService {
     // console.log('realtime', contentId, request)
     this.http
       .post(`${this.API_ENDPOINTS.PROGRESS_UPDATE}/${contentId}`, request)
-      .subscribe(noop, noop)
+      .subscribe(data => {
+        if (data === 'Success') {
+          this.getHeirarchyProgress.next(data)
+        }
+      })
   }
 
   getContent(contentId: string): Observable<NsContent.IContent> {
