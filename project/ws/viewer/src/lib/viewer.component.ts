@@ -160,7 +160,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
     },
-      err => {
+                                                            err => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

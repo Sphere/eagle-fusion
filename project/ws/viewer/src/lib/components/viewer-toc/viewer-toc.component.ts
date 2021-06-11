@@ -162,8 +162,8 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     setTimeout(() => {
       if (this.collection && this.resourceChanged) {
-        this.viewSvc.getHeirarchyProgress.subscribe(data => {
-          if (data) {
+        this.viewSvc.getHeirarchyProgress.subscribe(content => {
+          if (content) {
             // this.contentSvc.fetchContent(this.resourceChanged, 'minimal')
             this.contentSvc.fetchContent(this.collectionId, 'detail').subscribe(
               (data: any) => {
