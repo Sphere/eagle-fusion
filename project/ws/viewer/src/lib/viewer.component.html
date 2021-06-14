@@ -13,7 +13,7 @@
       [opened]="sideNavBarOpened" [mode]="mode" [fixedInViewport]="fixedNavBar">
       <!-- <mat-tab-group>
         <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Contents"> -->
-      <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
+      <viewer-viewer-toc [forPreview]="forPreview" [resourceChanged]="updatedContent" (hidenav)="minimizeBar()">
       </viewer-viewer-toc>
 
     </mat-sidenav>

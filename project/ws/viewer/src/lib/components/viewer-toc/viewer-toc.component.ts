@@ -53,6 +53,7 @@ interface ICollectionCard {
 export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
+  @Input() resourceChanged = ''
   @ViewChild('highlightItem', { static: false }) highlightItem!: ElementRef<any>
   @ViewChild('outer', { static: false }) outer!: ElementRef<any>
   @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
@@ -60,6 +61,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   hideSideNav = false
   reverse = ''
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
+  collectionId = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -113,6 +115,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       const collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
+        this.collectionId = collectionId
         if (
           collectionType.toLowerCase() ===
           NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
@@ -157,6 +160,26 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
     this.viewerDataSvc.getPrevClick.subscribe(data => {
       this.reverse = data
     })
+    setTimeout(() => {
+      if (this.collection && this.resourceChanged) {
+        this.viewSvc.getHeirarchyProgress.subscribe(content => {
+          if (content) {
+            // this.contentSvc.fetchContent(this.resourceChanged, 'minimal')
+            this.contentSvc.fetchContent(this.collectionId, 'detail').subscribe(
+              (data: any) => {
+                if (data) {
+                  const responseData = this.convertContentToIViewerTocCard(data)
+                  this.collection = responseData
+                  if (this.collection && this.collection.children) {
+                    this.nestedDataSource.data = this.collection.children
+                  }
+                }
+              })
+          }
+        })
+      }
+    }, 0)
+
   }
 
   scrollToUserView(index: number) {
@@ -229,7 +252,6 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   changeTocMode() {
     if (this.tocMode === 'FLAT') {
       this.tocMode = 'TREE'
-      // this.processCollectionForTree()
     } else {
       this.tocMode = 'FLAT'
     }
@@ -258,6 +280,11 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
+      if (content && content.progress) {
+        const progress = content.progress
+        this.viewerDataSvc.progressStatus.next(progress.progressStatus)
+      }
+
       // TODO console.log('content',content);
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)

@@ -23,7 +23,7 @@ export class AppRetryInterceptorService implements HttpInterceptor {
       req.url.indexOf('registerUserWithEmail') > 0) {
       return next.handle(req).pipe(retryWhen(this.genericRetryStrategyVerifyMobile()))
     }
-      return next.handle(req).pipe(retryWhen(this.genericRetryStrategy()))
+    return next.handle(req).pipe(retryWhen(this.genericRetryStrategy()))
 
   }
 

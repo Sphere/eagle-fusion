@@ -1,3 +1,4 @@
+import { GoalsModule } from './../../../../../app/src/lib/routes/goals/goals.module'
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import {
@@ -5,16 +6,19 @@ import {
   MatIconModule,
   MatButtonModule,
   MatTooltipModule,
+  MatDialogModule,
 } from '@angular/material'
 import { ViewerTopBarComponent } from './viewer-top-bar.component'
-import { BtnFullscreenModule, BtnPageBackModule ,
+import {
+  BtnFullscreenModule, BtnPageBackModule,
   BtnContentLikeModule,
   BtnContentShareModule,
   BtnGoalsModule,
   BtnPlaylistModule,
   BtnContentFeedbackModule,
   // DisplayContentTypeIconModule,
-  BtnContentFeedbackV2Module } from '@ws-widget/collection'
+  BtnContentFeedbackV2Module,
+} from '@ws-widget/collection'
 import { RouterModule } from '@angular/router'
 import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
 @NgModule({
@@ -24,6 +28,7 @@ import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
+    MatDialogModule,
     BtnFullscreenModule,
     BtnPageBackModule,
     MatTooltipModule,
@@ -35,6 +40,7 @@ import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
     BtnPlaylistModule,
     BtnContentFeedbackModule,
     BtnContentFeedbackV2Module,
+    GoalsModule,
   ],
   exports: [ViewerTopBarComponent],
   providers: [ValueService],

@@ -181,10 +181,16 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
             },         5000)
           }
         },
-        (err: { error: { error: string } }) => {
+        (err: any) => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
           // form.reset()
+          setTimeout(() => {
+            if (err.status === 500) {
+              this.router.navigate(['/register'])
+            }
+          },         5000)
+          form.reset()
         }
       )
     }

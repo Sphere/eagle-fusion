@@ -33,7 +33,9 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   defaultThumbnail = ''
   viewChildren = false
-  constructor(private configSvc: ConfigurationsService) {}
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
+  redTickIcon = '/fusion-assets/images/red-tick.svg'
+  constructor(private configSvc: ConfigurationsService) { }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
