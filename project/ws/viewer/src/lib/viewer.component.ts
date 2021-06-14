@@ -55,6 +55,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   currentLicense: any
   currentLicenseName = ''
   fixedNavBar = false
+  updatedContent = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -88,6 +89,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     e.activatedRoute.data.subscribe((data: { content: { data: NsContent.IContent } }) => {
       if (data.content && data.content.data) {
         this.content = data.content.data
+        this.updatedContent = this.content.identifier
         this.currentLicenseName = this.content.learningObjective || 'CC BY'
 
         this.getLicenseConfig()
@@ -159,10 +161,10 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     },
                                                             err => {
-      if (err.status === 404) {
-        this.getLicenseConfig()
-      }
-    })
+        if (err.status === 404) {
+          this.getLicenseConfig()
+        }
+      })
   }
 
   getDiscussionConfig() {

@@ -38,6 +38,7 @@ export class ViewerDataService {
   tocChangeSubject = new ReplaySubject<IViewerTocChangeEvent>(1)
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)
   fullScreenResource = new Subject<boolean>()
+  progressStatus = new Subject<string>()
   // private setName = new BehaviorSubject<any>("");
   // To get the name from other component
   getFullScreenStatus = this.fullScreenResource.asObservable()
