@@ -203,6 +203,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     }
     return this.receivedDate
   }
+
   fullScreenState(state: boolean) {
     this.isInFullScreen = state
     this.fsState.emit(state)
