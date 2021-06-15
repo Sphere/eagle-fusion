@@ -7,7 +7,8 @@
         <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
           <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
 
-          <span class="content-top" *ngIf="content?.progress.progress * 100 === 100; else elseChapterPercentage">
+          <span class="content-top"
+            *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseChapterPercentage">
             <img [src]="greenTickIcon" class="image" />
           </span>
           <ng-template #elseChapterPercentage>
@@ -124,7 +125,8 @@
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
         <div class="text-truncate cursor-pointer 2" (click)="viewChildren = !viewChildren">
           <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
-          <span class="content-top" *ngIf="content?.progress.progress * 100 === 100; else elseResourcePercentage">
+          <span class="content-top"
+            *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseResourcePercentage">
             <img [src]="greenTickIcon" class="image" />
           </span>
           <ng-template #elseResourcePercentage>
