@@ -178,7 +178,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         })
       }
-    }, 0)
+    },         0)
 
   }
 
@@ -218,13 +218,13 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }
-    }, 3000)
+    },         3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 3000)
+    },         3000)
   }
 
   // updateSearchModel(value) {
