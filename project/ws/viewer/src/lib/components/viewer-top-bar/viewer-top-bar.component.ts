@@ -245,7 +245,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       this.userFullname = `${userData.personalDetails.firstname}  ${userData.personalDetails.surname}`
       this.rnNumber = `${userData.personalDetails.regNurseRegMidwifeNumber}`
     })
-    if (this.courseStatus !== 'completed') {
+    if (this.courseStatus === 'completed') {
       this.badgesSvc.fetchRecentBadge()
       if (this.collection.identifier.includes(fernadezId) || this.collection.identifier.includes(INCCourseId)) {
         this.downloadPdf(this.collection.identifier)
