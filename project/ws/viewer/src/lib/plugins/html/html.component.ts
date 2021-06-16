@@ -177,21 +177,22 @@ export class HtmlComponent implements OnInit, OnChanges {
     if (evt === 'load' && iframe && iframe.contentWindow) {
       // tslint:disable-next-line: no-console
       console.log('179', iframe, iframe.contentWindow)
-      if (event && iframe.onload) {
-        iframe.onload(event)
-        // tslint:disable-next-line: no-console
-        console.log('onload')
-      }
-      iframe.onload = (data => {
-        // tslint:disable-next-line: no-console
-        console.log('data', data.target)
-        // if (data.target) {
-        //   this.pageFetchStatus = 'done'
-        //   this.showIsLoadingMessage = false
-        // }
-        this.pageFetchStatus = 'done'
-        this.showIsLoadingMessage = false
-      })
+      this.pageFetchStatus = 'done'
+      this.showIsLoadingMessage = false
+      // if (event && iframe.onload) {
+      //   iframe.onload(event)
+      //   // tslint:disable-next-line: no-console
+      //   console.log('onload')
+      // }
+      // iframe.onload = (data => {
+      //   // tslint:disable-next-line: no-console
+      //   console.log('data', data.target)
+      //   // if (data.target) {
+      //   //   this.pageFetchStatus = 'done'
+      //   //   this.showIsLoadingMessage = false
+      //   // }
+
+      // })
     }
   }
 }
