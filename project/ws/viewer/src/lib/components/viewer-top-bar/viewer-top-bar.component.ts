@@ -239,7 +239,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   downloadCertificate() {
     const nqocnId = 'lex_auth_01311423170518220869'
     const fernadezId = 'lex_auth_01308384668903833673'
-    const INCCourseId = 'lex_auth_013268426750025728383'
+    const incCourseId = 'lex_auth_013268426750025728383'
     // Get latest batches
     this.updateBadges()
     this.configSvc.userRegistryData.subscribe((userData: IUserProfileDetailsFromRegistry) => {
@@ -248,7 +248,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     })
     if (this.courseStatus === 'completed') {
       this.badgesSvc.fetchRecentBadge()
-      if (this.collection.identifier.includes(fernadezId) || this.collection.identifier.includes(INCCourseId)) {
+      if (this.collection.identifier.includes(fernadezId) || this.collection.identifier.includes(incCourseId)) {
         this.downloadPdf(this.collection.identifier)
       } else
         if (this.collection.identifier.includes(nqocnId)) {

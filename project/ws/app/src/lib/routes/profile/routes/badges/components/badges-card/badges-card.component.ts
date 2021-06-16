@@ -129,9 +129,7 @@ export class BadgesCardComponent implements OnInit {
             }
           }
         })
-      }
-
-      else {
+      } else {
         const req = {
           course: badgeId,
         }
