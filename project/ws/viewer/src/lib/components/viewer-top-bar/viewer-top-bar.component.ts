@@ -244,7 +244,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     this.updateBadges()
     this.configSvc.userRegistryData.subscribe((userData: IUserProfileDetailsFromRegistry) => {
       this.userFullname = `${userData.personalDetails.firstname}  ${userData.personalDetails.surname}`
-      this.rnNumber = `${userData.personalDetails.regNurseRegMidwifeNumber} || 'Public Health Professional'`
+      this.rnNumber = `${userData.personalDetails.regNurseRegMidwifeNumber}`
     })
     if (this.courseStatus === 'completed') {
       // this.badgesSvc.fetchRecentBadge()
