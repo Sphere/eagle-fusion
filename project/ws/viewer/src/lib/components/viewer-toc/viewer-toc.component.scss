@@ -24,7 +24,8 @@
 }
 
 .image {
-  height: 20px !important;
+  height: 20px;
+  position: absolute;
 }
 
 .content-top .image {
@@ -185,5 +186,6 @@ span.content-top {
 }
 
 span.resource-progress {
-  position: static !important;
+  position: relative;
+  margin-left: 15px;
 }
