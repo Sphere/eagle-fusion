@@ -7,9 +7,11 @@
 ::ng-deep .theme-igot.day-mode .mat-tree {
   background: #f8f8f8 !important;
 }
+
 .main {
   flex: 2 0px;
 }
+
 .aside-1 {
   order: 1;
 }
@@ -20,9 +22,12 @@
   position: absolute;
   right: 5%;
 }
+
 .image {
-  height: 20px !important;
+  height: 20px;
+  position: absolute;
 }
+
 .content-top .image {
   bottom: -5px;
   position: relative;
@@ -67,7 +72,7 @@
   }
 }
 
-li.li-active > div.mat-tree-node {
+li.li-active>div.mat-tree-node {
   background-color: #e5e5e5;
 }
 
@@ -82,7 +87,7 @@ span.content-active {
   font-weight: 500;
 }
 
-.content-active > span,
+.content-active>span,
 .content-active h3 {
   font-weight: normal;
   font-size: 1rem;
@@ -175,6 +180,12 @@ span.content-top {
   margin-top: 4px;
   margin-left: 6px;
 }
+
 .w-100 {
   width: 100%;
+}
+
+span.resource-progress {
+  position: relative;
+  margin-left: 15px;
 }
