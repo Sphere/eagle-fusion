@@ -166,26 +166,27 @@
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>
         </h3>
-        <div class="main flex" style="position: relative; width: 100%;">
+        <div class="main flex">
           <span class="aside-1">
             <span class="mat-body-1">
-              <span>{{ content.type | pipeLimitTo: 300 }}</span> </span>
-            <span class="margin-left-xxs">| {{ content?.duration | pipeDurationTransform: 'hms' }}</span>
-            <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
-                {{ content?.complexity | pipeLimitTo: 300 }}</span>
+              <span>{{ content.type | pipeLimitTo: 300 }}</span>
+              <span class="margin-left-xxs">| {{ content?.duration | pipeDurationTransform: 'hms' }}</span>
+              <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
+                  {{ content?.complexity | pipeLimitTo: 300 }}</span>
+              </span>
+            </span>
+            <span class="aside-2 margin-left-xxs margin-top-xxs  resource-progress"
+              *ngIf="content?.progress * 100 === 100; else elseResourcePercentage">
+              <img [src]="greenTickIcon" class="image" />
+            </span>
+
+            <span class="aside-2 margin-left-xxs margin-top-xxs">
+              <ng-template #elseResourcePercentage>
+                <span class="margin-left-xxs">| {{ content?.progress * 100 | number: '1.0-0' }}%</span>
+              </ng-template>
             </span>
           </span>
-
-          <span class="aside-2 margin-left-xxs margin-top-xxs"
-            *ngIf="content?.progress * 100 === 100; else elseResourcePercentage">
-            <img [src]="greenTickIcon" class="image" />
-          </span>
         </div>
-        <ng-template #elseResourcePercentage>
-          <span class="margin-left-xxs">| {{ content?.progress * 100 | number: '1.0-0' }}%</span>
-        </ng-template>
-
-
 
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
           {{ content?.title | pipeLimitTo: 30 }}
