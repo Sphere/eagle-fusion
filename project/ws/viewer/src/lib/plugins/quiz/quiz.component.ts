@@ -258,7 +258,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.numCorrectAnswers = res.correct
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
-        this.passPercentage = this.collectionId === 'lex_auth_01311423170518220869' ? 70 : res.passPercent // NQOCN Course ID
+        // tslint:disable-next-line:max-line-length
+        this.passPercentage = this.collectionId === 'lex_auth_01311423170518220869' || this.collectionId === 'lex_auth_013268426750025728383' ? 70 : res.passPercent // NQOCN Course ID or INC Course Id
         this.result = res.result
         if (this.result >= this.passPercentage) {
           this.isCompleted = true

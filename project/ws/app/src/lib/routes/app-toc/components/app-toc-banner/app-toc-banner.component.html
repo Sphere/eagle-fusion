@@ -171,6 +171,7 @@
                 *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
                 <img src="/assets/images/upload.svg" class="action-icons" />
               </a>
+
               <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
                       content
                         | pipePartialContent
@@ -194,6 +195,16 @@
               <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
                 [widgetData]="content | pipePartialContent: ['identifier', 'name']">
               </ws-widget-btn-content-feedback-v2>
+              <ws-widget-download-certificate
+                *ngIf="content && content?.progress?.progress === 1 && showDownloadCertificate" [content]="content"
+                [progress]="content.progress.progress">
+              </ws-widget-download-certificate>
+
+              <button mat-raised-button i18n *ngIf="showDownloadCertificate && content?.progress?.progress < 1"
+                class="header-btn text-white ws-mat-primary-background mat-button-base"
+                (click)="showCompleteCourseDialog()">
+                <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
+                Certificate </button>
             </div>
           </div>
           <p class="margin-top-l margin-remove-bottom" *ngIf="content?.isInIntranet && showIntranetMsg">

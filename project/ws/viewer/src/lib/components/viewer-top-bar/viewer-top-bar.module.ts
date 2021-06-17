@@ -18,6 +18,7 @@ import {
   BtnContentFeedbackModule,
   // DisplayContentTypeIconModule,
   BtnContentFeedbackV2Module,
+  DownloadCertificateModule,
 } from '@ws-widget/collection'
 import { RouterModule } from '@angular/router'
 import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
@@ -41,6 +42,7 @@ import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
     BtnContentFeedbackModule,
     BtnContentFeedbackV2Module,
     GoalsModule,
+    DownloadCertificateModule,
   ],
   exports: [ViewerTopBarComponent],
   providers: [ValueService],

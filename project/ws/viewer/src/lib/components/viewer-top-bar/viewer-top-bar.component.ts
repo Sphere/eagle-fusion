@@ -239,22 +239,22 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   downloadCertificate() {
     const nqocnId = 'lex_auth_01311423170518220869'
     const fernadezId = 'lex_auth_01308384668903833673'
-    const INCCourseId = 'lex_auth_013268426750025728383'
+    const iNCCourseId = 'lex_auth_013268426750025728383'
     // Get latest batches
     this.updateBadges()
     this.configSvc.userRegistryData.subscribe((userData: IUserProfileDetailsFromRegistry) => {
       this.userFullname = `${userData.personalDetails.firstname}  ${userData.personalDetails.surname}`
-      this.rnNumber = `${userData.personalDetails.regNurseRegMidwifeNumber}`
+      this.rnNumber = `${userData.personalDetails.regNurseRegMidwifeNumber} || 'Public Health Professional'`
     })
     if (this.courseStatus === 'completed') {
-      this.badgesSvc.fetchRecentBadge()
-      if (this.collection.identifier.includes(fernadezId) || this.collection.identifier.includes(INCCourseId)) {
+      // this.badgesSvc.fetchRecentBadge()
+      if (this.collection.identifier.includes(fernadezId) || this.collection.identifier.includes(iNCCourseId)) {
         this.downloadPdf(this.collection.identifier)
       } else
         if (this.collection.identifier.includes(nqocnId)) {
-          const receivedDate = this.getReceivedDate(nqocnId)
-          if (receivedDate) {
-            this.allowDownload = moment(receivedDate).isSameOrAfter('2021-03-08')
+          this.getReceivedDate(nqocnId)
+          if (this.receivedDate) {
+            this.allowDownload = moment(this.receivedDate).isSameOrAfter('2021-03-08')
           }
           if (this.allowDownload) {
             this.downloadPdf(nqocnId)
@@ -280,7 +280,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   downloadPdf(badgeId: string) {
     let imageData = ''
     // Fernandes course
-    if (badgeId === 'lex_auth_01308384668903833673') {
+    if (badgeId.includes('lex_auth_01308384668903833673')) {
       const receivedDate = this.getReceivedDate(badgeId)
       const doc = new jsPDF('landscape', 'mm', [297, 210])
       const width = doc.internal.pageSize.getWidth()
@@ -309,7 +309,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       })
       doc.save('certificate_fernandez.pdf')
     } else
-      if (badgeId === 'lex_auth_013268426750025728383') { // INC Course
+      if (badgeId.includes('lex_auth_013268426750025728383')) { // INC Course
         let dataImage = ''
         const req = {
           course: badgeId,
