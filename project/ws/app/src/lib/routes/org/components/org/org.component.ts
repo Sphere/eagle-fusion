@@ -1,3 +1,4 @@
+
 import { AuthKeycloakService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
@@ -17,9 +18,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   currentOrgData: any
   showEndPopup = false
   btnText = ''
+  courseCount = 0
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router, private authSvc: AuthKeycloakService) { }
+    private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -108,6 +110,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
     this.orgService.getDatabyOrgId(req).subscribe(data => {
       this.courseData = data
+      this.courseCount = this.courseData.result.length
     })
     this.authSvc.isAuthenticated ? this.btnText = 'View Course' : this.btnText = 'Login'
 
