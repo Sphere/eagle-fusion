@@ -44,7 +44,7 @@
         <mat-label>Enter OTP</mat-label>
         <input type="text" matInput placeholder="OTP" formControlName="otp" required>
       </mat-form-field>
-      <span class="help-block" *ngIf="showResend">
+      <span *ngIf="showResend">
         <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
           Resend OTP</a>
       </span>
@@ -55,11 +55,20 @@
           <mat-label>First name</mat-label>
           <input type="text" matInput placeholder="First Name" formControlName="firstName" required>
         </mat-form-field>
+        <span class="help-block" *ngIf="signupForm.controls['firstName'].touched">
+          <p *ngIf="signupForm.controls['firstName'].invalid">
+            First Name is required
+          </p>
+        </span>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Last name</mat-label>
           <input type="text" matInput placeholder="Last Name" formControlName="lastName" autocomplete="off" required>
         </mat-form-field>
-
+        <span class="help-block" *ngIf="signupForm.controls['lastName'].touched">
+          <p *ngIf="signupForm.controls['lastName'].invalid">
+            Last Name is required
+          </p>
+        </span>
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Password</mat-label>
@@ -67,6 +76,11 @@
             required>
 
         </mat-form-field>
+        <span class="help-block" *ngIf="signupForm.controls['password'].touched">
+          <p *ngIf="signupForm.controls['password'].invalid">
+            Password is a required field
+          </p>
+        </span>
         <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Confirm password</mat-label>
