@@ -42,9 +42,9 @@
 
       <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile">
         <mat-label>Enter OTP</mat-label>
-        <input type="text" matInput placeholder="OTP" formControlName="otp">
+        <input type="text" matInput placeholder="OTP" formControlName="otp" required>
       </mat-form-field>
-      <span *ngIf="showResend">
+      <span class="help-block" *ngIf="showResend">
         <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
           Resend OTP</a>
       </span>
@@ -53,23 +53,24 @@
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>First name</mat-label>
-          <input type="text" matInput placeholder="First Name" formControlName="firstName">
+          <input type="text" matInput placeholder="First Name" formControlName="firstName" required>
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Last name</mat-label>
-          <input type="text" matInput placeholder="Last Name" formControlName="lastName" autocomplete="off">
+          <input type="text" matInput placeholder="Last Name" formControlName="lastName" autocomplete="off" required>
         </mat-form-field>
 
 
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Password</mat-label>
-          <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="new-password">
+          <input type="password" matInput placeholder="Password" formControlName="password" autocomplete="new-password"
+            required>
 
         </mat-form-field>
         <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Confirm password</mat-label>
-          <input type="password" matInput placeholder="confirm password" formControlName="confirmPassword">
+          <input type="password" matInput placeholder="confirm password" formControlName="confirmPassword" required>
           <mat-error
             *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors">
             Password does not match</mat-error>
