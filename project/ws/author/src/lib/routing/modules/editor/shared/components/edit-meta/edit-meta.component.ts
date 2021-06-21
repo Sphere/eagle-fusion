@@ -119,6 +119,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   saveParent: any
 
   licenseTypes: string[] = []
+  orgNames: string[] = []
   constructor(
     private formBuilder: FormBuilder,
     private uploadService: UploadService,
@@ -311,26 +312,40 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
     )
     this.getLicenses()
+    this.getOrgMeta()
   }
 
   getLicenses() {
-    this.editorService.fetchConfig()
-      .subscribe(
-        data => {
-          if (data && data.licenses && data.licenses.length > 0) {
-            data.licenses.filter((item: { licenseName: string }) => {
-              if (item.licenseName) {
-                this.licenseTypes.push(item.licenseName)
-              }
-            })
-          }
-        },
-        err => {
-          if (err) {
-            this.getLicenses()
-          }
+    this.editorService.fetchConfig().subscribe(
+      data => {
+        if (data && data.licenses && data.licenses.length > 0) {
+          data.licenses.filter((item: { licenseName: string }) => {
+            if (item.licenseName) {
+              this.licenseTypes.push(item.licenseName)
+            }
+          })
         }
-      )
+      },
+      err => {
+        if (err) {
+          this.getLicenses()
+        }
+      }
+    )
+  }
+
+  getOrgMeta() {
+    this.editorService.fetchOrgMeta().subscribe(
+      data => {
+        if (data && data.sources && data.sources.length > 0) {
+          data.sources.filter((org: any) => {
+            if (org.sourceName) {
+              this.orgNames.push(org.sourceName)
+            }
+          })
+        }
+      })
+
   }
   optionSelected(keyword: string) {
     this.keywordsCtrl.setValue(' ')
@@ -575,6 +590,10 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
           currentMeta.appIcon = originalMeta.appIcon
           currentMeta.thumbnail = originalMeta.thumbnail
         }
+
+        if (currentMeta.sourceName) {
+          currentMeta.sourceShortName = currentMeta.sourceName
+        }
         // currentMeta.resourceType=currentMeta.categoryType;
         // if (currentMeta.learningObjective) {
         //   console.log('currentMeta.learningObjective', currentMeta.learningObjective)
@@ -622,12 +641,11 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         // }
         const meta = <any>{}
         if (this.canExpiry) {
-          currentMeta.expiryDate = `${
-            expiryDate
-              .toISOString()
-              .replace(/-/g, '')
-              .replace(/:/g, '')
-              .split('.')[0]
+          currentMeta.expiryDate = `${expiryDate
+            .toISOString()
+            .replace(/-/g, '')
+            .replace(/:/g, '')
+            .split('.')[0]
             }+0000`
         }
         Object.keys(currentMeta).map(v => {
@@ -657,12 +675,15 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
             if (v === 'learningObjective') {
               meta['learningObjective'] = currentMeta[v]
             }
+
+            if (v === 'sourceName') {
+              meta['sourceShortName'] = currentMeta[v]
+            }
           }
         })
         if (this.stage >= 1 && !this.type) {
           delete meta.artifactUrl
         }
-        // console.log('updated meta', meta)
         this.contentService.setUpdatedMeta(meta, this.contentMeta.identifier)
 
       }
