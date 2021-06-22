@@ -172,13 +172,14 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.collection = responseData
                   if (this.collection && this.collection.children) {
                     this.nestedDataSource.data = this.collection.children
+                    this.expandThePath()
                   }
                 }
               })
           }
         })
       }
-    },         0)
+    }, 0)
 
   }
 
@@ -218,13 +219,13 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
       }
-    },         3000)
+    }, 3000)
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         3000)
+    }, 3000)
   }
 
   // updateSearchModel(value) {
