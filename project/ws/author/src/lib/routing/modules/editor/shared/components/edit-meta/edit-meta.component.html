@@ -180,9 +180,9 @@
                       )
                     </span>
                   </mat-select-trigger>
-                  <mat-option *ngFor="let org of ordinals.org" [value]="org">{{
-                        org
-                      }}</mat-option>
+                  <mat-option *ngFor="let org of orgNames" [value]="org">{{
+                    org
+                    }}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="showError('org')" i18n>Organisation is mandatory </mat-error>
               </mat-form-field>
@@ -965,7 +965,7 @@
                 [ngClass]="{ 'mat-form-field-invalid': showError('sourceName') }">
                 <mat-select formControlName="sourceName" i18n-placeholder placeholder="--Select--">
                   <mat-option *ngIf="!checkCondition('sourceName', 'required')" i18n [value]="null">None</mat-option>
-                  <mat-option *ngFor="let sourceName of ordinals.sourceName" [value]="sourceName">
+                  <mat-option *ngFor="let sourceName of orgNames" [value]="sourceName">
                     {{ sourceName }}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="showError('sourceName')" i18n>Source is mandatory </mat-error>

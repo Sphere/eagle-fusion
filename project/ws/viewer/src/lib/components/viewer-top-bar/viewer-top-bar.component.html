@@ -27,11 +27,14 @@
 
 
   <span class="header-spacer"></span>
-  <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus ==='completed'"
+  <ws-widget-download-certificate *ngIf="collection && showDownloadCertificate && this.courseStatus ==='completed'"
+    [content]="collection" [progress]="courseStatus">
+  </ws-widget-download-certificate>
+  <!-- <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus ==='completed'"
     class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="downloadCertificate()">
 
     <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
-    Certificate </button>
+    Certificate </button> -->
 
   <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus !=='completed'"
     class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="showCompleteCourseDialog()"

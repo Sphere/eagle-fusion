@@ -58,7 +58,7 @@
             (itemSelected)="fillSelectedItems(question, $event)">
           </viewer-question>
         </ng-container>
-        <mat-card class="margin-bottom-m margin-top-m" *ngIf="viewState === 'review' || viewState === 'answer'">
+        <mat-card class="margin-bottom-m mt-10" *ngIf="viewState === 'review' || viewState === 'answer'">
           <div class="margin-m" *ngIf="fetchingResultsStatus === 'fetching'">
             <!-- <ws-spinner></ws-spinner> -->
             <div class="flex flex-center">
@@ -75,7 +75,7 @@
             <h2 *ngIf="quizJson.isAssessment" class="mat-title">
               <ng-container i18n="quiz result label">Result:</ng-container>
               <ng-container i18n *ngIf="isCompleted">PASS</ng-container>
-              <ng-container i18n *ngIf="!isCompleted">FAIL</ng-container>
+              <ng-container i18n *ngIf="!isCompleted">Did not Pass</ng-container>
             </h2>
             <div class="flex flex-wrapped flex-center text-center">
               <div class="card-section">
@@ -104,6 +104,19 @@
                   Percentage
                 </h2>
               </div>
+            </div>
+            <div class="text-center">
+              <div class="score-text">Your Score is</div>
+              <div class="score-style mb-3">
+                {{ result | number: '1.0-0' }} %
+              </div>
+            </div>
+            <div *ngIf="result < 70" class="text-center">
+              <h2>You need to score atleast 70% to complete this module.</h2>
+              <button mat-raised-button class="header-btn text-white ws-mat-primary-background mat-button-base" i18n
+                (click)="startQuiz()">Retake Assessment</button>
+
+
             </div>
           </ng-container>
         </mat-card>
