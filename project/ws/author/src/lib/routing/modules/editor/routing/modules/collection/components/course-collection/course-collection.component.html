@@ -107,7 +107,7 @@
       <ws-auth-file-upload [isCollectionEditor]="true" *ngIf="!showAddchapter && viewMode === 'upload'"
         [isSubmitPressed]="isSubmitPressed" (data)="action($event)">
       </ws-auth-file-upload>
-      <ws-auth-quiz [isCollectionEditor]="true" *ngIf="!showAddchapter && viewMode === 'assessment'"
+      <ws-auth-quiz #child [isCollectionEditor]="true" *ngIf="!showAddchapter && viewMode === 'assessment'"
         [isSubmitPressed]="isSubmitPressed" (data)="action($event)"></ws-auth-quiz>
 
       <ws-auth-web-module-editor *ngIf="!showAddchapter && viewMode === 'webmodule'" (data)="action($event)">
