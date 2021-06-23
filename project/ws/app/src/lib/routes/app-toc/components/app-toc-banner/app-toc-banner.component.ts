@@ -19,6 +19,7 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
+import { NoAccessDialogComponent } from '../../../goals/components/no-access-dialog/no-access-dialog.component'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -69,6 +70,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   } = {}
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
+  showDownloadCertificate = false
   // learnersCount:Number
 
   constructor(
@@ -88,6 +90,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     if (this.content) {
       this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      const contentId = this.content.identifier
+      if (contentId === 'lex_auth_01308384668903833673' || contentId === 'lex_auth_01311423170518220869'
+        || contentId === 'lex_auth_013268426750025728383') {
+        this.showDownloadCertificate = true
+      }
     }
 
     this.route.data.subscribe(data => {
@@ -488,5 +495,14 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         count: 0,
       }
     }
+  }
+
+  showCompleteCourseDialog() {
+    this.dialog.open(NoAccessDialogComponent, {
+      data: {
+        type: 'certify',
+      },
+      width: '600px',
+    })
   }
 }

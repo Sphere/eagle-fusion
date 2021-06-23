@@ -40,6 +40,7 @@ import { AppTocDiscussionComponent } from './components/app-toc-discussion/app-t
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
 import { AppTocService } from './services/app-toc.service'
 import { TrainingApiService } from '../infy/routes/training/apis/training-api.service'
+import { GoalsModule } from './../goals/goals.module'
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
@@ -77,6 +78,7 @@ import {
   PlayerBriefModule,
   CardContentModule,
   UserAutocompleteModule,
+  DownloadCertificateModule,
 } from '@ws-widget/collection'
 import { AppTocDialogIntroVideoComponent } from './components/app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
@@ -175,6 +177,8 @@ import { LicenseComponent } from './components/license/license.component'
     BtnContentShareModule,
     UserAutocompleteModule,
     ProfileImageModule,
+    DownloadCertificateModule,
+    GoalsModule,
   ],
   providers: [
     AppTocResolverService,
