@@ -16,6 +16,7 @@ import {
 import { BadgesCardComponent } from './components/badges-card/badges-card.component'
 import { BadgesNotEarnedComponent } from './components/badges-not-earned/badges-not-earned.component'
 import { HorizontalScrollerModule, DefaultThumbnailModule } from '@ws-widget/utils'
+import { DownloadCertificateModule } from './../../../../../../../../../library/ws-widget/collection/src/lib/_common/download-certificate/download-certificate.module'
 
 @NgModule({
   declarations: [BadgesComponent, BadgesCardComponent, BadgesNotEarnedComponent],
@@ -32,6 +33,7 @@ import { HorizontalScrollerModule, DefaultThumbnailModule } from '@ws-widget/uti
     DefaultThumbnailModule,
     MatDividerModule,
     MomentModule,
+    DownloadCertificateModule,
   ],
   exports: [BadgesComponent, BadgesCardComponent, BadgesNotEarnedComponent],
 })

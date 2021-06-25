@@ -13,7 +13,11 @@ export class DialogConfirmComponent {
     private dialogRef: MatDialogRef<DialogConfirmComponent>,
   ) { }
 
-  confirmed() {
-    this.dialogRef.close(true)
+  confirmed(): void {
+    this.dialogRef.close('edit')
+  }
+
+  downloadNow(): void {
+    this.dialogRef.close('download')
   }
 }

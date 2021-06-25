@@ -245,10 +245,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private councilFilter(value: string): string[] {
-    const filterValue = value.toLowerCase()
+    if (value) {
+      const filterValue = value.toLowerCase()
 
-    return this.nursingCouncilNames.filter(option =>
-      option.toLowerCase().includes(filterValue))
+      return this.nursingCouncilNames.filter(option =>
+        option.toLowerCase().includes(filterValue))
+    }
+    return []
   }
 
   createDegree(): FormGroup {
@@ -711,7 +714,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
