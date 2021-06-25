@@ -108,7 +108,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         ],
       },
     }
-    this.orgService.getDatabyOrgId(req).subscribe(data => {
+    this.orgService.getDatabyOrgId(req).subscribe((data: any) => {
       this.courseData = data
       this.courseCount = this.courseData.result.length
     })

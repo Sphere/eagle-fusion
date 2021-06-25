@@ -43,6 +43,7 @@
     "@fortawesome/free-solid-svg-icons": "5.13.0",
     "@material-extended/mde": "^2.3.1",
     "@types/file-saver": "^2.0.1",
+    "@types/lodash": "^4.14.161",
     "angularx-qrcode": "~2.1.4",
     "brace": "^0.11.1",
     "chart.js": "^2.8.0",
