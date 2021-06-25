@@ -105,7 +105,7 @@ const routes: Routes = [
   {
     path: 'app/info',
     loadChildren: () => import('./routes/route-info-app.module').then(u => u.RouteInfoAppModule),
-    //canActivate: [GeneralGuard],
+    // canActivate: [GeneralGuard],
   },
   {
     path: 'app/invalid-user',

@@ -44,7 +44,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #firstname formControlName="firstname" i18n-placeholder
-                            placeholder="Enter First Name" readonly />
+                            placeholder="Enter First Name" [readonly]="this.isEditable" />
                           <mat-hint align="end">{{ firstname.value.length }} / 500</mat-hint>
                           <mat-error [hidden]="false" i18n="First Name Error|Explains name is required">
                             First name is mandatory
@@ -58,7 +58,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #middlename formControlName="middlename" i18n-placeholder
-                            placeholder="Enter Middle Name" readonly />
+                            placeholder="Enter Middle Name" [readonly]="this.isEditable" />
                           <mat-error [hidden]="false" i18n="Middle Name Error|Explains name is required">
                             Middle name is mandatory
                           </mat-error>
@@ -71,7 +71,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #surname formControlName="surname" i18n-placeholder
-                            placeholder="Enter Surname" readonly />
+                            placeholder="Enter Surname" [readonly]="this.isEditable" />
                           <mat-error [hidden]="false" i18n="Surname Error|Explains name is required">
                             Surname is mandatory
                           </mat-error>
