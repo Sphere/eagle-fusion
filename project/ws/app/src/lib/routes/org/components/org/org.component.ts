@@ -21,7 +21,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   courseCount = 0
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-    private router: Router, private authSvc: AuthKeycloakService) { }
+              private router: Router, private authSvc: AuthKeycloakService) { }
 
   ngOnInit() {
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
