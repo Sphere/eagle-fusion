@@ -18,13 +18,29 @@
       </div>
       <!--FERNANDES COURSE-->
 
+      <!-- <ng-container *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_01308384668903833673'">
+        <button (click)="downloadPdf()" *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R' &&
+                       badge.badge_id === 'lex_auth_01308384668903833673'" mat-raised-button class="
+                    ws-mat-primary-background mat-button-base mt-5">Download
+          Certificate</button>
+      </ng-container>
+
+      <ng-container *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_01311423170518220869'">
+        <button (click)="downloadPdf(badge.badge_id)" mat-raised-button class="
+                          ws-mat-primary-background mat-button-base mt-5">Download
+          Certificate</button>
+        <img id="imageUrl" class="img-fluid hidden" crossOrigin="Anonymous" [src]="imageUrl">
+      </ng-container> -->
+
       <ws-widget-download-certificate *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_013268426750025728383'"
         [badgeData]="badge">
       </ws-widget-download-certificate>
-
-      <ws-widget-download-certificate *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R' &&
-           badge.badge_id === 'lex_auth_01308384668903833673'" [badgeData]="badge">
-      </ws-widget-download-certificate>
+      cond==>{{badge.badge_id === 'lex_auth_01308384668903833673'}}
+      <ng-container *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_01308384668903833673'">
+        <ws-widget-download-certificate
+          *ngIf="badge.badge_type === 'C' && badge.badge_type !== 'O' && badge.badge_type !== 'R'" [badgeData]="badge">
+        </ws-widget-download-certificate>
+      </ng-container>
       <!--NQOCN COURSE-->
       <ws-widget-download-certificate *ngIf="badge.badge_type &&  badge.badge_id === 'lex_auth_01311423170518220869'"
         [badgeData]="badge">
