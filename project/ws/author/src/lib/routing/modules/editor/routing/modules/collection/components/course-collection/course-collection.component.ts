@@ -355,7 +355,7 @@ export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestr
         this.child.save()
         setTimeout(() => {
           this.loadCourseSettings()
-        }, 3000)
+        },         3000)
       } else {
         this.triggerSave().subscribe(
           () => {
