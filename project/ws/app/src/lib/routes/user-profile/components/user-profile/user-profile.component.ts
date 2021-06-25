@@ -70,6 +70,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toastError', { static: true }) toastError!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   isEditEnabled = false
+  isEditable = false
   tncAccepted = false
   isOfficialEmail = false
   govtOrgMeta!: IGovtOrgMeta
@@ -498,6 +499,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
           data => {
             if (data && data.length) {
+              this.isEditable = true
               const academics = this.populateAcademics(data[0])
               this.setDegreeValuesArray(academics)
               this.setPostDegreeValuesArray(academics)
@@ -711,7 +713,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: data.skills.additionalSkills,
       certificationDesc: data.skills.certificateDetails,
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
