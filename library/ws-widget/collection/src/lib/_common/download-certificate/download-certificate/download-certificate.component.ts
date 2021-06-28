@@ -86,14 +86,9 @@ export class DownloadCertificateComponent implements OnInit {
             const dialogRef = this.dialog.open(DialogConfirmComponent, {
               data: {
                 title: 'RN Number is missing from your profile',
-<<<<<<< HEAD
-                body: `If you are a Registered Nurse/Midwife please update your Registration Number (RN Number) on the
-                profile and then try downloading the certificate. If you don't have RN Number click on 'Download Now'`,
-=======
                 body: `If you are a Registered Nurse/Midwife please update your Registration
                  Number (RN Number) on the profile and then try downloading the certificate.
                 If you don't have RN Number click on 'Download Now'`,
->>>>>>> 82811e344b0dafd69a762b862b791a2c227dfce2
               },
               width: '600px',
             })
