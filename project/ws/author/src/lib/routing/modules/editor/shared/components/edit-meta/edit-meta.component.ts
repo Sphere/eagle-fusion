@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection/src/public-api'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
-import { CONTENT_BASE_STATIC } from '@ws/author/src/lib/constants/apiEndpoints'
+import { CONTENT_BASE_STATIC, CONTENT_BASE_WEBHOST_ASSETS } from '@ws/author/src/lib/constants/apiEndpoints'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
@@ -894,6 +894,21 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
                     },
                     duration: NOTIFICATION_TIME * 1000,
                   })
+
+                  const formData = new FormData()
+                  formData.append('content', file, fileName)
+                  this.uploadService
+                    .upload(formData, {
+                      contentId: this.contentMeta.identifier,
+                      contentType: CONTENT_BASE_WEBHOST_ASSETS,
+                    })
+                    .subscribe(
+                      asset => {
+                        if (asset.code) {
+                          this.contentForm.controls.creatorPosterImage.setValue(asset.artifactURL)
+                          this.storeData()
+                        }
+                      })
                 }
               },
               () => {
@@ -909,6 +924,24 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
     })
+
+    // setTimeout(() => {
+    //   formdata.append('content', file, fileName)
+    //   this.uploadService
+    //     .upload(formdata, {
+    //       contentId: this.contentMeta.identifier,
+    //       contentType: CONTENT_BASE_WEBHOST_ASSETS,
+    //     })
+    //     .subscribe(
+    //       asset => {
+    //         if (asset.code) {
+    //           console.log('big image uploaded', asset)
+    //           this.contentForm.controls.creatorPosterImage.setValue(asset.artifactURL)
+    //           this.storeData()
+    //         }
+    //       })
+    // }, 3000)
+
   }
   uploadSourceIcon(file: File) {
     const formdata = new FormData()

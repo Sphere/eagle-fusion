@@ -48,9 +48,7 @@
     <a [ngClass]="{
       pointer: data.contentType !== 'Knowledge Board',
       cursor: data.contentType === 'Knowledge Board'
-    }" [routerLink]="
-      data.contentType !== 'Knowledge Board' ? ['/author/viewer/' + data.identifier] : []
-    " [queryParamsHandling]="data.contentType === 'Knowledge Board' ? 'preserve' : ''">
+    }">
       <img class="" role="link" [src]="data.appIcon | relativeUrl" (error)="changeToDefaultImg($event)"
         [alt]="data.name" />
     </a>

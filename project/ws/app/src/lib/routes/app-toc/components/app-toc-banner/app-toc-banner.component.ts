@@ -20,6 +20,7 @@ import { AppTocService } from '../../services/app-toc.service'
 import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { NoAccessDialogComponent } from '../../../goals/components/no-access-dialog/no-access-dialog.component'
+import { AUTHORING_CONTENT_BASE } from './../../../../../../../author/src/lib/constants/apiEndpoints'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -71,6 +72,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
   showDownloadCertificate = false
+  bannerImg = ''
   // learnersCount:Number
 
   constructor(
@@ -95,6 +97,9 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         || contentId === 'lex_auth_013268426750025728383') {
         this.showDownloadCertificate = true
       }
+      this.content.creatorPosterImage ?
+        this.bannerImg = `${AUTHORING_CONTENT_BASE}${encodeURIComponent(this.content.creatorPosterImage)}`
+        : this.bannerImg = this.content.appIcon
     }
 
     this.route.data.subscribe(data => {
