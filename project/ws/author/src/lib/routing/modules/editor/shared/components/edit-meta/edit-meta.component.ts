@@ -924,24 +924,6 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       },
     })
-
-    // setTimeout(() => {
-    //   formdata.append('content', file, fileName)
-    //   this.uploadService
-    //     .upload(formdata, {
-    //       contentId: this.contentMeta.identifier,
-    //       contentType: CONTENT_BASE_WEBHOST_ASSETS,
-    //     })
-    //     .subscribe(
-    //       asset => {
-    //         if (asset.code) {
-    //           console.log('big image uploaded', asset)
-    //           this.contentForm.controls.creatorPosterImage.setValue(asset.artifactURL)
-    //           this.storeData()
-    //         }
-    //       })
-    // }, 3000)
-
   }
   uploadSourceIcon(file: File) {
     const formdata = new FormData()
