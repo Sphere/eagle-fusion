@@ -237,7 +237,10 @@ export class AuthKeycloakService {
 
   private get defaultRedirectUrl(): string {
     try {
-      const baseUrl = document.baseURI
+      let baseUrl = document.baseURI
+      if (localStorage.getItem('selectedCourse')) {
+        baseUrl = document.baseURI + localStorage.getItem('selectedCourse')
+      }
       return baseUrl || location.origin
     } catch (error) {
       return location.origin
