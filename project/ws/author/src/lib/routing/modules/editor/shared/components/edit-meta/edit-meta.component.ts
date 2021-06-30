@@ -894,21 +894,22 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
                     },
                     duration: NOTIFICATION_TIME * 1000,
                   })
-
-                  const formData = new FormData()
-                  formData.append('content', file, fileName)
-                  this.uploadService
-                    .upload(formData, {
-                      contentId: this.contentMeta.identifier,
-                      contentType: CONTENT_BASE_WEBHOST_ASSETS,
-                    })
-                    .subscribe(
-                      asset => {
-                        if (asset.code) {
-                          this.contentForm.controls.creatorPosterImage.setValue(asset.artifactURL)
-                          this.storeData()
-                        }
+                  if (this.contentMeta.contentType === 'Course') {
+                    const formData = new FormData()
+                    formData.append('content', file, fileName)
+                    this.uploadService
+                      .upload(formData, {
+                        contentId: this.contentMeta.identifier,
+                        contentType: CONTENT_BASE_WEBHOST_ASSETS,
                       })
+                      .subscribe(
+                        asset => {
+                          if (asset.code) {
+                            this.contentForm.controls.creatorPosterImage.setValue(asset.artifactURL)
+                            this.storeData()
+                          }
+                        })
+                  }
                 }
               },
               () => {
