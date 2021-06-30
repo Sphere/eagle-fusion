@@ -897,7 +897,6 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
                   if (this.contentMeta.contentType === 'Course') {
                     const formData = new FormData()
                     formData.append('content', file, fileName)
-                    console.log('this.contentMeta', this.contentMeta)
                     this.uploadService
                       .upload(formData, {
                         contentId: this.contentMeta.identifier,
