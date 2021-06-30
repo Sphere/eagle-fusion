@@ -176,19 +176,23 @@ ws-auth-root-content-card {
 }
 
 .content-box {
-  width: 80%;
+  @include breakpoint-gt-m {
+    width: 80%;
+  }
 }
 .sidebar {
-  width: 19%;
-  position: absolute;
-  top: -37px;
-  bottom: 0;
-  right: 0;
-  padding-right: 10px;
-  background: #fff;
-  padding-left: 2em;
-  padding-top: 3em;
-  border-left: 2px solid #dddd;
+  @include breakpoint-gt-m {
+    width: 19%;
+    position: absolute;
+    top: -37px;
+    bottom: 0;
+    right: 0;
+    padding-right: 10px;
+    background: #fff;
+    padding-left: 2em;
+    padding-top: 3em;
+    border-left: 2px solid #dddd;
+  }
 }
 .mb-3 {
   margin-bottom: 0.45rem !important;
