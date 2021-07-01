@@ -697,6 +697,22 @@ a.width-auto.mat-button {
     overflow-y: auto;
     overflow-x: hidden;
   }
+   @include breakpoint-s {
+    min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+    @include breakpoint-xs {
+    min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 body.custom-scroll::-webkit-scrollbar,
 .padding-dynamic::-webkit-scrollbar {
@@ -924,4 +940,9 @@ button.submit-btn[disabled] {
 }
 #freshworks-container iframe {
   bottom: 65px !important;
+}
+span.cert-text {
+  @include breakpoint-xs {
+    display: none;
+  }
 }

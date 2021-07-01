@@ -2,7 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, Host
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { UtilityService, ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
@@ -63,7 +63,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     private valueSvc: ValueService,
     private dataSvc: ViewerDataService,
     private rootSvc: RootService,
-    private utilitySvc: UtilityService,
+    // private utilitySvc: UtilityService,
     private changeDetector: ChangeDetectorRef,
     public configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService,
@@ -236,8 +236,9 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   minimizeBar() {
     this.sideNavBarOpened = !this.sideNavBarOpened
-    if (this.utilitySvc.isMobile) {
-      this.sideNavBarOpened = true
-    }
+    // Fix for sidebar not opening in mobile view
+    // if (this.utilitySvc.isMobile) {
+    //   this.sideNavBarOpened = true
+    // }
   }
 }
