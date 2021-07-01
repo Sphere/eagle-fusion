@@ -40,7 +40,7 @@
     class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="showCompleteCourseDialog()"
     aria-label="Displays a tooltip">
     <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
-    Certificate </button>
+    <span class="cert-text">Certificate</span> </button>
 
   <img id="imageUrl" class="img-fluid hidden" crossOrigin="Anonymous" [src]="imageUrl">
   <div class="flex justify-center mt-0" *ngIf="!isSmall">
@@ -84,7 +84,7 @@
   </div>
 
 
-  <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
+  <!-- <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" [hidden] (click)="toggleSideBar()" accesskey="M">
     <mat-icon [ngClass]="logo ? 'hidden' : 'xsmall'">menu</mat-icon>
-  </a>
+  </a> -->
 </mat-toolbar>

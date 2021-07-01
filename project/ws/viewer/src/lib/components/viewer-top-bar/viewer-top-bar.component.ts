@@ -83,7 +83,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       recent: [],
       totalPoints: [{ collaborative_points: 0, learning_points: 0 }],
     }
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+    this.valueSvc.isLtMedium$.subscribe(isXSmall => {
       // this.logo = !isXSmall
       this.isSmall = isXSmall
     })
