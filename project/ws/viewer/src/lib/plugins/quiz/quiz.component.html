@@ -48,7 +48,7 @@
       </div>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div class="margin-m">
+      <div class="margin-m white-bg">
         <ng-container *ngIf="!(viewState === 'answer' && quizJson?.isAssessment)">
           <viewer-question #questionsReference [id]="'question' + (i + 1)"
             *ngFor="let question of quizJson?.questions; let i = index" [markedQuestions]="markedQuestions"
