@@ -498,6 +498,9 @@ h3.shepherd-title {
   line-height: 48px !important;
   padding: 0 20px !important;
   border-radius: 8px !important;
+  @include breakpoint-lt-s {
+    padding: 0 15px !important;
+  }
 }
 
 .post-content img,
@@ -557,12 +560,14 @@ h3.shepherd-title {
   line-height: 40px !important;
 }
 
-.theme-igot.day-mode .mat-raised-button[disabled][disabled] {
-  // background-color: white !important;
-}
 
 .action-button {
-  margin-right: 17px !important;
+  @include breakpoint-gt-xs {
+    margin-right: 17px !important;
+  }
+    @include breakpoint-xs {
+    margin-right: 12px !important;
+  }
 }
 
 .action-icons {
