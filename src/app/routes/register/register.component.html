@@ -92,6 +92,9 @@
         <div class="border"></div>
 
         <div class="mt-4  mb-8">
+          <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
+            <mat-spinner [diameter]="30"></mat-spinner>
+          </div>
           <button mat-raised-button class="submit-btn" color="primary" type="submit" i18n
             [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
             <ng-container i18n>Register</ng-container>
