@@ -206,29 +206,31 @@ export class DownloadCertificateComponent implements OnInit {
       }
 
       imageData = this.getBase64Image(document.getElementById('imageUrl'))
-      doc.addImage(imageData, 'JPG', 0, 0, width, height)
-      doc.setFontSize(20)
-      doc.setTextColor(100);
+      if (this.userFullname && this.receivedDate) {
+        doc.addImage(imageData, 'JPG', 0, 0, width, height)
+        doc.setFontSize(20)
+        doc.setTextColor(100);
 
-      (doc as any).autoTable({
-        body: [
-          [{
-            // tslint:disable-next-line:max-line-length
-            content: `${contentName} \n by ${`${this.userFullname}`}`,
-            colSpan: 2,
-            rowSpan: 2,
-            styles: { halign: 'center', valign: 'middle' },
-          }],
-        ],
-        theme: 'plain',
-        columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
-        margin: { top: 80 },
-      })
+        (doc as any).autoTable({
+          body: [
+            [{
+              // tslint:disable-next-line:max-line-length
+              content: `${contentName} \n by ${`${this.userFullname}`}`,
+              colSpan: 2,
+              rowSpan: 2,
+              styles: { halign: 'center', valign: 'middle' },
+            }],
+          ],
+          theme: 'plain',
+          columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
+          margin: { top: 80 },
+        })
 
-      doc.setTextColor(0, 0, 0)
-      doc.setFont('times')
-      doc.text(`Completed On ${this.receivedDate}`, 112, 110)
-      doc.save('certificate_fernandez.pdf')
+        doc.setTextColor(0, 0, 0)
+        doc.setFont('times')
+        doc.text(`Completed On ${this.receivedDate}`, 112, 110)
+        doc.save('certificate_fernandez.pdf')
+      }
     } else
       if (badgeId.includes(courseId.iNCCourseId)) { // INC Course
         let dataImage = ''
@@ -243,7 +245,7 @@ export class DownloadCertificateComponent implements OnInit {
             const doc = new jsPDF('landscape', 'mm', [297, 190])
             const width = doc.internal.pageSize.getWidth()
             const height = doc.internal.pageSize.getHeight()
-            if (dataImage) {
+            if (dataImage && this.userFullname) {
               doc.addImage(dataImage, 'JPG', 0, 0, width, height)
               doc.setFontSize(20)
               doc.setTextColor(100);
@@ -287,7 +289,7 @@ export class DownloadCertificateComponent implements OnInit {
         let dataImage = ''
         this.badgesSvc.generateQRCode(req).subscribe(data => {
           responseQRCode = data.data
-          if (data) {
+          if (data && this.userFullname) {
             dataImage = this.imageContent
 
             const doc = new jsPDF('landscape', 'mm', [297, 190])

@@ -65,3 +65,9 @@ span.text-left.width-1-8.margin-left-l.text-truncate {
     margin-left: -16px !important;
   }
 }
+
+.coll-name {
+   @include breakpoint-xs {
+     font-size: 17px;
+   }
+}
