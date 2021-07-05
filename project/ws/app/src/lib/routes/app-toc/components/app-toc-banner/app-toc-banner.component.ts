@@ -10,7 +10,7 @@ import {
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
-import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, TFetchStatus, ValueService } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
 import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
@@ -73,6 +73,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   cohortTypesEnum = NsCohorts.ECohortTypes
   showDownloadCertificate = false
   bannerImg = ''
+  appIcon: any
+  isXSmall = false
   // learnersCount:Number
 
   constructor(
@@ -87,6 +89,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
     private authAccessService: AccessControlService,
+    private valueSvc: ValueService,
+    private domSanitizer: DomSanitizer,
   ) { }
 
   ngOnInit() {
@@ -100,6 +104,17 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.content.creatorPosterImage ?
         this.bannerImg = `${AUTHORING_CONTENT_BASE}${encodeURIComponent(this.content.creatorPosterImage)}`
         : this.bannerImg = this.content.appIcon
+    }
+
+    this.valueSvc.isXSmall$.subscribe(xSmall => {
+      if (xSmall) {
+        this.isXSmall = xSmall
+      }
+    })
+    if (this.configSvc.instanceConfig) {
+      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        this.configSvc.instanceConfig.logos.app,
+      )
     }
 
     this.route.data.subscribe(data => {
@@ -509,5 +524,9 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       },
       width: '600px',
     })
+  }
+
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
   }
 }
