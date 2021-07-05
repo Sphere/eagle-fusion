@@ -4,13 +4,15 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, TFetchStatus, ValueService } from '@ws-widget/utils'
 import { NSProfileData } from '../../../../models/profile.model'
 import { ProfileService } from '../../../../services/profile.service'
 import { InterestService } from '../../../interest/services/interest.service'
 import { NSLearningHistory } from '../../../learning/models/learning.models'
 import { LearningHistoryService } from '../../../learning/services/learning-history.service'
 import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
+import { DomSanitizer } from '@angular/platform-browser'
+import { MatDialog } from '@angular/material'
 
 interface ILearningHistoryContent {
   content: NSLearningHistory.ILearningHistory
@@ -111,15 +113,19 @@ export class DashboardComponent implements OnInit {
   showInterest = false
   academicsArray: any[] = []
   userEmail: string | undefined
+  appIcon: any
+  isXSmall = false
 
   constructor(
     private configSvc: ConfigurationsService,
-    // private badgesSvc: BadgesService,
+    private domSanitizer: DomSanitizer,
     private profileSvc: ProfileService,
     private learnHstSvc: LearningHistoryService,
     private interestSvc: InterestService,
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
+    private dialog: MatDialog,
+    private valueSvc: ValueService
   ) {
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
@@ -210,6 +216,11 @@ export class DashboardComponent implements OnInit {
     this.historyFetchStatus = 'fetching'
     this.apiFetchStatus = 'fetching'
     this.fetchInterests()
+    this.valueSvc.isXSmall$.subscribe(xSmall => {
+      if (xSmall) {
+        this.isXSmall = xSmall
+      }
+    })
     // this.badgesSvc.fetchBadges().subscribe(
     //   (data: IBadgeResponse) => {
     //     this.badgesData = data
@@ -259,6 +270,11 @@ export class DashboardComponent implements OnInit {
     if (this.myProp) {
       this.myProp.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
+    if (this.configSvc.instanceConfig) {
+      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        this.configSvc.instanceConfig.logos.app,
+      )
+    }
   }
 
   fetchInterests() {
@@ -295,5 +311,8 @@ export class DashboardComponent implements OnInit {
         }
       })
     }
+  }
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
   }
 }

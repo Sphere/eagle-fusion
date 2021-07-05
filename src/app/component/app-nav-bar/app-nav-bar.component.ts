@@ -2,10 +2,11 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { IBtnAppsConfig, CustomTourService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, NsInstanceConfig, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
+import { MatDialog } from '@angular/material'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -38,13 +39,16 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showAppNavBar = false
   popupTour: any
   courseNameHeader: any
+  isXSmall = false
 
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
     private tourService: CustomTourService,
     private router: Router,
-    private accessService: AccessControlService
+    private accessService: AccessControlService,
+    private valueSvc: ValueService,
+    private dialog: MatDialog
   ) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.restrictedFeatures) {
@@ -63,6 +67,14 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(xSmall => {
+      if (xSmall) {
+        const url = window.location.href
+        if (url.indexOf('profile') > 0 || url.indexOf('app/toc') > 0) {
+          this.isXSmall = xSmall
+        }
+      }
+    })
     this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {
@@ -146,5 +158,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.isTourGuideClosed = false
     }
 
+  }
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
   }
 }

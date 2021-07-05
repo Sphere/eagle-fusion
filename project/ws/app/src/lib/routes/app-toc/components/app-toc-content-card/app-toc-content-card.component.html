@@ -7,13 +7,6 @@
         <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
           <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
 
-          <span class="content-top"
-            *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseChapterPercentage">
-            <img [src]="greenTickIcon" class="image" />
-          </span>
-          <ng-template #elseChapterPercentage>
-            <img [src]="redTickIcon" class="image" />
-          </ng-template>
 
           <div>
             <span class="mat-body-strong">{{ content?.displayContentType }}</span>
@@ -94,11 +87,19 @@
           </div>
 
         </div>
+        <span class="content-top"
+          *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseChapterPercentage">
+          <img [src]="greenTickIcon" class="image" />
+        </span>
+        <ng-template #elseChapterPercentage>
+          <img [src]="redTickIcon" class="image" />
+        </ng-template>
         <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
           <mat-icon>more_vertical</mat-icon>
         </button>
       </div>
-      <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button color="primary">
+      <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m align-right" mat-button
+        color="primary">
         <ng-container *ngIf="!viewChildren" i18n>
           <mat-icon>expand_more</mat-icon>
         </ng-container>
@@ -115,23 +116,25 @@
       </ws-app-toc-content-card>
     </div>
   </ng-container>
-  <div *ngIf="isResource" class="resource-container">
+  <div *ngIf="isResource" class="resource-container ll">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
     </ws-widget-display-content-type-icon> -->
-
-    <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-      (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+    <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+      <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
+        [wsUtilsDefaultThumbnail]="defaultThumbnail" /></a>
     <div class="flex flex-between width-expand">
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
         <div class="text-truncate cursor-pointer 2" (click)="viewChildren = !viewChildren">
-          <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
-          <span class="content-top"
-            *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseResourcePercentage">
-            <img [src]="greenTickIcon" class="image" />
-          </span>
-          <ng-template #elseResourcePercentage>
-            <img [src]="redTickIcon" class="image" />
-          </ng-template>
+          <div class="flex flex-between">
+            <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
+            <span class="content-top"
+              *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseResourcePercentage">
+              <img [src]="greenTickIcon" class="image" />
+            </span>
+            <ng-template #elseResourcePercentage>
+              <img [src]="redTickIcon" class="image" />
+            </ng-template>
+          </div>
           <div>
             <span class="mat-body-strong">{{ content?.displayContentType }}</span>
             <span>

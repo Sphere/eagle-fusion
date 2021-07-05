@@ -1,7 +1,17 @@
 .text-area {
   width: 100%;
 }
+@media (min-width: 768px) {
+  .text-area-input {
+    line-height: 1.5 !important;
+  }
+}
 
-.text-area-input {
-  line-height: 1.5 !important;
+@media (max-width: 560px) {
+  .hideOnSmallScreen{
+    display: none;
+  }
+  h1.heading {
+    font: 400 20px/22px Roboto !important;
+  }
 }

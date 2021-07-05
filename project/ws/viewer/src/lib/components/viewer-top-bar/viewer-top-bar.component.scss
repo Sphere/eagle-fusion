@@ -60,3 +60,14 @@ mat-toolbar {
 .download-icon {
   width: 20px;
 }
+span.text-left.width-1-8.margin-left-l.text-truncate {
+  @include breakpoint-xs {
+    margin-left: -16px !important;
+  }
+}
+
+.coll-name {
+   @include breakpoint-xs {
+     font-size: 17px;
+   }
+}

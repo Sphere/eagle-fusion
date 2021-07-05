@@ -68,6 +68,9 @@
                                                       name: videoData?.name,
                                                       isDisabled: isPreview
                                                     }"></ws-widget-btn-content-feedback-v2>
+            <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+              [widgetData]="{ fsContainer: fullScreenContainer }" (fsState)="fullScreenState($event)">
+            </ws-widget-btn-fullscreen>
           </div>
         </mat-card>
       </div>
