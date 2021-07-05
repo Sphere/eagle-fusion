@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { NsContent, IWidgetsPlayerMediaData, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
@@ -23,6 +23,7 @@ export class VideoComponent implements OnInit {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   @Input() isPreviewMode = false
+  @Output() fsState: EventEmitter<boolean> = new EventEmitter()
   isTypeOfCollection = false
   isRestricted = false
   prevResourceUrl: string | null = null
@@ -32,6 +33,7 @@ export class VideoComponent implements OnInit {
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
   collectionIdentifier: any
+  public isInFullScreen = false
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
               private viewerDataSvc: ViewerDataService) { }
@@ -60,5 +62,9 @@ export class VideoComponent implements OnInit {
 
   setNextClick() {
     this.viewerDataSvc.setClikedItem('next')
+  }
+  fullScreenState(state: boolean) {
+    this.isInFullScreen = state
+    this.fsState.emit(state)
   }
 }

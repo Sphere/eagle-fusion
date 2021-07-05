@@ -19,6 +19,7 @@ import { of, Subscription } from 'rxjs'
 import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { ValueService } from '@ws-widget/utils/src/public-api'
 interface IViewerTocCard {
   identifier: string
   viewerUrl: string
@@ -73,6 +74,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewSvc: ViewerUtilService,
     private configSvc: ConfigurationsService,
     private contentProgressSvc: ContentProgressService,
+    private valueService: ValueService,
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -234,6 +236,11 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
   sendStatus(content: any) {
     this.viewSvc.editResourceData(content)
+    this.valueService.isXSmall$.subscribe((isXSmall: boolean) => {
+      if (isXSmall) {
+        this.minimizenav()
+      }
+    })
   }
 
   private getContentProgressHash() {
