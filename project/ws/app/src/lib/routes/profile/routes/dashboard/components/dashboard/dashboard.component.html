@@ -1,3 +1,26 @@
+<mat-toolbar role="navigation" *ngIf="isXSmall">
+  <a routerLink="/page/home" class="pt-2 pl-2">
+    <img width="80px" height="30px" [src]="appIcon" i18n-alt alt="Home" />
+  </a>
+  <span class="spacer"></span>
+  <button class="home-help" mat-icon-button id='helper' [matMenuTriggerFor]="helpMenuSmall">
+    <mat-icon>more_vertical</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #helpMenuSmall="matMenu">
+  <a mat-menu-item href="http://support.aastrika.org/support/home" target="_blank">
+    <mat-icon>account_circle</mat-icon>
+    <span i18n>Help & Contact</span>
+  </a>
+  <a mat-menu-item href="/app/info/about" role="menuitem" tabindex="0" aria-disabled="false">
+    <mat-icon> info </mat-icon>
+    <span class="ml-2">About Us</span>
+  </a>
+  <a (click)="logout()" mat-menu-item>
+    <mat-icon>power_settings_new</mat-icon><span i18n class="ml-1">Logout</span>
+  </a>
+</mat-menu>
 <div class="profile-container px-4 sm:px-48 md:px-10ss py-0 my-0">
   <div class="mb-4">
     <mat-card class="about-me mb-4">

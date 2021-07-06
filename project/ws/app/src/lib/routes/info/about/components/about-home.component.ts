@@ -6,7 +6,7 @@ import {
   SafeStyle,
 } from '@angular/platform-browser'
 import { map } from 'rxjs/operators'
-import { ConfigurationsService, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { IAboutObject } from '../../../../../../../../../src/app/routes/public/public-about/about.model'
 import { Subscription } from 'rxjs'
@@ -29,12 +29,14 @@ export class AboutHomeComponent implements OnInit, OnDestroy {
     .pipe(map(breakPointState => breakPointState.matches))
 
   videoLink: SafeResourceUrl | null = null
+  isXSmall: any
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
     private activateRoute: ActivatedRoute,
+    private valueSvc: ValueService
   ) { }
 
   ngOnInit() {
@@ -44,6 +46,12 @@ export class AboutHomeComponent implements OnInit, OnDestroy {
         this.videoLink = this.domSanitizer.bypassSecurityTrustResourceUrl(
           this.aboutPage.banner.videoLink,
         )
+      }
+    })
+
+    this.valueSvc.isXSmall$.subscribe(xSmall => {
+      if (xSmall) {
+        this.isXSmall = xSmall
       }
     })
 

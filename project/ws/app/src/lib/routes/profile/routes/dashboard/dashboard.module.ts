@@ -15,6 +15,9 @@ import {
   MatButtonModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
+  MatMenuModule,
+  MatDialogModule,
+  MatToolbarModule,
 } from '@angular/material'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CalendarModule } from '../../module/calendar-module/calendar.module'
@@ -32,6 +35,8 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     MatDatepickerModule,
     MatDividerModule,
     MatButtonModule,
+    MatMenuModule,
+    MatDialogModule,
     DefaultThumbnailModule,
     HorizontalScrollerModule,
     UserImageModule,
@@ -42,6 +47,7 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     CardKnowledgeModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatToolbarModule,
     InterestModule,
     LearningModule,
     CompetencyModule,
