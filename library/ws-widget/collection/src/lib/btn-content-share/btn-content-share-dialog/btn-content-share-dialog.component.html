@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{ data.content.name }}</h1>
+<h1 mat-dialog-title class="heading">{{ data.content.name }}</h1>
 <div mat-dialog-content>
   <h3 class="mat-h3" i18n>Share with
     <ng-container *ngIf="isSocialMediaShareEnabled">
@@ -9,7 +9,7 @@
   <mat-form-field class="text-area">
     <mat-spinner class="text-center" *ngIf="!message" [diameter]="30" [strokeWidth]="3"></mat-spinner>
     <textarea matInput i18n-placeholder placeholder="Your message ..." i18n-value
-      [value]="message ? message : 'Loading...'" class="text-area-input" rows="5" #txtBody></textarea>
+      [value]="message ? message : 'Loading...'" class="text-area-input" rows="3" #txtBody></textarea>
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="flex-row-reverse">
@@ -29,11 +29,11 @@
 
 
 <div *ngIf="isSocialMediaShareEnabled" class="pt-6">
-  <h2 class="mat-h2 margin-remove" i18n>
+  <h2 class="mat-h2 margin-remove hideOnSmallScreen" i18n>
     OR
   </h2>
 
-  <h3 class="mat-h3 margin-remove py-2" i18n>Share on Social Media</h3>
+  <h3 class="mat-h3 margin-remove py-2 hideOnSmallScreen" i18n>Share on Social Media</h3>
 
   <div class="flex flex-wrap items-center">
     <ws-widget-btn-facebook-share [url]="detailUrl" class="pr-4 pb-3"></ws-widget-btn-facebook-share>

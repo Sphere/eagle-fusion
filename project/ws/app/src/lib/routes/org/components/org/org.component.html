@@ -113,16 +113,17 @@
             <div class="source-div mt-4">
             </div>
           </div>
+
+          <mat-card-content>
+            <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+              style="margin-top:65px; margin-left: -11px; padding-top: 1px;">
+              {{ widget.name }}
+            </div>
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+              {{ widget.description }}
+            </div>
+          </mat-card-content>
         </a>
-        <mat-card-content>
-          <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-            style="margin-top:65px; margin-left: -11px; padding-top: 1px;">
-            {{ widget.name }}
-          </div>
-          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
-            {{ widget.description }}
-          </div>
-        </mat-card-content>
       </mat-card>
 
       <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">

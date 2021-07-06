@@ -1,8 +1,8 @@
-<mat-toolbar [color]="pageNavbar?.color" [ngStyle]="pageNavbar?.styles">
-  <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'About',url:'none'}] }"></ws-widget-btn-page-back> -->
-  <!-- <span class="margin-left-xs text-truncate">
+<mat-toolbar [color]="pageNavbar?.color" [ngStyle]="pageNavbar?.styles" *ngIf="isXSmall">
+  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'About',url:'none'}] }"></ws-widget-btn-page-back>
+  <span class="margin-left-xs text-truncate">
     <span i18n="page title: about" class="margin-left-xs">About</span>
-  </span> -->
+  </span>
 </mat-toolbar>
 
 <section class="about-content leading-relaxed" *ngIf="aboutPage">

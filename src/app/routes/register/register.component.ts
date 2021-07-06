@@ -28,6 +28,9 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   showAllFields = false
   isMobile = false
   showResend = false
+  hide = true
+  hideConfirm = true
+
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder, private router: Router,
