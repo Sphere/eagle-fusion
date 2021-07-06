@@ -1,0 +1,21 @@
+.whatsapp-btn {
+  background-color: #25D366;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.whatsapp-logo{
+  vertical-align: sub;
+  margin-top: 3px;
+  margin-left: 2px;
+}
+.whatsapp-link {
+  color: #fff !important;
+  padding: 3px;
+  margin-left: -2px;
+  vertical-align: super;
+}
+@media screen and (min-width: 900px) {
+  .whatsapp-btn {
+      display: none
+  }
+}
