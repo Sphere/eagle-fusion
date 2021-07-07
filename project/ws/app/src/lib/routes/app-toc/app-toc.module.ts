@@ -98,6 +98,7 @@ import { ProfileImageModule } from '../../../../../../../library/ws-widget/colle
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
 import { ApiService, AccessControlService } from '../../../../../author/src/public-api'
 import { LicenseComponent } from './components/license/license.component'
+import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.directive'
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { LicenseComponent } from './components/license/license.component'
     KnowledgeArtifactDetailsComponent,
     AppTocAnalyticsTilesComponent,
     LicenseComponent,
+    RetainScrollDirective,
   ],
   imports: [
     CommonModule,
