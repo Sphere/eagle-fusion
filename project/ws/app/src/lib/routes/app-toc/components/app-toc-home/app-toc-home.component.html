@@ -20,7 +20,7 @@
 </div>
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
-    <nav mat-tab-nav-bar class="toc-links mt-8 mat-app-background">
+    <nav mat-tab-nav-bar id="tab-bar" class="toc-links mt-8 mat-app-background" wsAppRetainScroll>
       <a mat-tab-link [routerLink]="'./overview'" routerLinkActive="ws-mat-primary-text link-active" i18n>Overview</a>
       <a mat-tab-link *ngIf="content?.resourceType === 'Certification'" [routerLink]="'./certification'"
         routerLinkActive="ws-mat-primary-text link-active">
