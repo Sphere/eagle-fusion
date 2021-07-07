@@ -2,7 +2,7 @@ import { Directive, HostListener } from '@angular/core'
 import { ValueService } from '@ws-widget/utils'
 
 @Directive({
-  selector: '[wsAppRetainScroll]'
+  selector: '[wsAppRetainScroll]',
 })
 export class RetainScrollDirective {
   currentPosition = 0
@@ -14,10 +14,9 @@ export class RetainScrollDirective {
     })
   }
 
-
   @HostListener('click') clicking() {
     if (this.isXSmall) {
-      let testDiv = document.getElementById("tab-bar")
+      const testDiv = document.getElementById('tab-bar')
       if (testDiv && this.currentPosition === 0) {
         this.currentPosition = testDiv.offsetTop
       } else {
