@@ -251,8 +251,7 @@ export class InitService {
           userId: userPidProfile.user.wid,
           unit: userPidProfile.user.unit_name,
           // tslint:disable-next-line:max-line-length
-          userName: `${userPidProfile.user.first_name ? userPidProfile.user.first_name : ' '} ${
-            userPidProfile.user.last_name ? userPidProfile.user.last_name : ' '
+          userName: `${userPidProfile.user.first_name ? userPidProfile.user.first_name : ' '} ${userPidProfile.user.last_name ? userPidProfile.user.last_name : ' '
             }`,
           source_profile_picture: userPidProfile.user.source_profile_picture || '',
           dealerCode:
