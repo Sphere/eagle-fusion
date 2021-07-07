@@ -3,5 +3,8 @@
 
   <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
   <span class="cert-text">Certificate </span></button>
+<div *ngIf="showLoader" class="pr-4 flex items-center justify-center">
+  <mat-spinner [diameter]="30"></mat-spinner>
+</div>
 
 <img id="imageUrl" class="img-fluid hidden" crossOrigin="Anonymous" [src]="imageUrl">
