@@ -36,7 +36,8 @@ mat-card {
   width: 15%;
 
   img {
-    width: 176px;
+    width: 100%;
+    max-width: 176px;
     margin-bottom: 0.6rem;
   }
 }
