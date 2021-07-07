@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser'
 import { ConfigurationsService } from '../../../../../utils/src/public-api'
 
 @Component({
