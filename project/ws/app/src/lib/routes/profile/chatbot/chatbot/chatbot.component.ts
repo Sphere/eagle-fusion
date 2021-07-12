@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 @Component({
@@ -15,7 +15,12 @@ export class ChatbotComponent implements OnInit {
   chatArray: any = []
   outputArea: any
 
-  constructor(private http: HttpClient) { }
+  collectArray: any = []
+
+  @ViewChild('div', { static: false }) div!: ElementRef
+
+  constructor(private http: HttpClient,
+    private renderer: Renderer2) { }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -26,18 +31,25 @@ export class ChatbotComponent implements OnInit {
 
   }
   getChatResponse(_chatFormValue: { replymsg: any }) {
-    const v = this.validateResponse()
-    const message = _chatFormValue.replymsg
-    this.outputArea.appendchild(`<div class='bot-message'><div class='message'>
-          ${message}
-        </div>
-      </div>`)
-    if (v) {
-      this.nextId = this.chatArray.action['submit']
-      const currentData = this.chatObj.regOption.profiledetails.filter((data: { id: any }) => data.id === this.nextId)
-      this.chatArray = currentData
-    }
-    this.sendQuestion()
+
+
+    const p: HTMLParagraphElement = this.renderer.createElement('p')
+    p.innerHTML = "add new"
+    this.renderer.appendChild(this.div.nativeElement, p)
+
+
+    // const v = this.validateResponse()
+    // const message = _chatFormValue.replymsg
+    // this.outputArea.appendchild(`<div class='bot-message'><div class='message'>
+    //       ${message}
+    //     </div>
+    //   </div>`)
+    // if (v) {
+    //   this.nextId = this.chatArray.action['submit']
+    //   const currentData = this.chatObj.regOption.profiledetails.filter((data: { id: any }) => data.id === this.nextId)
+    //   this.chatArray = currentData
+    // }
+    // this.sendQuestion()
   }
   sendQuestion() {
     // send next question use chatArray.title
