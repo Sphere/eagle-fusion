@@ -1,0 +1,242 @@
+{
+  "regOption": {
+    "profiledetails": [
+      {
+        "id": "fname",
+        "title": "Can you please provide us your first name ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": [
+            "string"
+          ],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "lname",
+          "error": "Name should be alphabets and under 25 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "lname",
+        "title": "Can you please provide us your last name ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": [
+            "string"
+          ],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "dob",
+          "error": "Name should be alphabets and under 25 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "dob",
+        "title": "Can you please provide us your date of birth in format DD-MM-YYYY ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": [
+            "string"
+          ],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "mobile",
+          "error": "Please provide valid date"
+        },
+        "required": true
+      },
+      {
+        "id": "mobile",
+        "title": "Can you please provide us your mobile number ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": [
+            "number"
+          ],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "location",
+          "error": "Mobile number should be digits and under 10 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "location",
+        "title": "Can you please provide us your location - Country, state, district ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": [
+            "string"
+          ],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "profession",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "profession",
+        "title": "Please help us understand you better, are you ?",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "Healthcare Worker",
+            "Healthcare Volunteer",
+            "Mother/Family member",
+            "Others - Please Specify"
+          ],
+          "type": [
+            "multiple",
+            "single"
+          ]
+        },
+        "action": {
+          "submit": "proceed",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Healthcare Worker",
+        "title": "Please help us understand you better, are you ?",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "Midwives",
+            "ANM",
+            "GNM",
+            "BSC Nurse",
+            "Doctors",
+            "Public Health Professionals",
+            "Paramedical",
+            "Others - Please Specify"
+          ],
+          "type": [
+            "multiple",
+            "single"
+          ]
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Healthcare Volunteer",
+        "title": "Please help us understand you better, are you ?",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "ASHAs",
+            "Anganwadi Workers",
+            "Teachers",
+            "Others - Please Specify"
+          ],
+          "type": [
+            "multiple",
+            "single"
+          ]
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Mother/Family member",
+        "title": "Please help us understand you better, are you ?",
+        "description": "",
+        "type": "options",
+        "data": {},
+        "action": {
+          "submit": "end",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Others - Please Specify",
+        "title": "Can you please provide us your profession ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": [
+            "string"
+          ],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "organizationType",
+        "title": "Please select the type of oranization you belong to",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "Public/Goverment Sector",
+            "Private Sector",
+            "NGO",
+            "Academic institute - Public",
+            "Academic institute - Private",
+            "Others - Please Specify"
+          ],
+          "type": [
+            "multiple",
+            "single"
+          ]
+        },
+        "action": {
+          "submit": "end",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "organizationName",
+        "title": "Name of Organization",
+        "description": "Please provide us your organization name",
+        "type": "text",
+        "data": "",
+        "action": {
+          "submit": "end",
+          "error": ""
+        },
+        "required": false
+      }
+    ]
+  }
+}
