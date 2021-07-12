@@ -21,6 +21,7 @@ import { LearningTimeResolver } from './routes/learning/resolvers/learning-time.
 import { SettingsComponent } from './routes/settings/settings.component'
 // import { BadgeComponent } from '../gamification/routes/badges/components/badge/badge.component'
 import { BadgesComponent } from './routes/badges/badges.component'
+import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
 
 const routes: Routes = [
   {
@@ -142,6 +143,10 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+  },
+  {
+    path: 'chatbot',
+    component: ChatbotComponent,
   },
 ]
 

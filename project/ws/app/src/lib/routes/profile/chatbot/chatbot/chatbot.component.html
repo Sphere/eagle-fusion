@@ -1,0 +1,28 @@
+<div class="chat-div">
+  <div class="navbar">
+    <span class="navbar-text">Chat</span>
+
+  </div>
+  <div class="chat-output" id="chat-output" #div>
+    <div class="user-message">
+      <div class="message">{{chatArray.title}}</div>
+    </div>
+    <!-- <div class="bot-message">
+      <div class="message"></div>
+    </div> -->
+  </div>
+
+  <div class="chat-input">
+    <div class="option-section">
+      <div class="user-message">
+        <div class="message option">Help</div>
+        <div class="message option">call</div>
+        <div class="message option">Select</div>
+      </div>
+    </div>
+    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" (ngSubmit)="getChatResponse(chatForm.value)">
+      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message" ngModel>
+      <button type="submit" value="submit" class="btn-chat-reply">Send</button>
+    </form>
+  </div>
+</div>
