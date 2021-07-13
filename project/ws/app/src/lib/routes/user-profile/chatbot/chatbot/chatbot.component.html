@@ -62,7 +62,7 @@
       </div>
     </div>
 
-
+    <span *ngIf="errMsg.length>0" style="color:red">{{errMsg}}</span>
 
     <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
       [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">

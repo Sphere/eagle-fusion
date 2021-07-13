@@ -23,9 +23,10 @@ export class ChatbotComponent implements OnInit {
   createUserForm!: FormGroup
   createChatForm!: FormGroup
   @ViewChild('chatoutput', { static: false }) outputArea!: ElementRef
+  errMsg = ''
 
   constructor(private http: HttpClient,
-              private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService) { }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -54,7 +55,7 @@ export class ChatbotComponent implements OnInit {
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
 
-    const v = this.validateResponse(_chatFormValue.replymsg)
+    const v = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
 
     this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
 
@@ -114,18 +115,44 @@ export class ChatbotComponent implements OnInit {
         </div>
       </div>
     `)
-    },         500)
+    }, 500)
     if (question[0]['type'] === 'options') {
       this.options = question[0].data.options
       this.inputMsgEnabled = true
     }
   }
-  validateResponse(msg: any) {
-    if (msg) {
-      return true
+  validateResponse(obj: any, msg: any) {
+    switch (obj.data.type[0]) {
+      case 'string': {
+        if (msg.length > obj.data.length) {
+          this.errMsg = obj.action.error
+          if (obj.data.regex) {
+            return obj.data.regex.test(msg)
+          }
+          return false
+        }
+        if (this.errMsg) {
+          this.errMsg = ''
+          return true
+        }
+        break
+      }
+      case 'number': {
+        if (msg.length > obj.data.length) {
+          this.errMsg = obj.action.error
+          return false
+        }
+        if (this.errMsg) {
+          this.errMsg = ''
+          return true
+        }
+        break
+      }
+      default: return true
     }
-    return false
+
   }
+
   optionSelect() {
     this.inputMsgEnabled = false
   }
@@ -205,7 +232,7 @@ export class ChatbotComponent implements OnInit {
     const organisations: any = []
     const org = {
       organisationType: form.value.organisationType,
-      name: form.value.orgName || 'ANM',
+      name: form.value.orgName,
       designation: form.value.designation,
       designationOther: form.value.designationOther,
     }

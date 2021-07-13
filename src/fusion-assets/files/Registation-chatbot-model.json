@@ -7,7 +7,7 @@
         "description": "",
         "type": "text",
         "data": {
-          "length": 50,
+          "length": 25,
           "type": ["string"],
           "regex": false,
           "regexPattern": ""
@@ -24,14 +24,14 @@
         "description": "",
         "type": "text",
         "data": {
-          "length": 50,
+          "length": 25,
           "type": ["string"],
           "regex": false,
           "regexPattern": ""
         },
         "action": {
           "submit": "lname",
-          "error": "Name should be alphabets and under 25 characters"
+          "error": "Middlename should be alphabets and under 25 characters"
         },
         "required": false
       },
@@ -48,20 +48,20 @@
         },
         "action": {
           "submit": "dob",
-          "error": "Name should be alphabets and under 25 characters"
+          "error": "Lastname should be alphabets and under 25 characters"
         },
         "required": true
       },
       {
         "id": "dob",
-        "title": "Can you please provide us your date of birth in format DD-MM-YYYY ?",
+        "title": "Can you please provide us your date of birth in format DD/MM/YYYY ?",
         "description": "",
         "type": "text",
         "data": {
-          "length": 50,
+          "length": 10,
           "type": ["string"],
-          "regex": false,
-          "regexPattern": "^((\\+91-?)|0)?[0-9]{10}$"
+          "regex": true,
+          "regexPattern": "^(0[1-9]|1d|2d|3[01])/(0[1-9]|1[0-2])/(19|20)d{2}$"
         },
         "action": {
           "submit": "mobile",
@@ -75,10 +75,10 @@
         "description": "",
         "type": "text",
         "data": {
-          "length": 50,
+          "length": 10,
           "type": ["number"],
-          "regex": false,
-          "regexPattern": ""
+          "regex": true,
+          "regexPattern": "^((\\+91-?)|0)?[0-9]{10}$"
         },
         "action": {
           "submit": "location",
