@@ -64,6 +64,103 @@
 
     <span *ngIf="errMsg.length>0" style="color:red">{{errMsg}}</span>
 
+
+
+    <!-- location start -->
+
+    <div class="option-section ml-5">
+      <form [formGroup]="createUserForm">
+        <div class="input-wrapper margin-top-s" *ngIf="dropdownStatus == 'country'">
+          <p class=" margin-remove-bottom form-label"
+            i18n="Name of Country and state label|Label which explains the user to enter Name of Country state">
+            Select country
+          </p>
+
+          <mat-form-field appearance="outline" class="margin-top-xs w-full">
+            <input matInput type="text" placeholder="Name of Country" i18n-placeholder="Name of Country"
+              formControlName="residenceAddress" [matAutocomplete]="location" i18n-aria-label aria-label="country"
+              #location />
+
+
+          </mat-form-field>
+
+
+          <mat-autocomplete #location="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+              (onSelectionChange)="getSelectedData(option)">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+
+
+        </div>
+
+        <div class="input-wrapper margin-top-s" *ngIf="dropdownStatus == 'state'">
+          <p class=" margin-remove-bottom form-label"
+            i18n="Name of State and state label|Label which explains the user to enter Name of State">
+            Select state
+          </p>
+
+          <mat-form-field appearance="outline" class="margin-top-xs w-full">
+            <input matInput type="text" placeholder="Name of State" i18n-placeholder="Name of State"
+              formControlName="residenceState" [matAutocomplete]="locationS" i18n-aria-label aria-label="state"
+              #locationS />
+
+
+          </mat-form-field>
+
+
+          <mat-autocomplete #locationS="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsState | async" [value]="option"
+              (onSelectionChange)="getSelectedDataState(option)">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+
+
+        </div>
+
+        <div class="input-wrapper margin-top-s" *ngIf="dropdownStatus == 'district'">
+          <p class=" margin-remove-bottom form-label"
+            i18n="Name of District and state label|Label which explains the user to enter Name of District">
+            Select district
+          </p>
+
+          <mat-form-field appearance="outline" class="margin-top-xs w-full">
+            <input matInput type="text" placeholder="Name of State" i18n-placeholder="Name of District"
+              formControlName="residenceDistrict" [matAutocomplete]="locationD" i18n-aria-label aria-label="district"
+              #locationD />
+
+
+          </mat-form-field>
+
+
+          <mat-autocomplete #locationD="matAutocomplete">
+            <mat-option [value]="null">Choose your District </mat-option>
+            <mat-option *ngFor="let option of filteredOptionsDistrict | async" [value]="option"
+              (onSelectionChange)="getSelectedDataDistrict(option)">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+
+
+        </div>
+
+
+      </form>
+    </div>
+
+
+
+
+
+
+
+    <!-- end -->
+
+
+
+
     <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
       [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
       <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
