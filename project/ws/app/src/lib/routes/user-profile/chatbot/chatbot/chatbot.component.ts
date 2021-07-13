@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { FormControl, FormGroup } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 import moment from 'moment'
+import { Router } from '@angular/router'
 declare var $: any
 @Component({
   selector: 'ws-app-chatbot',
@@ -27,7 +28,8 @@ export class ChatbotComponent implements OnInit {
   errMsg = ''
 
   constructor(private http: HttpClient,
-    private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService,
+    private router: Router) { }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -259,8 +261,16 @@ export class ChatbotComponent implements OnInit {
 
     // console.log('OBjeee ', profileRequest)
 
-    this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(() => {
-      // console.log('Result -----')
+    this.userProfileSvc.updateProfileDetails(profileRequest).subscribe((data) => {
+      if (data) {
+        // on Success
+        if (localStorage.getItem('selectedCourse')) {
+          let baseUrl = document.baseURI
+          baseUrl = document.baseURI + localStorage.getItem('selectedCourse')
+        } else {
+          this.router.navigate(['/page/home'])
+        }
+      }
     })
   }
 }
