@@ -267,6 +267,7 @@ export class ChatbotComponent implements OnInit {
         if (localStorage.getItem('selectedCourse')) {
           let baseUrl = document.baseURI
           baseUrl = document.baseURI + localStorage.getItem('selectedCourse')
+          this.router.navigate([baseUrl])
         } else {
           this.router.navigate(['/page/home'])
         }
