@@ -41,6 +41,7 @@ export class ChatbotComponent implements OnInit {
   district: any = []
   districtArr: any = []
   enableInputForDropdown = false
+  disableLocation = true
 
   constructor(private http: HttpClient,
     private userProfileSvc: UserProfileService,
@@ -160,6 +161,7 @@ export class ChatbotComponent implements OnInit {
     } else {
       this.dropdownStatus = ''
       this.enableInputForDropdown = false
+      this.disableLocation = true
     }
 
   }
@@ -201,6 +203,7 @@ export class ChatbotComponent implements OnInit {
     const text = preText + data
     this.createChatForm.patchValue({ replymsg: text })
     this.dropdownStatus = ''
+    this.disableLocation = true
 
   }
 
@@ -234,6 +237,7 @@ export class ChatbotComponent implements OnInit {
         this.enableInputForDropdown = true
         this.createChatForm.value.replymsg = ''
         this.dropdownStatus = 'country'
+        this.disableLocation = false
       }
 
       if (_chatFormValue.replymsg === 'Others - Please Specify') {
@@ -423,6 +427,7 @@ export class ChatbotComponent implements OnInit {
         if (localStorage.getItem('selectedCourse')) {
           let baseUrl = document.baseURI
           baseUrl = document.baseURI + localStorage.getItem('selectedCourse')
+          this.router.navigate([baseUrl])
         } else {
           this.router.navigate(['/page/home'])
         }

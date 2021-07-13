@@ -70,7 +70,7 @@
 
     <div class="option-section ml-5">
       <form [formGroup]="createUserForm">
-        <div class="input-wrapper margin-top-s" *ngIf="dropdownStatus == 'country'">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'country'">
           <p class=" margin-remove-bottom form-label"
             i18n="Name of Country and state label|Label which explains the user to enter Name of Country state">
             Select country
@@ -95,7 +95,7 @@
 
         </div>
 
-        <div class="input-wrapper margin-top-s" *ngIf="dropdownStatus == 'state'">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'state'">
           <p class=" margin-remove-bottom form-label"
             i18n="Name of State and state label|Label which explains the user to enter Name of State">
             Select state
@@ -120,7 +120,7 @@
 
         </div>
 
-        <div class="input-wrapper margin-top-s" *ngIf="dropdownStatus == 'district'">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'district'">
           <p class=" margin-remove-bottom form-label"
             i18n="Name of District and state label|Label which explains the user to enter Name of District">
             Select district
@@ -160,14 +160,14 @@
 
 
 
-
-    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
-      [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
-      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-        formControlName="replymsg">
-      <button mat-button type="submit" class="btn-chat-reply" [attr.disabled]="inputMsgEnabled">Send</button>
-    </form>
-
+    <ng-container *ngIf="disableLocation">
+      <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
+        [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
+        <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+          formControlName="replymsg">
+        <button mat-button type="submit" class="btn-chat-reply" [attr.disabled]="inputMsgEnabled">Send</button>
+      </form>
+    </ng-container>
 
 
 
