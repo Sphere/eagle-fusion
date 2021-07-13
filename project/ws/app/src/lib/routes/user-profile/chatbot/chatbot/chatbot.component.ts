@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { FormControl, FormGroup } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
+import moment from 'moment'
 declare var $: any
 @Component({
   selector: 'ws-app-chatbot',
@@ -124,33 +125,46 @@ export class ChatbotComponent implements OnInit {
   validateResponse(obj: any, msg: any) {
     switch (obj.data.type[0]) {
       case 'string': {
-        if (msg.length > obj.data.length) {
-          this.errMsg = obj.action.error
-          if (obj.data.regex) {
-            return obj.data.regex.test(msg)
+        if (obj.data.regex) {
+          const dob = moment(msg)
+          if (!dob.isValid()) {
+            this.errMsg = obj.action.error
+            return false
           }
+          return true
+        }
+
+        if (msg.length >= obj.data.length) {
+          this.errMsg = obj.action.error
           return false
         }
+
         if (this.errMsg) {
           this.errMsg = ''
           return true
         }
-        break
+        return true
       }
       case 'number': {
-        if (msg.length > obj.data.length) {
+        if (msg.length < obj.data.length) {
           this.errMsg = obj.action.error
           return false
+        }
+        if (obj.data.regex) {
+          if (obj.data.regexPattern.match(msg)) {
+            this.errMsg = obj.action.error
+            return false
+          }
+          return true
         }
         if (this.errMsg) {
           this.errMsg = ''
           return true
         }
-        break
+        return true
       }
       default: return true
     }
-
   }
 
   optionSelect() {

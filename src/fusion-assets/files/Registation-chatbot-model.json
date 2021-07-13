@@ -61,7 +61,7 @@
           "length": 10,
           "type": ["string"],
           "regex": true,
-          "regexPattern": "^(0[1-9]|1d|2d|3[01])/(0[1-9]|1[0-2])/(19|20)d{2}$"
+          "regexPattern": "^([0-2][0-9]|(3)[0-1])(/)(((0)[0-9])|((1)[0-2]))(/)d{4}$"
         },
         "action": {
           "submit": "mobile",
