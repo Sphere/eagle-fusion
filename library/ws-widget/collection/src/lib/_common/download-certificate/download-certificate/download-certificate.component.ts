@@ -291,7 +291,7 @@ export class DownloadCertificateComponent implements OnInit {
             }
           }
         },
-                                                     err => {
+          err => {
             this.openSnackbar(err)
           })
 
@@ -332,10 +332,13 @@ export class DownloadCertificateComponent implements OnInit {
 
             })
             doc.addImage(responseQRCode, 'png', 5, 140, 40, 40)
+            doc.setFontSize(10)
+            doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
+            doc.text(`Awarded On ${this.receivedDate}`, 120, 186)
             doc.save('certificate_pocqi.pdf')
           }
         },
-                                                     err => {
+          err => {
             this.openSnackbar(err)
           })
       }
