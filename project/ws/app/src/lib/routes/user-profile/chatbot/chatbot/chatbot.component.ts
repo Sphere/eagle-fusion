@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { FormControl, FormGroup } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
@@ -16,13 +16,16 @@ export class ChatbotComponent implements OnInit {
   chatObj: any = []
   chatArray: any = []
   inputMsgEnabled = false
+  skipButton = false
   charReplyArray: any = []
   nextchatArray: any = []
   options: any = []
+  currentData1: any = []
   order = 0
   createUserForm!: FormGroup
   createChatForm!: FormGroup
-  @ViewChild('chatoutput', { static: false }) outputArea!: ElementRef
+  // @ViewChild('chatoutput', { static: false }) outputArea!: ElementRef
+  @ViewChild('chatoutput', { static: false }) contEl: any
 
   constructor(private http: HttpClient,
               private userProfileSvc: UserProfileService) { }
@@ -53,18 +56,18 @@ export class ChatbotComponent implements OnInit {
 
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
-
     const v = this.validateResponse(_chatFormValue.replymsg)
-
     this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
 
     if (v) {
       let message = $('#user-input').val()
       this.nextId = this.chatArray[this.order].action['submit']
-      // this.order++
       this.order = this.order + 1
+
       if (this.nextId === 'end') {
         message = _chatFormValue.replymsg
+        this.order = this.order - 1
+        this.inputMsgEnabled = true
         this.updateProfile()
       }
       if (this.nextId === 'proceed') {
@@ -77,30 +80,52 @@ export class ChatbotComponent implements OnInit {
         this.inputMsgEnabled = true
       }
       if (_chatFormValue.replymsg === 'Others - Please Specify') {
-        this.inputMsgEnabled = false
+
         $('#user-input').val('')
         if (this.nextId === 'end') {
           this.nextId = 'organizationName'
-        } else { this.nextId = _chatFormValue.replymsg }
-        const currentData = this.chatObj.regOption.profiledetails.filter((data: { id: any }) => data.id === this.nextId)
-        this.chatArray.push(currentData[0])
-        this.sendQuestion(currentData)
+          this.skipButton = true
+        } else {
+          this.nextId = _chatFormValue.replymsg
+        }
+        this.nextQuestions()
+        this.sendQuestion(this.currentData1)
+        this.inputMsgEnabled = false
         return this.nextId
       }
-
+      if (_chatFormValue.replymsg === 'skip') {
+        if (this.nextId === 'organizationName') {
+          this.inputMsgEnabled = true
+          this.updateProfile()
+        } else {
+          this.nextQuestions()
+          this.sendQuestion(this.currentData1)
+          return this.nextId
+        }
+        this.skipButton = false
+      }
       outputArea.append(`<div class="bot-message">
           <div class="message">
             ${message}
           </div>
         </div>`)
-      const currentData1 = this.chatObj.regOption.profiledetails.filter((data: { id: any }) => data.id === this.nextId)
-      this.chatArray.push(currentData1[0])
+      this.nextQuestions()
       if (this.nextId !== 'end') {
-        this.sendQuestion(currentData1)
+        this.sendQuestion(this.currentData1)
       }
     }
-
+    if (this.chatArray[this.order].required) {
+      this.skipButton = false
+    } else {
+      this.skipButton = true
+    }
+    this.scrollToBottom()
     $('#user-input').val('')
+  }
+
+  nextQuestions() {
+    this.currentData1 = this.chatObj.regOption.profiledetails.filter((data: { id: any }) => data.id === this.nextId)
+    this.chatArray.push(this.currentData1[0])
   }
 
   sendQuestion(question: any) {
@@ -126,8 +151,8 @@ export class ChatbotComponent implements OnInit {
     }
     return false
   }
-  optionSelect() {
-    this.inputMsgEnabled = false
+  scrollToBottom() {
+    this.contEl.nativeElement.scrollTop += 500
   }
   assignFields(qid: any, value: any) {
     switch (qid) {
