@@ -3,14 +3,29 @@
     "profiledetails": [
       {
         "id": "fname",
-        "title": "Can you please provide us your first name ?",
+        "title": "What's your first name ?",
         "description": "",
         "type": "text",
         "data": {
           "length": 50,
-          "type": [
-            "string"
-          ],
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "middlename",
+          "error": "Name should be alphabets and under 25 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "middlename",
+        "title": "What's your middle name ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
           "regex": false,
           "regexPattern": ""
         },
@@ -18,18 +33,16 @@
           "submit": "lname",
           "error": "Name should be alphabets and under 25 characters"
         },
-        "required": true
+        "required": false
       },
       {
         "id": "lname",
-        "title": "Can you please provide us your last name ?",
+        "title": "What's your last name ?",
         "description": "",
         "type": "text",
         "data": {
           "length": 50,
-          "type": [
-            "string"
-          ],
+          "type": ["string"],
           "regex": false,
           "regexPattern": ""
         },
@@ -46,11 +59,9 @@
         "type": "text",
         "data": {
           "length": 50,
-          "type": [
-            "string"
-          ],
+          "type": ["string"],
           "regex": false,
-          "regexPattern": ""
+          "regexPattern": "^((\\+91-?)|0)?[0-9]{10}$"
         },
         "action": {
           "submit": "mobile",
@@ -65,9 +76,7 @@
         "type": "text",
         "data": {
           "length": 50,
-          "type": [
-            "number"
-          ],
+          "type": ["number"],
           "regex": false,
           "regexPattern": ""
         },
@@ -84,9 +93,7 @@
         "type": "text",
         "data": {
           "length": 50,
-          "type": [
-            "string"
-          ],
+          "type": ["string"],
           "regex": false,
           "regexPattern": ""
         },
@@ -108,10 +115,7 @@
             "Mother/Family member",
             "Others - Please Specify"
           ],
-          "type": [
-            "multiple",
-            "single"
-          ]
+          "type": ["multiple", "single"]
         },
         "action": {
           "submit": "proceed",
@@ -135,10 +139,7 @@
             "Paramedical",
             "Others - Please Specify"
           ],
-          "type": [
-            "multiple",
-            "single"
-          ]
+          "type": ["multiple", "single"]
         },
         "action": {
           "submit": "organizationType",
@@ -152,16 +153,8 @@
         "description": "",
         "type": "options",
         "data": {
-          "options": [
-            "ASHAs",
-            "Anganwadi Workers",
-            "Teachers",
-            "Others - Please Specify"
-          ],
-          "type": [
-            "multiple",
-            "single"
-          ]
+          "options": ["ASHAs", "Anganwadi Workers", "Teachers", "Others - Please Specify"],
+          "type": ["multiple", "single"]
         },
         "action": {
           "submit": "organizationType",
@@ -188,9 +181,7 @@
         "type": "text",
         "data": {
           "length": 50,
-          "type": [
-            "string"
-          ],
+          "type": ["string"],
           "regex": false,
           "regexPattern": ""
         },
@@ -214,10 +205,7 @@
             "Academic institute - Private",
             "Others - Please Specify"
           ],
-          "type": [
-            "multiple",
-            "single"
-          ]
+          "type": ["multiple", "single"]
         },
         "action": {
           "submit": "end",

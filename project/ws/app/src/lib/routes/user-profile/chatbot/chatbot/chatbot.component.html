@@ -1,0 +1,96 @@
+<!-- <div class="chat-div">
+  <div class="navbar">
+    <span class="navbar-text">Chat</span>
+
+  </div>
+  <div class="chat-output" id="chat-output">
+    <div class="user-message out">
+      <div class="message out">{{chatArray[0]?.title}}</div>
+    </div>
+    <ng-container *ngIf="chatArray.length > 1">
+      <ng-container *ngFor="let ques of chatArray; let i = index ">
+        <div class="user-message in" *ngIf="index === order">
+          <div class="message in">{{ques[i]?.title}}</div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="chat-input">
+    <div class="option-section ml-5">
+      <div class="user-message user-message-option" *ngFor="let option of options">
+        <button class="message option" [disabled]="!inputMsgEnabled"
+          (click)="optionSelect();getChatResponse({'replymsg':option})">{{option}}</button>
+      </div>
+    </div>
+    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
+      (ngSubmit)="getChatResponse(chatForm.value)">
+      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+        [disabled]=inputMsgEnabled ngModel>
+      <button mat-button type="submit" class="btn-chat-reply" [disabled]="inputMsgEnabled">Send</button>
+    </form>
+  </div>
+</div> -->
+
+
+
+
+<div class="chat-div">
+  <div class="navbar">
+    <span class="navbar-text">Chat</span>
+  </div>
+
+  <div class="chat-output" id="chat-output" #chatoutput>
+    <div class="user-message out">
+      <div class="message out">{{chatArray[0]?.title}}</div>
+    </div>
+    <ng-container *ngIf="chatArray.length > 1">
+      <ng-container *ngFor="let ques of chatArray; let i = index ">
+        <div class="user-message in" *ngIf="index === order">
+          <div class="message in">{{ques[i]?.title}}</div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+
+  <div class="chat-input">
+    <div class="option-section ml-5">
+      <div class="user-message user-message-option" *ngFor="let option of options">
+        <button class="message option" [disabled]="!inputMsgEnabled"
+          (click)="optionSelect();getChatResponse({'replymsg':option})">{{option}}</button>
+      </div>
+    </div>
+
+
+
+    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
+      [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
+      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+        formControlName="replymsg">
+      <button mat-button type="submit" class="btn-chat-reply" [attr.disabled]="inputMsgEnabled">Send</button>
+    </form>
+
+
+
+
+
+  </div>
+
+  <!-- <div class="chat-input">
+    <div class="option-section ml-5">
+      <div class="user-message user-message-option" *ngFor="let option of options">
+        <button class="message option" [disabled]="!inputMsgEnabled"
+          (click)="optionSelect();getChatResponse({'replymsg':option})">{{option}}</button>
+      </div>
+    </div>
+    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
+      (ngSubmit)="getChatResponse(chatForm.value)">
+      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+        [disabled]=inputMsgEnabled ngModel>
+      <button mat-button type="submit" class="btn-chat-reply" [disabled]="inputMsgEnabled">Send</button>
+    </form>
+  </div> -->
+
+
+</div>

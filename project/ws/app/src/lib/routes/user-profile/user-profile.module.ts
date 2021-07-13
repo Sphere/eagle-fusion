@@ -33,10 +33,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { UserProfileService } from './services/user-profile.service'
 import { LoaderService } from '@ws/author/src/public-api'
 import { BtnPageBackModule } from '@ws-widget/collection'
+import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
 
 @NgModule({
   declarations: [
     UserProfileComponent,
+    ChatbotComponent,
   ],
   imports: [
     BtnPageBackModule,

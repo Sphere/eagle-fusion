@@ -20,7 +20,6 @@ import { LearningHistoryResolver } from './routes/learning/resolvers/learning-hi
 import { LearningTimeResolver } from './routes/learning/resolvers/learning-time.resolver'
 import { SettingsModule } from './routes/settings/settings.module'
 import { BadgesModule } from './routes/badges/badges.module'
-import { ChatbotModule } from './chatbot/chatbot.module'
 // import { BadgesModule } from '../gamification/routes/badges/badges.module'
 
 @NgModule({
@@ -45,7 +44,6 @@ import { ChatbotModule } from './chatbot/chatbot.module'
     MatSidenavModule,
     MatToolbarModule,
     DownloadCertificateModule,
-    ChatbotModule,
   ],
   providers: [
     InterestUserResolve,
