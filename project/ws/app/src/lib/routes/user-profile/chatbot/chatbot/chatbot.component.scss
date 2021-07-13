@@ -1,18 +1,18 @@
 .chat-div{
   width: 95%;
   height: 82vh;
-  border: 1px solid;
+  border: 1px solid #dfdfdf;
   border-radius: 8px;
   margin-left: 30px;
   margin-top: 45px;
 }
 .navbar{
-  background: #0FB0DF;
-  color: #fff;
-  font-weight: 600;
-  font-size: 1.2rem;
-  padding: 12px;
-  border-radius: 5px;
+font-size: 1.2rem;
+    padding: 12px;
+    border-bottom: solid 1px #ddd
+}
+.hide {
+  display: none;
 }
 ::ng-deep .chat-output {
   flex: 1;
@@ -21,7 +21,7 @@
   background: #fff;
   flex-direction: column;
   height: 60%;
-  border-bottom: 1px solid #000;
+  // border-bottom: 1px solid #dfdfdf;
   overflow-y: scroll;
   > div {
     margin: 0 0 20px 0;
@@ -29,7 +29,7 @@
   .user-message {
     display: inline-block;
     .message {
-      background: #eee;
+      background: #edd59e;
       color: #000;
     }
   }
@@ -55,7 +55,6 @@
   .user-input-form{
     height: 40%;
     border: 1px solid #eeee;
-    border-radius: 12px;
   }
   .user-input {
     width: 80%;
@@ -69,8 +68,8 @@
 .option-section{
   .message {
     display: inline-block;
-    padding: 8px 18px;
-    border-radius: 10px;
+    line-height: 35px;
+    border-radius: 6px;
   }
   .option{
     border: 1px solid #0FB0DF;
@@ -88,8 +87,7 @@
   margin-right: 10px;
   margin-top: 5px;
   float: right;
-  width: 10%;
-  padding: 10px;
+  width: 8%;
   font-size: 1rem;
 }
 ::ng-deep .user-message-option{
@@ -103,20 +101,17 @@
   }
   .chat-input {
     .user-input {
-      width: 65%;
+      width: 60%;
       font-size: 1rem;
     }
   }
   .btn-chat-reply {
-    width: 20%;
+    width: 12%;
     font-size: 1rem;
-    padding: 7px;
   }
   .option-section{
     .message {
       display: inline-block;
-      padding: 8px 8px;
-      border-radius: 8px;
     }
     .option{
       margin-top: 5px;
@@ -127,4 +122,16 @@
   .chat-div{
     height: 95vh;
   }
+}
+
+// dropdown - country
+.input-wrapper {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.align-location {
+  margin-top: -20px;
 }

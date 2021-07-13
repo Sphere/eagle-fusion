@@ -1,40 +1,3 @@
-<!-- <div class="chat-div">
-  <div class="navbar">
-    <span class="navbar-text">Chat</span>
-
-  </div>
-  <div class="chat-output" id="chat-output">
-    <div class="user-message out">
-      <div class="message out">{{chatArray[0]?.title}}</div>
-    </div>
-    <ng-container *ngIf="chatArray.length > 1">
-      <ng-container *ngFor="let ques of chatArray; let i = index ">
-        <div class="user-message in" *ngIf="index === order">
-          <div class="message in">{{ques[i]?.title}}</div>
-        </div>
-      </ng-container>
-    </ng-container>
-  </div>
-
-  <div class="chat-input">
-    <div class="option-section ml-5">
-      <div class="user-message user-message-option" *ngFor="let option of options">
-        <button class="message option" [disabled]="!inputMsgEnabled"
-          (click)="optionSelect();getChatResponse({'replymsg':option})">{{option}}</button>
-      </div>
-    </div>
-    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
-      (ngSubmit)="getChatResponse(chatForm.value)">
-      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-        [disabled]=inputMsgEnabled ngModel>
-      <button mat-button type="submit" class="btn-chat-reply" [disabled]="inputMsgEnabled">Send</button>
-    </form>
-  </div>
-</div> -->
-
-
-
-
 <div class="chat-div">
   <div class="navbar">
     <span class="navbar-text">Chat</span>
@@ -54,43 +17,117 @@
   </div>
 
 
-  <div class="chat-input">
+  <div class=" chat-input">
+    <img src="/fusion-assets/images/typing.gif" style="width: 40px;" [class.hide]="showTypingIcon" />
     <div class="option-section ml-5">
-      <div class="user-message user-message-option" *ngFor="let option of options">
-        <button class="message option" [disabled]="!inputMsgEnabled"
-          (click)="optionSelect();getChatResponse({'replymsg':option})">{{option}}</button>
+      <div *ngIf="!skipButton">
+        <div class="user-message user-message-option" *ngFor="let option of options">
+          <button mat-button class="message option" [disabled]="!inputMsgEnabled"
+            (click)="getChatResponse({'replymsg':option})">{{option}}</button>
+        </div>
+      </div>
+      <div class="user-message user-message-option" *ngIf="skipButton">
+        <button mat-button class="message option" (click)="getChatResponse({'replymsg':'skip'})">Skip</button>
       </div>
     </div>
+
+
+
+
+    <!-- location start -->
+
+    <div class="option-section ml-5">
+      <form [formGroup]="createUserForm">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'country'">
+          <p class=" margin-remove-bottom form-label"
+            i18n="Name of Country and state label|Label which explains the user to enter Name of Country state">
+            Select country
+          </p>
+
+          <mat-form-field appearance="outline" class="margin-top-xs w-full">
+            <input matInput type="text" placeholder="Name of Country" i18n-placeholder="Name of Country"
+              formControlName="residenceAddress" [matAutocomplete]="location" i18n-aria-label aria-label="country"
+              #location />
+
+
+          </mat-form-field>
+
+
+          <mat-autocomplete #location="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option"
+              (onSelectionChange)="getSelectedData(option)">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+
+
+        </div>
+
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'state'">
+          <p class=" margin-remove-bottom form-label"
+            i18n="Name of State and state label|Label which explains the user to enter Name of State">
+            Select state
+          </p>
+
+          <mat-form-field appearance="outline" class="margin-top-xs w-full">
+            <input matInput type="text" placeholder="Name of State" i18n-placeholder="Name of State"
+              formControlName="residenceState" [matAutocomplete]="locationS" i18n-aria-label aria-label="state"
+              #locationS />
+
+
+          </mat-form-field>
+
+
+          <mat-autocomplete #locationS="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsState | async" [value]="option"
+              (onSelectionChange)="getSelectedDataState(option)">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+
+
+        </div>
+
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'district'">
+          <p class=" margin-remove-bottom form-label"
+            i18n="Name of District and state label|Label which explains the user to enter Name of District">
+            Select district
+          </p>
+
+          <mat-form-field appearance="outline" class="margin-top-xs w-full">
+            <input matInput type="text" placeholder="Name of State" i18n-placeholder="Name of District"
+              formControlName="residenceDistrict" [matAutocomplete]="locationD" i18n-aria-label aria-label="district"
+              #locationD />
+
+
+          </mat-form-field>
+
+
+          <mat-autocomplete #locationD="matAutocomplete">
+            <mat-option [value]="null">Choose your District </mat-option>
+            <mat-option *ngFor="let option of filteredOptionsDistrict | async" [value]="option"
+              (onSelectionChange)="getSelectedDataDistrict(option)">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+
+
+        </div>
+
+
+      </form>
+    </div>
+    <!-- end -->
+
 
     <span *ngIf="errMsg.length>0" style="color:red">{{errMsg}}</span>
-
-    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
-      [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
-      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-        formControlName="replymsg">
-      <button mat-button type="submit" class="btn-chat-reply" [attr.disabled]="inputMsgEnabled">Send</button>
-    </form>
-
-
-
-
-
+    <ng-container *ngIf="disableLocation">
+      <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
+        [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
+        <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+          formControlName="replymsg" [readonly]="inputMsgEnabled && enableInputForDropdown">
+        <button mat-button type="submit" class="btn-chat-reply" [disabled]="inputMsgEnabled">Send</button>
+      </form>
+    </ng-container>
   </div>
-
-  <!-- <div class="chat-input">
-    <div class="option-section ml-5">
-      <div class="user-message user-message-option" *ngFor="let option of options">
-        <button class="message option" [disabled]="!inputMsgEnabled"
-          (click)="optionSelect();getChatResponse({'replymsg':option})">{{option}}</button>
-      </div>
-    </div>
-    <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
-      (ngSubmit)="getChatResponse(chatForm.value)">
-      <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-        [disabled]=inputMsgEnabled ngModel>
-      <button mat-button type="submit" class="btn-chat-reply" [disabled]="inputMsgEnabled">Send</button>
-    </form>
-  </div> -->
-
-
 </div>
