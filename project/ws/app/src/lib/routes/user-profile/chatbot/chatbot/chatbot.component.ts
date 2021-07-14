@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 import { INationality } from '../../../user-profile/models/user-profile.model'
 import { map, startWith } from 'rxjs/operators'
@@ -8,7 +8,6 @@ import { Observable, of } from 'rxjs'
 import moment from 'moment'
 import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material'
-import { setTimeout } from 'timers'
 declare var $: any
 @Component({
   selector: 'ws-app-chatbot',
@@ -52,7 +51,8 @@ export class ChatbotComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private userProfileSvc: UserProfileService,
-    private router: Router, private snackBar: MatSnackBar) { }
+    private router: Router, private snackBar: MatSnackBar) {
+  }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -65,7 +65,7 @@ export class ChatbotComponent implements OnInit {
     })
 
     this.createChatForm = new FormGroup({
-      replymsg: new FormControl('', []),
+      replymsg: new FormControl('', [Validators.required]),
     })
 
     this.createUserForm = new FormGroup({
@@ -327,8 +327,8 @@ export class ChatbotComponent implements OnInit {
     switch (obj.data.type[0]) {
       case 'string': {
         if (obj.data.regex) {
-          const dob = moment(msg, "DD-MM-YYYY")
-          if (!dob.isValid()) {
+          const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1950')
+          if (!dob) {
             this.errMsg = obj.action.error
             return false
           }
@@ -363,7 +363,8 @@ export class ChatbotComponent implements OnInit {
     }
   }
   scrollToBottom() {
-    this.contEl.nativeElement.scrollTop += 500
+    const windowHeight = this.contEl.nativeElement.clientHeight
+    this.contEl.nativeElement.scrollTop = this.contEl.nativeElement.scrollTop + windowHeight + 100
   }
   assignFields(qid: any, value: any) {
     switch (qid) {

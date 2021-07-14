@@ -120,13 +120,15 @@
     <!-- end -->
 
 
-    <span *ngIf="errMsg.length>0" style="color:red">{{errMsg}}</span>
+    <span *ngIf="errMsg.length>0" class="error">{{errMsg}}</span>
+
     <ng-container *ngIf="disableLocation">
       <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
         [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
         <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
           formControlName="replymsg" [readonly]="inputMsgEnabled && enableInputForDropdown">
-        <button mat-button type="submit" class="btn-chat-reply" [disabled]="inputMsgEnabled">Send</button>
+        <button mat-button type="submit" class="btn-chat-reply"
+          [disabled]="inputMsgEnabled || !createChatForm.valid">Send</button>
       </form>
     </ng-container>
   </div>

@@ -291,7 +291,7 @@ export class DownloadCertificateComponent implements OnInit {
             }
           }
         },
-          err => {
+                                                     err => {
             this.openSnackbar(err)
           })
 
@@ -338,7 +338,7 @@ export class DownloadCertificateComponent implements OnInit {
             doc.save('certificate_pocqi.pdf')
           }
         },
-          err => {
+                                                     err => {
             this.openSnackbar(err)
           })
       }

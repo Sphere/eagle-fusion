@@ -14,6 +14,9 @@ font-size: 1.2rem;
 .hide {
   display: none;
 }
+.error {
+  color: red;
+}
 ::ng-deep .chat-output {
   flex: 1;
   padding: 15px;
@@ -94,10 +97,12 @@ font-size: 1.2rem;
   display: inline-block;
   cursor: pointer;
 }
+
+
 @media only screen and (max-width: 700px) {
   .chat-div{
     width: 85%;
-    height: auto;
+   height: 78vh;
   }
   .chat-input {
     .user-input {
@@ -117,6 +122,20 @@ font-size: 1.2rem;
       margin-top: 5px;
     }
   }
+}
+@media only screen and (max-width: 321px) {
+  .chat-div{
+    margin-top: 12px;
+    width: 85%;
+   height: 72vh;
+   border: none;
+  }
+  .chat-input {
+    padding: 12px;
+    margin-top: -16%;
+    border-top: solid 1px #dfdfdf;
+}
+
 }
 @media only screen and (max-width: 1112px) and (min-width: 700px){
   .chat-div{
