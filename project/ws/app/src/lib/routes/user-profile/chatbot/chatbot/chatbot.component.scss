@@ -68,7 +68,7 @@ font-size: 1.2rem;
     background-color: #fff !important;
   }
 }
-.option-section{
+::ng-deep .option-section{
   .message {
     display: inline-block;
     line-height: 35px;
@@ -80,6 +80,14 @@ font-size: 1.2rem;
     color: #0FB0DF;
     margin-right: 10px;
     margin-top: 5px;
+    &:hover{
+      background-color: #0fb0dfb3;
+      color: #fff;
+    }
+  }
+  .option-selected{
+    background-color: #0fb0dfb3 !important;
+    color: #fff !important;
   }
 }
 .btn-chat-reply {

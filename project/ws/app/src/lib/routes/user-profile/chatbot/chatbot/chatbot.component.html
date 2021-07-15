@@ -23,10 +23,13 @@
       <div *ngIf="!skipButton && showOptionFields">
         <div class="user-message user-message-option" *ngFor="let option of options">
           <ng-container *ngIf="option === 'Others' || option === 'Others - Please Mention'">
-            <button mat-button class="message option" [disabled]="!inputMsgEnabled">{{option}}</button>
+            <button mat-button class="message option" [disabled]="!inputMsgEnabled"
+              [ngClass]="{'option-selected' : otherbtnactive}"
+              (click)="getOptionSelected({'replymsg':option})">{{option}}</button>
           </ng-container>
           <ng-container *ngIf="option !== 'Others' && option !== 'Others - Please Mention'">
-            <button mat-button class="message option" [disabled]="!inputMsgEnabled"
+            <button mat-button class="message option" [disabled]="!inputMsgEnabled" [ngClass]="{'option-selected' : otherbtnactive && !inputMsgEnabled &&
+              (option === 'Others' || option === 'Others - Please Mention'|| option === 'Others - Please Specify')}"
               (click)="getChatResponseCategorization({'replymsg':option})">{{option}}</button>
           </ng-container>
         </div>

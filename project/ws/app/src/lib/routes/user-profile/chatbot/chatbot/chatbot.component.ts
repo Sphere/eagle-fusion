@@ -52,6 +52,7 @@ export class ChatbotComponent implements OnInit {
   currentId: any
   orgTypeOtherOption = false
   showConfirmedProfile = false
+  otherbtnactive = false
 
   constructor(private http: HttpClient,
               private userProfileSvc: UserProfileService,
@@ -267,9 +268,18 @@ export class ChatbotComponent implements OnInit {
     },         1000)
   }
 
+  getOptionSelected(_chatFormValue: any) {
+    const optionMsg = _chatFormValue.replymsg
+    if (optionMsg === 'Others - Please Specify' || optionMsg === 'Others - Please Mention' || optionMsg === 'Others') {
+      this.otherbtnactive = true
+    } else {
+      this.otherbtnactive = false
+    }
+  }
+
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
-
+    this.otherbtnactive = false
     const v = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
     if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member') {
       this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
@@ -315,6 +325,7 @@ export class ChatbotComponent implements OnInit {
         this.nextQuestions()
         this.sendQuestion(this.currentData1)
         this.inputMsgEnabled = false
+        this.otherbtnactive = true
         return this.nextId
       }
 
