@@ -3,7 +3,7 @@
     "profiledetails": [
       {
         "id": "fname",
-        "title": "What's your first name ?",
+        "title": "Hey what's your first name ?",
         "description": "",
         "type": "text",
         "data": {
@@ -37,7 +37,7 @@
       },
       {
         "id": "lname",
-        "title": "What's your last name ?",
+        "title": "And your last name ?",
         "description": "",
         "type": "text",
         "data": {
@@ -71,7 +71,7 @@
       },
       {
         "id": "mobile",
-        "title": "Can you please provide us your mobile number ?",
+        "title": "Would you like to give us your mobile number ?",
         "description": "",
         "type": "text",
         "data": {
@@ -88,7 +88,7 @@
       },
       {
         "id": "location",
-        "title": "Can you please provide us your location - Country, state, district ?",
+        "title": "Can you give your location info by selecting the below options of <b>Country, State, District</b> ? After selection of country you can select other fields",
         "description": "",
         "type": "text",
         "data": {
@@ -125,7 +125,7 @@
       },
       {
         "id": "Healthcare Worker",
-        "title": "Please help us understand you better, are you ?",
+        "title": "What is your category ? For others ",
         "description": "",
         "type": "options",
         "data": {
@@ -137,7 +137,7 @@
             "Doctors",
             "Public Health Professionals",
             "Paramedical",
-            "Others - Please Specify"
+            "Others - Please Mention"
           ],
           "type": ["multiple", "single"]
         },
@@ -149,11 +149,11 @@
       },
       {
         "id": "Healthcare Volunteer",
-        "title": "Please help us understand you better, are you ?",
+        "title": "What is your category ?",
         "description": "",
         "type": "options",
         "data": {
-          "options": ["ASHAs", "Anganwadi Workers", "Teachers", "Others - Please Specify"],
+          "options": ["ASHAs", "Anganwadi Workers", "Teachers", "Others - Please Mention"],
           "type": ["multiple", "single"]
         },
         "action": {
@@ -164,10 +164,15 @@
       },
       {
         "id": "Mother/Family member",
-        "title": "Please help us understand you better, are you ?",
+        "title": "",
         "description": "",
-        "type": "options",
-        "data": {},
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
         "action": {
           "submit": "end",
           "error": ""
@@ -176,7 +181,24 @@
       },
       {
         "id": "Others - Please Specify",
-        "title": "Can you please provide us your profession ?",
+        "title": "Can you specify it here ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Others - Please Mention",
+        "title": "Can you specify it here ?",
         "description": "",
         "type": "text",
         "data": {
@@ -193,7 +215,7 @@
       },
       {
         "id": "organizationType",
-        "title": "Please select the type of oranization you belong to",
+        "title": "Can you select the <i>Type of Oranization</i> you belong to ? Please specify for option Others",
         "description": "",
         "type": "options",
         "data": {
@@ -203,22 +225,44 @@
             "NGO",
             "Academic institute - Public",
             "Academic institute - Private",
-            "Others - Please Specify"
+            "Others"
           ],
           "type": ["multiple", "single"]
         },
         "action": {
-          "submit": "end",
+          "submit": "organizationName",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Others",
+        "title": "Can you mention it here ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationName",
           "error": ""
         },
         "required": true
       },
       {
         "id": "organizationName",
-        "title": "Name of Organization",
-        "description": "Please provide us your organization name",
+        "title": "Name of your Organization ?",
+        "description": "",
         "type": "text",
-        "data": "",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
         "action": {
           "submit": "end",
           "error": ""

@@ -20,14 +20,20 @@
   <div class=" chat-input">
     <img src="/fusion-assets/images/typing.gif" style="width: 40px;" [class.hide]="showTypingIcon" />
     <div class="option-section ml-5">
-      <div *ngIf="!skipButton">
+      <div *ngIf="!skipButton && showOptionFields">
         <div class="user-message user-message-option" *ngFor="let option of options">
-          <button mat-button class="message option" [disabled]="!inputMsgEnabled"
-            (click)="getChatResponse({'replymsg':option})">{{option}}</button>
+          <ng-container *ngIf="option === 'Others' || option === 'Others - Please Mention'">
+            <button mat-button class="message option" [disabled]="!inputMsgEnabled">{{option}}</button>
+          </ng-container>
+          <ng-container *ngIf="option !== 'Others' && option !== 'Others - Please Mention'">
+            <button mat-button class="message option" [disabled]="!inputMsgEnabled"
+              (click)="getChatResponseCategorization({'replymsg':option})">{{option}}</button>
+          </ng-container>
         </div>
       </div>
       <div class="user-message user-message-option" *ngIf="skipButton">
-        <button mat-button class="message option" (click)="getChatResponse({'replymsg':'skip'})">Skip</button>
+        <button mat-button class="message option"
+          (click)="getChatResponseCategorization({'replymsg':'skip'})">Skip</button>
       </div>
     </div>
 
@@ -104,7 +110,6 @@
 
 
           <mat-autocomplete #locationD="matAutocomplete">
-            <mat-option [value]="null">Choose your District </mat-option>
             <mat-option *ngFor="let option of filteredOptionsDistrict | async" [value]="option"
               (onSelectionChange)="getSelectedDataDistrict(option)">
               {{ option }}
@@ -124,11 +129,10 @@
 
     <ng-container *ngIf="disableLocation">
       <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
-        [formGroup]="createChatForm" (ngSubmit)="getChatResponse(chatForm.value)">
+        [formGroup]="createChatForm" (ngSubmit)="getChatResponseCategorization(chatForm.value)">
         <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
           formControlName="replymsg" [readonly]="inputMsgEnabled && enableInputForDropdown">
-        <button mat-button type="submit" class="btn-chat-reply"
-          [disabled]="inputMsgEnabled || !createChatForm.valid">Send</button>
+        <button mat-button type="submit" class="btn-chat-reply" [disabled]="!createChatForm.valid">Send</button>
       </form>
     </ng-container>
   </div>

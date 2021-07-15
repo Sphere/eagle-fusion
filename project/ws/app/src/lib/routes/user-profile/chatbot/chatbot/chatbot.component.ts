@@ -48,10 +48,15 @@ export class ChatbotComponent implements OnInit {
   // @ViewChild('chatoutput', { static: false }) outputArea!: ElementRef
   @ViewChild('chatoutput', { static: false }) contEl: any
   showTypingIcon = true
+  showOptionFields = true
+  currentId: any
+  orgTypeOtherOption = false
+  showConfirmedProfile = false
 
   constructor(private http: HttpClient,
     private userProfileSvc: UserProfileService,
-    private router: Router, private snackBar: MatSnackBar) {
+    private router: Router,
+    private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -64,13 +69,23 @@ export class ChatbotComponent implements OnInit {
       this.district = data.states
     })
 
-    this.createChatForm = new FormGroup({
+    this.createChatForm = this.createChatFormFields()
+    this.createUserForm = this.createUserFormFields()
+    this.fetchMeta()
+
+  }
+
+  createChatFormFields() {
+    return new FormGroup({
       replymsg: new FormControl('', [Validators.required]),
     })
+  }
 
-    this.createUserForm = new FormGroup({
+  createUserFormFields() {
+    return new FormGroup({
       firstname: new FormControl('', []),
       surname: new FormControl('', []),
+      middlename: new FormControl('', []),
       // mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
       mobile: new FormControl('', []),
       dob: new FormControl('', []),
@@ -82,9 +97,6 @@ export class ChatbotComponent implements OnInit {
       residenceState: new FormControl('', []),
       residenceDistrict: new FormControl('', []),
     })
-
-    this.fetchMeta()
-
   }
 
   fetchMeta() {
@@ -133,7 +145,6 @@ export class ChatbotComponent implements OnInit {
     const key = this.dropdownStatus
     if (value || value === '') {
       const filterValue = value.toLowerCase()
-
       if (key === 'country') {
         return this.masterNationalities.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
@@ -144,7 +155,6 @@ export class ChatbotComponent implements OnInit {
         return this.districtArr.filter((option: string) =>
           option.toLowerCase().includes(filterValue))
       }
-
     }
     return []
   }
@@ -157,7 +167,7 @@ export class ChatbotComponent implements OnInit {
       : this.createChatForm.value.replymsg
 
     const text = preText + data
-    this.createChatForm.patchValue({ replymsg: text })
+    this.createChatForm.controls.replymsg.setValue(text)
 
     if (data.toLowerCase() === 'india') {
       this.dropdownStatus = 'state'
@@ -168,6 +178,7 @@ export class ChatbotComponent implements OnInit {
     } else {
       this.dropdownStatus = ''
       this.enableInputForDropdown = false
+      this.inputMsgEnabled = false
       this.disableLocation = true
     }
 
@@ -175,14 +186,13 @@ export class ChatbotComponent implements OnInit {
 
   getSelectedDataState(data: any) {
     let preText = ''
-
     const content = `${this.createChatForm.value.replymsg}, `
     preText = this.createChatForm.value.replymsg
       ? content
       : this.createChatForm.value.replymsg
 
     const text = preText + data
-    this.createChatForm.patchValue({ replymsg: text })
+    this.createChatForm.controls.replymsg.setValue(text)
 
     const disList = this.district.filter((dis: any) => {
       if (dis.state === data) {
@@ -190,13 +200,17 @@ export class ChatbotComponent implements OnInit {
       }
     })
 
-    this.districtArr = disList[0].districts
-
-    this.dropdownStatus = 'district'
-    const array: any = []
-    const obsof1 = of(array)
-    this.filteredOptions = obsof1
-    this.councilFilter('')
+    if (disList.length > 0 && disList[0].districts.length > 0) {
+      this.districtArr = disList[0].districts
+      this.dropdownStatus = 'district'
+      const array: any = []
+      const obsof1 = of(array)
+      this.filteredOptions = obsof1
+      this.councilFilter('')
+    } else {
+      this.dropdownStatus = ''
+      this.disableLocation = true
+    }
 
   }
 
@@ -208,46 +222,90 @@ export class ChatbotComponent implements OnInit {
       : this.createChatForm.value.replymsg
 
     const text = preText + data
-    this.createChatForm.patchValue({ replymsg: text })
+    this.createChatForm.controls.replymsg.setValue(text)
     this.dropdownStatus = ''
     this.disableLocation = true
   }
 
+  getChatResponseCategorization(_chatFormValue: any) {
+
+    if (_chatFormValue.replymsg) {
+      if (_chatFormValue.replymsg === 'Yes, I confirm') {
+        this.updateProfile()
+      } else if (_chatFormValue.replymsg === 'Retry') {
+        this.retryProfile()
+      } else {
+        this.getChatResponse(_chatFormValue)
+      }
+    }
+
+  }
+
+  retryProfile() {
+    this.createChatForm.controls.replymsg.setValue('')
+    this.order = 0
+    this.chatArray.length = 1
+    this.showOptionFields = false
+    this.createUserForm.reset(this.createUserFormFields().value)
+    this.createChatForm.reset()
+    this.dropdownStatus = ''
+    this.masterNationalities = []
+    this.statesArr = []
+    this.districtArr = []
+    this.fetchMeta()
+
+    const typeIcon = $('#chat-output')
+    setTimeout(() => {
+      typeIcon.empty()
+      typeIcon.append(`
+          <div class='user-message'>
+            <div class='message'>
+              ${this.chatArray[0].title}
+            </div>
+          </div>
+        `)
+    }, 1000)
+  }
+
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
+
     const v = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
-    this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
+    if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member') {
+      this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
+    }
+
     if (v) {
-      let message = $('#user-input').val()
+      let message = _chatFormValue.replymsg
+
       this.nextId = this.chatArray[this.order].action['submit']
+      this.currentId = this.chatArray[this.order].id
       this.order = this.order + 1
 
-      if (this.nextId === 'end') {
-        message = _chatFormValue.replymsg
-        this.order = this.order - 1
-        this.inputMsgEnabled = true
-        this.updateProfile()
-      }
       if (this.nextId === 'proceed') {
+        if (_chatFormValue.replymsg === 'Mother/Family member') {
+          this.getConfirmation()
+        }
         this.nextId = _chatFormValue.replymsg
-        message = _chatFormValue.replymsg
-        this.inputMsgEnabled = true
-      }
-      if (this.nextId === 'organizationType') {
         message = _chatFormValue.replymsg
         this.inputMsgEnabled = true
       }
 
       if (this.nextId === 'location') {
         this.enableInputForDropdown = true
+        this.inputMsgEnabled = true
         this.createChatForm.value.replymsg = ''
         this.dropdownStatus = 'country'
         this.disableLocation = false
       }
 
-      if (_chatFormValue.replymsg === 'Others - Please Specify') {
+      if (this.currentId === 'location') {
+        this.enableInputForDropdown = false
+      }
 
+      if (_chatFormValue.replymsg === 'Others - Please Specify') {
         $('#user-input').val('')
+        this.createChatForm.reset(this.createChatFormFields().value)
         if (this.nextId === 'end') {
           this.nextId = 'organizationName'
           this.skipButton = true
@@ -259,40 +317,54 @@ export class ChatbotComponent implements OnInit {
         this.inputMsgEnabled = false
         return this.nextId
       }
-      if (_chatFormValue.replymsg === 'skip') {
+
+      if (_chatFormValue.replymsg === 'skip' && this.currentId === 'organizationName') {
         this.skipButton = false
-        if (this.nextId === 'organizationName') {
-          this.inputMsgEnabled = true
-          this.updateProfile()
-        } else {
+        this.getConfirmation()
+      } else {
+        if (_chatFormValue.replymsg === 'skip') {
+          this.skipButton = false
           this.nextQuestions()
           this.sendQuestion(this.currentData1)
           return this.nextId
         }
-      }
-      this.showTypingIcon = false
 
-      outputArea.append(`<div class="bot-message">
-          <div class="message">
-            ${message}
-          </div>
-        </div>`)
-      setTimeout(() => {
-        this.showTypingIcon = true
-      }, 1000)
+        this.showTypingIcon = false
 
-      this.nextQuestions()
-      $('#user-input').val('')
-      if (this.nextId !== 'end') {
-        this.sendQuestion(this.currentData1)
+        outputArea.append(`<div class="bot-message">
+                <div class="message">
+                  ${message}
+                </div>
+              </div>`)
+
+        setTimeout(() => {
+          this.showTypingIcon = true
+        }, 1000)
+
+        if (this.nextId === 'end' && message !== 'skip') {
+          message = _chatFormValue.replymsg
+          this.order = this.order - 1
+          this.inputMsgEnabled = true
+          this.getConfirmation()
+          return
+        }
+
+        this.nextQuestions()
+
+        $('#user-input').val('')
+        this.createChatForm.reset(this.createChatFormFields().value)
+        if (this.nextId !== 'end') {
+          this.sendQuestion(this.currentData1)
+        }
+        if (this.chatArray[this.order].required) {
+          this.skipButton = false
+        } else {
+          this.skipButton = true
+        }
+        this.scrollToBottom()
       }
-      if (this.chatArray[this.order].required) {
-        this.skipButton = false
-      } else {
-        this.skipButton = true
-      }
-      this.scrollToBottom()
     }
+
   }
 
   nextQuestions() {
@@ -303,18 +375,23 @@ export class ChatbotComponent implements OnInit {
   sendQuestion(question: any) {
     const nxtquest = question[0].title
     const typeIcon = $('#chat-output')
-    setTimeout(() => {
-      typeIcon.append(`
-      <div class='user-message'>
-        <div class='message'>
-          ${nxtquest}
-        </div>
-      </div>
-    `)
-    }, 1000)
+
+    if (nxtquest !== '') {
+      setTimeout(() => {
+        typeIcon.append(`
+          <div class='user-message'>
+            <div class='message'>
+              ${nxtquest}
+            </div>
+          </div>
+        `)
+      }, 1000)
+    }
+
     if (question[0]['type'] === 'options') {
       this.options = question[0].data.options
       this.inputMsgEnabled = true
+      this.showOptionFields = true
     }
     setTimeout(() => {
       this.scrollToBottom()
@@ -374,6 +451,9 @@ export class ChatbotComponent implements OnInit {
       case 'lname':
         this.createUserForm.controls.surname.setValue(value)
         break
+      case 'middlename':
+        this.createUserForm.controls.middlename.setValue(value)
+        break
       case 'dob':
         this.createUserForm.controls.dob.setValue(value)
         break
@@ -384,12 +464,13 @@ export class ChatbotComponent implements OnInit {
         this.createUserForm.controls.residenceAddress.setValue(value)
         break
       case 'profession':
+      case 'others':
+      case 'Others - Please Specify':
         this.createUserForm.controls.designation.setValue(value)
         break
       case 'Healthcare Worker':
       case 'Healthcare Volunteer':
-      case 'Others - Please Specify':
-        this.createUserForm.controls.designationOther.setValue('designationOther other')
+        this.createUserForm.controls.designationOther.setValue(value)
         break
       case 'organizationType':
         this.createUserForm.controls.organisationType.setValue(value)
@@ -401,32 +482,14 @@ export class ChatbotComponent implements OnInit {
         break
 
     }
-    // console.log('Form ')
-    // console.log(this.createUserForm.value)
-  }
-
-  assignFields1() {
-    // console.log(this.createUserForm.value)
-
-    this.createUserForm.controls.firstname.setValue('Prabina')
-    this.createUserForm.controls.surname.setValue('Parichha')
-    this.createUserForm.controls.mobile.setValue(9776196179)
-    this.createUserForm.controls.dob.setValue('26-03-2021')
-    this.createUserForm.controls.residenceAddress.setValue('abvcd gfjhjfh')
-    this.createUserForm.controls.orgName.setValue('abcdfdf')
-    this.createUserForm.controls.organisationType.setValue('Private Sector')
-    this.createUserForm.controls.designation.setValue('Healthcare Worker')
-    this.createUserForm.controls.designationOther.setValue('ANM')
-    // console.log('Form ')
-    // console.log(this.createUserForm.value)
   }
 
   private constructReq(form: any) {
-    // form.value.dob = changeformat(new Date(`${form.value.dob}`))
     const profileReq = {
       personalDetails: {
         firstname: form.value.firstname,
         surname: form.value.surname,
+        middlename: form.value.middlename,
         dob: form.value.dob,
         mobile: form.value.mobile,
         postalAddress: form.value.residenceAddress,
@@ -450,11 +513,72 @@ export class ChatbotComponent implements OnInit {
     return organisations
   }
 
+  formattedConfirmationInfo() {
+    const firstname = this.createUserForm.value.middlename ?
+      `${this.createUserForm.value.firstname} ${this.createUserForm.value.middlename}` :
+      this.createUserForm.value.firstname
+
+    let t1 = `<h4><b>Hi,</b></h4>
+              <h4><b>This is what we got:</b></h4>
+              <br>
+              <p>Name : ${firstname} ${this.createUserForm.value.surname}</p>
+              <p>Date of birth : ${this.createUserForm.value.dob}</p>
+              <p>Mobile Number : ${this.createUserForm.value.mobile}</p>
+              <p>Address : ${this.createUserForm.value.residenceAddress}</p>`
+
+    if (this.createUserForm.value.designation) {
+      t1 += `<p>Profession : ${this.createUserForm.value.designation}</p>`
+    }
+    if (this.createUserForm.value.designationOther) {
+      t1 += `<p>Profession category : ${this.createUserForm.value.designationOther}</p>`
+    }
+    if (this.createUserForm.value.organisationType) {
+      t1 += `<p>Type of organization : ${this.createUserForm.value.organisationType}</p>`
+    }
+    if (this.createUserForm.value.orgName) {
+      t1 += `<p>Name of organization : ${this.createUserForm.value.orgName}</p>`
+    }
+
+    const str = '<b>You can edit your profile anytime</b>'
+
+    const tn = `<br>
+              <p><b>Did we get it right?</b><p>
+              <p>${str}<p>
+              <br>`
+    const total = t1 + tn
+
+    return total
+
+  }
+
+  getConfirmation() {
+    this.createChatForm.controls.replymsg.setValue('')
+    this.showConfirmedProfile = true
+    const typeIcon = $('#chat-output')
+
+    const total = this.formattedConfirmationInfo()
+
+    setTimeout(() => {
+      typeIcon.append(`
+      <div class='user-message'>
+        <div class="message">
+             ${total}
+            </div>
+      </div>
+    `)
+    }, 1000)
+
+    this.skipButton = false
+    this.options = ['Yes, I confirm', 'Retry']
+
+    setTimeout(() => {
+      this.scrollToBottom()
+    }, 1000)
+
+  }
+
   updateProfile() {
     const profileRequest = this.constructReq(this.createUserForm)
-
-    // console.log('OBjeee ', profileRequest)
-
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(data => {
       if (data) {
         // on Success
