@@ -9,8 +9,8 @@
         "data": {
           "length": 25,
           "type": ["string"],
-          "regex": false,
-          "regexPattern": ""
+          "regex": true,
+          "regexPattern": "^[a-zA-Z][a-zA-Z ]+$"
         },
         "action": {
           "submit": "middlename",
@@ -26,8 +26,8 @@
         "data": {
           "length": 25,
           "type": ["string"],
-          "regex": false,
-          "regexPattern": ""
+          "regex": true,
+          "regexPattern": "^[a-zA-Z][a-zA-Z ]+$"
         },
         "action": {
           "submit": "lname",
@@ -43,8 +43,8 @@
         "data": {
           "length": 50,
           "type": ["string"],
-          "regex": false,
-          "regexPattern": ""
+          "regex": true,
+          "regexPattern": "^[a-zA-Z][a-zA-Z ]+$"
         },
         "action": {
           "submit": "dob",
@@ -71,7 +71,7 @@
       },
       {
         "id": "mobile",
-        "title": "Would you like to give us your mobile number ?",
+        "title": "Can you please provide us your mobile number ?",
         "description": "",
         "type": "text",
         "data": {

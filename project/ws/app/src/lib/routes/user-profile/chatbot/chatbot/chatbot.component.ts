@@ -254,6 +254,8 @@ export class ChatbotComponent implements OnInit {
     this.statesArr = []
     this.districtArr = []
     this.fetchMeta()
+    this.showConfirmedProfile = false
+    this.inputMsgEnabled = false
 
     const typeIcon = $('#chat-output')
     setTimeout(() => {
@@ -272,14 +274,17 @@ export class ChatbotComponent implements OnInit {
     const optionMsg = _chatFormValue.replymsg
     if (optionMsg === 'Others - Please Specify' || optionMsg === 'Others - Please Mention' || optionMsg === 'Others') {
       this.otherbtnactive = true
+      this.inputMsgEnabled = false
     } else {
       this.otherbtnactive = false
+      this.inputMsgEnabled = true
     }
   }
 
   getChatResponse(_chatFormValue: any) {
     const outputArea = $('#chat-output')
     this.otherbtnactive = false
+    this.inputMsgEnabled = false
     const v = this.validateResponse(this.chatArray[this.order], _chatFormValue.replymsg)
     if (_chatFormValue.replymsg !== 'skip' && _chatFormValue.replymsg !== 'Mother/Family member') {
       this.assignFields(this.chatArray[this.order].id, _chatFormValue.replymsg)
@@ -415,17 +420,21 @@ export class ChatbotComponent implements OnInit {
     switch (obj.data.type[0]) {
       case 'string': {
         if (obj.data.regex) {
-          const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1950')
-          if (!dob) {
+          if (obj.id === 'dob') {
+            const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1950')
+            if (!dob) {
+              this.errMsg = obj.action.error
+              return false
+            }
+            return true
+          }
+
+          if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
             this.errMsg = obj.action.error
             return false
           }
           return true
-        }
 
-        if (msg.length >= obj.data.length) {
-          this.errMsg = obj.action.error
-          return false
         }
         return true
       }
@@ -435,7 +444,7 @@ export class ChatbotComponent implements OnInit {
           return false
         }
         if (obj.data.regex) {
-          if (obj.data.regexPattern.match(msg)) {
+          if (msg.match(obj.data.regexPattern) == null) {
             this.errMsg = obj.action.error
             return false
           }
@@ -565,6 +574,7 @@ export class ChatbotComponent implements OnInit {
   getConfirmation() {
     this.createChatForm.controls.replymsg.setValue('')
     this.showConfirmedProfile = true
+    this.inputMsgEnabled = true
     const typeIcon = $('#chat-output')
 
     const total = this.formattedConfirmationInfo()
@@ -601,7 +611,7 @@ export class ChatbotComponent implements OnInit {
             baseUrl = document.baseURI + localStorage.getItem('selectedCourse')
             this.router.navigate([baseUrl])
           } else {
-            this.router.navigate(['/page/home'])
+            this.router.navigate(['/app/profile/dashboard'])
           }
         },         3000)
       }

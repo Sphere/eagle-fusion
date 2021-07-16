@@ -1,15 +1,13 @@
 .chat-div{
   width: 95%;
   height: 82vh;
-  border: 1px solid #dfdfdf;
-  border-radius: 8px;
   margin-left: 30px;
   margin-top: 45px;
 }
 .navbar{
-font-size: 1.2rem;
-    padding: 12px;
-    border-bottom: solid 1px #ddd
+  font-size: 1.2rem;
+  padding: 12px;
+  border: 1px solid #dfdfdf;;
 }
 .hide {
   display: none;
@@ -24,7 +22,7 @@ font-size: 1.2rem;
   background: #fff;
   flex-direction: column;
   height: 60%;
-  // border-bottom: 1px solid #dfdfdf;
+  border: 1px solid #dfdfdf;
   overflow-y: scroll;
   > div {
     margin: 0 0 20px 0;
@@ -51,6 +49,7 @@ font-size: 1.2rem;
 .chat-input {
   padding: 12px;
   min-height: 20%;
+  border: 1px solid #dfdfdf;
   .option-section{
     height: 35%;
     padding: 10px 0px;
@@ -110,7 +109,8 @@ font-size: 1.2rem;
 @media only screen and (max-width: 700px) {
   .chat-div{
     width: 85%;
-   height: 78vh;
+    height: 78vh;
+    border: none;
   }
   .chat-input {
     .user-input {
