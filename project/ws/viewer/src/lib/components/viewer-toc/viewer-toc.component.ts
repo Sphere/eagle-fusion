@@ -78,6 +78,11 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
+    this.viewerDataSvc.quizProgressStatus.subscribe(data => {
+      if (data) {
+        this.fetchContent()
+      }
+    })
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
@@ -166,23 +171,26 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.collection && this.resourceChanged) {
         this.viewSvc.getHeirarchyProgress.subscribe(content => {
           if (content) {
-            // this.contentSvc.fetchContent(this.resourceChanged, 'minimal')
-            this.contentSvc.fetchContent(this.collectionId, 'detail').subscribe(
-              (data: any) => {
-                if (data) {
-                  const responseData = this.convertContentToIViewerTocCard(data)
-                  this.collection = responseData
-                  if (this.collection && this.collection.children) {
-                    this.nestedDataSource.data = this.collection.children
-                    this.expandThePath()
-                  }
-                }
-              })
+            this.fetchContent()
           }
         })
       }
     },         0)
 
+  }
+
+  fetchContent() {
+    this.contentSvc.fetchContent(this.collectionId, 'detail').subscribe(
+      (data: any) => {
+        if (data) {
+          const responseData = this.convertContentToIViewerTocCard(data)
+          this.collection = responseData
+          if (this.collection && this.collection.children) {
+            this.nestedDataSource.data = this.collection.children
+            this.expandThePath()
+          }
+        }
+      })
   }
 
   scrollToUserView(index: number) {

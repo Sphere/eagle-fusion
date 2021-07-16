@@ -39,6 +39,7 @@ export class ViewerDataService {
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)
   fullScreenResource = new Subject<boolean>()
   progressStatus = new Subject<string>()
+  quizProgressStatus = new Subject<Boolean>()
   // private setName = new BehaviorSubject<any>("");
   // To get the name from other component
   getFullScreenStatus = this.fullScreenResource.asObservable()

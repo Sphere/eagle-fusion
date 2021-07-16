@@ -1,3 +1,4 @@
+import { ViewerDataService } from './../../viewer-data.service'
 import {
   Component,
   ElementRef,
@@ -82,7 +83,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService
+    private viewerSvc: ViewerUtilService,
+    private viewerDataSvc: ViewerDataService
   ) { }
 
   ngOnInit() {
@@ -263,6 +265,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.result = res.result
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
+          this.viewerDataSvc.quizProgressStatus.next(true)
         }
         // const result = {
         //   result: (this.numCorrectAnswers * 100.0) / this.processedContent.quiz.questions.length,

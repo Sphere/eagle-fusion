@@ -944,6 +944,12 @@ button.submit-btn[disabled] {
 }
 #freshworks-container iframe {
   bottom: 65px !important;
+  min-width: 87px !important;
+  max-width: 87px !important;
+  @include breakpoint-lt-s {
+    bottom: 50px !important;
+    margin-right: -22px;
+  }
 }
 span.cert-text {
   @include breakpoint-xs {

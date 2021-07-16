@@ -102,6 +102,7 @@
     "@types/video.js": "7.2.12",
     "@types/vis": "^4.21.19",
     "@types/zip.js": "2.0.28",
+    "@types/ckeditor": "^4.9.10",
     "angular-cli-alias": "^1.0.9",
     "codelyzer": "^5.1.0",
     "gzipper": "^2.8.1",
