@@ -38,7 +38,7 @@ export class HtmlComponent implements OnInit, OnDestroy {
     max_size: 0,
     mime_type: NsContent.EMimeTypes.HTML,
     user_id_type: 'uuid',
-    lmsType: ''
+    lmsType: '',
   }
   realTimeProgressTimer: any
   hasFiredRealTimeProgress = false
@@ -46,8 +46,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
 
   lmsContentId = ''
   lmsArtifactUrl = ''
-
-
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -354,7 +352,7 @@ export class HtmlComponent implements OnInit, OnDestroy {
     }
     this.realTimeProgressRequest.content_type = this.htmlData ? this.htmlData.contentType : ''
 
-    let isLms = this.lmsArtifactUrl.endsWith('_lms.html')
+    const isLms = this.lmsArtifactUrl.endsWith('_lms.html')
     if (isLms) {
       this.realTimeProgressRequest['lmsType'] = 'lms'
     }
