@@ -421,19 +421,21 @@ export class ChatbotComponent implements OnInit {
       case 'string': {
         if (obj.data.regex) {
           if (obj.id === 'dob') {
+            const d1 = moment(new Date()).format('YYYY-MM-DD')
+            const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
             const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1950')
-            if (!dob) {
+            if (!dob || !(moment(d2).isBefore(d1))) {
               this.errMsg = obj.action.error
               return false
             }
             return true
           }
 
-          if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
-            this.errMsg = obj.action.error
-            return false
-          }
-          return true
+            if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
+              this.errMsg = obj.action.error
+              return false
+            }
+            return true
 
         }
         return true
