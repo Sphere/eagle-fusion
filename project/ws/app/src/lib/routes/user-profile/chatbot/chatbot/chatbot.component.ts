@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
-import { INationality } from '../../../user-profile/models/user-profile.model'
+import { INationality, IProfileAcademics } from '../../../user-profile/models/user-profile.model'
 import { map, startWith } from 'rxjs/operators'
 import { Observable, of } from 'rxjs'
 import moment from 'moment'
@@ -55,10 +55,10 @@ export class ChatbotComponent implements OnInit {
   otherbtnactive = false
 
   constructor(private http: HttpClient,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private snackBar: MatSnackBar) {
-  }
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -82,21 +82,92 @@ export class ChatbotComponent implements OnInit {
     })
   }
 
+  // createUserFormFields() {
+  //   return new FormGroup({
+  //     firstname: new FormControl('', []),
+  //     surname: new FormControl('', []),
+  //     middlename: new FormControl('', []),
+  //     // mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
+  //     mobile: new FormControl('', []),
+  //     dob: new FormControl('', []),
+  //     residenceAddress: new FormControl('', []),
+  //     orgName: new FormControl('', []),
+  //     organisationType: new FormControl('', []),
+  //     designation: new FormControl('', []),
+  //     designationOther: new FormControl('', []),
+  //     residenceState: new FormControl('', []),
+  //     residenceDistrict: new FormControl('', []),
+  //   })
+  // }
+
   createUserFormFields() {
     return new FormGroup({
       firstname: new FormControl('', []),
-      surname: new FormControl('', []),
       middlename: new FormControl('', []),
-      // mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
+      surname: new FormControl('', []),
+      about: new FormControl(''),
+      // photo: new FormControl('', []),
+      countryCode: new FormControl('', []),
       mobile: new FormControl('', []),
+      telephone: new FormControl('', []),
+      primaryEmail: new FormControl('', []),
+      primaryEmailType: new FormControl('', []),
+      secondaryEmail: new FormControl('', []),
+      nationality: new FormControl('', []),
       dob: new FormControl('', []),
+      // gender: new FormControl('', []),
+      // maritalStatus: new FormControl('', []),
+      domicileMedium: new FormControl('', []),
+      // regNurseRegMidwifeNumber: new FormControl('', []),
+      // nationalUniqueId: new FormControl('', []),
+      // doctorRegNumber: new FormControl('', []),
+      // instituteName: new FormControl('', []),
+      // nursingCouncil: new FormControl('', []),
+      knownLanguages: new FormControl([], []),
       residenceAddress: new FormControl('', []),
+      // category: new FormControl('', []),
+      // pincode: new FormControl('', []),
+      schoolName10: new FormControl('', []),
+      yop10: new FormControl('', []),
+      schoolName12: new FormControl('', []),
+      yop12: new FormControl('', []),
+      degrees: this.fb.array([this.createDegree()]),
+      postDegrees: this.fb.array([this.createDegree()]),
+      certificationDesc: new FormControl('', []),
+      interests: new FormControl([], []),
+      hobbies: new FormControl([], []),
+      skillAquiredDesc: new FormControl('', []),
+      isGovtOrg: new FormControl(false, []),
       orgName: new FormControl('', []),
-      organisationType: new FormControl('', []),
+      orgNameOther: new FormControl('', []),
+      industry: new FormControl('', []),
+      industryOther: new FormControl('', []),
       designation: new FormControl('', []),
       designationOther: new FormControl('', []),
+      location: new FormControl('', []),
+      locationOther: new FormControl('', []),
+      doj: new FormControl('', []),
+      orgDesc: new FormControl('', []),
+      payType: new FormControl('', []),
+      service: new FormControl('', []),
+      cadre: new FormControl('', []),
+      allotmentYear: new FormControl('', []),
+      otherDetailsDoj: new FormControl('', []),
+      civilListNo: new FormControl('', []),
+      employeeCode: new FormControl('', []),
+      otherDetailsOfficeAddress: new FormControl('', []),
+      otherDetailsOfficePinCode: new FormControl('', []),
       residenceState: new FormControl('', []),
       residenceDistrict: new FormControl('', []),
+      organisationType: new FormControl('', []),
+    })
+  }
+
+  createDegree(): FormGroup {
+    return this.fb.group({
+      degree: new FormControl('', []),
+      instituteName: new FormControl('', []),
+      yop: new FormControl('', []),
     })
   }
 
@@ -267,7 +338,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-    },         1000)
+    }, 1000)
   }
 
   getOptionSelected(_chatFormValue: any) {
@@ -355,7 +426,7 @@ export class ChatbotComponent implements OnInit {
 
         setTimeout(() => {
           this.showTypingIcon = true
-        },         1000)
+        }, 1000)
 
         if (this.nextId === 'end' && message !== 'skip') {
           message = _chatFormValue.replymsg
@@ -401,7 +472,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-      },         1000)
+      }, 1000)
     }
 
     if (question[0]['type'] === 'options') {
@@ -411,7 +482,7 @@ export class ChatbotComponent implements OnInit {
     }
     setTimeout(() => {
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
   }
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
@@ -431,11 +502,11 @@ export class ChatbotComponent implements OnInit {
             return true
           }
 
-            if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
-              this.errMsg = obj.action.error
-              return false
-            }
-            return true
+          if (msg.match(obj.data.regexPattern) == null || msg.length >= obj.data.length) {
+            this.errMsg = obj.action.error
+            return false
+          }
+          return true
 
         }
         return true
@@ -506,33 +577,169 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  // private constructReq(form: any) {
+  //   const profileReq = {
+  //     personalDetails: {
+  //       firstname: form.value.firstname,
+  //       surname: form.value.surname,
+  //       middlename: form.value.middlename,
+  //       dob: form.value.dob,
+  //       mobile: form.value.mobile,
+  //       postalAddress: form.value.residenceAddress,
+  //     },
+  //     professionalDetails: [
+  //       ...this.getOrganisationsHistory(form),
+  //     ],
+  //   }
+  //   return profileReq
+  // }
+
+  // private getOrganisationsHistory(form: any) {
+  //   const organisations: any = []
+  //   const org = {
+  //     organisationType: form.value.organisationType,
+  //     name: form.value.orgName,
+  //     designation: form.value.designation,
+  //     designationOther: form.value.designationOther,
+  //   }
+  //   organisations.push(org)
+  //   return organisations
+  // }
+
   private constructReq(form: any) {
     const profileReq = {
+      // photo: form.value.photo,
       personalDetails: {
         firstname: form.value.firstname,
-        surname: form.value.surname,
         middlename: form.value.middlename,
+        surname: form.value.surname,
+        about: form.value.about,
         dob: form.value.dob,
+        nationality: form.value.nationality,
+        domicileMedium: form.value.domicileMedium,
+        // regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
+        // nationalUniqueId: form.value.nationalUniqueId,
+        // doctorRegNumber: form.value.doctorRegNumber,
+        // instituteName: form.value.instituteName,
+        // nursingCouncil: form.value.nursingCouncil,
+        // gender: form.value.gender,
+        // maritalStatus: form.value.maritalStatus,
+        // category: form.value.category,
+        knownLanguages: form.value.knownLanguages,
+        countryCode: form.value.countryCode,
         mobile: form.value.mobile,
+        telephone: form.value.telephone,
+        primaryEmail: form.value.primaryEmail,
+        officialEmail: '',
+        personalEmail: '',
         postalAddress: form.value.residenceAddress,
+        // pincode: form.value.pincode,
+      },
+      academics: this.getAcademics(form),
+      employmentDetails: {
+        service: form.value.service,
+        cadre: form.value.cadre,
+        allotmentYearOfService: form.value.allotmentYear,
+        dojOfService: form.value.otherDetailsDoj,
+        payType: form.value.payType,
+        civilListNo: form.value.civilListNo,
+        employeeCode: form.value.employeeCode,
+        officialPostalAddress: form.value.otherDetailsOfficeAddress,
+        pinCode: form.value.otherDetailsOfficePinCode,
       },
       professionalDetails: [
         ...this.getOrganisationsHistory(form),
       ],
+      skills: {
+        additionalSkills: form.value.skillAquiredDesc,
+        certificateDetails: form.value.certificationDesc,
+      },
+      interests: {
+        professional: form.value.interests,
+        hobbies: form.value.hobbies,
+      },
     }
+
     return profileReq
   }
 
   private getOrganisationsHistory(form: any) {
     const organisations: any = []
     const org = {
-      organisationType: form.value.organisationType,
+      organisationType: '',
       name: form.value.orgName,
+      nameOther: form.value.orgNameOther,
+      industry: form.value.industry,
+      industryOther: form.value.industryOther,
       designation: form.value.designation,
       designationOther: form.value.designationOther,
+      location: form.value.location,
+      responsibilities: '',
+      doj: form.value.doj,
+      description: form.value.orgDesc,
+      completePostalAddress: '',
+      additionalAttributes: {},
+    }
+    if (form.value.isGovtOrg) {
+      org.organisationType = 'Government'
+    } else {
+      org.organisationType = 'Non-Government'
     }
     organisations.push(org)
     return organisations
+  }
+
+  private getAcademics(form: any) {
+    const academics = []
+    academics.push(this.getClass10(form))
+    academics.push(this.getClass12(form))
+    academics.push(...this.getDegree(form, 'GRADUATE'))
+    academics.push(...this.getPostDegree(form, 'POSTGRADUATE'))
+    return academics
+  }
+
+  getClass10(form: any): IProfileAcademics {
+    return ({
+      nameOfQualification: '',
+      type: 'X_STANDARD',
+      nameOfInstitute: form.value.schoolName10,
+      yearOfPassing: `${form.value.yop10}`,
+    })
+  }
+
+  getClass12(form: any): IProfileAcademics {
+    return ({
+      nameOfQualification: '',
+      type: 'XII_STANDARD',
+      nameOfInstitute: form.value.schoolName12,
+      yearOfPassing: `${form.value.yop12}`,
+    })
+  }
+
+  getDegree(form: any, degreeType: string): IProfileAcademics[] {
+    const formatedDegrees: IProfileAcademics[] = []
+    form.value.degrees.map((degree: any) => {
+      formatedDegrees.push({
+        nameOfQualification: degree.degree,
+        type: degreeType,
+        nameOfInstitute: degree.instituteName,
+        yearOfPassing: `${degree.yop}`,
+      })
+    })
+    return formatedDegrees
+  }
+
+  getPostDegree(form: any, degreeType: string): IProfileAcademics[] {
+    const formatedDegrees: IProfileAcademics[] = []
+    form.value.postDegrees.map((degree: any) => {
+      formatedDegrees.push({
+        nameOfQualification: degree.degree,
+        type: degreeType,
+        nameOfInstitute: degree.instituteName,
+        yearOfPassing: `${degree.yop}`,
+      })
+    })
+    return formatedDegrees
   }
 
   formattedConfirmationInfo() {
@@ -589,14 +796,14 @@ export class ChatbotComponent implements OnInit {
             </div>
       </div>
     `)
-    },         1000)
+    }, 1000)
 
     this.skipButton = false
     this.options = ['Yes, I confirm', 'Retry']
 
     setTimeout(() => {
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
 
   }
 
@@ -615,7 +822,7 @@ export class ChatbotComponent implements OnInit {
           } else {
             this.router.navigate(['/app/profile/dashboard'])
           }
-        },         3000)
+        }, 3000)
       }
     })
   }
