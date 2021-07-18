@@ -38,10 +38,15 @@ export class HtmlComponent implements OnInit, OnDestroy {
     max_size: 0,
     mime_type: NsContent.EMimeTypes.HTML,
     user_id_type: 'uuid',
+    lmsType: '',
   }
   realTimeProgressTimer: any
   hasFiredRealTimeProgress = false
   isPreviewMode = false
+
+  lmsContentId = ''
+  lmsArtifactUrl = ''
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private contentSvc: WidgetContentService,
@@ -74,6 +79,11 @@ export class HtmlComponent implements OnInit, OnDestroy {
                 ? data.artifactUrl
                 : `https://${data.artifactUrl}`).replace(/ /ig, '').replace(/%20/ig, '').replace(/\n/ig, '')
             if (this.accessControlSvc.hasAccess(data as any, true)) {
+
+              // lms
+              this.lmsContentId = data.identifier
+              this.lmsArtifactUrl = data.artifactUrl
+
               if (data && data.artifactUrl.indexOf('content-store') >= 0) {
                 await this.setS3Cookie(data.identifier)
                 this.htmlData = data
@@ -100,6 +110,11 @@ export class HtmlComponent implements OnInit, OnDestroy {
               ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`
               : data.content.data.artifactUrl.replace(/%20/g, '')
           const tempHtmlData = data.content.data
+
+          // lms
+          this.lmsContentId = tempHtmlData.identifier
+          this.lmsArtifactUrl = tempHtmlData.artifactUrl
+
           if (this.alreadyRaised && this.oldData) {
             this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
             if (!this.hasFiredRealTimeProgress) {
@@ -211,7 +226,7 @@ export class HtmlComponent implements OnInit, OnDestroy {
     })
   }
 
-  async  ngOnDestroy() {
+  async ngOnDestroy() {
     if (this.htmlData) {
       if (!this.subApp || this.activatedRoute.snapshot.queryParams.collectionId) {
         await this.saveContinueLearning(this.htmlData)
@@ -336,6 +351,12 @@ export class HtmlComponent implements OnInit, OnDestroy {
       }
     }
     this.realTimeProgressRequest.content_type = this.htmlData ? this.htmlData.contentType : ''
+
+    const isLms = this.lmsArtifactUrl.endsWith('_lms.html')
+    if (isLms) {
+      this.realTimeProgressRequest['lmsType'] = 'lms'
+    }
+
     this.viewerSvc.realTimeProgressUpdate(
       this.htmlData ? this.htmlData.identifier : '',
       this.realTimeProgressRequest,
