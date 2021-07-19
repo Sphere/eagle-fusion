@@ -15,10 +15,15 @@ export class RetainScrollDirective {
   }
 
   @HostListener('click') clicking() {
-    if (this.isXSmall) {
-      const testDiv = document.getElementById('tab-bar')
-      if (testDiv && this.currentPosition === 0) {
-        this.currentPosition = testDiv.offsetTop
+    const matNav = document.getElementById('mat-nav')
+    if (matNav && this.isXSmall) {
+      if (this.currentPosition === 0) {
+        setTimeout(() => {
+          matNav.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          })
+        },         0)
       } else {
         window.scrollTo(0, this.currentPosition)
       }

@@ -62,6 +62,7 @@
         "configFile": "./tslint.json",
         "suppressWhileTypeErrorsPresent": false
       }
-    ]
+    ],
+    "skipLibCheck": true
   }
 }

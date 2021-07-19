@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
+import { TFetchStatus, ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute, Data } from '@angular/router'
 import { AppTocService } from '../../services/app-toc.service'
 import { NsContent, ROOT_WIDGET_CONFIG, IGraphWidget, NsError } from '@ws-widget/collection'
@@ -294,11 +294,17 @@ export class AppTocAnalyticsComponent implements OnInit, OnDestroy {
     'rgb(32, 150, 205)',
     'rgb(104, 210, 223)',
   ]
+  isXSmall = false
   constructor(
     private route: ActivatedRoute,
     private tocSharedSvc: AppTocService,
     private configSvc: ConfigurationsService,
-  ) { }
+    private valueSvc: ValueService
+  ) {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+    })
+  }
 
   async ngOnInit() {
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
@@ -825,6 +831,10 @@ export class AppTocAnalyticsComponent implements OnInit, OnDestroy {
       // daily users BarChart Data
       const barChartDailyUsersLabel: string[] = []
       const dailyUsersData: number[] = []
+      let xAxisMaxLimit = 20
+      if (this.isXSmall) {
+        xAxisMaxLimit = 5
+      }
       this.analyticsDataClient.day_wise_users.forEach((users: NsCourseAnalytics.IBarChartData) => {
         this.dailyDate = users.key_as_string
         this.dailyDate = this.dailyDate.split('T')[0]
@@ -845,11 +855,11 @@ export class AppTocAnalyticsComponent implements OnInit, OnDestroy {
           graphLegend: false,
           graphLegendPosition: 'top',
           graphLegendFontSize: 11,
-          graphTicksFontSize: 11,
+          graphTicksFontSize: 10,
           graphTicksXAxisDisplay: true,
           graphTicksYAxisDisplay: true,
           graphGridLinesDisplay: false,
-          graphXAxisMaxLimit: 20,
+          graphXAxisMaxLimit: xAxisMaxLimit,
           graphIsXAxisAutoSkip: true,
           graphDefaultPalette: 'default',
           graphData: {
@@ -889,11 +899,11 @@ export class AppTocAnalyticsComponent implements OnInit, OnDestroy {
           graphLegend: false,
           graphLegendPosition: 'top',
           graphLegendFontSize: 11,
-          graphTicksFontSize: 11,
+          graphTicksFontSize: 10,
           graphTicksXAxisDisplay: true,
           graphTicksYAxisDisplay: true,
           graphGridLinesDisplay: false,
-          graphXAxisMaxLimit: 20,
+          graphXAxisMaxLimit: xAxisMaxLimit,
           graphIsXAxisAutoSkip: true,
           graphDefaultPalette: 'default',
           graphData: {
