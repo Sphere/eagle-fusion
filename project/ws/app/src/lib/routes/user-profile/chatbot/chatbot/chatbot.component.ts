@@ -499,7 +499,7 @@ export class ChatbotComponent implements OnInit {
             const d1 = moment(new Date()).format('YYYY-MM-DD')
             const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
             const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1950')
-            if (!dob || !(moment(d2).isBefore(d1)) || msg.length >= obj.data.length) {
+            if (!dob || !(moment(d2).isBefore(d1)) || msg.length > obj.data.length) {
               // if (!dob || !(moment(d2).isBefore(d1))) {
               this.errMsg = obj.action.error
               return false
