@@ -55,10 +55,10 @@ export class ChatbotComponent implements OnInit {
   otherbtnactive = false
 
   constructor(private http: HttpClient,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private fb: FormBuilder) { }
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -118,7 +118,7 @@ export class ChatbotComponent implements OnInit {
       // gender: new FormControl('', []),
       // maritalStatus: new FormControl('', []),
       domicileMedium: new FormControl('', []),
-      // regNurseRegMidwifeNumber: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
       // nationalUniqueId: new FormControl('', []),
       // doctorRegNumber: new FormControl('', []),
       // instituteName: new FormControl('', []),
@@ -319,7 +319,7 @@ export class ChatbotComponent implements OnInit {
     this.chatArray.length = 1
     this.showOptionFields = false
     this.createUserForm.reset(this.createUserFormFields().value)
-    this.createChatForm.reset()
+    this.createChatForm.reset(this.createChatFormFields().value)
     this.dropdownStatus = ''
     this.masterNationalities = []
     this.statesArr = []
@@ -338,7 +338,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-    },         1000)
+    }, 1000)
   }
 
   getOptionSelected(_chatFormValue: any) {
@@ -365,6 +365,9 @@ export class ChatbotComponent implements OnInit {
       let message = _chatFormValue.replymsg
 
       this.nextId = this.chatArray[this.order].action['submit']
+      if (message === 'Midwives' || message === 'ANM' || message === 'GNM') {
+        this.nextId = 'RNNumber'
+      }
       this.currentId = this.chatArray[this.order].id
       this.order = this.order + 1
 
@@ -410,6 +413,7 @@ export class ChatbotComponent implements OnInit {
         this.getConfirmation()
       } else {
         if (_chatFormValue.replymsg === 'skip') {
+          this.createChatForm.reset(this.createChatFormFields().value)
           this.skipButton = false
           this.nextQuestions()
           this.sendQuestion(this.currentData1)
@@ -426,7 +430,7 @@ export class ChatbotComponent implements OnInit {
 
         setTimeout(() => {
           this.showTypingIcon = true
-        },         1000)
+        }, 1000)
 
         if (this.nextId === 'end' && message !== 'skip') {
           message = _chatFormValue.replymsg
@@ -472,7 +476,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-      },         1000)
+      }, 1000)
     }
 
     if (question[0]['type'] === 'options') {
@@ -482,7 +486,7 @@ export class ChatbotComponent implements OnInit {
     }
     setTimeout(() => {
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
   }
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
@@ -495,7 +499,8 @@ export class ChatbotComponent implements OnInit {
             const d1 = moment(new Date()).format('YYYY-MM-DD')
             const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
             const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1950')
-            if (!dob || !(moment(d2).isBefore(d1))) {
+            if (!dob || !(moment(d2).isBefore(d1)) || msg.length >= obj.data.length) {
+              // if (!dob || !(moment(d2).isBefore(d1))) {
               this.errMsg = obj.action.error
               return false
             }
@@ -571,6 +576,9 @@ export class ChatbotComponent implements OnInit {
       case 'organizationName':
         this.createUserForm.controls.orgName.setValue(value)
         break
+      case 'RNNumber':
+        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue(value)
+        break
       default:
         break
 
@@ -617,7 +625,7 @@ export class ChatbotComponent implements OnInit {
         dob: form.value.dob,
         nationality: form.value.nationality,
         domicileMedium: form.value.domicileMedium,
-        // regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
+        regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
         // nationalUniqueId: form.value.nationalUniqueId,
         // doctorRegNumber: form.value.doctorRegNumber,
         // instituteName: form.value.instituteName,
@@ -761,6 +769,9 @@ export class ChatbotComponent implements OnInit {
     if (this.createUserForm.value.designationOther) {
       t1 += `<p>Profession category : ${this.createUserForm.value.designationOther}</p>`
     }
+    if (this.createUserForm.value.regNurseRegMidwifeNumber) {
+      t1 += `<p>RN number : ${this.createUserForm.value.regNurseRegMidwifeNumber}</p>`
+    }
     if (this.createUserForm.value.organisationType) {
       t1 += `<p>Type of organization : ${this.createUserForm.value.organisationType}</p>`
     }
@@ -796,14 +807,14 @@ export class ChatbotComponent implements OnInit {
             </div>
       </div>
     `)
-    },         1000)
+    }, 1000)
 
     this.skipButton = false
     this.options = ['Yes, I confirm', 'Retry']
 
     setTimeout(() => {
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
 
   }
 
@@ -822,7 +833,7 @@ export class ChatbotComponent implements OnInit {
           } else {
             this.router.navigate(['/app/profile/dashboard'])
           }
-        },         3000)
+        }, 3000)
       }
     })
   }
