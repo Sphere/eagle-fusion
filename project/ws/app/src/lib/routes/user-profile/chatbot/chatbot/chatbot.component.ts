@@ -57,12 +57,12 @@ export class ChatbotComponent implements OnInit {
   otherbtnactive = false
 
   constructor(private http: HttpClient,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private fb: FormBuilder,
-    private configSvc: ConfigurationsService,
-    private btnservice: BtnProfileService) { }
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private snackBar: MatSnackBar,
+              private fb: FormBuilder,
+              private configSvc: ConfigurationsService,
+              private btnservice: BtnProfileService) { }
 
   ngOnInit() {
     this.http.get(this.chatUrl).subscribe(data => {
@@ -342,7 +342,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-    }, 1000)
+    },         1000)
   }
 
   getOptionSelected(_chatFormValue: any) {
@@ -434,7 +434,7 @@ export class ChatbotComponent implements OnInit {
 
         setTimeout(() => {
           this.showTypingIcon = true
-        }, 1000)
+        },         1000)
 
         if (this.nextId === 'end' && message !== 'skip') {
           message = _chatFormValue.replymsg
@@ -480,7 +480,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-      }, 1000)
+      },         1000)
     }
 
     if (question[0]['type'] === 'options') {
@@ -490,7 +490,7 @@ export class ChatbotComponent implements OnInit {
     }
     setTimeout(() => {
       this.scrollToBottom()
-    }, 1000)
+    },         1000)
   }
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
@@ -817,14 +817,14 @@ export class ChatbotComponent implements OnInit {
             </div>
       </div>
     `)
-    }, 1000)
+    },         1000)
 
     this.skipButton = false
     this.options = ['Yes, I confirm', 'Retry']
 
     setTimeout(() => {
       this.scrollToBottom()
-    }, 1000)
+    },         1000)
 
   }
 
@@ -849,7 +849,7 @@ export class ChatbotComponent implements OnInit {
           } else {
             this.router.navigate(['page', 'home'])
           }
-        }, 3000)
+        },         3000)
       }
     })
   }
