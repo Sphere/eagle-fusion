@@ -510,8 +510,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
               this.constructFormFromRegistry(data[0], academics, organisations)
               this.populateChips(data[0])
 
+            } else {
+              this.router.navigate(['app/user-profile/chatbot'])
             }
-            // this.handleFormData(data[0])
           },
           (_err: any) => {
           })
