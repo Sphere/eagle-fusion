@@ -315,8 +315,7 @@ export class DownloadCertificateComponent implements OnInit {
             doc.addImage(dataImage, 'JPG', 0, 0, width, height)
 
             doc.setFontSize(20)
-            doc.setTextColor(100);
-
+            doc.setTextColor(1);
             (doc as any).autoTable({
               body: [
                 [{
@@ -325,16 +324,17 @@ export class DownloadCertificateComponent implements OnInit {
                   rowSpan: 2,
                   styles: { halign: 'center' },
                 }],
+
               ],
               theme: 'plain',
               columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
               margin: { top: 88 },
-
             })
+            doc.text(`${moment(this.receivedDate).format('DD/MM/YYYY')}`, 167, 122)
             doc.addImage(responseQRCode, 'png', 5, 140, 40, 40)
             doc.setFontSize(10)
+            doc.setTextColor(100)
             doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
-            doc.text(`Awarded On ${this.receivedDate}`, 120, 186)
             doc.save('certificate_pocqi.pdf')
           }
         },
