@@ -54,14 +54,14 @@
       },
       {
         "id": "dob",
-        "title": "Can you please provide us your date of birth in format DD/MM/YYYY ?",
+        "title": "Please share your date of birth in format DD/MM/YYYY ?",
         "description": "",
         "type": "text",
         "data": {
           "length": 10,
           "type": ["string"],
           "regex": true,
-          "regexPattern": "^(0[1-9]|1[0-9]|2[0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{4}$"
+          "regexPattern": "^([0-2][0-9]|(3)[0-1])(/)(((0)[0-9])|((1)[0-2]))(/)\\d{4}$"
         },
         "action": {
           "submit": "mobile",
@@ -71,7 +71,7 @@
       },
       {
         "id": "mobile",
-        "title": "Can you please provide us your mobile number ?",
+        "title": "Please provide your 10 digit mobile number ?",
         "description": "",
         "type": "text",
         "data": {
@@ -88,7 +88,7 @@
       },
       {
         "id": "location",
-        "title": "Can you give your location info by selecting the below options of <b>Country, State, District</b> ? After selection of country you can select other fields",
+        "title": "Select your location <b>Country, State, District</b> ? After selection of country you can select other fields",
         "description": "",
         "type": "text",
         "data": {
@@ -125,7 +125,7 @@
       },
       {
         "id": "Healthcare Worker",
-        "title": "What is your category ? For others ",
+        "title": "We can classify your profession as: ",
         "description": "",
         "type": "options",
         "data": {
@@ -149,7 +149,7 @@
       },
       {
         "id": "Healthcare Volunteer",
-        "title": "What is your category ?",
+        "title": "We can classify your profession as: ",
         "description": "",
         "type": "options",
         "data": {
@@ -215,7 +215,7 @@
       },
       {
         "id": "organizationType",
-        "title": "Can you select the <i>Type of Oranization</i> you belong to ? Please specify for option Others",
+        "title": "Select the <i>Type of Oranization</i> you belong to ? If options don't match your organization type please select others",
         "description": "",
         "type": "options",
         "data": {
@@ -265,6 +265,23 @@
         },
         "action": {
           "submit": "end",
+          "error": ""
+        },
+        "required": false
+      },
+      {
+        "id": "RNNumber",
+        "title": "If you are a <b>Registered Nurse/Midwife</b> please share your RN/RM number ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationType",
           "error": ""
         },
         "required": false
