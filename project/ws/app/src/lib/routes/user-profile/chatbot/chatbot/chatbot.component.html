@@ -45,7 +45,7 @@
 
     <!-- location start -->
 
-    <div class="option-section ml-5">
+    <div class="option-section">
       <form [formGroup]="createUserForm">
         <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'country'">
           <p class=" margin-remove-bottom form-label"
@@ -130,11 +130,11 @@
 
     <span *ngIf="errMsg.length>0" class="error">{{errMsg}}</span>
 
-    <ng-container *ngIf="disableLocation">
+    <ng-container *ngIf="!showConfirmedProfile">
       <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
         [formGroup]="createChatForm" (ngSubmit)="getChatResponseCategorization(chatForm.value)">
         <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-          formControlName="replymsg" [readonly]="inputMsgEnabled && enableInputForDropdown">
+          formControlName="replymsg" [readonly]="inputMsgEnabled">
         <button mat-button type="submit" class="btn-chat-reply" [disabled]="!createChatForm.valid">Send</button>
       </form>
     </ng-container>
