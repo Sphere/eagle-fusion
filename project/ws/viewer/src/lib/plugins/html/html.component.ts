@@ -71,6 +71,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       ? this.configSvc.instanceConfig.intranetIframeUrls
       : []
 
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      this.scormAdapterService.loadData()
+    }
     // //console.log(this.htmlContent)
     let iframeSupport: boolean | string | null =
       this.htmlContent && this.htmlContent.isIframeSupported
