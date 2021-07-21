@@ -80,11 +80,14 @@
           </button>
         </mat-form-field>
         <span class="help-block" *ngIf="signupForm.controls['password'].touched">
-          <p *ngIf="signupForm.controls['password'].invalid">
+          <p *ngIf="signupForm.controls['password'].invalid && (signupForm.controls['password'].value.length)<1">
             Password is a required field
           </p>
+          <p *ngIf="signupForm.controls['password'].invalid && (signupForm.controls['password'].value.length)<7 &&
+                 (signupForm.controls['password'].value.length)>0">
+            Your password must contain a minimum of 6 characters.
+          </p>
         </span>
-        <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Confirm password</mat-label>
           <input matInput placeholder="confirm password" [type]="hideConfirm ? 'password' : 'text'"
@@ -93,10 +96,15 @@
             [attr.aria-pressed]="hideConfirm">
             <mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          <mat-error
+          <!-- <mat-error
             *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors">
-            Password does not match</mat-error>
+            Password does not match</mat-error> -->
         </mat-form-field>
+        <span class="help-block" *ngIf="signupForm.controls['confirmPassword'].touched">
+          <p *ngIf="signupForm.controls['confirmPassword'].errors">
+            Password does not match
+          </p>
+        </span>
         <div class="border"></div>
 
         <div class="mt-4  mb-8">
