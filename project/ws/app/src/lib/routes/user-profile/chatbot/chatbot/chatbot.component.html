@@ -16,8 +16,10 @@
     </ng-container>
   </div>
 
-
   <div class=" chat-input">
+    <div *ngIf="showLoader" class="text-center loader-spin">
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
     <img src="/fusion-assets/images/typing.gif" style="width: 40px;" [class.hide]="showTypingIcon" />
     <div class="option-section ml-5">
       <div *ngIf="!skipButton && showOptionFields">

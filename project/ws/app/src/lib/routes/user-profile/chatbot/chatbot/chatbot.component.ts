@@ -55,6 +55,7 @@ export class ChatbotComponent implements OnInit {
   orgTypeOtherOption = false
   showConfirmedProfile = false
   otherbtnactive = false
+  showLoader = false
 
   constructor(private http: HttpClient,
               private userProfileSvc: UserProfileService,
@@ -307,8 +308,10 @@ export class ChatbotComponent implements OnInit {
 
     if (_chatFormValue.replymsg) {
       if (_chatFormValue.replymsg === 'Yes, I confirm') {
+        this.inputMsgEnabled = false
         this.updateProfile()
       } else if (_chatFormValue.replymsg === 'Retry') {
+        this.inputMsgEnabled = false
         this.retryProfile()
       } else {
         this.getChatResponse(_chatFormValue)
@@ -318,6 +321,7 @@ export class ChatbotComponent implements OnInit {
   }
 
   retryProfile() {
+    this.showLoader = true
     this.createChatForm.controls.replymsg.setValue('')
     this.order = 0
     this.chatArray.length = 1
@@ -335,6 +339,7 @@ export class ChatbotComponent implements OnInit {
     const typeIcon = $('#chat-output')
     setTimeout(() => {
       typeIcon.empty()
+      this.showLoader = false
       typeIcon.append(`
           <div class='user-message'>
             <div class='message'>
@@ -833,6 +838,7 @@ export class ChatbotComponent implements OnInit {
   }
 
   updateProfile() {
+    this.showLoader = true
     const profileRequest = this.constructReq(this.createUserForm)
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(data => {
       if (data) {
