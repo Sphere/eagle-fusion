@@ -214,6 +214,21 @@ export class CollectionStoreService {
             // tslint:disable-next-line: ter-computed-property-spacing
           ].locale || 'en',
         ...(meta.additionalMeta || {}),
+
+        // new fields
+        catalogPaths: parentData.catalogPaths,
+        exclusiveContent: parentData.exclusiveContent,
+        complexityLevel: parentData.complexityLevel,
+        visibility: parentData.visibility,
+        org: parentData.org,
+        audience: parentData.audience,
+        region: parentData.region,
+        idealScreenSize: parentData.idealScreenSize,
+        publisherDetails: parentData.publisherDetails,
+        keywords: parentData.keywords,
+        learningMode: parentData.learningMode,
+        creatorDetails: parentData.creatorDetails,
+        accessPaths: parentData.accessPaths[0],
       }
       // requestBody.posterImage = parentData.posterImage
       // requestBody.sourceName = parentData.sourceName
@@ -368,8 +383,7 @@ export class CollectionStoreService {
         const children = contentNode.children || []
         if (childConfig.minChildren && children.length < childConfig.minChildren) {
           errorMsg.push(
-            `Minimum ${childConfig.minChildren} children is required. But ${
-            children.length ? children.length : 'nothing'
+            `Minimum ${childConfig.minChildren} children is required. But ${children.length ? children.length : 'nothing'
             } present`,
           )
         }
@@ -438,8 +452,7 @@ export class CollectionStoreService {
     if (condition.fit) {
       condition.fit.forEach((subCondition: any, majorIndex: number) => {
         Object.keys(subCondition).forEach((v: any, index: number) => {
-          returnValue = `${returnValue}${majorIndex > 0 ? ' or ' : ''}${
-            index > 0 ? ' ' : ''
+          returnValue = `${returnValue}${majorIndex > 0 ? ' or ' : ''}${index > 0 ? ' ' : ''
             }${v} in ${subCondition[v].join(' or ')}`
         })
       })
