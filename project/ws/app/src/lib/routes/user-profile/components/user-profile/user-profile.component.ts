@@ -181,9 +181,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
     //   console.log('ngOnInit - value', value);
     // })
-
-    this.getUserDetails()
     this.fetchMeta()
+    this.getUserDetails()
   }
 
   ngAfterViewInit() {
@@ -665,6 +664,16 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
+    let pEmail = ''
+
+    if (this.configSvc.userProfile) {
+      pEmail = this.configSvc.userProfile.email ? this.configSvc.userProfile.email : ''
+    }
+
+    if (data.personalDetails.primaryEmail) {
+      pEmail = data.personalDetails.primaryEmail
+    }
+
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
@@ -686,7 +695,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       countryCode: data.personalDetails.countryCode,
       mobile: data.personalDetails.mobile,
       telephone: data.personalDetails.telephone,
-      primaryEmail: data.personalDetails.primaryEmail,
+      // primaryEmail: data.personalDetails.primaryEmail,
+      primaryEmail: pEmail,
       secondaryEmail: data.personalDetails.personalEmail,
       primaryEmailType: this.filterPrimaryEmailType(data),
       residenceAddress: data.personalDetails.postalAddress,

@@ -88,7 +88,7 @@
       },
       {
         "id": "location",
-        "title": "Select your location <b>Country, State, District</b> ? After selection of country you can select other fields",
+        "title": "Select your location <b>Country, State, District?</b> After selecting a country you can select other fields.",
         "description": "",
         "type": "text",
         "data": {
@@ -105,7 +105,7 @@
       },
       {
         "id": "profession",
-        "title": "Please help us understand you better, are you ?",
+        "title": "Please help us understand you better, are you?",
         "description": "",
         "type": "options",
         "data": {
@@ -181,7 +181,7 @@
       },
       {
         "id": "Others - Please Specify",
-        "title": "Can you specify it here ?",
+        "title": "Can you specify it here?",
         "description": "",
         "type": "text",
         "data": {
@@ -198,7 +198,7 @@
       },
       {
         "id": "Others - Please Mention",
-        "title": "Can you specify it here ?",
+        "title": "Can you specify it here?",
         "description": "",
         "type": "text",
         "data": {
@@ -215,7 +215,7 @@
       },
       {
         "id": "organizationType",
-        "title": "Select the <i>Type of Oranization</i> you belong to ? If options don't match your organization type please select others",
+        "title": "Select the Type of Organization you belong to.",
         "description": "",
         "type": "options",
         "data": {
@@ -254,7 +254,7 @@
       },
       {
         "id": "organizationName",
-        "title": "Name of your Organization ?",
+        "title": "Name of your Organization?",
         "description": "",
         "type": "text",
         "data": {
@@ -271,7 +271,7 @@
       },
       {
         "id": "RNNumber",
-        "title": "If you are a <b>Registered Nurse/Midwife</b> please share your RN/RM number ?",
+        "title": "If you are a <b>Registered Nurse/Midwife</b> please share your RN/RM number.",
         "description": "",
         "type": "text",
         "data": {
