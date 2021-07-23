@@ -122,9 +122,9 @@
                       [userName]="author.name || ''" [email]="author.email"></ws-widget-user-image>
                     <div class="width-expand flex flex-middle flex-between">
                       <h3 class="margin-remove">{{ author.name }}</h3>
-                      <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
+                      <!-- <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
                         [widgetData]="{ content: content, emails: [author.email] }">
-                      </ws-widget-btn-mail-user>
+                      </ws-widget-btn-mail-user> -->
                     </div>
                   </div>
                 </mat-card>
