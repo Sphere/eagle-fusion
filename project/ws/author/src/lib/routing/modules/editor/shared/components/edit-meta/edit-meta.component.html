@@ -746,7 +746,7 @@
 
             <div class="flex margin-left-l">
               <div style="width: 230px;" class="flex flex-column  margin-right-m margin-top-m">
-                <div class="margin-bottom-m" *ngIf="checkCondition('expiryDate', 'show')"
+                <!-- <div class="margin-bottom-m" *ngIf="checkCondition('expiryDate', 'show')"
                   [ngClass]="{ disable: checkCondition('expiryDate', 'disabled') }">
                   <mat-label class="font-weight-bold" [ngClass]="{ required: checkCondition('expiryDate', 'required') }"
                     i18n="
@@ -767,7 +767,8 @@
                       Expiry Date is mandatory
                     </mat-error>
                   </mat-form-field>
-                </div>
+                </div> -->
+
                 <div *ngIf="checkCondition('duration', 'show')"
                   [ngClass]="{ disable: checkCondition('duration', 'disabled') }">
                   <p class="font-weight-bold margin-remove-bottom"

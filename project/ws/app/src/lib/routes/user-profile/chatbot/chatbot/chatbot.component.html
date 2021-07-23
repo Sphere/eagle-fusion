@@ -5,7 +5,10 @@
 
   <div class="chat-output" id="chat-output" #chatoutput>
     <div class="user-message out">
-      <div class="message out">{{chatArray[0]?.title}}</div>
+      <div class="message out">Hi {{registeredUserName}},<br />
+        Would you like to continue with the same name on your completion certificate?<br />
+        If you want to change select 'Yes' , otherwise select 'No'.
+      </div>
     </div>
     <ng-container *ngIf="chatArray.length > 1">
       <ng-container *ngFor="let ques of chatArray; let i = index ">
@@ -36,6 +39,16 @@
           </ng-container>
         </div>
       </div>
+
+      <!-- Option for asking name edit -->
+      <ng-container *ngIf="hideInputField">
+        <div class="user-message user-message-option" *ngFor="let option of firstOptions">
+          <button mat-button class="message option"
+            (click)="getChatResponseCategorization({'replymsg':option})">{{option}}</button>
+        </div>
+      </ng-container>
+
+      <!-- Skip button -->
       <div class="user-message user-message-option" *ngIf="skipButton">
         <button mat-button class="message option"
           (click)="getChatResponseCategorization({'replymsg':'skip'})">Skip</button>
@@ -46,6 +59,7 @@
 
 
     <!-- location start -->
+    <div *ngIf="showAddress" class="text-base mb-4">Your location is <b>{{selectedAddress}}</b></div>
 
     <div class="option-section">
       <form [formGroup]="createUserForm">
@@ -132,11 +146,23 @@
 
     <span *ngIf="errMsg.length>0" class="error">{{errMsg}}</span>
 
-    <ng-container *ngIf="!showConfirmedProfile">
+    <ng-container *ngIf="!showConfirmedProfile && !hideInputField">
       <form id="user-input-form" class="user-input-form" #chatForm="ngForm" autocomplete="off"
         [formGroup]="createChatForm" (ngSubmit)="getChatResponseCategorization(chatForm.value)">
-        <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-          formControlName="replymsg" [readonly]="inputMsgEnabled">
+
+        <ng-container *ngIf="!showDatePicker">
+          <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+            formControlName="replymsg" [readonly]="inputMsgEnabled">
+        </ng-container>
+
+        <ng-container *ngIf="showDatePicker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="replymsg"
+            placeholder="Choose Date of Birth" name="replymsg" class="user-input" readonly>
+        </ng-container>
+
+
         <button mat-button type="submit" class="btn-chat-reply" [disabled]="!createChatForm.valid">Send</button>
       </form>
     </ng-container>
