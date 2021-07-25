@@ -230,12 +230,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       }
       iframe.onload = (data => {
         if (data.target) {
-          setTimeout(() => {
             // tslint:disable-next-line: no-console
             console.log('180')
             this.pageFetchStatus = 'done'
             this.showIsLoadingMessage = false
-          }, 2000);
         }
       })
     }
