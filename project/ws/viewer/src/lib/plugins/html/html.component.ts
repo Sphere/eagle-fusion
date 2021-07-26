@@ -230,10 +230,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       }
       iframe.onload = (data => {
         if (data.target) {
-            // tslint:disable-next-line: no-console
-            console.log('180')
-            this.pageFetchStatus = 'done'
-            this.showIsLoadingMessage = false
+          // tslint:disable-next-line: no-console
+          console.log('180')
+          this.pageFetchStatus = 'done'
+          this.showIsLoadingMessage = false
         }
       })
     }
@@ -242,7 +242,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
   raiseTelemetry(data: any) {
     if (this.htmlContent) {
       /* tslint:disable-next-line */
-      console.log(this.htmlContent.identifier)
+      // console.log(this.htmlContent.identifier)
       this.events.raiseInteractTelemetry(data.event, 'scrom', {
         contentId: this.htmlContent.identifier,
         ...data,
