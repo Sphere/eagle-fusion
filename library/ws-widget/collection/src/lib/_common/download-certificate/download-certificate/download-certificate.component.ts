@@ -10,6 +10,8 @@ import moment from 'moment'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
+import { DownloadCertificateImage } from './download-certificate.model'
+
 const courseId = {
   nqocnId: 'lex_auth_01311423170518220869',
   fernadezId: 'lex_auth_01308384668903833673',
@@ -267,11 +269,14 @@ export class DownloadCertificateComponent implements OnInit {
           if (data) {
             this.showLoader = false
             dataImage = this.iNCCertificate.toString()
+
             const doc = new jsPDF('landscape', 'mm', [297, 190])
             const width = doc.internal.pageSize.getWidth()
             const height = doc.internal.pageSize.getHeight()
             if (dataImage && this.userFullname) {
-              doc.addImage(dataImage, 'JPG', 0, 0, width, height)
+
+              // doc.addImage(dataImage, 'JPEG', 0, 0, width, height)
+              doc.addImage(DownloadCertificateImage.key, 'JPEG', 0, 0, width, height)
 
               const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight() + 30
               const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth() + 30
