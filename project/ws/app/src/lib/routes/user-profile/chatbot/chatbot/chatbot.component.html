@@ -159,7 +159,8 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="replymsg"
-            placeholder="Choose Date of Birth" name="replymsg" class="user-input" readonly>
+            placeholder="Choose Date of Birth" name="replymsg" class="user-input" (click)="picker.open()" readonly>
+
         </ng-container>
 
 
