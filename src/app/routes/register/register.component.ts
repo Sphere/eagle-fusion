@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   showResend = false
   hide = true
   hideConfirm = true
+  validEmail = false
 
   constructor(
     private snackBar: MatSnackBar,
@@ -56,6 +57,22 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  // signupFormField() {
+  //   return new FormGroup({
+  //     firstName: new FormControl(''),
+  //     lastName: new FormControl(''),
+  //     otp: new FormControl(''),
+  //     password: new FormControl(''),
+  //     confirmPassword: new FormControl('')
+  //   })
+  // }
+
+  // emailFormField() {
+  //   return new FormGroup({
+  //     userInput: new FormControl(''),
+  //   })
+  // }
+
   ngAfterViewChecked() {
     // To show the Resend button after 30s
     setTimeout(() => {
@@ -79,6 +96,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
               if (res.message === 'Success') {
                 this.openSnackbar('OTP is sent to your mobile successfully')
                 this.isMobile = true
+                this.validEmail = false
               }
             },
             (err: any) => {
@@ -86,15 +104,19 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
             }
           )
+        } else {
+          this.validEmail = true
         }
       } else {
         // tslint:disable-next-line: max-line-length
         this.email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          this.emailOrMobile
-        )
+          this.emailOrMobile)
+        this.validEmail = true
+
         if (this.email) {
           this.isMobile = false
           this.showAllFields = true
+          this.validEmail = false
         }
       }
     }
@@ -121,7 +143,6 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   onSubmit(form: any) {
     this.uploadSaveData = true
     let reqObj
-
     if (this.email) {
       reqObj = {
         data: {
@@ -160,7 +181,9 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           setTimeout(() => {
             this.emailForm.reset()
             this.signupForm.reset()
-          },         3000)
+            this.showAllFields = false
+            this.email = false
+          },         2000)
         }
       )
     } else {
@@ -186,8 +209,17 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
         },
         (err: any) => {
           this.openSnackbar(err.error.error)
-          this.uploadSaveData = false
           form.reset()
+          this.uploadSaveData = false
+          setTimeout(() => {
+            this.emailForm.reset()
+            this.signupForm.controls['otp'].setValidators([])
+            this.signupForm.reset()
+            this.showAllFields = false
+            this.email = false
+            this.isMobile = false
+          },         2000)
+
           setTimeout(() => {
             if (err.status === 500) {
               this.router.navigate(['/register'])
@@ -199,7 +231,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration: number = 1500) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

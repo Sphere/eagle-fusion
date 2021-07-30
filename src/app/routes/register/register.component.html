@@ -4,7 +4,7 @@
   </div>
 </div>
 <div class="split width-60 right">
-  <div class="signup-container">
+  <div class="signup-container signup-form-cont">
     <h2 class="mat-title" i18n="section heading create new goal">
       Sign up
     </h2>
@@ -12,12 +12,15 @@
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Email / Mobile Number</mat-label>
         <input name="userInput" matInput formControlName="userInput" placeholder="Email Id/ Mobile number" type="text"
-          required>
+          autocomplete="off" required>
       </mat-form-field>
       <span class="help-block" *ngIf="emailForm.controls['userInput'].touched">
         <p *ngIf="emailForm.controls['userInput'].invalid">
           Email Id / Mobile is a required field!
         </p>
+      </span>
+      <span class="help-block" *ngIf="validEmail && !emailForm.controls['userInput'].invalid">
+        <p>Please Enter Valid Email Id/ Mobile number</p>
       </span>
       <!-- <pre>Dirty Flag Value:{{emailForm.get('userInput').dirty}}</pre>
       <pre>Touched Flag:{{emailForm.get('userInput').touched}}</pre>
@@ -45,7 +48,7 @@
         <input type="text" matInput placeholder="OTP" formControlName="otp" required>
       </mat-form-field>
       <span *ngIf="showResend">
-        <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
+        <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="verifyEntry();resendOTP()">
           Resend OTP</a>
       </span>
 

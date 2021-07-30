@@ -7,3 +7,9 @@
 .prefix91 {
   vertical-align: 5px;
 }
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  .signup-form-cont {
+    max-width: 60%;
+  }
+}
