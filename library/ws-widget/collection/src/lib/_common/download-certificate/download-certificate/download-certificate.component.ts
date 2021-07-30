@@ -215,6 +215,8 @@ export class DownloadCertificateComponent implements OnInit {
   }
 
   downloadPdf(badgeId: string) {
+    this.userFullname = this.userFullname.split(' ').map(d => d.charAt(0).toUpperCase() + d.slice(1, d.length)).join(' ')
+
     let imageData = ''
     // Fernandes course
     if (badgeId.includes(courseId.fernadezId) && (this.content || this.badgeData)) {
@@ -296,7 +298,7 @@ export class DownloadCertificateComponent implements OnInit {
             }
           }
         },
-                                                     err => {
+          err => {
             this.openSnackbar(err)
           })
 
@@ -343,7 +345,7 @@ export class DownloadCertificateComponent implements OnInit {
             doc.save('certificate_pocqi.pdf')
           }
         },
-                                                     err => {
+          err => {
             this.openSnackbar(err)
           })
       }
