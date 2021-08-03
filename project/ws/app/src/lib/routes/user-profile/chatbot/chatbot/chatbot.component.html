@@ -55,9 +55,6 @@
       </div>
     </div>
 
-
-
-
     <!-- location start -->
     <div *ngIf="showAddress" class="text-base mb-4">Your location is <b>{{selectedAddress}}</b></div>
 
@@ -156,12 +153,11 @@
         </ng-container>
 
         <ng-container *ngIf="showDatePicker">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="replymsg"
-            placeholder="Choose Date of Birth" name="replymsg" class="user-input" readonly>
+            placeholder="Choose Date of Birth" name="replymsg" class="user-input" (click)="picker.open()" readonly>
         </ng-container>
-
 
         <button mat-button type="submit" class="btn-chat-reply" [disabled]="!createChatForm.valid">Send</button>
       </form>
