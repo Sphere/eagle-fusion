@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 import { INationality, IProfileAcademics } from '../../../user-profile/models/user-profile.model'
 import { map, startWith } from 'rxjs/operators'
@@ -70,17 +70,23 @@ export class ChatbotComponent implements OnInit {
   firstOptions = ['Yes', 'No']
   hideInputField = true
   countryCodeList: INationality[] = []
+  public degrees!: FormArray
+  profession = ''
+  studentInstitute = ''
+  studentCourse = ''
+  registeredEmail: any
 
   constructor(private http: HttpClient,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private fb: FormBuilder,
-              private configSvc: ConfigurationsService,
-              private btnservice: BtnProfileService) {
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private configSvc: ConfigurationsService,
+    private btnservice: BtnProfileService) {
 
     if (this.configSvc.userProfile) {
       this.registeredUserName = this.configSvc.userProfile.userName
+      this.registeredEmail = this.configSvc.userProfile.email
     }
   }
 
@@ -97,7 +103,7 @@ export class ChatbotComponent implements OnInit {
     this.createChatForm = this.createChatFormFields()
     this.createUserForm = this.createUserFormFields()
     this.fetchMeta()
-
+    this.maxDate.setDate(this.maxDate.getDate() - 1)
   }
 
   createChatFormFields() {
@@ -116,7 +122,7 @@ export class ChatbotComponent implements OnInit {
       countryCode: new FormControl('', []),
       mobile: new FormControl('', []),
       telephone: new FormControl('', []),
-      // primaryEmail: new FormControl('', []),
+      primaryEmail: new FormControl('', []),
       primaryEmailType: new FormControl('', []),
       secondaryEmail: new FormControl('', []),
       nationality: new FormControl('', []),
@@ -337,7 +343,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-        },         300)
+        }, 300)
       } else if (_chatFormValue.replymsg === 'No') {
         this.hideInputField = false
         this.chatArray.push(this.chatObj.regOption.profiledetails[1])
@@ -373,6 +379,9 @@ export class ChatbotComponent implements OnInit {
     this.inputMsgEnabled = false
     // this.showConfirmedProfile = false
     this.hideInputField = true
+    this.profession = ''
+    this.studentInstitute = ''
+    this.studentCourse = ''
 
     const typeIcon = $('#chat-output')
     setTimeout(() => {
@@ -387,7 +396,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-    },         1000)
+    }, 1000)
   }
 
   getOptionSelected(_chatFormValue: any) {
@@ -416,8 +425,20 @@ export class ChatbotComponent implements OnInit {
       let message = _chatFormValue.replymsg
 
       this.nextId = this.chatArray[this.order].action['submit']
-      if (message === 'Midwives' || message === 'ANM' || message === 'GNM') {
+      if (message === 'Midwives' || message === 'ANM' || message === 'GNM' || message === 'BSC Nurse') {
         this.nextId = 'RNNumber'
+      }
+      if (message === 'Student') {
+        this.nextId = 'coursename'
+        this.profession = 'student'
+      }
+      if (message === 'Faculty') {
+        this.nextId = 'designation'
+        this.profession = 'faculty'
+      }
+      if (this.nextId === 'institutionName') {
+        this.showOptionFields = false
+        this.inputMsgEnabled = false
       }
       this.currentId = this.chatArray[this.order].id
 
@@ -495,7 +516,7 @@ export class ChatbotComponent implements OnInit {
         }
         setTimeout(() => {
           this.showTypingIcon = true
-        },         1000)
+        }, 1000)
 
         if (this.nextId === 'end' && message !== 'skip') {
           message = _chatFormValue.replymsg
@@ -556,7 +577,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-      },         1000)
+      }, 1000)
     }
 
     setTimeout(() => {
@@ -568,7 +589,7 @@ export class ChatbotComponent implements OnInit {
       }
 
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
   }
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
@@ -582,13 +603,12 @@ export class ChatbotComponent implements OnInit {
             const dobMsg = moment(msg).format('DD/MM/YYYY')
             const d1 = moment(new Date()).format('YYYY-MM-DD')
             const d2 = moment(msg, 'DD/MM/YYYY').format('YYYY-MM-DD')
-            const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1900')
+            // const dob = moment(msg, 'DD-MM-YYYY').isSameOrAfter('01-01-1900')
 
-            if (!dob || !(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
+            if (!(moment(d2).isBefore(d1)) || dobMsg.match(obj.data.regexPattern) == null) {
               this.errMsg = obj.action.error
               return false
             }
-
             return true
           }
 
@@ -626,7 +646,9 @@ export class ChatbotComponent implements OnInit {
     const windowHeight = this.contEl.nativeElement.clientHeight
     this.contEl.nativeElement.scrollTop = this.contEl.nativeElement.scrollTop + windowHeight + 100
   }
+
   assignFields(qid: any, value: any) {
+
     switch (qid) {
       case 'fname':
         this.createUserForm.controls.firstname.setValue(value)
@@ -664,9 +686,30 @@ export class ChatbotComponent implements OnInit {
       case 'RNNumber':
         this.createUserForm.controls.regNurseRegMidwifeNumber.setValue(value)
         break
+      case 'designation':
+        this.createUserForm.controls.designation.setValue(value)
+        break
+      case 'institutionName':
+        if (this.profession === 'faculty') {
+          this.createUserForm.controls.orgName.setValue(value)
+        } else {
+          this.studentInstitute = value
+        }
+        break
+      case 'coursename':
+        this.studentCourse = value
+        break
       default:
         break
-
+    }
+    if (this.profession === 'student' && this.studentInstitute) {
+      this.degrees = this.createUserForm.get('degrees') as FormArray
+      this.degrees.removeAt(0)
+      this.degrees.push(this.fb.group({
+        degree: new FormControl(this.studentCourse, []),
+        instituteName: new FormControl(this.studentInstitute, []),
+        yop: new FormControl('', []),
+      }))
     }
   }
 
@@ -685,7 +728,7 @@ export class ChatbotComponent implements OnInit {
         countryCode: form.value.countryCode,
         mobile: form.value.mobile,
         telephone: form.value.telephone,
-        // primaryEmail: form.value.primaryEmail,
+        primaryEmail: form.value.primaryEmail,
         officialEmail: '',
         personalEmail: '',
         postalAddress: form.value.residenceAddress,
@@ -820,10 +863,20 @@ export class ChatbotComponent implements OnInit {
       t1 += `<p>RN number : ${this.createUserForm.value.regNurseRegMidwifeNumber}</p>`
     }
     if (this.createUserForm.value.organisationType) {
-      t1 += `<p>Type of organization : ${this.createUserForm.value.organisationType}</p>`
+      t1 += `<p>Type of Organization : ${this.createUserForm.value.organisationType}</p>`
     }
     if (this.createUserForm.value.orgName) {
-      t1 += `<p>Name of organization : ${this.createUserForm.value.orgName}</p>`
+      if (this.profession === 'faculty') {
+        t1 += `<p>Name of Institution : ${this.createUserForm.value.orgName}</p>`
+      } else {
+        t1 += `<p>Name of organization : ${this.createUserForm.value.orgName}</p>`
+      }
+    }
+    if (this.createUserForm.value.degrees[0].degree) {
+      t1 += `<p>Course : ${this.createUserForm.value.degrees[0].degree}</p>`
+    }
+    if (this.createUserForm.value.degrees[0].instituteName) {
+      t1 += `<p>Name of Institution : ${this.createUserForm.value.degrees[0].instituteName}</p>`
     }
 
     const str = '<b>You can edit your profile anytime</b>'
@@ -854,14 +907,15 @@ export class ChatbotComponent implements OnInit {
             </div>
       </div>
     `)
-    },         1000)
+    }, 1000)
 
     this.skipButton = false
+    this.showOptionFields = true
     this.options = ['Yes, I confirm', 'Retry']
 
     setTimeout(() => {
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
 
   }
 
@@ -871,6 +925,9 @@ export class ChatbotComponent implements OnInit {
 
   updateProfile() {
     this.showLoader = true
+    if (this.registeredEmail) {
+      this.createUserForm.controls.primaryEmail.setValue(this.registeredEmail)
+    }
     const profileRequest = this.constructReq(this.createUserForm)
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(data => {
       if (data) {
@@ -887,7 +944,7 @@ export class ChatbotComponent implements OnInit {
           } else {
             this.router.navigate(['page', 'home'])
           }
-        },         3000)
+        }, 3000)
       }
     })
   }
