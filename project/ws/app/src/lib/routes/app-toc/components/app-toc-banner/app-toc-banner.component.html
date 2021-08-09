@@ -150,6 +150,7 @@
               !(content?.contentType === 'Resource' && !content?.artifactUrl)
             ">
                   <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
+                    (click)="getCourseStartEvent(resumeData)"
                     [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                     [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
                     class="margin-right-m ws-mat-primary-background" mat-flat-button>

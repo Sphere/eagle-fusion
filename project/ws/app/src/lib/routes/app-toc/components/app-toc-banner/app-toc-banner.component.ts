@@ -21,6 +21,7 @@ import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/a
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { NoAccessDialogComponent } from '../../../goals/components/no-access-dialog/no-access-dialog.component'
 import { AUTHORING_CONTENT_BASE } from './../../../../../../../author/src/lib/constants/apiEndpoints'
+import { AwsAnalyticsService } from '@ws/author/src/lib/services/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -75,6 +76,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   bannerImg = ''
   appIcon: any
   isXSmall = false
+  userEmail: any
   // learnersCount:Number
 
   constructor(
@@ -91,6 +93,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private authAccessService: AccessControlService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -528,5 +531,17 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
 
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
+  getCourseStartEvent(event: any) {
+    if (this.configSvc.userProfile) {
+      this.userEmail = this.configSvc.userProfile.email
+    }
+    const status = event ? 'resume' : 'start'
+    if (status === 'start') {
+      this.awsAnalyticsService.awsAnlyticsService('Start-course', this.userEmail)
+      console.log('Start-course')
+    } else {
+      console.log('Course-resume')
+    }
   }
 }
