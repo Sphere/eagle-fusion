@@ -10,7 +10,7 @@ import moment from 'moment'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { DownloadCertificateImage } from './download-certificate.model'
-import { AwsAnalyticsService } from '@ws/author/src/lib/services/aws-analytics.service'
+import { AwsAnalyticsService } from '../../../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 const courseId = {
   nqocnId: 'lex_auth_01311423170518220869',

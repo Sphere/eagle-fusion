@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { KeycloakEvent, KeycloakEventType, KeycloakInitOptions, KeycloakService } from 'keycloak-angular'
 import { fromEvent, ReplaySubject } from 'rxjs'
 import { filter } from 'rxjs/operators'
-import { AwsAnalyticsService } from '../../../../../../project/ws/author/src/lib/services/aws-analytics.service'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core'
 import { AppTocOverviewDirective } from './app-toc-overview.directive'
 import { AppTocOverviewService } from './app-toc-overview.service'
-import { AwsAnalyticsService } from '@ws/author/src/lib/services/aws-analytics.service'
+import { AwsAnalyticsService } from '../../../../../../../viewer/src/lib/aws-analytics.service'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 
 @Component({

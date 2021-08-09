@@ -21,7 +21,7 @@ import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/a
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { NoAccessDialogComponent } from '../../../goals/components/no-access-dialog/no-access-dialog.component'
 import { AUTHORING_CONTENT_BASE } from './../../../../../../../author/src/lib/constants/apiEndpoints'
-import { AwsAnalyticsService } from '@ws/author/src/lib/services/aws-analytics.service'
+import { AwsAnalyticsService } from '../../../../../../../viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-toc-banner',
