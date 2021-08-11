@@ -18,9 +18,10 @@ export class BtnCatalogComponent extends WidgetBaseComponent
   catalogFetchStatus: TFetchStatus = 'none'
   loginPage = false
   pageUrl: any
+  eventName: any
 
   constructor(private catalogSvc: TreeCatalogService,
-              private awsAnalyticsService: AwsAnalyticsService) {
+    private awsAnalyticsService: AwsAnalyticsService) {
     super()
     const url = window.location.href
     if (url.indexOf('login') > 0) {
@@ -44,13 +45,13 @@ export class BtnCatalogComponent extends WidgetBaseComponent
     this.pageUrl = window.location.href
 
     if (this.pageUrl.indexOf('login') > 0) {
-      const eventName = 'PHP1_Category'
+      this.eventName = 'PHP1_Category'
     } else {
-      const eventName = 'H2_Category'
+      this.eventName = 'H2_Category'
     }
 
     const attr = {
-      name: eventName,
+      name: this.eventName,
       attributes: {},
     }
     this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)

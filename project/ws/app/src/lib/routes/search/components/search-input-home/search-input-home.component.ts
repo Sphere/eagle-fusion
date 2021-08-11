@@ -32,6 +32,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   searchLocale = this.getActiveLocale()
   lang = ''
   pageUrl: any
+  eventSearch: any
 
   constructor(
     private activated: ActivatedRoute,
@@ -164,12 +165,12 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     }
 
     if (this.pageUrl.indexOf('login') > 0) {
-      const eventSearch = 'PHP3_UserEventSearch'
+      this.eventSearch = 'PHP3_UserEventSearch'
     } else {
-      eventSearch = 'H3_HeaderSearch'
+      this.eventSearch = 'H3_HeaderSearch'
     }
     const attr = {
-      name: eventSearch,
+      name: this.eventSearch,
       attributes: {},
     }
     this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
