@@ -3,6 +3,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { Subscription } from 'rxjs'
 import { ConfigurationsService, EventService, WsEvents } from '../../../../utils'
 import { BtnContentLikeService } from './btn-content-like.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-content-like',
@@ -31,6 +32,7 @@ export class BtnContentLikeComponent extends WidgetBaseComponent
     private events: EventService,
     private btnLikeSvc: BtnContentLikeService,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     super()
     if (this.configSvc.restrictedFeatures) {
@@ -81,6 +83,7 @@ export class BtnContentLikeComponent extends WidgetBaseComponent
     if (!this.forPreview) {
       event.stopPropagation()
       this.raiseTelemetry('like')
+      this.createAWSAnalyticsEventAttribute('like')
       this.status = 'PENDING'
       this.btnLikeSvc.like(this.widgetData.identifier).subscribe(
         (data: { [key: string]: number }) => {
@@ -101,6 +104,7 @@ export class BtnContentLikeComponent extends WidgetBaseComponent
     if (!this.forPreview) {
       event.stopPropagation()
       this.raiseTelemetry('unlike')
+      this.createAWSAnalyticsEventAttribute('unlike')
       this.status = 'PENDING'
       this.btnLikeSvc.unlike(this.widgetData.identifier).subscribe(
         (data: { [key: string]: number }) => {
@@ -123,6 +127,7 @@ export class BtnContentLikeComponent extends WidgetBaseComponent
     } else {
       this.status = this.status === 'LIKED' ? 'NOT_LIKED' : 'LIKED'
     }
+
   }
 
   raiseTelemetry(action: 'like' | 'unlike') {
@@ -130,4 +135,22 @@ export class BtnContentLikeComponent extends WidgetBaseComponent
       contentId: this.widgetData.identifier,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'like' | 'unlike') {
+    if (action && this.widgetData) {
+      const attr = {
+        name: 'CP2_CourseLike',
+        attributes: {
+          CourseId: this.widgetData.identifier,
+          CourseLikeAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.widgetData.identifier],
+        CourseLikeAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

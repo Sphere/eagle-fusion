@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
 import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
 import { ViewerUtilService } from './viewer-util.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 export enum ErrorType {
   accessForbidden = 'accessForbidden',
@@ -68,6 +69,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     public configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.rootSvc.showNavbarDisplay$.next(false)
   }
@@ -241,4 +243,24 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     //   this.sideNavBarOpened = true
     // }
   }
+
+  createAWSAnalyticsEventAttribute($event: any) {
+    const mappedData = ['Discussion', 'Overview', 'License']
+    if ([0, 1, 2].includes($event.index) && this.content) {
+      const attr = {
+        name: 'PL4_ResourceOLD',
+        attributes: {
+          CourseId: this.content.identifier,
+          OverviewLicenseDIscussType: mappedData[$event.index],
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        OverviewLicenseDIscussType: [mappedData[$event.index]],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

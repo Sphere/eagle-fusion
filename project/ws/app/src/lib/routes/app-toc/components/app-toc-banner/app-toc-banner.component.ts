@@ -533,15 +533,62 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   getCourseStartEvent(event: any) {
-    if (this.configSvc.userProfile) {
-      this.userEmail = this.configSvc.userProfile.email
-    }
     const status = event ? 'resume' : 'start'
     if (status === 'start') {
-      this.awsAnalyticsService.awsAnlyticsService('Start-course', this.userEmail)
-      console.log('Start-course')
+      const attr = {
+        name: 'CP1_CourseStart',
+        attributes: { CourseId: event.identifier, status: 'start' },
+      }
+      const endPointAttr = {
+        CourseId: [event.identifier],
+        status: ['start'],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
     } else {
-      console.log('Course-resume')
+      const attr = {
+        name: 'CP1_CourseStart',
+        attributes: { CourseId: event.identifier, status: 'resume' },
+      }
+      const endPointAttr = {
+        CourseId: [event.identifier],
+        status: ['resume'],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
     }
   }
+
+  createAWSAnalyticsEventAttribute(type: string, action?: string) {
+    const mappedNameObj: any = {
+      Edit: 'CP4_EditCourse',
+      Share: 'CP3_CourseShare',
+      Goal: 'CP12_CourseGoal',
+      Playlist: 'CP6_CourseAddPlaylist',
+      Feedback: 'CP7_CourseFeedback',
+      Downloadcertificate: 'CP9_DownloadCertificate',
+    }
+
+    const mappedActionObj: any = {
+      Edit: 'CourseEditAction',
+      Share: 'CourseShareAction',
+      Goal: 'CourseGoalAction',
+      Playlist: 'PlaylistAction',
+      Feedback: 'FeedbackAction',
+      Downloadcertificate: 'DownloadcertificateAction',
+    }
+    if (action && this.content) {
+      const attr = {
+        name: mappedNameObj[type],
+        attributes: {
+          CourseId: this.content.identifier,
+          [mappedActionObj[type]]: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        [mappedActionObj[type]]: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

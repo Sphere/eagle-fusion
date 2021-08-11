@@ -6,6 +6,7 @@ import { NsContent } from '../../../_services/widget-content.model'
 import { FeedbackService } from '../../services/feedback.service'
 import { EFeedbackType, EFeedbackRole, IFeedbackConfig } from '../../models/feedback.model'
 import { FeedbackSnackbarComponent } from '../feedback-snackbar/feedback-snackbar.component'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-content-feedback-dialog-v2',
@@ -26,6 +27,7 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
     private dialogRef: MatDialogRef<BtnContentFeedbackDialogV2Component>,
     private feedbackApi: FeedbackService,
     private snackbar: MatSnackBar,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.positiveFeedbackSendStatus = 'none'
     this.negativeFeedbackSendStatus = 'none'
@@ -72,6 +74,8 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
           this.snackbar.openFromComponent(FeedbackSnackbarComponent, {
             data: { action: 'content_feedback_submit', code: 'success' },
           })
+
+          this.createAWSAnalyticsEventAttribute('SubmittedPositiveFeedback')
           this.dialogRef.close()
         },
         () => {
@@ -100,6 +104,7 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
           this.snackbar.openFromComponent(FeedbackSnackbarComponent, {
             data: { action: 'content_feedback_submit', code: 'success' },
           })
+          this.createAWSAnalyticsEventAttribute('SubmittedNegativeFeedback')
           this.dialogRef.close()
         },
         () => {
@@ -127,6 +132,7 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
           this.snackbar.openFromComponent(FeedbackSnackbarComponent, {
             data: { action: 'content_feedback_submit', code: 'success' },
           })
+          this.createAWSAnalyticsEventAttribute('SubmittedSingleFeedback')
           this.dialogRef.close()
         },
         () => {
@@ -147,4 +153,23 @@ export class BtnContentFeedbackDialogV2Component implements OnInit {
       this.submitNegativeFeedback(this.feedbackForm.value['negative'])
     }
   }
+
+  createAWSAnalyticsEventAttribute(action: 'SubmittedPositiveFeedback' | 'SubmittedNegativeFeedback' | 'SubmittedSingleFeedback') {
+    if (action && this.content) {
+      const attr = {
+        name: 'CP7_CourseFeedback',
+        attributes: {
+          CourseId: this.content.identifier,
+          FeedbackAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        FeedbackAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

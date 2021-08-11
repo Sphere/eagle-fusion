@@ -67,7 +67,8 @@
       </section>
       <router-outlet (activate)="getContentData($event)"></router-outlet>
 
-      <mat-tab-group animationDuration="0ms" class="minhightab">
+      <mat-tab-group animationDuration="0ms" class="minhightab"
+        (selectedTabChange)="createAWSAnalyticsEventAttribute($event)">
         <mat-tab i18n-label label="Discussion">
           <!-- *ngIf="discussionForumWidget && isRestricted" -->
           <div class="padding-m">

@@ -20,6 +20,7 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { IWidgetsPlayerPdfData } from './player-pdf.model'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 const pdfjsViewer = require('pdfjs-dist/web/pdf_viewer')
 @Component({
@@ -71,6 +72,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private valueSvc: ValueService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     super()
   }
@@ -223,6 +225,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
   loadPageNum(pageNum: number) {
     this.raiseTelemetry('pageChange')
+    this.createAWSAnalyticsEventAttribute()
     if (pageNum < 1 || pageNum > this.totalPages) {
       return
     }
@@ -238,6 +241,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       })
     }
   }
+
+  createAWSAnalyticsEventAttribute() {
+    if (this.identifier) {
+      const attr = {
+        name: 'PL3_PdfPageChange',
+        attributes: {
+          CourseId: this.identifier,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.identifier],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
   saveContinueLearning(id: string) {
     if (this.activatedRoute.snapshot.queryParams.collectionType &&
       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {

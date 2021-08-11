@@ -4,6 +4,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { ViewerDataService } from '../../viewer-data.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'viewer-video-container',
@@ -36,7 +37,8 @@ export class VideoComponent implements OnInit {
   public isInFullScreen = false
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+              private viewerDataSvc: ViewerDataService,
+              private awsAnalyticsService: AwsAnalyticsService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -47,10 +49,12 @@ export class VideoComponent implements OnInit {
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
+
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
@@ -58,13 +62,33 @@ export class VideoComponent implements OnInit {
 
   setPrevClick() {
     this.viewerDataSvc.setClikedItem('prev')
+    if (this.prevResourceUrl) { this.createAWSAnalyticsEventAttribute(this.prevResourceUrl) }
   }
 
   setNextClick() {
     this.viewerDataSvc.setClikedItem('next')
+    if (this.nextResourceUrl) { this.createAWSAnalyticsEventAttribute(this.nextResourceUrl) }
   }
+
   fullScreenState(state: boolean) {
     this.isInFullScreen = state
     this.fsState.emit(state)
   }
+
+  createAWSAnalyticsEventAttribute(resourceUrl: string) {
+    let courseId = ''
+    if (resourceUrl) {
+      courseId = resourceUrl.slice(resourceUrl.indexOf('lex_'))
+    }
+
+    const attr = {
+      name: 'PL1_ChildResourceVisit',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+  }
+
 }

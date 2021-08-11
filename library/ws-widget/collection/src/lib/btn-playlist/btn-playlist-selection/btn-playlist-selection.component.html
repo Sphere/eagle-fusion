@@ -23,7 +23,7 @@
     <button name="done-button-playlist-selection" mat-raised-button color="primary" [disabled]="isDoneDisabled()"
       [mat-dialog-close]="true" i18n>Done</button>
     <button name="create-new-button-playlist-selection" mat-raised-button class="margin-right-xs" color="primary" i18n
-      (click)="createPlaylistMode = true" i18n>Create
+      (click)="createPlaylistMode = true; createNewPlaylistclicked()" i18n>Create
       New</button>
   </ng-container>
   <ng-container *ngIf="createPlaylistMode">

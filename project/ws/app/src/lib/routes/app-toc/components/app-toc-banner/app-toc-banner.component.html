@@ -188,6 +188,7 @@
                 <ng-container [ngTemplateOutlet]="actions"></ng-container>
               </div>
               <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button *ngIf="editButton"
+                (click)="createAWSAnalyticsEventAttribute('Edit', 'Editclicked')"
                 [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
                 <img src="/assets/images/edit.png" class="action-icons" />
               </a>
@@ -202,26 +203,37 @@
                           : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
                                   'artifactUrl']
                     "></ws-widget-btn-content-download>
+
               <ws-widget-btn-content-like [forPreview]="forPreview"
                 [widgetData]="content | pipePartialContent: ['identifier']">
               </ws-widget-btn-content-like>
-              <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+
+              <ws-widget-btn-content-share (click)="createAWSAnalyticsEventAttribute('Share','Shareclicked')"
+                [forPreview]="forPreview" [widgetData]="content">
               </ws-widget-btn-content-share>
+
               <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
                 [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
               </ws-widget-btn-kb>
+
               <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
-                [widgetData]="btnGoalsConfig">
+                [widgetData]="btnGoalsConfig" (click)="createAWSAnalyticsEventAttribute('Goal', 'Goalclicked')">
               </ws-widget-btn-goals>
+
               <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
-                [widgetData]="btnPlaylistConfig">
+                [widgetData]="btnPlaylistConfig"
+                (click)="createAWSAnalyticsEventAttribute('Playlist', 'Playlistclicked')">
               </ws-widget-btn-playlist>
-              <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+
+              <ws-widget-btn-content-feedback-v2
+                (click)="createAWSAnalyticsEventAttribute('Feedback', 'Feedbackclicked')" [forPreview]="forPreview"
                 [widgetData]="content | pipePartialContent: ['identifier', 'name']">
               </ws-widget-btn-content-feedback-v2>
+
               <ws-widget-download-certificate
                 *ngIf="content && content?.progress?.progress === 1 && showDownloadCertificate" [content]="content"
-                [progress]="content.progress.progress">
+                [progress]="content.progress.progress"
+                (click)="createAWSAnalyticsEventAttribute('Downloadcertificate', 'Downloadcertificateclicked')">
               </ws-widget-download-certificate>
 
               <button mat-raised-button i18n *ngIf="showDownloadCertificate && content?.progress?.progress < 1"

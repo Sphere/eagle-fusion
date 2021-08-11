@@ -8,6 +8,7 @@ import { NsContent } from '../../_services/widget-content.model'
 import { NsShare } from '../../_services/widget-share.model'
 import { ICommon } from '../../_models/common.model'
 import domToImage from 'dom-to-image'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-content-share-dialog',
@@ -30,6 +31,7 @@ export class BtnContentShareDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
     private shareSvc: WidgetContentShareService,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -94,6 +96,7 @@ export class BtnContentShareDialogComponent implements OnInit {
   contentShare(txtBody: string, successToast: string) {
     this.sendInProgress = true
     this.raiseTelemetry()
+    this.createAWSAnalyticsEventAttribute('successfulshare')
     const req: NsShare.IShareRequest = {
       'event-id': 'share_content',
       'tag-value-pair': {
@@ -158,4 +161,26 @@ export class BtnContentShareDialogComponent implements OnInit {
       contentType: this.data.content.contentType,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'successfulshare' | 'closedwithoutshare') {
+    if (action && this.data.content) {
+      const attr = {
+        name: 'CP3_CourseShare',
+        attributes: {
+          CourseId: this.data.content.identifier,
+          CourseShareAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.data.content.identifier],
+        CourseShareAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
+  shareClosed() {
+    this.createAWSAnalyticsEventAttribute('closedwithoutshare')
+  }
+
 }

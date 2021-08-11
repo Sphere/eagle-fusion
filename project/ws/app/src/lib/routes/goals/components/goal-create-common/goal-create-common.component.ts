@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { NsGoal, BtnGoalsService } from '@ws-widget/collection'
 import { ActivatedRoute } from '@angular/router'
 import { TFetchStatus, EventService } from '@ws-widget/utils'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 @Component({
   selector: 'ws-app-goal-create-common',
   templateUrl: './goal-create-common.component.html',
@@ -18,9 +19,11 @@ export class GoalCreateCommonComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private goalsSvc: BtnGoalsService,
               private events: EventService,
+              private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
+    this.createAWSAnalyticsEventAttribute('Createnewcommongoalclicked')
   }
 
   getGoalGroup(groupId: string) {
@@ -45,6 +48,7 @@ export class GoalCreateCommonComponent implements OnInit {
 
   goalCreated(groupId: string, goalId: string) {
     this.raiseTelemetry(goalId)
+    this.createAWSAnalyticsEventAttribute('Commongoalcreated')
     const goalGroup = this.commonGoals.find(group => group.id === groupId)
     if (goalGroup) {
 
@@ -56,4 +60,21 @@ export class GoalCreateCommonComponent implements OnInit {
       goalId,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'Createnewcommongoalclicked' | 'Commongoalcreated') {
+    if (action) {
+      const attr = {
+        name: 'CP12_CourseGoal',
+        attributes: {
+          CourseGoalAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseGoalAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

@@ -18,7 +18,7 @@
     [color]="'primary'">
     Share
   </button>
-  <button mat-button [mat-dialog-close]="false" i18n>Close</button>
+  <button mat-button [mat-dialog-close]="false" i18n (click)="shareClosed()">Close</button>
   <mat-spinner *ngIf="sendInProgress" [diameter]="30" [strokeWidth]="3"></mat-spinner>
   <div *ngIf="sendStatus === 'ANY'" i18n>
     Unable to share. Try later

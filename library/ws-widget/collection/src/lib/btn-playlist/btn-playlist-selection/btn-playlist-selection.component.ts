@@ -4,6 +4,7 @@ import { MatListOption, MatSnackBar } from '@angular/material'
 import { EventService, TFetchStatus } from '@ws-widget/utils'
 import { NsPlaylist } from '../btn-playlist.model'
 import { BtnPlaylistService } from '../btn-playlist.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-playlist-selection',
@@ -35,9 +36,11 @@ export class BtnPlaylistSelectionComponent implements OnInit {
     private snackBar: MatSnackBar,
     private playlistSvc: BtnPlaylistService,
     private eventSvc: EventService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
+
     this.fetchPlaylistStatus = 'fetching'
     this.playlistSvc.getAllPlaylistsApi(true).subscribe(response => {
       this.fetchPlaylistStatus = 'done'
@@ -57,10 +60,12 @@ export class BtnPlaylistSelectionComponent implements OnInit {
     const playlist = this.playlists.find(item => item.id === playlistId)
     if (playlist && checked) {
       this.raiseTelemetry('add', playlistId, this.contentId)
+
       this.playlistSvc.addPlaylistContent(playlist, [this.contentId]).subscribe(
         () => {
           this.snackBar.open(this.contentAddMessage.nativeElement.value)
           this.selectedPlaylists.add(playlistId)
+          this.createAWSAnalyticsEventAttribute('addplaylist')
         },
         _ => {
           this.snackBar.open(this.contentUpdateError.nativeElement.value)
@@ -74,6 +79,7 @@ export class BtnPlaylistSelectionComponent implements OnInit {
         () => {
           this.snackBar.open(this.contentRemoveMessage.nativeElement.value)
           this.selectedPlaylists.delete(playlistId)
+          this.createAWSAnalyticsEventAttribute('removeplaylist')
         },
         _ => {
           this.snackBar.open(this.contentUpdateError.nativeElement.value)
@@ -85,10 +91,15 @@ export class BtnPlaylistSelectionComponent implements OnInit {
   }
 
   isDoneDisabled() {
-   return this.selectedPlaylists.size > 0 ? false : true
+    return this.selectedPlaylists.size > 0 ? false : true
+  }
+
+  createNewPlaylistclicked() {
+    this.createAWSAnalyticsEventAttribute('Createnewplaylistclicked')
   }
 
   createPlaylist(playlistName: string, successToast: string, errorToast: string) {
+    this.createAWSAnalyticsEventAttribute('Playlistcreated')
     this.playlistCreateEvent.emit()
     this.playlistSvc.upsertPlaylist(
       {
@@ -114,4 +125,23 @@ export class BtnPlaylistSelectionComponent implements OnInit {
       contentId,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'Createnewplaylistclicked' | 'addplaylist' | 'removeplaylist' | 'Playlistcreated') {
+    if (action && this.contentId) {
+      const attr = {
+        name: 'CP6_CourseAddPlaylist',
+        attributes: {
+          CourseId: this.contentId,
+          PlaylistAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.contentId],
+        PlaylistAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }
