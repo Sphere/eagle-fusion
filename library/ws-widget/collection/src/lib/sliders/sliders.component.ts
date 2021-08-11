@@ -3,6 +3,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ICarousel } from './sliders.model'
 import { Subscription, interval } from 'rxjs'
 import { EventService } from '../../../../utils/src/public-api'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-sliders',
@@ -15,8 +16,11 @@ export class SlidersComponent extends WidgetBaseComponent
 
   currentIndex = 0
   slideInterval: Subscription | null = null
+  pageTrackUrl: any
 
-  constructor(private events: EventService) {
+  constructor(private events: EventService,
+              private awsAnalyticsService: AwsAnalyticsService
+  ) {
     super()
   }
 
@@ -26,6 +30,7 @@ export class SlidersComponent extends WidgetBaseComponent
       // tslint:disable-next-line:max-line-length
       this.widgetData = '[{"banners":{"l":"assets/instances/eagle/banners/home/1/l.png","m":"assets/instances/eagle/banners/home/1/l.png","s":"assets/instances/eagle/banners/home/1/l.png","xl":"assets/instances/eagle/banners/home/1/xl.png","xs":"assets/instances/eagle/banners/home/1/xs.png","xxl":"assets/instances/eagle/banners/home/1/xl.png"},"redirectUrl":"/app/goals/me/all","queryParams":{"q":"Salesforce","lang":"en","f":"{}"},"title":""},{"banners":{"l":"assets/instances/eagle/banners/home/2/l.png","m":"assets/instances/eagle/banners/home/2/l.png","s":"assets/instances/eagle/banners/home/2/l.png","xl":"assets/instances/eagle/banners/home/2/xl.png","xs":"assets/instances/eagle/banners/home/2/xs.png","xxl":"assets/instances/eagle/banners/home/2/xl.png"},"redirectUrl":"/app/goals/me/all","queryParams":{"q":"Salesforce","lang":"en","f":"{}"},"title":""},{"banners":{"l":"assets/instances/eagle/banners/home/3/l.png","m":"assets/instances/eagle/banners/home/3/s.png","s":"assets/instances/eagle/banners/home/3/s.png","xl":"assets/instances/eagle/banners/home/3/xl.png","xs":"assets/instances/eagle/banners/home/3/xs.png","xxl":"assets/instances/eagle/banners/home/3/xl.png"},"redirectUrl":"/app/goals/me/all","queryParams":{"q":"Salesforce","lang":"en","f":"{}"},"title":""}]'
     }
+    this.pageTrackUrl = window.location.href
   }
   reInitiateSlideInterval() {
     if (this.widgetData.length > 1) {
@@ -54,6 +59,11 @@ export class SlidersComponent extends WidgetBaseComponent
       this.currentIndex = this.widgetData.length + index
     }
     this.reInitiateSlideInterval()
+    if (this.pageTrackUrl.indexOf('login') > 0) {
+      this.eventTrack('PHP5_UserEventNextBanner')
+    } else {
+      this.eventTrack('HP2_HomeNextBanner')
+    }
   }
 
   get isOpenInNewTab() {
@@ -78,5 +88,19 @@ export class SlidersComponent extends WidgetBaseComponent
       pageUrl: url,
       bannerRedirectUrl: bannerUrl,
     })
+
+    if (this.pageTrackUrl.indexOf('login') > 0) {
+      this.eventTrack('PHP4_UserEventBanner')
+    } else {
+      this.eventTrack('HP1_BannerView')
+    }
+  }
+
+  eventTrack(str: string) {
+    const attr = {
+      name: str,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 }

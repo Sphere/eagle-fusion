@@ -45,42 +45,91 @@ export class AwsAnalyticsService {
     distict: '',
   }
 
-  awsAnlyticsService(eventName: any, userid: any) {
+  awsAnlyticsService(eventName: any) {
     auth.configure(this.amplifyConfig)
     analytics.configure(this.analyticsConfig)
 
-    // console.log('start')
     this.getUserDetails()
     analytics.record({
       name: eventName,
-      attributes: { userid },
+      attributes: { userId: this.userDetails.email },
     })
-
-    // console.log('end')
   }
 
   getUserDetails() {
     this.registerUser = this.configSvc.userRegistryData.value
+    if (this.registerUser) {
+      const middlename = this.registerUser.personalDetails.middlename ? ` ${this.registerUser.personalDetails.middlename} ` : ' '
 
-    const middlename = this.registerUser.personalDetails.middlename ? this.registerUser.personalDetails.middlename : ' '
+      this.userDetails.name = this.registerUser.personalDetails.firstname + middlename + this.registerUser.personalDetails.surname
+      this.userDetails.email = this.registerUser.personalDetails.primaryEmail
+      this.userDetails.wid = this.registerUser.userId
+      this.userDetails.gender = this.registerUser.personalDetails.gender ? this.registerUser.personalDetails.gender : ''
+      this.userDetails.profession = this.registerUser.professionalDetails[0].designation
+      // tslint:disable
+      this.userDetails.age = new Date().getFullYear() - parseInt(this.registerUser.personalDetails.dob.slice(6))
 
-    this.userDetails.name = this.registerUser.personalDetails.firstname + middlename + this.registerUser.personalDetails.surname
-    this.userDetails.email = this.registerUser.personalDetails.primaryEmail
-    this.userDetails.wid = this.registerUser.userId
-    this.userDetails.gender = this.registerUser.personalDetails.gender ? this.registerUser.personalDetails.gender : ''
-    this.userDetails.profession = this.registerUser.professionalDetails[0].designation
-    // tslint:disable
-    this.userDetails.age = new Date().getFullYear() - parseInt(this.registerUser.personalDetails.dob.slice(6))
-
-    const address = this.registerUser.personalDetails.postalAddress
-    this.addressArray = address.split(',')
-    if (this.addressArray.length > 1) {
-      this.userDetails.state = this.addressArray[1]
-      this.userDetails.distict = this.addressArray[2]
+      const address = this.registerUser.personalDetails.postalAddress
+      this.addressArray = address.split(',')
+      if (this.addressArray.length > 1) {
+        this.userDetails.state = this.addressArray[1]
+        this.userDetails.distict = this.addressArray[2]
+      }
+      this.userDetails.country = this.addressArray[0]
     }
-    this.userDetails.country = this.addressArray[0]
+  }
 
-    // console.log('test', this.userDetails)
+  callAnalyticsEndpointServiceWithoutAttribute(attribute: any) {
+    this.getUserDetails()
+
+    const endPointAttr = {
+      wid: [this.userDetails.wid],
+      username: [this.userDetails.name],
+      age: [this.userDetails.age],
+      gender: [this.userDetails.gender],
+      profession: [this.userDetails.profession],
+    }
+
+    const userAttr = {
+      wid: this.userDetails.wid,
+      username: this.userDetails.name,
+      age: this.userDetails.age,
+      gender: this.userDetails.gender,
+      profession: this.userDetails.profession,
+    }
+
+    attribute.attributes = { ...userAttr }
+
+    if (this.userDetails.email) {
+      // Initialize Amplify
+      auth.configure(this.amplifyConfig)
+      analytics.configure(this.analyticsConfig)
+      analytics.updateEndpoint({
+        address: this.userDetails.email,
+        attributes: endPointAttr,
+        channelType: 'EMAIL',
+        location: {
+          city: this.userDetails.distict,
+          country: 'IN',
+          region: this.userDetails.state,
+        },
+        optOut: 'NONE',
+        userId: this.userDetails.email,
+        userAttributes: {
+          wid: [this.userDetails.wid],
+          username: [this.userDetails.name],
+          age: [this.userDetails.age],
+          gender: [this.userDetails.gender],
+          profession: [this.userDetails.profession],
+        },
+      }).then(() => {
+        analytics.record(attribute)
+      })
+    } else {
+      auth.configure(this.amplifyConfig)
+      analytics.configure(this.analyticsConfig)
+      analytics.record(attribute)
+    }
   }
 
   callAnalyticsEndpointService(attribute: any, endPointAttribute: any) {
@@ -135,53 +184,5 @@ export class AwsAnalyticsService {
 
   }
 
-  callAnalyticsEndpointServiceWithoutAttribute(attribute: any) {
-    this.getUserDetails()
-
-    const endPointAttr = {
-      wid: [this.userDetails.wid],
-      username: [this.userDetails.name],
-      age: [this.userDetails.age],
-      gender: [this.userDetails.gender],
-      profession: [this.userDetails.profession],
-    }
-
-    const userAttr = {
-      wid: this.userDetails.wid,
-      username: this.userDetails.name,
-      age: this.userDetails.age,
-      gender: this.userDetails.gender,
-      profession: this.userDetails.profession,
-    }
-
-    attribute.attributes = { ...userAttr }
-
-    // Initialize Amplify
-    auth.configure(this.amplifyConfig)
-    analytics.configure(this.analyticsConfig)
-
-    analytics.updateEndpoint({
-      address: this.userDetails.email,
-      attributes: endPointAttr,
-      channelType: 'EMAIL',
-      location: {
-        city: this.userDetails.distict,
-        country: 'IN',
-        region: this.userDetails.state,
-      },
-      optOut: 'NONE',
-      userId: this.userDetails.email,
-      userAttributes: {
-        wid: [this.userDetails.wid],
-        username: [this.userDetails.name],
-        age: [this.userDetails.age],
-        gender: [this.userDetails.gender],
-        profession: [this.userDetails.profession],
-      },
-    }).then(() => {
-      analytics.record(attribute)
-    })
-
-  }
 
 }

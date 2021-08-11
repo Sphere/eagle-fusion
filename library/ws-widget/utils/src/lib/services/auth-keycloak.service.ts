@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { KeycloakEvent, KeycloakEventType, KeycloakInitOptions, KeycloakService } from 'keycloak-angular'
 import { fromEvent, ReplaySubject } from 'rxjs'
 import { filter } from 'rxjs/operators'
-// import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
 
@@ -28,7 +28,7 @@ export class AuthKeycloakService {
     private configSvc: ConfigurationsService,
     private keycloakSvc: KeycloakService,
     private msAuthSvc: AuthMicrosoftService,
-    // private awsAnalyticsService: AwsAnalyticsService,
+    private awsAnalyticsService: AwsAnalyticsService,
   ) {
     this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
       this.configSvc.isAuthenticated = isLoggedIn
@@ -131,7 +131,13 @@ export class AuthKeycloakService {
     if (this.configSvc.userProfile) {
       this.userRegisterEmail = this.configSvc.userProfile.email
     }
-    // this.awsAnalyticsService.awsAnlyticsService('User-loggedin', this.userRegisterEmail)
+
+    const attr = {
+      name: 'PHP7_LoginPageView',
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
+
     return this.keycloakSvc.login({
       idpHint,
       redirectUri: redirectUrl,

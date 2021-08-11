@@ -5,6 +5,7 @@ import {
   timer,
 } from 'rxjs'
 import { debounceTime, throttleTime } from 'rxjs/operators'
+import { AwsAnalyticsService } from '../../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 import { TFetchStatus } from '../../constants/misc.constants'
 
 @Component({
@@ -26,8 +27,9 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
   enablePrev = false
   enableNext = false
   private scrollObserver: Subscription | null = null
+  pageUrl: any
 
-  constructor() { }
+  constructor(private awsAnalyticsService: AwsAnalyticsService) { }
 
   ngOnInit() {
     if (this.horizontalScrollElem) {
@@ -42,6 +44,7 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
             .nativeElement as HTMLElement)
         })
     }
+    this.pageUrl = window.location.href
   }
   ngOnChanges() {
     timer(100).subscribe(() => {
@@ -69,6 +72,12 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
         })
       }
     }
+
+    if (this.pageUrl.indexOf('login') > 0) {
+      this.eventTrack('PHP2_UserEventCourseArrow')
+    } else {
+      this.eventTrack('HP4_CourseArrowClick')
+    }
   }
   showNext() {
     if (this.horizontalScrollElem) {
@@ -82,6 +91,12 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
           behavior: 'smooth',
         })
       }
+    }
+
+    if (this.pageUrl.indexOf('login') > 0) {
+      this.eventTrack('PHP2_UserEventCourseArrow')
+    } else {
+      this.eventTrack('HP4_CourseArrowClick')
     }
   }
   private updateNavigationBtnStatus(elem: HTMLElement) {
@@ -97,5 +112,13 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
         this.enableNext = false
       }
     }
+  }
+
+  eventTrack(str: string) {
+    const attr = {
+      name: str,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 }
