@@ -30,7 +30,7 @@ export class AppTocOverviewComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userEmail = this.configSvc.userProfile.email
     }
-    this.awsAnalyticsService.awsAnlyticsService('View-course', this.userEmail)
+    this.awsAnalyticsService.awsAnlyticsService('View-course')
   }
 
   ngOnInit() {

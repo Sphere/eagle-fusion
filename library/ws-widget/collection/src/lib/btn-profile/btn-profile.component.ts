@@ -8,6 +8,7 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 import { BtnProfileService } from './btn-profile.service'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-profile',
@@ -42,7 +43,8 @@ export class BtnProfileComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private userProfileSvc: UserProfileService,
-    private btnservice: BtnProfileService
+    private btnservice: BtnProfileService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     super()
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -78,6 +80,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   }
 
   logout() {
+    this.eventTrack('H7_Logout')
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
 
@@ -102,5 +105,12 @@ export class BtnProfileComponent extends WidgetBaseComponent
           },
         }))
     })
+  }
+  eventTrack(str: string) {
+    const attr = {
+      name: str,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 }

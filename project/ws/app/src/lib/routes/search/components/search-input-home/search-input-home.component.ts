@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators'
+import { AwsAnalyticsService } from '../../../../../../../viewer/src/lib/aws-analytics.service'
 import { ISearchAutoComplete } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 
@@ -30,6 +31,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   autoCompleteResults: ISearchAutoComplete[] = []
   searchLocale = this.getActiveLocale()
   lang = ''
+  pageUrl: any
 
   constructor(
     private activated: ActivatedRoute,
@@ -37,7 +39,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     private searchServSvc: SearchServService,
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
-
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     // if (!this.activated.snapshot.data.searchPageData) {
     //   // debugger;
@@ -112,6 +114,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     //   this.autoFilter();
     //   this.init();
     // }
+    this.pageUrl = window.location.href
   }
   ngOnChanges() {
     for (const change in SimpleChange) {
@@ -159,6 +162,17 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
         queryParamsHandling: 'merge',
       })
     }
+
+    if (this.pageUrl.indexOf('login') > 0) {
+      const eventSearch = 'PHP3_UserEventSearch'
+    } else {
+      eventSearch = 'H3_HeaderSearch'
+    }
+    const attr = {
+      name: eventSearch,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 
   getSearchAutoCompleteResults(q: string) {

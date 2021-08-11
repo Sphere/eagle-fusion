@@ -131,7 +131,13 @@ export class AuthKeycloakService {
     if (this.configSvc.userProfile) {
       this.userRegisterEmail = this.configSvc.userProfile.email
     }
-    this.awsAnalyticsService.awsAnlyticsService('User-loggedin', this.userRegisterEmail)
+
+    const attr = {
+      name: 'PHP7_LoginPageView',
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
+
     return this.keycloakSvc.login({
       idpHint,
       redirectUri: redirectUrl,

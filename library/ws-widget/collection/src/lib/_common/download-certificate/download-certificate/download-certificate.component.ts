@@ -221,7 +221,7 @@ export class DownloadCertificateComponent implements OnInit {
 
   downloadPdf(badgeId: string) {
     this.userFullname = this.userFullname.split(' ').map(d => d.charAt(0).toUpperCase() + d.slice(1, d.length)).join(' ')
-    this.awsAnalyticsService.awsAnlyticsService('start-download-certificate', this.userEmail)
+    this.awsAnalyticsService.awsAnlyticsService('start-download-certificate')
     let imageData = ''
     // Fernandes course
     if (badgeId.includes(courseId.fernadezId) && (this.content || this.badgeData)) {
@@ -261,7 +261,7 @@ export class DownloadCertificateComponent implements OnInit {
         doc.setFont('times')
         doc.text(`Completed On ${this.receivedDate}`, 112, 110)
         doc.save('certificate_fernandez.pdf')
-        this.awsAnalyticsService.awsAnlyticsService('End-download-certificate', this.userEmail)
+        this.awsAnalyticsService.awsAnlyticsService('End-download-certificate')
         this.showLoader = false
       }
     } else
@@ -301,7 +301,7 @@ export class DownloadCertificateComponent implements OnInit {
               doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 20, 186)
               doc.text(`Awarded On ${this.receivedDate}`, 150, 186)
               doc.save('certificate_inc.pdf')
-              this.awsAnalyticsService.awsAnlyticsService('End-download-certificate', this.userEmail)
+              this.awsAnalyticsService.awsAnlyticsService('End-download-certificate')
             }
           }
         },
@@ -350,7 +350,7 @@ export class DownloadCertificateComponent implements OnInit {
             doc.setTextColor(100)
             doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
             doc.save('certificate_pocqi.pdf')
-            this.awsAnalyticsService.awsAnlyticsService('End-download-certificate', this.userEmail)
+            this.awsAnalyticsService.awsAnlyticsService('End-download-certificate')
           }
         },
                                                      err => {

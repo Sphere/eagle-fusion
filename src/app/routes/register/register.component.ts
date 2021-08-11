@@ -8,6 +8,7 @@ import { TncPublicResolverService } from '../../services/tnc-public-resolver.ser
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { EmailMobileValidators } from '../emailMobile.validator'
 import { HttpErrorResponse } from '@angular/common/http'
+import { AwsAnalyticsService } from '../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-register',
@@ -37,6 +38,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     private fb: FormBuilder, private router: Router,
     private tncService: TncPublicResolverService,
     private authSvc: AuthKeycloakService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.signupForm = this.fb.group({
       firstName: new FormControl('', [Validators.required]),
@@ -55,6 +57,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (this.authSvc.isAuthenticated) {
       this.router.navigate(['/page/home'])
     }
+    this.eventTrack('G2_RegisterPage')
   }
 
   // signupFormField() {
@@ -242,5 +245,12 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       .then(() => {
         window.location.reload()
       })
+  }
+  eventTrack(str: string) {
+    const attr = {
+      name: str,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 }

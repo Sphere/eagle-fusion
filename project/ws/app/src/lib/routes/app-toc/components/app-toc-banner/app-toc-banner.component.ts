@@ -294,6 +294,15 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   showOrgprofile(orgId: string) {
+    const attr = {
+      name: 'OP1_OrgView',
+      attributes: { orgId },
+    }
+    const endPointAttr = {
+      orgId: [orgId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+
     this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
   }
 
@@ -538,7 +547,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     }
     const status = event ? 'resume' : 'start'
     if (status === 'start') {
-      this.awsAnalyticsService.awsAnlyticsService('Start-course', this.userEmail)
+      this.awsAnalyticsService.awsAnlyticsService('Start-course')
       console.log('Start-course')
     } else {
       console.log('Course-resume')
