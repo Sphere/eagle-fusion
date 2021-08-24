@@ -49,9 +49,13 @@ export class CardContentComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
-    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 && !this.authSvc.isAuthenticated) {
+    // if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 && !this.authSvc.isAuthenticated) {
+    //   this.showLoggedInCard = true
+    // }
+    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
+
     this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
       this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed

@@ -3,7 +3,7 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/cor
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, EventService, LoggerService, NsPage, ValueService, WsEvents, LogoutComponent, AuthKeycloakService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, NsPage, ValueService, WsEvents, LogoutComponent } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
@@ -40,7 +40,7 @@ export class PageComponent extends WidgetBaseComponent
     private domSanitizer: DomSanitizer,
     private respondSvc: SubapplicationRespondService,
     private dialog: MatDialog,
-    private authSvc: AuthKeycloakService,
+    //private authSvc: AuthKeycloakService,
     // private loginResolverSvc: LoginResolverService,
     private exploreResolverSvc: ExploreResolverService,
   ) {
@@ -52,7 +52,7 @@ export class PageComponent extends WidgetBaseComponent
     // console.log('widgetData', this.widgetData)
   }
   ngOnInit() {
-    this.authenticated = this.authSvc.isAuthenticated
+    //this.authenticated = this.authSvc.isAuthenticated
     if (!this.authenticated && !this.exploreResolverSvc.isInitialized) {
       this.logger.info('Not Authenticated')
       // this.loginResolverSvc.initialize()

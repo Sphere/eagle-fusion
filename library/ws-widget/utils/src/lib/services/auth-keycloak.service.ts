@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+// import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { KeycloakEvent, KeycloakEventType, KeycloakInitOptions, KeycloakService } from 'keycloak-angular'
 import { fromEvent, ReplaySubject } from 'rxjs'
@@ -22,7 +22,7 @@ const storageKey = 'kc'
 export class AuthKeycloakService {
   private loginChangeSubject = new ReplaySubject<boolean>(1)
   constructor(
-    private http: HttpClient,
+    // private http: HttpClient,
     private configSvc: ConfigurationsService,
     private keycloakSvc: KeycloakService,
     private msAuthSvc: AuthMicrosoftService,
@@ -138,16 +138,22 @@ export class AuthKeycloakService {
     })
   }
 
+  // async logout(redirectUrl = this.defaultRedirectUrl) {
+  //   storage.removeItem(storageKey)
+  //   await this.http.get('/apis/reset').toPromise()
+  //   if (this.msAuthSvc.isLogoutRequired) {
+  //     this.keycloakSvc.logout(this.msAuthSvc.logoutUrl(redirectUrl))
+  //   } else {
+  //     this.keycloakSvc.logout(redirectUrl)
+  //   }
+  // }
+
   async logout(redirectUrl = this.defaultRedirectUrl) {
-    storage.removeItem(storageKey)
-    await this.http.get('/apis/reset').toPromise()
-    if (this.msAuthSvc.isLogoutRequired) {
-      this.keycloakSvc.logout(this.msAuthSvc.logoutUrl(redirectUrl))
-    } else {
-      this.keycloakSvc.logout(redirectUrl)
+    if (storage.getItem('telemetrySessionId')) {
+      storage.removeItem('telemetrySessionId')
+      window.location.href = `${redirectUrl}apis/reset`
     }
   }
-
   private addKeycloakEventListener() {
     this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEvent) => {
       switch (event.type) {

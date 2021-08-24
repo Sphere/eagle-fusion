@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { NsContent } from '@ws-widget/collection'
 import { filter } from 'rxjs/operators'
-import { AuthKeycloakService } from './auth-keycloak.service'
+//import { AuthKeycloakService } from './auth-keycloak.service'
 import { NsInstanceConfig } from './configurations.model'
 import { ConfigurationsService } from './configurations.service'
 import { WsEvents } from './event.model'
@@ -23,7 +23,7 @@ export class TelemetryService {
   constructor(
     private configSvc: ConfigurationsService,
     private eventsSvc: EventService,
-    private authSvc: AuthKeycloakService,
+    //private authSvc: AuthKeycloakService,
     private logger: LoggerService,
   ) {
     const instanceConfig = this.configSvc.instanceConfig
@@ -36,7 +36,7 @@ export class TelemetryService {
           pid: navigator.userAgent,
         },
         uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
-        authtoken: this.authSvc.token,
+        //authtoken: this.authSvc.token,
       }
       this.pData = this.telemetryConfig.pdata
       this.addPlayerListener()
@@ -137,22 +137,22 @@ export class TelemetryService {
     if (this.externalApps[impressionData.subApplicationName]) {
       const externalConfig = page.objectId ? {
         context: {
-              pdata: {
-                ...this.pData,
+          pdata: {
+            ...this.pData,
             id: this.externalApps[impressionData.subApplicationName],
-              },
-            },
+          },
+        },
         object: {
           id: page.objectId,
         },
       } : {
-          context: {
-              pdata: {
-              ...this.pData,
-              id: this.externalApps[impressionData.subApplicationName],
-              },
-            },
-        }
+        context: {
+          pdata: {
+            ...this.pData,
+            id: this.externalApps[impressionData.subApplicationName],
+          },
+        },
+      }
       $t.impression(impressionData.data, externalConfig)
     }
   }
@@ -262,11 +262,11 @@ export class TelemetryService {
             },
             {
               context: {
-              pdata: {
-                ...this.pData,
-                id: this.pData.id,
+                pdata: {
+                  ...this.pData,
+                  id: this.pData.id,
+                },
               },
-            },
             })
         }
       })
@@ -304,11 +304,11 @@ export class TelemetryService {
             },
             {
               context: {
-              pdata: {
-                ...this.pData,
-                id: this.pData.id,
+                pdata: {
+                  ...this.pData,
+                  id: this.pData.id,
+                },
               },
-            },
             })
         }
       })

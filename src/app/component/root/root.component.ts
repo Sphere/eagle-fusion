@@ -17,7 +17,7 @@ import {
 // import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
-  AuthKeycloakService,
+  //AuthKeycloakService,
   ConfigurationsService,
   TelemetryService,
   ValueService,
@@ -57,7 +57,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   constructor(
     private router: Router,
-    public authSvc: AuthKeycloakService,
+    //public authSvc: AuthKeycloakService,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private telemetrySvc: TelemetryService,
@@ -86,18 +86,25 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     this.btnBackSvc.initialize()
     // Application start telemetry
-    if (this.authSvc.isAuthenticated) {
-      this.telemetrySvc.start('app', 'view', '')
-      this.appStartRaised = true
 
-    } else {
-      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
-        this.showNavigation = false
-      } else
-        if ((window.location.href).indexOf('login') > 0) {
-          this.showNavigation = true
+    //if (this.authSvc.isAuthenticated) {
+    this.telemetrySvc.start('app', 'view', '')
+    this.appStartRaised = true
+
+    //}
+
+    // if (this.authSvc.isAuthenticated) {
+    //   this.telemetrySvc.start('app', 'view', '')
+    //   this.appStartRaised = true
+
+    // }
+    // else {
+    if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+         this.showNavigation = false
+    } else if ((window.location.href).indexOf('login') > 0) {
+           this.showNavigation = true
         }
-    }
+    // }
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {

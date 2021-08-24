@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { WidgetContentService } from '../../../../collection/src/lib/_services/widget-content.service'
-import { AuthKeycloakService } from './auth-keycloak.service'
+//import { AuthKeycloakService } from './auth-keycloak.service'
 import { ConfigurationsService } from './configurations.service'
 import { WsEvents } from './event.model'
 import { EventService } from './event.service'
@@ -17,7 +17,7 @@ export class SubapplicationRespondService {
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
-    private keyCloakSvc: AuthKeycloakService,
+    //private keyCloakSvc: AuthKeycloakService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private eventSvc: EventService,
@@ -41,7 +41,7 @@ export class SubapplicationRespondService {
               this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
             const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
               this.activatedRoute.snapshot.queryParams.viewMode : ''
-            const token = this.keyCloakSvc.token
+            //const token = this.keyCloakSvc.token
             const response = {
               subApplicationName: applicationName,
               requestId: 'LOADED',
@@ -60,7 +60,7 @@ export class SubapplicationRespondService {
                 user: {
                   firstName,
                   lastName,
-                  token,
+                  //token,
                   userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
                   roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
                 },
@@ -84,7 +84,7 @@ export class SubapplicationRespondService {
           this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
         const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
           this.activatedRoute.snapshot.queryParams.viewMode : ''
-        const token = this.keyCloakSvc.token
+        //const token = this.keyCloakSvc.token
         const response = {
           subApplicationName: applicationName,
           requestId: 'LOADED',
@@ -103,7 +103,7 @@ export class SubapplicationRespondService {
             user: {
               firstName,
               lastName,
-              token,
+              //token,
               userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
               roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
             },
@@ -179,7 +179,7 @@ export class SubapplicationRespondService {
         this.configSvc.userProfile.userName.split(' ', 2)[1] : ''
       const viewMode: string = this.activatedRoute.snapshot.queryParams.viewMode ?
         this.activatedRoute.snapshot.queryParams.viewMode : ''
-      const token = this.keyCloakSvc.token
+      //const token = this.keyCloakSvc.token
       const response = {
         subApplicationName: this.subAppname,
         requestId: 'CONTEXT_CHANGE',
@@ -198,7 +198,7 @@ export class SubapplicationRespondService {
           user: {
             firstName,
             lastName,
-            token,
+            //token,
             userId: this.configSvc.userProfile.userId ? this.configSvc.userProfile.userId : '',
             roles: this.configSvc.userRoles ? Array.from(this.configSvc.userRoles) : [],
           },
