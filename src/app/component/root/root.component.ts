@@ -17,7 +17,7 @@ import {
 // import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
-  //AuthKeycloakService,
+  // AuthKeycloakService,
   ConfigurationsService,
   TelemetryService,
   ValueService,
@@ -57,7 +57,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   constructor(
     private router: Router,
-    //public authSvc: AuthKeycloakService,
+    // public authSvc: AuthKeycloakService,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private telemetrySvc: TelemetryService,
@@ -87,11 +87,11 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.btnBackSvc.initialize()
     // Application start telemetry
 
-    //if (this.authSvc.isAuthenticated) {
+    // if (this.authSvc.isAuthenticated) {
     this.telemetrySvc.start('app', 'view', '')
     this.appStartRaised = true
 
-    //}
+    // }
 
     // if (this.authSvc.isAuthenticated) {
     //   this.telemetrySvc.start('app', 'view', '')

@@ -40,7 +40,7 @@ export class PageComponent extends WidgetBaseComponent
     private domSanitizer: DomSanitizer,
     private respondSvc: SubapplicationRespondService,
     private dialog: MatDialog,
-    //private authSvc: AuthKeycloakService,
+    // private authSvc: AuthKeycloakService,
     // private loginResolverSvc: LoginResolverService,
     private exploreResolverSvc: ExploreResolverService,
   ) {
@@ -52,7 +52,7 @@ export class PageComponent extends WidgetBaseComponent
     // console.log('widgetData', this.widgetData)
   }
   ngOnInit() {
-    //this.authenticated = this.authSvc.isAuthenticated
+    // this.authenticated = this.authSvc.isAuthenticated
     if (!this.authenticated && !this.exploreResolverSvc.isInitialized) {
       this.logger.info('Not Authenticated')
       // this.loginResolverSvc.initialize()

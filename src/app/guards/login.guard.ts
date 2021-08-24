@@ -1,4 +1,4 @@
-//import { AuthKeycloakService } from './../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+// import { AuthKeycloakService } from './../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { Injectable } from '@angular/core'
 import {
   ActivatedRouteSnapshot,
@@ -17,7 +17,7 @@ export class LoginGuard implements CanActivate {
   constructor(
     private router: Router,
     private configSvc: ConfigurationsService,
-    //private authSvc: AuthKeycloakService,
+    // private authSvc: AuthKeycloakService,
   ) { }
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -30,7 +30,7 @@ export class LoginGuard implements CanActivate {
         //   const ref = decodeURIComponent(next.queryParamMap.get('ref') || '')
         //   redirectUrl += this.router.parseUrl(ref || '')
         // }
-        //this.authSvc.login(this.configSvc.instanceConfig.keycloak.defaultidpHint, redirectUrl)
+        // this.authSvc.login(this.configSvc.instanceConfig.keycloak.defaultidpHint, redirectUrl)
         return false
       }
       return true
