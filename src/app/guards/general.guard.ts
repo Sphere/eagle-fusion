@@ -41,7 +41,6 @@ export class GeneralGuard implements CanActivate {
 
     //   return this.router.parseUrl(`/login${refAppend}`)
     // }
-    
     // If invalid user
     if (
       this.configSvc.userProfile === null &&
@@ -100,7 +99,6 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl('/page/home')
       }
     }
-
     return true
   }
 }
