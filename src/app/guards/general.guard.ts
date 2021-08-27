@@ -31,14 +31,17 @@ export class GeneralGuard implements CanActivate {
     /**
      * Test IF User is authenticated
      */
-    if (!this.configSvc.isAuthenticated) {
-      let refAppend = ''
-      if (state.url) {
-        refAppend = `?ref=${encodeURIComponent(state.url)}`
-      }
+    // if (!this.configSvc.isAuthenticated) {
+    //   let refAppend = ''
+    //   if (state.url) {
+    //     refAppend = `?ref=${encodeURIComponent(state.url)}`
+    //   }
+    //   console.log(!this.configSvc.isAuthenticated)
+    //   console.log(refAppend)
 
-      return this.router.parseUrl(`/login${refAppend}`)
-    }
+    //   return this.router.parseUrl(`/login${refAppend}`)
+    // }
+    
     // If invalid user
     if (
       this.configSvc.userProfile === null &&
@@ -51,27 +54,27 @@ export class GeneralGuard implements CanActivate {
      * Test IF User Tnc Is Accepted
      */
     if (!this.configSvc.hasAcceptedTnc) {
-      // if (
-      //   state.url &&
-      //   !state.url.includes('/app/setup/') &&
-      //   !state.url.includes('/app/tnc') &&
-      //   !state.url.includes('/page/home')
-      // ) {
-      //   this.configSvc.userUrl = state.url
-      // }
+      if (
+        state.url &&
+        !state.url.includes('/app/setup/') &&
+        !state.url.includes('/app/tnc') &&
+        !state.url.includes('/page/home')
+      ) {
+        this.configSvc.userUrl = state.url
+      }
       // if (
       //   this.configSvc.restrictedFeatures &&
       //   !this.configSvc.restrictedFeatures.has('firstTimeSetupV2')
       // ) {
       //   return this.router.parseUrl(`/app/setup/home/lang`)
       // }
-      return this.router.parseUrl(`/app/tnc`)
+      // return this.router.parseUrl(`/app/tnc`)
     }
     /**
        * Test IF User updated the profile details
        */
     if (!this.configSvc.profileDetailsStatus) {
-      return this.router.parseUrl('/app/user-profile/details')
+      //return this.router.parseUrl('/app/user-profile/details')
     }
 
     /**
