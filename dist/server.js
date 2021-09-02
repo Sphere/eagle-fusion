@@ -56,7 +56,8 @@ serveAssets('/ja')
 function serveAssets(hostPath) {
   app.use(
     `${hostPath}/assets`,
-    proxyCreator(express.Router(), CONSTANTS.WEB_HOST_PROXY + '/web-hosted/client-assets/dist'),
+    // proxyCreator(express.Router(), CONSTANTS.WEB_HOST_PROXY + '/web-hosted/client-assets/dist'),
+    express.static(path.join(__dirname, `${hostPath}`, `assets`)) //  "public" off of current is root
   )
 }
 
@@ -95,7 +96,8 @@ function uiHostCreator(hostPath, hostFolderName) {
   )
   app.get(`${hostPath}/*`, (req, res) => {
     if (req.url.startsWith('/assets/')) {
-      res.status(404).send('requested asset is not available')
+       res.sendFile(path.join(__dirname, `www/${hostFolderName}/${req.url}`))
+     // res.status(404).send('requested asset is not available')
     } else {
       res.sendFile(path.join(__dirname, `www/${hostFolderName}/index.html`))
     }
