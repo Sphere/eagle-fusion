@@ -12,6 +12,7 @@ RUN npm run compress:brotli
 #RUN npm run compress:gzip
 
 WORKDIR /app/dist
+COPY assets/iGOT/client-assets/dist www/en/assets
 RUN npm install --production
 EXPOSE 3004
 
