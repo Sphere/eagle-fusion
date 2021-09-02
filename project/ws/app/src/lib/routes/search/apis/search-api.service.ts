@@ -8,7 +8,8 @@ import { map } from 'rxjs/operators'
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const API_END_POINTS = {
   SOCIAL_VIEW_SEARCH_RESULT: `${PROTECTED_SLAG_V8}/social/post/search`,
-  SEARCH_AUTO_COMPLETE: `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
+  SEARCH_AUTO_COMPLETE: '/apis/proxies/v8/sunbirdigot/read',
+  //`${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
   SEARCH_V6PUBLIC: '/apis/proxies/v8/sunbirdigot/search',
@@ -156,6 +157,35 @@ export class SearchApiService {
         }
         return res
       }))
+  }
+  getSearch(body: any): Observable<any> {
+    const data = {
+      locale: [
+        'en',
+      ],
+      query: '',
+      request: {
+        query: '',
+        filters: {
+          primaryCategory: body.request.filters.contentType,
+          status: [
+            'Draft',
+            'Live',
+          ],
+          visibility: 'default',
+          contentType: body.request.filters.contentType,
+        },
+        sort_by: {
+          lastUpdatedOn: 'desc',
+        },
+        facets: [
+          'primaryCategory',
+          'mimeType',
+        ],
+      },
+    }
+    data.request.query = body.request.query
+    return this.http.post<any>(API_END_POINTS.SEARCH_AUTO_COMPLETE, data)
   }
 
 }

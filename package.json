@@ -37,6 +37,7 @@
     "@angular/pwa": "^0.803.14",
     "@angular/router": "~8.2.1",
     "@angular/service-worker": "~8.2.1",
+    "@sunbird-cb/discussions-ui-v8": "^2.0.55",
     "@fortawesome/angular-fontawesome": "0.6.1",
     "@fortawesome/fontawesome-svg-core": "1.2.28",
     "@fortawesome/free-brands-svg-icons": "5.13.0",
