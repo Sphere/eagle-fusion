@@ -745,7 +745,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -950,7 +950,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private getDataforKAdd(k: string, fields: string[], form: any) {
     const datak = this.getDataforK(k, form)
     const lst: any = []
-    //tslint: disable-next-line
+    // tslint: disable-next-line
     _.each(datak, (dk: any, idx: any) => {
       for (let i = 0; i <= fields.length && dk; i += 1) {
         const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)

@@ -73,7 +73,7 @@ export class GeneralGuard implements CanActivate {
        * Test IF User updated the profile details
        */
     if (!this.configSvc.profileDetailsStatus) {
-      //return this.router.parseUrl('/app/user-profile/details')
+      // return this.router.parseUrl('/app/user-profile/details')
     }
 
     /**

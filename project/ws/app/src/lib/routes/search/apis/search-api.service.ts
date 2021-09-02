@@ -9,7 +9,7 @@ const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const API_END_POINTS = {
   SOCIAL_VIEW_SEARCH_RESULT: `${PROTECTED_SLAG_V8}/social/post/search`,
   SEARCH_AUTO_COMPLETE: '/apis/proxies/v8/sunbirdigot/read',
-  //`${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
+  // `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
   SEARCH_V6PUBLIC: '/apis/proxies/v8/sunbirdigot/search',
