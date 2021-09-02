@@ -13,7 +13,7 @@ import {
 } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
-import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
+// import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
 
 interface IStripUnitContentData {
   key: string
@@ -71,7 +71,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     private eventSvc: EventService,
     private configSvc: ConfigurationsService,
     protected utilitySvc: UtilityService,
-    private searchServSvc: SearchServService,
+    // private searchServSvc: SearchServService,
   ) {
     super()
   }
@@ -322,15 +322,39 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         )
     }
   }
+  private transformSearchV6FiltersV2(v6filters: any) {
+    const filters: any = {}
+    if (v6filters.constructor === Array) {
+      v6filters.forEach(((f: any) => {
+        Object.keys(f).forEach(key => {
+          filters[key] = f[key]
+        })
+      }))
+      return filters
+    }
+    return v6filters
+  }
+
   fetchFromSearchV6(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.searchV6 && Object.keys(strip.request.searchV6).length) {
-      if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
-        if (this.configSvc.activeLocale) {
-          strip.request.searchV6.locale = [this.configSvc.activeLocale.locals[0]]
-        } else {
-          strip.request.searchV6.locale = ['en']
-        }
+      // if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
+      //   if (this.configSvc.activeLocale) {
+      //     strip.request.searchV6.locale = [this.configSvc.activeLocale.locals[0]]
+      //   } else {
+      //     strip.request.searchV6.locale = ['en']
+      //   }
+      // }
+      let originalFilters: any = []
+      if (strip.request &&
+        strip.request.searchV6 &&
+        strip.request.searchV6.request &&
+        strip.request.searchV6.request.filters) {
+        originalFilters = strip.request.searchV6.request.filters
+        strip.request.searchV6.request.filters = this.transformSearchV6FiltersV2(
+          strip.request.searchV6.request.filters,
+        )
       }
+
       this.contentSvc.searchV6(strip.request.searchV6).subscribe(
         results => {
           const showViewMore = Boolean(
@@ -340,13 +364,16 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             ? {
               path: '/app/search/learning',
               queryParams: {
-                q: strip.request && strip.request.searchV6 && strip.request.searchV6.query,
+                q: strip.request && strip.request.searchV6 && strip.request.searchV6.request,
                 f:
-                  strip.request && strip.request.searchV6 && strip.request.searchV6.filters
+                  strip.request &&
+                    strip.request.searchV6 &&
+                    strip.request.searchV6.request &&
+                    strip.request.searchV6.request.filters
                     ? JSON.stringify(
-                      this.searchServSvc.transformSearchV6Filters(
-                        strip.request.searchV6.filters,
-                      ),
+                      this.transformSearchV6FiltersV2(
+                        originalFilters,
+                      )
                     )
                     : {},
               },
@@ -354,7 +381,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             : null
           this.processStrip(
             strip,
-            this.transformContentsToWidgets(results.result, strip),
+            this.transformContentsToWidgets(results.result['content'], strip),
             'done',
             calculateParentStatus,
             viewMoreUrl,
@@ -366,6 +393,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       )
     }
   }
+
   fetchFromIds(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.ids && Object.keys(strip.request.ids).length) {
       this.contentSvc.fetchMultipleContent(strip.request.ids).subscribe(
@@ -389,7 +417,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     contents: NsContent.IContent[],
     strip: NsContentStripMultiple.IContentStripUnit,
   ) {
-    return (contents.content || []).map((content, idx) => ({
+    return (contents || []).map((content, idx) => ({
       widgetType: 'card',
       widgetSubType: 'cardContent',
       widgetHostClass: 'mb-2',

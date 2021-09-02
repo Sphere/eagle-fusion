@@ -7,7 +7,7 @@ import { ConfigurationsService } from './configurations.service'
 import { WsEvents } from './event.model'
 import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
-//import { environment } from 'src/environments/environment'
+// import { environment } from 'src/environments/environment'
 
 declare var $t: any
 
@@ -25,23 +25,22 @@ export class TelemetryService {
     private configSvc: ConfigurationsService,
     private eventsSvc: EventService,
     // private authSvc: AuthKeycloakService,
-    //private envSvc : environment,
+    // private envSvc : environment,
     private logger: LoggerService,
   ) {
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
       this.telemetryConfig = instanceConfig.telemetryConfig
-      //console.log(this.envSvc)
       this.telemetryConfig = {
         ...this.telemetryConfig,
         pdata: {
           ...this.telemetryConfig.pdata,
           pid: navigator.userAgent,
-          //id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
+          // id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
         },
-          channel: this.rootOrgId || this.telemetryConfig.channel,
+        channel: this.rootOrgId || this.telemetryConfig.channel,
         uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
-                sid: this.getTelemetrySessionId,
+        sid: this.getTelemetrySessionId,
         // authtoken: this.authSvc.token,
       }
       this.pData = this.telemetryConfig.pdata
@@ -54,17 +53,17 @@ export class TelemetryService {
   }
 
   get getTelemetrySessionId(): string {
-      return localStorage.getItem('telemetrySessionId') || ''
+    return localStorage.getItem('telemetrySessionId') || ''
   }
 
-    get rootOrgId(): string {
+  get rootOrgId(): string {
     if (this.configSvc && this.configSvc.userProfile && this.configSvc.userProfile.rootOrgId) {
       return this.configSvc.userProfile.rootOrgId
     }
     return ''
-}
+  }
 
-  start(type: string, mode: string, id: string,  data?: any) {
+  start(type: string, mode: string, id: string, data?: any) {
     try {
       if (this.telemetryConfig) {
         $t.start(
@@ -72,7 +71,7 @@ export class TelemetryService {
           id,
           '1.0',
           {
-          // id,
+            // id,
             type,
             mode,
             pageid: id,
@@ -84,7 +83,7 @@ export class TelemetryService {
                 id: this.pData.id,
               },
             },
-            object : {
+            object: {
               ...(data) && data,
             },
           }
@@ -98,8 +97,8 @@ export class TelemetryService {
     }
   }
 
-  end(type: string, mode: string, id: string,  data?: any) {
-     try {
+  end(type: string, mode: string, id: string, data?: any) {
+    try {
       $t.end(
         {
           type,
@@ -113,7 +112,7 @@ export class TelemetryService {
               id: this.pData.id,
             },
           },
-          object : {
+          object: {
             ...(data) && data,
           },
         },
@@ -149,7 +148,7 @@ export class TelemetryService {
       console.log('Error in telemetry audit', e)
     }
   }
-  
+
   heartbeat(type: string, id: string) {
     try {
       $t.heartbeat({
@@ -164,7 +163,7 @@ export class TelemetryService {
   }
 
   impression() {
-     try {
+    try {
       const page = this.getPageDetails()
       const edata = {
         pageid: page.pageid, // Required. Unique page id
@@ -202,7 +201,7 @@ export class TelemetryService {
   }
 
   externalImpression(impressionData: any) {
-     try {
+    try {
       const page = this.getPageDetails()
       if (this.externalApps[impressionData.subApplicationName]) {
         const externalConfig = page.objectId ? {
@@ -216,13 +215,13 @@ export class TelemetryService {
             id: page.objectId,
           },
         } : {
-            context: {
-              pdata: {
-                ...this.pData,
-                id: this.externalApps[impressionData.subApplicationName],
-              },
+          context: {
+            pdata: {
+              ...this.pData,
+              id: this.externalApps[impressionData.subApplicationName],
             },
-          }
+          },
+        }
         $t.impression(impressionData.data, externalConfig)
       }
     } catch (e) {
@@ -298,7 +297,7 @@ export class TelemetryService {
             event.data.type || WsEvents.WsTimeSpentType.Player,
             event.data.mode || WsEvents.WsTimeSpentMode.Play,
             event.data.identifier,
-                event.data.object
+            event.data.object
           )
         }
       })
@@ -333,27 +332,27 @@ export class TelemetryService {
             console.log('Error in telemetry interact', e)
           }
         } else {
-                    try {
-          $t.interact(
-            {
-              type: event.data.type,
-              subtype: event.data.subType,
-              //object: event.data.object,
-              pageid: page.pageid,
-              //target: { page },
-            },
-            {
-              context: {
-                pdata: {
-                  ...this.pData,
-                  id: this.pData.id,
-                },
+          try {
+            $t.interact(
+              {
+                type: event.data.type,
+                subtype: event.data.subType,
+                // object: event.data.object,
+                pageid: page.pageid,
+                // target: { page },
               },
-                              object: {
+              {
+                context: {
+                  pdata: {
+                    ...this.pData,
+                    id: this.pData.id,
+                  },
+                },
+                object: {
                   ...event.data.object,
                 },
-            })
-                } catch (e) {
+              })
+          } catch (e) {
             // tslint:disable-next-line: no-console
             console.log('Error in telemetry interact', e)
           }
@@ -388,24 +387,24 @@ export class TelemetryService {
             console.log('Error in telemetry heartbeat', e)
           }
         } else {
-           try {
-          $t.heartbeat(
-            {
-              type: event.data.type,
-              //subtype: event.data.eventSubType,
-              identifier: event.data.identifier,
-              //mimeType: event.data.mimeType,
-              //mode: event.data.mode,
-            },
-            {
-              context: {
-                pdata: {
-                  ...this.pData,
-                  id: this.pData.id,
-                },
+          try {
+            $t.heartbeat(
+              {
+                type: event.data.type,
+                // subtype: event.data.eventSubType,
+                identifier: event.data.identifier,
+                // mimeType: event.data.mimeType,
+                // mode: event.data.mode,
               },
-            })
-                    } catch (e) {
+              {
+                context: {
+                  pdata: {
+                    ...this.pData,
+                    id: this.pData.id,
+                  },
+                },
+              })
+          } catch (e) {
             // tslint:disable-next-line: no-console
             console.log('Error in telemetry heartbeat', e)
           }
@@ -425,23 +424,23 @@ export class TelemetryService {
         ),
       )
       .subscribe(event => {
-              try {
-        $t.search(
-          {
-            query: event.data.query,
-            filters: event.data.filters,
-            size: event.data.size,
-          },
-          {
-            context: {
-              pdata: {
-                ...this.pData,
-                id: this.pData.id,
+        try {
+          $t.search(
+            {
+              query: event.data.query,
+              filters: event.data.filters,
+              size: event.data.size,
+            },
+            {
+              context: {
+                pdata: {
+                  ...this.pData,
+                  id: this.pData.id,
+                },
               },
             },
-          },
-        )
-                } catch (e) {
+          )
+        } catch (e) {
           // tslint:disable-next-line: no-console
           console.log('Error in telemetry search', e)
         }

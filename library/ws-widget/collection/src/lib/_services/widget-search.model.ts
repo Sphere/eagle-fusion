@@ -44,6 +44,7 @@ export namespace NSSearch {
     filters?: ISearchV6Filters[]
     isStandAlone?: boolean
     didYouMean?: boolean
+    request?: ISearchV6Request
   }
 
   export interface ISearchSort {
