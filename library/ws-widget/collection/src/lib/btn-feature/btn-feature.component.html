@@ -122,7 +122,7 @@
       [wsWidgetUrlResolver]="actionBtn.isExternal" [mobileAppFunction]="actionBtn.mobileAppFunction">
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
           iconType: actionBtn.iconType,
-          icon: actionBtn.icon,
+          icon: (actionBtn.icon).includes('svg') == true ? '' : actionBtn.icon,
           scale: 1.7,
           color: actionBtn.color
         }"></ng-container>
@@ -131,6 +131,7 @@
         {{ actionBtn.shortName }}
       </div>
     </a>
+
     <mat-icon role="button" class="feature-pin" color="accent" *ngIf="!config?.hidePin && isPinFeatureAvailable"
       (click)="togglePin(actionBtn?.id, $event)">{{ isPinned ? 'bookmark' : 'bookmark_border' }}</mat-icon>
   </div>
