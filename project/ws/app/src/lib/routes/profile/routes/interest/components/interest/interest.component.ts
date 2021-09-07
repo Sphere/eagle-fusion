@@ -8,6 +8,7 @@ import { IResolveResponse } from 'library/ws-widget/utils/src/lib/resolvers/reso
 import { Observable, of } from 'rxjs'
 import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators'
 import { InterestService } from '../../services/interest.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-interest',
@@ -47,6 +48,7 @@ export class InterestComponent implements OnInit, OnChanges {
     private interestSvc: InterestService,
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     if (
       this.userInterestsResponse &&
@@ -142,6 +144,7 @@ export class InterestComponent implements OnInit, OnChanges {
     this.interestSvc.addUserInterest(tempInterest).subscribe(
       _response => {
         this.openSnackBar(this.toastSuccess.nativeElement.value)
+        this.createAWSAnalyticsEventAttribute('addInterest', tempInterest)
       },
       _err => {
         this.userInterests = this.userInterests.filter(
@@ -162,6 +165,7 @@ export class InterestComponent implements OnInit, OnChanges {
       _response => {
         this.fetchSuggestedInterests()
         this.openSnackBar(this.toastSuccess.nativeElement.value)
+        this.createAWSAnalyticsEventAttribute('removeInterest', interest)
       },
       _err => {
         this.userInterests.splice(interestIndex, 0, interest)
@@ -179,4 +183,22 @@ export class InterestComponent implements OnInit, OnChanges {
   raiseTelemetry(action: 'add' | 'remove', interest: string) {
     this.events.raiseInteractTelemetry('interest', action, { interest })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'addInterest' | 'removeInterest', interest: string) {
+    if (action && interest) {
+      const attr = {
+        name: 'PR2_ProfileInterest',
+        attributes: {
+          interest,
+          ProfileInterestAction: action,
+        },
+      }
+      const endPointAttr = {
+        interest: [interest],
+        ProfileInterestAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

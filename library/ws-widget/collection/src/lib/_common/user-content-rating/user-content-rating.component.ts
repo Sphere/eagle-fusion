@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { WidgetContentService } from '../../_services/widget-content.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-user-content-rating',
@@ -19,6 +20,7 @@ export class UserContentRatingComponent implements OnInit {
     private events: EventService,
     private contentSvc: WidgetContentService,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class UserContentRatingComponent implements OnInit {
         })
         this.contentSvc.addContentRating(this.contentId, { rating: this.userRating }).subscribe(
           _ => {
+            this.createAWSAnalyticsEventAttribute('Updatedfeedbackrating')
             this.isRequesting = false
           },
           _ => {
@@ -77,4 +80,23 @@ export class UserContentRatingComponent implements OnInit {
         return true
     }
   }
+
+  createAWSAnalyticsEventAttribute(action: 'Updatedfeedbackrating') {
+    if (action && this.contentId) {
+      const attr = {
+        name: 'CP7_CourseFeedback',
+        attributes: {
+          CourseId: this.contentId,
+          FeedbackAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.contentId],
+        FeedbackAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

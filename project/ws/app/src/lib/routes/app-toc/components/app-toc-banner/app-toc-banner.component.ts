@@ -21,6 +21,7 @@ import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/a
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { NoAccessDialogComponent } from '../../../goals/components/no-access-dialog/no-access-dialog.component'
 import { AUTHORING_CONTENT_BASE } from './../../../../../../../author/src/lib/constants/apiEndpoints'
+import { AwsAnalyticsService } from '../../../../../../../viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -75,6 +76,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   bannerImg = ''
   appIcon: any
   isXSmall = false
+  userEmail: any
   // learnersCount:Number
 
   constructor(
@@ -91,6 +93,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private authAccessService: AccessControlService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -291,6 +294,15 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   showOrgprofile(orgId: string) {
+    const attr = {
+      name: 'OP1_OrgView',
+      attributes: { orgId },
+    }
+    const endPointAttr = {
+      orgId: [orgId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+
     this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
   }
 
@@ -529,4 +541,63 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
+  getCourseStartEvent(event: any) {
+    const status = event ? 'resume' : 'start'
+    if (status === 'start') {
+      const attr = {
+        name: 'CP1_CourseStart',
+        attributes: { CourseId: event.identifier, status: 'start' },
+      }
+      const endPointAttr = {
+        CourseId: [event.identifier],
+        status: ['start'],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    } else {
+      const attr = {
+        name: 'CP1_CourseStart',
+        attributes: { CourseId: event.identifier, status: 'resume' },
+      }
+      const endPointAttr = {
+        CourseId: [event.identifier],
+        status: ['resume'],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
+  createAWSAnalyticsEventAttribute(type: string, action?: string) {
+    const mappedNameObj: any = {
+      Edit: 'CP4_EditCourse',
+      Share: 'CP3_CourseShare',
+      Goal: 'CP12_CourseGoal',
+      Playlist: 'CP6_CourseAddPlaylist',
+      Feedback: 'CP7_CourseFeedback',
+      Downloadcertificate: 'CP9_DownloadCertificate',
+    }
+
+    const mappedActionObj: any = {
+      Edit: 'CourseEditAction',
+      Share: 'CourseShareAction',
+      Goal: 'CourseGoalAction',
+      Playlist: 'PlaylistAction',
+      Feedback: 'FeedbackAction',
+      Downloadcertificate: 'DownloadcertificateAction',
+    }
+    if (action && this.content) {
+      const attr = {
+        name: mappedNameObj[type],
+        attributes: {
+          CourseId: this.content.identifier,
+          [mappedActionObj[type]]: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        [mappedActionObj[type]]: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

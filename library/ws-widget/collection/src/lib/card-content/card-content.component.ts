@@ -8,6 +8,7 @@ import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -41,6 +42,7 @@ export class CardContentComponent extends WidgetBaseComponent
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     super()
     this.offSetXValue = 290
@@ -156,6 +158,15 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
+    const attr = {
+      name: 'PHP6_CourseView',
+      attributes: { contentId },
+    }
+    const endPointAttr = {
+      ContentId: [contentId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+
     const url = `/app/toc/${contentId}/overview`
     this.authSvc.login(key, url)
   }

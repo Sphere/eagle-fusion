@@ -6,6 +6,7 @@ import { ENotificationType, INotification } from '../../models/notifications.mod
 import { NotificationService } from '../../services/notification.service'
 import { noop } from 'rxjs'
 import { Router } from '@angular/router'
+import { AwsAnalyticsService } from '../../../../../../../viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-home',
@@ -30,6 +31,7 @@ export class HomeComponent implements OnInit {
     private notificationApi: NotificationApiService,
     private notificationSvc: NotificationService,
     private router: Router,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.pageSize = 5
     this.actionNotifications = []
@@ -42,6 +44,12 @@ export class HomeComponent implements OnInit {
     this.fetchActionNotifications()
     this.fetchInfoNotifications()
     this.getCount()
+
+    const attr = {
+      name: 'H4_HeaderNotification',
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 
   fetchActionNotifications() {

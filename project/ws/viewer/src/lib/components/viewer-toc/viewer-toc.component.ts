@@ -20,6 +20,9 @@ import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { ValueService } from '@ws-widget/utils/src/public-api'
+
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
+
 interface IViewerTocCard {
   identifier: string
   viewerUrl: string
@@ -75,6 +78,7 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private contentProgressSvc: ContentProgressService,
     private valueService: ValueService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -242,7 +246,21 @@ export class ViewerTocComponent implements OnInit, AfterViewInit, OnDestroy {
   //   this.searchModel = value
   //   // this.searchModelChange.emit(this.searchModel)
   // }
+
+  createAWSAnalyticsEventAttribute(courseId: string) {
+    const attr = {
+      name: 'PL1_ChildResourceVisit',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+  }
+
   sendStatus(content: any) {
+    this.createAWSAnalyticsEventAttribute(content.identifier)
+
     this.viewSvc.editResourceData(content)
     this.valueService.isXSmall$.subscribe((isXSmall: boolean) => {
       if (isXSmall) {

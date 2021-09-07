@@ -32,7 +32,8 @@
           </div>
         </div>
         <span class="interest-edit cursor-pointer" matTooltip="Edit your personal details"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: true}">
+          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: true}"
+          (click)="eventTrack('PR1_ProfileEdit','ProfileChange')">
           <mat-icon>edit</mat-icon>
         </span>
       </section>
@@ -59,6 +60,7 @@
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" matTooltip="Edit your personal details"
         [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 0}"
+        (click)="eventTrack('PR1_ProfileEdit','personalDetailEdit')"
         *ngIf="userProfileData?.personalDetails?.about != undefined && userProfileData?.personalDetails?.about != ''">
         <mat-icon>edit</mat-icon>
       </span>
@@ -83,7 +85,8 @@
         Education</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" matTooltip="Edit your personal detail"
-        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="!showAcademicElse">
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="!showAcademicElse"
+        (click)="eventTrack('PR1_ProfileEdit','EducationEdit')">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
@@ -151,7 +154,7 @@
       <div class="mb-8">
         <div class="ml-4 mb-4">You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
-          [queryParams]="{edit: 0}">+ Add
+          [queryParams]="{edit: 0}" (click)="eventTrack('PR1_ProfileEdit','personalDetailEdit')">+ Add
           your info</button>
       </div>
     </ng-template>
@@ -160,7 +163,8 @@
       <div class="mb-8">
         <div class="ml-4 mb-4">You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" matTooltip="Edit your professional info"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}">+ Add
+          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
+          (click)="eventTrack('PR1_ProfileEdit','ProfessionalEdit')">+ Add
           your info</button>
       </div>
     </ng-template>
@@ -169,7 +173,8 @@
       <div class="mb-8">
         <div class="ml-4 mb-4">You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" matTooltip="Edit your Skills"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}">+ Add
+          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
+          (click)="eventTrack('PR1_ProfileEdit','skillEdit')">+ Add
           your info</button>
       </div>
     </ng-template>
@@ -177,7 +182,7 @@
     <div *ngIf="showAcademicElse" class="mb-8">
       <div class="ml-4 mb-4">You have not added your info in Profile</div>
       <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
-        [queryParams]="{edit: 1}">+ Add your
+        [queryParams]="{edit: 1}" (click)="eventTrack('PR1_ProfileEdit','EducationEdit')">+ Add your
         info</button>
 
     </div>
@@ -188,6 +193,7 @@
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" matTooltip="Edit your professional info"
         [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
+        (click)="eventTrack('PR1_ProfileEdit','ProfessionalEdit')"
         *ngIf="userProfileData?.professionalDetails[0]?.designation != ''">
         <mat-icon>edit</mat-icon>
       </span>
@@ -222,7 +228,7 @@
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" matTooltip="Edit your Skills"
         [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
-        *ngIf="userProfileData?.skills?.additionalSkills !=''">
+        (click)="eventTrack('PR1_ProfileEdit','skillEdit')" *ngIf="userProfileData?.skills?.additionalSkills !=''">
         <mat-icon>edit</mat-icon>
       </span>
     </div>

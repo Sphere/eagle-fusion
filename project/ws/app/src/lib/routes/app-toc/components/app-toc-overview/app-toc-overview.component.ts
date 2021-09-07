@@ -1,7 +1,7 @@
 import { AccessControlService } from '@ws/author'
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
-import { ActivatedRoute, Data , Router } from '@angular/router'
+import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { Observable, Subscription } from 'rxjs'
@@ -10,6 +10,7 @@ import { TrainingApiService } from '../../../infy/routes/training/apis/training-
 import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-app-toc-overview',
@@ -40,6 +41,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private router: Router,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     if (this.configSvc.restrictedFeatures) {
       this.askAuthorEnabled = !this.configSvc.restrictedFeatures.has('askAuthor')
@@ -55,6 +57,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
       this.routeSubscription = this.route.parent.data.subscribe((data: Data) => {
         this.initData(data)
         this.tocConfig = data.pageData.data
+        this.createAWSAnalyticsEventsAttribute(data.content.data.identifier)
       })
     }
   }
@@ -73,6 +76,17 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
       return true
     }
     return this.tocSharedSvc.showDescription
+  }
+
+  createAWSAnalyticsEventsAttribute(courseId: string) {
+    const attr = {
+      name: 'CP10_CourseOverview',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
   }
 
   private initData(data: Data) {
@@ -163,7 +177,26 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     }
   }
   goToProfile(id: string) {
-      this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
+    this.createAWSAnalyticsProfileEventAttribute(id)
+    this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
+  }
+
+  createAWSAnalyticsProfileEventAttribute(authorCuratorProfileVisitedId: string) {
+    if (authorCuratorProfileVisitedId && this.content) {
+      const attr = {
+        name: 'CP5_PersonProfileVisit',
+        attributes: {
+          CourseId: this.content.identifier,
+          AuthorCuratorProfileVisitedId: authorCuratorProfileVisitedId,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        AuthorCuratorProfileVisitedId: [authorCuratorProfileVisitedId],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
   }
 
 }
