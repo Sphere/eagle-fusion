@@ -665,6 +665,9 @@ a.width-auto {
 }
 .mat-menu-panel {
   min-height: auto !important;
+  max-width: 290px !important;
+  min-width: 14em !important;
+  overflow: hidden !important;
 }
 
 a.width-auto.mat-button {
