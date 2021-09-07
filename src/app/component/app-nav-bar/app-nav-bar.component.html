@@ -3,7 +3,7 @@
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
       <div class="logo-container flex items-center">
-        <a routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-dim">
+        <a routerLink="/page/home" (click)="logoEvent()" i18n-matTooltip matTooltip="Home" class="logo-dim">
           <img [src]="appIcon" alt="Application Logo" class="app-logo" />
         </a>
       </div>

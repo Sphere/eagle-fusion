@@ -13,6 +13,7 @@ import { LearningHistoryService } from '../../../learning/services/learning-hist
 import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
 import { DomSanitizer } from '@angular/platform-browser'
 import { MatDialog } from '@angular/material'
+import { AwsAnalyticsService } from '../../../../../../../../../viewer/src/lib/aws-analytics.service'
 
 interface ILearningHistoryContent {
   content: NSLearningHistory.ILearningHistory
@@ -125,7 +126,8 @@ export class DashboardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
     private dialog: MatDialog,
-    private valueSvc: ValueService
+    private valueSvc: ValueService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
@@ -314,5 +316,15 @@ export class DashboardComponent implements OnInit {
   }
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
+  eventTrack(str: string, profileChange: string) {
+    const attr = {
+      name: str,
+      attributes: { profileChange },
+    }
+    const endPointAttr = {
+      profileChange: [profileChange],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
   }
 }

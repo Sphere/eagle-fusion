@@ -7,6 +7,7 @@ import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 import { MatDialog } from '@angular/material'
+import { AwsAnalyticsService } from '../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -48,7 +49,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.restrictedFeatures) {
@@ -161,5 +163,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
+  logoEvent() {
+    const attr = {
+      name: 'H1_LogoClick',
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 }

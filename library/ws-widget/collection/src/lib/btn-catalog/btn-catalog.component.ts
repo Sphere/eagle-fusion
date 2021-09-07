@@ -3,6 +3,7 @@ import { TreeCatalogService } from '../tree-catalog/tree-catalog.service'
 import { TFetchStatus } from '@ws-widget/utils'
 import { NSSearch } from '../_services/widget-search.model'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-catalog',
@@ -16,8 +17,11 @@ export class BtnCatalogComponent extends WidgetBaseComponent
   catalogItems: NSSearch.IFilterUnitContent[] | null = null
   catalogFetchStatus: TFetchStatus = 'none'
   loginPage = false
+  pageUrl: any
+  eventName: any
 
-  constructor(private catalogSvc: TreeCatalogService) {
+  constructor(private catalogSvc: TreeCatalogService,
+              private awsAnalyticsService: AwsAnalyticsService) {
     super()
     const url = window.location.href
     if (url.indexOf('login') > 0) {
@@ -38,6 +42,18 @@ export class BtnCatalogComponent extends WidgetBaseComponent
       },
       () => this.catalogFetchStatus = 'error',
     )
-  }
+    this.pageUrl = window.location.href
 
+    if (this.pageUrl.indexOf('login') > 0) {
+      this.eventName = 'PHP1_Category'
+    } else {
+      this.eventName = 'H2_Category'
+    }
+
+    const attr = {
+      name: this.eventName,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
+  }
 }

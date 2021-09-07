@@ -5,6 +5,7 @@ import { NsContent } from '../_services/widget-content.model'
 import { BtnGoalsDialogComponent } from './btn-goals-dialog/btn-goals-dialog.component'
 import { NsGoal } from './btn-goals.model'
 import { ConfigurationsService } from '../../../../utils/src/public-api'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 const VALID_CONTENT_TYPES: NsContent.EContentTypes[] = [
   NsContent.EContentTypes.MODULE,
@@ -27,7 +28,8 @@ export class BtnGoalsComponent extends WidgetBaseComponent
   isValidContent = false
   isGoalsEnabled = false
 
-  constructor(private dialog: MatDialog, private configSvc: ConfigurationsService) {
+  constructor(private dialog: MatDialog, private configSvc: ConfigurationsService,
+              private awsAnalyticsService: AwsAnalyticsService) {
     super()
   }
 
@@ -54,5 +56,25 @@ export class BtnGoalsComponent extends WidgetBaseComponent
         },
       })
     }
+    this.createAWSAnalyticsEventAttribute()
   }
+
+  createAWSAnalyticsEventAttribute() {
+    const action = 'successfulopen'
+    if (action && this.widgetData) {
+      const attr = {
+        name: 'CP12_CourseGoal',
+        attributes: {
+          CourseId: this.widgetData.contentId,
+          CourseGoalAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.widgetData.contentId],
+        CourseGoalAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

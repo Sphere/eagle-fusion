@@ -9,8 +9,8 @@ import { DialogConfirmComponent } from './../../../../../../../../src/app/compon
 import moment from 'moment'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-
 import { DownloadCertificateImage } from './download-certificate.model'
+import { AwsAnalyticsService } from '../../../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 const courseId = {
   nqocnId: 'lex_auth_01311423170518220869',
@@ -35,6 +35,7 @@ export class DownloadCertificateComponent implements OnInit {
   showDownloadCertificate = false
   userFullname = ''
   receivedDate = ''
+  userEmail = ''
 
   // tslint:disable-next-line:max-line-length
   imageContent = fetch(this.certificateUrl)
@@ -53,7 +54,9 @@ export class DownloadCertificateComponent implements OnInit {
     public dialog: MatDialog,
     private badgesSvc: BadgesService,
     private router: Router,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private awsAnalyticsService: AwsAnalyticsService
+  ) {
     this.badges = {
       canEarn: [],
       closeToEarning: [],
@@ -88,6 +91,8 @@ export class DownloadCertificateComponent implements OnInit {
     this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
       userData => {
         this.showLoader = false
+
+        this.userEmail = userData[0].personalDetails.primaryEmail
 
         if (userData[0].personalDetails.middlename) {
           // tslint:disable-next-line:max-line-length
@@ -217,6 +222,9 @@ export class DownloadCertificateComponent implements OnInit {
   downloadPdf(badgeId: string) {
     this.userFullname = this.userFullname.split(' ').map(d => d.charAt(0).toUpperCase() + d.slice(1, d.length)).join(' ')
 
+    // AWS analytics event
+    this.createAWSAnalyticsEventAttribute('Startdownloadcertificate')
+
     let imageData = ''
     // Fernandes course
     if (badgeId.includes(courseId.fernadezId) && (this.content || this.badgeData)) {
@@ -256,6 +264,9 @@ export class DownloadCertificateComponent implements OnInit {
         doc.setFont('times')
         doc.text(`Completed On ${this.receivedDate}`, 112, 110)
         doc.save('certificate_fernandez.pdf')
+
+        // AWS analytics event
+        this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
         this.showLoader = false
       }
     } else
@@ -295,10 +306,12 @@ export class DownloadCertificateComponent implements OnInit {
               doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 20, 186)
               doc.text(`Awarded On ${this.receivedDate}`, 150, 186)
               doc.save('certificate_inc.pdf')
+              // AWS analytics event
+              this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
             }
           }
         },
-          err => {
+                                                     err => {
             this.openSnackbar(err)
           })
 
@@ -343,9 +356,11 @@ export class DownloadCertificateComponent implements OnInit {
             doc.setTextColor(100)
             doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
             doc.save('certificate_pocqi.pdf')
+            // AWS analytics event
+            this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
           }
         },
-          err => {
+                                                     err => {
             this.openSnackbar(err)
           })
       }
@@ -364,4 +379,22 @@ export class DownloadCertificateComponent implements OnInit {
       return `${trimmedWord[0].toUpperCase() + trimmedWord.substr(1).toLowerCase()}`
     }
   }
+
+  createAWSAnalyticsEventAttribute(action: 'Successfuldownloadcertificate' | 'Startdownloadcertificate') {
+    if (action && this.content) {
+      const attr = {
+        name: 'CP9_DownloadCertificate',
+        attributes: {
+          CourseId: this.content.identifier,
+          DownloadcertificateAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        DownloadcertificateAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

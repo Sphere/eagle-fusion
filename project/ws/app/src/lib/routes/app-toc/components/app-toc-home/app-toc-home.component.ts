@@ -6,6 +6,7 @@ import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 export enum ErrorType {
   internalServer = 'internalServer',
@@ -50,6 +51,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private tocSvc: AppTocService,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
   }
 
@@ -128,4 +130,23 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+
+  createAWSAnalyticsEventAttribute($event: any) {
+    if ($event && this.content) {
+      const attr = {
+        name: 'CP11_CourseDetailsTabs',
+        attributes: {
+          CourseId: this.content.identifier,
+          CourseDetailsTabsType: $event,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        CourseDetailsTabsType: [$event],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

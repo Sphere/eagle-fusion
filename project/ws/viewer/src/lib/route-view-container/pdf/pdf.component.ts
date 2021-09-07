@@ -4,6 +4,7 @@ import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'viewer-pdf-container',
@@ -41,7 +42,8 @@ export class PdfComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService,
+              private awsAnalyticsService: AwsAnalyticsService) {
     this.valueSvc.isLtMedium$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -69,9 +71,27 @@ export class PdfComponent implements OnInit {
 
   setPrevClick() {
     this.viewerDataSvc.setClikedItem('prev')
+    if (this.prevResourceUrl) { this.createAWSAnalyticsEventAttribute(this.prevResourceUrl) }
   }
 
   setNextClick() {
     this.viewerDataSvc.setClikedItem('next')
+    if (this.nextResourceUrl) { this.createAWSAnalyticsEventAttribute(this.nextResourceUrl) }
+  }
+
+  createAWSAnalyticsEventAttribute(resourceUrl: string) {
+    let courseId = ''
+    if (resourceUrl) {
+      courseId = resourceUrl.slice(resourceUrl.indexOf('lex_'))
+    }
+
+    const attr = {
+      name: 'PL1_ChildResourceVisit',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
   }
 }
