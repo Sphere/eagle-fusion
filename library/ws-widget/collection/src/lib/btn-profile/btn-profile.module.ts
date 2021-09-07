@@ -6,6 +6,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { RouterModule } from '@angular/router'
 import { LogoutModule } from '@ws-widget/utils'
 import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
 
 // import { TreeCatalogModule } from '../tree-catalog/tree-catalog.module'
 
@@ -22,6 +23,7 @@ import { UserProfileService } from './../../../../../../project/ws/app/src/lib/r
     MatSlideToggleModule,
     RouterModule,
     WidgetResolverModule,
+    AvatarPhotoModule,
   ],
   providers: [UserProfileService],
   entryComponents: [BtnProfileComponent],
