@@ -8,7 +8,7 @@ import {
   WidgetContentService,
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
@@ -33,6 +33,7 @@ export class VideoComponent implements OnInit, OnDestroy {
   discussionForumWidget: NsWidgetResolver.IRenderConfigWithTypedData<
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
+  batchId = this.activatedRoute.snapshot.queryParamMap.get('batchId')
   constructor(
     private activatedRoute: ActivatedRoute,
     private valueSvc: ValueService,
@@ -40,6 +41,7 @@ export class VideoComponent implements OnInit, OnDestroy {
     private contentSvc: WidgetContentService,
     private platform: Platform,
     private accessControlSvc: AccessControlService,
+    private configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {
@@ -173,20 +175,58 @@ export class VideoComponent implements OnInit, OnDestroy {
       widgetType: 'discussionForum',
     }
   }
+  // async fetchContinueLearning(collectionId: string, videoId: string): Promise<boolean> {
+  //   return new Promise(resolve => {
+  //     this.contentSvc.fetchContentHistory(collectionId).subscribe(
+  //       data => {
+  //         if (data) {
+  //           if (
+  //             data.identifier === videoId &&
+  //             data.continueData &&
+  //             data.continueData.progress &&
+  //             this.widgetResolverVideoData
+  //           ) {
+  //             this.widgetResolverVideoData.widgetData.resumePoint = Number(
+  //               data.continueData.progress,
+  //             )
+  //           }
+  //         }
+  //         resolve(true)
+  //       },
+  //       () => resolve(true),
+  //     )
+  //   })
+  // }
+
   async fetchContinueLearning(collectionId: string, videoId: string): Promise<boolean> {
     return new Promise(resolve => {
-      this.contentSvc.fetchContentHistory(collectionId).subscribe(
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.batchId,
+          courseId: collectionId || '',
+          contentIds: [],
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
-          if (data) {
-            if (
-              data.identifier === videoId &&
-              data.continueData &&
-              data.continueData.progress &&
-              this.widgetResolverVideoData
-            ) {
-              this.widgetResolverVideoData.widgetData.resumePoint = Number(
-                data.continueData.progress,
-              )
+          if (data && data.result && data.result.contentList.length) {
+            for (const content of data.result.contentList) {
+              if (
+                content.contentId === videoId &&
+                content.progressdetails &&
+                content.progressdetails.current &&
+                this.widgetResolverVideoData
+              ) {
+                this.widgetResolverVideoData.widgetData.resumePoint = Number(
+                  content.progressdetails.current.pop(),
+                )
+              }
             }
           }
           resolve(true)

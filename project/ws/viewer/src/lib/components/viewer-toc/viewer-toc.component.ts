@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
@@ -51,8 +51,15 @@ interface ICollectionCard {
 export class ViewerTocComponent implements OnInit, OnDestroy {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
+  @Input() resourceChanged = ''
+  @ViewChild('highlightItem', { static: false }) highlightItem!: ElementRef<any>
+  @ViewChild('outer', { static: false }) outer!: ElementRef<any>
+  @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
   searchCourseQuery = ''
   hideSideNav = false
+  reverse = ''
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
+  collectionId = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -170,10 +177,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
 
   private processCurrentResourceChange() {
     if (this.collection && this.resourceId) {
-
-      // console.log('this.collection == ', this.collection)
-      // console.log('this.resourceId == ', this.resourceId)
-      // console.log('this.queue === ', this.queue)
       const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
       const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
       const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
@@ -197,9 +200,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       ).toPromise()
 
       content = content.result.content
-      // console.log('11111111-------', content)
-
-      // TODO console.log('content',content);
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
@@ -426,5 +426,9 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   minimizenav() {
     this.hidenav.emit(false)
     this.hideSideNav = !this.hideSideNav
+  }
+
+  public progressColor(): string {
+    return '#1D8923'
   }
 }

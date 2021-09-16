@@ -211,7 +211,7 @@ export class HtmlComponent implements OnInit, OnDestroy {
     })
   }
 
-  async  ngOnDestroy() {
+  async ngOnDestroy() {
     if (this.htmlData) {
       if (!this.subApp || this.activatedRoute.snapshot.queryParams.collectionId) {
         await this.saveContinueLearning(this.htmlData)
@@ -336,9 +336,16 @@ export class HtmlComponent implements OnInit, OnDestroy {
       }
     }
     this.realTimeProgressRequest.content_type = this.htmlData ? this.htmlData.contentType : ''
+    // console.log("xyz")
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+      this.activatedRoute.snapshot.queryParams.collectionId : ''
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+      this.activatedRoute.snapshot.queryParams.batchId : ''
     this.viewerSvc.realTimeProgressUpdate(
       this.htmlData ? this.htmlData.identifier : '',
       this.realTimeProgressRequest,
+      collectionId,
+      batchId
     )
     return
   }
