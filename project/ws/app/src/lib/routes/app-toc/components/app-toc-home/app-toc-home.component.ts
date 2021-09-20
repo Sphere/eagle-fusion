@@ -10,7 +10,7 @@ import { AppTocService } from '../../services/app-toc.service'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
-import _ from 'lodash'
+import lodash from 'lodash'
 
 export enum ErrorType {
   internalServer = 'internalServer',
@@ -25,7 +25,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },[])
+  },                  [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
