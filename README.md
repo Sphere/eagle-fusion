@@ -1,6 +1,6 @@
 # Fusion
 
-Front End Service for Eagle Platform.
+## Front End Service for SPhere.
 
-The code powers the Aastrika's Open Learning Platform for maternal care
-https://sphere[dot]aastrika[dot]org
+The code powers the 2nd Version of Aastrika's Open Learning Platform for maternal care
+
