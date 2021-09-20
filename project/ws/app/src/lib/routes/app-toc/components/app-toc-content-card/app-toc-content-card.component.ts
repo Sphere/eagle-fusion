@@ -140,7 +140,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     return {
       contextId: this.rootId,
       contextPath: this.rootContentType,
-      batchId: this.batchId
+      batchId: this.batchId,
     }
   }
 

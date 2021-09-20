@@ -55,7 +55,6 @@ export class ContentProgressComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.contentId && !this.progress && !this.forPreview) {
       this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
-          console.log(data)
         this.progress = data
         if (this.progress) {
           this.progress = Math.round(this.progress * 10000) / 100
