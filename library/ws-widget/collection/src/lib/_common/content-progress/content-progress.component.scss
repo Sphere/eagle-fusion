@@ -1,3 +1,16 @@
 .visibility-0 {
-  visibility: hidden;
+  // visibility: hidden;
+  display: none;
+}
+
+::ng-deep.mat-progress-bar.thick {
+  height: 10px;
+}
+
+::ng-deep.theme-igot.day-mode .mat-progress-bar-fill::after {
+  background: #34D6A4 0% 0% no-repeat padding-box;
+}
+
+::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
+  background-color: #EDEDED;
 }

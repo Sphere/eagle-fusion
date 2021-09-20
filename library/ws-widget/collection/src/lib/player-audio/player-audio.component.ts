@@ -128,9 +128,13 @@ export class PlayerAudioComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
       if (this.widgetData.identifier) {
         this.viewerSvc
-          .realTimeProgressUpdate(identifier, data)
+          .realTimeProgressUpdate(identifier, data, collectionId, batchId)
       }
     }
     let enableTelemetry = false

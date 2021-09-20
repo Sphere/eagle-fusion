@@ -1,4 +1,5 @@
 export interface IWidgetsPlayerMediaData {
+  size?: any
   subtitles?: {
     srclang: string
     label: string

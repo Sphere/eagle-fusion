@@ -108,7 +108,7 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
     const saveCLearning: saveContinueLearningFunction = data => {
       if (this.widgetData.identifier) {
         if (this.activatedRoute.snapshot.queryParams.collectionType &&
-        this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
+          this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
           const continueLearningData = {
             contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
@@ -148,6 +148,7 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
         this.viewerSvc
           .realTimeProgressUpdate(identifier, data)
       }
+
     }
     let enableTelemetry = false
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {
@@ -213,10 +214,15 @@ export class PlayerYoutubeComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
-      if (this.widgetData.identifier) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      if (this.widgetData.identifier && identifier && data) {
         this.viewerSvc
-          .realTimeProgressUpdate(identifier, data)
+          .realTimeProgressUpdate(identifier, data, collectionId, batchId)
       }
+
     }
     let enableTelemetry = false
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {

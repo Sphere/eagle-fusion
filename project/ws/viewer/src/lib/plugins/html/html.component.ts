@@ -51,7 +51,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
     // this.mobAppSvc.simulateMobile()
     if (this.htmlContent && this.htmlContent.identifier) {
       this.scormAdapterService.contentId = this.htmlContent.identifier
-      this.scormAdapterService.loadData()
+      // this.scormAdapterService.loadData()
+      this.scormAdapterService.loadDataV2()
     }
   }
 
@@ -179,7 +180,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       })
     }
   }
-
   receiveMessage(msg: any) {
     // /* tslint:disable-next-line */
     // console.log("msg=>", msg)

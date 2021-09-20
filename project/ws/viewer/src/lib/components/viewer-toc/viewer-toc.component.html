@@ -54,6 +54,14 @@
               <div class="mb-3 width-max-content">
                 Total: {{ node.duration | pipeDurationTransform: 'hms' }}
               </div>
+
+              <span class="content-top" *ngIf="node?.progress * 100 === 100; else elseChapterPercentage">
+                <img [src]="greenTickIcon" class="image" />
+              </span>
+              <ng-template #elseChapterPercentage>
+                <span class="margin-left-xxs">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
+              </ng-template>
+
               <mat-icon *ngIf="
                   contentProgressHash &&
                   contentProgressHash[node.identifier] &&
