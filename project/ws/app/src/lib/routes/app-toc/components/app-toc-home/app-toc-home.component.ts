@@ -25,7 +25,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  }, [])
+  },[])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
