@@ -180,7 +180,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       })
     }
   }
-
   receiveMessage(msg: any) {
     // /* tslint:disable-next-line */
     // console.log("msg=>", msg)

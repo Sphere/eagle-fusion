@@ -14,6 +14,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() rootId!: string
   @Input() rootContentType!: string
   @Input() forPreview = false
+  @Input() batchId!: string
   hasContentStructure = false
   enumContentTypes = NsContent.EDisplayContentTypes
   contentStructure: NsAppToc.ITocStructure = {
@@ -72,6 +73,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
         this.rootContentType,
         this.forPreview,
         this.content.primaryCategory,
+        this.batchId
       )
     }
     return { url: '', queryParams: {} }
@@ -138,9 +140,21 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     return {
       contextId: this.rootId,
       contextPath: this.rootContentType,
+      batchId: this.batchId
     }
   }
 
+  public progressColor(): string {
+    // if (this.currentProgress <= 30) {
+    //   return '#D13924'
+    // } if (this.currentProgress > 30 && this.currentProgress <= 70) {
+    //   return '#E99E38'
+    // }
+    // if (this.currentProgress > 70 && this.currentProgress <= 100) {
+    //   return '#1D8923'
+    // }
+    return '#1D8923'
+  }
   public contentTrackBy(_index: number, content: NsContent.IContent) {
     if (!content) {
       return null

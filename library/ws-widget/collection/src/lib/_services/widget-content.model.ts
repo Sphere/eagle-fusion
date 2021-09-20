@@ -29,6 +29,7 @@ export namespace NsContent {
     clients?: IClient[]
     collections?: IContent[]
     completionPercentage?: number | null
+    completionStatus?: number
     complexityLevel: string
     contentId: string
     contentType: EContentTypes
