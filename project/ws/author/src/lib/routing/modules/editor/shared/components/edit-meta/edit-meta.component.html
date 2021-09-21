@@ -689,7 +689,7 @@
             <p class="font-weight-bold margin-remove-bottom"
               i18n="Title label|Label which explains the user to enter title"
               [ngClass]="{ required: checkCondition('name', 'required') }">
-              Course Name
+              Title of the course
             </p>
             <mat-form-field appearance="outline" class="margin-top-xs"
               [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
@@ -697,12 +697,12 @@
                 placeholder="Enter a Descriptive title" [required]="checkCondition('name', 'required') ? true : null" />
               <mat-hint align="end">{{ name.value.length }} / 500</mat-hint>
               <mat-error *ngIf="showError('name')" i18n="Name Error|Explains name is required">
-                Course Name is mandatory
+                Title of the course is mandatory
               </mat-error>
             </mat-form-field>
           </div>
         </div>
-        <div class="margin-top-s">
+        <!-- <div class="margin-top-s">
           <div *ngIf="checkCondition('description', 'show')"
             [ngClass]="{ disable: checkCondition('description', 'disabled') }">
             <mat-label class="font-weight-bold" i18n="Subtitle label|Label which explains the user to enter Subtitle"
@@ -720,7 +720,27 @@
               </mat-error>
             </mat-form-field>
           </div>
+        </div> -->
+
+        <div class="margin-top-s" *ngIf="checkCondition('subTitle', 'show')"
+          [ngClass]="{ disable: checkCondition('subTitle', 'disabled') }">
+          <p class="font-weight-bold margin-remove-bottom"
+            [ngClass]="{ required: checkCondition('subTitle', 'required') }">
+            <!-- Subtitle -->
+            Short description of the course
+          </p>
+          <mat-form-field appearance="outline" class="margin-top-xs"
+            [ngClass]="{ 'mat-form-field-invalid': showError('subTitle') }">
+            <input matInput formControlName="subTitle" #subTitle maxlength="1000" i18n-placeholder
+              placeholder="Enter subtitle here" [required]="checkCondition('subTitle', 'required') ? true : null" />
+            <mat-hint align="end">{{ subTitle.value.length }} / 1000</mat-hint>
+            <mat-error *ngIf="showError('subTitle')" i18n="Subtitle Error|Explains Subtitle is required">
+              <!-- Subtitle is mandatory -->
+            </mat-error>
+          </mat-form-field>
         </div>
+
+
         <div class="margin-top-m flex justify-start">
           <h2> <b> Basic Settings </b>| <a (click)="sideNavBarOpened=true" class="ws-mat-default-text cursor-pointer">
               Advanced
@@ -841,7 +861,7 @@
           </div>
           <div class="flex flex-column margin-left-l">
 
-            <div class="margin-top-s" *ngIf="checkCondition('subTitle', 'show')"
+            <!-- <div class="margin-top-s" *ngIf="checkCondition('subTitle', 'show')"
               [ngClass]="{ disable: checkCondition('subTitle', 'disabled') }">
               <p class="font-weight-bold margin-remove-bottom"
                 [ngClass]="{ required: checkCondition('subTitle', 'required') }">
@@ -856,6 +876,27 @@
                   Subtitle is mandatory
                 </mat-error>
               </mat-form-field>
+            </div> -->
+
+            <div class="margin-top-s">
+              <div *ngIf="checkCondition('description', 'show')"
+                [ngClass]="{ disable: checkCondition('description', 'disabled') }">
+                <mat-label class="font-weight-bold"
+                  i18n="Subtitle label|Label which explains the user to enter Subtitle"
+                  [ngClass]="{ required: checkCondition('description', 'required') }" i18n>
+                  Summary of the course</mat-label>
+                <mat-form-field appearance="outline" class="margin-top-xs"
+                  [ngClass]="{ 'mat-form-field-invalid': showError('description') }">
+                  <textarea cdkTextareaAutosize name="description" #description class="resize-none"
+                    [matTextareaAutosize]="true" maxlength="2000" matInput rows="3" formControlName="description"
+                    i18n-placeholder placeholder="Description will appear on card"
+                    [required]="checkCondition('description', 'required') ? true : null">
+            </textarea>
+                  <mat-hint align="end">{{ description.value.length }} / 2000</mat-hint>
+                  <mat-error *ngIf="showError('description')" i18n>Summary of the course is mandatory
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
 
             <div class="margin-top-s" *ngIf="checkCondition('body', 'show')"
@@ -864,7 +905,7 @@
                 <div class="margin-top-xs flex flex-middle">
                   <!-- <b i18n [ngClass]="{ required: checkCondition('body', 'required') }">Content Body (Long Description)
                   </b> -->
-                  <b i18n [ngClass]="{ required: checkCondition('body', 'required') }">Description
+                  <b i18n [ngClass]="{ required: checkCondition('body', 'required') }">Long description of the course
                   </b>
                   <mat-icon class="ws-mat-primary-text margin-left-xs pointer" (click)="showInfo('contentBody')">info
                   </mat-icon>

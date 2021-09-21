@@ -1317,6 +1317,16 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
           this.contentForm.controls.mimeType.value,
         )}/${this.contentMeta.identifier}?preview=true`
     }
+    // let parentId = this.contentService.parentUpdatedMeta().identifier
+    // let previewurl = `${window.location.origin}/viewer/${VIEWER_ROUTE_FROM_MIME(
+    //   this.contentForm.controls.mimeType.value,
+    // )}/${this.contentMeta.identifier}?collectionId=${parentId}&collectionType=Course`
+
+    // console.log('ppppp  ', this.contentService.parentUpdatedMeta())
+    // console.log('vvvvvvv  ', previewurl)
+    // console.log('SelBox ', selBox.value)
+
+
     document.body.appendChild(selBox)
     selBox.focus()
     selBox.select()
