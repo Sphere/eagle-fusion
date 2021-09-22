@@ -1303,7 +1303,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   // }
 
   copyData(type: 'keyword' | 'previewUrl') {
-    let parentId = this.contentService.parentUpdatedMeta().identifier
+    const parentId = this.contentService.parentUpdatedMeta().identifier
     const selBox = document.createElement('textarea')
     selBox.style.position = 'fixed'
     selBox.style.left = '0'
