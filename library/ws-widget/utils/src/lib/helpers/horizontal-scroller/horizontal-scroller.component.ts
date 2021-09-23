@@ -78,7 +78,7 @@ export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy
         // const clientWidth = (this.horizontalScrollElem.nativeElement.clientWidth * 0.24)
         const clientWidth = (this.horizontalScrollElem.nativeElement.clientWidth)
         this.horizontalScrollElem.nativeElement.scrollTo({
-          left: this.horizontalScrollElem.nativeElement.scrollLeft + clientWidth,
+          left: (this.horizontalScrollElem.nativeElement.scrollLeft + clientWidth) - 45,
           behavior: 'smooth',
         })
       }
