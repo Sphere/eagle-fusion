@@ -9,7 +9,7 @@
     <div class="inner-section">
       <div class="margin-right-l margin-top-l">
 
-        <div class="margin-top-xs margin-left-xl" *ngIf="checkCondition('exclusiveContent', 'show')"
+        <!-- <div class="margin-top-xs margin-left-xl" *ngIf="checkCondition('exclusiveContent', 'show')"
           [ngClass]="{ disable: checkCondition('exclusiveContent', 'disabled') }">
           <label>
             <div class="margin-top-xs flex flex-middle">
@@ -31,13 +31,14 @@
               </mat-error>
             </mat-form-field>
           </div>
-        </div>
+        </div> -->
+
         <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('complexityLevel', 'show')"
           [ngClass]="{ disable: checkCondition('complexityLevel', 'disabled') }">
           <label>
             <div class="margin-top-xs flex flex-middle"
               [ngClass]="{ required: checkCondition('complexityLevel', 'required') }">
-              <b i18n>Knowledge Level</b>
+              <b i18n>Proficiency Level</b>
               <mat-icon class="ws-mat-primary-text margin-left-xs pointer" (click)="showInfo('knowledgeLevel')">info
               </mat-icon>
             </div>
@@ -52,7 +53,7 @@
                 <mat-option *ngFor="let complexityLevel of complexityLevelList" [value]="complexityLevel">
                   {{ complexityLevel }}</mat-option>
               </mat-select>
-              <mat-error *ngIf="showError('complexityLevel')" i18n>Knowledge Level is mandatory
+              <mat-error *ngIf="showError('complexityLevel')" i18n>Proficiency Level is mandatory
               </mat-error>
             </mat-form-field>
           </div>
@@ -61,7 +62,8 @@
 
 
       <div class="margin-right-l">
-        <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('fileType', 'show')"
+
+        <!-- <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('fileType', 'show')"
           [ngClass]="{ disable: checkCondition('fileType', 'disabled') }">
           <label [ngClass]="{ required: checkCondition('fileType', 'required') }">
             <b i18n>File Type</b>
@@ -77,7 +79,9 @@
               <mat-error *ngIf="showError('fileType')" i18n>File Type is mandatory </mat-error>
             </mat-form-field>
           </div>
-        </div>
+        </div> -->
+
+
         <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('visibility', 'show')"
           [ngClass]="{ disable: checkCondition('visibility', 'disabled') }">
           <label>
@@ -155,7 +159,9 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('org', 'show')"
+
+
+          <!-- <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('org', 'show')"
             [ngClass]="{ disable: checkCondition('org', 'disabled') }">
             <label>
               <div class="margin-top-xs flex flex-middle">
@@ -187,11 +193,15 @@
                 <mat-error *ngIf="showError('org')" i18n>Organisation is mandatory </mat-error>
               </mat-form-field>
             </div>
-          </div>
+          </div> -->
+
+
+
         </div>
         <!-- till here-->
         <div class="">
-          <div class="margin-top-xs margin-left-xl flex-1">
+
+          <!-- <div class="margin-top-xs margin-left-xl flex-1">
             <div class="margin-top-xs margin-bottom-s flex flex-middle">
               <div class="margin-top-xs width-90" *ngIf="checkCondition('region', 'show')"
                 [ngClass]="{ disable: checkCondition('region', 'disabled') }">
@@ -224,9 +234,10 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
+
           <!--Show in popup-->
-          <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('accessPaths', 'show')"
+          <!-- <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('accessPaths', 'show')"
             [ngClass]="{ disable: checkCondition('accessPaths', 'disabled') }">
             <label>
               <div class="margin-top-xs flex flex-middle">
@@ -262,7 +273,8 @@
                 </mat-error>
               </mat-form-field>
             </div>
-          </div>
+          </div> -->
+
         </div>
         <div class="">
           <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('jobProfile', 'show')"
@@ -340,7 +352,7 @@
         <mat-error *ngIf="showError('skills')" i18n>Skills is mandatory </mat-error>
       </div>
 
-      <div class="margin-top-xs margin-left-xl margin-right-l flex-1" *ngIf="checkCondition('idealScreenSize', 'show')"
+      <!-- <div class="margin-top-xs margin-left-xl margin-right-l flex-1" *ngIf="checkCondition('idealScreenSize', 'show')"
         [ngClass]="{ disable: checkCondition('idealScreenSize', 'disabled') }">
         <label>
           <div class="margin-top-s flex flex-middle">
@@ -366,7 +378,9 @@
             </mat-error>
           </mat-form-field>
         </div>
-      </div>
+      </div> -->
+
+
       <div class="margin-top-xl margin-right-l">
         <div class="">
           <div class="margin-top-xs margin-left-xl flex-1" *ngIf="checkCondition('trackContacts', 'show')"
@@ -500,7 +514,7 @@
         </div>
       </div>
 
-      <div class="margin-top-xs margin-left-xl margin-right-l flex-1" *ngIf="checkCondition('learningMode', 'show')"
+      <!-- <div class="margin-top-xs margin-left-xl margin-right-l flex-1" *ngIf="checkCondition('learningMode', 'show')"
         [ngClass]="{ disable: checkCondition('learningMode', 'disabled') }">
         <label [ngClass]="{ required: checkCondition('learningMode', 'required') }">
           <b i18n>Mode</b>
@@ -517,7 +531,7 @@
             <mat-error *ngIf="showError('learningMode')" i18n>Mode is mandatory </mat-error>
           </mat-form-field>
         </div>
-      </div>
+      </div> -->
 
       <ng-template i18n>
         Stakeholders
@@ -675,7 +689,7 @@
             <p class="font-weight-bold margin-remove-bottom"
               i18n="Title label|Label which explains the user to enter title"
               [ngClass]="{ required: checkCondition('name', 'required') }">
-              Title
+              Title of the course
             </p>
             <mat-form-field appearance="outline" class="margin-top-xs"
               [ngClass]="{ 'mat-form-field-invalid': showError('name') }">
@@ -683,17 +697,17 @@
                 placeholder="Enter a Descriptive title" [required]="checkCondition('name', 'required') ? true : null" />
               <mat-hint align="end">{{ name.value.length }} / 500</mat-hint>
               <mat-error *ngIf="showError('name')" i18n="Name Error|Explains name is required">
-                Title is mandatory
+                Title of the course is mandatory
               </mat-error>
             </mat-form-field>
           </div>
         </div>
-        <div class="margin-top-s">
+        <!-- <div class="margin-top-s">
           <div *ngIf="checkCondition('description', 'show')"
             [ngClass]="{ disable: checkCondition('description', 'disabled') }">
             <mat-label class="font-weight-bold" i18n="Subtitle label|Label which explains the user to enter Subtitle"
               [ngClass]="{ required: checkCondition('description', 'required') }" i18n>
-              Short/Card Description</mat-label>
+              Course Description</mat-label>
             <mat-form-field appearance="outline" class="margin-top-xs"
               [ngClass]="{ 'mat-form-field-invalid': showError('description') }">
               <textarea cdkTextareaAutosize name="description" #description class="resize-none"
@@ -706,7 +720,27 @@
               </mat-error>
             </mat-form-field>
           </div>
+        </div> -->
+
+        <div class="margin-top-s" *ngIf="checkCondition('subTitle', 'show')"
+          [ngClass]="{ disable: checkCondition('subTitle', 'disabled') }">
+          <p class="font-weight-bold margin-remove-bottom"
+            [ngClass]="{ required: checkCondition('subTitle', 'required') }">
+            <!-- Subtitle -->
+            Short description of the course
+          </p>
+          <mat-form-field appearance="outline" class="margin-top-xs"
+            [ngClass]="{ 'mat-form-field-invalid': showError('subTitle') }">
+            <input matInput formControlName="subTitle" #subTitle maxlength="1000" i18n-placeholder
+              placeholder="Enter subtitle here" [required]="checkCondition('subTitle', 'required') ? true : null" />
+            <mat-hint align="end">{{ subTitle.value.length }} / 1000</mat-hint>
+            <mat-error *ngIf="showError('subTitle')" i18n="Subtitle Error|Explains Subtitle is required">
+              <!-- Subtitle is mandatory -->
+            </mat-error>
+          </mat-form-field>
         </div>
+
+
         <div class="margin-top-m flex justify-start">
           <h2> <b> Basic Settings </b>| <a (click)="sideNavBarOpened=true" class="ws-mat-default-text cursor-pointer">
               Advanced
@@ -827,7 +861,7 @@
           </div>
           <div class="flex flex-column margin-left-l">
 
-            <div class="margin-top-s" *ngIf="checkCondition('subTitle', 'show')"
+            <!-- <div class="margin-top-s" *ngIf="checkCondition('subTitle', 'show')"
               [ngClass]="{ disable: checkCondition('subTitle', 'disabled') }">
               <p class="font-weight-bold margin-remove-bottom"
                 [ngClass]="{ required: checkCondition('subTitle', 'required') }">
@@ -842,13 +876,36 @@
                   Subtitle is mandatory
                 </mat-error>
               </mat-form-field>
+            </div> -->
+
+            <div class="margin-top-s">
+              <div *ngIf="checkCondition('description', 'show')"
+                [ngClass]="{ disable: checkCondition('description', 'disabled') }">
+                <mat-label class="font-weight-bold"
+                  i18n="Subtitle label|Label which explains the user to enter Subtitle"
+                  [ngClass]="{ required: checkCondition('description', 'required') }" i18n>
+                  Summary of the course</mat-label>
+                <mat-form-field appearance="outline" class="margin-top-xs"
+                  [ngClass]="{ 'mat-form-field-invalid': showError('description') }">
+                  <textarea cdkTextareaAutosize name="description" #description class="resize-none"
+                    [matTextareaAutosize]="true" maxlength="2000" matInput rows="3" formControlName="description"
+                    i18n-placeholder placeholder="Description will appear on card"
+                    [required]="checkCondition('description', 'required') ? true : null">
+            </textarea>
+                  <mat-hint align="end">{{ description.value.length }} / 2000</mat-hint>
+                  <mat-error *ngIf="showError('description')" i18n>Summary of the course is mandatory
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
 
             <div class="margin-top-s" *ngIf="checkCondition('body', 'show')"
               [ngClass]="{ disable: checkCondition('body', 'disabled') }">
               <label>
                 <div class="margin-top-xs flex flex-middle">
-                  <b i18n [ngClass]="{ required: checkCondition('body', 'required') }">Content Body (Long Description)
+                  <!-- <b i18n [ngClass]="{ required: checkCondition('body', 'required') }">Content Body (Long Description)
+                  </b> -->
+                  <b i18n [ngClass]="{ required: checkCondition('body', 'required') }">Long description of the course
                   </b>
                   <mat-icon class="ws-mat-primary-text margin-left-xs pointer" (click)="showInfo('contentBody')">info
                   </mat-icon>

@@ -111,7 +111,7 @@
 
 
     <div class="children-container" *ngIf="viewChildren">
-      <ws-app-toc-content-card [content]="child" [expandAll]="expandAll" [rootId]="rootId"
+      <ws-app-toc-content-card [forPreview]="forPreview" [content]="child" [expandAll]="expandAll" [rootId]="rootId"
         [rootContentType]="rootContentType" *ngFor="let child of content?.children; trackBy: contentTrackBy">
       </ws-app-toc-content-card>
     </div>
