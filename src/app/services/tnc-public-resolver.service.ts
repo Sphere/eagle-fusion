@@ -3,7 +3,7 @@ import { Resolve } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
-import { IResolveResponse } from '@ws-widget/utils'
+import { IResolveResponse, ConfigurationsService } from '@ws-widget/utils'
 import { NsTnc } from '../models/tnc.model'
 
 const API_END_POINTS = {
@@ -18,6 +18,7 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
 
   constructor(
     private http: HttpClient,
+    private configSvc: ConfigurationsService
   ) { }
 
   resolve(): Observable<IResolveResponse<NsTnc.ITnc>> {
@@ -27,7 +28,7 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
     )
   }
   getPublicTnc(locale?: string): Observable<NsTnc.ITnc> {
-    let url = '/apis/public/v8/tnc'
+    let url = `${this.configSvc.sitePath}/tnc.config.json`
     if (locale) {
       url += `?locale=${locale}`
     }
