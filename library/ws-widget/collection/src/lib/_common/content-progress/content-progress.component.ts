@@ -1,5 +1,10 @@
-import { Component, HostBinding, Input, OnInit, OnChanges } from '@angular/core'
+import { Component, HostBinding, Input, OnInit, OnChanges, OnDestroy } from '@angular/core'
+import { ActivatedRoute, Data } from '@angular/router'
 import { ContentProgressService } from './content-progress.service'
+import { NsContent } from '@ws-widget/collection'
+import { Subscription } from 'rxjs'
+import * as _ from 'lodash'
+import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 @Component({
   selector: 'ws-widget-content-progress',
@@ -14,16 +19,16 @@ import { ContentProgressService } from './content-progress.service'
     'aria-valuemax': '100',
     'title': 'progress',
     // Binding that updates the current value of the progressbar.
-    '[attr.aria-valuenow]': 'progress',
+    '[attr.aria-valuenow]': 'progress?.completionPercentage',
   },
   /* tslint:enable */
 })
-export class ContentProgressComponent implements OnInit, OnChanges {
+export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   contentId = ''
 
   @Input()
-  progress = 0
+  progress: any
 
   @Input()
   progressType = ''
@@ -33,23 +38,39 @@ export class ContentProgressComponent implements OnInit, OnChanges {
 
   @Input()
   className = ''
+  content: NsContent.IContent | null = null
+  routeSubscription: Subscription | null = null
 
   rendom = Math.random()
   @HostBinding('id')
   public id = `progress_${Math.random()}`
-  constructor(private progressSvc: ContentProgressService) {
+  constructor(private progressSvc: ContentProgressService,
+    private route: ActivatedRoute,
+    private tocSvc: AppTocService) {
     if (this.contentId) {
       this.id = this.contentId
     }
   }
 
   ngOnInit() {
-    this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
-      this.progress = data
-      if (this.progress) {
-        this.progress = Math.round(this.progress * 10000) / 100
-      }
+    this.routeSubscription = this.route.data.subscribe((data: Data) => {
+      const initData = this.tocSvc.initData(data)
+      this.content = initData.content
+      this.progress = this.content
     })
+
+    // this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
+    //   this.progress = data
+    //   if (this.progress) {
+    //     this.progress = Math.round(this.progress * 10000) / 100
+    //   }
+    // })
+  }
+
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
+    }
   }
 
   ngOnChanges() {
