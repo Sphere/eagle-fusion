@@ -135,7 +135,7 @@ export class AppTocService {
       })
     }
   }
-  
+
   getTocStructure(
     content: NsContent.IContent,
     tocStructure: NsAppToc.ITocStructure,
