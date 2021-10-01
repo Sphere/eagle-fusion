@@ -16,72 +16,72 @@ const API_END_POINTS = {
 
 }
 
-const facetsOb = {
-  facets: [
-    {
-      values: [
-        {
-          name: 'learning resource',
-          count: 59,
-        },
-        {
-          name: 'course',
-          count: 18,
-        },
-        {
-          name: 'asset',
-          count: 20,
-        },
-      ],
-      name: 'primaryCategory',
-    },
-    {
-      values: [
-        {
-          name: 'application/vnd.ekstep.html-archive',
-          count: 4,
-        },
-        {
-          name: 'image/png',
-          count: 2,
-        },
-        {
-          name: 'text/x-url',
-          count: 12,
-        },
-        {
-          name: 'image/jpeg',
-          count: 22,
-        },
-        {
-          name: 'application/pdf',
-          count: 20,
-        },
-        {
-          name: 'application/vnd.ekstep.content-collection',
-          count: 18,
-        },
-        {
-          name: 'application/vnd.ekstep.ecml-archive',
-          count: 3,
-        },
-        {
-          name: 'video/x-youtube',
-          count: 2,
-        },
-        {
-          name: 'video/mp4',
-          count: 13,
-        },
-        {
-          name: 'audio/mpeg',
-          count: 1,
-        },
-      ],
-      name: 'mimeType',
-    },
-  ],
-}
+// const facetsOb = {
+//   facets: [
+//     {
+//       values: [
+//         {
+//           name: 'learning resource',
+//           count: 59,
+//         },
+//         {
+//           name: 'course',
+//           count: 18,
+//         },
+//         {
+//           name: 'asset',
+//           count: 20,
+//         },
+//       ],
+//       name: 'primaryCategory',
+//     },
+//     {
+//       values: [
+//         {
+//           name: 'application/vnd.ekstep.html-archive',
+//           count: 4,
+//         },
+//         {
+//           name: 'image/png',
+//           count: 2,
+//         },
+//         {
+//           name: 'text/x-url',
+//           count: 12,
+//         },
+//         {
+//           name: 'image/jpeg',
+//           count: 22,
+//         },
+//         {
+//           name: 'application/pdf',
+//           count: 20,
+//         },
+//         {
+//           name: 'application/vnd.ekstep.content-collection',
+//           count: 18,
+//         },
+//         {
+//           name: 'application/vnd.ekstep.ecml-archive',
+//           count: 3,
+//         },
+//         {
+//           name: 'video/x-youtube',
+//           count: 2,
+//         },
+//         {
+//           name: 'video/mp4',
+//           count: 13,
+//         },
+//         {
+//           name: 'audio/mpeg',
+//           count: 1,
+//         },
+//       ],
+//       name: 'mimeType',
+//     },
+//   ],
+// }
 
 @Injectable({
   providedIn: 'root',
@@ -119,22 +119,22 @@ export class SearchApiService {
   //     }))
   // }
 
-  getSearchV6Results(body: NSSearch.ISearchV6RequestV2): Observable<NSSearch.ISearchV6ApiResultV2> {
+  getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
         const tempArray = Array()
-        if (facetsOb.facets.length > 0) {
-          facetsOb.facets.forEach(ele => {
+        if (res.result.facets.length > 0) {
+          searchconfig.forEach((ele: any) => {
             const temp: NSSearch.IFacet = {
               displayName: '',
               type: '',
               content: [],
             }
 
-            temp.displayName = ele.name
+            temp.displayName = ele.displayname
             temp.type = ele.name
             if (ele.values.length > 0) {
-              ele.values.forEach(subEle => {
+              ele.values.forEach((subEle: any) => {
                 temp.content.push({
                   displayName: subEle.name,
                   type: subEle.name,
@@ -158,34 +158,35 @@ export class SearchApiService {
         return res
       }))
   }
-  getSearch(body: any): Observable<any> {
-    const data = {
-      locale: [
-        'en',
-      ],
-      query: '',
-      request: {
-        query: '',
-        filters: {
-          primaryCategory: body.request.filters.contentType,
-          status: [
-            'Draft',
-            'Live',
-          ],
-          visibility: 'default',
-          contentType: body.request.filters.contentType,
-        },
-        sort_by: {
-          lastUpdatedOn: 'desc',
-        },
-        facets: [
-          'primaryCategory',
-          'mimeType',
-        ],
-      },
-    }
-    data.request.query = body.request.query
-    return this.http.post<any>(API_END_POINTS.SEARCH_AUTO_COMPLETE, data)
-  }
+
+  // getSearch(body: any): Observable<any> {
+  //   const data = {
+  //     locale: [
+  //       'en',
+  //     ],
+  //     query: '',
+  //     request: {
+  //       query: '',
+  //       filters: {
+  //         primaryCategory: body.request.filters.contentType,
+  //         status: [
+  //           'Draft',
+  //           'Live',
+  //         ],
+  //         visibility: 'default',
+  //         contentType: body.request.filters.contentType,
+  //       },
+  //       sort_by: {
+  //         lastUpdatedOn: 'desc',
+  //       },
+  //       facets: [
+  //         'primaryCategory',
+  //         'mimeType',
+  //       ],
+  //     },
+  //   }
+  //   data.request.query = body.request.query
+  //   return this.http.post<any>(API_END_POINTS.SEARCH_AUTO_COMPLETE, data)
+  // }
 
 }
