@@ -64,7 +64,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
     if (this.configSvc.appsConfig) {
       const appsConfig: any = this.configSvc.appsConfig
-      appsConfig.groups[7].hasRole = []
+      //appsConfig.groups[7].hasRole = []
       const availGroups: NsAppsConfig.IGroup[] = []
       appsConfig.groups.forEach((group: any) => {
         if (group.hasRole.length === 0 || this.accessService.hasRole(group.hasRole)) {
