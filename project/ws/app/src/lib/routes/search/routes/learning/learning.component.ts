@@ -10,6 +10,7 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
+import _ from 'lodash'
 @Component({
   selector: 'ws-app-learning',
   templateUrl: './learning.component.html',
@@ -272,16 +273,25 @@ export class LearningComponent implements OnInit, OnDestroy {
         // this.searchRequestObject.filters['isInIntranet'] = ['false']
       }
       // query
+
       if (queryParams.has('q')) {
-        // if (this.searchRequestObject.query !== queryParams.get('q')) {
-        //   this.expandToPrefLang = true
-        // }
-        // this.searchRequestObject.query = queryParams.get('q') || ''
         if (this.searchRequestObject.request.query !== queryParams.get('q')) {
           this.expandToPrefLang = true
         }
         this.searchRequestObject.request.query = queryParams.get('q') || ''
+        if (_.isEmpty(this.searchRequest.filters)) {
+          this.searchRequestObject.request.filters = {
+            visibility: ['Default'],
+              primaryCategory: [
+                'Course',
+              ],
+              contentType: [
+                'Course',
+              ],
+          }
+        }
       }
+
       // filters
       if (queryParams.has('f')) {
         const filters = JSON.parse(queryParams.get('f') || '{}')
@@ -444,8 +454,8 @@ export class LearningComponent implements OnInit, OnDestroy {
           this.searchServ.getSearchConfig().then(searchData => {
             if (filteR.filtersRes && filteR.filtersRes.length > 0) {
               filteR.filtersRes.forEach(ele => {
-                if (searchData.search.visibleFiltersV2.hasOwnProperty(ele.displayName)) {
-                  ele.displayName = searchData.search.visibleFiltersV2[ele.displayName].displayName
+                if (searchData.search.visibleFilters.hasOwnProperty(ele.displayName)) {
+                  ele.displayName = searchData.search.visibleFilters[ele.displayName].displayName
                 }
               })
               this.filtersResponse = filteR.filtersRes
