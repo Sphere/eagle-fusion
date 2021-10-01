@@ -71,15 +71,14 @@ export class SearchServService {
   }
 
   searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
-    this.searchConfig.search['visibleFiltersV2'] = {
-      primaryCategory: {
-        displayName: 'Primary Category',
-      },
-      mimeType: {
-        displayName: 'Mime Type',
-      },
-    }
-
+    // this.searchConfig.search['visibleFiltersV2'] = {
+    //   primaryCategory: {
+    //     displayName: 'Primary Category',
+    //   },
+    //   mimeType: {
+    //     displayName: 'Mime Type',
+    //   },
+    // }
     const v6Request: NSSearch.ISearchV6RequestV2 = {
       request: {
         query: request.request.query,
@@ -87,11 +86,11 @@ export class SearchServService {
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },
-        facets: Object.keys(this.searchConfig.search.visibleFiltersV2),
+        facets: Object.keys(this.searchConfig.search.visibleFilters),
         fields: request.request.fields,
       },
     }
-    return this.searchApi.getSearchV6Results(v6Request)
+    return this.searchApi.getSearchV6Results(v6Request, this.searchConfig.defaultsearch)
   }
 
   // getLearning(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {

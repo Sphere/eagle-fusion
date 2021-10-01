@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angu
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { NSSearch } from '../../_services/widget-search.model'
-import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
+// import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
 import { IWidgetData } from './content-picker-v2.model'
 // import { IWidgetData, IAppliedFilters } from './content-picker-v2.model'
@@ -41,10 +41,11 @@ export class ContentPickerV2Component implements OnInit, OnDestroy {
   objKey = Object.keys
   sortOrderControl = new FormControl('desc')
   sortByControl = new FormControl()
+  searchApiSvc: any
 
   constructor(
     private valueSvc: ValueService,
-    private searchApiSvc: SearchApiService,
+    // private searchApiSvc: SearchApiService,
     private configSvc: ConfigurationsService,
     private contentPickerSvc: ContentPickerV2Service,
     // private searchServSvc: SearchServService,
@@ -163,11 +164,11 @@ export class ContentPickerV2Component implements OnInit, OnDestroy {
     this.fetchStatus = 'fetching'
     this.initSearchResults()
     this.triggerSearchSubscription = this.searchApiSvc.getSearchV6Results(this.searchReq).subscribe(
-      results => {
+      (results: any) => {
         this.fetchStatus = 'done'
         this.searchResults = JSON.parse(JSON.stringify(results))
       },
-      _err => {
+      (_err: any) => {
         this.fetchStatus = 'error'
       })
   }
