@@ -557,19 +557,25 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             mobile: Number(this.mobileLoginNumber),
           })
         }
-        this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
-          data => {
-            if (data && data.length) {
-              this.createUserForm.patchValue({
-                firstname: data[0].first_name,
-                surname: data[0].last_name,
-                primaryEmail: data[0].email,
-              })
-            }
-          },
-          () => {
-            // console.log('err :', err)
-          })
+        // this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
+        //   data => {
+        //     if (data && data.length) {
+        //       this.createUserForm.patchValue({
+        //         firstname: data[0].first_name,
+        //         surname: data[0].last_name,
+        //         primaryEmail: data[0].email,
+        //       })
+        //     }
+        //   },
+        //   () => {
+        //     // console.log('err :', err)
+        //   })
+        this.createUserForm.patchValue({
+          firstname: this.configSvc.userProfile.firstName,
+          surname: this.configSvc.userProfile.lastName,
+          primaryEmail: this.configSvc.userProfile.email,
+          orgName: this.configSvc.userProfile.rootOrgName,
+        })
       }
     }
   }
@@ -745,7 +751,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
