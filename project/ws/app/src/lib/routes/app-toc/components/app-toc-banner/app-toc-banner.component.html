@@ -211,7 +211,7 @@
 
               <div class="header-actions mb-4">
                 <a [color]="'primary'"
-                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('FRAC_COMPETENCY_REVIEWER') || this.configSvc.userRoles.has('CONTENT_CREATOR')) || this.configSvc.userRoles.has('IFU_MEMBER')) || this.configSvc.userRoles.has('FRAC_REVIEWER_L1')) || this.configSvc.userRoles.has('WAT_MEMBER'))"
+                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('MDO_ADMIN') || this.configSvc.userRoles.has('SPV_ADMIN'))"
                   class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
                   Create Batch
                 </a>
