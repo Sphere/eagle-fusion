@@ -10,7 +10,7 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
-import _ from 'lodash'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-app-learning',
   templateUrl: './learning.component.html',
@@ -282,12 +282,12 @@ export class LearningComponent implements OnInit, OnDestroy {
         if (_.isEmpty(this.searchRequest.filters)) {
           this.searchRequestObject.request.filters = {
             visibility: ['Default'],
-              primaryCategory: [
-                'Course',
-              ],
-              contentType: [
-                'Course',
-              ],
+            primaryCategory: [
+              'Course',
+            ],
+            contentType: [
+              'Course',
+            ],
           }
         }
       }
