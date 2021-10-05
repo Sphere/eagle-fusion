@@ -19,6 +19,7 @@ import { of, Subscription } from 'rxjs'
 import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
+
 interface IViewerTocCard {
   identifier: string
   viewerUrl: string
@@ -27,6 +28,7 @@ interface IViewerTocCard {
   duration: number
   type: string
   complexity: string
+  completionPercentage: number
   children: null | IViewerTocCard[]
 }
 
@@ -299,6 +301,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
       complexity: content.complexityLevel,
+      completionPercentage: 0,
       children:
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))

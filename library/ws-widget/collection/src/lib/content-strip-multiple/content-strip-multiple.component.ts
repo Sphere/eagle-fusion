@@ -14,6 +14,9 @@ import {
 import { Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
+import * as _ from 'lodash'
+import { WidgetUserService } from '../_services/widget-user.service'
+import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 interface IStripUnitContentData {
   key: string
@@ -72,6 +75,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     protected utilitySvc: UtilityService,
     // private searchServSvc: SearchServService,
+    private userSvc: WidgetUserService,
+    private tocSvc: AppTocService
   ) {
     super()
   }
@@ -169,11 +174,78 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
   ) {
     // setting initial values
     this.processStrip(strip, [], 'fetching', false, null)
-    // this.fetchFromApi(strip, calculateParentStatus)
+    this.fetchFromApi(strip, calculateParentStatus)
     this.fetchFromSearch(strip, calculateParentStatus)
-    // this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
-    // this.fetchFromSearchV6(strip, calculateParentStatus)
+    this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
+    this.fetchFromSearchV6(strip, calculateParentStatus)
     this.fetchFromIds(strip, calculateParentStatus)
+    this.fetchFromEnrollmentList(strip, calculateParentStatus)
+
+  }
+  fetchFromEnrollmentList(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
+    if (strip.request && strip.request.enrollmentList && Object.keys(strip.request.enrollmentList).length) {
+      let userId = ''
+      let content: NsContent.IContent[]
+      // let contentNew: NsContent.IContent[]
+      const queryParams = _.get(strip.request.enrollmentList, 'queryParams')
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId
+      }
+      // tslint:disable-next-line: deprecation
+      this.userSvc.fetchUserBatchList(userId, queryParams).subscribe(
+        courses => {
+          const showViewMore = Boolean(
+            courses.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
+          )
+          const viewMoreUrl = showViewMore
+            ? {
+              path: '/app/search/learning',
+              queryParams: {
+                q: strip.request && strip.request.searchV6 && strip.request.searchV6.query,
+                f:
+                  strip.request && strip.request.searchV6 && strip.request.searchV6.filters
+                    ? JSON.stringify(
+                      // this.searchServSvc.transformSearchV6Filters(
+                      strip.request.searchV6.filters
+                      // ),
+                    )
+                    : {},
+              },
+            }
+            : null
+          if (courses && courses.length) {
+            content = courses.map(c => {
+              const contentTemp: NsContent.IContent = c.content
+              contentTemp.completionPercentage = c.completionPercentage || c.progress || 0
+              contentTemp.completionStatus = c.completionStatus || c.status || 0
+              return contentTemp
+            })
+          }
+          // To filter content with completionPercentage > 0,
+          // so that only those content will show in home page
+          // continue learing strip
+          // if (content && content.length) {
+          // contentNew = content.filter((c: any) => {
+          /** commented as both are 0 after enrolll */
+          // if (c.completionPercentage && c.completionPercentage > 0) {
+          //   return c
+          // }
+          // })
+          // }
+          this.tocSvc.setcontentForWidget(content)
+          this.processStrip(
+            strip,
+            this.transformContentsToWidgets(content, strip),
+            'done',
+            calculateParentStatus,
+            viewMoreUrl,
+          )
+        },
+        () => {
+          this.processStrip(strip, [], 'error', calculateParentStatus, null)
+        }
+      )
+    }
   }
 
   private fetchStripFromKey(key: string, calculateParentStatus = true) {
@@ -194,6 +266,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
     this.fetchFromSearchV6(strip, calculateParentStatus)
     this.fetchFromIds(strip, calculateParentStatus)
+    this.fetchFromEnrollmentList(strip, calculateParentStatus)
   }
   fetchFromApi(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.api && Object.keys(strip.request.api).length) {
@@ -555,6 +628,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         (strip.request.searchRegionRecommendation &&
           Object.keys(strip.request.searchRegionRecommendation).length) ||
         (strip.request.searchV6 && Object.keys(strip.request.searchV6).length) ||
+        (strip.request.enrollmentList && Object.keys(strip.request.enrollmentList).length) ||
         (strip.request.ids && Object.keys(strip.request.ids).length))
     ) {
       return true

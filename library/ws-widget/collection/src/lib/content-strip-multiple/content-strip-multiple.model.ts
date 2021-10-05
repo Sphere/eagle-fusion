@@ -28,6 +28,7 @@ export namespace NsContentStripMultiple {
       searchV6?: NSSearch.ISearchV6Request
       searchRegionRecommendation?: NSSearch.ISearchOrgRegionRecommendationRequest
       api?: IStripRequestApi
+      enrollmentList?: any
       ids?: string[]
     }
     searchV6Type?: 'KB' | 'Collections' | 'searchQuery' | null
