@@ -210,7 +210,9 @@
               </div>
 
               <div class="header-actions mb-4">
-                <a [color]="'primary'" class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
+                <a [color]="'primary'"
+                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('MDO_ADMIN') || this.configSvc.userRoles.has('SPV_ADMIN'))"
+                  class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
                   Create Batch
                 </a>
                 <ng-container *ngIf="
