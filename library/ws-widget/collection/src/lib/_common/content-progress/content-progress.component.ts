@@ -47,7 +47,8 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
   public id = `progress_${Math.random()}`
   constructor(private progressSvc: ContentProgressService,
     private route: ActivatedRoute,
-    private tocSvc: AppTocService) {
+    private tocSvc: AppTocService
+  ) {
     if (this.contentId) {
       this.id = this.contentId
     }
@@ -61,12 +62,15 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
     if (this.content !== null) {
       this.progress = this.content
     } else {
-      this.homePageData = this.tocSvc.getcontentForWidget()
-        ;this.homePageData.forEach((element: any) => {
-          if (element !== undefined) {
-            this.progress = element
-          }
-        })
+      if (this.tocSvc.getcontentForWidget() != undefined) {
+        this.homePageData = this.tocSvc.getcontentForWidget()
+          ; this.homePageData.forEach((element: any) => {
+            if (element !== undefined) {
+              this.progress = element
+            }
+          })
+      }
+
     }
     // this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
     //   this.progress = data
