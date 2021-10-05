@@ -40,7 +40,18 @@ export class AppTocService {
   resumeDataSubscription: Subscription | null = null
 
   constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  private data: any
 
+  getcontentForWidget() {
+    const temp = this.data
+    return temp
+  }
+  setcontentForWidget(val: any) {
+    this.data = val
+  }
+  clearData() {
+    this.data = undefined
+  }
   get subtitleOnBanners(): boolean {
     return this.showSubtitleOnBanners
   }
@@ -307,16 +318,14 @@ export class AppTocService {
 
   fetchMoreLikeThisPaid(contentId: string): Observable<NsContent.IContentMinimal[]> {
     return this.http.get<NsContent.IContentMinimal[]>(
-      `${
-      API_END_POINTS.CONTENT_NEXT
+      `${API_END_POINTS.CONTENT_NEXT
       }/${contentId}?exclusiveContent=true&ts=${new Date().getTime()}`,
     )
   }
 
   fetchMoreLikeThisFree(contentId: string): Observable<NsContent.IContentMinimal[]> {
     return this.http.get<NsContent.IContentMinimal[]>(
-      `${
-      API_END_POINTS.CONTENT_NEXT
+      `${API_END_POINTS.CONTENT_NEXT
       }/${contentId}?exclusiveContent=false&ts=${new Date().getTime()}`,
     )
   }

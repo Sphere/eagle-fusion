@@ -35,6 +35,7 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   forPreview = false
+  homePageData: any
 
   @Input()
   className = ''
@@ -56,9 +57,17 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
     this.routeSubscription = this.route.data.subscribe((data: Data) => {
       const initData = this.tocSvc.initData(data)
       this.content = initData.content
-      this.progress = this.content
     })
-
+    if (this.content !== null) {
+      this.progress = this.content
+    } else {
+      this.homePageData = this.tocSvc.getcontentForWidget()
+        ;this.homePageData.forEach((element: any) => {
+          if (element !== undefined) {
+            this.progress = element
+          }
+        })
+    }
     // this.progressSvc.getProgressFor(this.contentId).subscribe(data => {
     //   this.progress = data
     //   if (this.progress) {
