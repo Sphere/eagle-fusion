@@ -152,11 +152,12 @@ export class BtnProfileComponent extends WidgetBaseComponent
         feature.featureWidgets.forEach((fw: any) => {
           this.portalLinks.push(fw)
         })
-      } else if (feature.id === 'portal_frac' && feature.featureWidgets.length > 0) {
-        feature.featureWidgets.forEach((fw: any) => {
-          this.portalLinks.push(fw)
-        })
       }
+      // else if (feature.id === 'portal_frac' && feature.featureWidgets.length > 0) {
+      //   feature.featureWidgets.forEach((fw: any) => {
+      //     this.portalLinks.push(fw)
+      //   })
+      // }
     })
   }
 }

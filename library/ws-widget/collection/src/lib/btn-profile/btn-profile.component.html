@@ -57,12 +57,16 @@
   </section>
 
   <!-- portal links section-->
-  <section *ngIf="portalLinks && portalLinks.length" class="padding-top-xs padding-bottom-xs padding-left-s padding-right-s border-bottom">
+  <section *ngIf="portalLinks && portalLinks.length"
+    class="padding-top-xs padding-bottom-xs padding-left-s padding-right-s border-bottom">
     <div class="margin-top-s margin-bottom-s" *ngFor="let wdata of portalLinks">
       <div class="box-sizing-box" id="wdata.widgetData.actionBtn.id">
         <a class="inline-block" target="_blank" href="{{wdata.widgetData.actionBtn.url}}">
           <img src="{{wdata.widgetData.actionBtn.icon}}" alt="wdata.widgetData.actionBtn.name">
-          <div class="mb-2 mat-body-2 inline-block margin-left-s portal-name" [attr.id]="wdata.widgetData.actionBtn.icon">{{ wdata.widgetData.actionBtn.name }} <span *ngIf="wdata.widgetData.actionBtn.name !== 'Frac'">portal</span> <span *ngIf="wdata.widgetData.actionBtn.name === 'Frac'">dictionary</span></div>
+          <div class="mb-2 mat-body-2 inline-block margin-left-s portal-name"
+            [attr.id]="wdata.widgetData.actionBtn.icon">{{ wdata.widgetData.actionBtn.name }}
+            <span *ngIf="wdata.widgetData.actionBtn.name !== 'Frac'">portal</span>
+          </div>
         </a>
       </div>
     </div>
