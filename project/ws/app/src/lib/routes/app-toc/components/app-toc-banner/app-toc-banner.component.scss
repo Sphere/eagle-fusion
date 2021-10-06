@@ -2,7 +2,8 @@
 @import 'ws-mixins';
 
 %container-padding {
-  padding: $size-xl 2 * $size-xl;
+  padding: 38px 2 * $size-xl $size-xl 12rem;
+
 
   @include breakpoint-xs {
     padding: $size-xl $size-l;
@@ -10,7 +11,7 @@
 }
 
 .banner-container {
-  // color: white;
+  //color: white;
   position: relative;
   background-repeat: no-repeat;
   background-position: center;
@@ -51,9 +52,13 @@
 
 .header-synopsis {
   height: 100%;
-  padding: 38px 64px 32px 12rem;
+  // padding: 38px 64px 32px 12rem;
   background: #fbf5f2;
   box-sizing: border-box;
+  @extend %container-padding;
+  @include breakpoint-s {
+    padding: 20px;
+  }
 
   .apIcon {
     min-width: 86px;
@@ -69,7 +74,7 @@
   }
 
   .header-title {
-    display: flex;
+    // display: flex;
     align-items: center;
 
     h1 {
@@ -265,4 +270,20 @@
 .header-left {
   flex: 1;
   min-width: 50%;
+}
+
+@media (max-width: 600px) {
+  .header-right,
+  .header-left {
+    width: 100%;
+  }
+  .header-right {
+    display: none;
+  }
+  .header-synopsis {
+    padding-left: 10px;
+  }
+  .flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
+  }
 }
