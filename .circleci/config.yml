@@ -1,4 +1,9 @@
 version: 2.1
+
+on:
+  pull_request:
+    types: [opened,reopened]
+
 executors:
   my-custom-executor:
     docker:
@@ -11,6 +16,7 @@ jobs:
     steps:
       - checkout
       - run: |
+          checkout
           yarn
           npm run lint:fix
           npm build
