@@ -59,7 +59,7 @@
                 <img [src]="greenTickIcon" class="image" />
               </span>
               <ng-template #elseChapterPercentage>
-                <span class="margin-left-xxs">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
+                <span class="margin-left-xxs" *ngIf="node?.progress">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
               </ng-template>
 
               <mat-icon *ngIf="

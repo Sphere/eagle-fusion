@@ -46,7 +46,8 @@
           <div class="flex flex-col sm:flex-row">
 
             <div class="sm:ml-5 flex flex-col flex-auto">
-              <div [ngSwitch]="routePath" class="header-meta" [ngClass]="{ 'header-meta-banner': bannerUrl }">
+              <div [ngSwitch]="routePath" class="header-meta margin-bottom-m"
+                [ngClass]="{ 'header-meta-banner': bannerUrl }">
 
                 <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
                   *ngSwitchCase="'overview'">
@@ -95,12 +96,12 @@
                     Source: <a class="blue-link cursor-pointer"
                       (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</a>
                   </div>
-                  <div *ngIf="content?.creatorContacts"> Authors :
-                    <span *ngFor="let author of content?.creatorContacts; let i = index" class="mr-1">{{author.name}}
+                  <div *ngIf="content?.creator"> Author : {{content?.creator}}
+                    <!-- <span *ngFor="let author of content?.creator; let i = index" class="mr-1">{{author.name}}
                       <ng-container
                         *ngIf="content?.creatorContacts.length > 1 && i !== content?.creatorContacts.length - 1">,
                       </ng-container>
-                    </span>
+                    </span> -->
                   </div>
                   <div *ngIf="content?.creatorDetails">
                     Curators :
@@ -141,7 +142,7 @@
               </div> -->
 
 
-              <div class="action-btns">
+              <!-- <div class="action-btns">
                 <div class="hidden-block-xs">
                   <ng-container [ngTemplateOutlet]="actions"></ng-container>
                 </div>
@@ -177,7 +178,7 @@
                   [widgetData]="content | pipePartialContent: ['identifier', 'name']">
                 </ws-widget-btn-content-feedback-v2>
 
-              </div>
+              </div> -->
 
               <div class="header-actions mb-4">
                 <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">

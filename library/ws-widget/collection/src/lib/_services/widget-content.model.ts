@@ -187,6 +187,7 @@ export namespace NsContent {
     collectionId: string
     completedOn: string | null
     completionPercentage: number | null
+    completionStatus?: number
     content: IContent
     contentId: string
     contentStatus: any
