@@ -13,6 +13,10 @@
     box-sizing: border-box;
 }
 
+/*::ng-deep .fontRoboto {
+    font : 400 14px/20px Roboto !important;
+}*/
+
 .trnsform {
     transform: scale(1.3);
     height: -webkit-fill-available;
@@ -44,7 +48,7 @@ section {
         line-height: 30px;
         height: 38px;
         padding: 0 6px;
-        font: 400 14px/21px Lato !important
+        font: 400 14px/28px Roboto !important
     }
 }
 ::ng-deep.circle-m {
