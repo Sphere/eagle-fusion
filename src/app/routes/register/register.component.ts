@@ -50,6 +50,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     // console.log(this.emailForm)
     // tslint:disable-next-line:max-line-length
     this.emailForm = fb.group({
+      // tslint:disable-next-line:max-line-length
       userInput: [null, Validators.compose([Validators.required, Validators.pattern(/^(\d{10}|\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3}))$/)])],
     })
   }
@@ -152,13 +153,13 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           }
           this.tncService.assignAdminToDepartment(departmentData)
             .subscribe(data => {
-            // tslint:disable-next-line:no-console
+              // tslint:disable-next-line:no-console
               console.log(data)
               this.openSnackbar(`${data.result.response}`)
               this.router.navigate(['/app/profile/dashboard'])
             },
               err => {
-              // tslint:disable-next-line:no-console
+                // tslint:disable-next-line:no-console
                 console.log(err)
                 this.router.navigate([`/public/register`])
                 this.openSnackbar(`Error in assign roles ${err}`)
@@ -176,7 +177,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           // }
         },
         (err: any) => {
-        // tslint:disable-next-line:no-console
+          // tslint:disable-next-line:no-console
           console.log(err)
           this.openSnackbar(`User Creation ${err}`)
         }
