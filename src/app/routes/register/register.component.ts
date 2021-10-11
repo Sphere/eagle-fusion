@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                              { validator: mustMatch('password', 'confirmPassword') })
 
     // this.emailForm = this.fb.group({
     //   userInput: new FormControl(['']),
@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    }, 30000)
+    },         30000)
   }
 
   verifyEntry() {
@@ -131,11 +131,11 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (this.email) {
       reqObj = {
         personalDetails: {
-          firstname: form.value.firstName,
+          firstName: form.value.firstName,
           lastname: form.value.lastName,
           // username: this.emailOrMobile,
           channel: 'JaiHind',
-          email: this.emailOrMobile,
+          email: this.emailForm.value.userInput,
           // password: form.value.password,
         },
         // type: 'email',
@@ -158,7 +158,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
               this.openSnackbar(`${data.result.response}`)
               this.router.navigate(['/app/profile/dashboard'])
             },
-              err => {
+                       err => {
                 // tslint:disable-next-line:no-console
                 console.log(err)
                 this.router.navigate([`/public/register`])
@@ -208,7 +208,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           if (res.message === 'Success') {
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            }, 5000)
+            },         5000)
           }
         },
         (err: { error: { error: string } }) => {
