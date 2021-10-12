@@ -223,7 +223,12 @@ export class DownloadCertificateComponent implements OnInit {
     this.userFullname = this.userFullname.split(' ').map(d => d.charAt(0).toUpperCase() + d.slice(1, d.length)).join(' ')
 
     // AWS analytics event
-    this.createAWSAnalyticsEventAttribute('Startdownloadcertificate')
+    try {
+      this.createAWSAnalyticsEventAttribute('Startdownloadcertificate')
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log(e)
+    }
 
     let imageData = ''
     // Fernandes course
@@ -266,7 +271,12 @@ export class DownloadCertificateComponent implements OnInit {
         doc.save('certificate_fernandez.pdf')
 
         // AWS analytics event
-        this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+        try {
+          this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+        } catch (e) {
+          // tslint:disable-next-line: no-console
+          console.log(e)
+        }
         this.showLoader = false
       }
     } else
