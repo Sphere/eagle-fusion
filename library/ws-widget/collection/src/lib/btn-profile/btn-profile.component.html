@@ -16,6 +16,11 @@
   <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}} </span>
   <mat-icon>arrow_drop_down</mat-icon>
 </button> -->
+<a class="btn btn-outline-dark" role="button" href="{{isSignedIn === true ? signinURL : ''}}" (click)="googleInit()">
+  <img width="20px"  alt="Google sign-in"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" style="margin-bottom:-6px;" />
+</a>
+
 <a href="javascript:void(0)" mat-icon-button i18n-aria-label title="option" class="new-margin"
   #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
   <span class="flex flex-column flex-middle">
