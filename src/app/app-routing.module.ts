@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
+import { BtnProfileComponent } from '../../library/ws-widget/collection/src/lib/btn-profile/btn-profile.component'
 import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { ETopBar } from './constants/topBar.constants'
@@ -409,6 +410,10 @@ const routes: Routes = [
   {
     path: 'public/faq/:tab',
     component: PublicFaqComponent,
+  },
+    {
+    path: 'google/callback',
+    component: BtnProfileComponent,
   },
   {
     path: 'viewer',
