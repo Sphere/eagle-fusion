@@ -6,7 +6,7 @@ import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-import { EmailMobileValidators } from '../emailMobile.validator'
+// import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
   selector: 'ws-app-register',
@@ -27,11 +27,14 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   showAllFields = false
   isMobile = false
   showResend = false
+  hide1 = true
+  hide2 = true
+
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder, private router: Router,
     private tncService: TncPublicResolverService,
-    private authSvc: AuthKeycloakService,
+    private authSvc: AuthKeycloakService
   ) {
     this.signupForm = this.fb.group({
       firstName: new FormControl('', [Validators.required]),
@@ -41,15 +44,21 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       confirmPassword: new FormControl(['']),
     },                              { validator: mustMatch('password', 'confirmPassword') })
 
-    this.emailForm = this.fb.group({
-      userInput: new FormControl(['']),
-    },                             { validators: EmailMobileValidators.combinePattern })
+    // this.emailForm = this.fb.group({
+    //   userInput: new FormControl(['']),
+    // }, { validators: EmailMobileValidators.combinePattern })
+    // console.log(this.emailForm)
+    // tslint:disable-next-line:max-line-length
+    this.emailForm = fb.group({
+      // tslint:disable-next-line:max-line-length
+      userInput: [null, Validators.compose([Validators.required, Validators.pattern(/^(\d{10}|\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3}))$/)])],
+    })
   }
 
   ngOnInit() {
-    if (this.authSvc.isAuthenticated) {
-      this.router.navigate(['/page/home'])
-    }
+    // if (this.authSvc.isAuthenticated) {
+    //   this.router.navigate(['/page/home'])
+    // }
   }
 
   ngAfterViewChecked() {
@@ -116,39 +125,70 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onSubmit(form: any) {
-    this.uploadSaveData = true
+    // this.uploadSaveData = true
     let reqObj
 
     if (this.email) {
       reqObj = {
-        data: {
-          firstname: form.value.firstName,
+        personalDetails: {
+          firstName: form.value.firstName,
           lastname: form.value.lastName,
-          username: this.emailOrMobile,
-          email: this.emailOrMobile,
-          password: form.value.password,
+          // username: this.emailOrMobile,
+          channel: 'JaiHind',
+          email: this.emailForm.value.userInput,
+          // password: form.value.password,
         },
-        type: 'email',
+        // type: 'email',
       }
       this.tncService.signup(reqObj).subscribe(
-        (res: { message: string }) => {
-          if (res.message === 'Success') {
-            form.reset()
-            this.uploadSaveData = false
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-            setTimeout(() => {
-              this.authSvc.login('S', document.baseURI)
-            },         5000)
+        userData => {
+          // tslint:disable-next-line:no-console
+          console.log(userData)
+          const departmentData = {
+            request: {
+              userId: userData.userId,
+              organisationId: '01338037169049600055',
+              roles: ['PUBLIC'],
+            },
           }
+          this.tncService.assignAdminToDepartment(departmentData)
+            .subscribe(data => {
+              // tslint:disable-next-line:no-console
+              console.log(data)
+              this.openSnackbar(`${data.result.response}`)
+              this.router.navigate(['/app/profile/dashboard'])
+            },
+                       err => {
+                // tslint:disable-next-line:no-console
+                console.log(err)
+                this.router.navigate([`/public/register`])
+                this.openSnackbar(`Error in assign roles ${err}`)
+              })
+
+          // (res: { message: string }) => {
+          //   console.log(res)
+          // if (res.message === 'Success') {
+          //   form.reset()
+          //   this.uploadSaveData = false
+          //   this.openSnackbar(this.toastSuccess.nativeElement.value)
+          //   setTimeout(() => {
+          //     this.authSvc.login('S', document.baseURI)
+          //   }, 5000)
+          // }
         },
-        (err: { error: { error: string } }) => {
-          this.openSnackbar(err.error.error)
-          this.uploadSaveData = false
-          setTimeout(() => {
-            this.emailForm.reset()
-            this.signupForm.reset()
-          },         3000)
+        (err: any) => {
+          // tslint:disable-next-line:no-console
+          console.log(err)
+          this.openSnackbar(`User Creation ${err}`)
         }
+        // (err: { error: { error: string } }) => {
+        //   this.openSnackbar(err.error.error)
+        //   this.uploadSaveData = false
+        //   setTimeout(() => {
+        //     this.emailForm.reset()
+        //     this.signupForm.reset()
+        //   }, 3000)
+        // }
       )
     } else {
       const requestBody = {
