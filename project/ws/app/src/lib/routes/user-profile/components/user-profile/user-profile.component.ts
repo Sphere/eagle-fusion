@@ -14,12 +14,12 @@ import {
   INationality,
   ILanguages,
   IChipItems,
-  IGovtOrgMeta,
-  IIndustriesMeta,
+  // IGovtOrgMeta,
+  // IIndustriesMeta,
   IProfileAcademics,
   INation,
-  IdegreesMeta,
-  IdesignationsMeta,
+  // IdegreesMeta,
+  // IdesignationsMeta,
   // IUserProfileFields2,
 } from '../../models/user-profile.model'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
@@ -71,12 +71,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toastError', { static: true }) toastError!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   isEditEnabled = false
+  isEditable = false
   tncAccepted = false
   isOfficialEmail = false
-  govtOrgMeta!: IGovtOrgMeta
-  industriesMeta!: IIndustriesMeta
-  degreesMeta!: IdegreesMeta
-  designationsMeta!: IdesignationsMeta
+  // govtOrgMeta!: IGovtOrgMeta
+  // industriesMeta!: IIndustriesMeta
+  // degreesMeta!: IdegreesMeta
+  // designationsMeta!: IdesignationsMeta
   public degrees!: FormArray
   public postDegrees!: FormArray
   public degreeInstitutes = []
@@ -236,16 +237,16 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       (_err: any) => {
       })
-    this.userProfileSvc.getProfilePageMeta().subscribe(
-      data => {
-        this.states = data.states
-        this.govtOrgMeta = data.govtOrg
-        this.industriesMeta = data.industries
-        this.degreesMeta = data.degrees
-        this.designationsMeta = data.designations
-      },
-      (_err: any) => {
-      })
+    // this.userProfileSvc.getProfilePageMeta().subscribe(
+    //   data => {
+    //     // this.states = data.states
+    //     this.govtOrgMeta = data.govtOrg
+    //     this.industriesMeta = data.industries
+    //     this.degreesMeta = data.degrees
+    //     this.designationsMeta = data.designations
+    //   },
+    //   (_err: any) => {
+    //   })
 
     // tslint:disable-next-line: no-non-null-assertion
     this.filteredOptions = this.createUserForm.get('nursingCouncil')!.valueChanges
@@ -509,9 +510,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getUserDetails() {
-    if (this.configSvc.profileDetailsStatus) {
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.id) {
       if (this.configSvc.userProfile) {
-        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in')) {
+        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('yopmail.com')) {
           this.mobileNumberLogin = true
           this.createUserForm.controls.mobile.disable()
           this.createUserForm.controls.countryCode.disable()
@@ -520,17 +521,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             mobile: Number(this.mobileLoginNumber),
           })
         }
-        this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
           (data: any) => {
-            const userData = data.result.UserProfile
-            if (data && data.result && data.result.UserProfile && userData.length) {
-              const academics = this.populateAcademics(userData[0])
+            const userData = data.profileDetails
+            if (data && data.profileDetails && userData) {
+              this.isEditable = true
+              const academics = this.populateAcademics(userData)
               this.setDegreeValuesArray(academics)
               this.setPostDegreeValuesArray(academics)
-              const organisations = this.populateOrganisationDetails(userData[0])
-              this.constructFormFromRegistry(userData[0], academics, organisations)
-              this.populateChips(userData[0])
-              this.userProfileData = userData[0]
+              const organisations = this.populateOrganisationDetails(userData)
+              this.constructFormFromRegistry(userData, academics, organisations)
+              this.populateChips(userData)
+              this.userProfileData = userData
             } else {
               if (this.configSvc.userProfile) {
                 this.createUserForm.patchValue({
@@ -539,8 +541,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
                   primaryEmail: this.configSvc.userProfile.email,
                   orgName: this.configSvc.userProfile.rootOrgName,
                 })
+              } else {
+                this.router.navigate(['app/user-profile/chatbot'])
               }
             }
+
             // this.handleFormData(data[0])
           },
           (_err: any) => {
@@ -548,7 +553,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } else {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
-        if (this.configSvc.userProfile.email.endsWith('aastrika.in')) {
+        if (this.configSvc.userProfile.email.endsWith('yopmail.com')) {
           this.mobileNumberLogin = true
           this.createUserForm.controls.mobile.disable()
           this.createUserForm.controls.countryCode.disable()
@@ -557,26 +562,17 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             mobile: Number(this.mobileLoginNumber),
           })
         }
-        // this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
-        //   data => {
-        //     if (data && data.length) {
-        //       this.createUserForm.patchValue({
-        //         firstname: data[0].first_name,
-        //         surname: data[0].last_name,
-        //         primaryEmail: data[0].email,
-        //       })
-        //     }
-        //   },
-        //   () => {
-        //     // console.log('err :', err)
-        //   })
-        this.createUserForm.patchValue({
-          firstname: this.configSvc.userProfile.firstName,
-          surname: this.configSvc.userProfile.lastName,
-          primaryEmail: this.configSvc.userProfile.email,
-          orgName: this.configSvc.userProfile.rootOrgName,
-        })
+        if (this.configSvc.userProfile) {
+          const tempData = this.configSvc.userProfile
+          this.userProfileData = _.get(this.configSvc, 'unMappedUser.profileDetails')
+          this.createUserForm.patchValue({
+            firstname: this.userProfileData.personalDetails.firstname,
+            surname: this.userProfileData.personalDetails.surname,
+            primaryEmail: _.get(this.configSvc.unMappedUser, 'profileDetails.personalDetails.primaryEmail') || tempData.email,
+          })
+        }
       }
+
     }
   }
 
@@ -729,7 +725,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       schoolName12: academics.XII_STANDARD.schoolName12,
       yop12: academics.XII_STANDARD.yop12,
       isGovtOrg: organisation.isGovtOrg,
-      // orgName: organisation.orgName,
+      orgName: organisation.orgName,
       industry: organisation.industry,
       designation: organisation.designation,
       location: organisation.location,
@@ -738,7 +734,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       orgNameOther: organisation.orgNameOther,
       industryOther: organisation.industryOther,
       designationOther: organisation.designationOther,
-      orgName: _.get(data, 'employmentDetails.departmentName') || '',
+      // orgName: _.get(data, 'employmentDetails.departmentName') || '',
       service: _.get(data, 'employmentDetails.service') || '',
       cadre: _.get(data, 'employmentDetails.cadre') || '',
       allotmentYear: this.checkvalue(_.get(data, 'employmentDetails.allotmentYearOfService') || ''),
@@ -751,7 +747,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -1079,7 +1075,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       () => {
 
         if (this.configSvc.userProfile) {
-          this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+          this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
             (data: any) => {
               const dat = data.result.UserProfile[0]
               if (dat) {

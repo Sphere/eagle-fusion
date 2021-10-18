@@ -74,6 +74,7 @@ export class GeneralGuard implements CanActivate {
        */
     if (!this.configSvc.profileDetailsStatus) {
       // return this.router.parseUrl('/app/user-profile/details')
+      // return this.router.parseUrl('/app/user-profile/chatbot')
     }
 
     /**

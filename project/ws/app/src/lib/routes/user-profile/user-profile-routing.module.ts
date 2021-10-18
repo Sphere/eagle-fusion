@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
 import { ProfileResolverService } from './resolvers/profile-resolver.service'
 import { PageResolve } from '../../../../../../../library/ws-widget/utils/src/public-api'
+import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       profileData: ProfileResolverService,
       pageData: PageResolve,
     },
+  },
+  {
+    path: 'chatbot',
+    component: ChatbotComponent,
   },
 ]
 
