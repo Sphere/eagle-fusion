@@ -186,7 +186,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     if (strip.request && strip.request.enrollmentList && Object.keys(strip.request.enrollmentList).length) {
       let userId = ''
       let content: NsContent.IContent[]
-      // let contentNew: NsContent.IContent[]
+      let contentNew: NsContent.IContent[]
       const queryParams = _.get(strip.request.enrollmentList, 'queryParams')
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId
@@ -224,15 +224,15 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
           // To filter content with completionPercentage > 0,
           // so that only those content will show in home page
           // continue learing strip
-          // if (content && content.length) {
-          // contentNew = content.filter((c: any) => {
-          /** commented as both are 0 after enrolll */
-          // if (c.completionPercentage && c.completionPercentage > 0) {
-          //   return c
-          // }
-          // })
-          // }
-          this.tocSvc.setcontentForWidget(content)
+          if (content && content.length) {
+            contentNew = content.filter((c: any) => {
+              /** commented as both are 0 after enrolll */
+              if (c.completionPercentage && c.completionPercentage > 0) {
+                return c
+              }
+            })
+          }
+          this.tocSvc.setcontentForWidget(contentNew)
           this.processStrip(
             strip,
             this.transformContentsToWidgets(content, strip),
