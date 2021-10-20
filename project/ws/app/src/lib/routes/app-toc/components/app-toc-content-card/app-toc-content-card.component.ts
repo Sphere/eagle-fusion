@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { ActivatedRoute, Params } from '@angular/router'
 import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
@@ -34,7 +35,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   defaultThumbnail = ''
   viewChildren = false
-  constructor(private configSvc: ConfigurationsService) { }
+  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
@@ -42,6 +43,10 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
+    this.route.queryParams.subscribe((params: Params) => {
+      this.batchId = params['batchId']
+    })
+
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {

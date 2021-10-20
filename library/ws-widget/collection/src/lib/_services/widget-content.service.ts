@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse  } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
-import { Observable, of } from 'rxjs'
+import { Observable, of, throwError } from 'rxjs'
 import { catchError, retry, map } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
@@ -33,6 +33,7 @@ const API_END_POINTS = {
   MARK_AS_COMPLETE_META: (contentId: string) => `${PROTECTED_SLAG_V8}/user/progress/${contentId}`,
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
+  GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
 }
 
 @Injectable({
@@ -111,7 +112,6 @@ export class WidgetContentService {
       )}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     )
   }
-
   enrollUserToBatch(req: any) {
     return this.http
       .post(API_END_POINTS.ENROLL_BATCH, req)
@@ -267,7 +267,12 @@ export class WidgetContentService {
   fetchConfig(url: string) {
     return this.http.get<any>(url)
   }
-
+  googleAuthenticate(req: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))
+  }
+  handleError(error: HttpErrorResponse) {
+    return throwError(error)
+  }
   fetchCourseBatches(req: any): Observable<NsContent.IBatchListResponse> {
     return this.http
       .post<NsContent.IBatchListResponse>(API_END_POINTS.COURSE_BATCH_LIST, req)

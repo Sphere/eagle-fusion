@@ -5,10 +5,10 @@ import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
-import { HttpClient } from '@angular/common/http'
-import { retry } from 'rxjs/operators'
 import { Router } from '@angular/router'
-
+import {
+  WidgetContentService,
+} from '@ws-widget/collection'
 declare const gapi: any
 /* tslint:disable*/
 import _ from 'lodash'
@@ -31,8 +31,8 @@ export class BtnProfileComponent extends WidgetBaseComponent
     private dialog: MatDialog,
     private accessService: AccessControlService,
     private element: ElementRef,
-    private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private contentSvc: WidgetContentService
   ) {
     super()
 
@@ -179,7 +179,12 @@ export class BtnProfileComponent extends WidgetBaseComponent
     if (storageItem2 === 'true' && this.router.url.includes('google/callback')) {
       this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
       this.isSignedIn = true
-      this.http.get(this.signinURL).pipe(retry(1)).subscribe(
+      const req = {
+        idToken: storageItem1,
+      }
+      // tslint:disable-next-line:no-console
+      console.log(req)
+      this.contentSvc.googleAuthenticate(req).subscribe(
         (results: any) => {
           // tslint:disable-next-line:no-console
           console.log(results)
@@ -187,7 +192,9 @@ export class BtnProfileComponent extends WidgetBaseComponent
         (err: any) => {
           // tslint:disable-next-line:no-console
           console.log(err)
-        })
+        }
+      )
+       this.router.navigate(['/page/home'])
     }
   }
 

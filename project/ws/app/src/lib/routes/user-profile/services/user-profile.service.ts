@@ -28,6 +28,7 @@ export class UserProfileService {
   ) {
   }
   updateProfileDetails(data: any) {
+    console.log(data)
     return this.http.post<any>(API_ENDPOINTS.updateProfileDetails, data)
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
