@@ -1,14 +1,20 @@
-import { Component, Input, OnInit, OnDestroy, HostBinding } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy, HostBinding, ElementRef, AfterViewInit } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig } from '@ws-widget/utils/src/public-api'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
+import { HttpClient } from '@angular/common/http'
+import { retry } from 'rxjs/operators'
+import { Router } from '@angular/router'
+
+declare const gapi: any
 /* tslint:disable*/
 import _ from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 /* tslint:enable*/
+
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
   featureWidgets: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[]
 }
@@ -19,38 +25,17 @@ interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
 })
 
 export class BtnProfileComponent extends WidgetBaseComponent
-  implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
-  @HostBinding('id')
-  public id = 'Profile_link'
-  @Input() widgetData!: any
-  @HostBinding('class')
-  public class = 'profile-link'
-  basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
-    widgetType: 'actionButton',
-    widgetSubType: 'actionButtonApps',
-    widgetData: { allListingUrl: '/app/features' },
-  }
-  settingBtnConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
-    widgetType: 'actionButton',
-    widgetSubType: 'actionButtonSetting',
-    widgetData: { allListingUrl: '/app/features' },
-  }
-  isPinFeatureAvailable = true
-  pinnedApps: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
-
-  btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
-  btnSettingsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
-  private pinnedAppsSubs?: Subscription
-  givenName = 'Guest'
-  profileImage!: string | null
-  private readonly featuresConfig: IGroupWithFeatureWidgets[] = []
-  portalLinks: any[] = []
+  implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
-    private accessService: AccessControlService
+    private accessService: AccessControlService,
+    private element: ElementRef,
+    private http: HttpClient,
+    private router: Router
   ) {
     super()
+
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     this.btnSettingsConfig = { ... this.settingBtnConfig }
     if (this.configSvc.userProfile) {
@@ -64,7 +49,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
     if (this.configSvc.appsConfig) {
       const appsConfig: any = this.configSvc.appsConfig
-      //appsConfig.groups[7].hasRole = []
+      // appsConfig.groups[7].hasRole = []
       const availGroups: NsAppsConfig.IGroup[] = []
       appsConfig.groups.forEach((group: any) => {
         if (group.hasRole.length === 0 || this.accessService.hasRole(group.hasRole)) {
@@ -101,6 +86,83 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
     }
   }
+  @HostBinding('id')
+  public id = 'Profile_link'
+  @Input() widgetData!: any
+  @HostBinding('class')
+  public class = 'profile-link'
+  public isSignedIn = false
+  public signinURL = ''
+  private clientId = '770679530323-q259h46ic85g4n5iu4kq2vkcpinka6o6.apps.googleusercontent.com'
+  private scope = [
+    'profile',
+    'email',
+    'https://www.googleapis.com/auth/plus.me',
+    'https://www.googleapis.com/auth/contacts.readonly',
+    'https://www.googleapis.com/auth/admin.directory.user.readonly',
+  ].join(' ')
+
+  public auth2: any
+  basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
+    widgetType: 'actionButton',
+    widgetSubType: 'actionButtonApps',
+    widgetData: { allListingUrl: '/app/features' },
+  }
+  settingBtnConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
+    widgetType: 'actionButton',
+    widgetSubType: 'actionButtonSetting',
+    widgetData: { allListingUrl: '/app/features' },
+  }
+  isPinFeatureAvailable = true
+  pinnedApps: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
+
+  btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
+  btnSettingsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
+  private pinnedAppsSubs?: Subscription
+  givenName = 'Guest'
+  profileImage!: string | null
+  private readonly featuresConfig: IGroupWithFeatureWidgets[] = []
+  portalLinks: any[] = []
+
+  public googleInit() {
+    gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: this.clientId,
+        cookie_policy: 'single_host_origin',
+        scope: this.scope,
+        ux_mode: 'redirect',
+        redirect_uri: `${location.origin}/google/callback`,
+      })
+      this.attachSignin(this.element.nativeElement.firstChild)
+      this.auth2.isSignedIn.listen(this.signinChanged)
+      this.auth2.currentUser.listen(this.userChanged)
+    })
+  }
+
+  public signinChanged(val: any) {
+    sessionStorage.setItem(`google_isSignedIn`, val)
+  }
+
+  public userChanged(user: any) {
+    sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+  }
+
+  public attachSignin(element: any) {
+    this.auth2.attachClickHandler(element, {},
+      (googleUser: any) => {
+        // @ts-ignore
+        const profile = googleUser.getBasicProfile()
+        // console.log('Token || ' + googleUser.getAuthResponse().id_token)
+        // console.log(`'ID: ' + profile.getId()`)
+        // console.log('Name: ' + profile.getName())
+        // console.log('Image URL: ' + profile.getImageUrl())
+        // console.log('Email: ' + profile.getEmail())
+      },
+      (error: any) => {
+        // tslint:disable-next-line:no-console
+        console.log(JSON.stringify(error, undefined, 2))
+      })
+  }
 
   ngOnInit() {
     this.setPinnedApps()
@@ -111,6 +173,26 @@ export class BtnProfileComponent extends WidgetBaseComponent
     if (this.featuresConfig && this.featuresConfig.length > 0) {
       this.getPortalLinks()
     }
+    const storageItem1 = sessionStorage.getItem(`google_token`)
+    const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+
+    if (storageItem2 === 'true' && this.router.url.includes('google/callback')) {
+      this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
+      this.isSignedIn = true
+      this.http.get(this.signinURL).pipe(retry(1)).subscribe(
+        (results: any) => {
+          // tslint:disable-next-line:no-console
+          console.log(results)
+        },
+        (err: any) => {
+          // tslint:disable-next-line:no-console
+          console.log(err)
+        })
+    }
+  }
+
+  ngAfterViewInit() {
+    this.googleInit()
   }
 
   ngOnDestroy() {
