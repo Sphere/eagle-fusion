@@ -149,7 +149,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-      (googleUser: any) => {
+                                  (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // console.log('Token || ' + googleUser.getAuthResponse().id_token)
@@ -158,7 +158,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
         // console.log('Image URL: ' + profile.getImageUrl())
         // console.log('Email: ' + profile.getEmail())
       },
-      (error: any) => {
+                                  (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
