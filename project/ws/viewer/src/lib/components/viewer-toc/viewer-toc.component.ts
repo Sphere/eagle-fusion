@@ -28,7 +28,7 @@ interface IViewerTocCard {
   duration: number
   type: string
   complexity: string
-  completionPercentage: number
+  completionPercentage?: number | null
   children: null | IViewerTocCard[]
 }
 
@@ -57,6 +57,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   @ViewChild('highlightItem', { static: false }) highlightItem!: ElementRef<any>
   @ViewChild('outer', { static: false }) outer!: ElementRef<any>
   @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
+  @Input() batchId!: string | null
   searchCourseQuery = ''
   hideSideNav = false
   reverse = ''
@@ -111,8 +112,8 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
-    // console.log('collection ', this.collection)
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
+      this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
@@ -202,8 +203,41 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       ).toPromise()
 
       content = content.result.content
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.batchId,
+          courseId: content.identifier || '',
+          contentIds: [],
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        data => {
+          if (content && content.children) {
+            content.children.map(child => {
+              const foundContent = data['result']['contentList'].find((el: any) => el.contentId === child.identifier)
+              if (foundContent) {
+                child.completionPercentage = foundContent.completionPercentage
+                child.completionStatus = foundContent.status
+              }
+            })
+          }
+        },
+        (error: any) => {
+          // tslint:disable-next-line:no-console
+          console.log('CONTENT HISTORY FETCH ERROR >', error)
+        },
+      )
+
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
+      // tslint:disable-next-line:no-console
+      console.log(viewerTocCardContent)
       this.isFetching = false
       // TODO  console.log('vtx',viewerTocCardContent)
       return viewerTocCardContent
@@ -289,6 +323,8 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     //   children: Array.isArray(content.children) && content.children.length ?
     //     content.children.map(child => this.convertContentToIViewerTocCard(child)) : null,
     // }
+    // tslint:disable-next-line:no-console
+    console.log(content)
     return {
       identifier: content.identifier,
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
@@ -301,7 +337,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
       complexity: content.complexityLevel,
-      completionPercentage: 0,
+      completionPercentage: content.completionPercentage,
       children:
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))

@@ -189,9 +189,10 @@ export class BtnSettingsService {
         document.head.appendChild(elem)
       } else {
         const elem = document.createElement('script')
-        // elem.charset = 'utf-8';
-        elem.type = 'application/javascript'
-        elem.src = `${theme.themeFile}.js`
+        /* Below field is Deprecated */
+        elem.charset = 'utf-8'
+        elem.type = 'text/javascript'
+        elem.src = `/${theme.themeFile}.js`
         document.head.appendChild(elem)
       }
     }

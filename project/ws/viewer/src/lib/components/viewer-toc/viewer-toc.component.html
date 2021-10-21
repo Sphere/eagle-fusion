@@ -59,7 +59,8 @@
                 <img [src]="greenTickIcon" class="image" />
               </span>
               <ng-template #elseChapterPercentage>
-                <span class="margin-left-xxs" *ngIf="node?.progress">| {{ node?.progress * 100 | number: '1.0-0' }}%</span>
+                <span class="margin-left-xxs" *ngIf="node?.progress">| {{ node?.progress * 100 | number: '1.0-0'
+                  }}%</span>
               </ng-template>
 
               <mat-icon *ngIf="
@@ -108,9 +109,7 @@
               {{ content.title | pipeLimitTo: 20 }}
             </span>
             <mat-icon *ngIf="
-                contentProgressHash &&
-                contentProgressHash[content.identifier] &&
-                contentProgressHash[content.identifier] > 0.99
+                content?.completionPercentage === 100
               " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-start">
               check_circle_outline</mat-icon>
           </div>
@@ -154,9 +153,7 @@
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }}
           <mat-icon *ngIf="
-              contentProgressHash &&
-              contentProgressHash[content.identifier] &&
-              contentProgressHash[content.identifier] > 0.99
+              content?.completionPercentage === 100
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>
         </h3>
@@ -169,9 +166,7 @@
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon *ngIf="
-              contentProgressHash &&
-              contentProgressHash[content.identifier] &&
-              contentProgressHash[content.identifier] > 0.99
+              content?.completionPercentage === 100
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>
         </h1>
