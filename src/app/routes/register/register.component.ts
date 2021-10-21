@@ -132,7 +132,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       reqObj = {
         personalDetails: {
           firstName: form.value.firstName,
-          lastname: form.value.lastName,
+          lastName: form.value.lastName,
           // username: this.emailOrMobile,
           channel: 'JaiHind',
           email: this.emailForm.value.userInput,
