@@ -75,7 +75,7 @@ export class BadgesComponent implements OnInit {
       }
     })
 
-    this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       data => {
         if (data && data.length) {
           this.userProfileData = data[0]

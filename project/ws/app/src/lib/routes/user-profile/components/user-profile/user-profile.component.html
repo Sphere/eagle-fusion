@@ -44,7 +44,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #firstname formControlName="firstname" i18n-placeholder
-                            placeholder="Enter First Name" />
+                            placeholder="Enter First Name" [readonly]="this.isEditable" />
                           <mat-hint align="end">{{ firstname.value.length }} / 500</mat-hint>
                           <mat-error [hidden]="false" i18n="First Name Error|Explains name is required">
                             First name is mandatory
@@ -58,7 +58,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #middlename formControlName="middlename" i18n-placeholder
-                            placeholder="Enter Middle Name" />
+                            placeholder="Enter Middle Name" [readonly]="this.isEditable" />
                           <mat-error [hidden]="false" i18n="Middle Name Error|Explains name is required">
                             Middle name is mandatory
                           </mat-error>
@@ -71,7 +71,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #surname formControlName="surname" i18n-placeholder
-                            placeholder="Enter Surname" />
+                            placeholder="Enter Surname" [readonly]="this.isEditable" />
                           <mat-error [hidden]="false" i18n="Surname Error|Explains name is required">
                             Surname is mandatory
                           </mat-error>
@@ -398,7 +398,7 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="input-wrapper margin-top-s" *ngIf="!mobileNumberLogin">
+                  <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label required"
                       i18n="Primary Email label|Label which explains the user to enter Primary Email">
                       Primary Email
@@ -410,14 +410,6 @@
                         Primary Email is mandatory
                       </mat-error>
                     </mat-form-field>
-                    <!-- <div class="input-wrapper margin-top-s margin-bottom-s">
-                      <div class="flex flex-middle">
-                        <mat-checkbox [checked]="isOfficialEmail" (change)="officialEmailCheck()"></mat-checkbox>
-                        <p class="margin-left-xs margin-remove-bottom">
-                          This is my official email
-                        </p>
-                      </div>
-                    </div> -->
                   </div>
 
                   <!-- <div class="input-wrapper margin-top-s" >
@@ -568,10 +560,11 @@
                         Degree
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
-                        <mat-select formControlName="degree" i18n-placeholder placeholder="--Select--">
+                        <!-- <mat-select formControlName="degree" i18n-placeholder placeholder="--Select--">
                           <mat-option [value]="deg.name" *ngFor="let deg of degreesMeta?.graduations">{{deg.name}}
                           </mat-option>
-                        </mat-select>
+                        </mat-select> -->
+                        <input matInput formControlName="degree" i18n-placeholder placeholder="Enter Your course" />
                       </mat-form-field>
                     </div>
                     <div class="item">

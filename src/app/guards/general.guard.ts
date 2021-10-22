@@ -3,31 +3,53 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
+  // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
+import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeneralGuard implements CanActivate {
-  constructor(private router: Router, private configSvc: ConfigurationsService) { }
+  dobFlag = false
+  constructor(private router: Router, private configSvc: ConfigurationsService,
+              private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const requiredFeatures = (next.data && next.data.requiredFeatures) || []
     const requiredRoles = (next.data && next.data.requiredRoles) || []
-    return await this.shouldAllow<boolean | UrlTree>(state, requiredFeatures, requiredRoles)
+    return await this.shouldAllow<boolean | UrlTree>(requiredFeatures, requiredRoles)
   }
 
   private async shouldAllow<T>(
-    state: RouterStateSnapshot,
+    // state: RouterStateSnapshot,
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
+
+    // setTimeout(() => {
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+      (data: any) => {
+        if (data) {
+          const userData = data.profileDetails.personalDetails
+          this.dobFlag = userData.dob || ''
+        }
+        if (this.dobFlag) {
+          return this.router.parseUrl('/page/home')
+        }
+
+          return this.router.navigate(['public', 'tnc'])
+
+      },
+      (_err: any) => {
+      })
+    // }, 5000)
+
     /**
      * Test IF User is authenticated
      */
@@ -52,29 +74,30 @@ export class GeneralGuard implements CanActivate {
     /**
      * Test IF User Tnc Is Accepted
      */
-    if (!this.configSvc.hasAcceptedTnc) {
-      if (
-        state.url &&
-        !state.url.includes('/app/setup/') &&
-        !state.url.includes('/app/tnc') &&
-        !state.url.includes('/page/home')
-      ) {
-        this.configSvc.userUrl = state.url
-      }
-      // if (
-      //   this.configSvc.restrictedFeatures &&
-      //   !this.configSvc.restrictedFeatures.has('firstTimeSetupV2')
-      // ) {
-      //   return this.router.parseUrl(`/app/setup/home/lang`)
-      // }
-      // return this.router.parseUrl(`/app/tnc`)
-    }
+    // if (!this.configSvc.hasAcceptedTnc) {
+    //   if (
+    //     state.url &&
+    //     !state.url.includes('/app/setup/') &&
+    //     !state.url.includes('/app/tnc') &&
+    //     !state.url.includes('/page/home')
+    //   ) {
+    //     this.configSvc.userUrl = state.url
+    //   }
+    // if (
+    //   this.configSvc.restrictedFeatures &&
+    //   !this.configSvc.restrictedFeatures.has('firstTimeSetupV2')
+    // ) {
+    //   return this.router.parseUrl(`/app/setup/home/lang`)
+    // }
+    // return this.router.parseUrl(`/app/tnc`)
+    // }
     /**
        * Test IF User updated the profile details
        */
-    if (!this.configSvc.profileDetailsStatus) {
-      // return this.router.parseUrl('/app/user-profile/details')
-    }
+    // if (!this.configSvc.profileDetailsStatus) {
+    // return this.router.parseUrl('/app/user-profile/details')
+    // return this.router.parseUrl('/app/user-profile/chatbot')
+    // }
 
     /**
      * Test IF User has requried role to access the page
