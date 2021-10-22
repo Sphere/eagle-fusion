@@ -94,6 +94,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   navigatedFromProfile = false
   mobileNumberLogin = false
   mobileLoginNumber = ''
+  userID = ''
   nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
     'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
     'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
@@ -1071,13 +1072,22 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Construct the request structure for open saber
     const profileRequest = this.constructReq(form)
-    this.userProfileSvc.updateProfileDetails(profileRequest.profileReq).subscribe(
+    if (this.configSvc.userProfile) {
+      this.userID = this.configSvc.userProfile.userId || ''
+    }
+    const reqUpdate = {
+      request: {
+        userId: this.userID,
+        profileDetails: profileRequest,
+      },
+    }
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       () => {
 
         if (this.configSvc.userProfile) {
           this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
             (data: any) => {
-              const dat = data.result.UserProfile[0]
+              const dat = data
               if (dat) {
                 const academics = this.populateAcademics(dat.academics)
                 this.setDegreeValuesArray(academics)
