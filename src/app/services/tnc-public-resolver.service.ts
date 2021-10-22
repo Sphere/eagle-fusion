@@ -13,7 +13,7 @@ const API_END_POINTS = {
   VERIFY_OTP: `/apis/public/v8/register/verifyUserWithMobileNumber`,
   RESET_PASSWORD: `/apis/public/v8/register/resetPassword`,
   SETPASSWORD_OTP: `/apis/public/v8/register/setPasswordWithOTP`,
-  ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role'
+  ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
 }
 @Injectable()
 export class TncPublicResolverService implements Resolve<Observable<IResolveResponse<NsTnc.ITnc>> | IResolveResponse<NsTnc.ITnc>> {

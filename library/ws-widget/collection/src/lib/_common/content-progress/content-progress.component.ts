@@ -46,8 +46,8 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('id')
   public id = `progress_${Math.random()}`
   constructor(private progressSvc: ContentProgressService,
-    private route: ActivatedRoute,
-    private tocSvc: AppTocService
+              private route: ActivatedRoute,
+              private tocSvc: AppTocService
   ) {
     if (this.contentId) {
       this.id = this.contentId

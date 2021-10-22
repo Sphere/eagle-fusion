@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
       this.userEmail = this.configSvc.userProfile.email || ''
       this.departmentName = this.configSvc.userProfile.departmentName || ''
 
-      this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
             const userData = data.result.UserProfile
