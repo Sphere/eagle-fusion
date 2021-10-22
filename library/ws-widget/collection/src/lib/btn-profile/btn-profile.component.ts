@@ -176,7 +176,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     const storageItem1 = sessionStorage.getItem(`google_token`)
     const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
 
-    if (storageItem2 === true && this.router.url.includes('google/callback')) {
+    if (storageItem2 === 'true' && this.router.url.includes('google/callback')) {
       this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
       this.isSignedIn = true
       const req = {
