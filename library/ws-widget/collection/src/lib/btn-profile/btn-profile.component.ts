@@ -93,7 +93,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   public class = 'profile-link'
   public isSignedIn = false
   public signinURL = ''
-  private clientId = '770679530323-q259h46ic85g4n5iu4kq2vkcpinka6o6.apps.googleusercontent.com'
+  private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
@@ -176,7 +176,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     const storageItem1 = sessionStorage.getItem(`google_token`)
     const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
 
-    if (storageItem2 === 'true' && this.router.url.includes('google/callback')) {
+    if (storageItem2 === true && this.router.url.includes('google/callback')) {
       this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
       this.isSignedIn = true
       const req = {
