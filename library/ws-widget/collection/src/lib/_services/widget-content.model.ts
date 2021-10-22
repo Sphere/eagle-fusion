@@ -213,6 +213,7 @@ export namespace NsContent {
     contentType: EContentTypes
     description: string
     displayContentType?: EDisplayContentTypes
+        completionPercentage: number | null
     duration: number
     identifier: string
     hasAccess?: boolean
