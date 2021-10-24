@@ -129,8 +129,8 @@ export class DashboardComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
-            const userData = data.result.UserProfile
-            this.userProfileData = userData[0]
+            const userData = data.profileDetails
+            this.userProfileData = data.profileDetails
             if (data && data.result && data.result.UserProfile && userData.length) {
               if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
                 this.academicsArray = this.userProfileData.academics
