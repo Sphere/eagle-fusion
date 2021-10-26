@@ -88,10 +88,17 @@ export class ChatbotComponent implements OnInit {
               private configSvc: ConfigurationsService,
               private btnservice: BtnProfileService) {
 
-    if (this.configSvc.userProfile) {
-      this.registeredUserName = this.configSvc.userProfile.userName
-      this.registeredEmail = this.configSvc.userProfile.email
-    }
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+      (data: any) => {
+        this.registeredEmail = data.profileDetails.personalDetails.primaryEmail
+        this.registeredUserName = `${data.profileDetails.personalDetails.firstname} `
+        if (data.profileDetails.personalDetails.middlename) {
+          this.registeredUserName += `${data.profileDetails.personalDetails.middlename} `
+        }
+        if (data.profileDetails.personalDetails.surname) {
+          this.registeredUserName += `${data.profileDetails.personalDetails.surname}`
+        }
+      })
   }
 
   ngOnInit() {
