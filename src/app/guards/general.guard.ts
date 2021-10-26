@@ -15,7 +15,7 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 export class GeneralGuard implements CanActivate {
   dobFlag = false
   constructor(private router: Router, private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -36,14 +36,14 @@ export class GeneralGuard implements CanActivate {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
         if (data) {
-          const userData = data.profileDetails.personalDetails
+          const userData = data
           this.dobFlag = userData.dob || ''
         }
         if (this.dobFlag) {
           return this.router.parseUrl('/page/home')
         }
 
-          return this.router.navigate(['public', 'tnc'])
+        return this.router.navigate(['public', 'tnc'])
 
       },
       (_err: any) => {
