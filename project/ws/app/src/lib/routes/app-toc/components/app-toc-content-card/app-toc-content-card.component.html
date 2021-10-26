@@ -127,8 +127,8 @@
       </a>
       <ng-container *ngIf="content?.identifier && content?.completionPercentage">
         <ng-container *ngIf="content?.completionStatus == 2">
-          <circle-progress class="flex items-center progress" [percent]="100" [radius]="12" [outerStrokeWidth]="3"
-            [innerStrokeWidth]="3" [space]="-3" [outerStrokeColor]="progressColor()"
+          <circle-progress title="{{content?.completionPercentage}}%" class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12" [outerStrokeWidth]="3"
+            [innerStrokeWidth]="3" [space]="-3" [outerStrokeColor]="progressColor(content?.completionPercentage)"
             [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true" [animationDuration]="300" [showTitle]="false"
             [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [clockwise]="true"
             [backgroundOpacity]="0" [backgroundGradient]="false" [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false
@@ -141,8 +141,8 @@
               </ws-widget-content-progress> -->
         </ng-container>
         <ng-container *ngIf="content?.completionStatus < 2">
-          <circle-progress class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12"
-            [outerStrokeWidth]="3" [innerStrokeWidth]="3" [space]="-3" [outerStrokeColor]="progressColor()"
+          <circle-progress title="{{content?.completionPercentage}}%" class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12"
+            [outerStrokeWidth]="3" [innerStrokeWidth]="3" [space]="-3" [outerStrokeColor]="progressColor(content?.completionPercentage)"
             [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true" [animationDuration]="300" [showTitle]="false"
             [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [clockwise]="true"
             [backgroundOpacity]="0" [backgroundGradient]="false" [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false

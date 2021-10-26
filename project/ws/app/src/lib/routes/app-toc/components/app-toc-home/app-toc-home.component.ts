@@ -564,9 +564,9 @@ showContents(){
             _.set(rr, 'progressdetails.mimeType', _.get(_.first(items), 'mimeType'))
             if (!_.get(rr, 'completionPercentage')) {
               if (_.get(rr, 'status') === 2) {
-                _.set(rr, 'completionPercentage', 100)
+                _.set(rr, 'completionPercentage', rr.completionPercentage)
               } else {
-                _.set(rr, 'completionPercentage', 0)
+                _.set(rr, 'completionPercentage', rr.completionPercentage)
               }
             }
             return rr
@@ -582,7 +582,6 @@ showContents(){
               })
             }
           }
-
           const percentage = _.toInteger((_.sum(progress) / progress.length))
           if (this.content) {
             _.set(this.content, 'completionPercentage', percentage)
