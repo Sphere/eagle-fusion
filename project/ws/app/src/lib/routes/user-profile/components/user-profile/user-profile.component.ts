@@ -29,6 +29,7 @@ import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 import * as _ from 'lodash'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -110,6 +111,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   approvalConfig!: NsUserProfileDetails.IApprovals
   unApprovedField!: any[]
+  stateUrl = '/fusion-assets/files/state.json'
 
   constructor(
     private snackBar: MatSnackBar,
@@ -121,7 +123,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private dialog: MatDialog,
     private loader: LoaderService,
-    private btnservice: BtnProfileService
+    private btnservice: BtnProfileService,
+    private http: HttpClient,
   ) {
     this.approvalConfig = this.route.snapshot.data.pageData.data
     this.isForcedUpdate = !!this.route.snapshot.paramMap.get('isForcedUpdate')
@@ -248,6 +251,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     //   },
     //   (_err: any) => {
     //   })
+    this.http.get(this.stateUrl).subscribe((data: any) => {
+      this.states = data.states
+    })
 
     // tslint:disable-next-line: no-non-null-assertion
     this.filteredOptions = this.createUserForm.get('nursingCouncil')!.valueChanges
@@ -513,10 +519,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.id) {
       if (this.configSvc.userProfile) {
-        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('yopmail.com')) {
+        if (this.configSvc.userProfile.email) {
           this.mobileNumberLogin = true
-          this.createUserForm.controls.mobile.disable()
-          this.createUserForm.controls.countryCode.disable()
+          // this.createUserForm.controls.mobile.disable()
+          // this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -524,8 +530,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
           (data: any) => {
-            const userData = data.profileDetails
-            if (data && data.profileDetails && userData) {
+            const userData = data.profileDetails.profileReq
+            if (data && userData) {
               this.isEditable = true
               const academics = this.populateAcademics(userData)
               this.setDegreeValuesArray(academics)
@@ -556,8 +562,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
         if (this.configSvc.userProfile.email.endsWith('yopmail.com')) {
           this.mobileNumberLogin = true
-          this.createUserForm.controls.mobile.disable()
-          this.createUserForm.controls.countryCode.disable()
+          // this.createUserForm.controls.mobile.disable()
+          // this.createUserForm.controls.countryCode.disable()
           this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
           this.createUserForm.patchValue({
             mobile: Number(this.mobileLoginNumber),
@@ -569,7 +575,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           this.createUserForm.patchValue({
             firstname: this.userProfileData.personalDetails.firstname,
             surname: this.userProfileData.personalDetails.surname,
-            primaryEmail: _.get(this.configSvc.unMappedUser, 'profileDetails.personalDetails.primaryEmail') || tempData.email,
+            primaryEmail: _.get(this.configSvc.unMappedUser, 'profileDetails.profileReq.personalDetails.primaryEmail') || tempData.email,
           })
         }
       }
@@ -1054,8 +1060,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   async onSubmit(form: any) {
     // DO some customization on the input data
     form.value.knownLanguages = this.selectedKnowLangs
-    form.value.interests = this.personalInterests
-    form.value.hobbies = this.selectedHobbies
+    // form.value.interests = this.personalInterests
+    // form.value.hobbies = this.selectedHobbies
     form.value.dob = changeformat(new Date(`${form.value.dob}`))
     form.value.allotmentYear = `${form.value.allotmentYear}`
     form.value.civilListNo = `${form.value.civilListNo}`
@@ -1087,7 +1093,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.configSvc.userProfile) {
           this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
             (data: any) => {
-              const dat = data
+              const dat = data.profileDetails.profileReq
               if (dat) {
                 const academics = this.populateAcademics(dat.academics)
                 this.setDegreeValuesArray(academics)
