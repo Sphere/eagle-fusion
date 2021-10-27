@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { Router } from '@angular/router'
+import { Location } from '@angular/common'
 import {
   WidgetContentService,
 } from '@ws-widget/collection'
@@ -26,16 +27,18 @@ interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
 
 export class BtnProfileComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
+  public route: string
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private accessService: AccessControlService,
     private element: ElementRef,
     private router: Router,
-    private contentSvc: WidgetContentService
+    private contentSvc: WidgetContentService,
+    location: Location
   ) {
     super()
-
+    this.route = location.path()
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     this.btnSettingsConfig = { ... this.settingBtnConfig }
     if (this.configSvc.userProfile) {
@@ -149,7 +152,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // console.log('Token || ' + googleUser.getAuthResponse().id_token)
@@ -158,7 +161,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
         // console.log('Image URL: ' + profile.getImageUrl())
         // console.log('Email: ' + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -175,15 +178,12 @@ export class BtnProfileComponent extends WidgetBaseComponent
     }
     const storageItem1 = sessionStorage.getItem(`google_token`)
     const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
-
-    if (storageItem2 === 'true' && this.router.url.includes('google/callback')) {
+    if (storageItem2 === 'true' && this.route === '/google/callback') {
       this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
       this.isSignedIn = true
       const req = {
         idToken: storageItem1,
       }
-      // tslint:disable-next-line:no-console
-      console.log(req)
       this.contentSvc.googleAuthenticate(req).subscribe(
         (results: any) => {
           // tslint:disable-next-line:no-console
@@ -194,7 +194,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
           console.log(err)
         }
       )
-       this.router.navigate(['/page/home'])
+      this.router.navigate(['/page/home'])
     }
   }
 
