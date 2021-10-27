@@ -88,10 +88,19 @@ export class ChatbotComponent implements OnInit {
               private configSvc: ConfigurationsService,
               private btnservice: BtnProfileService) {
 
-    if (this.configSvc.userProfile) {
-      this.registeredUserName = this.configSvc.userProfile.userName
-      this.registeredEmail = this.configSvc.userProfile.email
-    }
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+      (data: any) => {
+        if (this.configSvc.userProfile) {
+          this.registeredEmail = this.configSvc.userProfile.email
+        }
+        this.registeredUserName = `${data.profileDetails.profileReq.personalDetails.firstname} `
+        if (data.profileDetails.profileReq.personalDetails.middlename) {
+          this.registeredUserName += `${data.profileDetails.profileReq.personalDetails.middlename} `
+        }
+        if (data.profileDetails.profileReq.personalDetails.surname) {
+          this.registeredUserName += `${data.profileDetails.profileReq.personalDetails.surname}`
+        }
+      })
   }
 
   ngOnInit() {
@@ -360,7 +369,12 @@ export class ChatbotComponent implements OnInit {
 
         const name = this.registeredUserName.split(' ')
         this.assignFields('fname', name[0])
-        this.assignFields('lname', name[1])
+        if (name.length === 3) {
+          this.assignFields('middlename', name[1])
+          this.assignFields('lname', name[2])
+        } else {
+          this.assignFields('lname', name[1])
+        }
         this.order = 2
         this.getChatResponse(_chatFormValue)
       } else {
@@ -772,7 +786,7 @@ export class ChatbotComponent implements OnInit {
       },
     }
 
-    return profileReq
+    return { profileReq }
   }
 
   private getOrganisationsHistory(form: any) {
@@ -955,7 +969,7 @@ export class ChatbotComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
-        this.updateBtnProfileName(profileRequest.personalDetails.firstname)
+        this.updateBtnProfileName(profileRequest.profileReq.personalDetails.firstname)
         this.createChatForm.reset(this.createChatFormFields().value)
         this.configSvc.profileDetailsStatus = true
         // const res = data.toString()

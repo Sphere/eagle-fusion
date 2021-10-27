@@ -47,7 +47,7 @@ export class TncComponent implements OnInit, OnDestroy {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
         if (data) {
-          const userData = data.profileDetails.personalDetails
+          const userData = data.profileDetails.profileReq.personalDetails
           this.tncFlag = userData.dob || ''
         }
       })
