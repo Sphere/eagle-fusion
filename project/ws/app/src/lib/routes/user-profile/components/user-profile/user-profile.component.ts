@@ -592,8 +592,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       industryOther: '',
       designationOther: '',
     }
-    if (data && data.profileReq.professionalDetails && data.profileReq.professionalDetails.length > 0) {
-      const organisation = data.profileReq.professionalDetails[0]
+    if (data && data.professionalDetails && data.professionalDetails.length > 0) {
+      const organisation = data.professionalDetails[0]
       org = {
         isGovtOrg: organisation.organisationType,
         orgName: organisation.name,
@@ -631,8 +631,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       degree: [],
       postDegree: [],
     }
-    if (data.profileReq.academics && Array.isArray(data.profileReq.academics)) {
-      data.profileReq.academics.map((item: any) => {
+    if (data.academics && Array.isArray(data.academics)) {
+      data.academics.map((item: any) => {
         switch (item.type) {
           case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
             academics.X_STANDARD.yop10 = item.yearOfPassing
@@ -659,22 +659,22 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private populateChips(data: any) {
-    if (data.profileReq.personalDetails.knownLanguages && data.profileReq.personalDetails.knownLanguages.length) {
-      data.profileReq.personalDetails.knownLanguages.map((lang: ILanguages) => {
+    if (data.personalDetails.knownLanguages && data.personalDetails.knownLanguages.length) {
+      data.personalDetails.knownLanguages.map((lang: ILanguages) => {
         if (lang) {
           this.selectedKnowLangs.push(lang)
         }
       })
     }
-    if (data.profileReq.interests && data.profileReq.interests.professional && data.profileReq.interests.professional.length) {
-      data.profileReq.interests.professional.map((interest: IChipItems) => {
+    if (data.interests && data.interests.professional && data.interests.professional.length) {
+      data.interests.professional.map((interest: IChipItems) => {
         if (interest) {
           this.personalInterests.push(interest)
         }
       })
     }
-    if (data.profileReq.interests && data.profileReq.interests.hobbies && data.profileReq.interests.hobbies.length) {
-      data.profileReq.interests.hobbies.map((interest: IChipItems) => {
+    if (data.interests && data.interests.hobbies && data.interests.hobbies.length) {
+      data.interests.hobbies.map((interest: IChipItems) => {
         if (interest) {
           this.selectedHobbies.push(interest)
         }
@@ -683,7 +683,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private filterPrimaryEmailType(data: any) {
-    if (data.profileReq.personalDetails.officialEmail) {
+    if (data.personalDetails.officialEmail) {
       this.isOfficialEmail = true
     } else {
       this.isOfficialEmail = false
@@ -696,31 +696,31 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
     this.createUserForm.patchValue({
-      firstname: data.profileReq.personalDetails.firstname,
-      middlename: data.profileReq.personalDetails.middlename,
-      surname: data.profileReq.personalDetails.surname,
-      about: data.profileReq.personalDetails.about,
+      firstname: data.personalDetails.firstname,
+      middlename: data.personalDetails.middlename,
+      surname: data.personalDetails.surname,
+      about: data.personalDetails.about,
       photo: data.photo,
-      dob: this.getDateFromText(data.profileReq.personalDetails.dob),
-      nationality: data.profileReq.personalDetails.nationality,
-      domicileMedium: data.profileReq.personalDetails.domicileMedium,
-      regNurseRegMidwifeNumber: data.profileReq.personalDetails.regNurseRegMidwifeNumber,
-      nationalUniqueId: data.profileReq.personalDetails.nationalUniqueId,
-      doctorRegNumber: data.profileReq.personalDetails.doctorRegNumber,
-      instituteName: data.profileReq.personalDetails.instituteName,
-      nursingCouncil: data.profileReq.personalDetails.nursingCouncil,
-      gender: data.profileReq.personalDetails.gender,
-      maritalStatus: data.profileReq.personalDetails.maritalStatus,
-      category: data.profileReq.personalDetails.category,
-      knownLanguages: data.profileReq.personalDetails.knownLanguages,
-      countryCode: data.profileReq.personalDetails.countryCode,
-      mobile: data.profileReq.personalDetails.mobile,
-      telephone: data.profileReq.personalDetails.telephone,
-      primaryEmail: data.profileReq.personalDetails.primaryEmail,
-      secondaryEmail: data.profileReq.personalDetails.personalEmail,
+      dob: this.getDateFromText(data.personalDetails.dob),
+      nationality: data.personalDetails.nationality,
+      domicileMedium: data.personalDetails.domicileMedium,
+      regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+      nationalUniqueId: data.personalDetails.nationalUniqueId,
+      doctorRegNumber: data.personalDetails.doctorRegNumber,
+      instituteName: data.personalDetails.instituteName,
+      nursingCouncil: data.personalDetails.nursingCouncil,
+      gender: data.personalDetails.gender,
+      maritalStatus: data.personalDetails.maritalStatus,
+      category: data.personalDetails.category,
+      knownLanguages: data.personalDetails.knownLanguages,
+      countryCode: data.personalDetails.countryCode,
+      mobile: data.personalDetails.mobile,
+      telephone: data.personalDetails.telephone,
+      primaryEmail: data.personalDetails.primaryEmail,
+      secondaryEmail: data.personalDetails.personalEmail,
       primaryEmailType: this.filterPrimaryEmailType(data),
-      residenceAddress: data.profileReq.personalDetails.postalAddress,
-      pincode: data.profileReq.personalDetails.pincode,
+      residenceAddress: data.personalDetails.postalAddress,
+      pincode: data.personalDetails.pincode,
       schoolName10: academics.X_STANDARD.schoolName10,
       yop10: academics.X_STANDARD.yop10,
       schoolName12: academics.XII_STANDARD.schoolName12,
@@ -736,19 +736,19 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       industryOther: organisation.industryOther,
       designationOther: organisation.designationOther,
       // orgName: _.get(data, 'employmentDetails.departmentName') || '',
-      service: _.get(data.profileReq, 'employmentDetails.service') || '',
-      cadre: _.get(data.profileReq, 'employmentDetails.cadre') || '',
-      allotmentYear: this.checkvalue(_.get(data.profileReq, 'employmentDetails.allotmentYearOfService') || ''),
-      otherDetailsDoj: this.getDateFromText(_.get(data.profileReq, 'employmentDetails.dojOfService') || ''),
-      payType: _.get(data.profileReq, 'employmentDetails.payType') || '',
-      civilListNo: _.get(data.profileReq, 'employmentDetails.civilListNo') || '',
-      employeeCode: this.checkvalue(_.get(data.profileReq, 'employmentDetails.employeeCode') || ''),
-      otherDetailsOfficeAddress: this.checkvalue(_.get(data.profileReq, 'employmentDetails.officialPostalAddress') || ''),
-      otherDetailsOfficePinCode: this.checkvalue(_.get(data.profileReq, 'employmentDetails.pinCode') || ''),
-      skillAquiredDesc: _.get(data.profileReq, 'skills.additionalSkills') || '',
-      certificationDesc: _.get(data.profileReq, 'skills.certificateDetails') || '',
+      service: _.get(data, 'employmentDetails.service') || '',
+      cadre: _.get(data, 'employmentDetails.cadre') || '',
+      allotmentYear: this.checkvalue(_.get(data, 'employmentDetails.allotmentYearOfService') || ''),
+      otherDetailsDoj: this.getDateFromText(_.get(data, 'employmentDetails.dojOfService') || ''),
+      payType: _.get(data, 'employmentDetails.payType') || '',
+      civilListNo: _.get(data, 'employmentDetails.civilListNo') || '',
+      employeeCode: this.checkvalue(_.get(data, 'employmentDetails.employeeCode') || ''),
+      otherDetailsOfficeAddress: this.checkvalue(_.get(data, 'employmentDetails.officialPostalAddress') || ''),
+      otherDetailsOfficePinCode: this.checkvalue(_.get(data, 'employmentDetails.pinCode') || ''),
+      skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
+      certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */

@@ -36,7 +36,7 @@ export class GeneralGuard implements CanActivate {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
         if (data) {
-          const userData = data
+          const userData = data.profileDetails.personalDetails
           this.dobFlag = userData.dob || ''
         }
         if (this.dobFlag) {

@@ -130,7 +130,7 @@ export class DashboardComponent implements OnInit {
         (data: any) => {
           if (data) {
             const userData = data.profileDetails
-            this.userProfileData = data.profileDetails.profileReq
+            this.userProfileData = data.profileDetails
             if (data && data.result && data.result.UserProfile && userData.length) {
               if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
                 this.academicsArray = this.userProfileData.academics
