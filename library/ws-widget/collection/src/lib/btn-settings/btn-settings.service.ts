@@ -194,7 +194,7 @@ export class BtnSettingsService {
         elem.type = 'text/javascript'
         elem.src = `/${theme.themeFile}.js`
         document.head.appendChild(elem)
-      //}
+      // }
     }
     this.configurationsSvc.activeThemeObject = theme
     if (

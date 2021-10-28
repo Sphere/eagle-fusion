@@ -20,9 +20,10 @@
       <div class="user-name">
         <h2 class="pl-4 ws-mat-primary-text margin-zero sm:pl-0">{{ userProfileData?.personalDetails.firstname }}
           {{userProfileData?.personalDetails.surname}}</h2>
-        <div *ngIf="userProfileData?.professionalDetails">
-          {{userProfileData?.professionalDetails.designation === 'Other' ?
-          userProfileData?.professionalDetails.designationOther : userProfileData?.professionalDetails.designation }}
+        <div *ngIf="userProfileData?.professionalDetails[0]">
+          {{userProfileData?.professionalDetails[0].designation === 'Other' ?
+          userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
+          }}
         </div>
         <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }} /
           {{userProfileData?.personalDetails?.mobile}}</div>
