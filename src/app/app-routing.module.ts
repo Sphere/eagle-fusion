@@ -214,6 +214,11 @@ const routes: Routes = [
       import('./routes/route-user-profile-app.module').then(u => u.RouteUserProfileAppModule),
   },
   {
+    path: 'app/org-details',
+    loadChildren: () =>
+      import('./routes/route-org-details.module').then(u => u.RouteOrgDetailsModule),
+  },
+  {
     path: 'author',
     data: {
       requiredRoles: [
@@ -411,7 +416,7 @@ const routes: Routes = [
     path: 'public/faq/:tab',
     component: PublicFaqComponent,
   },
-    {
+  {
     path: 'google/callback',
     component: BtnProfileComponent,
   },

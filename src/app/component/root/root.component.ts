@@ -17,6 +17,7 @@ import {
 // import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
+  AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,
   TelemetryService,
@@ -28,6 +29,7 @@ import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
+import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -55,9 +57,10 @@ export class RootComponent implements OnInit, AfterViewInit {
   appStartRaised = false
   isSetupPage = false
   showNavigation = true
+  hideHeaderFooter = false
   constructor(
     private router: Router,
-    // public authSvc: AuthKeycloakService,
+    public authSvc: AuthKeycloakService,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private telemetrySvc: TelemetryService,
@@ -66,7 +69,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     private btnBackSvc: BtnPageBackService,
     private changeDetector: ChangeDetectorRef,
     private loginServ: LoginResolverService,
-    private exploreService: ExploreResolverService
+    private exploreService: ExploreResolverService,
+    private orgService: OrgServiceService,
   ) {
     this.mobileAppsSvc.init()
   }
@@ -87,24 +91,17 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.btnBackSvc.initialize()
     // Application start telemetry
 
-    // if (this.authSvc.isAuthenticated) {
-    this.telemetrySvc.start('app', 'view', '')
-    this.appStartRaised = true
+    if (this.configSvc.isAuthenticated) {
+      this.telemetrySvc.start('app', 'view', '')
+      this.appStartRaised = true
 
-    // }
-
-    // if (this.authSvc.isAuthenticated) {
-    //   this.telemetrySvc.start('app', 'view', '')
-    //   this.appStartRaised = true
-
-    // }
-    // else {
-    if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
-         this.showNavigation = false
-    } else if ((window.location.href).indexOf('login') > 0) {
-           this.showNavigation = true
-        }
-    // }
+    } else {
+      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+        this.showNavigation = false
+      } else if ((window.location.href).indexOf('login') > 0) {
+        this.showNavigation = true
+      }
+    }
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {
@@ -112,7 +109,8 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
       if (event instanceof NavigationStart) {
-        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')
+          || event.url.includes('/app/org-details')) {
           this.isNavBarRequired = false
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
@@ -141,6 +139,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     })
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
       this.showNavbar = display
+    })
+    this.orgService.hideHeaderFooter.subscribe(show => {
+      this.hideHeaderFooter = show
     })
   }
 

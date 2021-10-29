@@ -64,8 +64,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     // })
 
     const paramsMap = this.activateRoute.snapshot.queryParamMap
+    const href = window.location.href
     if (paramsMap.has('ref')) {
       this.redirectUrl = document.baseURI + paramsMap.get('ref')
+    } else if (href.indexOf('org-details') > 0) {
+      this.redirectUrl = href
     } else {
       this.redirectUrl = document.baseURI
     }

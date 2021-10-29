@@ -13,7 +13,7 @@
       class="my-search flex-1" [ref]="'home'">
     </ws-app-search-input-home>
     <span class="spacer"></span>
-    <div ngClass="search-small-logo">
+    <!-- <div ngClass="search-small-logo">
 
       <ng-container [wsExploreResolverWidget]="{
                             'widgetType': 'actionButton',
@@ -26,7 +26,7 @@
                               }
                             }
                           }"></ng-container>
-    </div>
+    </div> -->
   </div>
   <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
@@ -34,7 +34,7 @@
   <span class="spacer"></span>
 
   <div class="flex justify-center flex-col login-btn">
-    <button *ngIf="" name="login_client_button" color="primary" mat-raised-button
+    <button *ngIf="!configSvc.isAuthenticated" name="login_client_button" color="primary" mat-raised-button
       i18n="login: client" (click)="login('S')" class="login-btn header-btn ws-mat-primary-background mat-button-base">
       Login
     </button>

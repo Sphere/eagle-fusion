@@ -33,21 +33,7 @@ export class GeneralGuard implements CanActivate {
   ): Promise<T | UrlTree | boolean> {
 
     // setTimeout(() => {
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-      (data: any) => {
-        if (data) {
-          const userData = data.profileDetails.profileReq.personalDetails
-          this.dobFlag = userData.dob || ''
-        }
-        if (this.dobFlag) {
-          return this.router.parseUrl('/page/home')
-        }
 
-        return this.router.navigate(['public', 'tnc'])
-
-      },
-      (_err: any) => {
-      })
     // }, 5000)
 
     /**
@@ -98,7 +84,21 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/details')
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+      (data: any) => {
+        if (data) {
+          const userData = data.profileDetails.profileReq.personalDetails
+          this.dobFlag = userData.dob || ''
+        }
+        if (this.dobFlag) {
+          return this.router.parseUrl('/page/home')
+        }
 
+        return this.router.navigate(['public', 'tnc'])
+
+      },
+      (_err: any) => {
+      })
     /**
      * Test IF User has requried role to access the page
      */

@@ -22,7 +22,9 @@ ws-app-nav-bar {
 .height-on-top {
   padding-top: 72px;
 }
-
+.height-on-top.padding-0 {
+  padding-top: 0 !important;
+}
 .top-nav-bar {
   position: fixed;
   width: 100%;
