@@ -3,16 +3,16 @@
 <ws-app-public-nav-bar *ngIf="!configSvc.isAuthenticated && showNavigation && !hideHeaderFooter"
   (menuClick)="getMenuClickValue($event)">
 </ws-app-public-nav-bar>
-<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === false && (configSvc.isLoggedIn$ | async) === true
+<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === false && (authSvc.isLoggedIn$ | async) === true
   && !hideHeaderFooter" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
 <!-- </ws-widget-sticky-header> -->
 <div class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll':
-      (isXSmall$ | async) === true && true && showNavbar,
+      (isXSmall$ | async) === true && (authSvc.isLoggedIn$ | async) === true && showNavbar,
       'height-adjust-setup' : isSetupPage,
     'height-on-top':
       (isXSmall$ | async) === false &&
-      (configSvc.isLoggedIn$ | async) === true &&
+      (authSvc.isLoggedIn$ | async) === true &&
       showNavbar &&
       isNavBarRequired,
       'padding-0': hideHeaderFooter
