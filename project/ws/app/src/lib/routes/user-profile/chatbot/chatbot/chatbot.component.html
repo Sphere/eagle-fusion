@@ -148,8 +148,8 @@
         [formGroup]="createChatForm" (ngSubmit)="getChatResponseCategorization(chatForm.value)">
 
         <ng-container *ngIf="!showDatePicker">
-          <input type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
-            formControlName="replymsg" [readonly]="inputMsgEnabled">
+          <input #myInput type="text" id="user-input" name="replymsg" class="user-input" placeholder="Enter the message"
+            formControlName="replymsg" [readonly]="inputMsgEnabled">{{ myInput.focus() }}
         </ng-container>
 
         <ng-container *ngIf="showDatePicker">
