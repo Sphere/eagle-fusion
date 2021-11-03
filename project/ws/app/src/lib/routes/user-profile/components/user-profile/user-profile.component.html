@@ -440,14 +440,14 @@
                   </div>
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
-                      i18n="Pin Code label|Label which explains the user to enter Pin Code">
-                      Pin Code
+                      i18n="Pincode label|Label which explains the user to enter Pincode">
+                      Pincode
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input #pincode type="text" matInput placeholder="123456" formControlName="pincode">
-                      <mat-error [hidden]="false" i18n="Pin Code Error|Explains name is required"
+                      <input #pincode type="text" matInput placeholder="Pincode" formControlName="pincode">
+                      <mat-error [hidden]="false" i18n="Pincode Error|Explains name is required"
                         *ngIf="createUserForm?.controls['pincode'].errors?.required">
-                        Pin Code is mandatory
+                        Pincode is mandatory
                       </mat-error>
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['pincode'].errors?.pattern">
                         Please enter a valid 6 digit pincode
@@ -505,7 +505,7 @@
                         Year of Passsing is mandatory
                       </mat-error> -->
                       <input matInput #yop10 type="text" name="yop10" formControlName="yop10" i18n-placeholder
-                        placeholder="1998" />
+                        placeholder="Enter Year like 1998" />
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['yop10'].errors?.pattern">
                         Please enter a valid 4 digit year
                       </mat-error>
@@ -542,7 +542,8 @@
                       <mat-error [hidden]="false" i18n="Year of Passsing Error|Explains name is required">
                         Year of Passsing is mandatory
                       </mat-error> -->
-                      <input matInput #yop12 type="text" formControlName="yop12" i18n-placeholder placeholder="1998" />
+                      <input matInput #yop12 type="text" formControlName="yop12" i18n-placeholder
+                        placeholder="Enter Year like 1998" />
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['yop12'].errors?.pattern">
                         Please enter a valid 4 digit year
                       </mat-error>
@@ -599,7 +600,8 @@
                         <mat-error [hidden]="false" i18n="Year of Passsing Error|Explains name is required">
                           Year of Passsing is mandatory
                         </mat-error> -->
-                        <input matInput #yop type="text" formControlName="yop" i18n-placeholder placeholder="1998" />
+                        <input matInput #yop type="text" formControlName="yop" i18n-placeholder
+                          placeholder="Enter Year like 1998" />
                         <mat-error [hidden]="false" *ngIf="degrees.get('yop').errors?.pattern">
                           Please enter a valid 4 digit year
                         </mat-error>
@@ -666,7 +668,8 @@
                         <mat-error [hidden]="false" i18n="Year of Passsing Error|Explains name is required">
                           Year of Passsing is mandatory
                         </mat-error> -->
-                        <input matInput #yop type="text" formControlName="yop" i18n-placeholder placeholder="1998" />
+                        <input matInput #yop type="text" formControlName="yop" i18n-placeholder
+                          placeholder="Enter Year like 1998" />
                         <mat-error [hidden]="false" *ngIf="degrees.get('yop').errors?.pattern">
                           Please enter a valid 4 digit year
                         </mat-error>

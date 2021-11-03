@@ -129,12 +129,12 @@ input[type='number'] {
     color: #4d4d4d;
   }
 
-  .radio-toolbar input[type='radio']:focus + label {
-    background: #f5d58d 0% 0% no-repeat padding-box;
-    border-radius: 6px;
-    border-color: #f5d58d;
-    color: #fff;
-  }
+  // .radio-toolbar input[type='radio']:focus + label {
+  //   background: #f5d58d 0% 0% no-repeat padding-box;
+  //   border-radius: 6px;
+  //   border-color: #f5d58d;
+  //   color: #fff;
+  // }
 
   .radio-toolbar label:hover {
     border-color: #f5d58d;
