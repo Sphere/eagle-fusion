@@ -188,12 +188,11 @@ export class BtnSettingsService {
         elem.href = `${theme.themeFile}.css`
         document.head.appendChild(elem)
       } else {
-        const elem = document.createElement('link')
+        const elem = document.createElement('script')
         /* Below field is Deprecated */
         // elem.charset = 'utf-8'
-        elem.type = 'stylesheet'
-        elem.type = 'text/css'
-        elem.href = `${theme.themeFile}.css`
+        elem.type = 'text/javascript'
+        elem.src = `/${theme.themeFile}.js`
         document.head.appendChild(elem)
       }
     }

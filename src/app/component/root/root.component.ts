@@ -131,8 +131,10 @@ export class RootComponent implements OnInit, AfterViewInit {
 
       if (sessionStorage.getItem('loginbtn')) {
         this.isNavBarRequired = true
+        this.showNavigation = false
       } else {
         this.isNavBarRequired = false
+         this.showNavigation = true
         // this.authSvc.logout();
         // window.location.href = `${redirectUrl}apis/reset`
       }
