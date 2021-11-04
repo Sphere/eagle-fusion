@@ -17,9 +17,8 @@ import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.s
     // Sets the minimum and maximum values for the progressbar role.
     'aria-valuemin': '0',
     'aria-valuemax': '100',
-    'title': 'progress',
     // Binding that updates the current value of the progressbar.
-    '[attr.aria-valuenow]': 'progress?.completionPercentage',
+    '[attr.aria-valuenow]': 'progress?.completionPercentage'
   },
   /* tslint:enable */
 })

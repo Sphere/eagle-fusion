@@ -129,6 +129,14 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
+      if (sessionStorage.getItem('loginbtn')) {
+        this.isNavBarRequired = true
+      } else {
+        this.isNavBarRequired = false
+        // this.authSvc.logout();
+        // window.location.href = `${redirectUrl}apis/reset`
+      }
+
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         if (this.appStartRaised) {

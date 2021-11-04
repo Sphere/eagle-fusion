@@ -181,20 +181,21 @@ export class BtnSettingsService {
 
   private applyTheme(theme: NsInstanceConfig.ITheme) {
     if (!this.loadedThemeStyles.has(theme.themeClass)) {
-      // if (this.useLinkForThemeInjection) {
-      //   const elem = document.createElement('link')
-      //   elem.rel = 'stylesheet'
-      //   elem.type = 'text/css'
-      //   elem.href = `${theme.themeFile}.css`
-      //   document.head.appendChild(elem)
-      // } else {
-        const elem = document.createElement('script')
+      if (this.useLinkForThemeInjection) {
+        const elem = document.createElement('link')
+        elem.rel = 'stylesheet'
+        elem.type = 'text/css'
+        elem.href = `${theme.themeFile}.css`
+        document.head.appendChild(elem)
+      } else {
+        const elem = document.createElement('link')
         /* Below field is Deprecated */
         // elem.charset = 'utf-8'
-        elem.type = 'text/javascript'
-        elem.src = `/${theme.themeFile}.js`
+        elem.type = 'stylesheet'
+        elem.type = 'text/css'
+        elem.href = `${theme.themeFile}.css`
         document.head.appendChild(elem)
-      // }
+      }
     }
     this.configurationsSvc.activeThemeObject = theme
     if (
