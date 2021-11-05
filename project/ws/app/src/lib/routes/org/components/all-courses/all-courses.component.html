@@ -1,0 +1,40 @@
+<div class="w-100">
+  <div class="search-results px-4 sm:px-40 md:px-10ss my-0 mt-4" infiniteScroll [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+    <div class="bottom-arrow">
+      <a mat-stroked-button class="floating-back-btn" (click)="gotoOrgPage()">
+        <img src="/assets/images/nav-left.png" />
+        <span class="text"> {{orgName}}</span>
+      </a>
+    </div>
+    <div class="flex flex-middle border-bottom">
+      <span class="font-bold heading-title margin-zero pl-4 pb-0" i18n="About">
+        Courses</span>
+    </div>
+    <ng-container *ngFor="let widget of array">
+      <mat-card class="card-standard-container mr-8 1 cursor-pointer">
+        <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
+          i18n-aria-label="Content | Click to view">
+          <div style="position: relative; z-index: 1;">
+            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.appIcon"
+              [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+              [alt]="widget.name" />
+            <span class="img-overlay"></span>
+            <div class="source-div mt-4">
+            </div>
+          </div>
+        </a>
+        <mat-card-content>
+          <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+            style="margin-top:65px; margin-left: -11px; padding-top: 1px;">
+            {{ widget.name }}
+          </div>
+          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+            {{ widget.description }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+  </div>
+</div>

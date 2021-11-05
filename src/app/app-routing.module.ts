@@ -10,7 +10,7 @@ import { ETopBar } from './constants/topBar.constants'
 import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
 import { GeneralGuard } from './guards/general.guard'
-import { LoginGuard } from './guards/login.guard'
+// import { LoginGuard } from './guards/login.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
 import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
@@ -214,6 +214,11 @@ const routes: Routes = [
       import('./routes/route-user-profile-app.module').then(u => u.RouteUserProfileAppModule),
   },
   {
+    path: 'app/org-details',
+    loadChildren: () =>
+      import('./routes/route-org-details.module').then(u => u.RouteOrgDetailsModule),
+  },
+  {
     path: 'author',
     data: {
       requiredRoles: [
@@ -286,24 +291,25 @@ const routes: Routes = [
     component: ErrorResolverComponent,
   },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
+  { path: 'login', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'learning-hub',
     loadChildren: () =>
       import('./routes/route-learning-hub-app.module').then(u => u.LearningHubAppModule),
     canActivate: [GeneralGuard],
   },
-  {
-    path: 'login',
-    canActivate: [LoginGuard],
-    component: LoginRootComponent,
-    data: {
-      pageType: 'feature',
-      pageKey: 'login',
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
-  },
+  // {
+  //   path: 'login',
+  //   canActivate: [LoginGuard],
+  //   component: LoginRootComponent,
+  //   data: {
+  //     pageType: 'feature',
+  //     pageKey: 'login',
+  //   },
+  //   resolve: {
+  //     pageData: PageResolve,
+  //   },
+  // },
   {
     path: 'page/toc',
     redirectTo: '/',
@@ -411,7 +417,7 @@ const routes: Routes = [
     path: 'public/faq/:tab',
     component: PublicFaqComponent,
   },
-    {
+  {
     path: 'google/callback',
     component: BtnProfileComponent,
   },

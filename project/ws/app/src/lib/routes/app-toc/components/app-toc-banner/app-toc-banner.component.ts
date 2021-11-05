@@ -341,6 +341,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     }
     return false
   }
+
+  showOrgprofile(orgId: string) {
+    this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
+  }
+
   ngOnDestroy() {
     this.tocSvc.analyticsFetchStatus = 'none'
     if (this.routerParamSubscription) {

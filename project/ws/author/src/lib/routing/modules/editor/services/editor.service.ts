@@ -171,6 +171,10 @@ export class EditorService {
     return this.apiService.get<any>(url)
   }
 
+  fetchOrgMeta() {
+    return this.apiService.get<any>(`${this.configSvc.sitePath}/orgmeta.config.json`)
+  }
+
   forwardBackward(
     meta: NSApiRequest.IForwardBackwardActionGeneral,
     id: string,
