@@ -14,7 +14,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router'
-//import { Location } from '@angular/common'
+// import { Location } from '@angular/common'
 
 // import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
@@ -73,7 +73,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    //private location: Location
+    // private location: Location
   ) {
     this.mobileAppsSvc.init()
   }
@@ -158,11 +158,11 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.hideHeaderFooter = show
     })
                 if (sessionStorage.getItem('url_before_login')) {
-  let url = sessionStorage.getItem(`url_before_login`) || ''
-  
+  const url = sessionStorage.getItem(`url_before_login`) || ''
+
     // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-//this.location.replaceState(url)
-  this.router.navigateByUrl(url);
+// this.location.replaceState(url)
+  this.router.navigateByUrl(url)
 }
 
   }

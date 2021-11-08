@@ -114,7 +114,7 @@ export class CardContentComponent extends WidgetBaseComponent
 
   clickToRedirect(data: any) {
      sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-     //console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+     // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
      // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
      window.location.href = `${this.defaultRedirectUrl}apis/reset`
   }

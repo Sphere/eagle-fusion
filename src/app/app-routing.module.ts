@@ -216,7 +216,7 @@ const routes: Routes = [
   },
   {
     path: 'app/org-details',
-    component: OrgComponent
+    component: OrgComponent,
   },
   {
     path: 'author',
