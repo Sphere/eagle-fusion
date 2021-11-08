@@ -373,8 +373,22 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+        <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
           [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
+          <div style="position: relative; z-index: 1;">
+            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+              [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+              [title]="widgetData.content.name" />
+            <span class="img-overlay"></span>
+            <div class="source-div">
+
+            </div>
+          </div>
+        </a>
+                <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" 
+          class="rounded-t" role="link"
           aria-label="Content" i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
@@ -552,10 +566,12 @@
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
         <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-          <button mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
+          <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
             [routerLink]="(widgetData.content | pipeContentRoute).url">
             View Course </button>
-
+          <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="clickToRedirect(widgetData.content)"
+            >
+            View Course </button>
           <div class="flex flex-middle">
             <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
             <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"

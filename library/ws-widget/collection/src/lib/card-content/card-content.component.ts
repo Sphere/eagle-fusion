@@ -8,6 +8,7 @@ import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -26,6 +27,7 @@ export class CardContentComponent extends WidgetBaseComponent
   showContentTag = false
   offSetXValue: number | undefined
   offSetYValue: number | undefined
+  isUserLoggedIn = false
 
   btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
   btnGoalsConfig: NsGoal.IBtnGoal | null = null
@@ -41,6 +43,7 @@ export class CardContentComponent extends WidgetBaseComponent
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
+    // private router: Router
   ) {
     super()
     this.offSetXValue = 290
@@ -55,6 +58,11 @@ export class CardContentComponent extends WidgetBaseComponent
     if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
+     if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+  this.isUserLoggedIn = true
+} else {
+    this.isUserLoggedIn = false
+}
 
     this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
@@ -102,6 +110,13 @@ export class CardContentComponent extends WidgetBaseComponent
     } else {
       // console.log('this.showEndPopup', this.showEndPopup)
     }
+  }
+
+  clickToRedirect(data: any) {
+     sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+     //console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+     // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+     window.location.href = `${this.defaultRedirectUrl}apis/reset`
   }
 
   checkContentTypeCriteria() {
@@ -168,6 +183,15 @@ export class CardContentComponent extends WidgetBaseComponent
     // this.assignThumbnail()
     this.offSetXValue = 290
     this.offSetYValue = -340
+  }
+
+  private get defaultRedirectUrl(): string {
+    try {
+      const baseUrl = document.baseURI
+      return baseUrl || location.origin
+    } catch (error) {
+      return location.origin
+    }
   }
 
   get checkDisplayName(): string {

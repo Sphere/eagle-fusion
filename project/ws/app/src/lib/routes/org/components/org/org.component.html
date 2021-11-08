@@ -98,10 +98,11 @@
     <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
   </div>
   <div class="flex-main mt-4">
-    <ng-container *ngFor="let widget of courseData?.result">
+<!--     <ng-container *ngFor="let widget of courseData?.result">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
+          i18n-aria-label="Content | Click to view" 
+          [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
           #popoverTrigger="mdePopoverTrigger" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
           [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-140"
           (mouseover)="showTarget($event)">
@@ -142,11 +143,9 @@
             <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
               <span class="mr-1 orange-text">Duration: </span>
               <mat-icon>access_time</mat-icon>
-              <!-- <span class="time-text fs-13">{{ widget.duration | pipeDurationTransform: 'hms' }}</span> -->
+
               <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-                <!-- <div class="flex items-start">
-                  <ng-container [ngTemplateOutlet]="rating"></ng-container>
-                </div> -->
+
               </span>
             </div>
             <p><span class="fw-500">Number of modules:</span> {{ widget?.children?.length}}</p>
@@ -170,7 +169,7 @@
           </mat-card-content>
         </mat-card>
       </mde-popover>
-    </ng-container>
+    </ng-container> -->
   </div>
 
 
