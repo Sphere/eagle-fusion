@@ -10,7 +10,7 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
-  orgName: any
+  orgName: string = 'Indian Nursing Council'
   courseData!: any
   routeSubscription: any
   orgData: any
@@ -20,13 +20,14 @@ export class OrgComponent implements OnInit, OnDestroy {
   courseCount = 0
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router, private authSvc: AuthKeycloakService, private configSvc: ConfigurationsService) { }
+    private router: Router, private authSvc: AuthKeycloakService, private configSvc: ConfigurationsService) { }
 
   ngOnInit() {
-    this.orgName = this.activateRoute.snapshot.queryParams.orgId
-    if (this.orgName === 'Indian Nursing Council') {
-      this.orgService.hideHeaderFooter.next(true)
-    }
+    //this.orgName = this.activateRoute.snapshot.queryParams.orgId
+    // if (this.orgName ) {
+    //   this.orgService.hideHeaderFooter.next(true)
+    // }
+    //console.log(this.orgName)
     this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
       const currentOrg = this.orgName
       if (response.orgData) {

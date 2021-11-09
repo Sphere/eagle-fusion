@@ -9,7 +9,6 @@
 <div class=" profile-container px-4 sm:px-20 md:px-20 xl:px-40  py-0 my-0 mt-12">
   <div class="mb-4" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <mat-card class="org-data mb-4">
-
       <section class="flex justify-center">
         <div class="user-avatar ">
           <div class="flex mt-10">
@@ -98,11 +97,10 @@
     <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
   </div>
   <div class="flex-main mt-4">
-<!--     <ng-container *ngFor="let widget of courseData?.result">
+    <ng-container *ngFor="let widget of courseData?.result">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-          i18n-aria-label="Content | Click to view" 
-          [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
+          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
           #popoverTrigger="mdePopoverTrigger" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
           [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-140"
           (mouseover)="showTarget($event)">
@@ -169,7 +167,7 @@
           </mat-card-content>
         </mat-card>
       </mde-popover>
-    </ng-container> -->
+    </ng-container>
   </div>
 
 
@@ -221,7 +219,7 @@
   </div>
 
 
-  <div class="flex flex-end mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+  <div class="flex flex-center mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <div class="align-logo flex-center">
       <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
         class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />

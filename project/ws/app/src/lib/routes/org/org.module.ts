@@ -1,9 +1,8 @@
 
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-
-import { OrgRoutingModule } from './org-routing.module'
-import { OrgComponent } from './components/org/org.component'
+// import { OrgRoutingModule } from './org-routing.module'
+// import { OrgComponent } from './components/org/org.component'
 import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CardContentModule, PipeContentRoutePipe } from '@ws-widget/collection'
@@ -24,10 +23,10 @@ import {
 import { AllCoursesComponent } from './components/all-courses/all-courses.component'
 
 @NgModule({
-  declarations: [OrgComponent, AllCoursesComponent],
+  declarations: [AllCoursesComponent],
   imports: [
     CommonModule,
-    OrgRoutingModule,
+    // OrgRoutingModule,
     MatCardModule,
     MatChipsModule,
     MatIconModule,

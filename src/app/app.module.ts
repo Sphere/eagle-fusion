@@ -64,6 +64,7 @@ import { TncPublicResolverService } from './services/tnc-public-resolver.service
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
+import { MdePopoverModule } from '@material-extended/mde'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -142,6 +143,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     PipeSafeSanitizerModule,
     TourModule,
     SlidersModule,
+    MdePopoverModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
