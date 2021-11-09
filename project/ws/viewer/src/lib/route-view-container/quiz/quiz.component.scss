@@ -138,3 +138,25 @@
 //   position: fixed;
 //   width: 72%;
 // }
+
+.next-button {
+  .width-auto {
+    right: -3px;
+  }
+  .title {
+    margin-right: -3px !important;
+  }
+}
+
+.prev-button {
+  .width-auto {
+    left: -7px;
+    .title {
+      margin-left: -7px !important;
+    }
+  }
+}
+
+.quiz-outer mat-card {
+  padding: 0;
+}

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
+import { AwsAnalyticsService } from '../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-footer',
@@ -13,11 +14,13 @@ export class AppFooterComponent {
   termsOfUser = true
   appIcon: SafeUrl | null = null
   isMedium = false
+  currentYear = new Date().getFullYear()
 
   constructor(
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
@@ -35,5 +38,12 @@ export class AppFooterComponent {
         this.configSvc.instanceConfig.logos.app,
       )
     }
+  }
+  eventTrack(str: string) {
+    const attr = {
+      name: str,
+      attributes: {},
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointServiceWithoutAttribute(attr)
   }
 }

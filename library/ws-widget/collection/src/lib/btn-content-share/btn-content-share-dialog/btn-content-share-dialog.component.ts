@@ -7,6 +7,8 @@ import { WidgetContentShareService } from '../../_services/widget-content-share.
 import { NsContent } from '../../_services/widget-content.model'
 import { NsShare } from '../../_services/widget-share.model'
 import { ICommon } from '../../_models/common.model'
+import domToImage from 'dom-to-image'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-content-share-dialog',
@@ -21,6 +23,7 @@ export class BtnContentShareDialogComponent implements OnInit {
   message = ''
   isSocialMediaShareEnabled = false
   sendStatus: 'INVALID_IDS_ALL' | 'SUCCESS' | 'INVALID_ID_SOME' | 'ANY' | 'NONE' = 'NONE'
+  qrdata = window.location.href
   constructor(
     private events: EventService,
     private snackBar: MatSnackBar,
@@ -28,6 +31,7 @@ export class BtnContentShareDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
     private shareSvc: WidgetContentShareService,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -43,7 +47,8 @@ export class BtnContentShareDialogComponent implements OnInit {
       this.isSocialMediaShareEnabled =
         !this.configSvc.restrictedFeatures.has('socialMediaFacebookShare') ||
         !this.configSvc.restrictedFeatures.has('socialMediaLinkedinShare') ||
-        !this.configSvc.restrictedFeatures.has('socialMediaTwitterShare')
+        !this.configSvc.restrictedFeatures.has('socialMediaTwitterShare') ||
+        !this.configSvc.restrictedFeatures.has('socialMediaWhatsappShare')
     }
   }
 
@@ -91,6 +96,7 @@ export class BtnContentShareDialogComponent implements OnInit {
   contentShare(txtBody: string, successToast: string) {
     this.sendInProgress = true
     this.raiseTelemetry()
+    this.createAWSAnalyticsEventAttribute('successfulshare')
     const req: NsShare.IShareRequest = {
       'event-id': 'share_content',
       'tag-value-pair': {
@@ -139,10 +145,42 @@ export class BtnContentShareDialogComponent implements OnInit {
     }
   }
 
+  saveAsImage(code: any) {
+    domToImage.toPng(code.qrcElement.nativeElement)
+      .then((dataUrl: string) => {
+        const link = document.createElement('a')
+        link.download = 'qrcode.png'
+        link.href = dataUrl
+        link.click()
+      })
+  }
+
   raiseTelemetry() {
     this.events.raiseInteractTelemetry('share', 'content', {
       contentId: this.data.content.identifier,
       contentType: this.data.content.contentType,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'successfulshare' | 'closedwithoutshare') {
+    if (action && this.data.content) {
+      const attr = {
+        name: 'CP3_CourseShare',
+        attributes: {
+          CourseId: this.data.content.identifier,
+          CourseShareAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.data.content.identifier],
+        CourseShareAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
+  shareClosed() {
+    this.createAWSAnalyticsEventAttribute('closedwithoutshare')
+  }
+
 }

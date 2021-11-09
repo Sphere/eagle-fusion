@@ -1,15 +1,15 @@
 <div class="padding-dynamic" *ngIf="videoData && isNotEmbed">
   <div class="flex flex-around flex-wrapped">
     <div class="w-full">
-      <div>
+      <div class="video-outer">
         <mat-card class="video-player-mobile">
           <mat-card-content class="video-player-mobile-container">
             <div id="fullScreenContainer" class="video-player">
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverVideoData"></ng-container>
 
               <div class="player-nav-links">
-                <div class="flex justify-between html">
-                  <div class="prev-button">
+                <div class="flex justify-between html video">
+                  <div class="prev-button" (click)="setPrevClick()">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
                       accesskey="<" [disabled]="!prevResourceUrl">
                       <span class="material-icons align-arrow icon-tour ">chevron_left</span>
@@ -19,7 +19,7 @@
                     </span>
                   </div>
 
-                  <div class="next-button">
+                  <div class="next-button" (click)="setNextClick()">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
                     <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
@@ -68,6 +68,9 @@
                                                       name: videoData?.name,
                                                       isDisabled: isPreview
                                                     }"></ws-widget-btn-content-feedback-v2>
+            <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+              [widgetData]="{ fsContainer: fullScreenContainer }" (fsState)="fullScreenState($event)">
+            </ws-widget-btn-fullscreen>
           </div>
         </mat-card>
       </div>

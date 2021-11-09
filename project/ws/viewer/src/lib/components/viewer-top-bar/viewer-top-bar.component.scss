@@ -1,10 +1,12 @@
 @import 'ws-mixins';
 
+mat-toolbar.learner {
+  z-index: 9;
+}
 .app-logo {
   max-width: 70px;
   max-height: 60px;
   border-radius: 5px;
-
 
   @include breakpoint-xs {
     max-width: 80px;
@@ -17,9 +19,11 @@
 }
 
 .viewer-app-logo {
-  width: 100px;
   max-height: 60px;
   margin-top: 10px;
+  border-right: solid 1px #b9b8b8;
+  margin-right: -52px;
+  padding-right: 10px;
   @include breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
@@ -47,5 +51,23 @@
 }
 
 .hidden {
-  display: none !important
+  display: none !important;
+}
+
+mat-toolbar {
+  position: relative;
+}
+.download-icon {
+  width: 20px;
+}
+span.text-left.width-1-8.margin-left-l.text-truncate {
+  @include breakpoint-xs {
+    margin-left: -16px !important;
+  }
+}
+
+.coll-name {
+   @include breakpoint-xs {
+     font-size: 17px;
+   }
 }

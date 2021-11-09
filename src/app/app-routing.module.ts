@@ -17,6 +17,8 @@ import { PublicAboutComponent } from './routes/public/public-about/public-about.
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
+import { RegisterComponent } from './routes/register/register.component'
+import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
@@ -103,7 +105,7 @@ const routes: Routes = [
   {
     path: 'app/info',
     loadChildren: () => import('./routes/route-info-app.module').then(u => u.RouteInfoAppModule),
-    canActivate: [GeneralGuard],
+    // canActivate: [GeneralGuard],
   },
   {
     path: 'app/invalid-user',
@@ -209,6 +211,11 @@ const routes: Routes = [
     path: 'app/user-profile',
     loadChildren: () =>
       import('./routes/route-user-profile-app.module').then(u => u.RouteUserProfileAppModule),
+  },
+  {
+    path: 'app/org-details',
+    loadChildren: () =>
+      import('./routes/route-org-details.module').then(u => u.RouteOrgDetailsModule),
   },
   {
     path: 'author',
@@ -395,6 +402,14 @@ const routes: Routes = [
     resolve: {
       tnc: TncPublicResolverService,
     },
+  },
+  {
+    path: 'public/register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'public/forgot-password',
+    component: ForgotPasswordComponent,
   },
   {
     path: 'public/faq/:tab',

@@ -1,3 +1,4 @@
+import { ViewerDataService } from './../../viewer-data.service'
 import {
   Component,
   ElementRef,
@@ -34,6 +35,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   @Input() duration = 0
   @Input() collectionId = ''
   @Input() viewStateChange: boolean | undefined
+  @Input() progressStatus = ''
   @Input() quizJson = {
     timeLimit: 0,
     questions: [
@@ -81,7 +83,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService
+    private viewerSvc: ViewerUtilService,
+    private viewerDataSvc: ViewerDataService
   ) { }
 
   ngOnInit() {
@@ -246,7 +249,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
       this.questionAnswerHash,
     )
-
     const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
 
     this.quizSvc.submitQuizV2(sanitizedRequestData).subscribe(
@@ -258,10 +260,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.numCorrectAnswers = res.correct
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
-        this.passPercentage = res.passPercent
+        // tslint:disable-next-line:max-line-length
+        this.passPercentage = this.collectionId === 'lex_auth_01311423170518220869' || this.collectionId === 'lex_auth_013268426750025728383' ? 70 : res.passPercent // NQOCN Course ID or INC Course Id
         this.result = res.result
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
+          this.viewerDataSvc.quizProgressStatus.next(true)
         }
         // const result = {
         //   result: (this.numCorrectAnswers * 100.0) / this.processedContent.quiz.questions.length,

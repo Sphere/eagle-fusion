@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { TFetchStatus, EventService, ConfigurationsService } from '@ws-widget/utils'
 import { MatSnackBar } from '@angular/material'
 import { Router, ActivatedRoute } from '@angular/router'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-goal-create-custom',
@@ -45,6 +46,7 @@ export class GoalCreateCustomComponent implements OnInit {
     private goalsSvc: BtnGoalsService,
     private router: Router,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     // TODO: get min/max length for some json
     this.createGoalForm = fb.group({
@@ -56,6 +58,7 @@ export class GoalCreateCustomComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createAWSAnalyticsEventAttribute('Createnewcustomgoalclicked')
 
     if (this.configSvc.restrictedFeatures) {
       this.isShareEnabled = !this.configSvc.restrictedFeatures.has('share')
@@ -143,6 +146,7 @@ export class GoalCreateCustomComponent implements OnInit {
     const rawValues = this.createGoalForm.getRawValue()
     this.createGoalStatus = 'fetching'
     this.raiseTelemetry(rawValues.type)
+    this.createAWSAnalyticsEventAttribute('Customgoalcreated')
     this.goalsSvc
       .createGoal({
         id: (this.editGoal && this.editGoal.id) || undefined,
@@ -180,4 +184,21 @@ export class GoalCreateCustomComponent implements OnInit {
       goalType,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'Createnewcustomgoalclicked' | 'Customgoalcreated') {
+    if (action) {
+      const attr = {
+        name: 'CP12_CourseGoal',
+        attributes: {
+          CourseGoalAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseGoalAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

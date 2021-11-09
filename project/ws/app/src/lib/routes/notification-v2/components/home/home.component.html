@@ -1,14 +1,14 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Notifications',url:'none'}] }">
   </ws-widget-btn-page-back>
-  <!-- <span class="margin-left-xs text-truncate" i18n>
+  <span class="margin-left-xs text-truncate" i18n>
     Notifications
-  </span> -->
+  </span>
   <span class="spacer"></span>
   <a [routerLink]="'/app/profile/settings'" [queryParams]="{ tab: 'notifications' }" mat-icon-button>
     <mat-icon>settings</mat-icon>
   </a>
-</mat-toolbar>
+</mat-toolbar> -->
 
 <section class="my-4 pt-4 pb-8 pl-4 pr-4 container-balanced">
   <button mat-raised-button class="text-right" (click)="toggleSeen()" i18n>

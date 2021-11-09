@@ -1,12 +1,13 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { UtilityService, ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
 import { ViewerUtilService } from './viewer-util.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 export enum ErrorType {
   accessForbidden = 'accessForbidden',
@@ -52,6 +53,10 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
+  currentLicense: any
+  currentLicenseName = ''
+  fixedNavBar = false
+  updatedContent = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,25 +64,38 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     private valueSvc: ValueService,
     private dataSvc: ViewerDataService,
     private rootSvc: RootService,
-    private utilitySvc: UtilityService,
+    // private utilitySvc: UtilityService,
     private changeDetector: ChangeDetectorRef,
     public configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     this.rootSvc.showNavbarDisplay$.next(false)
+  }
+
+  @HostListener('window:scroll', ['$event']) onScrollEvent() {
+    const verticalOffset = window.pageYOffset
+      || document.documentElement.scrollTop
+      || document.body.scrollTop || 0
+    if (verticalOffset > 80) {
+      this.fixedNavBar = true
+    } else {
+      if (verticalOffset < 80) {
+        this.fixedNavBar = false
+      }
+    }
   }
 
   getContentData(e: any) {
     e.activatedRoute.data.subscribe((data: { content: { data: NsContent.IContent } }) => {
       if (data.content && data.content.data) {
         this.content = data.content.data
+        this.updatedContent = this.content.identifier
+        this.currentLicenseName = this.content.learningObjective || 'CC BY'
 
+        this.getLicenseConfig()
         this.formDiscussionForumWidget(this.content)
-        // if (this.discussionForumWidget) {
-        //   this.discussionForumWidget.widgetData.isDisabled = true
-        // }
-
       }
     })
   }
@@ -133,6 +151,22 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     })
 
     // this.getDiscussionConfig()
+  }
+
+  getLicenseConfig() {
+    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+      const licenseData = data
+      if (licenseData) {
+        this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
+      }
+
+    },
+                                                            err => {
+        if (err.status === 404) {
+          this.getLicenseConfig()
+        }
+      })
   }
 
   getDiscussionConfig() {
@@ -203,8 +237,30 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   minimizeBar() {
-    if (this.utilitySvc.isMobile) {
-      this.sideNavBarOpened = true
-    }
+    this.sideNavBarOpened = !this.sideNavBarOpened
+    // Fix for sidebar not opening in mobile view
+    // if (this.utilitySvc.isMobile) {
+    //   this.sideNavBarOpened = true
+    // }
   }
+
+  createAWSAnalyticsEventAttribute($event: any) {
+    const mappedData = ['Discussion', 'Overview', 'License']
+    if ([0, 1, 2].includes($event.index) && this.content) {
+      const attr = {
+        name: 'PL4_ResourceOLD',
+        attributes: {
+          CourseId: this.content.identifier,
+          OverviewLicenseDIscussType: mappedData[$event.index],
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        OverviewLicenseDIscussType: [mappedData[$event.index]],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

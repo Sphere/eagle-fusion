@@ -4,13 +4,16 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, TFetchStatus, ValueService } from '@ws-widget/utils'
 import { NSProfileData } from '../../../../models/profile.model'
 import { ProfileService } from '../../../../services/profile.service'
 import { InterestService } from '../../../interest/services/interest.service'
 import { NSLearningHistory } from '../../../learning/models/learning.models'
 import { LearningHistoryService } from '../../../learning/services/learning-history.service'
 import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
+import { DomSanitizer } from '@angular/platform-browser'
+import { MatDialog } from '@angular/material'
+import { AwsAnalyticsService } from '../../../../../../../../../viewer/src/lib/aws-analytics.service'
 
 interface ILearningHistoryContent {
   content: NSLearningHistory.ILearningHistory
@@ -50,7 +53,6 @@ export class DashboardComponent implements OnInit {
   interests: string[] | null = null
   nsoArtifacts: NSProfileData.INsoResponse | null = null
   userName = ''
-  userEmail = ''
   departmentName = ''
   skillData: any
   skillFetchStatus: TFetchStatus = 'none'
@@ -110,79 +112,88 @@ export class DashboardComponent implements OnInit {
   postGraduate = 0
   showAcademicElse = false
   showInterest = false
+  academicsArray: any[] = []
+  userEmail: string | undefined
+  appIcon: any
+  isXSmall = false
 
   constructor(
     private configSvc: ConfigurationsService,
-    // private badgesSvc: BadgesService,
+    private domSanitizer: DomSanitizer,
     private profileSvc: ProfileService,
     private learnHstSvc: LearningHistoryService,
     private interestSvc: InterestService,
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
+    private dialog: MatDialog,
+    private valueSvc: ValueService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
-      this.userEmail = this.configSvc.userProfile.email || ''
+      this.userEmail = this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in') ?
+        '' : this.configSvc.userProfile.email
       this.departmentName = this.configSvc.userProfile.departmentName || ''
 
       this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
         data => {
           if (data && data.length) {
             this.userProfileData = data[0]
-            // if (this.userProfileData.academics) {
-            const academics = this.userProfileData.academics
-            academics.forEach((academic: any) => {
+            if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
+              this.academicsArray = this.userProfileData.academics
+              const academics = this.userProfileData.academics
+              academics.forEach((academic: any) => {
 
-              if (academic.type === 'X_STANDARD') {
-                const xstandardArray = academic
+                if (academic.type === 'X_STANDARD') {
+                  const xstandardArray = academic
 
-                for (const key in xstandardArray) {
+                  for (const key in xstandardArray) {
 
-                  if (xstandardArray[key] === '') {
-                    this.xStandardValues = this.xStandardValues + 1
+                    if (xstandardArray[key] === '') {
+                      this.xStandardValues = this.xStandardValues + 1
+                    }
                   }
                 }
-              }
 
-              if (academic.type === 'XII_STANDARD') {
-                const xiistandardArray = academic
+                if (academic.type === 'XII_STANDARD') {
+                  const xiistandardArray = academic
 
-                for (const key in xiistandardArray) {
+                  for (const key in xiistandardArray) {
 
-                  if (xiistandardArray[key] === '') {
-                    this.xiiStandardValues = this.xiiStandardValues + 1
+                    if (xiistandardArray[key] === '') {
+                      this.xiiStandardValues = this.xiiStandardValues + 1
+                    }
                   }
                 }
-              }
 
-              if (academic.type === 'GRADUATE') {
-                const graduateArray = academic
+                if (academic.type === 'GRADUATE') {
+                  const graduateArray = academic
 
-                for (const key in graduateArray) {
+                  for (const key in graduateArray) {
 
-                  if (graduateArray[key] === '') {
-                    this.graduate = this.graduate + 1
+                    if (graduateArray[key] === '') {
+                      this.graduate = this.graduate + 1
+                    }
                   }
                 }
-              }
 
-              if (academic.type === 'POSTGRADUATE') {
-                const postGraduateArray = academic
+                if (academic.type === 'POSTGRADUATE') {
+                  const postGraduateArray = academic
 
-                for (const key in postGraduateArray) {
+                  for (const key in postGraduateArray) {
 
-                  if (postGraduateArray[key] === '') {
-                    this.postGraduate = this.postGraduate + 1
+                    if (postGraduateArray[key] === '') {
+                      this.postGraduate = this.postGraduate + 1
+                    }
                   }
                 }
+
+              })
+
+              if (this.xStandardValues > 1 || this.xiiStandardValues > 1 || this.graduate > 1 || this.postGraduate > 1) {
+                this.showAcademicElse = true
               }
-
-            })
-
-            if (this.xStandardValues > 1 || this.xiiStandardValues > 1 || this.graduate > 1 || this.postGraduate > 1) {
-              this.showAcademicElse = true
             }
-            // }
             // const academics = this.populateAcademics(data[0])
             // this.setDegreeValuesArray(academics)
             // this.setPostDegreeValuesArray(academics)
@@ -207,6 +218,11 @@ export class DashboardComponent implements OnInit {
     this.historyFetchStatus = 'fetching'
     this.apiFetchStatus = 'fetching'
     this.fetchInterests()
+    this.valueSvc.isXSmall$.subscribe(xSmall => {
+      if (xSmall) {
+        this.isXSmall = xSmall
+      }
+    })
     // this.badgesSvc.fetchBadges().subscribe(
     //   (data: IBadgeResponse) => {
     //     this.badgesData = data
@@ -256,6 +272,11 @@ export class DashboardComponent implements OnInit {
     if (this.myProp) {
       this.myProp.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
+    if (this.configSvc.instanceConfig) {
+      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        this.configSvc.instanceConfig.logos.app,
+      )
+    }
   }
 
   fetchInterests() {
@@ -292,5 +313,18 @@ export class DashboardComponent implements OnInit {
         }
       })
     }
+  }
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
+  eventTrack(str: string, profileChange: string) {
+    const attr = {
+      name: str,
+      attributes: { profileChange },
+    }
+    const endPointAttr = {
+      profileChange: [profileChange],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
   }
 }

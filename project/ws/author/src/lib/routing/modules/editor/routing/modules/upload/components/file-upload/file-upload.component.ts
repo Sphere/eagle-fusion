@@ -32,6 +32,7 @@ import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/compon
 import { mergeMap, tap } from 'rxjs/operators'
 import { IFormMeta } from './../../../../../../../../interface/form'
 import { AuthInitService } from './../../../../../../../../services/init.service'
+import { CollectionStoreService } from './../../../collection/services/store.service'
 
 @Component({
   selector: 'ws-auth-file-upload',
@@ -44,7 +45,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
   @ViewChild('selectFile', { static: false }) selectFile!: TemplateRef<HTMLElement>
   @Input() callSave = false
   fileUploadForm!: FormGroup
-  iprAccepted = false
+  iprAccepted!: boolean
   file!: File | null
   mimeType = ''
   currentContent = ''
@@ -67,6 +68,10 @@ export class FileUploadComponent implements OnInit, OnChanges {
   @Input() canTransCode = false
   isMobile = false
   @Output() data = new EventEmitter<any>()
+  uploadedFileList: { [key: string]: File } = {}
+  updatedIPRList: { [key: string]: boolean } = {}
+  filetype!: string | null
+  acceptType!: string | '.mp3,.mp4,.pdf,.zip,.m4v'
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,14 +83,40 @@ export class FileUploadComponent implements OnInit, OnChanges {
     private authInitService: AuthInitService,
     private valueSvc: ValueService,
     private accessService: AccessControlService,
+    private storeService: CollectionStoreService
   ) { }
 
   ngOnInit() {
+    this.filetype = this.storeService.uploadFileTypeValue
+    if (this.filetype === 'audio') {
+      this.acceptType = '.mp3'
+    }
+
+    switch (this.filetype) {
+      case 'audio':
+        this.acceptType = '.mp3'
+        break
+      case 'video':
+        this.acceptType = '.mp4, .m4v'
+        break
+      case 'pdf':
+        this.acceptType = '.pdf'
+        break
+      case 'zip':
+        this.acceptType = '.zip'
+        break
+      default:
+        this.acceptType = '.mp3,.mp4,.pdf,.zip,.m4v'
+    }
+
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
     this.currentContent = this.contentService.currentContent
     this.triggerDataChange()
     this.contentService.changeActiveCont.subscribe(data => {
       this.currentContent = data
+      this.uploadedFileList = this.contentService.getListOfFiles()
+      this.updatedIPRList = this.contentService.getListOfUpdatedIPR()
+      this.iprAccepted = false
       this.triggerDataChange()
     })
   }
@@ -120,6 +151,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     this.canUpdate = true
     this.fileUploadForm.markAsPristine()
     this.fileUploadForm.markAsUntouched()
+
     // if (meta.artifactUrl) {
     //   this.iprAccepted = true
     // }
@@ -214,6 +246,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
   }
 
   assignFileValues(file: File, fileName: string) {
+
+    this.contentService.updateListOfFiles(this.currentContent, file)
     this.file = file
     this.mimeType = fileName.toLowerCase().endsWith('.pdf')
       ? 'application/pdf'
@@ -236,11 +270,13 @@ export class FileUploadComponent implements OnInit, OnChanges {
     })
     dialogRef.afterClosed().subscribe(result => {
       this.iprAccepted = result
+      this.contentService.updateListOfUpdatedIPR(this.currentContent, result)
     })
   }
 
   iprChecked() {
     this.iprAccepted = !this.iprAccepted
+    this.contentService.updateListOfUpdatedIPR(this.currentContent, this.iprAccepted)
   }
 
   clearUploadedFile() {
@@ -347,6 +383,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     const originalMeta = this.contentService.getOriginalMeta(this.currentContent)
     const currentMeta = this.fileUploadForm.value
     const meta: any = {}
+
     Object.keys(currentMeta).map(v => {
       if (
         JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
@@ -394,11 +431,11 @@ export class FileUploadComponent implements OnInit, OnChanges {
     zip.createReader(new zip.BlobReader(this.file as File), (reader: zip.ZipReader) => {
       reader.getEntries((entry: zip.Entry[]) => {
         entry.forEach(element => {
-          if (element.filename.match(/[^A-Za-z0-9_.\-\/]/g)) {
-            this.errorFileList.push(element.filename)
-          } else if (!element.directory) {
+          // if (element.filename.match(/[^A-Za-z0-9_.\-\/]/g)) {
+          //   this.errorFileList.push(element.filename)
+          // } else if (!element.directory) {
             this.fileList.push(element.filename)
-          }
+          // }
         })
         this.processAndShowResult()
       })

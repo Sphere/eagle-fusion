@@ -1,3 +1,26 @@
+<mat-toolbar role="navigation" *ngIf="isXSmall">
+  <a routerLink="/page/home" class="pt-2 pl-2">
+    <img width="80px" height="30px" [src]="appIcon" i18n-alt alt="Home" />
+  </a>
+  <span class="spacer"></span>
+  <button class="home-help" mat-icon-button id='helper' [matMenuTriggerFor]="helpMenuSmall">
+    <mat-icon>more_vertical</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #helpMenuSmall="matMenu">
+  <a mat-menu-item href="http://support.aastrika.org/support/home" target="_blank">
+    <mat-icon>account_circle</mat-icon>
+    <span i18n>Help & Contact</span>
+  </a>
+  <a mat-menu-item href="/app/info/about" role="menuitem" tabindex="0" aria-disabled="false">
+    <mat-icon> info </mat-icon>
+    <span class="ml-2">About Us</span>
+  </a>
+  <a (click)="logout()" mat-menu-item>
+    <mat-icon>power_settings_new</mat-icon><span i18n class="ml-1">Logout</span>
+  </a>
+</mat-menu>
 <div [ngClass]="{
     'banner-container': bannerUrl,
     'ws-mat-primary-lite-background-on-day': !bannerUrl
@@ -44,15 +67,23 @@
             <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
               {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
             </div>
-            <div *ngIf="content?.creatorContacts">
-              <div *ngFor="let author of content?.creatorContacts">
-                Authors : {{author.name}}
-              </div>
+            <div *ngIf="content?.sourceName">
+              Source: <a class="blue-link cursor-pointer"
+                (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</a>
+            </div>
+            <div *ngIf="content?.creatorContacts"> Authors :
+              <span *ngFor="let author of content?.creatorContacts; let i = index" class="mr-1">{{author.name}}
+                <ng-container *ngIf="content?.creatorContacts.length > 1 && i !== content?.creatorContacts.length - 1">,
+                </ng-container>
+              </span>
             </div>
             <div *ngIf="content?.creatorDetails">
-              <div *ngFor="let curator of content?.creatorDetails">
-                Curators : {{curator.name}}
-              </div>
+              Curators :
+              <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+                {{curator.name}} <ng-container
+                  *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+                </ng-container>
+              </span>
             </div>
 
 
@@ -119,6 +150,7 @@
               !(content?.contentType === 'Resource' && !content?.artifactUrl)
             ">
                   <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
+                    (click)="getCourseStartEvent(resumeData)"
                     [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                     [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
                     class="margin-right-m ws-mat-primary-background" mat-flat-button>
@@ -156,6 +188,7 @@
                 <ng-container [ngTemplateOutlet]="actions"></ng-container>
               </div>
               <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button *ngIf="editButton"
+                (click)="createAWSAnalyticsEventAttribute('Edit', 'Editclicked')"
                 [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
                 <img src="/assets/images/edit.png" class="action-icons" />
               </a>
@@ -163,29 +196,51 @@
                 *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
                 <img src="/assets/images/upload.svg" class="action-icons" />
               </a>
+
               <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
                       content
                         | pipePartialContent
                           : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
                                   'artifactUrl']
                     "></ws-widget-btn-content-download>
+
               <ws-widget-btn-content-like [forPreview]="forPreview"
                 [widgetData]="content | pipePartialContent: ['identifier']">
               </ws-widget-btn-content-like>
-              <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+
+              <ws-widget-btn-content-share (click)="createAWSAnalyticsEventAttribute('Share','Shareclicked')"
+                [forPreview]="forPreview" [widgetData]="content">
               </ws-widget-btn-content-share>
+
               <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
                 [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
               </ws-widget-btn-kb>
+
               <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
-                [widgetData]="btnGoalsConfig">
+                [widgetData]="btnGoalsConfig" (click)="createAWSAnalyticsEventAttribute('Goal', 'Goalclicked')">
               </ws-widget-btn-goals>
+
               <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
-                [widgetData]="btnPlaylistConfig">
+                [widgetData]="btnPlaylistConfig"
+                (click)="createAWSAnalyticsEventAttribute('Playlist', 'Playlistclicked')">
               </ws-widget-btn-playlist>
-              <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+
+              <ws-widget-btn-content-feedback-v2
+                (click)="createAWSAnalyticsEventAttribute('Feedback', 'Feedbackclicked')" [forPreview]="forPreview"
                 [widgetData]="content | pipePartialContent: ['identifier', 'name']">
               </ws-widget-btn-content-feedback-v2>
+
+              <ws-widget-download-certificate
+                *ngIf="content && content?.progress?.progress === 1 && showDownloadCertificate" [content]="content"
+                [progress]="content.progress.progress"
+                (click)="createAWSAnalyticsEventAttribute('Downloadcertificate', 'Downloadcertificateclicked')">
+              </ws-widget-download-certificate>
+
+              <button mat-raised-button i18n *ngIf="showDownloadCertificate && content?.progress?.progress < 1"
+                class="header-btn text-white ws-mat-primary-background mat-button-base"
+                (click)="showCompleteCourseDialog()">
+                <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
+                <span class="cert-text">Certificate </span> </button>
             </div>
           </div>
           <p class="margin-top-l margin-remove-bottom" *ngIf="content?.isInIntranet && showIntranetMsg">
@@ -204,7 +259,7 @@
         </div>
       </div>
     </div>
-    <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.appIcon + ')'}">
+    <div class="header-right" [ngStyle]="{'background-image': 'url('+ bannerImg +')'}">
 
     </div>
   </div>

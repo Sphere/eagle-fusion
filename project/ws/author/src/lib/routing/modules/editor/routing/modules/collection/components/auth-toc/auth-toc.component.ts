@@ -23,7 +23,7 @@ declare var $: any
   templateUrl: './auth-toc.component.html',
   styleUrls: ['./auth-toc.component.scss'],
 })
-export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
+export class AuthTocComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() createdFromCourse: any
   @Output() action = new EventEmitter<{ type: string; identifier: string; nodeClicked?: boolean }>()
   @Output() closeEvent = new EventEmitter<boolean>()
@@ -65,7 +65,7 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
     private loaderService: LoaderService,
     private authInitService: AuthInitService,
     private breakpointObserver: BreakpointObserver,
-  ) {}
+  ) { }
 
   private _transformer = (node: IContentNode, level: number): IContentTreeNode => {
     return {
@@ -140,19 +140,19 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-   if ($('#cdk-drop-list-0 > mat-tree-node').hasClass('selected') === false) {
-      $('#cdk-drop-list-0 > mat-tree-node:nth-child(2)').trigger('click')
-      $('#cdk-drop-list-0 > mat-tree-node:nth-child(2)').find('button.mat-icon-button').trigger('click')
-   }
+    if ($('.toc-root > mat-tree > mat-tree-node').hasClass('selected') === false) {
+      // $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').trigger('click')
+      // $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').find('button.mat-icon-button').trigger('click')
+    }
   }
   ngOnDestroy() {
     this.loaderService.changeLoad.next(false)
   }
 
   onNodeSelect(node: IContentTreeNode) {
-    if ($('#cdk-drop-list-0 > mat-tree-node').hasClass('selected')) {
-      $('#cdk-drop-list-0 > mat-tree-node:nth-child(2)').removeClass('selected')
-   }
+    if ($('.toc-root > mat-tree > mat-tree-node').hasClass('selected')) {
+      $('.toc-root > mat-tree > mat-tree-node').removeClass('selected')
+    }
 
     if (node.id !== this.selectedNode) {
       this.action.emit({ type: 'editContent', identifier: node.identifier, nodeClicked: true })
@@ -161,7 +161,7 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
       this.store.currentSelectedNode = node.id
       this.editorStore.changeActiveCont.next(node.identifier)
 
-     }
+    }
   }
 
   closeSidenav() {
@@ -220,9 +220,9 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
         this.isDropDisabled = !parentNode
           ? true
           : !this.store.allowDrop(
-              this.dragContainer as IContentTreeNode,
-              parentNode as IContentTreeNode,
-            )
+            this.dragContainer as IContentTreeNode,
+            parentNode as IContentTreeNode,
+          )
       } else {
         this.isDropDisabled = !this.store.allowDrop(
           this.dragContainer as IContentTreeNode,
@@ -392,7 +392,7 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
     this.loaderService.changeLoad.next(false)
   }
 
-  takeAction(action: string, node: IContentTreeNode, type?: string) {
+  takeAction(action: string, node: IContentTreeNode, type?: string, subid?: string) {
 
     switch (action) {
       case 'editMeta':
@@ -414,7 +414,9 @@ export class AuthTocComponent  implements OnInit, AfterViewInit, OnDestroy {
         break
 
       case 'createChild':
-        this.createNewChildOrSibling(type as string, node)
+        this.createNewChildOrSibling(type as string, node, false)
+        const setSubidType = subid || ''
+        this.store.uploadFileType.next(setSubidType)
         break
 
       case 'createSibling':

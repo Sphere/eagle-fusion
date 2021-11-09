@@ -231,15 +231,21 @@
   width: 100vw;
 }
 .next-button .width-auto {
-    right: -35px;
-}
-.prev-button .width-auto {
-    left: -35px;
+  right: -11px;
+  @include breakpoint-xs {
+    right: -26px;
+  }
 }
 
+.prev-button .width-auto {
+  left: -11px;
+  @include breakpoint-xs {
+    left: -26px;
+  }
+}
 .prev-button .title {
-    margin-left: -35px !important;
+  margin-left: -12px !important;
 }
 .next-button .title {
-    margin-right: -35px;
+  margin-right: -11px;
 }

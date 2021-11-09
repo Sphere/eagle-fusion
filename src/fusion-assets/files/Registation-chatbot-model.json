@@ -1,0 +1,344 @@
+{
+  "regOption": {
+    "profiledetails": [
+      {
+        "id": "fname",
+        "title": "Hey what's your first name ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": true,
+          "regexPattern": "^[a-zA-Z][a-zA-Z ]+$"
+        },
+        "action": {
+          "submit": "middlename",
+          "error": "Name should be alphabets and under 25 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "middlename",
+        "title": "What's your middle name ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": true,
+          "regexPattern": "^[a-zA-Z][a-zA-Z ]+$"
+        },
+        "action": {
+          "submit": "lname",
+          "error": "Middlename should be alphabets and under 25 characters"
+        },
+        "required": false
+      },
+      {
+        "id": "lname",
+        "title": "And your last name ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": true,
+          "regexPattern": "^[a-zA-Z][a-zA-Z ]+$"
+        },
+        "action": {
+          "submit": "dob",
+          "error": "Lastname should be alphabets and under 25 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "dob",
+        "title": "Please share your date of birth in format DD/MM/YYYY ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 10,
+          "type": ["string"],
+          "regex": true,
+          "regexPattern": "^([0-2][0-9]|(3)[0-1])(/)(((0)[0-9])|((1)[0-2]))(/)\\d{4}$"
+        },
+        "action": {
+          "submit": "mobile",
+          "error": "Please provide valid date"
+        },
+        "required": true
+      },
+      {
+        "id": "mobile",
+        "title": "Please provide your 10 digit mobile number ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 10,
+          "type": ["number"],
+          "regex": true,
+          "regexPattern": "^((\\+91-?)|0)?[0-9]{10}$"
+        },
+        "action": {
+          "submit": "location",
+          "error": "Mobile number should be digits and under 10 characters"
+        },
+        "required": true
+      },
+      {
+        "id": "location",
+        "title": "Select your location <b>Country, State, District?</b> After selecting a country you can select other fields.",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "profession",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "profession",
+        "title": "Please help us understand you better, are you?",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "Healthcare Worker",
+            "Healthcare Volunteer",
+            "Mother/Family member",
+            "Student",
+            "Faculty",
+            "Others - Please Specify"
+          ],
+          "type": ["multiple", "single"]
+        },
+        "action": {
+          "submit": "proceed",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Healthcare Worker",
+        "title": "We can classify your profession as: ",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "Midwives",
+            "ANM",
+            "GNM",
+            "BSC Nurse",
+            "Doctors",
+            "Public Health Professionals",
+            "Paramedical",
+            "Others - Please Mention"
+          ],
+          "type": ["multiple", "single"]
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Healthcare Volunteer",
+        "title": "We can classify your profession as: ",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": ["ASHAs", "Anganwadi Workers", "Teachers", "Others - Please Mention"],
+          "type": ["multiple", "single"]
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Mother/Family member",
+        "title": "",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "end",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Others - Please Specify",
+        "title": "Can you specify it here?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Others - Please Mention",
+        "title": "Can you specify it here?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "organizationType",
+        "title": "Select the Type of Organization you belong to.",
+        "description": "",
+        "type": "options",
+        "data": {
+          "options": [
+            "Public/Goverment Sector",
+            "Private Sector",
+            "NGO",
+            "Academic institute - Public",
+            "Academic institute - Private",
+            "Others"
+          ],
+          "type": ["multiple", "single"]
+        },
+        "action": {
+          "submit": "organizationName",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "Others",
+        "title": "Can you mention it here ?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 50,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationName",
+          "error": ""
+        },
+        "required": true
+      },
+      {
+        "id": "organizationName",
+        "title": "Name of your Organization?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "end",
+          "error": ""
+        },
+        "required": false
+      },
+      {
+        "id": "RNNumber",
+        "title": "If you are a <b>Registered Nurse/Midwife</b> please share your RN/RM number.",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "organizationType",
+          "error": ""
+        },
+        "required": false
+      },
+      {
+        "id": "coursename",
+        "title": "Can you please tell us your course name?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "institutionName",
+          "error": ""
+        },
+        "required": false
+      },
+      {
+        "id": "designation",
+        "title": "Can you please tell us your Designation?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "institutionName",
+          "error": ""
+        },
+        "required": false
+      },
+      {
+        "id": "institutionName",
+        "title": "Name of your Institution?",
+        "description": "",
+        "type": "text",
+        "data": {
+          "length": 25,
+          "type": ["string"],
+          "regex": false,
+          "regexPattern": ""
+        },
+        "action": {
+          "submit": "end",
+          "error": ""
+        },
+        "required": true
+      }
+    ]
+  }
+}

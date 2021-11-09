@@ -1,7 +1,7 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: '/app/social/qna' }"></ws-widget-btn-page-back>
   <span i18n class="ml-2">Question</span>
-</mat-toolbar>
+</mat-toolbar> -->
 
 <div class="views-view-wrapper">
   <mat-card>
@@ -23,33 +23,38 @@
           <h1 *ngIf="
               !qnaConversation.mainPost.postContent.title &&
               !qnaConversation.mainPost.postContent.abstract
-            " class="ws-mat-primary-text margin-bottom-s" [innerHTML]="qnaConversation.mainPost.postContent.body | pipeLimitTo: 120"></h1>
+            " class="ws-mat-primary-text margin-bottom-s"
+            [innerHTML]="qnaConversation.mainPost.postContent.body | pipeLimitTo: 120"></h1>
           <div *ngIf="qnaConversation.mainPost.dtCreated" class="mb-4">
             <ng-container i18n>Asked </ng-container>
             <span>{{ qnaConversation.mainPost.dtCreated | date }}</span>
           </div>
         </div>
-        <button type="button" [matMenuTriggerFor]="editMenu" *ngIf="userId === qnaConversation.mainPost.postCreator.postCreatorId"
-          mat-icon-button>
+        <button type="button" [matMenuTriggerFor]="editMenu"
+          *ngIf="userId === qnaConversation.mainPost.postCreator.postCreatorId" mat-icon-button>
           <mat-icon>more_vertical</mat-icon>
         </button>
       </div>
       <mat-divider></mat-divider>
       <div class="flex mt-4">
         <div class="icon-section" *ngIf="qnaConversation.mainPost.status !== 'Draft'">
-          <ws-widget-btn-social-vote class="block" [voteType]="'upVote'" [postId]="qnaConversation.mainPost.id" [postCreatorId]="qnaConversation?.mainPost?.postCreator?.postCreatorId"
+          <ws-widget-btn-social-vote class="block" [voteType]="'upVote'" [postId]="qnaConversation.mainPost.id"
+            [postCreatorId]="qnaConversation?.mainPost?.postCreator?.postCreatorId"
             [activity]="qnaConversation.mainPost.activity" [iconType]="'triangle'"></ws-widget-btn-social-vote>
           <div class="vote-count">
             {{ qnaConversation.mainPost.activity.activityData.upVote - qnaConversation.mainPost.activity.activityData.downVote }}
           </div>
-          <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="qnaConversation.mainPost.id" [postCreatorId]="qnaConversation?.mainPost?.postCreator?.postCreatorId"
+          <ws-widget-btn-social-vote class="block" [voteType]="'downVote'" [postId]="qnaConversation.mainPost.id"
+            [postCreatorId]="qnaConversation?.mainPost?.postCreator?.postCreatorId"
             [activity]="qnaConversation.mainPost.activity" [iconType]="'triangle'"></ws-widget-btn-social-vote>
-          <ws-widget-btn-social-like *ngIf="showSocialLike" class="block items-center margin-top-s" [postId]="qnaConversation.mainPost.id"
-            [activity]="qnaConversation.mainPost.activity" [postCreatorId]="qnaConversation?.mainPost?.postCreator?.postCreatorId">
+          <ws-widget-btn-social-like *ngIf="showSocialLike" class="block items-center margin-top-s"
+            [postId]="qnaConversation.mainPost.id" [activity]="qnaConversation.mainPost.activity"
+            [postCreatorId]="qnaConversation?.mainPost?.postCreator?.postCreatorId">
           </ws-widget-btn-social-like>
         </div>
         <div class="body-section width-expand ql-editor">
-          <div class="margin-bottom-s" [innerHtml]="qnaConversation.mainPost.postContent.body | pipeSafeSanitizer: 'html'"></div>
+          <div class="margin-bottom-s"
+            [innerHtml]="qnaConversation.mainPost.postContent.body | pipeSafeSanitizer: 'html'"></div>
           <mat-chip-list>
             <mat-chip *ngFor="let tag of qnaConversation.mainPost.tags" i18n-matTooltip matTooltip="Associated Tag">
               {{ tag.name }}
@@ -80,8 +85,8 @@
               </div>
             </div>
             <div class="text-right" *ngIf="qnaComments?.postCount > 0">
-              <button type="button" [disabled]="commentFetchStatus === 'fetching'" (click)="fetchQuestionComments()" mat-button color="primary"
-                i18n>
+              <button type="button" [disabled]="commentFetchStatus === 'fetching'" (click)="fetchQuestionComments()"
+                mat-button color="primary" i18n>
                 Load More Comments
               </button>
             </div>
@@ -91,10 +96,11 @@
           </div>
           <form class="comment-form">
             <mat-form-field class="width-1-1">
-              <input matInput i18n-placeholder placeholder="Add a comment" value="commentAddRequest.postContent.body" type="text" name="comment"
-                [(ngModel)]="commentAddRequest.postContent.body" />
+              <input matInput i18n-placeholder placeholder="Add a comment" value="commentAddRequest.postContent.body"
+                type="text" name="comment" [(ngModel)]="commentAddRequest.postContent.body" />
             </mat-form-field>
-            <button mat-stroked-button color="primary" class="margin-left-s" [disabled]="!commentAddRequest.postContent.body.length || isPostingComment"
+            <button mat-stroked-button color="primary" class="margin-left-s"
+              [disabled]="!commentAddRequest.postContent.body.length || isPostingComment"
               i18n="Post comment of question" (click)="postComment()">
               Post
             </button>
@@ -111,17 +117,20 @@
           }}
           <ng-container i18n> Answers </ng-container>
         </h2>
-        <ws-app-qna-reply class="reply-component" *ngIf="qnaConversation?.acceptedAnswer?.id" [isAcceptedAnswer]="true" [item]="qnaConversation.acceptedAnswer"
-          [parentPostCreatorId]="qnaConversation.mainPost.postCreator.postCreatorId" (deleteSuccess)="onDeleteSuccess($event)">
+        <ws-app-qna-reply class="reply-component" *ngIf="qnaConversation?.acceptedAnswer?.id" [isAcceptedAnswer]="true"
+          [item]="qnaConversation.acceptedAnswer"
+          [parentPostCreatorId]="qnaConversation.mainPost.postCreator.postCreatorId"
+          (deleteSuccess)="onDeleteSuccess($event)">
         </ws-app-qna-reply>
         <div *ngFor="let answer of qnaConversation.replyPost; let i = index">
-          <ws-app-qna-reply class="reply-component" [item]="answer" [parentPostCreatorId]="qnaConversation.mainPost.postCreator.postCreatorId"
+          <ws-app-qna-reply class="reply-component" [item]="answer"
+            [parentPostCreatorId]="qnaConversation.mainPost.postCreator.postCreatorId"
             (acceptAnswerEvent)="onAnswerAccept($event)" (deleteSuccess)="onDeleteSuccess($event)"></ws-app-qna-reply>
           <mat-divider *ngIf="i !== (qnaConversation.replyPost.length - 1)"></mat-divider>
         </div>
         <div class="margin-top-s margin-bottom-s text-center" *ngIf="qnaConversation?.postCount > 0">
-          <button type="button" [disabled]="postFetchStatus === 'fetching'" (click)="fetchConversationData(false)" mat-flat-button
-            color="primary" i18n>
+          <button type="button" [disabled]="postFetchStatus === 'fetching'" (click)="fetchConversationData(false)"
+            mat-flat-button color="primary" i18n>
             Load previous answers
           </button>
         </div>
@@ -134,10 +143,10 @@
 
   <mat-card [hidden]="!qnaConversation" class="my-4">
     <h2 i18n>Your Answer</h2>
-    <ws-widget-editor-quill class="editor ql-editor" [htmlText]="replyAddRequest?.postContent?.body" [minLength]="'20'" (textData)="onTextChange($event)"
-      #editor></ws-widget-editor-quill>
-    <button mat-raised-button [disabled]="!isValidForUserAnswer || isPostingReply" color="primary" i18n="Post comment of question"
-      class="margin-top-s" (click)="postReply()">
+    <ws-widget-editor-quill class="editor ql-editor" [htmlText]="replyAddRequest?.postContent?.body" [minLength]="'20'"
+      (textData)="onTextChange($event)" #editor></ws-widget-editor-quill>
+    <button mat-raised-button [disabled]="!isValidForUserAnswer || isPostingReply" color="primary"
+      i18n="Post comment of question" class="margin-top-s" (click)="postReply()">
       Post Your Answer
     </button>
     <mat-spinner *ngIf="isPostingReply" [diameter]="30" [strokeWidth]="3"> </mat-spinner>

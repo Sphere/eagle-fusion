@@ -1,16 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { ViewerDataService } from '../../viewer-data.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'viewer-web-module-container',
   templateUrl: './web-module.component.html',
   styleUrls: ['./web-module.component.scss'],
 })
-export class WebModuleComponent implements OnInit {
+export class WebModuleComponent implements OnInit, AfterViewInit {
   @Input() isFetchingDataComplete = false
   @Input() isErrorOccured = false
   @Input() forPreview = false
@@ -20,6 +21,7 @@ export class WebModuleComponent implements OnInit {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   @Input() isPreviewMode = false
+  @Output() reload: EventEmitter<boolean> = new EventEmitter()
   isTypeOfCollection = false
   collectionId: string | null = null
   isRestricted = false
@@ -33,8 +35,9 @@ export class WebModuleComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService,
+              private awsAnalyticsService: AwsAnalyticsService) {
+    this.valueSvc.isLtMedium$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
   }
@@ -58,4 +61,41 @@ export class WebModuleComponent implements OnInit {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
   }
+
+  ngAfterViewInit() {
+    this.activatedRoute.data.subscribe(data => {
+      if (data.resourceType === 'web-module' && this.webmoduleData) {
+        if (this.activatedRoute.snapshot.params.resourceId !== this.webmoduleData.identifier) {
+          this.reload.emit(true)
+        }
+      }
+    })
+  }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+    if (this.prevResourceUrl) { this.createAWSAnalyticsEventAttribute(this.prevResourceUrl) }
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
+    if (this.nextResourceUrl) { this.createAWSAnalyticsEventAttribute(this.nextResourceUrl) }
+  }
+
+  createAWSAnalyticsEventAttribute(resourceUrl: string) {
+    let courseId = ''
+    if (resourceUrl) {
+      courseId = resourceUrl.slice(resourceUrl.indexOf('lex_'))
+    }
+
+    const attr = {
+      name: 'PL1_ChildResourceVisit',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+  }
+
 }

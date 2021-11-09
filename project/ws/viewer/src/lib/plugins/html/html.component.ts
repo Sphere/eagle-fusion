@@ -1,25 +1,23 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core'
+// import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { NsContent } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
-
+import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
 @Component({
   selector: 'viewer-plugin-html',
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.scss'],
 })
-export class HtmlComponent implements OnInit, OnChanges {
 
-  // private mobileOpenInNewTab!: any
-
+export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('mobileOpenInNewTab', { read: ElementRef, static: false }) mobileOpenInNewTab !: ElementRef<HTMLAnchorElement>
   @Input() htmlContent: NsContent.IContent | null = null
   iframeUrl: SafeResourceUrl | null = null
-
   showIframeSupportWarning = false
   showIsLoadingMessage = false
   showUnBlockMessage = false
@@ -31,16 +29,39 @@ export class HtmlComponent implements OnInit, OnChanges {
   constructor(
     private domSanitizer: DomSanitizer,
     public mobAppSvc: MobileAppsService,
-    // private http: HttpClient,
+    private scormAdapterService: SCORMAdapterService,
     private router: Router,
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
-  ) { }
-
-  ngOnInit() {
-    // this.mobAppSvc.simulateMobile()
+    private events: EventService,
+  ) {
+    (window as any).API = this.scormAdapterService
+    // if (window.addEventListener) {
+    window.addEventListener('message', this.receiveMessage.bind(this))
+    // }
+    // else {
+    //   (<any>window).attachEvent('onmessage', this.receiveMessage.bind(this))
+    // }
+    // window.addEventListener('message', function (event) {
+    //   /* tslint:disable-next-line */
+    //   console.log('message', event)
+    // })
+    // window.addEventListener('onmessage', function (event) {
+    //   /* tslint:disable-next-line */
+    //   console.log('onmessage===>', event)
+    // })
   }
 
+  ngOnInit() {
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      this.scormAdapterService.loadData()
+    }
+  }
+  ngOnDestroy() {
+    window.removeEventListener('message', this.receiveMessage)
+    // window.removeEventListener('onmessage', this.receiveMessage)
+  }
   ngOnChanges() {
     this.isIntranetUrl = false
     this.progress = 100
@@ -50,11 +71,15 @@ export class HtmlComponent implements OnInit, OnChanges {
       ? this.configSvc.instanceConfig.intranetIframeUrls
       : []
 
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      this.scormAdapterService.loadData()
+    }
     // //console.log(this.htmlContent)
     let iframeSupport: boolean | string | null =
       this.htmlContent && this.htmlContent.isIframeSupported
     if (this.htmlContent && this.htmlContent.artifactUrl) {
-      if (this.htmlContent.artifactUrl.startsWith('http://') && this.htmlContent.isExternal) {
+      if (this.htmlContent.artifactUrl.startsWith('http://')) {
         this.htmlContent.isIframeSupported = 'No'
       }
       if (typeof iframeSupport !== 'boolean') {
@@ -113,8 +138,19 @@ export class HtmlComponent implements OnInit, OnChanges {
         )
       }
       this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.htmlContent.artifactUrl,
+        `${this.htmlContent.artifactUrl}?timestamp='${new Date().getTime()}`
       )
+      // testing purpose only
+      // setTimeout(
+      //   () => {
+      //     const ifram = document.getElementsByClassName('html-iframe')[0]
+      //     if (ifram && this.htmlContent) {
+      //       _.set(ifram, 'src',
+      //         `${this.htmlContent.artifactUrl}?timestamp='${new Date().getTime()}`)
+      //     }
+      //   },
+      //   1000,
+      // )
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
       this.iframeUrl = null
       this.pageFetchStatus = 'artifactUrlMissing'
@@ -129,7 +165,18 @@ export class HtmlComponent implements OnInit, OnChanges {
       `/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`,
     ])
   }
-
+  receiveMessage(msg: any) {
+    // /* tslint:disable-next-line */
+    // console.log("msg=>", msg)
+    if (msg.data) {
+      this.raiseTelemetry(msg.data)
+    } else {
+      this.raiseTelemetry({
+        event: msg.message,
+        id: msg.id,
+      })
+    }
+  }
   openInNewTab() {
     if (this.htmlContent) {
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
@@ -159,7 +206,7 @@ export class HtmlComponent implements OnInit, OnChanges {
         )
         if (isWindowOpen === null) {
           const msg = 'The pop up window has been blocked by your browser, please unblock to continue.'
-          this.snackBar.open(msg)
+          this.snackBar.open(msg, 'X')
         }
       }
     }
@@ -170,18 +217,35 @@ export class HtmlComponent implements OnInit, OnChanges {
   }
 
   onIframeLoadOrError(evt: 'load' | 'error', iframe?: HTMLIFrameElement, event?: any) {
+    // tslint:disable-next-line: no-console
+    console.log('173', evt, iframe, event)
     if (evt === 'error') {
       this.pageFetchStatus = evt
     }
     if (evt === 'load' && iframe && iframe.contentWindow) {
+      // tslint:disable-next-line: no-console
+      console.log('179', iframe, iframe.contentWindow)
       if (event && iframe.onload) {
         iframe.onload(event)
       }
       iframe.onload = (data => {
         if (data.target) {
+          // tslint:disable-next-line: no-console
+          console.log('180')
           this.pageFetchStatus = 'done'
           this.showIsLoadingMessage = false
         }
+      })
+    }
+  }
+
+  raiseTelemetry(data: any) {
+    if (this.htmlContent) {
+      /* tslint:disable-next-line */
+      // console.log(this.htmlContent.identifier)
+      this.events.raiseInteractTelemetry(data.event, 'scrom', {
+        contentId: this.htmlContent.identifier,
+        ...data,
       })
     }
   }

@@ -1,3 +1,4 @@
+import { UserProfileService } from './../../../user-profile/services/user-profile.service'
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { TFetchStatus, LoggerService, ConfigurationsService } from '@ws-widget/utils'
 import { IBadgeResponse } from './badges.model'
@@ -5,9 +6,9 @@ import { Subscription, fromEvent } from 'rxjs'
 import { BadgesService } from './badges.service'
 import { MatSnackBar } from '@angular/material'
 import { debounceTime, throttleTime } from 'rxjs/operators'
-import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
-
+import * as moment from 'moment'
+import { IUserProfileDetailsFromRegistry } from '../../../user-profile/models/user-profile.model'
 @Component({
   selector: 'ws-app-badges',
   templateUrl: './badges.component.html',
@@ -29,12 +30,18 @@ export class BadgesComponent implements OnInit {
     | undefined
   show = 4
   imageUrl = '/fusion-assets/icons/certificate.jpg'
+  allowDownload = false
+  myMoment: moment.Moment = moment('2020-01-11')
+  userProfileData!: IUserProfileDetailsFromRegistry
+
+  receivedDate = ''
 
   constructor(
     private badgesSvc: BadgesService,
     private logger: LoggerService,
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService
   ) {
     this.badges = {
       canEarn: [],
@@ -47,9 +54,9 @@ export class BadgesComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.userName
     }
-    if (this.userName) {
-      this.userName = this.userName.split(' ')[0]
-    }
+    // if (this.userName) {
+    //   this.userName = this.userName.split(' ')[0]
+    // }
 
     this.disablePrev = true
     this.disableNext = false
@@ -60,7 +67,18 @@ export class BadgesComponent implements OnInit {
       this.logger.log('Data check from resolver', data)
       this.badges = data
       this.status = 'done'
+
+      if (this.badges.recent[0] && this.badges.recent[0].last_received_date) {
+        this.allowDownload = moment(this.badges.recent[0].last_received_date).isSameOrAfter('2021-03-08')
+      }
     })
+
+    this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
+      data => {
+        if (data && data.length) {
+          this.userProfileData = data[0]
+        }
+      })
     setTimeout(
       () => {
         this.initializeObserver()
@@ -152,26 +170,9 @@ export class BadgesComponent implements OnInit {
 
   simulateDummyData() {
     this.badges.earned = [
-
     ]
-
     this.badges.closeToEarning = [
-
     ]
-  }
-
-  getBase64Image(img: any) {
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-    if (img) {
-      canvas.width = img.width
-      canvas.height = img.height
-      if (ctx) {
-        ctx.drawImage(img, 0, 0)
-      }
-    }
-    const dataURL = canvas.toDataURL('image/jpeg')
-    return dataURL
   }
 
   increaseShow() {
@@ -180,33 +181,5 @@ export class BadgesComponent implements OnInit {
   decreaseShow() {
     this.show = 4
   }
-  downloadPdf() {
-    const doc = new jsPDF('landscape', 'mm', [297, 210])
-    const width = doc.internal.pageSize.getWidth()
-    const height = doc.internal.pageSize.getHeight()
 
-    const imageData = this.getBase64Image(document.getElementById('imageUrl'))
-    doc.addImage(imageData, 'JPG', 0, 0, width, height)
-
-    doc.setFontSize(20)
-    doc.setTextColor(100);
-
-    (doc as any).autoTable({
-      body: [
-        [{
-          content: `${this.badges.recent[0].badge_name} \n by ${this.userName}\n Completed on ${this.badges.recent[0].first_received_date}`,
-          colSpan: 2,
-          rowSpan: 2,
-          styles: { halign: 'center' },
-        }],
-      ],
-      theme: 'plain',
-      columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
-      margin: { top: 80 },
-
-    })
-
-    // Download PDF document
-    doc.save('certificate.pdf')
-  }
 }

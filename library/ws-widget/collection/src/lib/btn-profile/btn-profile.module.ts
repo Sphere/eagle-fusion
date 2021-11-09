@@ -5,6 +5,8 @@ import { BtnProfileComponent } from './btn-profile.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { RouterModule } from '@angular/router'
 import { LogoutModule } from '@ws-widget/utils'
+import { UserProfileService } from './../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+
 // import { TreeCatalogModule } from '../tree-catalog/tree-catalog.module'
 
 @NgModule({
@@ -20,8 +22,8 @@ import { LogoutModule } from '@ws-widget/utils'
     MatSlideToggleModule,
     RouterModule,
     WidgetResolverModule,
-
   ],
+  providers: [UserProfileService],
   entryComponents: [BtnProfileComponent],
 })
 export class BtnProfileModule { }

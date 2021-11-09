@@ -10,7 +10,7 @@ import {
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
-import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, TFetchStatus, ValueService } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
 import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
@@ -19,6 +19,9 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
+import { NoAccessDialogComponent } from '../../../goals/components/no-access-dialog/no-access-dialog.component'
+import { AUTHORING_CONTENT_BASE } from './../../../../../../../author/src/lib/constants/apiEndpoints'
+import { AwsAnalyticsService } from '../../../../../../../viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -69,6 +72,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   } = {}
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
+  showDownloadCertificate = false
+  bannerImg = ''
+  appIcon: any
+  isXSmall = false
+  userEmail: any
   // learnersCount:Number
 
   constructor(
@@ -83,11 +91,33 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
     private authAccessService: AccessControlService,
+    private valueSvc: ValueService,
+    private domSanitizer: DomSanitizer,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
     if (this.content) {
-    this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      const contentId = this.content.identifier
+      if (contentId === 'lex_auth_01308384668903833673' || contentId === 'lex_auth_01311423170518220869'
+        || contentId === 'lex_auth_013268426750025728383') {
+        this.showDownloadCertificate = true
+      }
+      this.content.creatorPosterImage ?
+        this.bannerImg = `${AUTHORING_CONTENT_BASE}${encodeURIComponent(this.content.creatorPosterImage)}`
+        : this.bannerImg = this.content.appIcon
+    }
+
+    this.valueSvc.isXSmall$.subscribe(xSmall => {
+      if (xSmall) {
+        this.isXSmall = xSmall
+      }
+    })
+    if (this.configSvc.instanceConfig) {
+      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        this.configSvc.instanceConfig.logos.app,
+      )
     }
 
     this.route.data.subscribe(data => {
@@ -262,6 +292,20 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     }
     return false
   }
+
+  showOrgprofile(orgId: string) {
+    const attr = {
+      name: 'OP1_OrgView',
+      attributes: { orgId },
+    }
+    const endPointAttr = {
+      orgId: [orgId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+
+    this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
+  }
+
   ngOnDestroy() {
     this.tocSvc.analyticsFetchStatus = 'none'
     if (this.routerParamSubscription) {
@@ -463,14 +507,14 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           this.cohortResults[cohortType] = {
             contents: data || [],
             hasError: false,
-            count : data ? data.length : 0,
+            count: data ? data.length : 0,
           }
         },
         () => {
           this.cohortResults[cohortType] = {
             contents: [],
             hasError: true,
-            count : 0,
+            count: 0,
           }
         },
       )
@@ -480,8 +524,80 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.cohortResults[cohortType] = {
         contents: [],
         hasError: false,
-        count : 0,
+        count: 0,
       }
     }
   }
+
+  showCompleteCourseDialog() {
+    this.dialog.open(NoAccessDialogComponent, {
+      data: {
+        type: 'certify',
+      },
+      width: '600px',
+    })
+  }
+
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
+  getCourseStartEvent(event: any) {
+    const status = event ? 'resume' : 'start'
+    if (status === 'start') {
+      const attr = {
+        name: 'CP1_CourseStart',
+        attributes: { CourseId: event.identifier, status: 'start' },
+      }
+      const endPointAttr = {
+        CourseId: [event.identifier],
+        status: ['start'],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    } else {
+      const attr = {
+        name: 'CP1_CourseStart',
+        attributes: { CourseId: event.identifier, status: 'resume' },
+      }
+      const endPointAttr = {
+        CourseId: [event.identifier],
+        status: ['resume'],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
+  createAWSAnalyticsEventAttribute(type: string, action?: string) {
+    const mappedNameObj: any = {
+      Edit: 'CP4_EditCourse',
+      Share: 'CP3_CourseShare',
+      Goal: 'CP12_CourseGoal',
+      Playlist: 'CP6_CourseAddPlaylist',
+      Feedback: 'CP7_CourseFeedback',
+      Downloadcertificate: 'CP9_DownloadCertificate',
+    }
+
+    const mappedActionObj: any = {
+      Edit: 'CourseEditAction',
+      Share: 'CourseShareAction',
+      Goal: 'CourseGoalAction',
+      Playlist: 'PlaylistAction',
+      Feedback: 'FeedbackAction',
+      Downloadcertificate: 'DownloadcertificateAction',
+    }
+    if (action && this.content) {
+      const attr = {
+        name: mappedNameObj[type],
+        attributes: {
+          CourseId: this.content.identifier,
+          [mappedActionObj[type]]: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        [mappedActionObj[type]]: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

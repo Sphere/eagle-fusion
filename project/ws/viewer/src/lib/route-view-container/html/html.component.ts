@@ -6,6 +6,7 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ViewerDataService } from '../../viewer-data.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 @Component({
   selector: 'viewer-html-container',
   templateUrl: './html.component.html',
@@ -42,7 +43,8 @@ export class HtmlComponent implements OnInit, OnChanges {
     private pipeLimitTo: PipeLimitToPipe,
     private valueSvc: ValueService,
     private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService
+    private viewerDataSvc: ViewerDataService,
+    private awsAnalyticsService: AwsAnalyticsService
 
   ) {
 
@@ -78,6 +80,14 @@ export class HtmlComponent implements OnInit, OnChanges {
 
   }
 
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     for (const prop in changes) {
       if (prop === 'htmlData') {
@@ -99,4 +109,29 @@ export class HtmlComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  setPrevClickEvent() {
+    if (this.prevResourceUrl) { this.createAWSAnalyticsEventAttribute(this.prevResourceUrl) }
+  }
+
+  setNextClickEvent() {
+    if (this.nextResourceUrl) { this.createAWSAnalyticsEventAttribute(this.nextResourceUrl) }
+  }
+
+  createAWSAnalyticsEventAttribute(resourceUrl: string) {
+    let courseId = ''
+    if (resourceUrl) {
+      courseId = resourceUrl.slice(resourceUrl.indexOf('lex_'))
+    }
+
+    const attr = {
+      name: 'PL1_ChildResourceVisit',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+  }
+
 }

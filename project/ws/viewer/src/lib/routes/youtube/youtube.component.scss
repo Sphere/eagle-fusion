@@ -1,3 +1,10 @@
 ::ng-deep .fullscreen #youtubeTag {
-    height: 100vh !important;
+  height: 100vh !important;
+}
+div.prev-button .width-auto {
+  left: -10px;
+}
+
+div.next-button .width-auto {
+  right: -5px;
 }

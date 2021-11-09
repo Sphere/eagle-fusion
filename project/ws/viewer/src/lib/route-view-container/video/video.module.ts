@@ -22,6 +22,7 @@ import {
   UserContentRatingModule,
   BtnContentFeedbackV2Module,
   PlayerBriefModule,
+  BtnFullscreenModule,
 } from '@ws-widget/collection'
 
 import {
@@ -61,6 +62,7 @@ import { RouterModule } from '@angular/router'
     UserContentRatingModule,
     BtnContentFeedbackV2Module,
     PlayerBriefModule,
+    BtnFullscreenModule,
   ],
   exports: [
     VideoComponent,

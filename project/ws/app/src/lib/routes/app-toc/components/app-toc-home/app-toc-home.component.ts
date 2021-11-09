@@ -6,6 +6,7 @@ import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 export enum ErrorType {
   internalServer = 'internalServer',
@@ -43,12 +44,14 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     },
   }
   tocConfig: any = null
+  license = ''
   constructor(
     private route: ActivatedRoute,
     private contentSvc: WidgetContentService,
     private tocSvc: AppTocService,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
   }
 
@@ -65,6 +68,9 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         this.tocSvc.showDescription = data.pageData.data.showDescription || false
         this.tocConfig = data.pageData.data
         this.initData(data)
+        if (localStorage.getItem('selectedCourse')) {
+          localStorage.removeItem('selectedCourse')
+        }
       })
     }
   }
@@ -85,6 +91,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data)
     this.content = initData.content
+    if (this.content && this.content.learningObjective) {
+      this.license = this.content.learningObjective || 'CC BY 4.0'
+    }
+
     this.errorCode = initData.errorCode
     switch (this.errorCode) {
       case NsAppToc.EWsTocErrorCode.API_FAILURE: {
@@ -120,4 +130,23 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+
+  createAWSAnalyticsEventAttribute($event: any) {
+    if ($event && this.content) {
+      const attr = {
+        name: 'CP11_CourseDetailsTabs',
+        attributes: {
+          CourseId: this.content.identifier,
+          CourseDetailsTabsType: $event,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.content.identifier],
+        CourseDetailsTabsType: [$event],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
 }

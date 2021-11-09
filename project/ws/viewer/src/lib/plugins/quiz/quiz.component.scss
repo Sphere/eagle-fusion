@@ -31,6 +31,15 @@ $nav-height: 40px;
   }
 }
 
+.score-text {
+ font: 700 24px/32px Roboto;
+}
+
+.score-style {
+  font: 800 42px Roboto;
+  color: #ff5757;
+}
+
 .sidenav-container {
   flex: 1 1 auto;
   height: calc(100% - #{$nav-height});
@@ -78,4 +87,7 @@ $nav-height: 40px;
     width: 20%;
     margin: $size-s;
   }
+}
+.white-bg {
+  background-color: #fff;
 }

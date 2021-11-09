@@ -1,3 +1,4 @@
+
 /*
  * Public API Surface of app
  */
@@ -23,3 +24,4 @@ export * from './lib/routes/search/search.module'
 export * from './lib/routes/social/social.module'
 export * from './lib/routes/app-event/app-event.module'
 export * from './lib/routes/user-profile/user-profile.module'
+export * from './lib/routes/org/org.module'

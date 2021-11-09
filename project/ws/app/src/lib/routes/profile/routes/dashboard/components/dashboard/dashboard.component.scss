@@ -39,9 +39,8 @@
     background-color: #f0f0f0;
 
     @include breakpoint-lt-m {
-      width: 100%;
+      width: 92%;
       margin-right: 0px;
-
       margin-bottom: 16px;
     }
 

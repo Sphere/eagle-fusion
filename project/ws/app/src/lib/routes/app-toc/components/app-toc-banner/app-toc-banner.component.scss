@@ -213,8 +213,7 @@
     width: 100%;
   }
   .header-right {
-    background-size: cover;
-    min-height: 150px;
+    display: none;
   }
   .header-synopsis {
     padding-left: 10px;
@@ -222,4 +221,8 @@
   .flex-wrap-reverse {
     flex-wrap: wrap-reverse;
   }
+}
+
+img.download-icon {
+    width: 20px;
 }

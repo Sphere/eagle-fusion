@@ -27,6 +27,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { LoaderService } from '@ws/author/src/public-api'
+import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -44,7 +45,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   uploadSaveData = false
   selectedIndex = 0
   masterNationality: Observable<INation[]> | undefined
-  countries: INation[] = []
+  states: any
   masterLanguages: Observable<ILanguages[]> | undefined
   masterKnownLanguages: Observable<ILanguages[]> | undefined
   masterNationalities: INation[] = []
@@ -69,6 +70,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toastError', { static: true }) toastError!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   isEditEnabled = false
+  isEditable = false
   tncAccepted = false
   isOfficialEmail = false
   govtOrgMeta!: IGovtOrgMeta
@@ -89,6 +91,20 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   showBackBtn!: boolean
   @ViewChild('usetMatTab', { static: false }) usetMatTab!: MatTabGroup
   navigatedFromProfile = false
+  mobileNumberLogin = false
+  mobileLoginNumber = ''
+  nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
+    'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
+    'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
+    'Himachal Pradesh Nurses Registration Council', 'Jammu and Kashmir State Paramedical & Nursing Council',
+    'Jharkhand Nurses Registration Council', 'Karnataka Nursing Council', 'Kerala Nurses & Midwives Council',
+    'Madhya Pradesh Nurses Registration Council', 'Maharashtra Nursing Council', 'Manipur Nursing Council',
+    'Meghalaya Nursing Council', 'Mizoram Nursing Council', 'Odisha Nurses & Midwives Registration Council',
+    'Punjab Nurses Registration Council', 'Rajasthan Nursing Council', 'Tamil Nadu Nurses & Midwives Council',
+    'Tripura Nursing Council', 'Uttar Pradesh Nurses & Midwives Council', 'Uttarakhand Nurses Midwives Council',
+    'West Bengal Nursing Council', 'Telangana State Nurses Midwives Auxiliary Nurse Midwives & Health Visitors Council',
+    'Sikkim Nursing Council', 'Nagaland Nursing Council']
+  filteredOptions: Observable<string[]> | undefined
 
   constructor(
     private snackBar: MatSnackBar,
@@ -100,12 +116,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private loader: LoaderService,
     private _Activatedroute: ActivatedRoute,
+    private btnservice: BtnProfileService
   ) {
     this.createUserForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
       middlename: new FormControl('', []),
       surname: new FormControl('', [Validators.required]),
-      about: new FormControl('', [Validators.required]),
+      about: new FormControl(''),
       photo: new FormControl('', []),
       countryCode: new FormControl('', [Validators.required]),
       mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
@@ -118,6 +135,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       gender: new FormControl('', []),
       maritalStatus: new FormControl('', []),
       domicileMedium: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
+      nationalUniqueId: new FormControl('', []),
+      doctorRegNumber: new FormControl('', []),
+      instituteName: new FormControl('', []),
+      nursingCouncil: new FormControl('', []),
       knownLanguages: new FormControl([], []),
       residenceAddress: new FormControl('', []),
       category: new FormControl('', []),
@@ -159,8 +181,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
     //   console.log('ngOnInit - value', value);
     // })
-    this.getUserDetails()
     this.fetchMeta()
+    this.getUserDetails()
   }
 
   ngAfterViewInit() {
@@ -184,7 +206,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       data => {
         data.nationalities.map((item: INationality) => {
           this.masterNationalities.push({ name: item.name })
-          this.countries.push({ name: item.name })
+          // this.countries.push({ name: item.name })
           this.countryCodes.push(item.countryCode)
         })
         this.createUserForm.patchValue({
@@ -205,6 +227,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     this.userProfileSvc.getProfilePageMeta().subscribe(
       data => {
+        this.states = data.states
         this.govtOrgMeta = data.govtOrg
         this.industriesMeta = data.industries
         this.degreesMeta = data.degrees
@@ -212,7 +235,25 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       (_err: any) => {
       })
+
+    // tslint:disable-next-line: no-non-null-assertion
+    this.filteredOptions = this.createUserForm.get('nursingCouncil')!.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.councilFilter(value))
+      )
   }
+
+  private councilFilter(value: string): string[] {
+    if (value) {
+      const filterValue = value.toLowerCase()
+
+      return this.nursingCouncilNames.filter(option =>
+        option.toLowerCase().includes(filterValue))
+    }
+    return []
+  }
+
   createDegree(): FormGroup {
     return this.fb.group({
       degree: new FormControl('', []),
@@ -448,9 +489,19 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.profileDetailsStatus) {
       if (this.configSvc.userProfile) {
+        if (this.configSvc.userProfile.email && this.configSvc.userProfile.email.endsWith('aastrika.in')) {
+          this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
+          this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
+          this.createUserForm.patchValue({
+            mobile: Number(this.mobileLoginNumber),
+          })
+        }
         this.userProfileSvc.getUserdetailsFromRegistry().subscribe(
           data => {
             if (data && data.length) {
+              this.isEditable = true
               const academics = this.populateAcademics(data[0])
               this.setDegreeValuesArray(academics)
               this.setPostDegreeValuesArray(academics)
@@ -458,14 +509,24 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
               this.constructFormFromRegistry(data[0], academics, organisations)
               this.populateChips(data[0])
 
+            } else {
+              this.router.navigate(['app/user-profile/chatbot'])
             }
-            // this.handleFormData(data[0])
           },
           (_err: any) => {
           })
       }
     } else {
-      if (this.configSvc.userProfile) {
+      if (this.configSvc.userProfile && this.configSvc.userProfile.email) {
+        if (this.configSvc.userProfile.email.endsWith('aastrika.in')) {
+          this.mobileNumberLogin = true
+          this.createUserForm.controls.mobile.disable()
+          this.createUserForm.controls.countryCode.disable()
+          this.mobileLoginNumber = this.configSvc.userProfile.email.substr(0, 10)
+          this.createUserForm.patchValue({
+            mobile: Number(this.mobileLoginNumber),
+          })
+        }
         this.userProfileSvc.getUserdetails(this.configSvc.userProfile.email).subscribe(
           data => {
             if (data && data.length) {
@@ -538,28 +599,30 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       postDegree: [],
     }
     if (data.academics) {
-      data.academics.map((item: any) => {
-        switch (item.type) {
-          case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
-            academics.X_STANDARD.yop10 = item.yearOfPassing
-            break
-          case 'XII_STANDARD': academics.XII_STANDARD.schoolName12 = item.nameOfInstitute
-            academics.XII_STANDARD.yop12 = item.yearOfPassing
-            break
-          case 'GRADUATE': academics.degree.push({
-            degree: item.nameOfQualification,
-            instituteName: item.nameOfInstitute,
-            yop: item.yearOfPassing,
-          })
-            break
-          case 'POSTGRADUATE': academics.postDegree.push({
-            degree: item.nameOfQualification,
-            instituteName: item.nameOfInstitute,
-            yop: item.yearOfPassing,
-          })
-            break
-        }
-      })
+      if (Array.isArray(data.academics)) {
+        data.academics.map((item: any) => {
+          switch (item.type) {
+            case 'X_STANDARD': academics.X_STANDARD.schoolName10 = item.nameOfInstitute
+              academics.X_STANDARD.yop10 = item.yearOfPassing
+              break
+            case 'XII_STANDARD': academics.XII_STANDARD.schoolName12 = item.nameOfInstitute
+              academics.XII_STANDARD.yop12 = item.yearOfPassing
+              break
+            case 'GRADUATE': academics.degree.push({
+              degree: item.nameOfQualification,
+              instituteName: item.nameOfInstitute,
+              yop: item.yearOfPassing,
+            })
+              break
+            case 'POSTGRADUATE': academics.postDegree.push({
+              degree: item.nameOfQualification,
+              instituteName: item.nameOfInstitute,
+              yop: item.yearOfPassing,
+            })
+              break
+          }
+        })
+      }
     }
     return academics
   }
@@ -601,6 +664,16 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
+    let pEmail = ''
+
+    if (this.configSvc.userProfile) {
+      pEmail = this.configSvc.userProfile.email ? this.configSvc.userProfile.email : ''
+    }
+
+    if (data.personalDetails.primaryEmail) {
+      pEmail = data.personalDetails.primaryEmail
+    }
+
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
@@ -610,6 +683,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       dob: this.getDateFromText(data.personalDetails.dob),
       nationality: data.personalDetails.nationality,
       domicileMedium: data.personalDetails.domicileMedium,
+      regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+      nationalUniqueId: data.personalDetails.nationalUniqueId,
+      doctorRegNumber: data.personalDetails.doctorRegNumber,
+      instituteName: data.personalDetails.instituteName,
+      nursingCouncil: data.personalDetails.nursingCouncil,
       gender: data.personalDetails.gender,
       maritalStatus: data.personalDetails.maritalStatus,
       category: data.personalDetails.category,
@@ -617,7 +695,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       countryCode: data.personalDetails.countryCode,
       mobile: data.personalDetails.mobile,
       telephone: data.personalDetails.telephone,
-      primaryEmail: data.personalDetails.primaryEmail,
+      // primaryEmail: data.personalDetails.primaryEmail,
+      primaryEmail: pEmail,
       secondaryEmail: data.personalDetails.personalEmail,
       primaryEmailType: this.filterPrimaryEmailType(data),
       residenceAddress: data.personalDetails.postalAddress,
@@ -698,6 +777,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         dob: form.value.dob,
         nationality: form.value.nationality,
         domicileMedium: form.value.domicileMedium,
+        regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
+        nationalUniqueId: form.value.nationalUniqueId,
+        doctorRegNumber: form.value.doctorRegNumber,
+        instituteName: form.value.instituteName,
+        nursingCouncil: form.value.nursingCouncil,
         gender: form.value.gender,
         maritalStatus: form.value.maritalStatus,
         category: form.value.category,
@@ -860,7 +944,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     //   delete profileRequest.personalDetails.telephone
     // }
     // tslint:disable-next-line
-    const fields = ['category', 'countryCode', 'dob', 'officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
+    const fields = ['category', 'countryCode', 'dob', 'officialEmail', 'firstName', 'gender', 'maritalStatus', 'middleName', 'mobile', 'nursingCouncil', 'nationality', 'pincode', 'postalAddress', 'surname', 'telephone']
     profileRequest.personalDetails.officialEmail = profileRequest.personalDetails.primaryEmail
     fields.map((item: any) => {
       // tslint:disable-next-line
@@ -873,6 +957,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.userProfileSvc.updateProfileDetails(profileRequest).subscribe(
       () => {
+        this.updateBtnProfileName(profileRequest.personalDetails.firstname)
         form.reset()
         this.uploadSaveData = false
         this.configSvc.profileDetailsStatus = true
@@ -880,7 +965,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.navigatedFromProfile) {
           this.router.navigate(['page', 'home'])
         } else {
-          this.router.navigate(['app', 'profile', 'dashboard'])
+          const selectedCourse = localStorage.getItem('selectedCourse')
+          if (selectedCourse) {
+            this.router.navigateByUrl(selectedCourse)
+          } else {
+            this.router.navigate(['app', 'profile', 'dashboard'])
+          }
         }
 
       },
@@ -888,6 +978,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         this.openSnackbar(this.toastError.nativeElement.value)
         this.uploadSaveData = false
       })
+  }
+
+  updateBtnProfileName(fn: string) {
+    this.btnservice.changeName(fn)
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {

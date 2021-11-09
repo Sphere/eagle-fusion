@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { NsContent, IWidgetsPlayerMediaData, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { ViewerDataService } from '../../viewer-data.service'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'viewer-video-container',
@@ -23,6 +24,7 @@ export class VideoComponent implements OnInit {
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
   @Input() isPreviewMode = false
+  @Output() fsState: EventEmitter<boolean> = new EventEmitter()
   isTypeOfCollection = false
   isRestricted = false
   prevResourceUrl: string | null = null
@@ -32,9 +34,11 @@ export class VideoComponent implements OnInit {
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
   collectionIdentifier: any
+  public isInFullScreen = false
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+              private viewerDataSvc: ViewerDataService,
+              private awsAnalyticsService: AwsAnalyticsService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -45,12 +49,46 @@ export class VideoComponent implements OnInit {
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
+
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
   }
+
+  setPrevClick() {
+    this.viewerDataSvc.setClikedItem('prev')
+    if (this.prevResourceUrl) { this.createAWSAnalyticsEventAttribute(this.prevResourceUrl) }
+  }
+
+  setNextClick() {
+    this.viewerDataSvc.setClikedItem('next')
+    if (this.nextResourceUrl) { this.createAWSAnalyticsEventAttribute(this.nextResourceUrl) }
+  }
+
+  fullScreenState(state: boolean) {
+    this.isInFullScreen = state
+    this.fsState.emit(state)
+  }
+
+  createAWSAnalyticsEventAttribute(resourceUrl: string) {
+    let courseId = ''
+    if (resourceUrl) {
+      courseId = resourceUrl.slice(resourceUrl.indexOf('lex_'))
+    }
+
+    const attr = {
+      name: 'PL1_ChildResourceVisit',
+      attributes: { CourseId: courseId },
+    }
+    const endPointAttr = {
+      CourseId: [courseId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+  }
+
 }

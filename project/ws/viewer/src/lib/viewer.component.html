@@ -2,15 +2,18 @@
   <viewer-viewer-top-bar *ngIf="fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" (fsState)="fullScreenState($event)" [screenContent]="content">
   </viewer-viewer-top-bar>
+  <button *ngIf="!sideNavBarOpened" class="floating-btn" mat-raised-button (click)="minimizeBar()"><img
+      src="/assets/images/nav-right.png"> <span class="text"> Course Content</span>
+  </button>
   <viewer-viewer-top-bar *ngIf="!fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" [screenContent]="content">
   </viewer-viewer-top-bar>
   <mat-sidenav-container autosize class="viewer-sidenav-container">
-    <mat-sidenav [ngClass]="isTypeOfCollection?'viewer-sidenav':'viewer-sidenav-standalone'" position="start"
-      [opened]="sideNavBarOpened" [mode]="mode">
+    <mat-sidenav [ngClass]="fixedNavBar? '-my-10':'mt-25'" class="viewer-sidenav" position="start"
+      [opened]="sideNavBarOpened" [mode]="mode" [fixedInViewport]="fixedNavBar">
       <!-- <mat-tab-group>
         <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Contents"> -->
-      <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
+      <viewer-viewer-toc [forPreview]="forPreview" [resourceChanged]="updatedContent" (hidenav)="minimizeBar()">
       </viewer-viewer-toc>
 
     </mat-sidenav>
@@ -64,7 +67,8 @@
       </section>
       <router-outlet (activate)="getContentData($event)"></router-outlet>
 
-      <mat-tab-group animationDuration="0ms" class="minhightab">
+      <mat-tab-group animationDuration="0ms" class="minhightab"
+        (selectedTabChange)="createAWSAnalyticsEventAttribute($event)">
         <mat-tab i18n-label label="Discussion">
           <!-- *ngIf="discussionForumWidget && isRestricted" -->
           <div class="padding-m">
@@ -119,9 +123,9 @@
                       [userName]="author.name || ''" [email]="author.email"></ws-widget-user-image>
                     <div class="width-expand flex flex-middle flex-between">
                       <h3 class="margin-remove">{{ author.name }}</h3>
-                      <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
+                      <!-- <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
                         [widgetData]="{ content: content, emails: [author.email] }">
-                      </ws-widget-btn-mail-user>
+                      </ws-widget-btn-mail-user> -->
                     </div>
                   </div>
                 </mat-card>
@@ -144,13 +148,12 @@
         </mat-tab>
 
         <mat-tab i18n-label label="License">
-          <div class="mt-5 ml-5 mb-4 mr-5">
+          <div class="mt-5 ml-5 mb-4 mr-5" *ngIf="currentLicense">
             <h2 class="margin-bottom-m">License terms</h2>
-            <p>CC BY 4.0</p>
-
-            <p>CC BY 4.0 For details see below:‎</p>
-            <a class="blue-link" href="https://creativecommons.org/licenses/by/4.0/"
-              target="_blank">https://creativecommons.org/licenses/by/4.0/</a>
+            <p>{{currentLicense[0]?.licenseName}}</p>
+            <p>{{currentLicense[0]?.desc}}</p>
+            <p>{{currentLicense[0]?.licenseName}} For details see below:‎</p>
+            <a class="blue-link" href="{{currentLicense[0]?.link}}" target="_blank">{{currentLicense[0]?.link}}</a>
           </div>
         </mat-tab>
 

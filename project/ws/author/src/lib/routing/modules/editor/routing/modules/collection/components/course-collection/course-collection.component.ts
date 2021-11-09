@@ -1,5 +1,5 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core'
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -29,6 +29,8 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { HeaderServiceService } from './../../../../../../../../../../../../../src/app/services/header-service.service'
 import { RootService } from 'src/app/component/root/root.service'
 import { FlatTreeControl } from '@angular/cdk/tree'
+import { QuizComponent } from '../../../quiz/components/quiz/quiz.component'
+declare var $: any
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -37,7 +39,7 @@ import { FlatTreeControl } from '@angular/cdk/tree'
   styleUrls: ['./course-collection.component.scss'],
   providers: [CollectionStoreService, CollectionResolverService],
 })
-export class CourseCollectionComponent implements OnInit, OnDestroy {
+export class CourseCollectionComponent implements OnInit, AfterViewInit, OnDestroy {
   contents: NSContent.IContentMeta[] = []
   couseCreated = ''
   currentParentId!: string
@@ -76,6 +78,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
   treeControl!: FlatTreeControl<IContentTreeNode>
   triggerQuizSave = false
   triggerUploadSave = false
+  courseId = ''
+  @ViewChild('child', { static: true }) child!: QuizComponent
 
   constructor(
     private contentService: EditorContentService,
@@ -106,6 +110,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routerValuesCall()
+    this.courseId = this.storeService.parentNode[0]
     this.parentNodeId = this.storeService.currentParentNode
     // this.expandNodesById([this.parentNodeId])
     this.createTopicForm = this.fb.group({
@@ -141,6 +146,17 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngAfterViewInit() {
+    this.loadCourseSettings()
+  }
+
+  loadCourseSettings() {
+    if ($('.toc-root > mat-tree > mat-tree-node')) {
+      $('.toc-root > mat-tree > mat-tree-node').removeClass('selected')
+      $('.toc-root > mat-tree > mat-tree-node:nth-child(1)').addClass('selected')
+    }
+    this.subAction({ type: 'editContent', identifier: this.storeService.parentNode[0], nodeClicked: true })
+  }
   routerValuesCall() {
     this.contentService.changeActiveCont.subscribe(data => {
       this.currentContent = data
@@ -258,7 +274,10 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     // console.log('newchap', this.newChapterName)
   }
 
-  async setContentType(param: string) {
+  async setContentType(param: string, filetype?: string) {
+    if (filetype) {
+      this.storeService.uploadFileType.next(filetype)
+    }
     if (this.createTopicForm && this.createTopicForm.value) {
 
       this.couseCreated = param
@@ -276,7 +295,6 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
 
       const parentNode = node
       this.loaderService.changeLoad.next(true)
-
       const isDone = await this.storeService.createChildOrSibling(
         this.couseCreated,
         parentNode,
@@ -322,69 +340,77 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     if (this.viewMode === 'assessment') {
       this.triggerQuizSave = true
     } else
-    if (this.viewMode === 'upload') {
-    // TODO  console.log('viewmode', this.viewMode)
-      this.triggerUploadSave = true
-    }
+      if (this.viewMode === 'upload') {
+        // TODO  console.log('viewmode', this.viewMode)
+        this.triggerUploadSave = true
+      }
     if (
       Object.keys(updatedContent).length ||
       Object.keys(this.storeService.changedHierarchy).length
     ) {
       this.isChanged = true
       this.loaderService.changeLoad.next(true)
-      this.triggerSave().subscribe(
-        () => {
-          if (nextAction) {
-            this.action(nextAction)
-          }
-          this.loaderService.changeLoad.next(false)
-          this.snackBar.openFromComponent(NotificationComponent, {
-            data: {
-              type: Notify.SAVE_SUCCESS,
-            },
-            duration: NOTIFICATION_TIME * 1000,
-          })
-          // window.location.reload()
-        },
-        (error: any) => {
-          if (error.status === 409) {
-            const errorMap = new Map<string, NSContent.IContentMeta>()
-            Object.keys(this.contentService.originalContent).forEach(v =>
-              errorMap.set(v, this.contentService.originalContent[v]),
-            )
-            const dialog = this.dialog.open(ErrorParserComponent, {
-              width: '80vw',
-              height: '90vh',
+      if (this.triggerQuizSave && this.child) {
+        // Call save function of quizComponent
+        this.child.save()
+        setTimeout(() => {
+          this.loadCourseSettings()
+        },         3000)
+      } else {
+        this.triggerSave().subscribe(
+          () => {
+            if (nextAction) {
+              this.action(nextAction)
+            }
+            this.loaderService.changeLoad.next(false)
+            this.snackBar.openFromComponent(NotificationComponent, {
               data: {
-                errorFromBackendData: error.error,
-                dataMapping: errorMap,
+                type: Notify.SAVE_SUCCESS,
               },
+              duration: NOTIFICATION_TIME * 1000,
             })
-            dialog.afterClosed().subscribe(v => {
-              if (v) {
-                if (typeof v === 'string') {
-                  this.storeService.selectedNodeChange.next(
-                    (this.storeService.lexIdMap.get(v) as number[])[0],
-                  )
-                  this.contentService.changeActiveCont.next(v)
-                } else {
-                  this.storeService.selectedNodeChange.next(v)
-                  this.contentService.changeActiveCont.next(
-                    this.storeService.uniqueIdMap.get(v) as string,
-                  )
+            // window.location.reload()
+          },
+          (error: any) => {
+            if (error.status === 409) {
+              const errorMap = new Map<string, NSContent.IContentMeta>()
+              Object.keys(this.contentService.originalContent).forEach(v =>
+                errorMap.set(v, this.contentService.originalContent[v]),
+              )
+              const dialog = this.dialog.open(ErrorParserComponent, {
+                width: '80vw',
+                height: '90vh',
+                data: {
+                  errorFromBackendData: error.error,
+                  dataMapping: errorMap,
+                },
+              })
+              dialog.afterClosed().subscribe(v => {
+                if (v) {
+                  if (typeof v === 'string') {
+                    this.storeService.selectedNodeChange.next(
+                      (this.storeService.lexIdMap.get(v) as number[])[0],
+                    )
+                    this.contentService.changeActiveCont.next(v)
+                  } else {
+                    this.storeService.selectedNodeChange.next(v)
+                    this.contentService.changeActiveCont.next(
+                      this.storeService.uniqueIdMap.get(v) as string,
+                    )
+                  }
                 }
-              }
+              })
+            }
+            this.loaderService.changeLoad.next(false)
+            this.snackBar.openFromComponent(NotificationComponent, {
+              data: {
+                type: Notify.SAVE_FAIL,
+              },
+              duration: NOTIFICATION_TIME * 1000,
             })
-          }
-          this.loaderService.changeLoad.next(false)
-          this.snackBar.openFromComponent(NotificationComponent, {
-            data: {
-              type: Notify.SAVE_FAIL,
-            },
-            duration: NOTIFICATION_TIME * 1000,
-          })
-        },
-      )
+          },
+        )
+      }
     } else {
       if (nextAction) {
         this.action(nextAction)
@@ -567,8 +593,10 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         this.mimeTypeRoute = VIEWER_ROUTE_FROM_MIME(
           this.contentService.getUpdatedMeta(id).mimeType as any,
         )
+
         this.loaderService.changeLoad.next(false)
-        this.previewIdentifier = id
+        const url = `author/viewer/${this.mimeTypeRoute}/${id}?collectionId=${this.courseId}&collectionType=Course`
+        this.router.navigateByUrl(url)
       },
       error => {
         if (error.status === 409) {
@@ -688,13 +716,13 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         break
       case 'editContent':
         if (event.nodeClicked === false) {
-        //  this.save('refresh')
+          //  this.save('refresh')
         }
 
         const content = this.contentService.getUpdatedMeta(event.identifier)
         if (['application/pdf', 'application/x-mpegURL'].includes(content.mimeType)) {
           this.viewMode = 'upload'
-        }  else if (['video/x-youtube', 'application/html'].includes(content.mimeType) && content.fileType === 'link') {
+        } else if (['video/x-youtube', 'application/html'].includes(content.mimeType) && content.fileType === 'link') {
           this.viewMode = 'curate'
         } else if (content.mimeType === 'application/html') {
           this.viewMode = 'upload'
@@ -875,8 +903,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
       case 'InReview':
         return 'review'
       case 'Reviewed':
-       const isDraftPresent = this.contentService.resetStatus()
-       /**Change all content as draft, if one of the content is draft status */
+        const isDraftPresent = this.contentService.resetStatus()
+        /**Change all content as draft, if one of the content is draft status */
         if (isDraftPresent) {
           this.contentService.changeStatusDraft()
           return 'sendForReview'

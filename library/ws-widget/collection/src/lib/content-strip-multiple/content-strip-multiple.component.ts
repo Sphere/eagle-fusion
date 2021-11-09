@@ -84,7 +84,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     if (url.indexOf('explore') > 0) {
       this.explorePage = true
     }
-    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
+    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 || url.indexOf('org-details') > 0) {
       this.callPublicApi = true
       // Fetch the data
       for (const strip of this.widgetData.strips) {
@@ -224,6 +224,16 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         strip.request.search.locale = ['en']
       }
       if (!this.callPublicApi) {
+        if (strip.request.search && strip.request.search.filters) {
+          strip.request.search.sort = [
+            {
+              lastUpdatedOn: 'desc',
+
+            }]
+          strip.request.search.filters.lastUpdatedOn = ['year']
+
+        }
+
         this.contentSvc.search(strip.request.search).subscribe(
           results => {
             const showViewMore = Boolean(
@@ -253,9 +263,12 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
           },
         )
       } else {
-        let results = { result: [] }
-        this.contentSvc.getLatestCourse().subscribe(result => {
-          results = result
+        const req = {
+          query: '',
+          filters: [{ andFilters: [{ contentType: ['Course', 'Program'] }] }],
+        }
+        this.contentSvc.searchV6(req).subscribe((result: any) => {
+          const results = result
           if (results.result.length > 0) {
             const showViewMore = Boolean(
               results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,

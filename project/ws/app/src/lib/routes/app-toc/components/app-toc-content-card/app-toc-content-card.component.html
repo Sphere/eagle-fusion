@@ -4,8 +4,10 @@
       <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
         (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
       <div class="flex flex-between width-expand">
-        <div class="text-truncate cursor-pointer" (click)="viewChildren = !viewChildren">
+        <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
           <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
+
+
           <div>
             <span class="mat-body-strong">{{ content?.displayContentType }}</span>
             <span>
@@ -13,100 +15,126 @@
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
           </div>
+
+          <div *ngIf="hasContentStructure" class="child-meta-container">
+            <div class="child-structure">
+              <mat-icon class="structure-icon">import_contacts</mat-icon>
+              <span *ngIf="contentStructure?.course > 0">
+                <ng-container>{{ contentStructure?.course }}</ng-container>
+                <ng-container *ngIf="contentStructure?.course === 1" i18n> Course</ng-container>
+                <ng-container *ngIf="contentStructure?.course > 1" i18n> Courses</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.learningModule > 0">
+                <ng-container> {{ contentStructure?.learningModule }}</ng-container>
+                <ng-container *ngIf="contentStructure?.learningModule === 1" i18n> Module</ng-container>
+                <ng-container *ngIf="contentStructure?.learningModule > 1" i18n> Modules</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.video > 0">
+                <ng-container> {{ contentStructure?.video }}</ng-container>
+                <ng-container *ngIf="contentStructure?.video === 1" i18n> Video</ng-container>
+                <ng-container *ngIf="contentStructure?.video > 1" i18n> Videos</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.interactiveVideo > 0">
+                <ng-container> {{ contentStructure?.interactiveVideo }}</ng-container>
+                <ng-container *ngIf="contentStructure?.interactiveVideo === 1" i18n>
+                  Interactive Video</ng-container>
+                <ng-container *ngIf="contentStructure?.interactiveVideo > 1" i18n>
+                  Interactive Videos</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.youtube > 0">
+                <ng-container> {{ contentStructure?.youtube }}</ng-container>
+                <ng-container *ngIf="contentStructure?.youtube === 1" i18n> Youtube Video</ng-container>
+                <ng-container *ngIf="contentStructure?.youtube > 1" i18n> Youtube Videos</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.pdf > 0">
+                <ng-container> {{ contentStructure?.pdf }}</ng-container>
+                <ng-container *ngIf="contentStructure?.pdf === 1" i18n> PDF</ng-container>
+                <ng-container *ngIf="contentStructure?.pdf > 1" i18n> PDFs</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.podcast > 0">
+                <ng-container> {{ contentStructure?.podcast }}</ng-container>
+                <ng-container *ngIf="contentStructure?.podcast === 1" i18n> Podcast</ng-container>
+                <ng-container *ngIf="contentStructure?.podcast > 1" i18n> Podcasts</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.webModule > 0">
+                <ng-container> {{ contentStructure?.webModule }}</ng-container>
+                <ng-container *ngIf="contentStructure?.webModule === 1" i18n> Web Module</ng-container>
+                <ng-container *ngIf="contentStructure?.webModule > 1" i18n> Web Modules</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.webPage > 0">
+                <ng-container> {{ contentStructure?.webPage }}</ng-container>
+                <ng-container *ngIf="contentStructure?.webPage === 1" i18n> Web Page</ng-container>
+                <ng-container *ngIf="contentStructure?.webPage > 1" i18n> Web Pages</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.quiz > 0">
+                <ng-container *ngIf="contentStructure?.webPage > 0">, </ng-container>
+                <ng-container>{{ contentStructure?.quiz }}</ng-container>
+                <ng-container *ngIf="contentStructure?.quiz === 1" i18n> Quiz</ng-container>
+                <ng-container *ngIf="contentStructure?.quiz > 1" i18n> Quizzes</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.assessment > 0">
+                <ng-container> {{ contentStructure?.assessment }}</ng-container>
+                <ng-container *ngIf="contentStructure?.assessment === 1" i18n> Assessment</ng-container>
+                <ng-container *ngIf="contentStructure?.assessment > 1" i18n> Assessments</ng-container>
+              </span>
+              <span *ngIf="contentStructure?.other > 0">
+                <ng-container>{{ contentStructure?.other }}</ng-container>
+                <ng-container *ngIf="contentStructure?.other === 1" i18n> Other item</ng-container>
+                <ng-container *ngIf="contentStructure?.other > 1" i18n> Other Items</ng-container>
+              </span>
+            </div>
+
+          </div>
+
         </div>
+        <span class="content-top"
+          *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseChapterPercentage">
+          <img [src]="greenTickIcon" class="image" />
+        </span>
+        <ng-template #elseChapterPercentage>
+          <img [src]="redTickIcon" class="image" />
+        </ng-template>
         <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
           <mat-icon>more_vertical</mat-icon>
         </button>
       </div>
-    </div>
-    <div *ngIf="hasContentStructure" class="child-meta-container">
-      <div class="child-structure">
-        <mat-icon class="structure-icon">import_contacts</mat-icon>
-        <span *ngIf="contentStructure?.course > 0">
-          <ng-container>{{ contentStructure?.course }}</ng-container>
-          <ng-container *ngIf="contentStructure?.course === 1" i18n> Course</ng-container>
-          <ng-container *ngIf="contentStructure?.course > 1" i18n> Courses</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.learningModule > 0">
-          <ng-container> {{ contentStructure?.learningModule }}</ng-container>
-          <ng-container *ngIf="contentStructure?.learningModule === 1" i18n> Module</ng-container>
-          <ng-container *ngIf="contentStructure?.learningModule > 1" i18n> Modules</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.video > 0">
-          <ng-container> {{ contentStructure?.video }}</ng-container>
-          <ng-container *ngIf="contentStructure?.video === 1" i18n> Video</ng-container>
-          <ng-container *ngIf="contentStructure?.video > 1" i18n> Videos</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.interactiveVideo > 0">
-          <ng-container> {{ contentStructure?.interactiveVideo }}</ng-container>
-          <ng-container *ngIf="contentStructure?.interactiveVideo === 1" i18n>
-            Interactive Video</ng-container>
-          <ng-container *ngIf="contentStructure?.interactiveVideo > 1" i18n>
-            Interactive Videos</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.youtube > 0">
-          <ng-container> {{ contentStructure?.youtube }}</ng-container>
-          <ng-container *ngIf="contentStructure?.youtube === 1" i18n> Youtube Video</ng-container>
-          <ng-container *ngIf="contentStructure?.youtube > 1" i18n> Youtube Videos</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.pdf > 0">
-          <ng-container> {{ contentStructure?.pdf }}</ng-container>
-          <ng-container *ngIf="contentStructure?.pdf === 1" i18n> PDF</ng-container>
-          <ng-container *ngIf="contentStructure?.pdf > 1" i18n> PDFs</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.podcast > 0">
-          <ng-container> {{ contentStructure?.podcast }}</ng-container>
-          <ng-container *ngIf="contentStructure?.podcast === 1" i18n> Podcast</ng-container>
-          <ng-container *ngIf="contentStructure?.podcast > 1" i18n> Podcasts</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.webModule > 0">
-          <ng-container> {{ contentStructure?.webModule }}</ng-container>
-          <ng-container *ngIf="contentStructure?.webModule === 1" i18n> Web Module</ng-container>
-          <ng-container *ngIf="contentStructure?.webModule > 1" i18n> Web Modules</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.webPage > 0">
-          <ng-container> {{ contentStructure?.webPage }}</ng-container>
-          <ng-container *ngIf="contentStructure?.webPage === 1" i18n> Web Page</ng-container>
-          <ng-container *ngIf="contentStructure?.webPage > 1" i18n> Web Pages</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.quiz > 0">
-          <ng-container *ngIf="contentStructure?.webPage > 0">, </ng-container>
-          <ng-container>{{ contentStructure?.quiz }}</ng-container>
-          <ng-container *ngIf="contentStructure?.quiz === 1" i18n> Quiz</ng-container>
-          <ng-container *ngIf="contentStructure?.quiz > 1" i18n> Quizzes</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.assessment > 0">
-          <ng-container> {{ contentStructure?.assessment }}</ng-container>
-          <ng-container *ngIf="contentStructure?.assessment === 1" i18n> Assessment</ng-container>
-          <ng-container *ngIf="contentStructure?.assessment > 1" i18n> Assessments</ng-container>
-        </span>
-        <span *ngIf="contentStructure?.other > 0">
-          <ng-container>{{ contentStructure?.other }}</ng-container>
-          <ng-container *ngIf="contentStructure?.other === 1" i18n> Other item</ng-container>
-          <ng-container *ngIf="contentStructure?.other > 1" i18n> Other Items</ng-container>
-        </span>
-      </div>
-      <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button color="primary">
-        <ng-container *ngIf="!viewChildren" i18n>See All</ng-container>
-        <ng-container *ngIf="viewChildren" i18n>See Less</ng-container>
+      <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m align-right" mat-button
+        color="primary">
+        <ng-container *ngIf="!viewChildren" i18n>
+          <mat-icon>expand_more</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="viewChildren" i18n>
+          <mat-icon>expand_less</mat-icon>
+        </ng-container>
       </button>
     </div>
+
+
     <div class="children-container" *ngIf="viewChildren">
-      <ws-app-toc-content-card [content]="child" [expandAll]="expandAll" [rootId]="rootId"
+      <ws-app-toc-content-card [forPreview]="forPreview" [content]="child" [expandAll]="expandAll" [rootId]="rootId"
         [rootContentType]="rootContentType" *ngFor="let child of content?.children; trackBy: contentTrackBy">
       </ws-app-toc-content-card>
     </div>
   </ng-container>
-  <div *ngIf="isResource" class="resource-container">
+  <div *ngIf="isResource" class="resource-container ll">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
     </ws-widget-display-content-type-icon> -->
-
-    <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-      (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+    <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+      <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
+        [wsUtilsDefaultThumbnail]="defaultThumbnail" /></a>
     <div class="flex flex-between width-expand">
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
-        <div class="text-truncate cursor-pointer" (click)="viewChildren = !viewChildren">
-          <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
+        <div class="text-truncate cursor-pointer 2" (click)="viewChildren = !viewChildren">
+          <div class="flex flex-between">
+            <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
+            <span class="content-top"
+              *ngIf="content?.progress && content?.progress.progress * 100 === 100; else elseResourcePercentage">
+              <img [src]="greenTickIcon" class="image" />
+            </span>
+            <ng-template #elseResourcePercentage>
+              <img [src]="redTickIcon" class="image" />
+            </ng-template>
+          </div>
           <div>
             <span class="mat-body-strong">{{ content?.displayContentType }}</span>
             <span>

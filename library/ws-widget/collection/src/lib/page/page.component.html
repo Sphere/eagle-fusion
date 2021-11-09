@@ -53,12 +53,18 @@
                 type: 'mat-menu-item'
               }
             }"></ws-widget-btn-feature>
-  <ws-widget-btn-feature [widgetData]="{
+  <!-- <ws-widget-btn-feature [widgetData]="{
               actionBtnId: 'feature_FAQs',
               config: {
                 type: 'mat-menu-item'
               }
-            }"></ws-widget-btn-feature>
+            }"></ws-widget-btn-feature> -->
+  <div mat-menu-item class="helpContact">
+    <a mat-menu-item href="http://support.aastrika.org/support/home" target="_blank">
+      <mat-icon>account_circle</mat-icon>
+      <span i18n>Help & Contact</span>
+    </a>
+  </div>
   <ws-widget-btn-feature [widgetData]="{
               actionBtnId: 'feature_quickTour',
               config: {

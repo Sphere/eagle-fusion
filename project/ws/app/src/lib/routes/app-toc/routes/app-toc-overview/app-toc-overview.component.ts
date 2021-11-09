@@ -10,6 +10,7 @@ import { AppTocOverviewService } from './app-toc-overview.service'
 export class AppTocOverviewComponent implements OnInit {
 
   @ViewChild(AppTocOverviewDirective, { static: true }) wsAppAppTocOverview!: AppTocOverviewDirective
+  userEmail: any
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,

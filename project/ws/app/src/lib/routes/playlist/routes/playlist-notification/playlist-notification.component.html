@@ -1,8 +1,8 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back
     [widgetData]="{ url: 'back', titles: [{title:'Playlist', url:'back'},{title:'Action Required', url:'none'}] }">
   </ws-widget-btn-page-back>
-</mat-toolbar>
+</mat-toolbar> -->
 <div class="page-container margin-top-xl margin-bottom-xl">
   <div *ngIf="isFetchingPlaylists" class="text-center mb-4">
     <mat-spinner [diameter]="40"></mat-spinner>

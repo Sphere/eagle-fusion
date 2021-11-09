@@ -8,6 +8,7 @@ import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
+import { AwsAnalyticsService } from '../../../../../../project/ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -41,6 +42,7 @@ export class CardContentComponent extends WidgetBaseComponent
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     super()
     this.offSetXValue = 290
@@ -49,7 +51,7 @@ export class CardContentComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
-    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
+    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 || url.indexOf('org-details') > 0 && !this.authSvc.isAuthenticated) {
       this.showLoggedInCard = true
     }
     this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
@@ -156,6 +158,15 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
+    const attr = {
+      name: 'PHP6_CourseView',
+      attributes: { contentId },
+    }
+    const endPointAttr = {
+      ContentId: [contentId],
+    }
+    this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+
     const url = `/app/toc/${contentId}/overview`
     this.authSvc.login(key, url)
   }
@@ -316,11 +327,14 @@ export class CardContentComponent extends WidgetBaseComponent
     return false
   }
 
-  showSnackbar() {
+  showSnackbar(id: string) {
     if (this.showIntranetContent) {
       this.snackBar.open('Content is only available in intranet', undefined, { duration: 2000 })
     } else if (!this.isLiveOrMarkForDeletion) {
       this.snackBar.open('Content may be expired or deleted', undefined, { duration: 2000 })
+    }
+    if (!this.authSvc.isAuthenticated) {
+      this.loginRedirect('S', id)
     }
   }
 

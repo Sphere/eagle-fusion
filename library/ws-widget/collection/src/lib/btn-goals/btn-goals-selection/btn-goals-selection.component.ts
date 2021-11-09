@@ -12,6 +12,7 @@ import { NsGoal } from '../btn-goals.model'
 import { BtnGoalsService } from '../btn-goals.service'
 import { MatSnackBar, MatListOption } from '@angular/material'
 import { BtnGoalsErrorComponent } from '../btn-goals-error/btn-goals-error.component'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 @Component({
   selector: 'ws-widget-btn-goals-selection',
@@ -37,6 +38,7 @@ export class BtnGoalsSelectionComponent implements OnInit {
     private snackBar: MatSnackBar,
     private goalsSvc: BtnGoalsService,
     private eventSvc: EventService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,7 @@ export class BtnGoalsSelectionComponent implements OnInit {
       this.goalsSvc.addContentToGoal(goalId, this.contentId, NsGoal.EGoalTypes.USER).subscribe(
         () => {
           this.snackBar.open(this.contentAddMessage.nativeElement.value)
+          this.createAWSAnalyticsEventAttribute('addgoal')
         }
         ,
         err => {
@@ -82,6 +85,7 @@ export class BtnGoalsSelectionComponent implements OnInit {
       this.goalsSvc.removeContentFromGoal(goalId, this.contentId, NsGoal.EGoalTypes.USER).subscribe(
         () => {
           this.snackBar.open(this.contentRemoveMessage.nativeElement.value)
+          this.createAWSAnalyticsEventAttribute('removegoal')
         }
         ,
         err => {
@@ -104,4 +108,22 @@ export class BtnGoalsSelectionComponent implements OnInit {
       contentId,
     })
   }
+
+  createAWSAnalyticsEventAttribute(action: 'addgoal' | 'removegoal') {
+    if (action && this.contentId) {
+      const attr = {
+        name: 'CP12_CourseGoal',
+        attributes: {
+          CourseId: this.contentId,
+          CourseGoalAction: action,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.contentId],
+        CourseGoalAction: [action],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+  }
+
 }

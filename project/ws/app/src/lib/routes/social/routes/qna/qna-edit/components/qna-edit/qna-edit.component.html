@@ -1,7 +1,7 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: '/app/social/qna' }"></ws-widget-btn-page-back>
   <span i18n="page title: Ask a Question" class="ml-2">Ask a Question</span>
-</mat-toolbar>
+</mat-toolbar> -->
 
 <mat-card class="editor-wrapper custom-scroll">
   <form>
@@ -12,9 +12,9 @@
       <div class="w-screen">
         <textarea class="mat-typography title-textarea" i18n-placeholder placeholder="Title" required minlength="10"
           maxlength="150" name="title" [(ngModel)]="title" autofocus #postTitle="ngModel"></textarea>
-        <p *ngIf="(postTitle.dirty || postTitle.touched) && postTitle.invalid" class="error-text mat-caption" i18n>
+        <span *ngIf="(postTitle.dirty || postTitle.touched) && postTitle.invalid" class="error-text mat-caption" i18n>
           *Title range: 10-150 characters
-        </p>
+        </span>
         <div *ngIf="toggleTitleInfo" class="ws-mat-primary-text mb-4" i18n>
           Your title helps people quickly understand what your question is about so they can answer
           it.
@@ -57,7 +57,8 @@
       </div>
     </div>
 
-    <ws-widget-editor-quill-image class="editor" [id]="'qna'" (textData)="onTextChange($event)" [minLength]="'20'" [htmlText]="body">
+    <ws-widget-editor-quill-image class="editor" [id]="'qna'" (textData)="onTextChange($event)" [minLength]="'20'"
+      [htmlText]="body">
     </ws-widget-editor-quill-image>
   </form>
 </mat-card>

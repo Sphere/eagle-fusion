@@ -40,7 +40,8 @@
   "peacock.affectActivityBar": true,
   "peacock.affectStatusBar": true,
   "peacock.affectTitleBar": false,
-  "peacock.favoriteColors": [{
+  "peacock.favoriteColors": [
+    {
       "name": "Angular Red",
       "value": "#b52e31"
     },

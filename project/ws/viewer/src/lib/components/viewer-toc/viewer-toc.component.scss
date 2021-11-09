@@ -3,6 +3,35 @@
 ::ng-deep .theme-igot.day-mode .mat-typography h3.sub-heading {
   line-height: 22px;
 }
+
+::ng-deep .theme-igot.day-mode .mat-tree {
+  background: #f8f8f8 !important;
+}
+
+.main {
+  flex: 2 0px;
+}
+
+.aside-1 {
+  order: 1;
+}
+
+.aside-2 {
+  order: 2;
+  align-self: end;
+}
+
+.image {
+  height: 20px;
+  position: absolute;
+  right: 0;
+}
+
+.content-top .image {
+  bottom: -5px;
+  position: relative;
+}
+
 .treemode-slider {
   text-align: right;
   padding-right: $size-m;
@@ -22,8 +51,17 @@
   display: none;
 }
 
+.outer-ul {
+  overflow-y: scroll;
+  max-height: 94.5vh;
+}
+
 .toc-tree {
   padding-inline-start: 0px;
+  // max-height: 100vh;
+  // height: 113vh;
+  min-height: 100%;
+  overflow-y: auto;
 
   ul,
   li {
@@ -33,9 +71,25 @@
   }
 }
 
-.content-active, .content-active h3 {
-  font-size: 1.02rem;
+li.li-active>div.mat-tree-node {
+  background-color: #e5e5e5;
+}
+
+.li-active ul {
+  background: #e5e5e5;
+  padding-left: 2em;
+  margin-left: 0;
+}
+
+span.content-active {
+  // font-size: 1.02rem;
   font-weight: 500;
+}
+
+.content-active>span,
+.content-active h3 {
+  font-weight: normal;
+  font-size: 1rem;
 }
 
 .content-duration {
@@ -90,15 +144,18 @@ app-content-icon {
   margin: $size-s 0;
   padding: 0 $size-s 0 0;
   width: 100%;
+
   ws-display-content-type-icon {
     display: flex;
     align-items: center;
   }
+
   .resource-meta {
     margin-left: $size-s;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     span {
       opacity: 0.85;
     }
@@ -114,5 +171,20 @@ app-content-icon {
 }
 
 ::ng-deep mat-tree-node .li-active {
-  background-color: #fcf7f5;
+  background-color: #ede5d6;
+}
+
+span.content-top {
+  position: relative;
+  margin-top: 4px;
+  margin-left: 6px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+span.resource-progress {
+  position: relative;
+  margin-left: 15px;
 }

@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection/src/public-api'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
-import { CONTENT_BASE_STATIC } from '@ws/author/src/lib/constants/apiEndpoints'
+import { CONTENT_BASE_STATIC, CONTENT_BASE_WEBHOST_ASSETS } from '@ws/author/src/lib/constants/apiEndpoints'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
@@ -118,6 +118,8 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   filteredOptions$: Observable<string[]> = of([])
   saveParent: any
 
+  licenseTypes: string[] = []
+  orgNames: string[] = []
   constructor(
     private formBuilder: FormBuilder,
     private uploadService: UploadService,
@@ -309,8 +311,42 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       distinctUntilChanged(),
       switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
     )
+    this.getLicenses()
+    this.getOrgMeta()
   }
 
+  getLicenses() {
+    this.editorService.fetchConfig().subscribe(
+      data => {
+        if (data && data.licenses && data.licenses.length > 0) {
+          data.licenses.filter((item: { licenseName: string }) => {
+            if (item.licenseName) {
+              this.licenseTypes.push(item.licenseName)
+            }
+          })
+        }
+      },
+      err => {
+        if (err) {
+          this.getLicenses()
+        }
+      }
+    )
+  }
+
+  getOrgMeta() {
+    this.editorService.fetchOrgMeta().subscribe(
+      data => {
+        if (data && data.sources && data.sources.length > 0) {
+          data.sources.filter((org: any) => {
+            if (org.sourceName) {
+              this.orgNames.push(org.sourceName)
+            }
+          })
+        }
+      })
+
+  }
   optionSelected(keyword: string) {
     this.keywordsCtrl.setValue(' ')
     // this.keywordsSearch.nativeElement.blur()
@@ -421,6 +457,9 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       this.createForm()
     }
     this.canUpdate = false
+    if (this.contentMeta['learningObjective'] === '') {
+      this.contentMeta['learningObjective'] = 'CC BY'
+    }
     Object.keys(this.contentForm.controls).map(v => {
       try {
         if (
@@ -539,46 +578,59 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         const expiryDate = this.contentForm.value.expiryDate
         const currentMeta: NSContent.IContentMeta = JSON.parse(JSON.stringify(this.contentForm.value))
 
-        const exemptArray  = ['application/quiz', 'application/x-mpegURL', 'audio/mpeg']
+        const exemptArray = ['application/quiz', 'application/x-mpegURL', 'audio/mpeg']
         if (exemptArray.includes(originalMeta.mimeType)) {
           currentMeta.artifactUrl = originalMeta.artifactUrl
           currentMeta.mimeType = originalMeta.mimeType
         }
         if (!currentMeta.duration && originalMeta.duration) {
-            currentMeta.duration = originalMeta.duration
+          currentMeta.duration = originalMeta.duration
         }
         if (!currentMeta.appIcon && originalMeta.appIcon) {
           currentMeta.appIcon = originalMeta.appIcon
           currentMeta.thumbnail = originalMeta.thumbnail
         }
-        // currentMeta.resourceType=currentMeta.categoryType;
 
+        if (currentMeta.sourceName) {
+          currentMeta.sourceShortName = currentMeta.sourceName
+        }
+        // currentMeta.resourceType=currentMeta.categoryType;
+        // if (currentMeta.learningObjective) {
+        //   console.log('currentMeta.learningObjective', currentMeta.learningObjective)
+        // }
         if (currentMeta.status === 'Draft') {
           const parentData = this.contentService.parentUpdatedMeta()
 
-         if (parentData  && currentMeta.identifier !== parentData.identifier) {
-         //   currentMeta.thumbnail = parentData.thumbnail !== '' ? parentData.thumbnail : currentMeta.thumbnail
-           // currentMeta.appIcon = parentData.appIcon !== '' ? parentData.appIcon : currentMeta.appIcon
-          //  if (!currentMeta.posterImage) {
-          //   currentMeta.posterImage = parentData.posterImage !== '' ? parentData.posterImage : currentMeta.posterImage
-          //  }
+          if (parentData && currentMeta.identifier !== parentData.identifier) {
+            //   currentMeta.thumbnail = parentData.thumbnail !== '' ? parentData.thumbnail : currentMeta.thumbnail
+            // currentMeta.appIcon = parentData.appIcon !== '' ? parentData.appIcon : currentMeta.appIcon
+            //  if (!currentMeta.posterImage) {
+            //   currentMeta.posterImage = parentData.posterImage !== '' ? parentData.posterImage : currentMeta.posterImage
+            //  }
             if (!currentMeta.subTitle) {
-            currentMeta.subTitle = parentData.subTitle !== '' ?  parentData.subTitle : currentMeta.subTitle
+              currentMeta.subTitle = parentData.subTitle !== '' ? parentData.subTitle : currentMeta.subTitle
             }
             if (!currentMeta.body) {
-            currentMeta.body = parentData.body !== '' ?  parentData.body : currentMeta.body
+              currentMeta.body = parentData.body !== '' ? parentData.body : currentMeta.body
             }
             if (!currentMeta.categoryType) {
-            currentMeta.categoryType = parentData.categoryType !== '' ?  parentData.categoryType : currentMeta.categoryType
+              currentMeta.categoryType = parentData.categoryType !== '' ? parentData.categoryType : currentMeta.categoryType
             }
             if (!currentMeta.resourceType) {
-            currentMeta.resourceType = parentData.resourceType !== '' ?  parentData.resourceType : currentMeta.resourceType
+              currentMeta.resourceType = parentData.resourceType !== '' ? parentData.resourceType : currentMeta.resourceType
             }
 
             if (!currentMeta.sourceName) {
-            currentMeta.sourceName = parentData.sourceName !== '' ?  parentData.sourceName : currentMeta.sourceName
+              currentMeta.sourceName = parentData.sourceName !== '' ? parentData.sourceName : currentMeta.sourceName
             }
-         }
+            if (currentMeta.sourceName) {
+              currentMeta.sourceShortName = currentMeta.sourceName
+            }
+          }
+        } else {
+          if (currentMeta.sourceName) {
+            currentMeta.sourceShortName = currentMeta.sourceName
+          }
         }
         // if(currentMeta.categoryType && !currentMeta.resourceType){
         //   currentMeta.resourceType = currentMeta.categoryType
@@ -587,42 +639,48 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
         // if(currentMeta.resourceType && !currentMeta.categoryType){
         //   currentMeta.categoryType = currentMeta.resourceType
         // }
-
         const meta = <any>{}
         if (this.canExpiry) {
-          currentMeta.expiryDate = `${
-            expiryDate
-              .toISOString()
-              .replace(/-/g, '')
-              .replace(/:/g, '')
-              .split('.')[0]
+          currentMeta.expiryDate = `${expiryDate
+            .toISOString()
+            .replace(/-/g, '')
+            .replace(/:/g, '')
+            .split('.')[0]
             }+0000`
         }
         Object.keys(currentMeta).map(v => {
           if (
             JSON.stringify(currentMeta[v as keyof NSContent.IContentMeta]) !==
-            JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile'
+            JSON.stringify(originalMeta[v as keyof NSContent.IContentMeta]) && v !== 'jobProfile' && v !== 'sourceShortName'
           ) {
+            if ((this.authInitService.authConfig[v as keyof IFormMeta]) !== undefined) {
 
-            if (
-              currentMeta[v as keyof NSContent.IContentMeta] ||
-              (this.authInitService.authConfig[v as keyof IFormMeta].type === 'boolean' &&
-                currentMeta[v as keyof NSContent.IContentMeta] === false)
-            ) {
-              meta[v as keyof NSContent.IContentMeta] = currentMeta[v as keyof NSContent.IContentMeta]
-            } else {
-              meta[v as keyof NSContent.IContentMeta] = JSON.parse(
-                JSON.stringify(
-                  this.authInitService.authConfig[v as keyof IFormMeta].defaultValue[
-                    originalMeta.contentType
-                    // tslint:disable-next-line: ter-computed-property-spacing
-                  ][0].value,
-                ),
-              )
+              if (
+                currentMeta[v as keyof NSContent.IContentMeta] ||
+                (this.authInitService.authConfig[v as keyof IFormMeta].type === 'boolean' &&
+                  currentMeta[v as keyof NSContent.IContentMeta] === false)
+              ) {
+                meta[v as keyof NSContent.IContentMeta] = currentMeta[v as keyof NSContent.IContentMeta]
+              } else {
+                meta[v as keyof NSContent.IContentMeta] = JSON.parse(
+                  JSON.stringify(
+                    this.authInitService.authConfig[v as keyof IFormMeta].defaultValue[
+                      originalMeta.contentType
+                      // tslint:disable-next-line: ter-computed-property-spacing
+                    ][0].value,
+                  ),
+                )
+              }
+            }
+            if (v === 'learningObjective') {
+              meta['learningObjective'] = currentMeta[v]
+            }
+
+            if (v === 'sourceName') {
+              meta['sourceShortName'] = currentMeta[v]
             }
           }
         })
-
         if (this.stage >= 1 && !this.type) {
           delete meta.artifactUrl
         }
@@ -722,6 +780,29 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     )
   }
 
+  addPublisherDetails(event: MatChipInputEvent): void {
+    const input = event.input
+    const value = (event.value || '').trim()
+    if (value) {
+      this.contentForm.controls.publisherDetails.value.push({ id: '', name: value })
+      this.contentForm.controls.publisherDetails.setValue(
+        this.contentForm.controls.publisherDetails.value,
+      )
+    }
+    // Reset the input value
+    if (input) {
+      input.value = ''
+    }
+  }
+
+  removePublisherDetails(keyword: any): void {
+    const index = this.contentForm.controls.publisherDetails.value.indexOf(keyword)
+    this.contentForm.controls.publisherDetails.value.splice(index, 1)
+    this.contentForm.controls.publisherDetails.setValue(
+      this.contentForm.controls.publisherDetails.value,
+    )
+  }
+
   addToFormControl(event: MatAutocompleteSelectedEvent, fieldName: string): void {
     const value = (event.option.value || '').trim()
     if (value && this.contentForm.controls[fieldName].value.indexOf(value) === -1) {
@@ -813,6 +894,22 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
                     },
                     duration: NOTIFICATION_TIME * 1000,
                   })
+                  if (this.contentMeta.contentType === 'Course') {
+                    const formData = new FormData()
+                    formData.append('content', file, fileName)
+                    this.uploadService
+                      .upload(formData, {
+                        contentId: this.contentMeta.identifier,
+                        contentType: CONTENT_BASE_WEBHOST_ASSETS,
+                      })
+                      .subscribe(
+                        asset => {
+                          if (asset.code) {
+                            this.contentForm.controls.creatorPosterImage.setValue(asset.artifactURL)
+                            this.storeData()
+                          }
+                        })
+                  }
                 }
               },
               () => {
@@ -1117,6 +1214,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       skills: [],
       softwareRequirements: [],
       sourceName: [],
+      sourceShortName: [],
       creatorLogo: [],
       creatorPosterImage: [],
       creatorThumbnail: [],
@@ -1134,7 +1232,8 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       visibility: [],
     })
 
-    this.contentForm.valueChanges.pipe(debounceTime(500)).subscribe(() => {
+    // Commented To avoid calling the storeData function on every 500ms
+    this.contentForm.valueChanges.pipe(debounceTime(1000)).subscribe(() => {
       if (this.canUpdate) {
         this.storeData()
       }
@@ -1157,7 +1256,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     // resourceType
     this.contentForm.controls.resourceType.valueChanges.subscribe(() => {
       this.contentForm.controls.categoryType.setValue(this.contentForm.controls.resourceType.value)
-     // this.contentForm.controls.resourceType.setValue(this.contentForm.controls.resourceType.value)
+      // this.contentForm.controls.resourceType.setValue(this.contentForm.controls.resourceType.value)
     })
 
     this.contentForm.controls.resourceCategory.valueChanges.subscribe(() => {
@@ -1204,6 +1303,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   // }
 
   copyData(type: 'keyword' | 'previewUrl') {
+    const parentId = this.contentService.parentUpdatedMeta().identifier
     const selBox = document.createElement('textarea')
     selBox.style.position = 'fixed'
     selBox.style.left = '0'
@@ -1212,12 +1312,19 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     if (type === 'keyword') {
       selBox.value = this.contentForm.controls.keywords.value
     } else if (type === 'previewUrl') {
+      // selBox.value =
+      //   // tslint:disable-next-line: max-line-length
+      //   `${window.location.origin}/viewer/${VIEWER_ROUTE_FROM_MIME(
+      //     this.contentForm.controls.mimeType.value,
+      //   )}/${this.contentMeta.identifier}?preview=true`
+
       selBox.value =
         // tslint:disable-next-line: max-line-length
-        `${window.location.origin}/viewer/${VIEWER_ROUTE_FROM_MIME(
+        `${window.location.origin}/author/viewer/${VIEWER_ROUTE_FROM_MIME(
           this.contentForm.controls.mimeType.value,
-        )}/${this.contentMeta.identifier}?preview=true`
+        )}/${this.contentMeta.identifier}?collectionId=${parentId}&collectionType=Course`
     }
+
     document.body.appendChild(selBox)
     selBox.focus()
     selBox.select()

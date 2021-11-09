@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://d34vfqm2mqjn7i.cloudfront.net",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
@@ -54,12 +54,12 @@
     }
   },
   "/assets/*": {
-    "target": "https://aastar-assets.s3.ap-south-1.amazonaws.com",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
-      "/assets": ""
+      "/apis": ""
     }
   }
 }

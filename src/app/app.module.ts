@@ -22,6 +22,7 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatListModule,
+  MatProgressSpinnerModule,
 } from '@angular/material'
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -54,12 +55,16 @@ import { PublicAboutModule } from './routes/public/public-about/public-about.mod
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
 import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
+import { RegisterComponent } from './routes/register/register.component'
+import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
+
 import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
+
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -89,12 +94,14 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     AppNavBarComponent,
     AppPublicNavBarComponent,
     TncComponent,
+    RegisterComponent,
     TncRendererComponent,
     AppFooterComponent,
     InvalidUserComponent,
     DialogConfirmComponent,
     LoginRootComponent,
     LoginRootDirective,
+    ForgotPasswordComponent,
   ],
   imports: [
     FormsModule,
@@ -135,10 +142,11 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     PipeSafeSanitizerModule,
     TourModule,
     SlidersModule,
+    MatProgressSpinnerModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
-    TncComponent, AppPublicNavBarComponent,
+    TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [

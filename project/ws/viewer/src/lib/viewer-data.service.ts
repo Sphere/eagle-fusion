@@ -38,11 +38,19 @@ export class ViewerDataService {
   tocChangeSubject = new ReplaySubject<IViewerTocChangeEvent>(1)
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)
   fullScreenResource = new Subject<boolean>()
+  progressStatus = new Subject<string>()
+  quizProgressStatus = new Subject<Boolean>()
   // private setName = new BehaviorSubject<any>("");
   // To get the name from other component
   getFullScreenStatus = this.fullScreenResource.asObservable()
 
+  clickedItem = new Subject<string>()
+  getPrevClick = this.clickedItem.asObservable()
   constructor() { }
+
+  setClikedItem(val: string | undefined) {
+    this.clickedItem.next(val)
+  }
 
   reset(resourceId: string | null = null, status: TStatus = 'none') {
     this.resourceId = resourceId
@@ -67,7 +75,7 @@ export class ViewerDataService {
     this.changedSubject.next()
   }
   updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null }:
-     { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null }) {
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null }) {
     this.tocChangeSubject.next(
       {
         tocAvailable: isValid,

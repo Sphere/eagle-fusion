@@ -15,6 +15,7 @@
             add
           </span>
           <p class="margin-left-xs margin-remove-bottom cursor-pointer">Add Content</p>
+
         </a>
 
 
@@ -32,19 +33,20 @@
 
       <form [formGroup]="createTopicForm" *ngIf="showAddchapter" class="margin-left-l">
         <div class="margin-top-s">
-          <h1>Build your course by adding Topics</h1>
+          <h1>Build your course by adding Resources</h1>
           <p>Add your content, quizzes, discussions and publish</p>
           <p class="required margin-remove-bottom">
             Hi, Lets start with a Topic name
           </p>
           <div class="margin-top-xs width-3-5">
             <mat-form-field appearance="outline" class="margin-top-xs width-1-4">
-              <input matInput i18n-placeholder placeholder="Topic Name" formControlName="topicName" />
+              <input matInput i18n-placeholder placeholder="Title" formControlName="topicName" />
             </mat-form-field>
           </div>
           <div class="margin-top-xs width-3-5">
-            <mat-form-field appearance="outline" class="margin-top-xs width-1-4">
-              <textarea matInput i18n-placeholder placeholder="Topic Description" formControlName="topicDescription">
+            <mat-form-field appearance="outline" class="margin-top-xs width-1-3">
+              <textarea matInput i18n-placeholder placeholder="Short Description" matInput rows="3"
+                formControlName="topicDescription">
             </textarea>
             </mat-form-field>
           </div>
@@ -74,14 +76,27 @@
               <mat-icon>link</mat-icon>
               <span>Attach a link</span>
             </button>
-            <button mat-menu-item (click)="setContentType('upload')">
+            <button mat-menu-item (click)="setContentType('resource', 'zip')">
               <mat-icon>cloud_upload</mat-icon>
-              <span>Upload content</span>
+              <span>Upload scorm</span>
             </button>
             <button mat-menu-item (click)="setContentType('webModule')">
               <mat-icon>insert_drive_file</mat-icon>
               <span>Web Page</span>
             </button>
+            <button mat-menu-item (click)="setContentType('upload', 'pdf')">
+              <mat-icon>picture_as_pdf</mat-icon>
+              <span>Upload PDF</span>
+            </button>
+            <button mat-menu-item (click)="setContentType('upload', 'audio')">
+              <mat-icon>audiotrack</mat-icon>
+              <span>Upload Audio</span>
+            </button>
+            <button mat-menu-item (click)="setContentType('upload', 'video')">
+              <mat-icon>videocam</mat-icon>
+              <span>Upload Video</span>
+            </button>
+
 
           </mat-menu>
         </div>
@@ -93,11 +108,11 @@
       <ws-auth-file-upload [isCollectionEditor]="true" *ngIf="!showAddchapter && viewMode === 'upload'"
         [isSubmitPressed]="isSubmitPressed" (data)="action($event)">
       </ws-auth-file-upload>
-      <ws-auth-quiz [isCollectionEditor]="true" *ngIf="!showAddchapter && viewMode === 'assessment'"
+      <ws-auth-quiz #child [isCollectionEditor]="true" *ngIf="!showAddchapter && viewMode === 'assessment'"
         [isSubmitPressed]="isSubmitPressed" (data)="action($event)"></ws-auth-quiz>
 
-        <ws-auth-web-module-editor  *ngIf="!showAddchapter && viewMode === 'webmodule'" (data)="action($event)">
-        </ws-auth-web-module-editor>
+      <ws-auth-web-module-editor *ngIf="!showAddchapter && viewMode === 'webmodule'" (data)="action($event)">
+      </ws-auth-web-module-editor>
 
       <ws-auth-edit-meta [parentContent]="currentParentId" [isSubmitPressed]="isSubmitPressed" (data)="action($event)"
         *ngIf="!showAddchapter && viewMode === 'meta'"></ws-auth-edit-meta>
@@ -111,3 +126,9 @@
     </mat-sidenav-container>
   </mat-drawer-content>
 </mat-drawer-container>
+<!-- <div *ngIf="previewIdentifier">
+  <mat-icon (click)="closePreview()" class="close-preview" matTooltip="Back"
+    i18n-matTooltip="Back button to go to previous page">
+    arrow_back</mat-icon>
+  <ws-auth-viewer [identifier]="previewIdentifier" [mimeTypeRoute]="mimeTypeRoute"></ws-auth-viewer>
+</div> -->

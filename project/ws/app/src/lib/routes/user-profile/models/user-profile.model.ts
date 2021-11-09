@@ -30,6 +30,7 @@ export interface IUserProfileDetailsFromRegistry {
   'personalDetails': any,
   'professionalDetails': any,
   'skills': any,
+  'interests': any
 }
 
 export interface IUserProfileFields2 {
@@ -88,6 +89,10 @@ export interface IIndustriesMeta {
   industries: INameField[]
 }
 
+export interface IStatesMeta {
+  states: INameField[]
+}
+
 // tslint:disable-next-line: interface-name
 export interface IdegreesMeta {
   graduations: INameField[]
@@ -104,6 +109,7 @@ export interface IProfileMetaApiData {
   industries: IIndustriesMeta
   degrees: IdegreesMeta
   designations: IdesignationsMeta
+  states: IStatesMeta
 }
 
 export interface IProfileAcademics {

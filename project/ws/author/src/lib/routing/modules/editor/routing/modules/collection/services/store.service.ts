@@ -48,12 +48,17 @@ export class CollectionStoreService {
     private resolver: CollectionResolverService,
     private authInitService: AuthInitService,
     private logger: LoggerService,
-  ) {}
+  ) { }
 
   treeStructureChange = new BehaviorSubject<IContentNode | null>(null)
   selectedNodeChange = new BehaviorSubject<number | null>(null)
   get selectedNode() {
     return this.selectedNodeChange.value
+  }
+
+  uploadFileType = new BehaviorSubject<string | null>(null)
+  get uploadFileTypeValue() {
+    return this.uploadFileType.value
   }
 
   allowDrop(dragNode: IContentTreeNode, dropNode: IContentTreeNode): boolean {
@@ -67,8 +72,8 @@ export class CollectionStoreService {
         this.contentService.getUpdatedMeta(dropNode.identifier),
         dropNode.parentId
           ? this.contentService.getUpdatedMeta(
-              (this.flatNodeMap.get(dropNode.parentId) as IContentNode).identifier,
-            )
+            (this.flatNodeMap.get(dropNode.parentId) as IContentNode).identifier,
+          )
           : undefined,
       )
     ) {
@@ -190,8 +195,9 @@ export class CollectionStoreService {
         mimeType: meta.mimeType,
         contentType: meta.contentType,
         resourceType: parentData.categoryType || '',
-        categoryType : parentData.categoryType || '',
-        fileType : fileType || '',
+        categoryType: parentData.categoryType || '',
+        fileType: fileType || '',
+        learningObjective: parentData.learningObjective || 'CC BY 4.0',
 
         // thumbnail: parentData.thumbnail,
         // appIcon: parentData.appIcon,
@@ -199,7 +205,7 @@ export class CollectionStoreService {
         sourceName: parentData.sourceName,
         subTitle: parentData.subTitle,
         body: parentData.body,
-     //   sourceName : parentData.sourceName,
+        //   sourceName : parentData.sourceName,
 
         locale:
           // tslint:disable-next-line: ter-computed-property-spacing
@@ -208,6 +214,21 @@ export class CollectionStoreService {
             // tslint:disable-next-line: ter-computed-property-spacing
           ].locale || 'en',
         ...(meta.additionalMeta || {}),
+
+        // new fields
+        catalogPaths: parentData.catalogPaths,
+        exclusiveContent: parentData.exclusiveContent,
+        complexityLevel: parentData.complexityLevel,
+        visibility: parentData.visibility,
+        org: parentData.org,
+        audience: parentData.audience,
+        region: parentData.region,
+        idealScreenSize: parentData.idealScreenSize,
+        publisherDetails: parentData.publisherDetails,
+        keywords: parentData.keywords,
+        learningMode: parentData.learningMode,
+        creatorDetails: parentData.creatorDetails,
+        accessPaths: parentData.accessPaths[0],
       }
       // requestBody.posterImage = parentData.posterImage
       // requestBody.sourceName = parentData.sourceName
@@ -362,8 +383,7 @@ export class CollectionStoreService {
         const children = contentNode.children || []
         if (childConfig.minChildren && children.length < childConfig.minChildren) {
           errorMsg.push(
-            `Minimum ${childConfig.minChildren} children is required. But ${
-              children.length ? children.length : 'nothing'
+            `Minimum ${childConfig.minChildren} children is required. But ${children.length ? children.length : 'nothing'
             } present`,
           )
         }
@@ -432,9 +452,8 @@ export class CollectionStoreService {
     if (condition.fit) {
       condition.fit.forEach((subCondition: any, majorIndex: number) => {
         Object.keys(subCondition).forEach((v: any, index: number) => {
-          returnValue = `${returnValue}${majorIndex > 0 ? ' or ' : ''}${
-            index > 0 ? ' ' : ''
-          }${v} in ${subCondition[v].join(' or ')}`
+          returnValue = `${returnValue}${majorIndex > 0 ? ' or ' : ''}${index > 0 ? ' ' : ''
+            }${v} in ${subCondition[v].join(' or ')}`
         })
       })
     }
@@ -475,7 +494,7 @@ export class CollectionStoreService {
       errorId.add(id)
       if (errorMap.has(id)) {
         // tslint:disable-next-line: semicolon    // tslint:disable-next-line: whitespace
-        ;(errorMap.get(id) as IProcessedError).message = (errorMap.get(
+        ; (errorMap.get(id) as IProcessedError).message = (errorMap.get(
           id,
         ) as IProcessedError).message.concat(errorMsg)
       } else {

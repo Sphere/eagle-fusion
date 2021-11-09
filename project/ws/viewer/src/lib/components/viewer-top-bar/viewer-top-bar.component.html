@@ -1,6 +1,6 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary learner mat-elevation-z3">
   <a *ngIf="logo" routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
-    <img *ngIf="appIcon" [src]="appIcon" alt="Application Logo" class="viewer-app-logo" />
+    <img *ngIf="appIcon" src="/assets/images/logo.png" alt="Application Logo" class="viewer-app-logo" />
   </a>
   <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
       url: isTypeOfCollection
@@ -8,7 +8,7 @@
           ? '/app/playlist/me/' + collectionId
           : (forPreview ? '/author' : '/app') + '/toc/' + collectionId + '/overview'
         : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview'
-    }"></ws-widget-btn-page-back>
+    }" [playerScreen]='true'></ws-widget-btn-page-back>
   <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{
       url: isTypeOfCollection
@@ -19,29 +19,31 @@
     }"></ws-widget-btn-page-back>
   <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
 
-  <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo" />
+  <img *ngIf="!isAuthor && collection?.appIcon && !isSmall" [src]="collection?.appIcon" alt="Logo"
+    class="app-logo viewer-logo" />
 
-  <span *ngIf="logo" class="text-left width-1-8 margin-left-l text-truncate">
+  <span *ngIf="logo" class="text-left coll-name width-1-8 margin-left-l text-truncate">
     {{ collection?.name }}
   </span>
 
 
   <span class="header-spacer"></span>
-  <div class="flex justify-center mt-3" *ngIf="!isSmall">
-    <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-      pdfData
-        | pipePartialContent
-          : [
-              'identifier',
-              'contentType',
-              'resourceType',
-              'mimeType',
-              'downloadUrl',
-              'isExternal',
-      'artifactUrl'
-            ]
-    "></ws-widget-btn-content-download> -->
-    <!-- screenContent ==>{{ obj| json}} -->
+  <ws-widget-download-certificate
+    *ngIf="collection && showDownloadCertificate && this.courseStatus ==='completed' && !isSmall" [content]="collection"
+    [progress]="courseStatus">
+  </ws-widget-download-certificate>
+
+  <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus !=='completed' && !isSmall"
+    class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="showCompleteCourseDialog()"
+    aria-label="Displays a tooltip">
+    <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />
+    <span class="cert-text">Certificate</span> </button>
+  <img id="imageUrl" class="img-fluid hidden" crossOrigin="Anonymous" [src]="imageUrl">
+
+  <ws-widget-btn-fullscreen *ngIf="isSmall" [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+    [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
+
+  <div class="flex justify-center mt-0" *ngIf="!isSmall">
     <ws-widget-btn-content-like [forPreview]="forPreview" *ngIf="collection" [widgetData]="{
       identifier: collectionIdentifier,
       isDisabled: isPreview
@@ -68,7 +70,7 @@
   </div>
 
 
-  <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
+  <!-- <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" [hidden] (click)="toggleSideBar()" accesskey="M">
     <mat-icon [ngClass]="logo ? 'hidden' : 'xsmall'">menu</mat-icon>
-  </a>
+  </a> -->
 </mat-toolbar>

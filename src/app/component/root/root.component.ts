@@ -28,6 +28,7 @@ import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
+import { OrgServiceService } from './../../../../project/ws/app/src/lib/routes/org/org-service.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -54,6 +55,8 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  showNavigation = true
+  hideHeaderFooter = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -65,7 +68,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     private btnBackSvc: BtnPageBackService,
     private changeDetector: ChangeDetectorRef,
     private loginServ: LoginResolverService,
-    private exploreService: ExploreResolverService
+    private exploreService: ExploreResolverService,
+    private orgService: OrgServiceService,
   ) {
     this.mobileAppsSvc.init()
   }
@@ -89,6 +93,13 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.telemetrySvc.start('app', 'view', '')
       this.appStartRaised = true
 
+    } else {
+      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+        this.showNavigation = false
+      } else
+        if ((window.location.href).indexOf('login') > 0) {
+          this.showNavigation = true
+        }
     }
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -126,6 +137,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     })
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
       this.showNavbar = display
+    })
+    this.orgService.hideHeaderFooter.subscribe(show => {
+      this.hideHeaderFooter = show
     })
   }
 

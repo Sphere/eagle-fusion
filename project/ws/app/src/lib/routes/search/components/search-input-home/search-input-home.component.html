@@ -1,17 +1,10 @@
 <div class="flex items-center border search border-solid search-border">
-  <!-- <div [ngClass]="{'border-right': languageSearch?.length}" class="flex items-center">
-    <button class="lang-btn margin-right-s" *ngIf="languageSearch?.length" mat-button [matMenuTriggerFor]="sortLang">
-      <span class="uppercase">
-        {{ searchLocale.split(',').length === 1 ? searchLocale : 'pref' || 'en' }}
-      </span>
-      <mat-icon>arrow_drop_down</mat-icon>
-    </button>
-  </div> -->
   <div class="w-full search">
     <form (submit)="updateQuery(queryControl.value)">
       <mat-form-field appearance="none" class="autocomplete-form" color="primary" [floatLabel]="'never'">
-        <input type="search" #searchInput class="ml-2 search-placeholder" i18n-placeholder="search content" [placeholder]="placeHolder" i18-aria-label
-          aria-label="Query" matInput [formControl]="queryControl" [matAutocomplete]="auto" accesskey="F" />
+        <input type="search" #searchInput class="ml-2 search-placeholder" i18n-placeholder="search content"
+          [placeholder]="placeHolder" i18-aria-label aria-label="Query" matInput [formControl]="queryControl"
+          [matAutocomplete]="auto" accesskey="F" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
           (optionSelected)="updateQuery($event.option.value)">
           <mat-option *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
@@ -26,7 +19,8 @@
       </mat-form-field>
     </form>
   </div>
-  <div (click)="updateQuery(queryControl.value)" class="search-home flex items-center justify-center w-8 sm:w-16 cursor-pointer">
+  <div (click)="updateQuery(queryControl.value)"
+    class="search-home flex items-center justify-center w-8 sm:w-16 cursor-pointer">
     <mat-icon>search</mat-icon>
   </div>
 </div>

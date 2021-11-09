@@ -13,7 +13,7 @@
 <button mat-button i18n-matTooltip matTooltip="User Menu" class="new-margin" #rootTrigger="matMenuTrigger"
   [matMenuTriggerFor]="settingsMenu">
   <mat-icon>account_circle</mat-icon>
-  <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}}</span>
+  <span class="padding-left-xs" i18n>{{ name || 'Guest'}} </span>
   <mat-icon>arrow_drop_down</mat-icon>
 </button>
 
@@ -42,7 +42,7 @@
     </div>
   </section>
   <div mat-menu-item>
-    <a mat-menu-item routerLink="/app/profile/dashboard" class="all-features">
+    <a mat-menu-item routerLink="/app/profile/dashboard" (click)="eventTrack('H5_ProfileView')" class="all-features">
       <mat-icon>account_circle</mat-icon>
       <span i18n>Profile</span>
     </a>
@@ -54,7 +54,7 @@
     </a>
   </div>
   <div mat-menu-item>
-    <a mat-menu-item routerLink="/app/features" class="all-features">
+    <a mat-menu-item routerLink="/app/features" (click)="eventTrack('H6_Features')" class="all-features">
       <mat-icon>apps</mat-icon>
       <span i18n>Explore all features</span>
     </a>

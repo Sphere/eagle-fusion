@@ -115,14 +115,15 @@
         <!-- [minLength]="'10'" -->
         <ws-widget-editor-quill class="write-reply-editor" (textData)="onReplyTextChange($event)"
           #discussionReplyEditor></ws-widget-editor-quill>
-        <div class="text-right padding-top-s mat-app-background">
+        <div class="text-right padding-top-s mr-4 mat-app-background">
+
+          <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"
+            mat-stroked-button (click)="cancelReply()" i18n>
+            Cancel
+          </button>
           <button name="discussion-post-reply-button" [disabled]="!isValidReply || isPostingReply"
             (click)="publishReply(editFailMsg.value)" type="button" mat-raised-button color="primary" i18n>
             Reply
-          </button>
-          <button name="discussion-post-cancel-reply-button" type="button" class="margin-left-xs cancel-btn"
-            mat-stroked-button (click)="cancelReply()" i18n>
-            Cancel
           </button>
           <div *ngIf="isPostingReply" class="text-center">
             <mat-spinner class="display-inline-block" [diameter]="30" [strokeWidth]="3"></mat-spinner>

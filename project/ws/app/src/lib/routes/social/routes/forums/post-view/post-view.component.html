@@ -1,8 +1,8 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
 
   <span i18n class="margin-left-xs">Post</span>
-</mat-toolbar>
+</mat-toolbar> -->
 
 <div #blogContainer class="blog-container">
   <ng-container *ngIf="conversation">
@@ -27,7 +27,8 @@
     <!--   <div class="flex flex-between  margin-bottom-xl">
       <div class="mat-caption">{{ conversation?.mainPost?.dtPublished | date }}</div>
     </div> -->
-    <div class="post-content ql-editor" [innerHTML]="conversation?.mainPost?.postContent?.body | pipeSafeSanitizer: 'html'"></div>
+    <div class="post-content ql-editor"
+      [innerHTML]="conversation?.mainPost?.postContent?.body | pipeSafeSanitizer: 'html'"></div>
     <mat-chip-list class="margin-top-m">
       <mat-chip *ngFor="let tag of conversation?.mainPost?.tags">{{ tag.name }}</mat-chip>
     </mat-chip-list>

@@ -20,6 +20,7 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { IWidgetsPlayerPdfData } from './player-pdf.model'
+import { AwsAnalyticsService } from '@ws/viewer/src/lib/aws-analytics.service'
 
 const pdfjsViewer = require('pdfjs-dist/web/pdf_viewer')
 @Component({
@@ -71,6 +72,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private valueSvc: ValueService,
+    private awsAnalyticsService: AwsAnalyticsService
   ) {
     super()
   }
@@ -100,9 +102,17 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     this.currentPage.disable()
     this.valueSvc.isLtMedium$.subscribe(ltMedium => {
       if (ltMedium) {
-        this.zoom.setValue(0.5)
+        this.zoom.setValue(1)
       }
     })
+
+    // for size more than 600px
+    this.valueSvc.isSize$.subscribe(isSize => {
+      if (isSize) {
+        this.zoom.setValue(1)
+      }
+    })
+
     this.widgetData.disableTelemetry = false
     if (this.widgetData.readValuesQueryParamsKey) {
       const keys = this.widgetData.readValuesQueryParamsKey
@@ -168,11 +178,14 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // }
   }
   ngAfterViewInit() {
+    const timestamp = new Date('2012.08.10').getTime() / 1000
     this.contextMenuSubs = fromEvent(this.pdfContainer.nativeElement, 'contextmenu').subscribe(e =>
       e.preventDefault(),
     )
     if (this.widgetData && this.widgetData.pdfUrl) {
-      this.loadDocument(this.widgetData.pdfUrl)
+      // const hrmlurl = `${this.widgetData.artifactUrl}?${timestamp}`
+      const pdfUrl = `${this.widgetData.pdfUrl}?${timestamp}`
+      this.loadDocument(pdfUrl)
       if (this.widgetData.identifier) {
         this.identifier = this.widgetData.identifier
       }
@@ -212,6 +225,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
   loadPageNum(pageNum: number) {
     this.raiseTelemetry('pageChange')
+    this.createAWSAnalyticsEventAttribute()
     if (pageNum < 1 || pageNum > this.totalPages) {
       return
     }
@@ -227,6 +241,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       })
     }
   }
+
+  createAWSAnalyticsEventAttribute() {
+    if (this.identifier) {
+      const attr = {
+        name: 'PL3_PdfPageChange',
+        attributes: {
+          CourseId: this.identifier,
+        },
+      }
+      const endPointAttr = {
+        CourseId: [this.identifier],
+      }
+      this.awsAnalyticsService.callAnalyticsEndpointService(attr, endPointAttr)
+    }
+
+  }
+
   saveContinueLearning(id: string) {
     if (this.activatedRoute.snapshot.queryParams.collectionType &&
       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
@@ -281,20 +312,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     if (!this.pdfContainer || this.pdfInstance === null) {
       return false
     }
+    let viewport
     this.pdfContainer.nativeElement.innerHTML = ''
     const page = await this.pdfInstance.getPage(this.currentPage.value)
-    // if (this.zoom.pristine) {
-    //   const viewportWithNoScale = page.getViewport({ scale: this.DEFAULT_SCALE })
-    //   const zoom = this.containerSection.nativeElement.clientWidth / (viewportWithNoScale.width)
-    //   if (this.zoom.value !== Math.min(2, Math.floor(zoom * 100) / 100)) {
-    //     this.zoom.setValue(Math.min(2, Math.floor(zoom * 100) / 100))
-    //   }
-    // }
+    if (this.zoom.pristine) {
+      viewport = page.getViewport({ scale: this.DEFAULT_SCALE })
+      // const zoom = this.containerSection.nativeElement.clientWidth / (viewportWithNoScale.width)
+      // if (this.zoom.value !== Math.min(2, Math.floor(zoom * 100) / 100)) {
+      //   this.zoom.setValue(Math.min(2, Math.floor(zoom * 100) / 100))
+      // }
+    }
+
     const pageNumStr = this.currentPage.value.toString()
     if (!this.current.includes(pageNumStr)) {
       this.current.push(pageNumStr)
     }
-    const viewport = page.getViewport({ scale: this.zoom.value })
+
+    viewport = page.getViewport({ scale: this.zoom.value })
     this.pdfContainer.nativeElement.width = viewport.width
     this.pdfContainer.nativeElement.height = viewport.height
     this.lastRenderTask = new pdfjsViewer.PDFPageView({

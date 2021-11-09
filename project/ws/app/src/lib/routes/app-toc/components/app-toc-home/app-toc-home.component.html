@@ -1,6 +1,6 @@
-  <div class="appicon-image" >
-  <mat-toolbar role="navigation" i18n-aria-label aria-label="Toolbar" *ngIf="isAuthor && !forPreview"
-    class="detailBar" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
+<div class="appicon-image">
+  <mat-toolbar role="navigation" i18n-aria-label aria-label="Toolbar" *ngIf="isAuthor && !forPreview" class="detailBar"
+    [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
     <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Details',url:'none'}] }">
     </ws-widget-btn-page-back> -->
     <!-- <span class="margin-left-xs text-truncate">
@@ -20,32 +20,45 @@
 </div>
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
-    <nav mat-tab-nav-bar class="toc-links mt-8 mat-app-background">
-      <a mat-tab-link [routerLink]="'./overview'" routerLinkActive="ws-mat-primary-text link-active" i18n>Overview</a>
+    <nav mat-tab-nav-bar id="mat-nav" class="toc-links mt-8 mat-app-background">
+      <a mat-tab-link [routerLink]="'./overview'" routerLinkActive="ws-mat-primary-text link-active" i18n
+        wsAppRetainScroll (click)="createAWSAnalyticsEventAttribute('Overview')">Overview</a>
+
       <a mat-tab-link *ngIf="content?.resourceType === 'Certification'" [routerLink]="'./certification'"
-        routerLinkActive="ws-mat-primary-text link-active">
+        routerLinkActive="ws-mat-primary-text link-active" (click)="createAWSAnalyticsEventAttribute('Certification')">
         <ng-container *ngIf="content?.isExternal === true" i18n>Certification</ng-container>
         <ng-container *ngIf="content?.isExternal === false" i18n>Take Certification</ng-container>
       </a>
 
       <a *ngIf="content?.children?.length" mat-tab-link [routerLink]="'./contents'"
-        routerLinkActive="ws-mat-primary-text link-active" i18n>Contents</a>
+        routerLinkActive="ws-mat-primary-text link-active" i18n wsAppRetainScroll
+        (click)="createAWSAnalyticsEventAttribute('Contents')">Contents</a>
+
       <a *ngIf="enableAnalytics" [disabled]="forPreview" mat-tab-link [routerLink]="'./analytics'"
-        routerLinkActive="ws-mat-primary-text link-active" i18n>Analytics</a>
-      <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active" i18n>Discussions</a>
-      <a mat-tab-link [routerLink]="'./details'"  [queryParams]="{id: content.identifier}" routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a>
-     
-      <a mat-tab-link [routerLink]="'./license'"  routerLinkActive="ws-mat-primary-text link-active" i18n>License</a>
+        routerLinkActive="ws-mat-primary-text link-active" i18n wsAppRetainScroll
+        (click)="createAWSAnalyticsEventAttribute('Analytics')">Analytics</a>
+
+      <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active" i18n
+        wsAppRetainScroll (click)="createAWSAnalyticsEventAttribute('Discussions')">Discussions</a>
+
+      <a mat-tab-link [routerLink]="'./details'" [queryParams]="{id: content.identifier}"
+        routerLinkActive="ws-mat-primary-text link-active" i18n wsAppRetainScroll
+        (click)="createAWSAnalyticsEventAttribute('Cohorts')">Cohorts</a>
+
+      <a mat-tab-link [routerLink]="'./license'" [queryParams]="{license: license}"
+        routerLinkActive="ws-mat-primary-text link-active" i18n wsAppRetainScroll
+        (click)="createAWSAnalyticsEventAttribute('License')">License</a>
+
     </nav>
     <router-outlet></router-outlet>
     <ng-container>
       <!-- <mat-divider class="margin-top-m margin-bottom-m"></mat-divider> -->
       <!-- <div class="toc-discussion-container" fragment="discussion-forum"> -->
-        <!-- <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion> -->
-        <!-- <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts> -->
+      <!-- <ws-app-toc-discussion [content]="content" class="discussion"></ws-app-toc-discussion> -->
+      <!-- <ws-app-toc-cohorts [content]="content" class="cohorts"></ws-app-toc-cohorts> -->
       <!-- </div> -->
 
-   </ng-container>
+    </ng-container>
   </div>
 </ng-container>
 

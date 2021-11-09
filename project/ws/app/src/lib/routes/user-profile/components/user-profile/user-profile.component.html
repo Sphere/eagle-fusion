@@ -44,7 +44,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #firstname formControlName="firstname" i18n-placeholder
-                            placeholder="Enter First Name" />
+                            placeholder="Enter First Name" [readonly]="this.isEditable" />
                           <mat-hint align="end">{{ firstname.value.length }} / 500</mat-hint>
                           <mat-error [hidden]="false" i18n="First Name Error|Explains name is required">
                             First name is mandatory
@@ -58,7 +58,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #middlename formControlName="middlename" i18n-placeholder
-                            placeholder="Enter Middle Name" />
+                            placeholder="Enter Middle Name" [readonly]="this.isEditable" />
                           <mat-error [hidden]="false" i18n="Middle Name Error|Explains name is required">
                             Middle name is mandatory
                           </mat-error>
@@ -71,7 +71,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #surname formControlName="surname" i18n-placeholder
-                            placeholder="Enter Surname" />
+                            placeholder="Enter Surname" [readonly]="this.isEditable" />
                           <mat-error [hidden]="false" i18n="Surname Error|Explains name is required">
                             Surname is mandatory
                           </mat-error>
@@ -95,7 +95,7 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label required"
+                        <p class=" margin-remove-bottom form-label"
                           i18n="About label|Label which explains the user to enter About">
                           About
                         </p>
@@ -144,28 +144,12 @@
                           </mat-option>
                         </mat-autocomplete>
                       </div>
+
                       <div class="input-wrapper margin-top-s">
                         <p class=" margin-remove-bottom form-label"
                           i18n="Gender |Label which explains the user to enter Gender">
                           Gender
                         </p>
-                        <!-- <mat-radio-group matInput aria-label="Select an option" formControlName="gender">
-                          <span class="mx-2">
-                            <mat-radio-button matInput class="my-1" [value]="eUserGender.MALE">
-                              Male
-                            </mat-radio-button>
-                          </span>
-                          <span class="mx-2">
-                            <mat-radio-button matInput class="my-1" [value]="eUserGender.FEMALE">
-                              Female
-                            </mat-radio-button>
-                          </span>
-                          <span class="mx-2">
-                            <mat-radio-button matInput class="my-1" [value]="eUserGender.OTHER">
-                              Others
-                            </mat-radio-button>
-                          </span>
-                        </mat-radio-group> -->
                         <div class="radio-toolbar">
                           <input type="radio" id="{{eUserGender.MALE}}" name="gender" formControlName="gender"
                             [value]="eUserGender.MALE">
@@ -180,23 +164,24 @@
                           <label for="{{eUserGender.OTHER}}">{{eUserGender.OTHER}}</label>
                         </div>
                       </div>
+
                       <div class="input-wrapper margin-top-s">
                         <p class=" margin-remove-bottom form-label"
                           i18n="Marital Status |Label which explains the user to enter Marital Status">
                           Marital Status
                         </p>
                         <!-- <mat-radio-group matInput aria-label="Select an option" formControlName="maritalStatus">
-                          <span class="mx-2">
-                            <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.SINGLE">
-                              Single
-                            </mat-radio-button>
-                          </span>
-                          <span class="mx-2">
-                            <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.MARRIED">
-                              Married
-                            </mat-radio-button>
-                          </span>
-                        </mat-radio-group> -->
+                                                  <span class="mx-2">
+                                                    <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.SINGLE">
+                                                      Single
+                                                    </mat-radio-button>
+                                                  </span>
+                                                  <span class="mx-2">
+                                                    <mat-radio-button matInput class="my-1" [value]="eMaritalStatus.MARRIED">
+                                                      Married
+                                                    </mat-radio-button>
+                                                  </span>
+                                                </mat-radio-group> -->
                         <div class="radio-toolbar">
                           <input type="radio" id="{{eMaritalStatus.SINGLE}}" name="maritalStatus"
                             formControlName="maritalStatus" [value]="eMaritalStatus.SINGLE">
@@ -207,6 +192,21 @@
                           <label for="{{eMaritalStatus.MARRIED}}">{{eMaritalStatus.MARRIED}}</label>
                         </div>
                       </div>
+
+                      <div class="input-wrapper margin-top-s">
+                        <p class=" margin-remove-bottom form-label"
+                          i18n=" Registered Nurse/ Midwife Number label|Label which explains the user to enter Registered Nurse/ Midwife Number">
+                          Registered Nurse Number(RN)/ Registered Midwife Number(RM)
+                        </p>
+                        <mat-form-field appearance="outline" class="margin-top-xs">
+                          <input matInput #regNurseRegMidwifeNumber formControlName="regNurseRegMidwifeNumber"
+                            i18n-placeholder placeholder="Enter  Registered Nurse/ Midwife Number" />
+                        </mat-form-field>
+                      </div>
+
+
+
+
                       <div class="input-wrapper margin-top-s">
                         <!-- <p class=" margin-remove-bottom form-label required"
                           i18n="Category |Label which explains the user to enter Category">
@@ -259,6 +259,79 @@
                 <div class="profile-cols bg-grey">
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
+                      i18n="NUID number label|Label which explains the user to enter NUID Number">
+                      National Unique Identity Number (NUID) Number
+                    </p>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #nationalUniqueId formControlName="nationalUniqueId" i18n-placeholder
+                        placeholder="Enter NUID Number" />
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
+                      i18n="Doctor Registration Number label|Label which explains the user to enter Doctor Registration Number">
+                      Doctor Registration Number
+                    </p>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #doctorRegNumber formControlName="doctorRegNumber" i18n-placeholder
+                        placeholder="Enter Doctor Registration Number" />
+                    </mat-form-field>
+                  </div>
+
+
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
+                      i18n="Name the Institution label|Label which explains the user to enter Name the Institution">
+                      Name the Institution (for students)
+                    </p>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #instituteName formControlName="instituteName" i18n-placeholder
+                        placeholder="Enter Name the Institution" />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
+                      i18n="Name of Nursing Council label|Label which explains the user to enter Name of Nursing Council">
+                      Name of Nursing Council (for Registered Nurses)
+                    </p>
+
+                    <mat-form-field appearance="outline" class="margin-top-xs w-full">
+                      <input matInput type="text" placeholder="Name of Nursing Council"
+                        i18n-placeholder="Name of Nursing Council" formControlName="nursingCouncil"
+                        [matAutocomplete]="nursing" i18n-aria-label aria-label="nursingCouncil" #nursingCouncil />
+                    </mat-form-field>
+                    <mat-autocomplete #nursing="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{ option }}
+                      </mat-option>
+                    </mat-autocomplete>
+
+
+
+
+
+
+                    <!-- <mat-form-field appearance="outline" class="margin-top-xs w-full">
+                              <input matInput type="text" placeholder="Nationality" i18n-placeholder="Nationality" formControlName="nationality"
+                                [matAutocomplete]="nationalityAutocomplete" i18n-aria-label aria-label="Nationality" #nationality />
+                              <mat-error [hidden]="false" i18n="Nationality Error|Explains name is required">
+                                Nationality is mandatory
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-autocomplete #nationalityAutocomplete="matAutocomplete">
+                              <mat-option *ngFor="let option of masterNationality | async" [value]="option.name">
+                                {{ option.name }}
+                              </mat-option>
+                            </mat-autocomplete> -->
+
+                  </div>
+
+
+                  <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label"
                       i18n="Other Languages Known label|Label which explains the user to enter Other Languages Known">
                       Other Languages Known
                     </p>
@@ -277,8 +350,7 @@
                       <mat-error [hidden]="false" i18n="Telephone Number Error|Explains name is required">
                         Other Languages Known is mandatory
                       </mat-error>
-                      <!-- <input matInput type="text" placeholder="known Languages" i18n-placeholder="known Languages" formControlName="knownLanguages"
-                      [matAutocomplete]="knownLanguagesAuto" i18n-aria-label aria-label="known Languages" #knownLanguages /> -->
+
                     </mat-form-field>
                     <mat-autocomplete #knownLanguagesAuto="matAutocomplete"
                       (optionSelected)="selectKnowLanguage($event)">
@@ -295,7 +367,8 @@
                     <div class="flex flex-align combined-field">
                       <mat-form-field appearance="outline" class="margin-top-xs w80">
                         <mat-select formControlName="countryCode" i18n-placeholder placeholder="--Select--">
-                          <mat-option [value]="code" *ngFor="let code of countryCodes">{{code}}</mat-option>
+                          <mat-option [value]="code" *ngFor="let code of countryCodes">
+                            {{code}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field appearance="outline" class="margin-top-xs flex-expand w-minus-w80">
@@ -308,7 +381,7 @@
                           Please enter a valid 10 digit mobile number
                         </mat-error>
                         <!-- <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.required">This field is mandatory.</mat-error>
-                        <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.pattern">Minimum 8 charactors needed.</mat-error> -->
+                                        <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.pattern">Minimum 8 charactors needed.</mat-error> -->
                       </mat-form-field>
                     </div>
                   </div>
@@ -337,17 +410,9 @@
                         Primary Email is mandatory
                       </mat-error>
                     </mat-form-field>
-                    <div class="input-wrapper margin-top-s margin-bottom-s">
-                      <div class="flex flex-middle">
-                        <mat-checkbox [checked]="isOfficialEmail" (change)="officialEmailCheck()"></mat-checkbox>
-                        <p class="margin-left-xs margin-remove-bottom">
-                          This is my official email
-                        </p>
-                      </div>
-                    </div>
                   </div>
 
-                  <div class="input-wrapper margin-top-s">
+                  <!-- <div class="input-wrapper margin-top-s" >
                     <p class=" margin-remove-bottom form-label"
                       i18n="Secondary Email label|Label which explains the user to enter Secondary Email">
                       Secondary Email
@@ -355,7 +420,7 @@
                     <mat-form-field appearance="outline" class="w-full margin-top-xs">
                       <input type="email" matInput placeholder="Secondary Email" formControlName="secondaryEmail">
                     </mat-form-field>
-                  </div>
+                  </div> -->
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Postal Address label|Label which explains the user to enter Postal Address">
@@ -406,7 +471,7 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label i18n>
-            Academics
+            Education
           </ng-template>
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
@@ -495,10 +560,11 @@
                         Degree
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
-                        <mat-select formControlName="degree" i18n-placeholder placeholder="--Select--">
+                        <!-- <mat-select formControlName="degree" i18n-placeholder placeholder="--Select--">
                           <mat-option [value]="deg.name" *ngFor="let deg of degreesMeta?.graduations">{{deg.name}}
                           </mat-option>
-                        </mat-select>
+                        </mat-select> -->
+                        <input matInput formControlName="degree" i18n-placeholder placeholder="Enter Your course" />
                       </mat-form-field>
                     </div>
                     <div class="item">
@@ -547,9 +613,8 @@
                   </div>
                 </ng-container>
                 <div class="mt-5">
-                  <button mat-raised-button type="button" (click)="addDegree()"
-                    class="text-white margin-right-m btn-success">
-                    <span class="text-white" i18n>Add Other Qualification</span>
+                  <button mat-raised-button type="button" (click)="addDegree()" class="margin-right-m btn-success">
+                    <span i18n>Add Other Qualification</span>
                   </button>
                 </div>
               </div>
@@ -616,9 +681,8 @@
                 </ng-container>
 
                 <div class="mt-5">
-                  <button mat-raised-button type="button" (click)="addPostDegree()"
-                    class="text-white margin-right-m btn-success">
-                    <span class="text-white" i18n>Add Other Qualification</span>
+                  <button mat-raised-button type="button" (click)="addPostDegree()" class="margin-right-m btn-success">
+                    <span i18n>Add Other Qualification</span>
                   </button>
                 </div>
               </div>
@@ -627,17 +691,17 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label i18n>
-            Professional Details
+            Professional info
           </ng-template>
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
               <div class="w-full profile-cols-full bg-grey">
-                <div class="radio-toolbar">
+                <!-- <div class="radio-toolbar">
                   <input type="radio" id="govtOrg" name="isGovtOrg" formControlName="isGovtOrg" [value]="true">
                   <label for="govtOrg">Government Organisation</label>
                   <input type="radio" id="nonGovtOrg" name="isGovtOrg" formControlName="isGovtOrg" [value]="false">
                   <label for="nonGovtOrg">Non-Government Organisation</label>
-                </div>
+                </div> -->
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -645,15 +709,17 @@
                       Organisation Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <mat-select #orgNameSelect formControlName="orgName" i18n-placeholder placeholder="--Select--"
+                      <!-- <mat-select #orgNameSelect formControlName="orgName" i18n-placeholder placeholder="--Select--"
                         (selectionChange)="otherDropDownChange(designation.value, 'orgname')">
                         <mat-option [value]="org.name" *ngFor="let org of govtOrgMeta?.ministries">{{org.name}}
                         </mat-option>
                         <mat-option [value]="'Other'">Other</mat-option>
-                      </mat-select>
+                      </mat-select> -->
+                      <input matInput #orgNameSelect type="text" formControlName="orgName" i18n-placeholder
+                        placeholder="Organisation Name" />
                     </mat-form-field>
                   </div>
-                  <div class="item" *ngIf="orgNameSelect.value === 'Other' || showOrgnameOther">
+                  <!-- <div class="item" *ngIf="orgNameSelect.value === 'Other' || showOrgnameOther">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Other label|Label which explains the user to enter Other">
                       Other
@@ -665,9 +731,9 @@
                         Other Organisation Name is mandatory
                       </mat-error>
                     </mat-form-field>
-                  </div>
+                  </div> -->
                 </div>
-                <div class="flex flex-wrap section-input">
+                <!-- <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Industry label|Label which explains the user to enter Industry">
@@ -696,7 +762,7 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                </div>
+                </div> -->
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -704,29 +770,20 @@
                       Designation
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <mat-select #designation formControlName="designation" i18n-placeholder placeholder="--Select--"
+                      <!--  <mat-select #designation formControlName="designation" i18n-placeholder placeholder="--Select--"
                         (selectionChange)="otherDropDownChange(designation.value, 'designation')">
                         <mat-option [value]="designation.name"
                           *ngFor="let designation of designationsMeta?.designations">
                           {{designation.name}}
                         </mat-option>
                         <mat-option [value]="'Other'">Other</mat-option>
-                      </mat-select>
+                      </mat-select>-->
+                      <input matInput #designation type="text" formControlName="designation" i18n-placeholder
+                        placeholder="Designation" />
                     </mat-form-field>
+
                   </div>
-                  <div class="item" *ngIf="designation.value === 'Other' || showDesignationOther">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Other label|Label which explains the user to enter Other">
-                      Other
-                    </p>
-                    <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #designationOther formControlName="designationOther" i18n-placeholder
-                        placeholder="Enter Other Designation Name" />
-                      <mat-error [hidden]="false" i18n="Other Designation Name  Error|Explains name is required">
-                        Other Designation Name is mandatory
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+
                 </div>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
@@ -736,7 +793,7 @@
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
                       <mat-select formControlName="location" i18n-placeholder placeholder="--Select--">
-                        <mat-option [value]="loc.name" *ngFor="let loc of  countries">
+                        <mat-option [value]="loc.name" *ngFor="let loc of  states">
                           {{loc.name}}
                         </mat-option>
                       </mat-select>
@@ -776,12 +833,12 @@
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
-                      i18n="Description label|Label which explains the user to enter Description">
-                      Description
+                      i18n="Address label|Label which explains the user to enter Address">
+                      Address
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
                       <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="4"
-                        formControlName="orgDesc" placeholder="Type Your Residence Address Here" i18n-placeholder
+                        formControlName="orgDesc" placeholder="Type Your your Address Here" i18n-placeholder
                         #orgDesc></textarea>
                       <mat-hint align="end">{{ orgDesc.value.length }} /500 characters</mat-hint>
                       <mat-error i18n>
@@ -946,7 +1003,7 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label i18n>
-            Certification & Skills
+            Skills & Certification
           </ng-template>
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
@@ -1032,13 +1089,13 @@
         <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
           <mat-spinner [diameter]="30"></mat-spinner>
         </div>
-        <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)"
-          class="text-white btn-success btn-responsive" [disabled]="uploadSaveData || createUserForm?.invalid">
-          <span class="text-white" i18n>
+        <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)" class="btn-success btn-responsive"
+          [disabled]="uploadSaveData || createUserForm?.invalid">
+          <span i18n>
             Save Details
           </span>
         </button>
-        <!-- <button mat-raised-button type="button" class="text-white ws-mat-primary-background text-white"
+        <!-- <button mat-raised-button type="button" class="ws-mat-primary-background text-white"
           (click)="formNext()">
           <span class="text-white" i18n>Next</span>
         </button> -->
