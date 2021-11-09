@@ -9,7 +9,6 @@
 <div class=" profile-container px-4 sm:px-20 md:px-20 xl:px-40  py-0 my-0 mt-12">
   <div class="mb-4" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <mat-card class="org-data mb-4">
-
       <section class="flex justify-center">
         <div class="user-avatar ">
           <div class="flex mt-10">
@@ -142,11 +141,9 @@
             <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
               <span class="mr-1 orange-text">Duration: </span>
               <mat-icon>access_time</mat-icon>
-              <!-- <span class="time-text fs-13">{{ widget.duration | pipeDurationTransform: 'hms' }}</span> -->
+
               <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-                <!-- <div class="flex items-start">
-                  <ng-container [ngTemplateOutlet]="rating"></ng-container>
-                </div> -->
+
               </span>
             </div>
             <p><span class="fw-500">Number of modules:</span> {{ widget?.children?.length}}</p>
@@ -222,7 +219,7 @@
   </div>
 
 
-  <div class="flex flex-end mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+  <div class="flex flex-center mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <div class="align-logo flex-center">
       <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
         class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />

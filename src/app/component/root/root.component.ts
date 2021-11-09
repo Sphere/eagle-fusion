@@ -14,6 +14,8 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router'
+// import { Location } from '@angular/common'
+
 // import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
@@ -71,6 +73,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
+    // private location: Location
   ) {
     this.mobileAppsSvc.init()
   }
@@ -129,7 +132,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
-      if (sessionStorage.getItem('loginbtn')) {
+      if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
         this.isNavBarRequired = true
         this.showNavigation = false
       } else {
@@ -147,12 +150,21 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
     })
+
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
       this.showNavbar = display
     })
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
+                if (sessionStorage.getItem('url_before_login')) {
+  const url = sessionStorage.getItem(`url_before_login`) || ''
+
+    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+// this.location.replaceState(url)
+  this.router.navigateByUrl(url)
+}
+
   }
 
   ngAfterViewInit() {

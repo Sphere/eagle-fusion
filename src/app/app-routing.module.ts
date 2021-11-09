@@ -23,6 +23,8 @@ import { ForgotPasswordComponent } from './routes/forgot-password/forgot-passwor
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
+import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
+import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -215,8 +217,10 @@ const routes: Routes = [
   },
   {
     path: 'app/org-details',
-    loadChildren: () =>
-      import('./routes/route-org-details.module').then(u => u.RouteOrgDetailsModule),
+    component: OrgComponent,
+    resolve: {
+      orgData: OrgServiceService,
+    },
   },
   {
     path: 'author',

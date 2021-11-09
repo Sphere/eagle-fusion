@@ -147,17 +147,14 @@ export class AuthKeycloakService {
   //     this.keycloakSvc.logout(redirectUrl)
   //   }
   // }
-// async logout(redirectUrl = this.defaultRedirectUrl)
+  // async logout(redirectUrl = this.defaultRedirectUrl)
   async logout() {
-     if (storage.getItem('telemetrySessionId') && (sessionStorage.getItem('loginbtn'))) {
+    if (storage.getItem('telemetrySessionId') || (sessionStorage.getItem('loginbtn'))) {
       storage.removeItem('telemetrySessionId')
       sessionStorage.removeItem('loginbtn')
+      sessionStorage.removeItem('url_before_login')
       // window.location.href = `${this.defaultRedirectUrl}apis/reset`
-      window.location.href = `${this.defaultRedirectUrl}/login`
-    }
-    if (sessionStorage.getItem('loginbtn') === null) {
-       sessionStorage.removeItem('loginbtn')
-      // window.location.href = `${this.defaultRedirectUrl}apis/reset`
+      window.location.href = `${this.defaultRedirectUrl}`
     }
   }
   private addKeycloakEventListener() {
