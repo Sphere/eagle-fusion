@@ -1,16 +1,16 @@
 <mat-sidenav-container role="main" class="sidenav-container" autosize *ngIf="!error.load">
   <mat-sidenav #sideNavBar class="sidenav" [opened]="sideNavBarOpened" (closed)="closeFilter(false)"
     [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
-    <ws-app-filter-display #appFilterDisplay *ngIf="searchResults?.result?.length" [filtersResetAble]="filtersResetAble"
-      [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse" [routeComp]="routeComp"
-      (filterClose)="closeFilter($event)"></ws-app-filter-display>
+    <ws-app-filter-display #appFilterDisplay *ngIf="searchResults?.result?.content?.length"
+      [filtersResetAble]="filtersResetAble" [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse"
+      [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
-  <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.length">
-    <div>
+  <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
+    <div role="link" tabindex="0">
       <span i18n="search route hits showing">Showing </span>
-      <span>{{ searchResults.totalHits }} </span>
-      <span *ngIf="searchResults.totalHits > 1" i18n="search route hits results">results </span>
-      <span *ngIf="searchResults.totalHits <= 1" i18n="search route hits result">result </span>
+      <span>{{ searchResults.result.count }} </span>
+      <span *ngIf="searchResults.result.count > 1" i18n="search route hits results">results </span>
+      <span *ngIf="searchResults.result.count <= 1" i18n="search route hits result">result </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred languages</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
@@ -40,7 +40,7 @@
       </button>
     </div>
     <div class="margin-bottom-m">
-      <mat-chip-list aria-label="Filter selection">
+      <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
         <span *ngFor="let filter of filtersResponse">
           <span *ngFor="let content of filter?.content">
             <span *ngIf="content?.checked">
@@ -66,9 +66,10 @@
         </span>
       </mat-chip-list>
     </div>
-    <div *ngIf="searchResults?.result?.length">
-      <ws-app-learning-card class="search-card" *ngFor="let result of searchResults.result; trackBy: contentTrackBy"
-        [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
+    <div *ngIf="searchResults?.result?.content?.length">
+      <ws-app-learning-card class="search-card"
+        *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy" [displayType]="resultsDisplayType"
+        [content]="result"></ws-app-learning-card>
       <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
         <mat-spinner></mat-spinner>
         <!-- <h2 class="h2-title">
@@ -82,7 +83,7 @@
       </button>
     </div>
   </mat-sidenav-content>
-  <div *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.length"
+  <div *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length"
     class="overflow-y-hidden margin-top-m flex flex-center">
     <mat-spinner></mat-spinner>
   </div>

@@ -1,0 +1,23 @@
+<div [ngClass]="{'circle-s' : size=== 's',
+'circle-m' : size=== 'm',
+'circle-l' : size=== 'l',
+'circle-xl' : size=== 'xl',
+'circle-xxl' : size=== 'xxl',
+'circle-l-xs' : size=== 'l-xs',
+'circle-l-s' : size=== 'l-s',
+'circle-xl-s' : size=== 'xl-s',
+'circle-xxl-s': size=== 'xxl-s'}" [ngStyle]="{'background-color':  circleColor }">
+  <img *ngIf="!showInitials" src="{{photoUrl}}" [alt]="photoUrl? '' :(name || initials || size || random)">
+
+  <div *ngIf="showInitials" class="initials" i18n-aria-label>
+    {{ initials }}
+  </div>
+
+  <!-- <div *ngIf="imageType === 'user-photo'">
+    <img *ngIf="imageUrl" [src]="imageUrl" alt="user-image" class="user-image" [ngClass]="{'user-image-small': imageSize === 'small'}">
+    <div class="user-image" [ngClass]="{'user-image-small': imageSize === 'small'}">
+      <span class="name-initials-image font-normal ws-mat-primary-default-text ws-mat-accent-background"
+      *ngIf="!imageUrl">{{ shortName }}</span>
+    </div>
+  </div> -->
+</div>

@@ -1,3 +1,7 @@
+@import 'ws-common';
+@import 'ws-vars';
+@import 'ws-mixins';
+
 .log-o {
     flex: 1;
     min-width: 100%;
@@ -6,4 +10,57 @@
 
 .new-margin {
     margin-top: 16px;
+    box-sizing: border-box;
+}
+
+/*::ng-deep .fontRoboto {
+    font : 400 14px/20px Roboto !important;
+}*/
+
+.trnsform {
+    transform: scale(1.3);
+    height: -webkit-fill-available;
+    max-height: -webkit-fill-available;
+}
+
+.text-new {
+    line-height: normal;
+}
+.border-bottom {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+section {
+    .pfname {
+        p {
+            margin-bottom: 0 !important
+        }
+    }
+    
+    .portal-name {
+        vertical-align: super;
+        color: #000000 !important;
+    }
+}
+::ng-deep.mat-menu-content {
+    padding-bottom: 0 !important;
+
+    .mat-menu-item {
+        line-height: 30px;
+        height: 38px;
+        padding: 0 6px;
+        font: 400 14px/28px Roboto !important
+    }
+}
+::ng-deep.circle-m {
+    width: 40px !important;
+    height: 40px !important;
+
+    img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+.csicon { 
+    font-size: 22px !important;
 }

@@ -9,26 +9,30 @@
     margin: 16px 16px 0 16px;
   }
 
-.color-blue {
-  color: #18acec
-}
-.info-btn {
-  border-radius: 50px;
-  color: rgba(0, 0, 0, 0.87) !important;
+  .color-blue {
+    color: #18acec;
+  }
+  .info-btn {
+    border-radius: 50px;
+    color: rgba(0, 0, 0, 0.87) !important;
     border-color: #f5d58d;
-        margin-left: 15px;
+    margin-left: 15px;
     &:hover {
       background-color: #f5d58d;
       color: rgba(0, 0, 0, 0.87) !important;
     }
-}
-.academic-row {
-      display: flex;
+  }
+  .academic-row {
+    display: flex;
     flex-direction: row;
     margin-left: 1rem;
-}
+  }
   .margin-zero {
     margin-bottom: 0px;
+  }
+  .blue-bg {
+    background-color: #63a4ff;
+    background-image: linear-gradient(315deg, #63a4ff 0%, #83eaf1 74%);
   }
 
   .about-me {
@@ -39,31 +43,30 @@
     background-color: #f0f0f0;
 
     @include breakpoint-lt-m {
-      width: 100%;
+      width: 92%;
       margin-right: 0px;
-
       margin-bottom: 16px;
     }
 
     .avatar {
-    max-width: 150px;
-    max-height: 150px;
-    margin-left: auto;
-    margin-right: auto;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-top: -95px;
-}
- .user-name {
-       text-align: center;
-      }
+      max-width: 150px;
+      max-height: 150px;
+      margin-left: auto;
+      margin-right: auto;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-top: -95px;
+    }
+    .user-name {
+      text-align: center;
+    }
 
     .user-avatar {
       padding: 16px;
-       flex:1;
-   display: flex;
-   justify-content: center;
+      flex: 1;
+      display: flex;
+      justify-content: center;
       h2 {
         margin: 0;
       }
@@ -258,8 +261,8 @@
 //   width: 32%;
 // }
 
-  @media (min-width: 600px) {
-   .profile-container div.sm\:px-48 {
+@media (min-width: 600px) {
+  .profile-container div.sm\:px-48 {
     padding-left: 4rem !important;
     padding-right: 4rem !important;
   }
@@ -270,4 +273,4 @@
   ::ng-deep .profile-strip h1.header-font {
     font-size: 23px !important;
   }
-  }
+}

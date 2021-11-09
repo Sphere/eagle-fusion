@@ -34,6 +34,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   @Input() duration = 0
   @Input() collectionId = ''
   @Input() viewStateChange: boolean | undefined
+  @Input() progressStatus = ''
   @Input() quizJson = {
     timeLimit: 0,
     questions: [
@@ -246,7 +247,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
       this.questionAnswerHash,
     )
-
     const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
 
     this.quizSvc.submitQuizV2(sanitizedRequestData).subscribe(
@@ -258,7 +258,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.numCorrectAnswers = res.correct
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
-        this.passPercentage = res.passPercent
+        this.passPercentage = this.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
         if (this.result >= this.passPercentage) {
           this.isCompleted = true

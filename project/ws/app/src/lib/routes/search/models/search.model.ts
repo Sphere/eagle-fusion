@@ -250,3 +250,14 @@ export interface ISuggestedFilters {
   url: string
   queryParams?: any
 }
+
+export interface ISearchRequestV2 {
+  request: {
+    filters: {},
+    query: string,
+    sort_by: { lastUpdatedOn: string },
+    fields: [
+    ],
+    facets: string[]
+  }
+}

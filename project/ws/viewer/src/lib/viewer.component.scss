@@ -1,6 +1,28 @@
 @import 'ws-common';
 @import 'ws-mixins';
 
+::ng-deep .theme-igot.day-mode .mat-drawer-container {
+    background-color: transparent;
+}
+.floating-btn {
+  position: fixed;
+  z-index: 9;
+  background-color: #d8d8d8 !important;
+  padding: 3px 8px 3px 5px;
+  transition: linear 1s;
+      top: 134px;
+      border-radius: 0;
+      min-width: 50px;
+      .text{
+        font-size: 1.25em;
+      }
+      span {
+        display: none;
+      }
+   &:hover span {
+     display: inline;
+   }
+}
 .width-expand {
   flex: 1;
   min-width: 1px;

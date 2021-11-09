@@ -1,0 +1,119 @@
+<form [formGroup]="createBatchForm">
+  <mat-dialog-content class="mat-typography pad-fix">
+    <div class="custom">
+      <div class="flex flex-4 flex-column margin-right-l">
+
+        <div class="flex flex-1">
+          <mat-form-field appearance="outline" class="w-full">
+            <label for="name" class=" margin-remove-bottom form-label required"
+              i18n="Name label|Label which explains the user to enter name" i18n-aria-label aria-label="Name label">
+              Name
+            </label>
+            <input id="name" matInput #name formControlName="name" i18n-placeholder placeholder="Enter Name"
+              i18n-aria-label aria-label="Name input" />
+            <mat-error [hidden]="false" i18n="Name Error|Explains name is required" i18n-aria-label
+              aria-label="Name Error|Explains name is required "
+              *ngIf="createBatchForm?.controls['name'].errors?.required">
+              Name is mandatory
+            </mat-error>
+            <mat-error [hidden]="false" *ngIf="createBatchForm?.controls['name'].errors?.pattern" i18n-aria-label
+              aria-label="Name Error|Name fields cannot contain numbers and special characters ">
+              Name fields cannot contain numbers and special characters '
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-1">
+          <mat-form-field appearance="outline" class="w-full">
+            <label for="description" class=" margin-remove-bottom form-label"
+              i18n="description label|Label which explains the user to enter description" i18n-aria-label
+              aria-label="description label">
+              Description
+            </label>
+            <input id="description" matInput #description formControlName="description" i18n-placeholder
+              placeholder="Enter Description" i18n-aria-label aria-label="Description input" />
+            <mat-error [hidden]="false" i18n="Description Error|Explains description is required" i18n-aria-label
+              aria-label="Description Error|Explains description is required "
+              *ngIf="createBatchForm?.controls['description'].errors?.required">
+              Description is mandatory
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-1">
+          <mat-form-field appearance="outline" class="w-full">
+            <label for="enrollmentType" class=" margin-remove-bottom form-label required"
+              i18n="enrollmentType label|Label which explains the user to enter enrollmentType" i18n-aria-label
+              aria-label="enrollmentType label">
+              Enrollment Type
+            </label>
+            <mat-select matInput formControlName="enrollmentType" #enrollmentType>
+              <mat-option [value]="c" *ngFor="let c of enrollmentTypes" [innerHTML]="c"></mat-option>
+            </mat-select>
+            <mat-error [hidden]="false" i18n="enrollmentType Error|Explains enrollmentType is required" i18n-aria-label
+              aria-label="enrollmentType Error|Explains enrollmentType is required "
+              *ngIf="createBatchForm?.controls['enrollmentType'].errors?.required">
+              Enrollment Type is mandatory
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-1">
+          <mat-form-field appearance="outline" class="w-full">
+            <input id="startDate" matInput #startDate formControlName="startDate" [matDatepicker]="picker"
+              i18n-placeholder (focus)="picker.open()" placeholder="Choose startDate(dd-mm-yyyy)" [min]="today" [max]=""
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker (closed)="startDate.blur()" i18n-aria-label aria-label="Date picker">
+            </mat-datepicker>
+            <mat-error [hidden]="false" i18n="Start date Error|Explains name is required">
+              Start date is mandatory
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-1">
+          <mat-form-field appearance="outline" class="w-full">
+            <input id="endDate" matInput #endDate formControlName="endDate" [matDatepicker]="endpicker" i18n-placeholder
+              (focus)="endpicker.open()" placeholder="Choose endDate(dd-mm-yyyy)" [min]="today" [max]="" readonly>
+            <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+            <mat-datepicker #endpicker (closed)="endDate.blur()" i18n-aria-label aria-label="Date picker">
+            </mat-datepicker>
+            <mat-error [hidden]="false" i18n="End date Error|Explains name is required">
+              End date is mandatory
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-1">
+          <mat-form-field appearance="outline" class="w-full">
+            <input id="enrollmentEndDate" matInput #enrollmentEndDate formControlName="enrollmentEndDate"
+              [matDatepicker]="enrollmentEndPicker" i18n-placeholder (focus)="enrollmentEndPicker.open()"
+              placeholder="Choose enrollmentEndDate(dd-mm-yyyy)" [min]="today" [max]="" readonly>
+            <mat-datepicker-toggle matSuffix [for]="enrollmentEndPicker"></mat-datepicker-toggle>
+            <mat-datepicker #enrollmentEndPicker (closed)="enrollmentEndDate.blur()" i18n-aria-label
+              aria-label="Date picker">
+            </mat-datepicker>
+            <mat-error [hidden]="false" i18n="End date Error|Explains name is required">
+              End date is mandatory
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-dialog-actions align="end" class="mb-0-imp">
+          <button mat-raised-button type="button" [mat-dialog-close]="true"
+            class="ws-mat-accent-border flex-auto-display">
+            <span class="ws-mat-default-text" i18n>Discard</span>
+          </button>
+          <button mat-raised-button type="submit" class="text-white ws-mat-primary-background flex-auto-display"
+            [disabled]="uploadSaveData || createBatchForm?.invalid" (click)="createBatchSubmit(createBatchForm)">
+            <span class="text-white" i18n>Create</span>
+          </button>
+          <span *ngIf="uploadSaveData" class="px-4 flex items-center justify-center">
+            <mat-spinner [diameter]="30"></mat-spinner>
+          </span>
+        </mat-dialog-actions>
+      </div>
+
+    </div>
+  </mat-dialog-content>
+</form>
+
+<input type="hidden" i18-value i18-aria-value aria-value="Batch created successfully"
+  value="Batch created successfully!" #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="unable to create batch" value="Error in creating batch!"
+  #toastError />

@@ -1,6 +1,6 @@
-import { Injectable, SkipSelf } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { Data } from '@angular/router'
-import { Subject, Observable } from 'rxjs'
+import { Subject, Observable, Subscription } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 import { NsContentConstants } from '@ws-widget/collection/src/lib/_constants/widget-content.constants'
@@ -12,6 +12,7 @@ const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const PROXY_SLAG_V8 = '/apis/proxies/v8'
 
 const API_END_POINTS = {
+  BATCH_CREATE: `${PROXY_SLAG_V8}/learner/course/v1/batch/create`,
   CONTENT_PARENTS: `${PROTECTED_SLAG_V8}/content/parents`,
   CONTENT_NEXT: `${PROTECTED_SLAG_V8}/content/next`,
   CONTENT_PARENT: (contentId: string) => `${PROTECTED_SLAG_V8}/content/${contentId}/parent`,
@@ -34,9 +35,23 @@ export class AppTocService {
   analyticsFetchStatus: TFetchStatus = 'none'
   private showSubtitleOnBanners = false
   private canShowDescription = false
+  batchReplaySubject: Subject<any> = new Subject()
+  resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
+  resumeDataSubscription: Subscription | null = null
 
-  constructor(@SkipSelf() private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  private data: any
 
+  getcontentForWidget() {
+    const temp = this.data
+    return temp
+  }
+  setcontentForWidget(val: any) {
+    this.data = val
+  }
+  clearData() {
+    this.data = undefined
+  }
   get subtitleOnBanners(): boolean {
     return this.showSubtitleOnBanners
   }
@@ -50,6 +65,10 @@ export class AppTocService {
     this.canShowDescription = val
   }
 
+  updateResumaData(data: any) {
+    this.resumeData.next(data)
+  }
+
   showStartButton(content: NsContent.IContent | null): { show: boolean; msg: string } {
     const status = {
       show: false,
@@ -57,7 +76,7 @@ export class AppTocService {
     }
     if (content) {
       if (
-        content.artifactUrl.match(/youtu(.)?be/gi) &&
+        content.artifactUrl && content.artifactUrl.match(/youtu(.)?be/gi) &&
         this.configSvc.userProfile &&
         this.configSvc.userProfile.country === 'China'
       ) {
@@ -73,11 +92,34 @@ export class AppTocService {
     return status
   }
 
-  initData(data: Data): NsAppToc.IWsTocResponse {
+  initData(data: Data, needResumeData: boolean = false): NsAppToc.IWsTocResponse {
     let content: NsContent.IContent | null = null
     let errorCode: NsAppToc.EWsTocErrorCode | null = null
+
     if (data.content && data.content.data && data.content.data.identifier) {
       content = data.content.data
+      if (needResumeData) {
+        this.resumeDataSubscription = this.resumeData.subscribe(
+          (dataResult: any) => {
+            if (dataResult && dataResult.length) {
+              // dataResult.map((item: any) => {
+              //   if ( && content.children) {
+              //     const foundContent = content.children.find(el => el.identifier === item.contentId)
+              //     if (foundContent) {
+              //       foundContent.completionPercentage = item.completionPercentage
+              //       foundContent.completionStatus = item.status
+              //     }
+              //   }
+              // })
+              this.mapCompletionPercentage(content, dataResult)
+            }
+          },
+          () => {
+            // tslint:disable-next-line: no-console
+            console.log('error on resumeDataSubscription')
+          },
+        )
+      }
     } else {
       if (data.error) {
         errorCode = NsAppToc.EWsTocErrorCode.API_FAILURE
@@ -88,6 +130,20 @@ export class AppTocService {
     return {
       content,
       errorCode,
+    }
+  }
+
+  mapCompletionPercentage(content: NsContent.IContent | null, dataResult: any) {
+    if (content && content.children) {
+      content.children.map(child => {
+        const foundContent = dataResult.find((el: any) => el.contentId === child.identifier)
+        if (foundContent) {
+          child.completionPercentage = foundContent.completionPercentage
+          child.completionStatus = foundContent.status
+        } else {
+          this.mapCompletionPercentage(child, dataResult)
+        }
+      })
     }
   }
 
@@ -262,16 +318,14 @@ export class AppTocService {
 
   fetchMoreLikeThisPaid(contentId: string): Observable<NsContent.IContentMinimal[]> {
     return this.http.get<NsContent.IContentMinimal[]>(
-      `${
-      API_END_POINTS.CONTENT_NEXT
+      `${API_END_POINTS.CONTENT_NEXT
       }/${contentId}?exclusiveContent=true&ts=${new Date().getTime()}`,
     )
   }
 
   fetchMoreLikeThisFree(contentId: string): Observable<NsContent.IContentMinimal[]> {
     return this.http.get<NsContent.IContentMinimal[]>(
-      `${
-      API_END_POINTS.CONTENT_NEXT
+      `${API_END_POINTS.CONTENT_NEXT
       }/${contentId}?exclusiveContent=false&ts=${new Date().getTime()}`,
     )
   }
@@ -311,5 +365,15 @@ export class AppTocService {
         : API_END_POINTS.CONTENT_PARENT(contentId),
       data,
     )
+  }
+
+  createBatch(batchData: any) {
+    return this.http.post(
+      API_END_POINTS.BATCH_CREATE,
+      { request: batchData },
+    )
+  }
+  updateBatchData() {
+    this.batchReplaySubject.next()
   }
 }

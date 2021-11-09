@@ -1,10 +1,11 @@
-#!/usr/bin/env node --max_old_space_size=8192
-npm run i18n
-ng build --prod --outputPath=dist/www/en --baseHref=/ --i18nLocale=en --verbose=true
-langs=("ar zh-CN de es fr nl")
-for lang in $langs
-do
-  ng build --prod --output-path=dist/www/$lang --baseHref=/ --i18nLocale=$lang --i18nFile=locale/messages.$lang.xlf --verbose=true
-done
-npm run compress:brotli
-npm run compress:gzip
+#!/bin/bash
+# Build script
+set -eo pipefail
+
+build_tag=$1
+name='ui-static'
+node=$2
+org=$3
+
+docker build -f Dockerfile --label commitHash=$(git rev-parse --short HEAD) -t ${org}/${name}:${build_tag} .
+echo {\"image_name\" : \"${name}\", \"image_tag\" : \"${build_tag}\", \"node_name\" : \"$node\"} > metadata.json

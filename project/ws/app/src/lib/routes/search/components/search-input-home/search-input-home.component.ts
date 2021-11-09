@@ -71,7 +71,8 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     }
     this.activated.queryParamMap.subscribe(queryParam => {
       if (queryParam.has('q')) {
-        this.queryControl.setValue(queryParam.get('q') || 'all')
+        // this.queryControl.setValue(queryParam.get('q') || 'all')
+        this.queryControl.setValue(queryParam.get('q') || '')
       } else {
         // this.updateQuery('all')
       }

@@ -1,11 +1,14 @@
 {
   "/apis/*": {
-    "target": "https://d34vfqm2mqjn7i.cloudfront.net",
+    "target": "https://aastrika-sb.idc.tarento.com",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
       "/apis": "/apis"
+    },
+    "headers" : {
+      "cookie" : "connect.sid=s%3AgTM57_v9RQ48EfU5rz9OUnXBZnKfpW8n.pFNC54O8cuKDphTRH5qtIv9yz4q%2Fb4L2KKueLGWBBX8"
     }
   },
   "/content-api/*": {
@@ -54,12 +57,12 @@
     }
   },
   "/assets/*": {
-    "target": "https://aastar-assets.s3.ap-south-1.amazonaws.com",
+    "target": "http://localhost:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
-      "/assets": ""
+      "/apis": ""
     }
   }
 }

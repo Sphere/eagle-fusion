@@ -30,26 +30,26 @@
               [queryParams]="(content | pipeContentRoute).queryParams"
               class="margin-remove-bottom text-truncate mat-title">{{ content.name }}</a>
           </h1>
-          <div>
+          <span>
             <ws-widget-display-content-type i18n-matTooltip matTooltip="Content Type"
               *ngIf="content?.displayContentType" class="ws-mat-primary-text font-normal" [displayContentType]="content?.contentType==='Collection'
               ?'Module'
               :(content?.contentType==='Learning Path'?'Program':content?.contentType)">
             </ws-widget-display-content-type>
-            <span *ngIf="content.complexityLevel">
+            <span *ngIf="content.complexityLevel" class="ml-3">
               | {{ content.complexityLevel | titlecase }}</span>
             <span *ngIf="content.exclusiveContent">
               | <span class="ws-mat-primary-text font-normal">Paid Content</span></span>
-          </div>
-          <div>
-            <span *ngIf="content.duration">{{ content.duration | pipeDurationTransform }} | </span>
-            <!-- | pipeDurationTransform -->
-            <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s">{{
-              content.lastUpdatedOn | date: "MMM'' yy"
+          </span>
+
+          <span *ngIf="content.duration">| {{ content.duration | pipeDurationTransform : 'hms' }} | </span>
+          <!-- | pipeDurationTransform -->
+          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s">last Updated On {{
+              content.lastUpdatedOn | date
             }}</span>
-            <!-- commented earlier -->
-            <!-- <span *ngIf="content.me_totalSessionsCount > 1"> | {{ content.me_totalSessionsCount | countTransform }} views</span> -->
-          </div>
+          <!-- commented earlier -->
+          <!-- <span *ngIf="content.me_totalSessionsCount > 1"> | {{ content.me_totalSessionsCount | countTransform }} views</span> -->
+
           <div *ngIf="content.trainingLHubCount" class="mat-body-2">
             <span>{{ content.trainingLHubCount }}</span>
             <span>

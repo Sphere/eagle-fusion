@@ -49,11 +49,19 @@ export class PipeContentRoutePipe implements PipeTransform {
     }
     return {
       url: `${location}/toc/${content.identifier}/overview`,
-      queryParams: this.getQueryParams(),
+      // queryParams: this.getQueryParams(),
+      queryParams: this.getQueryParams({
+        primaryCategory: content.primaryCategory,
+      }),
     }
   }
 
-  private getQueryParams() {
-    return {}
+  // private getQueryParams() {
+  //   return {}
+  // }
+  private getQueryParams(queryParams?: any) {
+    return {
+      ...queryParams,
+    }
   }
 }

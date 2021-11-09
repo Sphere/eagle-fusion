@@ -131,10 +131,15 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
       if (this.widgetData.identifier) {
         this.viewerSvc
-          .realTimeProgressUpdate(identifier, data)
+          .realTimeProgressUpdate(identifier, data, collectionId, batchId)
       }
+
     }
     if (this.widgetData.resumePoint && this.widgetData.resumePoint !== 0) {
       this.realvideoTag.nativeElement.currentTime = this.widgetData.resumePoint
@@ -203,10 +208,15 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
-      if (this.widgetData.identifier) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      if (this.widgetData.identifier && identifier && data) {
         this.viewerSvc
-          .realTimeProgressUpdate(identifier, data)
+          .realTimeProgressUpdate(identifier, data, collectionId, batchId)
       }
+
     }
     let enableTelemetry = false
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {
@@ -253,7 +263,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
   async fetchContent() {
     const content = await this.contentSvc
-      .fetchContent(this.widgetData.identifier || '', 'minimal')
+      .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
       .toPromise()
     if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
       this.widgetData.url = content.artifactUrl

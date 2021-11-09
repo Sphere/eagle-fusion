@@ -1,18 +1,19 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { NsContent } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
+import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
 
 @Component({
   selector: 'viewer-plugin-html',
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.scss'],
 })
-export class HtmlComponent implements OnInit, OnChanges {
+export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
   // private mobileOpenInNewTab!: any
 
@@ -28,17 +29,36 @@ export class HtmlComponent implements OnInit, OnChanges {
   intranetUrlPatterns: string[] | undefined = []
   isIntranetUrl = false
   progress = 100
+
+  iframeName = `piframe_${Date.now()}`
+
   constructor(
     private domSanitizer: DomSanitizer,
     public mobAppSvc: MobileAppsService,
+    private scormAdapterService: SCORMAdapterService,
     // private http: HttpClient,
     private router: Router,
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
-  ) { }
+    private events: EventService,
+  ) {
+    (window as any).API = this.scormAdapterService
+    // if (window.addEventListener) {
+    window.addEventListener('message', this.receiveMessage.bind(this))
+  }
 
   ngOnInit() {
     // this.mobAppSvc.simulateMobile()
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      // this.scormAdapterService.loadData()
+      this.scormAdapterService.loadDataV2()
+    }
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('message', this.receiveMessage)
+    // window.removeEventListener('onmessage', this.receiveMessage)
   }
 
   ngOnChanges() {
@@ -112,9 +132,23 @@ export class HtmlComponent implements OnInit, OnChanges {
           3000,
         )
       }
-      this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.htmlContent.artifactUrl,
-      )
+
+      if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+        if (this.htmlContent.status !== 'Live') {
+          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            `https://igot.blob.core.windows.net/content/content/html/${this.htmlContent.identifier}-latest/index.html`
+          )
+        } else {
+          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            `https://igot.blob.core.windows.net/content/content/html/${this.htmlContent.identifier}-snapshot/index.html`
+          )
+        }
+      } else {
+        this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+          this.htmlContent.artifactUrl,
+        )
+      }
+
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
       this.iframeUrl = null
       this.pageFetchStatus = 'artifactUrlMissing'
@@ -124,10 +158,39 @@ export class HtmlComponent implements OnInit, OnChanges {
     }
   }
 
+  // backToDetailsPage() {
+  //   this.router.navigate([
+  //     `/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`,
+  //   ])
+  // }
+
   backToDetailsPage() {
-    this.router.navigate([
-      `/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`,
-    ])
+    this.router.navigate(
+      [`/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`],
+      { queryParams: { primaryCategory: this.htmlContent ? this.htmlContent.primaryCategory : '' } })
+  }
+
+  raiseTelemetry(data: any) {
+    if (this.htmlContent) {
+      /* tslint:disable-next-line */
+      console.log(this.htmlContent.identifier)
+      this.events.raiseInteractTelemetry(data.event, 'scrom', {
+        contentId: this.htmlContent.identifier,
+        ...data,
+      })
+    }
+  }
+  receiveMessage(msg: any) {
+    // /* tslint:disable-next-line */
+    // console.log("msg=>", msg)
+    if (msg.data) {
+      this.raiseTelemetry(msg.data)
+    } else {
+      this.raiseTelemetry({
+        event: msg.message,
+        id: msg.id,
+      })
+    }
   }
 
   openInNewTab() {

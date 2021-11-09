@@ -20,9 +20,11 @@ ws-app-nav-bar {
 }
 
 .height-on-top {
-  // padding-top: 72px;
+  padding-top: 72px;
 }
-
+// .height-on-top.padding-0 {
+//   padding-top: 0 !important;
+// }
 .top-nav-bar {
   position: fixed;
   width: 100%;
@@ -53,9 +55,11 @@ ws-app-nav-bar {
 
 .app-footer {
   display: block;
-  padding-bottom: 56px;
 
   @include breakpoint-gt-xs {
     padding: 0;
   }
+  // @include breakpoint-xs {
+  //   padding-bottom: 0px;
+  // }
 }

@@ -3,7 +3,7 @@ import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/l
 
 import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ConfigurationsService, NsPage, NsInstanceConfig } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
@@ -36,9 +36,10 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
   instanceVal = ''
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
+  isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService) {
+              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -63,8 +64,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     // })
 
     const paramsMap = this.activateRoute.snapshot.queryParamMap
+    const href = window.location.href
     if (paramsMap.has('ref')) {
       this.redirectUrl = document.baseURI + paramsMap.get('ref')
+    } else if (href.indexOf('org-details') > 0) {
+      this.redirectUrl = href
     } else {
       this.redirectUrl = document.baseURI
     }
@@ -86,7 +90,6 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     if (this.configSvc.appsConfig) {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)
     }
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -111,6 +114,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   login(key: 'E' | 'N' | 'S') {
     this.authSvc.login(key, this.redirectUrl)
+       if (sessionStorage.getItem('loginbtn')) {
+      sessionStorage.removeItem('loginbtn')
+    }
+    sessionStorage.setItem(`loginbtn`, window.location.href)
+    window.location.href = `${this.redirectUrl}apis/reset`
   }
 
   ngOnDestroy() {

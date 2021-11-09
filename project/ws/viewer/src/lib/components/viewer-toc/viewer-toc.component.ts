@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
@@ -19,8 +19,11 @@ import { of, Subscription } from 'rxjs'
 import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
+
 interface IViewerTocCard {
   identifier: string
+  completionPercentage: number
+  completionStatus: number
   viewerUrl: string
   thumbnailUrl: string
   title: string
@@ -51,7 +54,16 @@ interface ICollectionCard {
 export class ViewerTocComponent implements OnInit, OnDestroy {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
+  @Input() resourceChanged = ''
+  @ViewChild('highlightItem', { static: false }) highlightItem!: ElementRef<any>
+  @ViewChild('outer', { static: false }) outer!: ElementRef<any>
+  @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
+  @Input() batchId!: string | null
   searchCourseQuery = ''
+  hideSideNav = false
+  reverse = ''
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
+  collectionId = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,7 +74,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
     private configSvc: ConfigurationsService,
-    private contentProgressSvc: ContentProgressService,
+    private contentProgressSvc: ContentProgressService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -102,6 +114,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       )
     }
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
+      this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
@@ -185,15 +198,15 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     _collectionType: string,
   ): Promise<IViewerTocCard | null> {
     try {
-      const content: NsContent.IContent = await (this.forPreview
+      let content: NsContent.IContent = await (this.forPreview
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
-      // TODO console.log('content',content);
+
+      content = content.result.content
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
-      // TODO  console.log('vtx',viewerTocCardContent)
       return viewerTocCardContent
     } catch (err) {
       switch (err.status) {
@@ -277,18 +290,21 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     //   children: Array.isArray(content.children) && content.children.length ?
     //     content.children.map(child => this.convertContentToIViewerTocCard(child)) : null,
     // }
+
     return {
       identifier: content.identifier,
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
         content.mimeType,
       )}/${content.identifier}`,
-      thumbnailUrl: this.forPreview
-        ? this.viewSvc.getAuthoringUrl(content.appIcon)
-        : content.appIcon,
+      thumbnailUrl: this.viewSvc.getAuthoringUrl(content.appIcon),
       title: content.name,
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
       complexity: content.complexityLevel,
+      // tslint:disable
+      completionPercentage: content.completionPercentage!,
+      completionStatus: content.completionStatus!,
+      // tslint:enable
       children:
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))
@@ -343,26 +359,84 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     }
   }
 
+  // private getCollectionTypeRedirectUrl(
+  //   identifier: string,
+  //   displayContentType?: NsContent.EDisplayContentTypes,
+  // ): string | null {
+  //   switch (displayContentType) {
+  //     case NsContent.EDisplayContentTypes.PROGRAM:
+  //     case NsContent.EDisplayContentTypes.COURSE:
+  //     case NsContent.EDisplayContentTypes.MODULE:
+  //       return `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
+  //     case NsContent.EDisplayContentTypes.GOALS:
+  //       return `/app/goals/${identifier}`
+  //     case NsContent.EDisplayContentTypes.PLAYLIST:
+  //       return `/app/playlist/${identifier}`
+  //     default:
+  //       return null
+  //   }
+  // }
+
   private getCollectionTypeRedirectUrl(
     identifier: string,
+    contentType: string = '',
     displayContentType?: NsContent.EDisplayContentTypes,
   ): string | null {
+    let url: string | null
     switch (displayContentType) {
       case NsContent.EDisplayContentTypes.PROGRAM:
       case NsContent.EDisplayContentTypes.COURSE:
       case NsContent.EDisplayContentTypes.MODULE:
-        return `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
+        url = `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
+        break
       case NsContent.EDisplayContentTypes.GOALS:
-        return `/app/goals/${identifier}`
+        url = `/app/goals/${identifier}`
+        break
       case NsContent.EDisplayContentTypes.PLAYLIST:
-        return `/app/playlist/${identifier}`
+        url = `/app/playlist/${identifier}`
+        break
       default:
-        return null
+        url = null
     }
+    if (contentType) {
+      url = `${url}?primaryCategory=${contentType}`
+    }
+    return url
   }
 
   private processCollectionForTree() {
     if (this.collection && this.collection.children) {
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.batchId,
+          courseId: this.collection.identifier || '',
+          contentIds: [],
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        data => {
+          if (this.collection && this.collection.children) {
+            this.collection.children.map(child => {
+              const foundContent = data['result']['contentList'].find((el: any) => el.contentId === child.identifier)
+              if (foundContent) {
+                child.completionPercentage = foundContent.completionPercentage
+                child.completionStatus = foundContent.status
+              }
+            })
+          }
+        },
+        (error: any) => {
+          // tslint:disable-next-line:no-console
+          console.log('CONTENT HISTORY FETCH ERROR >', error)
+        },
+      )
+
       this.nestedDataSource.data = this.collection.children
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
@@ -388,5 +462,10 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
 
   minimizenav() {
     this.hidenav.emit(false)
+    this.hideSideNav = !this.hideSideNav
+  }
+
+  public progressColor(): string {
+    return '#1D8923'
   }
 }

@@ -1,7 +1,7 @@
 <!-- <ng-container *ngIf="errorFetchingTnc" [wsResolverWidget]="errorWidget"></ng-container> -->
 <mat-toolbar id="khubHome-id-12" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles"
   class="position-relative small-height-toolbar">
-  <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
+  <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
   <span class="margin-left-xs center-align" i18n>Terms & Conditions</span>
 </mat-toolbar>
 <ws-app-tnc-renderer *ngIf="tncData" (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">

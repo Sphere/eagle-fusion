@@ -6,10 +6,10 @@ import { NsAppsConfig, NsInstanceConfig, NsUser } from './configurations.model'
 import { IUserPreference } from './user-preference.model'
 
 let instanceConfigPath: string | null = window.location.host
-let locationHost: string | null = window.location.host
+// let locationHost: string | null = window.location.host
 
 if (!environment.production && Boolean(environment.sitePath)) {
-  locationHost = environment.sitePath
+  // locationHost = environment.sitePath
   instanceConfigPath = environment.sitePath
 }
 @Injectable({
@@ -21,11 +21,13 @@ export class ConfigurationsService {
   appSetup = true
   // The url the user tried to access while landing in the app before accepting tnc
   userUrl = ''
-  baseUrl = `assets/configurations/${(locationHost || window.location.host).replace(':', '_')}`
-  sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
-    ':',
-    '_',
-  )}`
+  baseUrl = 'assets/configurations'
+  sitePath = 'assets/configurations'
+  // baseUrl = `assets/configurations/${(locationHost || window.location.host).replace(':', '_')}`
+  // sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
+  //   ':',
+  //   '_',
+  // )}`
   hostPath = (instanceConfigPath || window.location.host).replace(':', '_')
 
   userRoles: Set<string> | null = null
@@ -42,10 +44,12 @@ export class ConfigurationsService {
   profileDetailsStatus = false
   userPreference: IUserPreference | null = null
   userProfile: NsUser.IUserProfile | null = null
+  userProfileV2: NsUser.IUserProfile | null = null
   // created to store complete user details sent by pid
   unMappedUser: any
   isAuthenticated = false
   isNewUser = false
+  isActive = true
 
   // pinnedApps
   pinnedApps = new BehaviorSubject<Set<string>>(new Set())

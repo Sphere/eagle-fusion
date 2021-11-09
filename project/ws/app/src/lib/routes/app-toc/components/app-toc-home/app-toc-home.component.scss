@@ -21,7 +21,8 @@
     width: 100%;
     z-index: 1;
     .mat-tab-link {
-      font-size: 20px !important;
+      font-size: 18px !important;
+      min-width:242px !important
     }
     .link-active {
       color: #424242 !important;

@@ -7,7 +7,7 @@ import {
   WidgetContentService,
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { Platform } from '@angular/cdk/platform'
 import { ViewerDataService } from './../../viewer-data.service'
@@ -33,12 +33,14 @@ export class YoutubeComponent implements OnInit, OnDestroy {
   > | null = null
   isScreenSizeLtMedium = false
   fs: boolean | undefined
+  batchId = this.activatedRoute.snapshot.queryParamMap.get('batchId')
   constructor(
     private activatedRoute: ActivatedRoute,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
     private platform: Platform,
     private dataSvc: ViewerDataService,
+    private configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {
@@ -88,6 +90,56 @@ export class YoutubeComponent implements OnInit, OnDestroy {
     if (this.viewerDataSubscription) {
       this.viewerDataSubscription.unsubscribe()
     }
+  }
+
+  async fetchContinueLearning(collectionId: string, videoId: string): Promise<boolean> {
+    return new Promise(resolve => {
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.batchId,
+          courseId: collectionId || '',
+          contentIds: [],
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        data => {
+          if (data && data.result && data.result.contentList.length) {
+            for (const content of data.result.contentList) {
+              if (
+                content.contentId === videoId &&
+                content.progressdetails &&
+                content.progressdetails.current &&
+                this.widgetResolverYoutubeData
+              ) {
+                this.widgetResolverYoutubeData.widgetData.resumePoint = Number(
+                  content.progressdetails.current.pop(),
+                )
+                this.widgetResolverYoutubeData.widgetData.size = content.progressdetails.max_size
+              }
+            }
+          }
+          resolve(true)
+        },
+        () => resolve(true),
+      )
+    })
+  }
+
+  getResumePoint(content: NsContent.IContent | null) {
+    if (content) {
+      if (content.progress && content.progress.progressSupported && content.progress.progress) {
+        return Math.floor(content.duration * content.progress.progress) || 0
+      }
+      return 0
+
+    }
+    return 0
   }
 
   initWidgetResolverYoutubeData() {

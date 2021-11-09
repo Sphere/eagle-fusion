@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse  } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
-import { Observable, of } from 'rxjs'
-import { catchError, retry } from 'rxjs/operators'
+import { Observable, of, throwError } from 'rxjs'
+import { catchError, retry, map } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
@@ -20,16 +20,20 @@ const API_END_POINTS = {
   FETCH_MANIFEST: `${PROTECTED_SLAG_V8}/content/getWebModuleManifest`,
   FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
-  CONTENT_SEARCH_V5: `/apis/public/v8/homePage/searchV6`,
-  CONTENT_SEARCH_V6: `/apis/public/v8/homePage/searchV6`,
+  CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
+  CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
+  CONTENT_HISTORYV2: `/apis/proxies/v8/read/content-progres`,
   USER_CONTINUE_LEARNING: `${PROTECTED_SLAG_V8}/user/history/continue`,
   CONTENT_RATING: `${PROTECTED_SLAG_V8}/user/rating`,
   COLLECTION_HIERARCHY: (type: string, id: string) =>
     `${PROTECTED_SLAG_V8}/content/collection/${type}/${id}`,
   REGISTRATION_STATUS: `${PROTECTED_SLAG_V8}/admin/userRegistration/checkUserRegistrationContent`,
   MARK_AS_COMPLETE_META: (contentId: string) => `${PROTECTED_SLAG_V8}/user/progress/${contentId}`,
+  COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
+  ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
+  GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
 }
 
 @Injectable({
@@ -46,16 +50,51 @@ export class WidgetContentService {
     return this.http.get(url).toPromise()
   }
 
+  // fetchContent(
+  //   contentId: string,
+  //   hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
+  //   additionalFields: string[] = [],
+  // ): Observable<NsContent.IContent> {
+  //   console.log('Fetch content 666')
+  //   const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
+  //   return this.http
+  //     .post<NsContent.IContent>(url, { additionalFields })
+  //     .pipe(retry(1))
+  // }
+
   fetchContent(
     contentId: string,
     hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
-    additionalFields: string[] = [],
+    _additionalFields: string[] = [],
+    primaryCategory?: string | null,
   ): Observable<NsContent.IContent> {
-    const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
-    return this.http
-      .post<NsContent.IContent>(url, { additionalFields })
+    // const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
+    let url = ''
+    if (primaryCategory && this.isResource(primaryCategory)) {
+      url = `/apis/proxies/v8/action/content/v3/read/${contentId}`
+    } else {
+      url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=${hierarchyType}`
+    }
+    // return this.http
+    //   .post<NsContent.IContent>(url, { additionalFields })
+    //   .pipe(retry(1))
+    const apiData = this.http
+      .get<NsContent.IContent>(url)
       .pipe(retry(1))
+    // if (apiData && apiData.result) {
+    //   return apiData.result.content
+    // }
+    return apiData
   }
+
+  isResource(primaryCategory: string) {
+    if (primaryCategory) {
+      const isResource = primaryCategory === NsContent.EResourcePrimaryCategories.LEARNING_RESOURCE
+      return isResource
+    }
+    return false
+  }
+
   fetchAuthoringContent(contentId: string): Observable<NsContent.IContent> {
     const url = `${API_END_POINTS.AUTHORING_CONTENT}/${contentId}`
     return this.http.get<NsContent.IContent>(url).pipe(retry(1))
@@ -72,6 +111,11 @@ export class WidgetContentService {
         id,
       )}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     )
+  }
+  enrollUserToBatch(req: any) {
+    return this.http
+      .post(API_END_POINTS.ENROLL_BATCH, req)
+      .toPromise()
   }
 
   fetchContentLikes(contentIds: { content_id: string[] }) {
@@ -91,6 +135,12 @@ export class WidgetContentService {
     )
   }
 
+  fetchContentHistoryV2(req: NsContent.IContinueLearningDataReq): Observable<NsContent.IContinueLearningData> {
+    req.request.fields = ['progressdetails']
+    return this.http.post<NsContent.IContinueLearningData>(
+      `${API_END_POINTS.CONTENT_HISTORYV2}/${req.request.courseId}`, req
+    )
+  }
   async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
     return new Promise(async resolve => {
       if (collectionType &&
@@ -168,8 +218,13 @@ export class WidgetContentService {
       { request: req },
     )
   }
-  searchV6(req: NSSearch.ISearchV6Request): Observable<NSSearch.ISearchV6ApiResult> {
+  searchV6(req: NSSearch.ISearchV6Request) {
     req.query = req.query || ''
+    req.sort = [
+      {
+        lastUpdatedOn: 'desc',
+      },
+    ]
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.CONTENT_SEARCH_V6, req)
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
@@ -211,6 +266,22 @@ export class WidgetContentService {
 
   fetchConfig(url: string) {
     return this.http.get<any>(url)
+  }
+  googleAuthenticate(req: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))
+  }
+  handleError(error: HttpErrorResponse) {
+    return throwError(error)
+  }
+  fetchCourseBatches(req: any): Observable<NsContent.IBatchListResponse> {
+    return this.http
+      .post<NsContent.IBatchListResponse>(API_END_POINTS.COURSE_BATCH_LIST, req)
+      .pipe(
+        retry(1),
+        map(
+          (data: any) => data.result.response
+        )
+      )
   }
 
   getLatestCourse() {

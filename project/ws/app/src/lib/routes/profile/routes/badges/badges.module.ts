@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { BadgesComponent } from './badges.component'
 import { MatDividerModule } from '@angular/material/divider'
+import { MomentModule } from 'ngx-moment'
 
 import {
   MatButtonModule,
@@ -30,6 +31,7 @@ import { HorizontalScrollerModule, DefaultThumbnailModule } from '@ws-widget/uti
     HorizontalScrollerModule,
     DefaultThumbnailModule,
     MatDividerModule,
+    MomentModule,
   ],
   exports: [BadgesComponent, BadgesCardComponent, BadgesNotEarnedComponent],
 })

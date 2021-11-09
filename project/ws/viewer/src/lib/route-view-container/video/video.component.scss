@@ -12,7 +12,7 @@
 .padding-dynamic {
   padding: $size-xs;
   padding-top: $size-m;
-    @include breakpoint-xs {
+  @include breakpoint-xs {
     padding: $size-xs;
   }
 }
@@ -76,23 +76,23 @@
 }
 
 .next-button .width-auto {
-  right: -16px;
+  right: -11px;
 }
 
 .prev-button .width-auto {
-  left: -34px;
+  left: -11px;
 }
 .align-arrow {
-   margin-left: -12px;
-   top: -3px;
-    position: relative;
+  margin-left: -12px;
+  top: -3px;
+  position: relative;
 }
 
 .prev-button .title {
-    margin-left: -34px !important;
+  margin-left: -12px !important;
 }
 .next-button .title {
-    margin-right: -16px;
+  margin-right: -11px;
 }
 ::ng-deep #youtubeTag {
   min-height: 75vh;

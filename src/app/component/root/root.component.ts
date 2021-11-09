@@ -14,10 +14,13 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router'
+// import { Location } from '@angular/common'
+
 // import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
   AuthKeycloakService,
+  // AuthKeycloakService,
   ConfigurationsService,
   TelemetryService,
   ValueService,
@@ -28,6 +31,7 @@ import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
+import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -54,6 +58,8 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  showNavigation = true
+  hideHeaderFooter = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -65,7 +71,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     private btnBackSvc: BtnPageBackService,
     private changeDetector: ChangeDetectorRef,
     private loginServ: LoginResolverService,
-    private exploreService: ExploreResolverService
+    private exploreService: ExploreResolverService,
+    private orgService: OrgServiceService,
+    // private location: Location
   ) {
     this.mobileAppsSvc.init()
   }
@@ -85,10 +93,17 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     this.btnBackSvc.initialize()
     // Application start telemetry
-    if (this.authSvc.isAuthenticated) {
+
+    if (this.configSvc.isAuthenticated) {
       this.telemetrySvc.start('app', 'view', '')
       this.appStartRaised = true
 
+    } else {
+      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+        this.showNavigation = false
+      } else if ((window.location.href).indexOf('login') > 0) {
+        this.showNavigation = true
+      }
     }
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
@@ -97,7 +112,8 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
       if (event instanceof NavigationStart) {
-        if (event.url.includes('preview') || event.url.includes('embed')) {
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')
+          || event.url.includes('/app/org-details')) {
           this.isNavBarRequired = false
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
@@ -116,6 +132,16 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
+      if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
+        this.isNavBarRequired = true
+        this.showNavigation = false
+      } else {
+        this.isNavBarRequired = false
+         this.showNavigation = true
+        // this.authSvc.logout();
+        // window.location.href = `${redirectUrl}apis/reset`
+      }
+
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         if (this.appStartRaised) {
@@ -124,9 +150,21 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
     })
+
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
       this.showNavbar = display
     })
+    this.orgService.hideHeaderFooter.subscribe(show => {
+      this.hideHeaderFooter = show
+    })
+                if (sessionStorage.getItem('url_before_login')) {
+  const url = sessionStorage.getItem(`url_before_login`) || ''
+
+    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+// this.location.replaceState(url)
+  this.router.navigateByUrl(url)
+}
+
   }
 
   ngAfterViewInit() {

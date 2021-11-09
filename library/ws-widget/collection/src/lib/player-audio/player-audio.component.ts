@@ -128,9 +128,13 @@ export class PlayerAudioComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
       if (this.widgetData.identifier) {
         this.viewerSvc
-          .realTimeProgressUpdate(identifier, data)
+          .realTimeProgressUpdate(identifier, data, collectionId, batchId)
       }
     }
     let enableTelemetry = false
@@ -173,7 +177,8 @@ export class PlayerAudioComponent extends WidgetBaseComponent
     })
   }
   async fetchContent() {
-    const content = await this.contentSvc.fetchContent(this.widgetData.identifier || '', 'minimal').toPromise()
+    const content = await this.contentSvc.fetchContent(this.widgetData.identifier || '', 'minimal', [],
+                                                       this.widgetData.primaryCategory).toPromise()
     if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
       this.widgetData.url = content.artifactUrl
       this.widgetData.posterImage = content.appIcon

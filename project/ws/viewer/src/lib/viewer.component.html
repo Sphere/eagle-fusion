@@ -2,6 +2,9 @@
   <viewer-viewer-top-bar *ngIf="fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" (fsState)="fullScreenState($event)" [screenContent]="content">
   </viewer-viewer-top-bar>
+  <button *ngIf="!sideNavBarOpened" class="floating-btn" mat-raised-button (click)="minimizeBar()"><img
+      src="/fusion-assets/icons/nav-right.png"> <span class="text"> Course Content</span>
+  </button>
   <viewer-viewer-top-bar *ngIf="!fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" [screenContent]="content">
   </viewer-viewer-top-bar>
@@ -114,7 +117,8 @@
                   <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
                   <h2 i18n *ngIf="title === 'CONTACT'">Curator/Contact</h2>
                   <mat-divider></mat-divider>
-                  <div *ngFor="let author of authors" class="author">
+                  <!-- <div *ngFor="let author of authors" class="author"> -->
+                  <div *ngFor="let author of parseJsonData(authors)" class="author">
                     <ws-widget-user-image class="author-image" [imageType]="'name-initial'"
                       [userName]="author.name || ''" [email]="author.email"></ws-widget-user-image>
                     <div class="width-expand flex flex-middle flex-between">

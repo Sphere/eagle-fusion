@@ -1,3 +1,5 @@
-<mat-progress-bar [mode]="'determinate'" [matTooltip]="progress + '%'" [value]="progress" class="new-w"
-  [ngClass]="{ 'visibility-0': progress === undefined }">
+<mat-progress-bar [mode]="'determinate'" [matTooltip]="progress?.completionPercentage + ' %'" [value]="progress?.completionPercentage" class="new-w"
+  [attr.aria-labelledby]="'m-c-'+ contentId" [ngClass]="{ 'visibility-0': progress?.completionPercentage === undefined, 'thick': className}" [title] ="progress?.completionPercentage + '%'"
+  i18n-aria-label>
+  {{progress?.completionPercentage}} %
 </mat-progress-bar>

@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize>
   <mat-sidenav #sidenav class="sidenav mat-drawer mat-sidenav" position="end" mode="over" closed>
-    <ws-widget-filters (closeSideNav)="sidenav.toggle()" (appliedFiltersEmitter)="appliedFilters($event)"
+    <ws-widget-filters (closeSideNav)="sidenav.toggle()" (appliedFiltersEmitter)="appliedFilters()"
       [includedFilters]="widgetData?.includedFilters" [preAppliedFilters]="widgetData?.preAppliedFilters">
     </ws-widget-filters>
   </mat-sidenav>

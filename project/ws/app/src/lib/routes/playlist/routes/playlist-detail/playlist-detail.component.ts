@@ -237,6 +237,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               firstPlayableContent.mimeType,
               playlist.id,
               'Playlist',
+              undefined,
+              firstPlayableContent.primaryCategory
             )
           }
         })
@@ -249,6 +251,8 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
               firstPlayableContent.mimeType,
               playlist.id,
               'Playlist',
+              undefined,
+              firstPlayableContent.primaryCategory
             )
           }
         })

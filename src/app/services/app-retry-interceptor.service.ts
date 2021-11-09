@@ -13,7 +13,7 @@ import { retryWhen, mergeMap } from 'rxjs/operators'
   providedIn: 'root',
 })
 export class AppRetryInterceptorService implements HttpInterceptor {
-  private maxAttempts = 1
+  // private maxAttempts = 1
   private scalingDuration = 5000
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.body && req.body.excludeRetry) {
@@ -22,7 +22,7 @@ export class AppRetryInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(retryWhen(this.genericRetryStrategy()))
   }
 
-  private shouldRetry = (error: HttpErrorResponse) => error.status > 499
+  private shouldRetry = (error: HttpErrorResponse) => error.status > 500
 
   private genericRetryStrategy = () => (attempts: Observable<any>) =>
     attempts.pipe(
@@ -30,7 +30,7 @@ export class AppRetryInterceptorService implements HttpInterceptor {
         const retryAttempt = i + 1
         // if maximum number of retries have been met
         // or response is a status code we don't wish to retry, throw error
-        if (retryAttempt > this.maxAttempts || !this.shouldRetry(error)) {
+        if (!this.shouldRetry(error)) {
           return throwError(error)
         }
         // retry after 1s, 2s, etc...

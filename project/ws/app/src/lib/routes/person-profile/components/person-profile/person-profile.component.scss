@@ -27,9 +27,6 @@ $app-background-lite-color: #f5f6f7;
 //   overflow-x: hidden !important;
 // }
 
-
-
-
 .follownumber {
   font-weight: bolder !important;
 }
@@ -59,8 +56,6 @@ $app-background-lite-color: #f5f6f7;
 //   @media (max-width: 1024px) {
 //     display: block !important;
 //   }
-
-
 
 // }
 
@@ -92,7 +87,6 @@ $app-background-lite-color: #f5f6f7;
   margin: 8px 0;
 
   background-color: rgba(0, 0, 0, 0.12) !important;
-
 }
 
 .divider {
@@ -109,8 +103,6 @@ $app-background-lite-color: #f5f6f7;
 .font-weight-bold {
   font-weight: 700 !important;
 }
-
-
 
 .follow-button {
   border-radius: 6px !important;
@@ -174,7 +166,6 @@ $app-background-lite-color: #f5f6f7;
     }
   }
 
-
   // .designation {
   //   margin-bottom: $size-xs;
   //   display: inline-flex;
@@ -198,7 +189,7 @@ $app-background-lite-color: #f5f6f7;
 }
 
 .boxshadowcard {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, .1) !important;
+  box-shadow: none !important;
 }
 
 ::-webkit-scrollbar {

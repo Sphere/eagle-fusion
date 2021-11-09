@@ -1,14 +1,20 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <a *ngIf="logo" routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
-    <img *ngIf="appIcon" [src]="appIcon" alt="Application Logo" class="viewer-app-logo" />
+    <img *ngIf="appIcon" src="/fusion-assets/icons/logo.png" alt="Application Logo" class="viewer-app-logo" />
   </a>
   <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
       url: isTypeOfCollection
         ? collectionType === 'Playlist'
           ? '/app/playlist/me/' + collectionId
           : (forPreview ? '/author' : '/app') + '/toc/' + collectionId + '/overview'
-        : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview'
-    }"></ws-widget-btn-page-back>
+        : (forPreview ? '/author' : '/app') + '/toc/' + resourceId + '/overview',
+      titles: [],
+      queryParams : isTypeOfCollection
+      ? collectionType === 'Playlist'
+        ? {}
+        : {}
+      : {primaryCategory: resourcePrimaryCategory}
+    }" [playerScreen]='true'></ws-widget-btn-page-back>
   <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{
       url: isTypeOfCollection
@@ -27,7 +33,7 @@
 
 
   <span class="header-spacer"></span>
-  <div class="flex justify-center mt-3" *ngIf="!isSmall">
+  <div class="flex justify-center mt-0" *ngIf="!isSmall">
     <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
       pdfData
         | pipePartialContent

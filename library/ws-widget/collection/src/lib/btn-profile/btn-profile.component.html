@@ -10,23 +10,29 @@
   [fetchStatus]="catalogFetchStatus" isRoot="true">
 </ws-widget-tree-catalog-menu> -->
 
-<button mat-button i18n-matTooltip matTooltip="User Menu" class="new-margin" #rootTrigger="matMenuTrigger"
+<!-- <button mat-button i18n-matTooltip matTooltip="User Menu" class="new-margin" #rootTrigger="matMenuTrigger"
   [matMenuTriggerFor]="settingsMenu">
   <mat-icon>account_circle</mat-icon>
-  <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}}</span>
+  <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}} </span>
   <mat-icon>arrow_drop_down</mat-icon>
-</button>
+</button> -->
+<a href="javascript:void(0)" title="Google sign-in" class="btn btn-outline-dark" role="button" (click)="googleInit()">
+  <img width="20px"  alt="Google sign-in"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" style="margin-bottom:-6px;" />
+</a>
+
+<a href="javascript:void(0)" mat-icon-button i18n-aria-label title="option" class="new-margin"
+  #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
+  <span class="flex flex-column flex-middle">
+    <ws-widget-avatar-photo class="margin-top-xs" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
+    </ws-widget-avatar-photo>
+  </span>
+</a>
 
 <!-- <ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
   [fetchStatus]="catalogFetchStatus" isRoot="true">
 </ws-widget-tree-catalog-menu> -->
 <mat-menu #settingsMenu="matMenu" xPosition="before">
-  <!--  <div mat-menu-item>
-    <mat-slide-toggle color="primary" labelPosition="before">
-      <mat-icon>brightness_medium</mat-icon>
-      <span i18n>Dark Mode</span>
-    </mat-slide-toggle>
-  </div> -->
   <section *ngIf="pinnedApps?.length && isPinFeatureAvailable" class="p-4 md:p-4 sm:p-2">
     <div class="flex justify-between">
       <h2 class="mat-title margin-bottom-xs" i18n>Pinned</h2>
@@ -41,28 +47,50 @@
       <ng-container *ngFor="let pinnedWidget of pinnedApps" [wsResolverWidget]="pinnedWidget"></ng-container>
     </div>
   </section>
-  <div mat-menu-item>
-    <a mat-menu-item routerLink="/app/profile/dashboard" class="all-features">
-      <mat-icon>account_circle</mat-icon>
-      <span i18n>Profile</span>
+
+  <section class="padding-s border-bottom">
+    <a role="link" routerLink="app/profile/dashboard" class="all-features" id="viewprofile">
+      <div class="float-left">
+        <!-- <mat-icon>account_circle</mat-icon> -->
+        <ws-widget-avatar-photo [name]="givenName" [size]="'m'" [photoUrl]="profileImage"></ws-widget-avatar-photo>
+      </div>
+      <div class="inline-block margin-left-s pfname">
+        <p class="mat-subheading-2">{{ givenName }}</p>
+        <p i18n role="link" class="ws-mat-default-text mat-body-2 font-medium">View Profile</p>
+      </div>
     </a>
-  </div>
-  <div mat-menu-item>
-    <a mat-menu-item routerLink="/app/profile/settings" class="all-features">
-      <mat-icon>settings</mat-icon>
+  </section>
+
+  <!-- portal links section-->
+  <section *ngIf="portalLinks && portalLinks.length"
+    class="padding-top-xs padding-bottom-xs padding-left-s padding-right-s border-bottom">
+    <div class="margin-top-s margin-bottom-s" *ngFor="let wdata of portalLinks">
+      <div class="box-sizing-box" id="wdata.widgetData.actionBtn.id">
+        <a class="inline-block" target="_blank" href="{{wdata.widgetData.actionBtn.url}}">
+          <img src="{{wdata.widgetData.actionBtn.icon}}" alt="wdata.widgetData.actionBtn.name">
+          <div class="mb-2 mat-body-2 inline-block margin-left-s portal-name"
+            [attr.id]="wdata.widgetData.actionBtn.icon">{{ wdata.widgetData.actionBtn.name }}
+            <span *ngIf="wdata.widgetData.actionBtn.name !== 'Frac'">portal</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="padding-xs">
+    <a mat-menu-item role="link" routerLink="/app/profile/settings" class="all-features">
+      <!-- <mat-icon>settings</mat-icon> -->
       <span i18n>Settings</span>
     </a>
-  </div>
-  <div mat-menu-item>
-    <a mat-menu-item routerLink="/app/features" class="all-features">
+
+    <!-- <a mat-menu-item role="link" routerLink="/app/features" class="all-features flex-wrap">
       <mat-icon>apps</mat-icon>
       <span i18n>Explore all features</span>
+    </a> -->
+
+    <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
+      <!-- <mat-icon>power_settings_new</mat-icon>&nbsp; -->
+      <span i18n>Sign-out</span>
     </a>
-  </div>
-  <div mat-menu-item>
-    <button (click)="logout()" mat-button class="log-o">
-      <mat-icon>power_settings_new</mat-icon>&nbsp;
-      <span i18n>Logout</span>
-    </button>
-  </div>
+  </section>
 </mat-menu>

@@ -53,10 +53,9 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     private viewerSvc: ViewerUtilService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.logo = !isXSmall
+      // this.logo = !isXSmall
       this.isSmall = isXSmall
     })
-    // console.log('enableFullScreen==>', this.enableFullScreen)
   }
 
   ngOnChanges() {
@@ -89,13 +88,17 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
       // )
       //  {
       // this.collection = this.getPlaylistContent(collectionId, collectionType)
+      this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
+        this.collectionId = params.get('collectionId') as string
+        this.isPreview = params.get('preview') === 'true' ? true : false
+      })
       try {
         this.contentSvc
-          .fetchAuthoringContent(collectionId).subscribe(data => {
-            this.collection = data
+          .fetchContent(collectionId).subscribe((data: any) => {
+            this.collection = data.result.content
             if (this.configSvc.instanceConfig) {
               this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-                this.configSvc.instanceConfig.logos.app,
+                this.configSvc.instanceConfig.logos.appBottomNav,
               )
             }
             // tslint:disable-next-line:no-shadowed-variable
@@ -107,10 +110,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
                 this.resourceName = this.viewerDataSvc.resource ? this.viewerDataSvc.resource.name : ''
               }
             })
-            this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
-              this.collectionId = params.get('collectionId') as string
-              this.isPreview = params.get('preview') === 'true' ? true : false
-            })
+
             this.viewerDataServiceResourceSubscription = this.viewerDataSvc.changedSubject.subscribe(
               _data => {
                 this.resourceId = this.viewerDataSvc.resourceId as string

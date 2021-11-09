@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
-import { MatDialog } from '@angular/material'
+import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
@@ -19,6 +19,10 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
+import { FormControl, Validators } from '@angular/forms'
+import * as dayjs from 'dayjs'
+import * as  lodash from 'lodash'
+import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -32,6 +36,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() resumeData: NsContent.IContinueLearningData | null = null
   @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
+  @Input() batchData: NsContent.IBatchListResponse | null = null
+  batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   contentProgress = 0
   bannerUrl: SafeStyle | null = null
@@ -70,6 +76,9 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
   // learnersCount:Number
+  defaultSLogo = ''
+  disableEnrollBtn = false
+  batchId!: string
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -82,12 +91,15 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
-    private authAccessService: AccessControlService,
+    private snackBar: MatSnackBar,
+    public createBatchDialog: MatDialog,
+
+    // private authAccessService: AccessControlService,
   ) { }
 
   ngOnInit() {
     if (this.content) {
-    this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -104,6 +116,12 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
+
+    const instanceConfig = this.configSvc.instanceConfig
+    if (instanceConfig && instanceConfig.logos && instanceConfig.logos.defaultSourceLogo) {
+      this.defaultSLogo = instanceConfig.logos.defaultSourceLogo
+    }
+
     if (this.configSvc.restrictedFeatures) {
       this.isGoalsEnabled = !this.configSvc.restrictedFeatures.has('goals')
     }
@@ -122,16 +140,16 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       )
     }
 
-    if (this.authAccessService.hasAccess(this.content as any) && !this.isInIFrame) {
-      const status: string = (this.content as any).status
-      if (!this.forPreview) {
-        this.editButton = true
-      } else if (['Draft', 'Live'].includes(status)) {
-        this.editButton = true
-      } else if (['InReview', 'Reviewed', 'QualityReview'].includes(status)) {
-        this.reviewButton = true
-      }
-    }
+    // if (this.authAccessService.hasAccess(this.content as any) && !this.isInIFrame) {
+    //   const status: string = (this.content as any).status
+    //   if (!this.forPreview) {
+    //     this.editButton = true
+    //   } else if (['Draft', 'Live'].includes(status)) {
+    //     this.editButton = true
+    //   } else if (['InReview', 'Reviewed', 'QualityReview'].includes(status)) {
+    //     this.reviewButton = true
+    //   }
+    // }
     this.checkRegistrationStatus()
     this.routerParamSubscription = this.router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationEnd) {
@@ -200,14 +218,75 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.getLearningUrls()
     }
     if (this.resumeData && this.content) {
+      const resumeDataV2 = this.getResumeDataFromList()
       this.resumeDataLink = viewerRouteGenerator(
-        this.resumeData.identifier,
-        this.resumeData.mimeType,
+        resumeDataV2.identifier,
+        resumeDataV2.mimeType,
         this.isResource ? undefined : this.content.identifier,
         this.isResource ? undefined : this.content.contentType,
         this.forPreview,
+        // this.content.primaryCategory
+        'Learning Resource',
+        this.getBatchId()
       )
     }
+    this.batchControl.valueChanges.subscribe((batch: NsContent.IBatch) => {
+      this.disableEnrollBtn = true
+      let userId = ''
+      if (batch) {
+        if (this.configSvc.userProfile) {
+          userId = this.configSvc.userProfile.userId || ''
+        }
+        const req = {
+          request: {
+            userId,
+            courseId: batch.courseId,
+            batchId: batch.batchId,
+          },
+        }
+        this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+          if (data && data.result && data.result.response === 'SUCCESS') {
+            this.batchData = {
+              content: [batch],
+              enrolled: true,
+            }
+            this.router.navigate(
+              [],
+              {
+                relativeTo: this.route,
+                queryParams: { batchId: batch.batchId },
+                queryParamsHandling: 'merge',
+              })
+            this.openSnackbar('Enrolled Successfully!')
+            this.disableEnrollBtn = false
+          } else {
+            this.openSnackbar('Something went wrong, please try again later!')
+            this.disableEnrollBtn = false
+          }
+        })
+      }
+    })
+  }
+  private getBatchId(): string {
+    let batchId = ''
+    if (this.batchData && this.batchData.content) {
+      for (const batch of this.batchData.content) {
+        batchId = batch.batchId
+      }
+    }
+    return batchId
+  }
+
+  public handleEnrollmentEndDate(batch: any) {
+    const enrollmentEndDate = dayjs(lodash.get(batch, 'enrollmentEndDate')).format('YYYY-MM-DD')
+    const systemDate = dayjs()
+    return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
+  }
+
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
   }
 
   get showInstructorLedMsg() {
@@ -262,6 +341,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     }
     return false
   }
+
+  showOrgprofile(orgId: string) {
+    this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
+  }
+
   ngOnDestroy() {
     this.tocSvc.analyticsFetchStatus = 'none'
     if (this.routerParamSubscription) {
@@ -271,6 +355,15 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.routeSubscription.unsubscribe()
     }
   }
+  private getResumeDataFromList() {
+    const lastItem = this.resumeData && this.resumeData.pop()
+    return {
+      identifier: lastItem.contentId,
+      mimeType: lastItem.progressdetails && lastItem.progressdetails.mimeType,
+
+    }
+  }
+
   private modifySensibleContentRating() {
     if (
       this.content &&
@@ -312,6 +405,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         this.isResource ? undefined : this.content.identifier,
         this.isResource ? undefined : this.content.contentType,
         this.forPreview,
+        this.content.primaryCategory,
+        this.getBatchId(),
       )
     }
   }
@@ -409,6 +504,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       let qParams: { [key: string]: string } = {
         ...this.firstResourceLink.queryParams,
         viewMode: type,
+        batchId: this.getBatchId(),
       }
       if (this.contextId && this.contextPath) {
         qParams = {
@@ -425,6 +521,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     if (this.resumeDataLink && type === 'RESUME') {
       let qParams: { [key: string]: string } = {
         ...this.resumeDataLink.queryParams,
+        batchId: this.getBatchId(),
         viewMode: 'RESUME',
       }
       if (this.contextId && this.contextPath) {
@@ -443,6 +540,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       return {}
     }
     return {
+      batchId: this.getBatchId(),
       viewMode: type,
     }
   }
@@ -463,14 +561,14 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           this.cohortResults[cohortType] = {
             contents: data || [],
             hasError: false,
-            count : data ? data.length : 0,
+            count: data ? data.length : 0,
           }
         },
         () => {
           this.cohortResults[cohortType] = {
             contents: [],
             hasError: true,
-            count : 0,
+            count: 0,
           }
         },
       )
@@ -480,8 +578,23 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.cohortResults[cohortType] = {
         contents: [],
         hasError: false,
-        count : 0,
+        count: 0,
       }
     }
   }
+
+  openDialog(content: any): void {
+    const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+      // height: '400px',
+      width: '600px',
+      data: { content },
+    })
+    // dialogRef.componentInstance.xyz = this.configSvc
+    dialogRef.afterClosed().subscribe((_result: any) => {
+      if (!this.batchId) {
+        this.tocSvc.updateBatchData()
+      }
+    })
+  }
+
 }

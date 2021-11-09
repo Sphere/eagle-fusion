@@ -13,9 +13,9 @@ const ADDITIONAL_FIELDS_IN_CONTENT = ['creatorContacts', 'source', 'exclusiveCon
 @Injectable()
 export class ViewerResolve
   implements
-    Resolve<
-      Observable<IResolveResponse<NsContent.IContent>> | IResolveResponse<NsContent.IContent> | null
-    > {
+  Resolve<
+  Observable<IResolveResponse<NsContent.IContent>> | IResolveResponse<NsContent.IContent> | null
+  > {
   constructor(
     private contentSvc: WidgetContentService,
     private viewerDataSvc: ViewerDataService,
@@ -25,34 +25,115 @@ export class ViewerResolve
     private msAuthSvc: AuthMicrosoftService,
     private configSvc: ConfigurationsService,
     private platform: Platform,
-  ) {}
+  ) { }
+
+  // resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {
+  //   const resourceType = route.data.resourceType
+  //   // this.viewerDataSvc.reset(route.paramMap.get('resourceId'))
+  //   this.viewerDataSvc.reset(route.paramMap.get('resourceId'), 'none', route.queryParams['primaryCategory'])
+  //   if (!this.viewerDataSvc.resourceId) {
+  //     return null
+  //   }
+  //   if (
+  //     route.queryParamMap.get('preview') === 'true' &&
+  //     !this.accessControlSvc.authoringConfig.newDesign
+  //   ) {
+  //     return null
+  //   }
+  //   console.log('99999999', this.viewerDataSvc.primaryCategory, 'llllll')
+  //   const forPreview = window.location.href.includes('/author/')
+  //   return (forPreview
+  //     ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
+  //     : this.contentSvc.fetchContent(
+  //       this.viewerDataSvc.resourceId,
+  //       'detail',
+  //       ADDITIONAL_FIELDS_IN_CONTENT,
+  //       this.viewerDataSvc.primaryCategory,
+  //     )
+  //   ).pipe(
+  //     tap(content => {
+  //       console.log('viewr resolver===')
+  //       if (content.status === 'Deleted' || content.status === 'Expired') {
+  //         this.router.navigate([
+  //           // `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview`,
+  //           `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview?primaryCategory = ${content.primaryCategory}`,
+
+  //         ])
+  //       }
+  //       if (content.ssoEnabled) {
+  //         this.msAuthSvc.loginForSSOEnabledEmbed(
+  //           (this.configSvc.userProfile && this.configSvc.userProfile.email) || '',
+  //         )
+  //       }
+
+  //       if (resourceType === 'unknown') {
+  //         this.router.navigate([
+  //           `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(content.mimeType)}/${content.identifier
+  //           }`,
+  //         ])
+  //       } else if (resourceType === VIEWER_ROUTE_FROM_MIME(content.mimeType)) {
+  //         this.viewerDataSvc.updateResource(content, null)
+  //       } else {
+  //         this.viewerDataSvc.updateResource(null, {
+  //           errorType: 'mimeTypeMismatch',
+  //           mimeType: content.mimeType,
+  //           probableUrl: `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
+  //             content.mimeType,
+  //           )}/${content.identifier}`,
+  //         })
+  //       }
+  //     }),
+  //     map(data => {
+  //       data = data.result.content
+  //       if (resourceType === 'unknown') {
+  //         this.router.navigate([
+  //           `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(data.mimeType)}/${data.identifier
+  //           }`,
+  //         ])
+  //       } else if (resourceType === VIEWER_ROUTE_FROM_MIME(data.mimeType)) {
+  //         data.platform = this.platform
+  //         this.mobileAppsSvc.sendViewerData(data)
+  //         return { data, error: null }
+  //       }
+  //       return { data: null, error: 'mimeTypeMismatch' }
+  //     }),
+  //     catchError(error => {
+  //       this.viewerDataSvc.updateResource(null, error)
+  //       return of({ error, data: null })
+  //     }),
+  //   )
+  // }
 
   resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {
     const resourceType = route.data.resourceType
-    this.viewerDataSvc.reset(route.paramMap.get('resourceId'))
+    this.viewerDataSvc.reset(route.paramMap.get('resourceId'), 'none', route.queryParams['primaryCategory'])
     if (!this.viewerDataSvc.resourceId) {
       return null
     }
     if (
       route.queryParamMap.get('preview') === 'true' &&
-      !this.accessControlSvc.authoringConfig.newDesign
+      !this.accessControlSvc.authoringConfig.newDesign &&
+      resourceType !== 'quiz'
     ) {
       return null
     }
 
-    const forPreview = window.location.href.includes('/author/')
+    const forPreview = window.location.href.includes('/author/') || route.queryParamMap.get('preview') === 'true'
     return (forPreview
       ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
       : this.contentSvc.fetchContent(
-          this.viewerDataSvc.resourceId,
-          'detail',
-          ADDITIONAL_FIELDS_IN_CONTENT,
-        )
+        this.viewerDataSvc.resourceId,
+        'detail',
+        ADDITIONAL_FIELDS_IN_CONTENT,
+        this.viewerDataSvc.primaryCategory,
+      )
     ).pipe(
       tap(content => {
+        // tslint:disable-next-line: no-parameter-reassignment
+        content = content.result.content
         if (content.status === 'Deleted' || content.status === 'Expired') {
           this.router.navigate([
-            `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview`,
+            `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview?primaryCategory=${content.primaryCategory}`,
           ])
         }
         if (content.ssoEnabled) {
@@ -63,8 +144,7 @@ export class ViewerResolve
 
         if (resourceType === 'unknown') {
           this.router.navigate([
-            `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(content.mimeType)}/${
-              content.identifier
+            `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(content.mimeType)}/${content.identifier
             }`,
           ])
         } else if (resourceType === VIEWER_ROUTE_FROM_MIME(content.mimeType)) {
@@ -80,10 +160,11 @@ export class ViewerResolve
         }
       }),
       map(data => {
+        // tslint:disable-next-line: no-parameter-reassignment
+        data = data.result.content
         if (resourceType === 'unknown') {
           this.router.navigate([
-            `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(data.mimeType)}/${
-              data.identifier
+            `${forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(data.mimeType)}/${data.identifier
             }`,
           ])
         } else if (resourceType === VIEWER_ROUTE_FROM_MIME(data.mimeType)) {
@@ -99,4 +180,5 @@ export class ViewerResolve
       }),
     )
   }
+
 }

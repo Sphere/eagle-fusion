@@ -8,7 +8,8 @@
               <ng-container *ngIf="isFetchingDataComplete">
                 <viewer-plugin-quiz [identifier]="quizData?.identifier" [artifactUrl]="quizData?.artifactUrl"
                   [name]="quizData?.name" [learningObjective]="quizData?.learningObjective"
-                  [complexityLevel]="quizData?.complexityLevel" [duration]="quizData?.duration" [quizJson]="quizJson"
+                  [complexityLevel]="quizData?.complexityLevel" [duration]="quizData?.duration"
+                  [progressStatus]="quizData?.progress?.progressStatus" [quizJson]="quizJson"
                   [collectionId]="collectionId" [viewStateChange]="stateChange">
                 </viewer-plugin-quiz>
               </ng-container>

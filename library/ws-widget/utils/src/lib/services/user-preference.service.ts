@@ -44,10 +44,7 @@ export class UserPreferenceService {
           '',
         isDarkMode: this.configurationSvc.isDarkMode,
         isRTL: this.configurationSvc.isRTL,
-        selectedTheme:
-          (this.configurationSvc.activeThemeObject &&
-            this.configurationSvc.activeThemeObject.themeClass) ||
-          '',
+        selectedTheme: 'theme-igot',
         selectedFont:
           (this.configurationSvc.activeFontObject &&
             this.configurationSvc.activeFontObject.fontClass) ||

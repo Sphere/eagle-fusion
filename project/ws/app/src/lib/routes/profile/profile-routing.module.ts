@@ -17,7 +17,7 @@ import { LearningHistoryComponent } from './routes/learning/components/learning-
 import { LearningHomeComponent } from './routes/learning/components/learning-home/learning-home.component'
 import { LearningTimeComponent } from './routes/learning/components/learning-time/learning-time.component'
 import { LearningHistoryResolver } from './routes/learning/resolvers/learning-history.resolver'
-import { LearningTimeResolver } from './routes/learning/resolvers/learning-time.resolver'
+// import { LearningTimeResolver } from './routes/learning/resolvers/learning-time.resolver'
 import { SettingsComponent } from './routes/settings/settings.component'
 // import { BadgeComponent } from '../gamification/routes/badges/components/badge/badge.component'
 import { BadgesComponent } from './routes/badges/badges.component'
@@ -37,7 +37,7 @@ const routes: Routes = [
     },
     resolve: {
       pageData: PageResolve,
-      timeSpentData: LearningTimeResolver,
+      // timeSpentData: LearningTimeResolver,
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
@@ -90,7 +90,7 @@ const routes: Routes = [
         path: 'time',
         component: LearningTimeComponent,
         resolve: {
-          timeSpentData: LearningTimeResolver,
+          // timeSpentData: LearningTimeResolver,
           pageData: PageResolve,
         },
         data: {

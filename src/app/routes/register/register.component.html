@@ -1,0 +1,99 @@
+<div class="split width-40 left">
+  <div class="centered">
+    <img src="../../../fusion-assets/icons/join-movement-image_new.png" alt="Avatar woman">
+  </div>
+</div>
+<div class="split width-60 right">
+  <div class="signup-container">
+    <h2 class="mat-title" i18n="section heading create new goal">
+      Sign up
+    </h2>
+    <form [formGroup]="emailForm" #signup="ngForm">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email / Mobile Number</mat-label>
+        <input name="userInput" matInput formControlName="userInput" placeholder="Email Id/ Mobile number" type="text"
+          required>
+        <mat-error class="text-danger"
+          *ngIf="emailForm.controls['userInput'].hasError('required') && (emailForm.controls['userInput'].dirty || emailForm.controls['userInput'].touched)">
+          This field is required</mat-error>
+        <mat-error class="text-danger"
+          *ngIf="emailForm.controls['userInput'].hasError('pattern') && (emailForm.controls['userInput'].dirty || emailForm.controls['userInput'].touched)">
+          Please enter valid email address or phone number</mat-error>
+      </mat-form-field>
+      <!--<span class="help-block" *ngIf="emailForm.controls['userInput'].touched">
+        <p *ngIf="emailForm.controls['userInput'].invalid">
+          Email Id / Mobile is a required field!
+        </p>
+      </span> -->
+      <!-- <pre>Dirty Flag Value:{{emailForm.get('userInput').dirty}}</pre>
+      <pre>Touched Flag:{{emailForm.get('userInput').touched}}</pre>
+      <pre>valid Flag Value:{{emailForm.get('userInput').valid}}</pre>
+      <pre>invalid Flag Value:{{emailForm.get('userInput').invalid}}</pre>
+      <pre>Pristine Flag:{{emailForm.get('userInput').pristine}}</pre> -->
+      <div class="mt-3 mb-8 text-left" *ngIf="!isMobile && !showAllFields">
+        <button mat-raised-button class="submit-btn" color="primary" [disabled]="!emailForm.valid"
+          (click)="verifyEntry()">
+          Submit</button>
+        <button mat-stroked-button class="margin-left-xs cancel-btn" color="default" (click)="gotoHome()">
+          Back to Home</button>
+      </div>
+    </form>
+
+    <form class="register-form" [formGroup]="signupForm">
+      <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile">
+        <mat-label>Enter OTP</mat-label>
+        <input type="text" matInput placeholder="OTP" formControlName="otp">
+      </mat-form-field>
+      <span *ngIf="showResend">
+        <a *ngIf="isMobile" class="resend text-right" tabindex="0" (click)="resendOTP()">
+          Resend OTP</a>
+      </span>
+
+      <div *ngIf="showAllFields || isMobile">
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>First name</mat-label>
+          <input type="text" matInput placeholder="First Name" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Last name</mat-label>
+          <input type="text" matInput placeholder="Last Name" formControlName="lastName" autocomplete="off">
+        </mat-form-field>
+
+        <div class="mb-4 fs-12 text-left -mt-3">Your password must contain a minimum of 6 characters.</div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Password</mat-label>
+          <input [type]="hide1 ? 'password' : 'text'" matInput placeholder="Password" formControlName="password"
+            autocomplete="new-password">
+          <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Confirm password</mat-label>
+          <input [type]="hide2 ? 'password' : 'text'" matInput placeholder="confirm password"
+            formControlName="confirmPassword">
+          <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+
+          <mat-error
+            *ngIf="signupForm.controls['confirmPassword'].pristine || signupForm.controls['confirmPassword'].errors">
+            Password does not match</mat-error>
+        </mat-form-field>
+        <div class="border"></div>
+
+        <div class="mt-4  mb-8">
+          <button mat-raised-button class="submit-btn" color="primary" type="submit" i18n
+            [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
+            <ng-container i18n>Register</ng-container>
+          </button>
+
+          <button mat-stroked-button class="margin-left-xs cancel-btn" color="default" (click)="gotoHome()">
+            Back to Home</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"
+  #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />

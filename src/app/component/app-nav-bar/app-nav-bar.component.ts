@@ -15,6 +15,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 export class AppNavBarComponent implements OnInit, OnChanges {
   allowAuthor = false
   @Input() mode: 'top' | 'bottom' = 'top'
+  @Input() authorised = false
   // @Input()
   // @HostBinding('id')
   // public id!: string
@@ -102,6 +103,10 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
+goHomePage() {
+  sessionStorage.setItem('url_before_login', '/page/home')
+  this.router.navigateByUrl('/page/home')
+}
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {

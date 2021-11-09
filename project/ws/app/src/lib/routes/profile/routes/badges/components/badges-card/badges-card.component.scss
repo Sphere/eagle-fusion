@@ -5,12 +5,12 @@ $small-badge-size: 50px;
 $badge-padding: 12px;
 
 .line-ht-24 {
-  line-height: 24px !important;
+  line-height: 22px !important;
 }
 .card-container {
   position: relative;
   width: 320px;
-  height: 180px;
+  height: 240px;
   margin: 20px 10px;
 }
 
@@ -40,15 +40,14 @@ $badge-padding: 12px;
   width: $medium-badge-size + 2 * $badge-padding;
 }
 
-
-.hover-text{
+.hover-text {
   height: 28px;
 }
 
-mat-card{
-    margin: 0 20px;
+mat-card {
+  margin: 0 20px;
 }
 
-.title{
-  line-height: 1.0;
-  }
+.title {
+  line-height: 1;
+}
