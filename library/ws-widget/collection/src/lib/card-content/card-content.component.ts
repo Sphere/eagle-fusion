@@ -58,11 +58,11 @@ export class CardContentComponent extends WidgetBaseComponent
     if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
-     if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
-  this.isUserLoggedIn = true
-} else {
-    this.isUserLoggedIn = false
-}
+    if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+      this.isUserLoggedIn = true
+    } else {
+      this.isUserLoggedIn = false
+    }
 
     this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
@@ -113,10 +113,10 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   clickToRedirect(data: any) {
-     sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-     // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-     // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-     window.location.href = `${this.defaultRedirectUrl}apis/reset`
+    sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+    window.location.href = `${this.defaultRedirectUrl}apis/reset`
   }
 
   checkContentTypeCriteria() {

@@ -232,25 +232,25 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
               }
             })
           }
-                if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
-          this.tocSvc.setcontentForWidget(contentNew)
-          this.processStrip(
-            strip,
-            this.transformContentsToWidgets(contentNew, strip),
-            'done',
-            calculateParentStatus,
-            viewMoreUrl,
-          )
-      } else {
-          this.tocSvc.setcontentForWidget(content)
-          this.processStrip(
-            strip,
-            this.transformContentsToWidgets(content, strip),
-            'done',
-            calculateParentStatus,
-            viewMoreUrl,
-          )
-      }
+          if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+            this.tocSvc.setcontentForWidget(contentNew)
+            this.processStrip(
+              strip,
+              this.transformContentsToWidgets(contentNew, strip),
+              'done',
+              calculateParentStatus,
+              viewMoreUrl,
+            )
+          } else {
+            this.tocSvc.setcontentForWidget(content)
+            this.processStrip(
+              strip,
+              this.transformContentsToWidgets(content, strip),
+              'done',
+              calculateParentStatus,
+              viewMoreUrl,
+            )
+          }
 
         },
         () => {
