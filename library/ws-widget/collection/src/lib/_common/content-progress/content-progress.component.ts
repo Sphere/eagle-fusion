@@ -18,7 +18,7 @@ import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.s
     'aria-valuemin': '0',
     'aria-valuemax': '100',
     // Binding that updates the current value of the progressbar.
-    '[attr.aria-valuenow]': 'progress?.completionPercentage'
+    //'[attr.aria-valuenow]': 'progress?.completionPercentage'
   },
   /* tslint:enable */
 })
