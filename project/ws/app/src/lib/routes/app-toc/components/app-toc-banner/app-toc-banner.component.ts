@@ -77,6 +77,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   appIcon: any
   isXSmall = false
   userEmail: any
+  rnNumber = true
   // learnersCount:Number
 
   constructor(
@@ -101,12 +102,17 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
       const contentId = this.content.identifier
       if (contentId === 'lex_auth_01308384668903833673' || contentId === 'lex_auth_01311423170518220869'
-        || contentId === 'lex_auth_013268426750025728383') {
+        || contentId === 'lex_auth_013268426750025728383' || contentId === 'lex_auth_0133166670601502721') {
         this.showDownloadCertificate = true
       }
       this.content.creatorPosterImage ?
         this.bannerImg = `${AUTHORING_CONTENT_BASE}${encodeURIComponent(this.content.creatorPosterImage)}`
         : this.bannerImg = this.content.appIcon
+
+      if (contentId === 'lex_auth_0133166670601502721' &&
+        (!this.configSvc.userRegistryData.value.personalDetails.regNurseRegMidwifeNumber)) {
+        this.rnNumber = false
+      }
     }
 
     this.valueSvc.isXSmall$.subscribe(xSmall => {

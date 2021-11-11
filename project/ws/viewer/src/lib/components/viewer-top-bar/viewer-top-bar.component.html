@@ -28,12 +28,12 @@
 
 
   <span class="header-spacer"></span>
-  <ws-widget-download-certificate
-    *ngIf="collection && showDownloadCertificate && this.courseStatus ==='completed' && !isSmall" [content]="collection"
-    [progress]="courseStatus">
+  <ws-widget-download-certificate *ngIf="collection && showDownloadCertificate && rnNumber &&
+    this.courseStatus ==='completed' && !isSmall" [content]="collection" [progress]="courseStatus">
   </ws-widget-download-certificate>
 
-  <button mat-raised-button i18n *ngIf="showDownloadCertificate && this.courseStatus !=='completed' && !isSmall"
+  <button mat-raised-button i18n
+    *ngIf="showDownloadCertificate && this.courseStatus !=='completed' && !isSmall && rnNumber"
     class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="showCompleteCourseDialog()"
     aria-label="Displays a tooltip">
     <img src="/fusion-assets/images/download_icon.svg" class="download-icon" />

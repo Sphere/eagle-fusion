@@ -54,8 +54,8 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   showDownloadCertificate = false
   userFullname = ''
   receivedDate = ''
+  rnNumber = true
 
-  rnNumber = ''
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -105,17 +105,11 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
     if (this.collectionIdentifier === 'lex_auth_01308384668903833673' || this.collectionIdentifier === 'lex_auth_01311423170518220869'
-      || this.collectionIdentifier === 'lex_auth_013268426750025728383') {
+      || this.collectionIdentifier === 'lex_auth_013268426750025728383' || this.collectionIdentifier === 'lex_auth_0133166670601502721') {
       this.showDownloadCertificate = true
     }
     const collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     if (collectionId && collectionType) {
-      // if (
-      //   collectionType.toLowerCase() ===
-      //   NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
-      // )
-      //  {
-      // this.collection = this.getPlaylistContent(collectionId, collectionType)
       try {
         this.contentSvc
           .fetchAuthoringContent(collectionId).subscribe(data => {
@@ -154,6 +148,11 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     this.viewerDataSvc.progressStatus.subscribe(data => {
       this.courseStatus = data
     })
+
+    if (this.collectionIdentifier === 'lex_auth_0133166670601502721' &&
+      !this.configSvc.userRegistryData.value.personalDetails.regNurseRegMidwifeNumber) {
+      this.rnNumber = false
+    }
   }
 
   // Fetch badge data for certificate download
