@@ -151,7 +151,8 @@
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
         queryParamsHandling="preserve" (click)="sendStatus(content)">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
-          {{ content?.title }} <span *ngIf="content?.completionPercentage">| {{content.completionPercentage}}% | </span>
+          {{ content?.title }} &nbsp;<span *ngIf="content?.completionPercentage">| {{content.completionPercentage}}% |
+          </span>
           <mat-icon title="{{content?.completionPercentage}}%" *ngIf="
               content?.completionPercentage === 100
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
@@ -165,7 +166,7 @@
         </span>
         <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
           {{ content?.title | pipeLimitTo: 30 }}
-          <mat-icon title="{{content?.completionPercentage}}%"  *ngIf="
+          <mat-icon title="{{content?.completionPercentage}}%" *ngIf="
               content?.completionPercentage === 100
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>
