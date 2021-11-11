@@ -86,9 +86,6 @@
                   <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
                     Duration :
                     {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
-                  <div class="toc-banner-item"
-                    *ngIf="tocConfig?.atAGlance?.expiryDate?.enabled && content?.expiryDate && content?.expiryDate?.startsWith('20')">
-                    {{tocConfig?.atAGlance?.expiryDate?.displayName}} : {{ content?.expiryDate | date }}</div>
                   <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
                     {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
                   </div>
@@ -111,15 +108,6 @@
                       </ng-container>
                     </span>
                   </div>
-
-
-                  <!-- {{fetchCohorts(cohortTypesEnum.ACTIVE_USERS)}} -->
-                  <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
-                    <a [routerLink]="'./details'" [queryParams]="{id: content.identifier}">
-                      Cohorts :<span class="blue-link"> {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active
-                        Learners
-                      </span></a>
-                  </div>
                 </div>
 
 
@@ -141,46 +129,7 @@
                   ( {{ 0 | pipeCountTransform }} )</span>
               </div> -->
 
-
-              <!-- <div class="action-btns">
-                <div class="hidden-block-xs">
-                  <ng-container [ngTemplateOutlet]="actions"></ng-container>
-                </div>
-                <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
-                  *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-                  <img src="/fusion-assets/icons/edit.png" class="action-icons" />
-                </a>
-                <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
-                  *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-                  <img src="/assets/images/upload.svg" class="action-icons" />
-                </a>
-                <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-                          content
-                            | pipePartialContent
-                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
-                                      'artifactUrl']
-                        "></ws-widget-btn-content-download>
-                <ws-widget-btn-content-like [forPreview]="forPreview"
-                  [widgetData]="content | pipePartialContent: ['identifier']">
-                </ws-widget-btn-content-like>
-                <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
-                </ws-widget-btn-content-share>
-                <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
-                  [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
-                </ws-widget-btn-kb>
-                <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
-                  [widgetData]="btnGoalsConfig">
-                </ws-widget-btn-goals>
-                <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
-                  [widgetData]="btnPlaylistConfig">
-                </ws-widget-btn-playlist>
-                <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
-                  [widgetData]="content | pipePartialContent: ['identifier', 'name']">
-                </ws-widget-btn-content-feedback-v2>
-
-              </div> -->
-
-              <div class="header-actions mb-4">
+              <div class="header-actions">
                 <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">
                   <form>
                     <mat-form-field appearance="fill">
@@ -210,7 +159,7 @@
                 </ng-container>
               </div>
 
-              <div class="header-actions mb-4">
+              <div class="header-actions header-act-btn">
                 <a [color]="'primary'"
                   *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('MDO_ADMIN') || this.configSvc.userRoles.has('SPV_ADMIN'))"
                   class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
@@ -268,8 +217,44 @@
                 <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'InReview'">
                   The content is in review.
                 </h3>
-              </div>
 
+                <div class="action-btns">
+                  <!-- <div class="hidden-block-xs">
+                              <ng-container [ngTemplateOutlet]="actions"></ng-container>
+                            </div> -->
+                  <!-- <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
+                *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                <img src="/fusion-assets/icons/edit.png" class="action-icons" />
+              </a> -->
+                  <!-- <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
+                              *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                              <img src="/assets/images/upload.svg" class="action-icons" />
+                            </a> -->
+                  <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+                                      content
+                                        | pipePartialContent
+                                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
+                                                      'artifactUrl']
+                                        "></ws-widget-btn-content-download> -->
+                  <!-- <ws-widget-btn-content-like [forPreview]="forPreview"
+                                  [widgetData]="content | pipePartialContent: ['identifier']">
+                                </ws-widget-btn-content-like> -->
+                  <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+                  </ws-widget-btn-content-share>
+                  <!-- <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
+                    [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
+                  </ws-widget-btn-kb>
+                  <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
+                    [widgetData]="btnGoalsConfig">
+                  </ws-widget-btn-goals>
+                  <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
+                    [widgetData]="btnPlaylistConfig">
+                  </ws-widget-btn-playlist>
+                  <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+                    [widgetData]="content | pipePartialContent: ['identifier', 'name']">
+                  </ws-widget-btn-content-feedback-v2> -->
+                </div>
+              </div>
 
 
 

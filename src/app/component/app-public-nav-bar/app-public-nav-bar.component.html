@@ -5,9 +5,9 @@
     <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">
-    <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+    <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
-    </ng-container>
+    </ng-container> -->
 
     <ws-app-search-input-home placeHolder="What do you want to learn today ?" *ngIf=" (isXSmall$ | async) === false"
       class="my-search flex-1" [ref]="'home'">
