@@ -430,8 +430,8 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
                   child1.completionPercentage = foundContent.completionPercentage
                   child1.completionStatus = foundContent.status
                 }
-                if (child1["children"]) {
-                  child1["children"].map((child2: any) => {
+                if (child1['children']) {
+                  child1['children'].map((child2: any) => {
                     const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
                     if (foundContent2) {
                       child2.completionPercentage = foundContent2.completionPercentage

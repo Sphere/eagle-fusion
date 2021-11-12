@@ -8,9 +8,9 @@
         </a>
       </div>
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
-        <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+        <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
-        </ng-container>
+        </ng-container> -->
 
         <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>

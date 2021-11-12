@@ -68,15 +68,15 @@
       <router-outlet (activate)="getContentData($event)"></router-outlet>
 
       <mat-tab-group animationDuration="0ms" class="minhightab">
-        <mat-tab i18n-label label="Discussion">
-          <!-- *ngIf="discussionForumWidget && isRestricted" -->
-          <div class="padding-m">
+        <!-- <mat-tab i18n-label label="Discussion"> -->
+        <!-- *ngIf="discussionForumWidget && isRestricted" -->
+        <!-- <div class="padding-m">
             <div class="video-discussion-forum-in">
 
               <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
             </div>
           </div>
-        </mat-tab>
+        </mat-tab> -->
         <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
           <div class="stack-container">
             <div class="div-1">
