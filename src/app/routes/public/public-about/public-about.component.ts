@@ -43,9 +43,10 @@ export class PublicAboutComponent implements OnInit, OnDestroy {
       }
     })
 
-    if (this.configSvc.instanceConfig) {
+    if (this.configSvc.instanceConfig || this.aboutPage) {
       (this.headerBanner = this.domSanitizer.bypassSecurityTrustStyle(
-        `url('${this.configSvc.instanceConfig.logos.aboutHeader}')`,
+        // `url('${this.configSvc.instanceConfig.logos.aboutHeader}')`,
+        `url('${this.aboutPage.banner.img}')`,
       )),
         (this.footerBanner = this.domSanitizer.bypassSecurityTrustStyle(
           `url('${this.configSvc.instanceConfig.logos.aboutFooter}')`,
