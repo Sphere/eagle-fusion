@@ -33,9 +33,9 @@ import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-s
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'page/home',
     pathMatch: 'full',
     canActivate: [EmptyRouteGuard],
-    component: LoginRootComponent,
   },
   {
     path: 'practice/behavioral',
@@ -410,7 +410,7 @@ const routes: Routes = [
   },
   {
     path: 'public/register',
-    component: RegisterComponent,
+    component: RegisterComponent
   },
   {
     path: 'public/forgot-password',
