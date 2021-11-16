@@ -410,7 +410,7 @@ const routes: Routes = [
   },
   {
     path: 'public/register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'public/forgot-password',
