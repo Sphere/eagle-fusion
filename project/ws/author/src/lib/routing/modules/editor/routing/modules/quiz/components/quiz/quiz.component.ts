@@ -114,7 +114,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.showSettingButtons = this.accessControl.rootOrg === 'client1'
     if (this.activateRoute.parent && this.activateRoute.parent.parent) {
       this.activateRoute.parent.parent.data.subscribe(v => {
-        let courseChildren =  v.contents[0].content.children
+        let courseChildren = v.contents[0].content.children
         // Children
         const firstLevelChilds = courseChildren.filter((item: any) => {
           return item.category === 'Collection'
@@ -122,7 +122,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         // find assements
         let firstLevelchildArray: any = []
 
-         firstLevelChilds.map((item: any) => {
+        firstLevelChilds.map((item: any) => {
 
           firstLevelchildArray = firstLevelchildArray.concat(item.children)
         })
@@ -139,15 +139,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 v.contents = data
 
                 this.quizStoreSvc.collectiveQuiz[element.identifier] = v.contents[0].data
-                ? v.contents[0].data.questions
-                : []
+                  ? v.contents[0].data.questions
+                  : []
 
-              this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
-              this.resourceType = v.contents[0].content.categoryType || 'Quiz'
-              this.quizDuration = v.contents[0].content.duration || 300
-              this.questionsArr =
-                this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
-              this.contentLoaded = true
+                this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
+                this.resourceType = v.contents[0].content.categoryType || 'Quiz'
+                this.quizDuration = v.contents[0].content.duration || 300
+                this.questionsArr =
+                  this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
+                this.contentLoaded = true
               }
               )
 
@@ -365,7 +365,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   uploadJson(array: any[], fileName: string) {
-    this.quizDuration = this.metaContentService.getUpdatedMeta(this.currentId).duration
+    this.quizDuration = this.metaContentService.getUpdatedMeta(this.currentId).duration ?
+      this.metaContentService.getUpdatedMeta(this.currentId).duration : 300
+
     const quizData = {
       timeLimit: this.quizDuration,
       isAssessment: this.resourceType === ASSESSMENT,

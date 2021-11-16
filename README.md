@@ -1,23 +1,6 @@
 # Fusion
 
-//Comment by Shyam
-Initialization Code:
+Front End Service for Eagle Platform.
 
-If Authenticated:
-
-Get Roles, Get Groups, Get Features, Get WidgetConfigs
-Process Features by roles & Groups
-Process Widgets by features, roles and groups
-Initialize Widgets by widgetConfig => Reset the available Flow of static injection
-Process featuesList.json by using roles & groups
-
-Features =>
-check if its available
-
-- No -> check if is denied or not available
-- Yes -> check for current page rendering
-  -> Yes => render
-  -> No => stop rendering
-
-command to start - npm start
-Modify - localhost.proxy.json under proxy to point to the correct backend services
+The code powers the Aastrika's Open Learning Platform for maternal care
+https://sphere[dot]aastrika[dot]org

@@ -231,8 +231,8 @@
               </ws-widget-btn-content-feedback-v2>
 
               <ws-widget-download-certificate
-                *ngIf="content && content?.progress?.progress === 1 && showDownloadCertificate" [content]="content"
-                [progress]="content.progress.progress"
+                *ngIf="content && content?.progress?.progress === 1 && showDownloadCertificate && rnNumber"
+                [content]="content" [progress]="content.progress.progress"
                 (click)="createAWSAnalyticsEventAttribute('Downloadcertificate', 'Downloadcertificateclicked')">
               </ws-widget-download-certificate>
 

@@ -1303,6 +1303,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
   // }
 
   copyData(type: 'keyword' | 'previewUrl') {
+    const parentId = this.contentService.parentUpdatedMeta().identifier
     const selBox = document.createElement('textarea')
     selBox.style.position = 'fixed'
     selBox.style.left = '0'
@@ -1311,12 +1312,19 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     if (type === 'keyword') {
       selBox.value = this.contentForm.controls.keywords.value
     } else if (type === 'previewUrl') {
+      // selBox.value =
+      //   // tslint:disable-next-line: max-line-length
+      //   `${window.location.origin}/viewer/${VIEWER_ROUTE_FROM_MIME(
+      //     this.contentForm.controls.mimeType.value,
+      //   )}/${this.contentMeta.identifier}?preview=true`
+
       selBox.value =
         // tslint:disable-next-line: max-line-length
-        `${window.location.origin}/viewer/${VIEWER_ROUTE_FROM_MIME(
+        `${window.location.origin}/author/viewer/${VIEWER_ROUTE_FROM_MIME(
           this.contentForm.controls.mimeType.value,
-        )}/${this.contentMeta.identifier}?preview=true`
+        )}/${this.contentMeta.identifier}?collectionId=${parentId}&collectionType=Course`
     }
+
     document.body.appendChild(selBox)
     selBox.focus()
     selBox.select()

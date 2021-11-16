@@ -15,6 +15,7 @@
             add
           </span>
           <p class="margin-left-xs margin-remove-bottom cursor-pointer">Add Content</p>
+
         </a>
 
 
@@ -32,19 +33,19 @@
 
       <form [formGroup]="createTopicForm" *ngIf="showAddchapter" class="margin-left-l">
         <div class="margin-top-s">
-          <h1>Build your course by adding Topics</h1>
+          <h1>Build your course by adding Resources</h1>
           <p>Add your content, quizzes, discussions and publish</p>
           <p class="required margin-remove-bottom">
             Hi, Lets start with a Topic name
           </p>
           <div class="margin-top-xs width-3-5">
             <mat-form-field appearance="outline" class="margin-top-xs width-1-4">
-              <input matInput i18n-placeholder placeholder="Topic Name" formControlName="topicName" />
+              <input matInput i18n-placeholder placeholder="Title" formControlName="topicName" />
             </mat-form-field>
           </div>
           <div class="margin-top-xs width-3-5">
             <mat-form-field appearance="outline" class="margin-top-xs width-1-3">
-              <textarea matInput i18n-placeholder placeholder="Topic Description" matInput rows="3"
+              <textarea matInput i18n-placeholder placeholder="Short Description" matInput rows="3"
                 formControlName="topicDescription">
             </textarea>
             </mat-form-field>

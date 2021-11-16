@@ -16,6 +16,7 @@ const courseId = {
   nqocnId: 'lex_auth_01311423170518220869',
   fernadezId: 'lex_auth_01308384668903833673',
   iNCCourseId: 'lex_auth_013268426750025728383',
+  iSRHCourseId: 'lex_auth_0133166670601502721',
 }
 @Component({
   selector: 'ws-widget-download-certificate',
@@ -31,6 +32,7 @@ export class DownloadCertificateComponent implements OnInit {
   imageUrl = '/fusion-assets/icons/certificate.jpg'
   certificateUrl = '/fusion-assets/files/image-content.txt'
   iNCCertificateUrl = '/fusion-assets/files/iNC-certificate.txt'
+  iSRHCertificateUrl = '/fusion-assets/files/iSRH-certificate.txt'
   allowDownload = false
   showDownloadCertificate = false
   userFullname = ''
@@ -45,6 +47,9 @@ export class DownloadCertificateComponent implements OnInit {
   iNCCertificate = fetch(this.iNCCertificateUrl)
     .then(response => response.text())
     .then(data => { (this as any).iNCCertificate = data })
+  iSRHCertificate = fetch(this.iSRHCertificateUrl)
+    .then(response => response.text())
+    .then(data => { (this as any).iSRHCertificate = data })
   rnNumber = ''
   contentId: any
   showLoader = false
@@ -82,7 +87,8 @@ export class DownloadCertificateComponent implements OnInit {
     this.showLoader = true
     // Get latest batches
     this.badgesSvc.fetchRecentBadge()
-    if (!this.badgeData || this.content && this.content.identifier.includes(courseId.iNCCourseId)) {
+    if (!this.badgeData || this.content &&
+      (this.content.identifier.includes(courseId.iNCCourseId) || this.content.identifier.includes(courseId.iSRHCourseId))) {
       this.updateBadges()
     } else if (this.badgeData) {
       this.receivedDate = this.badgeData.last_received_date
@@ -102,9 +108,11 @@ export class DownloadCertificateComponent implements OnInit {
           this.userFullname = `${this.titleCaseWord(userData[0].personalDetails.firstname)} ${this.titleCaseWord(userData[0].personalDetails.surname)}`
         }
         // tslint:disable-next-line:max-line-length
-        if (this.content && this.content.identifier.includes(courseId.iNCCourseId) || (this.badgeData && this.badgeData.badge_id === courseId.iNCCourseId)) {
+        if (this.content && (this.content.identifier.includes(courseId.iNCCourseId) || this.content.identifier.includes(courseId.iSRHCourseId)) ||
+          (this.badgeData && (this.badgeData.badge_id === courseId.iNCCourseId || this.badgeData.badge_id === courseId.iSRHCourseId))) {
           // tslint:disable-next-line:max-line-length
-          if (userData[0].personalDetails.regNurseRegMidwifeNumber === undefined || userData[0].personalDetails.regNurseRegMidwifeNumber === '') {
+          if (userData[0].personalDetails.regNurseRegMidwifeNumber === undefined ||
+            userData[0].personalDetails.regNurseRegMidwifeNumber === '') {
             // this.showRNEntryDialog()
             const dialogRef = this.dialog.open(DialogConfirmComponent, {
               data: {
@@ -178,7 +186,7 @@ export class DownloadCertificateComponent implements OnInit {
       })
     }
 
-    if (this.receivedDate && (this.contentId !== courseId.iNCCourseId)) {
+    if (this.receivedDate && this.contentId !== courseId.iNCCourseId && this.contentId !== courseId.iSRHCourseId) {
       this.callDownloadPDF()
     }
   }
@@ -192,7 +200,7 @@ export class DownloadCertificateComponent implements OnInit {
         contentId = this.badgeData.badge_id
       }
 
-    if (contentId.includes(courseId.fernadezId) || contentId.includes(courseId.iNCCourseId)) {
+    if (contentId.includes(courseId.fernadezId) || contentId.includes(courseId.iNCCourseId) || contentId.includes(courseId.iSRHCourseId)) {
       this.downloadPdf(contentId)
     } else
       if (contentId.includes(courseId.nqocnId)) {
@@ -325,55 +333,90 @@ export class DownloadCertificateComponent implements OnInit {
             this.openSnackbar(err)
           })
 
-      } else { // POCQI NQOCN certificate
-        this.showLoader = true
-        const req = {
-          course: badgeId,
-        }
-        let responseQRCode = ''
-        let dataImage = ''
-        this.badgesSvc.generateQRCode(req).subscribe(data => {
-          this.showLoader = false
-          responseQRCode = data.data
-          if (data && this.userFullname) {
-            dataImage = this.imageContent.toString()
-
-            const doc = new jsPDF('landscape', 'mm', [297, 190])
-            const width = doc.internal.pageSize.getWidth()
-            const height = doc.internal.pageSize.getHeight()
-
-            doc.addImage(dataImage, 'JPG', 0, 0, width, height)
-
-            doc.setFontSize(20)
-            doc.setTextColor(1);
-            (doc as any).autoTable({
-              body: [
-                [{
-                  content: `${this.userFullname}`,
-                  colSpan: 2,
-                  rowSpan: 2,
-                  styles: { halign: 'center' },
-                }],
-
-              ],
-              theme: 'plain',
-              columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
-              margin: { top: 88 },
-            })
-            doc.text(`${moment(this.receivedDate).format('DD/MM/YYYY')}`, 167, 122)
-            doc.addImage(responseQRCode, 'png', 5, 140, 40, 40)
-            doc.setFontSize(10)
-            doc.setTextColor(100)
-            doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
-            doc.save('certificate_pocqi.pdf')
-            // AWS analytics event
-            this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+      } else
+        if (badgeId.includes(courseId.iSRHCourseId)) { // ISRH Course
+          this.showLoader = true
+          let dataImage = ''
+          const req = {
+            course: courseId.iSRHCourseId,
           }
-        },
-                                                     err => {
-            this.openSnackbar(err)
-          })
-      }
+          this.badgesSvc.generateQRCode(req).subscribe(data => {
+            if (data) {
+              this.showLoader = false
+              dataImage = this.iSRHCertificate.toString()
+
+              const doc = new jsPDF('landscape', 'mm', [297, 190])
+              const width = doc.internal.pageSize.getWidth()
+              const height = doc.internal.pageSize.getHeight()
+              if (dataImage && this.userFullname) {
+
+                doc.addImage(dataImage, 'JPEG', 0, 0, width, height)
+                const name = `${this.userFullname}`
+                doc.setTextColor(0, 0, 0)
+                doc.setFontSize(20)
+                doc.setFont('times')
+                doc.text(name, 145, 93, { align: 'center' })
+
+                doc.setFontSize(14)
+                doc.text(`Awarded On ${moment(this.receivedDate).format('DD/MM/YYYY')}`, 120, 174)
+                doc.save('certificate_ISRH.pdf')
+                // AWS analytics event
+                this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+              }
+            }
+          },
+                                                       err => {
+              this.openSnackbar(err)
+            })
+        } else { // POCQI NQOCN certificate
+          this.showLoader = true
+          const req = {
+            course: badgeId,
+          }
+          let responseQRCode = ''
+          let dataImage = ''
+          this.badgesSvc.generateQRCode(req).subscribe(data => {
+            this.showLoader = false
+            responseQRCode = data.data
+            if (data && this.userFullname) {
+              dataImage = this.imageContent.toString()
+
+              const doc = new jsPDF('landscape', 'mm', [297, 190])
+              const width = doc.internal.pageSize.getWidth()
+              const height = doc.internal.pageSize.getHeight()
+
+              doc.addImage(dataImage, 'JPG', 0, 0, width, height)
+
+              doc.setFontSize(20)
+              doc.setTextColor(1);
+              (doc as any).autoTable({
+                body: [
+                  [{
+                    content: `${this.userFullname}`,
+                    colSpan: 2,
+                    rowSpan: 2,
+                    styles: { halign: 'center' },
+                  }],
+
+                ],
+                theme: 'plain',
+                columnStyles: { 0: { halign: 'center', font: 'times', fontSize: 24, minCellHeight: 50 } },
+                margin: { top: 88 },
+              })
+              doc.text(`${moment(this.receivedDate).format('DD/MM/YYYY')}`, 167, 122)
+              doc.addImage(responseQRCode, 'png', 5, 140, 40, 40)
+              doc.setFontSize(10)
+              doc.setTextColor(100)
+              doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
+              doc.save('certificate_pocqi.pdf')
+              // AWS analytics event
+              this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+            }
+          },
+                                                       err => {
+              this.openSnackbar(err)
+            })
+        }
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
