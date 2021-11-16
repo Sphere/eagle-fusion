@@ -4,7 +4,6 @@
     <span i18n="page title: about" class="margin-left-xs">About</span>
   </span> -->
 <!-- </mat-toolbar> -->
-
 <section class="about-content leading-relaxed" *ngIf="aboutPage">
   <div class="about-info" *ngIf="aboutPage?.banner" [style.backgroundImage]="headerBanner">
     <div class="about-info-bg header-synopsis" align="center">
@@ -18,7 +17,6 @@
           <h2 class="overview-description">
             {{ aboutPage?.banner?.description }}
           </h2>
-
           <div *ngIf="videoLink" class="overview-intro ws-mat-primary-lite-background">
             <iframe [src]="videoLink" i18n-title title="about-video" allow="fullscreen" class="about-video"
               width="100%"></iframe>

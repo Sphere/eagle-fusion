@@ -458,6 +458,24 @@ export class LearningComponent implements OnInit, OnDestroy {
                   ele.displayName = searchData.search.visibleFilters[ele.displayName].displayName
                 }
               })
+              const newArray: any = []
+              data.result.facets.forEach(el => {
+                const obj2 = {}
+                if (el.values.length > 0) {
+                  el.values.forEach(el1 => {
+                    el1['displayName'] = el1.name
+                    el1['type'] = el1.name
+                    el1['checked'] = true
+                    el1['count'] = el1.count
+                  })
+                  obj2['displayName'] = el.name
+                  obj2['type'] = el.name
+                  obj2['checked'] = true
+                  obj2['content'] = el.values
+                  newArray.push(obj2)
+                }
+              })
+              Array.prototype.push.apply(filteR.filtersRes, newArray)
               this.filtersResponse = filteR.filtersRes
             }
           })
