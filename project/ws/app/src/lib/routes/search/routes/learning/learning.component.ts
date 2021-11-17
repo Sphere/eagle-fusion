@@ -468,7 +468,7 @@ export class LearningComponent implements OnInit, OnDestroy {
                     el1['checked'] = true
                     el1['count'] = el1.count
                   })
-                  if (el.name === "resourceType" || el.name === "exclusiveContent") {
+                  if (el.name === 'resourceType' || el.name === 'exclusiveContent') {
                     obj2['displayName'] = el.name
                     obj2['type'] = el.name
                     obj2['checked'] = true
