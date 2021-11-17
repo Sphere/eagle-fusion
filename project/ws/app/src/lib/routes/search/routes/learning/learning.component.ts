@@ -468,11 +468,13 @@ export class LearningComponent implements OnInit, OnDestroy {
                     el1['checked'] = true
                     el1['count'] = el1.count
                   })
-                  obj2['displayName'] = el.name
-                  obj2['type'] = el.name
-                  obj2['checked'] = true
-                  obj2['content'] = el.values
-                  newArray.push(obj2)
+                  if (el.name === "resourceType" || el.name === "exclusiveContent") {
+                    obj2['displayName'] = el.name
+                    obj2['type'] = el.name
+                    obj2['checked'] = true
+                    obj2['content'] = el.values
+                    newArray.push(obj2)
+                  }
                 }
               })
               Array.prototype.push.apply(filteR.filtersRes, newArray)
