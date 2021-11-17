@@ -935,3 +935,12 @@ button.cancel-btn {
 button.submit-btn[disabled] {
   opacity: 0.8;
 }
+#freshworks-container iframe {
+  bottom: 65px !important;
+  min-width: 87px !important;
+  // max-width: 87px !important;
+  @include breakpoint-lt-s {
+    bottom: 70px !important;
+    left: 5px !important;
+  }
+}
