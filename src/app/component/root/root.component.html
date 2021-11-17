@@ -1,10 +1,8 @@
 <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
 </mat-progress-bar>
-<ws-app-public-nav-bar *ngIf="!configSvc.isAuthenticated && showNavigation && !hideHeaderFooter"
-  (menuClick)="getMenuClickValue($event)">
+<ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter" (menuClick)="getMenuClickValue($event)">
 </ws-app-public-nav-bar>
-<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === false" [hidden]="!showNavbar"
-  [mode]="'top'"></ws-app-nav-bar>
+<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
 <!-- </ws-widget-sticky-header> -->
 <div class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll':
