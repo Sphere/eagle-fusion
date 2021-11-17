@@ -101,7 +101,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.popupTour = this.tourService.createPopupTour()
       }
     })
-    // sessionStorage.setItem('url_before_login', '/page/home')
   }
 
   goHomePage() {
