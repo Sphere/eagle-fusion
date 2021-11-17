@@ -19,7 +19,7 @@
 <ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
   *ngIf="showNavbar && !hideHeaderFooter">
 </ws-app-footer>
-<ng-container *ngIf="configSvc.isAuthenticated">
+<ng-container *ngIf=true>
   <ws-app-nav-bar class="bottom-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === true && !hideHeaderFooter"
     [mode]="'bottom'" [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
   </ws-app-nav-bar>

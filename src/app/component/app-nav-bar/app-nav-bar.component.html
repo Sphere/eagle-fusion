@@ -57,7 +57,7 @@
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
       </ng-container>
     </ng-container>
-    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom' && authorised">
+    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">

@@ -159,12 +159,10 @@ export class RootComponent implements OnInit, AfterViewInit {
     })
     if (sessionStorage.getItem('url_before_login')) {
       const url = sessionStorage.getItem(`url_before_login`) || ''
-
       // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
       // this.location.replaceState(url)
       this.router.navigateByUrl(url)
     }
-
   }
 
   ngAfterViewInit() {

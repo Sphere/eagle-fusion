@@ -49,7 +49,6 @@ export class PageComponent extends WidgetBaseComponent
       this.isXSmall = isXSmall
       this.links = this.getNavLinks()
     })
-    // console.log('widgetData', this.widgetData)
   }
   ngOnInit() {
     // this.authenticated = this.authSvc.isAuthenticated

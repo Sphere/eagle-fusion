@@ -54,6 +54,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   analytics = this.route.snapshot.data.pageData.data.analytics
   currentFragment = 'overview'
   sticky = false
+  license = 'CC BY'
   errorWidgetData: NsWidgetResolver.IRenderConfigWithTypedData<any> = {
     widgetType: 'errorResolver',
     widgetSubType: 'errorResolver',
@@ -381,9 +382,9 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
-showContents(){
-      this.getUserEnrollmentList()
-}
+  showContents() {
+    this.getUserEnrollmentList()
+  }
   checkJson(str: any) {
     try {
       JSON.parse(str)
@@ -460,7 +461,7 @@ showContents(){
               return course
             })
           }
-        
+
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
             // const collectionId = this.isResource ? '' : this.content.identifier

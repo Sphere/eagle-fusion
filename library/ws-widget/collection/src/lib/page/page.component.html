@@ -15,10 +15,10 @@
     <ng-container *ngFor="let link of links" [wsResolverWidget]="link"></ng-container>
   </ng-container>
   <ng-container *ngIf="isXSmall">
-    <ng-container *ngIf="pageData?.navigationBar?.xsmallNonMenuLinks">
+    <!-- <ng-container *ngIf="pageData?.navigationBar?.xsmallNonMenuLinks">
       <ng-container *ngFor="let link of pageData?.navigationBar?.xsmallNonMenuLinks" [wsResolverWidget]="link">
       </ng-container>
-    </ng-container>
+    </ng-container> -->
     <button matTooltip="Tour Guide" mat-icon-button class="tourGuideBtn" *ngIf="isTourGuideAvailable"
       (click)="startTour()">
       <mat-icon>contact_support</mat-icon>

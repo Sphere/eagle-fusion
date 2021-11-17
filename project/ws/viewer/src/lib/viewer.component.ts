@@ -52,6 +52,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
+  currentLicense: any
+  currentLicenseName = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -158,7 +160,21 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     // this.getDiscussionConfig()
   }
+  getLicenseConfig() {
+    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+      const licenseData = data
+      if (licenseData) {
+        this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
+      }
 
+    },
+                                                            err => {
+        if (err.status === 404) {
+          this.getLicenseConfig()
+        }
+      })
+  }
   getDiscussionConfig() {
     this.viewerDataSubscription = this.viewerSvc
       .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')

@@ -188,7 +188,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get isPostAssessment(): boolean {
-    if (!(this.tocConfig && this.tocConfig.postAssessment)) {
+    if (!(this.tocConfig)) {
       return false
     }
     if (this.content) {
