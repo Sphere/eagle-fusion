@@ -47,7 +47,8 @@
       <!--<a mat-tab-link [routerLink]="'./details'" [queryParams]="{id: content.identifier}"
         routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a> -->
 
-      <a mat-tab-link [routerLink]="'./license'" routerLinkActive="ws-mat-primary-text link-active" i18n>License</a>
+      <a mat-tab-link [routerLink]="'./license'" [queryParams]="{license: license}"
+        routerLinkActive="ws-mat-primary-text link-active" i18n>License</a>
     </nav>
     <router-outlet></router-outlet>
     <ng-container>

@@ -137,7 +137,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = false
       } else {
         this.isNavBarRequired = false
-         this.showNavigation = true
+        this.showNavigation = true
         // this.authSvc.logout();
         // window.location.href = `${redirectUrl}apis/reset`
       }
@@ -157,14 +157,13 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
-                if (sessionStorage.getItem('url_before_login')) {
-  const url = sessionStorage.getItem(`url_before_login`) || ''
+    if (sessionStorage.getItem('url_before_login')) {
+      const url = sessionStorage.getItem(`url_before_login`) || ''
 
-    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-// this.location.replaceState(url)
-  this.router.navigateByUrl(url)
-}
-
+      // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+      // this.location.replaceState(url)
+      this.router.navigateByUrl(url)
+    }
   }
 
   ngAfterViewInit() {

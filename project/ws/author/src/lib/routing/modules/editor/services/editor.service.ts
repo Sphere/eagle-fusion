@@ -171,6 +171,10 @@ export class EditorService {
     return this.apiService.get<any>(url)
   }
 
+  fetchConfig() {
+    return this.apiService.get<any>(`${this.configSvc.sitePath}/license.meta.json`)
+  }
+
   fetchOrgMeta() {
     return this.apiService.get<any>(`${this.configSvc.sitePath}/orgmeta.config.json`)
   }
