@@ -62,7 +62,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
   searchArray = ['preview', 'channel', 'author']
   contentAvailable = true
   isFromAuthoring = false
-
+  userLoggedIn = false
   changeEventSubscription: Subscription | null = null
   callPublicApi = false
   explorePage = false
@@ -158,6 +158,11 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
           .map(e => e.key)
           .forEach(k => this.fetchStripFromKey(k, false))
       })
+    if (sessionStorage.getItem('loginbtn')) {
+      this.userLoggedIn = true
+    } else {
+      this.userLoggedIn = false
+    }
   }
 
   private fetchStripFromKeyForLogin(key: string, calculateParentStatus = true) {
