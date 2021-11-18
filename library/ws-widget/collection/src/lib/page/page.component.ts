@@ -6,7 +6,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   ConfigurationsService, EventService, LoggerService, NsPage,
   // ValueService,
-  WsEvents, LogoutComponent
+  WsEvents, LogoutComponent,
 } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
