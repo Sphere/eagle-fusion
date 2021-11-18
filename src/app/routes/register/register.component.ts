@@ -229,9 +229,9 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   gotoHome() {
-    this.router.navigate(['/login'])
-      .then(() => {
-        window.location.reload()
-      })
+    this.router.navigate(['/page/home'])
+      // .then(() => {
+      //   window.location.reload()
+      // })
   }
 }

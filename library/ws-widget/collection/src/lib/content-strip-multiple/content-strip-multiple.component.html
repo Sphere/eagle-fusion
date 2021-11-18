@@ -28,17 +28,10 @@
                         : ''
                     ">
               <div class="flex items-center flex-1">
-                <div *ngIf="userLoggedIn; else userNotloggedIn">
-                  <h1 class="mat-h1 header-font margin-remove inline-block"
-                    *ngIf="stripsResultDataMap[key]?.stripTitle">
-                    {{ stripsResultDataMap[key]?.stripTitle }}
-                  </h1>
-                </div>
-                <ng-template #userNotloggedIn>
-                  <h1 class="mat-h1 header-font margin-remove inline-block">
-                    Latest Courses
-                  </h1>
-                </ng-template>
+                <h1 class="mat-h1 header-font margin-remove inline-block"
+                  *ngIf="stripsResultDataMap[key]?.stripTitle">
+                  {{ stripsResultDataMap[key]?.stripTitle }}
+                </h1>
                 <!-- <button *ngIf="stripsResultDataMap[key]?.stripInfo?.icon" type="button" mat-icon-button
                   (click)="toggleInfo(stripsResultDataMap[key])" i18n-matTooltip matTooltip="info"
                   class="margin-left-xs">
