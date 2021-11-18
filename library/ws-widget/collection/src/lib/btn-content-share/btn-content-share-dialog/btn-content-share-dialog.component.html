@@ -1,37 +1,37 @@
 <h1 mat-dialog-title>{{ data.content.name }}</h1>
-<div mat-dialog-content>
-  <h3 class="mat-h3" i18n>Share with
+<!-- <div mat-dialog-content> -->
+<!-- <h3 class="mat-h3" i18n>Share with
     <ng-container *ngIf="isSocialMediaShareEnabled">
       platform users
     </ng-container>
-  </h3>
-  <ws-widget-user-autocomplete (usersList)="updateUsers($event)"></ws-widget-user-autocomplete>
+  </h3> -->
+<!-- <ws-widget-user-autocomplete (usersList)="updateUsers($event)"></ws-widget-user-autocomplete>
   <mat-form-field class="text-area">
     <mat-spinner class="text-center" *ngIf="!message" [diameter]="30" [strokeWidth]="3"></mat-spinner>
     <textarea matInput i18n-placeholder placeholder="Your message ..." i18n-value
       [value]="message ? message : 'Loading...'" class="text-area-input" rows="5" #txtBody></textarea>
-  </mat-form-field>
-</div>
-<div mat-dialog-actions class="flex-row-reverse">
-  <button mat-raised-button (click)="contentShare(txtBody.value, successToast.value)" i18n i18n-aria-label
+  </mat-form-field> -->
+<!-- </div> -->
+<!-- <div mat-dialog-actions class="flex-row-reverse"> -->
+<!-- <button mat-raised-button (click)="contentShare(txtBody.value, successToast.value)" i18n i18n-aria-label
     aria-label="Share this content with specified email address" [disabled]="users.length === 0 || sendInProgress"
     [color]="'primary'">
     Share
-  </button>
-  <button mat-button [mat-dialog-close]="false" i18n>Close</button>
-  <mat-spinner *ngIf="sendInProgress" [diameter]="30" [strokeWidth]="3"></mat-spinner>
+  </button> -->
+<!-- <button mat-button [mat-dialog-close]="false" i18n>Close</button> -->
+<!-- <mat-spinner *ngIf="sendInProgress" [diameter]="30" [strokeWidth]="3"></mat-spinner>
   <div *ngIf="sendStatus === 'ANY'" i18n>
     Unable to share. Try later
   </div>
-</div>
-<input type="hidden" i18n-value="Toast msg after successfully sharing" value="Content successfully shared"
-  #successToast />
+</div> -->
+<!-- <input type="hidden" i18n-value="Toast msg after successfully sharing" value="Content successfully shared"
+  #successToast /> -->
 
 
-<div *ngIf="isSocialMediaShareEnabled" class="pt-6">
-  <h2 class="mat-h2 margin-remove" i18n>
+<div *ngIf="isSocialMediaShareEnabled">
+  <!-- <h2 class="mat-h2 margin-remove" i18n>
     OR
-  </h2>
+  </h2> -->
 
   <h3 class="mat-h3 margin-remove py-2" i18n>Share on Social Media</h3>
 
@@ -40,4 +40,5 @@
     <ws-widget-btn-twitter-share [url]="detailUrl" [message]="message" class="pr-4 pb-3"></ws-widget-btn-twitter-share>
     <ws-widget-btn-linkedin-share [url]="detailUrl" class="pr-4 pb-3"></ws-widget-btn-linkedin-share>
   </div>
+  <button class="close-btn" mat-button [mat-dialog-close]="false" i18n>Close</button>
 </div>
