@@ -22,7 +22,7 @@
     </div>
 
     <!-- Registration instructions -->
-    <div *ngIf="
+    <!-- <div *ngIf="
         tocConfig?.overview?.registrationInstructions?.enabled &&
         content?.registrationInstructions?.length
       " class="unit-meta-item">
@@ -30,8 +30,8 @@
       <mat-card-content>
         <div class="mat-subheading-1 break-words" [innerHTML]="content?.registrationInstructions"></div>
       </mat-card-content>
-    </div>
-    <div *ngIf="tocConfig?.overview?.preContents?.enabled && content?.preContents?.length" class="unit-meta-item">
+    </div> -->
+    <!-- <div *ngIf="tocConfig?.overview?.preContents?.enabled && content?.preContents?.length" class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.preContents?.displayName }}</h2>
       <mat-card-content>
         <div class="flex mb-1" *ngFor="let preContent of content?.preContents">
@@ -142,17 +142,17 @@
           </a>
         </div>
       </mat-card-content>
-    </div>
+    </div> -->
     <!-- Skills -->
-    <div *ngIf="tocConfig?.overview?.skills?.enabled && content?.skills?.length"
+    <!-- <div *ngIf="tocConfig?.overview?.skills?.enabled && content?.skills?.length"
       class="unit-meta-item mat-app-background">
       <h2>{{ tocConfig?.overview?.skills?.displayName }}</h2>
       <mat-chip-list>
         <mat-chip *ngFor="let skill of content?.skills">{{ skill.name }}</mat-chip>
       </mat-chip-list>
-    </div>
+    </div> -->
     <!-- Requirements -->
-    <div *ngIf="tocConfig?.overview?.preRequisites?.enabled && content?.preRequisites" class="unit-meta-item">
+    <!-- <div *ngIf="tocConfig?.overview?.preRequisites?.enabled && content?.preRequisites" class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.preRequisites?.displayName }}</h2>
       <mat-card-content>
         <div class="mat-subheading-1" [innerHTML]="content?.preRequisites"></div>
@@ -168,10 +168,10 @@
           </ng-container>
         </div>
       </mat-card-content>
-    </div>
+    </div> -->
 
     <!-- Training (LHub) -->
-    <div *ngIf="trainingLHubEnabled && trainingLHubCount$ | async as trainingLHubCount" class="unit-meta-item">
+    <!-- <div *ngIf="trainingLHubEnabled && trainingLHubCount$ | async as trainingLHubCount" class="unit-meta-item">
       <h2 i18n>Trainings</h2>
       <h4 class="mat-h4">
         <ng-container>{{ trainingLHubCount }}</ng-container>
@@ -185,10 +185,10 @@
           Trainings
         </a>
       </div>
-    </div>
+    </div> -->
 
     <!-- Related Topics -->
-    <div class="unit-meta-item" *ngIf="tocConfig?.overview?.topics?.enabled && content?.topics?.length">
+    <!-- <div class="unit-meta-item" *ngIf="tocConfig?.overview?.topics?.enabled && content?.topics?.length">
       <h2>{{ tocConfig?.overview?.topics?.displayName }}</h2>
       <mat-card-content>
         <div class="flex flex-between flex-wrapped">
@@ -205,7 +205,7 @@
           </a>
         </div>
       </mat-card-content>
-    </div>
+    </div> -->
     <!-- Authors on small screen -->
 
     <div class="width-1-1 mt-5 mb-4">
