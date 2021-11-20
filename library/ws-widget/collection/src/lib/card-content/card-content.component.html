@@ -470,9 +470,23 @@
           <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
             matTooltip="Available only in Company's network"
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
+          <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()"
+            [routerLink]="(widgetData.content | pipeContentRoute).url"
             [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
             aria-label="Content" i18n-aria-label="Content | Click to view">
+            <div style="position: relative; z-index: 1;">
+              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+                [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+                [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+                [title]="widgetData.content.name" />
+              <span class="img-overlay"></span>
+              <div class="source-div">
+
+              </div>
+            </div>
+          </a>
+          <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t"
+            role="link" aria-label="Content" i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
               <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
                 [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
