@@ -1,5 +1,4 @@
-<button mat-icon-button (click)="toggleFs()" aria-label="FullScreen Toggle" *ngIf="isFullScreenSupported"
-  i18n-aria-label i18n-matTooltip matTooltip="FullScreen Toggle" class="action-button">
+<button mat-icon-button (click)="toggleFs()" aria-label="FullScreen Toggle"  i18n-aria-label i18n-matTooltip matTooltip="FullScreen Toggle" class="action-button">
   <!-- <mat-icon>{{ isInFs ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon> -->
   <!-- <img src="/assets/images/expand.png" class="action-icons"/> -->
   <img [src]="isInFs ? '/fusion-assets/icons/shrink-1.png' : '/fusion-assets/icons/expand.png'" class="action-icons">
