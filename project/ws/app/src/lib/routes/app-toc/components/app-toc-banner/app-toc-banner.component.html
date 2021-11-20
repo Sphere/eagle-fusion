@@ -49,25 +49,7 @@
               <div [ngSwitch]="routePath" class="header-meta margin-bottom-m"
                 [ngClass]="{ 'header-meta-banner': bannerUrl }">
 
-                <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
-                  *ngSwitchCase="'overview'">
-                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
-                    {{ content?.purpose | pipeLimitTo: 250 }}
-                  </h2>
-                  <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
-                    {{ content?.purpose | pipeLimitTo: 450 }}
-                  </h3>
-                  <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
-                    [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
-                    <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
-                  </div>
-                </div>
-
-                <div *ngSwitchCase="'contents'">
-                </div>
-
-                <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
-                  *ngSwitchCase="'analytics'">
+                <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner">
                   <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
                     {{ content?.subTitle | pipeLimitTo: 250 }}
                   </h2>
@@ -79,7 +61,6 @@
                     <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
                   </div>
                 </div>
-
 
                 <!-- Table Structure -->
                 <div>
@@ -255,17 +236,10 @@
                   </ws-widget-btn-content-feedback-v2> -->
                 </div>
               </div>
-
-
-
             </div>
           </div>
-
-
         </div>
       </div>
-
-
 
       <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
       </div>
