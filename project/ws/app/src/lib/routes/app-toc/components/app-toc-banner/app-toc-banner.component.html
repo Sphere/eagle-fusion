@@ -1,9 +1,5 @@
 <div [ngStyle]="{'background-color': ((content?.posterImage || '').length === 7? content?.posterImage : '#F8AD1E')}">
-
   <div [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
-
-
-
     <!-- <div class="pt-10 header-actions top">
       <div class="action-btns">
         <div class="hidden-block-xs">
@@ -14,15 +10,10 @@
         </button>
       </div>
     </div> -->
-
-
     <div class="flex flex-between flex-wrap-reverse">
-
       <div class="header-left">
         <div class="header-synopsis">
           <!-- <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content"> -->
-
-
           <div class="header-title flex-col sm:flex-row">
             <!-- <div *ngIf="content?.appIcon" class="apIcon">
             <img [src]="content?.creatorLogo" [id]="'source_' + content.identifier" class="source-icon"
@@ -40,16 +31,32 @@
                 <mat-icon class="ws-mat-accent-text">check_circle</mat-icon>
               </span>
             </div>
-
           </div>
-
           <div class="flex flex-col sm:flex-row">
-
             <div class="sm:ml-5 flex flex-col flex-auto">
               <div [ngSwitch]="routePath" class="header-meta margin-bottom-m"
                 [ngClass]="{ 'header-meta-banner': bannerUrl }">
+                <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
+                  *ngSwitchCase="'overview'">
+                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+                    {{ content?.purpose | pipeLimitTo: 250 }}
+                  </h2>
+                  <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
+                    {{ content?.purpose | pipeLimitTo: 450 }}
+                  </h3>
+                  <div *ngIf="sanitizedIntroductoryVideoIcon" class="overview-intro ws-mat-primary-lite-background"
+                    [style.backgroundImage]="sanitizedIntroductoryVideoIcon" role="button" (click)="playIntroVideo()">
+                    <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
+                  </div>
+                </div>
+                <div *ngSwitchCase="'contents'">
+                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+                    {{content?.subTitle}}
+                  </h2>
+                </div>
 
-                <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner">
+                <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
+                  *ngSwitchCase="'analytics'">
                   <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
                     {{ content?.subTitle | pipeLimitTo: 250 }}
                   </h2>
@@ -90,8 +97,6 @@
                     </span>
                   </div>
                 </div>
-
-
               </div>
 
               <!-- <div *ngIf="content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">

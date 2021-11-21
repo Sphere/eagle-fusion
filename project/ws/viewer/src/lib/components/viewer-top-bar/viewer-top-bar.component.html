@@ -26,14 +26,11 @@
   <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
 
   <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo" />
-
   <span *ngIf="logo" class="text-left width-1-8 margin-left-l text-truncate">
     {{ collection?.name }}
   </span>
-
-
   <span class="header-spacer"></span>
-  <div class="flex justify-center mt-0" *ngIf="!isSmall">
+  <div class="flex justify-center mt-0">
     <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
       pdfData
         | pipePartialContent
@@ -70,11 +67,8 @@
 
     <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
       [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
-
   </div>
-
-
-  <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
+  <!--<a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
     <mat-icon [ngClass]="logo ? 'hidden' : 'xsmall'">menu</mat-icon>
-  </a>
+  </a>-->
 </mat-toolbar>
