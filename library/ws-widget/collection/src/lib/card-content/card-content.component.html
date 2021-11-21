@@ -583,7 +583,7 @@
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 px-3 py-5">
           <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
             class="header-btn text-white ws-mat-primary-background mat-button-base"
             [routerLink]="(widgetData.content | pipeContentRoute).url">
