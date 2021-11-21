@@ -199,11 +199,13 @@
         Skills & Certification</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
-        *ngIf="userProfileData?.skills?.additionalSkills !=''">
+        *ngIf="(userProfileData?.skills?.additionalSkills !='' || userProfileData?.skills?.certificateDetails !='' ||
+            userProfileData?.interests?.professional !='' || userProfileData?.interests?.hobbies !='') ">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
-    <div *ngIf="userProfileData?.skills?.additionalSkills !=''; else showElseSkills">
+    <div *ngIf="(userProfileData?.skills?.additionalSkills !='' || userProfileData?.skills?.certificateDetails !='' ||
+    userProfileData?.interests?.professional !='' || userProfileData?.interests?.hobbies !='') ; else showElseSkills">
 
       <div class="academic-row mb-4">
         <button mat-fab disabled>
