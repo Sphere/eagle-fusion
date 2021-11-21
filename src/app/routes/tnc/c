@@ -229,7 +229,6 @@ export class TncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
-        this.createUserForm.controls.mobile.setValue('98765412354')
       }
       const profileRequest = this.constructReq(this.createUserForm)
       const reqUpdate = {
