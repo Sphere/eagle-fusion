@@ -375,7 +375,7 @@
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
         <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()"
           [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
+          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t a1" role="link"
           aria-label="Content" i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
@@ -388,7 +388,7 @@
             </div>
           </div>
         </a>
-        <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t" role="link"
+        <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t a2" role="link"
           aria-label="Content" i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
@@ -472,7 +472,7 @@
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
           <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()"
             [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
+            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t b1" role="link"
             aria-label="Content" i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
               <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
@@ -485,7 +485,7 @@
               </div>
             </div>
           </a>
-          <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t"
+          <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t b2"
             role="link" aria-label="Content" i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
               <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
@@ -585,11 +585,11 @@
         </div>
         <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 px-3 py-5">
           <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
-            class="header-btn text-white ws-mat-primary-background mat-button-base"
+            class="header-btn text-white ws-mat-primary-background mat-button-base c1"
             [routerLink]="(widgetData.content | pipeContentRoute).url">
             View Course </button>
           <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
-            class="header-btn text-white ws-mat-primary-background mat-button-base"
+            class="header-btn text-white ws-mat-primary-background mat-button-base c2"
             (click)="clickToRedirect(widgetData.content)">
             View Course </button>
           <div class="flex flex-middle">

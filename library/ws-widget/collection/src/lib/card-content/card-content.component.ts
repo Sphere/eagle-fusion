@@ -58,7 +58,8 @@ export class CardContentComponent extends WidgetBaseComponent
     if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
-    if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+    // tslint:disable-next-line:max-line-length
+    if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login') || (sessionStorage.getItem('redirect_uri')) || (sessionStorage.getItem('session_url'))) {
       this.isUserLoggedIn = true
     } else {
       this.isUserLoggedIn = false

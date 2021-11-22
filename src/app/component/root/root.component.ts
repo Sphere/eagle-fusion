@@ -131,8 +131,8 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.currentUrl = event.url
         this.changeDetector.detectChanges()
       }
-
-      if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
+      // tslint:disable-next-line:max-line-length
+      if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login')) || (sessionStorage.getItem('redirect_uri')) || (sessionStorage.getItem('session_url'))) {
         this.isNavBarRequired = true
         this.showNavigation = false
       } else {
