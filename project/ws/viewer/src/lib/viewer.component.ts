@@ -94,7 +94,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         // if (this.discussionForumWidget) {
         //   this.discussionForumWidget.widgetData.isDisabled = true
         // }
-
+        this.currentLicenseName = this.content.learningObjective || 'CC BY'
+        this.getLicenseConfig()
       }
     })
   }
@@ -155,7 +156,6 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       if (this.error && this.error.errorType === this.errorType.previewUnAuthorised) {
       }
-      // //console.log(this.error)
     })
 
     // this.getDiscussionConfig()
