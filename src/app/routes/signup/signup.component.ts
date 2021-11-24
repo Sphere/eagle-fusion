@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material'
 import { SignupService } from './signup.service'
 // import { mustMatch } from './password-validator'
 import { Router } from '@angular/router'
-
 @Component({
   selector: 'ws-signup',
   templateUrl: './signup.component.html',
@@ -34,18 +33,15 @@ export class SignupComponent implements OnInit, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                              {})
+    }, {})
   }
-
   ngOnInit() {
     // this.unseenCtrlSub = this.signupForm.valueChanges.subscribe(value => {
     //   console.log('ngOnInit - value', value);
     // })
   }
-
   verifyEntry() {
     let phone = this.emailOrMobile
-
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
@@ -60,7 +56,6 @@ export class SignupComponent implements OnInit, OnDestroy {
         },
         (err: any) => {
           this.openSnackbar(err)
-
         }
       )
     } else {
@@ -73,7 +68,6 @@ export class SignupComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   resendOTP() {
     // call resend OTP function
     this.signupService.registerWithMobile(this.emailOrMobile).subscribe(
@@ -85,27 +79,20 @@ export class SignupComponent implements OnInit, OnDestroy {
       }
     )
   }
-
   ngOnDestroy() {
     if (this.unseenCtrlSub && !this.unseenCtrlSub.closed) {
       this.unseenCtrlSub.unsubscribe()
     }
   }
-
   onSubmit(form: any) {
     this.uploadSaveData = true
     let reqObj
-
     if (this.email) {
       reqObj = {
-        data: {
-          firstname: form.value.firstName,
-          lastname: form.value.lastName,
-          username: this.emailOrMobile,
-          email: this.emailOrMobile,
-          password: form.value.password,
-        },
-        type: 'email',
+        firstname: form.value.firstName,
+        lastname: form.value.lastName,
+        email: this.emailOrMobile,
+        password: form.value.password,
       }
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.message === 'Success') {
@@ -114,7 +101,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.openSnackbar(this.toastSuccess.nativeElement.value)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.error.error)
           this.uploadSaveData = false
           form.reset()
@@ -122,7 +109,6 @@ export class SignupComponent implements OnInit, OnDestroy {
       )
     } else {
       const requestBody = {
-
         data: {
           firstname: form.value.firstName,
           lastname: form.value.lastName,
@@ -131,27 +117,22 @@ export class SignupComponent implements OnInit, OnDestroy {
           otp: form.value.otp,
         },
         mobileNumber: this.emailOrMobile,
-
       }
       this.signupService.verifyUserMobile(requestBody).subscribe(res => {
         if (res.message === 'Success') {
           this.router.navigate(['/page/home'])
         }
       },
-                                                                 err => {
+        err => {
           this.openSnackbar(err.error.error)
           form.reset()
         }
       )
-
     }
-
   }
-
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
   }
-
 }
