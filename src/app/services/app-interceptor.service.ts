@@ -1,5 +1,5 @@
 import { Injectable, LOCALE_ID, Inject } from '@angular/core'
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpClient } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { catchError } from 'rxjs/operators'
@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators'
 })
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
-    private configSvc: ConfigurationsService,
+    private configSvc: ConfigurationsService, private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -43,15 +43,21 @@ export class AppInterceptorService implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             switch (error.status) {
               case 419: // login
-                const localUrl = location.origin
-                const pageName = '/page/home'
-                if (localUrl.includes('localhost')) {
-                  // tslint:disable-next-line: prefer-template
-                  window.location.href = error.error.redirectUrl + `?q=${localUrl}${pageName}`
-                } else {
-                  // tslint:disable-next-line: prefer-template
-                  window.location.href = error.error.redirectUrl + `?q=${pageName}`
-                }
+                sessionStorage.removeItem('loginbtn')
+                this.http.get('/apis/reset')
+                // if (location.pathname.indexOf('login') >= 0) {
+                //   break
+                // }
+                // const localUrl = location.origin
+                // const pageName = '/login'
+                // if (localUrl.includes('localhost')) {
+                //   // tslint:disable-next-line: prefer-template
+                //   window.location.href = error.error.redirectUrl + `?q=${localUrl}${pageName}`
+                //   break
+                // } else {
+                //   // tslint:disable-next-line: prefer-template
+                //   window.location.href = error.error.redirectUrl + `?q=${pageName}`
+                // }
                 break
             }
           }

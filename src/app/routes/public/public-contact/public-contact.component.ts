@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router'
 export class PublicContactComponent implements OnInit, OnDestroy {
   contactUsMail = ''
   contactPage: any
-  platform = 'Wingspan'
+  platform = 'sunbird'
   panelOpenState = false
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   private subscriptionContact: Subscription | null = null

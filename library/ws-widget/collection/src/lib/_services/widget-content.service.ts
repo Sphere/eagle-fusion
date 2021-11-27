@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse  } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Observable, of, throwError } from 'rxjs'
@@ -21,7 +21,7 @@ const API_END_POINTS = {
   FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
   CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
-  CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
+  CONTENT_SEARCH_V6: `/apis/public/v8/publicContent/v1/search`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
   CONTENT_HISTORYV2: `/apis/proxies/v8/read/content-progres`,
