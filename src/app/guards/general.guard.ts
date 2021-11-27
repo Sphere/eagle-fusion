@@ -6,7 +6,7 @@ import {
   // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
-import lodash from 'lodash'
+import * as _ from 'lodash'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 // import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
