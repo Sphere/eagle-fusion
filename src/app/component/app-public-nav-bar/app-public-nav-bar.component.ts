@@ -114,11 +114,15 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   login(key: 'E' | 'N' | 'S') {
     this.authSvc.login(key, this.redirectUrl)
-       if (sessionStorage.getItem('loginbtn')) {
-      sessionStorage.removeItem('loginbtn')
+    // if (sessionStorage.getItem('loginbtn')) {
+    //   sessionStorage.removeItem('loginbtn')
+    // }
+    // sessionStorage.setItem(`loginbtn`, window.location.href)
+    // window.location.href = `${this.redirectUrl}apis/reset`
+    if (this.configSvc.userProfile === null &&
+      this.configSvc.instanceConfig) {
+      sessionStorage.setItem(`loginbtn`, window.location.href)
     }
-    sessionStorage.setItem(`loginbtn`, window.location.href)
-    window.location.href = `${this.redirectUrl}apis/reset`
   }
 
   ngOnDestroy() {

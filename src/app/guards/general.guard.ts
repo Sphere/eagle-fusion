@@ -6,8 +6,9 @@ import {
   // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
+import lodash from 'lodash'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
-import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+// import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 export class GeneralGuard implements CanActivate {
   dobFlag = false
   constructor(private router: Router, private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService) { }
+    // private userProfileSvc: UserProfileService
+  ) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -27,7 +29,6 @@ export class GeneralGuard implements CanActivate {
   }
 
   private async shouldAllow<T>(
-    // state: RouterStateSnapshot,
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
@@ -60,48 +61,32 @@ export class GeneralGuard implements CanActivate {
     /**
      * Test IF User Tnc Is Accepted
      */
-    // if (!this.configSvc.hasAcceptedTnc) {
-    //   if (
-    //     state.url &&
-    //     !state.url.includes('/app/setup/') &&
-    //     !state.url.includes('/app/tnc') &&
-    //     !state.url.includes('/page/home')
-    //   ) {
-    //     this.configSvc.userUrl = state.url
-    //   }
-    // if (
-    //   this.configSvc.restrictedFeatures &&
-    //   !this.configSvc.restrictedFeatures.has('firstTimeSetupV2')
-    // ) {
-    //   return this.router.parseUrl(`/app/setup/home/lang`)
-    // }
-    // return this.router.parseUrl(`/app/tnc`)
-    // }
+    if (!this.configSvc.hasAcceptedTnc) {
+      return this.router.parseUrl(`/public/tnc`)
+    }
     /**
        * Test IF User updated the profile details
        */
     // if (!this.configSvc.profileDetailsStatus) {
-    // return this.router.parseUrl('/app/user-profile/details')
-    // return this.router.parseUrl('/app/user-profile/chatbot')
+    //   return this.router.parseUrl('/app/user-profile/chatbot')
     // }
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-      (data: any) => {
-        // if (data) {
-        //   const userData = data.profileDetails.personalDetails
-        //   if (userData.dob) {
-        //     this.dobFlag = userData.dob || ''
-        //   }
-        // }
-        // if (this.dobFlag) {
-        //   return this.router.parseUrl('/page/home')
-        // }
-        if (data.profileDetails) {
-          return this.router.parseUrl('/page/home')
-        }
-        return this.router.navigate(['public', 'tnc'])
-      },
-      (_err: any) => {
-      })
+
+    // if (this.configSvc && this.configSvc.unMappedUser) {
+    //   this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+    //     (data: any) => {
+    //       if (_.isNull(data.profileDetails)) {
+    //         return this.router.navigate(['/public/tnc'])
+    //       }
+    //       return true
+    //     },
+    //     (_err: any) => {
+    //     })
+    // }
+    // else if (_.isUndefined(this.configSvc.unMappedUser)) {
+    //   // return this.router.navigate(['/public/tnc'])
+    //   this.router.navigate(['public', 'tnc'])
+    // }
+
     /**
      * Test IF User has requried role to access the page
      */

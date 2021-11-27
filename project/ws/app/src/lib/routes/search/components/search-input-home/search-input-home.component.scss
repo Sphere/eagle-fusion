@@ -11,7 +11,7 @@ ws-app-search-input-home .autocomplete-form {
 
 .search-home {
   border-radius: 0px 4px 4px 0px;
-  padding: $size-s $size-m;
+  padding: $size-s 2px;
 }
 
 ws-app-search-input-home input {
@@ -41,6 +41,7 @@ ws-app-search-input-home .search-border {
   border: 1px solid #dedfe0;
   flex: 1;
   background-color: #fff;
+  width: 325px;
   /* border-color: #cecece;*/
   .search {
     @include breakpoint-xs {
