@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-      emailOrMobile: new FormControl('', [Validators.required])
+      emailOrMobile: new FormControl('', [Validators.required]),
     }, {})
   }
 
@@ -44,7 +44,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     //   console.log('ngOnInit - value', value);
     // })
   }
-
 
   // generate otp
 
@@ -60,9 +59,8 @@ export class SignupComponent implements OnInit, OnDestroy {
       }
       this.signupService.generateOtp(request).subscribe(
         (res: any) => {
-          console.log(res)
           if (res.message === 'Success') {
-            //this.isMobile = true
+            // this.isMobile = true
           }
           // this.openSnackbar(res.message)
         },
@@ -84,7 +82,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       // Call OTP Api, show resend Button true
       const request = {
         mobileNumber: phone,
-        otp: this.signupForm.controls.otp.value
+        otp: this.signupForm.controls.otp.value,
       }
 
       this.signupService.validateOtp(request).subscribe(
@@ -152,7 +150,6 @@ export class SignupComponent implements OnInit, OnDestroy {
         }
       },
         err => {
-          console.log(err.error)
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           form.reset()
@@ -169,7 +166,7 @@ export class SignupComponent implements OnInit, OnDestroy {
         if (res.status === 'success') {
           this.showAllFields = false
           this.generateOtp()
-          //this.router.navigate(['/page/home'])
+          // this.router.navigate(['/page/home'])
         }
       },
         err => {

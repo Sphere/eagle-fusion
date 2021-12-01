@@ -24,15 +24,15 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   showResend = false
   key = ''
   constructor(private router: Router, private signupService: SignupService,
-    private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
+              private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
     this.forgotPasswordForm = this.fb.group({
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                      { validator: mustMatch('password', 'confirmPassword') })
 
     this.emailForm = this.fb.group({
       userInput: new FormControl(['']),
-    }, { validators: EmailMobileValidators.combinePattern })
+    },                             { validators: EmailMobileValidators.combinePattern })
   }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    }, 30000)
+    },         30000)
   }
 
   forgotPassword() {
@@ -115,7 +115,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           this.openSnackbar('Password changed successfully')
           setTimeout(() => {
             this.authSvc.login('S', document.baseURI)
-          }, 5000)
+          },         5000)
         }
       },
       (error: any) => {
