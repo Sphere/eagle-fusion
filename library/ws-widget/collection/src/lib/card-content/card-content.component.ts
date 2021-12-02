@@ -114,7 +114,7 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   clickToRedirect(data: any) {
-    //console.log(data)
+    // console.log(data)
     sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
     // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
     const url = sessionStorage.getItem(`url_before_login`) || ''

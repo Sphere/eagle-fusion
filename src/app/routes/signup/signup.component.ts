@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
       emailOrMobile: new FormControl('', [Validators.required]),
-    }, {})
+    },                              {})
   }
 
   ngOnInit() {
@@ -149,7 +149,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.openSnackbar(this.toastSuccess.nativeElement.value)
         }
       },
-        err => {
+                                                  err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           form.reset()
@@ -169,7 +169,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           // this.router.navigate(['/page/home'])
         }
       },
-        err => {
+                                                                   err => {
           this.openSnackbar(err.error.msg)
           form.reset()
         }
