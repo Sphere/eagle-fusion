@@ -141,7 +141,15 @@ export class RootComponent implements OnInit, AfterViewInit {
         // this.authSvc.logout();
         // window.location.href = `${redirectUrl}apis/reset`
       }
-
+      if (
+        this.configSvc.userProfile === null &&
+        this.configSvc.instanceConfig &&
+        !Boolean(this.configSvc.instanceConfig.disablePidCheck)
+      ) {
+        this.isNavBarRequired = false
+      } else {
+        this.isNavBarRequired = true
+      }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         if (this.appStartRaised) {
