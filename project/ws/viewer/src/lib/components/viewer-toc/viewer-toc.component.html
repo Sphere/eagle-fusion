@@ -51,7 +51,7 @@
             <span role="button" [ngClass]="{ 'content-active': pathSet.has(node.identifier) }" matRipple
               matTreeNodeToggle class="margin-left-xs mt-2 width-9-10">
               <h3 class="text-truncate margin-remove">{{ node.title }}</h3>
-              <div class="mb-3 width-max-content">
+              <div class="mb-3 width-max-content f-w-500">
                 Total: {{ node.duration | pipeDurationTransform: 'hms' }}
               </div>
 
@@ -100,6 +100,7 @@
   <a class="width-expand flat-list-content margin-xs" [ngClass]="{ 'content-active': pathSet.has(content.identifier) }"
     matRipple (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve">
     <span class="width-expand flex flex-middle">
+
       <img i18n-alt alt="thumbnail" class="viewer-toc-thumbnail align-self-start margin-auto mat-app-background"
         [src]="content.thumbnailUrl" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
       <span class="width-1-1 margin-left-m flex flex-wrapped align-self-start">
@@ -151,9 +152,9 @@
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
         queryParamsHandling="preserve" (click)="sendStatus(content)">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
-          {{ content?.title }} &nbsp;<span *ngIf="content?.completionPercentage">| {{content.completionPercentage}}% |
+          {{ content?.title }} <span *ngIf="content?.completionPercentage"> &nbsp;| {{content.completionPercentage}}% |
           </span>
-          <mat-icon title="{{content?.completionPercentage}}%" *ngIf="
+          <mat-icon title="Completion Percentage : {{content?.completionPercentage}}%" *ngIf="
               content?.completionPercentage === 100
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
             check_circle_outline</mat-icon>

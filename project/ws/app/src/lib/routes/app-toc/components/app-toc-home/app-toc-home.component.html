@@ -39,7 +39,7 @@
       </a>
 
       <a *ngIf="content?.children?.length" mat-tab-link [routerLink]="'./contents'"
-        routerLinkActive="ws-mat-primary-text link-active" i18n>Contents</a>
+        [queryParams]="{batchId: batchId ,contentId: content.identifier}" routerLinkActive="ws-mat-primary-text link-active" i18n>Contents</a>
       <!-- <a *ngIf="enableAnalytics" [disabled]="forPreview" mat-tab-link [routerLink]="'./analytics'"
         routerLinkActive="ws-mat-primary-text link-active" i18n>Analytics</a> -->
       <!-- <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active"

@@ -93,7 +93,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
-
     // private authAccessService: AccessControlService,
   ) { }
 
@@ -116,7 +115,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
-
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig && instanceConfig.logos && instanceConfig.logos.defaultSourceLogo) {
       this.defaultSLogo = instanceConfig.logos.defaultSourceLogo
@@ -287,6 +285,10 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  downloadPdf(content: any) {
+    return content
   }
 
   get showInstructorLedMsg() {

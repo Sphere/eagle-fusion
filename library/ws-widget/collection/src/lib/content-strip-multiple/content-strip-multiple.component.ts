@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
 import * as _ from 'lodash'
 import { WidgetUserService } from '../_services/widget-user.service'
-import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
+// import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 interface IStripUnitContentData {
   key: string
@@ -75,7 +75,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     protected utilitySvc: UtilityService,
     // private searchServSvc: SearchServService,
     private userSvc: WidgetUserService,
-    private tocSvc: AppTocService
+    // private tocSvc: AppTocService
   ) {
     super()
   }
@@ -213,7 +213,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             }
             : null
           if (courses && courses.length) {
-            content = courses.map(c => {
+            content = courses
+            .map(c => {
               const contentTemp: NsContent.IContent = c.content
               contentTemp.completionPercentage = c.completionPercentage || c.progress || 0
               contentTemp.completionStatus = c.completionStatus || c.status || 0
@@ -232,7 +233,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             })
           }
           if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
-            this.tocSvc.setcontentForWidget(contentNew)
+            // this.tocSvc.setcontentForWidget(contentNew)
             this.processStrip(
               strip,
               this.transformContentsToWidgets(contentNew, strip),
@@ -241,7 +242,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
               viewMoreUrl,
             )
           } else {
-            this.tocSvc.setcontentForWidget(content)
+            // this.tocSvc.setcontentForWidget(content)
             this.processStrip(
               strip,
               this.transformContentsToWidgets(content, strip),
