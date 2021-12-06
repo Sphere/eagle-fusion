@@ -8,6 +8,7 @@ import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
+import { Router } from '@angular/router'
 // import { Router } from '@angular/router';
 
 @Component({
@@ -43,7 +44,7 @@ export class CardContentComponent extends WidgetBaseComponent
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
-    // private router: Router
+    private router: Router
   ) {
     super()
     this.offSetXValue = 290
@@ -113,10 +114,12 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   clickToRedirect(data: any) {
+    // console.log(data)
     sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-    window.location.href = `${this.defaultRedirectUrl}apis/reset`
+    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+    const url = sessionStorage.getItem(`url_before_login`) || ''
+    this.router.navigateByUrl(url)
+    //  window.location.href = `${this.defaultRedirectUrl}apis/reset`
   }
 
   checkContentTypeCriteria() {

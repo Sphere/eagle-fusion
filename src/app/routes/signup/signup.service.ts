@@ -4,11 +4,13 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 const API_END_POINTS = {
-  USER_SIGNUP: `/apis/public/v8/register/registerUserWithEmail`,
-  REGISTERUSERWITHMOBILE: `/apis/public/v8/register/registerUserWithMobile`,
-  VERIFY_OTP: `/apis/public/v8/register/verifyUserWithMobileNumber`,
-  RESET_PASSWORD: `/apis/public/v8/register/resetPassword`,
-  SETPASSWORD_OTP: `/apis/public/v8/register/setPasswordWithOTP`,
+  USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
+  REGISTERUSERWITHMOBILE: `/apis/public/v8/emailMobile/registerUserWithMobile`,
+  GENERATE_OTP: `/apis/public/v8/emailMobile/generateOtp`,
+  VALIDATE_OTP: `/apis/public/v8/emailMobile/validateOtp`,
+  VERIFY_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
+  RESET_PASSWORD: `/apis/public/v8/forgot-password/reset/proxy/password`,
+  SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
 }
 
 @Injectable({
@@ -36,6 +38,21 @@ export class SignupService {
 
   verifyUserMobile(data: any) {
     return this.http.post<any>(API_END_POINTS.VERIFY_OTP, data).pipe(
+      map(response => {
+        return response
+      })
+    )
+  }
+
+  generateOtp(data: any) {
+    return this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(
+      map(response => {
+        return response
+      })
+    )
+  }
+  validateOtp(data: any) {
+    return this.http.post<any>(API_END_POINTS.VALIDATE_OTP, data).pipe(
       map(response => {
         return response
       })
