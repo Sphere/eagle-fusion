@@ -188,14 +188,14 @@ export class CardContentComponent extends WidgetBaseComponent
     this.offSetYValue = -340
   }
 
-  private get defaultRedirectUrl(): string {
-    try {
-      const baseUrl = document.baseURI
-      return baseUrl || location.origin
-    } catch (error) {
-      return location.origin
-    }
-  }
+  // private get defaultRedirectUrl(): string {
+  //   try {
+  //     const baseUrl = document.baseURI
+  //     return baseUrl || location.origin
+  //   } catch (error) {
+  //     return location.origin
+  //   }
+  // }
 
   get checkDisplayName(): string {
     if (this.widgetData.content.creatorDetails && this.widgetData.content.creatorDetails.length) {
