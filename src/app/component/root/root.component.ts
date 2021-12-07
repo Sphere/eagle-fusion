@@ -105,6 +105,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = true
       }
     }
+    if (this.configSvc.userProfile !== null) {
+      this.router.navigate(['/page/home'])
+    }
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {
@@ -117,6 +120,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
+        } else if (event.url.includes('/public/home')) {
+          // console.log('check')
+          // this.isNavBarRequired = false
         } else {
           this.isNavBarRequired = true
         }
@@ -142,10 +148,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         // window.location.href = `${redirectUrl}apis/reset`
       }
       if (
-        this.configSvc.userProfile === null &&
-        this.configSvc.instanceConfig &&
-        !Boolean(this.configSvc.instanceConfig.disablePidCheck)
-      ) {
+        this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
       } else {
         this.isNavBarRequired = true

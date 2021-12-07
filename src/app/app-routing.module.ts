@@ -15,6 +15,7 @@ import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
 import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
+import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
@@ -33,9 +34,20 @@ import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-s
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'page/home',
+    redirectTo: 'public/home',
     pathMatch: 'full',
-    canActivate: [EmptyRouteGuard],
+  },
+  {
+    path: 'public/home',
+    component: PublicHomeComponent,
+    data: {
+      pageType: 'public',
+      pageKey: 'id',
+      isPublic: true,
+    },
+    resolve: {
+      pageData: PageResolve,
+    }
   },
   {
     path: 'practice/behavioral',
