@@ -1,9 +1,5 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
-  <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
-    matTooltip="Home">
-    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" *ngIf=" (isXSmall$ | async) === false" />
-    <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
-  </a>
+
   <div class="fix-ww">
     <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
@@ -34,8 +30,8 @@
   <span class="spacer"></span>
 
   <div class="flex justify-center flex-col login-btn">
-    <button *ngIf="!configSvc.isAuthenticated" name="login_client_button" color="primary" mat-raised-button
-      i18n="login: client" (click)="login('S')" class="login-btn header-btn ws-mat-primary-background mat-button-base">
+    <button name="login_client_button" color="primary" mat-raised-button i18n="login: client" (click)="login('S')"
+      class="login-btn header-btn ws-mat-primary-background mat-button-base">
       Login
     </button>
   </div>

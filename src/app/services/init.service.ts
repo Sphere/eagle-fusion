@@ -374,14 +374,13 @@ export class InitService {
             isManager: false,
           }
         } else {
-          console.log('check here')
           //this.authSvc.logout()
         }
         const details = {
           group: [],
           profileDetailsStatus: !!_.get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
           roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
-          tncStatus: !userPidProfile.promptTnC,
+          tncStatus: !(_.isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
