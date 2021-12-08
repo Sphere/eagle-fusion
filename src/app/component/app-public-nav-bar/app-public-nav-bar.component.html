@@ -1,5 +1,9 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
-
+  <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
+    matTooltip="Home">
+    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" *ngIf=" (isXSmall$ | async) === false" />
+    <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
+  </a>
   <div class="fix-ww">
     <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
