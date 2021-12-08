@@ -157,10 +157,10 @@ export class AuthKeycloakService {
       sessionStorage.removeItem('loginbtn')
       sessionStorage.removeItem('url_before_login')
       this.http.get('/apis/reset')
-      //this.keycloakSvc.logout(this.defaultRedirectUrl)
+      this.keycloakSvc.logout(this.defaultRedirectUrl)
       // window.location.href = `${this.defaultRedirectUrl}apis/reset`
       window.location.href = `${this.defaultRedirectUrl}public/home`
-      //this.router.navigate(['/page/home'])
+      // this.router.navigate(['/page/home'])
     }
   }
   private addKeycloakEventListener() {

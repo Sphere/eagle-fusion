@@ -15,7 +15,7 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 export class GeneralGuard implements CanActivate {
   dobFlag = false
   constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) { }
+              private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,

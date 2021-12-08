@@ -20,7 +20,7 @@ export class EmptyRouteGuard implements CanActivate {
     _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.configSvc.userProfile !== null) {
-      //logger.log('Redirecting to application home page')
+      // logger.log('Redirecting to application home page')
       return this.router.navigate(['/page/home'])
     }
     // logger.log('redirecting to login page as the user is not loggedIn');

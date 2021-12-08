@@ -88,3 +88,8 @@
     padding-bottom: 0px;
     margin-bottom: 16px;
 }
+@media screen and (max-width: 768px) {
+  .toc-body .toc-links .mat-tab-link{
+    min-width: 100px !important;
+  }
+}

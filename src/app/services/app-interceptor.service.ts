@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators'
 })
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
-    private configSvc: ConfigurationsService, //private http: HttpClient,
+    private configSvc: ConfigurationsService, // private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -34,7 +34,7 @@ export class AppInterceptorService implements HttpInterceptor {
           locale: lang.join(','),
           wid: (this.configSvc.userProfile && this.configSvc.userProfile.userId) || '',
           hostPath: this.configSvc.hostPath,
-          Authorization: ''
+          Authorization: '',
         },
       })
 
@@ -45,7 +45,7 @@ export class AppInterceptorService implements HttpInterceptor {
             switch (error.status) {
               case 419: // login
                 if (location.pathname.indexOf('/public') >= 0) {
-                  //this.http.get('/apis/reset')
+                  // this.http.get('/apis/reset')
                   break
                 }
               // const localUrl = location.origin

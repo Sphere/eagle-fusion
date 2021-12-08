@@ -233,7 +233,7 @@ export class WidgetContentService {
   publicContentSearch(req: NSSearch.ISearchV6Request) {
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
-      req,
+                                                       req,
     )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {

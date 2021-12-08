@@ -46,7 +46,7 @@ const routes: Routes = [
     },
     resolve: {
       pageData: PageResolve,
-    }
+    },
   },
   {
     path: 'practice/behavioral',

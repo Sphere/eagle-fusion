@@ -11,13 +11,13 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 // import { ILoginDescriptiveFooterConfig, IWSPublicLoginConfig } from './login.model'
-import { ConfigurationsService, NsPage, } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'ws-public-home',
   templateUrl: './public-home.component.html',
-  styleUrls: ['./public-home.component.scss']
+  styleUrls: ['./public-home.component.scss'],
 })
 export class PublicHomeComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
@@ -59,7 +59,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
 
   constructor(
     private activateRoute: ActivatedRoute,
-    //private authSvc: AuthKeycloakService,
+    // private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private router: Router,
@@ -82,9 +82,9 @@ export class PublicHomeComponent extends WidgetBaseComponent
     this.subscriptionHome = this.activateRoute.data.subscribe(data => {
       this.pageLayout = data.pageData.data.pageLayout
       // todo
-      //this.loginConfig = data.pageData.data
+      // this.loginConfig = data.pageData.data
       this.isClientLogin = data.pageData.data.isClient
-      //this.welcomeFooter = data.pageData.data.footer.descriptiveFooter
+      // this.welcomeFooter = data.pageData.data.footer.descriptiveFooter
       // this.title = data.pageData.data.topbar.title
       // this.subTitle = data.pageData.data.topbar.subTitle
       // this.contactUs = data.pageData.data.footer.contactUs

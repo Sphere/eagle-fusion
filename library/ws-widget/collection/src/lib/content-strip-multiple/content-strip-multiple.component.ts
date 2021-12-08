@@ -311,12 +311,12 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
     // setting initial values
     this.processStrip(strip, [], 'fetching', false, null)
-    //this.fetchFromApi(strip, calculateParentStatus)
-    //this.fetchFromSearch(strip, calculateParentStatus)
-    //this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
+    // this.fetchFromApi(strip, calculateParentStatus)
+    // this.fetchFromSearch(strip, calculateParentStatus)
+    // this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
     this.fetchFromPublicSearch(strip, calculateParentStatus)
-    //his.fetchFromIds(strip, calculateParentStatus)
-    //this.fetchFromEnrollmentList(strip, calculateParentStatus)
+    // his.fetchFromIds(strip, calculateParentStatus)
+    // this.fetchFromEnrollmentList(strip, calculateParentStatus)
   }
 
   private fetchStripFromRequestData(
@@ -531,7 +531,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     }
   }
 
-
   fetchFromPublicSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.searchV6 && Object.keys(strip.request.searchV6).length) {
       // if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
@@ -590,7 +589,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       )
     }
   }
-
 
   fetchFromIds(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.ids && Object.keys(strip.request.ids).length) {
