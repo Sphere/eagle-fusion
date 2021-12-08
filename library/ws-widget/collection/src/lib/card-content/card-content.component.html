@@ -229,8 +229,9 @@
           </button>
         </div>
       </div>
+      <!--1 -->
       <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-        [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
       </ws-widget-content-progress>
     </div>
   </div>
@@ -264,8 +265,9 @@
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
           <span class="img-overlay"></span>
         </a>
+       <!--2 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
         <mat-card-content>
           <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
@@ -405,8 +407,9 @@
           (click)="isCardFlipped = true" aria-label="Details" i18n-aria-label="Details | Click to see details">
           <mat-icon>flip_to_back</mat-icon>
         </button>
+        <!--3 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
 
         <mat-card-content>
@@ -488,8 +491,9 @@
             (click)="isCardFlipped = true" aria-label="Details" i18n-aria-label="Details | Click to see details">
             <mat-icon>flip_to_back</mat-icon>
           </button>
+          <!--4 -->
           <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-            [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+            [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
           </ws-widget-content-progress>
 
           <mat-card-content>
@@ -638,8 +642,9 @@
           aria-label="Details" i18n-aria-label="Details | Click to see details">
           <mat-icon>flip_to_back</mat-icon>
         </button>
+      <!--5 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
         <mat-card-content>
           <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
@@ -747,8 +752,9 @@
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
+      <!--6 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
       </a>
 
@@ -849,8 +855,9 @@
           [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
           [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
+    <!--7 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
       </a>
       <mat-card-content>

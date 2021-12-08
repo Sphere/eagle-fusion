@@ -53,6 +53,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   forPreview = window.location.href.includes('/author/')
   analytics = this.route.snapshot.data.pageData.data.analytics
   currentFragment = 'overview'
+  batchId!: string
   sticky = false
   license = 'CC BY'
   errorWidgetData: NsWidgetResolver.IRenderConfigWithTypedData<any> = {
@@ -461,7 +462,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               return course
             })
           }
-
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
             // const collectionId = this.isResource ? '' : this.content.identifier
@@ -473,6 +473,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               enrolled: true,
             }
             if (this.getBatchId()) {
+              this.batchId = this.getBatchId()
               this.router.navigate(
                 [],
                 {

@@ -296,7 +296,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
         content.mimeType,
       )}/${content.identifier}`,
-      thumbnailUrl: this.viewSvc.getAuthoringUrl(content.appIcon),
+      thumbnailUrl: content.appIcon,
       title: content.name,
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,

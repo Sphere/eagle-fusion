@@ -123,7 +123,7 @@
                       <mat-select [formControl]="batchControl" required>
                         <mat-option>--</mat-option>
                         <mat-option *ngFor="let batch of batchData.content" [value]="batch"
-                          [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
+                         [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
                           <p>{{batch.name}}
                             ({{batch.startDate}} - {{batch.endDate || 'present'}})</p>
                         </mat-option>
@@ -147,7 +147,7 @@
 
               <div class="header-actions header-act-btn">
                 <a [color]="'primary'"
-                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('MDO_ADMIN') || this.configSvc.userRoles.has('SPV_ADMIN'))"
+                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('mdo_admin') || this.configSvc.userRoles.has('spv_admin'))"
                   class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
                   Create Batch
                 </a>
@@ -239,6 +239,10 @@
                   <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
                     [widgetData]="content | pipePartialContent: ['identifier', 'name']">
                   </ws-widget-btn-content-feedback-v2> -->
+                  <button mat-raised-button [color]="'primary'" *ngIf="content?.issuedCertificates?.length > 0" (click)="downloadPdf(content)"
+                    class="ws-mat-primary-background mat-button-base margin-right-m">
+                    <mat-icon>file_download</mat-icon>Certificate
+                  </button>
                 </div>
               </div>
             </div>
@@ -249,9 +253,8 @@
       <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
       </div>
     </div>
-
     <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
-      [className]="'thick'" [progress]="content?.progress?.progress">
+      [className]="'thick'" [progress]="content?.completionPercentage">
     </ws-widget-content-progress>
 
   </div>

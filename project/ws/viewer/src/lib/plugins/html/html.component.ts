@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild }
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
-import { NsContent } from '@ws-widget/collection'
+import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
@@ -41,6 +41,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
     private events: EventService,
+    private contentSvc: WidgetContentService
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
@@ -70,7 +71,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       ? this.configSvc.instanceConfig.intranetIframeUrls
       : []
 
-    // //console.log(this.htmlContent)
     let iframeSupport: boolean | string | null =
       this.htmlContent && this.htmlContent.isIframeSupported
     if (this.htmlContent && this.htmlContent.artifactUrl) {
@@ -108,19 +108,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
           }
         })
       }
-      // if (this.htmlContent.isInIntranet || this.isIntranetUrl) {
-      //   this.checkIfIntranet().subscribe(
-      //     data => {
-      //       //console.log(data)
-      //       this.isUserInIntranet = data ? true : false
-      //       //console.log(this.isUserInIntranet)
-      //     },
-      //     () => {
-      //       this.isUserInIntranet = false
-      //       //console.log(this.isUserInIntranet)
-      //     },
-      //   )
-      // }
+
       this.showIsLoadingMessage = false
       if (this.htmlContent.isIframeSupported !== 'No') {
         setTimeout(
@@ -135,18 +123,35 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
       if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
         if (this.htmlContent.status !== 'Live') {
-          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            `https://igot.blob.core.windows.net/content/content/html/${this.htmlContent.identifier}-latest/index.html`
-          )
+          if (this.htmlContent && this.htmlContent.artifactUrl) {
+            this.contentSvc
+              .fetchContent(this.htmlContent.identifier)
+              .toPromise()
+              .then((res: any) => {
+                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
+              })
+              .catch((err: any) => {
+                /* tslint:disable-next-line */
+                console.log(err)
+              })
+          }
         } else {
-          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            `https://igot.blob.core.windows.net/content/content/html/${this.htmlContent.identifier}-snapshot/index.html`
-          )
+          if (this.htmlContent && this.htmlContent.artifactUrl) {
+            this.contentSvc
+              .fetchContent(this.htmlContent.identifier)
+              .toPromise()
+              .then((res: any) => {
+                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
+              })
+              .catch((err: any) => {
+                /* tslint:disable-next-line */
+                console.log(err)
+              })
+          }
         }
       } else {
         this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.htmlContent.artifactUrl,
-        )
+          this.htmlContent.artifactUrl)
       }
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
