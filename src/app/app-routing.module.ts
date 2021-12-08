@@ -7,7 +7,6 @@ import { BtnProfileComponent } from '../../library/ws-widget/collection/src/lib/
 import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { ETopBar } from './constants/topBar.constants'
-import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
 import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'

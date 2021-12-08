@@ -105,9 +105,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = true
       }
     }
-    if (this.configSvc.userProfile !== null) {
-      this.router.navigate(['/page/home'])
-    }
+
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {
@@ -168,12 +166,12 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
-    if (sessionStorage.getItem('url_before_login')) {
-      const url = sessionStorage.getItem(`url_before_login`) || ''
-      // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-      // this.location.replaceState(url)
-      this.router.navigateByUrl(url)
-    }
+    // if (sessionStorage.getItem('url_before_login')) {
+    //   const url = sessionStorage.getItem(`url_before_login`) || ''
+    //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+    //   // this.location.replaceState(url)
+    //   this.router.navigateByUrl(url)
+    // }
   }
 
   ngAfterViewInit() {
