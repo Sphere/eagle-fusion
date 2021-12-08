@@ -56,7 +56,7 @@ export class CardContentComponent extends WidgetBaseComponent
     // if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 && !this.authSvc.isAuthenticated) {
     //   this.showLoggedInCard = true
     // }
-    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
+    if (url.indexOf('/public/home') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
     if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
@@ -174,11 +174,13 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(key: 'E' | 'N' | 'S') {
+
     this.authSvc.login(key, document.baseURI)
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
-    const url = `/app/toc/${contentId}/overview`
+    const localUrl = location.origin
+    const url = `${localUrl}/app/toc/${contentId}/overview`
     this.authSvc.login(key, url)
   }
 
