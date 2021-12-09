@@ -36,6 +36,11 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       return this.getData(`${this.baseUrl}/page/${route.paramMap.get(route.data.pageKey)}`)
     }
     if (
+      route.data.pageType === 'public' &&
+      route.data.pageKey) {
+      return this.getData(`${this.baseUrl}/page/public-home`)
+    }
+    if (
       route.data.pageType === 'page' &&
       route.data.pageKey &&
       route.data.pageKey === 'toc'

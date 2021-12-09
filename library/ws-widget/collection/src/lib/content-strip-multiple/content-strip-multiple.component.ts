@@ -116,6 +116,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             .forEach(k => this.fetchStripFromKeyForLogin(k, false))
         })
       this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
+    } else if (url.indexOf('public/home') > 0) {
+      this.initPublicHomeData()
     } else {
       this.initData()
     }
@@ -126,7 +128,37 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       this.changeEventSubscription.unsubscribe()
     }
   }
-
+  private initPublicHomeData() {
+    this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
+    if (this.widgetData.loader && this.widgetData.strips.length) {
+      this.showParentLoader = true
+    }
+    // Fetch the data
+    for (const strip of this.widgetData.strips) {
+      if (this.checkForEmptyWidget(strip)) {
+        this.fetchHomeStripFromRequestData(strip)
+      } else {
+        this.processStrip(strip, [], 'done', true, null)
+      }
+    }
+    // Subscription for changes
+    const keyAndEvent: { key: string; type: string; from: string }[] = this.widgetData.strips
+      .map(strip => ({
+        key: strip.key,
+        type: (strip.refreshEvent && strip.refreshEvent.eventType) || '',
+        from: (strip.refreshEvent && strip.refreshEvent.from.toString()) || '',
+      }))
+      .filter(({ key, type, from }) => key && type && from)
+    const eventTypeSet = new Set(keyAndEvent.map(e => e.type))
+    this.changeEventSubscription = this.eventSvc.events$
+      .pipe(filter(event => eventTypeSet.has(event.eventType)))
+      .subscribe(event => {
+        keyAndEvent
+          .filter(e => e.type === event.eventType && e.from === event.from)
+          .map(e => e.key)
+          .forEach(k => this.fetchStripFromHomeKey(k, false))
+      })
+  }
   private initData() {
     this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
     if (this.widgetData.loader && this.widgetData.strips.length) {
@@ -264,6 +296,28 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     if (stripData) {
       this.fetchStripFromRequestData(stripData, calculateParentStatus)
     }
+  }
+
+  private fetchStripFromHomeKey(key: string, calculateParentStatus = true) {
+    const stripData = this.widgetData.strips.find(strip => strip.key === key)
+    if (stripData) {
+      this.fetchHomeStripFromRequestData(stripData, calculateParentStatus)
+    }
+  }
+
+  private fetchHomeStripFromRequestData(
+    strip: NsContentStripMultiple.IContentStripUnit,
+    calculateParentStatus = true,
+  ) {
+
+    // setting initial values
+    this.processStrip(strip, [], 'fetching', false, null)
+    // this.fetchFromApi(strip, calculateParentStatus)
+    // this.fetchFromSearch(strip, calculateParentStatus)
+    // this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
+    this.fetchFromPublicSearch(strip, calculateParentStatus)
+    // his.fetchFromIds(strip, calculateParentStatus)
+    // this.fetchFromEnrollmentList(strip, calculateParentStatus)
   }
 
   private fetchStripFromRequestData(
@@ -478,6 +532,65 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     }
   }
 
+  fetchFromPublicSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
+    if (strip.request && strip.request.searchV6 && Object.keys(strip.request.searchV6).length) {
+      // if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
+      //   if (this.configSvc.activeLocale) {
+      //     strip.request.searchV6.locale = [this.configSvc.activeLocale.locals[0]]
+      //   } else {
+      //     strip.request.searchV6.locale = ['en']
+      //   }
+      // }
+      let originalFilters: any = []
+      if (strip.request &&
+        strip.request.searchV6 &&
+        strip.request.searchV6.request &&
+        strip.request.searchV6.request.filters) {
+        originalFilters = strip.request.searchV6.request.filters
+        strip.request.searchV6.request.filters = this.transformSearchV6FiltersV2(
+          strip.request.searchV6.request.filters,
+        )
+      }
+
+      this.contentSvc.publicContentSearch(strip.request.searchV6).subscribe(
+        results => {
+          const showViewMore = Boolean(
+            results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
+          )
+          const viewMoreUrl = showViewMore
+            ? {
+              path: '/app/search/learning',
+              queryParams: {
+                q: strip.request && strip.request.searchV6 && strip.request.searchV6.request,
+                f:
+                  strip.request &&
+                    strip.request.searchV6 &&
+                    strip.request.searchV6.request &&
+                    strip.request.searchV6.request.filters
+                    ? JSON.stringify(
+                      this.transformSearchV6FiltersV2(
+                        originalFilters,
+                      )
+                    )
+                    : {},
+              },
+            }
+            : null
+          this.processStrip(
+            strip,
+            this.transformContentsToWidgets(results.result['content'], strip),
+            'done',
+            calculateParentStatus,
+            viewMoreUrl,
+          )
+        },
+        () => {
+          this.processStrip(strip, [], 'error', calculateParentStatus, null)
+        },
+      )
+    }
+  }
+
   fetchFromIds(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.ids && Object.keys(strip.request.ids).length) {
       this.contentSvc.fetchMultipleContent(strip.request.ids).subscribe(
@@ -583,6 +696,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       ...this.stripsResultDataMap,
       [strip.key]: stripData,
     }
+
     if (
       calculateParentStatus &&
       (fetchStatus === 'done' || fetchStatus === 'error') &&

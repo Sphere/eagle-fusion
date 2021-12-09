@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators'
 })
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
-    private configSvc: ConfigurationsService,
+    private configSvc: ConfigurationsService, // private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -34,6 +34,7 @@ export class AppInterceptorService implements HttpInterceptor {
           locale: lang.join(','),
           wid: (this.configSvc.userProfile && this.configSvc.userProfile.userId) || '',
           hostPath: this.configSvc.hostPath,
+          Authorization: '',
         },
       })
 
@@ -43,16 +44,20 @@ export class AppInterceptorService implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             switch (error.status) {
               case 419: // login
-                const localUrl = location.origin
-                const pageName = '/page/home'
-                if (localUrl.includes('localhost')) {
-                  // tslint:disable-next-line: prefer-template
-                  window.location.href = error.error.redirectUrl + `?q=${localUrl}${pageName}`
-                } else {
-                  // tslint:disable-next-line: prefer-template
-                  window.location.href = error.error.redirectUrl + `?q=${pageName}`
+                if (location.pathname.indexOf('/public') >= 0) {
+                  // this.http.get('/apis/reset')
+                  break
                 }
-                break
+              // const localUrl = location.origin
+              // const pageName = '/public/home'
+              // if (localUrl.includes('localhost')) {
+              //   // tslint:disable-next-line: prefer-template
+              //   window.location.href = error.error.redirectUrl + `?q=${localUrl}${pageName}`
+              // } else {
+              //   // tslint:disable-next-line: prefer-template
+              //   window.location.href = error.error.redirectUrl + `?q=${pageName}`
+              // }
+              // break
             }
           }
           return throwError('error')

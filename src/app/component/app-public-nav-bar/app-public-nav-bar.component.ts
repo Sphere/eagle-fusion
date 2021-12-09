@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
-
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -113,12 +112,20 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   login(key: 'E' | 'N' | 'S') {
+    // const authenticated = this.authSvc.initAuth()
+    // if (!authenticated) {
+
+    //   // TODO: use the rootOrg and org to fetch the instance
+
+    //   //return false
+    // }
     this.authSvc.login(key, this.redirectUrl)
-       if (sessionStorage.getItem('loginbtn')) {
-      sessionStorage.removeItem('loginbtn')
-    }
-    sessionStorage.setItem(`loginbtn`, window.location.href)
-    window.location.href = `${this.redirectUrl}apis/reset`
+
+    //    if (sessionStorage.getItem('loginbtn')) {
+    //   sessionStorage.removeItem('loginbtn')
+    // }
+    // sessionStorage.setItem(`loginbtn`, window.location.href)
+    // window.location.href = `${this.redirectUrl}apis/reset`
   }
 
   ngOnDestroy() {
