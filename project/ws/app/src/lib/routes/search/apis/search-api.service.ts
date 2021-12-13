@@ -12,7 +12,7 @@ const API_END_POINTS = {
   // `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
-  SEARCH_V6PUBLIC: '/apis/proxies/v8/sunbirdigot/search',
+  SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
 
 }
 
