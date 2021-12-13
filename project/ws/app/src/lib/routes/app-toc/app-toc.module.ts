@@ -102,6 +102,7 @@ import { ProfileImageModule } from '../../../../../../../library/ws-widget/colle
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
 import { ApiService, AccessControlService } from '../../../../../author/src/public-api'
 import { LicenseComponent } from './components/license/license.component'
+import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.directive'
 // import { AppTocSinglePageComponent } from './components/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageComponent as AppTocSinglePageRootComponent } from './routes/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageDirective } from './routes/app-toc-single-page/app-toc-single-page.directive'
@@ -129,6 +130,7 @@ import { LicenseComponent } from './components/license/license.component'
     // AppTocSinglePageRootComponent,
     // AppTocSinglePageDirective,
     CreateBatchDialogComponent,
+    RetainScrollDirective,
   ],
   imports: [
     CommonModule,
