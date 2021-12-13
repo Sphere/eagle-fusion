@@ -123,9 +123,9 @@
                       <mat-select [formControl]="batchControl" required>
                         <mat-option>--</mat-option>
                         <mat-option *ngFor="let batch of batchData.content" [value]="batch"
-                         [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
+                          [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
                           <p>{{batch.name}}
-                            ({{batch.startDate}} - {{batch.endDate || 'present'}})</p>
+                            ({{batch.startDate | date}} - {{(batch.endDate | date ) || 'present'}})</p>
                         </mat-option>
                       </mat-select>
                       <mat-error *ngIf="batchControl.hasError('required')">Please choose a batch to start course
@@ -135,7 +135,8 @@
                 </ng-container>
                 <ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
                   <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngFor="let batch of batchData.content">
-                    Enrolled batch: {{batch.name}} ({{batch.startDate}} - {{batch.endDate || 'present'}})
+                    Enrolled batch: {{batch.name}} ({{batch.startDate | date}} - {{(batch.endDate | date ) ||
+                    'present'}})
                   </h3>
                 </ng-container>
                 <ng-container *ngIf="batchData && !batchData?.enrolled && !batchData?.content?.length">
@@ -239,8 +240,8 @@
                   <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
                     [widgetData]="content | pipePartialContent: ['identifier', 'name']">
                   </ws-widget-btn-content-feedback-v2> -->
-                  <button mat-raised-button [color]="'primary'" *ngIf="content?.issuedCertificates?.length > 0" (click)="downloadPdf(content)"
-                    class="ws-mat-primary-background mat-button-base margin-right-m">
+                  <button mat-raised-button [color]="'primary'" *ngIf="content?.issuedCertificates?.length > 0"
+                    (click)="downloadPdf(content)" class="ws-mat-primary-background mat-button-base margin-right-m">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>
                 </div>
