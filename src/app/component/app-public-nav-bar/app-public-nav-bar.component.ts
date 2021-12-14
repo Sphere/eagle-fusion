@@ -21,7 +21,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isClientLogin = false
   private subscriptionLogin: Subscription | null = null
   loginConfig: IWSPublicLoginConfig | null = null
-  private redirectUrl = ''
+  redirectUrl = ''
   primaryNavbarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
   pageNavbar: Partial<NsPage.INavBackground> | null = null
   featureApps: string[] = []
@@ -37,7 +37,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-    private activateRoute: ActivatedRoute, private valueSvc: ValueService) {
+              private activateRoute: ActivatedRoute, private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -115,7 +115,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       const url: any = sessionStorage.getItem('login_url')
       window.location.href = url
     }
-    //this.authSvc.login(key, this.redirectUrl)
+    // this.authSvc.login(key, this.redirectUrl)
     //    if (sessionStorage.getItem('loginbtn')) {
     //   sessionStorage.removeItem('loginbtn')
     // }
