@@ -44,10 +44,13 @@ export class AppInterceptorService implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             switch (error.status) {
               case 419: // login
+                const localUrl = location.origin
+                sessionStorage.setItem('login_url', error.error.redirectUrl + `?q=${localUrl}`)
                 if (location.pathname.indexOf('/public') >= 0) {
                   // this.http.get('/apis/reset')
                   break
                 }
+
               // const localUrl = location.origin
               // const pageName = '/public/home'
               // if (localUrl.includes('localhost')) {
