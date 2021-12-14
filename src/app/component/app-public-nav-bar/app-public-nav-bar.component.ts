@@ -1,5 +1,4 @@
 import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/lib/btn-apps/btn-apps.model'
-import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 
 import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
@@ -38,7 +37,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
+    private activateRoute: ActivatedRoute, private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -111,16 +110,12 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  login(key: 'E' | 'N' | 'S') {
-    // const authenticated = this.authSvc.initAuth()
-    // if (!authenticated) {
-
-    //   // TODO: use the rootOrg and org to fetch the instance
-
-    //   //return false
-    // }
-    this.authSvc.login(key, this.redirectUrl)
-
+  login() {
+    if (sessionStorage.getItem('login_url')) {
+      const url: any = sessionStorage.getItem('login_url')
+      window.location.href = url
+    }
+    //this.authSvc.login(key, this.redirectUrl)
     //    if (sessionStorage.getItem('loginbtn')) {
     //   sessionStorage.removeItem('loginbtn')
     // }
