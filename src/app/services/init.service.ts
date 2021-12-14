@@ -110,6 +110,7 @@ export class InitService {
     // }
     // Invalid User
     try {
+      await this.fetchStartUpDetails()
       if (location.pathname.indexOf('/public') < 0) {
         await this.fetchStartUpDetails() // detail: depends only on userID
       }
