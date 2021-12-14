@@ -12,11 +12,11 @@ import {
   // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
-  LoginResolverService,
+  // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
   // AuthKeycloakService,
-  AuthKeycloakService,
+  // AuthKeycloakService,
   ConfigurationsService,
   LoggerService,
   NsAppsConfig,
@@ -57,13 +57,13 @@ export class InitService {
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    private authSvc: AuthKeycloakService,
+    // private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
-    private loginResolverService: LoginResolverService,
+    // private loginResolverService: LoginResolverService,
 
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
@@ -95,19 +95,19 @@ export class InitService {
   async init() {
     // this.logger.removeConsoleAccess()
     await this.fetchDefaultConfig()
-    const authenticated = await this.authSvc.initAuth()
-    if (!authenticated) {
-      this.settingsSvc.initializePrefChanges(environment.production)
-      // TODO: use the rootOrg and org to fetch the instance
-      const publicConfig = await this.http
-        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
-        .toPromise()
-      this.configSvc.instanceConfig = publicConfig
-      this.updateNavConfig()
-      this.logger.info('Not Authenticated')
-      this.loginResolverService.initialize()
-      return false
-    }
+    // const authenticated = await this.authSvc.initAuth()
+    // if (!authenticated) {
+    //   this.settingsSvc.initializePrefChanges(environment.production)
+    //   // TODO: use the rootOrg and org to fetch the instance
+    //   const publicConfig = await this.http
+    //     .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+    //     .toPromise()
+    //   this.configSvc.instanceConfig = publicConfig
+    //   this.updateNavConfig()
+    //   this.logger.info('Not Authenticated')
+    //   this.loginResolverService.initialize()
+    //   return false
+    // }
     // Invalid User
     try {
       if (location.pathname.indexOf('/public') < 0) {
