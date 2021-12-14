@@ -38,7 +38,7 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
+        <a (click)="login()" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.appIcon"
@@ -142,7 +142,7 @@
           <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
             matTooltip="Available only in Company's network"
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-          <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
+          <a (click)="login()" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
               <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
@@ -265,7 +265,7 @@
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
           <span class="img-overlay"></span>
         </a>
-       <!--2 -->
+        <!--2 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
@@ -642,7 +642,7 @@
           aria-label="Details" i18n-aria-label="Details | Click to see details">
           <mat-icon>flip_to_back</mat-icon>
         </button>
-      <!--5 -->
+        <!--5 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
@@ -752,7 +752,7 @@
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
-      <!--6 -->
+        <!--6 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
@@ -855,7 +855,7 @@
           [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
           [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
-    <!--7 -->
+        <!--7 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
           [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
