@@ -173,9 +173,12 @@ export class CardContentComponent extends WidgetBaseComponent
     }
   }
 
-  login(key: 'E' | 'N' | 'S') {
-
-    this.authSvc.login(key, document.baseURI)
+  login() {
+    if (sessionStorage.getItem('login_url')) {
+      const url: any = sessionStorage.getItem('login_url')
+      window.location.href = url
+    }
+    // this.authSvc.login(key, document.baseURI)
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
