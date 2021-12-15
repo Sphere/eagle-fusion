@@ -60,6 +60,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isSetupPage = false
   showNavigation = true
   hideHeaderFooter = false
+  isLoggedIn = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -172,6 +173,11 @@ export class RootComponent implements OnInit, AfterViewInit {
     //   // this.location.replaceState(url)
     //   this.router.navigateByUrl(url)
     // }
+    if (this.configSvc.userProfile) {
+      this.isLoggedIn = true
+    } else {
+      this.isLoggedIn = false
+    }
   }
 
   ngAfterViewInit() {
