@@ -287,8 +287,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-  downloadPdf(content: any) {
-    return content
+  downloadCertificate(content: any) {
+    this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
+      // tslint:disable-next-line:no-console
+      console.log(data)
+    })
   }
 
   get showInstructorLedMsg() {

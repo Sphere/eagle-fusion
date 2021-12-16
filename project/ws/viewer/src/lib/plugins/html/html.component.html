@@ -83,7 +83,7 @@
   </h2>
 </div>
 
-<iframe #iframeElem [hidden]="this.pageFetchStatus !== 'done'" *ngIf="
+<iframe id="{{mimeType}}" #iframeElem [hidden]="this.pageFetchStatus !== 'done'" *ngIf="
     htmlContent?.isIframeSupported !== 'No' &&
     (!htmlContent?.isInIntranet || (htmlContent?.isInIntranet && isUserInIntranet)) &&
     (!isIntranetUrl || (isIntranetUrl && isUserInIntranet))" title="HTML Content Viewer" i18n-title [src]="iframeUrl" (load)="onIframeLoadOrError('load',iframeElem,$event)"

@@ -72,10 +72,21 @@ export class ViewerUtilService {
           //   // if percentage is greater than 95% make it 100
           //   percent = 100
           // }
+        }   if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+          if (current === 1) {
+            return 0
+          }  if (current === 5) {
+            return 50
+          }  if (current === 10) {
+            return 100
+          }
+
+        } else {
+          return 0
         }
 
       }
-      return 0
+       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in calculating percentage', e)
@@ -83,7 +94,7 @@ export class ViewerUtilService {
     }
   }
 
-  getStatus(current: number, max: number, mimeType?: string) {
+  getStatus(current: number, max: number, mimeType: string) {
     try {
       const percentage = this.calculatePercent(current, max, mimeType)
       // for videos and audios
@@ -93,11 +104,10 @@ export class ViewerUtilService {
         mimeType === NsContent.EMimeTypes.MP3 ||
         mimeType === NsContent.EMimeTypes.M4A
       ) {
-
         if (Math.ceil(percentage) <= 1) {
           return 0
         }
-        // if percentage is less than 5% then make status started
+        // if percentage is less than 6% then make status started
         if (Math.ceil(percentage) >= 5 && Math.ceil(percentage) <= 6) {
           return 1
         }
@@ -105,12 +115,24 @@ export class ViewerUtilService {
         if (Math.ceil(percentage) >= 95) {
           return 2
         }
+      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+            if (current === 1) {
+            return 0
+          }
+          if (current === 5) {
+            return 1
+          }
+          if (current === 10) {
+            return 2
+          }
+
+        // if (Math.ceil(percentage) >= 100) {
+        //   return 2
+        // }
       } else {
-        if (Math.ceil(percentage) >= 100) {
-          return 2
-        }
+         return 1
       }
-      return 1
+       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)

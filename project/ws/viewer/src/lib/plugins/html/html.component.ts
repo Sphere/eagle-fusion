@@ -1,22 +1,24 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
+// import { Interval, Observable, Subscription } from 'rxjs'
+import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 
 @Component({
   selector: 'viewer-plugin-html',
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.scss'],
 })
-export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
+export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
   // private mobileOpenInNewTab!: any
-
+  @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   @ViewChild('mobileOpenInNewTab', { read: ElementRef, static: false }) mobileOpenInNewTab !: ElementRef<HTMLAnchorElement>
   @Input() htmlContent: NsContent.IContent | null = null
   iframeUrl: SafeResourceUrl | null = null
@@ -29,8 +31,47 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
   intranetUrlPatterns: string[] | undefined = []
   isIntranetUrl = false
   progress = 100
-
   iframeName = `piframe_${Date.now()}`
+  urlContains = ''
+  mimeType = ''
+
+  @HostListener('window:blur', ['$event'])
+  onBlur(): void {
+    if (this.urlContains.includes('youtube') && this.htmlContent !== null) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+
+      const data1 = {
+        current: 1,
+        max_size: 1,
+        mime_type: this.mimeType,
+      }
+      this.viewerSvc
+        .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+      setTimeout(() => {
+        const data2 = {
+          current: 5,
+          max_size: 5,
+          mime_type: this.mimeType,
+        }
+        // @ts-ignore: Object is possibly 'null'.
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
+      },5000)
+
+      setTimeout(() => {
+        const data3 = {
+          current: 10,
+          max_size: 10,
+          mime_type: this.mimeType,
+        }
+        // @ts-ignore: Object is possibly 'null'.
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data3, collectionId, batchId)
+      },10000)
+    }
+
+  }
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -41,7 +82,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
     private events: EventService,
-    private contentSvc: WidgetContentService
+    private contentSvc: WidgetContentService,
+    private viewerSvc: ViewerUtilService,
+    private activatedRoute: ActivatedRoute
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
@@ -55,6 +98,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
     }
+
+  }
+  ngAfterViewInit() {
+    this.urlContains = this.iframeElem.nativeElement.src
   }
 
   ngOnDestroy() {
@@ -122,10 +169,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+        this.mimeType = this.htmlContent.mimeType
         if (this.htmlContent.status !== 'Live') {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
             this.contentSvc
-              .fetchContent(this.htmlContent.identifier)
+              .fetchHierarchyContent(this.htmlContent.identifier)
               .toPromise()
               .then((res: any) => {
                 this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
@@ -138,7 +186,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
             this.contentSvc
-              .fetchContent(this.htmlContent.identifier)
+              .fetchHierarchyContent(this.htmlContent.identifier)
               .toPromise()
               .then((res: any) => {
                 this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
@@ -150,8 +198,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       } else {
-        this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.htmlContent.artifactUrl)
+        this.mimeType = this.htmlContent.mimeType
+        if (this.htmlContent.artifactUrl.includes('youtube')) {
+          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            this.htmlContent.artifactUrl)
+        } else {
+          this.openInNewTab()
+        }
+
       }
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {

@@ -41,7 +41,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private contentSvc: WidgetContentService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
@@ -89,6 +89,31 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
               }
             })
           }
+        }
+        const arr = []
+        data['result']['contentList'].forEach((dataResult: any) => {
+          if (dataResult.completionPercentage === 100) {
+            arr.push(dataResult)
+          }
+        })
+        if (arr.length === data['result']['contentList'].length) {
+          const obj = {
+            request: {
+              batchId: this.batchId,
+              courseId: this.contentId,
+              userIds: [userId],
+            },
+          }
+          this.contentSvc.processCertificate(obj).subscribe(
+            result => {
+              // tslint:disable-next-line:no-console
+              console.log(result)
+            },
+            (error: any) => {
+              // tslint:disable-next-line:no-console
+              console.log(error)
+            }
+          )
         }
       },
       (error: any) => {

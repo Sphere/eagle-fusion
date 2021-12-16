@@ -152,7 +152,7 @@
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
         queryParamsHandling="preserve" (click)="sendStatus(content)">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
-          {{ content?.title }} <span *ngIf="content?.completionPercentage"> &nbsp;| {{content.completionPercentage}}% |
+          {{ content?.title }} <span *ngIf="content?.completionPercentage >=0"> &nbsp;| {{content.completionPercentage}}% |
           </span>
           <mat-icon title="Completion Percentage : {{content?.completionPercentage}}%" *ngIf="
               content?.completionPercentage === 100

@@ -241,7 +241,7 @@
                     [widgetData]="content | pipePartialContent: ['identifier', 'name']">
                   </ws-widget-btn-content-feedback-v2> -->
                   <button mat-raised-button [color]="'primary'" *ngIf="content?.issuedCertificates?.length > 0"
-                    (click)="downloadPdf(content)" class="ws-mat-primary-background mat-button-base margin-right-m">
+                    (click)="downloadCertificate(content)" class="ws-mat-primary-background mat-button-base margin-right-m">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>
                 </div>

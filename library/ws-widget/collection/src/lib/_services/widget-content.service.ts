@@ -63,6 +63,27 @@ export class WidgetContentService {
   //     .pipe(retry(1))
   // }
 
+  fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
+    const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?mode=edit`
+    const apiData = this.http
+      .get<NsContent.IContent>(url)
+      .pipe(retry(1))
+    return apiData
+  }
+
+  processCertificate(req: any): Observable<any> {
+    const url = `/apis/proxies/v8/course/batch/cert/v1/issue/`
+    return this.http.post<any>(url, req)
+  }
+
+  downloadCertificateAPI(certificateId: string): Observable<any> {
+    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const apiData = this.http
+      .get<any>(url)
+      .pipe(retry(1))
+    return apiData
+  }
+
   fetchContent(
     contentId: string,
     hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
