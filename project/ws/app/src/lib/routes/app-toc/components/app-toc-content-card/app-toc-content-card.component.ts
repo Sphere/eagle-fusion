@@ -54,7 +54,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       this.contentId = params['contentId']
     })
 
-    let userId
+    let userId :any;
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
@@ -90,8 +90,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
             })
           }
         }
-        const arr = []
-        data['result']['contentList'].forEach((dataResult: any) => {
+        let arr = []
+        data['result']['contentList'].forEach((dataResult:any) => {
           if (dataResult.completionPercentage === 100) {
             arr.push(dataResult)
           }
@@ -101,8 +101,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
             request: {
               batchId: this.batchId,
               courseId: this.contentId,
-              userIds: [userId],
-            },
+              userIds: [userId]
+            }
           }
           this.contentSvc.processCertificate(obj).subscribe(
             result => {
