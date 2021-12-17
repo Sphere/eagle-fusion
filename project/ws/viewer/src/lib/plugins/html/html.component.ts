@@ -198,14 +198,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         }
       } else {
-        this.mimeType = this.htmlContent.mimeType
-        if (this.htmlContent.artifactUrl.includes('youtube')) {
+        this.mimeType = this.htmlContent.mimeType        
           this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
             this.htmlContent.artifactUrl)
-        } else {
-          this.openInNewTab()
-        }
-
       }
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {

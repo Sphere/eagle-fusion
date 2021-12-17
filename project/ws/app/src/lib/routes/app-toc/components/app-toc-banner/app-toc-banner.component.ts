@@ -138,6 +138,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       )
     }
 
+
     // if (this.authAccessService.hasAccess(this.content as any) && !this.isInIFrame) {
     //   const status: string = (this.content as any).status
     //   if (!this.forPreview) {
@@ -595,11 +596,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       data: { content },
     })
     // dialogRef.componentInstance.xyz = this.configSvc
-    dialogRef.afterClosed().subscribe((_result: any) => {
-      if (!this.batchId) {
-        this.tocSvc.updateBatchData()
-      }
-    })
+    // dialogRef.afterClosed().subscribe((_result: any) => {
+    //   if (!this.batchId) {
+    //     this.tocSvc.updateBatchData()
+    //   }
+    // })
   }
 
 }
