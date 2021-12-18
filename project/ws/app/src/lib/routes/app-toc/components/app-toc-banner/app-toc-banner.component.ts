@@ -138,7 +138,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       )
     }
 
-
     // if (this.authAccessService.hasAccess(this.content as any) && !this.isInIFrame) {
     //   const status: string = (this.content as any).status
     //   if (!this.forPreview) {
@@ -590,7 +589,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openDialog(content: any): void {
-    const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    //const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    this.createBatchDialog.open(CreateBatchDialogComponent, {
       // height: '400px',
       width: '600px',
       data: { content },
