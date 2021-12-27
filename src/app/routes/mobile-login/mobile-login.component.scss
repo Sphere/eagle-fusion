@@ -1,0 +1,80 @@
+@import 'ws-common';
+@import 'ws-mixins';
+.login-page-content {
+  box-sizing: border-box;
+  // padding: $size-m;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  box-sizing: border-box;
+  padding: 0;
+  margin-top: 50px;
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+  @include breakpoint-s {
+    max-width: 50%;
+    padding: 12px;
+  }
+  @include breakpoint-xs {
+    max-width:100%;
+  }
+}
+.login-card {
+  margin: 0;
+  padding: 20px 20px 30px 20px;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+}
+.login-header {
+  .main-logo {
+    width: 93px;
+    height: 33px;
+    left: 20px;
+    top: 75px;
+  }
+}
+.welcome-header {
+  font-size: 40px;
+  line-height: 48px;
+  margin-bottom: 20px;
+}
+.input-box {
+    width: 312px;
+    height: 35px;
+    padding: 4px 12px;
+    font-size: 16px;
+    line-height: 19px;
+    box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+a {
+  color: #2873b2;
+}
+.login-button {
+  padding: 8px 5px;
+  width: 335px;
+  height: 38px;
+  background: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border:0;
+  font-size: 16px;
+  line-height: 19px;
+}
+.or-text {
+  font-size: 20px;
+  line-height: 24px;
+}
+.social-provider {
+  width: 312px;
+  height: 28px;
+  padding: 0 12px;
+  padding-top: 10px;
+  background: #fff;
+  color: #000;
+  border-radius: 50px;
+  border: 1px solid #bbb;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+}

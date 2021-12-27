@@ -1,0 +1,118 @@
+<!-- Create Account Form -->
+<div class="login-page-content" *ngIf="!otpPage">
+  <div class="login-card">
+    <header class="login-header">
+      <div>
+        <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
+      </div>
+    </header>
+    <div class="img-box">
+      <img alt="logo" width="225" height="130" src="../../../fusion-assets/images/create-account.png">
+    </div>
+    <div class="create-acct-text mt-6 mb-4">Create your account</div>
+    <div class="input-content">
+      <div class="input-content-wrapper">
+
+        <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
+
+          <div class="form-group">
+            <input tabindex="1" id="username" class="form-control input-box" formControlName="username" type="text"
+              autocomplete="off" placeholder="Name">
+            <label class="label-text">(Example : Mark Smith)</label>
+            <mat-error class="text-danger"
+              *ngIf="createAccountForm.controls['username'].hasError('required') &&
+                        (createAccountForm.controls['username'].dirty || createAccountForm.controls['username'].touched)">
+              This field is required</mat-error>
+            <!-- <mat-error class="text-danger" *ngIf="createAccountForm.controls['username'].hasError('pattern') &&
+                        (createAccountForm.controls['username'].dirty || createAccountForm.controls['username'].touched)">
+                        Please enter valid email address</mat-error> -->
+          </div>
+
+          <div class="form-group mt-4">
+            <input tabindex="1" id="email" class="form-control input-box" formControlName="emailOrMobile" type="text"
+              autocomplete="off" placeholder="Phone Number/Email ID">
+            <mat-error class="text-danger"
+              *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
+              (createAccountForm.controls['emailOrMobile'].dirty || createAccountForm.controls['emailOrMobile'].touched)">
+              This field is required</mat-error>
+            <!-- <mat-error class="text-danger" *ngIf="createAccountForm.controls['emailId'].hasError('pattern') &&
+              (createAccountForm.controls['emailId'].dirty || createAccountForm.controls['emailId'].touched)">
+              Please enter valid email address</mat-error> -->
+          </div>
+
+          <div class="form-group mt-4">
+            <input tabindex="1" class="form-control input-box" formControlName="password" type="password"
+              autocomplete="off" placeholder="Password">
+            <label class="label-text">Password must contain a minimum of 8 characters including numerals, lower and
+              upper case alphabets
+              and
+              special characters without space</label>
+            <mat-error class="text-danger" *ngIf="createAccountForm.controls['password'].hasError('required') &&
+                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
+              This field is required</mat-error>
+            <mat-error class="text-danger" *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
+              (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
+              Invalid Password Format</mat-error>
+          </div>
+
+          <div class="form-group mt-4">
+            <input tabindex="1" class="form-control input-box" formControlName="confirmPassword" type="password"
+              autocomplete="off" placeholder="Confirm Password">
+            <mat-error class="text-danger"
+              *ngIf="createAccountForm.controls['confirmPassword'].hasError('required') &&
+                (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">
+              This field is required.</mat-error>
+            <mat-error class="text-danger"
+              *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
+              (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">
+              Password does not match</mat-error>
+          </div>
+
+          <button class="form-group login-button mt-4" name="login" type="submit" [disabled]="!createAccountForm?.valid"
+            (click)="onSubmit(createAccountForm)">Next</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Create Account Form Close-->
+
+<!-- OTP Form -->
+<div class="login-page-content" *ngIf="otpPage">
+  <div class="login-card">
+    <header class="login-header">
+      <div>
+        <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
+      </div>
+    </header>
+    <div class="img-box">
+      <img width="175" height="165" src="../../../fusion-assets/images/email-code.png">
+    </div>
+    <div class="check-email-text mt-6">Check your <span *ngIf="emailPhoneType === 'email'">email</span>
+      <span *ngIf="emailPhoneType === 'phone'">SMS</span>!
+    </div>
+    <div class="enter-code-text mt-2 mb-4">Enter the <span *ngIf="emailPhoneType === 'email'">Code</span>
+      <span *ngIf="emailPhoneType === 'phone'">SMS</span>
+    </div>
+    <div class="input-content">
+      <div class="input-content-wrapper">
+
+        <form [formGroup]="OtpCodeForm" id="form-login" action="" method="post">
+
+          <div class="form-group">
+            <input tabindex="1" id="code" class="form-control input-box" formControlName="otpCode" type="text"
+              autocomplete="off" placeholder="Code">
+          </div>
+
+          <div class="form-group mt-4 mb-4">
+            Did not receive a mail? <span><a tabindex="5" href="public/forgot-password">Click Here</a></span> to
+            resend
+          </div>
+
+          <button class="form-group login-button mt-4" type="submit" (click)="verifyOtp()">Next</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- OTP Form Close-->
