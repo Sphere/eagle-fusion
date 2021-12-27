@@ -66,6 +66,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
 import { MdePopoverModule } from '@material-extended/mde'
+import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
+import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { CreateAccountComponent } from './routes/create-account/create-account.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -104,6 +107,9 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     LoginRootDirective,
     ForgotPasswordComponent,
     OrgComponent,
+    MobileLoginComponent,
+    LoginOtpComponent,
+    CreateAccountComponent,
   ],
   imports: [
     FormsModule,

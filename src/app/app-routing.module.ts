@@ -25,6 +25,9 @@ import { TncPublicResolverService } from './services/tnc-public-resolver.service
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
 import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
+import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
+import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { CreateAccountComponent } from './routes/create-account/create-account.component'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -210,6 +213,18 @@ const routes: Routes = [
     path: 'app/signup',
     loadChildren: () =>
       import('./routes/signup/signup.module').then(u => u.SignupModule),
+  },
+  {
+    path: 'app/mobile-login',
+    component: loginComponent,
+  },
+  {
+    path: 'app/mobile-otp',
+    component: LoginOtpComponent,
+  },
+  {
+    path: 'app/create-account',
+    component: CreateAccountComponent,
   },
   {
     path: 'app/toc',
@@ -419,6 +434,18 @@ const routes: Routes = [
       tnc: TncPublicResolverService,
     },
   },
+  // {
+  //   path: 'public/mobile-login',
+  //   component: MobileLoginComponent,
+  // },
+  // {
+  //   path: 'public/mobile-otp',
+  //   component: LoginOtpComponent,
+  // },
+  // {
+  //   path: 'public/create-account',
+  //   component: CreateAccountComponent,
+  // },
   {
     path: 'public/register',
     component: RegisterComponent,
