@@ -34,12 +34,12 @@ export class CreateAccountComponent implements OnInit {
     private signupService: SignupService,
     private router: Router) {
     this.createAccountForm = this.fb.group({
-      username: new FormControl(''),
+      username: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+ [a-zA-Z]+$/g)])),
       emailOrMobile: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.compose([Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)])),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                     { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.fb.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -123,12 +123,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    const name = this.createAccountForm.controls.username.value
-
-    const userDetails: any = {}
-    userDetails.firstName = name[0]
-    userDetails.lastName = name[2]
-
+    const name = this.createAccountForm.controls.username.value.split(' ')
     let phone = this.createAccountForm.controls.emailOrMobile.value
 
     phone = phone.replace(/[^0-9+#]/g, '')
@@ -149,8 +144,8 @@ export class CreateAccountComponent implements OnInit {
 
     if (this.email) {
       reqObj = {
-        firstName: userDetails.firstName,
-        lastName: userDetails.lastName,
+        firstName: name[0],
+        lastName: name[1],
         email: form.value.emailOrMobile,
         password: form.value.password,
       }
@@ -164,7 +159,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                  err => {
           this.openSnackbar(err.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -172,8 +167,8 @@ export class CreateAccountComponent implements OnInit {
       )
     } else {
       const requestBody = {
-        firstName: userDetails.firstName,
-        lastName: userDetails.lastName,
+        firstName: name[0],
+        lastName: name[1],
         phone: form.value.emailOrMobile,
         password: form.value.password,
       }
@@ -187,7 +182,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                                   err => {
           this.errors = err
           this.openSnackbar(this.errors.msg)
           this.uploadSaveData = false

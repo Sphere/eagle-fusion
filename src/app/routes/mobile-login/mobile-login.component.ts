@@ -18,8 +18,7 @@ export class MobileLoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit(form: any) {
-    console.log(form.value)
-  }
+  // onSubmit(form: any) {
+  // }
 
 }
