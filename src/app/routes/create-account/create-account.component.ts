@@ -150,6 +150,10 @@ export class CreateAccountComponent implements OnInit {
       }
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
 
+
+
+
+
         if (res.status === 'success') {
           this.openSnackbar(res.msg)
           this.generateOtp('phone', form.value.emailOrMobile)
@@ -161,6 +165,10 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
+
+
+
+
           this.errors = err
           this.openSnackbar(this.errors.msg || ('Registration',+err))
           this.uploadSaveData = false
