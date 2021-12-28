@@ -1,4 +1,4 @@
-// import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 
@@ -8,12 +8,17 @@ import { FormControl, FormGroup } from '@angular/forms'
   styleUrls: ['./your-location.component.scss'],
 })
 export class YourLocationComponent implements OnInit {
-  districts = ['Distict/City']
-  countries = ['Country']
-  states = ['States']
+  districts: any
+  countries: any
+  states: any
   yourLocationForm: FormGroup
+  countryUrl = '../../../fusion-assets/files/country.json'
+  districtUrl = '../../../fusion-assets/files/district.json'
+  stateUrl = '../../../fusion-assets/files/state.json'
 
-  constructor() {
+  constructor(
+    private http: HttpClient
+  ) {
     this.yourLocationForm = new FormGroup({
       distict: new FormControl(this.districts),
       country: new FormControl(this.countries),
@@ -22,10 +27,24 @@ export class YourLocationComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.http.get('../../../fusion-assets/files/district.json').subscribe((data: any) => {
-    //   this.districts = data.states
-    //   console.log(this.districts)
-    // })
+    this.fetchMeta()
+  }
+
+  fetchMeta() {
+    this.http.get(this.countryUrl).subscribe((data: any) => {
+      this.countries = data.nationalities
+    })
+
+    this.http.get(this.stateUrl).subscribe((data: any) => {
+      this.states = data.states
+    })
+
+    this.http.get(this.districtUrl).subscribe((data: any) => {
+      this.districts = data.states
+    })
+  }
+  onSubmit() {
+
   }
 
 }
