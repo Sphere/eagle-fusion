@@ -165,6 +165,10 @@ export class CreateAccountComponent implements OnInit {
 
 
 
+
+
+
+
           this.errors = err
           this.openSnackbar(this.errors.msg || ('Registration',+err))
           this.uploadSaveData = false
