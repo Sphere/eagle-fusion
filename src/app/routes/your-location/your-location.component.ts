@@ -43,8 +43,4 @@ export class YourLocationComponent implements OnInit {
       this.districts = data.states
     })
   }
-  onSubmit() {
-
-  }
-
 }
