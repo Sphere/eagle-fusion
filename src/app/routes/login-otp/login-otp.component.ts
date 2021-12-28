@@ -24,23 +24,18 @@ export class LoginOtpComponent implements OnInit {
     this.loginOtpForm = this.fb.group({
       code: new FormControl('', [Validators.required]),
     })
-    let phone = this.signUpdata.value.emailOrMobile
-    phone = phone.replace(/[^0-9+#]/g, '')
-    if (phone.length >= 10) {
-      this.emailPhoneType = 'phone'
-    } else {
-      this.emailPhoneType = 'email'
-    }
   }
 
   ngOnInit() {
-    // let phone = this.signUpdata.value.emailOrMobile
-    // phone = phone.replace(/[^0-9+#]/g, '')
-    // if (phone.length >= 10) {
-    //   this.emailPhoneType = 'phone'
-    // } else {
-    //   this.emailPhoneType = 'email'
-    // }
+    if (this.signUpdata) {
+      let phone = this.signUpdata.value.emailOrMobile
+      phone = phone.replace(/[^0-9+#]/g, '')
+      if (phone.length >= 10) {
+        this.emailPhoneType = 'phone'
+      } else {
+        this.emailPhoneType = 'email'
+      }
+    }
   }
 
   redirectToSignUp() {
