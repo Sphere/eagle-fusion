@@ -16,25 +16,23 @@
         <form [formGroup]="yourLocationForm" id="form-login" action="" method="post">
 
           <div class="form-group mt-4 input-box">
-            <select id="country" formControlName="country" class="form-control select-box"
-              [(ngModel)]="model.country.type">
-              <option value="" disabled="true" [selected]="!model.country.type">Country</option>
-              <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+            <select id="country" formControlName="country" class="form-control select-box">
+              <option [ngValue]="null">Country</option>
+              <option *ngFor="let country of countries" [ngValue]="country.name">{{ country.name }}</option>
             </select>
           </div>
 
           <div class="form-group mt-4 input-box">
-            <select id="state" formControlName="state" class="form-control select-box" [(ngModel)]="model.state.type">
-              <option value="" disabled="true" [selected]="!model.state.type">State</option>
-              <option *ngFor="let state of states" [ngValue]="state">{{ state }}</option>
+            <select id="state" formControlName="state" class="form-control select-box">
+              <option [ngValue]="null">State</option>
+              <option *ngFor="let state of states" [ngValue]="state.name">{{ state.name }}</option>
             </select>
           </div>
 
           <div class="form-group mt-4 input-box">
-            <select id="distict" formControlName="distict" class="form-control select-box"
-              [(ngModel)]="model.distict.type">
-              <option value="" disabled="true" [selected]="!model.distict.type">City/Distict</option>
-              <option *ngFor="let distict of disticts" [ngValue]="distict">{{ distict }}</option>
+            <select id="distict" formControlName="distict" class="form-control select-box">
+              <option [ngValue]="null">City/Distict</option>
+              <option *ngFor="let distict of districts" [ngValue]="distict">{{ distict }}</option>
             </select>
           </div>
 
