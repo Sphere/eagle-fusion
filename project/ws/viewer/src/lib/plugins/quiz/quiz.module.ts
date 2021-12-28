@@ -18,6 +18,7 @@ import {
   MatSidenavModule,
   MatTableModule,
   MatButtonModule,
+  MatTooltipModule,
   MatProgressSpinnerModule,
 } from '@angular/material'
 
@@ -42,6 +43,7 @@ import {
     MatTableModule,
     MatButtonModule,
     BtnFullscreenModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
   ],
   exports: [

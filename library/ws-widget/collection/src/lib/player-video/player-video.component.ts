@@ -141,6 +141,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
 
     }
+
     if (this.widgetData.resumePoint && this.widgetData.resumePoint !== 0) {
       this.realvideoTag.nativeElement.currentTime = this.widgetData.resumePoint
     }
@@ -216,8 +217,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.viewerSvc
           .realTimeProgressUpdate(identifier, data, collectionId, batchId)
       }
-
     }
+
     let enableTelemetry = false
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {
       enableTelemetry = true
@@ -239,6 +240,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.widgetData,
       this.widgetData.mimeType,
     )
+
     this.player = initObj.player
     this.dispose = initObj.dispose
     initObj.player.ready(() => {
@@ -260,6 +262,37 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         initObj.player.src(this.widgetData.url)
       }
     })
+  }
+  onTimeUpdate() {
+    const percentage = (this.videoTag.nativeElement.currentTime / this.videoTag.nativeElement.duration) * 100
+
+    const data = {
+      current: this.videoTag.nativeElement.currentTime,
+      max_size: this.videoTag.nativeElement.duration,
+      mime_type: this.widgetData.mimeType,
+    }
+
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+      this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+      this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+    if (this.widgetData.identifier) {
+    if (percentage <= 1) {
+
+      this.viewerSvc
+        .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+    } else if (percentage >= 5 && percentage <= 6) {
+
+      this.viewerSvc
+        .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+      } else if (percentage >= 98) {
+
+        this.viewerSvc
+        .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+      } else {
+
+      }
+    }
   }
   async fetchContent() {
     const content = await this.contentSvc

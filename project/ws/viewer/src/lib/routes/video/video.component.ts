@@ -224,7 +224,8 @@ export class VideoComponent implements OnInit, OnDestroy {
                 this.widgetResolverVideoData
               ) {
                 this.widgetResolverVideoData.widgetData.resumePoint = Number(
-                  content.progressdetails.current.pop(),
+                  content.progressdetails.current
+                  // content.progressdetails.current.pop(),
                 )
               }
             }

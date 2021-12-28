@@ -49,30 +49,44 @@ export class ViewerUtilService {
   //     .subscribe(noop, noop)
   // }
 
-  calculatePercent(current: string[], max: number, mimeType?: string): number {
+  calculatePercent(current: number, max: number, mimeType?: string): number {
     try {
-      const temp = [...current]
-      if (temp && temp.length && max) {
-        const latest = parseFloat(temp.pop() || '0')
-        const percentMilis = (latest / max) * 100
-        let percent = parseFloat(percentMilis.toFixed(2))
+      // const temp = [...current]
+      const temp = current
+      if (temp && max) {
+        // const latest = parseFloat(temp.pop() || '0')
+        // const percentMilis = (latest / max) * 100
+        // let percent = parseFloat(percentMilis.toFixed(2))
         if (
           mimeType === NsContent.EMimeTypes.MP4 ||
           mimeType === NsContent.EMimeTypes.M3U8 ||
           mimeType === NsContent.EMimeTypes.MP3 ||
           mimeType === NsContent.EMimeTypes.M4A
         ) {
-          if (percent <= 5) {
-            // if percentage is less than 5% make it 0
-            percent = 0
-          } else if (percent >= 95) {
-            // if percentage is greater than 95% make it 100
-            percent = 100
+          const percent = (current / max) * 100
+          return Math.ceil(percent)
+          // if (percent <= 5) {
+          //   // if percentage is less than 5% make it 0
+          //   percent = 0
+          // } else if (percent >= 95) {
+          //   // if percentage is greater than 95% make it 100
+          //   percent = 100
+          // }
+        }   if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+          if (current === 1) {
+            return 0
+          }  if (current === 5) {
+            return 50
+          }  if (current === 10) {
+            return 100
           }
+
+        } else {
+          return 0
         }
-        return percent
+
       }
-      return 0
+       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in calculating percentage', e)
@@ -80,7 +94,7 @@ export class ViewerUtilService {
     }
   }
 
-  getStatus(current: string[], max: number, mimeType?: string) {
+  getStatus(current: number, max: number, mimeType: string) {
     try {
       const percentage = this.calculatePercent(current, max, mimeType)
       // for videos and audios
@@ -90,20 +104,35 @@ export class ViewerUtilService {
         mimeType === NsContent.EMimeTypes.MP3 ||
         mimeType === NsContent.EMimeTypes.M4A
       ) {
-        // if percentage is less than 5% then make status started
-        if (Math.ceil(percentage) <= 5) {
+        if (Math.ceil(percentage) <= 1) {
+          return 0
+        }
+        // if percentage is less than 6% then make status started
+        if (Math.ceil(percentage) >= 5 && Math.ceil(percentage) <= 6) {
           return 1
         }
         // if percentage is greater than 95% then make status complete
         if (Math.ceil(percentage) >= 95) {
           return 2
         }
+      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+            if (current === 1) {
+            return 0
+          }
+          if (current === 5) {
+            return 1
+          }
+          if (current === 10) {
+            return 2
+          }
+
+        // if (Math.ceil(percentage) >= 100) {
+        //   return 2
+        // }
       } else {
-        if (Math.ceil(percentage) >= 100) {
-          return 2
-        }
+         return 1
       }
-      return 1
+       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)

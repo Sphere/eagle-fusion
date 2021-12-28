@@ -73,6 +73,7 @@ export class CreateBatchDialogComponent implements OnInit {
       () => {
         this.uploadSaveData = false
         this.openSnackbar(this.toastSuccess.nativeElement.value)
+        this.appTocService.updateBatchData()
         this.dialogRef.close()
       },
       err => {
