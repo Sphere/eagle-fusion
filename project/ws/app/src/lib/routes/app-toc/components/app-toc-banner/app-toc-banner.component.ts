@@ -589,7 +589,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openDialog(content: any): void {
-    //const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
     this.createBatchDialog.open(CreateBatchDialogComponent, {
       // height: '400px',
       width: '600px',

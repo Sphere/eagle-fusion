@@ -58,7 +58,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },5000)
+      },         5000)
 
       setTimeout(() => {
         const data3 = {
@@ -68,7 +68,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data3, collectionId, batchId)
-      },10000)
+      },         10000)
     }
 
   }
@@ -198,7 +198,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         }
       } else {
-        this.mimeType = this.htmlContent.mimeType        
+        this.mimeType = this.htmlContent.mimeType
           this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
             this.htmlContent.artifactUrl)
       }

@@ -63,8 +63,23 @@
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
         </ng-container>
       </ng-container>
+            <a *ngIf="showCreateBtn === true" role="button" matRipple
+        class="flex items-center flex-col px-2 box-sizing-box" routerLink="/app/create-account" active
+        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+        <ng-container>
+          <button mat-raised-button [ngStyle]="{
+            'background-color': 'rgb(63, 81, 181)',
+            'width': '100%',
+            'border': '1px solid rgb(63, 81, 181)',
+            'border-radius': '16px',
+            'color': 'white',
+            'font-size': 'medium',
+            'font-weight': '400'}">
+            Create Account</button>
+        </ng-container>
+      </a>
       <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
-        routerLinkActive="ws-mat-accent-text">
+        routerLinkActive="ws-mat-accent-text" *ngIf="!showCreateBtn">
         <ng-container *ngIf="!appBottomIcon">
           <mat-icon>home</mat-icon>
 
@@ -80,7 +95,7 @@
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">
         </ng-container>
       </ng-container>
-      <ng-container [wsResolverWidget]="btnAppsConfig"></ng-container>
+      <ng-container *ngIf="!showCreateBtn" [wsResolverWidget]="btnAppsConfig"></ng-container>
     </div>
   </div>
 </mat-toolbar>

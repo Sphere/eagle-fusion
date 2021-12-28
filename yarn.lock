@@ -1192,6 +1192,11 @@
     grunt-karma "^0.12.2"
     karma "^3.0.0"
 
+"@scarf/scarf@^1.1.0":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-1.1.1.tgz#d8b9f20037b3a37dbf8dcdc4b3b72f9285bfce35"
+  integrity sha512-VGbKDbk1RFIaSmdVb0cNjjWJoRWRI/Weo23AjRCC2nryO0iAS8pzsToJfPVPtVs74WHw4L1UTADNdIYRLkirZQ==
+
 "@schematics/angular@8.3.27":
   version "8.3.27"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-8.3.27.tgz#612d6a3f2fbdeb8a890b4fe793a191d0b8a31850"
@@ -7271,6 +7276,13 @@ neo-async@^2.5.0, neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
+ng-circle-progress@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/ng-circle-progress/-/ng-circle-progress-1.5.1.tgz#ea4ea89318754b929dc1550d5779e391d7c5c646"
+  integrity sha512-gJ0SdWc+TkXckfbhbvUY522yjya3qcc1a3lGvvVyLsUfSOgll8LQaZGDEko84d8dk8vYO83n0O5vP+e8bJTInQ==
+  dependencies:
+    tslib "^1.9.0"
+
 ng-packagr@^5.4.3:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/ng-packagr/-/ng-packagr-5.7.1.tgz#8e082e38e7b6089296bf0491f2e5b29122f8e08d"
@@ -7327,6 +7339,14 @@ ngx-image-cropper@^3.0.3:
     tslib "^1.9.0"
   optionalDependencies:
     hammerjs "^2.0.8"
+
+ngx-infinite-scroll@^10.0.0:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-infinite-scroll/-/ngx-infinite-scroll-10.0.1.tgz#6f51f2f8775a7c50d1dd8bad125d4e748abbe880"
+  integrity sha512-7is0eJZ9kJPsaHohRmMhJ/QFHAW9jp9twO5HcHRvFM/Yl/R8QCiokgjwmH0/CR3MuxUanxfHZMfO3PbYTwlBEg==
+  dependencies:
+    "@scarf/scarf" "^1.1.0"
+    opencollective-postinstall "^2.0.2"
 
 ngx-moment@^5.0.0:
   version "5.0.0"

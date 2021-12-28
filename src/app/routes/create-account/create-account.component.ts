@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-create-account',
@@ -31,7 +32,8 @@ export class CreateAccountComponent implements OnInit {
   constructor(
     spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService
+    private signupService: SignupService,
+    private router: Router
   ) {
     this.spherFormBuilder = spherFormBuilder
   }
@@ -74,22 +76,31 @@ export class CreateAccountComponent implements OnInit {
         email: phoneEmail,
       }
     }
-    this.otpPage = true
+    //this.otpPage = true
     this.signupService.generateOtp(request).subscribe(
       (res: any) => {
         if (res.message === 'Success') {
+          this.openSnackbar(res.msg)
+          //this.openSnackbar(`${res.result.response}`)
           this.otpPage = true
         }
       },
       (err: any) => {
-        this.openSnackbar(err)
+        this.openSnackbar("OTP Error," + err)
       })
   }
 
   onSubmit(form: any) {
     let phone = this.createAccountForm.controls.emailOrMobile.value
-
+    let validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
+ 
+    if (!validphone) {
+      this.openSnackbar('Enter valid Phone Number')
+    }
+    if (phone.length < 10) {
+      this.openSnackbar('Enter 10 digits Phone Number')
+    }
     // at least 10 in number
     if (phone.length >= 10) {
       this.isMobile = true
@@ -115,6 +126,7 @@ export class CreateAccountComponent implements OnInit {
       this.generateOtp('email', form.value.emailOrMobile)
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.status === 'success') {
+          this.openSnackbar(res.msg)
           this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
@@ -137,7 +149,9 @@ export class CreateAccountComponent implements OnInit {
         password: form.value.password,
       }
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
+        console.log(res)
         if (res.status === 'success') {
+          this.openSnackbar(res.msg)
           this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
@@ -148,19 +162,22 @@ export class CreateAccountComponent implements OnInit {
       },
         err => {
           this.errors = err
-          this.openSnackbar(this.errors.msg)
+          this.openSnackbar(this.errors.msg || ('Registration',+err))
           this.uploadSaveData = false
         }
       )
-
     }
-
   }
 
+  gotoHome() {
+    this.router.navigate(['/page/home'])
+      .then(() => {
+        window.location.reload()
+      })
+  }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
   }
-
 }
