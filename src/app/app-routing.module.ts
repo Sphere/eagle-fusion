@@ -439,18 +439,6 @@ const routes: Routes = [
       tnc: TncPublicResolverService,
     },
   },
-  // {
-  //   path: 'public/mobile-login',
-  //   component: MobileLoginComponent,
-  // },
-  // {
-  //   path: 'public/mobile-otp',
-  //   component: LoginOtpComponent,
-  // },
-  // {
-  //   path: 'public/create-account',
-  //   component: CreateAccountComponent,
-  // },
   {
     path: 'public/register',
     component: RegisterComponent,
