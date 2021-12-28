@@ -1,0 +1,48 @@
+<!-- Your Location Form -->
+<div class="login-page-content" *ngIf="!otpPage">
+  <div class="login-card">
+    <header class="login-header">
+      <div>
+        <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
+      </div>
+    </header>
+    <div class="img-box">
+      <img alt="logo" width="140" height="143" src="../../../fusion-assets/images/your-location.png">
+    </div>
+    <div class="create-acct-text mt-6 mb-4">Your location?</div>
+    <div class="input-content">
+      <div class="input-content-wrapper">
+
+        <form [formGroup]="yourLocationForm" id="form-login" action="" method="post">
+
+          <div class="form-group mt-4 input-box">
+            <select id="country" formControlName="country" class="form-control select-box"
+              [(ngModel)]="model.country.type">
+              <option value="" disabled="true" [selected]="!model.country.type">Country</option>
+              <option *ngFor="let country of countries" [ngValue]="country">{{ country }}</option>
+            </select>
+          </div>
+
+          <div class="form-group mt-4 input-box">
+            <select id="state" formControlName="state" class="form-control select-box" [(ngModel)]="model.state.type">
+              <option value="" disabled="true" [selected]="!model.state.type">State</option>
+              <option *ngFor="let state of states" [ngValue]="state">{{ state }}</option>
+            </select>
+          </div>
+
+          <div class="form-group mt-4 input-box">
+            <select id="distict" formControlName="distict" class="form-control select-box"
+              [(ngModel)]="model.distict.type">
+              <option value="" disabled="true" [selected]="!model.distict.type">City/Distict</option>
+              <option *ngFor="let distict of disticts" [ngValue]="distict">{{ distict }}</option>
+            </select>
+          </div>
+
+          <button class="form-group login-button" name="login" type="submit" [disabled]="!yourLocationForm?.valid"
+            (click)="onSubmit(yourLocationForm)">Next</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Your Location Form Close-->
