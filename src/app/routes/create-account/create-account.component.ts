@@ -38,13 +38,13 @@ export class CreateAccountComponent implements OnInit {
 
   initializeFormFields() {
     this.createAccountForm = this.spherFormBuilder.group({
-      firstname: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+$/g)])),
-      lastname: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+$/g)])),
+      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
+      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
       emailOrMobile: new FormControl('', [Validators.required]),
-      password: new FormControl('', Validators.compose([Validators.required,
-      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)])),
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -123,7 +123,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -146,7 +146,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           this.errors = err
           this.openSnackbar(this.errors.msg)
           this.uploadSaveData = false
