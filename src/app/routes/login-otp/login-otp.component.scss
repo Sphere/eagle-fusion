@@ -6,7 +6,6 @@
   @extend %page-center;
   @extend %height-mat-toolbar-sibling;
   padding: 0;
-  margin-top: 50px;
   box-sizing: border-box;
   @include breakpoint-gt-s {
       max-width: 30%;
@@ -58,9 +57,6 @@
     border-radius: 6px;
     border: 1px solid #bbb;
 }
-a {
-  color: #2873b2;
-}
 .login-button {
   width: 98px;
   height: 38px;
@@ -72,4 +68,7 @@ a {
   line-height: 19px;
   position: absolute;
   right: 0;
+}
+.resend-text{
+  color: #2873b2;
 }

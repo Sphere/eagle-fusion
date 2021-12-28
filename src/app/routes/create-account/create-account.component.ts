@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
-import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
 
@@ -11,8 +10,6 @@ import { SignupService } from '../signup/signup.service'
   styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit {
-  createAccountForm: FormGroup
-  otpCodeForm: FormGroup
   hide1 = true
   hide2 = true
   uploadSaveData = false
@@ -27,103 +24,69 @@ export class CreateAccountComponent implements OnInit {
   emailPhoneType: any
   otpPage = false
   errors: any
+  spherFormBuilder: FormBuilder
+  public createAccountForm: FormGroup
+  public otpCodeForm: FormGroup
 
   constructor(
-    private fb: FormBuilder,
+    spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService,
-    private router: Router) {
-    this.createAccountForm = this.fb.group({
-      username: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+ [a-zA-Z]+$/g)])),
+    private signupService: SignupService
+  ) {
+    this.spherFormBuilder = spherFormBuilder
+  }
+
+  initializeFormFields() {
+    this.createAccountForm = this.spherFormBuilder.group({
+      firstname: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+$/g)])),
+      lastname: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+$/g)])),
       emailOrMobile: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.compose([Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)])),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                     { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
-    this.otpCodeForm = this.fb.group({
+    this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
   }
 
+  showParentForm(event: any) {
+    if (event === 'true') {
+      this.initializeFormFields()
+    }
+  }
+
   ngOnInit() {
+    this.initializeFormFields()
   }
 
   // generate otp
   generateOtp(type: string, phoneEmail: any) {
     // Call OTP valiate  Api, show resend Button true
+    let request: any = []
     if (type === 'phone') {
-      const request = {
+      request = {
         mobileNumber: phoneEmail,
       }
-      this.signupService.generateOtp(request).subscribe(
-        (res: any) => {
-          if (res.message === 'Success') {
-            this.otpPage = true
-          }
-        },
-        (err: any) => {
-          this.openSnackbar(err)
-        }
-      )
     } else {
-      const request = {
+      request = {
         email: phoneEmail,
       }
-      this.signupService.generateOtp(request).subscribe(
-        (res: any) => {
-          if (res.message === 'Success') {
-            this.otpPage = true
-          }
-        },
-        (err: any) => {
-          this.openSnackbar(err)
-        }
-      )
     }
-  }
-
-  verifyOtp() {
-    let phone = this.createAccountForm.controls.emailOrMobile.value
-
-    phone = phone.replace(/[^0-9+#]/g, '')
-    // at least 10 in number
-    if (phone.length >= 10) {
-      this.isMobile = false
-      // Call OTP Api, show resend Button true
-      const request = {
-        mobileNumber: phone,
-        otp: this.otpCodeForm.controls.otpCode.value,
-      }
-
-      this.signupService.validateOtp(request).subscribe(
-        (res: any) => {
-          if (res.message === 'Success') {
-            this.router.navigate(['/page/home'])
-          }
-        },
-        (err: any) => {
-          this.openSnackbar(err)
-
-        }
-      )
-    }
-  }
-
-  resendOTP() {
-    // call resend OTP function
-    this.signupService.registerWithMobile(this.emailOrMobile).subscribe(
+    this.otpPage = true
+    this.signupService.generateOtp(request).subscribe(
       (res: any) => {
-        this.openSnackbar(res.message)
+        if (res.message === 'Success') {
+          this.otpPage = true
+        }
       },
       (err: any) => {
         this.openSnackbar(err)
-      }
-    )
+      })
   }
 
   onSubmit(form: any) {
-    const name = this.createAccountForm.controls.username.value.split(' ')
     let phone = this.createAccountForm.controls.emailOrMobile.value
 
     phone = phone.replace(/[^0-9+#]/g, '')
@@ -144,22 +107,23 @@ export class CreateAccountComponent implements OnInit {
 
     if (this.email) {
       reqObj = {
-        firstName: name[0],
-        lastName: name[1],
+        firstName: form.value.firstname,
+        lastName: form.value.lastname,
         email: form.value.emailOrMobile,
         password: form.value.password,
       }
+      this.generateOtp('email', form.value.emailOrMobile)
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.status === 'success') {
           this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
-          form.reset()
+          // form.reset()
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -167,8 +131,8 @@ export class CreateAccountComponent implements OnInit {
       )
     } else {
       const requestBody = {
-        firstName: name[0],
-        lastName: name[1],
+        firstName: form.value.firstname,
+        lastName: form.value.lastname,
         phone: form.value.emailOrMobile,
         password: form.value.password,
       }
@@ -177,12 +141,12 @@ export class CreateAccountComponent implements OnInit {
           this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
-          form.reset()
+          // form.reset()
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           this.errors = err
           this.openSnackbar(this.errors.msg)
           this.uploadSaveData = false

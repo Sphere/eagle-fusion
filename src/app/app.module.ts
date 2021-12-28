@@ -22,6 +22,7 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatListModule,
+  MatAutocompleteModule,
 } from '@angular/material'
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -69,6 +70,7 @@ import { MdePopoverModule } from '@material-extended/mde'
 import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { YourLocationComponent } from './routes/your-location/your-location.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -110,6 +112,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileLoginComponent,
     LoginOtpComponent,
     CreateAccountComponent,
+    YourLocationComponent,
   ],
   imports: [
     FormsModule,
@@ -152,6 +155,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TourModule,
     SlidersModule,
     MdePopoverModule,
+    MatAutocompleteModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [

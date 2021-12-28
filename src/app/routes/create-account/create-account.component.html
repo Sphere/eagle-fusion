@@ -16,17 +16,30 @@
         <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
 
           <div class="form-group">
-            <input tabindex="1" id="username" class="form-control input-box" formControlName="username" type="text"
-              autocomplete="off" placeholder="Name">
-            <label class="label-text">(Example : Mark Smith)</label><br />
+            <input tabindex="1" id="firstname" class="form-control input-box" formControlName="firstname" type="text"
+              autocomplete="off" placeholder="First Name">
             <mat-error class="text-danger"
-              *ngIf="createAccountForm.controls['username'].hasError('required') &&
-                        (createAccountForm.controls['username'].dirty || createAccountForm.controls['username'].touched)">
+              *ngIf="createAccountForm.controls['firstname'].hasError('required') &&
+                        (createAccountForm.controls['firstname'].dirty || createAccountForm.controls['firstname'].touched)">
               This field is required</mat-error>
             <mat-error class="text-danger"
-              *ngIf="createAccountForm.controls['username'].hasError('pattern') &&
-                        (createAccountForm.controls['username'].dirty || createAccountForm.controls['username'].touched)">
+              *ngIf="createAccountForm.controls['firstname'].hasError('pattern') &&
+                        (createAccountForm.controls['firstname'].dirty || createAccountForm.controls['firstname'].touched)">
               Invalid name Format</mat-error>
+          </div>
+
+          <div class="form-group mt-4">
+            <input tabindex="1" id="lastname" class="form-control input-box" formControlName="lastname" type="text"
+              autocomplete="off" placeholder="Last Name">
+            <mat-error class="text-danger"
+              *ngIf="createAccountForm.controls['lastname'].hasError('required') &&
+                                  (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
+              This field is required</mat-error>
+            <mat-error class="text-danger"
+              *ngIf="createAccountForm.controls['lastname'].hasError('pattern') &&
+                                  (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
+              Invalid name Format</mat-error>
+            <br /><label class="label-text">(This is the name that will show up on your certificate)</label>
           </div>
 
           <div class="form-group mt-4">
@@ -77,41 +90,7 @@
 <!-- Create Account Form Close-->
 
 <!-- OTP Form -->
-<div class="login-page-content" *ngIf="otpPage">
-  <div class="login-card">
-    <header class="login-header">
-      <div>
-        <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
-      </div>
-    </header>
-    <div class="img-box">
-      <img width="175" height="165" src="../../../fusion-assets/images/email-code.png">
-    </div>
-    <div class="check-email-text mt-6">Check your <span *ngIf="emailPhoneType === 'email'">email</span>
-      <span *ngIf="emailPhoneType === 'phone'">SMS</span>!
-    </div>
-    <div class="enter-code-text mt-2 mb-4">Enter the <span *ngIf="emailPhoneType === 'email'">Code</span>
-      <span *ngIf="emailPhoneType === 'phone'">SMS</span>
-    </div>
-    <div class="input-content">
-      <div class="input-content-wrapper">
-
-        <form [formGroup]="OtpCodeForm" id="form-login" action="" method="post">
-
-          <div class="form-group">
-            <input tabindex="1" id="code" class="form-control input-box" formControlName="otpCode" type="text"
-              autocomplete="off" placeholder="Code">
-          </div>
-
-          <div class="form-group mt-4 mb-4">
-            Did not receive a mail? <span><a tabindex="5" href="public/forgot-password">Click Here</a></span> to
-            resend
-          </div>
-
-          <button class="form-group login-button mt-4" type="submit" (click)="verifyOtp()">Next</button>
-        </form>
-      </div>
-    </div>
-  </div>
+<div *ngIf="otpPage">
+  <ws-login-otp [signUpdata]="createAccountForm" (redirectToParent)="showParentForm($event)"></ws-login-otp>
 </div>
 <!-- OTP Form Close-->
