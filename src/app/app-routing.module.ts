@@ -28,6 +28,7 @@ import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-s
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { YourLocationComponent } from './routes/your-location/your-location.component'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -225,6 +226,10 @@ const routes: Routes = [
   {
     path: 'app/create-account',
     component: CreateAccountComponent,
+  },
+  {
+    path: 'app/your-location',
+    component: YourLocationComponent,
   },
   {
     path: 'app/toc',
