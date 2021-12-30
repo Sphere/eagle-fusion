@@ -38,7 +38,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showAppNavBar = false
   popupTour: any
   courseNameHeader: any
-  showCreateBtn: boolean = false
+  showCreateBtn = false
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -57,9 +57,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
-
     // Header view
-
   }
 
   ngOnInit() {
@@ -72,14 +70,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           this.showAppNavBar = true
         }
       }
-          console.log(window.location.href.includes('/public/home'))
-            if(window.location.href.includes('/public/home')) {
-          this.showCreateBtn = true;
-        } else {
-           this.showCreateBtn = false;
-        }
+      if (window.location.href.includes('/public/home')) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
+      }
     })
-
 
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -124,7 +120,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
               showTitle: true,
             },
           }
-          console.log(this.btnAppsConfig)
         } else {
           this.btnAppsConfig = {
             ...this.basicBtnAppsConfig,

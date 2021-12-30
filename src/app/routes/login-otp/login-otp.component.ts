@@ -36,6 +36,9 @@ export class LoginOtpComponent implements OnInit {
         this.emailPhoneType = 'email'
       }
     }
+    if (window.location.href.includes('email-otp')) {
+     this.emailPhoneType = 'email'
+    }
   }
 
   redirectToSignUp() {
@@ -76,9 +79,15 @@ export class LoginOtpComponent implements OnInit {
       })
   }
 
-  resendOTP() {
+  resendOTP(emailPhoneType: string) {
+    let obj
+    if (emailPhoneType === 'email') {
+      obj = { email: this.signUpdata.value.emailOrMobile }
+    } else {
+      obj = { phone: this.signUpdata.value.emailOrMobile }
+    }
     // call resend OTP function
-    this.signupService.registerWithMobile(this.signUpdata.value.emailOrMobile).subscribe(
+    this.signupService.registerWithMobile(obj).subscribe(
       (res: any) => {
         this.openSnackbar(res.message)
       },

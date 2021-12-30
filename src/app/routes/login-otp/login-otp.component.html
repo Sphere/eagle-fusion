@@ -8,7 +8,8 @@
       </div>
     </header>
     <div class="img-box">
-      <img width="175" height="165" src="../../../fusion-assets/images/email-code.png">
+      <img *ngIf="emailPhoneType === 'email'" width="175" height="165" src="../../../fusion-assets/images/email-code.png">
+      <img *ngIf="emailPhoneType === 'phone'" width="175" height="165" src="../../../fusion-assets/images/SMS.svg">
     </div>
     <div class="check-email-text mt-6">Check your <span *ngIf="emailPhoneType === 'email'">email</span>
       <span *ngIf="emailPhoneType === 'phone'">SMS</span>!
@@ -18,19 +19,15 @@
     </div>
     <div class="input-content">
       <div class="input-content-wrapper">
-
         <form [formGroup]="loginOtpForm" id="form-login" action="" method="post">
-
           <div class="form-group">
             <input tabindex="1" id="code" class="form-control input-box" formControlName="code" type="text"
               autocomplete="off" placeholder="Code">
           </div>
-
           <div class="form-group mt-4 mb-4">
-            Did not receive a mail? <span class="resend-text" (click)="resendOTP()">Click Here</span> to
+            Did not receive a mail? <span class="resend-text" (click)="resendOTP(emailPhoneType)">Click Here</span> to
             resend
           </div>
-
           <button class="form-group login-button mt-4" name="login" type="submit" (click)="verifyOtp()">Next</button>
         </form>
       </div>

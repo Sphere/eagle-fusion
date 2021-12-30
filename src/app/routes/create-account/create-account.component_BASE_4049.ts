@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
-import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-create-account',
@@ -24,7 +23,7 @@ export class CreateAccountComponent implements OnInit {
   isOtpValid = false
   emailPhoneType: any
   otpPage = false
-  // errors: any
+  errors: any
   spherFormBuilder: FormBuilder
   public createAccountForm: FormGroup
   public otpCodeForm: FormGroup
@@ -32,25 +31,20 @@ export class CreateAccountComponent implements OnInit {
   constructor(
     spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService,
-    private router: Router
+    private signupService: SignupService
   ) {
     this.spherFormBuilder = spherFormBuilder
   }
 
   initializeFormFields() {
     this.createAccountForm = this.spherFormBuilder.group({
-      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
-      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
+      firstname: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+$/g)])),
+      lastname: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z]+$/g)])),
       emailOrMobile: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required,
-      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
+      password: new FormControl('', Validators.compose([Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)])),
       confirmPassword: new FormControl('', [Validators.required]),
-
-    },{ validator: mustMatch('password', 'confirmPassword') })
-
-
-
+    },                                                   { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -80,41 +74,29 @@ export class CreateAccountComponent implements OnInit {
         email: phoneEmail,
       }
     }
-    // this.otpPage = true
+    this.otpPage = true
     this.signupService.generateOtp(request).subscribe(
       (res: any) => {
         if (res.message === 'Success') {
-          this.openSnackbar(res.msg)
-          // this.openSnackbar(`${res.result.response}`)
           this.otpPage = true
         }
       },
       (err: any) => {
-        this.openSnackbar(`OTP Error`, + err)
+        this.openSnackbar(err)
       })
   }
 
   onSubmit(form: any) {
-
     let phone = this.createAccountForm.controls.emailOrMobile.value
-    const validphone = /^[6-9]\d{9}$/.test(phone)
-    phone = phone.replace(/[^0-9+#]/g, '')
 
-    if (!validphone) {
-      this.openSnackbar('Enter valid Phone Number')
-    }
-    if (phone.length < 10) {
-      this.openSnackbar('Enter 10 digits Phone Number')
-    }
+    phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-          this.otpPage = true
       this.isMobile = true
       this.emailPhoneType = 'phone'
       this.email = false
       // Call OTP Api, show resend Button true
     } else {
-               this.otpPage = true
       this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
         this.createAccountForm.controls.emailOrMobile.value
       )
@@ -130,9 +112,9 @@ export class CreateAccountComponent implements OnInit {
         email: form.value.emailOrMobile,
         password: form.value.password,
       }
+      this.generateOtp('email', form.value.emailOrMobile)
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.status === 'success') {
-          this.openSnackbar(res.msg)
           this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
@@ -141,13 +123,8 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-
-      err => {
+                                                  err => {
           this.openSnackbar(err.msg)
-
-
-
-
           this.uploadSaveData = false
           // form.reset()
         }
@@ -161,7 +138,6 @@ export class CreateAccountComponent implements OnInit {
       }
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
         if (res.status === 'success') {
-          this.openSnackbar(res.msg)
           this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
@@ -170,28 +146,21 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-      err => {
-
-
-
-          // this.errors = err
-          this.openSnackbar(`Registration`, + err)
-
+                                                                   err => {
+          this.errors = err
+          this.openSnackbar(this.errors.msg)
           this.uploadSaveData = false
         }
       )
+
     }
+
   }
 
-  gotoHome() {
-    this.router.navigate(['/page/home'])
-      .then(() => {
-        window.location.reload()
-      })
-  }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
   }
+
 }

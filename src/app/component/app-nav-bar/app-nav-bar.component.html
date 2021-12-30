@@ -15,6 +15,7 @@
         <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>
         <span class="spacer"></span>
+
         <!--<div ngClass="search-small-logo">
           <ng-container [wsResolverWidget]="{
         'widgetType': 'actionButton',
@@ -33,7 +34,6 @@
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
           [routerLink]="'/author/create'">
           Add Course </button>
-
 
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
@@ -63,9 +63,8 @@
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
         </ng-container>
       </ng-container>
-            <a *ngIf="showCreateBtn === true" role="button" matRipple
-        class="flex items-center flex-col px-2 box-sizing-box" routerLink="/app/create-account" active
-        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+      <a *ngIf="showCreateBtn === true" role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box"
+        routerLink="/app/create-account" active [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
         <ng-container>
           <button mat-raised-button [ngStyle]="{
             'background-color': 'rgb(63, 81, 181)',
