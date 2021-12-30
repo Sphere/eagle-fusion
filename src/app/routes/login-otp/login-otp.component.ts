@@ -37,7 +37,7 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     if (window.location.href.includes('email-otp')) {
-     this.emailPhoneType = 'email'
+      this.emailPhoneType = 'email'
     }
   }
 
@@ -51,7 +51,6 @@ export class LoginOtpComponent implements OnInit {
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-
       request = {
         mobileNumber: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
@@ -79,20 +78,24 @@ export class LoginOtpComponent implements OnInit {
       })
   }
 
-  resendOTP(emailPhoneType: string) {
-    let obj
+  resendOTP(emailPhoneType) {
+    let requestBody
     if (emailPhoneType === 'email') {
-      obj = { email: this.signUpdata.value.emailOrMobile }
+      requestBody = {
+        email: this.signUpdata.value.emailOrMobile
+      }
     } else {
-      obj = { phone: this.signUpdata.value.emailOrMobile }
+      requestBody = {
+        mobileNumber: this.signUpdata.value.emailOrMobile
+      }
     }
     // call resend OTP function
-    this.signupService.registerWithMobile(obj).subscribe(
+    this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
-        this.openSnackbar(res.message)
+        this.openSnackbar(res.msg)
       },
       (err: any) => {
-        this.openSnackbar(err)
+        this.openSnackbar(`OTP Error`, + err.msg)
       }
     )
   }
