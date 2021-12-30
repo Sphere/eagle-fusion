@@ -1,1 +1,28 @@
-<p>complete-profile works!</p>
+<div class="login-page-content">
+  <div class="login-card">
+    <header class="login-header">
+      <div>
+        <a href="/public/home">
+          <img alt="logo" class="main-logo"  width="140" height="143" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
+        </a>
+      </div>
+    </header>
+    <div class="create-acct-text mt-6">Complete your profile</div>
+    <h4>And unlock access to multiple courses</h4>
+    <div class="input-content">
+      <div class="input-content-wrapper">
+        <div class="text-center">
+          <img alt="logo" class="main-logo" src="../../../fusion-assets/images/Almost.svg">
+        </div>
+        <form>
+          <div class="form-group mt-4">
+            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="birthday" name="birthday"
+              placeholder="Date of birth" class="form-control input-box">
+          </div>
+        </form>
+        <button class="form-group login-button" name="login" type="submit"
+          [disabled]="!yourLocationForm?.valid">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

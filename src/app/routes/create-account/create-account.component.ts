@@ -46,7 +46,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },{ validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
@@ -103,13 +103,13 @@ export class CreateAccountComponent implements OnInit {
     }
     // at least 10 in number
     if (phone.length >= 10) {
-          this.otpPage = true
+      this.otpPage = true
       this.isMobile = true
       this.emailPhoneType = 'phone'
       this.email = false
       // Call OTP Api, show resend Button true
     } else {
-               this.otpPage = true
+      this.otpPage = true
       this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
         this.createAccountForm.controls.emailOrMobile.value
       )
@@ -136,13 +136,8 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-
-      err => {
+        err => {
           this.openSnackbar(err.msg)
-
-
-
-
           this.uploadSaveData = false
           // form.reset()
         }
@@ -165,13 +160,9 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-      err => {
-
-
-
+        err => {
           // this.errors = err
           this.openSnackbar(`Registration`, + err)
-
           this.uploadSaveData = false
         }
       )

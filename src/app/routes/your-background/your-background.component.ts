@@ -17,9 +17,7 @@ export class YourBackgroundComponent implements OnInit {
       this.professions = data.professions
     })
   }
-
   // imgSelect(img: any) {
   //   console.log(img)
   // }
-
 }
