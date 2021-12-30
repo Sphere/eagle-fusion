@@ -78,15 +78,15 @@ export class LoginOtpComponent implements OnInit {
       })
   }
 
-  resendOTP(emailPhoneType) {
+  resendOTP(emailPhoneType: string) {
     let requestBody
     if (emailPhoneType === 'email') {
       requestBody = {
-        email: this.signUpdata.value.emailOrMobile
+        email: this.signUpdata.value.emailOrMobile,
       }
     } else {
       requestBody = {
-        mobileNumber: this.signUpdata.value.emailOrMobile
+        mobileNumber: this.signUpdata.value.emailOrMobile,
       }
     }
     // call resend OTP function
