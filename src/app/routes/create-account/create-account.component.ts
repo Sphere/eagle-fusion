@@ -112,7 +112,6 @@ export class CreateAccountComponent implements OnInit {
         email: form.value.emailOrMobile,
         password: form.value.password,
       }
-      this.generateOtp('email', form.value.emailOrMobile)
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.status === 'success') {
           this.generateOtp('email', form.value.emailOrMobile)
