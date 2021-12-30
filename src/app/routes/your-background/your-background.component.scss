@@ -1,0 +1,104 @@
+@import 'ws-common';
+@import 'ws-mixins';
+.login-page-content {
+  box-sizing: border-box;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  box-sizing: border-box;
+  padding: 0;
+  height: 175px;
+  max-width: 430px;
+  @include breakpoint-s {
+    padding: 12px;
+  }
+}
+.login-card {
+  margin: 0;
+  padding: 20px 20px 30px 20px;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+}
+.login-header {
+  .main-logo {
+    width: 93px;
+    height: 33px;
+    left: 20px;
+    top: 75px;
+  }
+}
+.check-email-text {
+  font-size: 24px;
+  line-height: 29px;
+}
+.create-acct-text {
+  font-size: 24px;
+  line-height: 29px;
+}
+.img-box{
+  padding: 0 90px;
+}
+.label-text{
+  color: #5f6368;
+  font-size: 12px;
+  line-height: 15px;
+}
+.input-content{
+  position: absolute;
+  max-width: 340px;
+}
+.input-box {
+  width: 312px;
+  height: 42px;
+  padding: 3px 0 3px 6px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}
+.select-box{
+  border: none;
+  width: 305px;
+  height: 44px;
+  font-size: 16px;
+  line-height: 19px;
+}
+.login-button {
+  width: 98px;
+  height: 38px;
+  background: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border:0;
+  font-size: 16px;
+  line-height: 19px;
+  position: absolute;
+  right: 0;
+  margin-top: 5rem;
+}
+
+:host ::ng-deep .content {
+    width: inherit;
+}
+
+:host ::ng-deep .column {
+    width: 47%;
+    float: left;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin: 4px;
+    height: 120px;
+}
+:host ::ng-deep h4{
+    width: 25%;
+    float: left;
+    margin-left: 10px !important;
+    margin-top: 10px !important;
+    font-weight: 500 !important;
+  }
+:host ::ng-deep .column a img {
+    float: right;
+    width: 50%;
+    margin-top: 15px;
+  }
+:host ::ng-deep .column:hover {
+   border-color: #5b72dd !important;
+}
