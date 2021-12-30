@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 @Component({
@@ -36,8 +36,12 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   isXSmall$ = this.valueSvc.isXSmall$
 
-  constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-              private activateRoute: ActivatedRoute, private valueSvc: ValueService) {
+  constructor(
+    private domSanitizer: DomSanitizer,
+    private configSvc: ConfigurationsService,
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private valueSvc: ValueService) {
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -111,16 +115,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   login() {
-    if (sessionStorage.getItem('login_url')) {
-      const url: any = sessionStorage.getItem('login_url')
-      window.location.href = url
-    }
-    // this.authSvc.login(key, this.redirectUrl)
-    //    if (sessionStorage.getItem('loginbtn')) {
-    //   sessionStorage.removeItem('loginbtn')
+    // if (sessionStorage.getItem('login_url')) {
+    //   const url: any = sessionStorage.getItem('login_url')
+    //   window.location.href = url
     // }
-    // sessionStorage.setItem(`loginbtn`, window.location.href)
-    // window.location.href = `${this.redirectUrl}apis/reset`
+    this.router.navigateByUrl('app/mobile-login')
   }
 
   ngOnDestroy() {
