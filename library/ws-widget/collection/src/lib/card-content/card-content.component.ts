@@ -174,11 +174,12 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login() {
-    if (sessionStorage.getItem('login_url')) {
-      const url: any = sessionStorage.getItem('login_url')
-      window.location.href = url
-    }
+    // if (sessionStorage.getItem('login_url')) {
+    //   const url: any = sessionStorage.getItem('login_url')
+    //   window.location.href = url
+    // }
     // this.authSvc.login(key, document.baseURI)
+    this.router.navigateByUrl('app/mobile-login')
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {

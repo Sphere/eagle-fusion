@@ -6,7 +6,7 @@
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
   padding: 0;
-  background: #f7f7f7;
+  // background: #f7f7f7;
   height: 175px;
   max-width: 430px;
   @include breakpoint-s {
@@ -15,7 +15,7 @@
 }
 .login-card {
   margin: 0;
-  padding: 20px 20px 30px 20px;
+  padding: 5%;
   color: #000;
   font-size: 14px;
   line-height: 17px;
@@ -46,10 +46,10 @@
 }
 .input-content{
   position: absolute;
-  max-width: 340px;
+  max-width: 335px;
 }
 .input-box {
-    width: 312px;
+    width: 305px;
     height: 35px;
     padding: 4px 12px;
     font-size: 16px;
@@ -72,6 +72,7 @@ a {
   line-height: 19px;
   position: absolute;
   right: 0;
+  margin-top: 2.5rem;
 }
 .terms {
   margin-top: 50px;
@@ -79,11 +80,14 @@ a {
 .termsChecked {
   height: 12px;
 }
-// @media screen and (min-width:425px) {
-//   .login-page-content {
-//     width: max-content;
-//     margin: 0 200px;
-//     position: absolute;
-//   }
-// }
+@media screen and (max-width:426px) {
+  .login-card {
+    padding: 5% 10%;
+  }
+}
+@media screen and (max-width:425px) and (min-width:360px) {
+  .login-card {
+    padding: 5% 6%;
+  }
+}
 
