@@ -24,7 +24,7 @@ export class CreateAccountComponent implements OnInit {
   isOtpValid = false
   emailPhoneType: any
   otpPage = false
-  errors: any
+  // errors: any
   spherFormBuilder: FormBuilder
   public createAccountForm: FormGroup
   public otpCodeForm: FormGroup
@@ -46,7 +46,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },{ validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -86,7 +86,7 @@ export class CreateAccountComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.openSnackbar("OTP Error," + err)
+        this.openSnackbar(`OTP Error`, + err)
       })
   }
 
@@ -134,7 +134,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+      err => {
           this.openSnackbar(err.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -159,9 +159,8 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
-          this.errors = err
-          this.openSnackbar(this.errors.msg || ('Registration',+err))
+      err => {
+          this.openSnackbar(`Registration`,+err)
           this.uploadSaveData = false
         }
       )

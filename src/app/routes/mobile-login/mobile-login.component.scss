@@ -9,10 +9,10 @@
   padding: 0;
   margin-top: 50px;
   @include breakpoint-gt-s {
-    max-width: 30%;
+    max-width: 40%;
   }
   @include breakpoint-s {
-    max-width: 50%;
+    max-width: 65%;
     padding: 12px;
   }
   @include breakpoint-xs {
