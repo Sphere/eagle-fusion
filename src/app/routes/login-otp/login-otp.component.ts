@@ -93,29 +93,6 @@ export class LoginOtpComponent implements OnInit {
 
     this.signupService.generateOtp(requestBody).subscribe(
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       (res: any) => {
         this.openSnackbar(res.msg)
       },
