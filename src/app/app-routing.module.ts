@@ -29,6 +29,7 @@ import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mo
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
+import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -230,6 +231,13 @@ const routes: Routes = [
   {
     path: 'app/your-location',
     component: YourLocationComponent,
+  },
+  {
+    path: 'app/new-tnc',
+    component: NewTncComponent,
+    resolve: {
+      tnc: TncPublicResolverService,
+    },
   },
   {
     path: 'app/toc',

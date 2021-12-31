@@ -123,7 +123,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           // console.log('check')
           // this.isNavBarRequired = false
         } if (event.url.includes('/app/mobile-login') || event.url.includes('/app/mobile-otp') ||
-          event.url.includes('/app/create-account') || event.url.includes('/app/your-location')) {
+          event.url.includes('/app/create-account') || event.url.includes('/app/your-location') ||
+          event.url.includes('/app/new-tnc')) {
           this.hideHeaderFooter = true
         } else {
           this.isNavBarRequired = true

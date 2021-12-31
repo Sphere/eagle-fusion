@@ -1,0 +1,17 @@
+<div>
+  <ws-tnc-renderer (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">
+  </ws-tnc-renderer>
+</div>
+
+<div class="tnc-bottom-navbar">
+  <div class="decline-div">
+    <button class="decline-btn">
+      <ng-container i18n>Decline</ng-container>
+    </button>
+  </div>
+  <div class="accept-div">
+    <button (click)="acceptTnc()" class="accept-btn">
+      <ng-container i18n>Agree and continue</ng-container>
+    </button>
+  </div>
+</div>

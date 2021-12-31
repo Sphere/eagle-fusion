@@ -1,0 +1,37 @@
+.tnc-bottom-navbar {
+  z-index: 100;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 12px 5px;
+  background-color: #fff;
+  text-align: right;
+}
+.decline-div, .accept-div{
+  display: inline-block;
+  text-align: right;
+}
+.decline-div {
+  padding-right: 5px;
+}
+.accept-div {
+  margin-right: 20px;
+}
+.decline-btn {
+  background: none;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1C5D95;
+  border: none;
+  text-align: right;
+  margin-right: 10px;
+}
+.accept-btn {
+  background: #1C5D95;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  padding: 8px 32px;
+  font-size: 16px;
+  line-height: 19px;
+}
