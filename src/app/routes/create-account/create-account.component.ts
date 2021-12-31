@@ -60,6 +60,11 @@ export class CreateAccountComponent implements OnInit {
 
   ngOnInit() {
     this.initializeFormFields()
+    // this.signupService.sessionTest().subscribe(
+    //   (res: any) => {
+    //     console.log(res)
+    //   }
+    // )
   }
 
   // generate otp

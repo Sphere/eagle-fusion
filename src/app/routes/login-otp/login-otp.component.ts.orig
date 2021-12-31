@@ -90,32 +90,32 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     // call resend OTP function
-
+<<<<<<< HEAD
     this.signupService.generateOtp(requestBody).subscribe(
+=======
+    let request: any = []
+    const phone = this.signUpdata.value.emailOrMobile
+    if (phone.length >= 10) {
 
+      request = {
+        firstName: this.signUpdata.value.firstname,
+        lastName: this.signUpdata.value.lastname,
+        phone: this.signUpdata.value.emailOrMobile,
+        password: this.signUpdata.value.password,
+      }
 
+    } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
+      this.signUpdata.value.emailOrMobile)) {
+      request = {
+        firstName: this.signUpdata.value.firstname,
+        lastName: this.signUpdata.value.lastname,
+        email: this.signUpdata.value.emailOrMobile,
+        password: this.signUpdata.value.password,
+      }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    this.signupService.registerWithMobile(request).subscribe(
+>>>>>>> 34dba0ff9a58b0ac4d7a9278e3dc52bd08d1b6ac
       (res: any) => {
         this.openSnackbar(res.msg)
       },

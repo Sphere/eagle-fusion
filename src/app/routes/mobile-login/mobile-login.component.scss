@@ -11,6 +11,9 @@
   @include breakpoint-gt-s {
     max-width: 40%;
   }
+  @include breakpoint-gt-m {
+    max-width: 25%;
+  }
   @include breakpoint-s {
     max-width: 65%;
     padding: 12px;

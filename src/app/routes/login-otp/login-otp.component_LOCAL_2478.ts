@@ -67,9 +67,9 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.validateOtp(request).subscribe(
       (res: any) => {
-        if (res.message === 'Success ! OTP is verified .') {
+        if (res.message === 'Success ! OTP is verified') {
           this.openSnackbar(res.message)
-          this.router.navigate(['app/new-tnc'])
+          this.router.navigate(['/page/home'])
         }
       },
       (err: any) => {
@@ -90,32 +90,7 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     // call resend OTP function
-
     this.signupService.generateOtp(requestBody).subscribe(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       (res: any) => {
         this.openSnackbar(res.msg)
       },

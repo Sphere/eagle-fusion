@@ -36,9 +36,6 @@ export class LoginOtpComponent implements OnInit {
         this.emailPhoneType = 'email'
       }
     }
-    if (window.location.href.includes('email-otp')) {
-      this.emailPhoneType = 'email'
-    }
   }
 
   redirectToSignUp() {
@@ -51,6 +48,7 @@ export class LoginOtpComponent implements OnInit {
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
+
       request = {
         mobileNumber: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
@@ -67,9 +65,9 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.validateOtp(request).subscribe(
       (res: any) => {
-        if (res.message === 'Success ! OTP is verified .') {
+        if (res.message === 'Success ! OTP is verified') {
           this.openSnackbar(res.message)
-          this.router.navigate(['app/new-tnc'])
+          this.router.navigate(['/page/home'])
         }
       },
       (err: any) => {
@@ -78,49 +76,14 @@ export class LoginOtpComponent implements OnInit {
       })
   }
 
-  resendOTP(emailPhoneType: string) {
-    let requestBody
-    if (emailPhoneType === 'email') {
-      requestBody = {
-        email: this.signUpdata.value.emailOrMobile,
-      }
-    } else {
-      requestBody = {
-        mobileNumber: this.signUpdata.value.emailOrMobile,
-      }
-    }
+  resendOTP() {
     // call resend OTP function
-
-    this.signupService.generateOtp(requestBody).subscribe(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    this.signupService.registerWithMobile(this.signUpdata.value.emailOrMobile).subscribe(
       (res: any) => {
-        this.openSnackbar(res.msg)
+        this.openSnackbar(res.message)
       },
       (err: any) => {
-        this.openSnackbar(`OTP Error`, + err.msg)
+        this.openSnackbar(err)
       }
     )
   }

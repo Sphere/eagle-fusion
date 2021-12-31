@@ -8,7 +8,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class MobileLoginComponent implements OnInit {
   loginForm: FormGroup
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+  ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -20,5 +22,4 @@ export class MobileLoginComponent implements OnInit {
 
   // onSubmit(form: any) {
   // }
-
 }

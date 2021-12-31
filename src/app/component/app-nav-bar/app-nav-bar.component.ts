@@ -130,12 +130,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+  onResize() {
     if (window.location.href.includes('/public/home')) {
       this.showCreateBtn = true
     } else {
       this.showCreateBtn = false
     }
+    // event.target.innerWidth;
   }
 
   startTour() {
