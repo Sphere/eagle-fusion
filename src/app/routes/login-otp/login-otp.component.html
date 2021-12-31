@@ -14,7 +14,7 @@
       <span *ngIf="emailPhoneType === 'phone'">SMS</span>!
     </div>
     <div class="enter-code-text mt-2 mb-4">Enter the <span *ngIf="emailPhoneType === 'email'">Code</span>
-      <span *ngIf="emailPhoneType === 'phone'">SMS</span>
+      <span *ngIf="emailPhoneType === 'phone'">OTP</span>
     </div>
     <div class="input-content">
       <div class="input-content-wrapper">
@@ -23,7 +23,7 @@
 
           <div class="form-group">
             <input tabindex="1" id="code" class="form-control input-box" formControlName="code" type="text"
-              autocomplete="off" placeholder="Code">
+              autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
           </div>
 
           <div class="form-group mt-4 mb-4">
