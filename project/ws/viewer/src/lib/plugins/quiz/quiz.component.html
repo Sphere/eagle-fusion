@@ -18,7 +18,7 @@
       <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
         {{ timeLeft | pipeDurationTransform: 'hms' }}
       </div>
-      <div *ngIf="isSubmitted" class="margin-left-xs mat-body-strong" i18n>
+      <div *ngIf="isSubmitted && fetchingResultsStatus !== 'error'" class="margin-left-xs mat-body-strong" i18n>
         (Submitted)
       </div>
     </div>

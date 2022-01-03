@@ -7,8 +7,10 @@
     </h3>
     <span class="spacer"></span>
     <button aria-label="flag" i18n-aria-label mat-icon-button (click)="markQuestion()">
-      <mat-icon *ngIf="!isQuestionMarked()">outlined_flag</mat-icon>
-      <mat-icon *ngIf="isQuestionMarked()">flag</mat-icon>
+      <mat-icon *ngIf="!isQuestionMarked()" matTooltip="Flag"
+      i18n-matTooltip="Flag Button">outlined_flag</mat-icon>
+      <mat-icon *ngIf="isQuestionMarked()" matTooltip="Flagged"
+      i18n-matTooltip="Flagged">flag</mat-icon>
     </button>
   </div>
 

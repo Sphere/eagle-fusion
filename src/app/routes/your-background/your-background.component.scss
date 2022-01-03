@@ -6,7 +6,6 @@
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
   padding: 0;
-  // background: #f7f7f7;
   height: 175px;
   max-width: 430px;
   @include breakpoint-s {
@@ -15,7 +14,7 @@
 }
 .login-card {
   margin: 0;
-  padding: 5%;
+  padding: 20px 20px 30px 20px;
   color: #000;
   font-size: 14px;
   line-height: 17px;
@@ -37,7 +36,7 @@
   line-height: 29px;
 }
 .img-box{
-  padding: 0 55px;
+  padding: 0 90px;
 }
 .label-text{
   color: #5f6368;
@@ -46,20 +45,21 @@
 }
 .input-content{
   position: absolute;
-  max-width: 335px;
+  max-width: 340px;
 }
 .input-box {
-    width: 305px;
-    height: 35px;
-    padding: 4px 12px;
-    font-size: 16px;
-    line-height: 19px;
-    box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
-    border-radius: 6px;
-    border: 1px solid #bbb;
+  width: 312px;
+  height: 42px;
+  padding: 3px 0 3px 6px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
 }
-a {
-  color: #2873b2;
+.select-box{
+  border: none;
+  width: 305px;
+  height: 44px;
+  font-size: 16px;
+  line-height: 19px;
 }
 .login-button {
   width: 98px;
@@ -72,21 +72,33 @@ a {
   line-height: 19px;
   position: absolute;
   right: 0;
-  margin-top: 2.5rem;
+  margin-top: 5rem;
 }
-.terms {
-  margin-top: 50px;
+
+:host ::ng-deep .content {
+    width: inherit;
 }
-.termsChecked {
-  height: 12px;
+
+:host ::ng-deep .column {
+    width: 47%;
+    float: left;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin: 4px;
+    height: 120px;
 }
-@media screen and (max-width:426px) {
-  .login-card {
-    padding: 5% 10%;
+:host ::ng-deep h4{
+    width: 25%;
+    float: left;
+    margin-left: 10px !important;
+    margin-top: 10px !important;
+    font-weight: 500 !important;
   }
-}
-@media screen and (max-width:425px) and (min-width:360px) {
-  .login-card {
-    padding: 5% 6%;
+:host ::ng-deep .column a img {
+    float: right;
+    width: 50%;
+    margin-top: 15px;
   }
+:host ::ng-deep .column:hover {
+   border-color: #5b72dd !important;
 }

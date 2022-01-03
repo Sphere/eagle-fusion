@@ -11,12 +11,10 @@
     <!-- <div class="img-box">
       <img alt="logo" width="225" height="130" src="../../../fusion-assets/images/create-account.png">
     </div> -->
-    <div class="create-acct-text mt-10 mb-4">Create your account</div>
+    <div class="create-acct-text mt-6 mb-4">Create your account</div>
     <div class="input-content">
       <div class="input-content-wrapper">
-
         <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
-
           <div class="form-group">
             <input tabindex="1" id="firstname" class="form-control input-box" formControlName="firstname" type="text"
               autocomplete="off" placeholder="First Name">
@@ -82,14 +80,16 @@
               Password does not match</mat-error>
           </div>
 
-          <button class="form-group login-button" name="login" type="submit" [disabled]="!createAccountForm?.valid"
-            (click)="onSubmit(createAccountForm)">Next</button>
+        <button class="form-group login-button mt-4" name="login" type="submit" [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 <!-- Create Account Form Close-->
+<input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"
+  #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />
 
 <!-- OTP Form -->
 <div *ngIf="otpPage">

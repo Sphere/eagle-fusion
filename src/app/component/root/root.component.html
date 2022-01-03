@@ -4,6 +4,7 @@
   (menuClick)="getMenuClickValue($event)">
 </ws-app-public-nav-bar>
 <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
+
 <!-- </ws-widget-sticky-header> -->
 <div class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll':
@@ -15,12 +16,16 @@
   }">
   <router-outlet></router-outlet>
 </div>
-
 <ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
   *ngIf="showNavbar && !hideHeaderFooter">
+
 </ws-app-footer>
 <ng-container *ngIf=true>
-  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === true && !hideHeaderFooter"
+    
+<!--   <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && configSvc.isAuthenticated === false"
+    [mode]="'bottom'" [hidden]="!showNavbar">
+  </ws-app-nav-bar> -->
+    <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter"
     [mode]="'bottom'" [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
   </ws-app-nav-bar>
 </ng-container>

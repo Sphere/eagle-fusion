@@ -7,7 +7,7 @@
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
   padding: 0;
-  margin-top: 50px;
+  //margin-top: 50px;
   @include breakpoint-gt-s {
     max-width: 40%;
   }
@@ -43,7 +43,7 @@
   margin-bottom: 20px;
 }
 .input-box {
-    width: 312px;
+    width: 295px;
     height: 35px;
     padding: 4px 12px;
     font-size: 16px;
@@ -57,7 +57,7 @@ a {
 }
 .login-button {
   padding: 8px 5px;
-  width: 335px;
+  width: 320px;
   height: 38px;
   background: #1C5D95;
   border-radius: 50px;
@@ -71,13 +71,16 @@ a {
   line-height: 24px;
 }
 .social-provider {
-  width: 312px;
-  height: 28px;
-  padding: 0 12px;
-  padding-top: 10px;
+  //width: 295px;
+  height: 18px;
+  padding: 10px;
+  //padding-top: 10px;
   background: #fff;
   color: #000;
-  border-radius: 50px;
+  border-radius: 20px;
   border: 1px solid #bbb;
   filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+}
+.v-a-m{
+  vertical-align: middle;
 }

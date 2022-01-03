@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
-import { NsContent, viewerRouteGenerator, WidgetContentService } from '@ws-widget/collection'
+import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
 
@@ -39,9 +39,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   constructor(
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
-    private router: Router,
-    private contentSvc: WidgetContentService
-    ) { }
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
@@ -53,49 +52,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       this.batchId = params['batchId']
       this.contentId = params['contentId']
     })
-
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
-    }
-    const req: NsContent.IContinueLearningDataReq = {
-      request: {
-        userId,
-        batchId: this.batchId,
-        courseId: this.contentId,
-        contentIds: [],
-        fields: ['progressdetails'],
-      },
-    }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-        if (this.content && this.content.children) {
-          mergeData(this.content.children)
-          function mergeData(collection: any) {
-            collection.map((child1: any) => {
-              const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
-              if (foundContent) {
-                child1.completionPercentage = foundContent.completionPercentage
-                child1.completionStatus = foundContent.status
-              }
-              if (child1['children']) {
-                child1['children'].map((child2: any) => {
-                  const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
-                  if (foundContent2) {
-                    child2.completionPercentage = foundContent2.completionPercentage
-                    child2.completionStatus = foundContent2.status
-                  }
-                })
-              }
-            })
-          }
-        }
-      },
-      (error: any) => {
-        // tslint:disable-next-line:no-console
-        console.log('CONTENT HISTORY FETCH ERROR >', error)
-      },
-    )
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {

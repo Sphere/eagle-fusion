@@ -402,7 +402,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   }
 
   private initData(data: Data) {
-    const initData = this.tocSvc.initData(data)
+    const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
     this.errorCode = initData.errorCode
 

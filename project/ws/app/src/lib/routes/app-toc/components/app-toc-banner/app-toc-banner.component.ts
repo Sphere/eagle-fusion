@@ -287,8 +287,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-  downloadPdf(content: any) {
-    return content
+  downloadCertificate(content: any) {
+    this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
+      // tslint:disable-next-line:no-console
+      console.log(data)
+    })
   }
 
   get showInstructorLedMsg() {
@@ -586,17 +589,18 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openDialog(content: any): void {
-    const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    this.createBatchDialog.open(CreateBatchDialogComponent, {
       // height: '400px',
       width: '600px',
       data: { content },
     })
     // dialogRef.componentInstance.xyz = this.configSvc
-    dialogRef.afterClosed().subscribe((_result: any) => {
-      if (!this.batchId) {
-        this.tocSvc.updateBatchData()
-      }
-    })
+    // dialogRef.afterClosed().subscribe((_result: any) => {
+    //   if (!this.batchId) {
+    //     this.tocSvc.updateBatchData()
+    //   }
+    // })
   }
 
 }

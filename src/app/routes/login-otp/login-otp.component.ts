@@ -36,6 +36,9 @@ export class LoginOtpComponent implements OnInit {
         this.emailPhoneType = 'email'
       }
     }
+    if (window.location.href.includes('email-otp')) {
+      this.emailPhoneType = 'email'
+    }
   }
 
   redirectToSignUp() {
@@ -48,7 +51,6 @@ export class LoginOtpComponent implements OnInit {
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-
       request = {
         mobileNumber: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
@@ -72,39 +74,26 @@ export class LoginOtpComponent implements OnInit {
       },
       (err: any) => {
         this.openSnackbar(err)
-
       })
   }
 
-  resendOTP() {
-    // call resend OTP function
-    let request: any = []
-    const phone = this.signUpdata.value.emailOrMobile
-    if (phone.length >= 10) {
-
-      request = {
-        firstName: this.signUpdata.value.firstname,
-        lastName: this.signUpdata.value.lastname,
-        phone: this.signUpdata.value.emailOrMobile,
-        password: this.signUpdata.value.password,
-      }
-
-    } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
-      this.signUpdata.value.emailOrMobile)) {
-      request = {
-        firstName: this.signUpdata.value.firstname,
-        lastName: this.signUpdata.value.lastname,
+  resendOTP(emailPhoneType: string) {
+    let requestBody
+    if (emailPhoneType === 'email') {
+      requestBody = {
         email: this.signUpdata.value.emailOrMobile,
-        password: this.signUpdata.value.password,
+      }
+    } else {
+      requestBody = {
+        mobileNumber: this.signUpdata.value.emailOrMobile,
       }
     }
-
-    this.signupService.registerWithMobile(request).subscribe(
+    this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
-        this.openSnackbar(res.message)
+        this.openSnackbar(res.msg)
       },
       (err: any) => {
-        this.openSnackbar(err)
+        this.openSnackbar(`OTP Error`, + err.msg)
       }
     )
   }

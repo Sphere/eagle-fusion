@@ -132,7 +132,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   }
 
   gotoHome() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/public/home'])
       .then(() => {
         window.location.reload()
       })
