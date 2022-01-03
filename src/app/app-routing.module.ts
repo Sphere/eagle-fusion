@@ -29,9 +29,10 @@ import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mo
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
-
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
-
+import { YourBackgroundComponent } from './routes/your-background/your-background.component'
+import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
+import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -244,7 +245,18 @@ const routes: Routes = [
     resolve: {
       tnc: TncPublicResolverService,
     },
-
+  },
+  {
+    path: 'app/your-background',
+    component: YourBackgroundComponent,
+  },
+  {
+    path: 'app/almost-done',
+    component: AlmostDoneComponent,
+  },
+  {
+    path: 'app/complete-profile',
+    component: CompleteProfileComponent,
   },
   {
     path: 'app/toc',

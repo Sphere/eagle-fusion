@@ -74,7 +74,6 @@ export class LoginOtpComponent implements OnInit {
       },
       (err: any) => {
         this.openSnackbar(err)
-
       })
   }
 
@@ -89,10 +88,7 @@ export class LoginOtpComponent implements OnInit {
         mobileNumber: this.signUpdata.value.emailOrMobile,
       }
     }
-    // call resend OTP function
-
     this.signupService.generateOtp(requestBody).subscribe(
-
       (res: any) => {
         this.openSnackbar(res.msg)
       },
