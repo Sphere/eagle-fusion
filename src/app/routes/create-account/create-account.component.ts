@@ -25,17 +25,29 @@ export class CreateAccountComponent implements OnInit {
   emailPhoneType: any
   otpPage = false
   // errors: any
-  spherFormBuilder: FormBuilder
-  public createAccountForm: FormGroup
-  public otpCodeForm: FormGroup
+  // spherFormBuilder: FormBuilder
+  createAccountForm: FormGroup
+  otpCodeForm: FormGroup
 
   constructor(
-    spherFormBuilder: FormBuilder,
+    private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router
   ) {
-    this.spherFormBuilder = spherFormBuilder
+    // this.spherFormBuilder = spherFormBuilder
+    this.createAccountForm = this.spherFormBuilder.group({
+      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
+      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
+      emailOrMobile: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    },{ validator: mustMatch('password', 'confirmPassword') })
+
+    this.otpCodeForm = this.spherFormBuilder.group({
+      otpCode: new FormControl('', [Validators.required]),
+    })
   }
 
   initializeFormFields() {
@@ -46,7 +58,8 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    },{ validator: mustMatch('password', 'confirmPassword') })
+
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
@@ -59,7 +72,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeFormFields()
+    // this.initializeFormFields()
     // this.signupService.sessionTest().subscribe(
     //   (res: any) => {
     //     console.log(res)

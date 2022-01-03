@@ -32,7 +32,8 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   constructor(
     private snackBar: MatSnackBar,
-    private fb: FormBuilder, private router: Router,
+    private fb: FormBuilder,
+    private router: Router,
     private tncService: TncPublicResolverService,
     private authSvc: AuthKeycloakService
   ) {
