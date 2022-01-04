@@ -120,7 +120,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     NewTncComponent,
     YourBackgroundComponent,
     AlmostDoneComponent,
-    CompleteProfileComponent
+    CompleteProfileComponent,
   ],
   imports: [
     FormsModule,

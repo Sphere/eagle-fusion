@@ -48,8 +48,8 @@
   max-width: 340px;
 }
 .input-box {
-  width: 312px;
-  height: 42px;
+  width: 295px;
+  height: 35px;
   padding: 3px 0 3px 6px;
   border-radius: 6px;
   border: 1px solid #bbb;
@@ -80,7 +80,7 @@
 }
 
 :host ::ng-deep .column {
-    width: 47%;
+    width: 46%;
     float: left;
     border: 1px solid #ccc;
     border-radius: 12px;

@@ -16,17 +16,14 @@
   }">
   <router-outlet></router-outlet>
 </div>
+
 <ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
   *ngIf="showNavbar && !hideHeaderFooter">
-
 </ws-app-footer>
+
 <ng-container *ngIf=true>
-    
-<!--   <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && configSvc.isAuthenticated === false"
-    [mode]="'bottom'" [hidden]="!showNavbar">
-  </ws-app-nav-bar> -->
-    <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter"
-    [mode]="'bottom'" [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
+  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
+    [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
   </ws-app-nav-bar>
 </ng-container>
 

@@ -120,13 +120,10 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
         } else if (event.url.includes('/public/home')) {
-          // console.log('check')
           // this.isNavBarRequired = false
-
-        } if (event.url.includes('/app/mobile-login') || event.url.includes('/app/mobile-otp') ||
-          event.url.includes('/app/create-account') || event.url.includes('/app/your-location') ||
-          event.url.includes('/app/new-tnc')) {
-
+          // tslint:disable-next-line: max-line-length
+        } if (event.url.includes('/app/mobile-login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/app/your-background') || event.url.includes('/app/almost-done') || event.url.includes('app/complete-profile') || event.url.includes('/public/forgot-password') ||
+          event.url.includes('/app/create-account') || event.url.includes('/app/your-location') || event.url.includes('/app/new-tnc')) {
           this.hideHeaderFooter = true
         } else {
           this.isNavBarRequired = true
