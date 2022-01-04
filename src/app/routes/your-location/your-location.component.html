@@ -32,7 +32,7 @@
           <div class="form-group mt-4 input-box">
             <select id="distict" formControlName="distict" class="form-control select-box">
               <option [ngValue]="null">City/Distict</option>
-              <option *ngFor="let distict of districts" [ngValue]="distict">{{ distict }}</option>
+              <option *ngFor="let distict of districts" [ngValue]="distict.state">{{ distict.state }}</option>
             </select>
           </div>
           <button class="form-group login-button" name="login" type="submit"

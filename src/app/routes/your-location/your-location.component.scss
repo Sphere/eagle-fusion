@@ -61,6 +61,9 @@
   font-size: 16px;
   line-height: 19px;
 }
+.select-box:focus{
+  outline: none!important;
+}
 .login-button {
   width: 98px;
   height: 38px;
