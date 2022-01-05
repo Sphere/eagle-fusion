@@ -42,7 +42,7 @@ export class LoginOtpComponent implements OnInit {
     this.redirectToParent.emit('true')
   }
 
-  verifyOtp() {
+  async verifyOtp() {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
     phone = phone.replace(/[^0-9+#]/g, '')
@@ -64,10 +64,11 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     this.signupService.validateOtp(request).subscribe(
-      (res: any) => {
+      async (res: any) => {
         if (res.message === 'Success ! OTP is verified .') {
+          await this.signupService.fetchStartUpDetails()
           this.openSnackbar(res.message)
-          this.router.navigate(['app/new-tnc'])
+          this.router.navigate(['/page/home'])
         }
       },
       (err: any) => {

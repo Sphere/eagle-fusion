@@ -41,7 +41,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
-    private userProfileSvc: UserProfileService) {
+    private userProfileSvc: UserProfileService
+  ) {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
