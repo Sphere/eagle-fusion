@@ -2,8 +2,8 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { noop, Observable, BehaviorSubject } from 'rxjs'
-import { NsContent } from '@ws-widget/collection'
 import * as dayjs from 'dayjs'
+import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 
 @Injectable({
   providedIn: 'root',

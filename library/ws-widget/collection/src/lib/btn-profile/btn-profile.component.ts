@@ -1,19 +1,17 @@
 import { Component, Input, OnInit, OnDestroy, HostBinding, ElementRef, AfterViewInit } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig } from '@ws-widget/utils/src/public-api'
-import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
+import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig } from '@ws-widget/utils'
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { Router } from '@angular/router'
 import { Location } from '@angular/common'
-import {
-  WidgetContentService,
-} from '@ws-widget/collection'
 declare const gapi: any
 /* tslint:disable*/
 import _ from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
+import { WidgetContentService } from '../_services/widget-content.service'
+import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 /* tslint:enable*/
 
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {

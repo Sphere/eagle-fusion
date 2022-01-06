@@ -79,7 +79,7 @@ export class SignupService {
       }))
   }
   async fetchStartUpDetails(): Promise<any> {
-    if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
+    if (this.configSvc.instanceConfig) {
       let userPidProfile: any | null = null
       try {
         userPidProfile = await this.http
