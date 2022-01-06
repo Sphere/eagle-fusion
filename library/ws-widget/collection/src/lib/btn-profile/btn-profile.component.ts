@@ -1,12 +1,19 @@
-import { Component, Input, OnInit, OnDestroy, HostBinding, ElementRef, AfterViewInit } from '@angular/core'
+import {
+  Component, Input, OnInit, OnDestroy, HostBinding,
+  // ElementRef, AfterViewInit
+} from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig } from '@ws-widget/utils'
+import { IBtnAppsConfig } from '@ws-widget/collection'
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
-import { Router } from '@angular/router'
+// import { Router } from '@angular/router'
 import { Location } from '@angular/common'
-declare const gapi: any
+// import {
+//   WidgetContentService,
+// } from '@ws-widget/collection'
+// declare const gapi: any
 /* tslint:disable*/
 import _ from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
@@ -24,15 +31,17 @@ interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
 })
 
 export class BtnProfileComponent extends WidgetBaseComponent
-  implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
+  implements OnInit, OnDestroy,
+  // AfterViewInit,
+  NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   public route: string
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private accessService: AccessControlService,
-    private element: ElementRef,
-    private router: Router,
-    private contentSvc: WidgetContentService,
+    // private element: ElementRef,
+    // private router: Router,
+    // private contentSvc: WidgetContentService,
     location: Location
   ) {
     super()
@@ -92,18 +101,18 @@ export class BtnProfileComponent extends WidgetBaseComponent
   @Input() widgetData!: any
   @HostBinding('class')
   public class = 'profile-link'
-  public isSignedIn = false
-  public signinURL = ''
-  private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
-  private scope = [
-    'profile',
-    'email',
-    'https://www.googleapis.com/auth/plus.me',
-    'https://www.googleapis.com/auth/contacts.readonly',
-    'https://www.googleapis.com/auth/admin.directory.user.readonly',
-  ].join(' ')
+  // public isSignedIn = false
+  // public signinURL = ''
+  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+  // private scope = [
+  //   'profile',
+  //   'email',
+  //   'https://www.googleapis.com/auth/plus.me',
+  //   'https://www.googleapis.com/auth/contacts.readonly',
+  //   'https://www.googleapis.com/auth/admin.directory.user.readonly',
+  // ].join(' ')
 
-  public auth2: any
+  // public auth2: any
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
     widgetSubType: 'actionButtonApps',
@@ -125,45 +134,45 @@ export class BtnProfileComponent extends WidgetBaseComponent
   private readonly featuresConfig: IGroupWithFeatureWidgets[] = []
   portalLinks: any[] = []
 
-  public googleInit() {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: this.clientId,
-        cookie_policy: 'single_host_origin',
-        scope: this.scope,
-        ux_mode: 'redirect',
-        redirect_uri: `${location.origin}/google/callback`,
-      })
-      this.attachSignin(this.element.nativeElement.firstChild)
-      this.auth2.isSignedIn.listen(this.signinChanged)
-      this.auth2.currentUser.listen(this.userChanged)
-    })
-  }
+  // public googleInit() {
+  //   gapi.load('auth2', () => {
+  //     this.auth2 = gapi.auth2.init({
+  //       client_id: this.clientId,
+  //       cookie_policy: 'single_host_origin',
+  //       scope: this.scope,
+  //       ux_mode: 'redirect',
+  //       redirect_uri: `${location.origin}/google/callback`,
+  //     })
+  //     this.attachSignin(this.element.nativeElement.firstChild)
+  //     this.auth2.isSignedIn.listen(this.signinChanged)
+  //     this.auth2.currentUser.listen(this.userChanged)
+  //   })
+  // }
 
-  public signinChanged(val: any) {
-    sessionStorage.setItem(`google_isSignedIn`, val)
-  }
+  // public signinChanged(val: any) {
+  //   sessionStorage.setItem(`google_isSignedIn`, val)
+  // }
 
-  public userChanged(user: any) {
-    sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
-  }
+  // public userChanged(user: any) {
+  //   sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+  // }
 
-  public attachSignin(element: any) {
-    this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
-        // @ts-ignore
-        const profile = googleUser.getBasicProfile()
-        // console.log('Token || ' + googleUser.getAuthResponse().id_token)
-        // console.log(`'ID: ' + profile.getId()`)
-        // console.log('Name: ' + profile.getName())
-        // console.log('Image URL: ' + profile.getImageUrl())
-        // console.log('Email: ' + profile.getEmail())
-      },
-                                  (error: any) => {
-        // tslint:disable-next-line:no-console
-        console.log(JSON.stringify(error, undefined, 2))
-      })
-  }
+  // public attachSignin(element: any) {
+  //   this.auth2.attachClickHandler(element, {},
+  //                                 (googleUser: any) => {
+  // @ts-ignore
+  // const profile = googleUser.getBasicProfile()
+  // console.log('Token || ' + googleUser.getAuthResponse().id_token)
+  // console.log(`'ID: ' + profile.getId()`)
+  // console.log('Name: ' + profile.getName())
+  // console.log('Image URL: ' + profile.getImageUrl())
+  // console.log('Email: ' + profile.getEmail())
+  // },
+  // (error: any) => {
+  // tslint:disable-next-line:no-console
+  // console.log(JSON.stringify(error, undefined, 2))
+  // })
+  // }
 
   ngOnInit() {
     this.setPinnedApps()
@@ -174,31 +183,31 @@ export class BtnProfileComponent extends WidgetBaseComponent
     if (this.featuresConfig && this.featuresConfig.length > 0) {
       this.getPortalLinks()
     }
-    const storageItem1 = sessionStorage.getItem(`google_token`)
-    const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
-    if (storageItem2 === 'true' && this.route === '/google/callback') {
-      this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
-      this.isSignedIn = true
-      const req = {
-        idToken: storageItem1,
-      }
-      this.contentSvc.googleAuthenticate(req).subscribe(
-        (results: any) => {
-          // tslint:disable-next-line:no-console
-          console.log(results)
-        },
-        (err: any) => {
-          // tslint:disable-next-line:no-console
-          console.log(err)
-        }
-      )
-      this.router.navigate(['/page/home'])
-    }
+    // const storageItem1 = sessionStorage.getItem(`google_token`)
+    // const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+    // if (storageItem2 === 'true' && this.route === '/google/callback') {
+    //   this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
+    //   this.isSignedIn = true
+    //   const req = {
+    //     idToken: storageItem1,
+    //   }
+    //   this.contentSvc.googleAuthenticate(req).subscribe(
+    //     (results: any) => {
+    //       // tslint:disable-next-line:no-console
+    //       console.log(results)
+    //     },
+    //     (err: any) => {
+    //       // tslint:disable-next-line:no-console
+    //       console.log(err)
+    //     }
+    //   )
+    //   this.router.navigate(['/page/home'])
+    // }
   }
 
-  ngAfterViewInit() {
-    this.googleInit()
-  }
+  // ngAfterViewInit() {
+  //   this.googleInit()
+  // }
 
   ngOnDestroy() {
     if (this.pinnedAppsSubs) {
