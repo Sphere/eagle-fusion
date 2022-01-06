@@ -17,6 +17,8 @@ import { Location } from '@angular/common'
 /* tslint:disable*/
 import _ from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
+import { WidgetContentService } from '../_services/widget-content.service'
+import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 /* tslint:enable*/
 
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
