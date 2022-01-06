@@ -4,7 +4,10 @@ import {
 } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig } from '@ws-widget/utils'
+
 import { IBtnAppsConfig } from '@ws-widget/collection'
+
+
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -17,6 +20,8 @@ import { Location } from '@angular/common'
 /* tslint:disable*/
 import _ from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
+import { WidgetContentService } from '../_services/widget-content.service'
+import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 /* tslint:enable*/
 
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
