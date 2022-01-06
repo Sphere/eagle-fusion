@@ -70,7 +70,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           this.showAppNavBar = true
         }
       }
-      if (window.location.href.includes('/public/home')) {
+
+      if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
         this.showCreateBtn = true
       } else {
         this.showCreateBtn = false
@@ -130,13 +131,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
-    if (window.location.href.includes('/public/home')) {
+  onResize(event: any) {
+    if ((event.target.innerWidth < 600) && (window.location.href.includes('/public/home'))) {
       this.showCreateBtn = true
     } else {
       this.showCreateBtn = false
     }
-    // event.target.innerWidth;
   }
 
   startTour() {
