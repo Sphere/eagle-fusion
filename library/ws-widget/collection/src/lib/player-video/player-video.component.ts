@@ -5,7 +5,7 @@ import { EventService } from '@ws-widget/utils'
 import videoJs from 'video.js'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
-import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
+// import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
 import {
   fireRealTimeProgressFunction,
   saveContinueLearningFunction,
@@ -13,7 +13,8 @@ import {
   videoInitializer,
   videoJsInitializer,
 } from '../_services/videojs-util'
-import { WidgetContentService } from '../_services/widget-content.service'
+import { IWidgetsPlayerMediaData, WidgetContentService } from '@ws-widget/collection'
+// '../_services/widget-content.service'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
