@@ -5,7 +5,7 @@ import { EventService } from '@ws-widget/utils'
 import videoJs from 'video.js'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
-// import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
+import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
 import {
   fireRealTimeProgressFunction,
   saveContinueLearningFunction,
@@ -13,8 +13,7 @@ import {
   videoInitializer,
   videoJsInitializer,
 } from '../_services/videojs-util'
-import { IWidgetsPlayerMediaData, WidgetContentService } from '@ws-widget/collection'
-// '../_services/widget-content.service'
+import { WidgetContentService } from '../_services/widget-content.service'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -278,18 +277,18 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
       this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
     if (this.widgetData.identifier) {
-    if (percentage <= 1) {
+      if (percentage <= 1) {
 
-      this.viewerSvc
-        .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
-    } else if (percentage >= 5 && percentage <= 6) {
+        this.viewerSvc
+          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+      } else if (percentage >= 5 && percentage <= 6) {
 
-      this.viewerSvc
-        .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+        this.viewerSvc
+          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
       } else if (percentage >= 98) {
 
         this.viewerSvc
-        .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
       } else {
 
       }

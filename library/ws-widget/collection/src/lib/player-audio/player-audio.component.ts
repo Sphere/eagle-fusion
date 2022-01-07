@@ -11,8 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router'
 import videoJs from 'video.js'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
-import { IWidgetsPlayerMediaData, WidgetContentService, NsContent } from '@ws-widget/collection'
-// '../_models/player-media.model'
+import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
 import { EventService } from '@ws-widget/utils'
 import {
   videoJsInitializer,
@@ -21,8 +20,8 @@ import {
   fireRealTimeProgressFunction,
 } from '../_services/videojs-util'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
-// import { WidgetContentService } from '../_services/widget-content.service'
-// import { NsContent } from '../_services/widget-content.model'
+import { WidgetContentService } from '../_services/widget-content.service'
+import { NsContent } from '../_services/widget-content.model'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -179,7 +178,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
   }
   async fetchContent() {
     const content = await this.contentSvc.fetchContent(this.widgetData.identifier || '', 'minimal', [],
-                                                       this.widgetData.primaryCategory).toPromise()
+      this.widgetData.primaryCategory).toPromise()
     if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
       this.widgetData.url = content.artifactUrl
       this.widgetData.posterImage = content.appIcon
