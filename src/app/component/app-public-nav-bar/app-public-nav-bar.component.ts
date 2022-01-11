@@ -119,7 +119,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     //   const url: any = sessionStorage.getItem('login_url')
     //   window.location.href = url
     // }
-    this.router.navigateByUrl('app/mobile-login')
+    this.router.navigateByUrl('app/login')
   }
 
   ngOnDestroy() {
