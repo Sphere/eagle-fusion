@@ -179,7 +179,7 @@ export class CardContentComponent extends WidgetBaseComponent
     //   window.location.href = url
     // }
     // this.authSvc.login(key, document.baseURI)
-    this.router.navigateByUrl('app/mobile-login')
+    this.router.navigateByUrl('app/login')
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {

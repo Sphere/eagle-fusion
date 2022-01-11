@@ -219,7 +219,7 @@ const routes: Routes = [
       import('./routes/signup/signup.module').then(u => u.SignupModule),
   },
   {
-    path: 'app/mobile-login',
+    path: 'app/login',
     component: loginComponent,
   },
   {

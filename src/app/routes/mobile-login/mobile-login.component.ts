@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class MobileLoginComponent implements OnInit {
   loginForm: FormGroup
+  hide = true
   constructor(
     private fb: FormBuilder,
   ) {

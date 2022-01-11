@@ -178,7 +178,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
   }
   async fetchContent() {
     const content = await this.contentSvc.fetchContent(this.widgetData.identifier || '', 'minimal', [],
-      this.widgetData.primaryCategory).toPromise()
+                                                       this.widgetData.primaryCategory).toPromise()
     if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
       this.widgetData.url = content.artifactUrl
       this.widgetData.posterImage = content.appIcon
