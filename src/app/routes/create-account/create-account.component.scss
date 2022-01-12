@@ -1,5 +1,6 @@
 @import 'ws-common';
 @import 'ws-mixins';
+
 .login-page-content {
   box-sizing: border-box;
   @extend %page-center;
@@ -19,14 +20,6 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-}
-.login-header {
-  .main-logo {
-    width: 93px;
-    height: 33px;
-    left: 20px;
-    top: 75px;
-  }
 }
 .check-email-text {
   font-size: 24px;
@@ -88,5 +81,13 @@ a {
 @media screen and (max-width:425px) and (min-width:360px) {
   .login-card {
     padding: 5% 6%;
+  }
+}
+@media screen and (min-width:600px) {
+  .login-button {
+    width: 100%;
+  }
+  .create-acct-text {
+    margin-bottom: 3rem;
   }
 }
