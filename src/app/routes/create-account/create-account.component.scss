@@ -73,6 +73,23 @@ a {
 .termsChecked {
   height: 12px;
 }
+:host ::ng-deep .mat-form-field-suffix {
+  top: -5px !important;
+}
+
+::ng-deep .theme-igot.day-mode .mat-form-field-outline-thick {
+  color: white !important;
+    border: none !important;
+    outline: 0 !important;
+}
+
+/*#iconLoc1 {
+    bottom: 137px;
+}
+#iconLoc2 {
+    bottom: 10px;
+}*/
+
 @media screen and (max-width:426px) {
   .login-card {
     padding: 5% 10%;
