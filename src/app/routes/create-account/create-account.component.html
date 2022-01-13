@@ -29,7 +29,7 @@
           </div>
 
           <div class="form-group mt-4">
-            <input tabindex="1" id="lastname" class="form-control input-box" formControlName="lastname" type="text"
+            <input tabindex="2" id="lastname" class="form-control input-box" formControlName="lastname" type="text"
               autocomplete="off" placeholder="Last Name">
             <mat-error class="text-danger"
               *ngIf="createAccountForm.controls['lastname'].hasError('required') &&
@@ -43,7 +43,7 @@
           </div>
 
           <div class="form-group mt-4">
-            <input tabindex="1" id="email" class="form-control input-box" formControlName="emailOrMobile" type="text"
+            <input tabindex="3" id="email" class="form-control input-box" formControlName="emailOrMobile" type="text"
               autocomplete="off" placeholder="Phone Number/Email ID">
             <mat-error class="text-danger"
               *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
@@ -55,8 +55,12 @@
           </div>
 
           <div class="form-group mt-4">
-            <input tabindex="1" class="form-control input-box" formControlName="password" type="password"
-              autocomplete="off" placeholder="Password">
+                    <mat-form-field appearance="outline" class="w-full">
+            <input class="form-control input-box" formControlName="password" [type]="hide1 ? 'password' : 'text'"
+              matInput autocomplete="off" placeholder="Password">
+            <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+
             <label class="label-text">Password must contain a minimum of 8 characters including numerals, lower and
               upper case alphabets and special characters without space.</label><br />
             <mat-error class="text-danger" *ngIf="createAccountForm.controls['password'].hasError('required') &&
@@ -65,22 +69,27 @@
             <mat-error class="text-danger" *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
               (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
               Invalid Password Format</mat-error>
+            </mat-form-field>
           </div>
 
           <div class="form-group mt-4">
-            <input tabindex="1" class="form-control input-box" formControlName="confirmPassword" type="password"
-              autocomplete="off" placeholder="Confirm Password">
-            <mat-error class="text-danger"
-              *ngIf="createAccountForm.controls['confirmPassword'].hasError('required') &&
+                    <mat-form-field appearance="outline" class="w-full">
+              <input class="form-control input-box" formControlName="confirmPassword"
+                [type]="hide2 ? 'password' : 'text'" matInput autocomplete="off" placeholder="Confirm Password">
+              <mat-icon  matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error class="text-danger"
+                *ngIf="createAccountForm.controls['confirmPassword'].hasError('required') &&
                 (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">
-              This field is required.</mat-error>
-            <mat-error class="text-danger"
-              *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
+                This field is required.</mat-error>
+              <mat-error class="text-danger"
+                *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
               (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">
-              Password does not match</mat-error>
+                Password does not match</mat-error>
+              </mat-form-field>
           </div>
 
-        <button class="form-group login-button mt-4" name="login" type="submit" [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
+          <button class="form-group login-button mt-4" name="login" type="submit" [disabled]="!createAccountForm?.valid"
+            (click)="onSubmit(createAccountForm)">Next</button>
         </form>
       </div>
     </div>

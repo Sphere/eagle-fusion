@@ -35,6 +35,7 @@ const API_END_POINTS = {
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
+  LOGIN_USER : `/apis/public/v8/login/auth`,
 }
 
 @Injectable({
@@ -296,6 +297,10 @@ export class WidgetContentService {
 
   fetchConfig(url: string) {
     return this.http.get<any>(url)
+  }
+
+  loginAuth(req: any): Observable<any> {
+   return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(catchError(this.handleError))
   }
   googleAuthenticate(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))
