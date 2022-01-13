@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ElementRef, AfterViewInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
@@ -15,12 +15,12 @@ declare const gapi: any
   styleUrls: ['./mobile-login.component.scss'],
 })
 export class MobileLoginComponent implements OnInit, AfterViewInit {
-  //@ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
+  // @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   loginForm: FormGroup
   hide = true
   public route: string
-  public emailPhoneType: string
+  emailPhoneType: any
   constructor(
     private fb: FormBuilder,
     // private element: ElementRef,
@@ -56,7 +56,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         ux_mode: 'redirect',
         redirect_uri: `${location.origin}/google/callback`,
       })
-      //this.attachSignin(this.myDiv.nativeElement)
+      // this.attachSignin(this.myDiv.nativeElement)
       this.auth2.isSignedIn.listen(this.signinChanged)
       this.auth2.currentUser.listen(this.userChanged)
     })
@@ -119,7 +119,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   loginUser() {
     let phone = this.loginForm.value.username
-    //const validphone = /^[6-9]\d{9}$/.test(phone)
+    // const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
 
     // if (!validphone) {
@@ -132,25 +132,24 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     if (phone.length >= 10) {
       this.emailPhoneType = 'phone'
     } else {
-      if(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+      if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
         this.loginForm.value.username)) {
         this.emailPhoneType = 'email'
       }
 
     }
-let req;
-if(this.emailPhoneType === 'email') {
+    let req
+    if (this.emailPhoneType === 'email') {
       req = {
-      email: this.loginForm.value.username,
-      Password: this.loginForm.value.password
-    }
-  } else {
+        email: this.loginForm.value.username,
+        Password: this.loginForm.value.password,
+      }
+    } else {
       req = {
-      email: this.loginForm.value.username,
-      mobileNumber: this.loginForm.value.password
+        email: this.loginForm.value.username,
+        mobileNumber: this.loginForm.value.password,
+      }
     }
-  }
-
 
     this.contentSvc.loginAuth(req).subscribe(
       (results: any) => {
