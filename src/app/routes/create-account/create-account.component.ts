@@ -30,7 +30,8 @@ export class CreateAccountComponent implements OnInit {
   hide1 = true
   hide2 = true
   // faEye
-  iconChange = faEyeSlash
+  iconChange1 = faEyeSlash
+  iconChange2 = faEyeSlash
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -45,19 +46,27 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
   }
 
-  toggle() {
+  toggle1() {
     this.hide1 = !this.hide1
     if (this.hide1) {
-      this.iconChange = faEyeSlash
+      this.iconChange1 = faEyeSlash
     } else {
-      this.iconChange = faEye
+      this.iconChange1 = faEye
+    }
+  }
+  toggle2() {
+    this.hide2 = !this.hide2
+    if (this.hide2) {
+      this.iconChange2 = faEyeSlash
+    } else {
+      this.iconChange2 = faEye
     }
   }
 
@@ -69,7 +78,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -167,7 +176,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -191,7 +200,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           // this.errors = err
           this.openSnackbar(`Registration`, + err)
           this.uploadSaveData = false
