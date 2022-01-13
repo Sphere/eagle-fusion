@@ -37,10 +37,10 @@
   font-size: 12px;
   line-height: 15px;
 }
-.input-content{
+/*.input-content{
   position: absolute;
   max-width: 335px;
-}
+}*/
 .input-box {
     width: 305px;
     height: 35px;
@@ -50,6 +50,11 @@
     box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
     border-radius: 6px;
     border: 1px solid #bbb;
+}
+.iconPosition1 {
+  position: absolute;
+  right: 5px;
+  top: 10px;
 }
 a {
   color: #2873b2;
@@ -73,22 +78,12 @@ a {
 .termsChecked {
   height: 12px;
 }
-:host ::ng-deep .mat-form-field-suffix {
-  top: -5px !important;
+a{
+  color: #000 !important;
 }
-
-::ng-deep .theme-igot.day-mode .mat-form-field-outline-thick {
-  color: white !important;
-    border: none !important;
-    outline: 0 !important;
+.btn-primary {
+   background: #1C5D95 !important;
 }
-
-/*#iconLoc1 {
-    bottom: 137px;
-}
-#iconLoc2 {
-    bottom: 10px;
-}*/
 
 @media screen and (max-width:426px) {
   .login-card {

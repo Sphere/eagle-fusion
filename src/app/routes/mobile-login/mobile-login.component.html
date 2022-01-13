@@ -18,32 +18,35 @@
                   autocomplete="off">
                 <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </mat-form-field>
-              <div class="form-group mb-4">
+              <div class="form-group">
                 Forgot password? <span><a tabindex="5" href="public/forgot-password">Click Here</a></span> to reset
               </div>
-              <button class="form-group login-button w-full" type="submit" (click)="loginUser()" [disabled]="!loginForm?.valid">
+              <button class="btn btn-primary w-full" type="submit" (click)="loginUser()"
+                [disabled]="!loginForm?.valid">
                 Log in</button>
             </form>
           </div>
-          <div class="mt-4">
+          <div class="col-sm-6 mt-2">
             Do not have an account? <a href="app/create-account">Create an account</a>
           </div>
-          <div class="mt-6 or-text">
-            OR
+          <br>
+          <div class="col-sm-6 mt-3">
+            <p class="h5">OR</p>
           </div>
-          <div class="mt-6 col-xs-12 col-sm-6">
-            <!-- <div class="form-group social-provider"> -->
-            <a href="javascript:void(0)" id="googleBtn" title="Google sign-in" class="btn btn-outline-dark" role="button" (click)="googleInit()" id="social-google">
+          <div class="mt-2 col-xs-12 col-sm-6">
+            <div class="form-group social-provider">
+            <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in" class="btn btn-outline-primary"
+              role="button" (click)="googleInit()" id="social-google">
               <div class="social-provider">
                 <div class="inline-block">
-                  <img src="../../../fusion-assets/icons/google-logo.png" width="20" height="20">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" width="20" height="20">
                 </div>
                 <div class="absolute inline-block">
                   <span class="ml-2 v-a-m">Log in with Google</span>
                 </div>
               </div>
             </a>
-            <!-- </div> -->
+            </div>
           </div>
         </div>
       </div>
