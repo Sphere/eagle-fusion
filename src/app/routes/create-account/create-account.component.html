@@ -41,7 +41,14 @@
               (createAccountForm.controls['emailOrMobile'].dirty || createAccountForm.controls['emailOrMobile'].touched)">
               This field is required</mat-error>
           </div>
-
+          <div class="input-group" id="show_hide_password">
+            <input class="form-control" formControlName="password" [type]="hide1 ? 'password' : 'text'">
+            <div class="input-group-addon" style="position: absolute;right: 5px;top: 10px;">
+              <a href="javascript:void(0)" (click)="toggle()">
+                <fa-icon [icon]="iconChange"></fa-icon>
+              </a>
+            </div>
+          </div>
           <div class="form-group mt-4">
             <mat-form-field appearance="outline" class="w-full">
               <input class="form-control input-box" formControlName="password" [type]="hide1 ? 'password' : 'text'"

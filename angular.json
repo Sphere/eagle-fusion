@@ -34,6 +34,7 @@
               },
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles/styles.scss",
               "node_modules/shepherd.js/dist/css/shepherd.css",
               {

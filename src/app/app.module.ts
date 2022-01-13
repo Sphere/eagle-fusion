@@ -2,6 +2,7 @@ import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overl
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler } from '@angular/core'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import {
   GestureConfig,
   MatButtonModule,
@@ -166,6 +167,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     SlidersModule,
     MdePopoverModule,
     MatAutocompleteModule,
+    FontAwesomeModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [

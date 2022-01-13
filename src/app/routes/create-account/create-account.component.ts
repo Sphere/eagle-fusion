@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'ws-create-account',
@@ -28,7 +29,8 @@ export class CreateAccountComponent implements OnInit {
   otpCodeForm: FormGroup
   hide1 = true
   hide2 = true
-
+  // faEye
+  iconChange = faEyeSlash
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -48,6 +50,15 @@ export class CreateAccountComponent implements OnInit {
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
+  }
+
+  toggle() {
+    this.hide1 = !this.hide1
+    if (this.hide1) {
+      this.iconChange = faEyeSlash
+    } else {
+      this.iconChange = faEye
+    }
   }
 
   initializeFormFields() {
@@ -114,7 +125,7 @@ export class CreateAccountComponent implements OnInit {
     phone = phone.replace(/[^0-9+#]/g, '')
 
     if (!validphone) {
-       this.otpPage = false
+      this.otpPage = false
       this.openSnackbar('Enter valid Phone Number')
     }
     if (phone.length < 10) {

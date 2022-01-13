@@ -77,15 +77,15 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
-        //console.log(`Token || ` + googleUser.getAuthResponse().id_token)
+        // console.log(`Token || ` + googleUser.getAuthResponse().id_token)
         // tslint:disable-next-line:no-console
-        //console.log(`ID: ` + profile.getId())
+        // console.log(`ID: ` + profile.getId())
         // tslint:disable-next-line:no-console
-        //console.log(`Name: ` + profile.getName())
+        // console.log(`Name: ` + profile.getName())
         // tslint:disable-next-line:no-console
-        //console.log(`Image URL: ` + profile.getImageUrl())
+        // console.log(`Image URL: ` + profile.getImageUrl())
         // tslint:disable-next-line:no-console
-        //console.log(`Email: ` + profile.getEmail())
+        // console.log(`Email: ` + profile.getEmail())
       },
       (error: any) => {
         // tslint:disable-next-line:no-console
@@ -121,10 +121,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   loginUser() {
     let phone = this.loginForm.value.username
-    let validphone = /^[6-9]\d{9}$/.test(phone)
-    let alphaNumeric = /^[a-zA-Z0-9] +$/i.test(phone)
+    const validphone = /^[6-9]\d{9}$/.test(phone)
+    const alphaNumeric = /^[a-zA-Z0-9] +$/i.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-    let email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+    const email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
       this.loginForm.value.username)
     if (!validphone && phone !== '') {
       this.openSnackbar('Enter valid Phone Number')
@@ -148,7 +148,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     if (this.emailPhoneType === 'email') {
       req = {
         email: this.loginForm.value.username,
-        Password: this.loginForm.value.password,
+        password: this.loginForm.value.password,
       }
     } else {
       req = {
