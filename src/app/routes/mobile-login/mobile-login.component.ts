@@ -7,6 +7,7 @@ import { Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { Location } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
+import { SignupService } from '../signup/signup.service'
 declare const gapi: any
 
 @Component({
@@ -15,7 +16,7 @@ declare const gapi: any
   styleUrls: ['./mobile-login.component.scss'],
 })
 export class MobileLoginComponent implements OnInit, AfterViewInit {
-  // @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
+  @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   loginForm: FormGroup
   hide = true
@@ -28,6 +29,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     private contentSvc: WidgetContentService,
     location: Location,
     private snackBar: MatSnackBar,
+    private signupService: SignupService
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
@@ -45,7 +47,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/admin.directory.user.readonly',
   ].join(' ')
-  // elem: HTMLElement = document.getElementById('googleBtn') as HTMLElement
+  elem: HTMLElement = document.getElementById('googleBtn') as HTMLElement
   public auth2: any
   public googleInit() {
     gapi.load('auth2', () => {
@@ -56,7 +58,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         ux_mode: 'redirect',
         redirect_uri: `${location.origin}/google/callback`,
       })
-      // this.attachSignin(this.myDiv.nativeElement)
+      this.attachSignin(this.myDiv.nativeElement)
       this.auth2.isSignedIn.listen(this.signinChanged)
       this.auth2.currentUser.listen(this.userChanged)
     })
@@ -69,27 +71,27 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public userChanged(user: any) {
     sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
   }
-  // public attachSignin(element: any) {
-  //   this.auth2.attachClickHandler(element, {},
-  //     (googleUser: any) => {
-  //       // @ts-ignore
-  //       const profile = googleUser.getBasicProfile()
-  //       // tslint:disable-next-line:no-console
-  //       console.log(`Token || ` + googleUser.getAuthResponse().id_token)
-  //       // tslint:disable-next-line:no-console
-  //       console.log(`ID: ` + profile.getId())
-  //       // tslint:disable-next-line:no-console
-  //       console.log(`Name: ` + profile.getName())
-  //       // tslint:disable-next-line:no-console
-  //       console.log(`Image URL: ` + profile.getImageUrl())
-  //       // tslint:disable-next-line:no-console
-  //       console.log(`Email: ` + profile.getEmail())
-  //     },
-  //     (error: any) => {
-  //       // tslint:disable-next-line:no-console
-  //       console.log(JSON.stringify(error, undefined, 2))
-  //     })
-  // }
+  public attachSignin(element: any) {
+    this.auth2.attachClickHandler(element, {},
+      (googleUser: any) => {
+        // @ts-ignore
+        const profile = googleUser.getBasicProfile()
+        // tslint:disable-next-line:no-console
+        //console.log(`Token || ` + googleUser.getAuthResponse().id_token)
+        // tslint:disable-next-line:no-console
+        //console.log(`ID: ` + profile.getId())
+        // tslint:disable-next-line:no-console
+        //console.log(`Name: ` + profile.getName())
+        // tslint:disable-next-line:no-console
+        //console.log(`Image URL: ` + profile.getImageUrl())
+        // tslint:disable-next-line:no-console
+        //console.log(`Email: ` + profile.getEmail())
+      },
+      (error: any) => {
+        // tslint:disable-next-line:no-console
+        console.log(JSON.stringify(error, undefined, 2))
+      })
+  }
   ngOnInit() {
     const storageItem1 = sessionStorage.getItem(`google_token`)
     const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
@@ -100,16 +102,16 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         idToken: storageItem1,
       }
       this.contentSvc.googleAuthenticate(req).subscribe(
-        (results: any) => {
-          // tslint:disable-next-line:no-console
-          console.log(results)
+        async (results: any) => {
+          this.openSnackbar(results.msg)
+          await this.signupService.fetchStartUpDetails()
+          this.router.navigate(['/page/home'])
         },
         (err: any) => {
-          // tslint:disable-next-line:no-console
-          console.log(err)
+          this.openSnackbar(err.error)
+          this.router.navigate(['/app/login'])
         }
       )
-      this.router.navigate(['/page/home'])
     }
   }
 
@@ -119,13 +121,18 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   loginUser() {
     let phone = this.loginForm.value.username
-    // const validphone = /^[6-9]\d{9}$/.test(phone)
+    let validphone = /^[6-9]\d{9}$/.test(phone)
+    let alphaNumeric = /^[a-zA-Z0-9] +$/i.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-
-    // if (!validphone) {
-    //   this.openSnackbar('Enter valid Phone Number')
-    // }
-    if (phone.length < 10) {
+    let email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+      this.loginForm.value.username)
+    if (!validphone && phone !== '') {
+      this.openSnackbar('Enter valid Phone Number')
+    }
+    if (!email && !validphone) {
+      this.openSnackbar('Enter valid email address')
+    }
+    if (phone.length < 10 && phone !== '' && alphaNumeric) {
       this.openSnackbar('Enter 10 digits Phone Number')
     }
     // at least 10 in number
@@ -136,7 +143,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         this.loginForm.value.username)) {
         this.emailPhoneType = 'email'
       }
-
     }
     let req
     if (this.emailPhoneType === 'email') {
@@ -150,27 +156,20 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         mobileNumber: this.loginForm.value.password,
       }
     }
-
     this.contentSvc.loginAuth(req).subscribe(
-      (results: any) => {
-        // tslint:disable-next-line:no-console
-        console.log(results)
+      async (results: any) => {
+        this.openSnackbar(results.msg)
+        await this.signupService.fetchStartUpDetails()
         this.router.navigate(['/page/home'])
       },
       (err: any) => {
-        // tslint:disable-next-line:no-console
-        console.log(err.error.error)
         this.openSnackbar(err.error.error)
-
       }
     )
-
   }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
   }
-  // onSubmit(form: any) {
-  // }
 }

@@ -21,7 +21,8 @@
               <div class="form-group mb-4">
                 Forgot password? <span><a tabindex="5" href="public/forgot-password">Click Here</a></span> to reset
               </div>
-              <button class="form-group login-button w-full" type="submit" (click)="loginUser()" [disabled]="!loginForm?.valid">
+              <button class="form-group login-button w-full" type="submit" (click)="loginUser()"
+                [disabled]="!loginForm?.valid">
                 Log in</button>
             </form>
           </div>
@@ -33,7 +34,8 @@
           </div>
           <div class="mt-6 col-xs-12 col-sm-6">
             <!-- <div class="form-group social-provider"> -->
-            <a href="javascript:void(0)" id="googleBtn" title="Google sign-in" class="btn btn-outline-dark" role="button" (click)="googleInit()" id="social-google">
+            <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in" class="btn btn-outline-dark"
+              role="button" (click)="googleInit()" id="social-google">
               <div class="social-provider">
                 <div class="inline-block">
                   <img src="../../../fusion-assets/icons/google-logo.png" width="20" height="20">
