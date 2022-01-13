@@ -1,5 +1,6 @@
 @import 'ws-common';
 @import 'ws-mixins';
+
 .login-page-content {
   box-sizing: border-box;
   // padding: $size-m;
@@ -7,7 +8,6 @@
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
   padding: 0;
-  //margin-top: 50px;
   @include breakpoint-gt-s {
     max-width: 40%;
   }
@@ -28,13 +28,6 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-}
-.login-header {
-  padding: 20px 50px;
-  .main-logo {
-    width: 93px;
-    height: 33px;
-  }
 }
 .welcome-header {
   font-size: 40px;
@@ -72,11 +65,4 @@ a {
 }
 .input-box .mat-form-field-infix{
   padding-top: 10px !important;
-}
-@media screen and (max-width:600px) {
-  .login-header {
-    padding-bottom: 5px;
-    padding-left: 15px;
-    margin-top: 30px;
-  }
 }

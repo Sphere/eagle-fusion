@@ -1,15 +1,10 @@
+<ws-header></ws-header>
 <div class="login-page-content">
   <div class="login-card">
-    <header class="login-header">
-      <div>
-        <a href="/public/home">
-          <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
-        </a>
-      </div>
-    </header>
     <div class="img-box">
-      <img *ngIf="emailPhoneType === 'email'" width="175" height="165" src="../../../fusion-assets/images/email-code.png">
-      <img *ngIf="emailPhoneType === 'phone'" width="175" height="165" src="../../../fusion-assets/images/SMS.svg">
+      <img *ngIf="emailPhoneType === 'email'" width="250" height="240"
+        src="../../../fusion-assets/images/email-code.png">
+      <img *ngIf="emailPhoneType === 'phone'" width="275" height="210" src="../../../fusion-assets/images/SMS.png">
     </div>
     <div class="check-email-text mt-6">Check your <span *ngIf="emailPhoneType === 'email'">email</span>
       <span *ngIf="emailPhoneType === 'phone'">SMS</span>!
@@ -25,8 +20,9 @@
               autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
           </div>
           <div class="form-group mt-4 mb-4">
-            Did not receive a mail? <span class="resend-text" (click)="resendOTP(emailPhoneType)">Click Here</span> to
-            resend
+            Did not receive a <span *ngIf="emailPhoneType === 'phone'">OTP</span><span
+              *ngIf="emailPhoneType === 'email'">mail</span>
+            <span class="resend-text" (click)="resendOTP(emailPhoneType)">? Click Here</span> to resend
           </div>
           <button class="form-group login-button mt-4" name="login" type="submit" (click)="verifyOtp()">Next</button>
         </form>

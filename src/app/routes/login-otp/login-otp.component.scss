@@ -1,5 +1,6 @@
 @import 'ws-common';
 @import 'ws-mixins';
+
 .login-page-content {
   box-sizing: border-box;
   // padding: $size-m;
@@ -15,7 +16,8 @@
     padding: 12px;
   }
   @include breakpoint-xs {
-    max-width:100%;
+    max-width:90%;
+    margin:auto;
   }
 }
 .login-card {
@@ -24,14 +26,6 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-}
-.login-header {
-  .main-logo {
-    width: 93px;
-    height: 33px;
-    left: 20px;
-    top: 75px;
-  }
 }
 .check-email-text {
   font-size: 32px;
@@ -42,7 +36,8 @@
   line-height: 29px;
 }
 .img-box{
-  padding: 0 70px;
+  width: 90%;
+  margin: auto;
 }
 .input-content{
   position: absolute;
@@ -71,4 +66,23 @@
 }
 .resend-text{
   color: #2873b2;
+}
+@media screen and (min-width:600px) {
+  .login-button {
+    width: 100%;
+  }
+  .img-box {
+    width: 90%;
+  }
+}
+@media screen and (max-width:600px) {
+  .input-box {
+    width: 88%;
+  }
+  .input-content {
+    width: 85%;
+  }
+  .login-button {
+    right: 12px;
+  }
 }

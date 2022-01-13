@@ -1,16 +1,7 @@
+<ws-header></ws-header>
 <!-- Create Account Form -->
 <div class="login-page-content" *ngIf="!otpPage">
   <div class="login-card">
-    <header class="login-header">
-      <div>
-        <a href="/public/home">
-          <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
-        </a>
-      </div>
-    </header>
-    <!-- <div class="img-box">
-      <img alt="logo" width="225" height="130" src="../../../fusion-assets/images/create-account.png">
-    </div> -->
     <div class="create-acct-text mt-6 mb-4">Create your account</div>
     <div class="input-content">
       <div class="input-content-wrapper">
@@ -49,9 +40,6 @@
               *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
               (createAccountForm.controls['emailOrMobile'].dirty || createAccountForm.controls['emailOrMobile'].touched)">
               This field is required</mat-error>
-            <!-- <mat-error class="text-danger" *ngIf="createAccountForm.controls['emailId'].hasError('pattern') &&
-              (createAccountForm.controls['emailId'].dirty || createAccountForm.controls['emailId'].touched)">
-              Please enter valid email address</mat-error> -->
           </div>
 
           <div class="form-group mt-4">
