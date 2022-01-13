@@ -20,7 +20,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   loginForm: FormGroup
   hide = true
   public route: string
-  emailPhoneType: string
+  public emailPhoneType: string
   constructor(
     private fb: FormBuilder,
     // private element: ElementRef,
