@@ -59,7 +59,8 @@
           </div>
 
           <div class="input-group mt-2" id="show_hide_password_2">
-            <input class="form-control" formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'" placeholder="Confirm Password">
+            <input class="form-control" formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
+              placeholder="Confirm Password">
             <div class="input-group-addon iconPosition1">
               <a href="javascript:void(0)" (click)="toggle2()">
                 <fa-icon [icon]="iconChange2"></fa-icon>
@@ -75,8 +76,8 @@
               Password does not match</mat-error>
           </div>
 
-          <button class="btn btn-primary mt-3 float-right" name="login" type="submit" [disabled]="!createAccountForm?.valid"
-            (click)="onSubmit(createAccountForm)">Next</button>
+          <button class="btn btn-primary mt-3 float-right" name="login" type="submit"
+            [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
         </form>
       </div>
     </div>
