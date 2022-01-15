@@ -75,7 +75,6 @@
               (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">
               Password does not match</mat-error>
           </div>
-
           <button class="btn btn-primary mt-3 float-right" name="login" type="submit"
             [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
         </form>
