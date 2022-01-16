@@ -65,7 +65,6 @@ export class SignupService {
   }
 
   public forgotPassword(request: any): Observable<any> {
-
     return this.http.post(API_END_POINTS.RESET_PASSWORD, request).pipe(
       map((response: any) => {
         return response
