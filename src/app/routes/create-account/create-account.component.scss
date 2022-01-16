@@ -1,82 +1,12 @@
-@import 'ws-common';
-@import 'ws-mixins';
-
-.login-page-content {
-  box-sizing: border-box;
-  @extend %page-center;
-  @extend %height-mat-toolbar-sibling;
-  box-sizing: border-box;
-  padding: 0;
-  // background: #f7f7f7;
-  height: 175px;
-  max-width: 430px;
-  @include breakpoint-s {
-    padding: 12px;
-  }
-}
-.login-card {
-  margin: 0;
-  padding: 5%;
-  color: #000;
-  font-size: 14px;
-  line-height: 17px;
-}
-.check-email-text {
-  font-size: 24px;
-  line-height: 29px;
-}
-.create-acct-text {
-  font-size: 24px;
-  line-height: 29px;
-}
-.img-box{
-  padding: 0 55px;
-}
 .label-text{
   color: #5f6368;
   font-size: 12px;
   line-height: 15px;
 }
-/*.input-content{
-  position: absolute;
-  max-width: 335px;
-}*/
-.input-box {
-    width: 305px;
-    height: 35px;
-    padding: 4px 12px;
-    font-size: 16px;
-    line-height: 19px;
-    box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
-    border-radius: 6px;
-    border: 1px solid #bbb;
-}
 .iconPosition1 {
   position: absolute;
   right: 5px;
   top: 10px;
-}
-a {
-  color: #2873b2;
-}
-.login-button {
-  width: 98px;
-  height: 38px;
-  background: #1C5D95;
-  border-radius: 50px;
-  color: #fff;
-  border:0;
-  font-size: 16px;
-  line-height: 19px;
-  position: absolute;
-  right: 0;
-  margin-top: 2.5rem;
-}
-.terms {
-  margin-top: 50px;
-}
-.termsChecked {
-  height: 12px;
 }
 a{
   color: #000 !important;
@@ -85,21 +15,3 @@ a{
    background: #1C5D95 !important;
 }
 
-@media screen and (max-width:426px) {
-  .login-card {
-    padding: 5% 10%;
-  }
-}
-@media screen and (max-width:425px) and (min-width:360px) {
-  .login-card {
-    padding: 5% 6%;
-  }
-}
-@media screen and (min-width:600px) {
-  .login-button {
-    width: 100%;
-  }
-  .create-acct-text {
-    margin-bottom: 3rem;
-  }
-}
