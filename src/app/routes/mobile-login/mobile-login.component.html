@@ -11,7 +11,7 @@
           <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" class="form-control">
           <div class="input-group-addon iconPosition">
             <a href="javascript:void(0)" (click)="toggle()" class="f-black">
-              <fa-icon [icon]="iconChange"></fa-icon>
+              <i [ngClass]="iconChange" aria-hidden="true"></i>
             </a>
           </div>
         </div>

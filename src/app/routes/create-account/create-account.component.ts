@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'ws-create-account',
@@ -29,9 +28,8 @@ export class CreateAccountComponent implements OnInit {
   otpCodeForm: FormGroup
   hide1 = true
   hide2 = true
-  // faEye
-  iconChange1 = faEyeSlash
-  iconChange2 = faEyeSlash
+  iconChange1 = 'fas fa-eye-slash'
+  iconChange2 = 'fas fa-eye-slash'
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -56,17 +54,17 @@ export class CreateAccountComponent implements OnInit {
   toggle1() {
     this.hide1 = !this.hide1
     if (this.hide1) {
-      this.iconChange1 = faEyeSlash
+      this.iconChange1 = 'fas fa-eye-slash'
     } else {
-      this.iconChange1 = faEye
+      this.iconChange1 = 'fas fa-eye'
     }
   }
   toggle2() {
     this.hide2 = !this.hide2
     if (this.hide2) {
-      this.iconChange2 = faEyeSlash
+      this.iconChange2 = 'fas fa-eye-slash'
     } else {
-      this.iconChange2 = faEye
+      this.iconChange2 = 'fas fa-eye'
     }
   }
 

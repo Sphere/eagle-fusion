@@ -43,7 +43,7 @@
             <input class="form-control" formControlName="password" [type]="hide1 ? 'password' : 'text'">
             <div class="input-group-addon iconPosition1">
               <a href="javascript:void(0)" (click)="toggle1()">
-                <fa-icon [icon]="iconChange1"></fa-icon>
+                <i [ngClass]="iconChange1" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -62,7 +62,7 @@
               placeholder="Confirm Password">
             <div class="input-group-addon iconPosition1">
               <a href="javascript:void(0)" (click)="toggle2()">
-                <fa-icon [icon]="iconChange2"></fa-icon>
+                <i [ngClass]="iconChange2" aria-hidden="true"></i>
               </a>
             </div>
           </div>
