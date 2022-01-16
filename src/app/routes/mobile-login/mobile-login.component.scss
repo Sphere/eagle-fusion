@@ -1,74 +1,20 @@
-@import 'ws-common';
-@import 'ws-mixins';
-
-.login-page-content {
-  box-sizing: border-box;
-  // padding: $size-m;
-  @extend %page-center;
-  @extend %height-mat-toolbar-sibling;
-  box-sizing: border-box;
-  padding: 0;
-  @include breakpoint-gt-s {
-    max-width: 40%;
-  }
-  @include breakpoint-gt-m {
-    max-width: 25%;
-  }
-  @include breakpoint-s {
-    max-width: 65%;
-    padding: 12px;
-  }
-  @include breakpoint-xs {
-    max-width:100%;
-  }
-}
-.login-card {
-  margin: 0;
-  padding: 0 20px 30px 20px;
-  color: #000;
-  font-size: 14px;
-  line-height: 17px;
-}
-.welcome-header {
-  font-size: 40px;
-  line-height: 48px;
-  margin-bottom: 20px;
-}
 a {
   color: #2873b2;
-}
-.login-button {
-  padding: 8px 5px;
-  height: 38px;
-  background: #1C5D95;
-  border-radius: 50px;
-  color: #fff;
-  border:0;
-  font-size: 16px;
-  line-height: 19px;
-}
-.or-text {
-  font-size: 20px;
-  line-height: 24px;
-}
-.social-provider {
-/*  height: 18px;
-  padding: 10px;
-  background: #fff;*/
-  color: #000;
-  border-radius: 20px;
-  border: 1px solid #bbb;
-  /*filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));*/
 }
 .btn-primary {
   background: #1C5D95 !important;
 }
-.btn-outline-primary {
-  border-color:white !important;
+.f-w-500{
+  font-weight: 500;
+}  
+.iconPosition {
+  position: absolute;
+  right: 5px;
+  top: 10px;
 }
-.v-a-m{
-  vertical-align: middle;
+.f-black {
+  color: #000;
 }
-.input-box .mat-form-field-infix{
-  padding-top: 10px !important;
+.border-radius {
+  border-radius: 20px;
 }

@@ -8,6 +8,7 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { Location } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 declare const gapi: any
 
 @Component({
@@ -20,6 +21,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   loginForm: FormGroup
   hide = true
+  iconChange = faEyeSlash
   public route: string
   emailPhoneType: any
   constructor(
@@ -119,6 +121,14 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.googleInit()
   }
 
+  toggle() {
+    this.hide = !this.hide
+    if (this.hide) {
+      this.iconChange = faEyeSlash
+    } else {
+      this.iconChange = faEye
+    }
+  }
   loginUser() {
     let phone = this.loginForm.value.username
     const validphone = /^[6-9]\d{9}$/.test(phone)
