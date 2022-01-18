@@ -7,6 +7,7 @@ import { WidgetContentShareService } from '../../_services/widget-content-share.
 import { NsContent } from '../../_services/widget-content.model'
 import { NsShare } from '../../_services/widget-share.model'
 import { ICommon } from '../../_models/common.model'
+import domToImage from 'dom-to-image'
 
 @Component({
   selector: 'ws-widget-btn-content-share-dialog',
@@ -20,6 +21,7 @@ export class BtnContentShareDialogComponent implements OnInit {
   sendInProgress = false
   message = ''
   isSocialMediaShareEnabled = false
+  qrdata = window.location.href
   sendStatus: 'INVALID_IDS_ALL' | 'SUCCESS' | 'INVALID_ID_SOME' | 'ANY' | 'NONE' = 'NONE'
   constructor(
     private events: EventService,
@@ -45,6 +47,16 @@ export class BtnContentShareDialogComponent implements OnInit {
         !this.configSvc.restrictedFeatures.has('socialMediaLinkedinShare') ||
         !this.configSvc.restrictedFeatures.has('socialMediaTwitterShare')
     }
+  }
+
+  saveAsImage(code: any) {
+    domToImage.toPng(code.qrcElement.nativeElement)
+      .then((dataUrl: string) => {
+        const link = document.createElement('a')
+        link.download = 'qrcode.png'
+        link.href = dataUrl
+        link.click()
+      })
   }
 
   updateUsers(users: NsAutoComplete.IUserAutoComplete[]) {

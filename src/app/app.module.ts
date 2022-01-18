@@ -165,7 +165,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TourModule,
     SlidersModule,
     MdePopoverModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
@@ -209,6 +209,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }

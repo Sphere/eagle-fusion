@@ -1,0 +1,12 @@
+button:focus {
+    outline: none;
+}
+.action-icons {
+    width: 28px;
+}
+@media (min-width: 600px) {
+  .action-icons {
+    width: 38px;
+    margin-top: 5px;
+  }
+}

@@ -40,5 +40,9 @@
     <ws-widget-btn-twitter-share [url]="detailUrl" [message]="message" class="pr-4 pb-3"></ws-widget-btn-twitter-share>
     <ws-widget-btn-linkedin-share [url]="detailUrl" class="pr-4 pb-3"></ws-widget-btn-linkedin-share>
   </div>
+  <div class="flex flex-wrap items-center">
+    <qrcode #code [qrdata]="qrdata" [width]="150" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+    <button mat-raised-button (click)="saveAsImage(code)" [color]="'primary'">Download QR</button>
+  </div>
   <button class="close-btn" mat-button [mat-dialog-close]="false" i18n>Close</button>
 </div>

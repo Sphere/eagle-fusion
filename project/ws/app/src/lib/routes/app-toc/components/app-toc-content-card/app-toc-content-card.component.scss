@@ -105,3 +105,19 @@
     align-items: center;
   }
 }
+.image {
+  position: absolute !important;
+  margin-top: 2px;
+  right: 1%;
+  height: 20px !important;
+}
+.width-expand {
+  position: relative;
+}
+@media (max-width: 500px) {
+  .image {
+    right: -3em !important;
+    margin-top: 8px;
+    margin-left: 20px;
+  }
+}
