@@ -119,7 +119,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
-        } else if (event.url.includes('/public/home')) {
+        } else if (event.url.includes('page/home')) {
+          this.hideHeaderFooter = false
           // this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/app/your-background') || event.url.includes('/app/almost-done') || event.url.includes('app/complete-profile') || event.url.includes('/public/forgot-password') ||
