@@ -66,19 +66,21 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
 
   public signinChanged(val: any) {
+    sessionStorage.removeItem('google_isSignedIn')
     sessionStorage.setItem(`google_isSignedIn`, val)
   }
 
   public userChanged(user: any) {
+    sessionStorage.removeItem('google_token')
     sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
   }
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
-        // console.log(`Token || ` + googleUser.getAuthResponse().id_token)
+        //console.log(`Token || ` + googleUser.getAuthResponse().id_token)
         // tslint:disable-next-line:no-console
         // console.log(`ID: ` + profile.getId())
         // tslint:disable-next-line:no-console
@@ -88,7 +90,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -161,8 +163,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     } else {
       req = {
-        email: this.loginForm.value.username,
-        mobileNumber: this.loginForm.value.password,
+        mobileNumber: this.loginForm.value.username,
+        password: this.loginForm.value.password,
       }
     }
     this.contentSvc.loginAuth(req).subscribe(
@@ -176,7 +178,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     )
   }
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

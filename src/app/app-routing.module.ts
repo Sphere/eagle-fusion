@@ -353,6 +353,7 @@ const routes: Routes = [
     component: ErrorResolverComponent,
   },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
+  { path:'resources', redirectTo: 'page/home', pathMatch: 'full'},
   {
     path: 'learning-hub',
     loadChildren: () =>
@@ -517,6 +518,7 @@ const routes: Routes = [
     PageModule,
     FeaturesModule,
     RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload',
       anchorScrolling: 'enabled',
       scrollPositionRestoration: 'top',
       urlUpdateStrategy: 'eager',

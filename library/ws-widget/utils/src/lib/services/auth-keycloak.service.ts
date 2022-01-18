@@ -150,7 +150,7 @@ export class AuthKeycloakService {
   // }
   // async logout(redirectUrl = this.defaultRedirectUrl)
   async logout() {
-    if (storage.getItem('telemetrySessionId') || (sessionStorage.getItem('loginbtn'))) {
+    //if (storage.getItem('telemetrySessionId') || (sessionStorage.getItem('loginbtn'))) {
       storage.removeItem('telemetrySessionId')
       sessionStorage.removeItem('loginbtn')
       sessionStorage.removeItem('url_before_login')
@@ -160,7 +160,7 @@ export class AuthKeycloakService {
       } catch (error) { }
       window.location.href = `${this.defaultRedirectUrl}public/home`
       // this.router.navigate(['/page/home'])
-    }
+    //}
   }
   private addKeycloakEventListener() {
     this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEvent) => {
