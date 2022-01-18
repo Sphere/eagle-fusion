@@ -21,7 +21,7 @@
   *ngIf="showNavbar && !hideHeaderFooter">
 </ws-app-footer>
 
-<ng-container *ngIf=true>
+<ng-container>
   <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
     [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
   </ws-app-nav-bar>

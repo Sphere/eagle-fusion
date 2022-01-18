@@ -4,7 +4,8 @@ import { NSQuiz } from './quiz.model'
 import { Observable } from 'rxjs'
 
 const API_END_POINTS = {
-  ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
+  //ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
+  ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,
 }
 
 @Injectable({
