@@ -1,0 +1,45 @@
+<!-- Your Location Form -->
+<div class="login-page-content">
+  <div class="login-card">
+    <header class="login-header">
+      <div>
+        <a href="/public/home">
+          <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
+        </a>
+      </div>
+    </header>
+    <div class="img-box">
+      <img alt="logo" width="140" height="143" src="../../../fusion-assets/images/your-location.png">
+    </div>
+    <div class="create-acct-text mt-6 mb-4">Your location?</div>
+    <div class="input-content">
+      <div class="input-content-wrapper">
+        <form [formGroup]="yourLocationForm" id="form-login" action="" method="post">
+          <div class="form-group mt-4 input-box">
+            <select id="country" formControlName="country" class="form-control select-box">
+              <option [ngValue]="null">Country</option>
+              <option *ngFor="let country of countries" [ngValue]="country.name">{{ country.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group mt-4 input-box">
+            <select id="state" formControlName="state" class="form-control select-box">
+              <option [ngValue]="null">State</option>
+              <option *ngFor="let state of states" [ngValue]="state.name">{{ state.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group mt-4 input-box">
+            <select id="distict" formControlName="distict" class="form-control select-box">
+              <option [ngValue]="null">City/Distict</option>
+              <option *ngFor="let distict of districts" [ngValue]="distict.state">{{ distict.state }}</option>
+            </select>
+          </div>
+          <button class="form-group login-button" name="login" type="submit"
+            [disabled]="!yourLocationForm?.valid">Next</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Your Location Form Close-->

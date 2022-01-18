@@ -1,9 +1,5 @@
 <div [ngStyle]="{'background-color': ((content?.posterImage || '').length === 7? content?.posterImage : '#F8AD1E')}">
-
   <div [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
-
-
-
     <!-- <div class="pt-10 header-actions top">
       <div class="action-btns">
         <div class="hidden-block-xs">
@@ -14,15 +10,10 @@
         </button>
       </div>
     </div> -->
-
-
     <div class="flex flex-between flex-wrap-reverse">
-
       <div class="header-left">
         <div class="header-synopsis">
           <!-- <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content"> -->
-
-
           <div class="header-title flex-col sm:flex-row">
             <!-- <div *ngIf="content?.appIcon" class="apIcon">
             <img [src]="content?.creatorLogo" [id]="'source_' + content.identifier" class="source-icon"
@@ -40,15 +31,11 @@
                 <mat-icon class="ws-mat-accent-text">check_circle</mat-icon>
               </span>
             </div>
-
           </div>
-
           <div class="flex flex-col sm:flex-row">
-
             <div class="sm:ml-5 flex flex-col flex-auto">
               <div [ngSwitch]="routePath" class="header-meta margin-bottom-m"
                 [ngClass]="{ 'header-meta-banner': bannerUrl }">
-
                 <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
                   *ngSwitchCase="'overview'">
                   <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
@@ -62,8 +49,10 @@
                     <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
                   </div>
                 </div>
-
                 <div *ngSwitchCase="'contents'">
+                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+                    {{content?.subTitle}}
+                  </h2>
                 </div>
 
                 <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
@@ -80,15 +69,11 @@
                   </div>
                 </div>
 
-
                 <!-- Table Structure -->
                 <div>
                   <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
                     Duration :
                     {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
-                  <div class="toc-banner-item"
-                    *ngIf="tocConfig?.atAGlance?.expiryDate?.enabled && content?.expiryDate && content?.expiryDate?.startsWith('20')">
-                    {{tocConfig?.atAGlance?.expiryDate?.displayName}} : {{ content?.expiryDate | date }}</div>
                   <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
                     {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
                   </div>
@@ -111,18 +96,7 @@
                       </ng-container>
                     </span>
                   </div>
-
-
-                  <!-- {{fetchCohorts(cohortTypesEnum.ACTIVE_USERS)}} -->
-                  <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
-                    <a [routerLink]="'./details'" [queryParams]="{id: content.identifier}">
-                      Cohorts :<span class="blue-link"> {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active
-                        Learners
-                      </span></a>
-                  </div>
                 </div>
-
-
               </div>
 
               <!-- <div *ngIf="content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">
@@ -141,46 +115,7 @@
                   ( {{ 0 | pipeCountTransform }} )</span>
               </div> -->
 
-
-              <!-- <div class="action-btns">
-                <div class="hidden-block-xs">
-                  <ng-container [ngTemplateOutlet]="actions"></ng-container>
-                </div>
-                <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
-                  *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-                  <img src="/fusion-assets/icons/edit.png" class="action-icons" />
-                </a>
-                <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
-                  *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-                  <img src="/assets/images/upload.svg" class="action-icons" />
-                </a>
-                <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-                          content
-                            | pipePartialContent
-                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
-                                      'artifactUrl']
-                        "></ws-widget-btn-content-download>
-                <ws-widget-btn-content-like [forPreview]="forPreview"
-                  [widgetData]="content | pipePartialContent: ['identifier']">
-                </ws-widget-btn-content-like>
-                <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
-                </ws-widget-btn-content-share>
-                <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
-                  [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
-                </ws-widget-btn-kb>
-                <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
-                  [widgetData]="btnGoalsConfig">
-                </ws-widget-btn-goals>
-                <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
-                  [widgetData]="btnPlaylistConfig">
-                </ws-widget-btn-playlist>
-                <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
-                  [widgetData]="content | pipePartialContent: ['identifier', 'name']">
-                </ws-widget-btn-content-feedback-v2>
-
-              </div> -->
-
-              <div class="header-actions mb-4">
+              <div class="header-actions">
                 <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">
                   <form>
                     <mat-form-field appearance="fill">
@@ -190,7 +125,7 @@
                         <mat-option *ngFor="let batch of batchData.content" [value]="batch"
                           [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
                           <p>{{batch.name}}
-                            ({{batch.startDate}} - {{batch.endDate || 'present'}})</p>
+                            ({{batch.startDate | date}} - {{(batch.endDate | date ) || 'present'}})</p>
                         </mat-option>
                       </mat-select>
                       <mat-error *ngIf="batchControl.hasError('required')">Please choose a batch to start course
@@ -200,7 +135,8 @@
                 </ng-container>
                 <ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
                   <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngFor="let batch of batchData.content">
-                    Enrolled batch: {{batch.name}} ({{batch.startDate}} - {{batch.endDate || 'present'}})
+                    Enrolled batch: {{batch.name}} ({{batch.startDate | date}} - {{(batch.endDate | date ) ||
+                    'present'}})
                   </h3>
                 </ng-container>
                 <ng-container *ngIf="batchData && !batchData?.enrolled && !batchData?.content?.length">
@@ -210,9 +146,9 @@
                 </ng-container>
               </div>
 
-              <div class="header-actions mb-4">
+              <div class="header-actions header-act-btn">
                 <a [color]="'primary'"
-                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('MDO_ADMIN') || this.configSvc.userRoles.has('SPV_ADMIN'))"
+                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('mdo_admin') || this.configSvc.userRoles.has('spv_admin'))"
                   class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
                   Create Batch
                 </a>
@@ -268,26 +204,58 @@
                 <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'InReview'">
                   The content is in review.
                 </h3>
+
+                <div class="action-btns">
+                  <!-- <div class="hidden-block-xs">
+                              <ng-container [ngTemplateOutlet]="actions"></ng-container>
+                            </div> -->
+                  <!-- <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
+                *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                <img src="/fusion-assets/icons/edit.png" class="action-icons" />
+              </a> -->
+                  <!-- <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
+                              *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                              <img src="/assets/images/upload.svg" class="action-icons" />
+                            </a> -->
+                  <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+                                      content
+                                        | pipePartialContent
+                                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
+                                                      'artifactUrl']
+                                        "></ws-widget-btn-content-download> -->
+                  <!-- <ws-widget-btn-content-like [forPreview]="forPreview"
+                                  [widgetData]="content | pipePartialContent: ['identifier']">
+                                </ws-widget-btn-content-like> -->
+                  <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+                  </ws-widget-btn-content-share>
+                  <!-- <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
+                    [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
+                  </ws-widget-btn-kb>
+                  <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
+                    [widgetData]="btnGoalsConfig">
+                  </ws-widget-btn-goals>
+                  <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
+                    [widgetData]="btnPlaylistConfig">
+                  </ws-widget-btn-playlist>
+                  <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+                    [widgetData]="content | pipePartialContent: ['identifier', 'name']">
+                  </ws-widget-btn-content-feedback-v2> -->
+                  <button mat-raised-button [color]="'primary'" *ngIf="content?.issuedCertificates?.length > 0"
+                    (click)="downloadCertificate(content)" class="ws-mat-primary-background mat-button-base margin-right-m">
+                    <mat-icon>file_download</mat-icon>Certificate
+                  </button>
+                </div>
               </div>
-
-
-
-
             </div>
           </div>
-
-
         </div>
       </div>
-
-
 
       <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
       </div>
     </div>
-
     <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
-      [className]="'thick'" [progress]="content?.progress?.progress">
+      [className]="'thick'" [progress]="content?.completionPercentage">
     </ws-widget-content-progress>
 
   </div>

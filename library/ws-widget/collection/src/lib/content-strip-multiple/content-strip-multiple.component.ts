@@ -16,7 +16,7 @@ import { filter } from 'rxjs/operators'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
 import * as _ from 'lodash'
 import { WidgetUserService } from '../_services/widget-user.service'
-import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
+// import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 interface IStripUnitContentData {
   key: string
@@ -62,7 +62,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
   searchArray = ['preview', 'channel', 'author']
   contentAvailable = true
   isFromAuthoring = false
-
   changeEventSubscription: Subscription | null = null
   callPublicApi = false
   explorePage = false
@@ -76,7 +75,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     protected utilitySvc: UtilityService,
     // private searchServSvc: SearchServService,
     private userSvc: WidgetUserService,
-    private tocSvc: AppTocService
+    // private tocSvc: AppTocService
   ) {
     super()
   }
@@ -117,6 +116,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             .forEach(k => this.fetchStripFromKeyForLogin(k, false))
         })
       this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
+    } else if (url.indexOf('public/home') > 0) {
+      this.initPublicHomeData()
     } else {
       this.initData()
     }
@@ -127,7 +128,37 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       this.changeEventSubscription.unsubscribe()
     }
   }
-
+  private initPublicHomeData() {
+    this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
+    if (this.widgetData.loader && this.widgetData.strips.length) {
+      this.showParentLoader = true
+    }
+    // Fetch the data
+    for (const strip of this.widgetData.strips) {
+      if (this.checkForEmptyWidget(strip)) {
+        this.fetchHomeStripFromRequestData(strip)
+      } else {
+        this.processStrip(strip, [], 'done', true, null)
+      }
+    }
+    // Subscription for changes
+    const keyAndEvent: { key: string; type: string; from: string }[] = this.widgetData.strips
+      .map(strip => ({
+        key: strip.key,
+        type: (strip.refreshEvent && strip.refreshEvent.eventType) || '',
+        from: (strip.refreshEvent && strip.refreshEvent.from.toString()) || '',
+      }))
+      .filter(({ key, type, from }) => key && type && from)
+    const eventTypeSet = new Set(keyAndEvent.map(e => e.type))
+    this.changeEventSubscription = this.eventSvc.events$
+      .pipe(filter(event => eventTypeSet.has(event.eventType)))
+      .subscribe(event => {
+        keyAndEvent
+          .filter(e => e.type === event.eventType && e.from === event.from)
+          .map(e => e.key)
+          .forEach(k => this.fetchStripFromHomeKey(k, false))
+      })
+  }
   private initData() {
     this.stripsKeyOrder = this.widgetData.strips.map(strip => strip.key) || []
     if (this.widgetData.loader && this.widgetData.strips.length) {
@@ -214,7 +245,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             }
             : null
           if (courses && courses.length) {
-            content = courses.map(c => {
+            content = courses
+            .map(c => {
               const contentTemp: NsContent.IContent = c.content
               contentTemp.completionPercentage = c.completionPercentage || c.progress || 0
               contentTemp.completionStatus = c.completionStatus || c.status || 0
@@ -233,7 +265,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             })
           }
           if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
-            this.tocSvc.setcontentForWidget(contentNew)
+            // this.tocSvc.setcontentForWidget(contentNew)
             this.processStrip(
               strip,
               this.transformContentsToWidgets(contentNew, strip),
@@ -242,7 +274,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
               viewMoreUrl,
             )
           } else {
-            this.tocSvc.setcontentForWidget(content)
+            // this.tocSvc.setcontentForWidget(content)
             this.processStrip(
               strip,
               this.transformContentsToWidgets(content, strip),
@@ -251,7 +283,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
               viewMoreUrl,
             )
           }
-
         },
         () => {
           this.processStrip(strip, [], 'error', calculateParentStatus, null)
@@ -265,6 +296,28 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     if (stripData) {
       this.fetchStripFromRequestData(stripData, calculateParentStatus)
     }
+  }
+
+  private fetchStripFromHomeKey(key: string, calculateParentStatus = true) {
+    const stripData = this.widgetData.strips.find(strip => strip.key === key)
+    if (stripData) {
+      this.fetchHomeStripFromRequestData(stripData, calculateParentStatus)
+    }
+  }
+
+  private fetchHomeStripFromRequestData(
+    strip: NsContentStripMultiple.IContentStripUnit,
+    calculateParentStatus = true,
+  ) {
+
+    // setting initial values
+    this.processStrip(strip, [], 'fetching', false, null)
+    // this.fetchFromApi(strip, calculateParentStatus)
+    // this.fetchFromSearch(strip, calculateParentStatus)
+    // this.fetchFromSearchRegionRecommendation(strip, calculateParentStatus)
+    this.fetchFromPublicSearch(strip, calculateParentStatus)
+    // his.fetchFromIds(strip, calculateParentStatus)
+    // this.fetchFromEnrollmentList(strip, calculateParentStatus)
   }
 
   private fetchStripFromRequestData(
@@ -479,6 +532,65 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
     }
   }
 
+  fetchFromPublicSearch(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
+    if (strip.request && strip.request.searchV6 && Object.keys(strip.request.searchV6).length) {
+      // if (!(strip.request.searchV6.locale && strip.request.searchV6.locale.length > 0)) {
+      //   if (this.configSvc.activeLocale) {
+      //     strip.request.searchV6.locale = [this.configSvc.activeLocale.locals[0]]
+      //   } else {
+      //     strip.request.searchV6.locale = ['en']
+      //   }
+      // }
+      let originalFilters: any = []
+      if (strip.request &&
+        strip.request.searchV6 &&
+        strip.request.searchV6.request &&
+        strip.request.searchV6.request.filters) {
+        originalFilters = strip.request.searchV6.request.filters
+        strip.request.searchV6.request.filters = this.transformSearchV6FiltersV2(
+          strip.request.searchV6.request.filters,
+        )
+      }
+
+      this.contentSvc.publicContentSearch(strip.request.searchV6).subscribe(
+        results => {
+          const showViewMore = Boolean(
+            results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
+          )
+          const viewMoreUrl = showViewMore
+            ? {
+              path: '/app/search/learning',
+              queryParams: {
+                q: strip.request && strip.request.searchV6 && strip.request.searchV6.request,
+                f:
+                  strip.request &&
+                    strip.request.searchV6 &&
+                    strip.request.searchV6.request &&
+                    strip.request.searchV6.request.filters
+                    ? JSON.stringify(
+                      this.transformSearchV6FiltersV2(
+                        originalFilters,
+                      )
+                    )
+                    : {},
+              },
+            }
+            : null
+          this.processStrip(
+            strip,
+            this.transformContentsToWidgets(results.result['content'], strip),
+            'done',
+            calculateParentStatus,
+            viewMoreUrl,
+          )
+        },
+        () => {
+          this.processStrip(strip, [], 'error', calculateParentStatus, null)
+        },
+      )
+    }
+  }
+
   fetchFromIds(strip: NsContentStripMultiple.IContentStripUnit, calculateParentStatus = true) {
     if (strip.request && strip.request.ids && Object.keys(strip.request.ids).length) {
       this.contentSvc.fetchMultipleContent(strip.request.ids).subscribe(
@@ -584,6 +696,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       ...this.stripsResultDataMap,
       [strip.key]: stripData,
     }
+
     if (
       calculateParentStatus &&
       (fetchStatus === 'done' || fetchStatus === 'error') &&

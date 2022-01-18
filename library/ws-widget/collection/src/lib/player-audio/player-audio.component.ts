@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 import videoJs from 'video.js'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
@@ -21,7 +22,6 @@ import {
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { NsContent } from '../_services/widget-content.model'
-import { ActivatedRoute } from '@angular/router'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,

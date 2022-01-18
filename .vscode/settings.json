@@ -165,5 +165,8 @@
   "prettier.arrowParens": "avoid",
   "[scss]": {
     "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }

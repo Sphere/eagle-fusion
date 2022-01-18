@@ -93,7 +93,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
-
     // private authAccessService: AccessControlService,
   ) { }
 
@@ -116,7 +115,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
-
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig && instanceConfig.logos && instanceConfig.logos.defaultSourceLogo) {
       this.defaultSLogo = instanceConfig.logos.defaultSourceLogo
@@ -188,7 +186,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get isPostAssessment(): boolean {
-    if (!(this.tocConfig && this.tocConfig.postAssessment)) {
+    if (!(this.tocConfig)) {
       return false
     }
     if (this.content) {
@@ -286,6 +284,13 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
+    })
+  }
+
+  downloadCertificate(content: any) {
+    this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
+      // tslint:disable-next-line:no-console
+      console.log(data)
     })
   }
 
@@ -584,17 +589,18 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openDialog(content: any): void {
-    const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    this.createBatchDialog.open(CreateBatchDialogComponent, {
       // height: '400px',
       width: '600px',
       data: { content },
     })
     // dialogRef.componentInstance.xyz = this.configSvc
-    dialogRef.afterClosed().subscribe((_result: any) => {
-      if (!this.batchId) {
-        this.tocSvc.updateBatchData()
-      }
-    })
+    // dialogRef.afterClosed().subscribe((_result: any) => {
+    //   if (!this.batchId) {
+    //     this.tocSvc.updateBatchData()
+    //   }
+    // })
   }
 
 }

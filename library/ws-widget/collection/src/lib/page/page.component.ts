@@ -3,7 +3,11 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/cor
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, EventService, LoggerService, NsPage, ValueService, WsEvents, LogoutComponent } from '@ws-widget/utils'
+import {
+  ConfigurationsService, EventService, LoggerService, NsPage,
+  // ValueService,
+  WsEvents, LogoutComponent,
+} from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
@@ -34,7 +38,7 @@ export class PageComponent extends WidgetBaseComponent
     private activateRoute: ActivatedRoute,
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
+    // private valueSvc: ValueService,
     private eventSvc: EventService,
     private tour: CustomTourService,
     private domSanitizer: DomSanitizer,
@@ -45,11 +49,10 @@ export class PageComponent extends WidgetBaseComponent
     private exploreResolverSvc: ExploreResolverService,
   ) {
     super()
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-      this.links = this.getNavLinks()
-    })
-    // console.log('widgetData', this.widgetData)
+    // this.valueSvc.isXSmall$.subscribe(isXSmall => {
+    //   this.isXSmall = isXSmall
+    //   this.links = this.getNavLinks()
+    // })
   }
   ngOnInit() {
     // this.authenticated = this.authSvc.isAuthenticated

@@ -1,7 +1,7 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler } from '@angular/core'
+import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core'
 import {
   GestureConfig,
   MatButtonModule,
@@ -22,6 +22,7 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatListModule,
+  MatAutocompleteModule,
 } from '@angular/material'
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -51,6 +52,7 @@ import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
 import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
+import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
 import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
@@ -65,6 +67,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
 import { MdePopoverModule } from '@material-extended/mde'
+import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
+import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { YourLocationComponent } from './routes/your-location/your-location.component'
+import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
+import { YourBackgroundComponent } from './routes/your-background/your-background.component'
+import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
+import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
+import { HeaderComponent } from './routes/header/header.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -103,6 +114,15 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     LoginRootDirective,
     ForgotPasswordComponent,
     OrgComponent,
+    MobileLoginComponent,
+    LoginOtpComponent,
+    CreateAccountComponent,
+    YourLocationComponent,
+    NewTncComponent,
+    YourBackgroundComponent,
+    AlmostDoneComponent,
+    CompleteProfileComponent,
+    HeaderComponent,
   ],
   imports: [
     FormsModule,
@@ -137,6 +157,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     SearchModule,
     BtnFeatureModule,
     PublicAboutModule,
+    PublicHomeModule,
     PublicContactModule,
     PublicFaqModule,
     MobileAppModule,
@@ -144,6 +165,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TourModule,
     SlidersModule,
     MdePopoverModule,
+    MatAutocompleteModule
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
@@ -187,5 +209,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

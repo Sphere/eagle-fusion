@@ -7,23 +7,24 @@ import {
   Router,
 } from '@angular/router'
 import { Observable } from 'rxjs'
-// import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService } from '@ws-widget/utils'
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmptyRouteGuard implements CanActivate {
   // constructor(private router: Router, private configSvc: ConfigurationsService) {}
-  constructor(private router: Router) {}
+  constructor(private router: Router, private configSvc: ConfigurationsService) { }
   canActivate(
     _next: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // if (this.configSvc.isAuthenticated) {
-      // logger.log('Redirecting to application home page');
-      return this.router.parseUrl('/page/home')
-    // }
+    if (this.configSvc.userProfile !== null) {
+      // logger.log('Redirecting to application home page')
+      return this.router.navigate(['/page/home'])
+    }
     // logger.log('redirecting to login page as the user is not loggedIn');
-    // return this.router.parseUrl('/login')
+    this.router.navigate(['/public/home'])
+    return true
   }
 }

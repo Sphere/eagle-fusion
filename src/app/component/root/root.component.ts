@@ -60,6 +60,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isSetupPage = false
   showNavigation = true
   hideHeaderFooter = false
+  isLoggedIn = false
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -105,6 +106,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = true
       }
     }
+
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {
@@ -117,6 +119,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
+        } else if (event.url.includes('/public/home')) {
+          // this.isNavBarRequired = false
+          // tslint:disable-next-line: max-line-length
+        } if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/app/your-background') || event.url.includes('/app/almost-done') || event.url.includes('app/complete-profile') || event.url.includes('/public/forgot-password') ||
+          event.url.includes('/app/create-account') || event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+          this.hideHeaderFooter = true
         } else {
           this.isNavBarRequired = true
         }
@@ -137,11 +145,16 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = false
       } else {
         this.isNavBarRequired = false
-         this.showNavigation = true
+        this.showNavigation = true
         // this.authSvc.logout();
         // window.location.href = `${redirectUrl}apis/reset`
       }
-
+      if (
+        this.configSvc.userProfile === null) {
+        this.isNavBarRequired = false
+      } else {
+        this.isNavBarRequired = true
+      }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         if (this.appStartRaised) {
@@ -149,6 +162,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.appStartRaised = false
         }
       }
+
     })
 
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
@@ -157,14 +171,17 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
-                if (sessionStorage.getItem('url_before_login')) {
-  const url = sessionStorage.getItem(`url_before_login`) || ''
-
-    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-// this.location.replaceState(url)
-  this.router.navigateByUrl(url)
-}
-
+    // if (sessionStorage.getItem('url_before_login')) {
+    //   const url = sessionStorage.getItem(`url_before_login`) || ''
+    //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+    //   // this.location.replaceState(url)
+    //   this.router.navigateByUrl(url)
+    // }
+    if (this.configSvc.userProfile) {
+      this.isLoggedIn = true
+    } else {
+      this.isLoggedIn = false
+    }
   }
 
   ngAfterViewInit() {

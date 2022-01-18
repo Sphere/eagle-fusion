@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse  } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Observable, of, throwError } from 'rxjs'
@@ -9,7 +9,7 @@ import { NSSearch } from './widget-search.model'
 
 // TODO: move this in some common place
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-
+const PUBLIC_SLAG = '/apis/public/v8'
 const API_END_POINTS = {
   CONTENT: `${PROTECTED_SLAG_V8}/content`,
   AUTHORING_CONTENT: `/apis/authApi/hierarchy`,
@@ -21,6 +21,7 @@ const API_END_POINTS = {
   FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
   CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
+  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/publicContent/v1/search`,
   CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
@@ -34,6 +35,7 @@ const API_END_POINTS = {
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
+  LOGIN_USER : `/apis/public/v8/emailMobile/auth`,
 }
 
 @Injectable({
@@ -61,6 +63,27 @@ export class WidgetContentService {
   //     .post<NsContent.IContent>(url, { additionalFields })
   //     .pipe(retry(1))
   // }
+
+  fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
+    const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?mode=edit`
+    const apiData = this.http
+      .get<NsContent.IContent>(url)
+      .pipe(retry(1))
+    return apiData
+  }
+
+  processCertificate(req: any): Observable<any> {
+    const url = `/apis/proxies/v8/course/batch/cert/v1/issue/`
+    return this.http.post<any>(url, req)
+  }
+
+  downloadCertificateAPI(certificateId: string): Observable<any> {
+    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const apiData = this.http
+      .get<any>(url)
+      .pipe(retry(1))
+    return apiData
+  }
 
   fetchContent(
     contentId: string,
@@ -202,6 +225,7 @@ export class WidgetContentService {
       request: req,
     })
   }
+
   searchRegionRecommendation(
     req: NSSearch.ISearchOrgRegionRecommendationRequest,
   ): Observable<NsContentStripMultiple.IContentStripResponseApi> {
@@ -225,7 +249,14 @@ export class WidgetContentService {
         lastUpdatedOn: 'desc',
       },
     ]
-    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.CONTENT_SEARCH_V6, req)
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH, req)
+  }
+
+  publicContentSearch(req: NSSearch.ISearchV6Request) {
+    req.query = req.query || ''
+    return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
+                                                       req,
+    )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
     return this.http.get<{ rating: number }>(`${API_END_POINTS.CONTENT_RATING}/${contentId}`)
@@ -266,6 +297,10 @@ export class WidgetContentService {
 
   fetchConfig(url: string) {
     return this.http.get<any>(url)
+  }
+
+  loginAuth(req: any): Observable<any> {
+   return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(catchError(this.handleError))
   }
   googleAuthenticate(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))

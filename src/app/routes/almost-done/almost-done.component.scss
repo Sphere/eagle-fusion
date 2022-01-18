@@ -1,0 +1,57 @@
+@import 'ws-common';
+@import 'ws-mixins';
+.login-page-content {
+  box-sizing: border-box;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  box-sizing: border-box;
+  padding: 0;
+  height: 175px;
+  max-width: 430px;
+  @include breakpoint-s {
+    padding: 12px;
+  }
+}
+.login-card {
+  margin: 0;
+  padding: 20px 20px 30px 20px;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+}
+.login-header {
+  .main-logo {
+    width: 93px;
+    height: 33px;
+    left: 20px;
+    top: 75px;
+  }
+}
+.check-email-text {
+  font-size: 24px;
+  line-height: 29px;
+}
+.create-acct-text {
+  font-size: 24px;
+  line-height: 29px;
+}
+.img-box{
+  padding: 0 90px;
+}
+.label-text{
+  color: #5f6368;
+  font-size: 12px;
+  line-height: 15px;
+}
+.input-content{
+  margin-top: 15px;
+  position: absolute;
+  max-width: 340px;
+}
+.input-box {
+  width: 312px;
+  height: 35px;
+  padding: 3px 0 3px 6px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}

@@ -22,7 +22,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   emailForm: FormGroup
   @ViewChild('resend', { static: false }) resend!: ElementRef
   showResend = false
-
+  key = ''
   constructor(private router: Router, private signupService: SignupService,
               private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
     this.forgotPasswordForm = this.fb.group({
@@ -53,45 +53,37 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     phone = this.emailOrMobile
     // Allow only indian mobile numbers
     if (phone.length === 10 && (/^[6-9]\d{9}$/.test(phone))) {
+      this.key = 'phone'
       const requestBody = {
-        username: this.emailOrMobile,
+        userName: this.emailOrMobile,
       }
 
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
-          if (res.message === 'Success') {
-            phone = this.emailOrMobile.replace(/^[6-9]\d{9}$/, '')
-            // Allow only indian mobile numbers
-            if (phone.length === 10) {
-              this.showOtpPwd = true
-            }
+          if (res.message) {
+            this.openSnackbar(res.message)
+            this.showOtpPwd = true
           }
         },
         (error: any) => {
-          if (error.error.error === 'User Not Found') {
-            this.openSnackbar('Mobile number doesnot exist')
-          } else {
-            this.openSnackbar(error.error.error)
-          }
+          this.openSnackbar(error.error)
         })
       // tslint:disable-next-line: max-line-length
     } else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.emailOrMobile)) {
 
       const requestBody = {
-        username: this.emailOrMobile,
+        userName: this.emailOrMobile,
       }
+      this.key = 'email'
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
-          if (res.message === 'Success') {
+          if (res.message) {
+            this.showOtpPwd = true
             this.showCheckEmailText = true
           }
         },
         (error: any) => {
-          if (error.error.error === 'User Not Found') {
-            this.openSnackbar('User data doesnot exist')
-          } else {
-            this.openSnackbar(error.error.error)
-          }
+          this.openSnackbar(error.error)
         })
       this.emailForm.reset()
     }
@@ -103,22 +95,21 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
   onSubmit() {
     const requestBody = {
-      username: this.emailOrMobile,
-      password: this.forgotPasswordForm.value.password,
+      key: this.emailOrMobile,
+      type: this.key,
       otp: this.otp,
-
     }
     this.signupService.setPasswordWithOtp(requestBody).subscribe(
-      res => {
-        if (res) {
-          this.openSnackbar('Password changed successfully')
+      (res: any) => {
+        if (res.message) {
+          this.openSnackbar(res.message)
           setTimeout(() => {
             this.authSvc.login('S', document.baseURI)
           },         5000)
         }
       },
       (error: any) => {
-        this.openSnackbar(error.error.error)
+        this.openSnackbar(error.error)
         this.otp = ''
       }
     )
@@ -131,7 +122,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   }
 
   gotoHome() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/public/home'])
       .then(() => {
         window.location.reload()
       })

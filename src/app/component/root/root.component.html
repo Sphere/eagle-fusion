@@ -1,19 +1,18 @@
 <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
 </mat-progress-bar>
-<ws-app-public-nav-bar *ngIf="!configSvc.isAuthenticated && showNavigation && !hideHeaderFooter"
+<ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"
   (menuClick)="getMenuClickValue($event)">
 </ws-app-public-nav-bar>
-<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === false" [hidden]="!showNavbar"
-  [mode]="'top'"></ws-app-nav-bar>
+<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
+
 <!-- </ws-widget-sticky-header> -->
 <div class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll':
-      (isXSmall$ | async) === true && (authSvc.isLoggedIn$ | async) === true && showNavbar,
+      (isXSmall$ | async) === true && showNavbar,
       'height-adjust-setup' : isSetupPage,
     'height-on-top':
       (isXSmall$ | async) === false &&
-      showNavbar &&
-      isNavBarRequired
+      showNavbar && isNavBarRequired
   }">
   <router-outlet></router-outlet>
 </div>
@@ -21,9 +20,10 @@
 <ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
   *ngIf="showNavbar && !hideHeaderFooter">
 </ws-app-footer>
-<ng-container *ngIf="configSvc.isAuthenticated">
-  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="isNavBarRequired && (isXSmall$ | async) === true && !hideHeaderFooter"
-    [mode]="'bottom'" [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
+
+<ng-container *ngIf=true>
+  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
+    [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
   </ws-app-nav-bar>
 </ng-container>
 

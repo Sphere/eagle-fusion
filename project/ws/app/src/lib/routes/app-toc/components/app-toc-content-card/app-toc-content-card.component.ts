@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { ActivatedRoute, Params } from '@angular/router'
+import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
@@ -16,6 +16,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() rootContentType!: string
   @Input() forPreview = false
   @Input() batchId!: string
+  contentId!: string
   hasContentStructure = false
   enumContentTypes = NsContent.EDisplayContentTypes
   contentStructure: NsAppToc.ITocStructure = {
@@ -35,7 +36,11 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   defaultThumbnail = ''
   viewChildren = false
-  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute) { }
+  constructor(
+    private configSvc: ConfigurationsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
@@ -45,8 +50,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     }
     this.route.queryParams.subscribe((params: Params) => {
       this.batchId = params['batchId']
+      this.contentId = params['contentId']
     })
-
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
@@ -54,6 +59,11 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
         this.viewChildren = this.expandAll
       }
     }
+  }
+  reDirect(content: any) {
+    // tslint:disable-next-line:max-line-length
+    const url = `${content.url}?primaryCategory=${content.queryParams.primaryCategory}&collectionId=${content.queryParams.collectionId}&collectionType=${content.queryParams.collectionType}&batchId=${content.queryParams.batchId}`
+    this.router.navigateByUrl(`${url}`)
   }
   get isCollection(): boolean {
     if (this.content) {
@@ -151,14 +161,14 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
 
   public progressColor(content: number) {
     // tslint:disable
-     if (content <= 30) {
-       return '#D13924'
-     } else if (content > 30 && content <= 70) {
-       return '#E99E38'
-     } else {
-       return '#1D8923'
-     }
-     // tslint:enable
+    if (content <= 30) {
+      return '#D13924'
+    } else if (content > 30 && content <= 70) {
+      return '#E99E38'
+    } else {
+      return '#1D8923'
+    }
+    // tslint:enable
   }
 
   public contentTrackBy(_index: number, content: NsContent.IContent) {

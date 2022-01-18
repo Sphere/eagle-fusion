@@ -111,7 +111,7 @@
     </ws-widget-display-content-type-icon> -->
 
     <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-      (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      (click)="viewChildren = !viewChildren; reDirect(resourceLink)" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="flex flex-between width-expand">
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
         <div class="text-truncate cursor-pointer 2" (click)="viewChildren = !viewChildren">
@@ -127,7 +127,7 @@
       </a>
       <ng-container *ngIf="content?.identifier && content?.completionPercentage">
         <ng-container *ngIf="content?.completionStatus == 2">
-          <circle-progress title="{{content?.completionPercentage}}%" class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12" [outerStrokeWidth]="3"
+          <circle-progress title="Completion Percentage : {{content?.completionPercentage}}%" class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12" [outerStrokeWidth]="3"
             [innerStrokeWidth]="3" [space]="-3" [outerStrokeColor]="progressColor(content?.completionPercentage)"
             [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true" [animationDuration]="300" [showTitle]="false"
             [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [clockwise]="true"

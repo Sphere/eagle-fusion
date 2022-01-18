@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material'
   templateUrl: './btn-apps.component.html',
   styleUrls: ['./btn-apps.component.scss'],
 })
+
 export class BtnAppsComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<IBtnAppsConfig> {
   @Input() widgetData!: IBtnAppsConfig

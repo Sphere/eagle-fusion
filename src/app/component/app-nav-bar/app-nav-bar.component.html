@@ -8,14 +8,15 @@
         </a>
       </div>
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
-        <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+        <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
-        </ng-container>
+        </ng-container> -->
 
         <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>
         <span class="spacer"></span>
-        <div ngClass="search-small-logo">
+
+        <!--<div ngClass="search-small-logo">
           <ng-container [wsResolverWidget]="{
         'widgetType': 'actionButton',
         'widgetSubType': 'buttonFeature',
@@ -27,18 +28,16 @@
           }
         }
       }"></ng-container>
-        </div>
+        </div> -->
 
         <button mat-raised-button *ngIf="allowAuthor" i18n
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
           [routerLink]="'/author/create'">
           Add Course </button>
 
-
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
         </ng-container>
-
       </ng-container>
     </ng-container>
 
@@ -57,14 +56,28 @@
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
       </ng-container>
     </ng-container>
-    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom' && authorised">
-      <ng-container *ngIf="primaryNavbarConfig?.smallScreen">
+    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
+      <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
         </ng-container>
       </ng-container>
+      <a *ngIf="showCreateBtn === true" role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box"
+        routerLink="/app/create-account" active [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+        <ng-container>
+          <button mat-raised-button [ngStyle]="{
+            'background-color': 'rgb(63, 81, 181)',
+            'width': '100%',
+            'border': '1px solid rgb(63, 81, 181)',
+            'border-radius': '16px',
+            'color': 'white',
+            'font-size': 'medium',
+            'font-weight': '400'}">
+            Create Account</button>
+        </ng-container>
+      </a>
       <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
-        routerLinkActive="ws-mat-accent-text">
+        routerLinkActive="ws-mat-accent-text" *ngIf="!showCreateBtn">
         <ng-container *ngIf="!appBottomIcon">
           <mat-icon>home</mat-icon>
 
@@ -75,12 +88,12 @@
           <img width="40px" height="40px" [src]="appBottomIcon" i18n-alt alt="Home" />
         </ng-container>
       </a>
-      <ng-container *ngIf="primaryNavbarConfig?.smallScreen">
+      <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">
         </ng-container>
       </ng-container>
-      <ng-container [wsResolverWidget]="btnAppsConfig"></ng-container>
+      <ng-container *ngIf="!showCreateBtn" [wsResolverWidget]="btnAppsConfig"></ng-container>
     </div>
   </div>
 </mat-toolbar>

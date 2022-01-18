@@ -2,7 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } fro
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { UtilityService, ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
@@ -52,6 +52,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
+  currentLicense: any
+  currentLicenseName = ''
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,7 +61,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     private valueSvc: ValueService,
     private dataSvc: ViewerDataService,
     private rootSvc: RootService,
-    private utilitySvc: UtilityService,
+    // private utilitySvc: UtilityService,
     private changeDetector: ChangeDetectorRef,
     public configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService,
@@ -92,7 +94,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         // if (this.discussionForumWidget) {
         //   this.discussionForumWidget.widgetData.isDisabled = true
         // }
-
+        this.currentLicenseName = this.content.learningObjective || 'CC BY'
+        this.getLicenseConfig()
       }
     })
   }
@@ -153,12 +156,25 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       if (this.error && this.error.errorType === this.errorType.previewUnAuthorised) {
       }
-      // //console.log(this.error)
     })
 
     // this.getDiscussionConfig()
   }
+  getLicenseConfig() {
+    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+      const licenseData = data
+      if (licenseData) {
+        this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
+      }
 
+    },
+                                                            err => {
+        if (err.status === 404) {
+          this.getLicenseConfig()
+        }
+      })
+  }
   getDiscussionConfig() {
     this.viewerDataSubscription = this.viewerSvc
       .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
@@ -228,9 +244,9 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   minimizeBar() {
     this.sideNavBarOpened = !this.sideNavBarOpened
-    if (this.utilitySvc.isMobile) {
-      this.sideNavBarOpened = true
-    }
+    // if (this.utilitySvc.isMobile) {
+    //   this.sideNavBarOpened = true
+    // }
   }
 
   public parseJsonData(s: string) {

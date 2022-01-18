@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { IBtnAppsConfig, CustomTourService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -38,7 +38,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showAppNavBar = false
   popupTour: any
   courseNameHeader: any
-
+  showCreateBtn = false
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -57,9 +57,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
-
     // Header view
-
   }
 
   ngOnInit() {
@@ -71,7 +69,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         } else {
           this.showAppNavBar = true
         }
+      }
 
+      if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
       }
     })
 
@@ -103,10 +106,10 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
-goHomePage() {
-  sessionStorage.setItem('url_before_login', '/page/home')
-  this.router.navigateByUrl('/page/home')
-}
+  goHomePage() {
+    // sessionStorage.setItem('url_before_login', '/page/home')
+    this.router.navigateByUrl('/page/home')
+  }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {
@@ -124,6 +127,15 @@ goHomePage() {
           }
         }
       }
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if ((event.target.innerWidth < 600) && (window.location.href.includes('/public/home'))) {
+      this.showCreateBtn = true
+    } else {
+      this.showCreateBtn = false
     }
   }
 

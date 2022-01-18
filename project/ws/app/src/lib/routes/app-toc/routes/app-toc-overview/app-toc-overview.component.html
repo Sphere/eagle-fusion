@@ -1,1 +1,242 @@
-<ng-template wsAppAppTocOverview></ng-template>
+<!-- <ng-template wsAppAppTocOverview></ng-template> -->
+<div class="flex flex-between flex-wrapped mt-4">
+  <div class="meta-section">
+    <!-- Description : Conditional : If not shown here, will be shown over banner -->
+    <div *ngIf="
+        tocConfig?.overview?.description?.enabled &&
+        showDescription &&
+        showSubtitleOnBanner &&
+        content?.description
+      " class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
+      <mat-card-content>
+        <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
+      </mat-card-content>
+    </div>
+    <!-- Content Body -->
+    <div *ngIf="tocConfig?.overview?.body?.enabled && content?.body" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+      <mat-card-content>
+        <div class="break-words" [innerHTML]="body"></div>
+      </mat-card-content>
+    </div>
+
+    <!-- Registration instructions -->
+    <!-- <div *ngIf="
+        tocConfig?.overview?.registrationInstructions?.enabled &&
+        content?.registrationInstructions?.length
+      " class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.registrationInstructions?.displayName }}</h2>
+      <mat-card-content>
+        <div class="mat-subheading-1 break-words" [innerHTML]="content?.registrationInstructions"></div>
+      </mat-card-content>
+    </div> -->
+    <!-- <div *ngIf="tocConfig?.overview?.preContents?.enabled && content?.preContents?.length" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.preContents?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let preContent of content?.preContents">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + preContent.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ preContent.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="tocConfig?.overview?.postContents?.enabled && content?.postContents?.length" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.postContents?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let postContent of content?.postContents">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + postContent.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ postContent.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="tocConfig?.overview?.certificationList?.enabled && content?.certificationList?.length"
+      class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.certificationList?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let certification of content?.certificationList">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + certification.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ certification.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="tocConfig?.overview?.studyMaterials?.enabled && content?.studyMaterials?.length" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.studyMaterials?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let studyitem of content?.studyMaterials">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + studyitem.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ studyitem.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="
+        tocConfig?.overview?.playgroundResources?.enabled && content?.playgroundResources?.length
+      " class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.playgroundResources?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let playgroundResource of content?.playgroundResources">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + playgroundResource.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ playgroundResource.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="tocConfig?.overview?.kArtifacts?.enabled && content?.kArtifacts?.length" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.kArtifacts?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let kArtifact of content?.kArtifacts">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + kArtifact.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ kArtifact.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="
+        tocConfig?.overview?.equivalentCertifications?.enabled &&
+        content?.equivalentCertifications?.length
+      " class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.equivalentCertifications?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let equivalentCertification of content?.equivalentCertifications">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [routerLink]="'/app/toc/' + equivalentCertification.identifier">
+            <p class="margin-remove-bottom mat-subheading-1">{{ equivalentCertification.name }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div>
+    <div *ngIf="
+        tocConfig?.overview?.softwareRequirements?.enabled && content?.softwareRequirements?.length
+      " class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.softwareRequirements?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex mb-1" *ngFor="let softwareRequirement of content?.softwareRequirements">
+          <span class="mr-1">
+            <mat-icon class="align-bottom">web_asset</mat-icon>
+          </span>
+          <a class="ws-mat-primary-text" [href]="softwareRequirement.url" target="blank">
+            <p class="margin-remove-bottom mat-subheading-1">{{ softwareRequirement.title }}</p>
+          </a>
+        </div>
+      </mat-card-content>
+    </div> -->
+    <!-- Skills -->
+    <!-- <div *ngIf="tocConfig?.overview?.skills?.enabled && content?.skills?.length"
+      class="unit-meta-item mat-app-background">
+      <h2>{{ tocConfig?.overview?.skills?.displayName }}</h2>
+      <mat-chip-list>
+        <mat-chip *ngFor="let skill of content?.skills">{{ skill.name }}</mat-chip>
+      </mat-chip-list>
+    </div> -->
+    <!-- Requirements -->
+    <!-- <div *ngIf="tocConfig?.overview?.preRequisites?.enabled && content?.preRequisites" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.preRequisites?.displayName }}</h2>
+      <mat-card-content>
+        <div class="mat-subheading-1" [innerHTML]="content?.preRequisites"></div>
+        <div class="margin-top-s" *ngIf="content?.softwareRequirements?.length">
+          <h3 class="mat-h3 margin-bottom-xs" i18n>Software Requirements</h3>
+          <ng-container *ngFor="let requirement of content?.softwareRequirements">
+            <a *ngIf="requirement.url" class="margin-right-s" mat-stroked-button target="_blank"
+              [href]="requirement.url">
+              {{ requirement.title }}
+            </a>
+            <a mat-stroked-button class="margin-right-s" *ngIf="!requirement?.url">{{ requirement.title }}
+            </a>
+          </ng-container>
+        </div>
+      </mat-card-content>
+    </div> -->
+
+    <!-- Training (LHub) -->
+    <!-- <div *ngIf="trainingLHubEnabled && trainingLHubCount$ | async as trainingLHubCount" class="unit-meta-item">
+      <h2 i18n>Trainings</h2>
+      <h4 class="mat-h4">
+        <ng-container>{{ trainingLHubCount }}</ng-container>
+        <ng-container i18n="x trainings available" *ngIf="trainingLHubCount > 1">
+          trainings available</ng-container>
+        <ng-container i18n="1 training available" *ngIf="trainingLHubCount === 1">
+          training available</ng-container>
+      </h4>
+      <div>
+        <a mat-flat-button [color]="'primary'" [routerLink]="['/app/infy/training/', content?.identifier]" i18n>View
+          Trainings
+        </a>
+      </div>
+    </div> -->
+
+    <!-- Related Topics -->
+    <!-- <div class="unit-meta-item" *ngIf="tocConfig?.overview?.topics?.enabled && content?.topics?.length">
+      <h2>{{ tocConfig?.overview?.topics?.displayName }}</h2>
+      <mat-card-content>
+        <div class="flex flex-between flex-wrapped">
+          <a mat-stroked-button class="topic-button text-truncate"
+            *ngFor="let topic of content?.topics | pipeLimitTo: (viewMoreRelatedTopics ? 24 : 6)" [title]="topic?.name"
+            [routerLink]="'/app/concept-graph/' + topic.identifier">
+            {{ topic?.name }}
+          </a>
+        </div>
+        <div *ngIf="content?.topics?.length > 6" class="text-right margin-top-xs">
+          <a mat-button (click)="viewMoreRelatedTopics = !viewMoreRelatedTopics">
+            <span *ngIf="!viewMoreRelatedTopics" i18n>View More</span>
+            <span *ngIf="viewMoreRelatedTopics" i18n>View Less</span>
+          </a>
+        </div>
+      </mat-card-content>
+    </div> -->
+    <!-- Authors on small screen -->
+
+    <div class="width-1-1 mt-5 mb-4">
+      <div class="margin-bottom-m mr-0" *ngIf="content?.creator?.length">
+        <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+          authors: content?.creator,
+          title: 'AUTHOR'
+        }">
+        </ng-container>
+      </div>
+      <div class="hidden sm:block margin-bottom-m mr-0" *ngIf="content?.creatorContacts?.length">
+        <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+          authors: content?.creatorContacts,
+          title: 'CONTACT'
+        }">
+        </ng-container>
+      </div>
+    </div>
+
+    <ng-template #creators let-authors="authors" let-title="title">
+      <div class="unit-meta-item">
+        <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
+        <mat-divider></mat-divider>
+        <div class="author">
+          <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">
+          </ws-widget-user-image>
+          <div class="width-expand flex flex-middle flex-between author-name">
+            <h3 class="margin-remove">{{ authors }}</h3>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

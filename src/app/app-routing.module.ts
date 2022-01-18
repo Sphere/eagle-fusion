@@ -3,18 +3,18 @@ import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
-import { BtnProfileComponent } from '../../library/ws-widget/collection/src/lib/btn-profile/btn-profile.component'
+// import { BtnProfileComponent } from '../../library/ws-widget/collection/src/lib/btn-profile/btn-profile.component'
 import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { ETopBar } from './constants/topBar.constants'
-import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
 import { GeneralGuard } from './guards/general.guard'
-// import { LoginGuard } from './guards/login.guard'
+import { LoginGuard } from './guards/login.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
 import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
+import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
@@ -25,7 +25,14 @@ import { TncPublicResolverService } from './services/tnc-public-resolver.service
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
 import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
-
+import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
+import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { YourLocationComponent } from './routes/your-location/your-location.component'
+import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
+import { YourBackgroundComponent } from './routes/your-background/your-background.component'
+import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
+import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -33,9 +40,20 @@ import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-s
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'public/home',
     pathMatch: 'full',
-    canActivate: [EmptyRouteGuard],
-    component: LoginRootComponent,
+  },
+  {
+    path: 'public/home',
+    component: PublicHomeComponent,
+    data: {
+      pageType: 'public',
+      pageKey: 'id',
+      isPublic: true,
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
   },
   {
     path: 'practice/behavioral',
@@ -147,6 +165,13 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'app/org-details',
+    component: OrgComponent,
+    resolve: {
+      orgData: OrgServiceService,
+    },
+  },
+  {
     path: 'app/playlist',
     loadChildren: () =>
       import('./routes/route-playlist-app.module').then(u => u.RoutePlaylistAppModule),
@@ -194,6 +219,46 @@ const routes: Routes = [
       import('./routes/signup/signup.module').then(u => u.SignupModule),
   },
   {
+    path: 'app/login',
+    component: loginComponent,
+  },
+  {
+    path: 'app/mobile-otp',
+    component: LoginOtpComponent,
+  },
+  {
+    path: 'app/email-otp',
+    component: LoginOtpComponent,
+  },
+  {
+    path: 'app/create-account',
+    component: CreateAccountComponent,
+  },
+  {
+    path: 'app/your-location',
+    component: YourLocationComponent,
+  },
+  {
+
+    path: 'app/new-tnc',
+    component: NewTncComponent,
+    resolve: {
+      tnc: TncPublicResolverService,
+    },
+  },
+  {
+    path: 'app/your-background',
+    component: YourBackgroundComponent,
+  },
+  {
+    path: 'app/almost-done',
+    component: AlmostDoneComponent,
+  },
+  {
+    path: 'app/complete-profile',
+    component: CompleteProfileComponent,
+  },
+  {
     path: 'app/toc',
     loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
     canActivate: [GeneralGuard],
@@ -214,13 +279,6 @@ const routes: Routes = [
     path: 'app/user-profile',
     loadChildren: () =>
       import('./routes/route-user-profile-app.module').then(u => u.RouteUserProfileAppModule),
-  },
-  {
-    path: 'app/org-details',
-    component: OrgComponent,
-    resolve: {
-      orgData: OrgServiceService,
-    },
   },
   {
     path: 'author',
@@ -295,25 +353,24 @@ const routes: Routes = [
     component: ErrorResolverComponent,
   },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
-  { path: 'login', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'learning-hub',
     loadChildren: () =>
       import('./routes/route-learning-hub-app.module').then(u => u.LearningHubAppModule),
     canActivate: [GeneralGuard],
   },
-  // {
-  //   path: 'login',
-  //   canActivate: [LoginGuard],
-  //   component: LoginRootComponent,
-  //   data: {
-  //     pageType: 'feature',
-  //     pageKey: 'login',
-  //   },
-  //   resolve: {
-  //     pageData: PageResolve,
-  //   },
-  // },
+  {
+    path: 'login',
+    canActivate: [LoginGuard],
+    component: LoginRootComponent,
+    data: {
+      pageType: 'feature',
+      pageKey: 'login',
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
+  },
   {
     path: 'page/toc',
     redirectTo: '/',
@@ -423,7 +480,8 @@ const routes: Routes = [
   },
   {
     path: 'google/callback',
-    component: BtnProfileComponent,
+    // BtnProfileComponent
+    component: loginComponent,
   },
   {
     path: 'viewer',

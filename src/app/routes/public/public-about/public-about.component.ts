@@ -15,7 +15,7 @@ import { IAboutObject } from './about.model'
 export class PublicAboutComponent implements OnInit, OnDestroy {
   objectKeys = Object.keys
   headerBanner: SafeStyle | null = null
-  footerBanner: SafeStyle | null = null
+  // footerBanner: SafeStyle | null = null
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   aboutPage: IAboutObject | null = null
   private subscriptionAbout: Subscription | null = null
@@ -41,16 +41,22 @@ export class PublicAboutComponent implements OnInit, OnDestroy {
           this.aboutPage.banner.videoLink,
         )
       }
+      if (this.aboutPage && this.aboutPage.banner) {
+        this.headerBanner = this.domSanitizer.bypassSecurityTrustStyle(
+        `url('${this.aboutPage.banner.img}')`,
+        )
+      }
     })
-
-    if (this.configSvc.instanceConfig) {
-      (this.headerBanner = this.domSanitizer.bypassSecurityTrustStyle(
-        `url('${this.configSvc.instanceConfig.logos.aboutHeader}')`,
-      )),
-        (this.footerBanner = this.domSanitizer.bypassSecurityTrustStyle(
-          `url('${this.configSvc.instanceConfig.logos.aboutFooter}')`,
-        ))
-    }
+    // if (this.aboutPage) {
+      // this.headerBanner = this.domSanitizer.bypassSecurityTrustStyle(
+        // `url('${this.configSvc.instanceConfig.logos.aboutHeader}')`,
+        // `url('${this.aboutPage!.banner!.img}')`,
+      // )
+      // ,
+        // (this.footerBanner = this.domSanitizer.bypassSecurityTrustStyle(
+        //   `url('${this.configSvc.instanceConfig.logos.aboutFooter}')`,
+        // ))
+    // }
   }
 
   ngOnDestroy() {

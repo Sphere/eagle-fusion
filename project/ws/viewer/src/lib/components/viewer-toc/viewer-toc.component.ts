@@ -296,7 +296,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
         content.mimeType,
       )}/${content.identifier}`,
-      thumbnailUrl: this.viewSvc.getAuthoringUrl(content.appIcon),
+      thumbnailUrl: content.appIcon,
       title: content.name,
       duration: content.duration,
       type: content.resourceType ? content.resourceType : content.contentType,
@@ -422,13 +422,25 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
-            this.collection.children.map(child => {
-              const foundContent = data['result']['contentList'].find((el: any) => el.contentId === child.identifier)
-              if (foundContent) {
-                child.completionPercentage = foundContent.completionPercentage
-                child.completionStatus = foundContent.status
-              }
-            })
+            mergeData(this.collection.children)
+            function mergeData(collection: any) {
+              collection.map((child1: any) => {
+                const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
+                if (foundContent) {
+                  child1.completionPercentage = foundContent.completionPercentage
+                  child1.completionStatus = foundContent.status
+                }
+                if (child1['children']) {
+                  child1['children'].map((child2: any) => {
+                    const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
+                    if (foundContent2) {
+                      child2.completionPercentage = foundContent2.completionPercentage
+                      child2.completionStatus = foundContent2.status
+                    }
+                  })
+                }
+              })
+            }
           }
         },
         (error: any) => {
@@ -436,7 +448,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
           console.log('CONTENT HISTORY FETCH ERROR >', error)
         },
       )
-
       this.nestedDataSource.data = this.collection.children
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {

@@ -3,6 +3,7 @@ export interface IBanner {
   description: string
   videoLink: string
   moreInfo: string
+  img: string
 }
 
 export interface ISection1 {

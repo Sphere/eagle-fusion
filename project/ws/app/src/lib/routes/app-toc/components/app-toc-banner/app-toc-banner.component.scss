@@ -115,8 +115,8 @@
   }
 
   .resumeButton {
-    height: 52px;
-    min-width: 160px;
+    // height: 52px;
+    // min-width: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,10 +140,13 @@
     }
 
     .action-btns {
-      margin-left: auto;
+      // margin-left: auto;
       order: 2;
       // color: white;
     }
+  }
+  .header-act-btn{
+    margin-top: 5px;
   }
 }
 
@@ -276,6 +279,7 @@
   .header-right,
   .header-left {
     width: 100%;
+    margin-top: 75px;
   }
   .header-right {
     display: none;

@@ -1,0 +1,47 @@
+<ws-header></ws-header>
+<div class="col">
+  <div class=" h-100 d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="display-3">Welcome!</h1>
+      <form [formGroup]="loginForm">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
+        </div>
+        <div class="form-group input-group">
+          <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" class="form-control">
+          <div class="input-group-addon iconPosition">
+            <a href="javascript:void(0)" (click)="toggle()" class="f-black">
+              <i [ngClass]="iconChange" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>Forgot password?<a href="public/forgot-password"> Click Here</a> to reset</p>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block border-radius" type="submit" (click)="loginUser()"
+            [disabled]="!loginForm?.valid">
+            Log in</button>
+        </div>
+      </form>
+      <div class="form-group">
+        <p>Do not have an account? <a href="app/create-account">Create an account</a></p>
+      </div>
+      <div class="form-group">
+        <h4 class="font-weight-bolder f-w-500">OR</h4>
+      </div>
+      <div class="form-group">
+        <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in"
+          class="btn btn-outline-primary btn-block text-left f-black border-radius" role="button" (click)="googleInit()"
+          id="social-google">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+            width="20" height="20">
+          Log in with Google
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" i18-value i18-aria-value aria-value="unable to signin" value="Error Signing up!" #toastError />

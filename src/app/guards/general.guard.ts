@@ -55,7 +55,7 @@ export class GeneralGuard implements CanActivate {
       this.configSvc.instanceConfig &&
       !Boolean(this.configSvc.instanceConfig.disablePidCheck)
     ) {
-      return this.router.parseUrl('/app/invalid-user')
+      return this.router.parseUrl('/public/home')
     }
     /**
      * Test IF User Tnc Is Accepted
@@ -86,16 +86,19 @@ export class GeneralGuard implements CanActivate {
     // }
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
-        if (data) {
-          const userData = data.profileDetails.profileReq.personalDetails
-          this.dobFlag = userData.dob || ''
-        }
-        if (this.dobFlag) {
+        // if (data) {
+        //   const userData = data.profileDetails.personalDetails
+        //   if (userData.dob) {
+        //     this.dobFlag = userData.dob || ''
+        //   }
+        // }
+        // if (this.dobFlag) {
+        //   return this.router.parseUrl('/page/home')
+        // }
+        if (data.profileDetails) {
           return this.router.parseUrl('/page/home')
         }
-
         return this.router.navigate(['public', 'tnc'])
-
       },
       (_err: any) => {
       })

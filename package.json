@@ -37,6 +37,8 @@
     "@angular/pwa": "^0.803.14",
     "@angular/router": "~8.2.1",
     "@angular/service-worker": "~8.2.1",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@material-extended/mde": "^2.3.1",
     "@project-sunbird/client-services": "3.9.5",
     "@project-sunbird/sb-styles": "0.0.7",
     "@project-sunbird/sunbird-quml-player": "0.0.6",
@@ -44,11 +46,6 @@
     "@sunbird-cb/design-system": "0.0.2",
     "@sunbird-cb/discussions-ui-v8": "^2.0.56",
     "@sunbird-cb/micro-surveys": "^1.0.4",
-    "@fortawesome/angular-fontawesome": "0.6.1",
-    "@fortawesome/fontawesome-svg-core": "1.2.28",
-    "@fortawesome/free-brands-svg-icons": "5.13.0",
-    "@fortawesome/free-solid-svg-icons": "5.13.0",
-    "@material-extended/mde": "^2.3.1",
     "@types/ckeditor": "^4.9.10",
     "@types/file-saver": "^2.0.1",
     "@types/lodash": "^4.14.170",
@@ -73,6 +70,7 @@
     "material-icons": "^0.3.1",
     "moment": "^2.29.1",
     "mustache": "^3.0.2",
+    "ng-circle-progress": "1.5.1",
     "ng2-ace-editor": "^0.3.9",
     "ng2-ckeditor": "^1.2.6",
     "ngx-image-cropper": "^3.0.3",
@@ -97,8 +95,7 @@
     "vis-network": "^5.2.4",
     "vis-util": "^5.0.1",
     "xlsx": "^0.16.1",
-    "zone.js": "~0.10.1",
-    "ng-circle-progress": "1.5.1"
+    "zone.js": "~0.10.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.23",

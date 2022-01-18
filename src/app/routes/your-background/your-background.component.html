@@ -1,0 +1,31 @@
+<div class="login-page-content">
+  <div class="login-card">
+    <header class="login-header">
+      <div>
+        <a href="/public/home">
+          <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
+        </a>
+      </div>
+    </header>
+    <h1>Choose your background</h1>
+    <div class="content">
+      <div class="content-wrapper" *ngFor="let img of professions; let i = index">
+        <div class="column">
+          <!-- (click)="imgSelect(img)" -->
+          <a>
+            <h4>{{img.name}}</h4>
+            <img [src]="img.image" height="80" alt="{{img.name}}" />
+          </a>
+        </div>
+      </div>
+      <button i18n mat-raised-button name="next" type="submit" [disabled] [ngStyle]="{
+            'background-color': 'rgb(63, 81, 181)',
+            'border': '1px solid rgb(63, 81, 181)',
+            'border-radius': '16px',
+            'color': 'white',
+            'font-weight': '400',
+            'margin-top': '15px',
+            'float': 'right'}">Next</button>
+    </div>
+  </div>
+</div>

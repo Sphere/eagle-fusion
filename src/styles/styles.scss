@@ -697,10 +697,27 @@ a.width-auto.mat-button {
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  @include breakpoint-s {
+    min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+   @include breakpoint-xs {
+    min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
     overflow-x: hidden;
   }
 }
+
 body.custom-scroll::-webkit-scrollbar,
 .padding-dynamic::-webkit-scrollbar {
   width: 1em;
@@ -917,4 +934,13 @@ button.cancel-btn {
 }
 button.submit-btn[disabled] {
   opacity: 0.8;
+}
+#freshworks-container iframe {
+  bottom: 65px !important;
+  min-width: 87px !important;
+  // max-width: 87px !important;
+  @include breakpoint-lt-s {
+    bottom: 70px !important;
+    left: 5px !important;
+  }
 }

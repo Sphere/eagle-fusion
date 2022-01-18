@@ -1,4 +1,4 @@
-// import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { KeycloakEvent, KeycloakEventType, KeycloakInitOptions, KeycloakService } from 'keycloak-angular'
 import { fromEvent, ReplaySubject } from 'rxjs'
@@ -21,11 +21,12 @@ const storageKey = 'kc'
 })
 export class AuthKeycloakService {
   private loginChangeSubject = new ReplaySubject<boolean>(1)
+
   constructor(
-    // private http: HttpClient,
+    private http: HttpClient,
     private configSvc: ConfigurationsService,
     private keycloakSvc: KeycloakService,
-    private msAuthSvc: AuthMicrosoftService,
+    private msAuthSvc: AuthMicrosoftService
   ) {
     this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
       this.configSvc.isAuthenticated = isLoggedIn
@@ -153,8 +154,12 @@ export class AuthKeycloakService {
       storage.removeItem('telemetrySessionId')
       sessionStorage.removeItem('loginbtn')
       sessionStorage.removeItem('url_before_login')
-      // window.location.href = `${this.defaultRedirectUrl}apis/reset`
-      window.location.href = `${this.defaultRedirectUrl}`
+      // this.http.get('/apis/reset')
+      try {
+        await this.http.get('/apis/reset').toPromise()
+      } catch (error) { }
+      window.location.href = `${this.defaultRedirectUrl}public/home`
+      // this.router.navigate(['/page/home'])
     }
   }
   private addKeycloakEventListener() {
