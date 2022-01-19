@@ -1,7 +1,10 @@
 button:focus {
     outline: none;
 }
-.action-icons {
+.action-icons{
+  padding: 0px;
+}
+/*.action-icons {
     width: 28px;
 }
 @media (min-width: 600px) {
@@ -9,4 +12,4 @@ button:focus {
     width: 38px;
     margin-top: 5px;
   }
-}
+}*/

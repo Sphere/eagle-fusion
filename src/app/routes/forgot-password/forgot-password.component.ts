@@ -2,7 +2,7 @@ import { SignupService } from '../signup/signup.service'
 import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
-//import { mustMatch } from '../password-validator'
+// import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material'
 // import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
 import { EmailMobileValidators } from '../emailMobile.validator'
@@ -23,7 +23,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   showResend = false
   key = ''
   constructor(private router: Router, private signupService: SignupService,
-    private fb: FormBuilder, private snackBar: MatSnackBar,
+              private fb: FormBuilder, private snackBar: MatSnackBar,
     // private authSvc: AuthKeycloakService
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -32,7 +32,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
     this.emailForm = this.fb.group({
       userInput: new FormControl(['']),
-    }, { validators: EmailMobileValidators.combinePattern })
+    },                             { validators: EmailMobileValidators.combinePattern })
   }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    }, 30000)
+    },         30000)
   }
 
   forgotPassword() {
@@ -108,7 +108,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
             this.router.navigate(['/app/login'])
             window.open(res.link, '_blank')
             // this.authSvc.login('S', document.baseURI)
-          }, 2000)
+          },         2000)
         }
       },
       (error: any) => {

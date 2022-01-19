@@ -1,7 +1,11 @@
 :host::ng-deep [class^="IN"] {
-    width: 85px;
-    height: 28px !important;
-    padding: 4px 7px!important;
-    border-radius: 4px !important;
-    margin-left: -4px !important;
-    } 
+  width: 85px;
+  height: 28px !important;
+  padding: 4px 7px!important;
+  border-radius: 4px !important;
+  margin-left: -4px !important;
+  vertical-align: unset !important;
+}
+:host::ng-deep [class^="IN"]:focus {
+  outline: none;
+}
