@@ -36,6 +36,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   defaultThumbnail = ''
   viewChildren = false
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
+  redTickIcon = '/fusion-assets/images/red-tick.svg'
   constructor(
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,

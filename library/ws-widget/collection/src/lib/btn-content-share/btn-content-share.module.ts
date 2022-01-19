@@ -18,6 +18,7 @@ import { BtnContentShareDialogComponent } from './btn-content-share-dialog/btn-c
 import { BtnLinkedinShareModule } from '../btn-linkedin-share/btn-linkedin-share.module'
 import { BtnFacebookShareModule } from '../btn-facebook-share/btn-facebook-share.module'
 import { BtnTwitterShareModule } from '../btn-twitter-share/btn-twitter-share.module'
+import { QRCodeModule } from 'angularx-qrcode'
 
 @NgModule({
   declarations: [BtnContentShareComponent, BtnContentShareDialogComponent],
@@ -35,8 +36,9 @@ import { BtnTwitterShareModule } from '../btn-twitter-share/btn-twitter-share.mo
     BtnLinkedinShareModule,
     BtnFacebookShareModule,
     BtnTwitterShareModule,
+    QRCodeModule,
   ],
   exports: [BtnContentShareComponent],
   entryComponents: [BtnContentShareComponent, BtnContentShareDialogComponent],
 })
-export class BtnContentShareModule {}
+export class BtnContentShareModule { }
