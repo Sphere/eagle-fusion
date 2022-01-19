@@ -64,6 +64,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   reverse = ''
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   collectionId = ''
+  resourceContentType: any
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -202,8 +203,8 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
-
       content = content.result.content
+      this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
@@ -246,6 +247,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         .toPromise()
 
       const content: NsContent.IContent = playlistFetchResponse.data
+      this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
@@ -279,18 +281,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   }
 
   private convertContentToIViewerTocCard(content: NsContent.IContent): IViewerTocCard {
-    // return {
-    //   identifier: content.identifier,
-    //   viewerUrl: `/viewer/${VIEWER_ROUTE_FROM_MIME(content.mimeType)}/${content.identifier}`,
-    //   thumbnailUrl: content.appIcon,
-    //   title: content.name,
-    //   duration: content.duration,
-    //   type: content.displayContentType,
-    //   complexity: content.complexityLevel,
-    //   children: Array.isArray(content.children) && content.children.length ?
-    //     content.children.map(child => this.convertContentToIViewerTocCard(child)) : null,
-    // }
-
+    this.resourceContentTypeFunct(content.mimeType)
     return {
       identifier: content.identifier,
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
@@ -299,7 +290,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       thumbnailUrl: content.appIcon,
       title: content.name,
       duration: content.duration,
-      type: content.resourceType ? content.resourceType : content.contentType,
+      type: this.resourceContentType,
       complexity: content.complexityLevel,
       // tslint:disable
       completionPercentage: content.completionPercentage!,
@@ -309,24 +300,16 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))
           : null,
+
     }
   }
 
   private createCollectionCard(
     collection: NsContent.IContent | NsContent.IContentMinimal,
   ): ICollectionCard {
-    // return {
-    //   type: this.getCollectionTypeCard(collection.displayContentType),
-    //   id: collection.identifier,
-    //   title: collection.name,
-    //   thumbnail: collection.appIcon,
-    //   subText1: collection.displayContentType || collection.contentType,
-    //   subText2: collection.complexityLevel,
-    //   duration: collection.duration,
-    //   redirectUrl: this.getCollectionTypeRedirectUrl(collection.displayContentType, collection.identifier),
-    // }
+    this.resourceContentTypeFunct(collection.mimeType)
     return {
-      type: this.getCollectionTypeCard(collection.displayContentType),
+      type: this.resourceContentType,
       id: collection.identifier,
       title: collection.name,
       thumbnail: this.forPreview
@@ -341,41 +324,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       ),
     }
   }
-
-  private getCollectionTypeCard(
-    displayContentType?: NsContent.EDisplayContentTypes,
-  ): TCollectionCardType | null {
-    switch (displayContentType) {
-      case NsContent.EDisplayContentTypes.PROGRAM:
-      case NsContent.EDisplayContentTypes.COURSE:
-      case NsContent.EDisplayContentTypes.MODULE:
-        return 'content'
-      case NsContent.EDisplayContentTypes.GOALS:
-        return 'goals'
-      case NsContent.EDisplayContentTypes.PLAYLIST:
-        return 'playlist'
-      default:
-        return null
-    }
-  }
-
-  // private getCollectionTypeRedirectUrl(
-  //   identifier: string,
-  //   displayContentType?: NsContent.EDisplayContentTypes,
-  // ): string | null {
-  //   switch (displayContentType) {
-  //     case NsContent.EDisplayContentTypes.PROGRAM:
-  //     case NsContent.EDisplayContentTypes.COURSE:
-  //     case NsContent.EDisplayContentTypes.MODULE:
-  //       return `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
-  //     case NsContent.EDisplayContentTypes.GOALS:
-  //       return `/app/goals/${identifier}`
-  //     case NsContent.EDisplayContentTypes.PLAYLIST:
-  //       return `/app/playlist/${identifier}`
-  //     default:
-  //       return null
-  //   }
-  // }
 
   private getCollectionTypeRedirectUrl(
     identifier: string,
@@ -458,6 +406,26 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
             this.expandThePath()
           })
       }
+    }
+  }
+
+  resourceContentTypeFunct(type: any) {
+    if (type === 'application/vnd.ekstep.content-collection') {
+      this.resourceContentType = 'Lecture'
+    } else if (type === 'application/pdf') {
+      this.resourceContentType = 'PDF'
+    } else if (type === 'application/quiz' || type === 'application/json') {
+      this.resourceContentType = 'Assessment'
+    } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
+      this.resourceContentType = 'Scrom'
+    } else if (type === 'application/x-mpegURL' || type === 'video/mp4') {
+      this.resourceContentType = 'Video'
+    } else if (type === 'audio/mpeg') {
+      this.resourceContentType = 'Audio'
+    } else if (type === 'video/x-youtube' || type === 'text/x-url' || type === 'application/web-module') {
+      this.resourceContentType = 'Link'
+    } else {
+      this.resourceContentType = 'Course'
     }
   }
 

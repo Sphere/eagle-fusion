@@ -18,6 +18,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() batchId!: string
   contentId!: string
   hasContentStructure = false
+  resourceContentType: any
   enumContentTypes = NsContent.EDisplayContentTypes
   contentStructure: NsAppToc.ITocStructure = {
     assessment: 0,
@@ -62,6 +63,25 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  resourceContentTypeFunct(type: any) {
+    if (type === 'application/vnd.ekstep.content-collection') {
+      this.resourceContentType = 'Lecture'
+    } else if (type === 'application/pdf') {
+      this.resourceContentType = 'PDF'
+    } else if (type === 'application/quiz' || type === 'application/json') {
+      this.resourceContentType = 'Assessment'
+    } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
+      this.resourceContentType = 'Scrom'
+    } else if (type === 'application/x-mpegURL' || type === 'video/mp4') {
+      this.resourceContentType = 'Video'
+    } else if (type === 'audio/mpeg') {
+      this.resourceContentType = 'Audio'
+    } else if (type === 'video/x-youtube' || type === 'text/x-url' || type === 'application/web-module') {
+      this.resourceContentType = 'Link'
+    } else { this.resourceContentType = 'Course' }
+  }
+
   reDirect(content: any) {
     // tslint:disable-next-line:max-line-length
     const url = `${content.url}?primaryCategory=${content.queryParams.primaryCategory}&collectionId=${content.queryParams.collectionId}&collectionType=${content.queryParams.collectionType}&batchId=${content.queryParams.batchId}`
@@ -69,6 +89,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   get isCollection(): boolean {
     if (this.content) {
+      this.resourceContentTypeFunct(this.content.mimeType)
       return this.content.mimeType === NsContent.EMimeTypes.COLLECTION
     }
     return false

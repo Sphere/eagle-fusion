@@ -7,9 +7,9 @@
         <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
           <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
           <div>
-            <span class="mat-body-strong">{{ content?.displayContentType }}</span>
+            <span class="mat-body-strong">{{ resourceContentType }}</span>
             <span>
-              <ng-container *ngIf="content?.displayContentType">&nbsp;&nbsp;|&nbsp;&nbsp;</ng-container>
+              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
           </div>
@@ -133,9 +133,9 @@
             <img [src]="redTickIcon" class="image" />
           </ng-template>
           <div>
-            <span class="mat-body-strong">{{ content?.displayContentType }}</span>
+            <span class="mat-body-strong">{{ resourceContentType }}</span>
             <span>
-              <ng-container *ngIf="content?.displayContentType">&nbsp;&nbsp;|&nbsp;&nbsp;</ng-container>
+              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
           </div>
