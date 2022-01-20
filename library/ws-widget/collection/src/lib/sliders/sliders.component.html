@@ -1,5 +1,5 @@
 <div class="banner-container mb-4" (swipeleft)="slideTo(currentIndex + 1)" (swiperight)="slideTo(currentIndex - 1)"
-  *ngIf="widgetData?.length">
+  *ngIf="widgetData?.length" [ngClass]="{'m-t-80' : screenSize === 'less', 'm-t-0' : screenSize === 'medium'}">
   <!-- <a (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"
     [routerLink]=" !isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'" class="banner-overlay"
     [ngClass]="{'cursor-auto': !widgetData[currentIndex].redirectUrl}"></a> -->

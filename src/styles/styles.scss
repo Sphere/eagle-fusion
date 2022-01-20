@@ -43,6 +43,11 @@ body {
   font-family: $font-family-mono;
 }
 
+button:focus, 
+.btn:focus {
+  outline: none !important;
+}
+
 .custom-scroll {
   -webkit-overflow-scrolling: touch;
 

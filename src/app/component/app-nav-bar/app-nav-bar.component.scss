@@ -31,8 +31,8 @@
   max-width: 150px;
   display: block;
   width: 100%;
-  padding-top: 10px;
-  padding-right: 16px;
+/*  padding-top: 10px;
+  padding-right: 16px;*/
   cursor: pointer;
 }
 .header-btn {
@@ -181,12 +181,12 @@
 
 .my-search {
   display: flex;
-  margin-left: 8px;
-  margin-right: 0;
+  margin-left: 20px;
+  //margin-right: 0;
   text-align: center;
   flex: 1;
   height: 50px;
-  margin-top: 12px;
+  //margin-top: 12px;
   max-width: 470px;
 }
 

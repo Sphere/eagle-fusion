@@ -248,9 +248,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       this.questionAnswerHash,
     )
     const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
-
+    sanitizedRequestData["artifactUrl"] = this.artifactUrl
     this.quizSvc.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
+        window.scrollTo(0,0);
         if (this.quizJson.isAssessment) {
           this.isIdeal = true
         }
@@ -281,10 +282,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         //   this.isIdeal,
         //   true,
         // )
-        const top = document.getElementById('quiz-end')
-        if (top !== null) {
-          top.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
       },
       (_error: any) => {
         this.fetchingResultsStatus = 'error'
