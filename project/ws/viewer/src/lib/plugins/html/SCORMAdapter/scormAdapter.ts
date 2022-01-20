@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core'
 import { Storage, IScromData } from './storage'
 import { errorCodes } from './errors'
 import _ from 'lodash'
-import { HttpClient } from '@angular/common/http'
+import { HttpBackend, HttpClient } from '@angular/common/http'
+import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import { NsContent } from '@ws-widget/collection'
-import { ActivatedRoute } from '@angular/router'
-import dayjs from 'dayjs'
+import * as dayjs from 'dayjs'
 const API_END_POINTS = {
   SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
   SCROM_FETCH: '/apis/protected/v8/scrom/get',
@@ -19,10 +19,15 @@ const API_END_POINTS = {
 })
 export class SCORMAdapterService {
   id = ''
-  constructor(private store: Storage,
+  constructor(
+    private store: Storage,
     private http: HttpClient,
-    private configSvc: ConfigurationsService,
-    private activatedRoute: ActivatedRoute) { }
+    handler: HttpBackend,
+    private activatedRoute: ActivatedRoute,
+    private configSvc: ConfigurationsService
+  ) {
+    this.http = new HttpClient(handler)
+  }
 
   set contentId(id: string) {
     this.store.key = id
@@ -149,6 +154,10 @@ export class SCORMAdapterService {
     return this.http.get<any>(API_END_POINTS.SCROM_FETCH + '/' + this.contentId)
   }
 
+  downladFile(url: any) {
+    return this.http.get(url, { responseType: 'blob' })
+  }
+
   loadDataV2() {
     let userId
     if (this.configSvc.userProfile) {
@@ -189,7 +198,6 @@ export class SCORMAdapterService {
 
   loadData() {
     this.http.get<any>(API_END_POINTS.SCROM_FETCH + '/' + this.contentId).subscribe((response) => {
-      // console.log(response.result.data)
       const data = response.result.data
       const loadDatas: IScromData = {
         "cmi.core.exit": data["cmi.core.exit"],
@@ -215,6 +223,7 @@ export class SCORMAdapterService {
     })
     return this.http.post(API_END_POINTS.SCROM_ADD_UPDTE + '/' + this.contentId, postData)
   }
+
   getStatus(postData: any): number {
     try {
       if (postData["cmi.core.lesson_status"] === 'completed') {
