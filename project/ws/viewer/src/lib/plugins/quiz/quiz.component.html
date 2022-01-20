@@ -74,8 +74,8 @@
             </h2>
             <h2 *ngIf="quizJson.isAssessment" class="mat-title">
               <ng-container i18n="quiz result label">Result:</ng-container>
-              <ng-container i18n *ngIf="isCompleted">PASS</ng-container>
-              <ng-container i18n *ngIf="!isCompleted">FAIL</ng-container>
+              <ng-container i18n *ngIf="isCompleted">Pass</ng-container>
+              <ng-container i18n *ngIf="!isCompleted">Did not Pass</ng-container>
             </h2>
             <div class="flex flex-wrapped flex-center text-center">
               <div class="card-section">
@@ -104,6 +104,12 @@
                   Percentage
                 </h2>
               </div>
+            </div>
+            <div class="text-center">
+              <p class="h3">Your Score is</p>
+              <p class="h3 text-danger">{{result}} %</p>
+              <p class="h4">You need to score atleast {{passPercentage}}% to complete this module.</p>
+              <button i18n mat-raised-button color="primary" (click)="reTakeQuiz()">Retake Assessment</button>
             </div>
           </ng-container>
         </mat-card>
