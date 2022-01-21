@@ -11,6 +11,7 @@ export class YourBackgroundComponent implements OnInit {
   bgImgSelect: any
   almostDone = false
   professions: any
+  nextBtnDisable = true
   professionUrl = '../../../fusion-assets/files/professions.json'
   constructor(private http: HttpClient) { }
 
@@ -18,16 +19,21 @@ export class YourBackgroundComponent implements OnInit {
     this.http.get(this.professionUrl).subscribe((data: any) => {
       this.professions = data.professions
     })
+    this.nextBtnDisable = true
   }
   imgSelect(img: any) {
+    if (img) {
+      this.nextBtnDisable = false
+    }
     console.log("img", img.name)
     this.bgImgSelect = img.name
-    console.log("AboutYou", this.aboutYou.value)
   }
   changeBackgroung() {
     this.almostDone = false
   }
   onsubmit() {
-    this.almostDone = true
+    if (this.bgImgSelect) {
+      this.almostDone = true
+    }
   }
 }

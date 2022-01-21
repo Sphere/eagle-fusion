@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material'
 import { Router } from '@angular/router'
-import moment from 'moment'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
@@ -21,7 +20,12 @@ export class AlmostDoneComponent implements OnInit {
   almostDoneForm!: FormGroup
   professionOthersField = false
   orgOthersField = false
+  rnFieldDisabled = true
   userId = ''
+  firstName = ''
+  middleName = ''
+  lastName = ''
+  email = ''
   govtOrgMeta!: IGovtOrgMeta
   masterNationalities: any = []
   public degrees!: FormArray
@@ -40,16 +44,6 @@ export class AlmostDoneComponent implements OnInit {
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
   ) {
-    // this.almostDoneForm = new FormGroup({
-    //   profession: new FormControl(),
-    //   orgType: new FormControl(),
-    //   orgName: new FormControl(),
-    //   professionOtherSpecify: new FormControl(),
-    //   orgOtherSpecify: new FormControl(),
-    //   instituteName: new FormControl(),
-    //   courseName: new FormControl(),
-    //   othersProfession: new FormControl(),
-    // })
   }
 
   ngOnInit() {
@@ -63,9 +57,11 @@ export class AlmostDoneComponent implements OnInit {
   almostDoneFormFields() {
     return new FormGroup({
       profession: new FormControl(),
+      rnNumber: new FormControl(),
       orgType: new FormControl(),
       orgName: new FormControl(),
       professionOtherSpecify: new FormControl(),
+      designationName: new FormControl(),
       orgOtherSpecify: new FormControl(),
       instituteName: new FormControl(),
       courseName: new FormControl(),
@@ -135,8 +131,6 @@ export class AlmostDoneComponent implements OnInit {
     })
   }
 
-
-
   professionSelect(option: any) {
     console.log("Profession:", option)
     this.createUserForm.controls.designation.setValue(option)
@@ -145,6 +139,12 @@ export class AlmostDoneComponent implements OnInit {
     }
     else {
       this.professionOthersField = false
+    }
+    if (option == 'Midwives' || option == 'ANM' || option == 'GNM' || option == 'BSC Nurse') {
+      this.rnFieldDisabled = false
+    }
+    else {
+      this.rnFieldDisabled = true
     }
   }
   orgTypeSelect(option: any) {
@@ -156,31 +156,16 @@ export class AlmostDoneComponent implements OnInit {
       this.orgOthersField = false
     }
   }
-  onsubmit(form: any) {
-    console.log(form)
+  onsubmit() {
     console.log("yourBackground:", this.yourBackground)
 
-    this.createUserForm.controls.firstname.setValue('Ankita')
-    this.createUserForm.controls.middlename.setValue('Kaushik')
-    this.createUserForm.controls.surname.setValue('Kaushik')
-    this.createUserForm.controls.dob.setValue(moment(this.yourBackground.value.dob).format('DD-MM-YYYY'))
-    this.createUserForm.controls.mobile.setValue(parseInt('7389953936', 10))
-
-    this.createUserForm.controls.countryCode.setValue(this.yourBackground.value.countryCode)
     this.selectedAddress = this.yourBackground.value.country
     if (this.yourBackground.value.state)
       this.selectedAddress += ',' + this.yourBackground.value.state
     if (this.yourBackground.value.distict)
       this.selectedAddress += ',' + this.yourBackground.value.distict
 
-    this.createUserForm.controls.residenceAddress.setValue(this.selectedAddress)
-
-
     console.log("BackgroundSelected:", this.backgroundSelect)
-
-    if (this.backgroundSelect === 'Healthcare Worker' || this.backgroundSelect === 'Healthcare Volunteer') {
-      this.createUserForm.controls.designationOther.setValue(this.backgroundSelect)
-    }
     this.updateProfile()
   }
 
@@ -192,18 +177,11 @@ export class AlmostDoneComponent implements OnInit {
       case 'Others - Please Specify':
         this.createUserForm.controls.designation.setValue(value)
         break
-      // case 'Healthcare Worker':
-      // case 'Healthcare Volunteer':
-      //   this.createUserForm.controls.designationOther.setValue(value)
-      //   break
       case 'organizationType':
         this.createUserForm.controls.organisationType.setValue(value)
         break
       case 'organizationName':
         this.createUserForm.controls.orgName.setValue(value)
-        break
-      case 'RNNumber':
-        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue(value)
         break
       case 'designation':
         this.createUserForm.controls.designation.setValue(value)
@@ -232,132 +210,78 @@ export class AlmostDoneComponent implements OnInit {
     }
   }
 
-  private getOrganisationsHistory(form: any) {
+  private getOrganisationsHistory() {
     const organisations: any = []
     const org = {
-      organisationType: '',
-      name: form.value.orgName,
-      nameOther: form.value.orgNameOther,
-      industry: form.value.industry,
-      industryOther: form.value.industryOther,
-      designation: form.value.designation,
-      designationOther: form.value.designationOther,
-      location: form.value.location,
+      organisationType: this.almostDoneForm.value.orgType,
+      name: this.almostDoneForm.value.orgName,
+      nameOther: '',
+      industry: '',
+      industryOther: '',
+      designation: this.almostDoneForm.value.profession,
+      designationOther: this.backgroundSelect,
+      location: '',
       responsibilities: '',
-      doj: form.value.doj,
-      description: form.value.orgDesc,
+      doj: '',
+      description: '',
       completePostalAddress: '',
       additionalAttributes: {},
-    }
-    if (form.value.isGovtOrg) {
-      org.organisationType = 'Government'
-    } else {
-      org.organisationType = 'Non-Government'
     }
     organisations.push(org)
     return organisations
   }
 
-  getClass10(form: any): IProfileAcademics {
-    return ({
-      nameOfQualification: '',
-      type: 'X_STANDARD',
-      nameOfInstitute: form.value.schoolName10,
-      yearOfPassing: `${form.value.yop10}`,
-    })
-  }
-
-  getClass12(form: any): IProfileAcademics {
-    return ({
-      nameOfQualification: '',
-      type: 'XII_STANDARD',
-      nameOfInstitute: form.value.schoolName12,
-      yearOfPassing: `${form.value.yop12}`,
-    })
-  }
-
-  getDegree(form: any, degreeType: string): IProfileAcademics[] {
+  getDegree(degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
-    form.value.degrees.map((degree: any) => {
-      formatedDegrees.push({
-        nameOfQualification: degree.degree,
-        type: degreeType,
-        nameOfInstitute: degree.instituteName,
-        yearOfPassing: `${degree.yop}`,
-      })
+    formatedDegrees.push({
+      nameOfQualification: this.almostDoneForm.value.courseName,
+      type: degreeType,
+      nameOfInstitute: this.almostDoneForm.value.instituteName,
+      yearOfPassing: '',
     })
     return formatedDegrees
   }
-
-  getPostDegree(form: any, degreeType: string): IProfileAcademics[] {
-    const formatedDegrees: IProfileAcademics[] = []
-    form.value.postDegrees.map((degree: any) => {
-      formatedDegrees.push({
-        nameOfQualification: degree.degree,
-        type: degreeType,
-        nameOfInstitute: degree.instituteName,
-        yearOfPassing: `${degree.yop}`,
-      })
-    })
-    return formatedDegrees
-  }
-
-  private getAcademics(form: any) {
+  private getAcademics() {
     const academics = []
-    academics.push(this.getClass10(form))
-    academics.push(this.getClass12(form))
-    academics.push(...this.getDegree(form, 'GRADUATE'))
-    academics.push(...this.getPostDegree(form, 'POSTGRADUATE'))
+    academics.push(...this.getDegree('GRADUATE'))
     return academics
   }
 
-  private constructReq(form: any) {
+  private constructReq() {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
+      this.email = this.configSvc.userProfile.email || ''
+      this.firstName = this.configSvc.userProfile.firstName || ''
+      this.middleName = this.configSvc.userProfile.middleName || ''
+      this.lastName = this.configSvc.userProfile.lastName || ''
     }
     const profileReq = {
       id: this.userId,
       userId: this.userId,
       personalDetails: {
-        firstname: form.value.firstname,
-        middlename: form.value.middlename,
-        surname: form.value.surname,
-        about: form.value.about,
-        dob: form.value.dob,
-        nationality: form.value.nationality,
-        domicileMedium: form.value.domicileMedium,
-        regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
-        knownLanguages: form.value.knownLanguages,
-        countryCode: form.value.countryCode,
-        mobile: form.value.mobile,
-        telephone: form.value.telephone,
-        primaryEmail: form.value.primaryEmail,
-        officialEmail: '',
-        personalEmail: '',
-        postalAddress: form.value.residenceAddress,
+        firstname: this.firstName,
+        middlename: this.middleName,
+        surname: this.lastName,
+        about: '',
+        dob: this.yourBackground.value.dob,
+        regNurseRegMidwifeNumber: this.almostDoneForm.value.rnNumber,
+        countryCode: this.yourBackground.value.countryCode,
+        mobile: '',
+        primaryEmail: this.email,
+        postalAddress: this.selectedAddress,
       },
-      academics: this.getAcademics(form),
-      employmentDetails: {
-        service: form.value.service,
-        cadre: form.value.cadre,
-        allotmentYearOfService: form.value.allotmentYear,
-        dojOfService: form.value.otherDetailsDoj,
-        payType: form.value.payType,
-        civilListNo: form.value.civilListNo,
-        employeeCode: form.value.employeeCode,
-        officialPostalAddress: form.value.otherDetailsOfficeAddress,
-        pinCode: form.value.otherDetailsOfficePinCode,
-      },
+      academics: this.getAcademics(),
+      employmentDetails: {},
       professionalDetails: [
-        ...this.getOrganisationsHistory(form),
+        ...this.getOrganisationsHistory(),
       ],
       skills: {
-        additionalSkills: form.value.skillAquiredDesc,
-        certificateDetails: form.value.certificationDesc,
+        additionalSkills: '',
+        certificateDetails: '',
       },
       interests: {
-        professional: form.value.interests,
-        hobbies: form.value.hobbies,
+        professional: '',
+        hobbies: '',
       },
     }
 
@@ -365,7 +289,7 @@ export class AlmostDoneComponent implements OnInit {
   }
 
   updateProfile() {
-    const profileRequest = this.constructReq(this.almostDoneForm)
+    const profileRequest = this.constructReq()
 
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''

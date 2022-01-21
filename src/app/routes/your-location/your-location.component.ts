@@ -105,7 +105,7 @@ export class YourLocationComponent implements OnInit {
   }
 
   onsubmit(form: any) {
-    form.value.dob = moment(form.value.dob).format('DD/MM/YYYY')
+    form.value.dob = moment(form.value.dob).format('DD-MM-YYYY')
     console.log(form.value)
     this.yourBackground = true
   }

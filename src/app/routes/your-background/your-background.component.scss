@@ -64,6 +64,14 @@
   line-height: 19px;
   margin-top: 2rem;
 }
+.login-button:disabled {
+  background: #BFBFBF;
+  color: #808080;
+}
+.next-btn-div {
+  padding-right: 22px;
+}
+
 @media screen and (max-width:768px) {
   .close-div {
     display: inline-block;

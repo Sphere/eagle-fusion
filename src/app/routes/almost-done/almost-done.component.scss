@@ -19,21 +19,36 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-}
-.input-content{
-  margin-top: 15px;
-  position: absolute;
-  max-width: 340px;
+  background: #fff;
 }
 .input-box {
-  width: 305px;
-  height: 35px;
-  padding: 4px 12px;
+  padding: 3px 0 3px 6px;
   font-size: 16px;
   line-height: 19px;
   box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
   border-radius: 6px;
-  border: 1px solid #bbb;
+  border: 1px solid #e3e3e3;
+}
+.rnBox {
+  font-size: 16px;
+  line-height: 19px;
+  border-radius: 6px;
+  border: none;
+}
+.rnField {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e3e3e3;
+}
+.form-control[readonly] ::placeholder{
+  background-color: #ffff;
+  color: #e3e3e3;
+  border-color: #e3e3e3;
+}
+
+input {
+  border: none;
+  padding: 7px 2px;
 }
 .login-button {
   width: 98px;
@@ -54,8 +69,9 @@
 }
 .select-box{
   border: none;
-  width: 100%;
+  width: 97%;
   padding-top: 8px;
+  padding-left: 0;
   font-size: 16px;
   line-height: 19px;
   color: #808080;
@@ -63,15 +79,6 @@
 .select-box:focus{
   outline: none!important;
 }
-// @media screen and (max-width:768px) {
-//   .close-div {
-//     display: inline-block;
-//     position: absolute;
-//     top: 25px;
-//     width: 20px;
-//     right: 20px;
-//   }
-// }
 @media screen and (max-width:600px) {
   .input-content {
     width: 100%;

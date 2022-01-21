@@ -18,6 +18,7 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
+  background: #fff;
 }
 .check-email-text {
   font-size: 24px;
@@ -37,21 +38,21 @@
   line-height: 15px;
 }
 .input-box {
-  height: 42px;
-  padding: 3px 0 3px 6px;
+  padding: 3px 0 3px 0;
   border-radius: 6px;
-  border: 1px solid #bbb;
+  border: 1px solid #e3e3e3;
 }
 .dob-input {
   font-size: 16px;
   line-height: 19px;
   border: none;
   color: #808080;
-  width: 85%;
+  width: 88%;
+  display: inline-block;
 }
 .select-box{
   border: none;
-  width: 95%;
+  width: 97%;
   height: 44px;
   font-size: 16px;
   line-height: 19px;
@@ -70,10 +71,6 @@
   font-size: 16px;
   line-height: 19px;
 }
-.login-button:disabled {
-  background: #BFBFBF;
-  color: #808080;
-}
 .close-div {
   display: none;
 }
@@ -88,7 +85,13 @@
 input:focus-visible {
   outline: none;
 }
-
+.form-control:disabled {
+  background-color: #fff;
+}
+.login-button:disabled {
+  background: #BFBFBF;
+  color: #808080;
+}
 @media screen and (max-width:768px) {
   .close-div {
     display: inline-block;

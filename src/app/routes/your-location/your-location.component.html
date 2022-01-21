@@ -23,13 +23,13 @@
         <form [formGroup]="aboutYouForm">
 
           <div class="form-group mt-4 input-box">
-            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob"
+            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
               placeholder="Date of Birth" name="dob" class="form-control dob-input" (click)="picker.open()">
             <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </div>
 
-          <div class="form-group mt-5 input-box">
+          <div class="form-group input-box">
             <select id="country" formControlName="country" class="form-control select-box"
               (change)="countrySelect($event.target.value);disableNextBtn()">
               <option [value]=null disabled>Country</option>
@@ -37,7 +37,7 @@
             </select>
           </div>
 
-          <div class="form-group mt-5 input-box">
+          <div class="form-group input-box">
             <select id="state" formControlName="state" class="form-control select-box"
               (change)="stateSelect($event.target.value);disableNextBtn()"
               [attr.disabled]="selectDisable ? 'disabled' : null">
@@ -46,7 +46,7 @@
             </select>
           </div>
 
-          <div class="form-group mt-5 input-box">
+          <div class="form-group input-box">
             <select id="distict" formControlName="distict" class="form-control select-box"
               [attr.disabled]="selectDisable ? 'disabled' : null" (change)="disableNextBtn()">
               <option [value]=null disabled>City/Distict</option>
