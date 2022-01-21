@@ -353,7 +353,7 @@ const routes: Routes = [
     component: ErrorResolverComponent,
   },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
-  { path:'resources', redirectTo: 'page/home', pathMatch: 'full'},
+  { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'learning-hub',
     loadChildren: () =>
