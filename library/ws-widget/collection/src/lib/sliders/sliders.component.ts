@@ -13,7 +13,7 @@ import { Router } from '@angular/router'
 export class SlidersComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ICarousel[]> {
   @Input() widgetData!: any
-  screenSize: string = ''
+  screenSize = ''
   currentIndex = 0
   slideInterval: Subscription | null = null
 
