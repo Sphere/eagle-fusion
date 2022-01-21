@@ -185,6 +185,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
+            this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
+              .then((res: any) => {
+                /* tslint:disable-next-line */
+                console.log(res)
+              })
             this.contentSvc
               .fetchHierarchyContent(this.htmlContent.identifier)
               .toPromise()
