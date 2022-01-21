@@ -8,6 +8,7 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { Location } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
+
 declare const gapi: any
 
 @Component({
@@ -80,7 +81,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
-        //console.log(`Token || ` + googleUser.getAuthResponse().id_token)
+        // console.log(`Token || ` + googleUser.getAuthResponse().id_token)
         // tslint:disable-next-line:no-console
         // console.log(`ID: ` + profile.getId())
         // tslint:disable-next-line:no-console
@@ -171,7 +172,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       async (results: any) => {
         this.openSnackbar(results.msg)
         await this.signupService.fetchStartUpDetails()
-        this.router.navigate(['/page/home'])
+        location.href = '/page/home'
       },
       (err: any) => {
         this.openSnackbar(err.error.error)

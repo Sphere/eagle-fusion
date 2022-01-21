@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+/*@import 'ws-mixins';
 
 .footer-container {
   background-color: #f7f7f7;
@@ -16,8 +16,8 @@
 
 .text-dark {
   color: #353535 !important;
-}
-.mat-figure {
+}*/
+/*.mat-figure {
   top: 0;
   left: 0;
   right: 0;
@@ -42,9 +42,22 @@
 .footer-heading {
   font-size: 16px !important;
   font-weight: 500;
+}*/
+
+.img-fluid-35 {
+  width: 35% ;
+  height: auto;
+}
+.h-160 {
+  height: 160px;
+}
+footer {
+  background-color: #f7f7f7;
+  color: #353535;
+  padding-top: 15px;
 }
 
-.mat-list-base .mat-list-item {
+/*.mat-list-base .mat-list-item {
   height: 37px !important;
   color: #353535 !important;
   font-size: 16px !important;
@@ -54,20 +67,20 @@
 
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
   font-size: 14px !important;
-}
-.w-mobile {
+}*/
+/*.w-mobile {
   @include breakpoint-xs {
     width: 100%;
   }
-}
+}*/
 
-// @media only screen and (max-width: 760px) {
+/*// @media only screen and (max-width: 760px) {
 //   .footer-container {
 //     display: none;
 //   }
-// }
+// }*/
 
-@media (min-width: 1870px) {
+/*@media (min-width: 1870px) {
   .col-width {
     min-width: 315px;
   }
@@ -77,9 +90,9 @@
   // .logo-margin {
   //   margin-left: 135px;
   // }
-}
+}*/
 
-@media (min-width: 1501px) and (max-width: 1869px) {
+/*@media (min-width: 1501px) and (max-width: 1869px) {
   .col-width {
     min-width: 30%;
   }
@@ -153,4 +166,4 @@ img.docs-footer-aastar-logo {
       display: block !important;
       text-align: center;
   }
-}
+}*/
