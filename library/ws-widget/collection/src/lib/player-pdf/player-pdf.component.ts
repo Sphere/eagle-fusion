@@ -150,6 +150,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       })
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.Init)
     }
+
   }
   ngOnChanges() {
     // if (this.widgetData !== this.oldData) {
@@ -188,6 +189,9 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         }
       }
     })
+    if (this.identifier) {
+      this.fireRealTimeProgress(this.identifier)
+    }
   }
   ngOnDestroy() {
     if (this.identifier) {
@@ -341,6 +345,19 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     this.activityStartedAt = new Date()
     if (!this.widgetData.disableTelemetry) {
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.Loaded)
+    }
+
+    if (this.identifier) {
+      const realTimeProgressRequest = {
+        ...this.realTimeProgressRequest,
+        max_size: this.totalPages,
+        current: Array.from([this.currentPage.value].join(``)),
+      }
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
     }
   }
 

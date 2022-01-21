@@ -43,14 +43,7 @@ export class ViewerUtilService {
     return
   }
 
-  // realTimeProgressUpdate(contentId: string, request: any) {
-  //   // console.log('realtime', contentId, request)
-  //   this.http
-  //     .post(`${this.API_ENDPOINTS.PROGRESS_UPDATE}/${contentId}`, request)
-  //     .subscribe(noop, noop)
-  // }
-
-  calculatePercent(current: number, max: number, mimeType?: string): number {
+  calculatePercent(current: any, max: number, mimeType?: string): number {
     try {
       // const temp = [...current]
       const temp = current
@@ -79,7 +72,8 @@ export class ViewerUtilService {
             return 100
           }
         } else if (mimeType === NsContent.EMimeTypes.PDF) {
-          const latest = parseFloat(temp[temp.length-1] || '0')
+          const latest = parseFloat(temp.slice(-1) || '0')
+          // const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / max) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           return percent
