@@ -79,12 +79,7 @@ export class ViewerUtilService {
             return 100
           }
         } else if (mimeType === NsContent.EMimeTypes.PDF) {
-          const temp1 = []
-          for await (const value of current) {
-            temp1.push(v)
-          }
-          // const temp = [...current]
-          const latest = parseFloat(temp1.pop() || '0')
+          const latest = parseFloat(temp[temp.length-1] || '0')
           const percentMilis = (latest / max) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           return percent
@@ -152,7 +147,6 @@ export class ViewerUtilService {
 
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
-
     if (this.configservice.userProfile) {
       req = {
         request: {

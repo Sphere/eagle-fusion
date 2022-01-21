@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Location } from '@angular/common'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-google-callback',
@@ -8,10 +8,10 @@ import { Location } from '@angular/common'
 })
 export class GoogleCallbackComponent implements OnInit {
 
-  constructor(location: Location) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    this.location.href = '/page/home'
+    this.router.navigate(['/page/home'])
   }
 
 }
