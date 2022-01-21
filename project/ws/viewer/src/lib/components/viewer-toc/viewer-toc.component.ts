@@ -4,7 +4,7 @@ import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import {
-  ContentProgressService,
+  // ContentProgressService,
   NsContent,
   VIEWER_ROUTE_FROM_MIME,
   WidgetContentService,
@@ -75,7 +75,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
     private configSvc: ConfigurationsService,
-    private contentProgressSvc: ContentProgressService
+    // private contentProgressSvc: ContentProgressService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -157,11 +157,11 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     this.viewSvc.editResourceData(content)
   }
 
-  private getContentProgressHash() {
-    this.contentProgressSvc.getProgressHash().subscribe(progressHash => {
-      this.contentProgressHash = progressHash
-    })
-  }
+  // private getContentProgressHash() {
+  //   this.contentProgressSvc.getProgressHash().subscribe(progressHash => {
+  //     this.contentProgressHash = progressHash
+  //   })
+  // }
 
   ngOnDestroy() {
     if (this.paramSubscription) {

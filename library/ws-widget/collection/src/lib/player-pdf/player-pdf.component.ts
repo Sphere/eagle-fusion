@@ -219,6 +219,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     if (!this.widgetData.disableTelemetry) {
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.StateChange)
     }
+    if (this.identifier) {
+      this.fireRealTimeProgress(this.identifier)
+    }
+
   }
   raiseTelemetry(action: string) {
     if (this.identifier) {
