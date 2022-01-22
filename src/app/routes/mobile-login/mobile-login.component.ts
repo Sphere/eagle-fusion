@@ -5,7 +5,7 @@ import {
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-import { Location } from '@angular/common'
+import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 
@@ -30,6 +30,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     private router: Router,
     private contentSvc: WidgetContentService,
     location: Location,
+    loc: PlatformLocation,
     private snackBar: MatSnackBar,
     private signupService: SignupService
   ) {
@@ -37,6 +38,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.loginForm = this.fb.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
+    })
+    loc.onPopState(() => {
+      window.location.href = '/public/home'
+      //window.location.reload()
     })
   }
   public isSignedIn = false
@@ -109,11 +114,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         async (results: any) => {
           this.openSnackbar(results.msg)
           await this.signupService.fetchStartUpDetails()
-        if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login')
-        } else {
-          location.href = '/page/home'
-        }
+          if (sessionStorage.getItem('url_before_login')) {
+            location.href = sessionStorage.getItem('url_before_login') || ''
+          } else {
+            location.href = '/page/home'
+          }
         },
         (err: any) => {
           this.openSnackbar(err.error)
@@ -177,7 +182,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         this.openSnackbar(results.msg)
         await this.signupService.fetchStartUpDetails()
         if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login')
+          location.href = sessionStorage.getItem('url_before_login') || ''
         } else {
           location.href = '/page/home'
         }
