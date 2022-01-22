@@ -126,6 +126,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         } if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('app/complete-profile') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account') || event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.hideHeaderFooter = true
+          this.isNavBarRequired = false
         } else {
           this.isNavBarRequired = true
         }
