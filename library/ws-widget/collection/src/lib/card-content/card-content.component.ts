@@ -114,7 +114,6 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   clickToRedirect(data: any) {
-    // console.log(data)
     sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
     // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
     const url = sessionStorage.getItem(`url_before_login`) || ''
@@ -173,7 +172,10 @@ export class CardContentComponent extends WidgetBaseComponent
     }
   }
 
-  login() {
+  login(data: any) {
+    sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+
     // if (sessionStorage.getItem('login_url')) {
     //   const url: any = sessionStorage.getItem('login_url')
     //   window.location.href = url

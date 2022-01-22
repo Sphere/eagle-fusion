@@ -13,7 +13,7 @@ export class ViewerUtilService {
     setS3Cookie: `/apis/v8/protected/content/setCookie`,
     // PROGRESS_UPDATE: `/apis/protected/v8/user/realTimeProgress/update`,
     PROGRESS_UPDATE: `/apis/proxies/v8/content-progres`,
-    SCORM_UPDATE: `/proxies/v8/getContent?artificatUrl=`,
+    SCORM_UPDATE: `/apis/proxies/v8/getContents?artificatUrl=`,
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
@@ -195,8 +195,8 @@ export class ViewerUtilService {
       .subscribe(noop, noop)
   }
 
-  scormUpdate(artificatUrl: string): Observable<any> {
-    return this.http.get<any>(`${this.API_ENDPOINTS.SCORM_UPDATE}${artificatUrl}`)
+  scormUpdate(artifactUrl: string): Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINTS.SCORM_UPDATE}${artifactUrl}`)
   }
   getContent(contentId: string): Observable<NsContent.IContent> {
     return this.http.get<NsContent.IContent>(

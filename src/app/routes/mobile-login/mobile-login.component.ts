@@ -77,7 +77,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -91,7 +91,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -109,7 +109,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         async (results: any) => {
           this.openSnackbar(results.msg)
           await this.signupService.fetchStartUpDetails()
-          this.router.navigate(['/page/home'])
+        if (sessionStorage.getItem('url_before_login')) {
+          location.href = sessionStorage.getItem('url_before_login')
+        } else {
+          location.href = '/page/home'
+        }
         },
         (err: any) => {
           this.openSnackbar(err.error)
@@ -172,7 +176,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       async (results: any) => {
         this.openSnackbar(results.msg)
         await this.signupService.fetchStartUpDetails()
-        location.href = '/page/home'
+        if (sessionStorage.getItem('url_before_login')) {
+          location.href = sessionStorage.getItem('url_before_login')
+        } else {
+          location.href = '/page/home'
+        }
       },
       (err: any) => {
         this.openSnackbar(err.error.error)

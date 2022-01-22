@@ -38,7 +38,7 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="login()" class="rounded-t" role="link" aria-label="Content"
+        <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
             <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.appIcon"
@@ -112,7 +112,7 @@
 
         <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
           <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
-            (click)="loginRedirect('S',  widgetData.content.identifier)"> Login
+            (click)="login(widgetData.content)"> Login
           </button>
         </div>
       </mat-card-content>
@@ -142,7 +142,7 @@
           <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
             matTooltip="Available only in Company's network"
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-          <a (click)="login()" class="rounded-t" role="link" aria-label="Content"
+          <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
               <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
