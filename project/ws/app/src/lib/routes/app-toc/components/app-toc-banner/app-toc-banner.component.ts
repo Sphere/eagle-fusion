@@ -79,7 +79,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   defaultSLogo = ''
   disableEnrollBtn = false
   batchId!: string
-  displayStyle = "none";
+  displayStyle = 'none'
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -289,14 +289,14 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
-    this.displayStyle = "block"
+    this.displayStyle = 'block'
     this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
       // tslint:disable-next-line:no-console
       console.log(data)
     })
   }
   closePopup() {
-    this.displayStyle = "none"
+    this.displayStyle = 'none'
   }
   get showInstructorLedMsg() {
     return (

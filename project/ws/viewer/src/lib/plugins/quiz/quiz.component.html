@@ -107,7 +107,7 @@
             </div>
             <div class="text-center">
               <p class="h3">Your Score is</p>
-              <p class="h3 text-danger">{{result | number:0}} %</p>
+              <p class="h3 text-danger">{{result | number: '1.0-0'}} %</p>
               <p class="h4">You need to score atleast {{passPercentage}}% to complete this module.</p>
               <button i18n mat-raised-button color="primary" (click)="reTakeQuiz()">Retake Assessment</button>
             </div>

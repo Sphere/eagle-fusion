@@ -58,7 +58,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         5000)
+      }, 5000)
 
       setTimeout(() => {
         const data3 = {
@@ -68,7 +68,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data3, collectionId, batchId)
-      },         10000)
+      }, 10000)
     }
 
   }
@@ -185,27 +185,37 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
-            this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
-              .then((res: any) => {
-                /* tslint:disable-next-line */
-                console.log(res)
-              })
-            this.contentSvc
-              .fetchHierarchyContent(this.htmlContent.identifier)
-              .toPromise()
-              .then((res: any) => {
-                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
-              })
-              .catch((err: any) => {
-                /* tslint:disable-next-line */
-                console.log(err)
-              })
+            const streamingUrl = this.htmlContent.streamingUrl.substring(51)
+            const newUrl = `/apis/proxies/v8/getContents/${streamingUrl}`
+            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
+            // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
+            // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
+            //   .then((res: string) => {
+            //     /* tslint:disable-next-line */
+            //     console.log(res)
+            //     console.log(res['result']['content']['streamingUrl'].substring(51))
+            //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${this.htmlContent.artifactUrl}`)
+            //   })
+            //   .catch((err: any) => {
+            //     /* tslint:disable-next-line */
+            //     console.log(err)
+            //   })
+            // this.contentSvc
+            //   .fetchHierarchyContent(this.htmlContent.identifier)
+            //   .toPromise()
+            //   .then((res: any) => {
+            //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
+            //   })
+            //   .catch((err: any) => {
+            //     /* tslint:disable-next-line */
+            //     console.log(err)
+            //   })
           }
         }
       } else {
         this.mimeType = this.htmlContent.mimeType
-          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            this.htmlContent.artifactUrl)
+        this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+          this.htmlContent.artifactUrl)
       }
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
