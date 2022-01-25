@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
@@ -34,7 +34,7 @@ export class AlmostDoneComponent implements OnInit {
   studentCourse = ''
   selectedAddress = ''
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
-  healthVolunteerProfessions = ["ASHA's", "Anganwadi Workers", "Teachers", "Others"]
+  healthVolunteerProfessions = ['ASHA\'s', 'Anganwadi Workers', 'Teachers', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
   constructor(
@@ -43,6 +43,7 @@ export class AlmostDoneComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
+    private activateRoute: ActivatedRoute
   ) {
   }
 
@@ -132,40 +133,34 @@ export class AlmostDoneComponent implements OnInit {
   }
 
   professionSelect(option: any) {
-    console.log("Profession:", option)
     this.createUserForm.controls.designation.setValue(option)
     if (option === 'Others') {
       this.professionOthersField = true
-    }
-    else {
+    } else {
       this.professionOthersField = false
     }
-    if (option == 'Midwives' || option == 'ANM' || option == 'GNM' || option == 'BSC Nurse') {
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
       this.rnFieldDisabled = false
-    }
-    else {
+    } else {
       this.rnFieldDisabled = true
     }
   }
   orgTypeSelect(option: any) {
-    console.log("Org:", option)
     if (option === 'Others') {
       this.orgOthersField = true
-    }
-    else {
+    } else {
       this.orgOthersField = false
     }
   }
   onsubmit() {
-    console.log("yourBackground:", this.yourBackground)
-
     this.selectedAddress = this.yourBackground.value.country
-    if (this.yourBackground.value.state)
-      this.selectedAddress += ',' + this.yourBackground.value.state
-    if (this.yourBackground.value.distict)
-      this.selectedAddress += ',' + this.yourBackground.value.distict
+    if (this.yourBackground.value.state) {
+      this.selectedAddress += ', ' + `${this.yourBackground.value.state}`
+    }
+    if (this.yourBackground.value.distict) {
+      this.selectedAddress += ', ' + `${this.yourBackground.value.distict}`
+    }
 
-    console.log("BackgroundSelected:", this.backgroundSelect)
     this.updateProfile()
   }
 
@@ -305,15 +300,14 @@ export class AlmostDoneComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
         this.openSnackbar('User profile details updated successfully!')
-
-        setTimeout(() => {
-          const selectedCourse = localStorage.getItem('selectedCourse')
-          if (selectedCourse) {
-            this.router.navigateByUrl(selectedCourse)
+        this.activateRoute.queryParams.subscribe(params => {
+          const url = params.redirect
+          if (url) {
+            this.router.navigate([url])
           } else {
             this.router.navigate(['page', 'home'])
           }
-        }, 3000)
+        })
       }
     })
   }

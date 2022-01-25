@@ -25,7 +25,6 @@ export class YourBackgroundComponent implements OnInit {
     if (img) {
       this.nextBtnDisable = false
     }
-    console.log("img", img.name)
     this.bgImgSelect = img.name
   }
   changeBackgroung() {

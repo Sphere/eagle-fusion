@@ -21,7 +21,7 @@ export class YourLocationComponent implements OnInit {
   states: any
   dob: any
   districtArr: any
-  selectDisable: boolean = true
+  selectDisable = true
   yourBackground = false
   aboutYouForm: FormGroup
   maxDate = new Date()
@@ -40,7 +40,7 @@ export class YourLocationComponent implements OnInit {
       country: new FormControl(),
       distict: new FormControl(),
       state: new FormControl(),
-      countryCode: new FormControl()
+      countryCode: new FormControl(),
     })
   }
 
@@ -61,8 +61,7 @@ export class YourLocationComponent implements OnInit {
     this.setCountryCode(option)
     if (option === 'India') {
       this.selectDisable = false
-    }
-    else {
+    } else {
       this.selectDisable = true
       this.aboutYouForm.controls.state.setValue(null)
       this.aboutYouForm.controls.distict.setValue(null)
@@ -77,20 +76,16 @@ export class YourLocationComponent implements OnInit {
     if (this.aboutYouForm.controls.dob) {
       if (this.aboutYouForm.controls.country.value !== 'India') {
         this.nextBtnDisable = false
-      }
-      else if (this.aboutYouForm.controls.country.value === 'India') {
+      } else if (this.aboutYouForm.controls.country.value === 'India') {
         if (this.aboutYouForm.controls.state.value && this.aboutYouForm.controls.distict.value) {
           this.nextBtnDisable = false
-        }
-        else {
+        } else {
           this.nextBtnDisable = true
         }
-      }
-      else {
+      } else {
         this.nextBtnDisable = true
       }
-    }
-    else {
+    } else {
       this.nextBtnDisable = true
     }
   }
@@ -98,15 +93,15 @@ export class YourLocationComponent implements OnInit {
   stateSelect(option: any) {
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
       statesdata.states.map((item: any) => {
-        if (item.state === option)
+        if (item.state === option) {
           this.disticts = item.districts
+        }
       })
     })
   }
 
   onsubmit(form: any) {
     form.value.dob = moment(form.value.dob).format('DD-MM-YYYY')
-    console.log(form.value)
     this.yourBackground = true
   }
 }

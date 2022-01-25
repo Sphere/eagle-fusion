@@ -9,6 +9,7 @@ import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
 import { Router } from '@angular/router'
+import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import { Router } from '@angular/router';
 
 @Component({
@@ -38,17 +39,26 @@ export class CardContentComponent extends WidgetBaseComponent
   isIntranetAllowedSettings = false
   showLoggedInCard = false
   showEndPopup = false
+  userDetails: any
+
   constructor(
     private events: EventService,
     private configSvc: ConfigurationsService,
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
-    private router: Router
+    private router: Router,
+    private userProfileSvc: UserProfileService
   ) {
     super()
     this.offSetXValue = 290
     this.offSetYValue = -340
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
+          this.userDetails = data.profileDetails.profileReq
+        })
+    }
   }
 
   ngOnInit() {
@@ -306,11 +316,17 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   raiseTelemetry() {
-    this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-      contentId: this.widgetData.content.identifier,
-      contentType: this.widgetData.content.contentType,
-      context: this.widgetData.context,
-    })
+    if (this.userDetails && this.userDetails.personalDetails.dob) {
+      this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
+        contentId: this.widgetData.content.identifier,
+        contentType: this.widgetData.content.contentType,
+        context: this.widgetData.context,
+      })
+    } else {
+      const url = `/app/toc/${this.widgetData.content.identifier}/overview`
+      localStorage.setItem('selectedCourse', url)
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+    }
   }
 
   get isGreyedImage() {

@@ -14,6 +14,7 @@
 }
 .login-card {
   margin: 0;
+  margin-top: 20px;
   padding: 20px 20px 30px 20px;
   color: #000;
   font-size: 14px;
@@ -79,5 +80,10 @@
     top: 25px;
     width: 20px;
     right: 20px;
+  }
+}
+@media screen and (max-width:600px) {
+  .login-card {
+    margin-top: 100px;
   }
 }
