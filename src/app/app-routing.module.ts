@@ -33,6 +33,7 @@ import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { YourBackgroundComponent } from './routes/your-background/your-background.component'
 import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
+import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -481,8 +482,7 @@ const routes: Routes = [
   },
   {
     path: 'google/callback',
-    // BtnProfileComponent
-    component: loginComponent,
+    component: GoogleCallbackComponent,
   },
   {
     path: 'viewer',

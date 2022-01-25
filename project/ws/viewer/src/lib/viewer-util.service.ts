@@ -13,6 +13,7 @@ export class ViewerUtilService {
     setS3Cookie: `/apis/v8/protected/content/setCookie`,
     // PROGRESS_UPDATE: `/apis/protected/v8/user/realTimeProgress/update`,
     PROGRESS_UPDATE: `/apis/proxies/v8/content-progres`,
+    SCORM_UPDATE: `/apis/proxies/v8/getContents/`,
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
@@ -42,21 +43,11 @@ export class ViewerUtilService {
     return
   }
 
-  // realTimeProgressUpdate(contentId: string, request: any) {
-  //   // console.log('realtime', contentId, request)
-  //   this.http
-  //     .post(`${this.API_ENDPOINTS.PROGRESS_UPDATE}/${contentId}`, request)
-  //     .subscribe(noop, noop)
-  // }
-
-  calculatePercent(current: number, max: number, mimeType?: string): number {
+  calculatePercent(current: any, max: number, mimeType?: string): number {
     try {
       // const temp = [...current]
       const temp = current
       if (temp && max) {
-        // const latest = parseFloat(temp.pop() || '0')
-        // const percentMilis = (latest / max) * 100
-        // let percent = parseFloat(percentMilis.toFixed(2))
         if (
           mimeType === NsContent.EMimeTypes.MP4 ||
           mimeType === NsContent.EMimeTypes.M3U8 ||
@@ -72,21 +63,25 @@ export class ViewerUtilService {
           //   // if percentage is greater than 95% make it 100
           //   percent = 100
           // }
-        }   if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
           if (current === 1) {
             return 0
-          }  if (current === 5) {
+          } if (current === 5) {
             return 50
-          }  if (current === 10) {
+          } if (current === 10) {
             return 100
           }
-
+        } else if (mimeType === NsContent.EMimeTypes.PDF) {
+          const latest = parseFloat(temp.slice(-1) || '0')
+          // const latest = parseFloat(temp[temp.length - 1] || '0')
+          const percentMilis = (latest / max) * 100
+          const percent = parseFloat(percentMilis.toFixed(2))
+          return percent
         } else {
           return 0
         }
-
       }
-       return 0
+      return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in calculating percentage', e)
@@ -116,23 +111,27 @@ export class ViewerUtilService {
           return 2
         }
       } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
-            if (current === 1) {
-            return 0
-          }
-          if (current === 5) {
-            return 1
-          }
-          if (current === 10) {
-            return 2
-          }
+        if (current === 1) {
+          return 0
+        }
+        if (current === 5) {
+          return 1
+        }
+        if (current === 10) {
+          return 2
+        }
+      } else if (mimeType === NsContent.EMimeTypes.PDF) {
+        if (percentage <= 25) {
+          return 0
+        } if (percentage > 26 && percentage <= 75) {
+          return 1
+        }
+        return 2
 
-        // if (Math.ceil(percentage) >= 100) {
-        //   return 2
-        // }
       } else {
-         return 1
+        return 1
       }
-       return 0
+      return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)
@@ -196,6 +195,9 @@ export class ViewerUtilService {
       .subscribe(noop, noop)
   }
 
+  scormUpdate(artifactUrl: string): Observable<any> {
+    return this.http.get(`${this.API_ENDPOINTS.SCORM_UPDATE}${artifactUrl}`, { responseType: 'text' as 'json' })
+  }
   getContent(contentId: string): Observable<NsContent.IContent> {
     return this.http.get<NsContent.IContent>(
       // tslint:disable-next-line:max-line-length

@@ -117,7 +117,11 @@
 
               <div class="header-actions">
                 <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">
-                  <form>
+                  <a [color]="'primary'" class="margin-right-m resumeButton" mat-button
+                    (click)="enrollUser(batchData.content)">
+                    Enroll Batch
+                  </a>
+                  <!--<form>
                     <mat-form-field appearance="fill">
                       <mat-label>Select batch to enroll</mat-label>
                       <mat-select [formControl]="batchControl" required>
@@ -131,14 +135,14 @@
                       <mat-error *ngIf="batchControl.hasError('required')">Please choose a batch to start course
                       </mat-error>
                     </mat-form-field>
-                  </form>
+                  </form> -->
                 </ng-container>
-                <ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
+                <!--<ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
                   <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngFor="let batch of batchData.content">
                     Enrolled batch: {{batch.name}} ({{batch.startDate | date}} - {{(batch.endDate | date ) ||
                     'present'}})
                   </h3>
-                </ng-container>
+                </ng-container> -->
                 <ng-container *ngIf="batchData && !batchData?.enrolled && !batchData?.content?.length">
                   <h3 class="margin-remove-bottom pt-4 info-msg" i18n>
                     No batches
@@ -240,11 +244,36 @@
                   <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
                     [widgetData]="content | pipePartialContent: ['identifier', 'name']">
                   </ws-widget-btn-content-feedback-v2> -->
-                  <button mat-raised-button [color]="'primary'" *ngIf="content?.issuedCertificates?.length > 0"
-                    (click)="downloadCertificate(content)"
-                    class="ws-mat-primary-background mat-button-base margin-right-m">
+                  <button mat-button [color]="'primary'" (click)="downloadCertificate(content)"
+                    class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>
+                  <div class="modal fade" id="myModal"
+                    [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header"  [ngStyle]="{'margin-top' : '40px'}"> 
+                        <!--<h4 class="modal-title">Modal Heading</h4> -->
+                          <button type="button" class="close" data-dismiss="modal"
+                            (click)="closePopup()">&times;</button>
+                        </div> 
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                          <h3>Please finish the course to view the certificate</h3>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="closePopup()">Close</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
