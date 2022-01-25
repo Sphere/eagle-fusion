@@ -79,6 +79,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   defaultSLogo = ''
   disableEnrollBtn = false
   batchId!: string
+  displayStyle = 'none'
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -288,12 +289,15 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
+    this.displayStyle = 'block'
     this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
       // tslint:disable-next-line:no-console
       console.log(data)
     })
   }
-
+  closePopup() {
+    this.displayStyle = 'none'
+  }
   get showInstructorLedMsg() {
     return (
       this.showActionButtons &&
@@ -587,7 +591,42 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
+  enrollUser(batchData: any) {
+    let userId = ''
+    if (batchData) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req = {
+        request: {
+          userId,
+          courseId: batchData[0].courseId,
+          batchId: batchData[0].batchId,
+        },
+      }
+      this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        if (data && data.result && data.result.response === 'SUCCESS') {
+          // this.batchData = {
+          //   content: [batch],
+          //   enrolled: true,
+          // }
+          this.router.navigate(
+            [],
+            {
+              relativeTo: this.route,
+              queryParams: { batchId: batchData[0].batchId },
+              queryParamsHandling: 'merge',
+            })
+          this.openSnackbar('Enrolled Successfully!')
+          this.disableEnrollBtn = false
+        } else {
+          this.openSnackbar('Something went wrong, please try again later!')
+          this.disableEnrollBtn = false
+        }
+      })
+    }
 
+  }
   openDialog(content: any): void {
     // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
     this.createBatchDialog.open(CreateBatchDialogComponent, {

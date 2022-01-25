@@ -79,6 +79,7 @@ import { YourBackgroundComponent } from './routes/your-background/your-backgroun
 import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
+import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -126,6 +127,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     AlmostDoneComponent,
     CompleteProfileComponent,
     HeaderComponent,
+    GoogleCallbackComponent,
   ],
   imports: [
     FormsModule,
