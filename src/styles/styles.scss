@@ -43,7 +43,7 @@ body {
   font-family: $font-family-mono;
 }
 
-button:focus, 
+button:focus,
 .btn:focus {
   outline: none !important;
 }
@@ -930,6 +930,12 @@ ws-widget-btn-catalog {
   cursor: pointer;
   top: -10px;
   position: relative;
+}
+.resend.disabled {
+  color: rgba($color: #000099, $alpha: 1);
+  pointer-events: none;
+  cursor: default;
+  text-decoration: underline;
 }
 .submit-btn {
   min-width: 135px;

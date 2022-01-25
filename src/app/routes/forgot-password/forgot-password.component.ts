@@ -22,6 +22,12 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   @ViewChild('resend', { static: false }) resend!: ElementRef
   showResend = false
   key = ''
+  resendOTPbtn: any
+  counter: any
+  disableResendButton = false
+  resendOtpCounter = 1
+  maxResendTry = 4
+
   constructor(private router: Router, private signupService: SignupService,
               private fb: FormBuilder, private snackBar: MatSnackBar,
     // private authSvc: AuthKeycloakService
@@ -36,17 +42,25 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-
+    this.resendOtpEnablePostTimer()
   }
 
   ngAfterViewChecked() {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    },         30000)
+    },         1000)
   }
 
-  forgotPassword() {
+  forgotPassword(resendOTP?: string) {
+    if (resendOTP) {
+      this.resendOtpCounter = this.resendOtpCounter + 1
+      if (this.resendOtpCounter >= this.maxResendTry) {
+        this.disableResendButton = false
+        this.openSnackbar('Maximum retry limit exceeded please try again.')
+        return
+      }
+    }
     let phone = ''
     this.emailOrMobile = this.emailForm.value.userInput
 
@@ -62,6 +76,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         (res: any) => {
           if (res.message) {
             this.openSnackbar(res.message)
+            this.resendOtpEnablePostTimer()
             this.showOtpPwd = true
           }
         },
@@ -80,13 +95,13 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           if (res.message) {
             this.openSnackbar(res.message)
             this.showOtpPwd = true
+            this.resendOtpEnablePostTimer()
             this.showCheckEmailText = true
           }
         },
         (error: any) => {
           this.openSnackbar(error.error)
         })
-      this.emailForm.reset()
     }
   }
 
@@ -115,6 +130,24 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         this.openSnackbar(error.error)
       }
     )
+  }
+
+  resendOtpEnablePostTimer() {
+    this.counter = 60
+    this.disableResendButton = false
+    setTimeout(() => {
+      this.disableResendButton = true
+    },         1000)
+    const interval = setInterval(() => {
+      this.resendOTPbtn = `Resend OTP(${(this.counter)})`
+      // tslint:disable-next-line:no-bitwise
+      this.counter = this.counter - 1
+      if (this.counter < 0) {
+        this.resendOTPbtn = 'Resend OTP'
+        clearInterval(interval)
+        this.disableResendButton = false
+      }
+    },                           1000)
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 2000) {
