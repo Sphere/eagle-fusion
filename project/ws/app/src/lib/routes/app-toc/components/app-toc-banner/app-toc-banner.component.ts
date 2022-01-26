@@ -604,10 +604,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           batchId: batchData[0].batchId,
         },
       }
+
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
         if (data && data.result && data.result.response === 'SUCCESS') {
           // this.batchData = {
-          //   content: [batch],
+          //   content: [data],
           //   enrolled: true,
           // }
           this.router.navigate(
@@ -624,6 +625,9 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           this.disableEnrollBtn = false
         }
       })
+        .catch((err: any) => {
+          this.openSnackbar(err.error.params.errmsg)
+        })
     }
 
   }
