@@ -82,7 +82,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -96,7 +96,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -147,9 +147,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     phone = phone.replace(/[^0-9+#]/g, '')
     const email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
       this.loginForm.value.username)
-    if (!validphone && phone !== '') {
-      this.openSnackbar('Enter valid Phone Number')
-    }
+    // if (!validphone && phone !== '') {
+    //   this.openSnackbar('Enter valid Phone Number')
+    // }
     if (!email && !validphone) {
       this.openSnackbar('Enter valid email address')
     }
@@ -179,8 +179,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
-        this.openSnackbar(results.msg)
         await this.signupService.fetchStartUpDetails()
+        this.openSnackbar(results.msg)
         if (sessionStorage.getItem('url_before_login')) {
           location.href = sessionStorage.getItem('url_before_login') || ''
         } else {

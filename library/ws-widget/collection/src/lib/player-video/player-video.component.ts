@@ -285,7 +285,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
         this.viewerSvc
           .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
-      } else if (percentage >= 98) {
+      } else if (percentage >= 95) {
 
         this.viewerSvc
           .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
