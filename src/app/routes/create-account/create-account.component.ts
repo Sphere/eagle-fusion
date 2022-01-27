@@ -141,13 +141,13 @@ export class CreateAccountComponent implements OnInit {
     }
     // at least 10 in number
     if (phone.length >= 10) {
-      //this.otpPage = true
+      // this.otpPage = true
       this.isMobile = true
       this.emailPhoneType = 'phone'
       this.email = false
       // Call OTP Api, show resend Button true
     } else {
-      //this.otpPage = true
+      // this.otpPage = true
       this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
         this.createAccountForm.controls.emailOrMobile.value
       )
@@ -194,6 +194,7 @@ export class CreateAccountComponent implements OnInit {
           this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
+          this.otpPage = true
           // form.reset()
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
