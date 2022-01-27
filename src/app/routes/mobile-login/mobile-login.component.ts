@@ -46,7 +46,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   public isSignedIn = false
   public signinURL = ''
-  private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+  private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
+  //private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
@@ -182,7 +183,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         await this.signupService.fetchStartUpDetails()
         this.openSnackbar(results.msg)
         if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login') || ''
+          location.href = sessionStorage.getItem('url_before_login') || '/page/home'
         } else {
           location.href = '/page/home'
         }
