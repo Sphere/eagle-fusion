@@ -322,6 +322,7 @@ export class InitService {
         return details
       } catch (e) {
         this.configSvc.userProfile = null
+        return e
         throw new Error('Invalid user')
       }
     } else {

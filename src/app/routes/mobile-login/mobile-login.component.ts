@@ -181,10 +181,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
-        await this.signupService.fetchStartUpDetails()
         this.openSnackbar(results.msg)
+        await this.signupService.fetchStartUpDetails()
         if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login') || '/page/home'
+          location.href = sessionStorage.getItem('url_before_login') || ''
         } else {
           location.href = '/page/home'
         }

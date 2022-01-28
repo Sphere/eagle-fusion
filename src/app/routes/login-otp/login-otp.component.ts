@@ -71,7 +71,7 @@ export class LoginOtpComponent implements OnInit {
       async (res: any) => {
         if (res.message) {
        //   await this.signupService.fetchStartUpDetails()
-          this.openSnackbar('You are nor registered, Please Login to continue')
+          this.openSnackbar('You are now registered, Please Login to continue')
           this.router.navigate(['app/login'])
         }
       },
@@ -93,7 +93,7 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
-        this.openSnackbar(res.msg)
+        this.openSnackbar(res.message)
       },
       (err: any) => {
         this.openSnackbar(`OTP Error`, + err.msg)

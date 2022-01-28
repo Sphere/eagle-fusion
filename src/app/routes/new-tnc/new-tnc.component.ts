@@ -3,14 +3,15 @@ import { ActivatedRoute, Data, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
-//import { HttpClient } from '@angular/common/http'
+// import { MatSnackBar } from '@angular/material'
+// import { HttpClient } from '@angular/common/http'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { FormGroup, FormControl } from '@angular/forms'
-//import { Location } from '@angular/common'
+// import { Location } from '@angular/common'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -37,13 +38,14 @@ export class NewTncComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    //private http: HttpClient,
+    // private http: HttpClient,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
     private userProfileSvc: UserProfileService,
-    //location: Location
+    // location: Location
+     // private snackBar: MatSnackBar,
   ) {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -149,8 +151,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
 
-  gotoHome() {
-    this.router.navigate(['/page/home'])
+  gotoLogin() {
+    this.router.navigate(['/app/login'])
   }
 
   private constructReq(form: any) {
@@ -218,14 +220,14 @@ export class NewTncComponent implements OnInit, OnDestroy {
         if (data) {
           this.configSvc.profileDetailsStatus = true
           this.configSvc.hasAcceptedTnc = true
-          //location.href = '/page/home'
+          // location.href = '/page/home'
           this.router.navigate(['/page/home'])
           .then(() => {
             window.location.reload()
           })
         }
       },
-      (err: any) => {
+                                                                    (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true
@@ -238,5 +240,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
   // postProcess() {
   //   this.http.patch('/apis/protected/v8/user/tnc/postprocessing', {}).subscribe()
+  // }
+  //   private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  //   this.snackBar.open(primaryMsg, undefined, {
+  //     duration,
+  //   })
   // }
 }
