@@ -17,8 +17,8 @@
 .w-100 {
   width: 100%;
   display: block;
-  height: 25px;
-  margin-top: 15px;
+/*  height: 25px;
+  margin-top: 15px;*/
 }
 
 .card-standard-container {
@@ -206,8 +206,8 @@ mat-card.card-standard-container.mr-8 .mat-card {
 }
 
 #navy-blue-bg {
-  margin-top: 0px;
-  height: 150px;
+/*  margin-top: 0px;
+  height: 150px;*/
   background: #204667;
   border-top: solid 50px #ff9646;
 }
@@ -256,12 +256,14 @@ mat-card.card-standard-container.mr-8 .mat-card {
   animation: round 16s infinite;
   width: 100%;
   margin-top: 10px;
-  margin-left: 30px;
+/*  margin-left: 30px;*/
 }
 .support-txt {
   vertical-align: baseline;
 }
-
+.mylearning {
+  font-size: 14px !important;
+}
 .about-text {
   font-size: 18px;
 }
