@@ -36,7 +36,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
-      username: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|\w+@\w+\.\w{2,3})$/)]),
+      username: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|[\w.\-_]+@\w+\.\w{2,3})$/)]),
       password: new FormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -114,11 +114,16 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       this.contentSvc.googleAuthenticate(req).subscribe(
         async (results: any) => {
           this.openSnackbar(results.msg)
-          await this.signupService.fetchStartUpDetails()
-          if (sessionStorage.getItem('url_before_login')) {
-            location.href = sessionStorage.getItem('url_before_login') || ''
+          const readApi = await this.signupService.fetchStartUpDetails()
+          if (readApi.error) {
+            console.log(readApi)
+            return this.router.navigate(['/app/login'])
           } else {
-            location.href = '/page/home'
+            if (sessionStorage.getItem('url_before_login')) {
+              location.href = sessionStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
           }
         },
         (err: any) => {
@@ -180,13 +185,18 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
-        await this.signupService.fetchStartUpDetails()
         this.openSnackbar(results.msg)
-        if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login') || '/page/home'
-        } else {
-          location.href = '/page/home'
-        }
+          const readApi = await this.signupService.fetchStartUpDetails()
+          if (readApi.error) {
+            this.openSnackbar(readApi.statusText)
+            return this.router.navigate(['/app/login'])
+          } else {
+            if (sessionStorage.getItem('url_before_login')) {
+              location.href = sessionStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
+          }
       },
       (err: any) => {
         this.openSnackbar(err.error.error)

@@ -138,6 +138,7 @@ export class SignupService {
         return details
       } catch (e) {
         this.configSvc.userProfile = null
+        return e
         throw new Error('Invalid user')
       }
     } else {

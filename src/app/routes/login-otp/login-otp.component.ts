@@ -39,6 +39,7 @@ export class LoginOtpComponent implements OnInit {
     if (window.location.href.includes('email-otp')) {
       this.emailPhoneType = 'email'
     }
+    //this.resendOTP(this.emailPhoneType)
   }
 
   redirectToSignUp() {
@@ -68,9 +69,17 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         if (res.message) {
-          await this.signupService.fetchStartUpDetails()
           this.openSnackbar(res.message)
-          this.router.navigate(['/app/new-tnc'])
+          const readApi = await this.signupService.fetchStartUpDetails()
+          if (readApi.error) {
+            this.router.navigate(['/app/login'])
+          } else {
+            this.router.navigate(['/page/home'])
+          }
+          //this.router.navigate(['/page/home'])
+          //this.router.navigate(['/app/new-tnc'])
+
+
         }
       },
       (err: any) => {
@@ -91,9 +100,10 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
-        this.openSnackbar(res.msg)
+        this.openSnackbar(res.message)
       },
       (err: any) => {
+        console.log(err)
         this.openSnackbar(`OTP Error`, + err.msg)
       }
     )
