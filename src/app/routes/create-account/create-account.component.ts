@@ -40,7 +40,7 @@ export class CreateAccountComponent implements OnInit {
     this.createAccountForm = this.spherFormBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
-      emailOrMobile: new FormControl('', [Validators.required]),
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|\w+@\w+\.\w{2,3})$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
@@ -72,7 +72,7 @@ export class CreateAccountComponent implements OnInit {
     this.createAccountForm = this.spherFormBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
-      emailOrMobile: new FormControl('', [Validators.required]),
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|\w+@\w+\.\w{2,3})$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
@@ -128,18 +128,18 @@ export class CreateAccountComponent implements OnInit {
   onSubmit(form: any) {
 
     let phone = this.createAccountForm.controls.emailOrMobile.value
-    const validphone = /^[6-9]\d{9}$/.test(phone)
+    //const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
 
-    if (!validphone) {
-      this.otpPage = false
-      this.openSnackbar('Enter valid Phone Number')
-    }
-    if (phone.length < 10) {
-      this.otpPage = false
-      this.openSnackbar('Enter 10 digits Phone Number')
-    }
-    // at least 10 in number
+    // if (!validphone) {
+    //   this.otpPage = false
+    //   this.openSnackbar('Enter valid Phone Number')
+    // }
+    // if (phone.length < 10) {
+    //   this.otpPage = false
+    //   this.openSnackbar('Enter 10 digits Phone Number')
+    // }
+    // // at least 10 in number
     if (phone.length >= 10) {
       // this.otpPage = true
       this.isMobile = true
@@ -176,7 +176,8 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
-          this.openSnackbar(err.msg)
+          
+          this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
         }

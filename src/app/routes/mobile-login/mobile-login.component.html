@@ -7,13 +7,26 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
         </div>
+        <div>
+          <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
+              (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+            This field is required</mat-error>
+          <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
+            Invalid Format, It should be an email address or 10 digits mobile number</mat-error>
+        </div>
         <div class="form-group input-group">
-          <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" class="form-control">
+          <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password"
+            class="form-control">
           <div class="input-group-addon iconPosition">
             <a href="javascript:void(0)" (click)="toggle()" class="f-black">
               <i [ngClass]="iconChange" aria-hidden="true"></i>
             </a>
           </div>
+        </div>
+        <div>
+          <mat-error class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') &&
+              (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+            This field is required</mat-error>
         </div>
         <div class="form-group">
           <p>Forgot password?<a href="public/forgot-password"> Click Here</a> to reset</p>

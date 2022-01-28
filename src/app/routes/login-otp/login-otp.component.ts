@@ -70,11 +70,11 @@ export class LoginOtpComponent implements OnInit {
         if (res.message) {
           await this.signupService.fetchStartUpDetails()
           this.openSnackbar(res.message)
-          this.router.navigate(['/page/home'])
+          this.router.navigate(['/app/new-tnc'])
         }
       },
       (err: any) => {
-        this.openSnackbar(err.error)
+        this.openSnackbar(err.error.error || err.error.msg)
       })
   }
 
@@ -99,7 +99,7 @@ export class LoginOtpComponent implements OnInit {
     )
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

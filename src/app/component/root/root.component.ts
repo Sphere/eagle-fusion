@@ -114,8 +114,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
       if (event instanceof NavigationStart) {
-        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')
-          || event.url.includes('/app/org-details')) {
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
           this.isNavBarRequired = false
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false

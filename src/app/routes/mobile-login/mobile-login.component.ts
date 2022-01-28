@@ -36,7 +36,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
-      username: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|\w+@\w+\.\w{2,3})$/)]),
       password: new FormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -47,7 +47,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public isSignedIn = false
   public signinURL = ''
   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  //private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
