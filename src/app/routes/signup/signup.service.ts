@@ -22,7 +22,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-              private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {
@@ -139,7 +139,6 @@ export class SignupService {
       } catch (e) {
         this.configSvc.userProfile = null
         return e
-        throw new Error('Invalid user')
       }
     } else {
       return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }

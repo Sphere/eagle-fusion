@@ -116,7 +116,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
           this.openSnackbar(results.msg)
           const readApi = await this.signupService.fetchStartUpDetails()
           if (readApi.error) {
-            console.log(readApi)
             return this.router.navigate(['/app/login'])
           } else {
             if (sessionStorage.getItem('url_before_login')) {
@@ -186,17 +185,17 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
         this.openSnackbar(results.msg)
-          const readApi = await this.signupService.fetchStartUpDetails()
-          if (readApi.error) {
-            this.openSnackbar(readApi.statusText)
-            return this.router.navigate(['/app/login'])
+        const readApi = await this.signupService.fetchStartUpDetails()
+        if (readApi.error) {
+          this.openSnackbar(readApi.statusText)
+          return this.router.navigate(['/app/login'])
+        } else {
+          if (sessionStorage.getItem('url_before_login')) {
+            location.href = sessionStorage.getItem('url_before_login') || ''
           } else {
-            if (sessionStorage.getItem('url_before_login')) {
-              location.href = sessionStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/page/home'
-            }
+            location.href = '/page/home'
           }
+        }
       },
       (err: any) => {
         this.openSnackbar(err.error.error)

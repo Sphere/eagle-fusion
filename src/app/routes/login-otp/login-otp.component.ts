@@ -103,7 +103,6 @@ export class LoginOtpComponent implements OnInit {
         this.openSnackbar(res.message)
       },
       (err: any) => {
-        console.log(err)
         this.openSnackbar(`OTP Error`, + err.msg)
       }
     )

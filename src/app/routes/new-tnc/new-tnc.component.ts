@@ -218,7 +218,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
       this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
         if (data) {
-          console.log(data)
           this.configSvc.profileDetailsStatus = true
           this.configSvc.hasAcceptedTnc = true
           // location.href = '/page/home'
