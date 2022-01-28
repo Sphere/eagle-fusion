@@ -12,7 +12,7 @@
               (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
             This field is required</mat-error>
           <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
-            Invalid Format, It should be an email address or 10 digits mobile number</mat-error>
+            Invalid email or number</mat-error>
         </div>
         <div class="form-group input-group">
           <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password"

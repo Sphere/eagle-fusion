@@ -40,11 +40,12 @@ export class CreateAccountComponent implements OnInit {
     this.createAccountForm = this.spherFormBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|\w+@\w+\.\w{2,3})$/)]),
+      // tslint:disable-next-line:max-line-length
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([7-9][0-9]{9}|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                                   { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -76,7 +77,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                                   { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -128,7 +129,7 @@ export class CreateAccountComponent implements OnInit {
   onSubmit(form: any) {
 
     let phone = this.createAccountForm.controls.emailOrMobile.value
-    //const validphone = /^[6-9]\d{9}$/.test(phone)
+    // const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
 
     // if (!validphone) {
@@ -171,14 +172,12 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          debugger;
-          localStorage.setItem(`userUUID`, res.userUUId);
-          debugger;
+          localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                  err => {
 
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
@@ -204,7 +203,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                                   err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
         }
