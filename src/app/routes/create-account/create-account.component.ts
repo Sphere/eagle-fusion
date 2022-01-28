@@ -34,7 +34,7 @@ export class CreateAccountComponent implements OnInit {
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    private router: Router
+    private router: Router,
   ) {
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
@@ -166,17 +166,20 @@ export class CreateAccountComponent implements OnInit {
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.status === 'success') {
           this.openSnackbar(res.msg)
-          this.generateOtp('email', form.value.emailOrMobile)
+         // this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
+          debugger;
+          localStorage.setItem(`userUUID`, res.userUUId);
+          debugger;
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
         err => {
-          
+
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -192,7 +195,7 @@ export class CreateAccountComponent implements OnInit {
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
         if (res.status === 'success') {
           this.openSnackbar(res.msg)
-          this.generateOtp('phone', form.value.emailOrMobile)
+       //   this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true

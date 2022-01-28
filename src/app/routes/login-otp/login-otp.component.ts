@@ -55,6 +55,7 @@ export class LoginOtpComponent implements OnInit {
         mobileNumber: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`)
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -63,13 +64,14 @@ export class LoginOtpComponent implements OnInit {
         email: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`)
       }
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         if (res.message) {
           await this.signupService.fetchStartUpDetails()
-          this.openSnackbar(res.message)
+          //this.openSnackbar(res.message)
           this.router.navigate(['/app/new-tnc'])
         }
       },
