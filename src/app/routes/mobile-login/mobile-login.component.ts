@@ -83,7 +83,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-      (googleUser: any) => {
+                                  (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -97,7 +97,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-      (error: any) => {
+                                  (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -114,15 +114,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       this.contentSvc.googleAuthenticate(req).subscribe(
         async (results: any) => {
           this.openSnackbar(results.msg)
-          const readApi = await this.signupService.fetchStartUpDetails()
-          if (readApi.error) {
-            return this.router.navigate(['/app/login'])
+          await this.signupService.fetchStartUpDetails()
+          if (sessionStorage.getItem('url_before_login')) {
+            location.href = sessionStorage.getItem('url_before_login') || ''
           } else {
-            if (sessionStorage.getItem('url_before_login')) {
-              location.href = sessionStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/page/home'
-            }
+            location.href = '/page/home'
           }
         },
         (err: any) => {
@@ -185,16 +181,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
         this.openSnackbar(results.msg)
-        const readApi = await this.signupService.fetchStartUpDetails()
-        if (readApi.error) {
-          this.openSnackbar(readApi.statusText)
-          return this.router.navigate(['/app/login'])
+        await this.signupService.fetchStartUpDetails()
+        if (sessionStorage.getItem('url_before_login')) {
+          location.href = sessionStorage.getItem('url_before_login') || ''
         } else {
-          if (sessionStorage.getItem('url_before_login')) {
-            location.href = sessionStorage.getItem('url_before_login') || ''
-          } else {
-            location.href = '/page/home'
-          }
+          location.href = '/page/home'
         }
       },
       (err: any) => {

@@ -20,7 +20,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   courseCount = 0
 
   constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router, private authSvc: AuthKeycloakService, private configSvc: ConfigurationsService) { }
+    private router: Router, private authSvc: AuthKeycloakService, private configSvc: ConfigurationsService) { }
 
   ngOnInit() {
     // this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -39,75 +39,8 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
-    const req = {
-      orgId: [this.orgName],
-      searchFilters: {
-        locale: [
-          'en',
-        ],
-        pageSize: 5,
-        query: 'all',
-        didYouMean: true,
-        filters: [
-          {
-            andFilters: [
-              {
-                contentType: [
-                  'Course',
-                  'Program',
-                ],
-              },
-            ],
-          },
-        ],
-        visibleFilters: {
-          learningMode: {
-            displayName: 'Mode',
-          },
-          duration: {
-            displayName: 'Duration',
-          },
-          exclusiveContent: {
-            displayName: 'Costs',
-          },
-          complexityLevel: {
-            displayName: 'Level',
-          },
-          catalogPaths: {
-            displayName: 'Catalog',
-            order: [
-              {
-                _key: 'asc',
-              },
-            ],
-          },
-          sourceShortName: {
-            displayName: 'Source',
-          },
-          resourceType: {
-            displayName: 'Format',
-          },
-          region: {
-            displayName: 'Region',
-          },
-          concepts: {
-            displayName: 'Concepts',
-          },
-          lastUpdatedOn: {
-            displayName: 'Published Date',
-          },
-        },
-        includeSourceFields: [
-          'creatorLogo',
-        ],
-        sort: [
-          {
-            lastUpdatedOn: 'desc',
-          },
-        ],
-      },
-    }
-    this.orgService.getDatabyOrgId(req).subscribe((data: any) => {
+
+    this.orgService.getDatabyOrgId().then((data: any) => {
       this.courseData = data
       this.courseCount = this.courseData.result.length
     })

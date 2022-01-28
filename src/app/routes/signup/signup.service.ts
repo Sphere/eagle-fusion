@@ -22,7 +22,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService
+              private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {
@@ -140,10 +140,10 @@ export class SignupService {
         this.configSvc.userProfile = null
         return e
       }
-    } else {
-      return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
     }
+    return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
   }
+
   hasRole(role: string[]): boolean {
     let returnValue = false
     const rolesForCBP: any = ['PUBLIC']

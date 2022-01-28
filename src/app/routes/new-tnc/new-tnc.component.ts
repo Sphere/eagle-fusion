@@ -3,7 +3,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
-//import { MatSnackBar } from '@angular/material'
+// import { MatSnackBar } from '@angular/material'
 // import { HttpClient } from '@angular/common/http'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
@@ -227,7 +227,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
           })
         }
       },
-      (err: any) => {
+                                                                    (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true

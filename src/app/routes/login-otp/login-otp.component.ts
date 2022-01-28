@@ -39,7 +39,6 @@ export class LoginOtpComponent implements OnInit {
     if (window.location.href.includes('email-otp')) {
       this.emailPhoneType = 'email'
     }
-    //this.resendOTP(this.emailPhoneType)
   }
 
   redirectToSignUp() {
@@ -56,6 +55,7 @@ export class LoginOtpComponent implements OnInit {
         mobileNumber: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`),
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -64,21 +64,15 @@ export class LoginOtpComponent implements OnInit {
         email: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`),
       }
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         if (res.message) {
+          await this.signupService.fetchStartUpDetails()
           this.openSnackbar(res.message)
-          const readApi = await this.signupService.fetchStartUpDetails()
-          if (readApi.error) {
-            this.router.navigate(['/app/login'])
-          } else {
-            this.router.navigate(['/page/home'])
-          }
-          //this.router.navigate(['/page/home'])
-          //this.router.navigate(['/app/new-tnc'])
-
+          this.router.navigate(['/page/home'])
 
         }
       },
