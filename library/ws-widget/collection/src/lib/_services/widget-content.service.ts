@@ -36,6 +36,9 @@ const API_END_POINTS = {
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
   LOGIN_USER : `/apis/public/v8/emailMobile/auth`,
+  FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
+    // tslint:disable-next-line: max-line-length
+    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
 }
 
 @Injectable({
@@ -63,6 +66,20 @@ export class WidgetContentService {
   //     .post<NsContent.IContent>(url, { additionalFields })
   //     .pipe(retry(1))
   // }
+
+// tslint:disable-next-line:max-line-length
+    fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
+    let path = ''
+      path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
+    return this.http
+      .get(path)
+      .pipe(
+        catchError(this.handleError),
+        map(
+          (data: any) => data.result.courses
+        )
+      )
+  }
 
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
     const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?mode=edit`
