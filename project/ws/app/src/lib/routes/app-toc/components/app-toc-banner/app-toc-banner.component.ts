@@ -312,8 +312,9 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
-                  const blob = new Blob([response.result.printUri], { type: 'image/png' })
-                  FileSaver.saveAs(blob, 'receivedFile.png')
+                  const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
+                  const blob = new Blob([svg], { type: 'image/svg+xml' })
+                  FileSaver.saveAs(blob, 'certificate.svg')
                   // const base64string = response.result.printUri
                   // const blobObj = new Blob([new Uint8Array(base64string)])
                   // fileSaver.saveAs(response.result.printUri, `image.jpg`)

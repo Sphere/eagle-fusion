@@ -154,7 +154,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
       } else {
-        //this.isNavBarRequired = true
+        // this.isNavBarRequired = true
       }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()

@@ -97,7 +97,6 @@
             </div>
           </span>
         </div>
-        <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.children?.length}}</p>
         <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
           </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
 
@@ -559,7 +558,7 @@
         </div>
         <p *ngIf="widgetData?.content?.completionPercentage"><span class="fw-500">Progress :</span> {{
           widgetData?.content?.completionPercentage}} %</p>
-        <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.childNodes?.length}}</p>
+        <!-- <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.childNodes?.length}}</p> -->
         <p *ngIf="widgetData?.content?.creator"><span class="fw-500">Author:</span> {{ widgetData?.content?.creator}}
         </p>
         <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
@@ -932,7 +931,7 @@
           targetId: widgetData?.content?.identifier,
           type: widgetData?.content?.contentType
         }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow>
-      <!-- <ws-widget-btn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
+      <!-- <ws-widget-btptocn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
       <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
       </ws-widget-btn-playlist> -->
       <ws-widget-btn-kb-analytics [widgetData]="
