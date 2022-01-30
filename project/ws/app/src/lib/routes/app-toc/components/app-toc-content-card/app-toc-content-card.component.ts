@@ -148,11 +148,9 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
               this.contentStructure.webPage += 1
               break
             case NsContent.EMimeTypes.QUIZ:
-              if (child.resourceType === 'Assessment') {
+
                 this.contentStructure.assessment += 1
-              } else {
-                this.contentStructure.quiz += 1
-              }
+              
               break
             case NsContent.EMimeTypes.WEB_MODULE:
               this.contentStructure.webModule += 1
