@@ -104,27 +104,34 @@ export class AwsAnalyticsService {
       // Initialize Amplify
       auth.configure(this.amplifyConfig)
       analytics.configure(this.analyticsConfig)
-      analytics.updateEndpoint({
-        address: this.userDetails.email,
-        attributes: endPointAttr,
-        channelType: 'EMAIL',
-        location: {
-          city: this.userDetails.distict,
-          country: 'IN',
-          region: this.userDetails.state,
-        },
-        optOut: 'NONE',
-        userId: this.userDetails.email,
-        userAttributes: {
-          wid: [this.userDetails.wid],
-          username: [this.userDetails.name],
-          age: [this.userDetails.age],
-          gender: [this.userDetails.gender],
-          profession: [this.userDetails.profession],
-        },
-      }).then(() => {
-        analytics.record(attribute)
-      })
+      try {
+
+        analytics.updateEndpoint({
+          address: this.userDetails.email,
+          attributes: endPointAttr,
+          channelType: 'EMAIL',
+          location: {
+            city: this.userDetails.distict,
+            country: 'IN',
+            region: this.userDetails.state,
+          },
+          optOut: 'NONE',
+          userId: this.userDetails.email,
+          userAttributes: {
+            wid: [this.userDetails.wid],
+            username: [this.userDetails.name],
+            age: [this.userDetails.age],
+            gender: [this.userDetails.gender],
+            profession: [this.userDetails.profession],
+          },
+        }).then(() => {
+          analytics.record(attribute)
+        })
+      } catch (e) {
+        // tslint:disable-next-line: no-console
+        console.log(e)
+      }
+
     } else {
       auth.configure(this.amplifyConfig)
       analytics.configure(this.analyticsConfig)
@@ -159,28 +166,33 @@ export class AwsAnalyticsService {
     // Initialize Amplify
     auth.configure(this.amplifyConfig)
     analytics.configure(this.analyticsConfig)
+    try {
+      analytics.updateEndpoint({
+        address: this.userDetails.email,
+        attributes: endPointAttr,
+        channelType: 'EMAIL',
+        location: {
+          city: this.userDetails.distict,
+          country: 'IN',
+          region: this.userDetails.state,
+        },
+        optOut: 'NONE',
+        userId: this.userDetails.email,
+        userAttributes: {
+          wid: [this.userDetails.wid],
+          username: [this.userDetails.name],
+          age: [this.userDetails.age],
+          gender: [this.userDetails.gender],
+          profession: [this.userDetails.profession],
+        },
+      }).then(() => {
+        analytics.record(attribute)
+      })
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log(e)
+    }
 
-    analytics.updateEndpoint({
-      address: this.userDetails.email,
-      attributes: endPointAttr,
-      channelType: 'EMAIL',
-      location: {
-        city: this.userDetails.distict,
-        country: 'IN',
-        region: this.userDetails.state,
-      },
-      optOut: 'NONE',
-      userId: this.userDetails.email,
-      userAttributes: {
-        wid: [this.userDetails.wid],
-        username: [this.userDetails.name],
-        age: [this.userDetails.age],
-        gender: [this.userDetails.gender],
-        profession: [this.userDetails.profession],
-      },
-    }).then(() => {
-      analytics.record(attribute)
-    })
 
   }
 

@@ -361,7 +361,12 @@ export class DownloadCertificateComponent implements OnInit {
                 doc.text(`Awarded On ${moment(this.receivedDate).format('DD/MM/YYYY')}`, 120, 174)
                 doc.save('certificate_ISRH.pdf')
                 // AWS analytics event
-                this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+                try {
+                  this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+                } catch (e) {
+                  // tslint:disable-next-line: no-console
+                  console.log(e)
+                }
               }
             }
           },
@@ -410,7 +415,12 @@ export class DownloadCertificateComponent implements OnInit {
               doc.text(`Download date ${moment(new Date()).format('DD/MM/YYYY')}`, 50, 186)
               doc.save('certificate_pocqi.pdf')
               // AWS analytics event
-              this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+              try {
+                this.createAWSAnalyticsEventAttribute('Successfuldownloadcertificate')
+              } catch (e) {
+                // tslint:disable-next-line: no-console
+                console.log(e)
+              }
             }
           },
                                                        err => {
