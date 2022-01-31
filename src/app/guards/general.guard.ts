@@ -98,7 +98,7 @@ export class GeneralGuard implements CanActivate {
         if (data.profileDetails) {
           return this.router.parseUrl('/page/home')
         }
-        return this.router.navigate(['public', 'tnc'])
+        return this.router.navigate(['app', 'new-tnc'])
       },
       (_err: any) => {
       })

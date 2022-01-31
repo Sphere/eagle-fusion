@@ -18,6 +18,8 @@ import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
+import { ActivatedRoute } from '@angular/router'
+
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -25,6 +27,7 @@ import { ViewerUtilService } from './../../viewer-util.service'
   styleUrls: ['./quiz.component.scss'],
 })
 export class QuizComponent implements OnInit, OnChanges, OnDestroy {
+  [x: string]: any
 
   @Input() identifier = ''
   @Input() artifactUrl = ''
@@ -82,7 +85,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService
+    private viewerSvc: ViewerUtilService,
+    public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -172,9 +176,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         })
     }
   }
-reTakeQuiz() {
+  reTakeQuiz() {
     this.startQuiz()
-}
+  }
   fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
     this.raiseTelemetry('mark', optionId, 'click')
     if (this.viewState === 'answer') {
@@ -251,6 +255,10 @@ reTakeQuiz() {
     )
     const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.artifactUrl
+    sanitizedRequestData['contentId'] = this.identifier
+    sanitizedRequestData['courseId'] = this.collectionId
+    sanitizedRequestData['batchId'] = this.route.snapshot.queryParams.batchId
+    sanitizedRequestData['userId'] = localStorage.getItem('userUUID')
     this.quizSvc.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
         window.scrollTo(0, 0)

@@ -138,12 +138,12 @@ export class SignupService {
         return details
       } catch (e) {
         this.configSvc.userProfile = null
-        throw new Error('Invalid user')
+        return e
       }
-    } else {
-      return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
     }
+    return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
   }
+
   hasRole(role: string[]): boolean {
     let returnValue = false
     const rolesForCBP: any = ['PUBLIC']

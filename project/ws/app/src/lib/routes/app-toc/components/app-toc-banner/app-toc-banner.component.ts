@@ -23,6 +23,7 @@ import { FormControl, Validators } from '@angular/forms'
 import * as dayjs from 'dayjs'
 import * as  lodash from 'lodash'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
+import * as FileSaver from 'file-saver'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -80,6 +81,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   disableEnrollBtn = false
   batchId!: string
   displayStyle = 'none'
+  enrolledCourse: any
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -288,12 +290,49 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-  downloadCertificate(content: any) {
-    this.displayStyle = 'block'
-    this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
-      // tslint:disable-next-line:no-console
-      console.log(data)
-    })
+  downloadCertificate() {
+
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        // let enrolledCourse: NsContent.ICourse | undefined
+        if (this.content && this.content.identifier && !this.forPreview) {
+          if (courses && courses.length) {
+            this.enrolledCourse = courses.find(course => {
+              const identifier = this.content && this.content.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+            if (this.enrolledCourse.issuedCertificates.length > 0) {
+              const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
+              this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
+                if (response.responseCode) {
+                  const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
+                  const blob = new Blob([svg], { type: 'image/svg+xml' })
+                  FileSaver.saveAs(blob, 'certificate.svg')
+                  // const base64string = response.result.printUri
+                  // const blobObj = new Blob([new Uint8Array(base64string)])
+                  // fileSaver.saveAs(response.result.printUri, `image.jpg`)
+                  // window.location.href = 'data:application/octet-stream;base64,' + response.result.printUri;
+                }
+              })
+            } else {
+              this.displayStyle = 'block'
+            }
+          }
+        }
+      })
+
+    // this.displayStyle = 'block'
+    // this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
+    //   // tslint:disable-next-line:no-console
+    //   console.log(data)
+    // })
   }
   closePopup() {
     this.displayStyle = 'none'

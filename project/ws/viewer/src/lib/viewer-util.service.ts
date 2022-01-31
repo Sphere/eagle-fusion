@@ -142,6 +142,9 @@ export class ViewerUtilService {
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
     if (this.configservice.userProfile) {
+      let percentage = this.calculatePercent(request.current, request.max_size, request.mime_type)
+      if(percentage>95)
+      percentage = 100
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',
@@ -157,7 +160,7 @@ export class ViewerUtilService {
                 current: request.current,
                 mimeType: request.mime_type,
               },
-              completionPercentage: this.calculatePercent(request.current, request.max_size, request.mime_type),
+              completionPercentage: percentage,
             },
           ],
         },

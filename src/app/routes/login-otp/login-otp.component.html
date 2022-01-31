@@ -16,12 +16,12 @@
             <input tabindex="1" id="code" class="form-control input-box" formControlName="code" type="text"
               autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
           </div>
-          <div class="form-group mt-4 mb-4">
+          <div class="form-group mt-4 mb-4 activeLink">
             Did not receive a <span *ngIf="emailPhoneType === 'phone'">OTP</span><span
-              *ngIf="emailPhoneType === 'email'">mail</span>
-            <span class="resend-text" (click)="resendOTP(emailPhoneType)">? Click Here</span> to resend
+              *ngIf="emailPhoneType === 'email'">mail?</span>
+            <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)">Click Here</span> to resend
           </div>
-          <button class="form-group login-button mt-4" name="login" type="submit" (click)="verifyOtp()">Next</button>
+          <button class="form-group login-button mt-4 cursor-pointer" name="login" type="submit" (click)="verifyOtp()">Next</button>
         </form>
       </div>
     </div>

@@ -31,75 +31,7 @@ export class AllCoursesComponent implements OnInit {
   }
 
   getCourses() {
-    const req = {
-      orgId: [this.orgName],
-      searchFilters: {
-        locale: [
-          'en',
-        ],
-        pageSize: this.sum,
-        query: 'all',
-        didYouMean: true,
-        filters: [
-          {
-            andFilters: [
-              {
-                contentType: [
-                  'Course',
-                  'Program',
-                ],
-              },
-            ],
-          },
-        ],
-        visibleFilters: {
-          learningMode: {
-            displayName: 'Mode',
-          },
-          duration: {
-            displayName: 'Duration',
-          },
-          exclusiveContent: {
-            displayName: 'Costs',
-          },
-          complexityLevel: {
-            displayName: 'Level',
-          },
-          catalogPaths: {
-            displayName: 'Catalog',
-            order: [
-              {
-                _key: 'asc',
-              },
-            ],
-          },
-          sourceShortName: {
-            displayName: 'Source',
-          },
-          resourceType: {
-            displayName: 'Format',
-          },
-          region: {
-            displayName: 'Region',
-          },
-          concepts: {
-            displayName: 'Concepts',
-          },
-          lastUpdatedOn: {
-            displayName: 'Published Date',
-          },
-        },
-        includeSourceFields: [
-          'creatorLogo',
-        ],
-        sort: [
-          {
-            lastUpdatedOn: 'desc',
-          },
-        ],
-      },
-    }
-    this.orgService.getDatabyOrgId(req).subscribe((response: any) => {
+    this.orgService.getDatabyOrgId().then((response: any) => {
       this.courseData = response.result
       this.totalHits = response.totalHits
       this.addItems(this.start, this.sum)

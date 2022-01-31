@@ -36,7 +36,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
-      username: new FormControl('', [Validators.required]),
+      // tslint:disable-next-line:max-line-length
+      username: new FormControl('', [Validators.required, Validators.pattern(/^([7-9][0-9]{9}|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)$/)]),
       password: new FormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -180,10 +181,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
-        await this.signupService.fetchStartUpDetails()
         this.openSnackbar(results.msg)
+        await this.signupService.fetchStartUpDetails()
         if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login') || '/page/home'
+          location.href = sessionStorage.getItem('url_before_login') || ''
         } else {
           location.href = '/page/home'
         }

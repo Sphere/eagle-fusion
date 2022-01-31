@@ -1,8 +1,11 @@
-import { AuthKeycloakService, ConfigurationsService } from '@ws-widget/utils'
+import {
+  // AuthKeycloakService,
+  ConfigurationsService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
+
 @Component({
   selector: 'ws-app-org',
   templateUrl: './org.component.html',
@@ -19,8 +22,12 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
   courseCount = 0
 
-  constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-              private router: Router, private authSvc: AuthKeycloakService, private configSvc: ConfigurationsService) { }
+  constructor(private activateRoute: ActivatedRoute,
+              private orgService: OrgServiceService,
+              private router: Router,
+              // private authSvc: AuthKeycloakService,
+              private configSvc: ConfigurationsService) {
+  }
 
   ngOnInit() {
     // this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -39,75 +46,8 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
-    const req = {
-      orgId: [this.orgName],
-      searchFilters: {
-        locale: [
-          'en',
-        ],
-        pageSize: 5,
-        query: 'all',
-        didYouMean: true,
-        filters: [
-          {
-            andFilters: [
-              {
-                contentType: [
-                  'Course',
-                  'Program',
-                ],
-              },
-            ],
-          },
-        ],
-        visibleFilters: {
-          learningMode: {
-            displayName: 'Mode',
-          },
-          duration: {
-            displayName: 'Duration',
-          },
-          exclusiveContent: {
-            displayName: 'Costs',
-          },
-          complexityLevel: {
-            displayName: 'Level',
-          },
-          catalogPaths: {
-            displayName: 'Catalog',
-            order: [
-              {
-                _key: 'asc',
-              },
-            ],
-          },
-          sourceShortName: {
-            displayName: 'Source',
-          },
-          resourceType: {
-            displayName: 'Format',
-          },
-          region: {
-            displayName: 'Region',
-          },
-          concepts: {
-            displayName: 'Concepts',
-          },
-          lastUpdatedOn: {
-            displayName: 'Published Date',
-          },
-        },
-        includeSourceFields: [
-          'creatorLogo',
-        ],
-        sort: [
-          {
-            lastUpdatedOn: 'desc',
-          },
-        ],
-      },
-    }
-    this.orgService.getDatabyOrgId(req).subscribe((data: any) => {
+
+    this.orgService.getDatabyOrgId().then((data: any) => {
       this.courseData = data
       this.courseCount = this.courseData.result.length
     })
@@ -115,13 +55,13 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
 
   gotoOverview(identifier: any) {
-    if (this.configSvc.isAuthenticated) {
+    // if (this.configSvc.isAuthenticated) {
       this.router.navigate([`/app/toc/${identifier}/overview`])
-    } else {
-      const url = `/app/toc/${identifier}/overview`
-      localStorage.setItem('selectedCourse', url)
-      this.authSvc.login('S', url)
-    }
+    // } else {
+      // const url = `/app/toc/${identifier}/overview`
+      // localStorage.setItem('selectedCourse', url)
+      // this.authSvc.login('S', url)
+    // }
   }
 
   showMoreCourses() {
@@ -139,14 +79,14 @@ export class OrgComponent implements OnInit, OnDestroy {
       // console.log('this.showEndPopup', this.showEndPopup)
     }
   }
-  loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
-    if (this.configSvc.isAuthenticated) {
+  loginRedirect(contentId: any) {
+    // if (this.configSvc.isAuthenticated) {
       this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
-    } else {
-      const url = `/app/toc/${contentId}/overview`
-      localStorage.setItem('selectedCourse', url)
-      this.authSvc.login(key, url)
-    }
+    // } else {
+    //   const url = `/app/toc/${contentId}/overview`
+    //   localStorage.setItem('selectedCourse', url)
+    //   this.authSvc.login(key, url)
+    // }
   }
   ngOnDestroy() {
     this.orgService.hideHeaderFooter.next(false)

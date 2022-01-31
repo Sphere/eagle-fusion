@@ -55,6 +55,7 @@ export class LoginOtpComponent implements OnInit {
         mobileNumber: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`),
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -63,18 +64,19 @@ export class LoginOtpComponent implements OnInit {
         email: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`),
       }
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         if (res.message) {
-          await this.signupService.fetchStartUpDetails()
-          this.openSnackbar(res.message)
-          this.router.navigate(['/page/home'])
+       //   await this.signupService.fetchStartUpDetails()
+          this.openSnackbar('You are now registered, Please Login to continue')
+          this.router.navigate(['app/login'])
         }
       },
       (err: any) => {
-        this.openSnackbar(err.error)
+        this.openSnackbar(err.error.error || err.error.msg)
       })
   }
 
@@ -91,7 +93,7 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
-        this.openSnackbar(res.msg)
+        this.openSnackbar(res.message)
       },
       (err: any) => {
         this.openSnackbar(`OTP Error`, + err.msg)
@@ -99,7 +101,7 @@ export class LoginOtpComponent implements OnInit {
     )
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

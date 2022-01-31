@@ -114,16 +114,17 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
       if (event instanceof NavigationStart) {
-        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')
-          || event.url.includes('/app/org-details')) {
+        // tslint:disable-next-line: max-line-length
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
           this.isNavBarRequired = false
+          this.hideHeaderFooter = true
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
-          // this.isNavBarRequired = false
+          this.isNavBarRequired = true
           // tslint:disable-next-line: max-line-length
-        } if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('app/complete-profile') || event.url.includes('/public/forgot-password') ||
+        } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/app/your-background') || event.url.includes('/app/almost-done') || event.url.includes('app/complete-profile') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account') || event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.hideHeaderFooter = true
           this.isNavBarRequired = false
@@ -142,20 +143,19 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
-      if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
-        this.isNavBarRequired = true
-        this.showNavigation = false
-      } else {
-        this.isNavBarRequired = false
-        this.showNavigation = true
-        // this.authSvc.logout();
-        // window.location.href = `${redirectUrl}apis/reset`
-      }
+      // if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
+      //   this.isNavBarRequired = true
+      //   this.showNavigation = false
+      // } else {
+      //   this.isNavBarRequired = false
+      //   this.showNavigation = true
+      // }
+
       if (
         this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
       } else {
-        this.isNavBarRequired = true
+        // this.isNavBarRequired = true
       }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
@@ -173,6 +173,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
+
     // if (sessionStorage.getItem('url_before_login')) {
     //   const url = sessionStorage.getItem(`url_before_login`) || ''
     //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])

@@ -35,6 +35,9 @@
   height: 465px;
   overflow-y: scroll;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 
 @media screen and (min-width:600px) {
   .tnc-main {
