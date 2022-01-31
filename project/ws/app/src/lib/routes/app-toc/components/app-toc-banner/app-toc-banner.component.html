@@ -116,11 +116,10 @@
               </div> -->
 
               <div class="header-actions">
-                <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">
-                  <a [color]="'primary'" class="margin-right-m resumeButton" mat-button
-                    (click)="enrollUser(batchData.content)">
+                <ng-container>
+                    <button mat-button [color]="'primary'" class="ws-mat-primary-background mat-button-base margin-right-m" (click)="enrollUser(batchData.content)">
                     Enroll Batch
-                  </a>
+                  </button>
                   <!--<form>
                     <mat-form-field appearance="fill">
                       <mat-label>Select batch to enroll</mat-label>
@@ -151,11 +150,11 @@
               </div>
 
               <div class="header-actions header-act-btn">
-                <a [color]="'primary'"
+                <button [color]="'primary'"
                   *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('mdo_admin') || this.configSvc.userRoles.has('spv_admin'))"
-                  class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
+                  class="ws-mat-primary-background mat-button-base margin-right-m" mat-button (click)="openDialog(content)">
                   Create Batch
-                </a>
+                </button>
                 <ng-container *ngIf="
                               actionBtnStatus !== 'wait' &&
                               content?.status !== 'Deleted' &&
@@ -178,13 +177,13 @@
                       <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
                         [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                         [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
-                        class="margin-right-m resumeButton" mat-flat-button>
+                        class="margin-right-m resumeButton" mat-button>
                         <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
                           {{resumeData?"Resume":"Start"}}
                         </ng-container>
                       </a>
                       <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
-                        [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-flat-button>
+                        [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-button>
                         <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment
                         </ng-container>
                       </a>

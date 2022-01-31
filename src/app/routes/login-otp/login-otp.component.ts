@@ -67,14 +67,14 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
-        if (res.message === 'Success ! OTP is verified .') {
+        if (res.message) {
           await this.signupService.fetchStartUpDetails()
           this.openSnackbar(res.message)
           this.router.navigate(['/page/home'])
         }
       },
       (err: any) => {
-        this.openSnackbar(err)
+        this.openSnackbar(err.error)
       })
   }
 

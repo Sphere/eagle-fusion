@@ -1,10 +1,9 @@
-<ws-header></ws-header>
+
 <div class="login-page-content">
   <div class="login-card">
     <div class="img-box">
-      <img *ngIf="emailPhoneType === 'email'" width="250" height="240"
+      <img width="250" height="240"
         src="../../../fusion-assets/images/email-code.png">
-      <img *ngIf="emailPhoneType === 'phone'" width="275" height="210" src="../../../fusion-assets/images/SMS.png">
     </div>
     <div class="check-email-text mt-6">Check your <span *ngIf="emailPhoneType === 'email'">email</span>
       <span *ngIf="emailPhoneType === 'phone'">SMS</span>!

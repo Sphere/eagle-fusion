@@ -36,10 +36,10 @@
       <ng-container *ngFor="let featuredWidget of featuredApps" [wsResolverWidget]="featuredWidget"></ng-container>
     </div>
   </section>
-  <a mat-menu-item [routerLink]="widgetData?.allListingUrl" class="all-features" *ngIf="widgetData?.allListingUrl">
+  <!--<a mat-menu-item [routerLink]="widgetData?.allListingUrl" class="all-features" *ngIf="widgetData?.allListingUrl">
     <mat-icon>expand_more</mat-icon>
     <span i18n>Explore all features</span>
-  </a>
+  </a> -->
   <div class="flex flex-row-reverse">
     <button (click)="logout()" color="warn" mat-button>
       <mat-icon>power_settings_new</mat-icon>&nbsp;
