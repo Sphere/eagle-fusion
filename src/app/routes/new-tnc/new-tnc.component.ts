@@ -11,6 +11,7 @@ import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { FormGroup, FormControl } from '@angular/forms'
+import { HttpClient } from '@angular/common/http'
 // import { Location } from '@angular/common'
 
 @Component({
@@ -35,6 +36,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       errorType: 'internalServer',
     },
   }
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -44,8 +46,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
     private userProfileSvc: UserProfileService,
+    private http: HttpClient,
     // location: Location
-     // private snackBar: MatSnackBar,
+    // private snackBar: MatSnackBar,
   ) {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -54,7 +57,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
             const userData = data.profileDetails.profileReq.personalDetails
             this.tncFlag = userData.dob || ''
           } else {
-            const userData =  data.profileDetails.personalDetails.dob
+            const userData = data.profileDetails.personalDetails.dob
             this.tncFlag = userData.dob || ''
           }
         })
@@ -152,6 +155,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   gotoLogin() {
+    this.http.get('/apis/proxies/v8/logout/user').toPromise()
+    this.configSvc.userProfile = null
     this.router.navigate(['/app/login'])
   }
 
@@ -222,12 +227,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
           this.configSvc.hasAcceptedTnc = true
           // location.href = '/page/home'
           this.router.navigate(['/page/home'])
-          .then(() => {
-            window.location.reload()
-          })
+            .then(() => {
+              window.location.reload()
+            })
         }
       },
-                                                                    (err: any) => {
+        (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true
