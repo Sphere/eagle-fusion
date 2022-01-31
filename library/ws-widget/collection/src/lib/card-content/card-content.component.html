@@ -106,12 +106,12 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
+        <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
-        </div>
+        </div> -->
 
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+        <div class="mt-0 flex justify-between items-center">
           <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
             (click)="loginRedirect('S',  widgetData.content.identifier)"> Login
           </button>
@@ -279,7 +279,7 @@
               </ws-widget-display-content-type>
               <span *ngIf="widgetData.content.duration" class="text-gray-600" i18n-title title="Duration">
                 &nbsp;&nbsp;|&nbsp;&nbsp;{{
-                  widgetData.content.duration | pipeDurationTransform: 'hms'
+                widgetData.content.duration | pipeDurationTransform: 'hms'
                 }}
               </span>
             </div>
@@ -316,7 +316,7 @@
             </ws-widget-display-content-type>
             <span *ngIf="widgetData.content.duration" class="text-gray-600" i18n-title title="Duration">
               &nbsp;&nbsp;|&nbsp;&nbsp;{{
-                widgetData.content.duration | pipeDurationTransform: 'hms'
+              widgetData.content.duration | pipeDurationTransform: 'hms'
               }}
             </span>
           </div>
@@ -545,13 +545,15 @@
 
         <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
           {{widgetData.content?.uniqueUsersCount}}</p>
-        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
+        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span>
+          {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
-          <div class="fw-500 mb-1">Course Description</div>
-          {{ widgetData.content.description | pipeHtmlTagRemoval }}
-        </div>
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+        <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
+            <div class="fw-500 mb-1">Course Description</div>
+            {{ widgetData.content.description | pipeHtmlTagRemoval }}
+          </div> -->
+
+        <div class="mt-0 flex justify-between items-center">
           <button mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
             [routerLink]="(widgetData.content | pipeContentRoute).url">
             View Course </button>
@@ -737,7 +739,7 @@
           <div class="ws-mat-primary-background text-truncate px-4 py-2 -mx-4 text-white">
             <span *ngIf="widgetData.content?.complexityLevel">{{
               widgetData.content?.complexityLevel
-            }}</span>
+              }}</span>
 
             <span i18n *ngIf="widgetData.content?.subTitle">
               |

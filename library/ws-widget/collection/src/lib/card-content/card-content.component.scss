@@ -502,7 +502,7 @@ $title-line-count: 2;
 .popover-card {
   min-width: 350px;
   max-width: 350px;
-  max-height: 500px;
+  height: auto;
   box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
 }
