@@ -3,7 +3,7 @@
     <h1>Choose your background</h1>
     <div class="content">
       <div class="content-wrapper" *ngFor="let img of professions; let i = index">
-        <div class="column" (click)="imgSelect(img)">
+        <div class="column" (click)="imgSelect(img)" tabindex="-1">
           <a>
             <h4>{{img.name}}</h4>
             <img [src]="img.image" height="80" alt="{{img.name}}" />

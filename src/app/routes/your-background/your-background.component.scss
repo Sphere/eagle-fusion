@@ -48,9 +48,11 @@
     margin-top: 15px;
   }
 :host ::ng-deep .column:hover {
-   border-color: #5b72dd !important;
+   border-color: #7CB5E6 !important;
 }
-
+:host ::ng-deep .column:focus {
+   border-color: #7CB5E6 !important;
+}
 :host ::ng-deep .next-btn-div {
   text-align: right;
 }
@@ -72,7 +74,6 @@
 .next-btn-div {
   padding-right: 22px;
 }
-
 @media screen and (max-width:768px) {
   .close-div {
     display: inline-block;

@@ -53,12 +53,6 @@ export class CardContentComponent extends WidgetBaseComponent
     super()
     this.offSetXValue = 290
     this.offSetYValue = -340
-    if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          this.userDetails = data.profileDetails.profileReq
-        })
-    }
   }
 
   ngOnInit() {
@@ -316,17 +310,24 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   raiseTelemetry() {
-    if (this.userDetails && this.userDetails.personalDetails.dob) {
-      this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-        contentId: this.widgetData.content.identifier,
-        contentType: this.widgetData.content.contentType,
-        context: this.widgetData.context,
-      })
-    } else {
-      const url = `/app/toc/${this.widgetData.content.identifier}/overview`
-      localStorage.setItem('selectedCourse', url)
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
+          this.userDetails = data.profileDetails.profileReq
+        })
     }
+    setTimeout(() => {
+      if (this.userDetails && this.userDetails.personalDetails.dob) {
+        this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
+          contentId: this.widgetData.content.identifier,
+          contentType: this.widgetData.content.contentType,
+          context: this.widgetData.context,
+        })
+      } else {
+        const url = `/app/toc/${this.widgetData.content.identifier}/overview`
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+      }
+    },         1000)
   }
 
   get isGreyedImage() {
