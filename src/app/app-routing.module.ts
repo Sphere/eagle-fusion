@@ -28,10 +28,10 @@ import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-s
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
-import { YourLocationComponent } from './routes/your-location/your-location.component'
+import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
-import { YourBackgroundComponent } from './routes/your-background/your-background.component'
-import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
+// import { YourBackgroundComponent } from './routes/your-background/your-background.component'
+// import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -236,8 +236,8 @@ const routes: Routes = [
     component: CreateAccountComponent,
   },
   {
-    path: 'app/your-location',
-    component: YourLocationComponent,
+    path: 'app/about-you',
+    component: AboutYou,
   },
   {
 
@@ -247,14 +247,14 @@ const routes: Routes = [
       tnc: TncPublicResolverService,
     },
   },
-  {
-    path: 'app/your-background',
-    component: YourBackgroundComponent,
-  },
-  {
-    path: 'app/almost-done',
-    component: AlmostDoneComponent,
-  },
+  // {
+  //   path: 'app/your-background',
+  //   component: YourBackgroundComponent,
+  // },
+  // {
+  //   path: 'app/almost-done',
+  //   component: AlmostDoneComponent,
+  // },
   {
     path: 'app/complete-profile',
     component: CompleteProfileComponent,
