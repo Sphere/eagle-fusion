@@ -35,10 +35,10 @@ const API_END_POINTS = {
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
-  LOGIN_USER : `/apis/public/v8/emailMobile/auth`,
+  LOGIN_USER: `/apis/public/v8/emailMobile/auth`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
 }
 
 @Injectable({
@@ -67,10 +67,10 @@ export class WidgetContentService {
   //     .pipe(retry(1))
   // }
 
-// tslint:disable-next-line:max-line-length
-    fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
+  // tslint:disable-next-line:max-line-length
+  fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
     let path = ''
-      path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
+    path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
     return this.http
       .get(path)
       .pipe(
@@ -317,7 +317,7 @@ export class WidgetContentService {
   }
 
   loginAuth(req: any): Observable<any> {
-   return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(catchError(this.handleError))
+    return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(catchError(this.handleError))
   }
   googleAuthenticate(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))
