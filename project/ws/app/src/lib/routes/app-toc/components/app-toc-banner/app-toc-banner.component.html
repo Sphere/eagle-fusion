@@ -114,11 +114,26 @@
                 <span class="rating-count" *ngIf="!content?.totalRating">
                   ( {{ 0 | pipeCountTransform }} )</span>
               </div> -->
-
               <div class="header-actions">
                 <ng-container>
-                    <button mat-button [color]="'primary'" class="ws-mat-primary-background mat-button-base margin-right-m" (click)="enrollUser(batchData.content)">
-                    Enroll Batch
+                  <button *ngIf="!batchData?.content" mat-button [color]="'primary'"
+                    class="ws-mat-primary-background mat-button-base margin-right-m"
+                    (click)="enrollUser(batchData.content)">
+                    Start
+                  </button>
+                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment && batchData?.content"
+                    [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
+                    [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
+                    class="margin-right-m resumeButton" mat-button>
+                    <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+                      {{resumeData?"Resume":"Resume"}}
+                    </ng-container>
+                  </a>
+                  <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+                  </ws-widget-btn-content-share>
+                  <button mat-button [color]="'primary'" (click)="downloadCertificate()"
+                    class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
+                    <mat-icon>file_download</mat-icon>Certificate
                   </button>
                   <!--<form>
                     <mat-form-field appearance="fill">
@@ -152,7 +167,8 @@
               <div class="header-actions header-act-btn">
                 <button [color]="'primary'"
                   *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('mdo_admin') || this.configSvc.userRoles.has('spv_admin'))"
-                  class="ws-mat-primary-background mat-button-base margin-right-m" mat-button (click)="openDialog(content)">
+                  class="ws-mat-primary-background mat-button-base margin-right-m" mat-button
+                  (click)="openDialog(content)">
                   Create Batch
                 </button>
                 <ng-container *ngIf="
@@ -174,14 +190,14 @@
                       ) &&
                                   !(content?.contentType === 'Resource' && !content?.artifactUrl)
                                 ">
-                      <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
+                      <!-- <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
                         [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                         [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
                         class="margin-right-m resumeButton" mat-button>
                         <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-                          {{resumeData?"Resume":"Start"}}
+                          {{resumeData?"Resume":""}}
                         </ng-container>
-                      </a>
+                      </a> -->
                       <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
                         [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-button>
                         <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment
@@ -229,8 +245,7 @@
                   <!-- <ws-widget-btn-content-like [forPreview]="forPreview"
                                   [widgetData]="content | pipePartialContent: ['identifier']">
                                 </ws-widget-btn-content-like> -->
-                  <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
-                  </ws-widget-btn-content-share>
+
                   <!-- <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
                     [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
                   </ws-widget-btn-kb>
@@ -243,21 +258,18 @@
                   <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
                     [widgetData]="content | pipePartialContent: ['identifier', 'name']">
                   </ws-widget-btn-content-feedback-v2> -->
-                  <button mat-button [color]="'primary'" (click)="downloadCertificate()"
-                    class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
-                    <mat-icon>file_download</mat-icon>Certificate
-                  </button>
+
                   <div class="modal fade" id="myModal"
                     [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
                     <div class="modal-dialog modal-sm">
                       <div class="modal-content">
 
                         <!-- Modal Header -->
-                        <div class="modal-header"  [ngStyle]="{'margin-top' : '40px'}"> 
-                        <!--<h4 class="modal-title">Modal Heading</h4> -->
+                        <div class="modal-header" [ngStyle]="{'margin-top' : '40px'}">
+                          <!--<h4 class="modal-title">Modal Heading</h4> -->
                           <button type="button" class="close" data-dismiss="modal"
                             (click)="closePopup()">&times;</button>
-                        </div> 
+                        </div>
 
                         <!-- Modal body -->
                         <div class="modal-body">

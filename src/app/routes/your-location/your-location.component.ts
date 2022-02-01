@@ -1,17 +1,33 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
+import moment from 'moment'
+import { Observable } from 'rxjs'
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../project/ws/app/src/lib/routes/user-profile/services/format-datepicker'
 
 @Component({
   selector: 'ws-your-location',
   templateUrl: './your-location.component.html',
   styleUrls: ['./your-location.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+  ],
 })
 export class YourLocationComponent implements OnInit {
-  districts: any
+  disticts: any
   countries: any
   states: any
-  yourLocationForm: FormGroup
+  dob: any
+  districtArr: any
+  selectDisable = true
+  yourBackground = false
+  aboutYouForm: FormGroup
+  maxDate = new Date()
+  minDate = new Date(1900, 1, 1)
+  nextBtnDisable = true
+  filteredOptionsDistrict: Observable<string[]> | undefined
   countryUrl = '../../../fusion-assets/files/country.json'
   districtUrl = '../../../fusion-assets/files/district.json'
   stateUrl = '../../../fusion-assets/files/state.json'
@@ -19,10 +35,12 @@ export class YourLocationComponent implements OnInit {
   constructor(
     private http: HttpClient
   ) {
-    this.yourLocationForm = new FormGroup({
-      distict: new FormControl(this.districts),
-      country: new FormControl(this.countries),
-      state: new FormControl(this.states),
+    this.aboutYouForm = new FormGroup({
+      dob: new FormControl([Validators.required]),
+      country: new FormControl(),
+      distict: new FormControl(),
+      state: new FormControl(),
+      countryCode: new FormControl(),
     })
   }
 
@@ -38,9 +56,52 @@ export class YourLocationComponent implements OnInit {
     this.http.get(this.stateUrl).subscribe((data: any) => {
       this.states = data.states
     })
+  }
+  countrySelect(option: any) {
+    this.setCountryCode(option)
+    if (option === 'India') {
+      this.selectDisable = false
+    } else {
+      this.selectDisable = true
+      this.aboutYouForm.controls.state.setValue(null)
+      this.aboutYouForm.controls.distict.setValue(null)
+    }
+  }
+  setCountryCode(country: string) {
+    const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
+    this.aboutYouForm.controls.countryCode.setValue(selectedCountry[0].countryCode)
+  }
 
-    this.http.get(this.districtUrl).subscribe((data: any) => {
-      this.districts = data.states
+  disableNextBtn() {
+    if (this.aboutYouForm.controls.dob) {
+      if (this.aboutYouForm.controls.country.value !== 'India') {
+        this.nextBtnDisable = false
+      } else if (this.aboutYouForm.controls.country.value === 'India') {
+        if (this.aboutYouForm.controls.state.value && this.aboutYouForm.controls.distict.value) {
+          this.nextBtnDisable = false
+        } else {
+          this.nextBtnDisable = true
+        }
+      } else {
+        this.nextBtnDisable = true
+      }
+    } else {
+      this.nextBtnDisable = true
+    }
+  }
+
+  stateSelect(option: any) {
+    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+      statesdata.states.map((item: any) => {
+        if (item.state === option) {
+          this.disticts = item.districts
+        }
+      })
     })
+  }
+
+  onsubmit(form: any) {
+    form.value.dob = moment(form.value.dob).format('DD-MM-YYYY')
+    this.yourBackground = true
   }
 }
