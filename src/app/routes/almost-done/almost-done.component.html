@@ -1,31 +1,143 @@
 <div class="login-page-content">
   <div class="login-card">
-    <header class="login-header">
-      <div>
-        <a href="/public/home">
-          <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
-        </a>
-      </div>
-    </header>
     <h1>Almost done!</h1>
-    <p><span style="float:left;">Background: Student</span><span style="float:right;color: rgb(63, 81, 181);">Change</span></p>
+    <p><span style="float:left;">Background: {{backgroundSelect}}</span>
+      <span style="float:right;color: rgb(63, 81, 181); cursor: default;"
+        (click)='redirectToYourBackground()'>Change</span>
+    </p>
     <div class="input-content">
       <div class="input-content-wrapper">
-        <form>
-          <div class="form-group mt-4">
-            <input type="text" name="instituteName" class="form-control input-box" placeholder="Institution Name">
+        <form [formGroup]="almostDoneForm" class="mt-5">
+
+          <!-- Background: Healthcare Worker -->
+          <div *ngIf="backgroundSelect ==='Healthcare Worker'">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="profession" class="form-control select-box"
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)">
+                <option [value]="null">Profession</option>
+                <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group input-box" *ngIf="professionOthersField">
+              <input type="text" formControlName="professionOtherSpecify" class="form-control"
+                placeholder="Please Specify" autocomplete="off">
+            </div>
+            <div class="form-group rnBox">
+              <input type="text" formControlName="rnNumber" class="form-control rnField" placeholder="RN/RM Number"
+                autocomplete="off" [readonly]="rnFieldDisabled">
+            </div>
+
+            <div class="form-group input-box">
+              <select id="orgType" formControlName="orgType" class="form-control select-box"
+                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)">
+                <option [value]="null">Organiztion Type</option>
+                <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
+              </select>
+            </div>
+
+            <div class="form-group input-box" *ngIf="orgOthersField">
+              <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify"
+                autocomplete="off">
+            </div>
+
+            <div class="form-group input-box">
+              <input type="text" name="orgName" formControlName="orgName" class="form-control"
+                placeholder="Organization Name" autocomplete="off" (change)="assignFields('organizationName',orgName)">
+            </div>
           </div>
-          <div class="form-group mt-4 ">
-            <input type="text" name="courseName" class="form-control input-box" placeholder="Course Name">
+          <!-- Background: Healthcare Worker -->
+
+
+          <!-- Background: Healthcare Volunteer -->
+          <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="profession" class="form-control select-box"
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)">
+                <option [value]="null">Profession</option>
+                <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group input-box" *ngIf="professionOthersField">
+              <input type="text" formControlName="professionOtherSpecify" class="form-control"
+                placeholder="Please Specify" autocomplete="off">
+            </div>
+
+            <div class="form-group input-box">
+              <select id="orgType" formControlName="orgType" class="form-control select-box"
+                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)">
+                <option [value]="null">Organiztion Type</option>
+                <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
+              </select>
+            </div>
+
+            <div class="form-group input-box" *ngIf="orgOthersField">
+              <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify"
+                autocomplete="off">
+            </div>
+
+            <div class="form-group input-box">
+              <input type="text" name="orgName" formControlName="orgName" class="form-control"
+                placeholder="Organization Name" autocomplete="off" (change)="assignFields('organizationName',orgName)">
+            </div>
           </div>
-          <button i18n mat-raised-button name="next" type="submit" [disabled] [ngStyle]="{
-            'background-color': 'rgb(63, 81, 181)',
-            'border': '1px solid rgb(63, 81, 181)',
-            'border-radius': '16px',
-            'color': 'white',
-            'font-weight': '400',
-            'margin-top': '10px',
-            'float': 'right'}">Next</button>
+          <!-- Background: Healthcare Volunteer -->
+
+          <!-- Background: Student -->
+          <div *ngIf="backgroundSelect ==='Student'">
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name"
+                (change)="assignFields('institutionName',instituteName)">
+            </div>
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="courseName" placeholder="Course Name"
+                (change)="assignFields('coursename',courseName)">
+            </div>
+          </div>
+          <!-- Background: Student -->
+
+          <!-- Background: Faculty -->
+          <div *ngIf="backgroundSelect ==='Faculty'">
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="profession" placeholder="Designation">
+            </div>
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="orgName" placeholder="Institution Name">
+            </div>
+          </div>
+          <!-- Background: Faculty -->
+
+          <!-- Background: Others -->
+          <div *ngIf="backgroundSelect ==='Others'">
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="profession"
+                placeholder="Please Specify Profession">
+            </div>
+            <div class="form-group input-box">
+              <select id="orgType" formControlName="orgType" class="form-control select-box"
+                (change)="orgTypeSelect($event.target.value)">
+                <option [value]="null">Organiztion Type</option>
+                <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
+              </select>
+            </div>
+            <div class="form-group input-box" *ngIf="orgOthersField">
+              <input type="text" formControlName="orgOtherSpecify" class="form-control" placeholder="Please Specify"
+                autocomplete="off">
+            </div>
+            <div class="form-group input-box">
+              <input type="text" name="orgName" formControlName="orgName" class="form-control"
+                placeholder="Organization Name" autocomplete="off" (change)="assignFields('organizationName',orgName)">
+            </div>
+          </div>
+          <!-- Background: Others -->
+
+          <div class="next-btn-div">
+            <button class="form-group login-button" type="submit" (click)='onsubmit()'>
+              Next</button>
+          </div>
         </form>
       </div>
     </div>

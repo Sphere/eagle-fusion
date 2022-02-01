@@ -263,37 +263,27 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     })
   }
-  onTimeUpdate() {
-    const percentage = (this.videoTag.nativeElement.currentTime / this.videoTag.nativeElement.duration) * 100
+  // onTimeUpdate() {
+  //   const percentage = (this.videoTag.nativeElement.currentTime / this.videoTag.nativeElement.duration) * 100
 
-    const data = {
-      current: this.videoTag.nativeElement.currentTime,
-      max_size: this.videoTag.nativeElement.duration,
-      mime_type: this.widgetData.mimeType,
-    }
+  //   const data = {
+  //     current: this.videoTag.nativeElement.currentTime,
+  //     max_size: this.videoTag.nativeElement.duration,
+  //     mime_type: this.widgetData.mimeType,
+  //   }
 
-    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-      this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-      this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
-    if (this.widgetData.identifier) {
-      if (percentage <= 1) {
-
-        this.viewerSvc
-          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
-      } else if (percentage >= 5 && percentage <= 6) {
-
-        this.viewerSvc
-          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
-      } else if (percentage >= 95) {
-
-        this.viewerSvc
-          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
-      } else {
-
-      }
-    }
-  }
+  //   const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+  //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+  //   const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+  //     this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+  //   if (this.widgetData.identifier) {
+  //     if (percentage >= 98) {
+  //       data.current = data.max_size;
+  //       this.viewerSvc
+  //         .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+  //    }
+  //   }
+  // }
   async fetchContent() {
     const content = await this.contentSvc
       .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
