@@ -1,32 +1,11 @@
-<!--
-  Old
-  <button mat-button (click)="getCatalog()" i18n-matTooltip matTooltip="Explore Catalogue" #rootTrigger="matMenuTrigger"
-  [matMenuTriggerFor]="rootMenu.childMenu">
-  <mat-icon>apps</mat-icon>
-  <span class="padding-left-xs" i18n>Browse Courses</span>
-</button>
-
-<ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
-  [fetchStatus]="catalogFetchStatus" isRoot="true">
-</ws-widget-tree-catalog-menu> -->
-
-<!-- <button mat-button i18n-matTooltip matTooltip="User Menu" class="new-margin" #rootTrigger="matMenuTrigger"
-  [matMenuTriggerFor]="settingsMenu">
-  <mat-icon>account_circle</mat-icon>
-  <span class="padding-left-xs" i18n>{{ givenName || 'Guest'}} </span>
-  <mat-icon>arrow_drop_down</mat-icon>
-</button> -->
-
-<!-- <a href="javascript:void(0)" title="Google sign-in" class="btn btn-outline-dark" role="button" (click)="googleInit()">
-  <img width="20px"  alt="Google sign-in"
-    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" style="margin-bottom:-6px;" />
-</a> -->
-
 <a href="javascript:void(0)" mat-icon-button i18n-aria-label title="option" class="new-margin"
   #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
-  <span class="flex flex-column flex-middle">
-    <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
-    </ws-widget-avatar-photo>
+  <span style="display:flex">
+    <span class="flex flex-column flex-middle">
+      <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
+      </ws-widget-avatar-photo>
+    </span>
+    <mat-icon>arrow_drop_down</mat-icon>
   </span>
 </a>
 

@@ -1,45 +1,73 @@
-<!-- Your Location Form -->
-<div class="login-page-content">
+<!-- About You Form -->
+<!-- <ws-header></ws-header>
+<div class="close-div">
+  <a href="/page/home">
+    <img alt="close" width="15" height="15" src="../../../fusion-assets/icons/close-vector.png">
+  </a>
+</div> -->
+
+<div class="login-page-content" *ngIf="!yourBackground">
   <div class="login-card">
-    <header class="login-header">
-      <div>
-        <a href="/public/home">
-          <img alt="logo" class="main-logo" src="/assets/instances/eagle/app_logos/aastar-logo.svg">
-        </a>
-      </div>
-    </header>
-    <div class="img-box">
-      <img alt="logo" width="140" height="143" src="../../../fusion-assets/images/your-location.png">
+
+    <div class="create-acct-text mb-4">Tell us more about you
+      <p style="font-size: 16px;">And unlock access to multiple courses</p>
     </div>
-    <div class="create-acct-text mt-6 mb-4">Your location?</div>
+
+    <div class="img-box">
+      <img alt="logo" width="155" height="105" src="../../../fusion-assets/images/about-you.png">
+    </div>
+
     <div class="input-content">
       <div class="input-content-wrapper">
-        <form [formGroup]="yourLocationForm" id="form-login" action="" method="post">
+
+        <form [formGroup]="aboutYouForm">
+
           <div class="form-group mt-4 input-box">
-            <select id="country" formControlName="country" class="form-control select-box">
-              <option [ngValue]="null">Country</option>
-              <option *ngFor="let country of countries" [ngValue]="country.name">{{ country.name }}</option>
+            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
+              placeholder="Date of Birth" name="dob" class="form-control dob-input" (click)="picker.open()">
+            <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+
+          <div class="form-group input-box">
+            <select id="country" formControlName="country" class="form-control select-box"
+              (change)="countrySelect($event.target.value);disableNextBtn()">
+              <option [value]=null disabled>Country</option>
+              <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
             </select>
           </div>
 
-          <div class="form-group mt-4 input-box">
-            <select id="state" formControlName="state" class="form-control select-box">
-              <option [ngValue]="null">State</option>
-              <option *ngFor="let state of states" [ngValue]="state.name">{{ state.name }}</option>
+          <div class="form-group input-box">
+            <select id="state" formControlName="state" class="form-control select-box"
+              (change)="stateSelect($event.target.value);disableNextBtn()"
+              [attr.disabled]="selectDisable ? 'disabled' : null">
+              <option [value]=null disabled>State</option>
+              <option *ngFor="let state of states" [value]="state.name">{{ state.name }}</option>
             </select>
           </div>
 
-          <div class="form-group mt-4 input-box">
-            <select id="distict" formControlName="distict" class="form-control select-box">
-              <option [ngValue]="null">City/Distict</option>
-              <option *ngFor="let distict of districts" [ngValue]="distict.state">{{ distict.state }}</option>
+          <div class="form-group input-box">
+            <select id="distict" formControlName="distict" class="form-control select-box"
+              [attr.disabled]="selectDisable ? 'disabled' : null" (change)="disableNextBtn()">
+              <option [value]=null disabled>City/Distict</option>
+              <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
             </select>
           </div>
-          <button class="form-group login-button" name="login" type="submit"
-            [disabled]="!yourLocationForm?.valid">Next</button>
+
+          <div class="next-btn-div">
+            <button class="form-group login-button" name="login" type="submit"
+              [disabled]="!aboutYouForm?.valid || nextBtnDisable" (click)="onsubmit(aboutYouForm)">Next</button>
+          </div>
+
         </form>
+
       </div>
     </div>
+
   </div>
 </div>
-<!-- Your Location Form Close-->
+<!-- About You Form Close-->
+
+<div *ngIf="yourBackground">
+  <ws-your-background [aboutYou]="aboutYouForm"></ws-your-background>
+</div>
