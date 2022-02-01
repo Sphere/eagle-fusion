@@ -1,118 +1,68 @@
-<!-- Footer -->
-<footer class="page-footer font-small indigo">
-  <!-- Footer Links -->
-  <div class="container text-center text-md-left">
-    <!-- Grid row -->
-    <div class="row">
-      <!-- Grid column -->
-      <div class="col-md-2 mx-auto">
-        <ul class="list-unstyled">
-          <li>
-            <a>
-              <img [src]="appIcon" alt="Aastrika icon" width="150">
-            </a>
-          </li>
-        </ul>
-      </div>
-      <hr class="clearfix w-100 d-none">
-      <div class="col-md-2 mx-auto">
-        <!-- Links -->
-        <!--<h6 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h6> -->
-        <ul class="list-unstyled">
-          <li>
-            <a routerLink="/public/about" i18n>
-              <p i18n class="h6">About Us</p>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.aastrika.org/vision/" target="_blank">
-              <p i18n class="h6">Vision</p>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.aastrika.org/team/" target="_blank">
-              <p i18n class="h6">Team</p>
-            </a>
-          </li>
-          <li>
-            <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n>
-              <p i18n class="h6">Help & Contact </p>
-            </a>
-          </li>
-          <!-- <li> <a routerLink="/app/social/blogs" i18n>Blog</a> </li> -->
-          <li>
-            <a routerLink="/public/tnc" i18n>
-              <p i18n class="h6">Privacy Policy & Terms of Use</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Grid column -->
-      <hr class="clearfix w-100 d-none">
-      <!-- Grid column -->
-      <div class="col-md-2 mx-auto">
-        <!-- Links -->
-        <ul class="list-unstyled">
-          <li>
-            <p i18n class="h6">An initiative</p>
-          </li>
-          <li>
-            <p i18n class="h6">of</p>
-          </li>
-          <li>
-            <a href="https://rohininilekani.org/" target="_blank">
-              <img src="https://www.aastrika.org/wp-content/uploads/2020/03/nilekani-philanthropies-logo.png" />
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Grid column -->
-      <hr class="clearfix w-100 d-none">
-      <!-- Grid column -->
-      <div class="col-md-3 mx-auto">
-        <!-- Links -->
-        <!-- <h6 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h6> -->
-        <ul class="list-unstyled">
-          <li>
-            <p class="h6">A Collaboration with </p>
-          </li>
-          <li>
-            <a href="https://societalplatform.org/" target="_blank">
-              <img width="200" 
-                src="/assets/instances/eagle/app_logos/SPT-logo-small.png" />
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Grid column -->
-      <hr class="clearfix w-100 d-none">
-      <!-- Grid column -->
-      <div class="col-md-2 mx-auto">
-        <!-- Links -->
-        <ul class="list-unstyled">
-          <li>
-            <p class="h6">Endorsing</p>
-          </li>
-          <li>
-            <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" target="_blank">
-              <img class="img-fluid"
-                src="https://www.aastrika.org/wp-content/uploads/2020/03/respectful-maternal-care-logo.png" />
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- Grid column -->
+<div class="mat-toolbar mat-ws-mat-primary-text footer-container sm:px-48 md:px-10ss">
+  <div class="mat-body" [ngClass]="{'flex flex-between w-full': !isXSmall && !isMedium}">
+    <div [ngClass]="{'flex': !isXSmall}">
+      <mat-list class="flex-1 col-width">
+        <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" class="docs-footer-aastar-logo">
+        </div>
+      </mat-list>
+
+      <mat-list class="flex-1 col-width" [ngClass]="{'ml-20': !isXSmall}">
+        <mat-list-item> <a routerLink="/public/about" i18n> <span i18n>About
+              Us</span></a> </mat-list-item>
+        <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank"><span i18n>Vision</span></a>
+        </mat-list-item>
+        <mat-list-item><a href="https://www.aastrika.org/team/" target="_blank"><span i18n>Team</span></a>
+        </mat-list-item>
+        <mat-list-item> <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n>Help & Contact </a>
+        </mat-list-item>
+
+        <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
+        <mat-list-item style="margin-top: 10px;">
+          <a routerLink="/public/tnc" i18n>
+            Privacy Policy <br>
+            & Terms of Use
+          </a>
+        </mat-list-item>
+      </mat-list>
     </div>
-    <!-- Grid row -->
+
+    <div class="text-center" [ngClass]="{'flex': !isXSmall }">
+      <div class="w-mobile">
+        <h2 class="footer-heading">An initiative of</h2>
+        <a href="https://rohininilekani.org/" target="_blank">
+          <img class="footer-image mt-1"
+            src="https://www.aastrika.org/wp-content/uploads/2020/03/nilekani-philanthropies-logo.png"
+            style="max-width: 80px;" /></a>
+      </div>
+      <div>
+        <h2 class="footer-heading" style="margin-left: -5px;">A Collaboration with </h2>
+        <a href="https://societalplatform.org/" target="_blank">
+          <img class="footer-image mt-2" src="/assets/instances/eagle/app_logos/SPT-logo-small.png" /></a>
+      </div>
+      <div>
+        <h2 class="footer-heading text-center">Endorsing</h2>
+        <div class="text-center">
+          <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" class="text-center"
+            target="_blank">
+            <img class="footer-image mt-1"
+              src="https://www.aastrika.org/wp-content/uploads/2020/03/respectful-maternal-care-logo.png" /></a>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- Footer Links -->
-  <!-- Copyright -->
-  <div class="text-center py-3" [ngClass]="{'h-160': isXSmall}">©
-    {{currentYear}}
-    AastarUrmika Health
-    Systems Pvt
-    Ltd. All rights reserved.
+</div>
+
+<footer class="docs-footer px-4 sm:px-8 md:px-10ss">
+  <div [ngClass]="{'docs-footer-list': !isXSmall}">
+    <!-- <div class="docs-footer-version">
+    </div> -->
+    <div class="docs-footer-copyright flex-1">
+      <div>
+        <div class="text-dark" [ngClass]="isXSmall ? 'mt--8 text-center': 'mt-1'" i18n>&copy; {{currentYear}}
+          AastarUrmika Health
+          Systems Pvt
+          Ltd. All rights reserved. </div>
+      </div>
+    </div>
   </div>
-  <!-- Copyright -->
 </footer>
-<!-- Footer -->
