@@ -1,9 +1,17 @@
-/*@import 'ws-mixins';
+@import 'ws-mixins';
 
 .footer-container {
   background-color: #f7f7f7;
   display: flex;
   justify-content: space-between;
+  padding: 1.5rem 10rem;
+
+  @include breakpoint-lt-l {
+    padding: 1.5rem 4rem;
+  }
+  @include breakpoint-s {
+    padding: 1.5rem 7rem;
+  }
   @include breakpoint-xs {
     flex-direction: column;
   }
@@ -16,8 +24,8 @@
 
 .text-dark {
   color: #353535 !important;
-}*/
-/*.mat-figure {
+}
+.mat-figure {
   top: 0;
   left: 0;
   right: 0;
@@ -42,22 +50,9 @@
 .footer-heading {
   font-size: 16px !important;
   font-weight: 500;
-}*/
-
-.img-fluid-35 {
-  width: 35% ;
-  height: auto;
-}
-.h-160 {
-  height: 160px;
-}
-footer {
-  background-color: #f7f7f7;
-  color: #353535;
-  padding-top: 15px;
 }
 
-/*.mat-list-base .mat-list-item {
+.mat-list-base .mat-list-item {
   height: 37px !important;
   color: #353535 !important;
   font-size: 16px !important;
@@ -67,20 +62,20 @@ footer {
 
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
   font-size: 14px !important;
-}*/
-/*.w-mobile {
+}
+.w-mobile {
   @include breakpoint-xs {
     width: 100%;
   }
-}*/
+}
 
-/*// @media only screen and (max-width: 760px) {
+// @media only screen and (max-width: 760px) {
 //   .footer-container {
 //     display: none;
 //   }
-// }*/
+// }
 
-/*@media (min-width: 1870px) {
+@media (min-width: 1870px) {
   .col-width {
     min-width: 315px;
   }
@@ -90,9 +85,9 @@ footer {
   // .logo-margin {
   //   margin-left: 135px;
   // }
-}*/
+}
 
-/*@media (min-width: 1501px) and (max-width: 1869px) {
+@media (min-width: 1501px) and (max-width: 1869px) {
   .col-width {
     min-width: 30%;
   }
@@ -127,8 +122,12 @@ footer {
 .docs-footer {
   background: #f7f7f7;
   color: #fff;
+  padding: 1.25rem;
+  // padding: 1.25rem 9rem;
   @include breakpoint-xs {
     margin-top: -20px;
+    margin-bottom: 5rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -161,9 +160,17 @@ img.docs-footer-aastar-logo {
   }
 }
 
-::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+::ng-deep .footer-container .mat-list-base .mat-list-item .mat-list-item-content {
   @include breakpoint-xs {
       display: block !important;
       text-align: center;
   }
-}*/
+}
+@media screen and (min-width:1200px) {
+  .left-content {
+    margin-left: 10%;
+  }
+  .right-content {
+     margin-right: 10%;
+  }
+}
