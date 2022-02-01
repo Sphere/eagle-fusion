@@ -127,7 +127,9 @@
     },
     {
       "state": "Chandigarh",
-      "districts": ["Chandigarh"]
+      "districts": [
+        "Chandigarh"
+      ]
     },
     {
       "state": "Chhattisgarh",
@@ -163,11 +165,16 @@
     },
     {
       "state": "Dadra and Nagar Haveli",
-      "districts": []
+      "districts": [
+        "Dadra and Nagar Haveli"
+      ]
     },
     {
       "state": "Daman and Diu",
-      "districts": ["Daman", "Diu"]
+      "districts": [
+        "Daman",
+        "Diu"
+      ]
     },
     {
       "state": "Delhi",
@@ -187,7 +194,10 @@
     },
     {
       "state": "Goa",
-      "districts": ["North Goa", "South Goa"]
+      "districts": [
+        "North Goa",
+        "South Goa"
+      ]
     },
     {
       "state": "Gujarat",
@@ -596,7 +606,12 @@
     },
     {
       "state": "Puducherry",
-      "districts": ["Karaikal", "Mahe", "Pondicherry", "Yanam"]
+      "districts": [
+        "Karaikal",
+        "Mahe",
+        "Pondicherry",
+        "Yanam"
+      ]
     },
     {
       "state": "Punjab",
@@ -665,7 +680,12 @@
     },
     {
       "state": "Sikkim",
-      "districts": ["East Sikkim", "North Sikkim", "South Sikkim", "West Sikkim"]
+      "districts": [
+        "East Sikkim",
+        "North Sikkim",
+        "South Sikkim",
+        "West Sikkim"
+      ]
     },
     {
       "state": "Tamil Nadu",

@@ -191,7 +191,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       this.viewerDataSvc.updateNextPrevResource({ isValid: Boolean(this.collection), prev, prevTitle, nextTitle, next })
       this.processCollectionForTree()
       this.expandThePath()
-     // this.getContentProgressHash()
+      // this.getContentProgressHash()
     }
   }
   private async getCollection(

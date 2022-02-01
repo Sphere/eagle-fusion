@@ -1,12 +1,12 @@
 @import 'ws-common';
 @import 'ws-mixins';
+
 .login-page-content {
   box-sizing: border-box;
   @extend %page-center;
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
   padding: 0;
-  height: 175px;
   max-width: 430px;
   @include breakpoint-s {
     padding: 12px;
@@ -14,18 +14,12 @@
 }
 .login-card {
   margin: 0;
+  margin-top: 20px;
   padding: 20px 20px 30px 20px;
   color: #000;
   font-size: 14px;
   line-height: 17px;
-}
-.login-header {
-  .main-logo {
-    width: 93px;
-    height: 33px;
-    left: 20px;
-    top: 75px;
-  }
+  background: #fff;
 }
 .check-email-text {
   font-size: 24px;
@@ -36,30 +30,34 @@
   line-height: 29px;
 }
 .img-box{
-  padding: 0 90px;
+  width: 55%;
+  margin:auto;
 }
 .label-text{
   color: #5f6368;
   font-size: 12px;
   line-height: 15px;
 }
-.input-content{
-  position: absolute;
-  max-width: 340px;
-}
 .input-box {
-  width: 312px;
-  height: 42px;
-  padding: 3px 0 3px 6px;
+  padding: 3px 0 3px 0;
   border-radius: 6px;
-  border: 1px solid #bbb;
+  border: 1px solid #e3e3e3;
+}
+.dob-input {
+  font-size: 16px;
+  line-height: 19px;
+  border: none;
+  color: #808080;
+  width: 88%;
+  display: inline-block;
 }
 .select-box{
   border: none;
-  width: 305px;
+  width: 97%;
   height: 44px;
   font-size: 16px;
   line-height: 19px;
+  color: #808080;
 }
 .select-box:focus{
   outline: none!important;
@@ -73,8 +71,42 @@
   border:0;
   font-size: 16px;
   line-height: 19px;
-  position: absolute;
-  right: 0;
-  margin-top: 5rem;
+}
+.close-div {
+  display: none;
+}
+.next-btn-div {
+  text-align: right;
+  margin-top: 2rem;
 }
 
+.select-items div:hover, .same-as-selected {
+  background-color: red;
+}
+input:focus-visible {
+  outline: none;
+}
+.form-control:disabled {
+  background-color: #fff;
+}
+.login-button:disabled {
+  background: #BFBFBF;
+  color: #808080;
+}
+@media screen and (max-width:768px) {
+  .close-div {
+    display: inline-block;
+    position: absolute;
+    top: 25px;
+    width: 20px;
+    right: 20px;
+  }
+}
+@media screen and (max-width:600px) {
+  .input-content {
+    width: 100%;
+  }
+  .login-card {
+    margin-top: 100px;
+  }
+}

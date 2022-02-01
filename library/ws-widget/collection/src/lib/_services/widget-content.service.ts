@@ -204,7 +204,7 @@ export class WidgetContentService {
           contextPathId: collectionId ? collectionId : id,
           resourceId: id,
           data: JSON.stringify({ timestamp: Date.now() }),
-          dateAccessed: Date.now(),
+          dateAccessed: Date.now(),    
         }
         await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
           resolve(true)
