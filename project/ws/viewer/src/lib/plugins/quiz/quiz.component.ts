@@ -20,7 +20,6 @@ export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
 import { ActivatedRoute } from '@angular/router'
 
-
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',

@@ -37,7 +37,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() resumeData: NsContent.IContinueLearningData | null = null
   @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
-  @Input() batchData: NsContent.IBatchListResponse | null = null
+  @Input() batchData!: any
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   contentProgress = 0
@@ -97,7 +97,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
     // private authAccessService: AccessControlService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     if (this.content) {
@@ -643,8 +644,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           batchId: batchData[0].batchId,
         },
       }
-
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+
         if (data && data.result && data.result.response === 'SUCCESS') {
           // this.batchData = {
           //   content: [data],
@@ -659,12 +660,23 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
             })
           this.openSnackbar('Enrolled Successfully!')
           this.disableEnrollBtn = false
+          setTimeout(() => {
+            if (this.resumeData && this.resumeDataLink) {
+              const query = this.generateQuery('RESUME')
+              this.router.navigate([this.resumeDataLink.url], { queryParams: query })
+            } else if (this.firstResourceLink) {
+              const query = this.generateQuery('START')
+              this.router.navigate([this.firstResourceLink.url], { queryParams: query })
+            }
+          }, 500)
+
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
           this.disableEnrollBtn = false
         }
       })
         .catch((err: any) => {
+
           this.openSnackbar(err.error.params.errmsg)
         })
     }
