@@ -50,6 +50,7 @@ export class CreateAccountComponent implements OnInit {
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
+    localStorage.removeItem(`userUUID`)
   }
 
   toggle1() {
@@ -203,6 +204,7 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
+          localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
