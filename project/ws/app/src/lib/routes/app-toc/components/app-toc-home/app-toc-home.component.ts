@@ -111,7 +111,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         // data.content.error = null
         // data.content.data = this.courseMockData.result.content
 
-
         // CHecking for JSON DATA
         if (this.checkJson(data.content.data.creatorContacts)) {
           data.content.data.creatorContacts = JSON.parse(data.content.data.creatorContacts)
