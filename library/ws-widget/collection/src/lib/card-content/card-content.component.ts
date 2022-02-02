@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@
 import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, EventService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
+import { of, Subscription } from 'rxjs'
 import { NsGoal } from '../btn-goals/btn-goals.model'
 import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
@@ -10,6 +10,7 @@ import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { delay, mergeMap } from 'rxjs/operators'
 // import { Router } from '@angular/router';
 
 @Component({
@@ -116,13 +117,15 @@ export class CardContentComponent extends WidgetBaseComponent
       // console.log('this.showEndPopup', this.showEndPopup)
     }
   }
-
   clickToRedirect(data: any) {
-    sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-    const url = sessionStorage.getItem(`url_before_login`) || ''
-    this.router.navigateByUrl(url)
-    //  window.location.href = `${this.defaultRedirectUrl}apis/reset`
+    if (this.configSvc.userProfile === null) {
+      sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+      const url = sessionStorage.getItem(`url_before_login`) || ''
+      this.router.navigateByUrl(url)
+    } else {
+      this.raiseTelemetry()
+    }
+
   }
 
   checkContentTypeCriteria() {
@@ -311,23 +314,22 @@ export class CardContentComponent extends WidgetBaseComponent
 
   raiseTelemetry() {
     if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          this.userDetails = data.profileDetails.profileReq
-        })
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
+        return of(data)
+      })).subscribe((userDetails: any) => {
+        if (userDetails.profileDetails.profileReq !== undefined) {
+          this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
+            contentId: this.widgetData.content.identifier,
+            contentType: this.widgetData.content.contentType,
+            context: this.widgetData.context,
+          })
+          this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
+        } else {
+          const url = `/app/toc/${this.widgetData.content.identifier}/overview`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+        }
+      })
     }
-    setTimeout(() => {
-      if (this.userDetails && this.userDetails.personalDetails.dob) {
-        this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-          contentId: this.widgetData.content.identifier,
-          contentType: this.widgetData.content.contentType,
-          context: this.widgetData.context,
-        })
-      } else {
-        const url = `/app/toc/${this.widgetData.content.identifier}/overview`
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
-      }
-    },         1000)
   }
 
   get isGreyedImage() {
@@ -343,10 +345,12 @@ export class CardContentComponent extends WidgetBaseComponent
   convertToISODate(date = ''): Date {
     try {
       return new Date(
-        `${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}${date.substring(
+        `${date.substring(0, 4)
+        } -${date.substring(4, 6)} -${date.substring(6, 8)}${date.substring(
           8,
           11,
-        )}:${date.substring(11, 13)}:${date.substring(13, 15)}.000Z`,
+        )
+        }:${date.substring(11, 13)}:${date.substring(13, 15)} .000Z`,
       )
     } catch (ex) {
       return new Date(new Date().setMonth(new Date().getMonth() - 1))

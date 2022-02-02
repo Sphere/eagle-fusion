@@ -1,12 +1,12 @@
 <div class="mat-toolbar mat-ws-mat-primary-text footer-container sm:px-48 md:px-10ss">
-  <div class="mat-body" [ngClass]="{'flex flex-between w-full': !isXSmall && !isMedium}">
+  <div class="mat-body" [ngClass]="{'flex flex-center w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}">
       <mat-list class="flex-1 col-width">
         <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" class="docs-footer-aastar-logo">
         </div>
       </mat-list>
 
-      <mat-list class="flex-1 col-width" [ngClass]="{'ml-20': !isXSmall}">
+      <mat-list class="flex-1 col-width" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item> <a routerLink="/public/about" i18n> <span i18n>About
               Us</span></a> </mat-list-item>
         <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank"><span i18n>Vision</span></a>
