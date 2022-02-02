@@ -410,10 +410,8 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   }
 
   resourceContentTypeFunct(type: any) {
-    if (type === 'application/vnd.ekstep.content-collection') {
+    if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
       this.resourceContentType = 'Lecture'
-    } else if (type === 'application/pdf') {
-      this.resourceContentType = 'PDF'
     } else if (type === 'application/quiz' || type === 'application/json') {
       this.resourceContentType = 'Assessment'
     } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {

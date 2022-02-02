@@ -143,8 +143,9 @@ export class ViewerUtilService {
     let req: any
     if (this.configservice.userProfile) {
       let percentage = this.calculatePercent(request.current, request.max_size, request.mime_type)
-      if(percentage>95)
+      if (percentage > 95) {
       percentage = 100
+      }
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',

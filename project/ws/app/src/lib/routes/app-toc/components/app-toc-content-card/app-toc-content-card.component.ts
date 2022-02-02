@@ -65,10 +65,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
 
   resourceContentTypeFunct(type: any) {
-    if (type === 'application/vnd.ekstep.content-collection') {
+    if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
       this.resourceContentType = 'Lecture'
-    } else if (type === 'application/pdf') {
-      this.resourceContentType = 'PDF'
     } else if (type === 'application/quiz' || type === 'application/json') {
       this.resourceContentType = 'Assessment'
     } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
@@ -149,8 +147,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
               break
             case NsContent.EMimeTypes.QUIZ:
 
-                this.contentStructure.assessment += 1
-              
+              this.contentStructure.assessment += 1
+
               break
             case NsContent.EMimeTypes.WEB_MODULE:
               this.contentStructure.webModule += 1
