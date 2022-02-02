@@ -22,7 +22,7 @@
               <mat-card-title>
                 <h2>{{orgName}}</h2>
               </mat-card-title>
-              <mat-card-subtitle><span>{{courseCount === 1 ? '1 Course': courseCount + ' Courses'}} </span>
+              <mat-card-subtitle><span>{{courseCount === 1 ? '1 Course': courseCount.length + ' Courses'}} </span>
               </mat-card-subtitle>
               <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and
                 its
@@ -93,11 +93,11 @@
         Courses</span>
     </div>
   </div>
-  <div class="w-100" *ngIf="courseData?.result > 5">
+  <div class="w-100" *ngIf="courseData > 5">
     <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
   </div>
   <div class="flex-main mt-4">
-    <ng-container *ngFor="let widget of courseData?.result">
+    <ng-container *ngFor="let widget of courseData">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content" #target="mdePopoverTrigger"
           i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"

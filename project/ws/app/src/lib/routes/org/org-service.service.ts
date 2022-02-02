@@ -10,13 +10,16 @@ import { ConfigurationsService } from '@ws-widget/utils'
 // if (!environment.production && Boolean(environment.sitePath)) {
 //   instanceConfigPath = environment.sitePath
 // }
-
+const API_END_POINTS = {
+  SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
+}
 @Injectable({
   providedIn: 'root',
 })
 export class OrgServiceService {
   hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/`
+
 
   constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
 
@@ -30,6 +33,12 @@ export class OrgServiceService {
   getOrgMetadata() {
     const orgMeta = this.http.get(`${this.sitePath}/orgmeta.config.json`)
     return orgMeta
+  }
+
+  getSearchResults(): Observable<any> {
+    const req = 
+       {"request":{"filters":{"primaryCategory":["Course"],"contentType":["Course"]}},"query":"","sort":[{"lastUpdatedOn":"desc"}]}
+    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
   getDatabyOrgId(): Promise<any>  {
