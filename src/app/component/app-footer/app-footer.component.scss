@@ -63,17 +63,12 @@
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
   font-size: 14px !important;
 }
-.w-mobile {
-  @include breakpoint-xs {
-    width: 100%;
-  }
-}
-
-// @media only screen and (max-width: 760px) {
-//   .footer-container {
-//     display: none;
+// .w-mobile {
+//   @include breakpoint-xs {
+//     width: 100%;
 //   }
 // }
+
 
 @media (min-width: 1870px) {
   .col-width {
@@ -82,9 +77,6 @@
   .col-width-1 {
     min-width: 320px;
   }
-  // .logo-margin {
-  //   margin-left: 135px;
-  // }
 }
 
 @media (min-width: 1501px) and (max-width: 1869px) {
@@ -159,8 +151,8 @@ img.docs-footer-aastar-logo {
     text-align: center;
   }
 }
-
 ::ng-deep .footer-container .mat-list-base .mat-list-item .mat-list-item-content {
+  padding: 0;
   @include breakpoint-xs {
       display: block !important;
       text-align: center;
