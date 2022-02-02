@@ -36,8 +36,8 @@ export class OrgServiceService {
   }
 
   getSearchResults(): Observable<any> {
-    const req = 
-       {"request":{"filters":{"primaryCategory":["Course"],"contentType":["Course"]}},"query":"","sort":[{"lastUpdatedOn":"desc"}]}
+    // tslint:disable-next-line:max-line-length
+    const req = {"request":{"filters":{"primaryCategory":["Course"],"contentType":["Course"]}},"query":"","sort":[{"lastUpdatedOn":"desc"}]}
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
