@@ -24,6 +24,7 @@ import * as dayjs from 'dayjs'
 import * as  lodash from 'lodash'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
+import { HostListener } from '@angular/core'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -98,6 +99,10 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     public createBatchDialog: MatDialog,
     // private authAccessService: AccessControlService,
   ) {
+  }
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    window.location.href = '/page/home'
   }
 
   ngOnInit() {
@@ -668,7 +673,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
