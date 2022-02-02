@@ -116,12 +116,12 @@
               </div> -->
               <div class="header-actions">
                 <ng-container>
-                  <button *ngIf="!batchData?.content" mat-button [color]="'primary'"
+                  <button *ngIf="!batchData?.enrolled" mat-button [color]="'primary'"
                     class="ws-mat-primary-background mat-button-base margin-right-m"
                     (click)="enrollUser(batchData.content)">
                     Start
                   </button>
-                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment && batchData?.content"
+                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
                     [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                     [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
                     class="margin-right-m resumeButton" mat-button>
