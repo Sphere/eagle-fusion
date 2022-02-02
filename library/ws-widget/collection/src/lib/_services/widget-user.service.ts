@@ -11,10 +11,10 @@ const API_END_POINTS = {
     `${PROTECTED_SLAG_V8}/user/group/fetchUserGroup?userId=${userId}`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-    // tslint:disable-next-line:max-line-length
+    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+  // tslint:disable-next-line:max-line-length
   FETCH_USER_ENROLLMENT_LIST_V2: (userId: string | undefined, orgdetails: string, licenseDetails: string, fields: string, batchDetails: string) =>
-   // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:max-line-length
     `apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=${orgdetails}&licenseDetails=${licenseDetails}&fields=${fields}&batchDetails=${batchDetails}`,
 }
 
@@ -48,11 +48,11 @@ export class WidgetUserService {
   //       )
   //     )
   // }
-// tslint:disable-next-line:max-line-length
-    fetchUserBatchList(userId: string | undefined, queryParams?: { orgdetails: any, licenseDetails: any, fields: any, batchDetails: any }): Observable<NsContent.ICourse[]> {
+  // tslint:disable-next-line:max-line-length
+  fetchUserBatchList(userId: string | undefined, queryParams?: { orgdetails: any, licenseDetails: any, fields: any, batchDetails: any }): Observable<NsContent.ICourse[]> {
     let path = ''
     if (queryParams) {
-       // tslint:disable-next-line: max-line-length
+      // tslint:disable-next-line: max-line-length
       path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_V2(userId, queryParams.orgdetails, queryParams.licenseDetails, queryParams.fields, queryParams.batchDetails)
     } else {
       path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
