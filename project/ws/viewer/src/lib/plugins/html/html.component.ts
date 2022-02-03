@@ -43,32 +43,17 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
 
-      const data1 = {
-        current: 1,
-        max_size: 1,
-        mime_type: this.mimeType,
-      }
-      this.viewerSvc
-        .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
       setTimeout(() => {
         const data2 = {
-          current: 5,
-          max_size: 5,
-          mime_type: this.mimeType,
-        }
-        // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         5000)
-
-      setTimeout(() => {
-        const data3 = {
           current: 10,
           max_size: 10,
           mime_type: this.mimeType,
         }
         // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data3, collectionId, batchId)
-      },         10000)
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
+      }, 500)
+
+      this.contentSvc.changeMessage('youtube')
     }
 
   }
@@ -176,9 +161,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               .fetchHierarchyContent(this.htmlContent.identifier)
               .toPromise()
               .then((res: any) => {
-                let  url = res['result']['content']['streamingUrl'];
-                if (res['result']['content']['entryPoint'])
-                  url = url  + res['result']['content']['entryPoint'];
+                let url = res['result']['content']['streamingUrl']
+                if (res['result']['content']['entryPoint']) {
+                  url = url + res['result']['content']['entryPoint']
+                }
                 this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url)
               })
               .catch((err: any) => {
@@ -216,6 +202,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             //   })
           }
         }
+        const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+        const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+          this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+        const data1 = {
+          current: 1,
+          max_size: 1,
+          mime_type: this.mimeType,
+        }
+        if (this.htmlContent.identifier) {
+          setTimeout(() => {
+            this.viewerSvc
+              .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+            this.contentSvc.changeMessage('html')
+          }, 500)
+        }
+
       } else {
         this.mimeType = this.htmlContent.mimeType
         this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(

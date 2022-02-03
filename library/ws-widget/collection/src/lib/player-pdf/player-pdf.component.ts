@@ -64,7 +64,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   private routerSubs: Subscription | null = null
   public isInFullScreen = false
   contentData: any
-  message!: string
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -313,12 +312,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
 
-const temp = [...realTimeProgressRequest.current]
-      //const latest = parseFloat(temp.slice(-1) || '0')
+      const temp = [...realTimeProgressRequest.current]
+      // const latest = parseFloat(temp.slice(-1) || '0')
       const latest = parseFloat(temp[temp.length - 1] || '0')
       const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
       const percent = parseFloat(percentMilis.toFixed(2))
-      if (percent > this.contentData.completionPercentage) {
+      if (percent >= this.contentData.completionPercentage) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId)
         this.contentSvc.changeMessage('PDF')
       }

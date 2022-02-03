@@ -296,11 +296,25 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate() {
-
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
+    if (this.content && this.content.identifier) {
+      const req = {
+        request: {
+          courseId: this.content.identifier,
+          batchId: this.getBatchId(),
+          userIds: [userId],
+        },
+      }
+      this.contentSvc.processCertificate(req).toPromise().then((response: any) => {
+        if (response.params.errmsg) {
+          this.displayStyle = 'block'
+        }
+      })
+    }
+
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
         // let enrolledCourse: NsContent.ICourse | undefined
