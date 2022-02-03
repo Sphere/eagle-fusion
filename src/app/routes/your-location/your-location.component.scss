@@ -47,7 +47,7 @@
   font-size: 16px;
   line-height: 19px;
   border: none;
-  color: #808080;
+  color: #000;
   width: 88%;
   display: inline-block;
 }
@@ -57,7 +57,6 @@
   height: 44px;
   font-size: 16px;
   line-height: 19px;
-  color: #808080;
 }
 .select-box:focus{
   outline: none!important;
@@ -93,6 +92,29 @@ input:focus-visible {
   background: #BFBFBF;
   color: #808080;
 }
+.form-control:focus {
+  box-shadow: none;
+}
+select {
+   color: #808080;
+}
+select.ng-dirty {
+  color: #000;
+}
+select option:first-child {
+  color: #000;
+  font-size: 24px;
+  line-height: 29px;
+}
+select option {
+  font-size: 16px;
+  line-height: 24px;
+  height: 15px;
+}
+::placeholder {
+  color: #808080;
+}
+
 @media screen and (max-width:768px) {
   .close-div {
     display: inline-block;

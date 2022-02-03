@@ -2,8 +2,7 @@
   <div class="login-card">
     <h1>Almost done!</h1>
     <p><span style="float:left;">Background: {{backgroundSelect}}</span>
-      <span style="float:right;color: rgb(63, 81, 181); cursor: default;"
-        (click)='redirectToYourBackground()'>Change</span>
+      <span style="float:right;color: #1C5D95; cursor: default;" (click)='redirectToYourBackground()'>Change</span>
     </p>
     <div class="input-content">
       <div class="input-content-wrapper">
@@ -14,7 +13,7 @@
             <div class="form-group input-box">
               <select id="profession" formControlName="profession" class="form-control select-box"
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)">
-                <option [value]="null">Profession</option>
+                <option [value]="null" style="color:#808080;">Profession</option>
                 <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
@@ -89,12 +88,12 @@
           <!-- Background: Student -->
           <div *ngIf="backgroundSelect ==='Student'">
             <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name"
-                (change)="assignFields('institutionName',instituteName)">
-            </div>
-            <div class="form-group mt-4 input-box">
               <input type="text" class="form-control" formControlName="courseName" placeholder="Course Name"
                 (change)="assignFields('coursename',courseName)">
+            </div>
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name"
+                (change)="assignFields('institutionName',instituteName)">
             </div>
           </div>
           <!-- Background: Student -->
@@ -136,7 +135,7 @@
 
           <div class="next-btn-div">
             <button class="form-group login-button" type="submit" (click)='onsubmit()'>
-              Next</button>
+              Done</button>
           </div>
         </form>
       </div>
