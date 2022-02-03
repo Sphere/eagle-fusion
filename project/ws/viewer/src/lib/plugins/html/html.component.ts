@@ -176,7 +176,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               .fetchHierarchyContent(this.htmlContent.identifier)
               .toPromise()
               .then((res: any) => {
-                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
+                let  url = res['result']['content']['streamingUrl'];
+                if (res['result']['content']['entryPoint'])
+                  url = url  + res['result']['content']['entryPoint'];
+                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url)
               })
               .catch((err: any) => {
                 /* tslint:disable-next-line */
@@ -186,7 +189,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
             const streamingUrl = this.htmlContent.streamingUrl.substring(51)
-            const newUrl = `/apis/proxies/v8/getContents/${streamingUrl}`
+            const entryPoint = this.htmlContent.entryPoint || ''
+            const newUrl = `/apis/proxies/v8/getContents/${streamingUrl}${entryPoint}`
             this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
             // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
             // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
