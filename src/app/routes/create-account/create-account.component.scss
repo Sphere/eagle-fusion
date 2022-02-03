@@ -11,6 +11,12 @@
   @include breakpoint-gt-s {
       max-width: 30%;
   }
+  @include breakpoint-gt-m {
+      max-width: 25%;
+  }
+  @include breakpoint-gt-l {
+      max-width: 20%;
+  }
   @include breakpoint-s {
     max-width: 50%;
     padding: 12px;
@@ -41,7 +47,7 @@ a{
   color: #000 !important;
 }
 .next-button {
-  width: 98px;
+  width: 100%;
   height: 38px;
   background: #1C5D95;
   border-radius: 50px;
@@ -57,7 +63,7 @@ a{
 }
 @media screen and (max-width:600px) {
   .input-content {
-    width: 85%;
+    width: 100%;
   }
   .next-button {
     right: 12px;
