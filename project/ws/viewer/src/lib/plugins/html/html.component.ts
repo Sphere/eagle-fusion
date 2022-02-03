@@ -211,81 +211,83 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           max_size: 1,
           mime_type: this.mimeType,
         }
-        if (this.htmlContent.identifier) {
-          setTimeout(() => {
+
+        setTimeout(() => {
+          if (this.htmlContent) {
             this.viewerSvc
               .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
             this.contentSvc.changeMessage('html')
-          }, 500)
-        }
-
-      } else {
-        this.mimeType = this.htmlContent.mimeType
-        this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.htmlContent.artifactUrl)
+          }
+        }, 500)
       }
 
-    } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
-      this.iframeUrl = null
-      this.pageFetchStatus = 'artifactUrlMissing'
     } else {
-      this.iframeUrl = null
-      this.pageFetchStatus = 'error'
+      this.mimeType = this.htmlContent.mimeType
+      this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+        this.htmlContent.artifactUrl)
     }
+
+  } else if(this.htmlContent && this.htmlContent.artifactUrl === '') {
+  this.iframeUrl = null
+  this.pageFetchStatus = 'artifactUrlMissing'
+} else {
+  this.iframeUrl = null
+  this.pageFetchStatus = 'error'
+}
   }
 
-  // backToDetailsPage() {
-  //   this.router.navigate([
-  //     `/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`,
-  //   ])
-  // }
+// backToDetailsPage() {
+//   this.router.navigate([
+//     `/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`,
+//   ])
+// }
 
-  backToDetailsPage() {
-    this.router.navigate(
-      [`/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`],
-      { queryParams: { primaryCategory: this.htmlContent ? this.htmlContent.primaryCategory : '' } })
-  }
+backToDetailsPage() {
+  this.router.navigate(
+    [`/app/toc/${this.htmlContent ? this.htmlContent.identifier : ''}/overview`],
+    { queryParams: { primaryCategory: this.htmlContent ? this.htmlContent.primaryCategory : '' } })
+}
 
-  raiseTelemetry(data: any) {
-    if (this.htmlContent) {
-      /* tslint:disable-next-line */
-      console.log(this.htmlContent.identifier)
-      this.events.raiseInteractTelemetry(data.event, 'scrom', {
-        contentId: this.htmlContent.identifier,
-        ...data,
-      })
-    }
+raiseTelemetry(data: any) {
+  if (this.htmlContent) {
+    /* tslint:disable-next-line */
+    console.log(this.htmlContent.identifier)
+    this.events.raiseInteractTelemetry(data.event, 'scrom', {
+      contentId: this.htmlContent.identifier,
+      ...data,
+    })
   }
-  receiveMessage(msg: any) {
-    // /* tslint:disable-next-line */
-    // console.log("msg=>", msg)
-    if (msg.data) {
-      this.raiseTelemetry(msg.data)
+}
+receiveMessage(msg: any) {
+  // /* tslint:disable-next-line */
+  // console.log("msg=>", msg)
+  if (msg.data) {
+    this.raiseTelemetry(msg.data)
+  } else {
+    this.raiseTelemetry({
+      event: msg.message,
+      id: msg.id,
+    })
+  }
+}
+
+openInNewTab() {
+  if (this.htmlContent) {
+    if (this.mobAppSvc && this.mobAppSvc.isMobile) {
+      // window.open(this.htmlContent.artifactUrl)
+      setTimeout(
+        () => {
+          this.mobileOpenInNewTab.nativeElement.click()
+        },
+        0,
+      )
     } else {
-      this.raiseTelemetry({
-        event: msg.message,
-        id: msg.id,
-      })
-    }
-  }
-
-  openInNewTab() {
-    if (this.htmlContent) {
-      if (this.mobAppSvc && this.mobAppSvc.isMobile) {
-        // window.open(this.htmlContent.artifactUrl)
-        setTimeout(
-          () => {
-            this.mobileOpenInNewTab.nativeElement.click()
-          },
-          0,
-        )
-      } else {
-        const width = window.outerWidth
-        const height = window.outerHeight
-        const isWindowOpen = window.open(
-          this.htmlContent.artifactUrl,
-          '_blank',
-          `toolbar=yes,
+      const width = window.outerWidth
+      const height = window.outerHeight
+      const isWindowOpen = window.open(
+        this.htmlContent.artifactUrl,
+        '_blank',
+        `toolbar=yes,
              scrollbars=yes,
              resizable=yes,
              menubar=no,
@@ -295,33 +297,33 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
              left=${(2 * width) / 100},
              width=${(65 * width) / 100},
              height=${(70 * height) / 100}`,
-        )
-        if (isWindowOpen === null) {
-          const msg = 'The pop up window has been blocked by your browser, please unblock to continue.'
-          this.snackBar.open(msg)
-        }
+      )
+      if (isWindowOpen === null) {
+        const msg = 'The pop up window has been blocked by your browser, please unblock to continue.'
+        this.snackBar.open(msg)
       }
     }
   }
-  dismiss() {
-    this.showIframeSupportWarning = false
-    this.isIntranetUrl = false
-  }
+}
+dismiss() {
+  this.showIframeSupportWarning = false
+  this.isIntranetUrl = false
+}
 
-  onIframeLoadOrError(evt: 'load' | 'error', iframe?: HTMLIFrameElement, event?: any) {
-    if (evt === 'error') {
-      this.pageFetchStatus = evt
-    }
-    if (evt === 'load' && iframe && iframe.contentWindow) {
-      if (event && iframe.onload) {
-        iframe.onload(event)
-      }
-      iframe.onload = (data => {
-        if (data.target) {
-          this.pageFetchStatus = 'done'
-          this.showIsLoadingMessage = false
-        }
-      })
-    }
+onIframeLoadOrError(evt: 'load' | 'error', iframe ?: HTMLIFrameElement, event ?: any) {
+  if (evt === 'error') {
+    this.pageFetchStatus = evt
   }
+  if (evt === 'load' && iframe && iframe.contentWindow) {
+    if (event && iframe.onload) {
+      iframe.onload(event)
+    }
+    iframe.onload = (data => {
+      if (data.target) {
+        this.pageFetchStatus = 'done'
+        this.showIsLoadingMessage = false
+      }
+    })
+  }
+}
 }
