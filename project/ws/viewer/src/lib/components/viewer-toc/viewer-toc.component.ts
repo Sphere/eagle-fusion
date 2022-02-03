@@ -79,6 +79,12 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
+    this.contentSvc.currentMessage.subscribe(
+      (data: any) => {
+        if (data) {
+          this.processCollectionForTree()
+        }
+      })
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
@@ -102,6 +108,9 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   isErrorOccurred = false
   private paramSubscription: Subscription | null = null
   private viewerDataServiceSubscription: Subscription | null = null
+  message!: string
+  subscription: Subscription | null = null
+
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
   private _getChildren = (node: IViewerTocCard) => {
@@ -109,11 +118,13 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
+
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
@@ -141,6 +152,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         this.processCurrentResourceChange()
       }
     })
+
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
@@ -170,6 +182,10 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     if (this.viewerDataServiceSubscription) {
       this.viewerDataServiceSubscription.unsubscribe()
     }
+    // if(this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
+
   }
   changeTocMode() {
     if (this.tocMode === 'FLAT') {

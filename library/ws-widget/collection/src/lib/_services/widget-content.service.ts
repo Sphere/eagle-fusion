@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
-import { Observable, of, throwError } from 'rxjs'
+import { Observable, of, throwError, Subject  } from 'rxjs'
 import { catchError, retry, map } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
@@ -45,6 +45,9 @@ const API_END_POINTS = {
   providedIn: 'root',
 })
 export class WidgetContentService {
+  private messageSource = new Subject<any>()
+  public currentMessage = this.messageSource.asObservable()
+
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -54,7 +57,9 @@ export class WidgetContentService {
     const url = API_END_POINTS.MARK_AS_COMPLETE_META(identifier)
     return this.http.get(url).toPromise()
   }
-
+    changeMessage(message: string) {
+    this.messageSource.next(message)
+  }
   // fetchContent(
   //   contentId: string,
   //   hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
