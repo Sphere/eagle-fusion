@@ -138,10 +138,12 @@ export class AlmostDoneComponent implements OnInit {
       this.professionOthersField = true
     } else {
       this.professionOthersField = false
+      this.almostDoneForm.controls.professionOtherSpecify.setValue(null)
     }
     if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
       this.rnFieldDisabled = false
     } else {
+      this.almostDoneForm.controls.rnNumber.setValue(null)
       this.rnFieldDisabled = true
     }
   }
@@ -150,6 +152,7 @@ export class AlmostDoneComponent implements OnInit {
       this.orgOthersField = true
     } else {
       this.orgOthersField = false
+      this.almostDoneForm.controls.orgOtherSpecify.setValue(null)
     }
   }
   onsubmit() {

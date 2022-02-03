@@ -29,20 +29,29 @@
   box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
   border-radius: 6px;
   border: 1px solid #e3e3e3;
+  color: #000
 }
 .rnBox {
   font-size: 16px;
   line-height: 19px;
   border-radius: 6px;
   border: none;
+  color: #000
 }
 .rnField {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #e3e3e3;
 }
+.form-control:focus {
+  box-shadow: none;
+}
+.form-control:disabled {
+  background-color: #fff;
+  color: #808080;
+}
 .form-control[readonly] ::placeholder{
-  background-color: #ffff;
+  background-color: #ffff !important;
   color: #e3e3e3;
   border-color: #e3e3e3;
 }
@@ -75,7 +84,6 @@ input {
   padding-left: 0;
   font-size: 16px;
   line-height: 19px;
-  color: #808080;
 }
 .select-box:focus{
   outline: none!important;
@@ -87,4 +95,22 @@ input {
   .login-card {
     margin-top: 100px;
   }
+}
+
+select {
+   color: #808080;
+}
+select.ng-dirty {
+  color: #000;
+}
+select option:first-child {
+  color: #808080;
+}
+::placeholder {
+  color: #808080;
+}
+.form-control[readonly] {
+  background-color: #fff;
+  color: #E3E3E3;
+  opacity: 0.6;
 }
