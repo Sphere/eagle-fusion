@@ -102,7 +102,14 @@ select.ng-dirty {
   color: #000;
 }
 select option:first-child {
-  color: #808080;
+  color: #000;
+  font-size: 24px;
+  line-height: 29px;
+}
+select option {
+  font-size: 16px;
+  line-height: 24px;
+  height: 15px;
 }
 ::placeholder {
   color: #808080;
