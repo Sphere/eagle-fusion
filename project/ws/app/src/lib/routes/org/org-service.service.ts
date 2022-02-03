@@ -20,7 +20,6 @@ export class OrgServiceService {
   hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/`
 
-
   constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
 
   resolve(): Observable<any> {
@@ -37,7 +36,7 @@ export class OrgServiceService {
 
   getSearchResults(): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    const req = {"request":{"filters":{"primaryCategory":["Course"],"contentType":["Course"]}},"query":"","sort":[{"lastUpdatedOn":"desc"}]}
+    const req = { request: { filters: { primaryCategory: ['Course'], contentType: ['Course'] } }, query: '', sort: [{ lastUpdatedOn: 'desc' }] }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 

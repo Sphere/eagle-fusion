@@ -23,10 +23,13 @@
         <form [formGroup]="aboutYouForm">
 
           <div class="form-group mt-4 input-box">
-            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
+            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off" (dateInput)="onDateChange($event.value)"
               placeholder="Date of Birth" name="dob" class="form-control dob-input" (click)="picker.open()">
             <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+          </div>
+          <div>
+            <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
           </div>
 
           <div class="form-group input-box">

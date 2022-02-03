@@ -1,6 +1,6 @@
 import {
   // AuthKeycloakService,
-  ConfigurationsService
+  ConfigurationsService,
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
@@ -24,10 +24,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   courseCount = 0
 
   constructor(private activateRoute: ActivatedRoute,
-    private orgService: OrgServiceService,
-    private router: Router,
+              private orgService: OrgServiceService,
+              private router: Router,
     // private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService) {
+              private configSvc: ConfigurationsService) {
   }
 
   ngOnInit() {
