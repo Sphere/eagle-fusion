@@ -34,6 +34,7 @@
     border-radius: 12px;
     margin: 8px 18px 8px 0;
     height: 120px;
+    cursor: pointer;
 }
 :host ::ng-deep h4{
     width: 25%;
@@ -66,6 +67,7 @@
   font-size: 16px;
   line-height: 19px;
   margin-top: 2rem;
+  cursor: pointer;
 }
 .login-button:disabled {
   background: #BFBFBF;

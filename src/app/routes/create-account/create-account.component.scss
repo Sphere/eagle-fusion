@@ -1,4 +1,33 @@
-.label-text{
+@import 'ws-common';
+@import 'ws-mixins';
+
+.login-page-content {
+  box-sizing: border-box;
+  // padding: $size-m;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  padding: 0;
+  box-sizing: border-box;
+  @include breakpoint-gt-s {
+      max-width: 30%;
+  }
+  @include breakpoint-s {
+    max-width: 50%;
+    padding: 12px;
+  }
+  @include breakpoint-xs {
+    max-width:90%;
+    margin:auto;
+  }
+}
+.login-card {
+  margin: 0;
+  padding: 20px 20px 30px 20px;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+}
+.label-text {
   color: #5f6368;
   font-size: 12px;
   line-height: 15px;
@@ -11,7 +40,26 @@
 a{
   color: #000 !important;
 }
-.btn-primary {
-   background: #1C5D95 !important;
+.next-button {
+  width: 98px;
+  height: 38px;
+  background: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border:0;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
 }
-
+.next-btn-div {
+  text-align: right;
+  margin-top: 2rem;
+}
+@media screen and (max-width:600px) {
+  .input-content {
+    width: 85%;
+  }
+  .next-button {
+    right: 12px;
+  }
+}
