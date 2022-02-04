@@ -1,3 +1,39 @@
+@import 'ws-common';
+@import 'ws-mixins';
+
+.login-page-content {
+  box-sizing: border-box;
+  // padding: $size-m;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  padding: 0;
+  box-sizing: border-box;
+  @include breakpoint-gt-s {
+      max-width: 30%;
+  }
+  @include breakpoint-gt-m {
+      max-width: 25%;
+  }
+  @include breakpoint-gt-l {
+      max-width: 20%;
+  }
+  @include breakpoint-s {
+    max-width: 50%;
+    padding: 12px;
+  }
+  @include breakpoint-xs {
+    max-width:90%;
+    margin:auto;
+  }
+}
+.login-card {
+  margin: 0;
+  padding: 20px 20px 30px 20px;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+}
+
 a {
   color: #2873b2;
 }
@@ -19,4 +55,9 @@ a {
 }
 .border-radius {
   border-radius: 20px;
+}
+@media screen and (max-width:600px) {
+  .input-content {
+    width: 100%;
+  }
 }
