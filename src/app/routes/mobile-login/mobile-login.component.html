@@ -2,19 +2,22 @@
 <div class="col">
   <div class=" h-100 d-flex justify-content-center align-items-center">
     <div>
-      <h1 class="display-3">Welcome!</h1>
+      <h1 class="display-3" style="font-size: 40px;line-height: 48px;">Welcome!</h1>
       <form [formGroup]="loginForm">
-        <div class="form-group">
+        <div style="margin-bottom: 15px;">
+          <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
           <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
         </div>
-        <div>
+        <div style="margin-top: 4px;">
           <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
               (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
             This field is required</mat-error>
           <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
             Invalid email or number</mat-error>
         </div>
-        <div class="form-group input-group">
+        <div class="form-group input-group" style="margin-top: 1rem;">
           <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password"
             class="form-control">
           <div class="input-group-addon iconPosition">
@@ -23,7 +26,7 @@
             </a>
           </div>
         </div>
-        <div>
+        <div style="margin-top: 4px;">
           <mat-error class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') &&
               (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
             This field is required</mat-error>
@@ -40,18 +43,20 @@
       <div class="form-group">
         <p>Do not have an account? <a href="app/create-account">Create an account</a></p>
       </div>
-      <div class="form-group">
-        <h4 class="font-weight-bolder f-w-500">OR</h4>
-      </div>
-      <div class="form-group">
-        <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in"
-          class="btn btn-outline-primary btn-block text-left f-black border-radius" role="button" (click)="googleInit()"
-          id="social-google">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
-            width="20" height="20">
-          Log in with Google
-        </a>
+      <div *ngIf="googleAuth">
+        <div class="form-group">
+          <h4 class="font-weight-bolder f-w-500">OR</h4>
+        </div>
+        <div class="form-group">
+          <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in"
+            class="btn btn-outline-primary btn-block text-left f-black border-radius" role="button"
+            (click)="googleInit()" id="social-google">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+              width="20" height="20">
+            <span style="padding-left: 10px;">Log in with Google</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
