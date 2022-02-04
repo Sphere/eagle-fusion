@@ -1,50 +1,55 @@
 <ws-header></ws-header>
-<div class="col">
-  <div class=" h-100 d-flex justify-content-center align-items-center">
+<div class="login-page-content">
+  <div class="login-card">
     <div>
       <h1 class="display-3" style="font-size: 40px;line-height: 48px;">Welcome!</h1>
-      <form [formGroup]="loginForm">
+      <div class="input-content">
+        <div class="input-content-wrapper">
+          <form [formGroup]="loginForm">
 
-        <div>Due to security reasons all users have to reset their password after 5th of Feb 2022. Old password will no
-          longer work
-          message</div>
-        <div style="margin-bottom: 15px;">
-          <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
-        </div>
+            <div class="text-danger">Due to security reasons all users have to reset their password after 5th of Feb
+              2022. Old password will
+              no longer work.</div>
+            <div style="margin-bottom: 15px;">
+              <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
+            </div>
 
-        <div class="form-group" style="margin-bottom: 0;">
-          <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
+            <div class="form-group" style="margin-bottom: 0;">
+              <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
+            </div>
+            <div style="margin-top: 4px;">
+              <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
+                  (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+                This field is required</mat-error>
+              <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
+                Invalid email or number</mat-error>
+            </div>
+            <div class="form-group input-group" style="margin-top: 1rem;">
+              <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password"
+                class="form-control">
+              <div class="input-group-addon iconPosition">
+                <a href="javascript:void(0)" (click)="toggle()" class="f-black">
+                  <i [ngClass]="iconChange" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div style="margin-top: 4px;">
+              <mat-error class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') &&
+                  (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+                This field is required</mat-error>
+            </div>
+            <div class="form-group">
+              <p>Forgot password?<a href="public/forgot-password"> Click Here</a> to reset</p>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block border-radius login-btn" type="submit" (click)="loginUser()"
+                [disabled]="!loginForm?.valid">
+                Log in</button>
+            </div>
+          </form>
         </div>
-        <div style="margin-top: 4px;">
-          <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
-              (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
-            This field is required</mat-error>
-          <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
-            Invalid email or number</mat-error>
-        </div>
-        <div class="form-group input-group" style="margin-top: 1rem;">
-          <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password"
-            class="form-control">
-          <div class="input-group-addon iconPosition">
-            <a href="javascript:void(0)" (click)="toggle()" class="f-black">
-              <i [ngClass]="iconChange" aria-hidden="true"></i>
-            </a>
-          </div>
-        </div>
-        <div style="margin-top: 4px;">
-          <mat-error class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') &&
-              (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-            This field is required</mat-error>
-        </div>
-        <div class="form-group">
-          <p>Forgot password?<a href="public/forgot-password"> Click Here</a> to reset</p>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-block border-radius login-btn" type="submit" (click)="loginUser()"
-            [disabled]="!loginForm?.valid">
-            Log in</button>
-        </div>
-      </form>
+      </div>
+
       <div class="form-group">
         <p>Do not have an account? <a href="app/create-account">Create an account</a></p>
       </div>
