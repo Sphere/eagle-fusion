@@ -1,6 +1,6 @@
 import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/lib/btn-apps/btn-apps.model'
 
-import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core'
+import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges, HostListener } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
@@ -26,6 +26,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   pageNavbar: Partial<NsPage.INavBackground> | null = null
   featureApps: string[] = []
   appBottomIcon?: SafeUrl
+  showCreateBtn = false
 
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
@@ -58,7 +59,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.navBar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
     }
-
+      if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
+        this.showCreateBtn = false
+      } else {
+        this.showCreateBtn = true
+      }
     // this.subscriptionLogin = this.activateRoute.data.subscribe(data => {
     //   // todo
     //   this.loginConfig = data.pageData.data
@@ -111,6 +116,15 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       }
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if ((event.target.innerWidth < 600) && (window.location.href.includes('/public/home'))) {
+      this.showCreateBtn = false
+    } else {
+      this.showCreateBtn = true
     }
   }
 

@@ -26,6 +26,7 @@ export class YourLocationComponent implements OnInit {
   aboutYouForm: FormGroup
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
+  invalidDob = false
   nextBtnDisable = true
   filteredOptionsDistrict: Observable<string[]> | undefined
   countryUrl = '../../../fusion-assets/files/country.json'
@@ -71,7 +72,16 @@ export class YourLocationComponent implements OnInit {
     const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
     this.aboutYouForm.controls.countryCode.setValue(selectedCountry[0].countryCode)
   }
-
+onDateChange(event: any) {
+    const customerDate = moment(event)
+    const dateNow = moment(new Date())
+    const duration = moment.duration(dateNow.diff(customerDate))
+    if (duration.asYears() > 18) {
+         this.invalidDob = false
+    } else {
+         this.invalidDob = true
+    }
+}
   disableNextBtn() {
     if (this.aboutYouForm.controls.dob) {
       if (this.aboutYouForm.controls.country.value !== 'India') {

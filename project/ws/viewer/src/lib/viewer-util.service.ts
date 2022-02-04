@@ -64,22 +64,18 @@ export class ViewerUtilService {
           //   percent = 100
           // }
         } if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
-          if (current === 1) {
-            return 0
-          } if (current === 5) {
-            return 50
-          } if (current === 10) {
-            return 100
-          }
+          return 100
+        }  if (mimeType === NsContent.EMimeTypes.ZIP) {
+          return 100
         } else if (mimeType === NsContent.EMimeTypes.PDF) {
           const latest = parseFloat(temp.slice(-1) || '0')
           // const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / max) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           return percent
-        } else {
-          return 0
         }
+        return 0
+
       }
       return 0
     } catch (e) {
@@ -128,6 +124,8 @@ export class ViewerUtilService {
         }
         return 2
 
+      } else if (mimeType === NsContent.EMimeTypes.ZIP) {
+        return 2
       } else {
         return 1
       }
@@ -144,7 +142,7 @@ export class ViewerUtilService {
     if (this.configservice.userProfile) {
       let percentage = this.calculatePercent(request.current, request.max_size, request.mime_type)
       if (percentage > 95) {
-      percentage = 100
+        percentage = 100
       }
       req = {
         request: {

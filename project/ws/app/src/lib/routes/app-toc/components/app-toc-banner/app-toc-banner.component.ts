@@ -296,7 +296,34 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate() {
-
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    if (this.content && this.content.identifier) {
+      const req = {
+        request: {
+          courseId: this.content.identifier,
+          batchId: this.getBatchId(),
+          userIds: [userId],
+        },
+      }
+      this.contentSvc.processCertificate(req).subscribe((response: any) => {
+        if (response.responseCode === 'OK') {
+          this.sendApi()
+        } else {
+          this.displayStyle = 'block'
+        }
+      },
+        err => {
+          this.displayStyle = 'block'
+          /* tslint:disable-next-line */
+          console.log(err.error.params.errmsg)
+          //this.openSnackbar(err.error.params.errmsg)
+        })
+    }
+  }
+  sendApi() {
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
@@ -332,13 +359,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       })
-
-    // this.displayStyle = 'block'
-    // this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
-    //   // tslint:disable-next-line:no-console
-    //   console.log(data)
-    // })
   }
+
   closePopup() {
     this.displayStyle = 'none'
   }
@@ -672,7 +694,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
