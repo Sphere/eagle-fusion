@@ -4,9 +4,14 @@
     <div>
       <h1 class="display-3" style="font-size: 40px;line-height: 48px;">Welcome!</h1>
       <form [formGroup]="loginForm">
+
+        <div>Due to security reasons all users have to reset their password after 5th of Feb 2022. Old password will no
+          longer work
+          message</div>
         <div style="margin-bottom: 15px;">
           <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
         </div>
+
         <div class="form-group" style="margin-bottom: 0;">
           <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
         </div>
