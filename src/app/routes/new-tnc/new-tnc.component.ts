@@ -163,11 +163,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       personalDetails: {
         tncAccepted: form.value.tncAccepted,
         firstname: form.value.firstname,
-        middlename: form.value.middlename,
         surname: form.value.surname,
-        dob: form.value.dob,
-        mobile: form.value.mobile,
-        telephone: form.value.telephone,
         primaryEmail: form.value.primaryEmail,
       },
     }
@@ -225,7 +221,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
         }
       },
-                                                                    (err: any) => {
+        (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true
