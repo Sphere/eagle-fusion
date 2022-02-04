@@ -86,13 +86,13 @@
 
         </div>
 
-        <span class="content-top"
+        <!-- <span class="content-top"
           *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseChapterPercentage">
           <img [src]="greenTickIcon" class="image" />
         </span>
         <ng-template #elseChapterPercentage>
           <img [src]="redTickIcon" class="image" />
-        </ng-template>
+        </ng-template> -->
 
         <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
           <mat-icon>more_vertical</mat-icon>
