@@ -209,7 +209,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       },
       (err: any) => {
         // this.openSnackbar(err.error.error)
-        this.errorMessage = err
+        console.log(err.error.error)
         this.errorMessage = 'Invalid username or password.'
       }
     )
