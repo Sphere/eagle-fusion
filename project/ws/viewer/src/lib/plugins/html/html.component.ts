@@ -176,9 +176,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               .fetchHierarchyContent(this.htmlContent.identifier)
               .toPromise()
               .then((res: any) => {
-                let  url = res['result']['content']['streamingUrl'];
-                if (res['result']['content']['entryPoint'])
-                  url = url  + res['result']['content']['entryPoint'];
+                let  url = res['result']['content']['streamingUrl']
+                if (res['result']['content']['entryPoint']) {
+                  url = url  + res['result']['content']['entryPoint']
+                }
                 this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url)
               })
               .catch((err: any) => {

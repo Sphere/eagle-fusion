@@ -8,6 +8,7 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
+import { HttpClient } from '@angular/common/http'
 
 declare const gapi: any
 
@@ -17,13 +18,6 @@ declare const gapi: any
   styleUrls: ['./mobile-login.component.scss'],
 })
 export class MobileLoginComponent implements OnInit, AfterViewInit {
-  @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
-  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  loginForm: FormGroup
-  hide = true
-  iconChange = 'fas fa-eye-slash'
-  public route: string
-  emailPhoneType: any
   constructor(
     private fb: FormBuilder,
     // private element: ElementRef,
@@ -32,7 +26,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     location: Location,
     loc: PlatformLocation,
     private snackBar: MatSnackBar,
-    private signupService: SignupService
+    private signupService: SignupService,
+    private http: HttpClient,
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
@@ -45,6 +40,17 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       // window.location.reload()
     })
   }
+  @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
+  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  loginForm: FormGroup
+  hide = true
+  iconChange = 'fas fa-eye-slash'
+  public route: string
+  emailPhoneType: any
+  errorMessage = ''
+  googleAuth = false
+  private baseUrl = 'assets/configurations'
+
   public isSignedIn = false
   public signinURL = ''
   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
@@ -58,18 +64,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ].join(' ')
   elem: HTMLElement = document.getElementById('googleBtn') as HTMLElement
   public auth2: any
-  public googleInit() {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: this.clientId,
-        cookie_policy: 'single_host_origin',
-        scope: this.scope,
-        ux_mode: 'redirect',
-        redirect_uri: `${location.origin}/google/callback`,
-      })
-      this.attachSignin(this.myDiv.nativeElement)
-      this.auth2.isSignedIn.listen(this.signinChanged)
-      this.auth2.currentUser.listen(this.userChanged)
+
+  checkGoogleAuth() {
+    this.http.get(`${this.baseUrl}/host.config.json`).subscribe((data: any) => {
+      this.googleAuth = data.googleAuth
     })
   }
 
@@ -84,7 +82,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -98,12 +96,13 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
   }
   ngOnInit() {
+    this.checkGoogleAuth()
     const storageItem1 = sessionStorage.getItem(`google_token`)
     const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
     if (storageItem2 === 'true' && this.route === '/google/callback') {
@@ -123,15 +122,32 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
           }
         },
         (err: any) => {
-          this.openSnackbar(err.error)
+          // this.openSnackbar(err.error)
+          this.errorMessage = err.error
           this.router.navigate(['/app/login'])
         }
       )
     }
   }
 
+  public googleInit() {
+    gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: this.clientId,
+        cookie_policy: 'single_host_origin',
+        scope: this.scope,
+        ux_mode: 'redirect',
+        redirect_uri: `${location.origin}/google/callback`,
+      })
+      this.attachSignin(this.myDiv.nativeElement)
+      this.auth2.isSignedIn.listen(this.signinChanged)
+      this.auth2.currentUser.listen(this.userChanged)
+    })
+  }
+
   ngAfterViewInit() {
-    this.googleInit()
+    if (this.googleAuth)
+      this.googleInit()
   }
 
   toggle() {
@@ -153,10 +169,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     //   this.openSnackbar('Enter valid Phone Number')
     // }
     if (!email && !validphone) {
-      this.openSnackbar('Enter valid email address')
+      // this.openSnackbar('Enter valid email address')
+      this.errorMessage = 'Enter valid email address'
     }
     if (phone.length < 10 && phone !== '' && alphaNumeric) {
-      this.openSnackbar('Enter 10 digits Phone Number')
+      // this.openSnackbar('Enter 10 digits Phone Number')
+      this.errorMessage = 'Enter 10 digits Phone Number'
     }
     // at least 10 in number
     if (phone.length >= 10) {
@@ -190,7 +208,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         }
       },
       (err: any) => {
-        this.openSnackbar(err.error.error)
+        // this.openSnackbar(err.error.error)
+        this.errorMessage = err
+        this.errorMessage = 'Invalid username or password.'
       }
     )
   }

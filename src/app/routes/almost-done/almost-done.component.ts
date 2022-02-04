@@ -133,11 +133,10 @@ export class AlmostDoneComponent implements OnInit {
   }
 
   professionSelect(option: any) {
-    if (option !== "null") {
+    if (option !== 'null') {
       this.createUserForm.controls.designation.setValue(option)
       this.almostDoneForm.controls.profession.setValue(option)
-    }
-    else {
+    } else {
       this.almostDoneForm.controls.profession.setValue(null)
     }
 
@@ -158,10 +157,9 @@ export class AlmostDoneComponent implements OnInit {
     }
   }
   orgTypeSelect(option: any) {
-    if (option !== "null") {
+    if (option !== 'null') {
       this.almostDoneForm.controls.orgType.setValue(option)
-    }
-    else {
+    } else {
       this.almostDoneForm.controls.orgType.setValue(null)
     }
 
