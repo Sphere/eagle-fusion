@@ -113,12 +113,20 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
       this.contentSvc.googleAuthenticate(req).subscribe(
         async (results: any) => {
-          this.openSnackbar(results.msg)
-          await this.signupService.fetchStartUpDetails()
-          if (sessionStorage.getItem('url_before_login')) {
-            location.href = sessionStorage.getItem('url_before_login') || ''
-          } else {
-            location.href = '/page/home'
+          const result = await this.signupService.fetchStartUpDetails()
+          if (result.status === 401) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 419) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.roles.length > 0) {
+            this.openSnackbar(results.msg)
+            if (sessionStorage.getItem('url_before_login')) {
+              location.href = sessionStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
           }
         },
         (err: any) => {
@@ -146,8 +154,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.googleAuth)
+    if (this.googleAuth) {
       this.googleInit()
+    }
   }
 
   toggle() {
@@ -199,16 +208,25 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
-        this.openSnackbar(results.msg)
-        await this.signupService.fetchStartUpDetails()
-        if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login') || ''
-        } else {
-          location.href = '/page/home'
+        const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 401) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 419) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.roles.length > 0) {
+          this.openSnackbar(results.msg)
+          if (sessionStorage.getItem('url_before_login')) {
+            location.href = sessionStorage.getItem('url_before_login') || ''
+          } else {
+            location.href = '/page/home'
+          }
         }
       },
       (err: any) => {
         // this.openSnackbar(err.error.error)
+        // tslint:disable-next-line:no-console
         console.log(err.error.error)
         this.errorMessage = 'Invalid username or password.'
       }

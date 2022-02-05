@@ -3,7 +3,7 @@ import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
-  ContentProgressService,
+  // ContentProgressService,
   NsContent,
   NsGoal,
   NsPlaylist,
@@ -40,7 +40,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() batchData!: any
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
-  contentProgress = 0
+  // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
   validPaths = new Set(['overview', 'contents', 'analytics'])
@@ -90,7 +90,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private dialog: MatDialog,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    private progressSvc: ContentProgressService,
+    // private progressSvc: ContentProgressService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
@@ -319,7 +319,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           this.displayStyle = 'block'
           /* tslint:disable-next-line */
           console.log(err.error.params.errmsg)
-          //this.openSnackbar(err.error.params.errmsg)
+          // this.openSnackbar(err.error.params.errmsg)
         })
     }
   }
@@ -453,11 +453,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
   private getLearningUrls() {
     if (this.content) {
-      if (!this.forPreview) {
-        this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
-          this.contentProgress = data
-        })
-      }
+      // if (!this.forPreview) {
+      //   this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
+      //     this.contentProgress = data
+      //   })
+      // }
       // this.progressSvc.fetchProgressHashContentsId({
       //   "contentIds": [
       //     "lex_29959473947367270000",

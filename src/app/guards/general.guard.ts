@@ -84,6 +84,7 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/details')
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
+    if (this.configSvc.unMappedUser) {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
         // if (data) {
@@ -102,6 +103,7 @@ export class GeneralGuard implements CanActivate {
       },
       (_err: any) => {
       })
+  }
     /**
      * Test IF User has requried role to access the page
      */
