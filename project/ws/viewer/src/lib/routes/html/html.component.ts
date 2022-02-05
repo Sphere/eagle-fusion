@@ -174,47 +174,47 @@ export class HtmlComponent implements OnInit, OnDestroy {
     }
   }
 
-  async saveContinueLearning(content: NsContent.IContent | null) {
-    return new Promise(async resolve => {
-      if (this.activatedRoute.snapshot.queryParams.collectionType &&
-        content &&
-        this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-        const reqBody = {
-          contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-            ? this.activatedRoute.snapshot.queryParams.collectionId
-            : content
-              ? content.identifier
-              : '',
-          resourceId: content.identifier,
-          data: JSON.stringify({
-            timestamp: Date.now(),
-            contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, content.identifier],
-          }),
-          dateAccessed: Date.now(),
-          contextType: 'playlist',
-        }
-        this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-          resolve(true)
-        }
-        )
-      } else {
-        const reqBody = {
-          contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-            ? this.activatedRoute.snapshot.queryParams.collectionId
-            : content
-              ? content.identifier
-              : '',
-          resourceId: content ? content.identifier : '',
-          data: JSON.stringify({ timestamp: Date.now() }),
-          dateAccessed: Date.now(),
-        }
-        this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-          resolve(true)
-        }
-        )
-      }
-    })
-  }
+  // async saveContinueLearning(content: NsContent.IContent | null) {
+  //   return new Promise(async resolve => {
+  //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
+  //       content &&
+  //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
+  //       const reqBody = {
+  //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
+  //           ? this.activatedRoute.snapshot.queryParams.collectionId
+  //           : content
+  //             ? content.identifier
+  //             : '',
+  //         resourceId: content.identifier,
+  //         data: JSON.stringify({
+  //           timestamp: Date.now(),
+  //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, content.identifier],
+  //         }),
+  //         dateAccessed: Date.now(),
+  //         contextType: 'playlist',
+  //       }
+  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
+  //         resolve(true)
+  //       }
+  //       )
+  //     } else {
+  //       const reqBody = {
+  //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
+  //           ? this.activatedRoute.snapshot.queryParams.collectionId
+  //           : content
+  //             ? content.identifier
+  //             : '',
+  //         resourceId: content ? content.identifier : '',
+  //         data: JSON.stringify({ timestamp: Date.now() }),
+  //         dateAccessed: Date.now(),
+  //       }
+  //       this.contentSvc.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
+  //         resolve(true)
+  //       }
+  //       )
+  //     }
+  //   })
+  // }
 
   // generateUrl(oldUrl: string) {
   //   const chunk = oldUrl.split('/')
@@ -234,11 +234,11 @@ export class HtmlComponent implements OnInit, OnDestroy {
   // }
 
   async ngOnDestroy() {
-    if (this.htmlData) {
-      if (!this.subApp || this.activatedRoute.snapshot.queryParams.collectionId) {
-        await this.saveContinueLearning(this.htmlData)
-      }
-    }
+    // if (this.htmlData) {
+    //   if (!this.subApp || this.activatedRoute.snapshot.queryParams.collectionId) {
+    //     await this.saveContinueLearning(this.htmlData)
+    //   }
+    // }
     if (this.htmlData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.htmlData)
     }

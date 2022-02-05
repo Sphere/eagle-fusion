@@ -51,7 +51,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      }, 500)
+      },         500)
 
       this.contentSvc.changeMessage('youtube')
     }
@@ -162,13 +162,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               .toPromise()
               .then((res: any) => {
 
-
-
-
-
-                let  url = res['result']['content']['streamingUrl']
+                let url = res['result']['content']['streamingUrl']
                 if (res['result']['content']['entryPoint']) {
-                  url = url  + res['result']['content']['entryPoint']
+                  url = url + res['result']['content']['entryPoint']
 
                 }
                 this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url)
@@ -208,24 +204,26 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             //   })
           }
         }
-        const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-        const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-          this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
-        const data1 = {
-          current: 1,
-          max_size: 1,
-          mime_type: this.mimeType,
-        }
 
-        setTimeout(() => {
-          if (this.htmlContent) {
-            this.viewerSvc
-              .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
-            this.contentSvc.changeMessage('html')
+        if (!this.htmlContent.entryPoint.includes('lms')) {
+          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+            this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+          const data1 = {
+            current: 1,
+            max_size: 1,
+            mime_type: this.mimeType,
           }
-        }, 500)
 
+          setTimeout(() => {
+            if (this.htmlContent) {
+              this.viewerSvc
+                .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+              this.contentSvc.changeMessage('html')
+            }
+          },         500)
+        }
 
       } else {
         this.mimeType = this.htmlContent.mimeType
@@ -309,6 +307,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.snackBar.open(msg)
         }
       }
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+        const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+          this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+        const data1 = {
+          current: 1,
+          max_size: 1,
+          mime_type: this.mimeType,
+        }
+
+        setTimeout(() => {
+          if (this.htmlContent) {
+            this.viewerSvc
+              .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+            this.contentSvc.changeMessage('html')
+          }
+        },         50)
     }
   }
   dismiss() {
