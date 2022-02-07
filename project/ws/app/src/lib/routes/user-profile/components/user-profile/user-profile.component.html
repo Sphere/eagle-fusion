@@ -360,7 +360,7 @@
                     </mat-autocomplete>
                   </div>
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label required"
+                    <p class=" margin-remove-bottom form-label"
                       i18n="Mobile Number label|Label which explains the user to enter Mobile Number">
                       Mobile Number
                     </p>
@@ -373,10 +373,10 @@
                       </mat-form-field>
                       <mat-form-field appearance="outline" class="margin-top-xs flex-expand w-minus-w80">
                         <input #mobile type="number" matInput placeholder="Mobile Number" formControlName="mobile">
-                        <mat-error [hidden]="false" i18n="Mobile Number Error|Explains name is required"
+                        <!--<mat-error [hidden]="false" i18n="Mobile Number Error|Explains name is required"
                           *ngIf="createUserForm?.controls['mobile'].errors?.required">
                           Mobile Number is mandatory
-                        </mat-error>
+                        </mat-error> -->
                         <mat-error [hidden]="false" *ngIf="createUserForm?.controls['mobile'].errors?.pattern">
                           Please enter a valid 10 digit mobile number
                         </mat-error>
@@ -398,7 +398,7 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="input-wrapper margin-top-s">
+                  <!--<div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label required"
                       i18n="Primary Email label|Label which explains the user to enter Primary Email">
                       Primary Email
@@ -410,7 +410,7 @@
                         Primary Email is mandatory
                       </mat-error>
                     </mat-form-field>
-                  </div>
+                  </div> -->
 
                   <!-- <div class="input-wrapper margin-top-s" >
                     <p class=" margin-remove-bottom form-label"
