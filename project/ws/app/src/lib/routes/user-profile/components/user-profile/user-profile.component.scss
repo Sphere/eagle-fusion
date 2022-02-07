@@ -413,11 +413,18 @@ input.mat-input-element {
   max-width: calc(100% - 80px);
 }
 
+:host-context(.sm, .md) { // styles specific to both sm and md media sizes
+    .profile-box {
+  margin-top: 50px !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
   .profile-box {
     // margin: 0 1rem;
     // padding: 0.5rem 1rem;
     margin: 0;
+    margin-top: 50px !important;
     padding: 10px 0;
     .btn-success {
       margin-right: 0;
