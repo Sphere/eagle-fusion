@@ -353,10 +353,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               })
             }
           }
-          const percentage = _.toInteger((_.sum(progress) / progress.length))
-          if (this.content) {
-            _.set(this.content, 'completionPercentage', percentage)
-          }
+          // const percentage = _.toInteger((_.sum(progress) / progress.length))
+          // if (this.content) {
+          //   _.set(this.content, 'completionPercentage', percentage)
+          // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
           this.resumeData = null

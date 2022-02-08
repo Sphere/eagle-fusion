@@ -225,8 +225,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       const req: NsContent.IContinueLearningDataReq = {
         request: {
           userId,
-          batchId: this.activatedRoute.snapshot.queryParams.batchId,
-          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+          batchId: batchId,
+          courseId: collectionId,
           contentIds: [],
           fields: ['progressdetails'],
         },
