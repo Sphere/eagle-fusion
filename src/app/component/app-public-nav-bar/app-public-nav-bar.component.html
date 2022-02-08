@@ -32,7 +32,7 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <a role="button" *ngIf="showCreateBtn" mat-raised-button class="flex items-center flex-col px-2 box-sizing-box"
+  <a role="button" *ngIf="showCreateBtn" class="flex items-center flex-col px-2 box-sizing-box"
     routerLink="/app/create-account" active routerLinkActive="ws-mat-accent-text">
     <ng-container>
       <button mat-raised-button [ngStyle]="{
