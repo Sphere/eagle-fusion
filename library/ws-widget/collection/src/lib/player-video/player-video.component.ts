@@ -238,11 +238,17 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
-          if (percent >= this.contentData.completionPercentage) {
+          if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId)
+              this.contentSvc.changeMessage('Video')
             }
+          }
+          if (this.contentData === undefined && percent > 95) {
+            this.viewerSvc
+              .realTimeProgressUpdate(identifier, data, collectionId, batchId)
+            this.contentSvc.changeMessage('Video')
           }
 
         })

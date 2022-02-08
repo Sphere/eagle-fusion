@@ -36,14 +36,14 @@ export class CreateAccountComponent implements OnInit {
   ) {
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
-      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
-      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
+      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([7-9][0-9]{9}|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    },{ validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -70,8 +70,8 @@ export class CreateAccountComponent implements OnInit {
 
   initializeFormFields() {
     this.createAccountForm = this.spherFormBuilder.group({
-      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
-      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]*$/)]),
+      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(?:\d{10}|[\w.\-_]+@\w+\.\w{2,3})$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g)]),
@@ -158,8 +158,8 @@ export class CreateAccountComponent implements OnInit {
 
     if (this.email) {
       reqObj = {
-        firstName: form.value.firstname,
-        lastName: form.value.lastname,
+        firstName: form.value.firstname.trim(),
+        lastName: form.value.lastname.trim(),
         email: form.value.emailOrMobile,
         password: form.value.password,
       }
