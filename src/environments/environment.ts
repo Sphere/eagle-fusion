@@ -4,7 +4,7 @@
 
 export const environment: IEnvironment = {
   production: false,
-  sitePath: 'aastrika-sb.idc.tarento.com',
+  sitePath: 'sphere.aastrika.org',
 }
 interface IEnvironment {
   production: boolean
