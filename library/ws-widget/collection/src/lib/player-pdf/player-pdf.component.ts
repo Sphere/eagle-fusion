@@ -99,29 +99,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     pdfjsViewer.SimpleLinkService.prototype.getAnchorUrl =
       pdfjsViewer.PDFLinkService.prototype.getAnchorUrl
 
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
-    }
-    const req: NsContent.IContinueLearningDataReq = {
-      request: {
-        userId,
-        batchId: this.activatedRoute.snapshot.queryParams.batchId,
-        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-        contentIds: [],
-        fields: ['progressdetails'],
-      },
-    }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-        this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
-      })
-
-    if (this.identifier) {
-      this.fireRealTimeProgress(this.identifier)
-      this.contentSvc.changeMessage('PDF')
-    }
-
     this.zoom.disable()
     this.currentPage.disable()
     this.valueSvc.isLtMedium$.subscribe(ltMedium => {
@@ -250,9 +227,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     if (!this.widgetData.disableTelemetry) {
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.StateChange)
     }
-    if (this.identifier) {
-      this.fireRealTimeProgress(this.identifier)
-    }
 
   }
   raiseTelemetry(action: string) {
@@ -262,44 +236,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       })
     }
   }
-  // saveContinueLearning(id: string) {
-  //   if (this.activatedRoute.snapshot.queryParams.collectionType &&
-  //     this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-  //     const reqBody = {
-  //       contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-  //         ? this.activatedRoute.snapshot.queryParams.collectionId
-  //         : id,
-  //       resourceId: id,
-  //       contextType: 'playlist',
-  //       dateAccessed: Date.now(),
-  //       data: JSON.stringify({
-  //         progress: this.currentPage.value,
-  //         timestamp: Date.now(),
-  //         contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, id],
-  //       }),
-  //     }
-  //     this.contentSvc
-  //       .saveContinueLearning(reqBody)
-  //       .toPromise()
-  //       .catch()
-  //   } else {
-  //     const reqBody = {
-  //       contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-  //         ? this.activatedRoute.snapshot.queryParams.collectionId
-  //         : id,
-  //       resourceId: id,
-  //       dateAccessed: Date.now(),
-  //       data: JSON.stringify({
-  //         progress: this.currentPage.value,
-  //         timestamp: Date.now(),
-  //       }),
-  //     }
-  //     this.contentSvc
-  //       .saveContinueLearning(reqBody)
-  //       .toPromise()
-  //       .catch()
-  //   }
-  // }
+
   fireRealTimeProgress(id: string) {
     if (this.totalPages > 0 && this.current.length > 0) {
       const realTimeProgressRequest = {
@@ -318,6 +255,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
       const percent = parseFloat(percentMilis.toFixed(2))
       if (this.contentData && percent >= this.contentData.completionPercentage) {
+        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId)
+        this.contentSvc.changeMessage('PDF')
+      }
+      if (this.contentData === undefined && percent > 0) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId)
         this.contentSvc.changeMessage('PDF')
       }
@@ -357,6 +298,51 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    const req: NsContent.IContinueLearningDataReq = {
+      request: {
+        userId,
+        batchId: this.activatedRoute.snapshot.queryParams.batchId,
+        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+        contentIds: [],
+        fields: ['progressdetails'],
+      },
+    }
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
+      data => {
+        this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
+
+        if (this.identifier) {
+          const realTimeProgressRequest = {
+            ...this.realTimeProgressRequest,
+            max_size: this.totalPages,
+            current: [(this.currentPage.value).toString()],
+          }
+
+          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+            this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+
+          const temp = [...realTimeProgressRequest.current]
+          // const latest = parseFloat(temp.slice(-1) || '0')
+          const latest = parseFloat(temp[temp.length - 1] || '0')
+          const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
+          const percent = parseFloat(percentMilis.toFixed(2))
+          if (this.contentData && percent >= this.contentData.completionPercentage) {
+            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
+            this.contentSvc.changeMessage('PDF')
+          }
+          if (this.contentData === undefined && percent > 0) {
+            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
+            this.contentSvc.changeMessage('PDF')
+          }
+
+        }
+      })
     return true
   }
 
@@ -383,18 +369,18 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.Loaded)
     }
 
-    if (this.identifier) {
-      const realTimeProgressRequest = {
-        ...this.realTimeProgressRequest,
-        max_size: this.totalPages,
-        current: Array.from([this.currentPage.value].join(``)),
-      }
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
-      this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
-    }
+    // if (this.identifier) {
+    //   const realTimeProgressRequest = {
+    //     ...this.realTimeProgressRequest,
+    //     max_size: this.totalPages,
+    //     current: Array.from([this.currentPage.value].join(``)),
+    //   }
+    //   const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+    //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+    //   const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+    //     this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+    //   this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
+    // }
   }
 
   private eventDispatcher(

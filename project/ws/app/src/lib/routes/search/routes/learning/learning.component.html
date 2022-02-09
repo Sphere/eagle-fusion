@@ -6,7 +6,7 @@
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0">
+    <div role="link" tabindex="0" class="searchHeading">
       <span i18n="search route hits showing">Showing </span>
       <span>{{ searchResults.result.count }} </span>
       <span *ngIf="searchResults.result.count > 1" i18n="search route hits results">results </span>
@@ -34,10 +34,10 @@
         <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer" i18n>Click here </a>
         <span i18n="search route hits for showing actual query">to explore more. </span>
       </ng-container>
-      <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+      <!--<button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
         (click)="sideNavBarOpened = !sideNavBarOpened">
         <mat-icon>filter_list</mat-icon>
-      </button>
+      </button> -->
     </div>
     <div class="margin-bottom-m">
       <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
