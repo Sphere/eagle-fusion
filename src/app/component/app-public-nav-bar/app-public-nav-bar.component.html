@@ -1,7 +1,8 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
   <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
     matTooltip="Home">
-    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" *ngIf=" (isXSmall$ | async) === false" />
+    <img [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
+      *ngIf=" (isXSmall$ | async) === false" />
     <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">
@@ -35,7 +36,7 @@
   <a role="button" *ngIf="showCreateBtn" matRipple class="flex items-center flex-col px-2 box-sizing-box"
     routerLink="/app/create-account" active [ngStyle]="{'width':'200px'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
-      <button mat-raised-button [ngStyle]="{
+      <button id="create-account-btn" mat-raised-button [ngStyle]="{
         'background-color': 'rgb(63, 81, 181)',
         'width': '100%',
         'border': '1px solid rgb(63, 81, 181)',
@@ -46,12 +47,15 @@
         Create Account</button>
     </ng-container>
   </a>
-  <div class="flex justify-center flex-col login-btn" >
-    <button *ngIf="(isXSmall$ | async) === false" name="login_client_button" color="primary" mat-raised-button i18n="login: client" (click)="login()"
+  <div class="flex justify-center flex-col login-btn">
+    <button *ngIf="(isXSmall$ | async) === false" name="login_client_button" id="login-btn" color="primary"
+      mat-raised-button i18n="login: client" (click)="login()"
       class="login-btn header-btn ws-mat-primary-background mat-button-base">
       Login
     </button>
-    <button *ngIf="(isXSmall$ | async) === true" name="login_client_button" [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '16px', 'color' : '#3f51b5', 'font-size': 'medium'}" mat-raised-button i18n="login: client" (click)="login()">
+    <button *ngIf="(isXSmall$ | async) === true" name="login_client_button"
+      [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '16px', 'color' : '#3f51b5', 'font-size': 'medium'}"
+      mat-raised-button i18n="login: client" (click)="login()">
       Log in
     </button>
   </div>
