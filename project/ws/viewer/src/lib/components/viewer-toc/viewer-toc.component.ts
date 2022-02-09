@@ -160,7 +160,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
     await this.contentSvc.currentMessage.subscribe(
       (data: any) => {
         if (data) {
-          this.processCollectionForTree()
+          this.ngOnInit();
         }
       })
   }

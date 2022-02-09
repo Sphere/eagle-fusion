@@ -99,24 +99,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     pdfjsViewer.SimpleLinkService.prototype.getAnchorUrl =
       pdfjsViewer.PDFLinkService.prototype.getAnchorUrl
 
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
-    }
-    const req: NsContent.IContinueLearningDataReq = {
-      request: {
-        userId,
-        batchId: this.activatedRoute.snapshot.queryParams.batchId,
-        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-        contentIds: [],
-        fields: ['progressdetails'],
-      },
-    }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-        this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
-      })
-
     this.zoom.disable()
     this.currentPage.disable()
     this.valueSvc.isLtMedium$.subscribe(ltMedium => {
@@ -316,35 +298,51 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
-
-    if (this.identifier) {
-      const realTimeProgressRequest = {
-        ...this.realTimeProgressRequest,
-        max_size: this.totalPages,
-        current: [(this.currentPage.value).toString()],
-      }
-
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
-
-      const temp = [...realTimeProgressRequest.current]
-      // const latest = parseFloat(temp.slice(-1) || '0')
-      const latest = parseFloat(temp[temp.length - 1] || '0')
-      const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
-      const percent = parseFloat(percentMilis.toFixed(2))
-
-      if (this.contentData && percent > this.contentData.completionPercentage) {
-        this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
-        this.contentSvc.changeMessage('PDF')
-      }
-      if (this.contentData === undefined && percent > 0) {
-        this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
-        this.contentSvc.changeMessage('PDF')
-      }
-
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
     }
+    const req: NsContent.IContinueLearningDataReq = {
+      request: {
+        userId,
+        batchId: this.activatedRoute.snapshot.queryParams.batchId,
+        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+        contentIds: [],
+        fields: ['progressdetails'],
+      },
+    }
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
+      data => {
+        this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
+
+        if (this.identifier) {
+          const realTimeProgressRequest = {
+            ...this.realTimeProgressRequest,
+            max_size: this.totalPages,
+            current: [(this.currentPage.value).toString()],
+          }
+
+          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+            this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+
+          const temp = [...realTimeProgressRequest.current]
+          // const latest = parseFloat(temp.slice(-1) || '0')
+          const latest = parseFloat(temp[temp.length - 1] || '0')
+          const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
+          const percent = parseFloat(percentMilis.toFixed(2))
+          if (this.contentData && percent >= this.contentData.completionPercentage) {
+            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
+            this.contentSvc.changeMessage('PDF')
+          }
+          if (this.contentData === undefined && percent > 0) {
+            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
+            this.contentSvc.changeMessage('PDF')
+          }
+
+        }
+      })
     return true
   }
 

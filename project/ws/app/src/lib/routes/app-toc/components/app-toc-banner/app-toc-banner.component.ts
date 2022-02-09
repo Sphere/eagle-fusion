@@ -340,7 +340,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               }
               return course
             })
-            if (this.enrolledCourse.issuedCertificates.length > 0) {
+            if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
