@@ -139,7 +139,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       countryCode: new FormControl('', [Validators.required]),
       mobile: new FormControl('', [Validators.pattern(this.phoneNumberPattern)]),
       telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', [Validators.required, Validators.email]),
+      primaryEmail: new FormControl('', [Validators.email]),
       primaryEmailType: new FormControl(this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.OFFICIAL), []),
       secondaryEmail: new FormControl('', []),
       nationality: new FormControl('', []),

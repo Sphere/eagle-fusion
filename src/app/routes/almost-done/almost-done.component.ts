@@ -270,21 +270,27 @@ export class AlmostDoneComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
+
+    const userObject = {
+      firstname: this.firstName,
+      middlename: this.middleName,
+      surname: this.lastName,
+      dob: this.yourBackground.value.dob,
+      regNurseRegMidwifeNumber: this.almostDoneForm.value.rnNumber ? this.almostDoneForm.value.rnNumber : '[NA]',
+      countryCode: this.yourBackground.value.countryCode,
+      primaryEmail: this.email,
+      postalAddress: this.selectedAddress,
+    }
+    Object.keys(userObject).forEach(key => {
+      if (userObject[key] === '') {
+        delete userObject[key]
+      }
+    })
+
     const profileReq = {
       id: this.userId,
       userId: this.userId,
-      personalDetails: {
-        firstname: this.firstName,
-        middlename: this.middleName,
-        surname: this.lastName,
-        about: '',
-        dob: this.yourBackground.value.dob,
-        regNurseRegMidwifeNumber: this.almostDoneForm.value.rnNumber,
-        countryCode: this.yourBackground.value.countryCode,
-        mobile: '',
-        primaryEmail: this.email,
-        postalAddress: this.selectedAddress,
-      },
+      personalDetails: userObject,
       academics: this.getAcademics(),
       employmentDetails: {},
       professionalDetails: [

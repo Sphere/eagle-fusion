@@ -20,13 +20,16 @@
       <div class="user-name">
         <h2 class="pl-4 ws-mat-primary-text margin-zero sm:pl-0">{{ userProfileData?.personalDetails.firstname }}
           {{userProfileData?.personalDetails.surname}}</h2>
-        <div *ngIf="userProfileData?.professionalDetails[0]">
+        <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
           {{userProfileData?.professionalDetails[0].designation === 'Other' ?
           userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
           }}
         </div>
-        <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }} /
-          {{userProfileData?.personalDetails?.mobile}}</div>
+        <div *ngIf="userProfileData?.personalDetails?.primaryEmail || userProfileData?.personalDetails?.mobile"
+          class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }}
+          <span *ngIf="userProfileData?.personalDetails?.mobile">/</span>
+          {{userProfileData?.personalDetails?.mobile}}
+        </div>
       </div>
     </mat-card>
 
@@ -69,7 +72,7 @@
 
     <div>
 
-      <ng-container *ngIf="academicsArray">
+      <ng-container *ngIf="academicsArray.length>0;else showElseEducation">
         <div class="academic-row" *ngFor="let academic of academicsArray">
           <div class="flex" *ngIf="xStandardValues === 1 && academic.type == 'X_STANDARD'">
             <button mat-fab disabled>
@@ -134,6 +137,14 @@
           your info</button>
       </div>
     </ng-template>
+    <ng-template #showElseEducation>
+      <div class="mb-8">
+        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+          [queryParams]="{edit: 1}">+ Add
+          your info</button>
+      </div>
+    </ng-template>
 
     <ng-template #showElseProfession>
       <div class="mb-8">
@@ -166,11 +177,12 @@
         Professional info</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
-        *ngIf="userProfileData?.professionalDetails[0]?.designation != ''">
+        *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]?.designation != ''">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
-    <ng-container *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails.length">
+    <ng-container
+      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails.length; else showElseProfession">
       <div *ngIf="userProfileData?.professionalDetails[0]?.designation != ''; else showElseProfession">
 
 
