@@ -43,18 +43,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private userProfileSvc: UserProfileService,
     private http: HttpClient,
   ) {
-    // if (this.configSvc.unMappedUser) {
-    //   this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-    //     (data: any) => {
-    //       if (data && data.profileDetails.profileReq !== undefined) {
-    //         const userData = data.profileDetails.profileReq.personalDetails
-    //         this.tncFlag = userData.dob || ''
-    //       } else {
-    //         const userData = data.profileDetails.personalDetails.dob
-    //         this.tncFlag = userData.dob || ''
-    //       }
-    //     })
-    // }
   }
 
   ngOnInit() {
@@ -154,18 +142,21 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   private constructReq(form: any) {
+    const userObject = form.value
+    Object.keys(userObject).forEach(key => {
+      if (userObject[key] === '') {
+        delete userObject[key]
+      }
+    })
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
     }
     const profileReq = {
-      id: this.userId,
-      userId: this.userId,
-      personalDetails: {
-        tncAccepted: form.value.tncAccepted,
-        firstname: form.value.firstname,
-        surname: form.value.surname,
-        primaryEmail: form.value.primaryEmail,
-      },
+      'profileReq': {
+        id: this.userId,
+        userId: this.userId,
+        personalDetails: userObject
+      }
     }
     return profileReq
   }

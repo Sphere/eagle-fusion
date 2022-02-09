@@ -67,7 +67,7 @@ export class ViewerUtilService {
           return 100
         }  if (mimeType === NsContent.EMimeTypes.ZIP) {
           return 100
-        } else if (mimeType === NsContent.EMimeTypes.PDF) {
+        }  if (mimeType === NsContent.EMimeTypes.PDF) {
           const latest = parseFloat(temp.slice(-1) || '0')
           // const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / max) * 100

@@ -58,7 +58,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #middlename formControlName="middlename" i18n-placeholder
-                            placeholder="Enter Middle Name" [readonly]="isEditable"/>
+                            placeholder="Enter Middle Name" [readonly]="isEditable" />
                           <mat-error [hidden]="false" i18n="Middle Name Error|Explains name is required">
                             Middle name is mandatory
                           </mat-error>
@@ -359,8 +359,8 @@
                       </mat-option>
                     </mat-autocomplete>
                   </div>
-                  <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
+                  <!-- <div class="input-wrapper margin-top-s">
+                    <p class=" margin-remove-bottom form-label required"
                       i18n="Mobile Number label|Label which explains the user to enter Mobile Number">
                       Mobile Number
                     </p>
@@ -373,18 +373,18 @@
                       </mat-form-field>
                       <mat-form-field appearance="outline" class="margin-top-xs flex-expand w-minus-w80">
                         <input #mobile type="number" matInput placeholder="Mobile Number" formControlName="mobile">
-                        <!--<mat-error [hidden]="false" i18n="Mobile Number Error|Explains name is required"
+                        <mat-error [hidden]="false" i18n="Mobile Number Error|Explains name is required"
                           *ngIf="createUserForm?.controls['mobile'].errors?.required">
                           Mobile Number is mandatory
                         </mat-error> -->
-                        <mat-error [hidden]="false" *ngIf="createUserForm?.controls['mobile'].errors?.pattern">
+                  <!-- <mat-error [hidden]="false" *ngIf="createUserForm?.controls['mobile'].errors?.pattern">
                           Please enter a valid 10 digit mobile number
-                        </mat-error>
-                        <!-- <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.required">This field is mandatory.</mat-error>
+                        </mat-error> -->
+                  <!-- <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.required">This field is mandatory.</mat-error>
                                         <mat-error *ngIf="createUserForm?.controls['mobile'].errors?.pattern">Minimum 8 charactors needed.</mat-error> -->
-                      </mat-form-field>
-                    </div>
-                  </div>
+                  <!-- </mat-form-field>
+                    </div> -->
+                  <!-- </div> -->
                   <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Telephone Number label|Label which explains the user to enter Telephone Number">
@@ -398,7 +398,7 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
-                  <!--<div class="input-wrapper margin-top-s">
+                  <!-- <div class="input-wrapper margin-top-s">
                     <p class=" margin-remove-bottom form-label required"
                       i18n="Primary Email label|Label which explains the user to enter Primary Email">
                       Primary Email
