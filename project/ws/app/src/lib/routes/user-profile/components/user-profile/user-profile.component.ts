@@ -321,7 +321,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public removeDegrees(i: number) {
-    if(i > 0) {
+    if (i > 0) {
       this.degrees.removeAt(i)
     }
 
@@ -713,7 +713,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
-      surname: data.personalDetails.lastName,
+      surname: data.personalDetails.lastName || data.personalDetails.surname,
       about: data.personalDetails.about,
       photo: data.photo,
       dob: this.getDateFromText(data.personalDetails.dob),
@@ -763,7 +763,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
