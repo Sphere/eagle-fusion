@@ -19,7 +19,6 @@ import { HttpClient } from '@angular/common/http'
 export class NewTncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
-  // tncFlag = false
   isAcceptInProgress = false
   errorInAccepting = false
   isPublic = false
@@ -70,6 +69,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       primaryEmail: new FormControl('', []),
       primaryEmailType: new FormControl('', []),
       dob: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
     })
   }
 
@@ -192,6 +192,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
+        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue("[NA]")
       }
       const profileRequest = this.constructReq(this.createUserForm)
       const reqUpdate = {
