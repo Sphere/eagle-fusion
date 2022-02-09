@@ -205,7 +205,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         }
 
-        if (!this.htmlContent.entryPoint.includes('lms')) {
+        if (this.htmlContent.entryPoint && this.htmlContent.entryPoint.includes('lms') === false) {
           const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
             this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
           const batchId = this.activatedRoute.snapshot.queryParams.batchId ?

@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef,
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
@@ -53,7 +53,7 @@ interface ICollectionCard {
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
 })
-export class ViewerTocComponent implements OnInit, OnDestroy {
+export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   @Input() resourceChanged = ''
@@ -81,12 +81,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
-    this.contentSvc.currentMessage.subscribe(
-      (data: any) => {
-        if (data) {
-          this.processCollectionForTree()
-        }
-      })
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
@@ -162,7 +156,14 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       }
     })
   }
-
+  async ngAfterViewInit() {
+    await this.contentSvc.currentMessage.subscribe(
+      (data: any) => {
+        if (data) {
+          this.ngOnInit();
+        }
+      })
+  }
   // updateSearchModel(value) {
   //   this.searchModel = value
   //   // this.searchModelChange.emit(this.searchModel)

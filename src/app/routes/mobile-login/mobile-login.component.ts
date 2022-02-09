@@ -209,6 +209,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
         const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 400) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
         if (result.status === 401) {
           this.openSnackbar(result.error.params.errmsg)
         }
