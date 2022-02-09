@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit,
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'

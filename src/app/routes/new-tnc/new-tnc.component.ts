@@ -152,11 +152,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.userId = this.configSvc.userProfile.userId || ''
     }
     const profileReq = {
-      'profileReq': {
+      profileReq: {
         id: this.userId,
         userId: this.userId,
-        personalDetails: userObject
-      }
+        personalDetails: userObject,
+      },
     }
     return profileReq
   }
@@ -192,7 +192,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
-        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue("[NA]")
+        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
       }
       const profileRequest = this.constructReq(this.createUserForm)
       const reqUpdate = {
@@ -213,7 +213,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
         }
       },
-        (err: any) => {
+                                                                    (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true
