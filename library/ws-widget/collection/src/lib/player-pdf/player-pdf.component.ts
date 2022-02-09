@@ -317,7 +317,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const latest = parseFloat(temp[temp.length - 1] || '0')
       const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
       const percent = parseFloat(percentMilis.toFixed(2))
-      if (percent >= this.contentData.completionPercentage) {
+      if (this.contentData && percent >= this.contentData.completionPercentage) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId)
         this.contentSvc.changeMessage('PDF')
       }

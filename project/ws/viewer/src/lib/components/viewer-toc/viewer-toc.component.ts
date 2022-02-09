@@ -1,5 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef } from '@angular/core'
+import {
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef
+} from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
@@ -167,6 +169,10 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   // }
   sendStatus(content: any) {
     this.viewSvc.editResourceData(content)
+    if (window.innerWidth < 600) {
+      this.minimizenav()
+    }
+
   }
 
   // private getContentProgressHash() {
@@ -174,7 +180,12 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   //     this.contentProgressHash = progressHash
   //   })
   // }
-
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any) {
+  //   if (event.target.innerWidth < 600) {
+  //     this.minimizenav()
+  //   }
+  // }
   ngOnDestroy() {
     if (this.paramSubscription) {
       this.paramSubscription.unsubscribe()

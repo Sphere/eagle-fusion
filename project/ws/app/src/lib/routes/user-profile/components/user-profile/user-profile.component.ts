@@ -137,7 +137,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       about: new FormControl(''),
       photo: new FormControl('', []),
       countryCode: new FormControl('', [Validators.required]),
-      mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
+      mobile: new FormControl('', [Validators.pattern(this.phoneNumberPattern)]),
       telephone: new FormControl('', []),
       primaryEmail: new FormControl('', [Validators.required, Validators.email]),
       primaryEmailType: new FormControl(this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.OFFICIAL), []),
@@ -321,7 +321,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public removeDegrees(i: number) {
-    this.degrees.removeAt(i)
+    if(i > 0) {
+      this.degrees.removeAt(i)
+    }
+
   }
 
   public addPostDegree() {
@@ -706,10 +709,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
+
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
-      surname: data.personalDetails.surname,
+      surname: data.personalDetails.lastName,
       about: data.personalDetails.about,
       photo: data.photo,
       dob: this.getDateFromText(data.personalDetails.dob),
@@ -817,6 +821,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         firstname: form.value.firstname,
         middlename: form.value.middlename,
         surname: form.value.surname,
+        lastName: form.value.surname,
         about: form.value.about,
         dob: form.value.dob,
         nationality: form.value.nationality,
