@@ -68,8 +68,6 @@ export class ViewerUtilService {
         } if (mimeType === NsContent.EMimeTypes.ZIP) {
           return 100
 
-
-
         } if (mimeType === NsContent.EMimeTypes.PDF) {
 
           const latest = parseFloat(temp.slice(-1) || '0')
