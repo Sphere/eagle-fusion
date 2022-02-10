@@ -127,7 +127,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         }
       },
       (error: any) => {
-        this.openSnackbar(error.error)
+        this.openSnackbar(error.error.message || 'Something went wrong')
       }
     )
   }
