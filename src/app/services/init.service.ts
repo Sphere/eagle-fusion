@@ -285,6 +285,7 @@ export class InitService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
+            phone: _.get(userPidProfile, 'phone')
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
@@ -323,7 +324,6 @@ export class InitService {
       } catch (e) {
         this.configSvc.userProfile = null
         return e
-        throw new Error('Invalid user')
       }
     } else {
       return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }

@@ -22,7 +22,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-              private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {
@@ -107,6 +107,7 @@ export class SignupService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
+            phone: _.get(userPidProfile, 'phone')
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,

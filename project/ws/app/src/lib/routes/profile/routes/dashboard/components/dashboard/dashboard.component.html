@@ -25,10 +25,9 @@
           userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
           }}
         </div>
-        <div *ngIf="userProfileData?.personalDetails?.primaryEmail || userProfileData?.personalDetails?.mobile"
+        <div *ngIf="userProfileData?.personalDetails?.primaryEmail || mobile"
           class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }}
-          <span *ngIf="userProfileData?.personalDetails?.mobile">/</span>
-          {{userProfileData?.personalDetails?.mobile}}
+          {{mobile}}
         </div>
       </div>
     </mat-card>
