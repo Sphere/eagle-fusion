@@ -59,7 +59,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     'profile',
     'email',
     'https://www.googleapis.com/auth/plus.me',
-    'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/admin.directory.user.readonly',
   ].join(' ')
   elem: HTMLElement = document.getElementById('googleBtn') as HTMLElement
