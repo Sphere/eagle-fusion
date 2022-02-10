@@ -123,7 +123,6 @@ export class DashboardComponent implements OnInit {
     private userProfileSvc: UserProfileService,
   ) {
     if (this.configSvc.userProfile) {
-      debugger
       this.userName = this.configSvc.userProfile.givenName || ''
       this.userEmail = this.configSvc.userProfile.email || ''
       this.departmentName = this.configSvc.userProfile.departmentName || ''
