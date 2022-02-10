@@ -33,6 +33,8 @@ export class AlmostDoneComponent implements OnInit {
   studentInstitute = ''
   studentCourse = ''
   selectedAddress = ''
+  enableSubmit = false
+  errorMsg = 'Invalid.Please correct and try again'
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
   healthVolunteerProfessions = ['ASHA\'s', 'Anganwadi Workers', 'Teachers', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -57,15 +59,16 @@ export class AlmostDoneComponent implements OnInit {
 
   almostDoneFormFields() {
     return new FormGroup({
-      profession: new FormControl(),
-      rnNumber: new FormControl(),
+      professSelected: new FormControl(),
+      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      rnNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
       orgType: new FormControl(),
-      orgName: new FormControl(),
+      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       professionOtherSpecify: new FormControl(),
-      designationName: new FormControl(),
+      designationName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       orgOtherSpecify: new FormControl(),
-      instituteName: new FormControl(),
-      courseName: new FormControl(),
+      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       othersProfession: new FormControl(),
     })
   }
@@ -142,7 +145,7 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.professionOthersField = true
-      this.almostDoneForm.controls.professionOtherSpecify.setValidators([Validators.required])
+      this.almostDoneForm.controls.professionOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.professionOthersField = false
       this.almostDoneForm.controls.professionOtherSpecify.clearValidators()
@@ -165,7 +168,7 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.orgOthersField = true
-      this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required])
+      this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.orgOthersField = false
       this.almostDoneForm.controls.orgOtherSpecify.clearValidators()
@@ -184,10 +187,11 @@ export class AlmostDoneComponent implements OnInit {
     this.updateProfile()
   }
 
-  assignFields(qid: any, value: any) {
-
+  assignFields(qid: any, data: any) {
+    const value = data.trim()
     switch (qid) {
       case 'profession':
+      case 'designation':
       case 'others':
       case 'Others - Please Specify':
         this.createUserForm.controls.designation.setValue(value)
@@ -197,9 +201,6 @@ export class AlmostDoneComponent implements OnInit {
         break
       case 'organizationName':
         this.createUserForm.controls.orgName.setValue(value)
-        break
-      case 'designation':
-        this.createUserForm.controls.designation.setValue(value)
         break
       case 'institutionName':
         if (this.profession === 'faculty') {
@@ -229,18 +230,13 @@ export class AlmostDoneComponent implements OnInit {
     const organisations: any = []
     const org = {
       organisationType: this.almostDoneForm.value.orgType,
-      name: this.almostDoneForm.value.orgName,
+      name: this.almostDoneForm.value.orgName.trim(),
       nameOther: '',
-      industry: '',
-      industryOther: '',
-      designation: this.almostDoneForm.value.profession,
+      designation: this.almostDoneForm.value.profession.trim(),
       designationOther: this.backgroundSelect,
       location: '',
-      responsibilities: '',
       doj: '',
-      description: '',
       completePostalAddress: '',
-      additionalAttributes: {},
     }
     organisations.push(org)
     return organisations
@@ -249,9 +245,9 @@ export class AlmostDoneComponent implements OnInit {
   getDegree(degreeType: string): IProfileAcademics[] {
     const formatedDegrees: IProfileAcademics[] = []
     formatedDegrees.push({
-      nameOfQualification: this.almostDoneForm.value.courseName,
+      nameOfQualification: this.studentCourse,
       type: degreeType,
-      nameOfInstitute: this.almostDoneForm.value.instituteName,
+      nameOfInstitute: this.studentInstitute,
       yearOfPassing: '',
     })
     return formatedDegrees
@@ -343,5 +339,4 @@ export class AlmostDoneComponent implements OnInit {
       duration,
     })
   }
-
 }

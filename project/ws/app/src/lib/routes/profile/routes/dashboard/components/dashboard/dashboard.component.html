@@ -64,16 +64,16 @@
         Education</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" matTooltip="Edit your personal detail"
-        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="!showAcademicElse">
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="showAcademicElse">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
 
     <div>
 
-      <ng-container *ngIf="academicsArray.length>0;else showElseEducation">
+      <ng-container *ngIf="academicsArray.length>0 || showAcademicElse;">
         <div class="academic-row" *ngFor="let academic of academicsArray">
-          <div class="flex" *ngIf="xStandardValues === 1 && academic.type == 'X_STANDARD'">
+          <div class="flex" *ngIf="xStandardValues > 1 && academic.type == 'X_STANDARD'">
             <button mat-fab disabled>
               <mat-icon mat-list-icon>school</mat-icon>
             </button>
@@ -85,7 +85,7 @@
             </div>
           </div>
 
-          <div class="flex" *ngIf="xiiStandardValues === 1 && academic?.type == 'XII_STANDARD'">
+          <div class="flex" *ngIf="xiiStandardValues > 1 && academic?.type == 'XII_STANDARD'">
             <button mat-fab disabled>
               <mat-icon mat-list-icon>school</mat-icon>
             </button>
@@ -103,7 +103,7 @@
             </button>
             <div class="ml-2">
               <div>
-                <div>Graduate: </div>
+                <div>Graduate</div>
                 {{academic.nameOfQualification}}
               </div>
               <div>{{academic.nameOfInstitute}}</div>
@@ -117,7 +117,7 @@
             </button>
             <div class="ml-2">
               <div>
-                <div>Post Graduate :</div>
+                <div>Post Graduate</div>
                 {{academic.nameOfQualification}}
               </div>
               <div>{{academic.nameOfInstitute}}</div>
@@ -133,14 +133,6 @@
         <div class="ml-4 mb-4">You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
           [queryParams]="{edit: 0}">+ Add
-          your info</button>
-      </div>
-    </ng-template>
-    <ng-template #showElseEducation>
-      <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
-        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
-          [queryParams]="{edit: 1}">+ Add
           your info</button>
       </div>
     </ng-template>
@@ -163,7 +155,7 @@
       </div>
     </ng-template>
 
-    <div *ngIf="showAcademicElse" class="mb-8">
+    <div *ngIf="!showAcademicElse" class="mb-8">
       <div class="ml-4 mb-4">You have not added your info in Profile</div>
       <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
         [queryParams]="{edit: 1}">+ Add your

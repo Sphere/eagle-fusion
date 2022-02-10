@@ -325,10 +325,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public removeDegrees(i: number) {
-    if (i > 0) {
-      this.degrees.removeAt(i)
-    }
-
+    this.degrees.removeAt(i)
   }
 
   public addPostDegree() {
@@ -767,7 +764,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */

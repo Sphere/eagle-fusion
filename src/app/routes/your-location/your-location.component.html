@@ -23,8 +23,9 @@
         <form [formGroup]="aboutYouForm">
 
           <div class="form-group mt-4 input-box">
-            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off" (dateInput)="onDateChange($event.value)"
-              placeholder="Date of Birth" name="dob" class="form-control dob-input" (click)="picker.open()">
+            <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
+              (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob"
+              class="form-control dob-input" (click)="picker.open()">
             <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </div>
@@ -59,7 +60,8 @@
 
           <div class="next-btn-div">
             <button class="form-group login-button" name="login" type="submit"
-              [disabled]="!aboutYouForm?.valid || nextBtnDisable" (click)="onsubmit(aboutYouForm)">Next</button>
+              [disabled]="!aboutYouForm?.valid || nextBtnDisable || invalidDob"
+              (click)="onsubmit(aboutYouForm)">Next</button>
           </div>
 
         </form>
