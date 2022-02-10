@@ -272,8 +272,10 @@ export class TelemetryService {
         ),
       )
       .subscribe(event => {
-        event.data.content['isIframeSupported'] = 'Yes'
-        const content: NsContent.IContent | null = event.data.content
+        // event.data.content['isIframeSupported'] = 'Yes'
+        event.data['isIframeSupported'] = 'Yes'
+        // const content: NsContent.IContent | null = event.data.content
+        const content: NsContent.IContent | null = event.data
         if (
           event.data.state === WsEvents.EnumTelemetrySubType.Loaded &&
           (!content ||

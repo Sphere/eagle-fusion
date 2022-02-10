@@ -12,10 +12,25 @@
   @include breakpoint-s {
     padding: 1.5rem 7rem;
   }
+   @include breakpoint-l {
+    padding: 1.5rem 7rem;
+  }
   @include breakpoint-xs {
     flex-direction: column;
   }
   color: #7b6961;
+}
+.footer-flex {
+  justify-content: center;
+  @include breakpoint-lt-xl {
+    justify-content: space-around;
+  }
+}
+.footer-first-col {
+  width: 35%;
+  @include breakpoint-lt-m {
+    width: 100%;
+  }
 }
 
 .font-12 {

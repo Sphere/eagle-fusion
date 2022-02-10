@@ -1,6 +1,14 @@
 {
   "states": [
     {
+      "state": "Andaman and Nicobar Islands",
+      "districts": [
+        "Nicobar",
+        "North and Middle Andaman",
+        "South Andaman"
+      ]
+    },
+    {
       "state": "Andhra Pradesh",
       "districts": [
         "Anantapur",
@@ -282,30 +290,18 @@
       ]
     },
     {
-      "state": "Jammu and Kashmir",
+      "state": "Jammu",
       "districts": [
-        "Anantnag",
-        "Bandipore",
-        "Baramulla",
-        "Budgam",
-        "Doda",
-        "Ganderbal",
-        "Jammu",
-        "Kargil",
         "Kathua",
-        "Kishtwar",
-        "Kulgam",
-        "Kupwara",
-        "Leh",
-        "Poonch",
-        "Pulwama",
-        "Rajouri",
-        "Ramban",
-        "Reasi",
+        "Jammu",
         "Samba",
-        "Shopian",
-        "Srinagar",
-        "Udhampur"
+        "Udhampur",
+        "Reasi",
+        "Rajouri",
+        "Poonch",
+        "Doda",
+        "Ramban",
+        "Kishtwar"
       ]
     },
     {
@@ -373,6 +369,21 @@
       ]
     },
     {
+      "state": "Kashmir",
+      "districts": [
+        "Anantnag",
+        "Kulgam",
+        "Pulwama",
+        "Shopian",
+        "Budgam",
+        "Srinagar",
+        "Ganderbal",
+        "Bandipora",
+        "Baramulla",
+        "Kupwara"
+      ]
+    },
+    {
       "state": "Kerala",
       "districts": [
         "Alappuzha",
@@ -389,6 +400,13 @@
         "Thiruvananthapuram",
         "Thrissur",
         "Wayanad"
+      ]
+    },
+    {
+      "state": "Ladakh",
+      "districts": [
+        "Kargil",
+        "Leh"
       ]
     },
     {

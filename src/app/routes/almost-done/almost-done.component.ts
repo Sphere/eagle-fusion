@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material'
 import { Router, ActivatedRoute } from '@angular/router'
@@ -133,13 +133,22 @@ export class AlmostDoneComponent implements OnInit {
   }
 
   professionSelect(option: any) {
-    this.createUserForm.controls.designation.setValue(option)
+    if (option !== 'null') {
+      this.createUserForm.controls.designation.setValue(option)
+      this.almostDoneForm.controls.profession.setValue(option)
+    } else {
+      this.almostDoneForm.controls.profession.setValue(null)
+    }
+
     if (option === 'Others') {
       this.professionOthersField = true
+      this.almostDoneForm.controls.professionOtherSpecify.setValidators([Validators.required])
     } else {
       this.professionOthersField = false
+      this.almostDoneForm.controls.professionOtherSpecify.clearValidators()
       this.almostDoneForm.controls.professionOtherSpecify.setValue(null)
     }
+
     if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
       this.rnFieldDisabled = false
     } else {
@@ -148,10 +157,18 @@ export class AlmostDoneComponent implements OnInit {
     }
   }
   orgTypeSelect(option: any) {
+    if (option !== 'null') {
+      this.almostDoneForm.controls.orgType.setValue(option)
+    } else {
+      this.almostDoneForm.controls.orgType.setValue(null)
+    }
+
     if (option === 'Others') {
       this.orgOthersField = true
+      this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required])
     } else {
       this.orgOthersField = false
+      this.almostDoneForm.controls.orgOtherSpecify.clearValidators()
       this.almostDoneForm.controls.orgOtherSpecify.setValue(null)
     }
   }
@@ -253,21 +270,27 @@ export class AlmostDoneComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
+
+    const userObject = {
+      firstname: this.firstName,
+      middlename: this.middleName,
+      surname: this.lastName,
+      dob: this.yourBackground.value.dob,
+      regNurseRegMidwifeNumber: this.almostDoneForm.value.rnNumber ? this.almostDoneForm.value.rnNumber : '[NA]',
+      countryCode: this.yourBackground.value.countryCode,
+      primaryEmail: this.email,
+      postalAddress: this.selectedAddress,
+    }
+    Object.keys(userObject).forEach(key => {
+      if (userObject[key] === '') {
+        delete userObject[key]
+      }
+    })
+
     const profileReq = {
       id: this.userId,
       userId: this.userId,
-      personalDetails: {
-        firstname: this.firstName,
-        middlename: this.middleName,
-        surname: this.lastName,
-        about: '',
-        dob: this.yourBackground.value.dob,
-        regNurseRegMidwifeNumber: this.almostDoneForm.value.rnNumber,
-        countryCode: this.yourBackground.value.countryCode,
-        mobile: '',
-        primaryEmail: this.email,
-        postalAddress: this.selectedAddress,
-      },
+      personalDetails: userObject,
       academics: this.getAcademics(),
       employmentDetails: {},
       professionalDetails: [

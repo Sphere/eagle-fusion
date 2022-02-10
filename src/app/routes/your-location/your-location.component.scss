@@ -70,6 +70,7 @@
   border:0;
   font-size: 16px;
   line-height: 19px;
+  cursor: pointer;
 }
 .close-div {
   display: none;
@@ -91,6 +92,7 @@ input:focus-visible {
 .login-button:disabled {
   background: #BFBFBF;
   color: #808080;
+  cursor: default;
 }
 .form-control:focus {
   box-shadow: none;

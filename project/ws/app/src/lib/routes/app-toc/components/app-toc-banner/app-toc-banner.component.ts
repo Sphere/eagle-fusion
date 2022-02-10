@@ -3,7 +3,7 @@ import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
-  ContentProgressService,
+  // ContentProgressService,
   NsContent,
   NsGoal,
   NsPlaylist,
@@ -40,7 +40,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() batchData!: any
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
-  contentProgress = 0
+  // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
   validPaths = new Set(['overview', 'contents', 'analytics'])
@@ -90,7 +90,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private dialog: MatDialog,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    private progressSvc: ContentProgressService,
+    // private progressSvc: ContentProgressService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
@@ -296,7 +296,34 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate() {
-
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    if (this.content && this.content.identifier) {
+      const req = {
+        request: {
+          courseId: this.content.identifier,
+          batchId: this.getBatchId(),
+          userIds: [userId],
+        },
+      }
+      this.contentSvc.processCertificate(req).subscribe((response: any) => {
+        if (response.responseCode === 'OK') {
+          this.sendApi()
+        } else {
+          this.displayStyle = 'block'
+        }
+      },
+        err => {
+          this.displayStyle = 'block'
+          /* tslint:disable-next-line */
+          console.log(err.error.params.errmsg)
+          // this.openSnackbar(err.error.params.errmsg)
+        })
+    }
+  }
+  sendApi() {
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
@@ -313,7 +340,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               }
               return course
             })
-            if (this.enrolledCourse.issuedCertificates.length > 0) {
+            if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
@@ -332,13 +359,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       })
-
-    // this.displayStyle = 'block'
-    // this.contentSvc.downloadCertificateAPI(content.identifier).toPromise().then((data: any) => {
-    //   // tslint:disable-next-line:no-console
-    //   console.log(data)
-    // })
   }
+
   closePopup() {
     this.displayStyle = 'none'
   }
@@ -431,11 +453,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
   private getLearningUrls() {
     if (this.content) {
-      if (!this.forPreview) {
-        this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
-          this.contentProgress = data
-        })
-      }
+      // if (!this.forPreview) {
+      //   this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
+      //     this.contentProgress = data
+      //   })
+      // }
       // this.progressSvc.fetchProgressHashContentsId({
       //   "contentIds": [
       //     "lex_29959473947367270000",

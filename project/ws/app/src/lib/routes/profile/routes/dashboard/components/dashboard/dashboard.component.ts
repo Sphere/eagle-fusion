@@ -111,6 +111,7 @@ export class DashboardComponent implements OnInit {
   showAcademicElse = false
   showInterest = false
   academicsArray: any[] = []
+  mobile: any
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -122,9 +123,11 @@ export class DashboardComponent implements OnInit {
     private userProfileSvc: UserProfileService,
   ) {
     if (this.configSvc.userProfile) {
+      debugger
       this.userName = this.configSvc.userProfile.givenName || ''
       this.userEmail = this.configSvc.userProfile.email || ''
       this.departmentName = this.configSvc.userProfile.departmentName || ''
+      this.mobile = this.configSvc.userProfile.phone || ''
 
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {

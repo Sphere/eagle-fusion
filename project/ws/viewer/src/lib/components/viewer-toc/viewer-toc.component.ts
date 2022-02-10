@@ -1,5 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef } from '@angular/core'
+import {
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit,
+} from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
@@ -51,7 +53,7 @@ interface ICollectionCard {
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
 })
-export class ViewerTocComponent implements OnInit, OnDestroy {
+export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   @Input() resourceChanged = ''
@@ -102,6 +104,9 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   isErrorOccurred = false
   private paramSubscription: Subscription | null = null
   private viewerDataServiceSubscription: Subscription | null = null
+  message!: string
+  subscription: Subscription | null = null
+
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
   private _getChildren = (node: IViewerTocCard) => {
@@ -109,11 +114,13 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
+
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
@@ -141,6 +148,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         this.processCurrentResourceChange()
       }
     })
+
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
@@ -148,13 +156,24 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       }
     })
   }
-
+  async ngAfterViewInit() {
+    await this.contentSvc.currentMessage.subscribe(
+      (data: any) => {
+        if (data) {
+          this.ngOnInit()
+        }
+      })
+  }
   // updateSearchModel(value) {
   //   this.searchModel = value
   //   // this.searchModelChange.emit(this.searchModel)
   // }
   sendStatus(content: any) {
     this.viewSvc.editResourceData(content)
+    if (window.innerWidth < 600) {
+      this.minimizenav()
+    }
+
   }
 
   // private getContentProgressHash() {
@@ -162,7 +181,12 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   //     this.contentProgressHash = progressHash
   //   })
   // }
-
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any) {
+  //   if (event.target.innerWidth < 600) {
+  //     this.minimizenav()
+  //   }
+  // }
   ngOnDestroy() {
     if (this.paramSubscription) {
       this.paramSubscription.unsubscribe()
@@ -170,6 +194,10 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     if (this.viewerDataServiceSubscription) {
       this.viewerDataServiceSubscription.unsubscribe()
     }
+    // if(this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
+
   }
   changeTocMode() {
     if (this.tocMode === 'FLAT') {

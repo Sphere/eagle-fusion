@@ -63,3 +63,11 @@
 .hide-filter-btn {
   visibility: hidden;
 }
+.searchHeading {
+  margin-top: 15px;
+}
+@media only screen and (max-width: 600px) {
+.searchHeading {
+  margin-top: 90px;
+}
+}

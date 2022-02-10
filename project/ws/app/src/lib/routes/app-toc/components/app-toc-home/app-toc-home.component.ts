@@ -11,10 +11,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import * as _ from 'lodash'
+import moment from 'moment'
 
 export enum ErrorType {
-  internalServer = 'internalServer',
-  serviceUnavailable = 'serviceUnavailable',
+  internalServer = 'internalServer'
+  , serviceUnavailable = 'serviceUnavailable',
   somethingWrong = 'somethingWrong',
 }
 const flattenItems = (items: any[], key: string | number) => {
@@ -77,7 +78,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   body: SafeHtml | null = null
   contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
 
-   @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset
     if (windowScroll >= this.elementPosition - 100) {
@@ -282,16 +283,21 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       }
       this.contentSvc.fetchCourseBatches(req).subscribe(
         (data: NsContent.IBatchListResponse) => {
-          this.batchData = data
-          this.batchData.enrolled = false
-          if (this.getBatchId()) {
-            this.router.navigate(
-              [],
-              {
-                relativeTo: this.route,
-                // queryParams: { batchId: this.getBatchId() },
-                queryParamsHandling: 'merge',
-              })
+          if (data.content) {
+            const batchList = data.content.filter((obj: any) => obj.endDate >= moment(new Date()).format('YYYY-DD-MM'))
+            this.batchData = {
+              content: batchList,
+              enrolled: false,
+            }
+            if (this.getBatchId()) {
+              this.router.navigate(
+                [],
+                {
+                  relativeTo: this.route,
+                  // queryParams: { batchId: this.getBatchId() },
+                  queryParamsHandling: 'merge',
+                })
+            }
           }
         },
         (error: any) => {
@@ -347,10 +353,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               })
             }
           }
-          const percentage = _.toInteger((_.sum(progress) / progress.length))
-          if (this.content) {
-            _.set(this.content, 'completionPercentage', percentage)
-          }
+          // const percentage = _.toInteger((_.sum(progress) / progress.length))
+          // if (this.content) {
+          //   _.set(this.content, 'completionPercentage', percentage)
+          // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
           this.resumeData = null

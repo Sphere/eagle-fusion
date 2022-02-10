@@ -32,7 +32,17 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-
+  <a role="button" *ngIf="showCreateBtn" class="flex items-center flex-col px-2 box-sizing-box"
+    routerLink="/app/create-account" active routerLinkActive="ws-mat-accent-text">
+    <ng-container>
+      <button mat-raised-button [ngStyle]="{
+        'background-color': 'rgb(63, 81, 181)',
+        'color': 'white',
+        'font-size': '14px',
+        'font-weight': '400'}">
+        Create Account</button>
+    </ng-container>
+  </a>
   <div class="flex justify-center flex-col login-btn" >
     <button *ngIf="(isXSmall$ | async) === false" name="login_client_button" color="primary" mat-raised-button i18n="login: client" (click)="login()"
       class="login-btn header-btn ws-mat-primary-background mat-button-base">

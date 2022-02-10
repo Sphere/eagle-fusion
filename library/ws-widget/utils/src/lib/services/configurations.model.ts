@@ -247,6 +247,7 @@ export namespace NsUser {
     profileImage?: string
     rootOrgId?: string
     rootOrgName?: string
+    phone?: string
 
   }
   export interface IUserPidProfile {

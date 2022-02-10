@@ -3,8 +3,6 @@ import { ActivatedRoute, Data, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
-// import { MatSnackBar } from '@angular/material'
-// import { HttpClient } from '@angular/common/http'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
@@ -12,7 +10,6 @@ import { TncPublicResolverService } from '../../services/tnc-public-resolver.ser
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
-// import { Location } from '@angular/common'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -22,8 +19,6 @@ import { HttpClient } from '@angular/common/http'
 export class NewTncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
-  // errorFetchingTnc = false
-  tncFlag = false
   isAcceptInProgress = false
   errorInAccepting = false
   isPublic = false
@@ -40,28 +35,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    // private http: HttpClient,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
     private userProfileSvc: UserProfileService,
     private http: HttpClient,
-    // location: Location
-    // private snackBar: MatSnackBar,
   ) {
-    if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          if (data && data.profileDetails.profileReq) {
-            const userData = data.profileDetails.profileReq.personalDetails
-            this.tncFlag = userData.dob || ''
-          } else {
-            const userData = data.profileDetails.personalDetails.dob
-            this.tncFlag = userData.dob || ''
-          }
-        })
-    }
   }
 
   ngOnInit() {
@@ -89,6 +69,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       primaryEmail: new FormControl('', []),
       primaryEmailType: new FormControl('', []),
       dob: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
     })
   }
 
@@ -161,21 +142,20 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   private constructReq(form: any) {
+    const userObject = form.value
+    Object.keys(userObject).forEach(key => {
+      if (userObject[key] === '') {
+        delete userObject[key]
+      }
+    })
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
     }
     const profileReq = {
-      id: this.userId,
-      userId: this.userId,
-      personalDetails: {
-        tncAccepted: form.value.tncAccepted,
-        firstname: form.value.firstname,
-        middlename: form.value.middlename,
-        surname: form.value.surname,
-        dob: form.value.dob,
-        mobile: form.value.mobile,
-        telephone: form.value.telephone,
-        primaryEmail: form.value.primaryEmail,
+      profileReq: {
+        id: this.userId,
+        userId: this.userId,
+        personalDetails: userObject,
       },
     }
     return profileReq
@@ -212,6 +192,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
+        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
       }
       const profileRequest = this.constructReq(this.createUserForm)
       const reqUpdate = {

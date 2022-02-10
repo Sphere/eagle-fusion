@@ -30,6 +30,7 @@ import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
+import moment from 'moment'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -75,6 +76,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   isEditable = false
   tncAccepted = false
   isOfficialEmail = false
+  invalidDob = false
+  maxDate = new Date()
+  minDate = new Date(1900, 1, 1)
   // govtOrgMeta!: IGovtOrgMeta
   // industriesMeta!: IIndustriesMeta
   degreesMeta!: IdegreesMeta
@@ -136,10 +140,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       surname: new FormControl('', [Validators.required]),
       about: new FormControl(''),
       photo: new FormControl('', []),
-      countryCode: new FormControl('', [Validators.required]),
-      mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
+      countryCode: new FormControl(''),
+      mobile: new FormControl('', [Validators.pattern(this.phoneNumberPattern)]),
       telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', [Validators.required, Validators.email]),
+      primaryEmail: new FormControl('', [Validators.email]),
       primaryEmailType: new FormControl(this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.OFFICIAL), []),
       secondaryEmail: new FormControl('', []),
       nationality: new FormControl('', []),
@@ -321,7 +325,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public removeDegrees(i: number) {
-    this.degrees.removeAt(i)
+    if (i > 0) {
+      this.degrees.removeAt(i)
+    }
+
   }
 
   public addPostDegree() {
@@ -677,14 +684,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     }
-    if (data.interests.professional && data.interests.professional.length) {
+    if (data.interests && data.interests.professional && data.interests.professional.length) {
       // data.interests.professional.map((interest: IChipItems) => {
       //   if (interest) {
       this.personalInterests.push(data.interests.professional)
       // }
       // })
     }
-    if (data.interests.hobbies && data.interests.hobbies.length) {
+    if (data.interests && data.interests.hobbies && data.interests.hobbies.length) {
       // data.interests.hobbies.map((interest: IChipItems) => {
       //   if (interest) {
       this.selectedHobbies.push(data.interests.hobbies)
@@ -706,10 +713,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
+
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
-      surname: data.personalDetails.surname,
+      surname: data.personalDetails.lastName || data.personalDetails.surname,
       about: data.personalDetails.about,
       photo: data.photo,
       dob: this.getDateFromText(data.personalDetails.dob),
@@ -759,7 +767,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -817,6 +825,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         firstname: form.value.firstname,
         middlename: form.value.middlename,
         surname: form.value.surname,
+        lastName: form.value.surname,
         about: form.value.about,
         dob: form.value.dob,
         nationality: form.value.nationality,
@@ -1335,5 +1344,16 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       },
     })
+  }
+
+  onDateChange(event: any) {
+    const customerDate = moment(event)
+    const dateNow = moment(new Date())
+    const duration = moment.duration(dateNow.diff(customerDate))
+    if (duration.asYears() > 18) {
+      this.invalidDob = false
+    } else {
+      this.invalidDob = true
+    }
   }
 }

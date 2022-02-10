@@ -69,14 +69,12 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
-        if (res.message) {
-       //   await this.signupService.fetchStartUpDetails()
-          this.openSnackbar('You are now registered, Please Login to continue')
-          this.router.navigate(['app/login'])
-        }
+        //   await this.signupService.fetchStartUpDetails()
+        this.openSnackbar(res.message)
+        this.router.navigate(['app/login'])
       },
       (err: any) => {
-        this.openSnackbar(err.error.error || err.error.msg)
+        this.openSnackbar(err.error.error || err.error.message)
       })
   }
 
@@ -96,7 +94,7 @@ export class LoginOtpComponent implements OnInit {
         this.openSnackbar(res.message)
       },
       (err: any) => {
-        this.openSnackbar(`OTP Error`, + err.msg)
+        this.openSnackbar(`OTP Error`, + err.error.message)
       }
     )
   }

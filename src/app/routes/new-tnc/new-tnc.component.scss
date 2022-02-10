@@ -31,17 +31,17 @@
   line-height: 19px;
 }
 .tnc-render-content{
-  border: 1px solid #000;
+  border: 1.25px solid #000;
   height: 465px;
   overflow-y: scroll;
 }
 .cursor-pointer {
   cursor: pointer;
 }
-
 @media screen and (min-width:600px) {
   .tnc-main {
     margin: auto;
+    margin-top: 2rem;
     width: 70%;
   }
   .tnc-bottom-navbar {
@@ -50,6 +50,7 @@
 }
 @media screen and (min-width:1600px){
   .tnc-main {
+    margin-top: 2rem;
     width: 60%;
   }
 }

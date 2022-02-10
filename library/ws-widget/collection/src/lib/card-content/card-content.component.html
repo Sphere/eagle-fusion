@@ -97,6 +97,8 @@
             </div>
           </span>
         </div>
+        <p *ngIf="widgetData?.content?.creator"><span class="fw-500">Author:</span> {{ widgetData?.content?.creator}}
+        </p>
         <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
           </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
 
@@ -104,12 +106,12 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
 
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+        <div class="mt-0 flex justify-between items-center">
           <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
             (click)="login(widgetData.content)"> Login
           </button>
@@ -555,11 +557,11 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
+        <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
-        </div>
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 px-3 py-5">
+        </div> -->
+        <div class="mt-0 flex">
           <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
             class="header-btn text-white ws-mat-primary-background mat-button-base"
             (click)="clickToRedirect(widgetData.content)">
@@ -568,7 +570,7 @@
             class="header-btn text-white ws-mat-primary-background mat-button-base"
             (click)="clickToRedirect(widgetData.content)">
             View Course </button>
-          <div class="flex flex-middle">
+          <div class="flex">
             <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
             <!--<ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
               [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">

@@ -8,6 +8,7 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
+import { HttpClient } from '@angular/common/http'
 
 declare const gapi: any
 
@@ -17,13 +18,6 @@ declare const gapi: any
   styleUrls: ['./mobile-login.component.scss'],
 })
 export class MobileLoginComponent implements OnInit, AfterViewInit {
-  @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
-  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  loginForm: FormGroup
-  hide = true
-  iconChange = 'fas fa-eye-slash'
-  public route: string
-  emailPhoneType: any
   constructor(
     private fb: FormBuilder,
     // private element: ElementRef,
@@ -32,12 +26,13 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     location: Location,
     loc: PlatformLocation,
     private snackBar: MatSnackBar,
-    private signupService: SignupService
+    private signupService: SignupService,
+    private http: HttpClient,
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      username: new FormControl('', [Validators.required, Validators.pattern(/^([7-9][0-9]{9}|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)$/)]),
+      username: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9}|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)$/)]),
       password: new FormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -45,31 +40,33 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       // window.location.reload()
     })
   }
+  @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
+  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  loginForm: FormGroup
+  hide = true
+  iconChange = 'fas fa-eye-slash'
+  public route: string
+  emailPhoneType: any
+  errorMessage = ''
+  googleAuth = false
+  private baseUrl = 'assets/configurations'
+
   public isSignedIn = false
   public signinURL = ''
-  private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+  // private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
+  private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
     'https://www.googleapis.com/auth/plus.me',
-    'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/admin.directory.user.readonly',
   ].join(' ')
   elem: HTMLElement = document.getElementById('googleBtn') as HTMLElement
   public auth2: any
-  public googleInit() {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: this.clientId,
-        cookie_policy: 'single_host_origin',
-        scope: this.scope,
-        ux_mode: 'redirect',
-        redirect_uri: `${location.origin}/google/callback`,
-      })
-      this.attachSignin(this.myDiv.nativeElement)
-      this.auth2.isSignedIn.listen(this.signinChanged)
-      this.auth2.currentUser.listen(this.userChanged)
+
+  checkGoogleAuth() {
+    this.http.get(`${this.baseUrl}/host.config.json`).subscribe((data: any) => {
+      this.googleAuth = data.googleAuth
     })
   }
 
@@ -81,10 +78,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public userChanged(user: any) {
     sessionStorage.removeItem('google_token')
     sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+    location.reload()
   }
+
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -104,34 +103,57 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       })
   }
   ngOnInit() {
+    this.checkGoogleAuth()
     const storageItem1 = sessionStorage.getItem(`google_token`)
-    const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
-    if (storageItem2 === 'true' && this.route === '/google/callback') {
-      this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
-      this.isSignedIn = true
-      const req = {
-        idToken: storageItem1,
-      }
-      this.contentSvc.googleAuthenticate(req).subscribe(
-        async (results: any) => {
+    const req = {
+      idToken: storageItem1,
+    }
+    this.contentSvc.googleAuthenticate(req).subscribe(
+      async (results: any) => {
+        const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 401) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 419) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 200 && result.roles.length > 0) {
           this.openSnackbar(results.msg)
-          await this.signupService.fetchStartUpDetails()
           if (sessionStorage.getItem('url_before_login')) {
             location.href = sessionStorage.getItem('url_before_login') || ''
           } else {
             location.href = '/page/home'
           }
-        },
-        (err: any) => {
-          this.openSnackbar(err.error)
-          this.router.navigate(['/app/login'])
         }
-      )
-    }
+      },
+      (err: any) => {
+        // console.log(err)
+        // this.openSnackbar(err.error)
+        this.errorMessage = err.error
+        this.router.navigate(['/app/login'])
+      }
+    )
+  }
+
+  public googleInit() {
+    gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: this.clientId,
+        cookie_policy: 'single_host_origin',
+        scope: this.scope,
+        ux_mode: 'redirect',
+        redirect_uri: `${location.origin}/google/callback`,
+      })
+      this.attachSignin(this.myDiv.nativeElement)
+      this.auth2.isSignedIn.listen(this.signinChanged)
+      this.auth2.currentUser.listen(this.userChanged)
+    })
   }
 
   ngAfterViewInit() {
-    this.googleInit()
+    if (this.googleAuth) {
+      this.googleInit()
+    }
   }
 
   toggle() {
@@ -153,10 +175,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     //   this.openSnackbar('Enter valid Phone Number')
     // }
     if (!email && !validphone) {
-      this.openSnackbar('Enter valid email address')
+      // this.openSnackbar('Enter valid email address')
+      this.errorMessage = 'Enter valid email address'
     }
     if (phone.length < 10 && phone !== '' && alphaNumeric) {
-      this.openSnackbar('Enter 10 digits Phone Number')
+      // this.openSnackbar('Enter 10 digits Phone Number')
+      this.errorMessage = 'Enter 10 digits Phone Number'
     }
     // at least 10 in number
     if (phone.length >= 10) {
@@ -181,16 +205,30 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
-        this.openSnackbar(results.msg)
-        await this.signupService.fetchStartUpDetails()
-        if (sessionStorage.getItem('url_before_login')) {
-          location.href = sessionStorage.getItem('url_before_login') || ''
-        } else {
-          location.href = '/page/home'
+        const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 400) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 401) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 419) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.roles.length > 0) {
+          this.openSnackbar(results.msg)
+          if (sessionStorage.getItem('url_before_login')) {
+            location.href = sessionStorage.getItem('url_before_login') || ''
+          } else {
+            location.href = '/page/home'
+          }
         }
       },
       (err: any) => {
-        this.openSnackbar(err.error.error)
+        // this.openSnackbar(err.error.error)
+        // tslint:disable-next-line:no-console
+        console.log(err.error.error)
+        this.errorMessage = 'Invalid username or password.'
       }
     )
   }

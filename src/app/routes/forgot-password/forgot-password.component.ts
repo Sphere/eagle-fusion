@@ -100,7 +100,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           }
         },
         (error: any) => {
-          this.openSnackbar(error.error)
+          this.openSnackbar(error.error.message)
         })
     }
   }
@@ -121,13 +121,13 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           this.openSnackbar(res.response)
           setTimeout(() => {
             this.router.navigate(['/app/login'])
-            window.open(res.link, '_blank')
+            window.open(res.link, '_self')
             // this.authSvc.login('S', document.baseURI)
           },         2000)
         }
       },
       (error: any) => {
-        this.openSnackbar(error.error)
+        this.openSnackbar(error.error.message || 'Something went wrong')
       }
     )
   }
