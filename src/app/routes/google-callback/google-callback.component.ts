@@ -12,14 +12,13 @@ import { MatSnackBar } from '@angular/material'
 export class GoogleCallbackComponent implements OnInit {
 
   constructor(
-    private router: Router, 
-    private contentSvc: WidgetContentService, 
-    private signupService: SignupService, 
+    private router: Router,
+    private contentSvc: WidgetContentService,
+    private signupService: SignupService,
     private snackBar: MatSnackBar
     ) { }
 
   ngOnInit() {
-
     const tokenurl = this.router.url.split('&')
     const req = {
       idToken: tokenurl[1].replace('id_token=', ''),
