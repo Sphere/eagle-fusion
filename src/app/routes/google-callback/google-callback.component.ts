@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
+import { WidgetContentService } from '@ws-widget/collection'
+import { SignupService } from '../signup/signup.service'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ws-google-callback',
@@ -8,10 +11,57 @@ import { Router } from '@angular/router'
 })
 export class GoogleCallbackComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router, 
+    private contentSvc: WidgetContentService, 
+    private signupService: SignupService, 
+    private snackBar: MatSnackBar
+    ) { }
 
   ngOnInit() {
-    this.router.navigate(['/page/home'])
-  }
 
+    const tokenurl = this.router.url.split('&')
+    const req = {
+      idToken: tokenurl[1].replace('id_token=', ''),
+    }
+    // console.log(req.idToken)
+    // const storageItem1 = sessionStorage.getItem(`google_token`)
+    const url = this.router.url
+    // let resStr = req.idToken.localeCompare(storageItem1)
+    // console.log(resStr)
+    // const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+    if (url.includes('/google/callback')) {
+      // this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
+      // this.isSignedIn = true
+      this.contentSvc.googleAuthenticate(req).subscribe(
+        async (results: any) => {
+          const result = await this.signupService.fetchStartUpDetails()
+          if (result.status === 401) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 419) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 200 && result.roles.length > 0) {
+            this.openSnackbar(results.msg)
+            if (sessionStorage.getItem('url_before_login')) {
+              location.href = sessionStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
+          }
+        },
+        (err: any) => {
+          this.openSnackbar(err.error)
+          // this.errorMessage = err.error
+          this.router.navigate(['/app/login'])
+        }
+      )
+    }
+  }
+  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+    this.snackBar.open(primaryMsg, undefined, {
+      duration,
+    })
+  }
 }
