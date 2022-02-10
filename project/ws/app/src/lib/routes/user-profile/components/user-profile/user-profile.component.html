@@ -84,14 +84,17 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #dob formControlName="dob" [matDatepicker]="picker" i18n-placeholder
-                            (focus)="picker.open()" placeholder="Choose Date of Birth (dd-mm-yyyy)" [min]=""
-                            [max]="today" readonly>
+                            (focus)="picker.open()" placeholder="Choose Date of Birth (dd-mm-yyyy)" [min]="minDate"
+                            [max]="maxDate" readonly (dateInput)="onDateChange($event.value)">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker (closed)="dob.blur()"></mat-datepicker>
                           <mat-error [hidden]="false" i18n="Date of Birth Error|Explains name is required">
                             Date of Birth is mandatory
                           </mat-error>
                         </mat-form-field>
+                        <div>
+                          <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
+                        </div>
                       </div>
 
                       <div class="input-wrapper margin-top-s">
@@ -1093,7 +1096,7 @@
           <mat-spinner [diameter]="30"></mat-spinner>
         </div>
         <button mat-raised-button type="submit" (click)="onSubmit(createUserForm)" class="btn-success btn-responsive"
-          [disabled]="uploadSaveData || createUserForm?.invalid">
+          [disabled]="invalidDob || (uploadSaveData || createUserForm?.invalid)">
           <span i18n>
             Save Details
           </span>
