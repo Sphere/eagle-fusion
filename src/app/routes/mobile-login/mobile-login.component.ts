@@ -83,7 +83,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-      (googleUser: any) => {
+                                  (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
