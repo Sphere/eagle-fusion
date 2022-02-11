@@ -127,7 +127,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         }
       },
       (err: any) => {
-        // console.log(err)
+        console.log(err)
         // this.errorMessage = err.error
         this.router.navigate(['/app/login'])
       }
