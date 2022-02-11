@@ -58,7 +58,7 @@
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #middlename formControlName="middlename" i18n-placeholder
-                            placeholder="Enter Middle Name" [readonly]="isEditable" />
+                            placeholder="Enter Middle Name" />
                           <mat-error [hidden]="false" i18n="Middle Name Error|Explains name is required">
                             Middle name is mandatory
                           </mat-error>
@@ -617,7 +617,7 @@
                     </div>
                   </div>
                 </ng-container>
-                <div class="mt-5">
+                <div class="mt-2">
                   <button mat-raised-button type="button" (click)="addDegree()" class="margin-right-m btn-success">
                     <span i18n>Add Other Qualification</span>
                   </button>
@@ -686,7 +686,7 @@
                   </div>
                 </ng-container>
 
-                <div class="mt-5">
+                <div class="mt-2">
                   <button mat-raised-button type="button" (click)="addPostDegree()" class="margin-right-m btn-success">
                     <span i18n>Add Other Qualification</span>
                   </button>

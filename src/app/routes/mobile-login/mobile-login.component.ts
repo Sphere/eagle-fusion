@@ -97,7 +97,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -127,9 +127,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         }
       },
       (err: any) => {
-        // console.log(err)
-        // this.openSnackbar(err.error)
-        this.errorMessage = err.error
+        console.log(err)
+        // this.errorMessage = err.error
         this.router.navigate(['/app/login'])
       }
     )
