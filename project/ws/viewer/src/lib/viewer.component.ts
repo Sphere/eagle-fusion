@@ -26,6 +26,7 @@ export enum ErrorType {
 export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   fullScreenContainer: HTMLElement | null = null
   content: NsContent.IContent | null = null
+  contentData: any
   errorType = ErrorType
   private isLtMedium$ = this.valueSvc.isLtMedium$
   sideNavBarOpened = false
@@ -99,7 +100,16 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     })
   }
-
+  getCourseContentData() {
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    try {
+      this.widgetContentSvc.fetchContent(collectionId).subscribe((data: any) => {
+        this.contentData = data.result.content
+      })
+    } catch (e) {
+      // console.log(e)
+    }
+  }
   checkJson(str: any) {
     try {
       JSON.parse(str)
@@ -110,6 +120,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.getCourseContentData()
+
     this.getTocConfig()
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
