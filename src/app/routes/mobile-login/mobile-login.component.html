@@ -7,10 +7,10 @@
         <div class="input-content-wrapper">
           <form [formGroup]="loginForm">
 
-            <div class="text-danger">Due to security reasons all users have to reset their password after 5th of Feb
+            <div class="text-info">Due to security reasons all users have to reset their password after 5th of Feb
               2022. Old password will
               no longer work.</div>
-            <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 10px; margin-top: 10px;">
               <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
             </div>
 
@@ -53,8 +53,8 @@
       <div class="form-group">
         <p>Do not have an account? <a href="app/create-account">Create an account</a></p>
       </div>
-      <div *ngIf="googleAuth">
-        <div class="form-group">
+     
+<!--         <div class="form-group">
           <h4 class="font-weight-bolder f-w-500">OR</h4>
         </div>
         <div class="form-group">
@@ -67,7 +67,7 @@
             <span style="padding-left: 10px;">Log in with Google</span>
           </a>
         </div>
-      </div>
+-->
     </div>
   </div>
 </div>

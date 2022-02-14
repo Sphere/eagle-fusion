@@ -71,12 +71,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         }
       }
 
+    })
+
       if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
         this.showCreateBtn = true
       } else {
         this.showCreateBtn = false
       }
-    })
 
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(

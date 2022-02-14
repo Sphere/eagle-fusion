@@ -65,16 +65,18 @@ export class ViewerUtilService {
           // }
         } if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
           return 100
-        }  if (mimeType === NsContent.EMimeTypes.ZIP) {
+        } if (mimeType === NsContent.EMimeTypes.ZIP) {
           return 100
-        } else if (mimeType === NsContent.EMimeTypes.PDF) {
+
+        } if (mimeType === NsContent.EMimeTypes.PDF) {
+
           const latest = parseFloat(temp.slice(-1) || '0')
           // const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / max) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           return percent
         }
-        return 0
+        return 2
 
       }
       return 0

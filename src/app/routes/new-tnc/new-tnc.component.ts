@@ -19,7 +19,6 @@ import { HttpClient } from '@angular/common/http'
 export class NewTncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
-  // tncFlag = false
   isAcceptInProgress = false
   errorInAccepting = false
   isPublic = false
@@ -43,18 +42,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private userProfileSvc: UserProfileService,
     private http: HttpClient,
   ) {
-    // if (this.configSvc.unMappedUser) {
-    //   this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-    //     (data: any) => {
-    //       if (data && data.profileDetails.profileReq !== undefined) {
-    //         const userData = data.profileDetails.profileReq.personalDetails
-    //         this.tncFlag = userData.dob || ''
-    //       } else {
-    //         const userData = data.profileDetails.personalDetails.dob
-    //         this.tncFlag = userData.dob || ''
-    //       }
-    //     })
-    // }
   }
 
   ngOnInit() {
@@ -82,6 +69,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       primaryEmail: new FormControl('', []),
       primaryEmailType: new FormControl('', []),
       dob: new FormControl('', []),
+      regNurseRegMidwifeNumber: new FormControl('', []),
     })
   }
 
@@ -154,17 +142,20 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   private constructReq(form: any) {
+    const userObject = form.value
+    Object.keys(userObject).forEach(key => {
+      if (userObject[key] === '') {
+        delete userObject[key]
+      }
+    })
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
     }
     const profileReq = {
-      id: this.userId,
-      userId: this.userId,
-      personalDetails: {
-        tncAccepted: form.value.tncAccepted,
-        firstname: form.value.firstname,
-        surname: form.value.surname,
-        primaryEmail: form.value.primaryEmail,
+      profileReq: {
+        id: this.userId,
+        userId: this.userId,
+        personalDetails: userObject,
       },
     }
     return profileReq
@@ -201,6 +192,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
+        this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
       }
       const profileRequest = this.constructReq(this.createUserForm)
       const reqUpdate = {
@@ -221,7 +213,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
         }
       },
-        (err: any) => {
+                                                                    (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true

@@ -53,13 +53,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public isSignedIn = false
   public signinURL = ''
-  private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
+  //private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
     'https://www.googleapis.com/auth/plus.me',
-    'https://www.googleapis.com/auth/contacts.readonly',
     'https://www.googleapis.com/auth/admin.directory.user.readonly',
   ].join(' ')
   elem: HTMLElement = document.getElementById('googleBtn') as HTMLElement
@@ -79,10 +78,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public userChanged(user: any) {
     sessionStorage.removeItem('google_token')
     sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+    location.reload()
   }
+
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-      (googleUser: any) => {
+                                  (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -104,38 +105,34 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.checkGoogleAuth()
     const storageItem1 = sessionStorage.getItem(`google_token`)
-    const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
-    if (storageItem2 === 'true' && this.route === '/google/callback') {
-      this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
-      this.isSignedIn = true
-      const req = {
-        idToken: storageItem1,
-      }
-      this.contentSvc.googleAuthenticate(req).subscribe(
-        async (results: any) => {
-          const result = await this.signupService.fetchStartUpDetails()
-          if (result.status === 401) {
-            this.openSnackbar(result.error.params.errmsg)
-          }
-          if (result.status === 419) {
-            this.openSnackbar(result.error.params.errmsg)
-          }
-          if (result.roles.length > 0) {
-            this.openSnackbar(results.msg)
-            if (sessionStorage.getItem('url_before_login')) {
-              location.href = sessionStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/page/home'
-            }
-          }
-        },
-        (err: any) => {
-          // this.openSnackbar(err.error)
-          this.errorMessage = err.error
-          this.router.navigate(['/app/login'])
-        }
-      )
+    const req = {
+      idToken: storageItem1,
     }
+    this.contentSvc.googleAuthenticate(req).subscribe(
+      async (results: any) => {
+        const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 401) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 419) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 200 && result.roles.length > 0) {
+          this.openSnackbar(results.msg)
+          if (sessionStorage.getItem('url_before_login')) {
+            location.href = sessionStorage.getItem('url_before_login') || ''
+          } else {
+            location.href = '/page/home'
+          }
+        }
+      },
+      (err: any) => {
+        // tslint:disable-next-line:no-console
+        console.log(err)
+        // this.errorMessage = err.error
+        this.router.navigate(['/app/login'])
+      }
+    )
   }
 
   public googleInit() {
@@ -209,6 +206,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
         const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 400) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
         if (result.status === 401) {
           this.openSnackbar(result.error.params.errmsg)
         }

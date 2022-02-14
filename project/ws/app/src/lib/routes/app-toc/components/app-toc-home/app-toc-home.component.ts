@@ -26,7 +26,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -112,17 +112,22 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         // data.content.error = null
         // data.content.data = this.courseMockData.result.content
 
-        // CHecking for JSON DATA
-        if (this.checkJson(data.content.data.creatorContacts)) {
-          data.content.data.creatorContacts = JSON.parse(data.content.data.creatorContacts)
-        }
+        // Checking for JSON DATA
+        if (data.content.data) {
+          if (this.checkJson(data.content.data.creatorDetails)) {
+            data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
+          }
 
-        if (this.checkJson(data.content.data.creatorDetails)) {
-          data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
-        }
-
-        if (this.checkJson(data.content.data.reviewer)) {
-          data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
+          if (this.checkJson(data.content.data.reviewer)) {
+            data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
+          }
+        } else {
+          if (sessionStorage.getItem('url_before_login')) {
+            let url = sessionStorage.getItem('url_before_login') || ''
+            this.router.navigate([url])
+          } else {
+            this.router.navigate(['/app/login'])
+          }
         }
 
         this.banners = data.pageData.data.banners
@@ -353,10 +358,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               })
             }
           }
-          const percentage = _.toInteger((_.sum(progress) / progress.length))
-          if (this.content) {
-            _.set(this.content, 'completionPercentage', percentage)
-          }
+          // const percentage = _.toInteger((_.sum(progress) / progress.length))
+          // if (this.content) {
+          //   _.set(this.content, 'completionPercentage', percentage)
+          // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
           this.resumeData = null

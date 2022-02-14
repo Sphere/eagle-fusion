@@ -246,12 +246,12 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
             : null
           if (courses && courses.length) {
             content = courses
-            .map(c => {
-              const contentTemp: NsContent.IContent = c.content
-              contentTemp.completionPercentage = c.completionPercentage || c.progress || 0
-              contentTemp.completionStatus = c.completionStatus || c.status || 0
-              return contentTemp
-            })
+              .map(c => {
+                const contentTemp: NsContent.IContent = c.content
+                contentTemp.completionPercentage = c.completionPercentage || c.progress || 0
+                contentTemp.completionStatus = c.completionStatus || c.status || 0
+                return contentTemp
+              })
           }
           // To filter content with completionPercentage > 0,
           // so that only those content will show in home page
@@ -498,6 +498,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
           const showViewMore = Boolean(
             results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
           )
+          results.result = this.filterCourse(results.result)
           const viewMoreUrl = showViewMore
             ? {
               path: '/app/search/learning',
@@ -554,6 +555,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
       this.contentSvc.publicContentSearch(strip.request.searchV6).subscribe(
         results => {
+          results.result = this.filterCourse(results.result)
           const showViewMore = Boolean(
             results.result.length > 5 && strip.stripConfig && strip.stripConfig.postCardForSearch,
           )
@@ -608,6 +610,15 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         },
       )
     }
+  }
+  filterCourse(contents: any) {
+    const list = contents.content
+    const newList = list.filter((i: any) => {
+      return i.identifier !== 'do_11347222086063718413'
+    })
+    contents.content = newList
+    return contents
+
   }
 
   private transformContentsToWidgets(

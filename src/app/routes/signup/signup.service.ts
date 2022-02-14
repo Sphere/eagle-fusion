@@ -107,6 +107,7 @@ export class SignupService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
+            phone: _.get(userPidProfile, 'phone'),
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
