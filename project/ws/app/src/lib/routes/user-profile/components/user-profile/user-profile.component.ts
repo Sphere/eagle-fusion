@@ -433,7 +433,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectKnowLanguage(data: any) {
     const value: ILanguages = data.option.value
     if (!this.selectedKnowLangs.includes(value)) {
-      this.selectedKnowLangs.push(data.option.value).trim()
+      this.selectedKnowLangs.push(data.option.value)
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
     if (this.createUserForm.get('knownLanguages')) {
@@ -453,10 +453,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   add(event: MatChipInputEvent): void {
     const input = event.input
-    const value = event.value as unknown as ILanguages
+    const value = event.value.trim() as unknown as ILanguages
     // Add our fruit
     if ((value || '')) {
-      this.selectedKnowLangs.push(value.trim())
+      this.selectedKnowLangs.push(value)
     }
 
     // Reset the input value
