@@ -433,7 +433,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectKnowLanguage(data: any) {
     const value: ILanguages = data.option.value
     if (!this.selectedKnowLangs.includes(value)) {
-      this.selectedKnowLangs.push(data.option.value)
+      this.selectedKnowLangs.push(data.option.value).trim()
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
     if (this.createUserForm.get('knownLanguages')) {
@@ -454,10 +454,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   add(event: MatChipInputEvent): void {
     const input = event.input
     const value = event.value as unknown as ILanguages
-
     // Add our fruit
     if ((value || '')) {
-      this.selectedKnowLangs.push(value)
+      this.selectedKnowLangs.push(value.trim())
     }
 
     // Reset the input value
@@ -820,7 +819,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       photo: form.value.photo,
       personalDetails: {
         firstname: form.value.firstname,
-        middlename: form.value.middlename,
+        middlename: form.value.middlename.trim(),
         surname: form.value.surname,
         lastName: form.value.surname,
         about: form.value.about,
@@ -842,7 +841,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         primaryEmail: form.value.primaryEmail,
         officialEmail: '',
         personalEmail: '',
-        postalAddress: form.value.residenceAddress,
+        postalAddress: form.value.residenceAddress.trim(),
         pincode: form.value.pincode,
       },
       academics: this.getAcademics(form),
