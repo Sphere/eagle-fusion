@@ -12,6 +12,7 @@ import {
   IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2,
   ISearchSocialSearchPartialRequest, ISocialSearchRequest,
 } from '../models/search.model'
+// import * as _ from 'lodash';
 
 const API_END_POINTS = {
   translateFiltersBase: '/apis/protected/v8/translate/filterdata',
@@ -82,7 +83,7 @@ export class SearchServService {
     const v6Request: NSSearch.ISearchV6RequestV2 = {
       request: {
         query: request.request.query,
-        filters: request.request.filters,
+        filters: request.request.query ? {["contentType"] : ["Course"]} : request.request.filters,
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },

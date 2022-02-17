@@ -78,11 +78,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   ngOnInit() {
     // this.mobAppSvc.simulateMobile()
-    if (this.htmlContent && this.htmlContent.identifier) {
-      this.scormAdapterService.contentId = this.htmlContent.identifier
-      // this.scormAdapterService.loadData()
-      this.scormAdapterService.loadDataV2()
-    }
+    // if (this.htmlContent && this.htmlContent.identifier) {
+    //   console.log(this.htmlContent.identifier)
+    //   this.scormAdapterService.contentId = this.htmlContent.identifier
+    //   // this.scormAdapterService.loadData()
+    //   this.scormAdapterService.loadDataV2()
+    // }
 
   }
   ngAfterViewInit() {
@@ -95,6 +96,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   ngOnChanges() {
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      // this.scormAdapterService.loadData()
+      this.scormAdapterService.loadDataV2()
+    }
+
     this.isIntranetUrl = false
     this.progress = 100
     this.pageFetchStatus = 'fetching'
