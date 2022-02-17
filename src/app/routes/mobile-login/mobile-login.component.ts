@@ -54,7 +54,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public isSignedIn = false
   public signinURL = ''
    private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  //private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
@@ -97,7 +97,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-      (error: any) => {
+                                  (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -105,6 +105,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.checkGoogleAuth()
     const storageItem1 = sessionStorage.getItem(`google_token`)
+    const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+    if (storageItem1 && storageItem2 && this.googleAuth) {
     const req = {
       idToken: storageItem1,
     }
@@ -133,6 +135,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/app/login'])
       }
     )
+    }
   }
 
   public googleInit() {
@@ -215,7 +218,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         if (result.status === 419) {
           this.openSnackbar(result.error.params.errmsg)
         }
-        if (result.roles.length > 0) {
+
+        if (result.roles && result.roles.length > 0) {
           this.openSnackbar(results.msg)
           if (sessionStorage.getItem('url_before_login')) {
             location.href = sessionStorage.getItem('url_before_login') || ''

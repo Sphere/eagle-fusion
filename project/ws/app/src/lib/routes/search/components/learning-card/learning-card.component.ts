@@ -2,6 +2,8 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { NsContent } from '@ws-widget/collection'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
+import { Router } from '@angular/router'
+
 @Component({
   selector: 'ws-app-learning-card',
   templateUrl: './learning-card.component.html',
@@ -20,6 +22,7 @@ export class LearningCardComponent implements OnInit, OnChanges {
     private events: EventService,
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -38,14 +41,21 @@ export class LearningCardComponent implements OnInit, OnChanges {
     }
   }
 
-  raiseTelemetry() {
-    this.events.raiseInteractTelemetry(
-      'click',
-      'cardSearch',
-      {
-        contentId: this.content.identifier,
+  raiseTelemetry(content: any) {
+    const url = `app/toc/` + `${content.identifier}` + `/overview?primaryCategory=Course`
+    if (localStorage.getItem('telemetrySessionId') === null) {
+      sessionStorage.setItem(`url_before_login`, url)
+      this.router.navigateByUrl('app/login')
+      this.events.raiseInteractTelemetry(
+        'click',
+        'cardSearch',
+        {
+          contentId: this.content.identifier,
 
-      },
-    )
+        },
+      )
+    } else {
+      this.router.navigateByUrl(url)
+    }
   }
 }
