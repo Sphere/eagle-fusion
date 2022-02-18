@@ -101,18 +101,21 @@ export class SCORMAdapterService {
       // let newData = JSON.stringify(data)
       // data = Base64.encode(newData)
       let _return = false
-      this.addDataV2(data).subscribe((response) => {
-        // console.log(response)
-        if (response) {
-          _return = true
-        }
-      }, (error) => {
-        if (error) {
-          this._setError(101)
-          // console.log(error)
-        }
-      })
-      return _return
+      //if(Object.keys(data).length >= 0) {
+        this.addDataV2(data).subscribe((response) => {
+          // console.log(response)
+          if (response) {
+            _return = true
+          }
+        }, (error) => {
+          if (error) {
+            this._setError(101)
+            // console.log(error)
+          }
+        })
+
+        return _return
+      //}
     }
     return false
   }
@@ -179,7 +182,7 @@ export class SCORMAdapterService {
       data => {
         if (data && data.result && data.result.contentList.length) {
           for (const content of data.result.contentList) {
-            console.log('loading state for ', this.contentId)
+            //console.log('loading state for ', this.contentId)
             if (content.contentId === this.contentId && content.progressdetails) {
               const data = content.progressdetails
               const loadDatas: IScromData = {
@@ -190,6 +193,7 @@ export class SCORMAdapterService {
                 Initialized: data["Initialized"],
                 // errors: data["errors"]
               }
+              // tslint:disable-next-line: no-console
               console.log('loaded data', loadDatas)
               this.store.setAll(loadDatas)
             }
@@ -243,7 +247,7 @@ export class SCORMAdapterService {
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
-      }
+      } 
       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
@@ -270,9 +274,14 @@ export class SCORMAdapterService {
           ],
         },
       }
+
     } else {
       req = {}
     }
-    return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
+
+    //if(Object.keys(postData).length > 3) {
+      return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req) 
+    //}
+
   }
 }
