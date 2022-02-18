@@ -40,6 +40,7 @@ export class SCORMAdapterService {
 
   LMSInitialize() {
     this.store.contentKey = this.contentId
+   // this.loadDataV2();
     // this.loadDataAsync().subscribe((response) => {
     //   const data = response.result.data
     //   const loadDatas: IScromData = {
@@ -178,6 +179,7 @@ export class SCORMAdapterService {
       data => {
         if (data && data.result && data.result.contentList.length) {
           for (const content of data.result.contentList) {
+            console.log('loading state for ', this.contentId)
             if (content.contentId === this.contentId && content.progressdetails) {
               const data = content.progressdetails
               const loadDatas: IScromData = {
@@ -188,6 +190,7 @@ export class SCORMAdapterService {
                 Initialized: data["Initialized"],
                 // errors: data["errors"]
               }
+              console.log('loaded data', loadDatas)
               this.store.setAll(loadDatas)
             }
           }
@@ -226,7 +229,7 @@ export class SCORMAdapterService {
 
   getStatus(postData: any): number {
     try {
-      if (postData["cmi.core.lesson_status"] === 'completed') {
+      if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 2
       }
       return 1
@@ -234,6 +237,18 @@ export class SCORMAdapterService {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)
       return 1
+    }
+  }
+  getPercentage(postData : any): number {
+    try {
+      if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
+        return 100
+      }
+      return 0
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in getting completion status', e)
+      return 0
     }
   }
   addDataV2(postData: IScromData) {
@@ -249,7 +264,8 @@ export class SCORMAdapterService {
               courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
               status: this.getStatus(postData) || 2,
               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-              progressdetails: postData
+              progressdetails: postData,
+              completionPercentage :  this.getPercentage(postData) || 0
             },
           ],
         },
