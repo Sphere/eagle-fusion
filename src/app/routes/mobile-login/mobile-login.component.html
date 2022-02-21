@@ -15,7 +15,8 @@
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
-              <input type="text" class="form-control" placeholder="Phone Number/Email ID" formControlName="username">
+              <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
+                formControlName="username">
             </div>
             <div style="margin-top: 4px;">
               <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
@@ -25,8 +26,8 @@
                 Invalid email or number</mat-error>
             </div>
             <div class="form-group input-group" style="margin-top: 1rem;">
-              <input [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password"
-                class="form-control">
+              <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
+                formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
                 <a href="javascript:void(0)" (click)="toggle()" class="f-black">
                   <i [ngClass]="iconChange" aria-hidden="true"></i>
@@ -42,7 +43,7 @@
               <p>Forgot password?<a href="public/forgot-password"> Click Here</a> to reset</p>
             </div>
             <div class="form-group">
-              <button class="btn btn-block border-radius login-btn" type="submit" (click)="loginUser()"
+              <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()"
                 [disabled]="!loginForm?.valid">
                 Log in</button>
             </div>
@@ -53,8 +54,8 @@
       <div class="form-group">
         <p>Do not have an account? <a href="app/create-account">Create an account</a></p>
       </div>
-     
-<!--         <div class="form-group">
+
+      <!--         <div class="form-group">
           <h4 class="font-weight-bolder f-w-500">OR</h4>
         </div>
         <div class="form-group">

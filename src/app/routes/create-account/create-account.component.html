@@ -9,7 +9,7 @@
         <div class="input-content-wrapper">
           <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
             <div class="form-group">
-              <input id="firstname" class="form-control" formControlName="firstname" type="text"
+              <input id="firstname-field" class="form-control" formControlName="firstname" type="text"
                 placeholder="First Name" autocomplete="off">
               <mat-error class="text-danger"
                 *ngIf="createAccountForm.controls['firstname'].hasError('required') &&
@@ -22,8 +22,8 @@
             </div>
 
             <div class="form-group">
-              <input id="lastname" class="form-control" formControlName="lastname" type="text" placeholder="Last Name"
-                autocomplete="off">
+              <input id="lastname-field" class="form-control" formControlName="lastname" type="text"
+                placeholder="Last Name" autocomplete="off">
               <mat-error class="text-danger"
                 *ngIf="createAccountForm.controls['lastname'].hasError('required') &&
                                     (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group">
-              <input id="email" class="form-control" formControlName="emailOrMobile" type="text"
+              <input id="email-field" class="form-control" formControlName="emailOrMobile" type="text"
                 placeholder="Phone Number/Email ID" autocomplete="off">
               <mat-error class="text-danger"
                 *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
               <div class="input-group" id="show_hide_password_1">
-                <input class="form-control" formControlName="password" placeholder="Password"
+                <input class="form-control" formControlName="password" placeholder="Password" id="password-field"
                   [type]="hide1 ? 'password' : 'text'">
                 <div class="input-group-addon iconPosition1">
                   <a href="javascript:void(0)" (click)="toggle1()">
@@ -66,9 +66,9 @@
                 Invalid Password Format</mat-error>
             </div>
             <div class="form-group">
-              <div class="input-group" id="show_hide_password_2">
+              <div class="input-group">
                 <input class="form-control" formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
-                  placeholder="Confirm Password">
+                  placeholder="Confirm Password" id="confpassword-field">
                 <div class="input-group-addon iconPosition1">
                   <a href="javascript:void(0)" (click)="toggle2()">
                     <i [ngClass]="iconChange2" aria-hidden="true"></i>
@@ -85,8 +85,8 @@
                 Password does not match</mat-error>
             </div>
             <div class="next-btn-div">
-              <button class="btn next-button" name="login" type="submit" [disabled]="!createAccountForm?.valid"
-                (click)="onSubmit(createAccountForm)">Next</button>
+              <button class="btn next-button" name="login" type="submit" id="next-btn"
+                [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
             </div>
           </form>
 
