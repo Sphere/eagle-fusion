@@ -7,8 +7,8 @@
     "pathRewrite": {
       "/apis": "/apis"
     },
-    "headers" : {
-      "cookie" : "connect.sid=s%3AWQJZC9BfAoQ7H1DdwElrmsHjopBoYy0r.Qiu14aiYzflItLJkVDT%2Fv42G1EWu%2BtKqmAUSYlSzHiw"
+    "headers": {
+      "cookie": "connect.sid=s%3AFI8zbEz6IzWL5GPEn_bc6l-U7jh7w0T7.M%2BaZKh1MWTspi%2FRAEg4VzaJgEZLFUKnOFQt1mFXeMKQ"
     }
   },
   "/content-api/*": {
@@ -57,7 +57,7 @@
     }
   },
   "/assets/*": {
-    "target": "http://localhost:8080",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

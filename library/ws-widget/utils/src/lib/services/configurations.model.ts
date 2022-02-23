@@ -254,7 +254,10 @@ export namespace NsUser {
     kid_updated: boolean
     user: IUser
   }
-
+  export interface INodebbUserProfile {
+    username: string
+    email: string
+  }
   export interface IUserPidProfileV2 {
     kid_updated: boolean
     result: {

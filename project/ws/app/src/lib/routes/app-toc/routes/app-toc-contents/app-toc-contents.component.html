@@ -1,4 +1,4 @@
-<div class="contents-container">
+<div class="contents-container" *ngIf="loadContent">
   <div class="main-container">
     <ng-container *ngIf="content?.children?.length; else noChildren">
       <div class="toc-section">

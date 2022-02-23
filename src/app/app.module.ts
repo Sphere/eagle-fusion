@@ -80,6 +80,8 @@ import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
+import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -175,6 +177,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatNativeDateModule,
     MatSelectModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    DiscussionUiModule.forRoot(ConfigService),
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

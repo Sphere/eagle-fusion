@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils/src/public-api'
-
+import { AppTocService } from '../../services/app-toc.service'
+import { takeUntil } from 'rxjs/operators'
+import { Subject } from 'rxjs'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-app-license',
   templateUrl: './license.component.html',
@@ -13,8 +16,13 @@ export class LicenseComponent implements OnInit {
   isXSmall = false
   licenseName: any
   currentLicenseData: any
+  loadLicense = true
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>();
   constructor(private valueSvc: ValueService, private route: ActivatedRoute,
-              private configSvc: ConfigurationsService, private widgetContentSvc: WidgetContentService) {
+    private configSvc: ConfigurationsService, private widgetContentSvc: WidgetContentService, private tocSvc: AppTocService,) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })
@@ -25,6 +33,13 @@ export class LicenseComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.licenseName = params['license']
       this.getLicenseConfig()
+    })
+    this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
+      if (item && !_.get(item, 'showComponent')) {
+        this.loadLicense = item.showComponent
+      } else {
+        this.loadLicense = true
+      }
     })
 
   }
@@ -37,7 +52,7 @@ export class LicenseComponent implements OnInit {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

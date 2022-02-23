@@ -22,7 +22,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-              private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {
@@ -122,6 +122,12 @@ export class SignupService {
             profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
+          }
+        }
+        if (!this.configSvc.nodebbUserProfile) {
+          this.configSvc.nodebbUserProfile = {
+            username: userPidProfile.userName,
+            email: 'null',
           }
         }
         const details = {
