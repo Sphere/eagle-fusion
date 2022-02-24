@@ -4,7 +4,7 @@ import { Storage, IScromData } from './storage'
 import { errorCodes } from './errors'
 import _ from 'lodash'
 import { HttpBackend, HttpClient } from '@angular/common/http'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router  } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import { NsContent } from '@ws-widget/collection'
 import * as dayjs from 'dayjs'
@@ -24,7 +24,8 @@ export class SCORMAdapterService {
     private http: HttpClient,
     handler: HttpBackend,
     private activatedRoute: ActivatedRoute,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private router: Router 
   ) {
     this.http = new HttpClient(handler)
   }
@@ -102,6 +103,11 @@ export class SCORMAdapterService {
       // data = Base64.encode(newData)
       let _return = false
       //if(Object.keys(data).length >= 0) {
+        let url
+        url = this.router.url
+        let splitUrl1 = url.split('?primary')
+        let splitUrl2 = splitUrl1[0].split('/viewer/html/')
+        if(splitUrl2[1] === this.contentId) {
         this.addDataV2(data).subscribe((response) => {
           // console.log(response)
           if (response) {
@@ -115,6 +121,7 @@ export class SCORMAdapterService {
         })
 
         return _return
+      }
       //}
     }
     return false

@@ -30,11 +30,11 @@
       <mat-icon class="">arrow_back_ios</mat-icon>
     </button>
   </div>
-
-  <ul [hidden]="tocMode !== 'TREE'" class="toc-tree">
+<div [ngClass]="{'outer-ul': queue.length > 7}" #outer>
+  <ul [hidden]="tocMode !== 'TREE'" class="toc-tree" #ulTree>
     <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-        <li class="mat-tree-node leaf-node" [ngClass]="{ 'li-active': pathSet.has(node.identifier) }">
+        <li class="mat-tree-node leaf-node" #highlightItem [ngClass]="{ 'li-active': pathSet.has(node.identifier) }">
           <ng-container *ngTemplateOutlet="TocContentList; context: { $implicit: node }"></ng-container>
           <!-- <ng-container
             *ngTemplateOutlet="TocContentCard; context: { $implicit: node }"
@@ -82,6 +82,7 @@
       </mat-nested-tree-node>
     </mat-tree>
   </ul>
+</div>
 </ng-container>
 
 <!-- Loading Template -->
@@ -154,9 +155,10 @@
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }} <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
             {{content.completionPercentage}}% |
-          </span><span *ngIf="content?.completionPercentage === null || content?.completionPercentage === undefined"> &nbsp;|
-            0% |
           </span>
+<!--           <span *ngIf="content?.completionPercentage === null || content?.completionPercentage === undefined"> &nbsp;|ll
+            0% |
+          </span> -->
           <mat-icon title="Completion Percentage : {{content?.completionPercentage}}%" *ngIf="
               content?.completionPercentage === 100
             " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">

@@ -54,23 +54,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
       this.contentSvc.changeMessage('youtube')
     }
-    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
-      setTimeout(() => {
-        const data2 = {
-          current: 10,
-          max_size: 10,
-          mime_type: this.mimeType,
-        }
-        // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         500)
-
-      this.contentSvc.changeMessage('docs.google')
-    }
   }
 
   constructor(
@@ -102,7 +85,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   }
   ngAfterViewInit() {
-    this.urlContains = this.iframeElem.nativeElement.src
   }
 
   ngOnDestroy() {
@@ -110,8 +92,37 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     // window.removeEventListener('onmessage', this.receiveMessage)
   }
 
+  executeForms() {
+            if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
+      console.log(this.urlContains)
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+      setTimeout(() => {
+        const data2 = {
+          current: 10,
+          max_size: 10,
+          mime_type: this.mimeType,
+        }
+        // @ts-ignore: Object is possibly 'null'.
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
+      },         500)
+
+      this.contentSvc.changeMessage('docs.google')
+    }
+  }
   ngOnChanges() {
+    if(this.htmlContent && this.htmlContent.identifier) {
+      this.urlContains = this.htmlContent.artifactUrl
+    }
+    
+    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
+      this.executeForms()
+    }
+    console.log(this.htmlContent)
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+      this.contentSvc.changeMessage('scorm')
       this.scormAdapterService.contentId = this.htmlContent.identifier
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
