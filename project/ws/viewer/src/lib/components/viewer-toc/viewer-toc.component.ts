@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit,OnChanges
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
@@ -156,7 +156,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     })
   }
-  
+
   checkIndexOfResource() {
     if (this.collection) {
       const index = this.queue.findIndex(x => x.identifier === this.resourceId)
@@ -214,7 +214,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
       setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    },           300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value

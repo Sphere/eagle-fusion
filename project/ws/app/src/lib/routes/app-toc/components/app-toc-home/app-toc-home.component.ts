@@ -26,7 +26,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  }, [])
+  },                  [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -123,7 +123,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
           }
         } else {
           if (sessionStorage.getItem('url_before_login')) {
-            let url = sessionStorage.getItem('url_before_login') || ''
+            const url = sessionStorage.getItem('url_before_login') || ''
             this.router.navigate([url])
           } else {
             this.router.navigate(['/app/login'])
