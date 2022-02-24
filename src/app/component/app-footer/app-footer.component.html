@@ -2,18 +2,22 @@
   <div class="mat-body footer-flex" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
       <mat-list class="flex-1 col-width">
-        <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" class="docs-footer-aastar-logo">
+        <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" id="footer-aastar-logo"
+            class="docs-footer-aastar-logo">
         </div>
       </mat-list>
 
       <mat-list class="flex-1 col-width" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item> <a routerLink="/public/about" i18n> <span i18n>About
+        <mat-list-item> <a routerLink="/public/about" i18n id="footer-about-us"> <span i18n>About
               Us</span></a> </mat-list-item>
-        <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank"><span i18n>Vision</span></a>
+        <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank" id="footer-vision"><span
+              i18n>Vision</span></a>
         </mat-list-item>
-        <mat-list-item><a href="https://www.aastrika.org/team/" target="_blank"><span i18n>Team</span></a>
+        <mat-list-item><a href="https://www.aastrika.org/team/" target="_blank" id=footer-team><span
+              i18n>Team</span></a>
         </mat-list-item>
-        <mat-list-item> <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n>Help & Contact </a>
+        <mat-list-item> <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n
+            id="footer-help-contact">Help & Contact </a>
         </mat-list-item>
 
         <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
