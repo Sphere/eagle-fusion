@@ -113,14 +113,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
   }
   ngOnChanges() {
-    if(this.htmlContent && this.htmlContent.identifier) {
+    if (this.htmlContent && this.htmlContent.identifier) {
       this.urlContains = this.htmlContent.artifactUrl
     }
 
     if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
       this.executeForms()
     }
-   
+
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
       this.contentSvc.changeMessage('scorm')
       this.scormAdapterService.contentId = this.htmlContent.identifier
