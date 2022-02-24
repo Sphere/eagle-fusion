@@ -94,7 +94,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   executeForms() {
             if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
-      console.log(this.urlContains)
+
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
@@ -116,11 +116,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     if(this.htmlContent && this.htmlContent.identifier) {
       this.urlContains = this.htmlContent.artifactUrl
     }
-    
+
     if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
       this.executeForms()
     }
-    console.log(this.htmlContent)
+   
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
       this.contentSvc.changeMessage('scorm')
       this.scormAdapterService.contentId = this.htmlContent.identifier
