@@ -26,6 +26,7 @@ import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-
 import * as FileSaver from 'file-saver'
 
 import { DOCUMENT } from '@angular/common'
+
 @Component({
   selector: 'ws-app-toc-banner',
   templateUrl: './app-toc-banner.component.html',
@@ -346,33 +347,36 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
-                  //const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
 
-                  var canvas: any = document.getElementById("certCanvas") || {}
-                  var ctx = canvas.getContext("2d")
-                  var url = response.result.printUri
+                  const img = new Image()
+                  const url = response.result.printUri
+                  img.onload = function () {
 
-                  var DOMURL = window.URL || window.webkitURL || window
-                  var img = new Image()
-                  ctx.drawImage(img, 0, 0)
-                  DOMURL.revokeObjectURL(url)
+                    const canvas: any = document.getElementById('certCanvas') || {}
+                    const ctx = canvas.getContext('2d')
+                    const imgWidth = img.width
+                    const imgHeight = img.height
+                    canvas.width = imgWidth
+                    canvas.height = imgHeight
+                    ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
+                    let imgURI = canvas
+                      .toDataURL('image/jpeg')
+
+                    imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
+                    const arr = imgURI.split(',')
+                    const mime = arr[0].match(/:(.*?);/)[1]
+                    const bstr = atob(arr[1])
+                    let n =  bstr.length
+                    const u8arr = new Uint8Array(n)
+                    while (n) {
+                      n = n - 1
+                      u8arr[n] = bstr.charCodeAt(n)
+                    }
+                    const blob = new Blob([u8arr], { type: mime })
+                    FileSaver.saveAs(blob, 'certificate.jpeg')
+                  }
+                //  DOMURL.revokeObjectURL(url)
                   img.src = url
-                  var imgURI = canvas
-                    .toDataURL('image/png')
-                    .replace('image/png', 'image/octet-stream')
-
-                  const blob = new Blob([imgURI], { type: 'image/octet-stream' })
-                  FileSaver.saveAs(blob, 'certificate.png')
-
-                  // no argument defaults to image/png; image/jpeg, etc also work on some
-                  // implementations -- image/png is the only one that must be supported per spec.
-                  // window.location = canvas.toDataURL("image/png");
-
-
-                  // const base64string = response.result.printUri
-                  // const blobObj = new Blob([new Uint8Array(base64string)])
-                  // fileSaver.saveAs(response.result.printUri, `image.jpg`)
-                  // window.location.href = 'data:application/octet-stream;base64,' + response.result.printUri;
                 }
               })
             } else {
@@ -716,7 +720,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          }, 500)
+          },         500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
