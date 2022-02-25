@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject } from '@angular/core'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
@@ -25,7 +25,7 @@ import * as  lodash from 'lodash'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
 
-import { DOCUMENT  } from '@angular/common'
+import { DOCUMENT } from '@angular/common'
 @Component({
   selector: 'ws-app-toc-banner',
   templateUrl: './app-toc-banner.component.html',
@@ -98,7 +98,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
     // private authAccessService: AccessControlService,
-
+    @Inject(DOCUMENT) public document: Document
   ) {
   }
   @HostListener('window:popstate', ['$event'])
@@ -348,25 +348,27 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
                 if (response.responseCode) {
                   //const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
 
-                  var canvas: any = DOCUMENT.getElementById("certCanvas") || {}
+                  var canvas: any = document.getElementById("certCanvas") || {}
                   var ctx = canvas.getContext("2d")
                   var url = response.result.printUri
 
-                  var DOMURL = window.URL || window.webkitURL || window;
+                  var DOMURL = window.URL || window.webkitURL || window
                   var img = new Image()
                   ctx.drawImage(img, 0, 0)
                   DOMURL.revokeObjectURL(url)
-                  img.src = url;
+                  img.src = url
                   var imgURI = canvas
                     .toDataURL('image/png')
-                    .replace('image/png', 'image/octet-stream');
+                    .replace('image/png', 'image/octet-stream')
 
                   const blob = new Blob([imgURI], { type: 'image/octet-stream' })
+                  FileSaver.saveAs(blob, 'certificate.png')
+
                   // no argument defaults to image/png; image/jpeg, etc also work on some
                   // implementations -- image/png is the only one that must be supported per spec.
                   // window.location = canvas.toDataURL("image/png");
 
-                   FileSaver.saveAs(blob, 'certificate.png')
+
                   // const base64string = response.result.printUri
                   // const blobObj = new Blob([new Uint8Array(base64string)])
                   // fileSaver.saveAs(response.result.printUri, `image.jpg`)
@@ -714,7 +716,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
