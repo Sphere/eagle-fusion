@@ -93,8 +93,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   executeForms() {
-            if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
-
+    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
@@ -107,7 +106,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         500)
+      },50)
 
       this.contentSvc.changeMessage('docs.google')
     }
@@ -175,6 +174,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       }
 
       this.showIsLoadingMessage = false
+
       if (this.htmlContent.isIframeSupported !== 'No') {
         setTimeout(
           () => {

@@ -32,7 +32,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.route = location.path()
     this.loginForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      username: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ])?)*$)$/)]),
+      username: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
       password: new FormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -169,22 +169,22 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   loginUser() {
     let phone = this.loginForm.value.username
-    const validphone = /^([- ]*)[6-9]\d{9}([- ]*)$/.test(phone)
-    const alphaNumeric = /^[a-zA-Z0-9 ] +$/i.test(phone)
+    //const validphone = /^([- ]*)[6-9]\d{9}([- ]*)$/.test(phone)
+    //const alphaNumeric = /^[a-zA-Z0-9 ] +$/i.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-    const email = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
-      this.loginForm.value.username)
+    // const email = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+    //   this.loginForm.value.username)
     // if (!validphone && phone !== '') {
     //   this.openSnackbar('Enter valid Phone Number')
     // }
-    if (!email && !validphone) {
-      // this.openSnackbar('Enter valid email address')
-      this.errorMessage = 'Enter valid email address'
-    }
-    if (phone.length < 10 && phone !== '' && alphaNumeric) {
-      // this.openSnackbar('Enter 10 digits Phone Number')
-      this.errorMessage = 'Enter 10 digits Phone Number'
-    }
+    // if (!email && !validphone) {
+    //   // this.openSnackbar('Enter valid email address')
+    //   this.errorMessage = 'Enter valid email address'
+    // }
+    // if (phone.length < 10 && phone !== '' && alphaNumeric) {
+    //   // this.openSnackbar('Enter 10 digits Phone Number')
+    //   this.errorMessage = 'Enter 10 digits Phone Number'
+    // }
     // at least 10 in number
     if (phone.length >= 10) {
       this.emailPhoneType = 'phone'
