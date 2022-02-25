@@ -121,7 +121,8 @@
                     (click)="enrollUser(batchData.content)">
                     Start
                   </button>
-                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+                  <!--(click)="resumeBtn()" -->
+                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled" 
                     [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                     [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
                     class="margin-right-m resumeButton" mat-button>
@@ -131,7 +132,7 @@
                   </a>
                   <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
                   </ws-widget-btn-content-share>
-                  <button mat-button [color]="'primary'" (click)="downloadCertificate()"
+                  <button mat-button [color]="'primary'" (click)="downloadCertificate(content)"
                     class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>
@@ -273,9 +274,8 @@
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                          <h3>Certificate will appear 30 minutes later if the course progress is 100%. If you have not completed the course please finish all sections first and try again.</h3>
+                          <h3>{{certificateMsg}}</h3>
                         </div>
-
                         <!-- Modal footer -->
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal"
