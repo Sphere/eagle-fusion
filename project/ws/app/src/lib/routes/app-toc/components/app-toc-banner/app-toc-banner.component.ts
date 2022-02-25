@@ -129,7 +129,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
-   this.getCourseID()
+    this.getCourseID()
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig && instanceConfig.logos && instanceConfig.logos.defaultSourceLogo) {
       this.defaultSLogo = instanceConfig.logos.defaultSourceLogo
@@ -330,70 +330,99 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
-    let userId
-    let duration
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
-    }
-
-    if (localStorage.getItem('certificate_downloaded')) {
-
-        const customerDate = moment(localStorage.getItem('certificate_downloaded'))
-    const dateNow = moment(new Date())
-    duration = moment.duration(dateNow.diff(customerDate))
- }
-
-    if (this.content && this.content.identifier && content.completionPercentage === 100) {
-      const req = {
-        request: {
-          courseId: this.content.identifier,
-          batchId: this.getBatchId(),
-          userIds: [userId],
-        },
+    // is enrolled?
+    if (this.batchData.enrolled) {
+      let userId = ''
+      let duration: number
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
       }
 
-      if (localStorage.getItem('certificate_downloaded') === null) {
-              this.contentSvc.processCertificate(req).subscribe((response: any) => {
-        if (response.responseCode === 'OK') {
-          this.sendApi()
-        } else {
-          this.displayStyle = 'block'
-        }
-      },
-        err => {
-          this.displayStyle = 'block'
-          /* tslint:disable-next-line */
-          console.log(err.error.params.errmsg)
-          this.certificateMsg = err.error.params.errmsg
-          // this.openSnackbar(err.error.params.errmsg)
-        })
+      if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`)) {
+
+        const customerDate = moment(localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`))
+        const dateNow = moment(new Date())
+        duration = dateNow.diff(customerDate, 'minutes')
       }
-      if (localStorage.getItem('certificate_downloaded') && duration.minutes() >= 30) {
-                      this.contentSvc.processCertificate(req).subscribe((response: any) => {
-        if (response.responseCode === 'OK') {
-          this.sendApi()
-        } else {
-          this.displayStyle = 'block'
+
+      if (this.content && this.content.identifier && content.completionPercentage === 100) {
+        const req = {
+          request: {
+            courseId: this.content.identifier,
+            batchId: this.getBatchId(),
+            userIds: [userId],
+          },
         }
-      },
-        err => {
-          this.displayStyle = 'block'
-          /* tslint:disable-next-line */
-          console.log(err.error.params.errmsg)
-          this.certificateMsg = err.error.params.errmsg
-          // this.openSnackbar(err.error.params.errmsg)
-        })
+        // if course is complete
+
+        // check if certificate is already generated
+        this.contentSvc.fetchUserBatchList(userId).subscribe(
+          (courses: NsContent.ICourse[]) => {
+            // let enrolledCourse: NsContent.ICourse | undefined
+            if (this.content && this.content.identifier && !this.forPreview) {
+
+              if (courses && courses.length) {
+                this.enrolledCourse = courses.find(course => {
+                  const identifier = this.content && this.content.identifier || ''
+                  if (course.courseId !== identifier) {
+                    return undefined
+                  }
+                  return course
+                })
+                if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
+                  this.displayStyle = 'block'
+                  // tslint:disable-next-line: max-line-length
+                  this.certificateMsg = 'Your certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again'
+                  this.sendApi()
+                  // trigger this.downloadCertificate
+
+                } else {
+                  // trigger request
+                  // check for exisitng request
+
+                  if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
+                    this.displayStyle = 'block'
+                    // tslint:disable-next-line: max-line-length
+                    this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
+                  } else {
+                    this.contentSvc.processCertificate(req).subscribe((response: any) => {
+                      if (response.responseCode === 'OK') {
+                        // this.sendApi()
+                        // tslint:disable-next-line: max-line-length
+                        localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
+                        this.displayStyle = 'block'
+                        // tslint:disable-next-line: max-line-length
+                        this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
+                      } else {
+                        this.displayStyle = 'block'
+                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                      }
+                    },
+                      err => {
+                        this.displayStyle = 'block'
+                        /* tslint:disable-next-line */
+                        console.log(err.error.params.errmsg)
+                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        // this.openSnackbar(err.error.params.errmsg)
+                      })
+                  }
+                }
+
+              }
+            }
+          })
+
       } else {
-           this.displayStyle = 'block'
-           // tslint:disable-next-line:max-line-length
-        this.certificateMsg = 'You have already raised request for certificate, please try after 30 minutes'
+        // tslint:disable-next-line:max-line-length
+        this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
+        this.displayStyle = 'block'
       }
-
     } else {
-      // tslint:disable-next-line:max-line-length
-      this.certificateMsg = 'You course progress is not 100%. If you have not completed the course please finish all sections first and try again.'
+      // tslint:disable-next-line: max-line-length
+      this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
       this.displayStyle = 'block'
     }
+
   }
   sendApi() {
     let userId
@@ -404,6 +433,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       (courses: NsContent.ICourse[]) => {
         // let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
+          // tslint:disable-next-line:no-this-assignment
+          const self = this
           if (courses && courses.length) {
             this.enrolledCourse = courses.find(course => {
               const identifier = this.content && this.content.identifier || ''
@@ -416,22 +447,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
-
-                  const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
-                  const blob = new Blob([svg], { type: 'image/svg+xml' })
-                  FileSaver.saveAs(blob, 'certificate.svg')
-                  const time = moment(new Date())
-                  if (localStorage.getItem('certificate_downloaded')) {
-                    localStorage.removeItem('certificate_downloaded')
-                  }
-
-                  localStorage.setItem('certificate_downloaded', time)
-                  // const base64string = response.result.printUri
-                  // const blobObj = new Blob([new Uint8Array(base64string)])
-                  // fileSaver.saveAs(response.result.printUri, `image.jpg`)
-                  // window.location.href = 'data:application/octet-stream;base64,' + response.result.printUri;
-
-
                   const img = new Image()
                   const url = response.result.printUri
                   img.onload = function () {
@@ -450,7 +465,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
                     const arr = imgURI.split(',')
                     const mime = arr[0].match(/:(.*?);/)[1]
                     const bstr = atob(arr[1])
-                    let n =  bstr.length
+                    let n = bstr.length
                     const u8arr = new Uint8Array(n)
                     while (n) {
                       n = n - 1
@@ -458,8 +473,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
                     }
                     const blob = new Blob([u8arr], { type: mime })
                     FileSaver.saveAs(blob, 'certificate.jpeg')
+                    if (localStorage.getItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)) {
+                      localStorage.removeItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)
+                    }
                   }
-                //  DOMURL.revokeObjectURL(url)
+                  //  DOMURL.revokeObjectURL(url)
                   img.src = url
                 }
               })
