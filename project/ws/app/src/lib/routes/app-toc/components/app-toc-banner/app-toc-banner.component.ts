@@ -25,6 +25,7 @@ import * as  lodash from 'lodash'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
 
+import { DOCUMENT  } from '@angular/common'
 @Component({
   selector: 'ws-app-toc-banner',
   templateUrl: './app-toc-banner.component.html',
@@ -97,6 +98,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
     // private authAccessService: AccessControlService,
+
   ) {
   }
   @HostListener('window:popstate', ['$event'])
@@ -344,9 +346,27 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
-                  const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
-                  const blob = new Blob([svg], { type: 'image/svg+xml' })
-                  FileSaver.saveAs(blob, 'certificate.svg')
+                  //const svg = decodeURIComponent(response.result.printUri.replace('data:image/svg+xml,', ''))
+
+                  var canvas: any = DOCUMENT.getElementById("certCanvas") || {}
+                  var ctx = canvas.getContext("2d")
+                  var url = response.result.printUri
+
+                  var DOMURL = window.URL || window.webkitURL || window;
+                  var img = new Image()
+                  ctx.drawImage(img, 0, 0)
+                  DOMURL.revokeObjectURL(url)
+                  img.src = url;
+                  var imgURI = canvas
+                    .toDataURL('image/png')
+                    .replace('image/png', 'image/octet-stream');
+
+                  const blob = new Blob([imgURI], { type: 'image/octet-stream' })
+                  // no argument defaults to image/png; image/jpeg, etc also work on some
+                  // implementations -- image/png is the only one that must be supported per spec.
+                  // window.location = canvas.toDataURL("image/png");
+
+                   FileSaver.saveAs(blob, 'certificate.png')
                   // const base64string = response.result.printUri
                   // const blobObj = new Blob([new Uint8Array(base64string)])
                   // fileSaver.saveAs(response.result.printUri, `image.jpg`)
