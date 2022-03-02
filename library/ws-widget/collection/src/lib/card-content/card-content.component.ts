@@ -11,7 +11,6 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { delay, mergeMap } from 'rxjs/operators'
-// import { Router } from '@angular/router';
 
 @Component({
   selector: 'ws-widget-card-content',

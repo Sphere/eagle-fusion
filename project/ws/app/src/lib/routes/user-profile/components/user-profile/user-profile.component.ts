@@ -822,7 +822,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         firstname: form.value.firstname,
         middlename: form.value.middlename,
         surname: form.value.surname,
-        lastName: form.value.surname,
         about: form.value.about,
         dob: form.value.dob,
         nationality: form.value.nationality,

@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit,
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
@@ -53,7 +53,7 @@ interface ICollectionCard {
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
 })
-export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   @Input() resourceChanged = ''
@@ -76,7 +76,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
     private utilitySvc: UtilityService,
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
-    private configSvc: ConfigurationsService,
+    private configSvc: ConfigurationsService
     // private contentProgressSvc: ContentProgressService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
@@ -120,7 +120,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
-
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
@@ -153,16 +152,69 @@ export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
         this.processCurrentResourceChange()
+        this.checkIndexOfResource()
       }
     })
   }
-  async ngAfterViewInit() {
+
+  checkIndexOfResource() {
+    if (this.collection) {
+      const index = this.queue.findIndex(x => x.identifier === this.resourceId)
+      this.scrollToUserView(index)
+    }
+  }
+ async ngOnChanges() {
     await this.contentSvc.currentMessage.subscribe(
       (data: any) => {
         if (data) {
           this.ngOnInit()
         }
       })
+  }
+ scrollToUserView(index: number) {
+
+    setTimeout(() => {
+      if (index > 3) {
+        if (this.highlightItem.nativeElement.classList.contains('li-active')) {
+
+          const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
+          const outerClientHeight = this.outer.nativeElement.clientHeight
+          const liItemHeight = this.highlightItem.nativeElement.clientHeight
+
+          if (outerClientHeight < (highlightItemOffset + liItemHeight)) {
+            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+
+          } else {
+            this.outer.nativeElement.scrollTop = 0
+          }
+
+          if (highlightItemOffset > 535 && this.reverse === 'next') {
+
+            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            this.outer.nativeElement.scrollTop = window.innerHeight
+            this.highlightItem.nativeElement.offsetTop = 300
+            this.highlightItem.nativeElement.scrollTop = 300
+            if (highlightItemOffset - window.innerHeight > 80) {
+              window.scrollTo(0, 80)
+            }
+          } else {
+
+            if (this.highlightItem.nativeElement.offsetTop + this.outer.nativeElement.offsetTop > window.innerHeight) {
+              this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            }
+
+          }
+        }
+
+      }
+    },         300)
+  }
+
+   ngAfterViewInit() {
+
+      setTimeout(() => {
+      this.checkIndexOfResource()
+    },           300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -403,7 +455,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy, AfterViewInit {
               collection.map((child1: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
                 if (foundContent) {
-                  child1.completionPercentage = foundContent.completionPercentage
+                  child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
                   child1.completionStatus = foundContent.status
                 }
                 if (child1['children']) {

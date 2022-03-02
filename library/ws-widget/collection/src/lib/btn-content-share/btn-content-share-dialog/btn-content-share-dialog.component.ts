@@ -45,7 +45,8 @@ export class BtnContentShareDialogComponent implements OnInit {
       this.isSocialMediaShareEnabled =
         !this.configSvc.restrictedFeatures.has('socialMediaFacebookShare') ||
         !this.configSvc.restrictedFeatures.has('socialMediaLinkedinShare') ||
-        !this.configSvc.restrictedFeatures.has('socialMediaTwitterShare')
+        !this.configSvc.restrictedFeatures.has('socialMediaTwitterShare') ||
+        !this.configSvc.restrictedFeatures.has('socialMediaWhatsappShare')
     }
   }
 

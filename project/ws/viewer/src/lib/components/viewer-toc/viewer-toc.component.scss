@@ -21,6 +21,10 @@
 .leaf-node {
   // padding-left: $size-m;
 }
+.outer-ul {
+  overflow-y: scroll;
+  max-height: 94.5vh;
+}
 
 .toc-tree-invisible {
   display: none;
@@ -30,6 +34,8 @@
 }
 .toc-tree {
   padding-inline-start: 0px;
+  min-height: 100%;
+  overflow-y: auto;
 
   ul,
   li {
