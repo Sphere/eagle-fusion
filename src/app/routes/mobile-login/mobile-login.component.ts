@@ -169,8 +169,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   loginUser() {
     let phone = this.loginForm.value.username
-    //const validphone = /^([- ]*)[6-9]\d{9}([- ]*)$/.test(phone)
-    //const alphaNumeric = /^[a-zA-Z0-9 ] +$/i.test(phone)
+    // const validphone = /^([- ]*)[6-9]\d{9}([- ]*)$/.test(phone)
+    // const alphaNumeric = /^[a-zA-Z0-9 ] +$/i.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
     // const email = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
     //   this.loginForm.value.username)
