@@ -10,6 +10,7 @@ import { TncPublicResolverService } from '../../services/tnc-public-resolver.ser
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
+import { SignupService } from '../signup/signup.service'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -22,6 +23,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   isAcceptInProgress = false
   errorInAccepting = false
   isPublic = false
+  result: any
   userId = ''
   createUserForm!: FormGroup
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
@@ -41,10 +43,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private tncPublicSvc: TncPublicResolverService,
     private userProfileSvc: UserProfileService,
     private http: HttpClient,
+    private signupService: SignupService,
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
@@ -55,6 +58,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         // this.errorFetchingTnc = true
       }
     })
+    this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
 
@@ -206,14 +210,23 @@ export class NewTncComponent implements OnInit, OnDestroy {
         if (data) {
           this.configSvc.profileDetailsStatus = true
           this.configSvc.hasAcceptedTnc = true
+          if (this.result.tncStatus) {
+            if (sessionStorage.getItem('url_before_login')) {
+              location.href = sessionStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/app/about-you'
+            }
+          } else {
+            location.href = '/app/about-you'
+          }
           // location.href = '/page/home'
-          this.router.navigate(['/page/home'])
-            .then(() => {
-              window.location.reload()
-            })
+          // this.router.navigate(['/page/home'])
+          //   .then(() => {
+          //     window.location.reload()
+          //   })
         }
       },
-                                                                    (err: any) => {
+        (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true
