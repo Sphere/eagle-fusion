@@ -71,13 +71,13 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
 
   public signinChanged(val: any) {
-    sessionStorage.removeItem('google_isSignedIn')
-    sessionStorage.setItem(`google_isSignedIn`, val)
+    localStorage.removeItem('google_isSignedIn')
+    localStorage.setItem(`google_isSignedIn`, val)
   }
 
   public userChanged(user: any) {
-    sessionStorage.removeItem('google_token')
-    sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+    localStorage.removeItem('google_token')
+    localStorage.setItem(`google_token`, user.getAuthResponse().id_token)
     location.reload()
   }
 
@@ -104,8 +104,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.checkGoogleAuth()
-    const storageItem1 = sessionStorage.getItem(`google_token`)
-    const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+    const storageItem1 = localStorage.getItem(`google_token`)
+    const storageItem2 = localStorage.getItem(`google_isSignedIn`)
     if (storageItem1 && storageItem2 && this.googleAuth) {
       const req = {
         idToken: storageItem1,
@@ -121,8 +121,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
           }
           if (result.status === 200 && result.roles.length > 0) {
             this.openSnackbar(results.msg)
-            if (sessionStorage.getItem('url_before_login')) {
-              location.href = sessionStorage.getItem('url_before_login') || ''
+            if (localStorage.getItem('url_before_login')) {
+              location.href = localStorage.getItem('url_before_login') || ''
             } else {
               location.href = '/page/home'
             }
@@ -221,8 +221,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
         if (result.roles && result.roles.length > 0) {
           this.openSnackbar(results.msg)
-          if (sessionStorage.getItem('url_before_login')) {
-            location.href = sessionStorage.getItem('url_before_login') || ''
+          if (localStorage.getItem('url_before_login')) {
+            location.href = localStorage.getItem('url_before_login') || ''
           } else {
             location.href = '/page/home'
           }

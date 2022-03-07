@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
-import { Subscription } from 'rxjs'
+import { Subscription, of } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -11,6 +11,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
+import { delay, mergeMap } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -211,13 +212,25 @@ export class NewTncComponent implements OnInit, OnDestroy {
           this.configSvc.profileDetailsStatus = true
           this.configSvc.hasAcceptedTnc = true
           if (this.result.tncStatus) {
-            if (sessionStorage.getItem('url_before_login')) {
-              location.href = sessionStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/app/about-you'
+            if (this.configSvc.unMappedUser) {
+              this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
+                return of(userData)
+              })).subscribe((userDetails: any) => {
+                if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
+
+                  if (localStorage.getItem('url_before_login')) {
+                    const courseUrl = localStorage.getItem('url_before_login')
+                    this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+                  } else {
+                    location.href = '/page/home'
+                  }
+                } else {
+                  location.href = localStorage.getItem('url_before_login') || ''
+                }
+              })
             }
           } else {
-            location.href = '/app/about-you'
+            location.href = '/page/home'
           }
           // location.href = '/page/home'
           // this.router.navigate(['/page/home'])

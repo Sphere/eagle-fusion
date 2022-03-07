@@ -146,11 +146,11 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // }
 
   // public signinChanged(val: any) {
-  //   sessionStorage.setItem(`google_isSignedIn`, val)
+  //   localStorage.setItem(`google_isSignedIn`, val)
   // }
 
   // public userChanged(user: any) {
-  //   sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+  //   localStorage.setItem(`google_token`, user.getAuthResponse().id_token)
   // }
 
   // public attachSignin(element: any) {
@@ -179,8 +179,8 @@ export class BtnProfileComponent extends WidgetBaseComponent
     if (this.featuresConfig && this.featuresConfig.length > 0) {
       this.getPortalLinks()
     }
-    // const storageItem1 = sessionStorage.getItem(`google_token`)
-    // const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+    // const storageItem1 = localStorage.getItem(`google_token`)
+    // const storageItem2 = localStorage.getItem(`google_isSignedIn`)
     // if (storageItem2 === 'true' && this.route === '/google/callback') {
     //   this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
     //   this.isSignedIn = true

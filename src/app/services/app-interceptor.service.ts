@@ -47,7 +47,7 @@ export class AppInterceptorService implements HttpInterceptor {
                 // const localUrl = location.origin
                 // tslint:disable-next-line: prefer-template
                 // Now we commenting this one, Later now we will remove it
-                // sessionStorage.setItem('login_url', error.error.redirectUrl)
+                // localStorage.setItem('login_url', error.error.redirectUrl)
                 if (location.pathname.indexOf('/public') >= 0) {
                   // this.http.get('/apis/reset')
                   break

@@ -222,8 +222,8 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   // resumeBtn() {
-  //   if(sessionStorage.getItem(`resume_URL`)){
-  //     this.resumeDataLink.url = sessionStorage.getItem(`resume_URL`)
+  //   if(localStorage.getItem(`resume_URL`)){
+  //     this.resumeDataLink.url = localStorage.getItem(`resume_URL`)
   //       console.log(resume_URL)
   //       //location.href = resume_URL
   //       //this.router.navigateByUrl(`${resume_URL}`)

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { NsContent } from '@ws-widget/collection'
-import { ConfigurationsService, EventService } from '@ws-widget/utils'
+import { ConfigurationsService } from '@ws-widget/utils'
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
@@ -26,7 +26,6 @@ export class LearningCardComponent extends WidgetBaseComponent
   defaultThumbnail = ''
   description: SafeHtml = ''
   constructor(
-    private events: EventService,
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private router: Router,
@@ -52,27 +51,15 @@ export class LearningCardComponent extends WidgetBaseComponent
   raiseTelemetry(content: any) {
     const url = `app/toc/` + `${content.identifier}` + `/overview?primaryCategory=Course`
     if (localStorage.getItem('telemetrySessionId') === null) {
-      sessionStorage.setItem(`url_before_login`, url)
+      localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')
-      // this.events.raiseInteractTelemetry (
-      //   'click',
-      //   'cardSearch',
-      //   {
-      //     contentId: this.content.identifier,
-
-      //   },
-      // )
     } else {
-      // this.router.navigateByUrl(url)
+      this.router.navigateByUrl(url)
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
           if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
-            this.events.raiseInteractTelemetry(
-              'click', 'cardSearch',
-              { contentId: this.content.identifier },
-            )
             this.router.navigateByUrl(`/app/toc/${content.identifier}/overview?primaryCategory=Course`)
           } else {
             const courseUrl = `/app/toc/${content.identifier}/overview`

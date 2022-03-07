@@ -16,7 +16,7 @@ export class GoogleCallbackComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
     private snackBar: MatSnackBar
-    ) { }
+  ) { }
 
   ngOnInit() {
     const tokenurl = this.router.url.split('&')
@@ -24,11 +24,11 @@ export class GoogleCallbackComponent implements OnInit {
       idToken: tokenurl[1].replace('id_token=', ''),
     }
     // console.log(req.idToken)
-    // const storageItem1 = sessionStorage.getItem(`google_token`)
+    // const storageItem1 = localStorage.getItem(`google_token`)
     const url = this.router.url
     // let resStr = req.idToken.localeCompare(storageItem1)
     // console.log(resStr)
-    // const storageItem2 = sessionStorage.getItem(`google_isSignedIn`)
+    // const storageItem2 = localStorage.getItem(`google_isSignedIn`)
     if (url.includes('/google/callback')) {
       // this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`
       // this.isSignedIn = true
@@ -43,8 +43,8 @@ export class GoogleCallbackComponent implements OnInit {
           }
           if (result.status === 200 && result.roles.length > 0) {
             this.openSnackbar(results.msg)
-            if (sessionStorage.getItem('url_before_login')) {
-              location.href = sessionStorage.getItem('url_before_login') || ''
+            if (localStorage.getItem('url_before_login')) {
+              location.href = localStorage.getItem('url_before_login') || ''
             } else {
               location.href = '/page/home'
             }

@@ -12,6 +12,9 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import * as _ from 'lodash'
 import moment from 'moment'
+// import { UserProfileService } from '../../../user-profile/services/user-profile.service'
+// import { of } from 'rxjs'
+// import { delay, mergeMap } from 'rxjs/operators'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -77,6 +80,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
   body: SafeHtml | null = null
   contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
+  result: any
+  matspinner = true
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -98,6 +103,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
+    // private userProfileSvc: UserProfileService,
   ) {
   }
   ngOnInit() {
@@ -108,6 +114,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
     if (this.route) {
       this.routeSubscription = this.route.data.subscribe((data: Data) => {
+
         // adding mock data
         // data.content.error = null
         // data.content.data = this.courseMockData.result.content
@@ -122,8 +129,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
             data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
           }
         } else {
-          if (sessionStorage.getItem('url_before_login')) {
-            const url = sessionStorage.getItem('url_before_login') || ''
+          if (localStorage.getItem('url_before_login')) {
+            const url = localStorage.getItem('url_before_login') || ''
             this.router.navigate([url])
           } else {
             this.router.navigate(['/app/login'])
@@ -152,6 +159,24 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+
+  // async aboutYouRedirect(contentData: any) {
+  //   if (this.configSvc.unMappedUser) {
+  //     debugger
+  //     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((data: any) => {
+  //       return of(data)
+  //     })).subscribe(async (userDetails: any) => {
+  //       this.matspinner = false
+  //       if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
+  //         if (contentData && contentData.identifier) {
+  //           const courseUrl = `/app/toc/${contentData.identifier}/overview`
+  //           await this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
+
   showContents() {
     this.getUserEnrollmentList()
   }
@@ -193,6 +218,10 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         break
       }
     }
+    // this.aboutYouRedirect(this.content)
+
+    // setTimeout(() => {
+    this.matspinner = false
     this.getUserEnrollmentList()
     this.body = this.domSanitizer.bypassSecurityTrustHtml(
       this.content && this.content.body
@@ -201,6 +230,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
           : this.content.body
         : '',
     )
+    // }, 1000)
     this.contentParents = {}
   }
 

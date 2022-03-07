@@ -146,7 +146,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
-      // if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
+      // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
       //   this.isNavBarRequired = true
       //   this.showNavigation = false
       // } else {
@@ -177,8 +177,8 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.hideHeaderFooter = show
     })
 
-    // if (sessionStorage.getItem('url_before_login')) {
-    //   const url = sessionStorage.getItem(`url_before_login`) || ''
+    // if (localStorage.getItem('url_before_login')) {
+    //   const url = localStorage.getItem(`url_before_login`) || ''
     //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
     //   // this.location.replaceState(url)
     //   this.router.navigateByUrl(url)
