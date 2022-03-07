@@ -1,0 +1,95 @@
+<div class="sb-certificatePage-bg height-adjust">
+  <div *ngIf="!viewCertificate" class="sb-certificatePage" [class.loading]="loader" [class.error]="error">
+    <div class="sb-certificatePage-overlay"></div>
+    <div class="sb-certificatePage-header">
+      <img [src]="appIcon" class="sb-certificatePage-logo" alt="KarmYogi Logo" />
+    </div>
+    <div class="sb-certificatePage-desc mb-auto m-0">
+      <div class="sb-certificatePage-loader">
+        <!-- <p>{{resourceService?.frmelmnts?.lbl?.verifyingCertificate}}</p> -->
+        <p> Please wait! We are verifying certificate.. </p>
+        <img src="fusion-assets/images/loader.gif" class="sb-certificatePage-loader-img" alt="Loader" />
+      </div>
+      <img src="fusion-assets/images/certificate.png" class="sb-certificatePage-desc-img" alt="Certificate Desc" />
+    </div>
+    <div class="sb-certificatePage-form mb-auto">
+      <div class="sb-form-field-group">
+        <label *ngIf="!wrongCertificateCode" class="sb-certificatePage-label" for="certificate">
+          <!-- {{resourceService?.frmelmnts?.lbl?.enterCertificateCode}} -->
+          {{'Enter the certificate code here'}}
+        </label>
+        <label *ngIf="wrongCertificateCode" class="sb-field-error-label sb-certificatePage-label sb-color-error"
+          for="certificate">
+          <!-- {{resourceService?.frmelmnts?.lbl?.enterValidCertificateCode}} -->
+          {{'Enter a valid certificate code'}}
+        </label>
+        <div class="sb-certificatePage-field sb-field" id="certificate">
+          <input #codeInputField (keyup)="getCodeLength($event)" (keydown.space)="$event.preventDefault();"
+            [(ngModel)]="certificateCode" type="text" maxlength="6" pattern="^[-a-zA-Z0-9@\.+_]+$" required autofocus
+            name="certificate" class="form-control input-box text-center" />
+          <button [disabled]="!enableVerifyButton" type="button"
+            class="form-group certificate-button mt-4 cursor-pointer width-100 " (click)="certificateVerify()">
+            <!-- {{resourceService?.frmelmnts?.btn?.verify}} -->
+            {{'Verify'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="viewCertificate">
+    <div class="sb-certificatePage sb-certificate-view sb-certificatePage-flexHeight">
+      <div class="sb-certificatePage-header">
+        <img [src]="appIcon" class="sb-certificatePage-logo" alt="KarmYogi Logo" />
+      </div>
+      <div class="sb-certificatePage-holder-details mb-auto">
+
+        <img src="fusion-assets/images/badge.svg" class="sb-icon-badge mt-24 mb-8" alt="Badge" />
+        <p *ngIf="recipient" class="sb-certificatePage-holder-desc sb-certificatePage-holder-desc-primary">
+          <!-- {{resourceService?.frmelmnts?.lbl?.certificateIssuedTo}} -->
+          {{'Certificate issued to '}}
+        </p>
+        <h4 *ngIf="recipient" class="sb-certificatePage-holder-name">
+          {{recipient}}
+        </h4>
+        <p *ngIf="courseName && issuedOn" class="sb-certificatePage-holder-desc">
+          <!-- {{resourceService?.frmelmnts?.lbl?.completingCourseSuccessfully}} -->
+          {{'For successfully completing the course, '}}
+          <strong class="d-block">“{{courseName || 'CourseName'}}”</strong>
+          <span class="d-block">
+            <!-- {{resourceService?.frmelmnts?.lbl?.onDiksha | interpolate:'{instance}':instance}} -->
+            on Aastrika Sphere on
+            <strong> {{issuedOn}}</strong>
+          </span>
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="sb-mobileDevice text-center" *ngIf="watchVideoLink">
+      <div class="sb-mobileDevice-screen">
+        <div class="sb-mobileDevice-sensors">
+          <div class="sb-mobileDevice-sensor"></div>
+          <div class="sb-mobileDevice-speaker"></div>
+          <div class="sb-mobileDevice-sensor"></div>
+        </div>
+        <div class="player-thumbnail" (click)="playContent(contentId)" *ngIf="showVideoThumbnail"></div>
+        <div class="h-100 certificate-area-player" *ngIf="!showVideoThumbnail">
+          <!-- <app-player class="content-player" [playerConfig]="playerConfig"></app-player> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-certificatePage sb-certificate-view min-height-auto">
+      <div class="sb-certificatePage-holder-details">
+        <a (click)="navigateToCoursesPage()"
+          class="mt-32 width-100 d-flex flex-jc-space-between p-8 cursor-pointer sb-btn-arrow"
+          title="Return to Courses">
+          <!-- {{resourceService?.frmelmnts?.lbl?.returnToCourses}}  -->
+          {{'Return to Courses '}}
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
