@@ -50,17 +50,17 @@ export class LearningCardComponent extends WidgetBaseComponent
 
   raiseTelemetry(content: any) {
     const url = `app/toc/` + `${content.identifier}` + `/overview`
-    if (localStorage.getItem('telemetrySessionId') === null) {
+    if (localStorage.getItem('telemetrySessionId') === null || localStorage.getItem('loginbtn') === null) {
       localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')
     } else {
-      this.router.navigateByUrl(url)
+      // this.router.navigateByUrl(url)
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
           if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
-            this.router.navigateByUrl(`/app/toc/${content.identifier}/overview?primaryCategory=Course`)
+            this.router.navigateByUrl(url)
           } else {
             const courseUrl = `/app/toc/${content.identifier}/overview`
             this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
