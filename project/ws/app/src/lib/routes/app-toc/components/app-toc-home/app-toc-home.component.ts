@@ -4,7 +4,6 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-// import { share } from 'rxjs/operators'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
@@ -77,6 +76,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
   body: SafeHtml | null = null
   contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
+  result: any
+  matspinner = true
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -108,6 +109,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
     if (this.route) {
       this.routeSubscription = this.route.data.subscribe((data: Data) => {
+
         // adding mock data
         // data.content.error = null
         // data.content.data = this.courseMockData.result.content
@@ -122,8 +124,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
             data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
           }
         } else {
-          if (sessionStorage.getItem('url_before_login')) {
-            const url = sessionStorage.getItem('url_before_login') || ''
+          if (localStorage.getItem('url_before_login')) {
+            const url = localStorage.getItem('url_before_login') || ''
             this.router.navigate([url])
           } else {
             this.router.navigate(['/app/login'])
@@ -152,6 +154,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+
   showContents() {
     this.getUserEnrollmentList()
   }
@@ -193,6 +196,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         break
       }
     }
+
+    this.matspinner = false
     this.getUserEnrollmentList()
     this.body = this.domSanitizer.bypassSecurityTrustHtml(
       this.content && this.content.body
