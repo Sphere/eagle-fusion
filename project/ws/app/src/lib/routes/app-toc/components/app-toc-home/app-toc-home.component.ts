@@ -4,7 +4,6 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-// import { share } from 'rxjs/operators'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
@@ -12,9 +11,6 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import * as _ from 'lodash'
 import moment from 'moment'
-// import { UserProfileService } from '../../../user-profile/services/user-profile.service'
-// import { of } from 'rxjs'
-// import { delay, mergeMap } from 'rxjs/operators'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -29,7 +25,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -103,7 +99,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
-    // private userProfileSvc: UserProfileService,
   ) {
   }
   ngOnInit() {
@@ -160,23 +155,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     )
   }
 
-  // async aboutYouRedirect(contentData: any) {
-  //   if (this.configSvc.unMappedUser) {
-  //     debugger
-  //     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((data: any) => {
-  //       return of(data)
-  //     })).subscribe(async (userDetails: any) => {
-  //       this.matspinner = false
-  //       if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-  //         if (contentData && contentData.identifier) {
-  //           const courseUrl = `/app/toc/${contentData.identifier}/overview`
-  //           await this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-  //         }
-  //       }
-  //     })
-  //   }
-  // }
-
   showContents() {
     this.getUserEnrollmentList()
   }
@@ -218,9 +196,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
         break
       }
     }
-    // this.aboutYouRedirect(this.content)
 
-    // setTimeout(() => {
     this.matspinner = false
     this.getUserEnrollmentList()
     this.body = this.domSanitizer.bypassSecurityTrustHtml(
@@ -230,7 +206,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
           : this.content.body
         : '',
     )
-    // }, 1000)
     this.contentParents = {}
   }
 

@@ -5,7 +5,7 @@
     </ws-tnc-renderer>
   </div>
 
-  <div class="tnc-bottom-navbar">
+  <div class="tnc-bottom-navbar" *ngIf="showAcceptbtn">
     <div class="decline-div">
       <button class="decline-btn cursor-pointer" (click)="gotoLogin()">
         <ng-container i18n>Decline</ng-container>

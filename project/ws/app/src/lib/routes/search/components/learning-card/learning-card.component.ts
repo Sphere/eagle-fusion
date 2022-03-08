@@ -49,7 +49,7 @@ export class LearningCardComponent extends WidgetBaseComponent
   }
 
   raiseTelemetry(content: any) {
-    const url = `app/toc/` + `${content.identifier}` + `/overview?primaryCategory=Course`
+    const url = `app/toc/` + `${content.identifier}` + `/overview`
     if (localStorage.getItem('telemetrySessionId') === null) {
       localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')

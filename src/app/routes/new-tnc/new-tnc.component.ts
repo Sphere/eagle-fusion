@@ -27,6 +27,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   result: any
   userId = ''
   createUserForm!: FormGroup
+  showAcceptbtn = true
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -59,6 +60,17 @@ export class NewTncComponent implements OnInit, OnDestroy {
         // this.errorFetchingTnc = true
       }
     })
+
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
+        if (userDetails.profileDetails) {
+          this.showAcceptbtn = false
+        } else {
+          this.showAcceptbtn = true
+        }
+      })
+    }
+
     this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
@@ -250,12 +262,4 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.errorInAccepting = false
     }
   }
-  // postProcess() {
-  //   this.http.patch('/apis/protected/v8/user/tnc/postprocessing', {}).subscribe()
-  // }
-  //   private openSnackbar(primaryMsg: string, duration: number = 3000) {
-  //   this.snackBar.open(primaryMsg, undefined, {
-  //     duration,
-  //   })
-  // }
 }
