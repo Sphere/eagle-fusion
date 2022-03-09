@@ -29,7 +29,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   maxResendTry = 4
 
   constructor(private router: Router, private signupService: SignupService,
-              private fb: FormBuilder, private snackBar: MatSnackBar,
+    private fb: FormBuilder, private snackBar: MatSnackBar,
     // private authSvc: AuthKeycloakService
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -37,7 +37,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     })
 
     this.emailForm = this.fb.group({
-       // tslint:disable-next-line:max-line-length
+      // tslint:disable-next-line:max-line-length
       userInput: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
     })
   }
@@ -50,7 +50,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    },         1000)
+    }, 1000)
   }
 
   forgotPassword(resendOTP?: string) {
@@ -66,6 +66,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.emailOrMobile = this.emailForm.value.userInput
 
     phone = this.emailOrMobile
+    phone = phone.replace(/[^0-9+#]/g, '')
     // Allow only indian mobile numbers
     if (phone.length >= 10) {
       this.key = 'phone'
@@ -124,7 +125,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
             this.router.navigate(['/app/login'])
             window.open(res.link, '_self')
             // this.authSvc.login('S', document.baseURI)
-          },         2000)
+          }, 2000)
         }
       },
       (error: any) => {
@@ -138,7 +139,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.disableResendButton = false
     setTimeout(() => {
       this.disableResendButton = true
-    },         1000)
+    }, 1000)
     const interval = setInterval(() => {
       this.resendOTPbtn = `Resend OTP(${(this.counter)})`
       // tslint:disable-next-line:no-bitwise
@@ -148,7 +149,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         clearInterval(interval)
         this.disableResendButton = false
       }
-    },                           1000)
+    }, 1000)
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 2000) {
