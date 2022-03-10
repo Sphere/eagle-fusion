@@ -83,7 +83,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -97,7 +97,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -209,7 +209,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
         const result = await this.signupService.fetchStartUpDetails()
-        localStorage.setItem(`loginbtn`, `userLoggedIn`)
+
         if (result.status === 400) {
           this.openSnackbar(result.error.params.errmsg)
         }
@@ -219,8 +219,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         if (result.status === 419) {
           this.openSnackbar(result.error.params.errmsg)
         }
-
         if (result.roles && result.roles.length > 0) {
+          localStorage.setItem(`loginbtn`, `userLoggedIn`)
           this.openSnackbar(results.msg)
           if (localStorage.getItem('url_before_login')) {
             location.href = localStorage.getItem('url_before_login') || ''
