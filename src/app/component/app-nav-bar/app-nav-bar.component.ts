@@ -107,6 +107,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
+  createAcct() {
+    localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/create-account')
+  }
+
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
     this.router.navigateByUrl('/page/home')
