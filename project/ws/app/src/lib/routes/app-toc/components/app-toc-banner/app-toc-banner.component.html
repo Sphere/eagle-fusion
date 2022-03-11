@@ -293,7 +293,7 @@
         </div>
       </div>
 
-      <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
+      <div class="header-right" id="banner" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
       </div>
     </div>
     <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
