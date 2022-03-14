@@ -73,11 +73,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
     })
 
-      if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
+    if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
+      this.showCreateBtn = true
+    } else {
+      this.showCreateBtn = false
+    }
 
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -107,8 +107,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
+  createAcct() {
+    localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/create-account')
+  }
+
   goHomePage() {
-    // sessionStorage.setItem('url_before_login', '/page/home')
+    // localStorage.setItem('url_before_login', '/page/home')
     this.router.navigateByUrl('/page/home')
   }
   ngOnChanges(changes: SimpleChanges) {

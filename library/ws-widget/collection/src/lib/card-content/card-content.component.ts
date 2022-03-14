@@ -1,17 +1,16 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, EventService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
-import { of, Subscription } from 'rxjs'
+import { ConfigurationsService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
+import { Subscription, of } from 'rxjs'
 import { NsGoal } from '../btn-goals/btn-goals.model'
 import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
 import { Router } from '@angular/router'
-import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { delay, mergeMap } from 'rxjs/operators'
-// import { Router } from '@angular/router';
+import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -43,13 +42,12 @@ export class CardContentComponent extends WidgetBaseComponent
   userDetails: any
 
   constructor(
-    private events: EventService,
     private configSvc: ConfigurationsService,
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
-    private router: Router,
-    private userProfileSvc: UserProfileService
+    private userProfileSvc: UserProfileService,
+    private router: Router
   ) {
     super()
     this.offSetXValue = 290
@@ -64,7 +62,7 @@ export class CardContentComponent extends WidgetBaseComponent
     if (url.indexOf('/public/home') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
-    if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+    if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {
       this.isUserLoggedIn = false
@@ -119,8 +117,8 @@ export class CardContentComponent extends WidgetBaseComponent
   }
   clickToRedirect(data: any) {
     if (this.configSvc.userProfile === null) {
-      sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-      const url = sessionStorage.getItem(`url_before_login`) || ''
+      localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+      const url = localStorage.getItem(`url_before_login`) || ''
       this.router.navigateByUrl(url)
     } else {
       this.raiseTelemetry()
@@ -180,11 +178,11 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(data: any) {
-    sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+    localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
     // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
 
-    // if (sessionStorage.getItem('login_url')) {
-    //   const url: any = sessionStorage.getItem('login_url')
+    // if (localStorage.getItem('login_url')) {
+    //   const url: any = localStorage.getItem('login_url')
     //   window.location.href = url
     // }
     // this.authSvc.login(key, document.baseURI)
@@ -318,11 +316,11 @@ export class CardContentComponent extends WidgetBaseComponent
         return of(data)
       })).subscribe((userDetails: any) => {
         if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
-          this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-            contentId: this.widgetData.content.identifier,
-            contentType: this.widgetData.content.contentType,
-            context: this.widgetData.context,
-          })
+          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
+          //   contentId: this.widgetData.content.identifier,
+          //   contentType: this.widgetData.content.contentType,
+          //   context: this.widgetData.context,
+          // })
           this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
         } else {
           const url = `/app/toc/${this.widgetData.content.identifier}/overview`

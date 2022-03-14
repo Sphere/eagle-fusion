@@ -2,14 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
-// import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
-// import { HttpClient } from '@angular/common/http'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
-// import { MatDialog } from '@angular/material'
-// import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { FormGroup } from '@angular/forms'
 
 @Component({
@@ -37,21 +33,9 @@ export class TncComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    // private http: HttpClient,
-    // private loggerSvc: LoggerService,
-    // private configSvc: ConfigurationsService,
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
-    // private matDialog: MatDialog,
-    // private userProfileSvc: UserProfileService
   ) {
-    // this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-    //   (data: any) => {
-    //     if (data) {
-    //       const userData = data.profileDetails.profileReq.personalDetails
-    //       this.tncFlag = userData.dob || ''
-    //     }
-    //   })
   }
 
   ngOnInit() {

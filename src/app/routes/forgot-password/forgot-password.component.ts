@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 // import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material'
 // import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
-import { EmailMobileValidators } from '../emailMobile.validator'
+// import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
   selector: 'ws-forgot-password',
@@ -37,8 +37,9 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     })
 
     this.emailForm = this.fb.group({
-      userInput: new FormControl(['']),
-    },                             { validators: EmailMobileValidators.combinePattern })
+      // tslint:disable-next-line:max-line-length
+      userInput: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+    })
   }
 
   ngOnInit() {
@@ -65,11 +66,12 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.emailOrMobile = this.emailForm.value.userInput
 
     phone = this.emailOrMobile
+    phone = phone.replace(/[^0-9+#]/g, '')
     // Allow only indian mobile numbers
-    if (phone.length === 10 && (/^[6-9]\d{9}$/.test(phone))) {
+    if (phone.length >= 10) {
       this.key = 'phone'
       const requestBody = {
-        userName: this.emailOrMobile,
+        userName: this.emailOrMobile.trim(),
       }
 
       this.signupService.forgotPassword(requestBody).subscribe(
@@ -84,10 +86,10 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
           this.openSnackbar(error.error)
         })
       // tslint:disable-next-line: max-line-length
-    } else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.emailOrMobile)) {
+    } else if (/^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(this.emailOrMobile)) {
 
       const requestBody = {
-        userName: this.emailOrMobile,
+        userName: this.emailOrMobile.trim(),
       }
       this.key = 'email'
       this.signupService.forgotPassword(requestBody).subscribe(

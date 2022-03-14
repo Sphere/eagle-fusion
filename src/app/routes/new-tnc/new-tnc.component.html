@@ -1,11 +1,11 @@
-<ws-header class="tnc-header"></ws-header>
+<!-- <ws-header class="tnc-header"></ws-header> -->
 <div class="tnc-main">
   <div class="tnc-render-content">
     <ws-tnc-renderer (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">
     </ws-tnc-renderer>
   </div>
 
-  <div class="tnc-bottom-navbar">
+  <div class="tnc-bottom-navbar" *ngIf="showAcceptbtn">
     <div class="decline-div">
       <button class="decline-btn cursor-pointer" (click)="gotoLogin()">
         <ng-container i18n>Decline</ng-container>

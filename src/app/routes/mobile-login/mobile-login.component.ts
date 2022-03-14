@@ -32,7 +32,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.route = location.path()
     this.loginForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      username: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9}|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$)$/)]),
+      username: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
       password: new FormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
@@ -53,8 +53,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public isSignedIn = false
   public signinURL = ''
-   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
-  //private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
+  private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
+  // private clientId = '770679530323-dla42fvs5g7ilep9912q3aj67678kabv.apps.googleusercontent.com'
   private scope = [
     'profile',
     'email',
@@ -71,19 +71,19 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
 
   public signinChanged(val: any) {
-    sessionStorage.removeItem('google_isSignedIn')
-    sessionStorage.setItem(`google_isSignedIn`, val)
+    localStorage.removeItem('google_isSignedIn')
+    localStorage.setItem(`google_isSignedIn`, val)
   }
 
   public userChanged(user: any) {
-    sessionStorage.removeItem('google_token')
-    sessionStorage.setItem(`google_token`, user.getAuthResponse().id_token)
+    localStorage.removeItem('google_token')
+    localStorage.setItem(`google_token`, user.getAuthResponse().id_token)
     location.reload()
   }
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -104,35 +104,38 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.checkGoogleAuth()
-    const storageItem1 = sessionStorage.getItem(`google_token`)
-    const req = {
-      idToken: storageItem1,
-    }
-    this.contentSvc.googleAuthenticate(req).subscribe(
-      async (results: any) => {
-        const result = await this.signupService.fetchStartUpDetails()
-        if (result.status === 401) {
-          this.openSnackbar(result.error.params.errmsg)
-        }
-        if (result.status === 419) {
-          this.openSnackbar(result.error.params.errmsg)
-        }
-        if (result.status === 200 && result.roles.length > 0) {
-          this.openSnackbar(results.msg)
-          if (sessionStorage.getItem('url_before_login')) {
-            location.href = sessionStorage.getItem('url_before_login') || ''
-          } else {
-            location.href = '/page/home'
-          }
-        }
-      },
-      (err: any) => {
-        // tslint:disable-next-line:no-console
-        console.log(err)
-        // this.errorMessage = err.error
-        this.router.navigate(['/app/login'])
+    const storageItem1 = localStorage.getItem(`google_token`)
+    const storageItem2 = localStorage.getItem(`google_isSignedIn`)
+    if (storageItem1 && storageItem2 && this.googleAuth) {
+      const req = {
+        idToken: storageItem1,
       }
-    )
+      this.contentSvc.googleAuthenticate(req).subscribe(
+        async (results: any) => {
+          const result = await this.signupService.fetchStartUpDetails()
+          if (result.status === 401) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 419) {
+            this.openSnackbar(result.error.params.errmsg)
+          }
+          if (result.status === 200 && result.roles.length > 0) {
+            this.openSnackbar(results.msg)
+            if (localStorage.getItem('url_before_login')) {
+              location.href = localStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
+          }
+        },
+        (err: any) => {
+          // tslint:disable-next-line:no-console
+          console.log(err)
+          // this.errorMessage = err.error
+          this.router.navigate(['/app/login'])
+        }
+      )
+    }
   }
 
   public googleInit() {
@@ -166,27 +169,27 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   loginUser() {
     let phone = this.loginForm.value.username
-    const validphone = /^[6-9]\d{9}$/.test(phone)
-    const alphaNumeric = /^[a-zA-Z0-9] +$/i.test(phone)
+    // const validphone = /^([- ]*)[6-9]\d{9}([- ]*)$/.test(phone)
+    // const alphaNumeric = /^[a-zA-Z0-9 ] +$/i.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-    const email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-      this.loginForm.value.username)
+    // const email = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+    //   this.loginForm.value.username)
     // if (!validphone && phone !== '') {
     //   this.openSnackbar('Enter valid Phone Number')
     // }
-    if (!email && !validphone) {
-      // this.openSnackbar('Enter valid email address')
-      this.errorMessage = 'Enter valid email address'
-    }
-    if (phone.length < 10 && phone !== '' && alphaNumeric) {
-      // this.openSnackbar('Enter 10 digits Phone Number')
-      this.errorMessage = 'Enter 10 digits Phone Number'
-    }
+    // if (!email && !validphone) {
+    //   // this.openSnackbar('Enter valid email address')
+    //   this.errorMessage = 'Enter valid email address'
+    // }
+    // if (phone.length < 10 && phone !== '' && alphaNumeric) {
+    //   // this.openSnackbar('Enter 10 digits Phone Number')
+    //   this.errorMessage = 'Enter 10 digits Phone Number'
+    // }
     // at least 10 in number
     if (phone.length >= 10) {
       this.emailPhoneType = 'phone'
     } else {
-      if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+      if (/^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
         this.loginForm.value.username)) {
         this.emailPhoneType = 'email'
       }
@@ -194,18 +197,19 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     let req
     if (this.emailPhoneType === 'email') {
       req = {
-        email: this.loginForm.value.username,
-        password: this.loginForm.value.password,
+        email: this.loginForm.value.username.trim(),
+        password: this.loginForm.value.password.trim(),
       }
     } else {
       req = {
-        mobileNumber: this.loginForm.value.username,
-        password: this.loginForm.value.password,
+        mobileNumber: this.loginForm.value.username.trim(),
+        password: this.loginForm.value.password.trim(),
       }
     }
     this.contentSvc.loginAuth(req).subscribe(
       async (results: any) => {
         const result = await this.signupService.fetchStartUpDetails()
+
         if (result.status === 400) {
           this.openSnackbar(result.error.params.errmsg)
         }
@@ -215,10 +219,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         if (result.status === 419) {
           this.openSnackbar(result.error.params.errmsg)
         }
-        if (result.roles.length > 0) {
+        if (result.roles && result.roles.length > 0) {
+          localStorage.setItem(`loginbtn`, `userLoggedIn`)
           this.openSnackbar(results.msg)
-          if (sessionStorage.getItem('url_before_login')) {
-            location.href = sessionStorage.getItem('url_before_login') || ''
+          if (localStorage.getItem('url_before_login')) {
+            location.href = localStorage.getItem('url_before_login') || ''
           } else {
             location.href = '/page/home'
           }
@@ -228,7 +233,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // this.openSnackbar(err.error.error)
         // tslint:disable-next-line:no-console
         console.log(err.error.error)
-        this.errorMessage = 'Invalid username or password.'
+        // this.errorMessage = 'Invalid username or password.'
+        this.errorMessage = err.error.error
       }
     )
   }

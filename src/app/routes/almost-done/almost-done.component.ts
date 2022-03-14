@@ -325,6 +325,7 @@ export class AlmostDoneComponent implements OnInit {
         this.activateRoute.queryParams.subscribe(params => {
           const url = params.redirect
           if (url) {
+            localStorage.removeItem('url_before_login')
             this.router.navigate([url])
           } else {
             this.router.navigate(['page', 'home'])

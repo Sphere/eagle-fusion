@@ -42,7 +42,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
-
       setTimeout(() => {
         const data2 = {
           current: 10,
@@ -51,11 +50,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         500)
+      },         50)
 
       this.contentSvc.changeMessage('youtube')
     }
-
   }
 
   constructor(
@@ -78,15 +76,15 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   ngOnInit() {
     // this.mobAppSvc.simulateMobile()
-    if (this.htmlContent && this.htmlContent.identifier) {
-      this.scormAdapterService.contentId = this.htmlContent.identifier
-      // this.scormAdapterService.loadData()
-      this.scormAdapterService.loadDataV2()
-    }
+    // if (this.htmlContent && this.htmlContent.identifier) {
+    //   console.log(this.htmlContent.identifier)
+    //   this.scormAdapterService.contentId = this.htmlContent.identifier
+    //   // this.scormAdapterService.loadData()
+    //   this.scormAdapterService.loadDataV2()
+    // }
 
   }
   ngAfterViewInit() {
-    this.urlContains = this.iframeElem.nativeElement.src
   }
 
   ngOnDestroy() {
@@ -94,7 +92,41 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     // window.removeEventListener('onmessage', this.receiveMessage)
   }
 
+  executeForms() {
+    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+      setTimeout(() => {
+        const data2 = {
+          current: 10,
+          max_size: 10,
+          mime_type: this.mimeType,
+        }
+        // @ts-ignore: Object is possibly 'null'.
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
+      },         50)
+
+      this.contentSvc.changeMessage('docs.google')
+    }
+  }
   ngOnChanges() {
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.urlContains = this.htmlContent.artifactUrl
+    }
+
+    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
+      this.executeForms()
+    }
+
+    if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+      this.contentSvc.changeMessage('scorm')
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      // this.scormAdapterService.loadData()
+      this.scormAdapterService.loadDataV2()
+    }
+
     this.isIntranetUrl = false
     this.progress = 100
     this.pageFetchStatus = 'fetching'
@@ -142,10 +174,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       }
 
       this.showIsLoadingMessage = false
+
       if (this.htmlContent.isIframeSupported !== 'No') {
         setTimeout(
           () => {
-            if (this.pageFetchStatus === 'fetching') {
+            if (this.pageFetchStatus === 'fetching' && !this.urlContains.includes('docs.google')) {
               this.showIsLoadingMessage = true
             }
           },
@@ -222,7 +255,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
               this.contentSvc.changeMessage('html')
             }
-          },         500)
+          },         50)
         }
 
       } else {

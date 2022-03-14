@@ -17,8 +17,9 @@
       class="status-danger"></div>
     <mat-card-content>
       <div class="flex flex-middle" [title]="content.name">
-        <a (click)="raiseTelemetry()" [routerLink]="(content | pipeContentRoute).url"
-          [queryParams]="(content | pipeContentRoute).queryParams" class="image-section">
+        <!--[routerLink]="(content | pipeContentRoute).url"
+          [queryParams]="(content | pipeContentRoute).queryParams" -->
+        <a (click)="raiseTelemetry(content)" class="image-section cursor-pointer">
           <img i18n-alt alt="thumbnail" class="mat-lite-background" [src]="content.appIcon"
             [wsUtilsDefaultThumbnail]="defaultThumbnail" />
         </a>
@@ -26,9 +27,10 @@
           <h1 [title]="content.name" class="margin-remove-top margin-remove-bottom flex flex-middle">
             <mat-icon *ngIf="contentProgress > 0.99" i18n-matTooltip matTooltip="Completed" class="completed-icon">
               check_circle</mat-icon>
-            <a (click)="raiseTelemetry()" [routerLink]="(content | pipeContentRoute).url"
-              [queryParams]="(content | pipeContentRoute).queryParams"
-              class="margin-remove-bottom text-truncate mat-title">{{ content.name }}</a>
+            <!--[routerLink]="(content | pipeContentRoute).url"
+              [queryParams]="(content | pipeContentRoute).queryParams" -->
+            <a (click)="raiseTelemetry(content)"
+              class="margin-remove-bottom text-truncate mat-title cursor-pointer">{{ content.name }}</a>
           </h1>
           <span>
             <ws-widget-display-content-type i18n-matTooltip matTooltip="Content Type"
