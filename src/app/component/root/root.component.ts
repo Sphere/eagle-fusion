@@ -168,10 +168,10 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
-          event.url.includes('/app/create-account') || event.url.includes('/app/new-tnc')) {
+          event.url.includes('/app/create-account')) {
           this.hideHeaderFooter = true
           this.isNavBarRequired = false
-        } else if (event.url.includes('/app/about-you')) {
+        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
         } else {
@@ -189,7 +189,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
-      // if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
+      // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
       //   this.isNavBarRequired = true
       //   this.showNavigation = false
       // } else {
@@ -220,8 +220,8 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.hideHeaderFooter = show
     })
 
-    // if (sessionStorage.getItem('url_before_login')) {
-    //   const url = sessionStorage.getItem(`url_before_login`) || ''
+    // if (localStorage.getItem('url_before_login')) {
+    //   const url = localStorage.getItem(`url_before_login`) || ''
     //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
     //   // this.location.replaceState(url)
     //   this.router.navigateByUrl(url)

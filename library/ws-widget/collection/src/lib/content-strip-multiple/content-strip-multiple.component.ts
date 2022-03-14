@@ -264,7 +264,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
               }
             })
           }
-          if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+          if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
             // this.tocSvc.setcontentForWidget(contentNew)
             this.processStrip(
               strip,
@@ -649,10 +649,10 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
   setHiddenForStrip(key: string) {
     this.stripsResultDataMap[key].showStrip = false
-    sessionStorage.setItem(`cstrip_${key}`, '1')
+    localStorage.setItem(`cstrip_${key}`, '1')
   }
   private getIfStripHidden(key: string): boolean {
-    const storageItem = sessionStorage.getItem(`cstrip_${key}`)
+    const storageItem = localStorage.getItem(`cstrip_${key}`)
     return Boolean(storageItem !== '1')
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
-import { Subscription } from 'rxjs'
+import { Subscription, of } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -10,6 +10,8 @@ import { TncPublicResolverService } from '../../services/tnc-public-resolver.ser
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
+import { SignupService } from '../signup/signup.service'
+import { delay, mergeMap } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -22,8 +24,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
   isAcceptInProgress = false
   errorInAccepting = false
   isPublic = false
+  result: any
   userId = ''
   createUserForm!: FormGroup
+  showAcceptbtn = true
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -41,10 +45,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private tncPublicSvc: TncPublicResolverService,
     private userProfileSvc: UserProfileService,
     private http: HttpClient,
+    private signupService: SignupService,
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
@@ -55,6 +60,18 @@ export class NewTncComponent implements OnInit, OnDestroy {
         // this.errorFetchingTnc = true
       }
     })
+
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
+        if (userDetails.profileDetails) {
+          this.showAcceptbtn = false
+        } else {
+          this.showAcceptbtn = true
+        }
+      })
+    }
+
+    this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
 
@@ -206,11 +223,32 @@ export class NewTncComponent implements OnInit, OnDestroy {
         if (data) {
           this.configSvc.profileDetailsStatus = true
           this.configSvc.hasAcceptedTnc = true
+          if (this.result.tncStatus) {
+            if (this.configSvc.unMappedUser) {
+              this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
+                return of(userData)
+              })).subscribe((userDetails: any) => {
+                if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
+
+                  if (localStorage.getItem('url_before_login')) {
+                    const courseUrl = localStorage.getItem('url_before_login')
+                    this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+                  } else {
+                    location.href = '/page/home'
+                  }
+                } else {
+                  location.href = localStorage.getItem('url_before_login') || ''
+                }
+              })
+            }
+          } else {
+            location.href = '/page/home'
+          }
           // location.href = '/page/home'
-          this.router.navigate(['/page/home'])
-            .then(() => {
-              window.location.reload()
-            })
+          // this.router.navigate(['/page/home'])
+          //   .then(() => {
+          //     window.location.reload()
+          //   })
         }
       },
                                                                     (err: any) => {
@@ -224,12 +262,4 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.errorInAccepting = false
     }
   }
-  // postProcess() {
-  //   this.http.patch('/apis/protected/v8/user/tnc/postprocessing', {}).subscribe()
-  // }
-  //   private openSnackbar(primaryMsg: string, duration: number = 3000) {
-  //   this.snackBar.open(primaryMsg, undefined, {
-  //     duration,
-  //   })
-  // }
 }

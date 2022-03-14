@@ -59,11 +59,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.navBar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
     }
-      if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
-        this.showCreateBtn = false
-      } else {
-        this.showCreateBtn = true
-      }
+    if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
+      this.showCreateBtn = false
+    } else {
+      this.showCreateBtn = true
+    }
     // this.subscriptionLogin = this.activateRoute.data.subscribe(data => {
     //   // todo
     //   this.loginConfig = data.pageData.data
@@ -129,8 +129,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   login() {
-    // if (sessionStorage.getItem('login_url')) {
-    //   const url: any = sessionStorage.getItem('login_url')
+    // if (localStorage.getItem('login_url')) {
+    //   const url: any = localStorage.getItem('login_url')
     //   window.location.href = url
     // }
     this.router.navigateByUrl('app/login')
