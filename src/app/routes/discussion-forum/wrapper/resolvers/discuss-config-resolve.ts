@@ -16,7 +16,6 @@ export class DiscussConfigResolve
     _route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot,
   ): Observable<any> {
-    debugger
     const config = {
       menuOptions: [
         {

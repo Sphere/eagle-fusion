@@ -20,9 +20,9 @@ export class LicenseComponent implements OnInit {
   /*
 * to unsubscribe the observable
 */
-  public unsubscribe = new Subject<void>();
+  public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService, private route: ActivatedRoute,
-    private configSvc: ConfigurationsService, private widgetContentSvc: WidgetContentService, private tocSvc: AppTocService,) {
+              private configSvc: ConfigurationsService, private widgetContentSvc: WidgetContentService, private tocSvc: AppTocService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })
@@ -52,7 +52,7 @@ export class LicenseComponent implements OnInit {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-      (err: HttpErrorResponse) => {
+                                                            (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

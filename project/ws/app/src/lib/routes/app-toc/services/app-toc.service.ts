@@ -35,9 +35,9 @@ export class AppTocService {
   analyticsFetchStatus: TFetchStatus = 'none'
   private showSubtitleOnBanners = false
   private canShowDescription = false
-  public _showComponent = new BehaviorSubject<any>(undefined);
+  public _showComponent = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
-  showComponent$ = this._showComponent.asObservable();
+  showComponent$ = this._showComponent.asObservable()
   batchReplaySubject: Subject<any> = new Subject()
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null

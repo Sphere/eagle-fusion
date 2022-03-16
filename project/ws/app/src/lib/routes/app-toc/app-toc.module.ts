@@ -214,7 +214,7 @@ import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-wid
     ApiService,
     AccessControlService,
     ProfileResolverService,
-    DiscussConfigResolve
+    DiscussConfigResolve,
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent],
   entryComponents: [

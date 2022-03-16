@@ -26,7 +26,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  }, [])
+  },                  [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -34,7 +34,6 @@ const flattenItems = (items: any[], key: string | number) => {
   styleUrls: ['./app-toc-home.component.scss'],
 })
 export class AppTocHomeComponent implements OnInit, OnDestroy {
-
 
   get enableAnalytics(): boolean {
     if (this.configSvc.restrictedFeatures) {
@@ -82,7 +81,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
   discussionConfig: any = {}
   loadDiscussionWidget = false
-  routelinK: string = 'overview'
+  routelinK = 'overview'
   result: any
   matspinner = true
 
@@ -309,7 +308,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   redirectTo() {
     this.routelinK = 'discuss'
     this.loadDiscussionWidget = true
-    this.tocSvc._showComponent.next({ 'showComponent': false })
+    this.tocSvc._showComponent.next({ showComponent: false })
   }
   toggleComponent(cname: string) {
     this.routelinK = ''
@@ -320,7 +319,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     } else if (cname === 'license') {
       this.routelinK = 'license'
     }
-    this.tocSvc._showComponent.next({ 'showComponent': true })
+    this.tocSvc._showComponent.next({ showComponent: true })
     this.loadDiscussionWidget = false
   }
   checkRoute() {

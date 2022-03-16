@@ -22,7 +22,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     ConfigurationsService,
-    DiscussConfigResolve
+    DiscussConfigResolve,
   ],
 })
 export class RouteDiscussModule { }

@@ -27,11 +27,11 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
   tocConfig: any = null
   contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
   objKeys = Object.keys
-  public loadOverview = true;
+  public loadOverview = true
   /*
 * to unsubscribe the observable
 */
-  public unsubscribe = new Subject<void>();
+  public unsubscribe = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
     private tocSharedSvc: AppTocService,

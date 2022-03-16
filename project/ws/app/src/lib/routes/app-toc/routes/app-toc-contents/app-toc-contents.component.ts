@@ -32,7 +32,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   /*
 * to unsubscribe the observable
 */
-  public unsubscribe = new Subject<void>();
+  public unsubscribe = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
