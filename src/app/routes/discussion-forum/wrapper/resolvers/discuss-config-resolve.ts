@@ -9,7 +9,8 @@ import { ConfigurationsService } from '@ws-widget/utils'
 export class DiscussConfigResolve
   implements
   Resolve<any> {
-  constructor(private discussUtilitySvc: DiscussUtilsService,
+  constructor(
+    private discussUtilitySvc: DiscussUtilsService,
     public configSvc: ConfigurationsService) { }
 
   resolve(
