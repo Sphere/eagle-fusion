@@ -1,0 +1,74 @@
+p {
+  margin: 0 !important;
+  font-weight: 400;
+}
+.start-btn {
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 25px;
+  margin-top: 20px;
+  background: #1C5D95;
+  color: #fff;
+  cursor: pointer;
+}
+.follow-btn {
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 25px;
+  margin-top: 20px;
+  border: 1px solid #1C5D95;
+  color: #1C5D95;
+  cursor: pointer;
+}
+.card {
+  margin-top: 10px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+  padding: 20px 0;
+  border: none;
+}
+.follow-card {
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 185px;
+  text-align: center;
+  padding: 15px 0;
+  margin-right: 15px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;
+}
+.follow-img {
+  border: 1px solid grey;
+  border-radius: 50%;
+  position: relative;
+  left: 30%;
+}
+.horizontal-scroll-content {
+  overflow-x: auto;
+  height: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: stretch;
+  padding-left: 5px;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+
+:host ::ng-deep .column {
+  width: 140%;
+  margin-right: 60px;
+  cursor: pointer;
+}
+
+.category-img-box {
+  margin-right: 5px;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+  padding: 6px 2px;
+}
+.how-work-content {
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  margin-bottom: 15px;
+}

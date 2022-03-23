@@ -1,0 +1,173 @@
+<div style="padding:90px 20px 30px;">
+  <p>Hi User! Here are some courses for you</p>
+  <p style="font-size:20px;">Start Learning</p>
+
+  <section style="box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;">
+    <a href="app/toc/do_1134170690099118081470/overview?primaryCategory=Course">
+      <div style="height: 200px; margin: 20px 0;">
+        <div style="text-align:center;"><img
+            src="https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134172312759009281507/artifact/do_1134172312759009281507_1637848567343_fernandezfoundationprimarylogo20191599049077665.jpg">
+        </div>
+        <div style="padding-left: 15px;">
+          <p style="color:#1C5D95; font-weight: 400; font-size:16px;">Respectful Maternity Care</p>
+          <p style="font-weight: 400; font-size:14px;">Evita Fernandez, Indie Kaur</p>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- How does it work section -->
+  <section>
+    <p style="font-size:20px;">How does it work?</p>
+    <p style="font-weight: 400;font-size: 14px; color:#808080">3 simple steps</p>
+    <div style="margin-top: 10px">
+      <div class="how-work-content">
+        <iframe width="80" height="55" src="https://www.youtube.com/embed/pQN-pnXPaVg">
+        </iframe>
+        <div style="padding-left: 16px;">
+          <p style="font-size: 0.95rem;">Register for a course</p>
+          <p style="font-weight: 400; font-size: 0.85rem;
+            color:#808080;line-height: 1.3;">Explore various courses and pick the ones you like
+          </p>
+        </div>
+      </div>
+
+      <div class="how-work-content">
+        <iframe width="80" height="55" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+        </iframe>
+        <div style="padding-left: 16px;">
+          <p style="font-size: 0.95rem;">Take the course</p>
+          <p style="font-weight: 400; font-size: 0.85rem;
+                                  color:#808080;line-height: 1.3;">Access the course anytime, at your convinience
+          </p>
+        </div>
+      </div>
+
+      <div class="how-work-content">
+        <iframe width="80" height="55" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+        </iframe>
+        <div style="padding-left: 16px;">
+          <p style="font-size: 0.95rem;">Get certified</p>
+          <p style="font-weight: 400; font-size: 0.85rem;
+                                  color:#808080;line-height: 1.3;">Receive downloadable and shareable certificates
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section style="margin-top: 20px;">
+    <p style="font-size:20px;">Categories</p>
+    <div class="horizontal-scroll-content">
+      <div *ngFor="let category of categories;">
+        <div class="column" style="padding: 10px 0;">
+          <a style="display: flex;">
+            <div class="category-img-box">
+              <img [src]="category.first.image" height="50" width="60" alt="{{category.first.name}}" />
+            </div>
+            <div style="margin: auto 0;">
+              <p style="font-size: 0.95rem;">{{category.first.name}}</p>
+              <span style="font-weight: 400; font-size: 0.85rem;
+                          color:#808080;line-height: 1.3;">{{category.first.courseCount}} Courses
+              </span>
+            </div>
+          </a>
+          <a style="display: flex; margin-top: 10px;">
+            <div class="category-img-box">
+              <img [src]="category.second.image" height="50" width="60" alt="{{category.second.name}}" />
+            </div>
+            <div style="margin: auto 0;">
+              <p style="font-size: 0.95rem;">{{category.second.name}}</p>
+              <span style="font-weight: 400; font-size: 0.85rem;
+                                            color:#808080;line-height: 1.3;">{{category.second.courseCount}} Courses
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top certified courses -->
+  <section style="margin-top: 20px;">
+    <p style="font-size:20px;">Top certified courses</p>
+    <div *ngFor="let course of courseContent">
+      <div style="height: 220px;
+              border-radius: 10px;
+              margin: 20px 0;">
+
+        <a href="#">
+          <div style="height: 220px; box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;">
+            <div style="text-align:center;"><img style="min-width: 276px; max-width: 276px;" src={{course.appIcon}}>
+            </div>
+            <div style="padding-left: 15px;">
+              <p style="color:#1C5D95; font-weight: 400; font-size:16px;">{{course.name}}
+              </p>
+              <p style="font-weight: 400; font-size:14px;">{{course.sourceName}}</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+    <a href="app/search/learning">
+      <p style="text-align: center;
+    color: #7777cb;">View all courses</p>
+    </a>
+  </section>
+</div>
+
+<!-- Featured Section-->
+<section style="background-color: #F7F7F7; padding:20px;">
+  <p style="font-size:20px;">Featured</p>
+  <div class="card">
+    <img class="card-img-top" src="../../../fusion-assets/images/about-you.png" alt="Course image" height="200"
+      width="200">
+    <div class="card-body">
+      <p style="color:#1C5D95; font-size: 20px; line-height: 2rem;">Respectful Maternity Care</p>
+      <p class="card-text" style="font-weight: 400;">This module will enable you to be a part of the voice that
+        advocates for women's rights
+        during childbirth
+        and learn how to provide companssionate care
+      </p>
+      <a href="#" class="btn start-btn">Start now!</a>
+    </div>
+  </div>
+</section>
+
+<!-- People follow Section -->
+<section style="padding:20px;">
+  <p style="font-size:20px;">People you may want to follow</p>
+  <p>because you saw Manyata for Mothers</p>
+  <div class="horizontal-scroll-content">
+    <div *ngFor="let i of [1,2,3,4,5,6,7]" style="height: 260px;">
+      <div class="card follow-card">
+        <img src="../../../fusion-assets/images/about-you.png" alt="Course image" width="85" height="85"
+          class="follow-img">
+        <div class="card-body" style="padding: 0.3rem 1rem;">
+          <p class="card-title" style="color:#1C5D95; font-size: 17px;">Rahul Patel</p>
+          <p style="color:#808080; font-weight: 400; font-size: 13px;">Completed Manyata for Mothers</p>
+          <a href="#" class="btn follow-btn">Follow</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <div style="padding:0 20px"> -->
+<section style="box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px; padding:0 20px">
+  <a href="app/toc/do_11346794242655027211/overview?primaryCategory=Course&batchId=0134694301717381121">
+    <div style="margin: 20px 0;">
+      <div style="text-align:center;"><img style="min-width: 276px; max-width: 276px;"
+          src="https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_113467989581168640164/artifact/do_113467989581168640164_1644041708901_ipt1643623591444.jpg">
+      </div>
+      <div style="padding-left: 15px; padding-bottom: 10px;">
+        <p style="color:#1C5D95; font-weight: 400; font-size:16px;">Integrated Sexual and Reproduction Health (ISRH)
+        </p>
+        <p style="font-weight: 400; font-size:14px;">KLE Institute of Physiotherapy Belagavi, Varsha Huddar</p>
+      </div>
+    </div>
+  </a>
+</section>
+<!-- </div> -->

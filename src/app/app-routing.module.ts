@@ -32,6 +32,7 @@ import { YourLocationComponent as AboutYou } from './routes/your-location/your-l
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -236,6 +237,10 @@ const routes: Routes = [
   {
     path: 'app/about-you',
     component: AboutYou,
+  },
+  {
+    path: 'app/dashboard',
+    component: MobileDashboardComponent,
   },
   {
 

@@ -76,7 +76,7 @@
             Create Account</button>
         </ng-container>
       </a>
-      <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
+      <!-- <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
         routerLinkActive="ws-mat-accent-text" *ngIf="!showCreateBtn">
         <ng-container *ngIf="!appBottomIcon">
           <mat-icon>home</mat-icon>
@@ -87,7 +87,7 @@
         <ng-container *ngIf="appBottomIcon">
           <img width="40px" height="40px" [src]="appBottomIcon" i18n-alt alt="Home" />
         </ng-container>
-      </a>
+      </a> -->
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">
