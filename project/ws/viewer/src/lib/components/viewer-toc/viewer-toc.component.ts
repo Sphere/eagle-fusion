@@ -449,7 +449,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
-          debugger
           if (this.collection && this.collection.children) {
             mergeData(this.collection.children)
             function mergeData(collection: any) {
@@ -478,7 +477,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         },
       )
       this.nestedDataSource.data = this.collection.children
-      console.log(this.nestedDataSource.data)
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
       if (this.resourceId) {
