@@ -61,6 +61,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
+  isMobile: boolean
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -77,6 +78,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     // private location: Location
   ) {
     this.mobileAppsSvc.init()
+    this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
   }
 
   ngOnInit() {

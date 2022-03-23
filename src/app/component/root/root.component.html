@@ -14,6 +14,7 @@
       (isXSmall$ | async) === false &&
       showNavbar && isNavBarRequired
   }">
+  <ws-mobile-dashboard *ngIf="isMobile"></ws-mobile-dashboard>
   <router-outlet></router-outlet>
 </div>
 

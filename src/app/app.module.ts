@@ -182,7 +182,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
-    MobileCourseViewComponent
+    MobileCourseViewComponent,
+    MobileDashboardComponent
   ],
   bootstrap: [RootComponent],
   entryComponents: [
