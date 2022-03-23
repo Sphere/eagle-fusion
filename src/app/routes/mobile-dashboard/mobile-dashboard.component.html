@@ -83,23 +83,9 @@
   <section style="margin-top: 20px;">
     <p style="font-size:20px;">Top certified courses</p>
     <div *ngFor="let course of courseContent">
-      <div style="height: 220px;
-              border-radius: 10px;
-              margin: 20px 0;">
-
-        <a href="#">
-          <div style="height: 220px; box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;">
-            <div style="text-align:center;"><img style="min-width: 276px; max-width: 276px;" src={{course.appIcon}}>
-            </div>
-            <div style="padding-left: 15px;">
-              <p style="color:#1C5D95; font-weight: 400; font-size:16px;">{{course.name}}
-              </p>
-              <p style="font-weight: 400; font-size:14px;">{{course.sourceName}}</p>
-            </div>
-          </div>
-        </a>
-
-      </div>
+      <ng-container *ngIf="courseContent && courseContent.length>0">
+        <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
+      </ng-container>
     </div>
     <a href="app/search/learning">
       <p style="text-align: center;

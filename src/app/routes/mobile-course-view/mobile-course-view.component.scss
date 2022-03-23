@@ -6,8 +6,12 @@
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 10px;
 }
+.course-container .appIcon {
+  min-width: 276px;
+  max-width: 276px;
+}
 .course-container .box {
-  height: 200px;
+  height: 250px;
    margin: 20px 0;
 }
 .course-container .name {
