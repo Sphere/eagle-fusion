@@ -67,7 +67,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   collectionId = ''
   resourceContentType: any
-
+  disabledNode = true
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -163,7 +163,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.scrollToUserView(index)
     }
   }
- async ngOnChanges() {
+  async ngOnChanges() {
     await this.contentSvc.currentMessage.subscribe(
       (data: any) => {
         if (data) {
@@ -171,7 +171,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
       })
   }
- scrollToUserView(index: number) {
+  scrollToUserView(index: number) {
 
     setTimeout(() => {
       if (index > 3) {
@@ -207,14 +207,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
-   ngAfterViewInit() {
+  ngAfterViewInit() {
 
-      setTimeout(() => {
+    setTimeout(() => {
       this.checkIndexOfResource()
-    },           300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -449,6 +449,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
+          debugger
           if (this.collection && this.collection.children) {
             mergeData(this.collection.children)
             function mergeData(collection: any) {
@@ -477,6 +478,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         },
       )
       this.nestedDataSource.data = this.collection.children
+      console.log(this.nestedDataSource.data)
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
       if (this.resourceId) {
