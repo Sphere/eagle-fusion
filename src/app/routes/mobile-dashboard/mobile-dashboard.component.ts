@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 
@@ -9,16 +8,12 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 })
 export class MobileDashboardComponent implements OnInit {
   courseContent: any
-  categories: any
 
-  constructor(private http: HttpClient,
-    private orgService: OrgServiceService) {
+  constructor(private orgService: OrgServiceService) {
   }
 
   ngOnInit() {
-    this.http.get('../../../fusion-assets/files/categories.json').subscribe((data: any) => {
-      this.categories = data.categories
-    })
+
     this.searchV6Wrapper()
   }
 

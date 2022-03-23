@@ -82,6 +82,7 @@ import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
+import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -131,7 +132,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     HeaderComponent,
     GoogleCallbackComponent,
     MobileDashboardComponent,
-    MobileCourseViewComponent
+    MobileCourseViewComponent,
+    MobileCategoryComponent
   ],
   imports: [
     FormsModule,

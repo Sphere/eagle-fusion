@@ -116,6 +116,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
       if (event instanceof NavigationStart) {
+        debugger
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
           this.isNavBarRequired = false

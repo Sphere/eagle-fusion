@@ -11,7 +11,5 @@ export class MobileCourseViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.courseData)
   }
-
 }
