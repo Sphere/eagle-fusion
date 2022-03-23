@@ -24,10 +24,10 @@
   <!-- Tree -->
   <div class="flex mt-10">
     <span role="button" matRipple class="margin-left-xs mt-2 width-9-10">
-      <h2 class="text-truncate margin-remove">Course Content</h2>
+      <h2 class="text-truncate margin-remove" id="course content-title">Course Content</h2>
     </span>
     <button class="width-9-10" mat-icon-button (click)="minimizenav()">
-      <mat-icon class="">arrow_back_ios</mat-icon>
+      <mat-icon class="" name="video full screen-arrow">arrow_back_ios</mat-icon>
     </button>
   </div>
   <div [ngClass]="{'outer-ul': queue.length > 7}" #outer>
@@ -153,17 +153,17 @@
 
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
         queryParamsHandling="preserve" (click)="sendStatus(content)">
-        <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
+        <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" id="course content-subtitle"
+          class="margin-remove flex sub-heading">
           {{ content?.title }} <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
             {{content.completionPercentage}}% |
           </span>
           <!--           <span *ngIf="content?.completionPercentage === null || content?.completionPercentage === undefined"> &nbsp;|ll
             0% |
           </span> -->
-          <mat-icon title="Completion Percentage : {{content?.completionPercentage}}%" *ngIf="
-              content?.completionPercentage === 100
-            " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-center">
-            check_circle_outline</mat-icon>
+          <mat-icon title="Completion Percentage : {{content?.completionPercentage}}%"
+            *ngIf="content?.completionPercentage === 100" i18n-matTooltip matTooltip="Completed"
+            class="completed-icon margin-left-xs align-self-center">check_circle_outline</mat-icon>
         </h3>
         <span class="mat-body-1">
           <span>{{ content.type | pipeLimitTo: 300 }}</span> </span>

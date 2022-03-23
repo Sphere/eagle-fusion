@@ -120,20 +120,21 @@
     </ws-widget-display-content-type-icon> -->
 
     <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-      (click)="viewChildren = !viewChildren; reDirect(resourceLink)" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      name="thumbnail-banner-img" (click)="viewChildren = !viewChildren; reDirect(resourceLink)"
+      [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="flex flex-between width-expand">
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
         <div class="text-truncate cursor-pointer 2" (click)="viewChildren = !viewChildren">
-          <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
+          <h2 class="margin-remove text-truncate" name="content-heading">{{ content?.name }}</h2>
           <span class="content-top"
             *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseResourcePercentage">
-            <img [src]="greenTickIcon" class="image" />
+            <img [src]="greenTickIcon" class="image" name="greentick-icon" />
           </span>
           <ng-template #elseResourcePercentage>
-            <img [src]="redTickIcon" class="image" />
+            <img [src]="redTickIcon" class="image" name="redtick-icon" />
           </ng-template>
           <div>
-            <span class="mat-body-strong">{{ resourceContentType }}</span>
+            <span class="mat-body-strong" id="video">{{ resourceContentType }}</span>
             <span>
               <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
               {{ content?.duration | pipeDurationTransform: 'hms' }}
