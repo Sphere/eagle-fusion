@@ -98,8 +98,7 @@
 </ng-template>
 <!-- Template -->
 <ng-template let-content #TocContentCard>
-  <a class="width-expand flat-list-content margin-xs"
-    [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.completionPercentage == undefined &&  disabledNode ? true : false }"
+  <a class="width-expand flat-list-content margin-xs" [ngClass]="{ 'content-active': pathSet.has(content.identifier)}"
     matRipple (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve">
     <span class="width-expand flex flex-middle">
 
@@ -152,8 +151,8 @@
     </ws-widget-display-content-type-icon> -->
     <div class="resource-meta width-expand">
 
-      <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.completionPercentage == undefined &&  disabledNode ? true : false  }"
-        [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)">
+      <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) }" [routerLink]="content.viewerUrl"
+        queryParamsHandling="preserve" (click)="sendStatus(content)">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }} <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
             {{content.completionPercentage}}% |
