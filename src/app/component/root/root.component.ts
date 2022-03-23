@@ -61,7 +61,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
-  isMobile: boolean
+  viewAll = false;
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -78,7 +78,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     // private location: Location
   ) {
     this.mobileAppsSvc.init()
-    this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
+    //this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
   }
 
   ngOnInit() {
@@ -133,6 +133,10 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
+        } else if (event.url.includes('/app/search/learning')) {
+          this.viewAll = true
+          this.isNavBarRequired = true
+          this.showNavbar = true
         } else {
           this.isNavBarRequired = true
         }
