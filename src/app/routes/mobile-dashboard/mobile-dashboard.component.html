@@ -1,20 +1,10 @@
 <div style="padding:90px 20px 30px;">
   <p>Hi User! Here are some courses for you</p>
   <p style="font-size:20px;">Start Learning</p>
+  <ng-container *ngIf="courseContent && courseContent.length>0">
+    <ws-mobile-course-view [courseData]="courseContent[0]"></ws-mobile-course-view>
+  </ng-container>
 
-  <section style="box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;">
-    <a href="app/toc/do_1134170690099118081470/overview?primaryCategory=Course">
-      <div style="height: 200px; margin: 20px 0;">
-        <div style="text-align:center;"><img
-            src="https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134172312759009281507/artifact/do_1134172312759009281507_1637848567343_fernandezfoundationprimarylogo20191599049077665.jpg">
-        </div>
-        <div style="padding-left: 15px;">
-          <p style="color:#1C5D95; font-weight: 400; font-size:16px;">Respectful Maternity Care</p>
-          <p style="font-weight: 400; font-size:14px;">Evita Fernandez, Indie Kaur</p>
-        </div>
-      </div>
-    </a>
-  </section>
 
   <!-- How does it work section -->
   <section>

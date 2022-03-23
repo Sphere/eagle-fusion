@@ -25,6 +25,7 @@ export class MobileDashboardComponent implements OnInit {
   searchV6Wrapper() {
     this.orgService.getLiveSearchResults().subscribe((result: any) => {
       this.courseContent = result.result.content
+      console.log(this.courseContent[0])
       this.courseContent.splice(3)
     })
   }

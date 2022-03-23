@@ -81,6 +81,7 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
+import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -129,7 +130,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     CompleteProfileComponent,
     HeaderComponent,
     GoogleCallbackComponent,
-    MobileDashboardComponent
+    MobileDashboardComponent,
+    MobileCourseViewComponent
   ],
   imports: [
     FormsModule,
@@ -180,6 +182,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
+    MobileCourseViewComponent
   ],
   bootstrap: [RootComponent],
   entryComponents: [
