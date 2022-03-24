@@ -61,7 +61,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
-  viewAll = false;
+  mobileView = false;
   showMobileDashboard = true
   constructor(
     private router: Router,
@@ -135,8 +135,8 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
-        } else if (event.url.includes('/app/search/learning')) {
-          this.viewAll = true
+        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player')) {
+          this.mobileView = true
           this.isNavBarRequired = true
           this.showNavbar = true
         } else {

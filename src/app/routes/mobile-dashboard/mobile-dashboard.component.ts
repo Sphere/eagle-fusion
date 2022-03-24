@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-// import { RouteActivitiesModule } from '../route-activities.module'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -12,7 +12,7 @@ export class MobileDashboardComponent implements OnInit {
   topThreeCourse: any
 
   constructor(private orgService: OrgServiceService,
-    // private router: RouteActivitiesModule
+    private router: Router,
   ) {
   }
 
@@ -30,6 +30,6 @@ export class MobileDashboardComponent implements OnInit {
 
   openIframe(event: any) {
     console.log(event)
-    // this.router
+    this.router.navigateByUrl('app/video-player')
   }
 }

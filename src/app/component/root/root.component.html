@@ -15,7 +15,7 @@
       showNavbar && isNavBarRequired
   }">
 
-  <!-- <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && !viewAll && isLoggedIn"></ws-mobile-dashboard> -->
+  <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && !mobileView && isLoggedIn"></ws-mobile-dashboard>
   <router-outlet></router-outlet>
 </div>
 
