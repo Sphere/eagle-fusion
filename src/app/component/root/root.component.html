@@ -14,8 +14,9 @@
       (isXSmall$ | async) === false &&
       showNavbar && isNavBarRequired
   }">
-  <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && !viewAll"></ws-mobile-dashboard>
-  <router-outlet *ngIf="(isXSmall$ | async) === false || viewAll"></router-outlet>
+
+  <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && !viewAll && isLoggedIn"></ws-mobile-dashboard>
+  <router-outlet *ngIf="(isXSmall$ | async) === false || viewAll || !isLoggedIn"></router-outlet>
 </div>
 
 <ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"

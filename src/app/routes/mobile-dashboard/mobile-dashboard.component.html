@@ -7,7 +7,10 @@
 
 
   <!-- How does it work section -->
-  <ws-mobile-how-does-work (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+  <ng-container>
+    <ws-mobile-how-does-work (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+  </ng-container>
+
 
   <!-- Categories Section -->
   <section class="mt-4">

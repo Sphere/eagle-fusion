@@ -62,6 +62,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   hideHeaderFooter = false
   isLoggedIn = false
   viewAll = false;
+  showMobileDashboard = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -130,6 +131,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           event.url.includes('/app/create-account')) {
           this.hideHeaderFooter = true
           this.isNavBarRequired = false
+          this.showMobileDashboard = false
         } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
