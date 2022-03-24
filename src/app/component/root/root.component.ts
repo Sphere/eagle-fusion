@@ -76,10 +76,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    // private location: Location
   ) {
     this.mobileAppsSvc.init()
-    //this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
   }
 
   ngOnInit() {
