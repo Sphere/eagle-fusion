@@ -11,16 +11,18 @@
   max-width: 276px;
 }
 .course-container .box {
-  height: 250px;
-   margin: 20px 0;
+  // height: 250px;
+  margin: 20px 0;
+  padding-bottom: 5px;
 }
 .course-container .name {
   color:#1C5D95;
   font-weight: 400;
-   font-size:16px;
+  font-size:16px;
+  margin-bottom: 0 !important;
 }
 
 .course-container .creator {
   font-weight: 400;
-  font-size:14px;
+  font-size:12px;
 }

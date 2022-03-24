@@ -84,6 +84,8 @@ import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashb
 import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
 import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 import { MobileHowDoesWorkComponent } from './routes/mobile-how-does-work/mobile-how-does-work.component'
+import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -135,7 +137,9 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileDashboardComponent,
     MobileCourseViewComponent,
     MobileCategoryComponent,
-    MobileHowDoesWorkComponent
+    MobileHowDoesWorkComponent,
+    MobileVideoPlayerComponent,
+    MobileFooterComponent
   ],
   imports: [
     FormsModule,

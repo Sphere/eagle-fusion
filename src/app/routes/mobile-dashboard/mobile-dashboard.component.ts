@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+// import { RouteActivitiesModule } from '../route-activities.module'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -8,8 +9,11 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 })
 export class MobileDashboardComponent implements OnInit {
   courseContent: any
+  topThreeCourse: any
 
-  constructor(private orgService: OrgServiceService) {
+  constructor(private orgService: OrgServiceService,
+    // private router: RouteActivitiesModule
+  ) {
   }
 
   ngOnInit() {
@@ -20,12 +24,12 @@ export class MobileDashboardComponent implements OnInit {
   searchV6Wrapper() {
     this.orgService.getLiveSearchResults().subscribe((result: any) => {
       this.courseContent = result.result.content
-      console.log(this.courseContent[0])
-      this.courseContent.splice(3)
+      this.topThreeCourse = this.courseContent.slice(1, 4)
     })
   }
 
   openIframe(event: any) {
     console.log(event)
+    // this.router
   }
 }

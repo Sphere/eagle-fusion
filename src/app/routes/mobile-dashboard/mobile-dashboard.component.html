@@ -21,7 +21,7 @@
   <!-- Top certified courses -->
   <section class="mt-4">
     <p class="text-xl">Top certified courses</p>
-    <div *ngFor="let course of courseContent">
+    <div *ngFor="let course of topThreeCourse">
       <ng-container *ngIf="courseContent && courseContent.length>0">
         <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
       </ng-container>
@@ -71,6 +71,6 @@
 
 <div class="py-0 px-4">
   <ng-container *ngIf="courseContent && courseContent.length>0">
-    <ws-mobile-course-view [courseData]="courseContent[0]"></ws-mobile-course-view>
+    <ws-mobile-course-view [courseData]="courseContent[5]"></ws-mobile-course-view>
   </ng-container>
 </div>

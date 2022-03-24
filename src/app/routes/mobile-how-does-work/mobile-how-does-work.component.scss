@@ -5,3 +5,18 @@
   display: flex;
   margin-bottom: 15px;
 }
+video {
+  border-radius: 10px;
+}
+.videoTitle {
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 5px !important;
+}
+
+.videoDes {
+  color: #808080;
+  font-size: 12px;
+  font-weight: 400;
+}

@@ -63,3 +63,9 @@ ws-app-nav-bar {
   //   padding-bottom: 0px;
   // }
 }
+
+@media screen and (max-width:600px) {
+  .hide-in-mobile {
+    display: none;
+  }
+}
