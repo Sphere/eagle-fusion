@@ -32,8 +32,9 @@
   </ng-container>
 </mat-toolbar>
 <!-- pageData==>{{pageData | json}} -->
-<ng-container *ngIf="!error && authenticated" [wsResolverWidget]="pageData?.pageLayout"></ng-container>
-<ng-container *ngIf="!error && !authenticated" [wsLoginResolverWidget]="pageData?.pageLayout"></ng-container>
+<ng-container *ngIf="!error && authenticated && !isXSmall" [wsResolverWidget]="pageData?.pageLayout"></ng-container>
+<ng-container *ngIf="!error && !authenticated && !isXSmall" [wsLoginResolverWidget]="pageData?.pageLayout">
+</ng-container>
 <h2 *ngIf="error" class="mat-error margin-top-m text-center">
   <ng-container *ngIf="error === 'NoContent'" i18n>
     Page not found. Check the url.

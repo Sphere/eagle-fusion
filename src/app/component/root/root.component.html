@@ -16,7 +16,7 @@
   }">
 
   <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && !viewAll && isLoggedIn"></ws-mobile-dashboard>
-  <router-outlet *ngIf="(isXSmall$ | async) === false || viewAll || !isLoggedIn"></router-outlet>
+  <router-outlet></router-outlet>
 </div>
 
 <ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
