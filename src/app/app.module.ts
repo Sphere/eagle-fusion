@@ -83,6 +83,7 @@ import { GoogleCallbackComponent } from './routes/google-callback/google-callbac
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
 import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+import { MobileHowDoesWorkComponent } from './routes/mobile-how-does-work/mobile-how-does-work.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -133,7 +134,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     GoogleCallbackComponent,
     MobileDashboardComponent,
     MobileCourseViewComponent,
-    MobileCategoryComponent
+    MobileCategoryComponent,
+    MobileHowDoesWorkComponent
   ],
   imports: [
     FormsModule,
@@ -185,7 +187,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
     MobileCourseViewComponent,
-    MobileDashboardComponent
+    MobileDashboardComponent,
+    MobileHowDoesWorkComponent
   ],
   bootstrap: [RootComponent],
   entryComponents: [

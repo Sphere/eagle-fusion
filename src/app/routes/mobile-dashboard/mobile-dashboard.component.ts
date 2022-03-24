@@ -24,4 +24,8 @@ export class MobileDashboardComponent implements OnInit {
       this.courseContent.splice(3)
     })
   }
+
+  openIframe(event: any) {
+    console.log(event)
+  }
 }
