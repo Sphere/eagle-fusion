@@ -160,7 +160,10 @@ button:focus,
   width: 100%;
   height: 56px;
 }
-
+.discuss-home{
+ margin: 0 !important;
+ padding: 10px 32px !important;
+}
 // visibility & hiding
 [hidden] {
   display: none !important;

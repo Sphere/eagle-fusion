@@ -136,6 +136,11 @@ app-content-icon {
   margin-left: 4px;
 }
 
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
 ::ng-deep mat-tree-node .li-active {
   background-color: #ede5d6;
 }
