@@ -61,7 +61,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
-  mobileView = false;
+  mobileView = true;
   showMobileDashboard = true
   constructor(
     private router: Router,
@@ -124,21 +124,25 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
+          this.mobileView = true
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account')) {
           this.hideHeaderFooter = true
           this.isNavBarRequired = false
           this.showMobileDashboard = false
+          this.mobileView = false
         } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
-        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player')) {
-          this.mobileView = true
+          this.mobileView = false
+        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') || event.url.includes('/app/profile/dashboard')) {
+          this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
         } else {
           this.isNavBarRequired = true
+          this.mobileView = false
         }
         this.routeChangeInProgress = true
         this.changeDetector.detectChanges()

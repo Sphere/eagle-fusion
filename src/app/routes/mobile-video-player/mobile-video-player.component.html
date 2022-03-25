@@ -19,7 +19,9 @@
     <div class="mt-4">
       <P class="title">Watch Next</P>
       <ng-container>
-        <ws-mobile-how-does-work (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+        <ws-mobile-how-does-work [data]="videoData | slice:videoIndex+1:videoData.length-1"
+          (openPlayer)="openIframe($event)">
+        </ws-mobile-how-does-work>
       </ng-container>
     </div>
   </div>

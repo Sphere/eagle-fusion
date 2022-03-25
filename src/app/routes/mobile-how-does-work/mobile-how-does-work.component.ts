@@ -10,28 +10,15 @@ export class MobileHowDoesWorkComponent implements OnInit {
   /** to listen the eevnt **/
   @Output() openPlayer = new EventEmitter()
 
-  videos = [
-    {
-      "url": "./../../fusion-assets/videos/videoplayback.mp4",
-      "title": "Register for a course",
-      "description": "Explore various courses and pick the ones you like"
-    },
-    {
-      "url": "./../../fusion-assets/videos/videoplayback.mp4",
-      "title": "Take the course",
-      "description": "Access the course anytime, at your convinience"
-    },
-    {
-      "url": "./../../fusion-assets/videos/videoplayback.mp4",
-      "title": "Get certified",
-      "description": "Receive downloadable and shareable certificates"
-    },
-  ]
   constructor() { }
 
   ngOnInit() {
   }
-  openIframe(data?: any) {
-    this.openPlayer.emit(data)
+  openIframe(data?: any, index?: any) {
+    const emitData = {
+      videoData: data,
+      videoIndex: index
+    }
+    this.openPlayer.emit(emitData)
   }
 }
