@@ -6,7 +6,7 @@
       </div>
       <div class="pl-3 pt-3">
         <p class="name">{{courseData.name}}</p>
-        <p class="creator">{{courseData.creator}}</p>
+        <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p>
       </div>
     </div>
   </a>

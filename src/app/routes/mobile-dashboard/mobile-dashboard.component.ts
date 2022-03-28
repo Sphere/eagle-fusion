@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { delay } from 'rxjs/operators'
-import { NsContent, WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
+import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-
+import { forkJoin } from 'rxjs'
+import _ from 'lodash'
 @Component({
   selector: 'ws-mobile-dashboard',
   templateUrl: './mobile-dashboard.component.html',
@@ -14,7 +15,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 export class MobileDashboardComponent implements OnInit {
   myCourse: any
   topCertifiedCourse: any
-  courseUserEnroll: any
+  userEnrollCourse: any
   videoData: any
   homeFeatureData: any
   homeFeature: any
@@ -46,13 +47,44 @@ export class MobileDashboardComponent implements OnInit {
         "description": "Receive downloadable and shareable certificates"
       },
     ]
-    this.searchV6Wrapper()
+
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
-      this.fetchEnrollCourse()
-    }
-  }
+      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults()]).pipe().subscribe((res: any) => {
+        this.formatmyCourseResponse(res[0])
+        if (res[1].result.content.length > 0) {
+          this.topCertifiedCourse = res[1].result.content.slice(1, 4)
+          this.formatTopCertifiedCourseResponse(res[1])
+          console.log(this.topCertifiedCourse)
+        }
 
+      })
+    }
+
+  }
+  formatTopCertifiedCourseResponse(res: any) {
+    const topCertifiedIdentifier = ['do_11346794242655027211', 'do_1134178372845649921545']
+    _.forEach(topCertifiedIdentifier, (key) => {
+      const certiedObject = _.filter(res.result.content, { 'identifier': key })
+      console.log(certiedObject)
+    })
+
+  }
+  formatmyCourseResponse(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+    _.forEach(res, (key) => {
+      if (res.completionPercentage !== 100) {
+        myCourseObject = {
+          'identifier': key.content.identifier,
+          'appIcon': key.content.appIcon,
+          'name': key.content.name
+        }
+        myCourse.push(myCourseObject)
+      }
+    })
+    this.userEnrollCourse = myCourse
+  }
   mobileJsonData() {
     this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
@@ -67,15 +99,7 @@ export class MobileDashboardComponent implements OnInit {
     })
   }
 
-  //For my courses
-  fetchEnrollCourse() {
-    this.userSvc.fetchUserBatchList(this.userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        if (courses && courses.length) {
-          this.courseUserEnroll = courses
-        }
-      })
-  }
+
 
   // For opening Course Page
   raiseTelemetry(contentIdentifier: any) {

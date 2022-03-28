@@ -1,17 +1,8 @@
 <div class="content">
   <p>Hi User! Here are some courses for you</p>
   <p class="text-xl">Start Learning</p>
-  <ng-container *ngIf="courseUserEnroll && courseUserEnroll.length>0">
-    <a (click)="raiseTelemetry(courseUserEnroll[0].courseId)">
-      <div class="box box-shadow-radius">
-        <div class="text-center">
-          <img class="appIcon" src="{{courseUserEnroll[0].courseLogoUrl}}">
-        </div>
-        <div class="pl-3 pt-3">
-          <p class="courseName">{{courseUserEnroll[0].courseName}}</p>
-        </div>
-      </div>
-    </a>
+  <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+    <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
   </ng-container>
 
 
@@ -31,7 +22,7 @@
   <section class="mt-4">
     <p class="text-xl">Top certified courses</p>
     <div *ngFor="let course of topCertifiedCourse">
-      <ng-container *ngIf="myCourse && myCourse.length>0">
+      <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
         <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
       </ng-container>
     </div>
