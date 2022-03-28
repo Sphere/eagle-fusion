@@ -37,10 +37,37 @@ input {
   border-top: 1px solid #7B6961
 }
 
-.footer-image {
-  width: 80px;
-}
-
 .img-cont {
   width: 33.33%
+}
+
+.footer-heading {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+
+.footer-image {
+  height: auto;
+  max-width: 40%;
+}
+
+.docs-footer {
+  background: #f7f7f7;
+  color: #fff;
+  margin-bottom: 5rem;
+  padding-bottom: 2rem;
+}
+
+.docs-footer-list {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 8px;
+}
+
+.docs-footer-copyright {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 225px;
 }

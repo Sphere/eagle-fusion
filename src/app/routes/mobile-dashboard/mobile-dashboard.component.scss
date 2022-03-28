@@ -66,3 +66,18 @@ p {
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 10px;
 }
+
+.appIcon {
+  min-width: 276px;
+  max-width: 276px;
+}
+.box {
+  margin: 20px 0;
+  padding-bottom: 5px;
+}
+.courseName {
+  color:#1C5D95;
+  font-weight: 400;
+  font-size:16px;
+  margin-bottom: 0 !important;
+}
