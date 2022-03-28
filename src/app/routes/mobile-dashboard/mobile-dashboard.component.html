@@ -2,7 +2,7 @@
   <p>Hi User! Here are some courses for you</p>
   <p class="text-xl">Start Learning</p>
   <ng-container *ngIf="courseUserEnroll && courseUserEnroll.length>0">
-    <a href="#">
+    <a (click)="raiseTelemetry(courseUserEnroll[0].courseId)">
       <div class="box box-shadow-radius">
         <div class="text-center">
           <img class="appIcon" src="{{courseUserEnroll[0].courseLogoUrl}}">
@@ -81,7 +81,7 @@
 <div class="py-0 px-4">
   <ng-container *ngIf="courseUserEnroll && courseUserEnroll.length>0">
     <!-- <div *ngFor="let courseEnroll of courseUserEnroll"> -->
-    <a href="#">
+    <a (click)="raiseTelemetry(courseUserEnroll[1].courseId)">
       <div class="box box-shadow-radius">
         <div class="text-center">
           <img class="appIcon" src={{courseUserEnroll[1].courseLogoUrl}}>

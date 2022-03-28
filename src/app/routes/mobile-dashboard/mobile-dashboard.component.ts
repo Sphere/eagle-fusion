@@ -77,6 +77,11 @@ export class MobileDashboardComponent implements OnInit {
       })
   }
 
+  // For opening Course Page
+  raiseTelemetry(contentIdentifier: any) {
+    this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
+  }
+
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -85,6 +90,5 @@ export class MobileDashboardComponent implements OnInit {
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
   }
-
 
 }
