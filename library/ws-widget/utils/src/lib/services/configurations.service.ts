@@ -45,6 +45,7 @@ export class ConfigurationsService {
   userPreference: IUserPreference | null = null
   userProfile: NsUser.IUserProfile | null = null
   userProfileV2: NsUser.IUserProfile | null = null
+  nodebbUserProfile: NsUser.INodebbUserProfile | null = null
   // created to store complete user details sent by pid
   unMappedUser: any
   isAuthenticated = false

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Data } from '@angular/router'
-import { Subject, Observable, Subscription } from 'rxjs'
+import { Subject, Observable, Subscription, BehaviorSubject } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 import { NsContentConstants } from '@ws-widget/collection/src/lib/_constants/widget-content.constants'
@@ -35,6 +35,9 @@ export class AppTocService {
   analyticsFetchStatus: TFetchStatus = 'none'
   private showSubtitleOnBanners = false
   private canShowDescription = false
+  public _showComponent = new BehaviorSubject<any>(undefined)
+  // Observable navItem stream
+  showComponent$ = this._showComponent.asObservable()
   batchReplaySubject: Subject<any> = new Subject()
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null

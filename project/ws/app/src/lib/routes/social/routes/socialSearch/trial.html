@@ -13,7 +13,8 @@
       <div *ngIf="!showFilter && filterEnabled" class="text-right">
         <button mat-icon-button *ngIf="!showFilter" (click)="showFilter = !showFilter;">
           <mat-icon>filter_list</mat-icon>
-        </button></div>
+        </button>
+      </div>
       <div *ngIf="showFilter && filterEnabled">
         <mat-card *ngIf="predefinedAdminFiltersExist">
           <mat-card-content>
@@ -150,7 +151,8 @@
             <button class="text-xs">
               <svg class="w-5 fill-current text-grey" style="color: lightgreen;" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20">
-                <path d="M7 10v8h6v-8h5l-8-8-8 8h5z" /></svg>
+                <path d="M7 10v8h6v-8h5l-8-8-8 8h5z" />
+              </svg>
               <span class="ml-2 text-xs font-semibold text-grey">1700</span>
             </button>
 
@@ -158,7 +160,8 @@
           <div class="flex hover:bg-grey-lighter p-1 ml-2">
             <button class="text-xs">
               <svg class="w-5 fill-current text-grey" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M7 10V2h6v8h5l-8 8-8-8h5z" /></svg>
+                <path d="M7 10V2h6v8h5l-8 8-8-8h5z" />
+              </svg>
 
               <span class="ml-2 text-xs font-semibold text-grey">700</span>
             </button>

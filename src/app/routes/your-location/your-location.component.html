@@ -9,7 +9,7 @@
 <div class="login-page-content" *ngIf="!yourBackground">
   <div class="login-card">
 
-    <div class="create-acct-text mb-4">Tell us more about you
+    <div class="create-acct-text mb-4" name="location-detail-heading">Tell us more about you
       <p style="font-size: 16px;">And unlock access to multiple courses</p>
     </div>
 
@@ -24,9 +24,9 @@
 
           <div class="form-group mt-4 input-box">
             <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
-              (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob"
+              (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob" id="dob-inputfield"
               class="form-control dob-input" (click)="picker.open()">
-            <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle [for]="picker" id="datepicker-icon"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </div>
           <div>
@@ -34,7 +34,7 @@
           </div>
 
           <div class="form-group input-box">
-            <select id="country" formControlName="country" class="form-control select-box"
+            <select id="country" formControlName="country" class="form-control select-box" name="country-input-field"
               (change)="countrySelect($event.target.value);disableNextBtn()">
               <option [value]=null disabled>Country</option>
               <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
@@ -42,7 +42,7 @@
           </div>
 
           <div class="form-group input-box">
-            <select id="state" formControlName="state" class="form-control select-box"
+            <select id="state" formControlName="state" class="form-control select-box" name="state-input-field"
               (change)="stateSelect($event.target.value);disableNextBtn()"
               [attr.disabled]="selectDisable ? 'disabled' : null">
               <option [value]=null disabled>State</option>
@@ -51,7 +51,7 @@
           </div>
 
           <div class="form-group input-box">
-            <select id="distict" formControlName="distict" class="form-control select-box"
+            <select id="distict" formControlName="distict" class="form-control select-box" name="distict-input-field"
               [attr.disabled]="selectDisable ? 'disabled' : null" (change)="disableNextBtn()">
               <option [value]=null disabled>City/Distict</option>
               <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
@@ -59,7 +59,7 @@
           </div>
 
           <div class="next-btn-div">
-            <button class="form-group login-button" name="login" type="submit"
+            <button class="form-group login-button" name="login" type="submit" id="next-btn"
               [disabled]="!aboutYouForm?.valid || nextBtnDisable || invalidDob"
               (click)="onsubmit(aboutYouForm)">Next</button>
           </div>
