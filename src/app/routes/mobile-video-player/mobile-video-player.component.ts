@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router'
 @Component({
   selector: 'ws-mobile-video-player',
   templateUrl: './mobile-video-player.component.html',
@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router'
 export class MobileVideoPlayerComponent implements OnInit {
   videoIndex: any
   videoData: any
-  constructor(public route: ActivatedRoute) {
+  constructor(public router: Router, public route: ActivatedRoute) {
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',
@@ -33,5 +33,12 @@ export class MobileVideoPlayerComponent implements OnInit {
       this.videoIndex = params['video']
     })
   }
-
+  openIframe(video: any) {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        video: video.videoIndex,
+      },
+    }
+    this.router.navigate(['/app/video-player'], navigationExtras)
+  }
 }

@@ -16,9 +16,6 @@
   }">
 
   <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn"></ws-mobile-dashboard>
-
-  <ws-mobile-page *ngIf="(isXSmall$ | async) === true && mobileView && !isLoggedIn"></ws-mobile-page>
-
   <router-outlet></router-outlet>
 </div>
 

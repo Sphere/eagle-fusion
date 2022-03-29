@@ -70,18 +70,7 @@
 </section>
 
 <div class="py-0 px-4">
-  <ng-container *ngIf="courseUserEnroll && courseUserEnroll.length>0">
-    <!-- <div *ngFor="let courseEnroll of courseUserEnroll"> -->
-    <a (click)="raiseTelemetry(courseUserEnroll[1].courseId)">
-      <div class="box box-shadow-radius">
-        <div class="text-center">
-          <img class="appIcon" src={{courseUserEnroll[1].courseLogoUrl}}>
-        </div>
-        <div class="pl-3 pt-3">
-          <p class="courseName">{{courseUserEnroll[1].courseName}}</p>
-        </div>
-      </div>
-    </a>
-    <!-- </div> -->
+  <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+    <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
   </ng-container>
 </div>

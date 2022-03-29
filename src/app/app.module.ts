@@ -84,8 +84,6 @@ import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashb
 import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
-import { MobilePageLatestCourseComponent } from './routes/mobile-page-latest-course/mobile-page-latest-course.component'
-import { MobileCreateBtnComponent } from './routes/mobile-create-btn/mobile-create-btn.component'
 import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 // import { ServiceWorkerModule } from '@angular/service-worker'
@@ -140,8 +138,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileCategoryComponent,
     MobileVideoPlayerComponent,
     MobileFooterComponent,
-    MobilePageLatestCourseComponent,
-    MobileCreateBtnComponent,
   ],
   imports: [
     FormsModule,
