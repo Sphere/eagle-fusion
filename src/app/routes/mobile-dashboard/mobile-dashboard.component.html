@@ -1,6 +1,6 @@
 <div class="content">
-  <p>Hi User! Here are some courses for you</p>
-  <p class="text-xl">Start Learning</p>
+  <p *ngIf="userEnrollCourse && userEnrollCourse.length>0">Hi User! Here are some courses for you</p>
+  <p class="text-xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Start Learning</p>
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
   </ng-container>
@@ -69,7 +69,7 @@
   </div>
 </section>
 
-<div class="py-0 px-4">
+<div class="py-1 px-4 mb-6">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
   </ng-container>
