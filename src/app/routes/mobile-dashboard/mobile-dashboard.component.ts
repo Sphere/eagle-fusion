@@ -21,10 +21,10 @@ export class MobileDashboardComponent implements OnInit {
   homeFeature: any
   userId: any
   constructor(private orgService: OrgServiceService,
-              private configSvc: ConfigurationsService,
-              private userSvc: WidgetUserService,
-              private router: Router,
-              private http: HttpClient
+    private configSvc: ConfigurationsService,
+    private userSvc: WidgetUserService,
+    private router: Router,
+    private http: HttpClient
   ) {
 
   }
@@ -97,13 +97,6 @@ export class MobileDashboardComponent implements OnInit {
   mobileJsonData() {
     this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
-    })
-  }
-  // For certified courses
-  searchV6Wrapper() {
-    this.orgService.getLiveSearchResults().subscribe((response: any) => {
-      this.myCourse = response.result.content
-      this.topCertifiedCourse = this.myCourse.slice(1, 4)
     })
   }
 
