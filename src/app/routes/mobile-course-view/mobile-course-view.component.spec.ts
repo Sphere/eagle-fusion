@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { MobileCourseViewComponent } from './mobile-course-view.component';
+import { MobileCourseViewComponent } from './mobile-course-view.component'
 
 describe('MobileCourseViewComponent', () => {
-  let component: MobileCourseViewComponent;
-  let fixture: ComponentFixture<MobileCourseViewComponent>;
+  let component: MobileCourseViewComponent
+  let fixture: ComponentFixture<MobileCourseViewComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MobileCourseViewComponent ]
+      declarations: [MobileCourseViewComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MobileCourseViewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(MobileCourseViewComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

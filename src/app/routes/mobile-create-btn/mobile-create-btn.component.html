@@ -1,0 +1,8 @@
+<div class="px-4 sm:px-8 md:px-10ss py-0 my-0 mt-5"
+  *ngIf="stripsResultDataMap[key].showStrip && callPublicApi && !explorePage">
+  <ws-utils-horizontal-scroller *ngIf="stripsResultDataMap[key]?.widgets?.length " [loadStatus]="'done'">
+
+    <ng-container *ngFor="let widget of stripsResultDataMap[key]?.widgets" [wsLoginResolverWidget]="widget">
+    </ng-container>
+  </ws-utils-horizontal-scroller>
+</div>

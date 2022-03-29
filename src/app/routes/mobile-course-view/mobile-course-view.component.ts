@@ -4,12 +4,12 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'ws-mobile-course-view',
   templateUrl: './mobile-course-view.component.html',
-  styleUrls: ['./mobile-course-view.component.scss']
+  styleUrls: ['./mobile-course-view.component.scss'],
 })
 export class MobileCourseViewComponent implements OnInit {
 
   @Input() courseData: any
-  constructor(private router: Router,) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }

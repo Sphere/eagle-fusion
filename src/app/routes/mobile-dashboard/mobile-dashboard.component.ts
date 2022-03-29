@@ -6,7 +6,7 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { forkJoin } from 'rxjs'
-import _ from 'lodash'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-mobile-dashboard',
   templateUrl: './mobile-dashboard.component.html',
@@ -21,10 +21,10 @@ export class MobileDashboardComponent implements OnInit {
   homeFeature: any
   userId: any
   constructor(private orgService: OrgServiceService,
-    private configSvc: ConfigurationsService,
-    private userSvc: WidgetUserService,
-    private router: Router,
-    private http: HttpClient
+              private configSvc: ConfigurationsService,
+              private userSvc: WidgetUserService,
+              private router: Router,
+              private http: HttpClient
   ) {
 
   }
@@ -32,19 +32,19 @@ export class MobileDashboardComponent implements OnInit {
   async ngOnInit() {
     this.videoData = [
       {
-        "url": "./../../fusion-assets/videos/videoplayback.mp4",
-        "title": "Register for a course",
-        "description": "Explore various courses and pick the ones you like",
+        url: './../../fusion-assets/videos/videoplayback.mp4',
+        title: 'Register for a course',
+        description: 'Explore various courses and pick the ones you like',
       },
       {
-        "url": "./../../fusion-assets/videos/videoplayback.mp4",
-        "title": "Take the course",
-        "description": "Access the course anytime, at your convinience"
+        url: './../../fusion-assets/videos/videoplayback.mp4',
+        title: 'Take the course',
+        description: 'Access the course anytime, at your convinience',
       },
       {
-        "url": "./../../fusion-assets/videos/videoplayback.mp4",
-        "title": "Get certified",
-        "description": "Receive downloadable and shareable certificates"
+        url: './../../fusion-assets/videos/videoplayback.mp4',
+        title: 'Get certified',
+        description: 'Receive downloadable and shareable certificates',
       },
     ]
 
@@ -60,17 +60,18 @@ export class MobileDashboardComponent implements OnInit {
 
   }
   formatTopCertifiedCourseResponse(res: any) {
-    const topCertifiedIdentifier = ['do_11346794242655027211', 'do_1134178372845649921545', 'do_1134170690068725761467', 'do_11342648503935795211688']
+    const topCertifiedIdentifier = ['do_11346794242655027211', 'do_1134178372845649921545',
+      'do_1134170690068725761467', 'do_11342648503935795211688']
     const topCertifiedCourse: any = []
     let certifiedObject = {}
-    _.forEach(topCertifiedIdentifier, (key) => {
-      _.forEach(res.result.content, (ckey) => {
+    _.forEach(topCertifiedIdentifier, key => {
+      _.forEach(res.result.content, ckey => {
         if (ckey.identifier === key) {
           certifiedObject = {
-            'identifier': ckey.identifier,
-            'appIcon': ckey.appIcon,
-            'name': ckey.name,
-            'creator': ckey.creator
+            identifier: ckey.identifier,
+            appIcon: ckey.appIcon,
+            name: ckey.name,
+            creator: ckey.creator,
           }
         }
       })
@@ -81,12 +82,12 @@ export class MobileDashboardComponent implements OnInit {
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    _.forEach(res, (key) => {
+    _.forEach(res, key => {
       if (res.completionPercentage !== 100) {
         myCourseObject = {
-          'identifier': key.content.identifier,
-          'appIcon': key.content.appIcon,
-          'name': key.content.name
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          name: key.content.name,
         }
         myCourse.push(myCourseObject)
       }
@@ -96,18 +97,15 @@ export class MobileDashboardComponent implements OnInit {
   mobileJsonData() {
     this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
-      console.log(this.homeFeature)
     })
   }
-  //For certified courses
+  // For certified courses
   searchV6Wrapper() {
     this.orgService.getLiveSearchResults().subscribe((response: any) => {
       this.myCourse = response.result.content
       this.topCertifiedCourse = this.myCourse.slice(1, 4)
     })
   }
-
-
 
   // For opening Course Page
   raiseTelemetry(contentIdentifier: any) {
@@ -117,7 +115,7 @@ export class MobileDashboardComponent implements OnInit {
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        video: video.videoIndex
+        video: video.videoIndex,
       },
     }
     this.router.navigate(['/app/video-player'], navigationExtras)

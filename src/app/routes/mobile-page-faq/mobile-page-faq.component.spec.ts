@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { MobileHowDoesWorkComponent } from './mobile-how-does-work.component'
+import { MobilePageFaqComponent } from './mobile-page-faq.component'
 
-describe('MobileHowDoesWorkComponent', () => {
-  let component: MobileHowDoesWorkComponent
-  let fixture: ComponentFixture<MobileHowDoesWorkComponent>
+describe('MobilePageFaqComponent', () => {
+  let component: MobilePageFaqComponent
+  let fixture: ComponentFixture<MobilePageFaqComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MobileHowDoesWorkComponent],
+      declarations: [MobilePageFaqComponent],
     })
     .compileComponents()
   }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MobileHowDoesWorkComponent)
+    fixture = TestBed.createComponent(MobilePageFaqComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

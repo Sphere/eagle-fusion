@@ -81,13 +81,11 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
-import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
 import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
-import { MobileHowDoesWorkComponent } from './routes/mobile-how-does-work/mobile-how-does-work.component'
 import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
-// import { ServiceWorkerModule } from '@angular/service-worker'
-// import { environment } from '../environments/environment'
+import { MobilePageLatestCourseComponent } from './routes/mobile-page-latest-course/mobile-page-latest-course.component'
+import { MobileCreateBtnComponent } from './routes/mobile-create-btn/mobile-create-btn.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -135,11 +133,11 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     HeaderComponent,
     GoogleCallbackComponent,
     MobileDashboardComponent,
-    MobileCourseViewComponent,
     MobileCategoryComponent,
-    MobileHowDoesWorkComponent,
     MobileVideoPlayerComponent,
-    MobileFooterComponent
+    MobileFooterComponent,
+    MobilePageLatestCourseComponent,
+    MobileCreateBtnComponent,
   ],
   imports: [
     FormsModule,
@@ -186,13 +184,12 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatExpansionModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
-    MobileCourseViewComponent,
     MobileDashboardComponent,
-    MobileHowDoesWorkComponent
   ],
   bootstrap: [RootComponent],
   entryComponents: [

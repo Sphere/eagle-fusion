@@ -61,7 +61,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
-  mobileView = true;
+  mobileView = true
   showMobileDashboard = true
   constructor(
     private router: Router,
@@ -136,7 +136,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
-        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') || event.url.includes('/app/profile/dashboard')) {
+        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') ||
+          event.url.includes('/app/profile/dashboard')) {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true

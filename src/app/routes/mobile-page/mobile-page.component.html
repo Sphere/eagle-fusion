@@ -1,0 +1,25 @@
+<div class="content">
+  <!--banner and up skill section-->
+  <ws-mobile-home></ws-mobile-home>
+
+  <!--latest course-->
+  <h1 class="mat-h1 header-font margin-remove inline-block"> Latest Courses</h1>
+  <ng-container *ngIf="courseContent && courseContent.length>0">
+    <ws-mobile-course-view [courseData]="courseContent[0]"></ws-mobile-course-view>
+    <br>
+  </ng-container>
+
+  <!--50+ organization-->
+  <ws-mobile-organization></ws-mobile-organization>
+
+  <!-- How does it work section -->
+  <ng-container>
+    <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+  </ng-container>
+</div>
+
+<!--leaderboard section-->
+<ws-mobile-leaderboard></ws-mobile-leaderboard>
+
+<!--FAQ section-->
+<ws-mobile-page-faq></ws-mobile-page-faq>

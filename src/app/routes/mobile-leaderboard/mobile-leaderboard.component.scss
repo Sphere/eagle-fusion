@@ -1,0 +1,39 @@
+.horizontal-scroll-content {
+  overflow-x: auto;
+  height: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: stretch;
+  padding-left: 5px;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+.follow-card {
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 95.66px;
+  height: 161px;
+  text-align: center;
+  padding: 15px 0;
+  margin-right: 15px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+}
+.header3{
+ font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 17px;
+letter-spacing: -0.02em;
+color: #000000;
+}
+.follow-btn {
+line-height: 10px;
+letter-spacing: -0.02em;
+font-size: 8px;
+padding: 5px 5px;
+margin-top: 10px;
+color: #1C5D95;
+cursor: pointer;
+}

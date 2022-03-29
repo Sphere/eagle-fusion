@@ -1,0 +1,10 @@
+.horizontal-scroll-content {
+  overflow-x: auto;
+  height: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: stretch;
+  padding-left: 5px;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}

@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { MobileFooterComponent } from './mobile-footer.component';
+import { MobileFooterComponent } from './mobile-footer.component'
 
 describe('MobileFooterComponent', () => {
-  let component: MobileFooterComponent;
-  let fixture: ComponentFixture<MobileFooterComponent>;
+  let component: MobileFooterComponent
+  let fixture: ComponentFixture<MobileFooterComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MobileFooterComponent ]
+      declarations: [MobileFooterComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MobileFooterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(MobileFooterComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

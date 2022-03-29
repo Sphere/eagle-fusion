@@ -1,0 +1,13 @@
+<div class="content">
+
+  <p class="text-xl">Latest Course</p>
+  <div class="mt-2 horizontal-scroll-content">
+    <ng-container *ngIf="courseContent && courseContent.length>0">
+      <ws-mobile-course-view [courseData]="courseContent[0]"></ws-mobile-course-view>
+    </ng-container>
+  </div>
+  <!-- <p class="text-xl">Start Learning</p>
+  <ng-container *ngIf="courseContent && courseContent.length>0">
+    <ws-mobile-course-view [courseData]="courseContent[0]"></ws-mobile-course-view>
+  </ng-container> -->
+</div>
