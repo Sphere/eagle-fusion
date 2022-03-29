@@ -14,7 +14,7 @@ import _ from 'lodash'
 })
 export class MobileDashboardComponent implements OnInit {
   myCourse: any
-  topCertifiedCourse: any
+  topCertifiedCourse: any = []
   userEnrollCourse: any
   videoData: any
   homeFeatureData: any
@@ -53,22 +53,30 @@ export class MobileDashboardComponent implements OnInit {
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults()]).pipe().subscribe((res: any) => {
         this.formatmyCourseResponse(res[0])
         if (res[1].result.content.length > 0) {
-          this.topCertifiedCourse = res[1].result.content.slice(1, 4)
           this.formatTopCertifiedCourseResponse(res[1])
-          console.log(this.topCertifiedCourse)
         }
-
       })
     }
 
   }
   formatTopCertifiedCourseResponse(res: any) {
-    const topCertifiedIdentifier = ['do_11346794242655027211', 'do_1134178372845649921545']
+    const topCertifiedIdentifier = ['do_11346794242655027211', 'do_1134178372845649921545', 'do_1134170690068725761467', 'do_11342648503935795211688']
+    const topCertifiedCourse: any = []
+    let certifiedObject = {}
     _.forEach(topCertifiedIdentifier, (key) => {
-      const certiedObject = _.filter(res.result.content, { 'identifier': key })
-      console.log(certiedObject)
+      _.forEach(res.result.content, (ckey) => {
+        if (ckey.identifier === key) {
+          certifiedObject = {
+            'identifier': ckey.identifier,
+            'appIcon': ckey.appIcon,
+            'name': ckey.name,
+            'creator': ckey.creator
+          }
+        }
+      })
+      topCertifiedCourse.push(certifiedObject)
     })
-
+    this.topCertifiedCourse = topCertifiedCourse
   }
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
