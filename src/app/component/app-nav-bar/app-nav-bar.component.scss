@@ -194,9 +194,15 @@
   .my-search {
     display: none;
   }
+}
 
+@media only screen and (max-width: 600px) {
   .search-small-logo {
     display: flex;
+    padding: 10px;
+  }
+  .top-right-profile {
+    display: none;
   }
 }
 

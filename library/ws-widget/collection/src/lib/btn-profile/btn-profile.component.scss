@@ -11,11 +11,25 @@
 .new-margin {
     margin-top: 16px;
     box-sizing: border-box;
+    @include breakpoint-xs {
+        margin-top: 0;
+    }
 }
 
-/*::ng-deep .fontRoboto {
-    font : 400 14px/20px Roboto !important;
-}*/
+.profile-text {
+    font: 400 12px/20px Roboto;
+    @include breakpoint-gt-xs {
+        display: none;
+    }
+}
+
+.profile-content {
+    display:flex;
+    @include breakpoint-xs {
+        position: absolute;
+        top: 5px;
+    }
+}
 
 .trnsform {
     transform: scale(1.3);

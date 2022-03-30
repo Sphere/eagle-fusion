@@ -1,9 +1,10 @@
 <a href="javascript:void(0)" mat-icon-button i18n-aria-label title="option" class="new-margin"
   #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
-  <span style="display:flex">
+  <span class="profile-content">
     <span class="flex flex-column flex-middle">
       <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
       </ws-widget-avatar-photo>
+      <span class="profile-text">Profile</span>
     </span>
     <mat-icon>arrow_drop_down</mat-icon>
   </span>
