@@ -15,11 +15,14 @@ import * as _ from 'lodash'
 export class MobileDashboardComponent implements OnInit {
   myCourse: any
   topCertifiedCourse: any = []
+  featuredCourse: any = []
   userEnrollCourse: any
   videoData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
+  topCertifiedCourseIdentifier: any = []
+  featuredCourseIdentifier: any = []
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
     private userSvc: WidgetUserService,
@@ -29,7 +32,7 @@ export class MobileDashboardComponent implements OnInit {
 
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',
@@ -47,24 +50,44 @@ export class MobileDashboardComponent implements OnInit {
         description: 'Receive downloadable and shareable certificates',
       },
     ]
-
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
-      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults()]).pipe().subscribe((res: any) => {
+      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(), this.http.get(`assets/configurations/mobile-home.json`)],).pipe().subscribe((res: any) => {
+        this.homeFeature = res[2].userLoggedInSection
+        this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
+        this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
         this.formatmyCourseResponse(res[0])
         if (res[1].result.content.length > 0) {
           this.formatTopCertifiedCourseResponse(res[1])
+          this.formatFeaturedCourseResponse(res[1])
         }
       })
     }
 
   }
+  formatFeaturedCourseResponse(res: any) {
+    const featuredCourse: any = []
+    let featuredObject = {}
+    _.forEach(this.featuredCourseIdentifier, key => {
+      _.forEach(res.result.content, ckey => {
+        if (ckey.identifier === key) {
+          featuredObject = {
+            identifier: ckey.identifier,
+            appIcon: ckey.appIcon,
+            name: ckey.name,
+            description: ckey.description,
+          }
+        }
+      })
+      featuredCourse.push(featuredObject)
+    })
+    this.featuredCourse = featuredObject
+    console.log(this.featuredCourse)
+  }
   formatTopCertifiedCourseResponse(res: any) {
-    const topCertifiedIdentifier = ['do_11346794242655027211', 'do_1134178372845649921545',
-      'do_1134170690068725761467', 'do_11342648503935795211688']
     const topCertifiedCourse: any = []
     let certifiedObject = {}
-    _.forEach(topCertifiedIdentifier, key => {
+    _.forEach(this.topCertifiedCourseIdentifier, key => {
       _.forEach(res.result.content, ckey => {
         if (ckey.identifier === key) {
           certifiedObject = {
@@ -97,6 +120,8 @@ export class MobileDashboardComponent implements OnInit {
   mobileJsonData() {
     this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
+      this.topCertifiedCourseIdentifier = res.topCertifiedCourseIdentifier
+      this.featuredCourseIdentifier = res.featuredCourseIdentifier
     })
   }
 

@@ -9,13 +9,14 @@ import { Router } from '@angular/router'
 export class MobileCourseViewComponent implements OnInit {
 
   @Input() courseData: any
+  @Input() enableConfig: boolean = false
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   // For opening Course Page
-  raiseTelemetry(contentIdentifier: any) {
+  navigateToToc(contentIdentifier: any) {
     this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
   }
 }

@@ -35,19 +35,10 @@
 <!-- Featured Section-->
 <section class="p-4" style="background-color: #F7F7F7;">
   <p class="text-xl">Featured</p>
-  <div class="card">
-    <img class="card-img-top" src="../../../fusion-assets/images/about-you.png" alt="Course image" height="200"
-      width="200">
-    <div class="card-body">
-      <p class="blue-color leading-8 text-xl">Respectful Maternity Care</p>
-      <p class="card-text font-normal">This module will enable you to be a part of the voice that
-        advocates for women's rights
-        during childbirth
-        and learn how to provide companssionate care
-      </p>
-      <a href="#" class="btn start-btn">Start now!</a>
-    </div>
-  </div>
+  <ng-container *ngIf="featuredCourse">
+    <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
+  </ng-container>
+
 </section>
 
 <!-- People follow Section -->

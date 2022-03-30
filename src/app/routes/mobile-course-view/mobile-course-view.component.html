@@ -1,5 +1,5 @@
 <section class="course-container">
-  <a (click)="raiseTelemetry(courseData.identifier)">
+  <a (click)="navigateToToc(courseData.identifier)">
     <div class="box">
       <div class="text-center">
         <img class="appIcon" src="{{courseData.appIcon}}">
@@ -7,6 +7,9 @@
       <div class="pl-3 pt-3">
         <p class="name">{{courseData.name}}</p>
         <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p>
+      </div>
+      <div *ngIf="enableConfig" class="p-2">
+        <a href="#" class="btn start-btn">Start now!</a>
       </div>
     </div>
   </a>
