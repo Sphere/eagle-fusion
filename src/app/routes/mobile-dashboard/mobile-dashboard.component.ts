@@ -24,10 +24,10 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
   constructor(private orgService: OrgServiceService,
-    private configSvc: ConfigurationsService,
-    private userSvc: WidgetUserService,
-    private router: Router,
-    private http: HttpClient
+              private configSvc: ConfigurationsService,
+              private userSvc: WidgetUserService,
+              private router: Router,
+              private http: HttpClient
   ) {
 
   }
@@ -52,7 +52,8 @@ export class MobileDashboardComponent implements OnInit {
     ]
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
-      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(), this.http.get(`assets/configurations/mobile-home.json`)],).pipe().subscribe((res: any) => {
+      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(),
+      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
         this.homeFeature = res[2].userLoggedInSection
         this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
         this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
@@ -82,7 +83,6 @@ export class MobileDashboardComponent implements OnInit {
       featuredCourse.push(featuredObject)
     })
     this.featuredCourse = featuredObject
-    console.log(this.featuredCourse)
   }
   formatTopCertifiedCourseResponse(res: any) {
     const topCertifiedCourse: any = []

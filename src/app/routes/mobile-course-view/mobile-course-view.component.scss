@@ -26,13 +26,24 @@
   font-weight: 400;
   font-size:12px;
 }
+.course-container .description {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #404040;
+}
 
 .start-btn {
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  margin-top: 20px;
   background: #1C5D95;
   color: #fff;
   cursor: pointer;
+}
+.bg-cont-white {
+  background-color: #fff;
 }

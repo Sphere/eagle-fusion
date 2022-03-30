@@ -3,11 +3,10 @@
   <ws-mobile-home></ws-mobile-home>
 
   <!--latest course-->
-  <p class="text-2xl header-font margin-remove inline-block"> Latest Courses</p>
-  <ng-container *ngIf="courseContent && courseContent.length>0">
-    <ws-mobile-course-view [courseData]="courseContent[0]"></ws-mobile-course-view>
-    <br>
-  </ng-container>
+  <div>
+    <ng-container [wsResolverWidget]="pageLayout">
+    </ng-container>
+  </div>
 
   <!--50+ organization-->
   <ws-mobile-organization></ws-mobile-organization>

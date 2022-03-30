@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import { delay } from 'rxjs/operators'
 @Component({
   selector: 'ws-mobile-page',
   templateUrl: './mobile-page.component.html',
@@ -10,9 +11,11 @@ export class MobilePageComponent implements OnInit {
   courseContent: any
   topThreeCourse: any
   showCreateBtn = false
+  pageLayout: any
   videoData: any
-  constructor(private orgService: OrgServiceService,
-              private router: Router) { }
+  constructor(
+    private router: Router,
+    private http: HttpClient) { }
 
   ngOnInit() {
     this.videoData = [
@@ -32,12 +35,9 @@ export class MobilePageComponent implements OnInit {
         description: 'Receive downloadable and shareable certificates',
       },
     ]
-    this.searchV6Wrapper()
-  }
-  searchV6Wrapper() {
-    this.orgService.getLiveSearchResults().subscribe((result: any) => {
-      this.courseContent = result.result.content
-      this.topThreeCourse = this.courseContent.slice(1, 4)
+
+    this.http.get(`assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
+      this.pageLayout = res.pageLayout
     })
   }
 

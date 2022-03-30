@@ -73,3 +73,9 @@ section {
 .csicon {
     font-size: 22px !important;
 }
+
+@media screen and (max-width:600px) {
+    .profile-dropdown {
+        display: none;
+    }
+}

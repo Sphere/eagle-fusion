@@ -117,7 +117,7 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
     BtnChannelAnalyticsModule,
     MatDividerModule,
     UserAutocompleteModule,
-    PublicHomeModule
+    PublicHomeModule,
   ],
   exports: [ItemTileComponent, SearchInputComponent, SearchInputHomeComponent],
   providers: [TrainingApiService, TrainingService],
