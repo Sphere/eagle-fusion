@@ -15,8 +15,8 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any
   @Input() enableConfig = false
   constructor(private router: Router,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService
   ) { }
 
   ngOnInit() {

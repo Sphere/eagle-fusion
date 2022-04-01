@@ -24,10 +24,10 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
   constructor(private orgService: OrgServiceService,
-              private configSvc: ConfigurationsService,
-              private userSvc: WidgetUserService,
-              private router: Router,
-              private http: HttpClient
+    private configSvc: ConfigurationsService,
+    private userSvc: WidgetUserService,
+    private router: Router,
+    private http: HttpClient
   ) {
 
   }
@@ -100,7 +100,7 @@ export class MobileDashboardComponent implements OnInit {
       })
       topCertifiedCourse.push(certifiedObject)
     })
-    this.topCertifiedCourse = topCertifiedCourse
+    this.topCertifiedCourse = _.uniqBy(topCertifiedCourse, 'identifier')
   }
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
