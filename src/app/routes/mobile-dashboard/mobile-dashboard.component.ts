@@ -67,38 +67,20 @@ export class MobileDashboardComponent implements OnInit {
 
   }
   formatFeaturedCourseResponse(res: any) {
-    const featuredCourse: any = []
-    let featuredObject = {}
-    _.forEach(this.featuredCourseIdentifier, key => {
-      _.forEach(res.result.content, ckey => {
-        if (ckey.identifier === key) {
-          featuredObject = {
-            identifier: ckey.identifier,
-            appIcon: ckey.appIcon,
-            name: ckey.name,
-            description: ckey.description,
-          }
-        }
-      })
-      featuredCourse.push(featuredObject)
+    const featuredCourse = _.filter(res.result.content, (ckey) => {
+      return _.includes(this.featuredCourseIdentifier, ckey.identifier)
     })
-    this.featuredCourse = featuredObject
+    this.featuredCourse = _.reduce(_.uniqBy(featuredCourse, 'identifier'), (result, value) => {
+      result['identifier'] = value.identifier
+      result['appIcon'] = value.appIcon
+      result['name'] = value.name
+      return result
+
+    }, {})
   }
   formatTopCertifiedCourseResponse(res: any) {
-    const topCertifiedCourse: any = []
-    let certifiedObject = {}
-    _.forEach(this.topCertifiedCourseIdentifier, key => {
-      _.forEach(res.result.content, ckey => {
-        if (ckey.identifier === key) {
-          certifiedObject = {
-            identifier: ckey.identifier,
-            appIcon: ckey.appIcon,
-            name: ckey.name,
-            creator: ckey.creator,
-          }
-        }
-      })
-      topCertifiedCourse.push(certifiedObject)
+    const topCertifiedCourse = _.filter(res.result.content, (ckey) => {
+      return _.includes(this.topCertifiedCourseIdentifier, ckey.identifier)
     })
     this.topCertifiedCourse = _.uniqBy(topCertifiedCourse, 'identifier')
   }
