@@ -86,6 +86,7 @@ import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
+import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -138,6 +139,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileCategoryComponent,
     MobileVideoPlayerComponent,
     MobileFooterComponent,
+    MobileProfileDashboardComponent
   ],
   imports: [
     FormsModule,
