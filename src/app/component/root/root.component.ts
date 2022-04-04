@@ -37,6 +37,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 // import { MatDialog } from '@angular/material'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
+import _ from 'lodash'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -167,6 +168,11 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('app/toc') &&
+          this.configSvc.userProfile === null) {
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+            }` + `/overview`)
+          // localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account')) {
           this.hideHeaderFooter = true
