@@ -34,6 +34,8 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
+import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
+import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -523,6 +525,14 @@ const routes: Routes = [
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
     canActivate: [GeneralGuard],
+  },
+  {
+    path: 'profilePop',
+    component: MobileProfilePopupComponent
+  },
+  {
+    path: 'aboutpoppage',
+    component: MobileAboutPopupComponent
   },
   {
     path: '**',

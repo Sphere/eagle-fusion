@@ -1,1 +1,46 @@
-<p>mobile-profile-dashboard works!</p>
+<div class="content">
+  <div class="row">
+    <div class="">
+      <mat-icon>chevron_left</mat-icon>
+    </div>
+    <div class="logout">
+      <p class="text-1xl">Log-out</p>
+    </div>
+  </div>
+  <div class="">
+    <p class="text-2xl">User’s Name</p>
+  </div>
+  <div class="profile-img">
+    <img src="\fusion-assets\icons\prof1.png" width="153px" height="153px">
+  </div>
+  <div>
+    <button mat-fab class="edit-icon" (click)="openProfImg()">
+      <mat-icon class="pencil">edit</mat-icon>
+    </button>
+  </div>
+  <div class="">
+    <p class="text-2xl">Healthcare Worker</p>
+    <p class="font-normal text-sm grey-color">Received 32 CNE points</p>
+  </div>
+  <button name="login_client_button" [ngStyle]="{'background-color': 'inherit',
+     'width': '90px',
+     'border' :'1px solid #3f51b5',
+     'border-radius': '20px',
+     'color' : '#3f51b5',
+     'font-size': 'medium'}" mat-raised-button i18n="login: client" (click)="login()">
+    Edit
+  </button>&nbsp;&nbsp;
+  <button name="login_client_button"
+    [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#3f51b5', 'font-size': 'medium'}"
+    mat-raised-button i18n="login: client" (click)="login()">
+    share
+  </button>
+  <br>
+  <p class="text-xl" (click)="openProfImg()">About</p>
+  <!-- <button *ngIf="widgetData?.actionBtns && (widgetData?.actionBtns)['edit']" mat-icon-button i18n-aria-label
+      aria-label="Edit" matTooltip="Edit Knowledge Board" i18n-matTooltip>
+      <mat-icon>edit</mat-icon>
+    </button> -->
+
+
+</div>
