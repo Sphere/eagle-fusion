@@ -126,6 +126,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.configSvc.userProfile === null) {
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
+          this.router.navigateByUrl('app/login')
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
