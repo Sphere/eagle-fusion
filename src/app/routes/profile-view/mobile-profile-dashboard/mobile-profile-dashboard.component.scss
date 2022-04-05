@@ -1,10 +1,10 @@
 .content {
-  padding: 60px 20px 30px;
+  padding: 20px 20px 30px;
 }
 
 .profile-img {
   width:203px !important;
-   height:203px !important;
+  height:203px !important;
   top:20px;
   bottom: 20px;
   border-radius: 8px;
@@ -79,4 +79,13 @@
 .head-3 {
   font-size: 12px;
   line-height: 14px;
+}
+.header2{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  letter-spacing: -0.02em;
+  color: #000000;
 }
