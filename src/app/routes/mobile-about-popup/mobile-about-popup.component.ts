@@ -7,6 +7,7 @@ import { MatDialogRef } from '@angular/material'
   styleUrls: ['./mobile-about-popup.component.scss']
 })
 export class MobileAboutPopupComponent implements OnInit {
+  aboutInfo!: string
 
   constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>) { }
 

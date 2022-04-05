@@ -3,18 +3,21 @@
     <button class="" mat-button (click)="onNoClick()">X</button>
   </div>
   <div>
-    <p class="header2">About</p>
-    <div class="card-body">
+    <form #aboutForm="ngForm">
+      <p class="header2">About</p>
 
-      <p class="lable1">
-        Lorem ipsum dolor sit amet, consec
-        tetur adipiscing elit. Vestibulum eu fermentum metus. Morbi egestas cursus nulla vitae suscipit |
-      </p>
+      <div class="card-body">
+        <p class="lable1">
+          <textarea matInput name="about-value" required [(ngModel)]="aboutInfo">
 
-    </div>
-    <p class="font-normal grey-color text-xs">150/150</p>
-    <div class="save-btn">Save</div>
+      </textarea>
+        </p>
+      </div>
 
+      <p class="font-normal grey-color text-xs">150/150</p>
+      <mat-raised-button class="save-btn1" *ngIf="aboutForm.invalid">Save</mat-raised-button>
+      <mat-raised-button class="save-btn" *ngIf="aboutForm.valid">Save</mat-raised-button>
+    </form>
   </div>
 
 </div>

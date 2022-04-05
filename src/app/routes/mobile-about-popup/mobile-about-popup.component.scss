@@ -1,5 +1,5 @@
 .card-body{
-  width: 263px;
+  width: 188px;
   //height: 96px;
   left: 24px;
   top: 122px;
@@ -17,9 +17,30 @@
   height: 35px;
   left: 189px;
   top: 284px;
-  background: #BFBFBF;
+  color:white;
   border-radius: 50px;
   float: right;
+  background: rgba(28, 93, 149, 1);
+
+
+}
+
+.save-btn1{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 32px;
+  width: 99px;
+  height: 35px;
+  left: 189px;
+  top: 284px;
+
+  border-radius: 50px;
+  float: right;
+ background: rgba(191, 191, 191, 1);
+;
+
 
 }
 .header2{
