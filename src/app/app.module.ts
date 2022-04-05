@@ -90,6 +90,11 @@ import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-pr
 import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
+import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
+import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
+import { MobileProfileNavComponent } from './routes/profile-view/mobile-profile-nav/mobile-profile-nav.component'
+import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
+import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -143,7 +148,12 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileProfileDashboardComponent,
     MobileProfilePopupComponent,
     MobileAboutPopupComponent,
-    ProfileSelectComponent
+    ProfileSelectComponent,
+    EducationListComponent,
+    EducationEditComponent,
+    WorkInfoListComponent,
+    WorkInfoEditComponent,
+    MobileProfileNavComponent
   ],
   imports: [
     FormsModule,

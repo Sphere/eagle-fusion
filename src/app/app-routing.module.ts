@@ -36,6 +36,10 @@ import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
+import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
+import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
+import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -248,6 +252,22 @@ const routes: Routes = [
   {
     path: 'app/profile-view',
     component: MobileProfileDashboardComponent,
+  },
+  {
+    path: 'app/education-list',
+    component: EducationListComponent,
+  },
+  {
+    path: 'app/education-edit',
+    component: EducationEditComponent,
+  },
+  {
+    path: 'app/workinfo-list',
+    component: WorkInfoListComponent,
+  },
+  {
+    path: 'app/workinfo-edit',
+    component: WorkInfoEditComponent,
   },
   {
 

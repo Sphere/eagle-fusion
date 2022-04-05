@@ -7,11 +7,9 @@
       <p class="header2">About</p>
 
       <div class="card-body">
-        <p class="lable1">
-          <textarea matInput name="about-value" required [(ngModel)]="aboutInfo">
-
-      </textarea>
-        </p>
+        <textarea matInput name="about-value" required [(ngModel)]="aboutInfo">
+          {{data}}
+        </textarea>
       </div>
 
       <p class="font-normal grey-color text-xs">150/150</p>

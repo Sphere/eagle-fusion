@@ -1,0 +1,36 @@
+<div class="content">
+  <ws-mobile-profile-nav></ws-mobile-profile-nav>
+  <p class="text-2xl mt-2">Education</p>
+
+  <form [formGroup]="" class="mt-3">
+
+    <div>
+
+      <div class="form-group input-box">
+        <select id="courseDegree" formControlName="courseDegree" class="form-control select-box">
+          <option style="color:#808080;">Degree/Diploma*</option>
+          <!-- <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }} -->
+          <!-- </option> -->
+        </select>
+      </div>
+
+      <div class="form-group input-box">
+        <input type="text" formControlName="courseName" class="form-control" placeholder="Course Name"
+          autocomplete="off">
+      </div>
+
+      <div class="form-group input-box">
+        <input type="text" formControlName="institutionName" class="form-control" placeholder="Institution Name"
+          autocomplete="off">
+      </div>
+
+      <div class="form-group input-box">
+        <input type="text" formControlName="yearPassing" class="form-control" placeholder="Year of Passing"
+          autocomplete="off">
+      </div>
+
+    </div>
+
+  </form>
+
+</div>

@@ -1,15 +1,13 @@
 <div class="content">
-  <div class="row">
-    <div>
-      <mat-icon>chevron_left</mat-icon>
-    </div>
-    <div class="logout">
-      <p class="text-1xl">Log-out</p>
-    </div>
-  </div>
 
-  <div>
-    <p class="text-2xl">User’s Name</p>
+  <ws-mobile-profile-nav></ws-mobile-profile-nav>
+
+  <div class="mt-2">
+    <p class="text-2xl">{{ userProfileData?.personalDetails.firstname }}
+      <span *ngIf="userProfileData?.personalDetails.middlename"> {{userProfileData?.personalDetails.middlename}}
+      </span>
+      {{userProfileData?.personalDetails.surname}}
+    </p>
   </div>
 
   <div>
@@ -21,13 +19,13 @@
     </button>
   </div>
 
-  <div>
-    <p class="text-2xl">Healthcare Worker</p>
-    <p class="font-normal text-sm grey-color">Received 32 CNE points</p>
+  <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
+    <p class="text-lg">{{userProfileData?.professionalDetails[0].designation === 'Other' ?
+      userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
+      }}</p>
   </div>
 
-  <button class="edit-button" mat-raised-button i18n="login: client" (click)="openDialog()">
-    Edit
+  <button class="edit-button" mat-raised-button i18n="login: client" (click)="openDialog()">Edit
   </button>
 
 
@@ -36,29 +34,27 @@
     <p class="text-xl inline-block header2">About</p>
     <span class="spacer"></span>
     <span matTooltip="Edit your About detail" (click)="openAboutDialog()">
-      <mat-icon class="float-right">edit</mat-icon>
+      <mat-icon class="float-right edit-pencil">edit</mat-icon>
     </span>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum eu fermentum metus. Morbi egestas cursus nulla vitae
-      suscipit.</p>
+    <p>{{userProfileData?.personalDetails.about}}</p>
   </div>
 
   <!-- Education Section -->
   <div class="mt-3">
-
     <div>
-      <p class="education-title inline-block header2">Education</p>
-      <span class="cursor-pointer" matTooltip="Edit your Education detail">
-        <mat-icon class="float-right">edit</mat-icon>
+      <p class="text-xl inline-block header2">Education</p>
+      <span class="cursor-pointer" matTooltip="Edit your Education detail" (click)="eductionEdit()">
+        <mat-icon class="float-right edit-pencil">edit</mat-icon>
       </span>
     </div>
 
-    <div>
-      <p class="heading">Degree/Diploma Details</p>
-      <p class="head-2">School name: Name xyz</p>
-      <p class="head-3">2018</p>
-
+    <div *ngFor="let academic of academicsArray">
+      <div class="mt-2">
+        <p class="heading">{{academic.nameOfQualification}}</p>
+        <p class="head-2">{{academic.nameOfInstitute}}</p>
+        <p class="head-3">{{academic.yearOfPassing}}</p>
+      </div>
     </div>
 
   </div>
@@ -66,18 +62,22 @@
   <mat-divider class="mt-2"></mat-divider>
 
   <!-- Work Info Section -->
-  <div class="mt-3">
+  <div class="mt-3 mb-4">
     <div>
-      <p class="education-title inline-block">Work Info</p>
-      <span class="cursor-pointer" matTooltip="Edit your Work info detail">
-        <mat-icon class="float-right">edit</mat-icon>
+      <p class="text-xl header2 inline-block">Work Info</p>
+      <span class="cursor-pointer" matTooltip="Edit your Work info detail" (click)="workInfoEdit()">
+        <mat-icon class="float-right edit-pencil">edit</mat-icon>
       </span>
     </div>
 
-    <div>
-      <p class="heading">Degree/Diploma Details</p>
-      <p class="head-2">School name: Name xyz</p>
-      <p class="head-3">2018</p>
+    <div *ngFor="let profession of userProfileData?.professionalDetails">
+      <div class="mt-2">
+        <p class="heading">{{profession.name}}
+          <span *ngIf="profession.location">, {{profession.location}}</span>
+        </p>
+        <p class="head-2">{{profession.designation}}</p>
+        <p class="head-3">{{profession.doj}}</p>
+      </div>
     </div>
   </div>
 

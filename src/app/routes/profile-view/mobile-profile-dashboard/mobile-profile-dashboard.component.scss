@@ -1,13 +1,5 @@
 .content {
-  padding: 20px 20px 30px;
-}
-
-.profile-img {
-  width:203px !important;
-  height:203px !important;
-  top:20px;
-  bottom: 20px;
-  border-radius: 8px;
+  padding: 60px 20px 30px;
 }
 
 .pencil {
@@ -16,6 +8,10 @@
   top: -11px;
   font-size: 20px;
   color: #fff;
+}
+
+.edit-pencil {
+  font-size: 1.2rem !important;
 }
 
 .edit-icon {
@@ -27,11 +23,6 @@
   background-color: #1C5D95 !important;
 }
 
-.logout{
-  position: absolute;
-  right: 12px;
-}
-
 .health{
   width: 136px;
   height: 20px;
@@ -39,14 +30,7 @@
   top: 223px;
 }
 
-.education-title {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: -0.02em;
-}
+
 
 .edit-button {
   width: 90px;
@@ -80,12 +64,11 @@
   font-size: 12px;
   line-height: 14px;
 }
+
 .header2{
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
   line-height: 29px;
   letter-spacing: -0.02em;
-  color: #000000;
 }

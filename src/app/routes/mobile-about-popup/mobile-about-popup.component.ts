@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { MatDialogRef } from '@angular/material'
+import { Component, Inject, OnInit } from '@angular/core'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 
 @Component({
   selector: 'ws-mobile-about-popup',
@@ -7,15 +7,15 @@ import { MatDialogRef } from '@angular/material'
   styleUrls: ['./mobile-about-popup.component.scss']
 })
 export class MobileAboutPopupComponent implements OnInit {
-  aboutInfo!: string
+  @Inject(MAT_DIALOG_DATA) public data: any
 
-  constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>) { }
+  constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>) {
+
+  }
 
   ngOnInit() {
   }
   onNoClick() {
     this.dialogRef.close()
-
-
   }
 }
