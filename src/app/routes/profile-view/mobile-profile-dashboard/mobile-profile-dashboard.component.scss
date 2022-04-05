@@ -1,37 +1,82 @@
-.content{
-  padding:20px 25px 30px;
-  }
-.profile-img{
+.content {
+  padding: 60px 20px 30px;
+}
+
+.profile-img {
   width:203px !important;
    height:203px !important;
   top:20px;
   bottom: 20px;
   border-radius: 8px;
 }
-.pencil{
+
+.pencil {
   position: relative;
-  left: -1px;
-  right: 8.33%;
+  left: 1px;
   top: -11px;
-  bottom: 8.33%;
-  color: #FFFFFF;
+  font-size: 20px;
+  color: #fff;
 }
-.edit-icon{
+
+.edit-icon {
   position: relative;
-  right: 181px;
-  bottom: 0px;
-  width:36px;
-  height:36px;
-  top: -74px;
-  left: 106px;
+  top: -32px;
+  left: 85px;
+  width: 32px;
+  height: 32px;
   background-color: #1C5D95 !important;
 }
+
 .logout{
-  padding: 2px 116px 0px;
+  position: absolute;
+  right: 12px;
 }
+
 .health{
-width: 136px;
-height: 20px;
-left: 25px;
-top: 223px;
+  width: 136px;
+  height: 20px;
+  left: 25px;
+  top: 223px;
+}
+
+.education-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+
+.edit-button {
+  width: 90px;
+  border : 1px solid #3f51b5;
+  border-radius: 20px;
+  color : #3f51b5 !important;
+  font-size: 16px !important;
+  line-height: 2.3 !important;
+}
+
+.heading, .head-2, .head-3 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  margin: 0 !important;
+}
+
+.heading {
+  font-size: 12px;
+  color: #808080;
+}
+
+.head-2 {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.head-3 {
+  font-size: 12px;
+  line-height: 14px;
 }

@@ -1,7 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
-
+import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -12,16 +12,29 @@ export class MobileProfileDashboardComponent implements OnInit {
   showMobileView: boolean = false
 
 
+  showAcademicElse = false
+
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
-  openProfImg() {
-    const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-      width: "312px", height: "369px"
+  openAboutDialog() {
+    let dialogRef = this.dialog.open(MobileAboutPopupComponent, {
+      width: "312px",
+      // height: "369px"
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result)
     })
   }
 
-
+  openProfileDialog(): void {
+    let dialogRef = this.dialog.open(ProfileSelectComponent, {
+      width: '600px',
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result)
+    })
+  }
 }

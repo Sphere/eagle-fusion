@@ -1,46 +1,84 @@
 <div class="content">
   <div class="row">
-    <div class="">
+    <div>
       <mat-icon>chevron_left</mat-icon>
     </div>
     <div class="logout">
       <p class="text-1xl">Log-out</p>
     </div>
   </div>
-  <div class="">
+
+  <div>
     <p class="text-2xl">User’s Name</p>
   </div>
-  <div class="profile-img">
-    <img src="\fusion-assets\icons\prof1.png" width="153px" height="153px">
+
+  <div>
+    <img src="\fusion-assets\icons\prof1.png" width="120px" height="120px">
   </div>
   <div>
-    <button mat-fab class="edit-icon" (click)="openProfImg()">
+    <button mat-fab class="edit-icon" (click)="openProfileDialog()">
       <mat-icon class="pencil">edit</mat-icon>
     </button>
   </div>
-  <div class="">
+
+  <div>
     <p class="text-2xl">Healthcare Worker</p>
     <p class="font-normal text-sm grey-color">Received 32 CNE points</p>
   </div>
-  <button name="login_client_button" [ngStyle]="{'background-color': 'inherit',
-     'width': '90px',
-     'border' :'1px solid #3f51b5',
-     'border-radius': '20px',
-     'color' : '#3f51b5',
-     'font-size': 'medium'}" mat-raised-button i18n="login: client" (click)="login()">
-    Edit
-  </button>&nbsp;&nbsp;
-  <button name="login_client_button"
-    [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#3f51b5', 'font-size': 'medium'}"
-    mat-raised-button i18n="login: client" (click)="login()">
-    share
-  </button>
-  <br>
-  <p class="text-xl" (click)="openProfImg()">About</p>
-  <!-- <button *ngIf="widgetData?.actionBtns && (widgetData?.actionBtns)['edit']" mat-icon-button i18n-aria-label
-      aria-label="Edit" matTooltip="Edit Knowledge Board" i18n-matTooltip>
-      <mat-icon>edit</mat-icon>
-    </button> -->
 
+  <button class="edit-button" mat-raised-button i18n="login: client" (click)="openDialog()">
+    Edit
+  </button>
+
+
+  <!-- About Section -->
+  <div class="mt-3">
+    <p class="text-xl inline-block">About</p>
+    <span class="spacer"></span>
+    <span matTooltip="Edit your About detail" (click)="openAboutDialog()">
+      <mat-icon class="float-right">edit</mat-icon>
+    </span>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Vestibulum eu fermentum metus. Morbi egestas cursus nulla vitae
+      suscipit.</p>
+  </div>
+
+  <!-- Education Section -->
+  <div class="mt-3">
+
+    <div>
+      <p class="education-title inline-block">Education</p>
+      <span class="cursor-pointer" matTooltip="Edit your Education detail">
+        <mat-icon class="float-right">edit</mat-icon>
+      </span>
+    </div>
+
+    <div>
+      <p class="heading">Degree/Diploma Details</p>
+      <p class="head-2">School name: Name xyz</p>
+      <p class="head-3">2018</p>
+
+    </div>
+
+  </div>
+
+  <mat-divider class="mt-2"></mat-divider>
+
+  <!-- Work Info Section -->
+  <div class="mt-3">
+    <div>
+      <p class="education-title inline-block">Work Info</p>
+      <span class="cursor-pointer" matTooltip="Edit your Work info detail">
+        <mat-icon class="float-right">edit</mat-icon>
+      </span>
+    </div>
+
+    <div>
+      <p class="heading">Degree/Diploma Details</p>
+      <p class="head-2">School name: Name xyz</p>
+      <p class="head-3">2018</p>
+    </div>
+  </div>
 
 </div>

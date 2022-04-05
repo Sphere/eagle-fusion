@@ -89,8 +89,7 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
-// import { ServiceWorkerModule } from '@angular/service-worker'
-// import { environment } from '../environments/environment'
+import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -144,6 +143,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileProfileDashboardComponent,
     MobileProfilePopupComponent,
     MobileAboutPopupComponent,
+    ProfileSelectComponent
   ],
   imports: [
     FormsModule,
@@ -158,7 +158,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
     StickyHeaderModule,
     ErrorResolverModule,
-    // Material Imports
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
@@ -191,7 +190,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatNativeDateModule,
     MatSelectModule,
     MatExpansionModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     DiscussionUiModule.forRoot(ConfigService),
   ],
   exports: [
@@ -202,6 +200,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   entryComponents: [
     DialogConfirmComponent,
     LoginComponent,
+    ProfileSelectComponent
   ],
   providers: [
     {

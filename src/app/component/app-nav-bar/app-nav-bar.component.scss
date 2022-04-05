@@ -16,6 +16,10 @@
 
 .custom {
   height: 80px;
+
+  @include breakpoint-xs {
+    height: 54px;
+  }
 }
 
 .tourGuideBtn:hover {
@@ -45,7 +49,7 @@
   max-height: 60px;
 
   @include breakpoint-xs {
-    max-width: 150px;
+    max-width: 100px;
   }
 }
 .site-description {
