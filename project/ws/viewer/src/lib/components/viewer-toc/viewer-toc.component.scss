@@ -144,3 +144,8 @@ a.disabled {
 ::ng-deep mat-tree-node .li-active {
   background-color: #ede5d6;
 }
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
