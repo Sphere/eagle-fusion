@@ -67,7 +67,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   collectionId = ''
   resourceContentType: any
-  disabledNode = true
+  disabledNode: boolean
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -81,6 +81,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
+    this.disabledNode = this.viewerDataSvc.getNode()
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
