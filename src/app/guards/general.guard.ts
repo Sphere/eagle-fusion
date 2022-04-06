@@ -106,6 +106,11 @@ export class GeneralGuard implements CanActivate {
               if (!this.isXSmall) {
                 return this.router.navigate(['/app/profile/dashboard'])
               }
+            } else if (window.location.href.includes('/app/profile/dashboard')) {
+              if (this.isXSmall) {
+                return this.router.navigate(['/app/profile-view'])
+              }
+
             }
             return this.router.parseUrl('/page/home')
           }
