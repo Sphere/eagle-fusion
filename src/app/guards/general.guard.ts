@@ -6,7 +6,7 @@ import {
   // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
-import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable({
@@ -14,8 +14,9 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 })
 export class GeneralGuard implements CanActivate {
   dobFlag = false
+  isXSmall = false
   constructor(private router: Router, private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService, private valueSvc: ValueService,) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -23,6 +24,10 @@ export class GeneralGuard implements CanActivate {
   ): Promise<boolean | UrlTree> {
     const requiredFeatures = (next.data && next.data.requiredFeatures) || []
     const requiredRoles = (next.data && next.data.requiredRoles) || []
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+      // this.links = this.getNavLinks()
+    })
     return await this.shouldAllow<boolean | UrlTree>(requiredFeatures, requiredRoles)
   }
 
@@ -85,25 +90,31 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
     if (this.configSvc.unMappedUser) {
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-      (data: any) => {
-        // if (data) {
-        //   const userData = data.profileDetails.personalDetails
-        //   if (userData.dob) {
-        //     this.dobFlag = userData.dob || ''
-        //   }
-        // }
-        // if (this.dobFlag) {
-        //   return this.router.parseUrl('/page/home')
-        // }
-        if (data.profileDetails) {
-          return this.router.parseUrl('/page/home')
-        }
-        return this.router.navigate(['app', 'new-tnc'])
-      },
-      (_err: any) => {
-      })
-  }
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
+          // if (data) {
+          //   const userData = data.profileDetails.personalDetails
+          //   if (userData.dob) {
+          //     this.dobFlag = userData.dob || ''
+          //   }
+          // }
+          // if (this.dobFlag) {
+          //   return this.router.parseUrl('/page/home')
+          // }
+          if (data.profileDetails) {
+            if (window.location.href.includes('/app/profile-view')) {
+              if (!this.isXSmall) {
+                return this.router.navigate(['/app/profile/dashboard'])
+              }
+            }
+            return this.router.parseUrl('/page/home')
+          }
+          return this.router.navigate(['app', 'new-tnc'])
+
+        },
+        (_err: any) => {
+        })
+    }
     /**
      * Test IF User has requried role to access the page
      */

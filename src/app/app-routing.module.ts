@@ -253,6 +253,7 @@ const routes: Routes = [
   {
     path: 'app/profile-view',
     component: MobileProfileDashboardComponent,
+    canActivate: [GeneralGuard],
   },
   {
     path: 'app/education-list',
