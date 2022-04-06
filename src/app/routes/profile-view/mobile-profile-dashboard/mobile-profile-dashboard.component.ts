@@ -71,10 +71,10 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   eductionEdit() {
-    this.router.navigateByUrl(`app/education-list`)
+    this.router.navigate([`app/education-list`])
   }
 
   workInfoEdit() {
-    this.router.navigateByUrl(`app/workinfo-list`)
+    this.router.navigate([`app/workinfo-list`])
   }
 }
