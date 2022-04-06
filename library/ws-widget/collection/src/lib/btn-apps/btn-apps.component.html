@@ -7,10 +7,10 @@
   <mat-icon>apps</mat-icon>
   <span [ngClass]="instanceVal === 'RootOrg' ? 'title font-sans' : 'mat-caption'" i18n>Apps</span>
 </a> -->
-    <button (click)="logout()" color="warn" mat-button>
+<!-- <button (click)="logout()" color="warn" mat-button>
       <mat-icon>power_settings_new</mat-icon>&nbsp;
       <span i18n>Logout</span>
-    </button>
+    </button> -->
 <mat-menu #appsMenu="matMenu" xPosition="before" yPosition="above">
   <section *ngIf="pinnedApps?.length && isPinFeatureAvailable" class="p-4 md:p-4 sm:p-2">
     <div class="flex justify-between">

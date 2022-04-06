@@ -14,8 +14,24 @@ import { BtnPageBackModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
+import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
+import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
+import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
+import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
+import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
+import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
+import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 @NgModule({
-  declarations: [PublicHomeComponent],
+  declarations: [
+    PublicHomeComponent,
+    MobilePageComponent,
+    MobileHomeComponent,
+    MobilePageFaqComponent,
+    MobileCourseViewComponent,
+    MobileHowDoesWorkComponent,
+    MobileOrganizationComponent,
+    MobileLeaderboardComponent,
+  ],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -30,6 +46,11 @@ import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
     WidgetResolverModule,
   ],
 
-  exports: [PublicHomeComponent],
+  exports: [PublicHomeComponent,
+    MobilePageComponent,
+    MobileHomeComponent,
+    MobilePageFaqComponent,
+    MobileCourseViewComponent,
+    MobileHowDoesWorkComponent],
 })
 export class PublicHomeModule { }

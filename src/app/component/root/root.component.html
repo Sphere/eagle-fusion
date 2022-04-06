@@ -14,10 +14,17 @@
       (isXSmall$ | async) === false &&
       showNavbar && isNavBarRequired
   }">
+
+  <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn"></ws-mobile-dashboard>
   <router-outlet></router-outlet>
 </div>
 
-<ws-app-footer class="app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+<!-- Mobile Footer -->
+<!-- <ws-mobile-footer class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
+</ws-mobile-footer> -->
+
+<!-- Desktop Footer -->
+<ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
   *ngIf="showNavbar && !hideHeaderFooter">
 </ws-app-footer>
 

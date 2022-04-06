@@ -16,7 +16,7 @@
           [ref]="'home'"></ws-app-search-input-home>
         <span class="spacer"></span>
 
-        <!--<div ngClass="search-small-logo">
+        <div ngClass="search-small-logo">
           <ng-container [wsResolverWidget]="{
         'widgetType': 'actionButton',
         'widgetSubType': 'buttonFeature',
@@ -28,16 +28,20 @@
           }
         }
       }"></ng-container>
-        </div> -->
+        </div>
 
         <button mat-raised-button *ngIf="allowAuthor" i18n
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
           [routerLink]="'/author/create'">
           Add Course </button>
 
-        <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-          *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
-        </ng-container>
+        <!-- top-right Profile drop down -->
+        <section class="top-right-profile">
+          <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+            *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
+          </ng-container>
+        </section>
+
       </ng-container>
     </ng-container>
 
@@ -56,6 +60,7 @@
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
       </ng-container>
     </ng-container>
+
     <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
@@ -76,7 +81,7 @@
             Create Account</button>
         </ng-container>
       </a>
-      <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
+      <!-- <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
         routerLinkActive="ws-mat-accent-text" *ngIf="!showCreateBtn">
         <ng-container *ngIf="!appBottomIcon">
           <mat-icon>home</mat-icon>
@@ -87,7 +92,7 @@
         <ng-container *ngIf="appBottomIcon">
           <img width="40px" height="40px" [src]="appBottomIcon" i18n-alt alt="Home" />
         </ng-container>
-      </a>
+      </a> -->
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">

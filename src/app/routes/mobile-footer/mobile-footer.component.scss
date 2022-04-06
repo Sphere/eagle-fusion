@@ -1,0 +1,73 @@
+@import 'ws-mixins';
+
+.write-to-text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #7B6961;
+}
+.input-field {
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 2px 6px;
+  font-size: 16px;
+}
+input {
+  width: 95%;
+  border: none;
+  background: none;
+}
+
+.link-container {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.02em;
+  color: #7B6961;
+  padding-top: 1rem;
+}
+.link-container a{
+  display: block;
+  padding: 8px 0;
+}
+.partner-line {
+  border-top: 1px solid #7B6961
+}
+
+.img-cont {
+  width: 33.33%
+}
+
+.footer-heading {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+
+.footer-image {
+  height: auto;
+  max-width: 40%;
+}
+
+.docs-footer {
+  background: #f7f7f7;
+  color: #fff;
+  margin-bottom: 5rem;
+  padding-bottom: 2rem;
+}
+
+.docs-footer-list {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 8px;
+}
+
+.docs-footer-copyright {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 225px;
+}
