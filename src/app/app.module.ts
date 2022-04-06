@@ -95,7 +95,7 @@ import { EducationEditComponent } from './routes/profile-view/education-edit/edu
 import { MobileProfileNavComponent } from './routes/profile-view/mobile-profile-nav/mobile-profile-nav.component'
 import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
-
+import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -153,7 +153,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     EducationEditComponent,
     WorkInfoListComponent,
     WorkInfoEditComponent,
-    MobileProfileNavComponent
+    MobileProfileNavComponent,
+    CertificateReceivedComponent
   ],
   imports: [
     FormsModule,
@@ -205,6 +206,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
     MobileDashboardComponent,
+    CertificateReceivedComponent
   ],
   bootstrap: [RootComponent],
   entryComponents: [

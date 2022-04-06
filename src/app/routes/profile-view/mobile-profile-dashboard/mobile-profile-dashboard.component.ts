@@ -17,7 +17,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   showAcademicElse = false
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
-
+  certificates: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -36,6 +36,15 @@ export class MobileProfileDashboardComponent implements OnInit {
           }
         })
     }
+    this.certificates = [
+      {
+        "certificateImage": "/fusion-assets/images/certificate1.png",
+        "Coursename": "Respectful Maternity Care"
+      },
+      {
+        "certificateImage": "/fusion-assets/images/certificate1.png",
+        "Coursename": "Manyata for Mothers "
+      }]
   }
 
   ngOnInit() {
