@@ -6,7 +6,7 @@ import {
   // RouterStateSnapshot,
   UrlTree,
 } from '@angular/router'
-import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable({
@@ -16,7 +16,7 @@ export class GeneralGuard implements CanActivate {
   dobFlag = false
   isXSmall = false
   constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService, private valueSvc: ValueService,) { }
+    private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -24,10 +24,7 @@ export class GeneralGuard implements CanActivate {
   ): Promise<boolean | UrlTree> {
     const requiredFeatures = (next.data && next.data.requiredFeatures) || []
     const requiredRoles = (next.data && next.data.requiredRoles) || []
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-      // this.links = this.getNavLinks()
-    })
+
     return await this.shouldAllow<boolean | UrlTree>(requiredFeatures, requiredRoles)
   }
 
@@ -102,16 +99,6 @@ export class GeneralGuard implements CanActivate {
           //   return this.router.parseUrl('/page/home')
           // }
           if (data.profileDetails) {
-            if (window.location.href.includes('/app/profile-view')) {
-              if (!this.isXSmall) {
-                return this.router.navigate(['/app/profile/dashboard'])
-              }
-            } else if (window.location.href.includes('/app/profile/dashboard')) {
-              if (this.isXSmall) {
-                return this.router.navigate(['/app/profile-view'])
-              }
-
-            }
             return this.router.parseUrl('/page/home')
           }
           return this.router.navigate(['app', 'new-tnc'])
