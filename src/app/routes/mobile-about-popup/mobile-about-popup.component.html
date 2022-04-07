@@ -1,0 +1,21 @@
+<div class="close1">
+  <button mat-button (click)="closeClick()">X</button>
+</div>
+
+<div class="mt-2">
+  <p class="header2">About</p>
+
+  <form [formGroup]="aboutForm" class="mt-2">
+
+    <mat-form-field appearance="outline" class="py-1 textfield">
+      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+        formControlName="about" placeholder="About" (keyup)="textChange()" #about>{{about}}</textarea>
+      <mat-hint>{{ about.value.length }} /500 characters</mat-hint>
+      <mat-error [hidden]="textExceed">You have exceeded 500 characters.</mat-error>
+    </mat-form-field>
+
+    <button type="submit" (click)="onSubmit()" class="save-btn" [disabled]="saveBtn">Save
+    </button>
+  </form>
+
+</div>

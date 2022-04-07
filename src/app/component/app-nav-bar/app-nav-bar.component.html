@@ -63,9 +63,9 @@
 
     <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
-        <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+        <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
-        </ng-container>
+        </div>
       </ng-container>
       <a *ngIf="showCreateBtn === true" role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box"
         (click)="createAcct()" active [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
@@ -94,9 +94,9 @@
         </ng-container>
       </a> -->
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
-        <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+        <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">
-        </ng-container>
+        </div>
       </ng-container>
       <ng-container *ngIf="!showCreateBtn" [wsResolverWidget]="btnAppsConfig"></ng-container>
     </div>

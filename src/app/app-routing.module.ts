@@ -33,6 +33,14 @@ import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
+import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
+import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
+import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
+import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
+import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
+import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -243,7 +251,31 @@ const routes: Routes = [
     component: MobileVideoPlayerComponent,
   },
   {
-
+    path: 'app/profile-view',
+    component: MobileProfileDashboardComponent,
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'app/education-list',
+    component: EducationListComponent,
+  },
+  {
+    path: 'app/education-edit',
+    component: EducationEditComponent,
+  },
+  {
+    path: 'app/workinfo-list',
+    component: WorkInfoListComponent,
+  },
+  {
+    path: 'app/workinfo-edit',
+    component: WorkInfoEditComponent,
+  },
+  {
+    path: 'app/personal-detail-edit',
+    component: PersonalDetailEditComponent,
+  },
+  {
     path: 'app/new-tnc',
     component: NewTncComponent,
     resolve: {
@@ -518,6 +550,14 @@ const routes: Routes = [
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
     canActivate: [GeneralGuard],
+  },
+  {
+    path: 'profilePop',
+    component: MobileProfilePopupComponent,
+  },
+  {
+    path: 'aboutpoppage',
+    component: MobileAboutPopupComponent,
   },
   {
     path: '**',

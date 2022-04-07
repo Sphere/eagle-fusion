@@ -86,8 +86,17 @@ import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
-// import { ServiceWorkerModule } from '@angular/service-worker'
-// import { environment } from '../environments/environment'
+import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
+import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
+import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
+import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
+import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
+import { MobileProfileNavComponent } from './routes/profile-view/mobile-profile-nav/mobile-profile-nav.component'
+import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
+import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
+import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
+import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -138,6 +147,17 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileCategoryComponent,
     MobileVideoPlayerComponent,
     MobileFooterComponent,
+    MobileProfileDashboardComponent,
+    MobileProfilePopupComponent,
+    MobileAboutPopupComponent,
+    ProfileSelectComponent,
+    EducationListComponent,
+    EducationEditComponent,
+    WorkInfoListComponent,
+    WorkInfoEditComponent,
+    MobileProfileNavComponent,
+    CertificateReceivedComponent,
+    PersonalDetailEditComponent,
   ],
   imports: [
     FormsModule,
@@ -152,7 +172,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
     StickyHeaderModule,
     ErrorResolverModule,
-    // Material Imports
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
@@ -185,17 +204,18 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatNativeDateModule,
     MatSelectModule,
     MatExpansionModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     DiscussionUiModule.forRoot(ConfigService),
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
     MobileDashboardComponent,
+    CertificateReceivedComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [
     DialogConfirmComponent,
     LoginComponent,
+    ProfileSelectComponent,
   ],
   providers: [
     {

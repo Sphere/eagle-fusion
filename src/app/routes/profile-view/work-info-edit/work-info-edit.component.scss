@@ -1,0 +1,26 @@
+.content {
+  padding: 60px 20px 30px;
+}
+
+.date-picker {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+::placeholder {
+  color: #bebebe !important;
+}
+
+.save-btn {
+  width: 88px;
+  height: 38px;
+  background-color: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border:0;
+  font-size: 16px;
+  line-height: 19px;
+  float: right;
+  cursor: pointer;
+}
