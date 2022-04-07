@@ -7,9 +7,11 @@
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="searchHeading">
-      <span i18n="search route hits showing">Showing </span>
-      <span>{{ searchResults.result.count }} </span>
-      <span *ngIf="searchResults.result.count > 1" i18n="search route hits results">results </span>
+      <span i18n="search route hits showing" *ngIf="(isXSmall$ | async) !== true">Showing </span>
+      <span *ngIf="(isXSmall$ | async) !== true">{{ searchResults.result.count }} </span>
+      <p class="text-xl" *ngIf="(isXSmall$ | async) === true">All Courses</p>
+      <span *ngIf="searchResults.result.count > 1 && (isXSmall$ | async) !== true "
+        i18n="search route hits results">results </span>
       <span *ngIf="searchResults.result.count <= 1" i18n="search route hits result">result </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred languages</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
@@ -67,9 +69,17 @@
       </mat-chip-list>
     </div>
     <div *ngIf="searchResults?.result?.content?.length">
-      <ws-app-learning-card class="search-card"
-        *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy" [displayType]="resultsDisplayType"
-        [content]="result"></ws-app-learning-card>
+      <ng-container *ngIf="(isXSmall$ | async) !== true">
+        <ws-app-learning-card class="search-card"
+          *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
+          [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
+      </ng-container>
+      <ng-container *ngIf="(isXSmall$ | async) === true">
+        <ws-mobile-course-view *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
+          [courseData]="result">
+        </ws-mobile-course-view>
+      </ng-container>
+
       <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
         <mat-spinner></mat-spinner>
         <!-- <h2 class="h2-title">

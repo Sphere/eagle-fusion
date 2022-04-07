@@ -33,17 +33,18 @@
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
     <nav mat-tab-nav-bar id="mat-nav" class="toc-links mt-8 mat-app-background">
-      <a mat-tab-link [routerLink]="'./overview'" routerLinkActive="ws-mat-primary-text link-active" wsAppRetainScroll
-        i18n>Overview</a>
+      <a mat-tab-link [routerLink]="'./overview'" (click)="toggleComponent('overview')" id="overview-link"
+        [ngClass]="{'ws-mat-primary-text link-active':  routelinK === 'overview'}" wsAppRetainScroll i18n>Overview</a>
       <a mat-tab-link *ngIf="content?.resourceType === 'Certification'" [routerLink]="'./certification'"
         routerLinkActive="ws-mat-primary-text link-active">
         <ng-container *ngIf="content?.isExternal === true" i18n>Certification</ng-container>
         <ng-container *ngIf="content?.isExternal === false" i18n>Take Certification</ng-container>
       </a>
 
-      <a *ngIf="content?.children?.length" mat-tab-link [routerLink]="'./contents'"
-        [queryParams]="{batchId: batchId ,contentId: content.identifier}"
-        routerLinkActive="ws-mat-primary-text link-active" wsAppRetainScroll i18n>Contents</a>
+      <a *ngIf="content?.children?.length" mat-tab-link (click)="toggleComponent('contents')"
+        [routerLink]="'./contents'" [queryParams]="{batchId: batchId ,contentId: content.identifier}"
+        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'contents'}" id="content-link" wsAppRetainScroll
+        i18n>Contents</a>
       <!-- <a *ngIf="enableAnalytics" [disabled]="forPreview" mat-tab-link [routerLink]="'./analytics'"
         routerLinkActive="ws-mat-primary-text link-active" i18n>Analytics</a> -->
       <!-- <a mat-tab-link [routerLink]="'./discussion'" routerLinkActive="ws-mat-primary-text link-active"
@@ -51,11 +52,19 @@
       <!--<a mat-tab-link [routerLink]="'./details'" [queryParams]="{id: content.identifier}"
         routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a> -->
 
-      <a mat-tab-link [routerLink]="'./license'" [queryParams]="{license: license}"
-        routerLinkActive="ws-mat-primary-text link-active" wsAppRetainScroll i18n>License</a>
+      <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
+        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>License</a>
+      <a mat-tab-link (click)="redirectTo()" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'discuss'}"
+        id="license-link" wsAppRetainScroll i18n>Discuss</a>
+
     </nav>
+
+    <all-discussion-widget *ngIf="loadDiscussionWidget" style=' width: 100%;' [config]="discussionConfig">
+    </all-discussion-widget>
+
     <router-outlet></router-outlet>
     <ng-container>
+
     </ng-container>
   </div>
 </ng-container>

@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Data } from '@angular/router'
-import { Subscription } from 'rxjs'
+import { Subject, Subscription } from 'rxjs'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-
+import { takeUntil } from 'rxjs/operators'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-app-app-toc-contents',
   templateUrl: './app-toc-contents.component.html',
@@ -27,7 +28,11 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   expandPartOf = false
   contextId!: string
   contextPath!: string
-
+  loadContent = true
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
@@ -54,6 +59,14 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
+
+    this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
+      if (item && !_.get(item, 'showComponent')) {
+        this.loadContent = item.showComponent
+      } else {
+        this.loadContent = true
+      }
+    })
   }
   ngOnDestroy() {
     if (this.routeSubscription) {
@@ -62,6 +75,8 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     if (this.routeQuerySubscription) {
       this.routeQuerySubscription.unsubscribe()
     }
+    this.unsubscribe.next()
+    this.unsubscribe.complete()
   }
 
   private initData(data: Data) {
@@ -151,4 +166,5 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         return true
     }
   }
+
 }

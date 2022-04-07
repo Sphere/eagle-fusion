@@ -36,7 +36,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
-
+import { CsModule } from '@project-sunbird/client-services'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -61,6 +61,8 @@ export class RootComponent implements OnInit, AfterViewInit {
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
+  mobileView = true
+  showMobileDashboard = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -74,9 +76,51 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    // private location: Location
   ) {
     this.mobileAppsSvc.init()
+    const locationOrigin = location.origin
+    CsModule.instance.init({
+      core: {
+        httpAdapter: 'HttpClientBrowserAdapter',
+        global: {
+          channelId: '', // required
+          producerId: '', // required
+          deviceId: '', // required
+          sessionId: '',
+        },
+        api: {
+          host: `${locationOrigin}/apis/proxies/v8`, // default host
+          // host: 'http://localhost:3004/proxies/v8', // default host
+          // host: 'http://localhost:3002', // default host
+          authentication: {
+            // bearerToken: "", // optional
+            // userToken: "5574b3c5-16ca-49d8-8059-705304f2c7fb"
+            // bearerToken: this.loginToken,
+            // optional
+          },
+        },
+      },
+      services: {
+        groupServiceConfig: {
+          apiPath: '/learner/group/v1',
+          dataApiPath: '/learner/data/v1/group',
+          updateGroupGuidelinesApiPath: '/learner/group/membership/v1',
+        },
+        userServiceConfig: {
+          apiPath: '/learner/user/v2',
+        },
+        formServiceConfig: {
+          apiPath: '/learner/data/v1/form',
+        },
+        courseServiceConfig: {
+          apiPath: '/learner/course/v1',
+          certRegistrationApiPath: '/learner/certreg/v2/certs',
+        },
+        discussionServiceConfig: {
+          apiPath: '/discussion',
+        },
+      },
+    })
   }
 
   ngOnInit() {
@@ -123,16 +167,26 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
+          this.mobileView = true
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account')) {
           this.hideHeaderFooter = true
           this.isNavBarRequired = false
+          this.showMobileDashboard = false
+          this.mobileView = false
         } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
+          this.mobileView = false
+        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') ||
+          event.url.includes('/app/profile/dashboard')) {
+          this.mobileView = false
+          this.isNavBarRequired = true
+          this.showNavbar = true
         } else {
           this.isNavBarRequired = true
+          this.mobileView = false
         }
         this.routeChangeInProgress = true
         this.changeDetector.detectChanges()

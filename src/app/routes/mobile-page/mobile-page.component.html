@@ -1,0 +1,26 @@
+<div class="content">
+  <!--banner and up skill section-->
+  <ws-mobile-home></ws-mobile-home>
+
+  <!--latest course-->
+  <div>
+    <ng-container [wsResolverWidget]="pageLayout">
+    </ng-container>
+  </div>
+
+  <!--50+ organization-->
+  <ws-mobile-organization></ws-mobile-organization>
+
+  <!-- How does it work section -->
+  <section class="mt-4">
+    <ng-container>
+      <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+    </ng-container>
+  </section>
+</div>
+
+<!--leaderboard section-->
+<ws-mobile-leaderboard></ws-mobile-leaderboard>
+
+<!--FAQ section-->
+<ws-mobile-page-faq></ws-mobile-page-faq>

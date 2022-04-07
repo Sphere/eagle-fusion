@@ -81,7 +81,11 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
-import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
+import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
+import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 // import { ServiceWorkerModule } from '@angular/service-worker'
 // import { environment } from '../environments/environment'
 
@@ -131,7 +135,9 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     HeaderComponent,
     GoogleCallbackComponent,
     MobileDashboardComponent,
-    MobileCourseViewComponent
+    MobileCategoryComponent,
+    MobileVideoPlayerComponent,
+    MobileFooterComponent,
   ],
   imports: [
     FormsModule,
@@ -178,11 +184,13 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatExpansionModule,
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    DiscussionUiModule.forRoot(ConfigService),
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
-    MobileCourseViewComponent
+    MobileDashboardComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [

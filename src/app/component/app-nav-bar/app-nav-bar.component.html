@@ -4,7 +4,7 @@
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
       <div class="logo-container flex items-center">
         <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-          <img [src]="appIcon" alt="Application Logo" class="app-logo" />
+          <img [src]="appIcon" alt="Application Logo" id="app-logo" class="app-logo" />
         </a>
       </div>
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
@@ -16,7 +16,7 @@
           [ref]="'home'"></ws-app-search-input-home>
         <span class="spacer"></span>
 
-        <!--<div ngClass="search-small-logo">
+        <div ngClass="search-small-logo">
           <ng-container [wsResolverWidget]="{
         'widgetType': 'actionButton',
         'widgetSubType': 'buttonFeature',
@@ -28,16 +28,20 @@
           }
         }
       }"></ng-container>
-        </div> -->
+        </div>
 
         <button mat-raised-button *ngIf="allowAuthor" i18n
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
           [routerLink]="'/author/create'">
           Add Course </button>
 
-        <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-          *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
-        </ng-container>
+        <!-- top-right Profile drop down -->
+        <section class="top-right-profile">
+          <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
+            *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
+          </ng-container>
+        </section>
+
       </ng-container>
     </ng-container>
 
@@ -56,6 +60,7 @@
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
       </ng-container>
     </ng-container>
+
     <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
