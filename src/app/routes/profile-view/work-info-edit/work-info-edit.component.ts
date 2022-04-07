@@ -5,12 +5,17 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
+import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
   styleUrls: ['./work-info-edit.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+  ],
 })
 export class WorkInfoEditComponent implements OnInit {
   maxDate = new Date()
