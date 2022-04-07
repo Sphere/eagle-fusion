@@ -21,7 +21,7 @@
       </div>
 
       <div class="form-group mt-4 relative">
-        <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="doj" autocomplete="off"
+        <input [matDatepicker]="picker" [min]="" [max]="maxDate" formControlName="doj" autocomplete="off"
           (dateInput)="onDateChange($event.value)" placeholder="Date of Joining" name="doj" id="doj-inputfield"
           class="form-control" (click)="picker.open()">
         <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
@@ -32,7 +32,9 @@
       </div>
 
     </div>
-
+    <button type="submit" (click)="onSubmit(workInfoForm)" class="save-btn" [disabled]="workInfoForm?.invalid">Save
+    </button>
   </form>
-
+  <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
+    value="User profile details updated successfully!" #toastSuccess />
 </div>

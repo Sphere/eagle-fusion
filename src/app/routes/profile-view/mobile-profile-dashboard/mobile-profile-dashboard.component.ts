@@ -24,18 +24,10 @@ export class MobileProfileDashboardComponent implements OnInit {
     public dialog: MatDialog,
     private userProfileSvc: UserProfileService,
   ) {
+  }
 
-    if (this.configSvc.userProfile) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          if (data) {
-            this.userProfileData = data.profileDetails.profileReq
-            if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
-              this.academicsArray = this.userProfileData.academics
-            }
-          }
-        })
-    }
+  ngOnInit() {
+    this.getUserDetails()
     this.certificates = [
       {
         certificateImage: '/fusion-assets/images/certificate1.png',
@@ -45,9 +37,6 @@ export class MobileProfileDashboardComponent implements OnInit {
         certificateImage: '/fusion-assets/images/certificate1.png',
         Coursename: 'Manyata for Mothers ',
       }]
-  }
-
-  ngOnInit() {
   }
 
   openAboutDialog() {
@@ -60,6 +49,21 @@ export class MobileProfileDashboardComponent implements OnInit {
       // tslint:disable-next-line: no-console
       console.log('The dialog was closed', result)
     })
+  }
+
+  getUserDetails() {
+    if (this.configSvc.userProfile) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
+          if (data) {
+            this.userProfileData = data.profileDetails.profileReq
+            console.log(this.userProfileData)
+            if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
+              this.academicsArray = this.userProfileData.academics
+            }
+          }
+        })
+    }
   }
 
   openProfileDialog(): void {
