@@ -31,8 +31,8 @@
     </div>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="org" i18n-placeholder placeholder="Organization Type">
-        <mat-option [value]="org" *ngFor="let org of orgTypes">{{org}}
+      <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type">
+        <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -54,16 +54,16 @@
 
     <mat-form-field appearance="outline" class="field-fullwidth">
       <mat-select formControlName="gender" placeholder="Gender">
-        <mat-option value="male">Male</mat-option>
-        <mat-option value="female">Female</mat-option>
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
         <mat-option value="Others">Others</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
       <mat-select formControlName="maritalStatus" placeholder="Marital Status">
-        <mat-option value="single">Single</mat-option>
-        <mat-option value="married">Married</mat-option>
+        <mat-option value="Single">Single</mat-option>
+        <mat-option value="Married">Married</mat-option>
       </mat-select>
     </mat-form-field>
 
