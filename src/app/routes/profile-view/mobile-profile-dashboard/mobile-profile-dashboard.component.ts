@@ -10,10 +10,10 @@ import { ProfileSelectComponent } from '../profile-select/profile-select.compone
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
-  styleUrls: ['./mobile-profile-dashboard.component.scss']
+  styleUrls: ['./mobile-profile-dashboard.component.scss'],
 })
 export class MobileProfileDashboardComponent implements OnInit {
-  showMobileView: boolean = false
+  showMobileView = false
   showAcademicElse = false
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
@@ -38,12 +38,12 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
     this.certificates = [
       {
-        "certificateImage": "/fusion-assets/images/certificate1.png",
-        "Coursename": "Respectful Maternity Care"
+        certificateImage: '/fusion-assets/images/certificate1.png',
+        Coursename: 'Respectful Maternity Care',
       },
       {
-        "certificateImage": "/fusion-assets/images/certificate1.png",
-        "Coursename": "Manyata for Mothers "
+        certificateImage: '/fusion-assets/images/certificate1.png',
+        Coursename: 'Manyata for Mothers ',
       }]
   }
 
@@ -51,21 +51,23 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   openAboutDialog() {
-    let dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-      width: "450px",
-      data: this.userProfileData.personalDetails.about
+    const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
+      width: '450px',
+      data: this.userProfileData.personalDetails.about,
     })
 
     dialogRef.afterClosed().subscribe(result => {
+      // tslint:disable-next-line: no-console
       console.log('The dialog was closed', result)
     })
   }
 
   openProfileDialog(): void {
-    let dialogRef = this.dialog.open(ProfileSelectComponent, {
-      width: '600px'
+    const dialogRef = this.dialog.open(ProfileSelectComponent, {
+      width: '600px',
     })
     dialogRef.afterClosed().subscribe(result => {
+      // tslint:disable-next-line: no-console
       console.log('The dialog was closed', result)
     })
   }

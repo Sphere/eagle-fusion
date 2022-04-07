@@ -6,7 +6,7 @@ import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/publ
 @Component({
   selector: 'ws-mobile-profile-nav',
   templateUrl: './mobile-profile-nav.component.html',
-  styleUrls: ['./mobile-profile-nav.component.scss']
+  styleUrls: ['./mobile-profile-nav.component.scss'],
 })
 export class MobileProfileNavComponent implements OnInit {
 

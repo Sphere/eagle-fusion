@@ -209,13 +209,13 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
     MobileDashboardComponent,
-    CertificateReceivedComponent
+    CertificateReceivedComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [
     DialogConfirmComponent,
     LoginComponent,
-    ProfileSelectComponent
+    ProfileSelectComponent,
   ],
   providers: [
     {

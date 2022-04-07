@@ -16,7 +16,7 @@ export class GeneralGuard implements CanActivate {
   dobFlag = false
   isXSmall = false
   constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) { }
+              private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,

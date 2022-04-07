@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { MobileProfileNavComponent } from './mobile-profile-nav.component';
+import { MobileProfileNavComponent } from './mobile-profile-nav.component'
 
 describe('MobileProfileNavComponent', () => {
-  let component: MobileProfileNavComponent;
-  let fixture: ComponentFixture<MobileProfileNavComponent>;
+  let component: MobileProfileNavComponent
+  let fixture: ComponentFixture<MobileProfileNavComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MobileProfileNavComponent ]
+      declarations: [MobileProfileNavComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MobileProfileNavComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(MobileProfileNavComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

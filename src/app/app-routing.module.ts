@@ -553,11 +553,11 @@ const routes: Routes = [
   },
   {
     path: 'profilePop',
-    component: MobileProfilePopupComponent
+    component: MobileProfilePopupComponent,
   },
   {
     path: 'aboutpoppage',
-    component: MobileAboutPopupComponent
+    component: MobileAboutPopupComponent,
   },
   {
     path: '**',

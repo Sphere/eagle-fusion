@@ -5,24 +5,24 @@ import * as _ from 'lodash'
 @Component({
   selector: 'ws-education-list',
   templateUrl: './education-list.component.html',
-  styleUrls: ['./education-list.component.scss']
+  styleUrls: ['./education-list.component.scss'],
 })
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,) {
+    private userProfileSvc: UserProfileService) {
+
+  }
+
+  ngOnInit() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data && _.get(data, 'profileDetails.profileReq.academics')) {
             this.academicsArray = _.get(data, 'profileDetails.profileReq.academics')
-            console.log(this.academicsArray)
           }
         })
     }
-  }
-
-  ngOnInit() {
   }
 
 }

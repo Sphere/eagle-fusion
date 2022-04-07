@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 @Component({
   selector: 'ws-mobile-about-popup',
   templateUrl: './mobile-about-popup.component.html',
-  styleUrls: ['./mobile-about-popup.component.scss']
+  styleUrls: ['./mobile-about-popup.component.scss'],
 })
 export class MobileAboutPopupComponent implements OnInit {
   saveBtn = true
@@ -13,16 +13,16 @@ export class MobileAboutPopupComponent implements OnInit {
   aboutForm: FormGroup
 
   constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+              @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
-      about: new FormControl()
+      about: new FormControl(),
     })
   }
 
   ngOnInit() {
     this.aboutForm.patchValue({
-      about: this.data
+      about: this.data,
     })
   }
 

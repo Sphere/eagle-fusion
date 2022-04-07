@@ -188,7 +188,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           this.mobileView = false
         }
-        this.valueSvc.isXSmall$.subscribe((isXSmall) => {
+        this.valueSvc.isXSmall$.subscribe(isXSmall => {
           if (event.url.includes('/app/profile/dashboard')) {
             if (isXSmall) {
               this.router.navigate(['/app/profile-view'])

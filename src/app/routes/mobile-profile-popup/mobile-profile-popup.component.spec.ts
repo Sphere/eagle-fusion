@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { MobileProfilePopupComponent } from './mobile-profile-popup.component';
+import { MobileProfilePopupComponent } from './mobile-profile-popup.component'
 
 describe('MobileProfilePopupComponent', () => {
-  let component: MobileProfilePopupComponent;
-  let fixture: ComponentFixture<MobileProfilePopupComponent>;
+  let component: MobileProfilePopupComponent
+  let fixture: ComponentFixture<MobileProfilePopupComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MobileProfilePopupComponent ]
+      declarations: [MobileProfilePopupComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MobileProfilePopupComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(MobileProfilePopupComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

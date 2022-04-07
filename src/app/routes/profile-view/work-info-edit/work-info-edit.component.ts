@@ -5,7 +5,7 @@ import moment from 'moment'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
-  styleUrls: ['./work-info-edit.component.scss']
+  styleUrls: ['./work-info-edit.component.scss'],
 })
 export class WorkInfoEditComponent implements OnInit {
   maxDate = new Date()
@@ -18,7 +18,7 @@ export class WorkInfoEditComponent implements OnInit {
       doj: new FormControl(),
       organizationName: new FormControl(),
       designation: new FormControl(),
-      location: new FormControl()
+      location: new FormControl(),
     })
   }
 

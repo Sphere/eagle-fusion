@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material'
 @Component({
   selector: 'ws-profile-select',
   templateUrl: './profile-select.component.html',
-  styleUrls: ['./profile-select.component.scss']
+  styleUrls: ['./profile-select.component.scss'],
 })
 export class ProfileSelectComponent implements OnInit {
 

@@ -5,7 +5,7 @@ import moment from 'moment'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
-  styleUrls: ['./personal-detail-edit.component.scss']
+  styleUrls: ['./personal-detail-edit.component.scss'],
 })
 export class PersonalDetailEditComponent implements OnInit {
   maxDate = new Date()
