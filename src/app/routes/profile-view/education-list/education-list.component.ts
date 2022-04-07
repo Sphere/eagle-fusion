@@ -10,7 +10,7 @@ import * as _ from 'lodash'
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) {
+              private userProfileSvc: UserProfileService) {
 
   }
 
