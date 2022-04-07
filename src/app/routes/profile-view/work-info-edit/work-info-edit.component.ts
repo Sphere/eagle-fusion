@@ -6,6 +6,7 @@ import { ConfigurationsService } from '../../../../../library/ws-widget/utils/sr
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
 import { MatSnackBar } from '@angular/material'
+import { constructReq } from '../request-util'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
@@ -84,12 +85,10 @@ export class WorkInfoEditComponent implements OnInit {
     }
   }
   onSubmit(form: any) {
-    console.log(form)
-
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = this.constructReq(form)
+    const profileRequest = constructReq(form, this.userProfileData)
     const reqUpdate = {
       request: {
         userId: this.userID,
@@ -105,43 +104,6 @@ export class WorkInfoEditComponent implements OnInit {
         }
 
       })
-  }
-  private constructReq(form: any) {
-    const userid = this.userProfileData.userId || this.userProfileData.id || ''
-    const profileReq = {
-      id: userid,
-      userId: userid,
-      professionalDetails: [...this.getOrganisationsHistory(form)]
-    }
-    return { profileReq }
-  }
-
-
-  private getOrganisationsHistory(form: any) {
-    const organisations: any = []
-    const org = {
-      organisationType: '',
-      name: form.value.orgName,
-      nameOther: form.value.orgNameOther,
-      industry: form.value.industry,
-      industryOther: form.value.industryOther,
-      designation: form.value.designation,
-      designationOther: form.value.designationOther,
-      location: form.value.location,
-      responsibilities: '',
-      doj: form.value.doj,
-      description: form.value.orgDesc,
-      completePostalAddress: '',
-      additionalAttributes: {},
-      osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
-    }
-    if (form.value.isGovtOrg) {
-      org.organisationType = 'Government'
-    } else {
-      org.organisationType = 'Non-Government'
-    }
-    organisations.push(org)
-    return organisations
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
