@@ -5,10 +5,12 @@
   <p class="text-2xl mt-2">Education</p>
 
   <div class="mt-3">
-    <div class="inline-block">
-      <p class="heading">Degree/Diploma Details</p>
-      <p class="head-2">School name: Name xyz</p>
-      <p class="head-3">2018</p>
+    <div *ngFor="let academic of academicsArray">
+      <div class="inline-block">
+        <p class="heading">{{academic.nameOfQualification}}</p>
+        <p class="head-2">{{academic.nameOfInstitute}}</p>
+        <p class="head-3">{{academic.yearOfPassing}}</p>
+      </div>
     </div>
     <mat-icon class="float-right pencil">edit</mat-icon>
     <mat-divider class="mt-2"></mat-divider>
