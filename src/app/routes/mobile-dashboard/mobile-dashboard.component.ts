@@ -24,10 +24,10 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
   constructor(private orgService: OrgServiceService,
-    private configSvc: ConfigurationsService,
-    private userSvc: WidgetUserService,
-    private router: Router,
-    private http: HttpClient
+              private configSvc: ConfigurationsService,
+              private userSvc: WidgetUserService,
+              private router: Router,
+              private http: HttpClient
   ) {
 
   }
@@ -67,21 +67,26 @@ export class MobileDashboardComponent implements OnInit {
 
   }
   formatFeaturedCourseResponse(res: any) {
-    const featuredCourse = _.filter(res.result.content, (ckey) => {
+
+    const featuredCourse = _.filter(res.result.content, ckey => {
       return _.includes(this.featuredCourseIdentifier, ckey.identifier)
     })
+
     this.featuredCourse = _.reduce(_.uniqBy(featuredCourse, 'identifier'), (result, value) => {
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
       return result
 
-    }, {})
+    },                             {})
   }
+
   formatTopCertifiedCourseResponse(res: any) {
-    const topCertifiedCourse = _.filter(res.result.content, (ckey) => {
+
+    const topCertifiedCourse = _.filter(res.result.content, ckey => {
       return _.includes(this.topCertifiedCourseIdentifier, ckey.identifier)
     })
+
     this.topCertifiedCourse = _.uniqBy(topCertifiedCourse, 'identifier')
   }
   formatmyCourseResponse(res: any) {
