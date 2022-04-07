@@ -2,15 +2,15 @@
   <ws-mobile-profile-nav></ws-mobile-profile-nav>
   <p class="text-2xl mt-3">Personal Details</p>
 
-  <form [formGroup]="personalDetailForm" class="mt-3">
+  <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
 
     <div class="form-group">
-      <input type="text" formControlName="userName" class="form-control" placeholder="User's Name" autocomplete="off">
+      <input type="text" formControlName="userName" class="form-control" placeholder="User's Name*" autocomplete="off">
     </div>
 
     <div class="form-group mt-4 relative">
       <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
-        (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob" id="dob-inputfield"
+        (dateInput)="onDateChange($event.value)" placeholder="Date of Birth*" name="dob" id="dob-inputfield"
         class="form-control" (click)="picker.open()">
       <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -19,26 +19,23 @@
       <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
     </div>
 
-    <div class="form-group">
-      <select id="profession" formControlName="profession" class="form-control">
-        <option style="color:#808080;">Profession*</option>
-        <!-- <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }} -->
-        <!-- </option> -->
-      </select>
-    </div>
+    <mat-form-field appearance="outline" class="field-fullwidth">
+      <mat-select formControlName="profession" i18n-placeholder placeholder="Profession">
+        <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div class="form-group">
-      <input type="text" formControlName="rnNumber" class="form-control"
-        placeholder="Registered Nurse Number(RN)/ Registered Midwife Number(RM)" autocomplete="off">
+      <input type="text" formControlName="rnNumber" class="form-control" placeholder="RN/RM Number" autocomplete="off">
     </div>
 
-    <div class="form-group">
-      <select id="ngo" formControlName="ngo" class="form-control">
-        <option style="color:#808080;">NGO*</option>
-        <!-- <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }} -->
-        <!-- </option> -->
-      </select>
-    </div>
+    <mat-form-field appearance="outline" class="field-fullwidth">
+      <mat-select formControlName="org" i18n-placeholder placeholder="Organization Type">
+        <mat-option [value]="org" *ngFor="let org of orgTypes">{{org}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div class="form-group">
       <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
@@ -55,22 +52,20 @@
         autocomplete="off">
     </div>
 
-    <div class="form-group">
-      <select id="gender" formControlName="gender" class="form-control" placeholder="Gender">
-        <option style="color:#808080;" [value]="null">Gender</option>
-        <option [value]="male">Male</option>
-        <option [value]="female">Female</option>
-        <option [value]="Others">Others</option>
-      </select>
-    </div>
+    <mat-form-field appearance="outline" class="field-fullwidth">
+      <mat-select formControlName="gender" placeholder="Gender">
+        <mat-option [value]="male">Male</mat-option>
+        <mat-option [value]="female">Female</mat-option>
+        <mat-option [value]="Others">Others</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <div class="form-group">
-      <select id="maritalStatus" formControlName="maritalStatus" class="form-control" placeholder="Marital Status">
-        <option style="color:#808080;" [value]="null">Marital Status</option>
-        <option [value]="single">Single</option>
-        <option [value]="married">Married</option>
-      </select>
-    </div>
+    <mat-form-field appearance="outline" class="field-fullwidth">
+      <mat-select formControlName="maritalStatus" placeholder="Marital Status">
+        <mat-option [value]="single">Single</mat-option>
+        <mat-option [value]="married">Married</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div class="form-group">
       <input type="text" formControlName="languages" class="form-control" placeholder="Languages" autocomplete="off">
@@ -88,6 +83,9 @@
     <div class="form-group">
       <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" autocomplete="off">
     </div>
+
+    <button type="submit" (click)="onSubmit()" class="save-btn" [disabled]="personalDetailForm?.invalid">Save
+    </button>
 
   </form>
 </div>

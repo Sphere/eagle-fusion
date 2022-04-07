@@ -52,7 +52,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   openAboutDialog() {
     let dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-      width: "263px",
+      width: "450px",
       data: this.userProfileData.personalDetails.about
     })
 

@@ -12,6 +12,8 @@ export class PersonalDetailEditComponent implements OnInit {
   minDate = new Date(1900, 1, 1)
   invalidDob = false
   personalDetailForm: FormGroup
+  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
+  orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
   constructor() {
     this.personalDetailForm = new FormGroup({
@@ -19,7 +21,7 @@ export class PersonalDetailEditComponent implements OnInit {
       dob: new FormControl(),
       profession: new FormControl(),
       rnNumber: new FormControl(),
-      ngo: new FormControl(),
+      org: new FormControl(),
       organizationName: new FormControl(),
       nationality: new FormControl(),
       motherTounge: new FormControl(),
@@ -44,6 +46,10 @@ export class PersonalDetailEditComponent implements OnInit {
     } else {
       this.invalidDob = true
     }
+  }
+
+  onSubmit() {
+
   }
 
 }
