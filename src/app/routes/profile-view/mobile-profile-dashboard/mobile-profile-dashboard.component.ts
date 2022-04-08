@@ -62,7 +62,6 @@ export class MobileProfileDashboardComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            console.log(this.userProfileData)
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
             }
