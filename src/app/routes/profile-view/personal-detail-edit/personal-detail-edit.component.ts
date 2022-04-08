@@ -4,12 +4,17 @@ import moment from 'moment'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { changeformat } from '../../../../../project/ws/app/src/public-api'
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../project/ws/app/src/public-api'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
 
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
   styleUrls: ['./personal-detail-edit.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+  ],
 })
 export class PersonalDetailEditComponent implements OnInit {
   maxDate = new Date()
@@ -78,7 +83,7 @@ export class PersonalDetailEditComponent implements OnInit {
 
     this.personalDetailForm.patchValue({
       userName: this.profileUserName,
-      dob: changeformat(new Date(`${data.personalDetails.dob}`)),
+      dob: this.getDateFromText(data.personalDetails.dob),
       profession: data.professionalDetails[0].designationOther,
       rnNumber: data.personalDetails.regNurseRegMidwifeNumber,
       orgType: data.professionalDetails[0].organisationType,
@@ -98,7 +103,7 @@ export class PersonalDetailEditComponent implements OnInit {
     if (dateString) {
       const splitValues: string[] = dateString.split('-')
       const [dd, mm, yyyy] = splitValues
-      const dateToBeConverted = `${dd}-${mm}-${yyyy}`
+      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
       return new Date(dateToBeConverted)
     }
     return ''

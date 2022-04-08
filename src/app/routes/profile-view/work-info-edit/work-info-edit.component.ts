@@ -80,6 +80,8 @@ export class WorkInfoEditComponent implements OnInit {
     }
   }
   onSubmit(form: any) {
+    form.value.doj = changeformat(new Date(`${form.value.doj}`))
+
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
