@@ -22,6 +22,7 @@ export class EducationListComponent implements OnInit {
         (data: any) => {
           if (data && _.get(data, 'profileDetails.profileReq.academics')) {
             this.academicsArray = _.get(data, 'profileDetails.profileReq.academics')
+            console.log(this.academicsArray)
           }
         })
     }
