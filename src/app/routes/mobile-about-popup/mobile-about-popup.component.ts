@@ -62,6 +62,7 @@ export class MobileAboutPopupComponent implements OnInit {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     const profileRequest = constructReq(form, this.userProfileData)
+    console.log(JSON.stringify(profileRequest))
     const reqUpdate = {
       request: {
         userId: this.userID,
