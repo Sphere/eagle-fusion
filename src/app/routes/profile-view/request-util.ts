@@ -6,30 +6,30 @@ export const constructReq = (form: any, userProfileData: any) => {
     id: userid,
     userId: userid,
     personalDetails: {
-      firstname: userProfileData.personalDetails.firstname,
-      middlename: userProfileData.personalDetails.middlename,
-      surname: userProfileData.personalDetails.surname,
-      about: form.value.about ? form.value.about : userProfileData.personalDetails.about,
-      dob: userProfileData.personalDetails.dob,
-      nationality: userProfileData.personalDetails.countryCode,
-      domicileMedium: userProfileData.domicileMedium,
-      regNurseRegMidwifeNumber: userProfileData.regNurseRegMidwifeNumber,
+      firstname: form.value.firstname !== 'undefined' ? form.value.firstname : userProfileData.personalDetails.firstname,
+      middlename: form.value.middlename !== 'undefined' ? form.value.middlename : userProfileData.personalDetails.middlename,
+      surname: form.value.surname !== 'undefined' ? form.value.surname : userProfileData.personalDetails.surname,
+      about: form.value.about !== 'undefined' ? form.value.about : userProfileData.personalDetails.about,
+      dob: form.value.dob !== 'undefined' ? form.value.dob : userProfileData.personalDetails.dob,
+      nationality: form.value.nationality !== 'undefined' ? form.value.nationality : userProfileData.personalDetails.countryCode,
+      domicileMedium: form.value.motherTounge !== 'undefined' ? form.value.motherTounge : userProfileData.domicileMedium,
+      regNurseRegMidwifeNumber: form.value.rnNumber !== 'undefined' ? form.value.rnNumber : userProfileData.regNurseRegMidwifeNumber,
       nationalUniqueId: userProfileData.nationalUniqueId,
       doctorRegNumber: userProfileData.doctorRegNumber,
       instituteName: userProfileData.instituteName,
       nursingCouncil: userProfileData.nursingCouncil,
-      gender: userProfileData.gender,
-      maritalStatus: userProfileData.maritalStatus,
+      gender: form.value.gender !== 'undefined' ? form.value.gender : userProfileData.gender,
+      maritalStatus: form.value.maritalStatus !== 'undefined' ? form.value.maritalStatus : userProfileData.maritalStatus,
       category: userProfileData.category,
-      knownLanguages: userProfileData.knownLanguages,
+      knownLanguages: form.value.languages !== 'undefined' ? form.value.languages : userProfileData.knownLanguages,
       countryCode: userProfileData.countryCode,
-      mobile: userProfileData.mobile,
+      mobile: form.value.phoneNumber !== 'undefined' ? form.value.phoneNumber : userProfileData.mobile,
       telephone: userProfileData.telephone,
       primaryEmail: userProfileData.primaryEmail,
       officialEmail: '',
       personalEmail: '',
-      postalAddress: userProfileData.residenceAddress,
-      pincode: userProfileData.pincode,
+      postalAddress: form.value.address !== 'undefined' ? form.value.address : userProfileData.residenceAddress,
+      pincode: form.value.pincode !== 'undefined' ? form.value.pincode : userProfileData.pincode,
     },
     academics: populateAcademics(userProfileData),
     employmentDetails: {
@@ -112,7 +112,7 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     industry: form.value.industry,
     industryOther: form.value.industryOther,
     designation: form.value.designation,
-    designationOther: form.value.designationOther,
+    designationOther: userProfileData.professionalDetails[0].designationOther,
     location: form.value.location,
     responsibilities: '',
     doj: changeformat(new Date(`${form.value.doj}`)),
@@ -121,10 +121,8 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     additionalAttributes: {},
     osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
   }
-  if (form.value.isGovtOrg) {
-    org.organisationType = 'Government'
-  } else {
-    org.organisationType = 'Non-Government'
+  if (userProfileData.professionalDetails[0].organisationType) {
+    org.organisationType = userProfileData.professionalDetails[0].organisationType
   }
   organisations.push(org)
   return organisations
