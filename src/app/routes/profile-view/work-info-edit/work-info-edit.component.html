@@ -22,13 +22,9 @@
 
       <div class="form-group mt-4 relative">
         <input [matDatepicker]="picker" [min]="" [max]="maxDate" formControlName="doj" autocomplete="off"
-          (dateInput)="onDateChange($event.value)" placeholder="Date of Joining" name="doj" id="doj-inputfield"
-          class="form-control" (click)="picker.open()">
+          placeholder="Date of Joining" name="doj" id="doj-inputfield" class="form-control" (click)="picker.open()">
         <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </div>
-      <div>
-        <pre *ngIf="invalidDoj" class="text-danger">You must be at least 18 years old</pre>
       </div>
 
     </div>

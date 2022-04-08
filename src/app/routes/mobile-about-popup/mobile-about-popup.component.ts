@@ -6,7 +6,6 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../profile-view/request-util'
 
-
 @Component({
   selector: 'ws-mobile-about-popup',
   templateUrl: './mobile-about-popup.component.html',
@@ -23,7 +22,7 @@ export class MobileAboutPopupComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    private snackBar: MatSnackBar,
+    private matSnackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
@@ -72,17 +71,15 @@ export class MobileAboutPopupComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          this.openSnackBar(this.toastSuccess.nativeElement.value)
           this.userProfileSvc._updateuser.next('true')
           this.dialogRef.close()
         }
       })
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
-    this.snackBar.open(primaryMsg, 'X', {
-      duration,
-    })
+  private openSnackBar(message: string) {
+    this.matSnackBar.open(message)
   }
 
   closeClick() {
