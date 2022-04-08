@@ -32,3 +32,9 @@
   float: right;
   cursor: pointer;
 }
+
+.save-btn:disabled {
+  background-color: #BFBFBF;
+  color: #808080;
+  cursor: default;
+}

@@ -11,8 +11,8 @@ import { Router } from '@angular/router'
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router) {
+              private userProfileSvc: UserProfileService,
+              private router: Router) {
 
   }
 
@@ -29,7 +29,7 @@ export class EducationListComponent implements OnInit {
   redirectTo(isEdit?: any) {
     if (isEdit) {
       this.router.navigate([`app/education-edit`], {
-        queryParams: { isEdit: isEdit }
+        queryParams: { isEdit },
       })
     }
     this.router.navigate([`app/education-edit`])

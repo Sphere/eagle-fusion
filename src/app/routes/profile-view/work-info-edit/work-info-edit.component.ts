@@ -24,10 +24,10 @@ export class WorkInfoEditComponent implements OnInit {
   userID = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute) {
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private snackBar: MatSnackBar,
+              private route: ActivatedRoute) {
     this.workInfoForm = new FormGroup({
       doj: new FormControl('', []),
       organizationName: new FormControl('', []),
@@ -47,7 +47,7 @@ export class WorkInfoEditComponent implements OnInit {
         doj: this.getDateFromText(organisation.doj),
         organizationName: organisation.name,
         designation: organisation.designation,
-        location: organisation.location
+        location: organisation.location,
       })
     }
   }
@@ -58,7 +58,7 @@ export class WorkInfoEditComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            this.route.queryParams.subscribe((isEdit) => {
+            this.route.queryParams.subscribe(isEdit => {
               if (isEdit.isEdit) {
                 this.updateForm()
               }

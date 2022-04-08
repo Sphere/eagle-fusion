@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { MatSnackBar } from '@angular/material'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
+import * as _ from 'lodash'
+import { ActivatedRoute, Router } from '@angular/router'
 @Component({
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
@@ -13,8 +16,12 @@ export class EducationEditComponent implements OnInit {
   academics: any = []
   userID = ''
   userProfileData!: any
+  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,) {
+              private userProfileSvc: UserProfileService,
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),
@@ -34,7 +41,7 @@ export class EducationEditComponent implements OnInit {
       {
         type: 'POSTGRADUATE',
 
-      }
+      },
     ]
   }
 
@@ -47,17 +54,39 @@ export class EducationEditComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
+            this.route.queryParams.subscribe(isEdit => {
+              if (isEdit.isEdit) {
+              }
+            })
           }
         })
     }
   }
+
   onSubmit(form: any) {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     const profileRequest = constructReq(form, this.userProfileData)
+    const reqUpdate = {
+      request: {
+        userId: this.userID,
+        profileDetails: profileRequest,
+      },
+    }
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+      (res: any) => {
+        if (res) {
+          form.reset()
+          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          this.userProfileSvc._updateuser.next('true')
+          this.router.navigate(['/app/education-list'])
+        }
+      })
   }
-  selectionChange(event: any) {
-
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
   }
 }

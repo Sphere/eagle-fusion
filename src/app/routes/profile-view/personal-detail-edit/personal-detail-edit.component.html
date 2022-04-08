@@ -5,7 +5,8 @@
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
 
     <div class="form-group">
-      <input type="text" formControlName="userName" class="form-control" placeholder="User's Name*" autocomplete="off">
+      <input type="text" formControlName="userName" class="form-control" (change)="fieldChange()"
+        placeholder="User's Name*" autocomplete="off">
     </div>
 
     <div class="form-group mt-4 relative">
@@ -20,18 +21,21 @@
     </div>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="profession" i18n-placeholder placeholder="Profession">
+      <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
+        (selectionChange)="professionalChange($event.value)">
         <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <div class="form-group">
-      <input type="text" formControlName="rnNumber" class="form-control" placeholder="RN/RM Number" autocomplete="off">
+      <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
+        placeholder="RN/RM Number" autocomplete="off">
     </div>
 
-    <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type">
+    <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
+      <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
+        (selectionChange)="fieldChange()">
         <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
         </mat-option>
       </mat-select>
@@ -39,21 +43,21 @@
 
     <div class="form-group">
       <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
-        autocomplete="off">
+        autocomplete="off" (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="nationality" class="form-control" placeholder="Nationality"
-        autocomplete="off">
+      <input type="text" formControlName="nationality" class="form-control" placeholder="Nationality" autocomplete="off"
+        (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="motherTounge" class="form-control" placeholder="Mother Tounge"
-        autocomplete="off">
+      <input type="text" formControlName="domicileMedium" class="form-control" placeholder="Mother Tounge"
+        autocomplete="off" (change)="fieldChange()">
     </div>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="gender" placeholder="Gender">
+      <mat-select formControlName="gender" placeholder="Gender" (selectionChange)="fieldChange()">
         <mat-option value="Male">Male</mat-option>
         <mat-option value="Female">Female</mat-option>
         <mat-option value="Others">Others</mat-option>
@@ -61,31 +65,34 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="maritalStatus" placeholder="Marital Status">
+      <mat-select formControlName="maritalStatus" placeholder="Marital Status" (selectionChange)="fieldChange()">
         <mat-option value="Single">Single</mat-option>
         <mat-option value="Married">Married</mat-option>
       </mat-select>
     </mat-form-field>
 
     <div class="form-group">
-      <input type="text" formControlName="languages" class="form-control" placeholder="Languages" autocomplete="off">
+      <input type="text" formControlName="knownLanguages" class="form-control" placeholder="Languages"
+        autocomplete="off" (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="phoneNumber" class="form-control" placeholder="Phone Number"
-        autocomplete="off">
+      <input type="text" formControlName="mobile" class="form-control" placeholder="Phone Number" autocomplete="off"
+        (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="address" class="form-control" placeholder="Address" autocomplete="off">
+      <input type="text" formControlName="postalAddress" class="form-control" placeholder="Address" autocomplete="off"
+        (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" autocomplete="off">
+      <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" autocomplete="off"
+        (change)="fieldChange()">
     </div>
 
     <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
-      [disabled]="personalDetailForm?.invalid">Save
+      [disabled]="personalDetailForm?.invalid || savebtnDisable">Save
     </button>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"

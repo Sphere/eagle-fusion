@@ -2,7 +2,6 @@ import * as _ from 'lodash'
 import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
-  console.log(form.value.firstname)
 
   const profileReq = {
     id: userid,
@@ -13,9 +12,10 @@ export const constructReq = (form: any, userProfileData: any) => {
       surname: _.get(form.value, 'surname') ? form.value.surname : userProfileData.personalDetails.surname,
       about: _.get(form.value, 'about') ? form.value.about : userProfileData.personalDetails.about,
       dob: _.get(form.value, 'dob') ? form.value.dob : userProfileData.personalDetails.dob,
-      nationality: _.get(form.value, 'nationality') ? form.value.nationality : userProfileData.personalDetails.countryCode,
-      domicileMedium: _.get(form.value, 'domicileMedium') ? form.value.motherTounge : userProfileData.domicileMedium,
-      regNurseRegMidwifeNumber: _.get(form.value, 'rnNumber') ? form.value.rnNumber : userProfileData.personalDetails.regNurseRegMidwifeNumber,
+      nationality: _.get(form.value, 'nationality') ? form.value.nationality : userProfileData.personalDetails.nationality,
+      domicileMedium: _.get(form.value, 'domicileMedium') ? form.value.domicileMedium : userProfileData.domicileMedium,
+      regNurseRegMidwifeNumber: _.get(form.value, 'regNurseRegMidwifeNumber') ? form.value.regNurseRegMidwifeNumber :
+        userProfileData.personalDetails.regNurseRegMidwifeNumber,
       nationalUniqueId: userProfileData.nationalUniqueId,
       doctorRegNumber: userProfileData.doctorRegNumber,
       instituteName: userProfileData.instituteName,
@@ -23,17 +23,17 @@ export const constructReq = (form: any, userProfileData: any) => {
       gender: _.get(form.value, 'gender') ? form.value.gender : userProfileData.personalDetails.gender,
       maritalStatus: _.get(form.value, 'maritalStatus') ? form.value.maritalStatus : userProfileData.personalDetails.maritalStatus,
       category: userProfileData.category,
-      knownLanguages: _.get(form.value, 'languages') ? form.value.languages : userProfileData.personalDetails.knownLanguages,
+      knownLanguages: _.get(form.value, 'knownLanguages') ? form.value.knownLanguages : userProfileData.personalDetails.knownLanguages,
       countryCode: userProfileData.countryCode,
-      mobile: _.get(form.value, 'phoneNumber') ? form.value.phoneNumber : userProfileData.personalDetails.mobile,
+      mobile: _.get(form.value, 'mobile') ? form.value.mobile : userProfileData.personalDetails.mobile,
       telephone: userProfileData.personalDetails.telephone,
       primaryEmail: userProfileData.personalDetails.primaryEmail,
       officialEmail: '',
       personalEmail: '',
-      postalAddress: _.get(form.value, 'address') ? form.value.address : userProfileData.personalDetails.residenceAddress,
+      postalAddress: _.get(form.value, 'postalAddress') ? form.value.postalAddress : userProfileData.personalDetails.postalAddress,
       pincode: _.get(form.value, 'pincode') ? form.value.pincode : userProfileData.personalDetails.pincode,
     },
-    academics: populateAcademics(userProfileData),
+    academics: _.get(form.value, 'courseDegree') ? populateAcademics(form.value) : populateAcademics(userProfileData),
     employmentDetails: {
       service: _.get(userProfileData, 'employmentDetails.service') || '',
       cadre: _.get(userProfileData, 'employmentDetails.cadre') || '',
@@ -59,50 +59,98 @@ export const constructReq = (form: any, userProfileData: any) => {
 }
 
 export const populateAcademics = (data: any) => {
-  const academics: any = []
-  if (data.academics && Array.isArray(data.academics)) {
-    data.academics.map((item: any) => {
-      switch (item.type) {
-        case 'X_STANDARD':
-          academics.push({
-            nameOfQualification: '',
-            type: 'X_STANDARD',
-            nameOfInstitute: item.nameOfInstitute,
-            yearOfPassing: `${item.yearOfPassing
-              }`,
-          })
-          break
-        case 'XII_STANDARD':
-          academics.push({
-            nameOfQualification: '',
-            type: 'XII_STANDARD',
-            nameOfInstitute: item.nameOfInstitute,
-            yearOfPassing: `${item.yearOfPassing
-              }`,
-          })
-          break
-        case 'GRADUATE':
-          academics.push({
-            nameOfQualification: '',
-            type: 'GRADUATE',
-            nameOfInstitute: item.nameOfInstitute,
-            yearOfPassing: `${item.yearOfPassing
-              }`,
-          })
-          break
-        case 'POSTGRADUATE':
-          academics.push({
-            nameOfQualification: '',
-            type: 'POSTGRADUATE',
-            nameOfInstitute: item.nameOfInstitute,
-            yearOfPassing: `${item.yearOfPassing
-              }`,
-          })
-          break
-      }
-    })
+  if (data.academics && data.academics.length > 0) {
+    const academics: any = []
+    if (data.academics && Array.isArray(data.academics)) {
+      data.academics.map((item: any) => {
+        switch (item.type) {
+          case 'X_STANDARD':
+            academics.push({
+              nameOfQualification: '',
+              type: 'X_STANDARD',
+              nameOfInstitute: item.nameOfInstitute,
+              yearOfPassing: `${item.yearOfPassing
+                }`,
+            })
+            break
+          case 'XII_STANDARD':
+            academics.push({
+              nameOfQualification: '',
+              type: 'XII_STANDARD',
+              nameOfInstitute: item.nameOfInstitute,
+              yearOfPassing: `${item.yearOfPassing
+                }`,
+            })
+            break
+          case 'GRADUATE':
+            academics.push({
+              nameOfQualification: '',
+              type: 'GRADUATE',
+              nameOfInstitute: item.nameOfInstitute,
+              yearOfPassing: `${item.yearOfPassing
+                }`,
+            })
+            break
+          case 'POSTGRADUATE':
+            academics.push({
+              nameOfQualification: '',
+              type: 'POSTGRADUATE',
+              nameOfInstitute: item.nameOfInstitute,
+              yearOfPassing: `${item.yearOfPassing
+                }`,
+            })
+            break
+        }
+      })
+    }
+    return academics
+  }  {
+    const academics: any = []
+    academics.push(getClass10(data))
+    academics.push(getClass12(data))
+    academics.push(getDegree(data))
+    return academics
   }
-  return academics
+}
+
+export const getClass10 = (data: any) => {
+  return ({
+    nameOfQualification: '',
+    type: 'X_STANDARD',
+    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ? data.institutionName : '',
+    yearOfPassing: data.courseDegree.type === 'X_STANDARD' ? `${data.yearPassing
+      }` : ' ',
+  })
+}
+
+export const getClass12 = (data: any) => {
+  return ({
+    nameOfQualification: '',
+    type: 'XII_STANDARD',
+    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName : '',
+    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
+      }` : '',
+  })
+}
+
+export const getDegree = (data: any) => {
+  return ({
+    nameOfQualification: data.courseName ? data.coursename : '',
+    type: 'GRADUATE',
+    nameOfInstitute: data.courseDegree.type === 'GRADUATE' ? data.institutionName : '',
+    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
+      }` : '',
+  })
+}
+
+export const getPostDegree = (data: any) => {
+  return ({
+    nameOfQualification: '',
+    type: 'POSTGRADUATE',
+    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName : '',
+    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
+      }` : '',
+  })
 }
 
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {

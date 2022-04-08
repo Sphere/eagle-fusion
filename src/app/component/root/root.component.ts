@@ -169,7 +169,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           this.mobileView = true
           // tslint:disable-next-line: max-line-length
-        } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') || event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
+        } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
+          event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account')) {
           this.hideHeaderFooter = true
           this.isNavBarRequired = false
@@ -193,7 +194,8 @@ export class RootComponent implements OnInit, AfterViewInit {
             if (isXSmall) {
               this.router.navigate(['/app/profile-view'])
             }
-          } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') || event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
+          } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') ||
+            event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
             if (!isXSmall) {
               this.router.navigate(['/app/profile/dashboard'])
             }
