@@ -30,18 +30,10 @@ export class MobileAboutPopupComponent implements OnInit {
       about: new FormControl(),
     })
   }
-
   ngOnInit() {
     this.getUserDetails()
     this.updateForm()
   }
-
-  updateForm() {
-    this.aboutForm.patchValue({
-      about: this.data,
-    })
-  }
-
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -52,17 +44,21 @@ export class MobileAboutPopupComponent implements OnInit {
         })
     }
   }
-
+  updateForm() {
+    this.aboutForm.patchValue({
+      about: this.data,
+    })
+    this.textChange()
+  }
   textChange() {
     this.saveBtn = false
-    if (this.aboutForm.value.about.length > 500) {
+    if (this.aboutForm.value.about.length > 500 || this.data.length > 500) {
       this.saveBtn = true
       this.textExceed = false
     }
   }
 
   onSubmit(form: any) {
-    debugger
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -77,7 +73,7 @@ export class MobileAboutPopupComponent implements OnInit {
       (res: any) => {
         if (res) {
           this.openSnackbar(this.toastSuccess.nativeElement.value)
-          this.getUserDetails()
+          this.userProfileSvc._updateuser.next('true')
           this.dialogRef.close()
         }
       })
