@@ -18,10 +18,10 @@ export class EducationEditComponent implements OnInit {
   userProfileData!: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute) {
+              private userProfileSvc: UserProfileService,
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),
@@ -41,7 +41,7 @@ export class EducationEditComponent implements OnInit {
       {
         type: 'POSTGRADUATE',
 
-      }
+      },
     ]
   }
 
@@ -54,7 +54,7 @@ export class EducationEditComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            this.route.queryParams.subscribe((isEdit) => {
+            this.route.queryParams.subscribe(isEdit => {
               if (isEdit.isEdit) {
               }
             })

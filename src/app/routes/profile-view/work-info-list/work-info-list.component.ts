@@ -12,8 +12,8 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 export class WorkInfoListComponent implements OnInit {
   userProfileData!: IUserProfileDetailsFromRegistry
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router) { }
+              private userProfileSvc: UserProfileService,
+              private router: Router) { }
 
   ngOnInit() {
     this.getUserDetails()
@@ -31,7 +31,7 @@ export class WorkInfoListComponent implements OnInit {
   redirectToWorkInfo(isEdit?: any) {
     if (isEdit) {
       this.router.navigate([`app/workinfo-edit`], {
-        queryParams: { isEdit: isEdit }
+        queryParams: { isEdit },
       })
     } else {
       this.router.navigate([`app/workinfo-edit`])

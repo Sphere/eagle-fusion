@@ -20,10 +20,10 @@ export class MobileAboutPopupComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
   constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private matSnackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: any
+              private configSvc: ConfigurationsService,
+              private userProfileSvc: UserProfileService,
+              private matSnackBar: MatSnackBar,
+              @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
       about: new FormControl(),
@@ -62,7 +62,6 @@ export class MobileAboutPopupComponent implements OnInit {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     const profileRequest = constructReq(form, this.userProfileData)
-    console.log(JSON.stringify(profileRequest))
     const reqUpdate = {
       request: {
         userId: this.userID,

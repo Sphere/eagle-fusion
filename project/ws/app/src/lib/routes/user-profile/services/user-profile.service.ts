@@ -26,9 +26,9 @@ const API_ENDPOINTS = {
 
 @Injectable()
 export class UserProfileService {
-  public _updateuser = new BehaviorSubject<any>(undefined);
+  public _updateuser = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
-  updateuser$ = this._updateuser.asObservable();
+  updateuser$ = this._updateuser.asObservable()
   constructor(
     private http: HttpClient,
   ) {
