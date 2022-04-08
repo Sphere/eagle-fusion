@@ -9,7 +9,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       firstname: userProfileData.personalDetails.firstname,
       middlename: userProfileData.personalDetails.middlename,
       surname: userProfileData.personalDetails.surname,
-      about: userProfileData.personalDetails.about,
+      about: form.value.about ? form.value.about : userProfileData.personalDetails.about,
       dob: userProfileData.personalDetails.dob,
       nationality: userProfileData.personalDetails.countryCode,
       domicileMedium: userProfileData.domicileMedium,
