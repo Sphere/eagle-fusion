@@ -22,3 +22,10 @@
 .field-fullwidth {
   width: 100% !important;
 }
+
+
+::ng-deep .mat-form-field-infix {
+  padding: 5px 0 !important;
+  font-size: 16px;
+  line-height: 14px !important;
+}
