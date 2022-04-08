@@ -104,7 +104,7 @@ export const populateAcademics = (data: any) => {
       })
     }
     return academics
-  }  {
+  } {
     const academics: any = []
     academics.push(getClass10(data))
     academics.push(getClass12(data))
@@ -161,11 +161,11 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     nameOther: form.value.orgNameOther,
     industry: form.value.industry,
     industryOther: form.value.industryOther,
-    designation: form.value.designation,
+    designation: _.get(form.value, 'designation') ? form.value.designation : userProfileData.professionalDetails[0].designation,
     designationOther: userProfileData.professionalDetails[0].designationOther,
-    location: form.value.location,
+    location: _.get(form.value, 'location') ? form.value.location : userProfileData.professionalDetails[0].location,
     responsibilities: '',
-    doj: changeformat(new Date(`${form.value.doj}`)),
+    doj: _.get(form.value, 'doj') ? changeformat(new Date(`${form.value.doj}`)) : userProfileData.professionalDetails[0].doj,
     description: form.value.orgDesc,
     completePostalAddress: '',
     additionalAttributes: {},
