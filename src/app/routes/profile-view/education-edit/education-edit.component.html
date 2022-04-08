@@ -5,13 +5,12 @@
   <form [formGroup]="educationForm" class="mt-3">
     <div>
       <mat-form-field appearance="outline" class="field-fullwidth">
-        <mat-select placeholder="Grade/Degree" [(value)]="courseDegree" formControlName="courseDegree">
+        <mat-select placeholder="Grade/Degree" formControlName="courseDegree">
           <mat-option *ngFor="let academic of academics" [value]="academic">{{ academic.type }}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <div class="form-group input-box"
-        *ngIf="educationForm.get('courseDegree') && educationForm.get('courseDegree').value?.type === 'GRADUATE'">
+      <div class="form-group input-box" *ngIf="educationForm.controls['courseDegree'].value === 'GRADUATE'">
         <input type="text" formControlName="courseName" class="form-control" placeholder="Course Name"
           autocomplete="off">
       </div>
