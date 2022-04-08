@@ -193,7 +193,7 @@ export class RootComponent implements OnInit, AfterViewInit {
             if (isXSmall) {
               this.router.navigate(['/app/profile-view'])
             }
-          } else if (event.url.includes('/app/profile-view')) {
+          } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') || event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
             if (!isXSmall) {
               this.router.navigate(['/app/profile/dashboard'])
             }

@@ -1,4 +1,5 @@
 import * as _ from 'lodash'
+import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
   const profileReq = {
@@ -114,7 +115,7 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     designationOther: form.value.designationOther,
     location: form.value.location,
     responsibilities: '',
-    doj: form.value.doj,
+    doj: changeformat(new Date(`${form.value.doj}`)),
     description: form.value.orgDesc,
     completePostalAddress: '',
     additionalAttributes: {},

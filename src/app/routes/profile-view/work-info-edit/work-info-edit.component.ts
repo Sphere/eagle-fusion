@@ -54,16 +54,6 @@ export class WorkInfoEditComponent implements OnInit {
     }
 
   }
-
-  private getDateFromText(dateString: string): any {
-    if (dateString) {
-      const splitValues: string[] = dateString.split('-')
-      const [dd, mm, yyyy] = splitValues
-      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
-      return new Date(dateToBeConverted)
-    }
-    return ''
-  }
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -115,5 +105,15 @@ export class WorkInfoEditComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  private getDateFromText(dateString: string): any {
+    if (dateString) {
+      const splitValues: string[] = dateString.split('-')
+      const [dd, mm, yyyy] = splitValues
+      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
+      return new Date(dateToBeConverted)
+    }
+    return ''
   }
 }
