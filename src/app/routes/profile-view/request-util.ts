@@ -1,34 +1,37 @@
 import * as _ from 'lodash'
+import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
+  console.log(form.value.firstname)
+
   const profileReq = {
     id: userid,
     userId: userid,
     personalDetails: {
-      firstname: userProfileData.personalDetails.firstname,
-      middlename: userProfileData.personalDetails.middlename,
-      surname: userProfileData.personalDetails.surname,
-      about: userProfileData.personalDetails.about,
-      dob: userProfileData.personalDetails.dob,
-      nationality: userProfileData.personalDetails.countryCode,
-      domicileMedium: userProfileData.domicileMedium,
-      regNurseRegMidwifeNumber: userProfileData.regNurseRegMidwifeNumber,
+      firstname: _.get(form.value, 'firstname') ? form.value.firstname : userProfileData.personalDetails.firstname,
+      middlename: _.get(form.value, 'middlename') ? form.value.middlename : userProfileData.personalDetails.middlename,
+      surname: _.get(form.value, 'surname') ? form.value.surname : userProfileData.personalDetails.surname,
+      about: _.get(form.value, 'about') ? form.value.about : userProfileData.personalDetails.about,
+      dob: _.get(form.value, 'dob') ? form.value.dob : userProfileData.personalDetails.dob,
+      nationality: _.get(form.value, 'nationality') ? form.value.nationality : userProfileData.personalDetails.countryCode,
+      domicileMedium: _.get(form.value, 'domicileMedium') ? form.value.motherTounge : userProfileData.domicileMedium,
+      regNurseRegMidwifeNumber: _.get(form.value, 'rnNumber') ? form.value.rnNumber : userProfileData.personalDetails.regNurseRegMidwifeNumber,
       nationalUniqueId: userProfileData.nationalUniqueId,
       doctorRegNumber: userProfileData.doctorRegNumber,
       instituteName: userProfileData.instituteName,
       nursingCouncil: userProfileData.nursingCouncil,
-      gender: userProfileData.gender,
-      maritalStatus: userProfileData.maritalStatus,
+      gender: _.get(form.value, 'gender') ? form.value.gender : userProfileData.personalDetails.gender,
+      maritalStatus: _.get(form.value, 'maritalStatus') ? form.value.maritalStatus : userProfileData.personalDetails.maritalStatus,
       category: userProfileData.category,
-      knownLanguages: userProfileData.knownLanguages,
+      knownLanguages: _.get(form.value, 'languages') ? form.value.languages : userProfileData.personalDetails.knownLanguages,
       countryCode: userProfileData.countryCode,
-      mobile: userProfileData.mobile,
-      telephone: userProfileData.telephone,
-      primaryEmail: userProfileData.primaryEmail,
+      mobile: _.get(form.value, 'phoneNumber') ? form.value.phoneNumber : userProfileData.personalDetails.mobile,
+      telephone: userProfileData.personalDetails.telephone,
+      primaryEmail: userProfileData.personalDetails.primaryEmail,
       officialEmail: '',
       personalEmail: '',
-      postalAddress: userProfileData.residenceAddress,
-      pincode: userProfileData.pincode,
+      postalAddress: _.get(form.value, 'address') ? form.value.address : userProfileData.personalDetails.residenceAddress,
+      pincode: _.get(form.value, 'pincode') ? form.value.pincode : userProfileData.personalDetails.pincode,
     },
     academics: populateAcademics(userProfileData),
     employmentDetails: {
@@ -111,19 +114,17 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     industry: form.value.industry,
     industryOther: form.value.industryOther,
     designation: form.value.designation,
-    designationOther: form.value.designationOther,
+    designationOther: userProfileData.professionalDetails[0].designationOther,
     location: form.value.location,
     responsibilities: '',
-    doj: form.value.doj,
+    doj: changeformat(new Date(`${form.value.doj}`)),
     description: form.value.orgDesc,
     completePostalAddress: '',
     additionalAttributes: {},
     osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
   }
-  if (form.value.isGovtOrg) {
-    org.organisationType = 'Government'
-  } else {
-    org.organisationType = 'Non-Government'
+  if (userProfileData.professionalDetails[0].organisationType) {
+    org.organisationType = userProfileData.professionalDetails[0].organisationType
   }
   organisations.push(org)
   return organisations

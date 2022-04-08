@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { Observable, BehaviorSubject } from 'rxjs'
 import {
   IUserProfileDetails,
   ILanguagesApiData,
@@ -26,6 +26,9 @@ const API_ENDPOINTS = {
 
 @Injectable()
 export class UserProfileService {
+  public _updateuser = new BehaviorSubject<any>(undefined);
+  // Observable navItem stream
+  updateuser$ = this._updateuser.asObservable();
   constructor(
     private http: HttpClient,
   ) {

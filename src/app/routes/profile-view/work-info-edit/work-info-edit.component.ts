@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
-import moment from 'moment'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -20,7 +19,6 @@ import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../p
 export class WorkInfoEditComponent implements OnInit {
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
-  invalidDoj = false
   workInfoForm: FormGroup
   userProfileData!: any
   userID = ''
@@ -52,18 +50,8 @@ export class WorkInfoEditComponent implements OnInit {
         location: organisation.location
       })
     }
-
   }
 
-  private getDateFromText(dateString: string): any {
-    if (dateString) {
-      const splitValues: string[] = dateString.split('-')
-      const [dd, mm, yyyy] = splitValues
-      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
-      return new Date(dateToBeConverted)
-    }
-    return ''
-  }
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -79,17 +67,12 @@ export class WorkInfoEditComponent implements OnInit {
         })
     }
   }
-  onDateChange(event: any) {
-    const customerDate = moment(event)
-    const dateNow = moment(new Date())
-    const duration = moment.duration(dateNow.diff(customerDate))
-    if (duration.asYears() > 18) {
-      this.invalidDoj = false
-    } else {
-      this.invalidDoj = true
-    }
-  }
+
   onSubmit(form: any) {
+    if (form.value.doj) {
+      form.value.doj = changeformat(new Date(`${form.value.doj}`))
+    }
+
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -107,7 +90,6 @@ export class WorkInfoEditComponent implements OnInit {
           this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.router.navigate(['/app/workinfo-list'])
         }
-
       })
   }
 
@@ -115,5 +97,15 @@ export class WorkInfoEditComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  private getDateFromText(dateString: string): any {
+    if (dateString) {
+      const splitValues: string[] = dateString.split('-')
+      const [dd, mm, yyyy] = splitValues
+      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
+      return new Date(dateToBeConverted)
+    }
+    return ''
   }
 }

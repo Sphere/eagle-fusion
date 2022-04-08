@@ -27,6 +27,11 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userProfileSvc.updateuser$.pipe().subscribe(item => {
+      if (item) {
+        this.getUserDetails()
+      }
+    })
     this.getUserDetails()
     this.certificates = [
       {
@@ -42,7 +47,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   openAboutDialog() {
     const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
       width: '450px',
-      data: this.userProfileData.personalDetails.about,
+      data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
     })
 
     dialogRef.afterClosed().subscribe(result => {
@@ -57,7 +62,6 @@ export class MobileProfileDashboardComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            console.log(this.userProfileData)
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
             }
