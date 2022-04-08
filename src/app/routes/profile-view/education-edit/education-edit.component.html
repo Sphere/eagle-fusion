@@ -5,7 +5,7 @@
   <form [formGroup]="educationForm" class="mt-3">
     <div>
       <div class="form-group input-box">
-        <mat-select placeholder="Grade/Degree" [(value)]="academic" formControlName="courseDegree">
+        <mat-select placeholder="Grade/Degree" formControlName="courseDegree">
           <mat-option *ngFor="let academic of academics" [value]="academic">{{ academic.type }}</mat-option>
         </mat-select>
       </div>
