@@ -18,6 +18,9 @@ export class MobileProfileDashboardComponent implements OnInit {
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
   certificates: any
+  photoUrl: any
+  image = "/fusion-assets/icons/prof1.png"
+
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -64,6 +67,9 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.userProfileData = data.profileDetails.profileReq
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
+            }
+            if (this.userProfileData.personalDetails.photo) {
+              this.photoUrl = this.userProfileData.personalDetails.photo
             }
           }
         })
