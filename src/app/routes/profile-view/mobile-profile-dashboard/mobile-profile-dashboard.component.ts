@@ -96,26 +96,26 @@ export class MobileProfileDashboardComponent implements OnInit {
     }, [])
     this.certificates = issuedCertificates
   }
-  convertToJpeg(imgVal: any, callback: any) {
-    const img = new Image()
-    let url = imgVal.result.printUri
+  // convertToJpeg(imgVal: any, callback: any) {
+  //   const img = new Image()
+  //   let url = imgVal.result.printUri
 
-    img.onload = function () {
-      const canvas: any = document.getElementById('certCanvas') || {}
-      const ctx = canvas.getContext('2d')
-      const imgWidth = img.width
-      const imgHeight = img.height
-      canvas.width = imgWidth
-      canvas.height = imgHeight
-      ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
-      let imgURI = canvas
-        .toDataURL('image/jpeg')
+  //   img.onload = function () {
+  //     const canvas: any = document.getElementById('certCanvas') || {}
+  //     const ctx = canvas.getContext('2d')
+  //     const imgWidth = img.width
+  //     const imgHeight = img.height
+  //     canvas.width = imgWidth
+  //     canvas.height = imgHeight
+  //     ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
+  //     let imgURI = canvas
+  //       .toDataURL('image/jpeg')
 
-      imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
-      callback(imgURI)
-    }
-    img.src = url
-  }
+  //     imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
+  //     callback(imgURI)
+  //   }
+  //   img.src = url
+  // }
 
   openAboutDialog() {
     const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
