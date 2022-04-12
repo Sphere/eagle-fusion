@@ -48,6 +48,21 @@ export class EducationEditComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetails()
+    this.route.queryParams.subscribe(params => {
+      if (params.nameOfInstitute) {
+        this.updateForm(params)
+      }
+    })
+  }
+  updateForm(data?: any) {
+    this.educationForm.patchValue({
+      courseDegree: data.type === 'X_STANDARD' ? this.academics[0] : data.type
+        === 'XII_STANDARD' ? this.academics[1] : data.type === 'GRADUATE' ? this.academics[3] : this.academics[4],
+      courseName: data.nameOfQualification,
+      institutionName: data.nameOfInstitute,
+      yearPassing: data.yearOfPassing,
+    })
+
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
@@ -55,10 +70,6 @@ export class EducationEditComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            this.route.queryParams.subscribe(isEdit => {
-              if (isEdit.isEdit) {
-              }
-            })
           }
         })
     }

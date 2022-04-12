@@ -3,6 +3,7 @@ import { ConfigurationsService } from '../../../../../library/ws-widget/utils/sr
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
 import { Router } from '@angular/router'
+
 @Component({
   selector: 'ws-education-list',
   templateUrl: './education-list.component.html',
@@ -11,8 +12,8 @@ import { Router } from '@angular/router'
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router) {
+    private userProfileSvc: UserProfileService,
+    private router: Router) {
 
   }
 
@@ -26,12 +27,12 @@ export class EducationListComponent implements OnInit {
         })
     }
   }
-  redirectTo(isEdit?: any) {
+  redirectTo(isEdit?: any, academic?: any) {
     if (isEdit) {
-      this.router.navigate([`app/education-edit`], {
-        queryParams: { isEdit },
-      })
+      this.router.navigate([`app/education-edit`], { queryParams: { ...academic }, skipLocationChange: true })
+    } else {
+      this.router.navigate([`app/education-edit`])
     }
-    this.router.navigate([`app/education-edit`])
+
   }
 }
