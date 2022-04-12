@@ -83,7 +83,7 @@
     <div *ngFor="let profession of userProfileData?.professionalDetails">
       <div class="mt-2">
         <p class="heading">{{profession.name}}
-          <span>, {{profession.location}}</span>
+          <span *ngIf="profession.location">, {{profession.location}}</span>
         </p>
         <p class="head-2">{{profession.designation}}</p>
         <p class="head-3">{{profession.doj}}</p>
