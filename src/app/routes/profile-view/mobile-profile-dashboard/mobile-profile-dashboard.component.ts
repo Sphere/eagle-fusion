@@ -25,6 +25,9 @@ export class MobileProfileDashboardComponent implements OnInit {
   certificates: any = []
   imgURI: any = []
   certificateThumbnail: any = []
+  photoUrl: any
+  image = "/fusion-assets/icons/prof1.png"
+
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -138,7 +141,13 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
-            this.setAcademicDetail(data)
+            this.userProfileData = data.profileDetails.profileReq
+            if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
+              this.academicsArray = this.userProfileData.academics
+            }
+            if (this.userProfileData.personalDetails.photo) {
+              this.photoUrl = this.userProfileData.personalDetails.photo
+            }
           }
         })
     }

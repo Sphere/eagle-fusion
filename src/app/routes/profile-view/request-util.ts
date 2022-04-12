@@ -11,6 +11,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       middlename: _.get(form.value, 'middlename') ? form.value.middlename : userProfileData.personalDetails.middlename,
       surname: _.get(form.value, 'surname') ? form.value.surname : userProfileData.personalDetails.surname,
       about: _.get(form.value, 'about') ? form.value.about : userProfileData.personalDetails.about,
+      photo: _.get(form.value, 'photo') ? form.value.photo : userProfileData.personalDetails.photo,
       dob: _.get(form.value, 'dob') ? form.value.dob : userProfileData.personalDetails.dob,
       nationality: _.get(form.value, 'nationality') ? form.value.nationality : userProfileData.personalDetails.nationality,
       domicileMedium: _.get(form.value, 'domicileMedium') ? form.value.domicileMedium : userProfileData.domicileMedium,
