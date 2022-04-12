@@ -27,7 +27,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   certificateThumbnail: any = []
   photoUrl: any
   image = "/fusion-assets/icons/prof1.png"
-
+  loader = true
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -53,11 +53,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   processCertiFicate(data: any) {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), (certificate) => {
-      if (certificate.length > 1) {
-        return certificate[0]
-      } else {
-        return certificate.length > 0
-      }
+      return certificate.length > 0
     })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
@@ -70,6 +66,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       )
     ).subscribe(() => {
       setTimeout(() => {
+        this.loader = false
         this.contentSvc.updateValue$.subscribe((res: any) => {
           if (res) {
             _.forEach(this.certificates, (cvalue) => {
@@ -141,6 +138,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
+            this.loader = false
             this.userProfileData = data.profileDetails.profileReq
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics

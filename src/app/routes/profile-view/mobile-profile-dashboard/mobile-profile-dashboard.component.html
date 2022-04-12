@@ -1,4 +1,8 @@
-<div class="content">
+<div *ngIf="loader" class="mt-20 flex flex-center ">
+  <mat-spinner></mat-spinner>
+  <!-- <h3>Loading...</h3> -->
+</div>
+<div class="content" *ngIf="!loader">
 
   <ws-mobile-profile-nav></ws-mobile-profile-nav>
 
