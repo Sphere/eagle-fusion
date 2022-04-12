@@ -47,9 +47,9 @@ const API_END_POINTS = {
 export class WidgetContentService {
   private messageSource = new Subject<any>()
   public currentMessage = this.messageSource.asObservable()
-  public _updateValue = new BehaviorSubject<any>(undefined);
+  public _updateValue = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
-  updateValue$ = this._updateValue.asObservable();
+  updateValue$ = this._updateValue.asObservable()
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -287,7 +287,7 @@ export class WidgetContentService {
   publicContentSearch(req: NSSearch.ISearchV6Request) {
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
-      req,
+                                                       req,
     )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {

@@ -437,8 +437,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
     if (this.createUserForm.get('knownLanguages')) {
-      // tslint:disable-next-line: no-non-null-assertion
-      // this.createUserForm.get('knownLanguages')!.setValue(null)
     }
   }
 
@@ -448,7 +446,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (index >= 0) {
       this.selectedKnowLangs.splice(index, 1)
     }
-
   }
 
   add(event: MatChipInputEvent): void {
@@ -465,11 +462,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       input.value = ''
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
-
-    // if (this.createUserForm.get('knownLanguages')) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.createUserForm.get('knownLanguages')!.setValue(null)
-    // }
   }
 
   addPersonalInterests(event: MatChipInputEvent): void {

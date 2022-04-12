@@ -209,7 +209,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatExpansionModule,
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
@@ -222,7 +222,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     LoginComponent,
     ProfileSelectComponent,
     ImageCropComponent,
-    NotificationComponent
+    NotificationComponent,
   ],
   providers: [
     {

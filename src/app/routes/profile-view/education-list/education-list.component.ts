@@ -12,8 +12,8 @@ import { Router } from '@angular/router'
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router) {
+              private userProfileSvc: UserProfileService,
+              private router: Router) {
 
   }
 

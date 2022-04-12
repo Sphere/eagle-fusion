@@ -25,22 +25,22 @@ export class ProfileSelectComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
   imgJson = [
-    { "url": "../../../../fusion-assets/images/Group 205.png" },
-    { "url": "../../../../fusion-assets/images/Group 206.png" },
-    { "url": "../../../../fusion-assets/images/Group 211.png" },
-    { "url": "../../../../fusion-assets/images/Group 212.png" },
-    { "url": "../../../../fusion-assets/images/Group 213.png" }
+    { url: '../../../../fusion-assets/images/Group 205.png' },
+    { url: '../../../../fusion-assets/images/Group 206.png' },
+    { url: '../../../../fusion-assets/images/Group 211.png' },
+    { url: '../../../../fusion-assets/images/Group 212.png' },
+    { url: '../../../../fusion-assets/images/Group 213.png' },
   ]
 
   constructor(public dialogRef: MatDialogRef<ProfileSelectComponent>,
-    private snackBar: MatSnackBar,
-    private userProfileSvc: UserProfileService,
-    private configSvc: ConfigurationsService,
-    private dialog: MatDialog,
-    private loader: LoaderService,
+              private snackBar: MatSnackBar,
+              private userProfileSvc: UserProfileService,
+              private configSvc: ConfigurationsService,
+              private dialog: MatDialog,
+              private loader: LoaderService,
   ) {
     this.createUserForm = new FormGroup({
-      photo: new FormControl('', [])
+      photo: new FormControl('', []),
     })
   }
 

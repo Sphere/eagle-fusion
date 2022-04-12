@@ -115,12 +115,12 @@ export const populateAcademics = (data?: any, userProfileData?: any) => {
 }
 
 export const getClass10 = (data: any, userProfileData?: any) => {
-  console.log(userProfileData.academics)
   const class10 = _.find(userProfileData.academics, { type: 'X_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'X_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ? data.institutionName : _.get(class10, 'nameOfInstitute') ? _.get(class10, 'nameOfInstitute') : '',
+    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ?
+      data.institutionName : _.get(class10, 'nameOfInstitute') ? _.get(class10, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'X_STANDARD' ? `${data.yearPassing
       }` : _.get(class10, 'yearOfPassing') ? _.get(class10, 'yearOfPassing') : '',
   })
@@ -131,7 +131,8 @@ export const getClass12 = (data: any, userProfileData?: any) => {
   return ({
     nameOfQualification: '',
     type: 'XII_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName : _.get(class12, 'nameOfInstitute') ? _.get(class12, 'nameOfInstitute') : '',
+    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName :
+      _.get(class12, 'nameOfInstitute') ? _.get(class12, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
       }` : _.get(class12, 'yearOfPassing') ? _.get(class12, 'yearOfPassing') : '',
   })
@@ -142,7 +143,8 @@ export const getDegree = (data: any, userProfileData?: any) => {
   return ({
     nameOfQualification: data.courseName ? data.coursename : '',
     type: 'GRADUATE',
-    institutionName: data.courseDegree.type === 'GRADUATE' ? data.institutionName : _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
+    institutionName: data.courseDegree.type === 'GRADUATE' ? data.institutionName :
+      _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'GRADUATE' ? `${data.yearPassing
       }` : _.get(GRADUATE, 'yearOfPassing') ? _.get(GRADUATE, 'yearOfPassing') : '',
   })
@@ -153,7 +155,8 @@ export const getPostDegree = (data: any, userProfileData?: any) => {
   return ({
     nameOfQualification: '',
     type: 'POSTGRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName : _.get(POSTGRADUATE, 'nameOfInstitute') ? _.get(POSTGRADUATE, 'nameOfInstitute') : '',
+    nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName :
+      _.get(POSTGRADUATE, 'nameOfInstitute') ? _.get(POSTGRADUATE, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'POSTGRADUATE' ? `${data.yearPassing
       }` : _.get(POSTGRADUATE, 'yearOfPassing') ? _.get(POSTGRADUATE, 'yearOfPassing') : '',
   })

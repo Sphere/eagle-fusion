@@ -26,7 +26,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   imgURI: any = []
   certificateThumbnail: any = []
   photoUrl: any
-  image = "/fusion-assets/icons/prof1.png"
+  image = '/fusion-assets/icons/prof1.png'
   loader = true
   constructor(
     private configSvc: ConfigurationsService,
@@ -34,7 +34,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     public dialog: MatDialog,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
   ) {
   }
 
@@ -44,7 +44,9 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
-    forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id), this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+    forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+    this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+      this.loader = false
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -52,13 +54,13 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   processCertiFicate(data: any) {
 
-    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), (certificate) => {
+    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), 'identifier')
+    })),                             'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
-        this.certificateThumbnail.push({ 'identifier': certId })
+        this.certificateThumbnail.push({ identifier: certId })
         return certId
       }),
       mergeMap(certId =>
@@ -66,31 +68,30 @@ export class MobileProfileDashboardComponent implements OnInit {
       )
     ).subscribe(() => {
       setTimeout(() => {
-        this.loader = false
         this.contentSvc.updateValue$.subscribe((res: any) => {
           if (res) {
-            _.forEach(this.certificates, (cvalue) => {
+            _.forEach(this.certificates, cvalue => {
               if (res[cvalue.identifier]) {
                 cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
               }
             })
           }
         })
-      }, 500)
+      },         500)
     })
 
   }
 
   formateRequest(data: any) {
-    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), (certificate) => {
+    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), (result: any, value) => {
+    })),                                (result: any, value) => {
       result.push({
-        'identifier': value.identifier,
-        'name': value.name,
+        identifier: value.identifier,
+        name: value.name,
       })
       return result
-    }, [])
+    },                                  [])
     this.certificates = issuedCertificates
   }
   // convertToJpeg(imgVal: any, callback: any) {
