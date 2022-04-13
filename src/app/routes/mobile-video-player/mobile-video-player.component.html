@@ -1,6 +1,9 @@
 <!-- How does it Work video Player Screen -->
-<div class="video-player-page">
-  <p class="title">Howdoes it work?</p>
+
+
+<div
+  [ngClass]="{'video-player-page': configsvc.userProfile !==null, 'video-player-non-login-page' : configsvc.userProfile ===null}">
+  <p class="title">How does it work?</p>
   <div>
     <div>
       <video class="video" controls>

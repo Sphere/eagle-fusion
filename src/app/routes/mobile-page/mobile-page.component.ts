@@ -13,6 +13,7 @@ export class MobilePageComponent implements OnInit {
   showCreateBtn = false
   pageLayout: any
   videoData: any
+  leaderBoard = false
   constructor(
     private router: Router,
     private http: HttpClient) { }
@@ -48,5 +49,10 @@ export class MobilePageComponent implements OnInit {
       },
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
+  }
+  leaderBoardSection() {
+    if (this.leaderBoard == true) {
+      this.leaderBoard = false
+    }
   }
 }
