@@ -702,12 +702,6 @@
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
               <div class="w-full profile-cols-full bg-grey">
-                <!-- <div class="radio-toolbar">
-                  <input type="radio" id="govtOrg" name="isGovtOrg" formControlName="isGovtOrg" [value]="true">
-                  <label for="govtOrg">Government Organisation</label>
-                  <input type="radio" id="nonGovtOrg" name="isGovtOrg" formControlName="isGovtOrg" [value]="false">
-                  <label for="nonGovtOrg">Non-Government Organisation</label>
-                </div> -->
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -715,60 +709,43 @@
                       Organisation Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <!-- <mat-select #orgNameSelect formControlName="orgName" i18n-placeholder placeholder="--Select--"
-                        (selectionChange)="otherDropDownChange(designation.value, 'orgname')">
-                        <mat-option [value]="org.name" *ngFor="let org of govtOrgMeta?.ministries">{{org.name}}
-                        </mat-option>
-                        <mat-option [value]="'Other'">Other</mat-option>
-                      </mat-select> -->
                       <input matInput #orgNameSelect type="text" formControlName="orgName" i18n-placeholder
                         placeholder="Organisation Name" />
                     </mat-form-field>
                   </div>
-                  <!-- <div class="item" *ngIf="orgNameSelect.value === 'Other' || showOrgnameOther">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Other label|Label which explains the user to enter Other">
-                      Other
-                    </p>
-                    <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #orgNameOther formControlName="orgNameOther" i18n-placeholder
-                        placeholder="Enter Other Organisation Name" />
-                      <mat-error [hidden]="false" i18n="Other Organisation Name  Error|Explains name is required">
-                        Other Organisation Name is mandatory
-                      </mat-error>
-                    </mat-form-field>
-                  </div> -->
                 </div>
-                <!-- <div class="flex flex-wrap section-input">
+
+                <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
-                      i18n="Industry label|Label which explains the user to enter Industry">
-                      Industry
+                      i18n="Organisation Type label|Label which explains the user to enter Organisation Type">
+                      Organisation Type
                     </p>
-                    <mat-form-field appearance="outline" class="margin-top-xs">
-                      <mat-select #industrySelect formControlName="industry" i18n-placeholder placeholder="--Select--"
-                        (selectionChange)="otherDropDownChange(designation.value, 'industry')">
-                        <mat-option [value]="i.name" *ngFor="let i of industriesMeta">
-                          {{i.name}}
+                    <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
+                      <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
+                        (selectionChange)="orgTypeSelect($event.value);">
+                        <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
                         </mat-option>
-                        <mat-option [value]="'Other'">Other</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
-                  <div class="item" *ngIf="industrySelect.value === 'Other' || showIndustryOther">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Other label|Label which explains the user to enter Other">
-                      Other
+                </div>
+
+                <div class="flex flex-wrap section-input" *ngIf="orgOthersField">
+                  <div class="item">
+                    <p class=" margin-remove-bottom form-label">
+                      Please Specify
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input matInput #industryOther formControlName="industryOther" i18n-placeholder
-                        placeholder="Enter Other Industry Name" />
-                      <mat-error [hidden]="false" i18n="Other Industry Name  Error|Explains name is required">
-                        Other Industry Name is mandatory
-                      </mat-error>
+                      <input matInput type="text" formControlName="orgOtherSpecify" i18n-placeholder
+                        placeholder="Please Specify*" autocomplete="off" />
                     </mat-form-field>
+                    <mat-error class="text-danger mb-4"
+                      *ngIf="createUserForm.controls['orgOtherSpecify'].hasError('pattern')">
+                      {{errorMsg}}</mat-error>
                   </div>
-                </div> -->
+                </div>
+
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -776,21 +753,12 @@
                       Designation
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <!--  <mat-select #designation formControlName="designation" i18n-placeholder placeholder="--Select--"
-                        (selectionChange)="otherDropDownChange(designation.value, 'designation')">
-                        <mat-option [value]="designation.name"
-                          *ngFor="let designation of designationsMeta?.designations">
-                          {{designation.name}}
-                        </mat-option>
-                        <mat-option [value]="'Other'">Other</mat-option>
-                      </mat-select>-->
                       <input matInput #designation type="text" formControlName="designation" i18n-placeholder
                         placeholder="Designation" />
                     </mat-form-field>
-
                   </div>
-
                 </div>
+
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"

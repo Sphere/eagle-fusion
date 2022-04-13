@@ -32,6 +32,7 @@ export class PersonalDetailEditComponent implements OnInit {
   userID = ''
   savebtnDisable = true
   orgTypeField = false
+  orgOthersField = false
   selectedKnowLangs: ILanguages[] = []
   masterKnownLanguages: Observable<ILanguages[]> | undefined
   masterLanguagesEntries!: ILanguages[]
@@ -54,6 +55,7 @@ export class PersonalDetailEditComponent implements OnInit {
       profession: new FormControl(),
       regNurseRegMidwifeNumber: new FormControl(),
       orgType: new FormControl(),
+      orgOtherSpecify: new FormControl(),
       organizationName: new FormControl(),
       nationality: new FormControl(),
       domicileMedium: new FormControl(),
@@ -232,13 +234,19 @@ export class PersonalDetailEditComponent implements OnInit {
       if (data.personalDetails.surname) {
         this.profileUserName += `${data.personalDetails.surname}`
       }
+      if (data.professionalDetails[0].orgOtherSpecify) {
+        this.orgOthersField = true
+      } else {
+        this.orgOthersField = false
+      }
 
       this.personalDetailForm.patchValue({
         userName: this.profileUserName,
         dob: this.getDateFromText(data.personalDetails.dob),
         profession: data.professionalDetails[0].designationOther,
         regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
-        orgType: data.professionalDetails[0].organisationType,
+        orgType: data.professionalDetails[0].orgType,
+        orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
         organizationName: data.professionalDetails[0].name,
         nationality: data.personalDetails.nationality,
         domicileMedium: data.personalDetails.domicileMedium,
@@ -260,6 +268,24 @@ export class PersonalDetailEditComponent implements OnInit {
       return new Date(dateToBeConverted)
     }
     return ''
+  }
+
+  orgTypeSelect(option: any) {
+    this.savebtnDisable = false
+    if (option !== 'null') {
+      this.personalDetailForm.controls.orgType.setValue(option)
+    } else {
+      this.personalDetailForm.controls.orgType.setValue(null)
+    }
+
+    if (option === 'Others') {
+      this.orgOthersField = true
+      this.personalDetailForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+    } else {
+      this.orgOthersField = false
+      this.personalDetailForm.controls.orgOtherSpecify.clearValidators()
+      this.personalDetailForm.controls.orgOtherSpecify.setValue('')
+    }
   }
 
   onSubmit(form: any) {

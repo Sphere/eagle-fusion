@@ -1,9 +1,7 @@
 <!-- How does it Work video Player Screen -->
-
-
-<div
-  [ngClass]="{'video-player-page': configsvc.userProfile !==null, 'video-player-non-login-page' : configsvc.userProfile ===null}">
-  <p class="title">How does it work?</p>
+<div [ngClass]="{'video-player-page': configsvc.userProfile !== null,
+    'video-player-non-login-page' : configsvc.userProfile === null}">
+  <p class="title mb-4">How does it work?</p>
   <div>
     <div>
       <video class="video" controls>
@@ -19,7 +17,7 @@
         aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu</p>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4 mb-16">
       <P class="title">Watch Next</P>
       <ng-container>
         <ws-mobile-how-does-work [data]="videoData | slice:videoIndex+1:videoData.length-1"

@@ -165,7 +165,9 @@ export const getPostDegree = (data: any, userProfileData?: any) => {
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
-    organisationType: '',
+    orgType: _.get(form.value, 'orgType') ? form.value.orgType : userProfileData.professionalDetails[0].orgType,
+    orgOtherSpecify: _.get(form.value, 'orgOtherSpecify') ? form.value.orgOtherSpecify :
+      userProfileData.professionalDetails[0].orgOtherSpecify,
     name: form.value.organizationName,
     nameOther: form.value.orgNameOther,
     industry: form.value.industry,
@@ -179,9 +181,6 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     completePostalAddress: '',
     additionalAttributes: {},
     osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
-  }
-  if (userProfileData.professionalDetails[0].organisationType) {
-    org.organisationType = userProfileData.professionalDetails[0].organisationType
   }
   organisations.push(org)
   return organisations

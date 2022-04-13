@@ -51,7 +51,7 @@ export class MobilePageComponent implements OnInit {
     this.router.navigate(['/app/video-player'], navigationExtras)
   }
   leaderBoardSection() {
-    if (this.leaderBoard == true) {
+    if (this.leaderBoard) {
       this.leaderBoard = false
     }
   }

@@ -123,7 +123,7 @@ export class AlmostDoneComponent implements OnInit {
       otherDetailsOfficePinCode: new FormControl('', []),
       residenceState: new FormControl('', []),
       residenceDistrict: new FormControl('', []),
-      organisationType: new FormControl('', []),
+      orgType: new FormControl('', []),
     })
   }
 
@@ -168,6 +168,7 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.orgOthersField = true
+      this.createUserForm.controls.orgOtherSpecify.setValue(null)
       this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.orgOthersField = false
@@ -197,7 +198,7 @@ export class AlmostDoneComponent implements OnInit {
         this.createUserForm.controls.designation.setValue(value)
         break
       case 'organizationType':
-        this.createUserForm.controls.organisationType.setValue(value)
+        this.createUserForm.controls.orgType.setValue(value)
         break
       case 'organizationName':
         this.createUserForm.controls.orgName.setValue(value)
@@ -229,7 +230,7 @@ export class AlmostDoneComponent implements OnInit {
   private getOrganisationsHistory() {
     const organisations: any = []
     const org = {
-      organisationType: this.almostDoneForm.value.orgType,
+      orgType: this.almostDoneForm.value.orgType,
       name: this.almostDoneForm.value.orgName.trim(),
       nameOther: '',
       designation: this.almostDoneForm.value.profession.trim(),

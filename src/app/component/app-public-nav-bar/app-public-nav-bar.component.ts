@@ -59,7 +59,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.navBar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
     }
-    if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
+    if ((window.innerWidth < 600) && (this.configSvc.userProfile === null)) {
       this.showCreateBtn = false
     } else {
       this.showCreateBtn = true
@@ -121,7 +121,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    if ((event.target.innerWidth < 600) && (window.location.href.includes('/public/home'))) {
+    if ((event.target.innerWidth < 600) && (this.configSvc.userProfile === null)) {
       this.showCreateBtn = false
     } else {
       this.showCreateBtn = true

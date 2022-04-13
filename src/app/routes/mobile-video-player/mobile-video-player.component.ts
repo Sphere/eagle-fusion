@@ -10,7 +10,7 @@ export class MobileVideoPlayerComponent implements OnInit {
   videoIndex: any
   videoData: any
   constructor(public router: Router, public route: ActivatedRoute,
-    public configsvc: ConfigurationsService) {
+              public configsvc: ConfigurationsService) {
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',
