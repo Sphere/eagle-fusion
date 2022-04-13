@@ -62,6 +62,7 @@
     <div *ngFor="let academic of academicsArray">
       <div class="mt-2" *ngIf="academic.nameOfInstitute">
         <p class="heading">{{academic.type}}</p>
+        <p class="head-2" *ngIf="academic.nameOfQualification">{{academic.nameOfQualification}}</p>
         <p class="head-2">{{academic.nameOfInstitute}}</p>
         <p class="head-3">{{academic.yearOfPassing}}</p>
       </div>

@@ -10,7 +10,8 @@
         </mat-select>
       </mat-form-field>
 
-      <div class="form-group input-box" *ngIf="educationForm.controls['courseDegree'].value === 'GRADUATE'">
+      <div class="form-group input-box"
+        *ngIf="educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'GRADUATE' ||  educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'POSTGRADUATE'">
         <input type="text" formControlName="courseName" class="form-control" placeholder="Course Name"
           autocomplete="off">
       </div>
