@@ -45,6 +45,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
     })
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id), this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+      this.loader = false
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -66,7 +67,6 @@ export class MobileProfileDashboardComponent implements OnInit {
       )
     ).subscribe(() => {
       setTimeout(() => {
-        this.loader = false
         this.contentSvc.updateValue$.subscribe((res: any) => {
           if (res) {
             _.forEach(this.certificates, (cvalue) => {
