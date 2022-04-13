@@ -155,14 +155,22 @@ button:focus,
   }
 }
 
+.ng2-tag-input__text-input {
+  width: 100%;
+}
+.ng2-tag-input .ng2-tags-container {
+  display: inherit !important;
+}
+
 .ws-fixed-placeholder {
   display: block;
   width: 100%;
   height: 56px;
 }
 .discuss-home{
- margin: 0 !important;
- padding: 10px 32px !important;
+  margin: 0 !important;
+  padding: 7px 5px !important;
+  font-size: 14px !important;
 }
 // visibility & hiding
 [hidden] {

@@ -1,4 +1,4 @@
-<div class='widget-container'>
+<div class='widget-container mt-4'>
     <button *ngIf='state !== alldiscussPage' mat-icon-button (click)="widgetBackClick()">
         <mat-icon class="padding-right-s">arrow_backword</mat-icon>
         <span>Back</span>
@@ -9,5 +9,4 @@
         (stateChange)='stateChange($event)'></lib-discussion-details>
     <lib-tag-all-discussion *ngIf='showTrendTagPost' [widgetTagName]='slug' [widgetcIds]='cIds'
         (stateChange)='stateChange($event)'></lib-tag-all-discussion>
-
 </div>
