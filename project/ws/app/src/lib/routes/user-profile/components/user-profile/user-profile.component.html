@@ -721,7 +721,7 @@
                       i18n="Organisation Type label|Label which explains the user to enter Organisation Type">
                       Organisation Type
                     </p>
-                    <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
+                    <mat-form-field appearance="outline" class="field-fullwidth">
                       <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
                         (selectionChange)="orgTypeSelect($event.value);">
                         <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
