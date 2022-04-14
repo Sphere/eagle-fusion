@@ -144,7 +144,8 @@ export const getDegree = (data: any, userProfileData?: any) => {
   return ({
     nameOfQualification: data.courseDegree.type === 'GRADUATE' && data.courseName ? data.courseName : _.get(GRADUATE, 'nameOfQualification') ? _.get(GRADUATE, 'nameOfQualification') : '',
     type: 'GRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ? data.institutionName : _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
+    nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ?
+      data.institutionName : _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'GRADUATE' ? `${data.yearPassing
       }` : _.get(GRADUATE, 'yearOfPassing') ? _.get(GRADUATE, 'yearOfPassing') : '',
   })
