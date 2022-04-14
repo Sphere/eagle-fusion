@@ -19,10 +19,10 @@ export class EducationEditComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = '(^[0-9]{4}$)'
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute) {
+              private userProfileSvc: UserProfileService,
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),

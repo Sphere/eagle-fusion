@@ -142,7 +142,10 @@ export const getClass12 = (data: any, userProfileData?: any) => {
 export const getDegree = (data: any, userProfileData?: any) => {
   const GRADUATE = _.find(userProfileData.academics, { type: 'GRADUATE' })
   return ({
-    nameOfQualification: data.courseDegree.type === 'GRADUATE' && data.courseName ? data.courseName : _.get(GRADUATE, 'nameOfQualification') ? _.get(GRADUATE, 'nameOfQualification') : '',
+    nameOfQualification: data.courseDegree.type === 'GRADUATE'
+      && data.courseName ? data.courseName :
+      _.get(GRADUATE, 'nameOfQualification') ?
+        _.get(GRADUATE, 'nameOfQualification') : '',
     type: 'GRADUATE',
     nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ?
       data.institutionName : _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
@@ -154,7 +157,10 @@ export const getDegree = (data: any, userProfileData?: any) => {
 export const getPostDegree = (data: any, userProfileData?: any) => {
   const POSTGRADUATE = _.find(userProfileData.academics, { type: 'POSTGRADUATE' })
   return ({
-    nameOfQualification: data.courseDegree.type === 'POSTGRADUATE' && data.courseName ? data.courseName : _.get(POSTGRADUATE, 'nameOfQualification') ? _.get(POSTGRADUATE, 'nameOfQualification') : '',
+    nameOfQualification: data.courseDegree.type === 'POSTGRADUATE'
+      && data.courseName ? data.courseName : _
+        .get(POSTGRADUATE, 'nameOfQualification') ?
+      _.get(POSTGRADUATE, 'nameOfQualification') : '',
     type: 'POSTGRADUATE',
     nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName :
       _.get(POSTGRADUATE, 'nameOfInstitute') ? _.get(POSTGRADUATE, 'nameOfInstitute') : '',
