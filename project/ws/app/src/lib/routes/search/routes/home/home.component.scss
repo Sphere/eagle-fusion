@@ -23,8 +23,6 @@ ws-app-home .search .mat-form-field-wrapper {
   }
 }
 
-
-
 ws-app-home .lang-btn {
   margin-right: 0 !important;
 }
@@ -36,4 +34,11 @@ ws-app-home .search-border {
 
 ws-app-home .border-right {
   border-right: 1px solid #cecece;
+}
+
+@media screen and (max-width:600px) {
+  .mat-title {
+    margin-top: 2rem !important;
+    font-size: 1.3rem !important;
+  }
 }

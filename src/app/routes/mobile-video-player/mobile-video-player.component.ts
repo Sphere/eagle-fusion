@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router'
+import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-mobile-video-player',
   templateUrl: './mobile-video-player.component.html',
@@ -8,7 +9,8 @@ import { Router, NavigationExtras, ActivatedRoute } from '@angular/router'
 export class MobileVideoPlayerComponent implements OnInit {
   videoIndex: any
   videoData: any
-  constructor(public router: Router, public route: ActivatedRoute) {
+  constructor(public router: Router, public route: ActivatedRoute,
+              public configsvc: ConfigurationsService) {
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',

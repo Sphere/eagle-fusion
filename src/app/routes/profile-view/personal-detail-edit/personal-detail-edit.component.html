@@ -35,11 +35,18 @@
 
     <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
       <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
-        (selectionChange)="fieldChange()">
+        (selectionChange)="orgTypeSelect($event.value);">
         <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <div class="form-group" *ngIf="orgOthersField">
+      <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
+        autocomplete="off">
+    </div>
+    <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
+      {{errorMsg}}</mat-error>
 
     <div class="form-group">
       <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
@@ -71,10 +78,24 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="form-group">
-      <input type="text" formControlName="knownLanguages" class="form-control" placeholder="Languages"
-        autocomplete="off" (change)="fieldChange()">
-    </div>
+    <mat-form-field appearance="outline" class="w-full margin-top-xs">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let lang of selectedKnowLangs" [selectable]="true" [removable]="true"
+          (removed)="removeKnowLanguage(lang)">
+          {{ lang }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input matInput i18n-placeholder="Known Languages" placeholder="Known Languages"
+          formControlName="knownLanguages" i18n-aria-label aria-label="Known Languages"
+          [matAutocomplete]="knownLanguagesAuto" #knownLanguagesInput [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
+      </mat-chip-list>
+    </mat-form-field>
+    <mat-autocomplete #knownLanguagesAuto="matAutocomplete" (optionSelected)="selectKnowLanguage($event)">
+      <mat-option *ngFor="let option of masterKnownLanguages | async" [value]="option.name">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
 
     <div class="form-group">
       <input type="text" formControlName="mobile" class="form-control" placeholder="Phone Number" autocomplete="off"

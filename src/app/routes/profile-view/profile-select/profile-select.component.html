@@ -6,34 +6,30 @@
   <p clas="pick-text">Pick from the following</p>
 
   <div class="py-2 pl-0 row">
-    <div class="col-xs-4 p-2">
-      <img src="../../../../fusion-assets/images/Group 205.png">
-    </div>
-
-    <div class="col-xs-4 p-2">
-      <img src="../../../../fusion-assets/images/Group 206.png">
-    </div>
-
-    <div class="col-xs-4 p-2">
-      <img src="../../../../fusion-assets/images/Group 211.png">
-    </div>
-
-    <div class="col-xs-4 p-2">
-      <img src="../../../../fusion-assets/images/Group 212.png">
-    </div>
-
-    <div class="col-xs-4 p-2">
-      <img src="../../../../fusion-assets/images/Group 213.png">
+    <div *ngFor="let img of imgJson">
+      <div class="col-xs-4 p-2" (click)="selectProfile(img.url)">
+        <img [src]="img.url">
+      </div>
     </div>
   </div>
 
   <p class="ml-2">OR</p>
-  <div class="flex mt-3">
-    <div class="camera-bg p-2">
-      <img class="camer-icon" src="../../../../fusion-assets/images/camera.png">
+  <form [formGroup]="createUserForm">
+    <div class="flex mt-3">
+
+      <div class="camera-bg p-2" (click)="uploadProfilePic.click(); $event.stopPropagation()"
+        (keydown.enter)="uploadProfilePic.click(); $event.stopPropagation()">
+
+        <img class="camer-icon" src="../../../../fusion-assets/images/camera.png">
+
+        <input id="uploadProfile" name="uploadProfileName" type="file" #uploadProfilePic class="hidden"
+          (change)="uploadProfileImg($event.target.files[0]); uploadProfilePic.value = null" style="display: none;"
+          [accept]="imageTypes.toString()" />
+      </div>
+      <div class="my-auto mx-3">
+        <p class="add-own-img">Add your own image</p>
+      </div>
+
     </div>
-    <div class="my-auto mx-3">
-      <p class="add-own-img">Add your own image</p>
-    </div>
-  </div>
+  </form>
 </div>

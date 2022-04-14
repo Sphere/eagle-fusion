@@ -11,6 +11,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       middlename: _.get(form.value, 'middlename') ? form.value.middlename : userProfileData.personalDetails.middlename,
       surname: _.get(form.value, 'surname') ? form.value.surname : userProfileData.personalDetails.surname,
       about: _.get(form.value, 'about') ? form.value.about : userProfileData.personalDetails.about,
+      photo: _.get(form.value, 'photo') ? form.value.photo : userProfileData.personalDetails.photo,
       dob: _.get(form.value, 'dob') ? form.value.dob : userProfileData.personalDetails.dob,
       nationality: _.get(form.value, 'nationality') ? form.value.nationality : userProfileData.personalDetails.nationality,
       domicileMedium: _.get(form.value, 'domicileMedium') ? form.value.domicileMedium : userProfileData.domicileMedium,
@@ -33,7 +34,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       postalAddress: _.get(form.value, 'postalAddress') ? form.value.postalAddress : userProfileData.personalDetails.postalAddress,
       pincode: _.get(form.value, 'pincode') ? form.value.pincode : userProfileData.personalDetails.pincode,
     },
-    academics: _.get(form.value, 'courseDegree') ? populateAcademics(form.value) : populateAcademics(userProfileData),
+    academics: _.get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
     employmentDetails: {
       service: _.get(userProfileData, 'employmentDetails.service') || '',
       cadre: _.get(userProfileData, 'employmentDetails.cadre') || '',
@@ -58,7 +59,7 @@ export const constructReq = (form: any, userProfileData: any) => {
   return { profileReq }
 }
 
-export const populateAcademics = (data: any) => {
+export const populateAcademics = (data?: any, userProfileData?: any) => {
   if (data.academics && data.academics.length > 0) {
     const academics: any = []
     if (data.academics && Array.isArray(data.academics)) {
@@ -106,57 +107,74 @@ export const populateAcademics = (data: any) => {
     return academics
   } {
     const academics: any = []
-    academics.push(getClass10(data))
-    academics.push(getClass12(data))
-    academics.push(getDegree(data))
+    academics.push(getClass10(data, userProfileData))
+    academics.push(getClass12(data, userProfileData))
+    academics.push(getDegree(data, userProfileData))
+    academics.push(getPostDegree(data, userProfileData))
     return academics
   }
 }
 
-export const getClass10 = (data: any) => {
+export const getClass10 = (data: any, userProfileData?: any) => {
+  const class10 = _.find(userProfileData.academics, { type: 'X_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'X_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ? data.institutionName : '',
+    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ?
+      data.institutionName : _.get(class10, 'nameOfInstitute') ? _.get(class10, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'X_STANDARD' ? `${data.yearPassing
-      }` : ' ',
+      }` : _.get(class10, 'yearOfPassing') ? _.get(class10, 'yearOfPassing') : '',
   })
 }
 
-export const getClass12 = (data: any) => {
+export const getClass12 = (data: any, userProfileData?: any) => {
+  const class12 = _.find(userProfileData.academics, { type: 'XII_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'XII_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName : '',
+    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName :
+      _.get(class12, 'nameOfInstitute') ? _.get(class12, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
-      }` : '',
+      }` : _.get(class12, 'yearOfPassing') ? _.get(class12, 'yearOfPassing') : '',
   })
 }
 
-export const getDegree = (data: any) => {
+export const getDegree = (data: any, userProfileData?: any) => {
+  const GRADUATE = _.find(userProfileData.academics, { type: 'GRADUATE' })
   return ({
-    nameOfQualification: data.courseName ? data.coursename : '',
+    nameOfQualification: data.courseDegree.type === 'GRADUATE'
+      && data.courseName ? data.courseName :
+      _.get(GRADUATE, 'nameOfQualification') ?
+        _.get(GRADUATE, 'nameOfQualification') : '',
     type: 'GRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'GRADUATE' ? data.institutionName : '',
-    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
-      }` : '',
+    nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ?
+      data.institutionName : _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
+    yearOfPassing: data.courseDegree.type === 'GRADUATE' ? `${data.yearPassing
+      }` : _.get(GRADUATE, 'yearOfPassing') ? _.get(GRADUATE, 'yearOfPassing') : '',
   })
 }
 
-export const getPostDegree = (data: any) => {
+export const getPostDegree = (data: any, userProfileData?: any) => {
+  const POSTGRADUATE = _.find(userProfileData.academics, { type: 'POSTGRADUATE' })
   return ({
-    nameOfQualification: '',
+    nameOfQualification: data.courseDegree.type === 'POSTGRADUATE'
+      && data.courseName ? data.courseName : _
+        .get(POSTGRADUATE, 'nameOfQualification') ?
+      _.get(POSTGRADUATE, 'nameOfQualification') : '',
     type: 'POSTGRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName : '',
-    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
-      }` : '',
+    nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName :
+      _.get(POSTGRADUATE, 'nameOfInstitute') ? _.get(POSTGRADUATE, 'nameOfInstitute') : '',
+    yearOfPassing: data.courseDegree.type === 'POSTGRADUATE' ? `${data.yearPassing
+      }` : _.get(POSTGRADUATE, 'yearOfPassing') ? _.get(POSTGRADUATE, 'yearOfPassing') : '',
   })
 }
 
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
-    organisationType: '',
+    orgType: _.get(form.value, 'orgType') ? form.value.orgType : userProfileData.professionalDetails[0].orgType,
+    orgOtherSpecify: _.get(form.value, 'orgOtherSpecify') ? form.value.orgOtherSpecify :
+      userProfileData.professionalDetails[0].orgOtherSpecify,
     name: form.value.organizationName,
     nameOther: form.value.orgNameOther,
     industry: form.value.industry,
@@ -170,9 +188,6 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     completePostalAddress: '',
     additionalAttributes: {},
     osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
-  }
-  if (userProfileData.professionalDetails[0].organisationType) {
-    org.organisationType = userProfileData.professionalDetails[0].organisationType
   }
   organisations.push(org)
   return organisations

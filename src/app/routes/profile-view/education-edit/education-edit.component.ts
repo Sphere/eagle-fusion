@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -17,6 +17,7 @@ export class EducationEditComponent implements OnInit {
   userID = ''
   userProfileData!: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  yearPattern = '(^[0-9]{4}$)'
   constructor(private configSvc: ConfigurationsService,
               private userProfileSvc: UserProfileService,
               private snackBar: MatSnackBar,
@@ -26,7 +27,7 @@ export class EducationEditComponent implements OnInit {
       courseDegree: new FormControl(),
       courseName: new FormControl(),
       institutionName: new FormControl(),
-      yearPassing: new FormControl(),
+      yearPassing: new FormControl('', [Validators.pattern(this.yearPattern)]),
     })
     this.academics = [
       {
@@ -47,6 +48,21 @@ export class EducationEditComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetails()
+    this.route.queryParams.subscribe(params => {
+      if (params.nameOfInstitute) {
+        this.updateForm(params)
+      }
+    })
+  }
+  updateForm(data?: any) {
+    this.educationForm.patchValue({
+      courseDegree: data.type === 'X_STANDARD' ? this.academics[0] : data.type
+        === 'XII_STANDARD' ? this.academics[1] : data.type === 'GRADUATE' ? this.academics[2] : this.academics[3],
+      courseName: data.nameOfQualification,
+      institutionName: data.nameOfInstitute,
+      yearPassing: data.yearOfPassing,
+    })
+
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
@@ -54,10 +70,6 @@ export class EducationEditComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            this.route.queryParams.subscribe(isEdit => {
-              if (isEdit.isEdit) {
-              }
-            })
           }
         })
     }

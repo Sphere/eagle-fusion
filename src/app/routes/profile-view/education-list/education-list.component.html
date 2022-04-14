@@ -6,15 +6,20 @@
 
   <div class="inline-block">
     <div *ngFor="let academic of academicsArray">
+      <div class="edit-icon">
+        <mat-icon *ngIf="academicsArray.length>0 && academic.nameOfInstitute" class="float-right pencil"
+          (click)="redirectTo(true,academic)">edit</mat-icon>
+      </div>
 
       <div class="inline-block mt-1" *ngIf="academic.nameOfInstitute">
         <p class="heading" *ngIf="academic.type">{{academic.type}}</p>
+        <p class="head-2" *ngIf="academic.nameOfQualification">{{academic.nameOfQualification}}</p>
         <p class="head-2" *ngIf="academic.nameOfInstitute">{{academic.nameOfInstitute}}</p>
         <p class="head-3" *ngIf="academic.yearOfPassing">{{academic.yearOfPassing}}</p>
       </div>
     </div>
   </div>
-  <mat-icon *ngIf="academicsArray.length>0" class="float-right pencil" (click)="redirectTo(true)">edit</mat-icon>
+
   <mat-divider class="mt-2"></mat-divider>
 
   <div class="mt-3">

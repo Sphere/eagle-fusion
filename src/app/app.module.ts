@@ -32,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BtnFeatureModule, ErrorResolverModule, TourModule, WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import { ImageCropComponent, ImageCropModule, LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
@@ -97,6 +97,9 @@ import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
+import { LoaderService } from '../../project/ws/author/src/public-api'
+import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
+import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -205,6 +208,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatSelectModule,
     MatExpansionModule,
     DiscussionUiModule.forRoot(ConfigService),
+    ImageCropModule,
+    SharedModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
@@ -216,6 +221,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,
+    ImageCropComponent,
+    NotificationComponent,
   ],
   providers: [
     {
@@ -241,6 +248,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TncPublicResolverService,
     PipeContentRoutePipe,
     AppTocResolverService,
+    LoaderService,
     {
       provide: APP_BASE_HREF,
       useFactory: getBaseHref,

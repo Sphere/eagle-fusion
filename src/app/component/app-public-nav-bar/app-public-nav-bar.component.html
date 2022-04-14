@@ -33,8 +33,9 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <a role="button" *ngIf="showCreateBtn" class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()"
-    active routerLinkActive="ws-mat-accent-text">
+  <a role="button" *ngIf="(isXSmall$ | async) === false && !configSvc.userProfile"
+    class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
+    routerLinkActive="ws-mat-accent-text">
     <ng-container>
       <button id="create-account-btn" mat-raised-button [ngStyle]="{
         'background-color': 'rgb(63, 81, 181)',

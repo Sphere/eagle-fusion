@@ -2,12 +2,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
-import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
+import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
-import { DateAdapter, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
+import { DateAdapter, MatChipInputEvent, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
+import { Observable } from 'rxjs'
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
+import { ENTER, COMMA } from '@angular/cdk/keycodes'
 
 @Component({
   selector: 'ws-personal-detail-edit',
@@ -29,8 +32,15 @@ export class PersonalDetailEditComponent implements OnInit {
   userID = ''
   savebtnDisable = true
   orgTypeField = false
+  orgOthersField = false
+  selectedKnowLangs: ILanguages[] = []
+  masterKnownLanguages: Observable<ILanguages[]> | undefined
+  masterLanguagesEntries!: ILanguages[]
+  masterLanguages: Observable<ILanguages[]> | undefined
+  separatorKeysCodes: number[] = [ENTER, COMMA]
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
@@ -45,12 +55,13 @@ export class PersonalDetailEditComponent implements OnInit {
       profession: new FormControl(),
       regNurseRegMidwifeNumber: new FormControl(),
       orgType: new FormControl(),
+      orgOtherSpecify: new FormControl(),
       organizationName: new FormControl(),
       nationality: new FormControl(),
       domicileMedium: new FormControl(),
       gender: new FormControl(),
       maritalStatus: new FormControl(),
-      knownLanguages: new FormControl(),
+      knownLanguages: new FormControl([], []),
       mobile: new FormControl(),
       postalAddress: new FormControl(),
       pincode: new FormControl(),
@@ -59,6 +70,71 @@ export class PersonalDetailEditComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetails()
+    this.fetchMeta()
+  }
+
+  fetchMeta() {
+    this.userProfileSvc.getMasterLanguages().subscribe(
+      data => {
+        this.masterLanguagesEntries = data.languages
+        this.onChangesLanuage()
+        this.onChangesKnownLanuage()
+      },
+      (_err: any) => {
+      })
+  }
+
+  onChangesLanuage(): void {
+
+    // tslint:disable-next-line: no-non-null-assertion
+    this.masterLanguages = this.personalDetailForm.get('domicileMedium')!.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        startWith(''),
+        map(value => typeof (value) === 'string' ? value : (value && value.name ? value.name : '')),
+        map(name => name ? this.filterLanguage(name) : this.masterLanguagesEntries.slice())
+      )
+  }
+
+  onChangesKnownLanuage(): void {
+    // tslint:disable-next-line: no-non-null-assertion
+    this.masterKnownLanguages = this.personalDetailForm.get('knownLanguages')!.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        startWith(''),
+        map(value => typeof value === 'string' || 'ILanguages' ? value : value.name),
+        map(name => {
+          if (name) {
+            if (name.constructor === Array) {
+              return this.filterMultiLanguage(name)
+            }
+            return this.filterLanguage(name)
+          }
+          return this.masterLanguagesEntries.slice()
+        })
+      )
+  }
+  private filterMultiLanguage(name: string[]): ILanguages[] {
+    if (name) {
+      const filterValue = name.map(n => n.toLowerCase())
+      return this.masterLanguagesEntries.filter(option => {
+        // option.name.toLowerCase().includes(filterValue))
+        filterValue.map(f => {
+          return option.name.toLowerCase().includes(f)
+        })
+      })
+    }
+    return this.masterLanguagesEntries
+  }
+
+  private filterLanguage(name: string): ILanguages[] {
+    if (name) {
+      const filterValue = name.toLowerCase()
+      return this.masterLanguagesEntries.filter(option => option.name.toLowerCase().includes(filterValue))
+    }
+    return this.masterLanguagesEntries
   }
 
   getUserDetails() {
@@ -68,8 +144,54 @@ export class PersonalDetailEditComponent implements OnInit {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             this.updateForm()
+            this.populateChips(this.userProfileData)
           }
         })
+    }
+  }
+
+  public selectKnowLanguage(data: any) {
+    this.savebtnDisable = false
+    const value: ILanguages = data.option.value
+    if (!this.selectedKnowLangs.includes(value)) {
+      this.selectedKnowLangs.push(data.option.value)
+    }
+    this.knownLanguagesInputRef.nativeElement.value = ''
+  }
+
+  public removeKnowLanguage(lang: any) {
+    this.savebtnDisable = false
+    const index = this.selectedKnowLangs.indexOf(lang)
+
+    if (index >= 0) {
+      this.selectedKnowLangs.splice(index, 1)
+    }
+  }
+
+  add(event: MatChipInputEvent): void {
+    this.savebtnDisable = false
+    const input = event.input
+    const value = event.value as unknown as ILanguages
+
+    // Add our fruit
+    if ((value || '')) {
+      this.selectedKnowLangs.push(value)
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = ''
+    }
+    this.knownLanguagesInputRef.nativeElement.value = ''
+  }
+
+  private populateChips(data: any) {
+    if (data.personalDetails.knownLanguages && data.personalDetails.knownLanguages.length) {
+      data.personalDetails.knownLanguages.map((lang: ILanguages) => {
+        if (lang) {
+          this.selectedKnowLangs.push(lang)
+        }
+      })
     }
   }
 
@@ -112,13 +234,19 @@ export class PersonalDetailEditComponent implements OnInit {
       if (data.personalDetails.surname) {
         this.profileUserName += `${data.personalDetails.surname}`
       }
+      if (data.professionalDetails[0].orgOtherSpecify) {
+        this.orgOthersField = true
+      } else {
+        this.orgOthersField = false
+      }
 
       this.personalDetailForm.patchValue({
         userName: this.profileUserName,
         dob: this.getDateFromText(data.personalDetails.dob),
         profession: data.professionalDetails[0].designationOther,
         regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
-        orgType: data.professionalDetails[0].organisationType,
+        orgType: data.professionalDetails[0].orgType,
+        orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
         organizationName: data.professionalDetails[0].name,
         nationality: data.personalDetails.nationality,
         domicileMedium: data.personalDetails.domicileMedium,
@@ -142,10 +270,29 @@ export class PersonalDetailEditComponent implements OnInit {
     return ''
   }
 
+  orgTypeSelect(option: any) {
+    this.savebtnDisable = false
+    if (option !== 'null') {
+      this.personalDetailForm.controls.orgType.setValue(option)
+    } else {
+      this.personalDetailForm.controls.orgType.setValue(null)
+    }
+
+    if (option === 'Others') {
+      this.orgOthersField = true
+      this.personalDetailForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+    } else {
+      this.orgOthersField = false
+      this.personalDetailForm.controls.orgOtherSpecify.clearValidators()
+      this.personalDetailForm.controls.orgOtherSpecify.setValue('')
+    }
+  }
+
   onSubmit(form: any) {
     if (form.value.dob) {
       form.value.dob = changeformat(new Date(`${form.value.dob}`))
     }
+    form.value.knownLanguages = this.selectedKnowLangs
 
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
