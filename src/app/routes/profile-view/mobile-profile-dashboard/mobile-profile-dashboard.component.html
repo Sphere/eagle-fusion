@@ -23,7 +23,7 @@
   </div>
 
   <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-    <p class="text-lg">{{userProfileData?.professionalDetails[0].designation === 'Other' ?
+    <p class="text-lg">{{userProfileData?.professionalDetails[0].designationOther !== 'Other' ?
       userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
       }}</p>
   </div>
