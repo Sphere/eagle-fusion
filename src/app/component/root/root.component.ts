@@ -199,6 +199,9 @@ export class RootComponent implements OnInit, AfterViewInit {
             if (!isXSmall) {
               this.router.navigate(['/app/profile/dashboard'])
             }
+          } else if (!isXSmall && event.url.includes('/app/video-player') &&
+            this.configSvc.userProfile === null) {
+            this.router.navigate(['/public/home'])
           }
         })
         this.routeChangeInProgress = true
