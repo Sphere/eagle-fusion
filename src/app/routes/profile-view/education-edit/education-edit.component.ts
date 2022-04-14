@@ -19,10 +19,10 @@ export class EducationEditComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = '(^[0-9]{4}$)'
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private snackBar: MatSnackBar,
-              private router: Router,
-              private route: ActivatedRoute) {
+    private userProfileSvc: UserProfileService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),
@@ -57,7 +57,7 @@ export class EducationEditComponent implements OnInit {
   updateForm(data?: any) {
     this.educationForm.patchValue({
       courseDegree: data.type === 'X_STANDARD' ? this.academics[0] : data.type
-        === 'XII_STANDARD' ? this.academics[1] : data.type === 'GRADUATE' ? this.academics[3] : this.academics[4],
+        === 'XII_STANDARD' ? this.academics[1] : data.type === 'GRADUATE' ? this.academics[2] : this.academics[3],
       courseName: data.nameOfQualification,
       institutionName: data.nameOfInstitute,
       yearPassing: data.yearOfPassing,
