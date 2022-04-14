@@ -2,10 +2,11 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { IBtnAppsConfig, CustomTourService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, NsInstanceConfig, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -39,13 +40,17 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   popupTour: any
   courseNameHeader: any
   showCreateBtn = false
+  isXSmall$: Observable<boolean>
+
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
     private tourService: CustomTourService,
     private router: Router,
-    private accessService: AccessControlService
+    private accessService: AccessControlService,
+    private valueSvc: ValueService,
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
@@ -73,11 +78,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
     })
 
-    if ((window.innerWidth < 600) && (this.configSvc.userProfile === null)) {
-      this.showCreateBtn = true
-    } else {
-      this.showCreateBtn = false
-    }
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
+      }
+    })
 
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -137,12 +144,14 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    if ((event.target.innerWidth < 600) && (this.configSvc.userProfile === null)) {
-      this.showCreateBtn = true
-    } else {
-      this.showCreateBtn = false
-    }
+  onResize() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
+      }
+    })
   }
 
   startTour() {

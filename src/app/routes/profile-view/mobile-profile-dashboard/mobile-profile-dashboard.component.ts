@@ -44,7 +44,8 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
-    forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id), this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+    forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+    this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
       this.loader = false
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
@@ -55,7 +56,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), 'identifier')
+    })),                             'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -76,7 +77,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      }, 500)
+      },         500)
     })
 
   }
@@ -84,13 +85,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), (result: any, value) => {
+    })),                                (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    }, [])
+    },                                  [])
     this.certificates = issuedCertificates
   }
   // convertToJpeg(imgVal: any, callback: any) {
