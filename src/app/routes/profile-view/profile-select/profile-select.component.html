@@ -26,7 +26,8 @@
           (change)="uploadProfileImg($event.target.files[0]); uploadProfilePic.value = null" style="display: none;"
           [accept]="imageTypes.toString()" />
       </div>
-      <div class="my-auto mx-3">
+      <div class="my-auto mx-3" (click)="uploadProfilePic.click(); $event.stopPropagation()"
+        (keydown.enter)="uploadProfilePic.click(); $event.stopPropagation()">
         <p class="add-own-img">Add your own image</p>
       </div>
 
