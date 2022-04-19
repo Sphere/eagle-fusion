@@ -3,7 +3,9 @@
   <ws-mobile-profile-nav></ws-mobile-profile-nav>
 
   <p class="text-2xl mt-2">Work Info</p>
-  <mat-icon class="float-right pencil" (click)="redirectToWorkInfo(true)">edit</mat-icon>
+  <mat-icon *ngIf="userProfileData && userProfileData.professionalDetails" class="float-right pencil"
+    (click)="redirectToWorkInfo(true)">
+    edit</mat-icon>
   <div class="mt-3" *ngFor="let profession of userProfileData?.professionalDetails">
     <div class="inline-block">
       <p class="heading pb-1">{{profession.name}}</p>
@@ -17,7 +19,7 @@
   <mat-divider class="mt-2"></mat-divider>
 
 
-  <div class="mt-3">
+  <div class="mt-3" *ngIf="userProfileData && !userProfileData.professionalDetails">
     <p class="add-edu-txt inline-block" (click)="redirectToWorkInfo()">+ Add Work Info</p>
   </div>
 
