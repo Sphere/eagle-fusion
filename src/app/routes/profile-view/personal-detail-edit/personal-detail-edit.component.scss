@@ -38,3 +38,8 @@
   color: #808080;
   cursor: default;
 }
+
+::ng-deep .mat-form-field-wrapper{
+  padding-bottom: 1rem !important;
+  margin-bottom: 0 !important;
+}

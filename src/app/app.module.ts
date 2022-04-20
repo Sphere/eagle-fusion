@@ -87,7 +87,6 @@ import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.comp
 import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-import { MobileProfilePopupComponent } from './routes/mobile-profile-popup/mobile-profile-popup.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
@@ -151,7 +150,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileVideoPlayerComponent,
     MobileFooterComponent,
     MobileProfileDashboardComponent,
-    MobileProfilePopupComponent,
     MobileAboutPopupComponent,
     ProfileSelectComponent,
     EducationListComponent,

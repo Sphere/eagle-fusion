@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-mobile-video-player',
   templateUrl: './mobile-video-player.component.html',
@@ -10,7 +11,7 @@ export class MobileVideoPlayerComponent implements OnInit {
   videoIndex: any
   videoData: any
   constructor(public router: Router, public route: ActivatedRoute,
-              public configsvc: ConfigurationsService) {
+    public configsvc: ConfigurationsService) {
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',
@@ -32,8 +33,15 @@ export class MobileVideoPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.videoIndex = params['video']
+      this.videoIndex = _.toNumber(params['video'])
     })
+    if (this.videoIndex === 1) {
+      this.videoData = this.videoData.slice(this.videoIndex + 1, this.videoData.length)
+    } else if (this.videoIndex === 2) {
+      this.videoData = this.videoData.slice(0, 1)
+    } else {
+      this.videoData = this.videoData.slice(this.videoIndex + 1, this.videoData.length - 1)
+    }
   }
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
