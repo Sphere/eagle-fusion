@@ -1,81 +1,21 @@
-.header2{
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
+.header2 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+}
 
+.lable1 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
 }
-.mob-view-header2{
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-color: #1C5D95;
 
-}
-.lable1{
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 17px;
-color: #000000;
-}
-.header3{
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-letter-spacing: -0.02em;
-color: #000000;
-}
-.follow-btn {
-//border-radius: 20px;
-font-size: 8px;
-padding: 5px 25px;
-margin-top: 10px;
-//border: 1px solid #1C5D95;
-color: #1C5D95;
-cursor: pointer;
-}
-.card {
-margin-top: 10px;
-box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
-border-radius: 10px;
-padding: 20px 0;
-border: none;
-}
-.follow-card {
-  margin-top: 10px;
-  border-radius: 10px;
-  width: 185px;
-  text-align: center;
-  padding: 15px 0;
-  margin-right: 15px;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
-  border-radius: 10px;
-}
-.horizontal-scroll-content {
-  overflow-x: auto;
-  height: 100%;
-  flex-wrap: nowrap;
-  display: flex;
-  align-items: stretch;
-  padding-left: 5px;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-}
-.follow-img {
-  border: 1px solid grey;
-  border-radius: 50%;
-  position: relative;
-  left: 30%;
-}
-.sub-points{
-
+.sub-points {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;

@@ -37,3 +37,11 @@ h1 {
 .header-font {
   font-size: 24px !important;
 }
+
+@media screen and (max-width:600px) {
+  .header-font {
+    font-family: 'Roboto' !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.02em;
+  }
+}

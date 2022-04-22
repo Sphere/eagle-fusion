@@ -1,15 +1,20 @@
 <div class="content">
   <!--banner and up skill section-->
   <ws-mobile-home></ws-mobile-home>
+</div>
 
-  <!--latest course-->
-  <div>
-    <ng-container [wsResolverWidget]="pageLayout">
-    </ng-container>
-  </div>
+<!--latest course-->
+<div class="bg-grey pt-3">
+  <ng-container [wsResolverWidget]="pageLayout">
+  </ng-container>
+</div>
+
+<div class="mx-4">
 
   <!--50+ organization-->
-  <ws-mobile-organization></ws-mobile-organization>
+  <section class="mt-4">
+    <ws-mobile-organization></ws-mobile-organization>
+  </section>
 
   <!-- How does it work section -->
   <section class="mt-4">
@@ -19,14 +24,16 @@
       <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
     </ng-container>
   </section>
-</div>
 
-<!--leaderboard section-->
-<div *ngIf="leaderBoard">
-  <ws-mobile-leaderboard></ws-mobile-leaderboard>
+
+  <!--leaderboard section-->
+  <div *ngIf="leaderBoard">
+    <ws-mobile-leaderboard></ws-mobile-leaderboard>
+  </div>
+
 </div>
 
 <!--FAQ section-->
-<section class="mb-10">
+<section class="mt-4 mb-10">
   <ws-mobile-page-faq></ws-mobile-page-faq>
 </section>
