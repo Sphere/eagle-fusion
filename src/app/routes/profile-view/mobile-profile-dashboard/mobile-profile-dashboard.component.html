@@ -5,7 +5,7 @@
 
   <ws-mobile-profile-nav></ws-mobile-profile-nav>
 
-  <div class="mt-2">
+  <div class="mt-4">
     <p class="text-2xl">{{ userProfileData?.personalDetails.firstname }}
       <span *ngIf="userProfileData?.personalDetails.middlename"> {{userProfileData?.personalDetails.middlename}}
       </span>
@@ -23,7 +23,7 @@
   </div>
 
   <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-    <p class="text-lg">{{userProfileData?.professionalDetails[0].designationOther !== 'Other' ?
+    <p class="text-lg mt-3 ">{{userProfileData?.professionalDetails[0].designationOther !== 'Other' ?
       userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
       }}</p>
   </div>
@@ -61,16 +61,17 @@
 
     <div *ngFor="let academic of academicsArray">
       <div class="mt-2" *ngIf="academic.nameOfInstitute">
-        <p class="heading">{{academic.type}}</p>
+        <p class="heading ">{{academic.type}}</p>
         <p class="head-2" *ngIf="academic.nameOfQualification">{{academic.nameOfQualification}}</p>
         <p class="head-2">{{academic.nameOfInstitute}}</p>
         <p class="head-3">{{academic.yearOfPassing}}</p>
+        <mat-divider class="mt-2"></mat-divider>
       </div>
     </div>
     <canvas id="certCanvas"></canvas>
   </div>
 
-  <mat-divider class="mt-2"></mat-divider>
+  <!-- <mat-divider class="mt-2"></mat-divider> -->
 
   <!-- Work Info Section -->
   <div class="mt-3 mb-4">
