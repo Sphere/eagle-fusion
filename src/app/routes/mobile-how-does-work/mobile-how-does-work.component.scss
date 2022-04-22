@@ -1,6 +1,6 @@
 .how-work-content {
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 10px;
   display: flex;
   margin-bottom: 15px;
@@ -19,5 +19,13 @@ video {
   color: #808080;
   font-size: 12px;
   font-weight: 400;
+}
+
+video::-webkit-media-controls-play-button {
+  background-color: rgba(0, 0, 0, 0.52);
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-bottom: 7px;
+  height: 34px;
 }
 

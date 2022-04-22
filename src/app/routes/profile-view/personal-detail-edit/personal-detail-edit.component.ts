@@ -38,6 +38,7 @@ export class PersonalDetailEditComponent implements OnInit {
   masterLanguagesEntries!: ILanguages[]
   masterLanguages: Observable<ILanguages[]> | undefined
   separatorKeysCodes: number[] = [ENTER, COMMA]
+  rnShow = false
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
@@ -45,9 +46,9 @@ export class PersonalDetailEditComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -198,11 +199,16 @@ export class PersonalDetailEditComponent implements OnInit {
   professionalChange(value: any) {
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
+      this.rnShow = true
       this.orgTypeField = false
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
+      this.rnShow = false
+      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
     } else {
       this.orgTypeField = true
+      this.rnShow = false
+      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
     }
   }
 
@@ -238,6 +244,12 @@ export class PersonalDetailEditComponent implements OnInit {
         this.orgOthersField = true
       } else {
         this.orgOthersField = false
+      }
+      if (data.professionalDetails[0].designationOther === 'Healthcare Worker') {
+        this.rnShow = true
+      }
+      else {
+        this.rnShow = false
       }
 
       this.personalDetailForm.patchValue({

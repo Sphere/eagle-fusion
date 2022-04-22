@@ -1,37 +1,14 @@
-.content {
-    padding: 0px 0px 0px;
-    margin-top: -55px;
-
+.header3 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    letter-spacing: -0.02em;
+    color: #000000;
 }
-.faq {
-position: absolute;
-width: 58px;
-height: 29px;
-left: 27px;
-top: 1517.31px;
-}
-
-.rectangle-border{
-position: absolute;
-width: 313px;
-height: 43px;
-left: 25px;
-top: 1562.31px;
-background: #F7F7F7;
-border-radius: 8px;
-}
-.header3{
-
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-letter-spacing: -0.02em;
-color: #000000;
-}
-.faq-accordion{
-margin: 3px 0;
-background-color:#F7F7F7 !important;
-
+.faq-accordion {
+    margin: 3px 0;
+    background-color:#F7F7F7 !important;
+    border-radius: 8px;
 }
