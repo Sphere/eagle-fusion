@@ -21,3 +21,11 @@ video {
   font-weight: 400;
 }
 
+video::-webkit-media-controls-play-button {
+  background-color: rgba(0, 0, 0, 0.52);
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-bottom: 7px;
+  height: 34px;
+}
+
