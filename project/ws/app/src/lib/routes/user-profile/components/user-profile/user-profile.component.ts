@@ -101,6 +101,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   mobileLoginNumber = ''
   userID = ''
   orgOthersField = false
+  professionOtherField = false
   nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
     'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
     'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
@@ -118,6 +119,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   unApprovedField!: any[]
   stateUrl = '/fusion-assets/files/state.json'
   degreeUrl = '/fusion-assets/files/degrees.json'
+  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
   constructor(
@@ -180,7 +182,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       industry: new FormControl('', []),
       industryOther: new FormControl('', []),
       designation: new FormControl('', []),
-      designationOther: new FormControl('', []),
+      profession: new FormControl('', []),
       location: new FormControl('', []),
       locationOther: new FormControl('', []),
       doj: new FormControl('', []),
@@ -194,6 +196,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       employeeCode: new FormControl('', []),
       otherDetailsOfficeAddress: new FormControl('', []),
       otherDetailsOfficePinCode: new FormControl('', []),
+      professionOtherSpecify: new FormControl()
     })
   }
 
@@ -216,6 +219,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.navigatedFromProfile = true
       const indexValue = Number(this.route.snapshot.queryParams.edit)
       this.goToNextTabIndex(this.usetMatTab, indexValue)
+    }
+  }
+
+  professionalChange(value: any) {
+    if (value === 'Healthcare Worker') {
+      this.professionOtherField = false
+    } else if (value === 'Healthcare Volunteer') {
+      this.professionOtherField = false
+    } else if (value === 'Others') {
+      this.professionOtherField = true
+    } else {
+      this.professionOtherField = false
     }
   }
 
@@ -618,9 +633,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       completePostalAddress: '',
       orgNameOther: '',
       industryOther: '',
-      designationOther: '',
+      profession: '',
       orgType: '',
       orgOtherSpecify: '',
+      professionOtherSpecify: ''
     }
     if (data && data.professionalDetails && data.professionalDetails.length > 0) {
       const organisation = data.professionalDetails[0]
@@ -632,7 +648,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         industry: organisation.industry,
         industryOther: organisation.industryOther,
         designation: organisation.designation,
-        designationOther: organisation.designationOther,
+        profession: organisation.profession,
+        professionOtherSpecify: organisation.professionOtherSpecify,
         location: organisation.location,
         responsibilities: organisation.responsibilities,
         doj: this.getDateFromText(organisation.doj),
@@ -727,6 +744,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.orgOthersField = false
     }
 
+    organisation.profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
+
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
@@ -768,7 +787,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       orgDesc: organisation.orgDesc,
       orgNameOther: organisation.orgNameOther,
       industryOther: organisation.industryOther,
-      designationOther: organisation.designationOther,
+      profession: organisation.profession,
+      professionOtherSpecify: organisation.professionOtherSpecify,
       // orgName: _.get(data, 'employmentDetails.departmentName') || '',
       service: _.get(data, 'employmentDetails.service') || '',
       cadre: _.get(data, 'employmentDetails.cadre') || '',
@@ -782,7 +802,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -1015,7 +1035,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       industry: form.value.industry,
       industryOther: form.value.industryOther,
       designation: form.value.designation,
-      designationOther: form.value.designationOther,
+      profession: form.value.profession,
       location: form.value.location,
       responsibilities: '',
       doj: form.value.doj,
@@ -1289,7 +1309,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (field === 'designation' && value !== 'Other') {
       this.showDesignationOther = false
-      this.createUserForm.controls['designationOther'].setValue('')
+      this.createUserForm.controls['profession'].setValue('')
     }
   }
 

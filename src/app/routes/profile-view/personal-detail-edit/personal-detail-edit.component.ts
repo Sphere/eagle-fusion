@@ -39,6 +39,7 @@ export class PersonalDetailEditComponent implements OnInit {
   masterLanguages: Observable<ILanguages[]> | undefined
   separatorKeysCodes: number[] = [ENTER, COMMA]
   rnShow = false
+  professionOtherField = false
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
@@ -54,6 +55,7 @@ export class PersonalDetailEditComponent implements OnInit {
       userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
+      professionOtherSpecify: new FormControl(),
       regNurseRegMidwifeNumber: new FormControl(),
       orgType: new FormControl(),
       orgOtherSpecify: new FormControl(),
@@ -201,14 +203,23 @@ export class PersonalDetailEditComponent implements OnInit {
     if (value === 'Healthcare Worker') {
       this.rnShow = true
       this.orgTypeField = false
+      this.professionOtherField = false
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
+      this.professionOtherField = false
       this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+    } else if (value === 'Others') {
+      this.rnShow = false
+      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.professionOtherField = true
+      this.orgTypeField = false
     } else {
       this.orgTypeField = true
       this.rnShow = false
+      this.professionOtherField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.personalDetailForm.controls.orgType.setValue(null)
     }
   }
 
@@ -240,22 +251,16 @@ export class PersonalDetailEditComponent implements OnInit {
       if (data.personalDetails.surname) {
         this.profileUserName += `${data.personalDetails.surname}`
       }
-      if (data.professionalDetails[0].orgOtherSpecify) {
-        this.orgOthersField = true
-      } else {
-        this.orgOthersField = false
-      }
-      if (data.professionalDetails[0].designationOther === 'Healthcare Worker') {
-        this.rnShow = true
-      }
-      else {
-        this.rnShow = false
-      }
+
+      data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
+      data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
+      data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
 
       this.personalDetailForm.patchValue({
         userName: this.profileUserName,
         dob: this.getDateFromText(data.personalDetails.dob),
-        profession: data.professionalDetails[0].designationOther,
+        profession: data.professionalDetails[0].profession,
+        professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
         regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
         orgType: data.professionalDetails[0].orgType,
         orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,

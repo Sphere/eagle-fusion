@@ -28,6 +28,11 @@
       </mat-select>
     </mat-form-field>
 
+    <div class="form-group" *ngIf="professionOtherField">
+      <input type="text" formControlName="professionOtherSpecify" class="form-control"
+        placeholder="Please Specify Profession*" autocomplete="off">
+    </div>
+
     <div class="form-group" *ngIf="rnShow">
       <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
         placeholder="RN/RM Number" autocomplete="off">

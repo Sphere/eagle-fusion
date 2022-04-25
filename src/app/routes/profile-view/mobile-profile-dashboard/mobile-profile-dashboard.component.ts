@@ -170,4 +170,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   workInfoEdit() {
     this.router.navigate([`app/workinfo-list`])
   }
+
+  personalDetailEdit() {
+    this.router.navigate([`app/personal-detail-edit`])
+  }
 }

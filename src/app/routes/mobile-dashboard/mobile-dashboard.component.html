@@ -5,14 +5,14 @@
     <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
   </ng-container>
 
-
   <!-- How does it work section -->
-  <ng-container>
-    <p class="text-2xl">How does it work?</p>
-    <p class="font-normal text-sm grey-color">3 simple steps</p>
-    <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
-  </ng-container>
-
+  <section class="mt-4">
+    <ng-container>
+      <p class="text-2xl">How does it work?</p>
+      <p class="font-normal text-sm grey-color">3 simple steps</p>
+      <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+    </ng-container>
+  </section>
 
   <!-- Categories Section -->
   <section class="mt-4">

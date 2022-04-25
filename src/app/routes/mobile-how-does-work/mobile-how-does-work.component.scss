@@ -21,6 +21,10 @@ video {
   font-weight: 400;
 }
 
+.video-div {
+  margin: auto 10px;
+}
+
 video::-webkit-media-controls-play-button {
   background-color: rgba(0, 0, 0, 0.52);
   border-radius: 50%;

@@ -702,6 +702,35 @@
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
               <div class="w-full profile-cols-full bg-grey">
+
+                <div class="flex flex-wrap section-input">
+                  <div class="item">
+                    <p class=" margin-remove-bottom form-label"
+                      i18n="Organisation Type label|Label which explains the user to enter Organisation Type">
+                      Choose your Background
+                    </p>
+                    <mat-form-field appearance="outline" class="field-fullwidth">
+                      <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
+                        (selectionChange)="professionalChange($event.value)">
+                        <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap section-input" *ngIf="professionOtherField">
+                  <div class="item">
+                    <p class=" margin-remove-bottom form-label">
+                      Please Specify Profession*
+                    </p>
+                    <mat-form-field appearance="outline" class="margin-top-xs">
+                      <input matInput #orgNameSelect type="text" formControlName="professionOtherSpecify"
+                        i18n-placeholder placeholder="Please Specify Profession*" autocomplete="off" />
+                    </mat-form-field>
+                  </div>
+                </div>
+
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
