@@ -116,7 +116,8 @@ export namespace NSSearch {
   export interface ISearchV6RequestV2 {
     request: {
       filters: {
-        primaryCategory: any
+        primaryCategory: any,
+        status: string
       },
       query: string,
       sort_by: { lastUpdatedOn: string },

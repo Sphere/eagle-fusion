@@ -196,7 +196,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       employeeCode: new FormControl('', []),
       otherDetailsOfficeAddress: new FormControl('', []),
       otherDetailsOfficePinCode: new FormControl('', []),
-      professionOtherSpecify: new FormControl()
+      professionOtherSpecify: new FormControl(),
     })
   }
 
@@ -636,7 +636,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       profession: '',
       orgType: '',
       orgOtherSpecify: '',
-      professionOtherSpecify: ''
+      professionOtherSpecify: '',
     }
     if (data && data.professionalDetails && data.professionalDetails.length > 0) {
       const organisation = data.professionalDetails[0]
@@ -802,7 +802,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
