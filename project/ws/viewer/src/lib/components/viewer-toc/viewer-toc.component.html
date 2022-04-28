@@ -115,6 +115,7 @@
                 content?.completionPercentage === 100
               " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-start">
               check_circle_outline</mat-icon>
+            <mat-icon *ngIf=" content.completionPercentage == undefined &&  disabledNode">lock</mat-icon>
           </div>
         </div>
         <span class="mat-body-1">
@@ -154,7 +155,8 @@
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.completionPercentage == undefined &&  disabledNode ? true : false  }"
         [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
-          {{ content?.title }} <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
+          {{ content?.title }} <mat-icon *ngIf="content.completionPercentage == undefined &&  disabledNode">lock
+          </mat-icon> <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
             {{content.completionPercentage}}% |
           </span>
           <!--           <span *ngIf="content?.completionPercentage === null || content?.completionPercentage === undefined"> &nbsp;|ll
