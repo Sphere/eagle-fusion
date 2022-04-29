@@ -67,7 +67,7 @@
   </mat-card-content>
 </mat-card>
 
-<h2 class="text-center mat-primary-text margin-top-m load" *ngIf="showIsLoadingMessage || htmlContent.isIframeSupported === 'Yes'" i18n>
+<h2 class="text-center mat-primary-text margin-top-m load" *ngIf="showIsLoadingMessage || (htmlContent && htmlContent.isIframeSupported === 'Yes')" i18n>
   Please wait! Content requested is loading
 </h2>
 
@@ -83,7 +83,7 @@
   </h2>
 </div>
 
-<div class="container-v2" *ngIf="htmlContent.isIframeSupported === 'No' ">
+<div class="container-v2" *ngIf="htmlContent && htmlContent.isIframeSupported === 'No'">
   <iframe #iframeElem title="HTML Content Viewer" i18n-title [src]="iframeUrl"
     (load)="onIframeLoadOrError('load',iframeElem,$event)" (error)="onIframeLoadOrError('error')"
     allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; microphone; camera;"
