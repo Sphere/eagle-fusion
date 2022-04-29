@@ -99,8 +99,8 @@
 <!-- Template -->
 <ng-template let-content #TocContentCard>
   <a class="width-expand flat-list-content margin-xs"
-    [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.completionPercentage == undefined &&  disabledNode ? true : false  }"
-    matRipple (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve">
+    [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.disabledNode  }" matRipple
+    (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve">
     <span class="width-expand flex flex-middle">
 
       <img i18n-alt alt="thumbnail" class="viewer-toc-thumbnail align-self-start margin-auto mat-app-background"
@@ -111,11 +111,12 @@
             <span>
               {{ content.title | pipeLimitTo: 20 }}
             </span>
+            <mat-icon *ngIf="content.disabledNode">lock</mat-icon>
             <mat-icon *ngIf="
                 content?.completionPercentage === 100
               " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-start">
               check_circle_outline</mat-icon>
-            <mat-icon *ngIf=" content.completionPercentage == undefined &&  disabledNode">lock</mat-icon>
+
           </div>
         </div>
         <span class="mat-body-1">
@@ -152,10 +153,10 @@
     <!-- <ws-widget-display-content-type-icon class="flex margin-left-xs" [displayContentType]="content?.type">
     </ws-widget-display-content-type-icon> -->
     <div class="resource-meta width-expand">
-      <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.completionPercentage == undefined &&  disabledNode ? true : false  }"
+      <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.disabledNode }"
         [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
-          {{ content?.title }} <mat-icon *ngIf="content.completionPercentage == undefined &&  disabledNode">lock
+          {{ content?.title }} <mat-icon *ngIf="content.disabledNode">lock
           </mat-icon> <span *ngIf="content?.completionPercentage && content?.completionPercentage >=0"> &nbsp;|
             {{content.completionPercentage}}% |
           </span>

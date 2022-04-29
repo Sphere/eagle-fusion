@@ -285,6 +285,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
       content = content.result.content
+      if (content && content.gatingEnabled) {
+        this.viewerDataSvc.setNode(content.gatingEnabled)
+      }
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
@@ -451,25 +454,44 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
-            mergeData(this.collection.children)
-            function mergeData(collection: any) {
-              collection.map((child1: any) => {
+
+            const mergeData = (collection: any) => {
+              collection.map((child1: any, index: any, element: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
                 if (foundContent) {
                   child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
                   child1.completionStatus = foundContent.status
+                  if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
+                    child1.disabledNode = false
+                  }
+                } else if (this.viewerDataSvc.getNode()) {
+                  element[index].disabledNode = true
                 }
+                if (child1.completionPercentage === 100) {
+                  element[index + 1].disabledNode = false
+                }
+
                 if (child1['children']) {
-                  child1['children'].map((child2: any) => {
+                  debugger
+                  child1['children'].map((child2: any, cindex: any, cheElement: any) => {
                     const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
                     if (foundContent2) {
                       child2.completionPercentage = foundContent2.completionPercentage
                       child2.completionStatus = foundContent2.status
+                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                      if (element[index].children.length > 0) {
+                        element[index].children[0].disabledNode = false
+                        return
+                      }
+
+                    } else if (this.viewerDataSvc.getNode()) {
+                      cheElement[cindex].disabledNode = true
                     }
                   })
                 }
               })
             }
+            mergeData(this.collection.children)
           }
         },
         (error: any) => {
@@ -489,6 +511,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     }
   }
+
+
 
   resourceContentTypeFunct(type: any) {
     if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {

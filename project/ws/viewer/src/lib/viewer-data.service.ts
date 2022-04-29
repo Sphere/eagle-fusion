@@ -42,7 +42,7 @@ export class ViewerDataService {
   // private setName = new BehaviorSubject<any>("");
   // To get the name from other component
   getFullScreenStatus = this.fullScreenResource.asObservable()
-  gatingEnabled = true
+  gatingEnabled = false
   constructor() { }
 
   reset(resourceId: string | null = null, status: TStatus = 'none', primaryCategory?: string) {
