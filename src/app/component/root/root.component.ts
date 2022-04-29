@@ -32,6 +32,7 @@ import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import * as _ from 'lodash'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -163,6 +164,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.hideHeaderFooter = true
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
+          // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('app/toc') &&
+          this.configSvc.userProfile === null) {
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+            }` + `/overview`)
+          this.router.navigateByUrl('app/login')
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
