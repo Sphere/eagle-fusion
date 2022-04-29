@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import * as _ from 'lodash'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
@@ -12,8 +12,6 @@ import { constructReq } from '../profile-view/request-util'
   styleUrls: ['./mobile-about-popup.component.scss'],
 })
 export class MobileAboutPopupComponent implements OnInit {
-  saveBtn = true
-  textExceed = true
   aboutForm: FormGroup
   userProfileData!: any
   userID = ''
@@ -26,7 +24,7 @@ export class MobileAboutPopupComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
-      about: new FormControl(),
+      about: new FormControl('', [Validators.required, Validators.maxLength(500)]),
     })
   }
   ngOnInit() {
@@ -47,14 +45,6 @@ export class MobileAboutPopupComponent implements OnInit {
     this.aboutForm.patchValue({
       about: this.data,
     })
-    this.textChange()
-  }
-  textChange() {
-    this.saveBtn = false
-    if (this.aboutForm.value.about.length > 500 || this.data.length > 500) {
-      this.saveBtn = true
-      this.textExceed = false
-    }
   }
 
   onSubmit(form: any) {
