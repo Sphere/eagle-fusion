@@ -43,3 +43,7 @@
   padding-bottom: 1rem !important;
   margin-bottom: 0 !important;
 }
+
+:ng-deep .mat-form-field-flex {
+  height: 45px !important;
+}

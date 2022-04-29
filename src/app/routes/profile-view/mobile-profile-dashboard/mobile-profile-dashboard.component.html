@@ -23,12 +23,13 @@
   </div>
 
   <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-    <p class="text-lg mt-3 ">{{userProfileData?.professionalDetails[0].designationOther !== 'Other' ?
-      userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
+    <p class="text-lg mt-3 ">{{userProfileData?.professionalDetails[0].profession === 'Others' ?
+      userProfileData?.professionalDetails[0].professionOtherSpecify :
+      userProfileData?.professionalDetails[0].profession
       }}</p>
   </div>
 
-  <button class="edit-button" [routerLink]="'/app/personal-detail-edit'">Edit
+  <button class="edit-button" (click)="personalDetailEdit()">Edit
   </button>
 
   <!-- About Section -->

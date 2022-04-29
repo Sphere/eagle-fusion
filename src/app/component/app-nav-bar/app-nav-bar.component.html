@@ -1,5 +1,5 @@
 <mat-toolbar [color]="primaryNavbarBackground?.color" [ngStyle]="primaryNavbarBackground?.styles"
-  class="mat-elevation-z3 custom">
+  class="mat-elevation-z3 custom mat-tool-navbar">
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
       <div class="logo-container flex items-center">
@@ -71,12 +71,12 @@
         (click)="createAcct()" active [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
         <ng-container>
           <button mat-raised-button [ngStyle]="{
-            'background-color': 'rgb(63, 81, 181)',
+            'background-color': '#1C5D95',
             'width': '100%',
-            'border': '1px solid rgb(63, 81, 181)',
+            'border': '1px solid #1C5D95',
             'border-radius': '20px',
             'color': 'white',
-            'font-size': 'medium',
+            'font-size': '16px',
             'font-weight': '400'}">
             Create Account</button>
         </ng-container>

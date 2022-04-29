@@ -173,6 +173,8 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
     orgType: _.get(form.value, 'orgType') ? form.value.orgType : userProfileData.professionalDetails[0].orgType,
+    professionOtherSpecify: _.get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify :
+      userProfileData.professionalDetails[0].professionOtherSpecify,
     orgOtherSpecify: _.get(form.value, 'orgOtherSpecify') ? form.value.orgOtherSpecify :
       userProfileData.professionalDetails[0].orgOtherSpecify,
     name: form.value.organizationName,
@@ -180,7 +182,7 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     industry: form.value.industry,
     industryOther: form.value.industryOther,
     designation: _.get(form.value, 'designation') ? form.value.designation : userProfileData.professionalDetails[0].designation,
-    designationOther: userProfileData.professionalDetails[0].designationOther,
+    profession: _.get(form.value, 'profession') ? form.value.profession : userProfileData.professionalDetails[0].profession,
     location: _.get(form.value, 'location') ? form.value.location : userProfileData.professionalDetails[0].location,
     responsibilities: '',
     doj: _.get(form.value, 'doj') ? changeformat(new Date(`${form.value.doj}`)) : userProfileData.professionalDetails[0].doj,
