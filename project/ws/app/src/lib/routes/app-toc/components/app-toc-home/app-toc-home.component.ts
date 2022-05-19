@@ -10,6 +10,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
+import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 import * as _ from 'lodash'
 import moment from 'moment'
 
@@ -26,7 +27,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -105,11 +106,16 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
+    private discussiConfig: DiscussConfigResolve
   ) {
-    this.discussionConfig = {
-      // menuOptions: [{ route: 'categories', enable: true }],
-      userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
+    this.discussiConfig.setConfig()
+    if (this.configSvc.userProfile) {
+      this.discussionConfig = {
+        // menuOptions: [{ route: 'categories', enable: true }],
+        userName: `${this.configSvc.userProfile.firstName} ${this.configSvc.userProfile.lastName}` || '',
+      }
     }
+
   }
   ngOnInit() {
     this.checkRoute()
