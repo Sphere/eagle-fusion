@@ -3,7 +3,7 @@ import {
   // ElementRef, AfterViewInit
 } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig, ValueService } from '@ws-widget/utils'
 import { MatDialog } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -31,10 +31,13 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // AfterViewInit,
   NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   public route: string
+  isXSmall$ = this.valueSvc.isXSmall$
+
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private accessService: AccessControlService,
+    private valueSvc: ValueService,
     // private element: ElementRef,
     // private router: Router,
     // private contentSvc: WidgetContentService,

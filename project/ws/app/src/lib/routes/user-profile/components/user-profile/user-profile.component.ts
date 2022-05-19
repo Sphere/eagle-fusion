@@ -100,6 +100,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   mobileNumberLogin = false
   mobileLoginNumber = ''
   userID = ''
+  orgOthersField = false
+  professionOtherField = false
   nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
     'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
     'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
@@ -117,6 +119,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   unApprovedField!: any[]
   stateUrl = '/fusion-assets/files/state.json'
   degreeUrl = '/fusion-assets/files/degrees.json'
+  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
+  orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
   constructor(
     private snackBar: MatSnackBar,
@@ -172,11 +176,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: new FormControl('', []),
       isGovtOrg: new FormControl(false, []),
       orgName: new FormControl('', []),
+      orgType: new FormControl(),
+      orgOtherSpecify: new FormControl(),
       orgNameOther: new FormControl('', []),
       industry: new FormControl('', []),
       industryOther: new FormControl('', []),
       designation: new FormControl('', []),
-      designationOther: new FormControl('', []),
+      profession: new FormControl('', []),
       location: new FormControl('', []),
       locationOther: new FormControl('', []),
       doj: new FormControl('', []),
@@ -190,6 +196,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       employeeCode: new FormControl('', []),
       otherDetailsOfficeAddress: new FormControl('', []),
       otherDetailsOfficePinCode: new FormControl('', []),
+      professionOtherSpecify: new FormControl(),
     })
   }
 
@@ -212,6 +219,36 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.navigatedFromProfile = true
       const indexValue = Number(this.route.snapshot.queryParams.edit)
       this.goToNextTabIndex(this.usetMatTab, indexValue)
+    }
+  }
+
+  professionalChange(value: any) {
+    if (value === 'Healthcare Worker') {
+      this.professionOtherField = false
+    } else if (value === 'Healthcare Volunteer') {
+      this.professionOtherField = false
+    } else if (value === 'Others') {
+      this.professionOtherField = true
+    } else {
+      this.professionOtherField = false
+    }
+  }
+
+  orgTypeSelect(option: any) {
+    if (option !== 'null') {
+      this.createUserForm.controls.orgType.setValue(option)
+    } else {
+      this.createUserForm.controls.orgType.setValue(null)
+    }
+
+    if (option === 'Others') {
+      this.orgOthersField = true
+      this.createUserForm.controls.orgOtherSpecify.setValue(null)
+      this.createUserForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+    } else {
+      this.orgOthersField = false
+      this.createUserForm.controls.orgOtherSpecify.clearValidators()
+      this.createUserForm.controls.orgOtherSpecify.setValue(null)
     }
   }
 
@@ -437,8 +474,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
     if (this.createUserForm.get('knownLanguages')) {
-      // tslint:disable-next-line: no-non-null-assertion
-      // this.createUserForm.get('knownLanguages')!.setValue(null)
     }
   }
 
@@ -448,7 +483,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (index >= 0) {
       this.selectedKnowLangs.splice(index, 1)
     }
-
   }
 
   add(event: MatChipInputEvent): void {
@@ -465,11 +499,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       input.value = ''
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
-
-    // if (this.createUserForm.get('knownLanguages')) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.createUserForm.get('knownLanguages')!.setValue(null)
-    // }
   }
 
   addPersonalInterests(event: MatChipInputEvent): void {
@@ -594,7 +623,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private populateOrganisationDetails(data: any) {
     let org = {
-      isGovtOrg: true,
       orgName: '',
       industry: '',
       designation: '',
@@ -605,28 +633,28 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       completePostalAddress: '',
       orgNameOther: '',
       industryOther: '',
-      designationOther: '',
+      profession: '',
+      orgType: '',
+      orgOtherSpecify: '',
+      professionOtherSpecify: '',
     }
     if (data && data.professionalDetails && data.professionalDetails.length > 0) {
       const organisation = data.professionalDetails[0]
       org = {
-        isGovtOrg: organisation.organisationType,
         orgName: organisation.name,
+        orgType: organisation.orgType,
+        orgOtherSpecify: organisation.orgOtherSpecify,
         orgNameOther: organisation.nameOther,
         industry: organisation.industry,
         industryOther: organisation.industryOther,
         designation: organisation.designation,
-        designationOther: organisation.designationOther,
+        profession: organisation.profession,
+        professionOtherSpecify: organisation.professionOtherSpecify,
         location: organisation.location,
         responsibilities: organisation.responsibilities,
         doj: this.getDateFromText(organisation.doj),
         orgDesc: organisation.description,
         completePostalAddress: organisation.completePostalAddress,
-      }
-      if (organisation.organisationType === 'Government') {
-        org.isGovtOrg = true
-      } else {
-        org.isGovtOrg = false
       }
     }
 
@@ -710,6 +738,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
+    if (organisation.orgType === 'Others') {
+      this.orgOthersField = true
+    } else {
+      this.orgOthersField = false
+    }
+
+    organisation.profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
 
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
@@ -743,6 +778,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       yop12: academics.XII_STANDARD.yop12,
       isGovtOrg: organisation.isGovtOrg,
       orgName: organisation.orgName,
+      orgType: organisation.orgType,
+      orgOtherSpecify: organisation.orgOtherSpecify,
       industry: organisation.industry,
       designation: organisation.designation,
       location: organisation.location,
@@ -750,7 +787,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       orgDesc: organisation.orgDesc,
       orgNameOther: organisation.orgNameOther,
       industryOther: organisation.industryOther,
-      designationOther: organisation.designationOther,
+      profession: organisation.profession,
+      professionOtherSpecify: organisation.professionOtherSpecify,
       // orgName: _.get(data, 'employmentDetails.departmentName') || '',
       service: _.get(data, 'employmentDetails.service') || '',
       cadre: _.get(data, 'employmentDetails.cadre') || '',
@@ -990,13 +1028,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private getOrganisationsHistory(form: any) {
     const organisations: any = []
     const org = {
-      organisationType: '',
       name: form.value.orgName,
+      orgType: form.value.orgType,
+      orgOtherSpecify: form.value.orgOtherSpecify,
       nameOther: form.value.orgNameOther,
       industry: form.value.industry,
       industryOther: form.value.industryOther,
       designation: form.value.designation,
-      designationOther: form.value.designationOther,
+      profession: form.value.profession,
       location: form.value.location,
       responsibilities: '',
       doj: form.value.doj,
@@ -1004,11 +1043,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       completePostalAddress: '',
       additionalAttributes: {},
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
-    }
-    if (form.value.isGovtOrg) {
-      org.organisationType = 'Government'
-    } else {
-      org.organisationType = 'Non-Government'
     }
     organisations.push(org)
     return organisations
@@ -1275,7 +1309,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (field === 'designation' && value !== 'Other') {
       this.showDesignationOther = false
-      this.createUserForm.controls['designationOther'].setValue('')
+      this.createUserForm.controls['profession'].setValue('')
     }
   }
 

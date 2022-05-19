@@ -436,6 +436,7 @@ a {
     overflow: hidden;
     height: $title-line-count * $title-line-height;
     line-height: $title-line-height;
+    color: #424242 ;
   }
 
   .author-image {
@@ -552,4 +553,18 @@ a.rounded-t:hover span.img-overlay {
 
 ::ng-deep .theme-igot.day-mode .mat-progress-bar-buffer {
   background-color: bisque;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .title-text{
+    color:#1C5D95 !important ;
+    font-weight: 400 !important;
+    font-size:16px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .card-standard-container {
+    background-color: #F7F7F7 !important;
+  }
 }

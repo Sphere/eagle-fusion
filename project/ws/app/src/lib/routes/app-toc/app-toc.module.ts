@@ -50,7 +50,8 @@ import { TrainingApiService } from '../infy/routes/training/apis/training-api.se
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
-
+import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
+import { DiscussConfigResolve } from '../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 import {
   PipeDurationTransformModule,
   PipeSafeSanitizerModule,
@@ -106,6 +107,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
 // import { AppTocSinglePageComponent } from './components/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageComponent as AppTocSinglePageRootComponent } from './routes/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageDirective } from './routes/app-toc-single-page/app-toc-single-page.directive'
+import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
 @NgModule({
   declarations: [
     AppTocAnalyticsComponent,
@@ -131,6 +133,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
     // AppTocSinglePageDirective,
     CreateBatchDialogComponent,
     RetainScrollDirective,
+    AllDiscussionWidgetComponent,
   ],
   imports: [
     CommonModule,
@@ -196,6 +199,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
     UserAutocompleteModule,
     ProfileImageModule,
     NgCircleProgressModule.forRoot({}),
+    DiscussionUiModule,
   ],
   providers: [
     AppTocResolverService,
@@ -210,6 +214,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
     ApiService,
     AccessControlService,
     ProfileResolverService,
+    DiscussConfigResolve,
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent],
   entryComponents: [

@@ -56,7 +56,7 @@ import { SocialComponent } from './routes/social/social.component'
 import { SearchRoutingModule } from './search-routing.module'
 import { PeopleComponent } from './routes/people/people.component'
 import { SearchInputHomeComponent } from './components/search-input-home/search-input-home.component'
-
+import { PublicHomeModule } from '../../../../../../../src/app/routes/public/public-home/public-home.module'
 @NgModule({
   declarations: [
     SearchRootComponent,
@@ -117,6 +117,7 @@ import { SearchInputHomeComponent } from './components/search-input-home/search-
     BtnChannelAnalyticsModule,
     MatDividerModule,
     UserAutocompleteModule,
+    PublicHomeModule,
   ],
   exports: [ItemTileComponent, SearchInputComponent, SearchInputHomeComponent],
   providers: [TrainingApiService, TrainingService],

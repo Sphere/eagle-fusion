@@ -42,7 +42,7 @@ export class ViewerDataService {
   // private setName = new BehaviorSubject<any>("");
   // To get the name from other component
   getFullScreenStatus = this.fullScreenResource.asObservable()
-
+  gatingEnabled = false
   constructor() { }
 
   reset(resourceId: string | null = null, status: TStatus = 'none', primaryCategory?: string) {
@@ -83,5 +83,12 @@ export class ViewerDataService {
   }
   changeFullScreen(isFullScreen: boolean | undefined) {
     this.fullScreenResource.next(isFullScreen)
+  }
+  getNode(): boolean {
+    return this.gatingEnabled
+  }
+
+  setNode(value: any) {
+    this.gatingEnabled = value
   }
 }

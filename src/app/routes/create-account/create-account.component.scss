@@ -57,6 +57,11 @@ a{
   line-height: 19px;
   cursor: pointer;
 }
+.next-button:disabled {
+  background: #BFBFBF;
+  color: #808080;
+  cursor: default;
+}
 .next-btn-div {
   text-align: right;
   margin-top: 2rem;

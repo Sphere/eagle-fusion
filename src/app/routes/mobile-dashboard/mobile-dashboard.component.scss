@@ -1,0 +1,78 @@
+.content {
+  padding: 60px 20px 30px;
+}
+p {
+  margin: 0 !important;
+  font-weight: 400;
+}
+.mb-6{
+  margin-bottom: 6rem;
+}
+.blue-color {
+  color:#1C5D95;
+}
+.grey-color {
+  color:#808080
+}
+
+.follow-btn {
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 25px;
+  margin-top: 20px;
+  border: 1px solid #1C5D95;
+  color: #1C5D95;
+  cursor: pointer;
+}
+.card {
+  margin-top: 10px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+  padding: 20px 0;
+  border: none;
+}
+.follow-card {
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 185px;
+  text-align: center;
+  padding: 15px 0;
+  margin-right: 15px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;
+}
+.follow-img {
+  border: 1px solid grey;
+  border-radius: 50%;
+  position: relative;
+  left: 30%;
+}
+.horizontal-scroll-content {
+  overflow-x: auto;
+  height: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: stretch;
+  padding-left: 5px;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+
+.box-shadow-radius {
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+}
+
+.appIcon {
+  min-width: 276px;
+  max-width: 276px;
+}
+.box {
+  margin: 20px 0;
+  padding-bottom: 5px;
+}
+.courseName {
+  color:#1C5D95;
+  font-weight: 400;
+  font-size:16px;
+  margin-bottom: 0 !important;
+}

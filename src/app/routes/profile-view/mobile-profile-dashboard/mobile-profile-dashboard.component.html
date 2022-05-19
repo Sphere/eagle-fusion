@@ -1,0 +1,97 @@
+<div *ngIf="loader" class="mt-20 flex flex-center ">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="content" *ngIf="!loader">
+
+  <ws-mobile-profile-nav></ws-mobile-profile-nav>
+
+  <div class="mt-4">
+    <p class="text-2xl">{{ userProfileData?.personalDetails.firstname }}
+      <span *ngIf="userProfileData?.personalDetails.middlename"> {{userProfileData?.personalDetails.middlename}}
+      </span>
+      {{userProfileData?.personalDetails.surname}}
+    </p>
+  </div>
+
+  <div>
+    <img [src]="photoUrl ? photoUrl:image" alt="profile image" width="120px" height="120px" class="profile-border">
+  </div>
+  <div>
+    <button mat-fab class="edit-icon" (click)="openProfileDialog()">
+      <mat-icon class="pencil">edit</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
+    <p class="text-lg mt-3 ">{{userProfileData?.professionalDetails[0].profession === 'Others' ?
+      userProfileData?.professionalDetails[0].professionOtherSpecify :
+      userProfileData?.professionalDetails[0].profession
+      }}</p>
+  </div>
+
+  <button class="edit-button" (click)="personalDetailEdit()">Edit
+  </button>
+
+  <!-- About Section -->
+  <div class="mt-3">
+    <p class="text-xl inline-block header2">About</p>
+    <span class="spacer"></span>
+    <span matTooltip="Edit your About detail" (click)="openAboutDialog()">
+      <mat-icon class="float-right edit-pencil">edit</mat-icon>
+    </span>
+    <p *ngIf="userProfileData?.personalDetails.about">{{userProfileData?.personalDetails.about}}</p>
+  </div>
+
+  <!-- certificate  Section -->
+  <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">Certificates received</p>
+  <div *ngFor="let certificate of certificates">
+    <ng-container *ngIf="certificates && certificates.length>0">
+      <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
+    </ng-container>
+  </div>
+  <!-- certificate Section -->
+
+  <!-- Education Section -->
+  <div class="mt-3">
+    <div>
+      <p class="text-xl inline-block header2">Education</p>
+      <span class="cursor-pointer" matTooltip="Edit your Education detail" (click)="eductionEdit()">
+        <mat-icon class="float-right edit-pencil">edit</mat-icon>
+      </span>
+    </div>
+
+    <div *ngFor="let academic of academicsArray">
+      <div class="mt-2" *ngIf="academic.nameOfInstitute">
+        <p class="heading ">{{academic.type}}</p>
+        <p class="head-2" *ngIf="academic.nameOfQualification">{{academic.nameOfQualification}}</p>
+        <p class="head-2">{{academic.nameOfInstitute}}</p>
+        <p class="head-3">{{academic.yearOfPassing}}</p>
+        <mat-divider class="mt-2"></mat-divider>
+      </div>
+    </div>
+    <canvas id="certCanvas"></canvas>
+  </div>
+
+  <!-- <mat-divider class="mt-2"></mat-divider> -->
+
+  <!-- Work Info Section -->
+  <div class="mt-3 mb-4">
+    <div>
+      <p class="text-xl header2 inline-block">Work Info</p>
+      <span class="cursor-pointer" matTooltip="Edit your Work info detail" (click)="workInfoEdit()">
+        <mat-icon class="float-right edit-pencil">edit</mat-icon>
+      </span>
+    </div>
+
+    <div *ngFor="let profession of userProfileData?.professionalDetails">
+      <div class="mt-2">
+        <p class="heading">{{profession.name}}
+          <span *ngIf="profession.location">, {{profession.location}}</span>
+        </p>
+        <p class="head-2">{{profession.designation}}</p>
+        <p class="head-3">{{profession.doj}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

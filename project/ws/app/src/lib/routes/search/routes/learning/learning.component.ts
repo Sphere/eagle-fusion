@@ -24,6 +24,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   defaultSideNavBarOpenedSubscription: Subscription | null = null
   expandToPrefLang = true
   isLtMedium$ = this.valueSvc.isLtMedium$
+  isXSmall$ = this.valueSvc.isXSmall$
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
   searchRequestStatus: IKhubFetchStatus = 'none'

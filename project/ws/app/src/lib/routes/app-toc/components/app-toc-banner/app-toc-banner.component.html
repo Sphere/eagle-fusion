@@ -97,7 +97,7 @@
                       </ng-container>
                     </span>
                   </div>
-                  <div >
+                  <div>
                     Progress :
                     <span class="mr-1">
                       {{content?.completionPercentage || 0}} %
@@ -123,7 +123,7 @@
               </div> -->
               <div class="header-actions">
                 <ng-container>
-                  <button *ngIf="!batchData?.enrolled" mat-button [color]="'primary'"
+                  <button *ngIf="!batchData?.enrolled" mat-button [color]="'primary'" id="start-btn"
                     class="ws-mat-primary-background mat-button-base margin-right-m"
                     (click)="enrollUser(batchData.content)">
                     Start
@@ -139,7 +139,7 @@
                   </a>
                   <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
                   </ws-widget-btn-content-share>
-                  <button mat-button [color]="'primary'" (click)="downloadCertificate(content)"
+                  <button mat-button [color]="'primary'" (click)="downloadCertificate(content)" id="download-btn"
                     class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>
@@ -286,7 +286,7 @@
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                          <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal"
                             (click)="closePopup()">Close</button>
                         </div>
 
@@ -300,7 +300,7 @@
         </div>
       </div>
 
-      <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
+      <div class="header-right" id="banner" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
       </div>
     </div>
     <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
@@ -308,7 +308,7 @@
     </ws-widget-content-progress>
 
   </div>
-<canvas id="certCanvas"></canvas>
+  <canvas id="certCanvas"></canvas>
 </div>
 
 

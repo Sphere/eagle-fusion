@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
-import { Observable, of, throwError, Subject  } from 'rxjs'
+import { Observable, of, throwError, Subject, BehaviorSubject } from 'rxjs'
 import { catchError, retry, map } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
@@ -47,7 +47,9 @@ const API_END_POINTS = {
 export class WidgetContentService {
   private messageSource = new Subject<any>()
   public currentMessage = this.messageSource.asObservable()
-
+  public _updateValue = new BehaviorSubject<any>(undefined)
+  // Observable navItem stream
+  updateValue$ = this._updateValue.asObservable()
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -57,7 +59,7 @@ export class WidgetContentService {
     const url = API_END_POINTS.MARK_AS_COMPLETE_META(identifier)
     return this.http.get(url).toPromise()
   }
-    changeMessage(message: string) {
+  changeMessage(message: string) {
     this.messageSource.next(message)
   }
   // fetchContent(
@@ -104,6 +106,14 @@ export class WidgetContentService {
     const apiData = this.http
       .get<any>(url)
       .pipe(retry(1))
+    return apiData
+  }
+
+  getCertificateAPI(certificateId: string): Observable<any> {
+    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const apiData = this.http
+      .get<any>(url)
+      .pipe(retry(1), map(res => this._updateValue.next({ [certificateId]: res.result.printUri })))
     return apiData
   }
 
