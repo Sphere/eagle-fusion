@@ -109,15 +109,16 @@ export class ViewerUtilService {
           return 2
         }
       } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
-        if (current === 1) {
-          return 0
-        }
-        if (current === 5) {
-          return 1
-        }
-        if (current === 10) {
-          return 2
-        }
+        // if (current === 1) {
+        //   return 0
+        // }
+        // if (current === 5) {
+        //   return 1
+        // }
+        // if (current === 10) {
+        //   return 2
+        // }
+        return 2
       } else if (mimeType === NsContent.EMimeTypes.PDF) {
         if (percentage <= 25) {
           return 0

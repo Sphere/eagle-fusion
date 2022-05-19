@@ -50,7 +50,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         50)
+      }, 50)
 
       this.contentSvc.changeMessage('youtube')
     }
@@ -106,7 +106,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         50)
+      }, 50)
 
       this.contentSvc.changeMessage('docs.google')
     }
@@ -138,12 +138,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     let iframeSupport: boolean | string | null =
       this.htmlContent && this.htmlContent.isIframeSupported
     if (this.htmlContent && this.htmlContent.artifactUrl) {
-      // if (this.htmlContent.artifactUrl.startsWith('http://') && this.htmlContent.isExternal) {
-      //   this.htmlContent.isIframeSupported = 'No'
-      // }
+      if (this.htmlContent.artifactUrl.startsWith('http://') && this.htmlContent.isExternal) {
+        this.htmlContent.isIframeSupported = 'No'
+      }
       if (typeof iframeSupport !== 'boolean') {
         iframeSupport = this.htmlContent.isIframeSupported.toLowerCase()
-        if (iframeSupport === 'yes') {
+        if (iframeSupport === 'no') {
           this.showIframeSupportWarning = true
           setTimeout(
             () => {
@@ -184,7 +184,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           },
           3000,
         )
-        this.showIsLoadingMessage = true
       }
 
       if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
@@ -256,33 +255,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
               this.contentSvc.changeMessage('html')
             }
-          },         50)
+          }, 50)
         }
 
       } else {
         this.mimeType = this.htmlContent.mimeType
         this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
           this.htmlContent.artifactUrl)
-        if (this.htmlContent && this.mimeType === 'text/x-url' && this.htmlContent.isIframeSupported === 'No') {
-            const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-        const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-          this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
-        const data1 = {
-          current: 1,
-          max_size: 1,
-          mime_type: this.mimeType,
-        }
-
-        setTimeout(() => {
-          if (this.htmlContent) {
-            this.viewerSvc
-              .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
-            this.contentSvc.changeMessage('html')
-          }
-        },         50)
-      }
-
       }
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
@@ -331,24 +310,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   openInNewTab() {
     if (this.htmlContent) {
-              const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-        const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-          this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
-        const data1 = {
-          current: 1,
-          max_size: 1,
-          mime_type: this.mimeType,
-        }
-
-        setTimeout(() => {
-          if (this.htmlContent) {
-            this.viewerSvc
-              .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
-            this.contentSvc.changeMessage('html')
-          }
-        },         50)
-
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
         // window.open(this.htmlContent.artifactUrl)
         setTimeout(
@@ -379,6 +340,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.snackBar.open(msg)
         }
       }
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+      const data1 = {
+        current: 1,
+        max_size: 1,
+        mime_type: this.mimeType,
+      }
+
+      setTimeout(() => {
+        if (this.htmlContent) {
+          this.viewerSvc
+            .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+          this.contentSvc.changeMessage('html')
+        }
+      }, 50)
     }
   }
   dismiss() {
