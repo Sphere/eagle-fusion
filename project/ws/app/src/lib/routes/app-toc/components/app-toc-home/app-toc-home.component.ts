@@ -112,7 +112,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       this.discussionConfig = {
         // menuOptions: [{ route: 'categories', enable: true }],
-        userName: `${this.configSvc.userProfile.firstName} ${this.configSvc.userProfile.lastName}` || '',
+        userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
 
