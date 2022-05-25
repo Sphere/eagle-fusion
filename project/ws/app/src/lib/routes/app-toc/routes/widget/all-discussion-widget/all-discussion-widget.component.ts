@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core'
-import { ConfigService, EventsService, NavigationServiceService, DiscussionService, BaseWrapperComponent } from '@sunbird-cb/discussions-ui-v8'
+import { ConfigService, EventsService, NavigationServiceService, DiscussionService, BaseWrapperComponent } from '@aastrika_npmjs/discussions-ui-v8'
 // import { EventsService } from '@project-sunbird/discussions-ui-v8/lib/events.service'
 // import { NavigationServiceService } from '@project-sunbird/discussions-ui-v8/lib/navigation-service.service'
 // import { DiscussionService } from '@project-sunbird/discussions-ui-v8/lib/services/discussion.service'
