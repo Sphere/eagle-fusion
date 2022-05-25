@@ -50,8 +50,8 @@ import { TrainingApiService } from '../infy/routes/training/apis/training-api.se
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
-import { DiscussConfigResolve } from '../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
+import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
+import { WrapperModule } from '../../../../../../../src/app/routes/discussion-forum/wrapper/wrapper.module'
 import {
   PipeDurationTransformModule,
   PipeSafeSanitizerModule,
@@ -85,6 +85,7 @@ import {
   PlayerBriefModule,
   CardContentModule,
   UserAutocompleteModule,
+
 } from '@ws-widget/collection'
 import { AppTocDialogIntroVideoComponent } from './components/app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
@@ -200,6 +201,7 @@ import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-wid
     ProfileImageModule,
     NgCircleProgressModule.forRoot({}),
     DiscussionUiModule,
+    WrapperModule,
   ],
   providers: [
     AppTocResolverService,
@@ -213,8 +215,7 @@ import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-wid
     EditorService,
     ApiService,
     AccessControlService,
-    ProfileResolverService,
-    DiscussConfigResolve,
+    ProfileResolverService
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent],
   entryComponents: [

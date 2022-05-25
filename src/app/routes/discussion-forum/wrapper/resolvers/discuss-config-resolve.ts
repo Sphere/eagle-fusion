@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core'
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
-import { Observable } from 'rxjs'
+
 import { DiscussUtilsService } from '../service/discuss-utils.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 // import { DiscussUtilsService } from '../services/discuss-util.service'
 
-@Injectable()
-export class DiscussConfigResolve
-  implements
-  Resolve<any> {
+@Injectable({ providedIn: 'root' })
+export class DiscussConfigResolve {
   constructor(
     private discussUtilitySvc: DiscussUtilsService,
-    public configSvc: ConfigurationsService) { }
+    public configSvc: ConfigurationsService) {
+    this.setConfig()
 
-  resolve(
-    _route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot,
-  ): Observable<any> {
+  }
+  setConfig() {
     const config = {
       menuOptions: [
         {
@@ -49,8 +45,10 @@ export class DiscussConfigResolve
       headerOptions: false,
       bannerOption: true,
     }
+
     this.discussUtilitySvc.setDiscussionConfig(config)
     localStorage.setItem('home', JSON.stringify(config))
     return (this.discussUtilitySvc.getDiscussionConfig() ? this.discussUtilitySvc.getDiscussionConfig() : config)
   }
+
 }
