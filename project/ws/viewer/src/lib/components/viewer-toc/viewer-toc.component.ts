@@ -208,14 +208,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -477,7 +477,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     if (foundContent2) {
                       child2.completionPercentage = foundContent2.completionPercentage
                       child2.completionStatus = foundContent2.status
-                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                    } else if (element[index - 1] &&
+                      element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
                       if (element[index].children.length > 0) {
                         element[index].children[0].disabledNode = false
                         return
@@ -510,8 +511,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     }
   }
-
-
 
   resourceContentTypeFunct(type: any) {
     if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
