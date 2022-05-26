@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { DiscussionEventsService, DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
+import { DiscussionEventsService, DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 // import { TelemetryService, EventService, WsEvents } from '@ws-widget/utils'
 // import {TelemetryService }
 @NgModule({

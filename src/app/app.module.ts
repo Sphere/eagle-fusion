@@ -84,7 +84,7 @@ import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashb
 import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
-import { DiscussionUiModule } from '@sunbird-cb/discussions-ui-v8'
+import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
