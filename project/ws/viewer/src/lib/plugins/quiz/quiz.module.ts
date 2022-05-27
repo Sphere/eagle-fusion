@@ -24,10 +24,11 @@ import {
 
 import {
   BtnFullscreenModule,
-} from '@ws-widget/collection'
+} from '@ws-widget/collection';
+import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 
 @NgModule({
-  declarations: [QuizComponent, OverviewComponent, QuestionComponent, SubmitQuizDialogComponent],
+  declarations: [QuizComponent, OverviewComponent, QuestionComponent, SubmitQuizDialogComponent, AssesmentOverviewComponent],
   entryComponents: [SubmitQuizDialogComponent],
   imports: [
     CommonModule,
