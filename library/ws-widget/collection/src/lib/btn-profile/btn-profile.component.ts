@@ -40,7 +40,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     private accessService: AccessControlService,
     private valueSvc: ValueService,
     // private element: ElementRef,
-    //private router: Router,
+    // private router: Router,
     // private contentSvc: WidgetContentService,
     location: Location
   ) {
