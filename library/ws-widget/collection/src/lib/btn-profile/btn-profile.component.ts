@@ -15,6 +15,7 @@ import _ from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 //import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
+import { Router } from '@angular/router'
 /* tslint:enable*/
 
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
@@ -39,7 +40,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     private accessService: AccessControlService,
     private valueSvc: ValueService,
     // private element: ElementRef,
-    // private router: Router,
+    //private router: Router,
     // private contentSvc: WidgetContentService,
     location: Location
   ) {
