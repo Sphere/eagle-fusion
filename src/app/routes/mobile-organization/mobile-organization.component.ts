@@ -18,15 +18,6 @@ export class MobileOrganizationComponent implements OnInit {
       {
         url: './../../fusion-assets/icons/coaching-pocqi-img.png',
       },
-      {
-        url: './../../fusion-assets/icons/manyata.png',
-      },
-      {
-        url: './../../fusion-assets/icons/fernandez-foundation-img.png',
-      },
-      {
-        url: './../../fusion-assets/icons/manyata.png',
-      },
     ]
   }
   ngOnInit() { }
