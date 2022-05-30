@@ -22,14 +22,18 @@ import {
   MatProgressSpinnerModule,
 } from '@angular/material'
 
-import {
-  BtnFullscreenModule,
-} from '@ws-widget/collection';
+import { BtnFullscreenModule } from '@ws-widget/collection'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 
 @NgModule({
-  declarations: [QuizComponent, OverviewComponent, QuestionComponent, SubmitQuizDialogComponent, AssesmentOverviewComponent],
-  entryComponents: [SubmitQuizDialogComponent],
+  declarations: [
+    QuizComponent,
+    OverviewComponent,
+    QuestionComponent,
+    SubmitQuizDialogComponent,
+    AssesmentOverviewComponent,
+  ],
+  entryComponents: [SubmitQuizDialogComponent, OverviewComponent],
   imports: [
     CommonModule,
     PipeDurationTransformModule,
@@ -47,8 +51,6 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
     MatTooltipModule,
     MatProgressSpinnerModule,
   ],
-  exports: [
-    QuizComponent,
-  ],
+  exports: [QuizComponent],
 })
 export class QuizModule { }

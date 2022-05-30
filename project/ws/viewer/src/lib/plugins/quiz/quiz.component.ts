@@ -19,6 +19,7 @@ import { EventService } from '../../../../../../../library/ws-widget/utils/src/p
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
 import { ActivatedRoute } from '@angular/router'
+import { OverviewComponent } from './components/overview/overview.component'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -89,6 +90,22 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   ngOnInit() {
+    if (this.viewState === 'initial') {
+
+      this.dialog.open(OverviewComponent, {
+        width: '250px',
+        //disableClose: true,
+        data: {
+          learningObjective: this.learningObjective,
+          complexityLevel: this.complexityLevel,
+          duration: this.duration,
+          timeLimit: this.timeLimit,
+          noOfQuestions: this.noOfQuestions,
+          progressStatus: this.progressStatus,
+          isNqocnContent: this.isNqocnContent,
+        },
+      })
+    }
   }
 
   scroll(qIndex: number) {

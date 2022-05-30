@@ -3,7 +3,7 @@ import { NSQuiz } from '../../quiz.model'
 @Component({
   selector: 'viewer-assesment-overview',
   templateUrl: './assesment-overview.component.html',
-  styleUrls: ['./assesment-overview.component.scss']
+  styleUrls: ['./assesment-overview.component.scss'],
 })
 export class AssesmentOverviewComponent implements OnInit {
 
