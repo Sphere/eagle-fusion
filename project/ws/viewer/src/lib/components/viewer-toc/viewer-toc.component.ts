@@ -478,8 +478,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     if (foundContent2) {
                       child2.completionPercentage = foundContent2.completionPercentage
                       child2.completionStatus = foundContent2.status
+
                         // tslint:disable-next-line:max-line-length
                     } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+
                       if (element[index].children.length > 0) {
                         element[index].children[0].disabledNode = false
                         return

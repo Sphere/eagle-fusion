@@ -7,7 +7,7 @@
   </ng-container>
 
   <!-- How does it work section -->
-  <section class="mt-4">
+  <section class="mt-4" [hidden]=true>
     <ng-container>
       <p class="text-2xl">How does it work?</p>
       <p class="font-normal text-sm grey-color">3 simple steps</p>
@@ -16,7 +16,7 @@
   </section>
 
   <!-- Categories Section -->
-  <section class="mt-4">
+  <section class="mt-4" [hidden]=true>
     <p class="text-2xl">Categories</p>
     <ws-mobile-category></ws-mobile-category>
   </section>
@@ -30,7 +30,7 @@
       </ng-container>
     </div>
     <a href="app/search/learning">
-      <p class="text-center blue-color">View all courses</p>
+      <p class="text-center blue-color text-xl">View all courses</p>
     </a>
   </section>
 </div>
@@ -65,6 +65,7 @@
 
 <div class="py-1 px-4 mb-6">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
+      <p class="text-2xl">My Courses</p>
     <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
   </ng-container>
 </div>

@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@aastrika_npmjs/discussions-ui-v8@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-2.1.3.tgz#cb9fc52917e05027696ba191047ce20b00e27cac"
+  integrity sha512-xXxQZtkG03BQPrzBWNoXnJI0rhNHgJsAxvhPIQ+lbvC2ygBodt163nIqxZd/Wkg5KNgtpoBR77FrR0IxcBpRfQ==
+  dependencies:
+    tslib "^1.9.0"
+
 "@angular-devkit/architect@0.802.2":
   version "0.802.2"
   resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.802.2.tgz#f2305052e731b68d0fcb98958426f62ce97b441e"
@@ -1202,13 +1209,6 @@
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@sunbird-cb/design-system/-/design-system-0.0.2.tgz#54793a7d5c5b6942319b6c1f3e4f63ef60548545"
   integrity sha512-oTZMfeNu+fi2muVbZUN9vw0mF28e/MvqFgYzgrLJ6vvw3JDxW3814U00x4Fym7Rm0tYc7vpckDFGSKXR3EFMaQ==
-
-"@sunbird-cb/discussions-ui-v8@2.0.69":
-  version "2.0.69"
-  resolved "https://registry.yarnpkg.com/@sunbird-cb/discussions-ui-v8/-/discussions-ui-v8-2.0.69.tgz#cdb92188f3e88e536e6390e874356f14633d0397"
-  integrity sha512-NQrkgHShtQEFTNWEVIMELh8832dc6FpcBjphhGKfsT5rOcNW3TQDNZ3pxnwImwQgavmMXJ2arTUz+KhKW8qIPQ==
-  dependencies:
-    tslib "^1.9.0"
 
 "@sunbird-cb/micro-surveys@^1.0.4":
   version "1.0.4"
