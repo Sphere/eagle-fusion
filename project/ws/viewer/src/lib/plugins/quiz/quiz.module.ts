@@ -24,6 +24,7 @@ import {
 
 import { BtnFullscreenModule } from '@ws-widget/collection'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 
 @NgModule({
   declarations: [
@@ -32,8 +33,9 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
     QuestionComponent,
     SubmitQuizDialogComponent,
     AssesmentOverviewComponent,
+    AssesmentModalComponent,
   ],
-  entryComponents: [SubmitQuizDialogComponent, OverviewComponent],
+  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent],
   imports: [
     CommonModule,
     PipeDurationTransformModule,

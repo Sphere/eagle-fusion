@@ -19,7 +19,8 @@ import { EventService } from '../../../../../../../library/ws-widget/utils/src/p
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
 import { ActivatedRoute } from '@angular/router'
-import { OverviewComponent } from './components/overview/overview.component'
+import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -92,8 +93,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     if (this.viewState === 'initial') {
 
-      this.dialog.open(OverviewComponent, {
-        width: '250px',
+      const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
+        width: '444px',
         //disableClose: true,
         data: {
           learningObjective: this.learningObjective,
@@ -104,6 +105,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           progressStatus: this.progressStatus,
           isNqocnContent: this.isNqocnContent,
         },
+      })
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // this.startQuiz()
+          this.openQuizDialog()
+        }
       })
     }
   }
@@ -149,6 +157,23 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.startTime = 0
     this.timeLeft = 0
+  }
+
+
+  openQuizDialog() {
+    this.dialog.open(AssesmentModalComponent, {
+      width: '444px',
+      //disableClose: true,
+      data: {
+        learningObjective: this.learningObjective,
+        complexityLevel: this.complexityLevel,
+        duration: this.duration,
+        timeLimit: this.timeLimit,
+        noOfQuestions: this.noOfQuestions,
+        progressStatus: this.progressStatus,
+        isNqocnContent: this.isNqocnContent,
+      },
+    })
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {
