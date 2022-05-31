@@ -139,7 +139,7 @@
                   </a>
                   <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
                   </ws-widget-btn-content-share>
-                  <button mat-button [color]="'primary'" (click)="downloadCertificate(content)" id="download-btn"
+                  <button *ngIf="content?.issueCertification === true" mat-button [color]="'primary'" (click)="downloadCertificate(content)"
                     class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>
