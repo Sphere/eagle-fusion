@@ -1,4 +1,5 @@
-@import '../../../../../../../../../src/styles/ws-mixins';
+// @import '../../../../../../../../../src/styles/ws-mixins';
+@import 'ws-mixins';
 
 .assesment-container {
   display: flex;
@@ -45,3 +46,48 @@
   color: #8E8E8E !important;
 
 }
+
+
+::ng-deep .mat-tab-body-content {
+  padding: 45px;
+}
+
+
+.btn {
+  margin-right: 20px;
+  border-radius: 50px;
+  width: 100px;
+  color: #1C5D95 !important;
+  // border-color: #1C5D95 !important;
+  border: 1px solid #1C5D95 !important;
+}
+
+.btn-active {
+  background-color: #1C5D95 !important;
+  color: #FFFFFF !important;
+}
+
+
+.timer {
+  position: relative;
+  top: 30px;
+
+  @include breakpoint-xs {
+    position: relative;
+    left: 19px;
+    /* padding: 10px; */
+    top: 82px;
+    margin-left: 0px !important;
+  }
+
+}
+
+// @media only screen and (max-width: 599px) {
+//   .timer {
+//     position: relative;
+//     left: 19px;
+//     /* padding: 10px; */
+//     top: 82px;
+//     margin-left: 0px !important;
+//   }
+// }

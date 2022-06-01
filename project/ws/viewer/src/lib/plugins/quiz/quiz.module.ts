@@ -25,7 +25,9 @@ import {
 
 import { BtnFullscreenModule } from '@ws-widget/collection'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
-import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component';
+import { ViewAssesmentQuestionsComponent } from './components/view-assesment-questions/view-assesment-questions.component';
+import { SlideDirective } from './directives/slide.directive'
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { AssesmentModalComponent } from './components/assesment-modal/assesment-
     SubmitQuizDialogComponent,
     AssesmentOverviewComponent,
     AssesmentModalComponent,
+    ViewAssesmentQuestionsComponent,
+    SlideDirective,
   ],
   entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent],
   imports: [

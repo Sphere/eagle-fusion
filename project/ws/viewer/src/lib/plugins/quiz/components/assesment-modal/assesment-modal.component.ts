@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { interval, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
+import { NSQuiz } from '../../quiz.model'
 
 @Component({
   selector: 'viewer-assesment-modal',
@@ -12,8 +13,9 @@ export class AssesmentModalComponent implements OnInit {
 
   timeLeft = 0;
   startTime = 0;
-  tabIndex = 1;
+  tabIndex = 0;
   isIdeal = false;
+  questionAnswerHash: { [questionId: string]: string[] } = {}
   timerSubscription: Subscription | null = null
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
@@ -27,6 +29,7 @@ export class AssesmentModalComponent implements OnInit {
     this.startTime = Date.now()
     console.log()
     this.timer(this.timeLeft)
+    this.questionAnswerHash = {}
   }
 
 
@@ -53,6 +56,29 @@ export class AssesmentModalComponent implements OnInit {
           }
         })
     }
+  }
+
+
+  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
+    // this.raiseTelemetry('mark', optionId, 'click')
+    console.log(question, optionId)
+    if (
+      this.questionAnswerHash[question.questionId] &&
+      question.multiSelection
+    ) {
+      const questionIndex = this.questionAnswerHash[question.questionId].indexOf(optionId)
+      if (questionIndex === -1) {
+        this.questionAnswerHash[question.questionId].push(optionId)
+      } else {
+        this.questionAnswerHash[question.questionId].splice(questionIndex, 1)
+      }
+      if (!this.questionAnswerHash[question.questionId].length) {
+        delete this.questionAnswerHash[question.questionId]
+      }
+    } else {
+      this.questionAnswerHash[question.questionId] = [optionId]
+    }
+    console.log(this.questionAnswerHash)
   }
 
 }
