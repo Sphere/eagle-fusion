@@ -20,6 +20,7 @@ import {
   MatButtonModule,
   MatTooltipModule,
   MatProgressSpinnerModule,
+  MatTabsModule
 } from '@angular/material'
 
 import { BtnFullscreenModule } from '@ws-widget/collection'
@@ -52,6 +53,7 @@ import { AssesmentModalComponent } from './components/assesment-modal/assesment-
     BtnFullscreenModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatTabsModule
   ],
   exports: [QuizComponent],
 })

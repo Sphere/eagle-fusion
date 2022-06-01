@@ -95,7 +95,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
         width: '444px',
-        //disableClose: true,
+        disableClose: true,
         data: {
           learningObjective: this.learningObjective,
           complexityLevel: this.complexityLevel,
@@ -159,19 +159,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.timeLeft = 0
   }
 
-
   openQuizDialog() {
     this.dialog.open(AssesmentModalComponent, {
-      width: '444px',
-      //disableClose: true,
+      panelClass: 'assesment-modal',
+      disableClose: true,
       data: {
-        learningObjective: this.learningObjective,
-        complexityLevel: this.complexityLevel,
-        duration: this.duration,
-        timeLimit: this.timeLimit,
-        noOfQuestions: this.noOfQuestions,
-        progressStatus: this.progressStatus,
-        isNqocnContent: this.isNqocnContent,
+        questions: this.quizJson
       },
     })
   }

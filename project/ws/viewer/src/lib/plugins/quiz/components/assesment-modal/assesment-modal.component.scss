@@ -1,0 +1,47 @@
+@import '../../../../../../../../../src/styles/ws-mixins';
+
+.assesment-container {
+  display: flex;
+  flex-direction: column;
+
+  .close {
+    place-self: end;
+  }
+}
+
+::ng-deep .mat-tab-header {
+  border-bottom: none !important;
+}
+
+::ng-deep .theme-igot.day-mode .mat-ink-bar {
+  background-color: #1C5D95 !important;
+
+}
+
+::ng-deep .mat-tab-label-active {
+  border-bottom: solid 3px #1C5D95;
+  color: #1C5D95 !important;
+}
+
+::ng-deep .mat-tab-label-content {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  /* letter-spacing: -0.02em; */
+  // color: #8E8E8E;
+  ;
+}
+
+
+
+
+::ng-deep .mat-tab-label {
+  padding: 0 0px !important;
+  min-width: 0px;
+  margin-left: 25px;
+  opacity: 1;
+  color: #8E8E8E !important;
+
+}

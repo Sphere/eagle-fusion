@@ -1,1 +1,18 @@
-<p>assesment-modal works!</p>
+<div class="assesment-container">
+  <button type="button" class="close" (click)="closePopup()">&times;</button>
+
+  <div class="flex flex-row">
+
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="Assesment ">Content 1</mat-tab>
+      <mat-tab label="Results">Content 2</mat-tab>
+    </mat-tab-group>
+
+    <div class="flex flex-middle flex-center ml-auto">
+      <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
+      <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
+        {{ timeLeft | pipeDurationTransform: 'hms' }}
+      </div>
+    </div>
+  </div>
+</div>
