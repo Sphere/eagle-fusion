@@ -1,8 +1,29 @@
-<p>assesment-overview works!</p>
-
 <div class="overview-container">
   <mat-card>
-    <div class="flex flex-wrapped flex-center padding-s">
+    <div class="header1">
+      Assesment
+    </div>
+    <div class="label1">
+      Subtitle goes here-long text
+    </div>
+    <div class="row">
+      <div class=" m-2 p-2 ellips">
+        <span class="label2">11 Minutes</span>
+      </div>
+      <div class="m-2 p-2 ellips">
+        <span class="label2">
+          7
+          Questions
+        </span>
+      </div>
+      <div class=" m-2 ellips">
+        <span class="label2">
+          45%
+          Required
+        </span>
+      </div>
+    </div>
+    <!--<div class="flex flex-wrapped flex-center padding-s">
       <div class="card-section">
         <h3 class="mat-h3 text-justify">
           {{ learningObjective | pipeLimitTo: 300 }}
@@ -10,29 +31,36 @@
       </div>
       <div class="card-section">
         <h3 class="mat-h3">
+          <img src=".\fusion-assets\images\Ellipseblue1.png">
           <ng-container i18n="quiz difficulty label">Difficulty : </ng-container>
           {{ complexityLevel }}
         </h3>
         <h3 class="mat-h3">
-          <ng-container i18n="quiz duration label">Duration : </ng-container>
-          <ng-container *ngIf="duration">{{
-            duration | pipeDurationTransform: 'hms'
-            }}</ng-container>
-          <ng-container *ngIf="!duration">{{
-            timeLimit | pipeDurationTransform: 'hms'
-            }}</ng-container>
+          <ng-container>
+            <img src=".\fusion-assets\images\Ellipseblue1.png">
+            <ng-container i18n="quiz duration label">11 : </ng-container>
+            <ng-container *ngIf="duration">{{
+              duration | pipeDurationTransform: 'hms'
+              }}</ng-container>
+            <ng-container *ngIf="!duration">{{
+              timeLimit | pipeDurationTransform: 'hms'
+              }}</ng-container>
+          </ng-container>
         </h3>
         <h3 class="mat-h3">
+          <img src=".\fusion-assets\images\Ellipseblue1.png">
           <ng-container i18n="quiz number of questions label">Questions : </ng-container>
           {{ noOfQuestions }}
         </h3>
       </div>
-    </div>
+    </div>-->
     <div class="text-center">
-      <button mat-raised-button color="primary" class="margin-right-m" i18n="button start quiz"
-        [mat-dialog-close]="true" [hidden]="progressStatus==='completed' && isNqocnContent">
-        Start
-      </button>
+      <div class="start-btn">
+        <button mat-button class="margin-right-m" i18n="button start quiz" [mat-dialog-close]="true"
+          [hidden]="progressStatus==='completed' && isNqocnContent">
+          Start Now!
+        </button>
+      </div>
       <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
         <p>You have already completed the Assessment</p>
       </ng-container>
