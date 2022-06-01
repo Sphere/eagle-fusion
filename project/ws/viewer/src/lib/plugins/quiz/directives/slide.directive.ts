@@ -1,27 +1,27 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core'
-// import * as $ from 'jquery'
 declare var $: any
-
+import { QuizService } from '../quiz.service'
 @Directive({
-  selector: '[viewerSlide]'
+  selector: '[questionSlide]'
 })
 export class SlideDirective implements OnInit {
-  feedbackState: any
-  constructor(public el: ElementRef) {
-    this.feedbackState = {
+
+  constructor(public el: ElementRef, public quizService: QuizService) {
+    this.quizService.questionState = {
       slides: [],
       active_slide_index: 0
     }
+
   }
   @Input() slideIndex!: number
   ngOnInit(): void {
     const index = this.slideIndex
-    this.feedbackState.slides[index] = this.el.nativeElement
+    this.quizService.questionState.slides[index] = this.el.nativeElement
     $(this.el.nativeElement).hide()
     if (index === 0) {
       $(this.el.nativeElement).show()
     }
-    console.log(this.feedbackState)
+    console.log(this.quizService.questionState)
   }
 
   // constructor() { }

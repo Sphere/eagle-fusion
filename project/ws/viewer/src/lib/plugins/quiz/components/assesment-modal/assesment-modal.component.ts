@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { interval, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { NSQuiz } from '../../quiz.model'
-
+import { QuizService } from '../../quiz.service'
+declare var $: any
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -21,6 +22,7 @@ export class AssesmentModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
+    public quizService: QuizService
   ) { }
 
   ngOnInit() {
@@ -81,6 +83,47 @@ export class AssesmentModalComponent implements OnInit {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
     console.log(this.questionAnswerHash)
+  }
+
+  nextQuestion() {
+    console.log(this.quizService.questionState)
+    if (
+      this.quizService.questionState.active_slide_index
+      == (this.quizService.questionState.slides.length - 1)) {
+      return
+    }
+    const old_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+    $(old_slide).fadeOut("fast", () => {
+      $(old_slide).hide()
+      for (var i = 0; i < this.quizService.questionState.slides.length; i++) {
+        const slide = this.quizService.questionState.slides[i]
+        $(slide).hide()
+      }
+      this.quizService.questionState.active_slide_index++
+      const new_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+      $(new_slide).fadeIn("fast", () => {
+        $(new_slide).show()
+      })
+    })
+
+  }
+  previousQuestion() {
+    if (this.quizService.questionState.active_slide_index == 0) {
+      return
+    }
+    const old_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+    $(old_slide).fadeOut("fast", () => {
+      $(old_slide).hide()
+      for (var i = 0; i < this.quizService.questionState.slides.length; i++) {
+        const slide = this.quizService.questionState.slides[i]
+        $(slide).hide()
+      }
+      this.quizService.questionState.active_slide_index--
+      const new_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+      $(new_slide).fadeIn("fast", () => {
+        $(new_slide).show()
+      })
+    })
   }
 
 }
