@@ -15,6 +15,7 @@ export class AssesmentModalComponent implements OnInit {
   startTime = 0;
   tabIndex = 0;
   isIdeal = false;
+  totalQuestion = 0;
   questionAnswerHash: { [questionId: string]: string[] } = {}
   timerSubscription: Subscription | null = null
   constructor(
@@ -30,6 +31,7 @@ export class AssesmentModalComponent implements OnInit {
     console.log()
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
+    this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
   }
 
 

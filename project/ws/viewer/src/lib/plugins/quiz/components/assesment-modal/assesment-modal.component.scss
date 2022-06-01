@@ -56,10 +56,15 @@
 .btn {
   margin-right: 20px;
   border-radius: 50px;
-  width: 100px;
+  width: 100px !important;
+  height: 38px !important;
   color: #1C5D95 !important;
   // border-color: #1C5D95 !important;
   border: 1px solid #1C5D95 !important;
+}
+
+.btn-lg {
+  width: 155px !important;
 }
 
 .btn-active {
@@ -91,3 +96,11 @@
 //     margin-left: 0px !important;
 //   }
 // }
+
+
+::ng-deep .mat-progress-bar {
+  width: 128.03px;
+  height: 12.6px;
+  background-color: #F0F0F0;
+  border-radius: 3.97614px;
+}
