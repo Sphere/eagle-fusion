@@ -28,7 +28,7 @@
     </div>
     <div class="text-center">
       <button mat-raised-button color="primary" (click)="userSelection.emit('start')" class="margin-right-m"
-        i18n="button start quiz" [mat-dialog-close]="true" [hidden]="progressStatus==='completed' && isNqocnContent">
+        i18n="button start quiz" [hidden]="progressStatus==='completed' && isNqocnContent">
         Start
       </button>
       <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
