@@ -165,7 +165,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
-        questions: this.quizJson
+        questions: this.quizJson,
+        generalData: {
+          identifier: this.identifier,
+          artifactUrl: this.artifactUrl,
+          name: this.name,
+          collectionId: this.collectionId
+        }
+
+
       },
     })
   }

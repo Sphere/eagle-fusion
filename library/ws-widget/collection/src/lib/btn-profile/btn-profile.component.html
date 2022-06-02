@@ -1,5 +1,5 @@
-<a href="javascript:void(0)" mat-icon-button i18n-aria-label title="option" class="new-margin"
-  #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
+<a href="javascript:void(0)" *ngIf="(isXSmall$ | async) === false" mat-icon-button i18n-aria-label title="option"
+  class="new-margin" #rootTrigger="matMenuTrigger" [matMenuTriggerFor]="settingsMenu" role="link">
   <span class="profile-content">
     <span class="flex flex-column flex-middle">
       <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
@@ -10,6 +10,19 @@
   </span>
 </a>
 
+<a *ngIf="(isXSmall$ | async) === true"
+  [routerLink]="((isXSmall$ | async) === true) ? '/app/profile-view' : '/app/profile/dashboard'" mat-icon-button
+  i18n-aria-label title="option" class="new-margin">
+  <span class="profile-content">
+    <span class="flex flex-column flex-middle actn-btn-wrapper">
+      <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
+      </ws-widget-avatar-photo>
+      <span class="profile-text">Profile</span>
+    </span>
+
+  </span>
+
+</a>
 <!-- <ws-widget-tree-catalog-menu #rootMenu [rootTrigger]="rootTrigger" [catalogItems]="catalogItems | slice: 0:10"
   [fetchStatus]="catalogFetchStatus" isRoot="true">
 </ws-widget-tree-catalog-menu> -->

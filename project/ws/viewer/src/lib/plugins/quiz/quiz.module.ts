@@ -20,13 +20,14 @@ import {
   MatButtonModule,
   MatTooltipModule,
   MatProgressSpinnerModule,
-  MatTabsModule
+  MatTabsModule,
+  MatProgressBarModule
 } from '@angular/material'
 
 import { BtnFullscreenModule } from '@ws-widget/collection'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
-import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component';
-import { ViewAssesmentQuestionsComponent } from './components/view-assesment-questions/view-assesment-questions.component';
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
+import { ViewAssesmentQuestionsComponent } from './components/view-assesment-questions/view-assesment-questions.component'
 import { SlideDirective } from './directives/slide.directive'
 
 @NgModule({
@@ -57,7 +58,8 @@ import { SlideDirective } from './directives/slide.directive'
     BtnFullscreenModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressBarModule
   ],
   exports: [QuizComponent],
 })
