@@ -2,14 +2,14 @@
   <button type="button" class="close" (click)="closePopup()">&times;</button>
 
   <!-- <div class="flex flex-row"> -->
-  <div *ngIf="expression" class="flex  ml-auto timer">
+  <div *ngIf="(isXSmall$ | async) !== true" class="flex  ml-auto timer">
     <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
     <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
       {{ timeLeft | pipeDurationTransform: 'hms' }}
     </div>
   </div>
   <mat-tab-group [(selectedIndex)]="tabIndex" animationDuration="0ms">
-    <mat-tab label="Assesment ">
+    <mat-tab label="Assessment">
       <ng-container *ngIf="assesmentdata.questions.isAssessment">
         <div class="question-wrapper">
           <viewer-view-assesment-questions questionSlide
@@ -50,7 +50,9 @@
   <div class="flex">
     <div *ngIf="tabIndex == '0'" class="assesment-progress-bar">
       <span>{{quizService.questionState.active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
-      <mat-progress-bar class="question-progress" [mode]="'determinate'" [value]="progressbarValue"></mat-progress-bar>
+      {{progressbarValue}}
+      <mat-progress-bar class="question-progress" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
+      </mat-progress-bar>
     </div>
     <div class="ml-auto">
       <ng-container *ngIf="tabIndex == '0'">

@@ -90,10 +90,9 @@
 
 }
 
-::ng-deep .mat-dialog-container {
+::ng-deep.overview-modal .mat-dialog-container {
   border-radius: 34px !important;
 }
-
 ::ng-deep .btn btn-active mat-raised-button mat-button-base {
   background: #1C5D95;
   border-radius: 50px;

@@ -7,6 +7,7 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
+import { ValueService } from '@ws-widget/utils'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -14,7 +15,7 @@ declare var $: any
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class AssesmentModalComponent implements OnInit {
-
+  isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0;
   startTime = 0;
   tabIndex = 0;
@@ -36,21 +37,21 @@ export class AssesmentModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private valueSvc: ValueService,
   ) { }
 
   ngOnInit() {
-    console.log("data", this.assesmentdata)
-
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
-    console.log()
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     this.progressbarValue = this.totalQuestion
   }
-
+  closePopup() {
+    this.dialogRef.close()
+  }
 
   timer(data: any) {
     if (data > -1) {
@@ -69,9 +70,7 @@ export class AssesmentModalComponent implements OnInit {
             if (this.timerSubscription) {
               this.timerSubscription.unsubscribe()
             }
-
             this.tabIndex = 1
-            console.log("time out")
           }
         })
     }
@@ -79,7 +78,6 @@ export class AssesmentModalComponent implements OnInit {
 
 
   fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
-    console.log(question, optionId)
     if (
       this.questionAnswerHash[question.questionId] &&
       question.multiSelection
@@ -96,23 +94,18 @@ export class AssesmentModalComponent implements OnInit {
     } else {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
-    console.log(this.questionAnswerHash)
   }
 
 
   proceedToSubmit() {
+    // if (
+    //   Object.keys(this.questionAnswerHash).length ===
+    //   this.assesmentdata.questions.questions.length
+    // ) {
+    //   this.submitQuiz()
 
-    console.log(Object.keys(this.questionAnswerHash).length, this.assesmentdata.questions.questions.length)
-    if (
-      Object.keys(this.questionAnswerHash).length ===
-      this.assesmentdata.questions.questions.length
-    ) {
-      this.submitQuiz()
-
-    }
-
-
-
+    // }
+    this.submitQuiz()
   }
 
   submitQuiz() {
@@ -150,7 +143,6 @@ export class AssesmentModalComponent implements OnInit {
         this.numUnanswered = res.blank
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
-        console.log(this.result)
         this.tabIndex = 1
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
@@ -275,12 +267,10 @@ export class AssesmentModalComponent implements OnInit {
 
   nextQuestion() {
     this.progressbarValue += 1
-    console.log(this.quizService.questionState, this.totalQuestion)
 
     if (
       this.quizService.questionState.active_slide_index
       == (this.quizService.questionState.slides.length - 1)) {
-      console.log("final")
       this.proceedToSubmit()
       return
     }

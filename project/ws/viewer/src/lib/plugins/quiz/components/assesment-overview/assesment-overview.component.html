@@ -1,14 +1,16 @@
 <div class="overview-container">
 
   <div class="header1">
-    Assesment
+    Assessment
   </div>
-  <div class="label1">
+  <!-- <div class="label1">
     Subtitle goes here-long text
-  </div>
+  </div> -->
   <div class="row">
     <div class=" m-2 p-2 ellips">
-      <h4 class="label2">11</h4>
+      <h4 class="label2">{{
+        assesmentdata.duration | pipeDurationTransform: 'mnts'
+        }}</h4>
       <h4 class="label3">Minutes</h4>
       <!-- <span class="label2">11</span> -->
       <!-- <div>
@@ -17,7 +19,8 @@
 
     </div>
     <div class="m-2 p-2 ellips">
-      <h4 class="label2">7</h4>
+      <h4 class="label2">
+        {{assesmentdata.noOfQuestions}}</h4>
       <h4 class="label3">Questions</h4>
       <!-- <span class="label2">7</span> -->
       <!-- <div>
@@ -25,7 +28,7 @@
       <!-- </div> -->
     </div>
     <div class=" m-2 ellips">
-      <h4 class="label2">45<span>%</span></h4>
+      <h4 class="label2">60<span>%</span></h4>
       <h4 class="label3">Required</h4>
       <!-- <span class="label2">
         45%</span> -->

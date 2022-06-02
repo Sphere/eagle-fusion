@@ -95,14 +95,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
         width: '542px',
-        panelClass: 'modal-border',
+        panelClass: 'overview-modal',
         disableClose: true,
         data: {
           learningObjective: this.learningObjective,
           complexityLevel: this.complexityLevel,
           duration: this.duration,
-          timeLimit: this.timeLimit,
-          noOfQuestions: this.noOfQuestions,
+          timeLimit: this.quizJson.timeLimit,
+          noOfQuestions: this.quizJson.questions.length,
           progressStatus: this.progressStatus,
           isNqocnContent: this.isNqocnContent,
         },
