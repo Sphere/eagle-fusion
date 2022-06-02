@@ -7,9 +7,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
   styleUrls: ['./assesment-overview.component.scss'],
 })
 export class AssesmentOverviewComponent implements OnInit {
-
-
-
   constructor(
     public dialogRef: MatDialogRef<AssesmentOverviewComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -17,6 +14,5 @@ export class AssesmentOverviewComponent implements OnInit {
 
   ngOnInit() {
   }
-
 
 }

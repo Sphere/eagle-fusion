@@ -23,34 +23,50 @@ width: 126px;
 height: 126px;
 background: #E7F2FA;
 border-radius: 69px;
+display: flex;
+flex-direction: column;
 }
 .label2{
+ font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 47px;
+    line-height: 69px;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #154976;
+    padding: 0px 25px 0px;
+}
+.label3{
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 58px;
+  font-size: 20px;
+  // line-height: 58px;
   text-align: center;
   letter-spacing: -0.02em;
   color: #154976;
-  padding: 0px 42px 0px;
+  padding: 0px 24px 0px;
 }
-.start-btn{
-    background: #1C5D95;
-    border-radius: 50px;
-    color: white;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 22px;
-    gap: 8px;
-    font-size: 16px;
-    line-height: 19px;
-    margin-top: 21px;
+.btn {
+  margin-right: 20px;
+  border-radius: 50px;
+  width: 140px;
+  border: 1px solid #1C5D95 !important;
 }
+
+ .btn-active {
+  background-color: #1C5D95 !important;
+   color: #FFFFFF !important;
+ }
 .row{
   padding: 32px;
 
 }
-.mat-card{
-  border-radius: 34px;
+::ng-deep .mat-dialog-container{
+  border-radius: 34px !important;
+}
+::ng-deep .btn btn-active mat-raised-button mat-button-base{
+  background: #1C5D95;
+border-radius: 50px;
 }

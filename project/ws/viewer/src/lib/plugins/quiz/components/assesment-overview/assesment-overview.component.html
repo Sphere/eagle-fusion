@@ -1,29 +1,34 @@
 <div class="overview-container">
-  <mat-card>
-    <div class="header1">
-      Assesment
-    </div>
-    <div class="label1">
-      Subtitle goes here-long text
-    </div>
-    <div class="row">
-      <div class=" m-2 p-2 ellips">
-        <span class="label2">11 Minutes</span>
+
+  <div class="header1">
+    Assesment
+  </div>
+  <div class="label1">
+    Subtitle goes here-long text
+  </div>
+  <div class="row">
+    <div class=" m-2 p-2 ellips">
+      <span class="label2">11</span>
+      <div>
+        <span class="label3">Minutes</span>
       </div>
-      <div class="m-2 p-2 ellips">
-        <span class="label2">
-          7
-          Questions
-        </span>
-      </div>
-      <div class=" m-2 ellips">
-        <span class="label2">
-          45%
-          Required
-        </span>
+
+    </div>
+    <div class="m-2 p-2 ellips">
+      <span class="label2">7</span>
+      <div>
+        <span class="label3" style="margin: -13px;">Questions</span>
       </div>
     </div>
-    <!--<div class="flex flex-wrapped flex-center padding-s">
+    <div class=" m-2 ellips">
+      <span class="label2">
+        45%</span>
+      <div>
+        <span class="label3">Required</span>
+      </div>
+    </div>
+  </div>
+  <!--<div class="flex flex-wrapped flex-center padding-s">
       <div class="card-section">
         <h3 class="mat-h3 text-justify">
           {{ learningObjective | pipeLimitTo: 300 }}
@@ -54,16 +59,16 @@
         </h3>
       </div>
     </div>-->
-    <div class="text-center">
-      <div class="start-btn">
-        <button mat-button class="margin-right-m" i18n="button start quiz" [mat-dialog-close]="true"
-          [hidden]="progressStatus==='completed' && isNqocnContent">
-          Start Now!
-        </button>
-      </div>
-      <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
-        <p>You have already completed the Assessment</p>
-      </ng-container>
+  <div class="text-center">
+    <div class="start-btn">
+      <button class="btn btn-active" mat-raised-button i18n="button start quiz" [mat-dialog-close]="true"
+        [hidden]="progressStatus==='completed' && isNqocnContent">
+        Start Now!
+      </button>
     </div>
-  </mat-card>
+    <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
+      <p>You have already completed the Assessment</p>
+    </ng-container>
+  </div>
+
 </div>
