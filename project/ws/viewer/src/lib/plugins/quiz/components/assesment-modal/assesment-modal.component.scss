@@ -47,15 +47,18 @@
 
 }
 
-
-::ng-deep .mat-tab-body-content {
-  padding: 45px;
+.question-wrapper{
+  padding: 25px;
   height: 72vh;
   display: flex;
-  justify-content: center;
-
+   @include breakpoint-xs {
+    padding: 25px;
+    overflow: hidden;
+  }
 }
-
+.result-wrapper{
+   height: 72vh;
+}
 
 .btn {
   margin-left: 20px;
@@ -67,6 +70,12 @@
   border: 1px solid #1C5D95 !important;
 }
 
+::ng-deep mat-progress-bar .mat-progress-bar-buffer {
+  background: #E4E8EB !important;
+}
+::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
+  background: #1C5D95 !important;
+}
 .btn-lg {
   width: 155px !important;
 }
@@ -105,7 +114,6 @@
 ::ng-deep .mat-progress-bar {
   width: 128.03px;
   height: 12.6px;
-  background-color: #F0F0F0;
   border-radius: 3.97614px;
 }
 

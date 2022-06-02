@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core'
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subscription } from 'rxjs'
@@ -11,6 +11,7 @@ declare var $: any
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
   styleUrls: ['./assesment-modal.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class AssesmentModalComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class AssesmentModalComponent implements OnInit {
   numUnanswered = 0
   passPercentage = 0
   result = 0
-  progressbarValue = 5
+  progressbarValue = 0
   isCompleted = false
   fetchingResultsStatus: FetchStatus = 'none'
   questionAnswerHash: { [questionId: string]: string[] } = {}
@@ -47,6 +48,7 @@ export class AssesmentModalComponent implements OnInit {
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
+    this.progressbarValue = this.totalQuestion
   }
 
 

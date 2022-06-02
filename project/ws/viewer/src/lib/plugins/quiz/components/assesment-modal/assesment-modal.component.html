@@ -11,14 +11,15 @@
   <mat-tab-group [(selectedIndex)]="tabIndex" animationDuration="0ms">
     <mat-tab label="Assesment ">
       <ng-container *ngIf="assesmentdata.questions.isAssessment">
-
-        <viewer-view-assesment-questions questionSlide
-          *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
-          [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event)"></viewer-view-assesment-questions>
+        <div class="question-wrapper">
+          <viewer-view-assesment-questions questionSlide
+            *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
+            [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event)"></viewer-view-assesment-questions>
+        </div>
       </ng-container>
     </mat-tab>
     <mat-tab label="Results">
-      <div class="flex flex-col items-center">
+      <div class="flex flex-col items-center m-0 m-auto result-wrapper pt-5">
         <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
           <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
         </h1>
@@ -48,8 +49,8 @@
 
   <div class="flex">
     <div *ngIf="tabIndex == '0'" class="assesment-progress-bar">
-      <span>0/{{totalQuestion}}</span>
-      <mat-progress-bar mode="determinate" [value]="progressbarValue"></mat-progress-bar>
+      <span>{{quizService.questionState.active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
+      <mat-progress-bar class="question-progress" [mode]="'determinate'" [value]="progressbarValue"></mat-progress-bar>
     </div>
     <div class="ml-auto">
       <ng-container *ngIf="tabIndex == '0'">
