@@ -1,5 +1,12 @@
 @import 'ws-mixins';
 
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .header1 {
   font-family: 'Roboto';
   font-style: normal;
@@ -34,6 +41,13 @@
   text-align: center;
   padding: auto 0;
 
+  @include breakpoint-xs {
+    width: 70px;
+    height: 70px;
+    padding: 0 !important;
+    margin: 5px !important;
+  }
+
   // h4 {
   //   margin: 0 !important;
   // }
@@ -53,6 +67,15 @@
 
   span {
     font-size: 15px;
+
+    @include breakpoint-xs {
+      font-size: 11px !important;
+    }
+  }
+
+
+  @include breakpoint-xs {
+    font-size: 24px !important;
   }
 }
 
@@ -68,10 +91,15 @@
   padding: 0px 24px 0px;
   margin-top: 10px !important;
   margin-bottom: 0 !important;
+
+  @include breakpoint-xs {
+    font-size: 12px !important;
+    margin-top: 0 !important;
+  }
 }
 
 .btn {
-  margin-right: 20px;
+  // margin-right: 20px;
   border-radius: 50px;
   width: 140px;
   border: 1px solid #1C5D95 !important;
@@ -86,6 +114,13 @@
   padding: 32px;
   align-items: center;
   justify-content: center;
+  padding-top: 12px;
+
+  @include breakpoint-xs {
+    flex-wrap: nowrap;
+    padding: 20px 0px;
+
+  }
 
 
 }
@@ -93,6 +128,7 @@
 ::ng-deep.overview-modal .mat-dialog-container {
   border-radius: 34px !important;
 }
+
 ::ng-deep .btn btn-active mat-raised-button mat-button-base {
   background: #1C5D95;
   border-radius: 50px;

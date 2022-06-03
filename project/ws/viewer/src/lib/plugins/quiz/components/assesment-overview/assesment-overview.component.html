@@ -27,7 +27,7 @@
         <span class="label3" style="margin: -13px;">Questions</span> -->
       <!-- </div> -->
     </div>
-    <div class=" m-2 ellips">
+    <div class=" m-2 p-2 ellips">
       <h4 class="label2">60<span>%</span></h4>
       <h4 class="label3">Required</h4>
       <!-- <span class="label2">
@@ -69,12 +69,12 @@
       </div>
     </div>-->
   <div class="text-center">
-    <div class="start-btn">
-      <button class="btn btn-active" mat-raised-button i18n="button start quiz" [mat-dialog-close]="true"
-        [hidden]="progressStatus==='completed' && isNqocnContent">
-        Start Now!
-      </button>
-    </div>
+    <!-- <div class="start-btn"> -->
+    <button class="btn btn-active" mat-raised-button i18n="button start quiz" [mat-dialog-close]="true"
+      [hidden]="progressStatus==='completed' && isNqocnContent">
+      Start Now!
+    </button>
+    <!-- </div> -->
     <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
       <p>You have already completed the Assessment</p>
     </ng-container>

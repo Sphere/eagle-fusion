@@ -24,7 +24,6 @@ export class ViewAssesmentQuestionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("view", this.question)
   }
 
 }

@@ -1,7 +1,7 @@
 <div>
   <ng-container *ngIf="question.questionType === 'mcq-sca'">
     <!-- text -->
-    <h3 *ngIf="question.questionType !== 'fitb'" class="mat-h3" [innerHTML]="question?.question" class="quiz-question">
+    <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">
     </h3>
     <mat-radio-group *ngIf="question.questionType === 'mcq-sca'" class="quiz-radio-group">
       <div *ngFor="let option of question?.options">

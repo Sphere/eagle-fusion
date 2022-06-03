@@ -33,6 +33,7 @@ export class AssesmentModalComponent implements OnInit {
   questionAnswerHash: { [questionId: string]: string[] } = {}
   timerSubscription: Subscription | null = null
   dialog: any
+  tabActive = false
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -49,8 +50,13 @@ export class AssesmentModalComponent implements OnInit {
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     this.progressbarValue = this.totalQuestion
   }
+
   closePopup() {
-    this.dialogRef.close()
+    this.dialogRef.close({ event: 'CLOSE' })
+  }
+
+  retakeQuiz() {
+    this.dialogRef.close({ event: 'RETAKE_QUIZ' })
   }
 
   timer(data: any) {
@@ -71,6 +77,7 @@ export class AssesmentModalComponent implements OnInit {
               this.timerSubscription.unsubscribe()
             }
             this.tabIndex = 1
+            this.tabActive = true
           }
         })
     }
@@ -144,6 +151,7 @@ export class AssesmentModalComponent implements OnInit {
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
         this.tabIndex = 1
+        this.tabActive = true
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
@@ -317,8 +325,6 @@ export class AssesmentModalComponent implements OnInit {
     this.startTime = 0
     this.timeLeft = 0
   }
-  closePopup() {
 
-  }
 
 }
