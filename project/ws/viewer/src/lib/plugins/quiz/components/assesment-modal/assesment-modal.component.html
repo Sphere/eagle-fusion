@@ -1,5 +1,5 @@
 <div class="assesment-container">
-  <button type="button" class="close" (click)="closePopup()">&times;</button>
+  <button type="button" class="close" (click)="closePopup()" [mat-dialog-close]="true">&times;</button>
 
   <!-- <div class="flex flex-row"> -->
   <div *ngIf="expression" class="flex  ml-auto timer">

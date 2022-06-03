@@ -29,6 +29,7 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { ViewAssesmentQuestionsComponent } from './components/view-assesment-questions/view-assesment-questions.component'
 import { SlideDirective } from './directives/slide.directive'
+import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 
 @NgModule({
   declarations: [
@@ -40,8 +41,9 @@ import { SlideDirective } from './directives/slide.directive'
     AssesmentModalComponent,
     ViewAssesmentQuestionsComponent,
     SlideDirective,
+    AssesmentCloseModalComponent,
   ],
-  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent],
+  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,],
   imports: [
     CommonModule,
     PipeDurationTransformModule,

@@ -1,0 +1,29 @@
+.overview-container{
+  padding-top: 65px;
+}
+.flex{
+  justify-content: center;
+}
+.btn {
+  margin-left: 20px;
+  border-radius: 50px;
+  width: 100px !important;
+  height: 38px !important;
+  color: #1C5D95 !important;
+  // border-color: #1C5D95 !important;
+  border: 1px solid #1C5D95 !important;
+}
+.btn-active {
+  background-color: #1C5D95 !important;
+  color: #FFFFFF !important;
+}
+h2{
+  text-align: center;
+
+}
+h3{
+  font-weight:400px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
