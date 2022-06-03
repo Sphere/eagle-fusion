@@ -1,8 +1,8 @@
-<viewer-overview *ngIf="viewState === 'initial'" [learningObjective]="learningObjective"
+<!-- <viewer-overview *ngIf="viewState === 'initial'" [learningObjective]="learningObjective"
   [complexityLevel]="complexityLevel" [duration]="duration" [timeLimit]="quizJson?.timeLimit"
   [progressStatus]="progressStatus" [noOfQuestions]="quizJson?.questions?.length" (userSelection)="overViewed($event)"
   [isNqocnContent]="collectionId==='lex_auth_0131241730330624000'">
-</viewer-overview>
+</viewer-overview> -->
 
 <div #quizContainer *ngIf="viewState !== 'initial'" class="quiz-container">
   <nav class="quiz-nav-bar mat-toolbar mat-caption">

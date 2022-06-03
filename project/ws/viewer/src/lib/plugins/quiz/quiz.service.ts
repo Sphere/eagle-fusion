@@ -13,7 +13,7 @@ const API_END_POINTS = {
 })
 
 export class QuizService {
-
+  questionState: any
   constructor(
     private http: HttpClient,
   ) { }
