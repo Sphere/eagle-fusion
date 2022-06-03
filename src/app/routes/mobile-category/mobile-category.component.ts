@@ -11,8 +11,8 @@ export class MobileCategoryComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get('../../../fusion-assets/files/categories.json').subscribe((data: any) => {
-      this.categories = data.categories
+    this.http.get('/apis/protected/v8/catalog').subscribe((data: any) => {
+      this.categories =  data.terms
     })
   }
 
