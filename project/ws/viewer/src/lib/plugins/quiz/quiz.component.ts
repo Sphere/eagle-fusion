@@ -19,6 +19,9 @@ import { EventService } from '../../../../../../../library/ws-widget/utils/src/p
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
 import { ActivatedRoute } from '@angular/router'
+import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
+import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -89,6 +92,30 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   ngOnInit() {
+    if (this.viewState === 'initial') {
+
+      const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
+        width: '542px',
+        panelClass: 'overview-modal',
+        disableClose: true,
+        data: {
+          learningObjective: this.learningObjective,
+          complexityLevel: this.complexityLevel,
+          duration: this.duration,
+          timeLimit: this.quizJson.timeLimit,
+          noOfQuestions: this.quizJson.questions.length,
+          progressStatus: this.progressStatus,
+          isNqocnContent: this.isNqocnContent,
+        },
+      })
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // this.startQuiz()
+          this.openQuizDialog()
+        }
+      })
+    }
   }
 
   scroll(qIndex: number) {
@@ -132,6 +159,37 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.startTime = 0
     this.timeLeft = 0
+  }
+
+  openQuizDialog() {
+    const dialogRef = this.dialog.open(AssesmentModalComponent, {
+      panelClass: 'assesment-modal',
+      disableClose: true,
+      data: {
+        questions: this.quizJson,
+        generalData: {
+          identifier: this.identifier,
+          artifactUrl: this.artifactUrl,
+          name: this.name,
+          collectionId: this.collectionId
+        }
+
+
+      },
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.startQuiz()
+        this.closeBtnDialog()
+      }
+    })
+  }
+  closeBtnDialog() {
+    this.dialog.open(AssesmentCloseModalComponent, {
+      width: '456px',
+      height: '376px',
+    })
+
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {

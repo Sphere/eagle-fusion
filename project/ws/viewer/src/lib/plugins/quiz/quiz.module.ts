@@ -20,15 +20,30 @@ import {
   MatButtonModule,
   MatTooltipModule,
   MatProgressSpinnerModule,
+  MatTabsModule,
+  MatProgressBarModule
 } from '@angular/material'
 
-import {
-  BtnFullscreenModule,
-} from '@ws-widget/collection'
+import { BtnFullscreenModule } from '@ws-widget/collection'
+import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
+import { ViewAssesmentQuestionsComponent } from './components/view-assesment-questions/view-assesment-questions.component'
+import { SlideDirective } from './directives/slide.directive'
+import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 
 @NgModule({
-  declarations: [QuizComponent, OverviewComponent, QuestionComponent, SubmitQuizDialogComponent],
-  entryComponents: [SubmitQuizDialogComponent],
+  declarations: [
+    QuizComponent,
+    OverviewComponent,
+    QuestionComponent,
+    SubmitQuizDialogComponent,
+    AssesmentOverviewComponent,
+    AssesmentModalComponent,
+    ViewAssesmentQuestionsComponent,
+    SlideDirective,
+    AssesmentCloseModalComponent,
+  ],
+  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,],
   imports: [
     CommonModule,
     PipeDurationTransformModule,
@@ -45,9 +60,9 @@ import {
     BtnFullscreenModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatProgressBarModule
   ],
-  exports: [
-    QuizComponent,
-  ],
+  exports: [QuizComponent],
 })
 export class QuizModule { }
