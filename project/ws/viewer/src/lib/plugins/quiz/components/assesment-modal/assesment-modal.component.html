@@ -2,7 +2,7 @@
   <button type="button" class="close" (click)="closePopup()">&times;</button>
 
   <!-- <div class="flex flex-row"> -->
-  <div *ngIf="(isXSmall$ | async) !== true" class="flex  ml-auto timer">
+  <div *ngIf="(isXSmall$ | async) !== true && tabIndex == '0' " class="flex  ml-auto timer">
     <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
     <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
       {{ timeLeft | pipeDurationTransform: 'hms' }}
@@ -24,7 +24,7 @@
           <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
         </h1>
         <h4 class="result-score-title text-center">Your score is:</h4>
-        <h1 class="result-score text-center"> {{result}} <span>%</span></h1>
+        <h1 class="result-score text-center">{{result}}<span>%</span></h1>
 
         <div class="result-overview-container">
           <div class="result-overview">

@@ -266,7 +266,7 @@ export class AssesmentModalComponent implements OnInit {
 
 
   nextQuestion() {
-    this.progressbarValue += 1
+    this.progressbarValue += 100 / this.totalQuestion
 
     if (
       this.quizService.questionState.active_slide_index
@@ -290,7 +290,7 @@ export class AssesmentModalComponent implements OnInit {
 
   }
   previousQuestion() {
-    this.progressbarValue -= 1
+    this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index == 0) {
       return
     }
