@@ -317,5 +317,8 @@ export class AssesmentModalComponent implements OnInit {
     this.startTime = 0
     this.timeLeft = 0
   }
+  closePopup() {
+
+  }
 
 }
