@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subscription } from 'rxjs'
@@ -14,7 +14,7 @@ import { ValueService } from '@ws-widget/utils'
   styleUrls: ['./assesment-modal.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class AssesmentModalComponent implements OnInit {
+export class AssesmentModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
@@ -103,13 +103,6 @@ export class AssesmentModalComponent implements OnInit {
   }
 
   proceedToSubmit() {
-    // if (
-    //   Object.keys(this.questionAnswerHash).length ===
-    //   this.assesmentdata.questions.questions.length
-    // ) {
-    //   this.submitQuiz()
-
-    // }
     this.submitQuiz()
   }
 
@@ -146,7 +139,7 @@ export class AssesmentModalComponent implements OnInit {
         this.numCorrectAnswers = res.correct
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
-        // tslint:disable-next-line:max-line-length
+        /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
         this.tabIndex = 1
@@ -279,40 +272,37 @@ export class AssesmentModalComponent implements OnInit {
       this.proceedToSubmit()
       return
     }
-    const old_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-    $(old_slide).fadeOut('fast', () => {
-      $(old_slide).hide()
-      for (let i = 0; i < this.quizService.questionState.slides.length; i++) {
+    const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+    $(oldSlide).fadeOut('fast', () => {
+      $(oldSlide).hide()
+      for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
-      /* tslint:disable:no-bitwise */
-      /* tslint:disable-next-line:variable-name */
-      this.quizService.questionState.active_slide_index++
-      const new_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(new_slide).fadeIn('fast', () => {
-        $(new_slide).show()
+      this.quizService.questionState.active_slide_index += 1
+      const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+      $(newSlide).fadeIn('fast', () => {
+        $(newSlide).show()
       })
     })
 
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion
-    if (this.quizService.questionState.active_slide_index == 0) {
+    if (this.quizService.questionState.active_slide_index === 0) {
       return
     }
-    const old_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-    $(old_slide).fadeOut('fast', () => {
-      $(old_slide).hide()
-      for (let i = 0; i < this.quizService.questionState.slides.length; i++) {
+    const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+    $(oldSlide).fadeOut('fast', () => {
+      $(oldSlide).hide()
+      for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
-      /* tslint:disable:no-bitwise */
-      this.quizService.questionState.active_slide_index--
-      const new_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(new_slide).fadeIn('fast', () => {
-        $(new_slide).show()
+      this.quizService.questionState.active_slide_index -= 1
+      const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+      $(newSlide).fadeIn('fast', () => {
+        $(newSlide).show()
       })
     })
   }
@@ -324,6 +314,5 @@ export class AssesmentModalComponent implements OnInit {
     this.startTime = 0
     this.timeLeft = 0
   }
-
 
 }

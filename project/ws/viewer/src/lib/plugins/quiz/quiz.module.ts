@@ -43,7 +43,7 @@ import { AssesmentCloseModalComponent } from './components/assesment-close-modal
     SlideDirective,
     AssesmentCloseModalComponent,
   ],
-  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,],
+  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent],
   imports: [
     CommonModule,
     PipeDurationTransformModule,

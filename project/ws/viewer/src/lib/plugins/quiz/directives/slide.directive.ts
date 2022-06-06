@@ -1,9 +1,11 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core'
 declare var $: any
 import { QuizService } from '../quiz.service'
+/* tslint:disable */
 @Directive({
   selector: '[questionSlide]',
 })
+/* tslint:enable */
 export class SlideDirective implements OnInit {
 
   constructor(public el: ElementRef, public quizService: QuizService) {
@@ -21,7 +23,6 @@ export class SlideDirective implements OnInit {
     if (index === 0) {
       $(this.el.nativeElement).show()
     }
-    console.log(this.quizService.questionState)
   }
 
   // constructor() { }
