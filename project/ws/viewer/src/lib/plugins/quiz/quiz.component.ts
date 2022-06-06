@@ -21,6 +21,7 @@ import { ViewerUtilService } from './../../viewer-util.service'
 import { ActivatedRoute } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
+import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -161,7 +162,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openQuizDialog() {
-    this.dialog.open(AssesmentModalComponent, {
+    const dialogRef = this.dialog.open(AssesmentModalComponent, {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
@@ -175,6 +176,19 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       },
     })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.startQuiz()
+        this.closeBtnDialog()
+      }
+    })
+  }
+  closeBtnDialog() {
+    this.dialog.open(AssesmentCloseModalComponent, {
+      width: '456px',
+      height: '376px',
+    })
+
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {
