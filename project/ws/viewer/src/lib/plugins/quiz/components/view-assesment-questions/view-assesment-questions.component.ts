@@ -4,7 +4,7 @@ import { NSQuiz } from '../../quiz.model'
 @Component({
   selector: 'viewer-view-assesment-questions',
   templateUrl: './view-assesment-questions.component.html',
-  styleUrls: ['./view-assesment-questions.component.scss']
+  styleUrls: ['./view-assesment-questions.component.scss'],
 })
 export class ViewAssesmentQuestionsComponent implements OnInit {
 
@@ -24,7 +24,6 @@ export class ViewAssesmentQuestionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("view", this.question)
   }
 
 }

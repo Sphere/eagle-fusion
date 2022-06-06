@@ -21,7 +21,7 @@ import {
   MatTooltipModule,
   MatProgressSpinnerModule,
   MatTabsModule,
-  MatProgressBarModule
+  MatProgressBarModule,
 } from '@angular/material'
 
 import { BtnFullscreenModule } from '@ws-widget/collection'
@@ -59,7 +59,7 @@ import { SlideDirective } from './directives/slide.directive'
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   exports: [QuizComponent],
 })

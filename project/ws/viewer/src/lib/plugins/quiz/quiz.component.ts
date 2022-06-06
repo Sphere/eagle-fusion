@@ -170,9 +170,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           identifier: this.identifier,
           artifactUrl: this.artifactUrl,
           name: this.name,
-          collectionId: this.collectionId
-        }
-
+          collectionId: this.collectionId,
+        },
 
       },
     })

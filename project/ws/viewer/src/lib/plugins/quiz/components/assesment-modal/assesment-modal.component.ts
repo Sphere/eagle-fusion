@@ -16,14 +16,14 @@ import { ValueService } from '@ws-widget/utils'
 })
 export class AssesmentModalComponent implements OnInit {
   isXSmall$ = this.valueSvc.isXSmall$
-  timeLeft = 0;
-  startTime = 0;
-  tabIndex = 0;
-  isIdeal = false;
-  totalQuestion = 0;
-  activeIndex = 0;
-  numCorrectAnswers = 0;
-  numIncorrectAnswers = 0;
+  timeLeft = 0
+  startTime = 0
+  tabIndex = 0
+  isIdeal = false
+  totalQuestion = 0
+  activeIndex = 0
+  numCorrectAnswers = 0
+  numIncorrectAnswers = 0
   numUnanswered = 0
   passPercentage = 0
   result = 0
@@ -76,7 +76,6 @@ export class AssesmentModalComponent implements OnInit {
     }
   }
 
-
   fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
     if (
       this.questionAnswerHash[question.questionId] &&
@@ -95,7 +94,6 @@ export class AssesmentModalComponent implements OnInit {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
   }
-
 
   proceedToSubmit() {
     // if (
@@ -141,6 +139,7 @@ export class AssesmentModalComponent implements OnInit {
         this.numCorrectAnswers = res.correct
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
+        // tslint:disable-next-line:max-line-length
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
         this.tabIndex = 1
@@ -263,27 +262,27 @@ export class AssesmentModalComponent implements OnInit {
       this.numIncorrectAnswers
   }
 
-
-
   nextQuestion() {
     this.progressbarValue += 1
 
     if (
       this.quizService.questionState.active_slide_index
-      == (this.quizService.questionState.slides.length - 1)) {
+      === (this.quizService.questionState.slides.length - 1)) {
       this.proceedToSubmit()
       return
     }
     const old_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-    $(old_slide).fadeOut("fast", () => {
+    $(old_slide).fadeOut('fast', () => {
       $(old_slide).hide()
-      for (var i = 0; i < this.quizService.questionState.slides.length; i++) {
+      for (let i = 0; i < this.quizService.questionState.slides.length; i++) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
+      /* tslint:disable:no-bitwise */
+      /* tslint:disable-next-line:variable-name */
       this.quizService.questionState.active_slide_index++
       const new_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(new_slide).fadeIn("fast", () => {
+      $(new_slide).fadeIn('fast', () => {
         $(new_slide).show()
       })
     })
@@ -291,24 +290,24 @@ export class AssesmentModalComponent implements OnInit {
   }
   previousQuestion() {
     this.progressbarValue -= 1
-    if (this.quizService.questionState.active_slide_index == 0) {
+    if (this.quizService.questionState.active_slide_index === 0) {
       return
     }
     const old_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-    $(old_slide).fadeOut("fast", () => {
+    $(old_slide).fadeOut('fast', () => {
       $(old_slide).hide()
-      for (var i = 0; i < this.quizService.questionState.slides.length; i++) {
+      for (let i = 0; i < this.quizService.questionState.slides.length; i++) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
+      /* tslint:disable:no-bitwise */
       this.quizService.questionState.active_slide_index--
       const new_slide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(new_slide).fadeIn("fast", () => {
+      $(new_slide).fadeIn('fast', () => {
         $(new_slide).show()
       })
     })
   }
-
 
   ngOnDestroy() {
     if (this.timerSubscription) {

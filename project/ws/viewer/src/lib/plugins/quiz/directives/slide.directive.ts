@@ -2,14 +2,14 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core'
 declare var $: any
 import { QuizService } from '../quiz.service'
 @Directive({
-  selector: '[questionSlide]'
+  selector: '[questionSlide]',
 })
 export class SlideDirective implements OnInit {
 
   constructor(public el: ElementRef, public quizService: QuizService) {
     this.quizService.questionState = {
       slides: [],
-      active_slide_index: 0
+      active_slide_index: 0,
     }
 
   }
