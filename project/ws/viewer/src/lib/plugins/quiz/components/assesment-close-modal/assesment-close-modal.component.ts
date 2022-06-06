@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 @Component({
   selector: 'viewer-assesment-close-modal',
   templateUrl: './assesment-close-modal.component.html',
-  styleUrls: ['./assesment-close-modal.component.scss']
+  styleUrls: ['./assesment-close-modal.component.scss'],
 })
 export class AssesmentCloseModalComponent implements OnInit {
 

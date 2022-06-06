@@ -1050,6 +1050,17 @@ button.submit-btn[disabled] {
   }
 
 }
-.modal-border{
+
+.modal-border {
   border-radius: 34px;
+}
+
+
+.close-modal {
+  width: 440px;
+  height: 350px;
+
+  @include breakpoint-xs {
+    height: 220px !important;
+  }
 }

@@ -21,7 +21,7 @@ import {
   MatTooltipModule,
   MatProgressSpinnerModule,
   MatTabsModule,
-  MatProgressBarModule
+  MatProgressBarModule,
 } from '@angular/material'
 
 import { BtnFullscreenModule } from '@ws-widget/collection'
@@ -43,7 +43,7 @@ import { AssesmentCloseModalComponent } from './components/assesment-close-modal
     SlideDirective,
     AssesmentCloseModalComponent,
   ],
-  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,],
+  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent],
   imports: [
     CommonModule,
     PipeDurationTransformModule,
@@ -61,7 +61,7 @@ import { AssesmentCloseModalComponent } from './components/assesment-close-modal
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   exports: [QuizComponent],
 })
