@@ -1019,8 +1019,10 @@ button.submit-btn[disabled] {
 
   // max-width: 87px !important;
   @include breakpoint-lt-s {
-    bottom: 70px !important;
-    left: 5px !important;
+    // bottom: 70px !important;
+    // left: 5px !important;
+    bottom: 95px !important;
+    left: 0px !important;
   }
 }
 
