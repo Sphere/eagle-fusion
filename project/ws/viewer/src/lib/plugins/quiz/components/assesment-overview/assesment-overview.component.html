@@ -71,11 +71,11 @@
   <div class="text-center">
     <!-- <div class="start-btn"> -->
     <button class="btn btn-active" mat-raised-button i18n="button start quiz" [mat-dialog-close]="true"
-      [hidden]="progressStatus==='completed' && isNqocnContent">
+      [hidden]="assesmentdata.progressStatus==='completed' && assesmentdata.isNqocnContent">
       Start Now!
     </button>
     <!-- </div> -->
-    <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
+    <ng-container *ngIf="assesmentdata.progressStatus==='completed' && assesmentdata.isNqocnContent">
       <p>You have already completed the Assessment</p>
     </ng-container>
   </div>
