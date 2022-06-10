@@ -93,29 +93,32 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     if (this.viewState === 'initial') {
-
-      const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
-        width: '542px',
-        panelClass: 'overview-modal',
-        disableClose: true,
-        data: {
-          learningObjective: this.learningObjective,
-          complexityLevel: this.complexityLevel,
-          duration: this.duration,
-          timeLimit: this.quizJson.timeLimit,
-          noOfQuestions: this.quizJson.questions.length,
-          progressStatus: this.progressStatus,
-          isNqocnContent: this.isNqocnContent,
-        },
-      })
-
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          // this.startQuiz()
-          this.openQuizDialog()
-        }
-      })
+      this.openOverviewDialog()
     }
+  }
+
+  openOverviewDialog() {
+    const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
+      width: '542px',
+      panelClass: 'overview-modal',
+      disableClose: true,
+      data: {
+        learningObjective: this.learningObjective,
+        complexityLevel: this.complexityLevel,
+        duration: this.duration,
+        timeLimit: this.quizJson.timeLimit,
+        noOfQuestions: this.quizJson.questions.length,
+        progressStatus: this.progressStatus,
+        isNqocnContent: this.isNqocnContent,
+      },
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.startQuiz()
+        this.openQuizDialog()
+      }
+    })
   }
 
   scroll(qIndex: number) {
@@ -171,23 +174,32 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           identifier: this.identifier,
           artifactUrl: this.artifactUrl,
           name: this.name,
-          collectionId: this.collectionId
-        }
-
+          collectionId: this.collectionId,
+        },
 
       },
     })
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.startQuiz()
-        this.closeBtnDialog()
+        if (result.event === 'CLOSE') {
+          this.closeBtnDialog()
+        }
+
+        if (result.event === 'RETAKE_QUIZ') {
+          this.openOverviewDialog()
+        }
       }
     })
   }
   closeBtnDialog() {
-    this.dialog.open(AssesmentCloseModalComponent, {
-      width: '456px',
-      height: '376px',
+    const dialogRef = this.dialog.open(AssesmentCloseModalComponent, {
+      panelClass: 'close-modal',
+    })
+
+    dialogRef.afterClosed().subscribe(() => {
+
+      this.openOverviewDialog()
+
     })
 
   }

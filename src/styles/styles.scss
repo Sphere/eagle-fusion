@@ -1019,8 +1019,10 @@ button.submit-btn[disabled] {
 
   // max-width: 87px !important;
   @include breakpoint-lt-s {
-    bottom: 70px !important;
-    left: 5px !important;
+    // bottom: 70px !important;
+    // left: 5px !important;
+    bottom: 95px !important;
+    left: 0px !important;
   }
 }
 
@@ -1050,6 +1052,17 @@ button.submit-btn[disabled] {
   }
 
 }
-.modal-border{
+
+.modal-border {
   border-radius: 34px;
+}
+
+
+.close-modal {
+  width: 440px;
+  height: 350px;
+
+  @include breakpoint-xs {
+    height: 220px !important;
+  }
 }

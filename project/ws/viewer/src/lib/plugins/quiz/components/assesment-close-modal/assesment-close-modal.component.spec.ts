@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AssesmentCloseModalComponent } from './assesment-close-modal.component';
+import { AssesmentCloseModalComponent } from './assesment-close-modal.component'
 
 describe('AssesmentCloseModalComponent', () => {
-  let component: AssesmentCloseModalComponent;
-  let fixture: ComponentFixture<AssesmentCloseModalComponent>;
+  let component: AssesmentCloseModalComponent
+  let fixture: ComponentFixture<AssesmentCloseModalComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssesmentCloseModalComponent ]
+      declarations: [AssesmentCloseModalComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssesmentCloseModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(AssesmentCloseModalComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
