@@ -3,16 +3,24 @@
     <button mat-icon-button>
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <div class="title"><span>Respectful Maternity Care</span></div>
+    <div class="title"><span [title]="content?.name">
+        {{ content?.name }} Respectful Maternity Care</span></div>
     <div class="subtitle">Respectful Maternity Care (M1-S1-U4)</div>
-    <div class="details">Duration :
+    <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
+      Duration :
       {{ content?.duration | pipeDurationTransform: 'hms' }}</div>
-    <div class="details">
-      Last updated on : {{ content?.lastUpdatedOn | date }}
+    <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
+      {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} :{{ content?.lastUpdatedOn | date }}
     </div>
-    <div class="details">Source</div>
-    <div class="details">Author</div>
-    <div class="details">Curators</div>
+    <div class="details" (click)="showOrgprofile(content?.sourceName)">Source:{{content?.sourceName}}</div>
+    <div class="details" *ngIf="content?.creator">Author:{{content?.creator}}</div>
+    <div class="details" *ngIf="content?.creatorDetails">Curators:
+      <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+        {{curator.name}}
+        <ng-container *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+        </ng-container>
+      </span>
+    </div>
     <!-- Last updated on : Feb 1, 2022
     Source: Fernandez Foundation
     Author : Evita Fernandez Indie Kaur
