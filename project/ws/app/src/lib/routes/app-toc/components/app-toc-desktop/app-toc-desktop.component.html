@@ -1,0 +1,22 @@
+<div class="container box ">
+  <div class="toc-body">
+    <button mat-icon-button>
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <div class="title"><span>Respectful Maternity Care</span></div>
+    <div class="subtitle">Respectful Maternity Care (M1-S1-U4)</div>
+    <div class="details">Duration :
+      {{ content?.duration | pipeDurationTransform: 'hms' }}</div>
+    <div class="details">
+      Last updated on : {{ content?.lastUpdatedOn | date }}
+    </div>
+    <div class="details">Source</div>
+    <div class="details">Author</div>
+    <div class="details">Curators</div>
+    <!-- Last updated on : Feb 1, 2022
+    Source: Fernandez Foundation
+    Author : Evita Fernandez Indie Kaur
+    Curators : Evita Fernandez , Indie Kaur -->
+
+  </div>
+</div>
