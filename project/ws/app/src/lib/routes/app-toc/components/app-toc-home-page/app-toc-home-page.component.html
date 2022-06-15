@@ -1,9 +1,12 @@
 <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Details',url:'none'}] }">
 </ws-widget-btn-page-back>
 
-<ws-app-toc-banner role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
+<!-- <ws-app-toc-banner role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
   [analytics]="analytics" [resumeData]="resumeData" [batchData]="batchData">
-</ws-app-toc-banner>
+</ws-app-toc-banner> -->
+
+<ws-app-app-toc-desktop role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
+  [analytics]="analytics" [resumeData]="resumeData" [batchData]="batchData"></ws-app-app-toc-desktop>
 
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">

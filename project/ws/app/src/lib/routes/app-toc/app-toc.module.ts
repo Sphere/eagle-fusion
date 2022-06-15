@@ -110,6 +110,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
 // import { AppTocSinglePageDirective } from './routes/app-toc-single-page/app-toc-single-page.directive'
 import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
 import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-home-page.component'
+import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-desktop.component'
 @NgModule({
   declarations: [
     AppTocAnalyticsComponent,
@@ -137,6 +138,7 @@ import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-
     RetainScrollDirective,
     AllDiscussionWidgetComponent,
     AppTocHomePageComponent,
+    AppTocDesktopComponent,
   ],
   imports: [
     CommonModule,

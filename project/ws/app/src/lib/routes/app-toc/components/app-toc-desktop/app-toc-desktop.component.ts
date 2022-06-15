@@ -29,12 +29,12 @@ import moment from 'moment'
 import { DOCUMENT } from '@angular/common'
 
 @Component({
-  selector: 'ws-app-toc-banner',
-  templateUrl: './app-toc-banner.component.html',
-  styleUrls: ['./app-toc-banner.component.scss'],
+  selector: 'ws-app-app-toc-desktop',
+  templateUrl: './app-toc-desktop.component.html',
+  styleUrls: ['./app-toc-desktop.component.scss'],
   providers: [AccessControlService],
 })
-export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
+export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
   @Input() content: NsContent.IContent | null = null
   @Input() resumeData: NsContent.IContinueLearningData | null = null
@@ -874,3 +874,4 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 }
+
