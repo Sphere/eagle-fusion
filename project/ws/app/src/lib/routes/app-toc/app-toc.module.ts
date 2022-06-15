@@ -109,6 +109,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
 // import { AppTocSinglePageComponent as AppTocSinglePageRootComponent } from './routes/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageDirective } from './routes/app-toc-single-page/app-toc-single-page.directive'
 import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
+import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-home-page.component'
 @NgModule({
   declarations: [
     AppTocAnalyticsComponent,
@@ -135,6 +136,7 @@ import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-wid
     CreateBatchDialogComponent,
     RetainScrollDirective,
     AllDiscussionWidgetComponent,
+    AppTocHomePageComponent,
   ],
   imports: [
     CommonModule,
@@ -225,6 +227,7 @@ import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-wid
     // AppTocSinglePageComponent,
     // AppTocSinglePageRootComponent,
     CreateBatchDialogComponent,
+    AppTocHomePageComponent
   ],
 })
 export class AppTocModule { }
