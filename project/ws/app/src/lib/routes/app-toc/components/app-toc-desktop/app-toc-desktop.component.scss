@@ -1,11 +1,30 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
+%container-padding {
+  padding: $size-xl 12rem;
+
+  @include breakpoint-xs {
+    padding: $size-m $size-l;
+  }
+}
 .box{
   width: 1440px;
   height: 440px;
   background: #F7F7F7;
-  max-width: max-content;
 }
 .toc-body {
-   padding-left: 2rem;
+  @extend %container-padding;
+  padding-top: 0px !important;
+
+  @include breakpoint-s {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+.back-icon{
+  padding-right: 20px;
+
 }
 .title{
   font-family: 'Roboto';
@@ -13,7 +32,6 @@
   font-weight: 400;
   font-size: 32px;
   line-height: 38px;
-  padding-left: 20px;
 }
 .subtitle{
   font-family: 'Roboto';
@@ -21,15 +39,84 @@
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
-  padding-left: 20px;
 }
 .details{
 font-family: 'Roboto';
 font-style: normal;
 font-weight: 400;
 font-size: 16px;
-padding-left: 20px;
 color: #000000;
 letter-spacing: -0.02em;
 
+}
+
+.lable1{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1C5D95;
+  flex: none;
+  flex-grow: 0;
+  padding-top: 20px;
+}
+ .header-actions {
+    display: flex;
+    margin-top: 24px;
+
+    &.top {
+      margin-top: 0;
+      margin-bottom: 40px;
+    }
+
+    .action-btns {
+      // margin-left: auto;
+      order: 2;
+      // color: white;
+    }
+  }
+  .header-act-btn{
+    margin-top: 5px;
+  }
+// .btn {
+//  display: flex;
+// flex-direction: row;
+// justify-content: center;
+// align-items: center;
+// padding: 8px 32px;
+// gap: 8px;
+// position: absolute;
+// width: 122px;
+// height: 35px;
+// left: 112px;
+// top: 369px;
+// background: #1C5D95;
+// border-radius: 50px;
+// }
+
+.btn{
+  flex-direction: row !important;
+justify-content: center !important;
+align-items: center !important;
+padding: 0px 32px !important;
+background: #1C5D95 !important;
+border-radius: 50px !important;
+color: #F7F7F7 !important;
+}
+.btn-active {
+  color: #1C5D95 !important;
+  border-radius: 50px;
+  // background: #F7F7F7 !important;
+  border: 1px solid #1C5D95 !important;
+  margin-left: 10px;
+}
+.share-img{
+    width: 38px;
+    height: 38px;
+    border: 1px solid #1C5D95;
+    box-sizing: border-box;
+    border-radius: 49%;
+    padding: 8px;
+    margin-left: 10px;
 }

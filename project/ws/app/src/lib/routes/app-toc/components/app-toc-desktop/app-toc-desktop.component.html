@@ -1,10 +1,10 @@
-<div class="container box ">
-  <div class="toc-body">
-    <button mat-icon-button>
+<div class="toc-body box ">
+  <div>
+    <button mat-icon-button class="back-icon">
       <mat-icon>chevron_left</mat-icon>
     </button>
     <div class="title"><span [title]="content?.name">
-        {{ content?.name }} Respectful Maternity Care</span></div>
+        {{ content?.name }} </span></div>
     <div class="subtitle">Respectful Maternity Care (M1-S1-U4)</div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
       Duration :
@@ -21,10 +21,19 @@
         </ng-container>
       </span>
     </div>
-    <!-- Last updated on : Feb 1, 2022
-    Source: Fernandez Foundation
-    Author : Evita Fernandez Indie Kaur
-    Curators : Evita Fernandez , Indie Kaur -->
+    <div class="lable1" (click)="toggleComponent('license')" [routerLink]="'./license'"
+      [queryParams]="{license: license}" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}"
+      wsAppRetainScroll i18n>View License Terms</div>
+    <div class="header-actions">
+      <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
+      <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
+      <div class="share-img">
+        <img src=".\fusion-assets\icons\share-icon.png">
+      </div>
+    </div>
 
   </div>
 </div>
+<ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
+  [className]="'thick'" [progress]="content?.completionPercentage">
+</ws-widget-content-progress>
