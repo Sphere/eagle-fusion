@@ -45,7 +45,7 @@ const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'contents',
+        path: 'chapters',
         component: AppTocContentsComponent,
       },
       {

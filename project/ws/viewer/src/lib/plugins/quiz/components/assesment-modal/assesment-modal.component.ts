@@ -140,7 +140,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
        /* tslint:disable-next-line:max-line-length */
-        this.passPercentage = this.assesmentdata.generalData.collectionId ==='lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
+        this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
         this.tabIndex = 1
         this.tabActive = true
