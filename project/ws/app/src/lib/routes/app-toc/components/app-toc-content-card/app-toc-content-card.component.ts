@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -16,6 +16,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() rootContentType!: string
   @Input() forPreview = false
   @Input() batchId!: string
+  @Output() expandChild = new EventEmitter<any>()
   contentId!: string
   hasContentStructure = false
   resourceContentType: any
@@ -197,5 +198,10 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       return null
     }
     return content.identifier
+  }
+
+  expandView() {
+    console.log("expand")
+    this.expandChild.emit(true)
   }
 }

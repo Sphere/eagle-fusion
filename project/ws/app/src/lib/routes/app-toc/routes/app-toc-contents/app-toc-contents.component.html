@@ -12,8 +12,10 @@
       </div> -->
       <div class="content-card" *ngFor="let card of content?.children; trackBy: contentTrackBy">
         <ws-app-toc-content-card [forPreview]="forPreview" [expandAll]="expandAll" [rootId]="contextId"
-          [rootContentType]="contextPath" [content]="card"></ws-app-toc-content-card>
+          [rootContentType]="contextPath" [content]="card">
+        </ws-app-toc-content-card>
       </div>
+
     </ng-container>
     <ng-template #noChildren>
       <div *ngIf="!isPlayable"

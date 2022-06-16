@@ -2,19 +2,19 @@
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
       <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-        (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+        [wsUtilsDefaultThumbnail]="defaultThumbnail" />
       <div class="flex flex-between width-expand">
-        <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
+        <div class="text-truncate cursor-pointer 1">
           <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
           <div>
-            <span class="mat-body-strong">{{ resourceContentType }}</span>
-            <span>
-              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
+            <!-- <span class="mat-body-strong">{{ resourceContentType }}</span> -->
+            <span class="duration">
+              <!-- <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container> -->
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
           </div>
-
-          <div *ngIf="hasContentStructure" class="child-meta-container">
+          <!-- old design iteams  -->
+          <!-- <div *ngIf="hasContentStructure" class="child-meta-container">
             <div class="child-structure">
               <mat-icon class="structure-icon">import_contacts</mat-icon>
               <span *ngIf="contentStructure?.course > 0">
@@ -82,7 +82,7 @@
               </span>
             </div>
 
-          </div>
+          </div> -->
 
         </div>
 
@@ -107,13 +107,13 @@
         </ng-container>
       </button>
     </div>
-
-
     <div class="children-container" *ngIf="viewChildren">
       <ws-app-toc-content-card [content]="child" [expandAll]="expandAll" [rootId]="rootId"
         [rootContentType]="rootContentType" *ngFor="let child of content?.children; trackBy: contentTrackBy">
       </ws-app-toc-content-card>
     </div>
+
+
   </ng-container>
   <div *ngIf="isResource" class="resource-container">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
