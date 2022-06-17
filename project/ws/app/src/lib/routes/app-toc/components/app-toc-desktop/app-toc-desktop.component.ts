@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject, } from '@angular/core'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
@@ -88,6 +88,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   lastCourseID: any
   certificateMsg?: any
 
+
   constructor(
     private sanitizer: DomSanitizer,
     private router: Router,
@@ -101,6 +102,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
+
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document
   ) {
@@ -872,6 +874,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     //   }
     // })
   }
+
 
 }
 
