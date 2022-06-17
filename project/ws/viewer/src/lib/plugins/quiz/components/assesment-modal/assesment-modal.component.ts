@@ -12,7 +12,7 @@ import { ValueService } from '@ws-widget/utils'
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
   styleUrls: ['./assesment-modal.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+  encapsulation: ViewEncapsulation.None,
 })
 export class AssesmentModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
@@ -139,7 +139,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         this.numCorrectAnswers = res.correct
         this.numIncorrectAnswers = res.inCorrect
         this.numUnanswered = res.blank
-       /* tslint:disable-next-line:max-line-length */
+        /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
         this.tabIndex = 1
