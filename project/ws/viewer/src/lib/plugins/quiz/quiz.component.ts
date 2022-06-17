@@ -83,12 +83,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   timerSubscription: Subscription | null = null
   viewState: NSQuiz.TQuizViewMode = 'initial'
   paramSubscription: Subscription | null = null
+  public dialogOverview: any
+  public dialogAssesment: any
   constructor(
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
     private viewerSvc: ViewerUtilService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -98,7 +100,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openOverviewDialog() {
-    const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
+    this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
       width: '542px',
       panelClass: 'overview-modal',
       disableClose: true,
@@ -113,7 +115,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     })
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogOverview.afterClosed().subscribe((result: any) => {
       if (result) {
         // this.startQuiz()
         this.openQuizDialog()
@@ -196,10 +198,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       panelClass: 'close-modal',
     })
 
-    dialogRef.afterClosed().subscribe(() => {
-
-      this.openOverviewDialog()
-
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
+        dialogRef.close()
+        this.dialogOverview.close()
+      } else if (result.event === 'NO') {
+        this.openOverviewDialog()
+      }
     })
 
   }

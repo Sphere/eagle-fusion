@@ -76,14 +76,30 @@
   }
 }
 
-::ng-deep mat-progress-bar .mat-progress-bar-buffer {
-  background: #E4E8EB !important;
-}
+// ::ng-deep mat-progress-bar .mat-progress-bar-buffer {
+//   background: #E4E8EB !important;
+// }
 
-::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
-  background: #1C5D95 !important;
-}
+// ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
+//   background: #1C5D95 !important;
+// }
+.audio-progress-bar {
+  &.mat-progress-bar {
+    width: 128.03px;
+    height: 12.6px;
+    border-radius: 3.97614px;
+  }
+  .mat-progress-bar .mat-progress-bar-fill::after {
+    background: #1C5D95 !important;
+  }
+  .mat-progress-bar-fill::after {
+   background: #1C5D95 !important;
+  }
 
+  .mat-progress-bar-buffer {
+    background: #E4E8EB !important;
+  }
+}
 .btn-lg {
   width: 155px !important;
 }

@@ -17,10 +17,10 @@ export class AssesmentCloseModalComponent implements OnInit {
   }
 
   closeNo() {
-    this.dialogRef.close()
+    this.dialogRef.close({ event: 'NO' })
   }
 
   closeYes() {
-    this.dialogRef.close()
+    this.dialogRef.close({ event: 'CLOSE' })
   }
 }
