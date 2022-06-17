@@ -167,7 +167,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openQuizDialog() {
-    const dialogRef = this.dialog.open(AssesmentModalComponent, {
+    this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
@@ -181,7 +181,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       },
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogAssesment.afterClosed().subscribe((result: any) => {
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeBtnDialog()

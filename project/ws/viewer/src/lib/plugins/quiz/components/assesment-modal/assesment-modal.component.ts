@@ -12,6 +12,7 @@ import { ValueService } from '@ws-widget/utils'
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
   styleUrls: ['./assesment-modal.component.scss'],
+  // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
 export class AssesmentModalComponent implements OnInit, OnDestroy {
