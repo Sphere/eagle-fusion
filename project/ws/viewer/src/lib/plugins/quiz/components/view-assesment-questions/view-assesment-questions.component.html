@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!userAnswer">
   <ng-container *ngIf="question.questionType === 'mcq-sca'">
     <!-- text -->
     <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">

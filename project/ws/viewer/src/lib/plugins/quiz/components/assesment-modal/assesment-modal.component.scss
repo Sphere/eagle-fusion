@@ -7,21 +7,31 @@
 
   .close {
     place-self: end;
+    font-weight: 400;
+    font-size: 17px;
+    @include breakpoint-xs {
+      display: none;
+    }
   }
 }
-
+.arrow-back {
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  left: 30px;
+  top: 48px;
+}
 ::ng-deep .mat-tab-header {
   border-bottom: none !important;
 }
 
 ::ng-deep .theme-igot.day-mode .mat-ink-bar {
-  background-color: #1C5D95 !important;
-
+  background-color: #1c5d95 !important;
 }
 
 ::ng-deep .mat-tab-label-active {
-  border-bottom: solid 3px #1C5D95;
-  color: #1C5D95 !important;
+  border-bottom: solid 3px #1c5d95;
+  color: #1c5d95 !important;
 }
 
 ::ng-deep .mat-tab-label-content {
@@ -32,19 +42,14 @@
   line-height: 24px;
   /* letter-spacing: -0.02em; */
   // color: #8E8E8E;
-  ;
 }
-
-
-
 
 ::ng-deep .mat-tab-label {
   padding: 0 0px !important;
   min-width: 0px;
   margin-left: 25px;
   opacity: 1;
-  color: #8E8E8E !important;
-
+  color: #8e8e8e !important;
 }
 
 .question-wrapper {
@@ -53,8 +58,8 @@
   display: flex;
 
   @include breakpoint-xs {
-    padding: 25px;
-    // overflow: hidden;
+    padding: 17px;
+    margin-top: 20px;
   }
 }
 
@@ -67,9 +72,9 @@
   border-radius: 50px;
   width: 100px !important;
   height: 38px !important;
-  color: #1C5D95 !important;
+  color: #1c5d95 !important;
   // border-color: #1C5D95 !important;
-  border: 1px solid #1C5D95 !important;
+  border: 1px solid #1c5d95 !important;
 
   @include breakpoint-xs {
     margin-left: 12px;
@@ -77,11 +82,11 @@
 }
 
 ::ng-deep mat-progress-bar .mat-progress-bar-buffer {
-  background: #E4E8EB !important;
+  background: #e4e8eb !important;
 }
 
 ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
-  background: #1C5D95 !important;
+  background: #1c5d95 !important;
 }
 
 .btn-lg {
@@ -89,30 +94,27 @@
 }
 
 .btn-active {
-  background-color: #1C5D95 !important;
-  color: #FFFFFF !important;
+  background-color: #1c5d95 !important;
+  color: #ffffff !important;
 }
-
 
 .timer {
   position: relative;
   top: 30px;
-
+  background: #e7f2fa;
+  border-radius: 16.5px;
+  border-radius: 16.5px;
+  width: 101px;
   @include breakpoint-xs {
-    // position: relative;
-    // left: 19px;
-    // /* padding: 10px; */
-    // top: 82px;
-    // margin-left: 0px !important;
-
     position: relative;
-    left: 19px;
-    top: 72px;
+    left: 247px;
+    top: 5px;
     margin-left: 0px !important;
-    background: white;
     z-index: 9999;
+    background: #e7f2fa;
+    border-radius: 16.5px;
+    width: 101px;
   }
-
 }
 
 // @media only screen and (max-width: 599px) {
@@ -124,7 +126,6 @@
 //     margin-left: 0px !important;
 //   }
 // }
-
 
 ::ng-deep .mat-progress-bar {
   width: 128.03px;
@@ -158,10 +159,10 @@
   font-size: 59px !important;
   line-height: 58px;
   letter-spacing: -0.02em;
-  color: #1C5D95;
+  color: #1c5d95;
 
   span {
-    color: #1C5D95;
+    color: #1c5d95;
     font-size: 20px !important;
   }
 }
@@ -186,10 +187,8 @@
     width: 100%;
   }
 
-
-
   .result-overview {
-    background: #E7F2FA;
+    background: #e7f2fa;
     text-align: center;
     padding: auto 0;
     display: flex;
@@ -204,9 +203,7 @@
       width: 90px;
       height: 90px;
       margin-right: 10px;
-
     }
-
 
     h4 {
       margin: 0 !important;
@@ -221,7 +218,6 @@
         font-weight: 400;
         font-size: 25px;
       }
-
     }
 
     .lable {
@@ -235,8 +231,6 @@
         font-size: 10px;
         margin-top: 0 !important;
       }
-
     }
   }
-
 }

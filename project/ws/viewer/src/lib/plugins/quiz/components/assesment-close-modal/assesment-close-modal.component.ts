@@ -21,6 +21,6 @@ export class AssesmentCloseModalComponent implements OnInit {
   }
 
   closeYes() {
-    this.dialogRef.close()
+    this.dialogRef.close({ event: 'CLOSE' })
   }
 }

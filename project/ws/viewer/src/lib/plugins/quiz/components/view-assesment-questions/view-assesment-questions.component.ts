@@ -26,4 +26,8 @@ export class ViewAssesmentQuestionsComponent implements OnInit {
   ngOnInit() {
   }
 
+  resultEvent() {
+
+  }
+
 }

@@ -1,8 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { map, } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -30,17 +30,25 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   progressbarValue = 0
   isCompleted = false
   fetchingResultsStatus: FetchStatus = 'none'
-  questionAnswerHash: { [questionId: string]: string[] } = {}
+  questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
   dialog: any
   tabActive = false
+  userAnswer: any
+  showAnswer = false
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
-  ) { }
+  ) {
+    this.questionAnswerHash['qslideIndex'] = 0
+  }
 
   ngOnInit() {
     this.timeLeft = this.assesmentdata.questions.timeLimit
@@ -83,7 +91,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
+  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string, qindex: number) {
     if (
       this.questionAnswerHash[question.questionId] &&
       question.multiSelection
@@ -100,6 +108,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     } else {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
+    this.questionAnswerHash['qslideIndex'] = qindex
   }
 
   proceedToSubmit() {
@@ -262,30 +271,33 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       this.numCorrectAnswers -
       this.numIncorrectAnswers
   }
-
+  checkAnswer() {
+    const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+    this.userAnswer = {}
+    this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
+    this.tabIndex = 2
+  }
   nextQuestion() {
     this.progressbarValue += 100 / this.totalQuestion
-
     if (
-      this.quizService.questionState.active_slide_index
+      this.questionAnswerHash['qslideIndex']
       === (this.quizService.questionState.slides.length - 1)) {
       this.proceedToSubmit()
       return
     }
-    const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+    const oldSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex']]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
-      this.quizService.questionState.active_slide_index += 1
-      const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+      const newSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex'] + 1]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
       })
     })
-
+    this.tabIndex = 0
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion
