@@ -15,6 +15,14 @@
   margin: 10px 0 0 0 !important;
 }
 
+correct-option {
+  color: #357a38 !important;
+}
+
+.incorrect-option {
+  color: #f0506e;
+}
+
 .quiz-radio-group {
   display: inline-flex;
   flex-direction: column;
