@@ -32,9 +32,10 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit {
   correctOption: boolean[] = []
   unTouchedBlank: boolean[] = []
   matchHintDisplay: NSQuiz.IOption[] = []
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
-  constructor(private domSanitizer: DomSanitizer,
-    private elementRef: ElementRef,) {
+  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
+  constructor(
+    private domSanitizer: DomSanitizer,
+    private elementRef: ElementRef) {
 
   }
 
@@ -149,7 +150,6 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit {
       }
     }
   }
-
 
   get numConnections() {
     if (this.jsPlumbInstance) {
