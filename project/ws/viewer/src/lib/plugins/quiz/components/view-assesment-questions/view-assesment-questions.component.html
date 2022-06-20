@@ -46,6 +46,7 @@
       </div>
     </mat-radio-group>
   </ng-container>
+
   <ng-container *ngIf="question.questionType === 'mcq-mca'">
     <mat-selection-list class="app-class">
       <div [ngClass]="{
@@ -88,4 +89,27 @@
       </div>
     </mat-selection-list>
   </ng-container>
+
+  <ng-container *ngIf="question.questionType === 'mtf'">
+
+    <div (scroll)="repaintEveryThing()" (resize)="repaintEveryThing()">
+      <div style="height:auto">
+        <div style="display: flex;flex-direction: column;" [id]="question.questionId">
+          <div *ngFor="let option of question.options; let i = index">
+            <div style="display: flex;justify-content: space-around;flex-wrap: wrap;  height:auto;">
+              <div [class]="'question' + question.questionId + ' question'" [id]="'c1' + question.questionId + (i + 1)">
+                {{ option.text }}
+              </div>
+              <div [class]="'answer' + question.questionId + ' answer'" [id]="'c2' + question.questionId + (i + 1)">
+                {{ option.matchForView }}
+              </div>
+            </div>
+            <br />
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
 </div>

@@ -7,6 +7,7 @@ import {
   SimpleChanges,
   ViewChild, ViewChildren,
 } from '@angular/core'
+import { Location } from '@angular/common'
 import { MatDialog, MatSidenav } from '@angular/material'
 import { interval, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -91,6 +92,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private quizSvc: QuizService,
     private viewerSvc: ViewerUtilService,
     public route: ActivatedRoute,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -202,6 +204,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       if (result.event === 'CLOSE') {
         dialogRef.close()
         this.dialogOverview.close()
+        this.location.back()
       } else if (result.event === 'NO') {
         this.openOverviewDialog()
       }

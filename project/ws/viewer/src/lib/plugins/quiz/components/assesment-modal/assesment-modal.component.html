@@ -15,7 +15,9 @@
         <div class="question-wrapper">
           <viewer-view-assesment-questions questionSlide
             *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
-            [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event)"></viewer-view-assesment-questions>
+            [artifactUrl]="assesmentdata.artifactUrl" [slideIndex]="i"
+            (itemSelected)="fillSelectedItems(question, $event)"
+            [itemSelectedList]="questionAnswerHash[(question?.questionId)]"></viewer-view-assesment-questions>
         </div>
       </ng-container>
     </mat-tab>
