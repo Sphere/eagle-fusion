@@ -9,8 +9,8 @@ import {
 } from '@angular/core'
 import { Location } from '@angular/common'
 import { MatDialog, MatSidenav } from '@angular/material'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
@@ -19,11 +19,11 @@ import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
-
+import { ViewerDataService } from '../../viewer-data.service'
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
@@ -86,13 +86,19 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   paramSubscription: Subscription | null = null
   public dialogOverview: any
   public dialogAssesment: any
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
     private viewerSvc: ViewerUtilService,
     public route: ActivatedRoute,
-    public location: Location
+    public location: Location,
+    public viewerDataSvc: ViewerDataService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -164,6 +170,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.telemetrySubscription) {
       this.telemetrySubscription.unsubscribe()
     }
+    this.unsubscribe.complete()
+
     this.startTime = 0
     this.timeLeft = 0
   }
@@ -199,12 +207,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     const dialogRef = this.dialog.open(AssesmentCloseModalComponent, {
       panelClass: 'close-modal',
     })
-
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
         dialogRef.close()
         this.dialogOverview.close()
-        this.location.back()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          return
+        })
       } else if (result.event === 'NO') {
         this.openOverviewDialog()
       }
