@@ -14,8 +14,6 @@ import { ValueService } from '@ws-widget/utils'
   styleUrls: ['./assesment-modal.component.scss'],
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
-  // tslint:disable-next-line:use-component-view-encapsulation
-
 })
 export class AssesmentModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
