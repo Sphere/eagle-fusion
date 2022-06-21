@@ -230,7 +230,6 @@
         </ng-container>
       </div>
     </div>
-    <!-- <ws-app-license></ws-app-license> -->
 
     <ng-template #creators let-authors="authors" let-title="title">
       <div class="unit-meta-item">
@@ -282,9 +281,6 @@
       </mat-accordion>
 
     </div>
-
-
-
   </div>
   <!-- At a glance section -->
   <div class="info-section">
@@ -292,4 +288,8 @@
       [tocStructure]="tocStructure">
     </ws-widget-player-brief>
   </div>
+  <ng-container>
+    <ws-app-license></ws-app-license>
+  </ng-container>
+
 </div>
