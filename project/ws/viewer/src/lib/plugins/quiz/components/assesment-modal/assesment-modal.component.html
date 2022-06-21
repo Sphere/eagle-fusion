@@ -59,12 +59,12 @@
     <div class="ml-auto pt-3">
       <ng-container *ngIf="tabIndex === 0 ">
         <button class="btn" mat-raised-button (click)="previousQuestion()">Back</button>
-        <button class="btn btn-active" mat-raised-button (click)="nextQuestion()">next</button>
+        <button class="btn btn-active" [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">next</button>
 
       </ng-container>
       <ng-container *ngIf="tabIndex === 1">
 
-        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Quiz</button>
+        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
         <!-- <button class="btn btn-lg btn-active" mat-raised-button>Show Answers</button> -->
       </ng-container>
     </div>

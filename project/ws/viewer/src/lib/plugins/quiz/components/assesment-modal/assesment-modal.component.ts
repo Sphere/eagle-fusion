@@ -8,6 +8,7 @@ import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
+import * as _ from 'lodash'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -35,6 +36,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   timerSubscription: Subscription | null = null
   dialog: any
   tabActive = false
+  disableNext = false;
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -142,7 +144,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         this.numUnanswered = res.blank
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = res.result
+        this.result = _.round(res.result)
         this.tabIndex = 1
         this.tabActive = true
         if (this.result >= this.passPercentage) {
@@ -270,7 +272,9 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     if (
       this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
+      this.disableNext = true
       this.proceedToSubmit()
+
       return
     }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
@@ -289,6 +293,9 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
 
   }
   previousQuestion() {
+    if (this.disableNext = true) {
+      this.disableNext = false
+    }
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
       return
