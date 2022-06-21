@@ -127,19 +127,28 @@
         <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
           <h2 class="margin-remove text-truncate" name="content-heading">{{ content?.name }}</h2>
 
-          <div>
+          <div class="flex items-center">
             <ng-container *ngIf="resourceContentType">
-              <div [ngSwitch]="resourceContentType | lowercase">
+              <div class="pr-1" [ngSwitch]="resourceContentType | lowercase">
                 <div *ngSwitchCase="'pdf'">
                   <img src=".\fusion-assets\icons\pdf-icon.png">
                 </div>
-                <div *ngSwitchDefault>{{resourceContentType}} <img src=".\fusion-assets\icons\lock.png"></div>
+                <div *ngSwitchCase="'video'">
+                  <img src=".\fusion-assets\icons\video-icon.png">
+                </div>
+                <div *ngSwitchCase="'scorm'">
+                  <img src=".\fusion-assets\icons\video-icon.png">
+                </div>
+                <div *ngSwitchCase="'link'">
+                  <img src=".\fusion-assets\icons\link-icon.png">
+                </div>
+                <div *ngSwitchDefault>{{resourceContentType}}</div>
               </div>
             </ng-container>
             <!-- <span class="mat-body-strong" id="video">{{ resourceContentType }}</span> -->
 
-            <span>
-              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
+            <span class="pt-1 text-gray-500">
+              <ng-container *ngIf="content?.mimeType"></ng-container>
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
           </div>
