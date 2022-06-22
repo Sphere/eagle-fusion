@@ -21,18 +21,27 @@
     border-radius: 10px;
   }
 
+  .card-title {
+    font-size: 20px !important;
+  }
+
   @media only screen and (max-width:469px) {
-    flex-direction: column;
+    flex-direction: row;
     margin: $size-xs $size-xs $size-xs $size-xs !important;
     align-items: flex-start !important;
+    padding-right: 5px;
 
     .card-thumbnail {
-      height: 100%;
-      width: 100%;
+      height: 60px;
+      width: 80px;
     }
 
     .text-truncate {
       white-space: set !important;
+    }
+
+    .card-title {
+      font-size: 16px !important;
     }
   }
 }
@@ -50,18 +59,26 @@
     cursor: pointer;
   }
 
+  .card-title {
+    font-size: 20px !important;
+  }
+
   @media only screen and (max-width:469px) {
-    flex-direction: column;
+    flex-direction: row;
     margin: $size-xs $size-xs $size-xs $size-xs !important;
     align-items: flex-start !important;
 
     .card-thumbnail {
-      height: 100%;
-      width: 100%;
+      height: 60px;
+      width: 80px;
     }
 
     .text-truncate {
       white-space: unset !important;
+    }
+
+    .card-title {
+      font-size: 16px !important;
     }
   }
 }
@@ -147,9 +164,9 @@
 }
 
 .resource-contents {
-  display: flex;
+
   width: 100%;
-  justify-content: space-between;
+
 }
 
 .progrss-box {
@@ -159,4 +176,8 @@
   .content-check {
     color: #27AE60;
   }
+}
+
+.text-truncate {
+  white-space: normal !important;
 }
