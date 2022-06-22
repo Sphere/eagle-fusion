@@ -2,8 +2,9 @@
 
 .main {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 125px)
 }
+
 .main .child {
   height: 100%;
   padding: 0;
@@ -33,7 +34,9 @@
   /* or 120% */
   letter-spacing: -0.02em;
   color: #b4b4b4;
+  text-align: center;
 }
+
 .correct-answer {
   font-family: 'Roboto';
   font-style: normal;
@@ -68,8 +71,7 @@
   // border-color: #1C5D95 !important;
   border: 1px solid #1c5d95 !important;
 
-  @include breakpoint-xs {
-  }
+  @include breakpoint-xs {}
 }
 
 .btn-active {
