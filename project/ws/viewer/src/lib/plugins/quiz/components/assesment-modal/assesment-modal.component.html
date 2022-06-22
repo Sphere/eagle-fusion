@@ -11,60 +11,85 @@
       {{ timeLeft | pipeDurationTransform: 'hms' }}
     </div>
   </div>
-  <ng-container *ngIf="assesmentdata.questions.isAssessment">
-    <div class="question-wrapper" *ngIf="tabIndex ===0">
-      <viewer-view-assesment-questions questionSlide
-        *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
-        [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event,i)"></viewer-view-assesment-questions>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="tabIndex === 2">
-    <viewer-assesment-question-result *ngIf="userAnswer" [answer]="userAnswer.answer" [isCorrect]="userAnswer.isCorrect"
-      (resultEvent)="nextQuestion()">
-    </viewer-assesment-question-result>
-  </ng-container>
-
-  <ng-container>
-    <div class="flex flex-col items-center m-0 m-auto result-wrapper pt-5" *ngIf="tabActive">
-      <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
-        <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
-      </h1>
-      <h4 class="result-score-title text-center">Your score is:</h4>
-      <h1 class="result-score text-center">{{result}}<span>%</span></h1>
-
-      <div class="result-overview-container">
-        <div class="result-overview">
-          <h4 class="digit">{{numUnanswered}}</h4>
-          <h4 class="lable">Not Attempted</h4>
+  <mat-tab-group [(selectedIndex)]="tabIndex" animationDuration="0ms">
+    <mat-tab label="Assessment">
+      <ng-container *ngIf="assesmentdata.questions.isAssessment">
+        <div class="question-wrapper">
+          <viewer-view-assesment-questions questionSlide
+            *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
+            [artifactUrl]="assesmentdata.artifactUrl" [slideIndex]="i"
+            (itemSelected)="fillSelectedItems(question, $event)"
+            [itemSelectedList]="questionAnswerHash[(question?.questionId)]"></viewer-view-assesment-questions>
         </div>
-        <div class="result-overview">
-          <h4 class="digit">{{numCorrectAnswers}}</h4>
-          <h4 class="lable">Correct</h4>
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Results" [disabled]='!tabActive'>
+      <div class="flex flex-col items-center m-0 m-auto result-wrapper pt-5">
+        <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
+          <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
+        </h1>
+        <h4 class="result-score-title text-center">Your score is:</h4>
+        <h1 class="result-score text-center">{{result}}<span>%</span></h1>
+
+        <div class="result-overview-container">
+          <div class="result-overview">
+            <h4 class="digit">{{numUnanswered}}</h4>
+            <h4 class="lable">Not Attempted</h4>
+          </div>
+          <div class="result-overview">
+            <h4 class="digit">{{numCorrectAnswers}}</h4>
+            <h4 class="lable">Correct</h4>
+          </div>
+          <div class="result-overview">
+            <h4 class="digit">{{numIncorrectAnswers}}</h4>
+            <h4 class="lable">Incorrect</h4>
+          </div>
         </div>
-        <div class="result-overview">
-          <h4 class="digit">{{numIncorrectAnswers}}</h4>
-          <h4 class="lable">Incorrect</h4>
+
+        <ng-container>
+          <div class="flex flex-col items-center m-0 m-auto result-wrapper pt-5" *ngIf="tabActive">
+            <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
+              <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
+            </h1>
+            <h4 class="result-score-title text-center">Your score is:</h4>
+            <h1 class="result-score text-center">{{result}}<span>%</span></h1>
+
+            <div class="result-overview-container">
+              <div class="result-overview">
+                <h4 class="digit">{{numUnanswered}}</h4>
+                <h4 class="lable">Not Attempted</h4>
+              </div>
+              <div class="result-overview">
+                <h4 class="digit">{{numCorrectAnswers}}</h4>
+                <h4 class="lable">Correct</h4>
+              </div>
+              <div class="result-overview">
+                <h4 class="digit">{{numIncorrectAnswers}}</h4>
+                <h4 class="lable">Incorrect</h4>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="flex">
+          <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
+            <span>{{quizService.questionState.active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
+            <mat-progress-bar class="audio-progress-bar" [color]="primary" [mode]="'determinate'"
+              [value]="progressbarValue">
+            </mat-progress-bar>
+          </div>
+          <div class="ml-auto pt-3">
+            <ng-container *ngIf="tabIndex === 0 ">
+              <button class="btn" mat-raised-button (click)="previousQuestion()">Back</button>
+              <button class="btn btn-active" [disabled]='disableNext' mat-raised-button
+                (click)="nextQuestion()">next</button>
+
+            </ng-container>
+            <ng-container *ngIf="tabIndex === 1">
+
+              <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
+              <!-- <button class="btn btn-lg btn-active" mat-raised-button>Show Answers</button> -->
+            </ng-container>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-container>
-
-  <div class="flex">
-    <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
-      <span>{{questionAnswerHash['qslideIndex'] + 1}}/{{quizService.questionState.slides.length}}</span>
-      <mat-progress-bar class="question-progress" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
-      </mat-progress-bar>
-    </div>
-    <div class="ml-auto pt-3">
-      <ng-container *ngIf="tabIndex === 0 ">
-        <button class="btn" mat-raised-button (click)="closePopup()">Restart</button>
-        <button [disabled]="(questionAnswerHash | json) === '{}'" class="btn btn-active" mat-raised-button
-          (click)="checkAnswer()">Submit</button>
-
-      </ng-container>
-      <ng-container *ngIf="tabIndex === 1">
-        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Quiz</button>
-      </ng-container>
-    </div>
-  </div>
-</div>

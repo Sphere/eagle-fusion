@@ -1,18 +1,20 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subject, Subscription } from 'rxjs'
-import { map, } from 'rxjs/operators'
+import { interval, Subscription } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
+import * as _ from 'lodash'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
   styleUrls: ['./assesment-modal.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+  // tslint:disable-next-line:use-component-view-encapsulation
+  encapsulation: ViewEncapsulation.None,
 })
 export class AssesmentModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
@@ -30,25 +32,18 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   progressbarValue = 0
   isCompleted = false
   fetchingResultsStatus: FetchStatus = 'none'
-  questionAnswerHash: any = {}
+  questionAnswerHash: { [questionId: string]: string[] } = {}
   timerSubscription: Subscription | null = null
   dialog: any
   tabActive = false
-  userAnswer: any
-  showAnswer = false
-  /*
-* to unsubscribe the observable
-*/
-  public unsubscribe = new Subject<void>()
+  disableNext = false;
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
-  ) {
-    this.questionAnswerHash['qslideIndex'] = 0
-  }
+  ) { }
 
   ngOnInit() {
     this.timeLeft = this.assesmentdata.questions.timeLimit
@@ -91,7 +86,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string, qindex: number) {
+  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
     if (
       this.questionAnswerHash[question.questionId] &&
       question.multiSelection
@@ -108,7 +103,6 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     } else {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
-    this.questionAnswerHash['qslideIndex'] = qindex
   }
 
   proceedToSubmit() {
@@ -150,7 +144,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         this.numUnanswered = res.blank
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = res.result
+        this.result = _.round(res.result)
         this.tabIndex = 1
         this.tabActive = true
         if (this.result >= this.passPercentage) {
@@ -271,35 +265,37 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       this.numCorrectAnswers -
       this.numIncorrectAnswers
   }
-  checkAnswer() {
-    const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-    this.userAnswer = {}
-    this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
-    this.tabIndex = 2
-  }
+
   nextQuestion() {
     this.progressbarValue += 100 / this.totalQuestion
+
     if (
-      this.questionAnswerHash['qslideIndex']
+      this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
+      this.disableNext = true
       this.proceedToSubmit()
+
       return
     }
-    const oldSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex']]
+    const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
-      const newSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex'] + 1]
+      this.quizService.questionState.active_slide_index += 1
+      const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
       })
     })
-    this.tabIndex = 0
+
   }
   previousQuestion() {
+    if (this.disableNext = true) {
+      this.disableNext = false
+    }
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
       return

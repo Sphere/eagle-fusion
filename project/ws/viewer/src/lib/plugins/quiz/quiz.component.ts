@@ -7,9 +7,10 @@ import {
   SimpleChanges,
   ViewChild, ViewChildren,
 } from '@angular/core'
+import { Location } from '@angular/common'
 import { MatDialog, MatSidenav } from '@angular/material'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
@@ -18,12 +19,13 @@ import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 import * as _ from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
+import { ViewerDataService } from '../../viewer-data.service'
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
@@ -84,12 +86,21 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   timerSubscription: Subscription | null = null
   viewState: NSQuiz.TQuizViewMode = 'initial'
   paramSubscription: Subscription | null = null
+  public dialogOverview: any
+  public dialogAssesment: any
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
     private viewerSvc: ViewerUtilService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public location: Location,
+    public viewerDataSvc: ViewerDataService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -99,7 +110,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openOverviewDialog() {
-    const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
+    this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
       width: '542px',
       panelClass: 'overview-modal',
       disableClose: true,
@@ -114,7 +125,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     })
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogOverview.afterClosed().subscribe((result: any) => {
       if (result) {
         // this.startQuiz()
         if (_.get(this.quizJson, 'isAssessment')) {
@@ -166,12 +177,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.telemetrySubscription) {
       this.telemetrySubscription.unsubscribe()
     }
+    this.unsubscribe.complete()
+
     this.startTime = 0
     this.timeLeft = 0
   }
 
   openAssesmentDialog() {
-    const dialogRef = this.dialog.open(AssesmentModalComponent, {
+    this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
@@ -185,7 +198,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       },
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogAssesment.afterClosed().subscribe((result: any) => {
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeBtnDialog()
@@ -230,11 +243,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     const dialogRef = this.dialog.open(AssesmentCloseModalComponent, {
       panelClass: 'assesment-close-modal',
     })
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'CLOSE') {
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
         dialogRef.close()
-      } else {
+        this.dialogOverview.close()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          return
+        })
+      } else if (result.event === 'NO') {
         this.openOverviewDialog()
       }
     })
