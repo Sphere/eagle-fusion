@@ -122,6 +122,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         noOfQuestions: this.quizJson.questions.length,
         progressStatus: this.progressStatus,
         isNqocnContent: this.isNqocnContent,
+        isAssessment: _.get(this.quizJson, 'isAssessment'),
+        subtitle: this.name
       },
     })
 

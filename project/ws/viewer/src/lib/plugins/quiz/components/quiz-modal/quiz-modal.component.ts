@@ -12,9 +12,11 @@ import { ValueService } from '@ws-widget/utils'
 @Component({
   selector: 'viewer-quiz-modal',
   templateUrl: './quiz-modal.component.html',
-  styleUrls: ['./quiz-modal.component.scss']
+  styleUrls: ['./quiz-modal.component.scss'],
+  // tslint:disable-next-line:use-component-view-encapsulation
+  encapsulation: ViewEncapsulation.None,
 })
-export class QuizModalComponent implements OnInit {
+export class QuizModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
@@ -40,21 +42,25 @@ export class QuizModalComponent implements OnInit {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
+
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
-  ) { }
+  ) {
+
+
+  }
 
   ngOnInit() {
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
-    this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     this.progressbarValue = this.totalQuestion
+    this.questionAnswerHash = { 'qslideIndex': 0 }
   }
 
   closePopup() {
@@ -163,7 +169,7 @@ export class QuizModalComponent implements OnInit {
   }
 
   calculateResults() {
-    const correctAnswers = this.assesmentdata.questions.map(
+    const correctAnswers = this.assesmentdata.questions.questions.map(
       (question: NSQuiz.IQuestion) => {
         return {
           questionType: question.questionType,

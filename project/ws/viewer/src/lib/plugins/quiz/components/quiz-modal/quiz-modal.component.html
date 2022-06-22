@@ -1,10 +1,11 @@
 <div class="assesment-container">
   <button type="button" class="close" (click)="closePopup()">&times;</button>
+  <h3 class="sub-title" *ngIf="!showAnswer && tabIndex !== 1"> {{assesmentdata.generalData.name}}</h3>
   <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </div>
   <!-- <div class="flex flex-row"> -->
-  <div class="flex  ml-auto timer" *ngIf="!showAnswer">
+  <div class="flex  ml-auto timer" *ngIf="!showAnswer && tabIndex !== 1">
     <!-- (isXSmall$ | async) !== true && -->
     <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
     <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
@@ -12,10 +13,10 @@
     </div>
   </div>
   <ng-container *ngIf="!assesmentdata.questions.isAssessment">
-    <div class="question-wrapper" *ngIf="tabIndex ===0">
-      <viewer-view-assesment-questions questionSlide
+    <div class="quiz-question-wrapper" *ngIf="tabIndex ===0">
+      <viewer-view-quiz-question questionSlide [isAssessment]="assesmentdata?.questions?.isAssessment"
         *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
-        [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event,i)"></viewer-view-assesment-questions>
+        [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event,i)"></viewer-view-quiz-question>
     </div>
   </ng-container>
   <ng-container *ngIf="tabIndex === 2">
@@ -49,10 +50,10 @@
     </div>
   </ng-container>
 
-  <div class="flex">
+  <div class="flex ">
     <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
       <span>{{questionAnswerHash['qslideIndex'] + 1}}/{{quizService.questionState.slides.length}}</span>
-      <mat-progress-bar class="question-progress" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
+      <mat-progress-bar class="quiz-progress-bar" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
       </mat-progress-bar>
     </div>
     <div class="ml-auto pt-3">
@@ -62,9 +63,14 @@
           (click)="checkAnswer()">Submit</button>
 
       </ng-container>
-      <ng-container *ngIf="tabIndex === 1">
-        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Quiz</button>
-      </ng-container>
     </div>
+  </div>
+  <div class="flex flex-col">
+    <ng-container *ngIf="tabIndex === 1">
+      <div class="text-center pt-5">
+        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Quiz</button>
+        <button class="btn btn-active" (click)="closePopup()" mat-raised-button>Done</button>
+      </div>
+    </ng-container>
   </div>
 </div>

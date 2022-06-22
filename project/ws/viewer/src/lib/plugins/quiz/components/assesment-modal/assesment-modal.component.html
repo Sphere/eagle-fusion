@@ -1,10 +1,8 @@
 <div class="assesment-container">
   <button type="button" class="close" (click)="closePopup()">&times;</button>
-  <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
-    <mat-icon>keyboard_arrow_left</mat-icon>
-  </div>
+
   <!-- <div class="flex flex-row"> -->
-  <div class="flex  ml-auto timer" *ngIf="!showAnswer">
+  <div *ngIf="tabIndex === 0 " class="flex  ml-auto timer">
     <!-- (isXSmall$ | async) !== true && -->
     <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
     <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
@@ -46,50 +44,30 @@
           </div>
         </div>
 
-        <ng-container>
-          <div class="flex flex-col items-center m-0 m-auto result-wrapper pt-5" *ngIf="tabActive">
-            <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
-              <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
-            </h1>
-            <h4 class="result-score-title text-center">Your score is:</h4>
-            <h1 class="result-score text-center">{{result}}<span>%</span></h1>
 
-            <div class="result-overview-container">
-              <div class="result-overview">
-                <h4 class="digit">{{numUnanswered}}</h4>
-                <h4 class="lable">Not Attempted</h4>
-              </div>
-              <div class="result-overview">
-                <h4 class="digit">{{numCorrectAnswers}}</h4>
-                <h4 class="lable">Correct</h4>
-              </div>
-              <div class="result-overview">
-                <h4 class="digit">{{numIncorrectAnswers}}</h4>
-                <h4 class="lable">Incorrect</h4>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-
-        <div class="flex">
-          <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
-            <span>{{quizService.questionState.active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
-            <mat-progress-bar class="audio-progress-bar" [color]="primary" [mode]="'determinate'"
-              [value]="progressbarValue">
-            </mat-progress-bar>
-          </div>
-          <div class="ml-auto pt-3">
-            <ng-container *ngIf="tabIndex === 0 ">
-              <button class="btn" mat-raised-button (click)="previousQuestion()">Back</button>
-              <button class="btn btn-active" [disabled]='disableNext' mat-raised-button
-                (click)="nextQuestion()">next</button>
-
-            </ng-container>
-            <ng-container *ngIf="tabIndex === 1">
-
-              <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
-              <!-- <button class="btn btn-lg btn-active" mat-raised-button>Show Answers</button> -->
-            </ng-container>
-          </div>
-        </div>
       </div>
+
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="flex">
+    <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
+      <span>{{quizService.questionState.active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
+      <mat-progress-bar class="audio-progress-bar" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
+      </mat-progress-bar>
+    </div>
+    <div class="ml-auto pt-3">
+      <ng-container *ngIf="tabIndex === 0 ">
+        <button class="btn" mat-raised-button (click)="previousQuestion()">Back</button>
+        <button class="btn btn-active" [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">next</button>
+
+      </ng-container>
+      <ng-container *ngIf="tabIndex === 1">
+
+        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
+        <!-- <button class="btn btn-lg btn-active" mat-raised-button>Show Answers</button> -->
+      </ng-container>
+    </div>
+
+  </div>
+</div>

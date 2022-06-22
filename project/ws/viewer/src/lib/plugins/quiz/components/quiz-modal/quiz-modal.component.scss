@@ -14,6 +14,16 @@
     }
   }
 }
+.sub-title {
+  margin-left: 37px !important;
+  font-family: 'Roboto' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 24px;
+  line-height: 24px !important;
+  letter-spacing: -0.02em !important;
+  color: #000000 !important;
+}
 .arrow-back {
   position: absolute;
   width: 5px;
@@ -52,9 +62,9 @@
   color: #8e8e8e !important;
 }
 
-.question-wrapper {
+.quiz-question-wrapper {
   padding: 25px;
-  height: 72vh;
+  height: auto;
   display: flex;
 
   @include breakpoint-xs {
@@ -88,21 +98,21 @@
 // ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
 //   background: #1C5D95 !important;
 // }
-.audio-progress-bar {
+.quiz-progress-bar {
   &.mat-progress-bar {
     width: 128.03px;
     height: 12.6px;
     border-radius: 3.97614px;
   }
   .mat-progress-bar .mat-progress-bar-fill::after {
-    background: #1C5D95 !important;
+    background: #1c5d95 !important;
   }
   .mat-progress-bar-fill::after {
-   background: #1C5D95 !important;
+    background: #1c5d95 !important;
   }
 
   .mat-progress-bar-buffer {
-    background: #E4E8EB !important;
+    background: #e4e8eb !important;
   }
 }
 .btn-lg {
@@ -116,7 +126,7 @@
 
 .timer {
   position: relative;
-  top: 30px;
+  bottom: 25px;
   background: #e7f2fa;
   border-radius: 16.5px;
   border-radius: 16.5px;
