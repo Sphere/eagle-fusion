@@ -22,7 +22,8 @@ import { ActivatedRoute } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
-
+import * as _ from 'lodash'
+import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
@@ -116,7 +117,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // this.startQuiz()
-        this.openQuizDialog()
+        if (_.get(this.quizJson, 'isAssessment')) {
+          this.openAssesmentDialog()
+        } else {
+          this.openQuizDialog()
+        }
+
       }
     })
   }
@@ -164,8 +170,37 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.timeLeft = 0
   }
 
-  openQuizDialog() {
+  openAssesmentDialog() {
     const dialogRef = this.dialog.open(AssesmentModalComponent, {
+      panelClass: 'assesment-modal',
+      disableClose: true,
+      data: {
+        questions: this.quizJson,
+        generalData: {
+          identifier: this.identifier,
+          artifactUrl: this.artifactUrl,
+          name: this.name,
+          collectionId: this.collectionId,
+        },
+
+      },
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.event === 'CLOSE') {
+          this.closeBtnDialog()
+        }
+
+        if (result.event === 'RETAKE_QUIZ') {
+          this.openOverviewDialog()
+        }
+      }
+    })
+  }
+
+  /*open quiz dialog*/
+  openQuizDialog() {
+    const dialogRef = this.dialog.open(QuizModalComponent, {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
