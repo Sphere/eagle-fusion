@@ -37,6 +37,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   dialog: any
   tabActive = false
   disableNext = false;
+  diablePrevious = true;
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -267,6 +268,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   }
 
   nextQuestion() {
+
     this.progressbarValue += 100 / this.totalQuestion
 
     if (
@@ -288,8 +290,13 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
+        if (this.quizService.questionState.active_slide_index > 0) {
+          this.diablePrevious = false
+        }
       })
     })
+
+
 
   }
   previousQuestion() {
@@ -311,6 +318,9 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
+        if (this.quizService.questionState.active_slide_index === 0) {
+          this.diablePrevious = true
+        }
       })
     })
   }
