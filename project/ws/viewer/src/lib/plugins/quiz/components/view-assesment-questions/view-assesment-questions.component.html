@@ -1,8 +1,34 @@
-<div *ngIf="!userAnswer">
+<div>
+  <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">
+  </h3>
+  <h3 *ngIf="question.questionType === 'fitb'" class="mat-h3" [innerHTML]="safeQuestion" class="quiz-question"></h3>
+
+  <div *ngIf="question.questionType === 'fitb'">
+
+    <div *ngFor="let option of question?.options; let i = index">
+      <div [ngClass]="{
+            'correct-option': viewState === 'answer' && option?.isCorrect
+          }" *ngIf="viewState === 'answer' && option?.isCorrect">
+        {{ option?.text }}
+      </div>
+      <div class="background-well padding-left-m padding-xs"
+        *ngIf="viewState === 'review' && option?.hint && !unTouchedBlank[i]" [ngClass]="{
+            'correct-option': viewState === 'review' && correctOption[i],
+            'incorrect-option': viewState === 'review' && !correctOption[i]
+          }">
+        <p class="margin-remove mat-body-2">
+          <ng-container i18n="explanation/hint message for blank label in fill-in-the-blanks">
+            Explanation for blank
+          </ng-container>
+          <ng-container> {{ i + 1 }} : </ng-container>
+        </p>
+        <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
+      </div>
+    </div>
+  </div>
   <ng-container *ngIf="question.questionType === 'mcq-sca'">
     <!-- text -->
-    <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">
-    </h3>
+
     <mat-radio-group *ngIf="question.questionType === 'mcq-sca'" class="quiz-radio-group">
       <div *ngFor="let option of question?.options">
         <mat-radio-button class="quiz-radio-button" [ngClass]="{
@@ -48,6 +74,7 @@
   </ng-container>
 
   <ng-container *ngIf="question.questionType === 'mcq-mca'">
+
     <mat-selection-list class="app-class">
       <div [ngClass]="{
             'correct-answer':

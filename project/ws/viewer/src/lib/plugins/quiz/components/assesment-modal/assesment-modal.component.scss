@@ -81,6 +81,10 @@
   }
 }
 
+.btn:disabled {
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
 // ::ng-deep mat-progress-bar .mat-progress-bar-buffer {
 //   background: #E4E8EB !important;
 // }
@@ -94,17 +98,20 @@
     height: 12.6px;
     border-radius: 3.97614px;
   }
+
   .mat-progress-bar .mat-progress-bar-fill::after {
-    background: #1C5D95 !important;
+    background: #1c5d95 !important;
   }
+
   .mat-progress-bar-fill::after {
-   background: #1C5D95 !important;
+    background: #1c5d95 !important;
   }
 
   .mat-progress-bar-buffer {
-    background: #E4E8EB !important;
+    background: #e4e8eb !important;
   }
 }
+
 .btn-lg {
   width: 155px !important;
 }
@@ -226,25 +233,25 @@
     }
 
     .digit {
-      font-weight: 400;
-      font-size: 40px;
+      font-weight: 400 !important;
+      font-size: 40px !important;
       color: #154976;
 
       @include breakpoint-xs {
-        font-weight: 400;
-        font-size: 25px;
+        font-weight: 400 !important;
+        font-size: 25px !important;
       }
     }
 
     .lable {
-      font-weight: 500;
-      font-size: 15px;
+      font-weight: 500 !important;
+      font-size: 15px !important;
       color: #154976;
       margin-top: 10px !important;
 
       @include breakpoint-xs {
-        font-weight: 500;
-        font-size: 10px;
+        font-weight: 500 !important;
+        font-size: 10px !important;
         margin-top: 0 !important;
       }
     }
