@@ -20,7 +20,7 @@
 }
 
 .sub-title {
-  padding-left: 38px !important;
+  // padding-left: 38px !important;
   font-family: 'Roboto' !important;
   font-style: normal !important;
   font-weight: 400 !important;
@@ -28,6 +28,16 @@
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
   color: #000000 !important;
+
+  @include breakpoint-xs {
+    width: calc(100% - 30px);
+  }
+}
+
+.sub-title-container {
+  display: flex;
+  align-items: center;
+
 }
 
 // .arrow-back {
@@ -142,6 +152,7 @@
   border-radius: 16.5px;
   border-radius: 16.5px;
   width: 101px;
+  height: 25px;
   justify-content: center;
 
   @include breakpoint-xs {
@@ -153,7 +164,7 @@
     background: #e7f2fa;
     border-radius: 16.5px;
     width: 101px;
-    place-self: end;
+    //place-self: end;
   }
 }
 
