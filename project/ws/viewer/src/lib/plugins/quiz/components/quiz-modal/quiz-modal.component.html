@@ -52,7 +52,7 @@
 
   <div class="flex ">
     <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
-      <span>{{questionAnswerHash['qslideIndex'] + 1}}/{{quizService.questionState.slides.length}}</span>
+      <span>{{active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
       <mat-progress-bar class="quiz-progress-bar" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
       </mat-progress-bar>
     </div>

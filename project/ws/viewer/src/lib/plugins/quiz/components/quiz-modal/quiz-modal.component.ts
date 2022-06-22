@@ -8,7 +8,7 @@ import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
-
+import * as _ from 'lodash'
 @Component({
   selector: 'viewer-quiz-modal',
   templateUrl: './quiz-modal.component.html',
@@ -42,7 +42,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-
+  public active_slide_index: number = 0
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -154,7 +154,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
         this.numUnanswered = res.blank
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = res.result
+        this.result = _.round(res.result)
         this.tabIndex = 1
         this.tabActive = true
         if (this.result >= this.passPercentage) {
@@ -282,6 +282,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     this.tabIndex = 2
   }
   nextQuestion() {
+    this.tabIndex = 0
     this.progressbarValue += 100 / this.totalQuestion
     if (
       this.questionAnswerHash['qslideIndex']
@@ -296,12 +297,14 @@ export class QuizModalComponent implements OnInit, OnDestroy {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
+      this.active_slide_index += 1
+      console.log(this.active_slide_index)
       const newSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex'] + 1]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
       })
     })
-    this.tabIndex = 0
+
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion

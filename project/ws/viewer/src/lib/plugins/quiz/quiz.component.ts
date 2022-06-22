@@ -23,6 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
+import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
 import * as _ from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
@@ -88,6 +89,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   paramSubscription: Subscription | null = null
   public dialogOverview: any
   public dialogAssesment: any
+  public dialogQuiz: any
   /*
 * to unsubscribe the observable
 */
@@ -215,7 +217,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   /*open quiz dialog*/
   openQuizDialog() {
-    const dialogRef = this.dialog.open(QuizModalComponent, {
+    this.dialogQuiz = this.dialog.open(QuizModalComponent, {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
@@ -229,15 +231,32 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       },
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogQuiz.afterClosed().subscribe((result: any) => {
       if (result) {
         if (result.event === 'CLOSE') {
-          this.closeBtnDialog()
+          this.closeQuizBtnDialog()
         }
 
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
         }
+      }
+    })
+  }
+  closeQuizBtnDialog() {
+    const dialogRef = this.dialog.open(CloseQuizModalComponent, {
+      panelClass: 'assesment-close-modal',
+    })
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
+        dialogRef.close()
+        this.dialogOverview.close()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          return
+        })
+      } else if (result.event === 'NO') {
+        this.openQuizDialog()
       }
     })
   }
@@ -257,7 +276,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.openOverviewDialog()
       }
     })
-
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {
