@@ -5,15 +5,20 @@
   display: flex;
   flex-direction: column;
 
-  .close {
+  .close-btn {
     place-self: end;
     font-weight: 400;
     font-size: 17px;
+    color: #000000 !important;
+    background: none;
+    border: none;
+
     @include breakpoint-xs {
       display: none;
     }
   }
 }
+
 .sub-title {
   margin-left: 37px !important;
   font-family: 'Roboto' !important;
@@ -23,14 +28,17 @@
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
   color: #000000 !important;
+  margin: 0 !important;
 }
-.arrow-back {
-  position: absolute;
-  width: 5px;
-  height: 10px;
-  left: 30px;
-  top: 48px;
-}
+
+// .arrow-back {
+//   position: absolute;
+//   width: 5px;
+//   height: 10px;
+//   left: 30px;
+//   top: 48px;
+// }
+
 ::ng-deep .mat-tab-header {
   border-bottom: none !important;
 }
@@ -74,7 +82,8 @@
 }
 
 .result-wrapper {
-  height: 72vh;
+  height: 70vh;
+  justify-content: center;
 }
 
 .btn {
@@ -104,9 +113,11 @@
     height: 12.6px;
     border-radius: 3.97614px;
   }
+
   .mat-progress-bar .mat-progress-bar-fill::after {
     background: #1c5d95 !important;
   }
+
   .mat-progress-bar-fill::after {
     background: #1c5d95 !important;
   }
@@ -115,6 +126,7 @@
     background: #e4e8eb !important;
   }
 }
+
 .btn-lg {
   width: 155px !important;
 }
@@ -125,21 +137,24 @@
 }
 
 .timer {
-  position: relative;
-  bottom: 25px;
+  // position: relative;
+  // bottom: 25px;
   background: #e7f2fa;
   border-radius: 16.5px;
   border-radius: 16.5px;
   width: 101px;
+  justify-content: center;
+
   @include breakpoint-xs {
-    position: relative;
-    left: 247px;
-    top: 5px;
+    // position: relative;
+    // left: 247px;
+    // top: 5px;
     margin-left: 0px !important;
     z-index: 9999;
     background: #e7f2fa;
     border-radius: 16.5px;
     width: 101px;
+    place-self: end;
   }
 }
 
@@ -171,8 +186,8 @@
 .result-title {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 400;
-  font-size: 40px;
+  font-weight: 400 !important;
+  font-size: 40px !important;
   line-height: 48px;
   letter-spacing: -0.02em;
   color: #000000;
@@ -182,7 +197,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500 !important;
-  font-size: 59px !important;
+  font-size: 66px !important;
   line-height: 58px;
   letter-spacing: -0.02em;
   color: #1c5d95;
@@ -205,7 +220,7 @@
 .result-overview-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 465px;
   margin-top: 20px;
 
@@ -226,9 +241,9 @@
     height: 130px;
 
     @include breakpoint-xs {
-      width: 90px;
-      height: 90px;
-      margin-right: 10px;
+      width: 80px;
+      height: 80px;
+      //margin-right: 10px;
     }
 
     h4 {
@@ -236,26 +251,29 @@
     }
 
     .digit {
-      font-weight: 400;
-      font-size: 40px;
+      font-weight: 400 !important;
+      font-size: 40px !important;
       color: #154976;
 
       @include breakpoint-xs {
-        font-weight: 400;
-        font-size: 25px;
+        font-weight: 400 !important;
+        font-size: 25px !important;
       }
     }
 
     .lable {
-      font-weight: 500;
-      font-size: 15px;
+      font-weight: 500 !important;
+      font-size: 15px !important;
       color: #154976;
       margin-top: 10px !important;
 
       @include breakpoint-xs {
-        font-weight: 500;
-        font-size: 10px;
+        font-weight: 500 !important;
+        font-size: 13px !important;
+        white-space: normal;
         margin-top: 0 !important;
+        line-height: 11px !important;
+        margin-top: 3px !important;
       }
     }
   }

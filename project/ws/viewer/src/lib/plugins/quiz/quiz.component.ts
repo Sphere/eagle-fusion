@@ -218,7 +218,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   /*open quiz dialog*/
   openQuizDialog() {
     this.dialogQuiz = this.dialog.open(QuizModalComponent, {
-      panelClass: 'assesment-modal',
+      panelClass: 'quiz-modal',
       disableClose: true,
       data: {
         questions: this.quizJson,
