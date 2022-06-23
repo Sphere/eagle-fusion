@@ -454,7 +454,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
-
             const mergeData = (collection: any) => {
               collection.map((child1: any, index: any, element: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
@@ -465,7 +464,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     child1.disabledNode = false
                   }
                 } else if (this.viewerDataSvc.getNode()) {
-                  element[index].disabledNode = true
+                  if (index === 0) {
+                    element[index].disabledNode = false
+                  } else {
+                    element[index].disabledNode = true
+                  }
+
                 }
                 if (child1.completionPercentage === 100) {
                   element[index + 1].disabledNode = false
@@ -473,22 +477,22 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                 if (child1['children']) {
                   child1['children'].map((child2: any, cindex: any, cheElement: any) => {
-                      // tslint:disable-next-line:max-line-length
+                    // tslint:disable-next-line:max-line-length
                     const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
                     if (foundContent2) {
                       child2.completionPercentage = foundContent2.completionPercentage
                       child2.completionStatus = foundContent2.status
 
-                        // tslint:disable-next-line:max-line-length
-                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
-
-                      if (element[index].children.length > 0) {
-                        element[index].children[0].disabledNode = false
-                        return
-                      }
-
+                      // tslint:disable-next-line:max-line-length
                     } else if (this.viewerDataSvc.getNode()) {
-                      cheElement[cindex].disabledNode = true
+                      if (cindex > 0 && cheElement && cheElement[cindex - 1].completionPercentage === 100) {
+                        cheElement[cindex].disabledNode = false
+                      } else {
+                        if (index === 0) {
+                          cheElement[0].disabledNode = false
+                        }
+                        cheElement[cindex].disabledNode = true
+                      }
                     }
                   })
                 }

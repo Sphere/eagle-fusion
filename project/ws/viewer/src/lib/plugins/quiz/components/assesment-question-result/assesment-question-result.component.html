@@ -1,0 +1,12 @@
+<div class="flex flex-col items-center m-0 m-auto  pt-5 main">
+  <div class="child">
+    <p class="congrats-title mb-4" *ngIf="isCorrect">Congratulations!:</p>
+    <p class="better-luck" *ngIf="!isCorrect">Better luck next time!</p>
+    <p class="correct-answer m-0">Correct Answer:</p>
+    <p class="answer-title m-0 p-0">{{answer}}</p>
+    <div class="mt-5">
+      <button class="btn next-btn btn-active" mat-raised-button (click)="emitResult()">Next</button>
+    </div>
+
+  </div>
+</div>
