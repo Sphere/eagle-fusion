@@ -209,6 +209,7 @@ iframe {
 }
 
 mat-toolbar {
+
   &.mat-toolbar-row,
   &.mat-toolbar-single-row {
     height: 80px;
@@ -499,7 +500,7 @@ h3.shepherd-title {
 //   overflow: hidden;
 // }
 
-.checkbox-sidenav > div.mat-drawer-inner-container {
+.checkbox-sidenav>div.mat-drawer-inner-container {
   height: auto !important;
   overflow: hidden !important;
 }
@@ -622,7 +623,7 @@ h3.shepherd-title {
   }
 }
 
-#fullScreenContainer > div {
+#fullScreenContainer>div {
   pointer-events: none;
   position: absolute;
   // top: 0;
@@ -631,13 +632,13 @@ h3.shepherd-title {
   align-items: center;
 }
 
-#fullScreenContainer > div > div.flex {
+#fullScreenContainer>div>div.flex {
   justify-content: space-between;
   position: relative;
   width: 100%;
 }
 
-#fullScreenContainer:hover > div {
+#fullScreenContainer:hover>div {
   opacity: 1;
 }
 
@@ -649,8 +650,8 @@ span.title {
   opacity: 1;
 }
 
-a.width-auto:hover + span,
-.next-button:hover > span {
+a.width-auto:hover+span,
+.next-button:hover>span {
   display: inline-block !important;
 }
 
@@ -833,7 +834,7 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   margin-left: -8px !important;
 }
 
-::ng-deep .pdf-fullscreen > button > span > img {
+::ng-deep .pdf-fullscreen>button>span>img {
   border: none !important;
   width: 18px !important;
 }
@@ -1050,6 +1051,19 @@ button.submit-btn[disabled] {
   }
 }
 
+.quiz-modal {
+  width: 70vw;
+  height: 95vh;
+  max-width: 100vw !important;
+  max-height: 100vh;
+
+  //overrides default height of dialog
+  @include breakpoint-xs {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
 .modal-border {
   border-radius: 34px;
 }
@@ -1062,6 +1076,7 @@ button.submit-btn[disabled] {
     height: 220px !important;
   }
 }
+
 .assesment-close-modal {
   width: 440px;
   height: auto;
