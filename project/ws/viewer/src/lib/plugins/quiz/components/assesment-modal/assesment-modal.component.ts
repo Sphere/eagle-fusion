@@ -53,7 +53,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
-    //this.progressbarValue = this.totalQuestion
+    // this.progressbarValue = this.totalQuestion
   }
 
   closePopup() {
@@ -298,7 +298,14 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         }
       })
     })
-
+    if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
+      this.updateQuestionType(true)
+    } else {
+      this.updateQuestionType(false)
+    }
+  }
+  updateQuestionType(status: any) {
+    this.quizService.updateMtf.next(status)
   }
   previousQuestion() {
     if (this.disableNext = true) {
@@ -324,6 +331,11 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         }
       })
     })
+    if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index - 1].questionType === 'mtf') {
+      this.updateQuestionType(true)
+    } else {
+      this.updateQuestionType(false)
+    }
   }
 
   ngOnDestroy() {

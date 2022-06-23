@@ -29,6 +29,7 @@
   letter-spacing: -0.02em !important;
   color: #000000 !important;
   padding-left: 25px;
+
   @include breakpoint-xs {
     width: calc(100% - 30px);
   }
@@ -80,13 +81,17 @@
 
 .quiz-question-wrapper {
   padding: 21px;
+  height: 71vh;
+  display: flex;
+  // max-height: 400px;
   overflow-y: auto;
-  height: auto;
-  max-height: 400px;
 
   @include breakpoint-xs {
     padding: 17px;
     margin-top: 20px;
+    // height: auto;
+    height: 65vh;
+    overflow: auto;
   }
 }
 
@@ -251,8 +256,8 @@
     height: 130px;
 
     @include breakpoint-xs {
-      width: 80px;
-      height: 80px;
+      width: 110px;
+      height: 110px;
       //margin-right: 10px;
     }
 
