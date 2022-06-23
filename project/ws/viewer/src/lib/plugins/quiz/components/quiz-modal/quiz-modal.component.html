@@ -41,7 +41,8 @@
 
   <ng-container *ngIf="tabIndex === 1">
     <div class="flex flex-col items-center m-0  result-wrapper pt-5" *ngIf="tabActive">
-      <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
+      <h1 class="result-title text-center"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted">
+          Pass</span>
         <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
       </h1>
       <h4 class="result-score-title text-center">Your score is:</h4>
@@ -52,11 +53,11 @@
           <h4 class="digit">{{numUnanswered}}</h4>
           <h4 class="lable">Not Attempted</h4>
         </div>
-        <div class="result-overview">
+        <div class="result-overview ml-2">
           <h4 class="digit">{{numCorrectAnswers}}</h4>
           <h4 class="lable">Correct</h4>
         </div>
-        <div class="result-overview">
+        <div class="result-overview ml-2">
           <h4 class="digit">{{numIncorrectAnswers}}</h4>
           <h4 class="lable">Incorrect</h4>
         </div>
