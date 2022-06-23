@@ -38,6 +38,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
   tabActive = false
   userAnswer: any
   showAnswer = false
+  disableSubmit = true
   /*
 * to unsubscribe the observable
 */
@@ -113,6 +114,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
     this.questionAnswerHash['qslideIndex'] = qindex
+    this.disableSubmit = false
   }
 
   proceedToSubmit() {
@@ -284,6 +286,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
   nextQuestion() {
 
     this.tabIndex = 0
+    this.disableSubmit = true
     this.progressbarValue += 100 / this.totalQuestion
     if (
       this.questionAnswerHash['qslideIndex']
