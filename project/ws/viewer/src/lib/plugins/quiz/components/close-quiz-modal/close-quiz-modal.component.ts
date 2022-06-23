@@ -8,12 +8,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 })
 export class CloseQuizModalComponent implements OnInit {
 
+  modelType: string = ''
   constructor(
     public dialogRef: MatDialogRef<CloseQuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
   ) { }
 
   ngOnInit() {
+    this.modelType = this.assesmentdata.type
   }
   closeNo() {
     this.dialogRef.close({ event: 'NO' })
@@ -21,5 +23,9 @@ export class CloseQuizModalComponent implements OnInit {
 
   closeYes() {
     this.dialogRef.close({ event: 'CLOSE' })
+  }
+
+  restart() {
+    this.dialogRef.close({ event: 'RETAKE_QUIZ' })
   }
 }
