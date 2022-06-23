@@ -249,8 +249,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       panelClass: 'assesment-close-modal',
       disableClose: true,
       data: {
-        type: event
-      }
+        type: event,
+      },
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {

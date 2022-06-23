@@ -88,17 +88,19 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
         }
       })
     }
-    this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe((res: any) => {
-      if (!_.isUndefined(res)) {
-        if (res) {
-          this.initJsPlump()
-        } else {
-          this.jsPlumbInstance.reset()
-          this.jsPlumbInstance.deleteEveryConnection()
+    this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      (res: any) => {
+        if (!_.isUndefined(res)) {
+          if (res) {
+            this.initJsPlump()
+          } else {
+            this.jsPlumbInstance.reset()
+            this.jsPlumbInstance.deleteEveryConnection()
+          }
         }
-      }
 
-    })
+      })
   }
 
   initJsPlump() {

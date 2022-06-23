@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 })
 export class CloseQuizModalComponent implements OnInit {
 
-  modelType: string = ''
+  modelType = ''
   constructor(
     public dialogRef: MatDialogRef<CloseQuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,

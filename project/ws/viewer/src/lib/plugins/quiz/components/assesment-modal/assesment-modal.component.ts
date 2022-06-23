@@ -53,7 +53,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
-    //this.progressbarValue = this.totalQuestion
+    // this.progressbarValue = this.totalQuestion
   }
 
   closePopup() {
