@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
-import { Observable } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 import * as _ from 'lodash'
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
@@ -14,7 +14,8 @@ const API_END_POINTS = {
 
 export class QuizService {
   questionState: any
-
+  public updateMtf = new BehaviorSubject<any>(undefined)
+  public updateMtf$ = this.updateMtf.asObservable()
   constructor(
     private http: HttpClient,
   ) {
