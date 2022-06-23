@@ -59,7 +59,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     this.startTime = Date.now()
     this.timer(this.timeLeft)
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
-    this.progressbarValue = this.totalQuestion
+    // this.progressbarValue = this.totalQuestion
     this.questionAnswerHash = {}
   }
 

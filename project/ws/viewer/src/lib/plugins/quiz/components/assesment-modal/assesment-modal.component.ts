@@ -38,6 +38,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   tabActive = false
   disableNext = false
   diablePrevious = true
+  assesmentActive = true
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -52,7 +53,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.timer(this.timeLeft)
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
-    this.progressbarValue = this.totalQuestion
+    //this.progressbarValue = this.totalQuestion
   }
 
   closePopup() {
@@ -82,6 +83,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
             }
             this.tabIndex = 1
             this.tabActive = true
+            this.assesmentActive = false
           }
         })
     }
@@ -148,6 +150,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         this.result = _.round(res.result)
         this.tabIndex = 1
         this.tabActive = true
+        this.assesmentActive = false
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
