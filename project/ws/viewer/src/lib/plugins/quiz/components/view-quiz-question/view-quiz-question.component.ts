@@ -6,7 +6,7 @@ import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 @Component({
   selector: 'viewer-view-quiz-question',
   templateUrl: './view-quiz-question.component.html',
-  styleUrls: ['./view-quiz-question.component.scss']
+  styleUrls: ['./view-quiz-question.component.scss'],
 })
 export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
 

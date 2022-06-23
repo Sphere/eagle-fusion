@@ -51,7 +51,9 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
     ViewQuizQuestionComponent,
     CloseQuizModalComponent,
   ],
-  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent, QuizModalComponent, CloseQuizModalComponent],
+  // tslint:disable-next-line:max-line-length
+  entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,
+    QuizModalComponent, CloseQuizModalComponent],
   imports: [
     CommonModule,
     PipeDurationTransformModule,

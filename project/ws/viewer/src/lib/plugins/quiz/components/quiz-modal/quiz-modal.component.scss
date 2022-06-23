@@ -28,7 +28,7 @@
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
   color: #000000 !important;
-
+  padding-left: 25px;
   @include breakpoint-xs {
     width: calc(100% - 30px);
   }
@@ -37,7 +37,6 @@
 .sub-title-container {
   display: flex;
   align-items: center;
-
 }
 
 // .arrow-back {
@@ -80,9 +79,10 @@
 }
 
 .quiz-question-wrapper {
-  padding: 25px;
+  padding: 21px;
+  overflow-y: auto;
   height: auto;
-  display: flex;
+  max-height: 400px;
 
   @include breakpoint-xs {
     padding: 17px;

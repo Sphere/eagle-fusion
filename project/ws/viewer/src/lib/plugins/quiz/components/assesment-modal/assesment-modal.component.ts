@@ -36,8 +36,8 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   timerSubscription: Subscription | null = null
   dialog: any
   tabActive = false
-  disableNext = false;
-  diablePrevious = true;
+  disableNext = false
+  diablePrevious = true
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -295,8 +295,6 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         }
       })
     })
-
-
 
   }
   previousQuestion() {

@@ -31,7 +31,9 @@
         [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event,i)"></viewer-view-quiz-question>
     </div>
   </ng-container>
+
   <ng-container *ngIf="tabIndex === 2">
+
     <viewer-assesment-question-result *ngIf="userAnswer" [answer]="userAnswer.answer" [isCorrect]="userAnswer.isCorrect"
       (resultEvent)="nextQuestion()">
     </viewer-assesment-question-result>
@@ -63,8 +65,8 @@
   </ng-container>
 
   <div class="flex ">
-    <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
-      <span>{{active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
+    <div *ngIf="tabIndex === 0" class="assesment-progress-bar pl-3">
+      <span>{{activeSlideIndex+1}}/{{quizService.questionState.slides.length}}</span>
       <mat-progress-bar class="quiz-progress-bar" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
       </mat-progress-bar>
     </div>

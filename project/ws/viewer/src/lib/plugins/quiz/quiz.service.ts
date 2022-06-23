@@ -78,7 +78,7 @@ export class QuizService {
     quiz: NSQuiz.IQuiz,
     questionAnswerHash: any,
   ) {
-    const userSelectedAnswer = quiz.questions[this.questionState.active_slide_index]
+    const userSelectedAnswer = quiz.questions[questionAnswerHash['qslideIndex']]
     userSelectedAnswer['isCorrect'] = false
     userSelectedAnswer.options.map(option => {
       if (option.isCorrect) {

@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
-import { map, } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -42,7 +42,8 @@ export class QuizModalComponent implements OnInit, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  public active_slide_index: number = 0
+  // tslint:disable-next-line: allow-leading-underscore
+  public activeSlideIndex = 0
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -50,7 +51,6 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
   ) {
-
 
   }
 
@@ -60,7 +60,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     this.timer(this.timeLeft)
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     this.progressbarValue = this.totalQuestion
-    this.questionAnswerHash = { 'qslideIndex': 0 }
+    this.questionAnswerHash = {}
   }
 
   closePopup() {
@@ -282,6 +282,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     this.tabIndex = 2
   }
   nextQuestion() {
+
     this.tabIndex = 0
     this.progressbarValue += 100 / this.totalQuestion
     if (
@@ -297,8 +298,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
-      this.active_slide_index += 1
-      console.log(this.active_slide_index)
+      this.activeSlideIndex += 1
       const newSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex'] + 1]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
