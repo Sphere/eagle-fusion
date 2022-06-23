@@ -84,11 +84,14 @@
   height: 71vh;
   display: flex;
   // max-height: 400px;
+  overflow-y: auto;
 
   @include breakpoint-xs {
     padding: 17px;
     margin-top: 20px;
-    height: auto;
+    // height: auto;
+    height: 65vh;
+    overflow: auto;
   }
 }
 

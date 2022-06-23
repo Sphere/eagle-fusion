@@ -234,18 +234,23 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.dialogQuiz.afterClosed().subscribe((result: any) => {
       if (result) {
         if (result.event === 'CLOSE') {
-          this.closeQuizBtnDialog()
+          this.closeQuizBtnDialog(result.event)
         }
 
         if (result.event === 'RETAKE_QUIZ') {
-          this.openOverviewDialog()
+          // this.openOverviewDialog(result.event)
+          this.closeQuizBtnDialog(result.event)
         }
       }
     })
   }
-  closeQuizBtnDialog() {
+  closeQuizBtnDialog(event: String) {
     const dialogRef = this.dialog.open(CloseQuizModalComponent, {
       panelClass: 'assesment-close-modal',
+      disableClose: true,
+      data: {
+        type: event
+      }
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
@@ -257,12 +262,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         })
       } else if (result.event === 'NO') {
         this.openQuizDialog()
+      } else if (result.event === 'RETAKE_QUIZ') {
+        this.openOverviewDialog()
       }
     })
   }
   closeBtnDialog() {
     const dialogRef = this.dialog.open(AssesmentCloseModalComponent, {
       panelClass: 'assesment-close-modal',
+      disableClose: true,
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
