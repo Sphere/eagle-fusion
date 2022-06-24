@@ -67,7 +67,9 @@ export class QuizModalComponent implements OnInit, OnDestroy {
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
   }
-
+  closeDone() {
+    this.dialogRef.close({ event: 'DONE' })
+  }
   retakeQuiz() {
     this.dialogRef.close({ event: 'RETAKE_QUIZ' })
   }

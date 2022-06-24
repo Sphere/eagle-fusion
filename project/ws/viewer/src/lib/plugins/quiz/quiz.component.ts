@@ -210,6 +210,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
+        } else if (result.event === 'DONE') {
+          this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+            if (_.isNull(data.nextResource)) {
+              this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            } else {
+              this.router.navigate([data.nextResource], { preserveQueryParams: true })
+            }
+            return
+          })
         }
       }
     })
@@ -240,6 +249,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
+        } else if (result.event === 'DONE') {
+          this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+            if (_.isNull(data.nextResource)) {
+              this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            } else {
+              this.router.navigate([data.nextResource], { preserveQueryParams: true })
+            }
+            return
+          })
         }
       }
     })
