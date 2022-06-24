@@ -208,14 +208,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -455,6 +455,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         data => {
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
+
               collection.map((child1: any, index: any, element: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
                 if (foundContent) {
@@ -472,10 +473,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                 }
                 if (child1.completionPercentage === 100) {
-                  element[index + 1].disabledNode = false
+                  if (element && element[index + 1]) {
+                    element[index + 1].disabledNode = false
+                  }
+
                 }
 
                 if (child1['children']) {
+
                   child1['children'].map((child2: any, cindex: any, cheElement: any) => {
                     // tslint:disable-next-line:max-line-length
                     const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
@@ -484,7 +489,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       child2.completionStatus = foundContent2.status
 
                       // tslint:disable-next-line:max-line-length
-                    } else if (this.viewerDataSvc.getNode()) {
+                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                      if (element[index].children.length > 0) {
+                        element[index].children[0].disabledNode = false
+                        return
+                      }
+                    }
+                    else if (this.viewerDataSvc.getNode()) {
                       if (cindex > 0 && cheElement && cheElement[cindex - 1].completionPercentage === 100) {
                         cheElement[cindex].disabledNode = false
                       } else {
@@ -494,6 +505,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                         cheElement[cindex].disabledNode = true
                       }
                     }
+
                   })
                 }
               })
