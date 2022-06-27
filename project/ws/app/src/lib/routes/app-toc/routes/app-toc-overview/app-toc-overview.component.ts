@@ -3,13 +3,15 @@ import { AppTocOverviewDirective } from './app-toc-overview.directive'
 import { AccessControlService } from '@ws/author'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { ActivatedRoute, Data, Router } from '@angular/router'
-import { NsContent } from '@ws-widget/collection'
+import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { Observable, Subscription, Subject } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import * as _ from 'lodash'
 import { takeUntil } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
+import { HttpErrorResponse } from '@angular/common/http'
+import { NsWidgetResolver } from '@ws-widget/resolver'
 // import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
@@ -31,8 +33,16 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
   objKeys = Object.keys
   public loadOverview = true
   licenseName: any
-  licenseurl: any = "kk"
+  currentLicenseData: any
   loadLicense = true
+  license = 'CC BY'
+  errorWidgetData: NsWidgetResolver.IRenderConfigWithTypedData<any> = {
+    widgetType: 'errorResolver',
+    widgetSubType: 'errorResolver',
+    widgetData: {
+      errorType: 'internalServer',
+    },
+  }
   /*
 * to unsubscribe the observable
 */
@@ -44,9 +54,9 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private authAccessControlSvc: AccessControlService,
     private router: Router,
     private configSvc: ConfigurationsService,
-    // private widgetContentSvc: WidgetContentService
+    private widgetContentSvc: WidgetContentService
   ) {
-    this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    // this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
   }
 
   // loadComponent() {
@@ -58,7 +68,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.loadComponent()
-    this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    // this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
     this.tocSharedSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
       if (item && !_.get(item, 'showComponent')) {
         this.loadOverview = item.showComponent
@@ -70,7 +80,10 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
       }
     })
 
-
+    this.route.queryParams.subscribe(params => {
+      this.licenseName = params['license'] || this.license
+      this.getLicenseConfig()
+    })
 
     if (!this.forPreview) {
       this.forPreview = window.location.href.includes('/author/')
@@ -84,19 +97,19 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
   }
 
   getLicenseConfig() {
-    this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
-    // this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
-    //   const licenseData = data
-    //   if (licenseData) {
-    //     this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
-    //     console.log(this.currentLicenseData)
-    //   }
-    // },
-    //   (err: HttpErrorResponse) => {
-    //     if (err.status === 404) {
-    //       this.getLicenseConfig()
-    //     }
-    //   })
+    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+      const licenseData = data
+      if (licenseData) {
+        this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
+        console.log(this.currentLicenseData)
+      }
+    },
+      (err: HttpErrorResponse) => {
+        if (err.status === 404) {
+          this.getLicenseConfig()
+        }
+      })
   }
 
   get showSubtitleOnBanner() {

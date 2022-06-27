@@ -14,18 +14,18 @@ import * as _ from 'lodash'
 })
 export class LicenseComponent implements OnInit {
   isXSmall = false
-  licenseName: any
-  currentLicenseData: any
+  // licenseName: any
+  // currentLicenseData: any
   loadLicense = true
-  @Input() licenseurl: any
+  @Input() currentLicenseData: any
   /*
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService,
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
     //private configSvc: ConfigurationsService,
-    private widgetContentSvc: WidgetContentService,
+    // private widgetContentSvc: WidgetContentService,
     private tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -34,12 +34,12 @@ export class LicenseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.licenseurl)
+    console.log(this.currentLicenseData)
 
-    this.route.queryParams.subscribe(params => {
-      this.licenseName = params['license']
-      this.getLicenseConfig()
-    })
+    // this.route.queryParams.subscribe(params => {
+    //   this.licenseName = params['license']
+    //   this.getLicenseConfig()
+    // })
     this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
       if (item && !_.get(item, 'showComponent')) {
         this.loadLicense = item.showComponent
@@ -50,18 +50,18 @@ export class LicenseComponent implements OnInit {
 
   }
 
-  getLicenseConfig() {
-    // const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
-    this.widgetContentSvc.fetchConfig(this.licenseurl).subscribe(data => {
-      const licenseData = data
-      if (licenseData) {
-        this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
-      }
-    },
-      (err: HttpErrorResponse) => {
-        if (err.status === 404) {
-          this.getLicenseConfig()
-        }
-      })
-  }
+  // getLicenseConfig() {
+  //   const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+  //   this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+  //     const licenseData = data
+  //     if (licenseData) {
+  //       this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
+  //     }
+  //   },
+  //     (err: HttpErrorResponse) => {
+  //       if (err.status === 404) {
+  //         this.getLicenseConfig()
+  //       }
+  //     })
+  // }
 }

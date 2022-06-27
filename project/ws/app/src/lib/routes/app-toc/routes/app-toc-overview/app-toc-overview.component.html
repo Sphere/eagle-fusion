@@ -239,6 +239,9 @@
       </div>
     </ng-template>
 
-    <ws-app-license [licenseurl]="licenseurl"></ws-app-license>
+    <ng-container *ngIf="currentLicenseData">
+      <ws-app-license [currentLicenseData]="currentLicenseData"></ws-app-license>
+    </ng-container>
+
   </div>
 </div>
