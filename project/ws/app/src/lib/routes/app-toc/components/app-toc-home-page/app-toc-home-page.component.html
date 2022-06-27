@@ -11,7 +11,8 @@
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
     <nav mat-tab-nav-bar id="mat-nav" class="toc-links mt-8 mat-app-background">
-      <a mat-tab-link [routerLink]="'./overview'" (click)="toggleComponent('overview')" id="overview-link"
+      <a mat-tab-link [routerLink]="'./overview'" (click)="toggleComponent('overview')"
+        [queryParams]="{license: license}" id="overview-link"
         [ngClass]="{'ws-mat-primary-text link-active':  routelinK === 'overview'}" wsAppRetainScroll i18n>Overview</a>
 
       <a mat-tab-link *ngIf="content?.resourceType === 'Certification'" [routerLink]="'./certification'"
@@ -27,8 +28,8 @@
 
 
       <!-- <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
-        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>License</a>
-       -->
+        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>License</a> -->
+
       <a mat-tab-link (click)="redirectTo()" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'discuss'}"
         id="license-link" wsAppRetainScroll i18n>Discuss</a>
 

@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils/src/public-api'
+import { ValueService } from '@ws-widget/utils/src/public-api'
 import { AppTocService } from '../../services/app-toc.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
@@ -17,18 +17,24 @@ export class LicenseComponent implements OnInit {
   licenseName: any
   currentLicenseData: any
   loadLicense = true
+  @Input() licenseurl: any
   /*
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  constructor(private valueSvc: ValueService, private route: ActivatedRoute,
-              private configSvc: ConfigurationsService, private widgetContentSvc: WidgetContentService, private tocSvc: AppTocService) {
+  constructor(private valueSvc: ValueService,
+    private route: ActivatedRoute,
+    //private configSvc: ConfigurationsService,
+    private widgetContentSvc: WidgetContentService,
+    private tocSvc: AppTocService
+  ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })
   }
 
   ngOnInit() {
+    console.log(this.licenseurl)
 
     this.route.queryParams.subscribe(params => {
       this.licenseName = params['license']
@@ -45,14 +51,14 @@ export class LicenseComponent implements OnInit {
   }
 
   getLicenseConfig() {
-    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
-    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+    // const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(this.licenseurl).subscribe(data => {
       const licenseData = data
       if (licenseData) {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }
