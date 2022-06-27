@@ -18,9 +18,21 @@
 
 .quiz-question {
   overflow-x: auto;
-  margin: 10px 0 0 0 !important;
+  margin-left: 34px !important;
 }
-
+.icon-q {
+  position: relative;
+  top: 41px;
+  left: 12px;
+  font-family: 'Roboto' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  line-height: 24px !important;
+  /* or 120% */
+  letter-spacing: -0.02em !important;
+  color: #1c5d95 !important;
+}
 correct-option {
   color: #357a38 !important;
 }

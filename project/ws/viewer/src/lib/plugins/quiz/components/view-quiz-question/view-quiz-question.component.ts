@@ -1,19 +1,17 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
-import { QuizService } from '../../quiz.service'
-import * as _ from 'lodash'
-import { takeUntil } from 'rxjs/operators'
-import { Subject } from 'rxjs'
-@Component({
-  selector: 'viewer-view-assesment-questions',
-  templateUrl: './view-assesment-questions.component.html',
-  styleUrls: ['./view-assesment-questions.component.scss'],
-})
-export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() artifactUrl = ''
 
+@Component({
+  selector: 'viewer-view-quiz-question',
+  templateUrl: './view-quiz-question.component.html',
+  styleUrls: ['./view-quiz-question.component.scss'],
+})
+export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
+
+  @Input() artifactUrl = ''
+  @Input() isAssessment: any
   @Input() viewState = 'initial'
   @Input() question: NSQuiz.IQuestion = {
     multiSelection: false,
@@ -37,11 +35,9 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   unTouchedBlank: boolean[] = []
   matchHintDisplay: NSQuiz.IOption[] = []
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
-  public unsubscribe = new Subject<void>()
   constructor(
     private domSanitizer: DomSanitizer,
-    private elementRef: ElementRef,
-    public quizService: QuizService) {
+    private elementRef: ElementRef) {
 
   }
 
@@ -88,22 +84,8 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
         }
       })
     }
-    this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
-      // tslint:disable-next-line:no-shadowed-variable
-      (res: any) => {
-        if (!_.isUndefined(res)) {
-          if (res) {
-            this.initJsPlump()
-          } else {
-            this.jsPlumbInstance.reset()
-            this.jsPlumbInstance.deleteEveryConnection()
-          }
-        }
-
-      })
   }
-
-  initJsPlump() {
+  ngAfterViewInit() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance = jsPlumb.getInstance({
         DragOptions: {
@@ -135,55 +117,34 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
       const answerSelector = `.answer${this.question.questionId}`
       const questions = this.jsPlumbInstance.getSelector(questionSelector)
       const answers = this.jsPlumbInstance.getSelector(answerSelector)
-      if (answers.length > 0) {
-        this.jsPlumbInstance.batch(() => {
-          this.jsPlumbInstance.makeSource((questions as unknown as string), {
-            maxConnections: 1,
-            connector: connectorType,
-            overlay: 'Arrow',
-            endpoint: [
-              'Dot',
-              {
-                radius: 3,
-              },
-            ],
-            anchor: 'Right',
-          })
-          this.jsPlumbInstance.makeTarget(answers as unknown as string, {
-            maxConnections: 1,
-            dropOptions: {
-              hoverClass: 'hover',
+      this.jsPlumbInstance.batch(() => {
+        this.jsPlumbInstance.makeSource((questions as unknown as string), {
+          maxConnections: 1,
+          connector: connectorType,
+          overlay: 'Arrow',
+          endpoint: [
+            'Dot',
+            {
+              radius: 3,
             },
-            anchor: 'Left',
-            endpoint: [
-              'Dot',
-              {
-                radius: 3,
-              },
-            ],
-          })
+          ],
+          anchor: 'Right',
         })
-      }
-
+        this.jsPlumbInstance.makeTarget(answers as unknown as string, {
+          maxConnections: 1,
+          dropOptions: {
+            hoverClass: 'hover',
+          },
+          anchor: 'Left',
+          endpoint: [
+            'Dot',
+            {
+              radius: 3,
+            },
+          ],
+        })
+      })
     } else if (this.question.questionType === 'fitb') {
-      for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
-        this.elementRef.nativeElement
-          .querySelector(`#${this.question.questionId}${i}`)
-          .addEventListener('change', this.onChange.bind(this, this.question.questionId + i))
-      }
-    }
-  }
-  ngAfterViewInit() {
-    this.jsPlumbInstance = jsPlumb.getInstance({
-      DragOptions: {
-        cursor: 'pointer',
-      },
-      PaintStyle: {
-        stroke: 'rgba(0,0,0,0.5)',
-        strokeWidth: 3,
-      },
-    })
-    if (this.question.questionType === 'fitb') {
       for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
         this.elementRef.nativeElement
           .querySelector(`#${this.question.questionId}${i}`)
@@ -298,8 +259,6 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   }
 
   reset() {
-    this.resetColor()
-    this.resetMtf()
     if (this.question.questionType === 'fitb') {
       this.resetBlankBorder()
     } else if (this.question.questionType === 'mtf') {
@@ -309,7 +268,6 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   }
 
   resetMtf() {
-    this.jsPlumbInstance.deleteEveryConnection()
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.deleteEveryConnection()
     }
@@ -410,8 +368,5 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
         .setAttribute('style', 'border-style: none none solid none; border-width: 1px; padding: 8px 12px;')
     }
   }
-  ngOnDestroy() {
-    this.unsubscribe.next()
-    this.unsubscribe.complete()
-  }
+
 }

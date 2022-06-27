@@ -5,22 +5,49 @@
   display: flex;
   flex-direction: column;
 
-  .close {
+  .close-btn {
     place-self: end;
     font-weight: 400;
     font-size: 17px;
+    color: #000000 !important;
+    background: none;
+    border: none;
+
     @include breakpoint-xs {
       display: none;
     }
   }
 }
-.arrow-back {
-  position: absolute;
-  width: 5px;
-  height: 10px;
-  left: 30px;
-  top: 48px;
+
+.sub-title {
+  // padding-left: 38px !important;
+  font-family: 'Roboto' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 24px;
+  line-height: 24px !important;
+  letter-spacing: -0.02em !important;
+  color: #000000 !important;
+  padding-left: 25px;
+
+  @include breakpoint-xs {
+    width: calc(100% - 30px);
+  }
 }
+
+.sub-title-container {
+  display: flex;
+  align-items: center;
+}
+
+// .arrow-back {
+//   position: absolute;
+//   width: 5px;
+//   height: 10px;
+//   left: 30px;
+//   top: 48px;
+// }
+
 ::ng-deep .mat-tab-header {
   border-bottom: none !important;
 }
@@ -52,19 +79,25 @@
   color: #8e8e8e !important;
 }
 
-.question-wrapper {
-  padding: 25px;
-  height: 72vh;
+.quiz-question-wrapper {
+  padding: 21px;
+  height: 71vh;
   display: flex;
+  // max-height: 400px;
+  overflow-y: auto;
 
   @include breakpoint-xs {
     padding: 17px;
     margin-top: 20px;
+    // height: auto;
+    height: 65vh;
+    overflow: auto;
   }
 }
 
 .result-wrapper {
-  height: 72vh;
+  height: 70vh;
+  justify-content: center;
 }
 
 .btn {
@@ -81,10 +114,6 @@
   }
 }
 
-.btn:disabled {
-  border: 1px solid rgba(0, 0, 0, 0.12) !important;
-}
-
 // ::ng-deep mat-progress-bar .mat-progress-bar-buffer {
 //   background: #E4E8EB !important;
 // }
@@ -92,7 +121,7 @@
 // ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
 //   background: #1C5D95 !important;
 // }
-.audio-progress-bar {
+.quiz-progress-bar {
   &.mat-progress-bar {
     width: 128.03px;
     height: 12.6px;
@@ -122,21 +151,25 @@
 }
 
 .timer {
-  position: relative;
-  top: 30px;
+  // position: relative;
+  // bottom: 25px;
   background: #e7f2fa;
   border-radius: 16.5px;
   border-radius: 16.5px;
   width: 101px;
+  height: 25px;
+  justify-content: center;
+
   @include breakpoint-xs {
-    position: relative;
-    left: 247px;
-    top: 5px;
+    // position: relative;
+    // left: 247px;
+    // top: 5px;
     margin-left: 0px !important;
     z-index: 9999;
     background: #e7f2fa;
     border-radius: 16.5px;
     width: 101px;
+    //place-self: end;
   }
 }
 
@@ -168,8 +201,8 @@
 .result-title {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 400;
-  font-size: 40px;
+  font-weight: 400 !important;
+  font-size: 40px !important;
   line-height: 48px;
   letter-spacing: -0.02em;
   color: #000000;
@@ -179,7 +212,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500 !important;
-  font-size: 59px !important;
+  font-size: 66px !important;
   line-height: 58px;
   letter-spacing: -0.02em;
   color: #1c5d95;
@@ -202,7 +235,7 @@
 .result-overview-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 465px;
   margin-top: 20px;
 
@@ -223,9 +256,9 @@
     height: 130px;
 
     @include breakpoint-xs {
-      width: 90px;
-      height: 90px;
-      margin-right: 10px;
+      width: 110px;
+      height: 110px;
+      //margin-right: 10px;
     }
 
     h4 {
@@ -251,8 +284,11 @@
 
       @include breakpoint-xs {
         font-weight: 500 !important;
-        font-size: 10px !important;
+        font-size: 13px !important;
+        white-space: normal;
         margin-top: 0 !important;
+        line-height: 11px !important;
+        margin-top: 3px !important;
       }
     }
   }

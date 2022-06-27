@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subscription } from 'rxjs'
+import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
@@ -10,13 +10,13 @@ declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
 @Component({
-  selector: 'viewer-assesment-modal',
-  templateUrl: './assesment-modal.component.html',
-  styleUrls: ['./assesment-modal.component.scss'],
+  selector: 'viewer-quiz-modal',
+  templateUrl: './quiz-modal.component.html',
+  styleUrls: ['./quiz-modal.component.scss'],
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class AssesmentModalComponent implements OnInit, OnDestroy {
+export class QuizModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
@@ -32,37 +32,44 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   progressbarValue = 0
   isCompleted = false
   fetchingResultsStatus: FetchStatus = 'none'
-  questionAnswerHash: { [questionId: string]: string[] } = {}
+  questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
   dialog: any
   tabActive = false
-  disableNext = false
-  diablePrevious = true
-  assesmentActive = true
+  userAnswer: any
+  showAnswer = false
+  disableSubmit = true
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
+  // tslint:disable-next-line: allow-leading-underscore
+  public activeSlideIndex = 0
   constructor(
-    public dialogRef: MatDialogRef<AssesmentModalComponent>,
+    public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
-    this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
+    this.questionAnswerHash = {}
   }
 
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
-    if (this.tabActive) {
-      this.dialogRef.close({ event: 'DONE' })
-    }
   }
-
+  closeDone() {
+    this.dialogRef.close({ event: 'DONE' })
+  }
   retakeQuiz() {
     this.dialogRef.close({ event: 'RETAKE_QUIZ' })
   }
@@ -86,13 +93,12 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
             }
             this.tabIndex = 1
             this.tabActive = true
-            this.assesmentActive = false
           }
         })
     }
   }
 
-  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
+  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string, qindex: number) {
     if (
       this.questionAnswerHash[question.questionId] &&
       question.multiSelection
@@ -109,6 +115,8 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     } else {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
+    this.questionAnswerHash['qslideIndex'] = qindex
+    this.disableSubmit = false
   }
 
   proceedToSubmit() {
@@ -153,7 +161,6 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         this.result = _.round(res.result)
         this.tabIndex = 1
         this.tabActive = true
-        this.assesmentActive = false
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
@@ -166,7 +173,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   }
 
   calculateResults() {
-    const correctAnswers = this.assesmentdata.questions.map(
+    const correctAnswers = this.assesmentdata.questions.questions.map(
       (question: NSQuiz.IQuestion) => {
         return {
           questionType: question.questionType,
@@ -272,48 +279,39 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       this.numCorrectAnswers -
       this.numIncorrectAnswers
   }
-
+  checkAnswer() {
+    const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+    this.userAnswer = {}
+    this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
+    this.tabIndex = 2
+  }
   nextQuestion() {
 
+    this.tabIndex = 0
+    this.disableSubmit = true
     this.progressbarValue += 100 / this.totalQuestion
-
     if (
-      this.quizService.questionState.active_slide_index
+      this.questionAnswerHash['qslideIndex']
       === (this.quizService.questionState.slides.length - 1)) {
-      this.disableNext = true
       this.proceedToSubmit()
-
       return
     }
-    const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+    const oldSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex']]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
-      this.quizService.questionState.active_slide_index += 1
-      const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
+      this.activeSlideIndex += 1
+      const newSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex'] + 1]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
-        if (this.quizService.questionState.active_slide_index > 0) {
-          this.diablePrevious = false
-        }
       })
     })
-    if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
-      this.updateQuestionType(true)
-    } else {
-      this.updateQuestionType(false)
-    }
-  }
-  updateQuestionType(status: any) {
-    this.quizService.updateMtf.next(status)
+
   }
   previousQuestion() {
-    if (this.disableNext = true) {
-      this.disableNext = false
-    }
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
       return
@@ -329,16 +327,8 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
       $(newSlide).fadeIn('fast', () => {
         $(newSlide).show()
-        if (this.quizService.questionState.active_slide_index === 0) {
-          this.diablePrevious = true
-        }
       })
     })
-    if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index - 1].questionType === 'mtf') {
-      this.updateQuestionType(true)
-    } else {
-      this.updateQuestionType(false)
-    }
   }
 
   ngOnDestroy() {

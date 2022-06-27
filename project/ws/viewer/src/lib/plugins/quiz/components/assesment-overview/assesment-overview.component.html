@@ -1,11 +1,11 @@
 <div class="overview-container">
 
   <div class="header1">
-    Assessment
+    {{assesmentdata.isAssessment ? 'Assessment' : 'Quiz'}}
   </div>
-  <!-- <div class="label1">
-    Subtitle goes here-long text
-  </div> -->
+  <div class="label1 pt-1">
+    {{assesmentdata.subtitle}}
+  </div>
   <div class="row">
     <div class=" m-2 p-2 ellips">
       <h4 class="label2">{{

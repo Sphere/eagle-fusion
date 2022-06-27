@@ -7,9 +7,10 @@ import {
   SimpleChanges,
   ViewChild, ViewChildren,
 } from '@angular/core'
+import { Location } from '@angular/common'
 import { MatDialog, MatSidenav } from '@angular/material'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
@@ -18,11 +19,14 @@ import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
-
+import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
+import * as _ from 'lodash'
+import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
+import { ViewerDataService } from '../../viewer-data.service'
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
@@ -83,12 +87,22 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   timerSubscription: Subscription | null = null
   viewState: NSQuiz.TQuizViewMode = 'initial'
   paramSubscription: Subscription | null = null
+  public dialogOverview: any
+  public dialogAssesment: any
+  public dialogQuiz: any
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
     private viewerSvc: ViewerUtilService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public location: Location,
+    public viewerDataSvc: ViewerDataService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -98,7 +112,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openOverviewDialog() {
-    const dialogRef = this.dialog.open(AssesmentOverviewComponent, {
+    this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
       width: '542px',
       panelClass: 'overview-modal',
       disableClose: true,
@@ -110,13 +124,20 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         noOfQuestions: this.quizJson.questions.length,
         progressStatus: this.progressStatus,
         isNqocnContent: this.isNqocnContent,
+        isAssessment: _.get(this.quizJson, 'isAssessment'),
+        subtitle: this.name,
       },
     })
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogOverview.afterClosed().subscribe((result: any) => {
       if (result) {
         // this.startQuiz()
-        this.openQuizDialog()
+        if (_.get(this.quizJson, 'isAssessment')) {
+          this.openAssesmentDialog()
+        } else {
+          this.openQuizDialog()
+        }
+
       }
     })
   }
@@ -160,12 +181,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.telemetrySubscription) {
       this.telemetrySubscription.unsubscribe()
     }
+    this.unsubscribe.complete()
+
     this.startTime = 0
     this.timeLeft = 0
   }
 
-  openQuizDialog() {
-    const dialogRef = this.dialog.open(AssesmentModalComponent, {
+  openAssesmentDialog() {
+    this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
       panelClass: 'assesment-modal',
       disableClose: true,
       data: {
@@ -179,7 +202,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       },
     })
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogAssesment.afterClosed().subscribe((result: any) => {
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeBtnDialog()
@@ -187,21 +210,98 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
+        } else if (result.event === 'DONE') {
+          this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+            if (_.isNull(data.nextResource)) {
+              this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            } else {
+              this.router.navigate([data.nextResource], { preserveQueryParams: true })
+            }
+            return
+          })
         }
+      }
+    })
+  }
+
+  /*open quiz dialog*/
+  openQuizDialog() {
+    this.dialogQuiz = this.dialog.open(QuizModalComponent, {
+      panelClass: 'quiz-modal',
+      disableClose: true,
+      data: {
+        questions: this.quizJson,
+        generalData: {
+          identifier: this.identifier,
+          artifactUrl: this.artifactUrl,
+          name: this.name,
+          collectionId: this.collectionId,
+        },
+
+      },
+    })
+    this.dialogQuiz.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (result.event === 'CLOSE') {
+          this.closeQuizBtnDialog(result.event)
+        }
+
+        if (result.event === 'RETAKE_QUIZ') {
+          // this.openOverviewDialog(result.event)
+          this.closeQuizBtnDialog(result.event)
+        } else if (result.event === 'DONE') {
+          this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+            if (_.isNull(data.nextResource)) {
+              this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            } else {
+              this.router.navigate([data.nextResource], { preserveQueryParams: true })
+            }
+            return
+          })
+        }
+      }
+    })
+  }
+  closeQuizBtnDialog(event: String) {
+    const dialogRef = this.dialog.open(CloseQuizModalComponent, {
+      panelClass: 'assesment-close-modal',
+      disableClose: true,
+      data: {
+        type: event,
+      },
+    })
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
+        dialogRef.close()
+        this.dialogOverview.close()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          return
+        })
+      } else if (result.event === 'NO') {
+        this.openQuizDialog()
+      } else if (result.event === 'RETAKE_QUIZ') {
+        this.openOverviewDialog()
       }
     })
   }
   closeBtnDialog() {
     const dialogRef = this.dialog.open(AssesmentCloseModalComponent, {
-      panelClass: 'close-modal',
+      panelClass: 'assesment-close-modal',
+      disableClose: true,
     })
-
-    dialogRef.afterClosed().subscribe(() => {
-
-      this.openOverviewDialog()
-
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
+        dialogRef.close()
+        this.dialogOverview.close()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          return
+        })
+      } else if (result.event === 'NO') {
+        this.openOverviewDialog()
+      }
     })
-
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {
