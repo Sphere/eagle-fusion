@@ -158,7 +158,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = _.round(res.result)
-        // this.tabIndex = 1
+        this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
         if (this.result >= this.passPercentage) {
@@ -284,12 +284,10 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   nextQuestion() {
 
     this.progressbarValue += 100 / this.totalQuestion
-    console.log(this.quizService.questionState.active_slide_index)
     if (
       this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
       this.disableNext = true
-      this.tabIndex = 1
       this.proceedToSubmit()
 
       return
