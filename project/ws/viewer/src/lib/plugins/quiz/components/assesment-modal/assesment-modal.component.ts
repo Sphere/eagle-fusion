@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -45,6 +45,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -115,6 +116,12 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.submitQuiz()
   }
 
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
+  }
+
   submitQuiz() {
     this.ngOnDestroy()
     if (!this.assesmentdata.questions.isAssessment) {
@@ -159,6 +166,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         }
       },
       (_error: any) => {
+        this.openSnackbar('Something went wrong! Unable to submit.')
         this.fetchingResultsStatus = 'error'
       },
     )
