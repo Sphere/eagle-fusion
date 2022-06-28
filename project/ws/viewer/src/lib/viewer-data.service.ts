@@ -8,6 +8,8 @@ export interface IViewerTocChangeEvent {
   prevResource: string | null
   previousTitle: string | null
   nextResTitle: string | null
+  currentCompletionPercentage: number | null
+  prevCompletionPercentage: number | null
 }
 export interface IViewerResourceOptions {
   page?: {
@@ -69,8 +71,8 @@ export class ViewerDataService {
     }
     this.changedSubject.next()
   }
-  updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null }:
-    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null }) {
+  updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentCompletionPercentage, prevCompletionPercentage }:
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentCompletionPercentage: number | null, prevCompletionPercentage: number | null }) {
     this.tocChangeSubject.next(
       {
         tocAvailable: isValid,
@@ -78,6 +80,8 @@ export class ViewerDataService {
         prevResource: prev,
         previousTitle: prevTitle,
         nextResTitle: nextTitle,
+        currentCompletionPercentage: currentCompletionPercentage,
+        prevCompletionPercentage: prevCompletionPercentage
       },
     )
   }

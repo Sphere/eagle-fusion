@@ -33,6 +33,7 @@ export class PdfComponent implements OnInit {
   prevResourceUrl: string | null = null
   nextResourceUrl: string | null = null
   viewerDataServiceSubscription: any
+  currentCompletionPercentage: number | null = null
   collectionType: any
   prevTitle: string | null | undefined
   nextTitle: string | null | undefined
@@ -41,7 +42,7 @@ export class PdfComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+    private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -57,13 +58,22 @@ export class PdfComponent implements OnInit {
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+      console.log(data)
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
+      this.currentCompletionPercentage = data.currentCompletionPercentage
     })
 
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
+    this.isProgressCheck()
+  }
+  isProgressCheck(): boolean {
+    if (typeof this.currentCompletionPercentage === 'undefined' || this.currentCompletionPercentage !== 100) {
+      return false
+    }
+    return true
   }
 }

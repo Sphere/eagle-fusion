@@ -1,7 +1,7 @@
 import { AccessControlService } from '@ws/author'
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
-import { ActivatedRoute, Data , Router } from '@angular/router'
+import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { Observable, Subscription } from 'rxjs'
@@ -163,7 +163,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     }
   }
   goToProfile(id: string) {
-      this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
+    this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
   }
 
 }

@@ -263,13 +263,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   private processCurrentResourceChange() {
     if (this.collection && this.resourceId) {
-      const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
-      const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
-      const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
-      const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
-      const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-      // tslint:disable-next-line:object-shorthand-properties-first
-      this.viewerDataSvc.updateNextPrevResource({ isValid: Boolean(this.collection), prev, prevTitle, nextTitle, next })
       this.processCollectionForTree()
       this.expandThePath()
       // this.getContentProgressHash()
@@ -491,27 +484,36 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       // tslint:disable-next-line:max-line-length
                     } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
                       if (element[index].children.length > 0) {
-                        element[index].children[0].disabledNode = false
+                        if (cindex === 0) {
+                          element[index].children[cindex].disabledNode = false
+                        } else {
+                          if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                            element[index].children[cindex].disabledNode = false
+                          } else {
+                            element[index].children[cindex].disabledNode = true
+                          }
+
+                        }
                         return
                       }
                     }
                     else if (this.viewerDataSvc.getNode()) {
                       if (cindex > 0 && cheElement && cheElement[cindex - 1].completionPercentage === 100) {
                         cheElement[cindex].disabledNode = false
+                      } else if (index === 0) {
+                        cheElement[0].disabledNode = false
                       } else {
-                        if (index === 0) {
-                          cheElement[0].disabledNode = false
-                        }
                         cheElement[cindex].disabledNode = true
                       }
                     }
-
                   })
                 }
               })
             }
             mergeData(this.collection.children)
           }
+          this.updateResourceChange()
         },
         (error: any) => {
           // tslint:disable-next-line:no-console
@@ -526,11 +528,23 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
+
           })
       }
     }
   }
-
+  updateResourceChange() {
+    const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
+    const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
+    const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
+    const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
+    const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
+    const currentCompletionPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
+    const prevCompletionPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
+    console.log(this.queue)
+    // tslint:disable-next-line:object-shorthand-properties-first
+    this.viewerDataSvc.updateNextPrevResource({ isValid: Boolean(this.collection), prev, prevTitle, nextTitle, next, currentCompletionPercentage, prevCompletionPercentage })
+  }
   resourceContentTypeFunct(type: any) {
     if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
       this.resourceContentType = 'Lecture'
