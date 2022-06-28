@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -51,6 +51,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
+    private snackBar: MatSnackBar,
   ) {
 
   }
@@ -123,6 +124,12 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     this.submitQuiz()
   }
 
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
+  }
+
   submitQuiz() {
     this.ngOnDestroy()
     if (!this.assesmentdata.questions.isAssessment) {
@@ -166,6 +173,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
         }
       },
       (_error: any) => {
+        this.openSnackbar('Something went wrong! Unable to submit.')
         this.fetchingResultsStatus = 'error'
       },
     )
@@ -287,8 +295,6 @@ export class QuizModalComponent implements OnInit, OnDestroy {
   }
   nextQuestion() {
 
-    this.tabIndex = 0
-    this.disableSubmit = true
     this.progressbarValue += 100 / this.totalQuestion
     if (
       this.questionAnswerHash['qslideIndex']
@@ -296,6 +302,10 @@ export class QuizModalComponent implements OnInit, OnDestroy {
       this.proceedToSubmit()
       return
     }
+    if (this.fetchingResultsStatus !== 'error') {
+      this.tabIndex = 0
+    }
+    this.disableSubmit = true
     const oldSlide = this.quizService.questionState.slides[this.questionAnswerHash['qslideIndex']]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
