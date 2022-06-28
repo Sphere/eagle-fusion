@@ -12,7 +12,7 @@
 .box {
   width: 1550px;
   height: 330px;
-  background: #F7F7F7;
+  background: #f7f7f7;
 
   @include breakpoint-xs {
     width: 100% !important;
@@ -36,7 +36,6 @@
   display: flex;
   align-items: flex-end;
   justify-content: end;
-
 }
 
 .title {
@@ -62,7 +61,6 @@
   font-size: 16px;
   color: #000000;
   letter-spacing: -0.02em;
-
 }
 
 .lable1 {
@@ -71,10 +69,11 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: #1c5d95;
   flex: none;
   flex-grow: 0;
   padding-top: 20px;
+  cursor: pointer !important;
 }
 
 .header-actions {
@@ -119,34 +118,31 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0px 32px !important;
-  background: #1C5D95 !important;
+  background: #1c5d95 !important;
   border-radius: 50px !important;
-  color: #F7F7F7 !important;
+  color: #f7f7f7 !important;
 
   @include breakpoint-xs {
     width: 100% !important;
-
   }
-
 }
 
 .btn-active {
-  color: #1C5D95 !important;
+  color: #1c5d95 !important;
   border-radius: 50px;
-  border: 1px solid #1C5D95 !important;
+  border: 1px solid #1c5d95 !important;
   margin-left: 10px;
   width: 13%;
 
   @include breakpoint-xs {
     width: 100% !important;
-
   }
 }
 
 .share-img {
   width: 42px;
   height: 42px;
-  border: 1px solid #1C5D95;
+  border: 1px solid #1c5d95;
   box-sizing: border-box;
   border-radius: 49%;
   padding: 9px 12px 0px;

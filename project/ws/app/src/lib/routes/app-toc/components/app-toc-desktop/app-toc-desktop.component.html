@@ -21,9 +21,8 @@
         </ng-container>
       </span>
     </div>
-    <div class="lable1" (click)="toggleComponent('license')" [routerLink]="'./license'"
-      [queryParams]="{license: license}" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}"
-      wsAppRetainScroll i18n>View License Terms</div>
+    <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
+      View License Terms</div>
     <div class="header-actions">
       <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
       <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
