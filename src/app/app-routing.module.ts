@@ -15,6 +15,7 @@ import { FeaturesModule } from './routes/features/features.module'
 import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
+import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
@@ -520,6 +521,10 @@ const routes: Routes = [
   {
     path: 'public/forgot-password',
     component: ForgotPasswordComponent,
+  },
+  {
+    path: 'public/toc',
+    component: PublicTocComponent,
   },
   {
     path: 'public/faq/:tab',

@@ -21,6 +21,7 @@ import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-cours
 import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
 import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
+import { PublicTocComponent } from '../public-toc/public-toc.component'
 @NgModule({
   declarations: [
     PublicHomeComponent,
@@ -31,6 +32,7 @@ import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-lead
     MobileHowDoesWorkComponent,
     MobileOrganizationComponent,
     MobileLeaderboardComponent,
+    PublicTocComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,7 @@ import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-lead
     MobileHomeComponent,
     MobilePageFaqComponent,
     MobileCourseViewComponent,
-    MobileHowDoesWorkComponent],
+    MobileHowDoesWorkComponent,
+    PublicTocComponent],
 })
 export class PublicHomeModule { }

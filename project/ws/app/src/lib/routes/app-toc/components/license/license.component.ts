@@ -1,7 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http'
+
 import { Component, Input, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
-import { WidgetContentService } from '@ws-widget/collection'
 import { ValueService } from '@ws-widget/utils/src/public-api'
 import { AppTocService } from '../../services/app-toc.service'
 import { takeUntil } from 'rxjs/operators'
@@ -23,9 +21,6 @@ export class LicenseComponent implements OnInit {
 */
   public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService,
-    // private route: ActivatedRoute,
-    //private configSvc: ConfigurationsService,
-    // private widgetContentSvc: WidgetContentService,
     private tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -34,12 +29,7 @@ export class LicenseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.currentLicenseData)
 
-    // this.route.queryParams.subscribe(params => {
-    //   this.licenseName = params['license']
-    //   this.getLicenseConfig()
-    // })
     this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
       if (item && !_.get(item, 'showComponent')) {
         this.loadLicense = item.showComponent
@@ -49,19 +39,4 @@ export class LicenseComponent implements OnInit {
     })
 
   }
-
-  // getLicenseConfig() {
-  //   const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
-  //   this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
-  //     const licenseData = data
-  //     if (licenseData) {
-  //       this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
-  //     }
-  //   },
-  //     (err: HttpErrorResponse) => {
-  //       if (err.status === 404) {
-  //         this.getLicenseConfig()
-  //       }
-  //     })
-  // }
 }
