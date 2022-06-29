@@ -32,6 +32,8 @@ export class ErrorResolverComponent extends WidgetBaseComponent
   }
 
   async ngOnInit() {
+    console.log(this.widgetData)
+    console.log(this.activateRoute)
     if (!this.widgetData) {
       this.widgetData = {
         errorType: this.activateRoute.snapshot.data.errorType,
@@ -48,6 +50,7 @@ export class ErrorResolverComponent extends WidgetBaseComponent
         this.widgetData.errorDataPath ||
         this.configService.instanceConfig.defaultFeatureConfigs.error,
       )
+      console.log(config)
       this.widgetData.errorData = this.getErrorData(config)
     }
   }

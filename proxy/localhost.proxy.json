@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://aastrika-sb.idc.tarento.com",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
@@ -8,7 +8,7 @@
       "/apis": "/apis"
     },
     "headers" : {
-      "cookie" : "connect.sid=s%3A5Kyg3JOypwZ7g0D_hzlaftrPLqKhOR-j.Ey2husrA%2BHg9MPJFI9siUrIaj4UPhdg0NOeEDNvIEAw"
+      "cookie" : "connect.sid=s%3Ar8y3rvZcyWBYPTqSaG1QL6IBNFTB6_eb.jOA9CnMt3Z3Dn4hHevI34BNb7fsYTPWyW65p5kXv0pI"
     }
   },
   "/content-api/*": {

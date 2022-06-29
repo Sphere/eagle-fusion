@@ -32,18 +32,19 @@ import { YourLocationComponent as AboutYou } from './routes/your-location/your-l
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-
+console.log(localStorage.getItem('lang') ? localStorage.getItem('lang') +'/' + 'public/home' : 'public/home')
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'public/home',
+    redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') +'/' + 'public/home' : 'public/home',
     pathMatch: 'full',
   },
   {
-    path: 'public/home',
+    path: localStorage.getItem('lang') ? localStorage.getItem('lang') +'/' + 'public/home' : 'public/home',
     component: PublicHomeComponent,
     data: {
       pageType: 'public',

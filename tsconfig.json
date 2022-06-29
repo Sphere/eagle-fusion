@@ -38,7 +38,8 @@
       "@ws/viewer": ["project/ws/viewer"],
       "@ws/viewer/*": ["project/ws/viewer/*"],
       "@ws/learning-hub": ["project/ws/learning-hub"],
-      "@ws/learning-hub/*": ["project/ws/learning-hub/*"]
+      "@ws/learning-hub/*": ["project/ws/learning-hub/*"],
+      "@angular/*": [ "node_modules/@angular/*"]
     },
     "removeComments": true,
     "sourceMap": true,

@@ -22,6 +22,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   resolve(
     route: ActivatedRouteSnapshot,
   ): Observable<IResolveResponse<NsPage.IPage>> | IResolveResponse<NsPage.IPage> {
+    console.log(route.data)
     if (route.data.pageUrl) {
       return this.getData(route.data.pageUrl)
     }
@@ -68,6 +69,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   }
 
   private getData(url: string) {
+    console.log(url)
     const id = (url.split('/').pop() as string).split('.')[0] || ''
     const equivalentId = id.startsWith('lex_auth_') ? id : JSON_MAP[id]
     if (equivalentId) {
@@ -102,6 +104,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
           catchError(err => of({ data: null, error: err })),
         ),
     ]
+    console.log(this.locale)
     return forkJoin(pageRequest).pipe(
       map(
         ([general, withLocale]): IResolveResponse<NsPage.IPage> => {

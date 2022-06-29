@@ -50,7 +50,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      }, 50)
+      },         50)
 
       this.contentSvc.changeMessage('youtube')
     }
@@ -106,7 +106,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      }, 50)
+      },         50)
 
       this.contentSvc.changeMessage('docs.google')
     }
@@ -256,7 +256,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
               this.contentSvc.changeMessage('html')
             }
-          }, 50)
+          },         50)
         }
 
       } else {

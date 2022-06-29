@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  LOCALE_ID, Inject 
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -76,11 +77,13 @@ export class RootComponent implements OnInit, AfterViewInit {
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
     // private location: Location
+    @Inject(LOCALE_ID) public locale: string
   ) {
     this.mobileAppsSvc.init()
   }
 
   ngOnInit() {
+    console.log(this.locale)
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
