@@ -1,0 +1,27 @@
+.category-img-box {
+  margin-right: 8px;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+  padding: 6px 2px;
+}
+
+.horizontal-scroll-content {
+  overflow-x: auto;
+  height: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: stretch;
+  padding-left: 5px;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+
+:host ::ng-deep .column {
+  width: 140%;
+  margin-right: 60px;
+  cursor: pointer;
+}
+
+.category-content {
+  color: #000;
+}

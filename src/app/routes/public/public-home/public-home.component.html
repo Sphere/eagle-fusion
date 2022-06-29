@@ -1,3 +1,7 @@
 <div class="mb-10">
-  <ng-container *ngIf="!error  && pageLayout" [wsResolverWidget]="pageLayout"></ng-container>
+  <ng-container *ngIf="!error  && pageLayout && (isXSmall$ | async) !== true" [wsResolverWidget]="pageLayout">
+  </ng-container>
 </div>
+
+
+<ws-mobile-page *ngIf="(isXSmall$ | async) === true"></ws-mobile-page>

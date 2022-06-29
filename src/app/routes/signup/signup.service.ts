@@ -124,6 +124,12 @@ export class SignupService {
             isManager: false,
           }
         }
+        if (!this.configSvc.nodebbUserProfile) {
+          this.configSvc.nodebbUserProfile = {
+            username: userPidProfile.userName,
+            email: 'null',
+          }
+        }
         const details = {
           group: [],
           profileDetailsStatus: !!_.get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),

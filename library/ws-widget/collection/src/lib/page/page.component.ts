@@ -6,7 +6,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   ConfigurationsService, EventService, LoggerService, NsPage,
   // ValueService,
-  WsEvents, LogoutComponent,
+  WsEvents, LogoutComponent, ValueService,
 } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
@@ -38,7 +38,7 @@ export class PageComponent extends WidgetBaseComponent
     private activateRoute: ActivatedRoute,
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    // private valueSvc: ValueService,
+    private valueSvc: ValueService,
     private eventSvc: EventService,
     private tour: CustomTourService,
     private domSanitizer: DomSanitizer,
@@ -49,10 +49,10 @@ export class PageComponent extends WidgetBaseComponent
     private exploreResolverSvc: ExploreResolverService,
   ) {
     super()
-    // this.valueSvc.isXSmall$.subscribe(isXSmall => {
-    //   this.isXSmall = isXSmall
-    //   this.links = this.getNavLinks()
-    // })
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+      // this.links = this.getNavLinks()
+    })
   }
   ngOnInit() {
     // this.authenticated = this.authSvc.isAuthenticated

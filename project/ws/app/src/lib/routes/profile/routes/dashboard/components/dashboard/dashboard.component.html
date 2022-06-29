@@ -24,8 +24,9 @@
           {{userProfileData?.personalDetails.surname}}
         </h2>
         <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-          {{userProfileData?.professionalDetails[0].designation === 'Other' ?
-          userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
+          {{userProfileData?.professionalDetails[0].profession === 'Others' ?
+          userProfileData?.professionalDetails[0].professionOtherSpecify :
+          userProfileData?.professionalDetails[0].profession
           }}
         </div>
         <div *ngIf="userProfileData?.personalDetails?.primaryEmail || mobile"

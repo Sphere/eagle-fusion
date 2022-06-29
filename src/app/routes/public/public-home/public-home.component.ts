@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 // import { ILoginDescriptiveFooterConfig, IWSPublicLoginConfig } from './login.model'
-import { ConfigurationsService, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -56,13 +56,14 @@ export class PublicHomeComponent extends WidgetBaseComponent
 
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
-
+  isXSmall$ = this.valueSvc.isXSmall$
   constructor(
     private activateRoute: ActivatedRoute,
     // private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private router: Router,
+    private valueSvc: ValueService,
   ) {
     super()
     const instanceConfig = this.configSvc.instanceConfig

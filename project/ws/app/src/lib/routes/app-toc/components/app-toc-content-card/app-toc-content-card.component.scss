@@ -23,7 +23,7 @@
     }
 
     .text-truncate {
-      white-space: unset !important;
+      white-space: set !important;
     }
   }
 }
@@ -75,7 +75,7 @@
     }
   }
   @media only screen and (max-width:469px) {
-    margin-left: 0.5rem;
+    margin-left: 1.5rem;
     justify-content: space-between;
 
   }
@@ -110,14 +110,19 @@
   margin-top: 2px;
   right: 1%;
   height: 20px !important;
+
 }
 .width-expand {
   position: relative;
+  width: 256px;
 }
-@media (max-width: 500px) {
-  .image {
-    right: -3em !important;
-    margin-top: 8px;
-    margin-left: 20px;
-  }
+// @media (max-width: 500px) {
+//   .image {
+//     right: -3em !important;
+//     margin-top: 8px;
+//     margin-left: 20px;
+//   }
+// }
+.greentickimg{
+  padding-left: 1px;
 }

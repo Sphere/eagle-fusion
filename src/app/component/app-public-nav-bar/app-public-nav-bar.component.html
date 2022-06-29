@@ -1,7 +1,8 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
   <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
     matTooltip="Home">
-    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo" *ngIf=" (isXSmall$ | async) === false" />
+    <img [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
+      *ngIf=" (isXSmall$ | async) === false" />
     <img src="/assets/instances/eagle/app_logos/source.png" class="small-logo" *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">
@@ -10,7 +11,7 @@
     </ng-container> -->
 
     <ws-app-search-input-home placeHolder="What do you want to learn today ?" *ngIf=" (isXSmall$ | async) === false"
-      class="my-search flex-1" [ref]="'home'">
+      title="hm-plc-holder" class="my-search flex-1" [ref]="'home'">
     </ws-app-search-input-home>
     <span class="spacer"></span>
     <!-- <div ngClass="search-small-logo">
@@ -32,10 +33,11 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <a role="button" *ngIf="showCreateBtn" class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()"
-    active routerLinkActive="ws-mat-accent-text">
+  <a role="button" *ngIf="(isXSmall$ | async) === false && !configSvc.userProfile"
+    class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
+    routerLinkActive="ws-mat-accent-text">
     <ng-container>
-      <button mat-raised-button [ngStyle]="{
+      <button id="create-account-btn" mat-raised-button [ngStyle]="{
         'background-color': 'rgb(63, 81, 181)',
         'color': 'white',
         'font-size': '14px',

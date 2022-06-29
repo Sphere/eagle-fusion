@@ -1,0 +1,71 @@
+<div class="content">
+  <p class="py-2 text-base" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Hi User! Here are some courses for you
+  </p>
+  <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Start Learning</p>
+  <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+    <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
+  </ng-container>
+
+  <!-- How does it work section -->
+  <section class="mt-4" [hidden]=true>
+    <ng-container>
+      <p class="text-2xl">How does it work?</p>
+      <p class="font-normal text-sm grey-color">3 simple steps</p>
+      <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+    </ng-container>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="mt-4">
+    <p class="text-2xl">Categories</p>
+    <ws-mobile-category></ws-mobile-category>
+  </section>
+
+  <!-- Top certified courses -->
+  <section class="mt-4">
+    <p class="text-2xl">Top certified courses</p>
+    <div *ngFor="let course of topCertifiedCourse">
+      <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
+        <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
+      </ng-container>
+    </div>
+    <a href="app/search/learning">
+      <p class="text-center blue-color text-xl">View all courses</p>
+    </a>
+  </section>
+</div>
+
+<!-- Featured Section-->
+<section class="p-4" style="background-color: #F7F7F7;">
+  <p class="text-2xl">Featured</p>
+  <ng-container *ngIf="featuredCourse" style="background-color: #FFF;">
+    <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
+  </ng-container>
+
+</section>
+
+<!-- People follow Section -->
+<section class="p-4" [hidden]=true>
+  <p class="text-2xl">People you may want to follow</p>
+  <p>because you saw Manyata for Mothers</p>
+  <div class="horizontal-scroll-content">
+    <div *ngFor="let i of [1,2,3,4,5,6,7]" style="height: 260px;">
+      <div class="card follow-card">
+        <img src="../../../fusion-assets/images/about-you.png" alt="Course image" width="85" height="85"
+          class="follow-img">
+        <div class="card-body py-1 px-4">
+          <p class="card-title blue-color text-base">Rahul Patel</p>
+          <p class="font-normal grey-color text-xs">Completed Manyata for Mothers</p>
+          <a href="#" class="btn follow-btn">Follow</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="py-1 px-4 mb-6">
+  <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
+      <p class="text-2xl">My Courses</p>
+    <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
+  </ng-container>
+</div>

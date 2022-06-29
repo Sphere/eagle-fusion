@@ -65,12 +65,14 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
 
   resourceContentTypeFunct(type: any) {
-    if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
-      this.resourceContentType = 'Lecture'
+    if (type === 'application/vnd.ekstep.content-collection') {
+      this.resourceContentType = 'Topic'
+    } else if (type === 'application/pdf') {
+      this.resourceContentType = 'PDF'
     } else if (type === 'application/quiz' || type === 'application/json') {
       this.resourceContentType = 'Assessment'
     } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
-      this.resourceContentType = 'Scrom'
+      this.resourceContentType = 'Scorm'
     } else if (type === 'application/x-mpegURL' || type === 'video/mp4') {
       this.resourceContentType = 'Video'
     } else if (type === 'audio/mpeg') {

@@ -132,6 +132,9 @@ export class ViewerResolve
       tap(content => {
         // tslint:disable-next-line: no-parameter-reassignment
         content = content.result.content
+        if (content && content.gatingEnabled) {
+          this.viewerDataSvc.setNode(content.gatingEnabled)
+        }
         if (content.status === 'Deleted' || content.status === 'Expired') {
           this.router.navigate([
             `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview?primaryCategory=${content.primaryCategory}`,

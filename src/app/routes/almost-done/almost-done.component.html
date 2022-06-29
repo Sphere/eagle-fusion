@@ -39,7 +39,7 @@
               <select id="orgType" formControlName="orgType" class="form-control select-box"
                 (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)"
                 required>
-                <option [value]="null">Organiztion Type*</option>
+                <option [value]="null">Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
@@ -84,7 +84,7 @@
             <div class="form-group input-box">
               <select id="orgType" formControlName="orgType" class="form-control select-box" required
                 (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)">
-                <option [value]="null">Organiztion Type*</option>
+                <option [value]="null">Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
@@ -155,7 +155,7 @@
             <div class="form-group input-box">
               <select id="orgType" formControlName="orgType" class="form-control select-box"
                 (change)="orgTypeSelect($event.target.value)" required>
-                <option [value]="null">Organiztion Type*</option>
+                <option [value]="null">Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
@@ -178,7 +178,7 @@
           <!-- Background: Others -->
 
           <div class="next-btn-div">
-            <button class="form-group login-button" type="submit" (click)='onsubmit()'
+            <button class="form-group login-button" type="submit" (click)='onsubmit()' id="done-btn"
               [disabled]="!almostDoneForm?.valid || enableSubmit">
               Done</button>
           </div>

@@ -32,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BtnFeatureModule, ErrorResolverModule, TourModule, WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import { ImageCropComponent, ImageCropModule, LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
@@ -79,10 +79,26 @@ import { YourBackgroundComponent } from './routes/your-background/your-backgroun
 import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
-import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component';
-import { LanguageComponentComponent } from './language-component/language-component.component'
-// import { ServiceWorkerModule } from '@angular/service-worker'
-// import { environment } from '../environments/environment'
+import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
+import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
+import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
+import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
+import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
+import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
+import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
+import { MobileProfileNavComponent } from './routes/profile-view/mobile-profile-nav/mobile-profile-nav.component'
+import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
+import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
+import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
+import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
+import { LoaderService } from '../../project/ws/author/src/public-api'
+import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
+import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -129,7 +145,20 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     CompleteProfileComponent,
     HeaderComponent,
     GoogleCallbackComponent,
-    LanguageComponentComponent,
+    MobileDashboardComponent,
+    MobileCategoryComponent,
+    MobileVideoPlayerComponent,
+    MobileFooterComponent,
+    MobileProfileDashboardComponent,
+    MobileAboutPopupComponent,
+    ProfileSelectComponent,
+    EducationListComponent,
+    EducationEditComponent,
+    WorkInfoListComponent,
+    WorkInfoEditComponent,
+    MobileProfileNavComponent,
+    CertificateReceivedComponent,
+    PersonalDetailEditComponent,
   ],
   imports: [
     FormsModule,
@@ -144,7 +173,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
     StickyHeaderModule,
     ErrorResolverModule,
-    // Material Imports
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
@@ -176,15 +204,23 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    MatExpansionModule,
+    DiscussionUiModule.forRoot(ConfigService),
+    ImageCropModule,
+    SharedModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
+    MobileDashboardComponent,
+    CertificateReceivedComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [
     DialogConfirmComponent,
     LoginComponent,
+    ProfileSelectComponent,
+    ImageCropComponent,
+    NotificationComponent,
   ],
   providers: [
     {
@@ -210,6 +246,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TncPublicResolverService,
     PipeContentRoutePipe,
     AppTocResolverService,
+    LoaderService,
     {
       provide: APP_BASE_HREF,
       useFactory: getBaseHref,

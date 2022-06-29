@@ -40,8 +40,14 @@ export class OrgServiceService {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
-  getDatabyOrgId(): Promise<any>  {
+  getDatabyOrgId(): Promise<any> {
     const url = `${this.configSvc.sitePath}/page/course.json`
     return this.http.get<any>(`${url}`).toPromise()
+  }
+
+  getLiveSearchResults(): Observable<any> {
+    // tslint:disable-next-line:max-line-length
+    const req = { request: { filters: { primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'] } }, query: '', sort: [{ lastUpdatedOn: 'desc' }] }
+    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 }

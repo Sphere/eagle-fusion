@@ -1,0 +1,10 @@
+<div class="column py-2 px-0  position-relative " *ngIf="certificateData.image">
+  <div class="flex">
+    <div class="certificate-img-box">
+      <img [src]="certificateData.image" width="100px" height="auto" />
+    </div>
+    <div class="mx-0">
+      <p class="text-base mb-0 name">{{certificateData.name}}</p>
+    </div>
+  </div>
+</div>

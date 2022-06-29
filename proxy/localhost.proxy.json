@@ -6,9 +6,6 @@
     "changeOrigin": true,
     "pathRewrite": {
       "/apis": "/apis"
-    },
-    "headers" : {
-      "cookie" : "connect.sid=s%3Ar8y3rvZcyWBYPTqSaG1QL6IBNFTB6_eb.jOA9CnMt3Z3Dn4hHevI34BNb7fsYTPWyW65p5kXv0pI"
     }
   },
   "/content-api/*": {
@@ -57,7 +54,7 @@
     }
   },
   "/assets/*": {
-    "target": "http://localhost:8080",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

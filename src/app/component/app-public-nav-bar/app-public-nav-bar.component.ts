@@ -3,7 +3,7 @@ import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/l
 import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges, HostListener } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
@@ -35,7 +35,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
   instanceVal = ''
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$: Observable<boolean>
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -43,6 +43,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -59,11 +60,15 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.navBar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
     }
-    if ((window.innerWidth < 600) && window.location.href.includes('/public/home')) {
-      this.showCreateBtn = false
-    } else {
-      this.showCreateBtn = true
-    }
+
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = false
+      } else {
+        this.showCreateBtn = true
+      }
+    })
+
     // this.subscriptionLogin = this.activateRoute.data.subscribe(data => {
     //   // todo
     //   this.loginConfig = data.pageData.data
@@ -120,12 +125,14 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    if ((event.target.innerWidth < 600) && (window.location.href.includes('/public/home'))) {
-      this.showCreateBtn = false
-    } else {
-      this.showCreateBtn = true
-    }
+  onResize() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = false
+      } else {
+        this.showCreateBtn = true
+      }
+    })
   }
 
   createAcct() {

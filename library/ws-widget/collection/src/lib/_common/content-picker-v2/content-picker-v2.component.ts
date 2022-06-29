@@ -73,6 +73,7 @@ export class ContentPickerV2Component implements OnInit, OnDestroy {
         },
         filters: {
           primaryCategory: [],
+          status: '',
         },
       },
     }

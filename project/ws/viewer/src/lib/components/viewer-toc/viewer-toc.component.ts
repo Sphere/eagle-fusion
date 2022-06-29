@@ -67,7 +67,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   collectionId = ''
   resourceContentType: any
-
+  disabledNode: boolean
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -81,6 +81,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
+    this.disabledNode = this.viewerDataSvc.getNode()
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
@@ -163,7 +164,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.scrollToUserView(index)
     }
   }
- async ngOnChanges() {
+  async ngOnChanges() {
     await this.contentSvc.currentMessage.subscribe(
       (data: any) => {
         if (data) {
@@ -171,7 +172,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
       })
   }
- scrollToUserView(index: number) {
+  scrollToUserView(index: number) {
 
     setTimeout(() => {
       if (index > 3) {
@@ -210,11 +211,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     },         300)
   }
 
-   ngAfterViewInit() {
+  ngAfterViewInit() {
 
-      setTimeout(() => {
+    setTimeout(() => {
       this.checkIndexOfResource()
-    },           300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -284,6 +285,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
       content = content.result.content
+      if (content && content.gatingEnabled) {
+        this.viewerDataSvc.setNode(content.gatingEnabled)
+      }
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
@@ -450,25 +454,62 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
-            mergeData(this.collection.children)
-            function mergeData(collection: any) {
-              collection.map((child1: any) => {
+            const mergeData = (collection: any) => {
+
+              collection.map((child1: any, index: any, element: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
                 if (foundContent) {
                   child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
                   child1.completionStatus = foundContent.status
+                  if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
+                    child1.disabledNode = false
+                  }
+                } else if (this.viewerDataSvc.getNode()) {
+                  if (index === 0) {
+                    element[index].disabledNode = false
+                  } else {
+                    element[index].disabledNode = true
+                  }
+
                 }
+                if (child1.completionPercentage === 100) {
+                  if (element && element[index + 1]) {
+                    element[index + 1].disabledNode = false
+                  }
+
+                }
+
                 if (child1['children']) {
-                  child1['children'].map((child2: any) => {
+
+                  child1['children'].map((child2: any, cindex: any, cheElement: any) => {
+                    // tslint:disable-next-line:max-line-length
                     const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
                     if (foundContent2) {
                       child2.completionPercentage = foundContent2.completionPercentage
                       child2.completionStatus = foundContent2.status
+
+                      // tslint:disable-next-line:max-line-length
+                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                      if (element[index].children.length > 0) {
+                        element[index].children[0].disabledNode = false
+                        return
+                      }
+                    } else if (this.viewerDataSvc.getNode()) {
+                      if (cindex > 0 && cheElement && cheElement[cindex - 1].completionPercentage === 100) {
+                        cheElement[cindex].disabledNode = false
+                      } else {
+                        if (index === 0) {
+                          cheElement[0].disabledNode = false
+                        }
+                        cheElement[cindex].disabledNode = true
+                      }
                     }
+
                   })
                 }
               })
             }
+            mergeData(this.collection.children)
           }
         },
         (error: any) => {

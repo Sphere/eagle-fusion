@@ -1,0 +1,50 @@
+.content {
+  padding: 60px 20px 30px;
+}
+
+.heading, .head-2, .head-3 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  margin: 0 !important;
+}
+
+.heading {
+  font-size: 12px;
+  color: #808080;
+}
+
+.head-2 {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.head-3 {
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.add-edu-txt {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1C5D95;
+}
+
+.pencil {
+  font-size: 1.2rem !important;
+}
+
+.add-icon {
+  color: #1C5D95;
+  font-size: 20px;
+}
+.edit-icon{
+  position: absolute;
+  right: 1rem;
+  color: #1C5D95;
+}

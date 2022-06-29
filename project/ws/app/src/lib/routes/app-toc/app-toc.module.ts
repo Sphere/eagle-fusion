@@ -50,7 +50,8 @@ import { TrainingApiService } from '../infy/routes/training/apis/training-api.se
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
-
+import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
+import { WrapperModule } from '../../../../../../../src/app/routes/discussion-forum/wrapper/wrapper.module'
 import {
   PipeDurationTransformModule,
   PipeSafeSanitizerModule,
@@ -84,6 +85,7 @@ import {
   PlayerBriefModule,
   CardContentModule,
   UserAutocompleteModule,
+
 } from '@ws-widget/collection'
 import { AppTocDialogIntroVideoComponent } from './components/app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
@@ -106,6 +108,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
 // import { AppTocSinglePageComponent } from './components/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageComponent as AppTocSinglePageRootComponent } from './routes/app-toc-single-page/app-toc-single-page.component'
 // import { AppTocSinglePageDirective } from './routes/app-toc-single-page/app-toc-single-page.directive'
+import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
 @NgModule({
   declarations: [
     AppTocAnalyticsComponent,
@@ -131,6 +134,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
     // AppTocSinglePageDirective,
     CreateBatchDialogComponent,
     RetainScrollDirective,
+    AllDiscussionWidgetComponent,
   ],
   imports: [
     CommonModule,
@@ -196,6 +200,8 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
     UserAutocompleteModule,
     ProfileImageModule,
     NgCircleProgressModule.forRoot({}),
+    DiscussionUiModule,
+    WrapperModule,
   ],
   providers: [
     AppTocResolverService,

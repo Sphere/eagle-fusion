@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
-import { Observable } from 'rxjs'
-
+import { BehaviorSubject, Observable } from 'rxjs'
+import * as _ from 'lodash'
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
   ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,
@@ -13,11 +13,14 @@ const API_END_POINTS = {
 })
 
 export class QuizService {
-
+  questionState: any
+  public updateMtf = new BehaviorSubject<any>(undefined)
+  public updateMtf$ = this.updateMtf.asObservable()
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
 
+  }
   submitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.ASSESSMENT_SUBMIT_V2, req)
   }
@@ -71,6 +74,28 @@ export class QuizService {
     return quizWithAnswers
   }
 
+  /* check each question is it correct or wrong */
+  checkAnswer(
+    quiz: NSQuiz.IQuiz,
+    questionAnswerHash: any,
+  ) {
+    const userSelectedAnswer = quiz.questions[questionAnswerHash['qslideIndex']]
+    userSelectedAnswer['isCorrect'] = false
+    userSelectedAnswer.options.map(option => {
+      if (option.isCorrect) {
+        userSelectedAnswer['answer'] = option.text
+      }
+      if (questionAnswerHash[_.get(userSelectedAnswer, 'questionId')]) {
+        option.userSelected = questionAnswerHash[userSelectedAnswer.questionId].includes(option.optionId)
+      } else {
+        option.userSelected = false
+      }
+    })
+    if (_.filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
+      userSelectedAnswer['isCorrect'] = true
+    }
+    return userSelectedAnswer
+  }
   sanitizeAssessmentSubmitRequest(requestData: NSQuiz.IQuizSubmitRequest): NSQuiz.IQuizSubmitRequest {
     requestData.questions.map(question => {
       question.question = ''

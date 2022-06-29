@@ -1,0 +1,49 @@
+
+
+/************/
+
+.course-container {
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+}
+.course-container .appIcon {
+  min-width: 276px;
+  max-width: 276px;
+}
+.course-container .box {
+  // height: 250px;
+  margin: 20px 0;
+  padding-bottom: 5px;
+}
+.course-container .name {
+  color:#1C5D95;
+  font-weight: 400;
+  font-size:16px;
+  margin-bottom: 0 !important;
+}
+
+.course-container .creator {
+  font-weight: 400;
+  font-size:12px;
+}
+.course-container .description {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #404040;
+}
+
+.start-btn {
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 25px;
+  background: #1C5D95;
+  color: #fff;
+  cursor: pointer;
+}
+.bg-cont-white {
+  background-color: #fff;
+}

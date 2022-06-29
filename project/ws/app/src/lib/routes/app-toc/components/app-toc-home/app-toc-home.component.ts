@@ -9,6 +9,8 @@ import { AppTocService } from '../../services/app-toc.service'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
+import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
+import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 import * as _ from 'lodash'
 import moment from 'moment'
 
@@ -74,8 +76,13 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   elementPosition: any
   batchSubscription: Subscription | null = null
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
+
+  @ViewChild(AppTocOverviewComponent, { static: true }) wsAppAppTocOverview!: AppTocOverviewComponent
   body: SafeHtml | null = null
   contentParents: { [key: string]: NsAppToc.IContentParentResponse[] } = {}
+  discussionConfig: any = {}
+  loadDiscussionWidget = false
+  routelinK = 'overview'
   result: any
   matspinner = true
 
@@ -99,9 +106,19 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
+    private discussiConfig: DiscussConfigResolve
   ) {
+    this.discussiConfig.setConfig()
+    if (this.configSvc.userProfile) {
+      this.discussionConfig = {
+        // menuOptions: [{ route: 'categories', enable: true }],
+        userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
+      }
+    }
+
   }
   ngOnInit() {
+    this.checkRoute()
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
@@ -197,6 +214,23 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.discussionConfig.contextIdArr = (this.content) ? [this.content.identifier] : []
+    if (this.content) {
+      this.discussionConfig.categoryObj = {
+        category: {
+          name: this.content.name,
+          pid: '',
+          description: this.content.description,
+          context: [
+            {
+              type: 'course',
+              identifier: this.content.identifier,
+            },
+          ],
+        },
+      }
+    }
+    this.discussionConfig.contextType = 'course'
     this.matspinner = false
     this.getUserEnrollmentList()
     this.body = this.domSanitizer.bypassSecurityTrustHtml(
@@ -277,7 +311,32 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
     return batchId
   }
-
+  redirectTo() {
+    this.routelinK = 'discuss'
+    this.loadDiscussionWidget = true
+    this.tocSvc._showComponent.next({ showComponent: false })
+  }
+  toggleComponent(cname: string) {
+    this.routelinK = ''
+    if (cname === 'overview') {
+      this.routelinK = 'overview'
+    } else if (cname === 'contents') {
+      this.routelinK = 'contents'
+    } else if (cname === 'license') {
+      this.routelinK = 'license'
+    }
+    this.tocSvc._showComponent.next({ showComponent: true })
+    this.loadDiscussionWidget = false
+  }
+  checkRoute() {
+    if (_.includes(this.router.url, 'overview')) {
+      this.toggleComponent('overview')
+    } else if (_.includes(this.router.url, 'contents')) {
+      this.toggleComponent('contents')
+    } else {
+      this.toggleComponent('license')
+    }
+  }
   public fetchBatchDetails() {
     if (this.content && this.content.identifier) {
       this.resumeData = null
