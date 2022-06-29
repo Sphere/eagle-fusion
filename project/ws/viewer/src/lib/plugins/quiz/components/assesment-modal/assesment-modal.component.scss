@@ -9,11 +9,13 @@
     place-self: end;
     font-weight: 400;
     font-size: 17px;
+
     @include breakpoint-xs {
       display: none;
     }
   }
 }
+
 .arrow-back {
   position: absolute;
   width: 5px;
@@ -21,6 +23,7 @@
   left: 30px;
   top: 48px;
 }
+
 ::ng-deep .mat-tab-header {
   border-bottom: none !important;
 }
@@ -53,12 +56,13 @@
 }
 
 .question-wrapper {
-  padding: 25px;
+  padding: 0px 25px 25px 25px;
   height: 72vh;
   display: flex;
+  padding-top: 0;
 
   @include breakpoint-xs {
-    padding: 17px;
+    padding: 0px 17px 17px 17px;
     margin-top: 20px;
   }
 }
@@ -122,22 +126,32 @@
 }
 
 .timer {
-  position: relative;
-  top: 30px;
+  // position: relative;
+  // top: 30px;
   background: #e7f2fa;
   border-radius: 16.5px;
   border-radius: 16.5px;
   width: 101px;
+  place-self: end;
+
   @include breakpoint-xs {
-    position: relative;
-    left: 247px;
-    top: 5px;
+    // position: relative;
+    // left: 247px;
+    // top: 5px;
     margin-left: 0px !important;
     z-index: 9999;
     background: #e7f2fa;
     border-radius: 16.5px;
     width: 101px;
   }
+
+  // @include breakpoint-s {
+  //   left: 218px;
+  // }
+
+  // @media only screen and (min-width: 320px) and (max-width: 380px) {
+  //   left: 209px;
+  // }
 }
 
 // @media only screen and (max-width: 599px) {
