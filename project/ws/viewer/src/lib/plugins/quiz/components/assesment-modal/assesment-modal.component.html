@@ -1,8 +1,8 @@
-<div class="assesment-container">
+<div class="assesment-container mt-3 mb-3">
   <button type="button" class="close" (click)="closePopup()">&times;</button>
 
   <!-- <div class="flex flex-row"> -->
-  <div *ngIf="tabIndex === 0 " class="flex  ml-auto timer">
+  <div *ngIf="tabIndex === 0 " class="flex timer">
     <!-- (isXSmall$ | async) !== true && -->
     <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
     <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
@@ -22,7 +22,7 @@
       </ng-container>
     </mat-tab>
     <mat-tab label="Results" [disabled]='!tabActive'>
-      <div class="flex flex-col items-center m-0 m-auto result-wrapper pt-5">
+      <div class="flex flex-col justify-content-center items-center m-0  result-wrapper pt-5">
         <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
           <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
         </h1>
@@ -59,7 +59,7 @@
     <div class="ml-auto pt-3">
       <ng-container *ngIf="tabIndex === 0 ">
         <button class="btn" [disabled]='diablePrevious' mat-raised-button (click)="previousQuestion()">Back</button>
-        <button class="btn btn-active" [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">next</button>
+        <button class="btn btn-active" [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">Next</button>
 
       </ng-container>
       <ng-container *ngIf="tabIndex === 1">

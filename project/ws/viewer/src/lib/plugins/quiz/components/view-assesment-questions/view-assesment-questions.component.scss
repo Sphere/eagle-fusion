@@ -1,17 +1,21 @@
 @import 'ws-vars';
+@import 'ws-mixins';
 
 .app-class .mat-list-option {
   padding-top: $size-m;
   padding-bottom: $size-m;
   height: auto;
+
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
     background-color: #f5d58d !important;
   }
 }
+
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
   background: #f5d58d !important;
 }
+
 .wrap-mat-radio-label {
   white-space: normal;
 }
@@ -19,6 +23,17 @@
 .quiz-question {
   overflow-x: auto;
   margin: 10px 0 0 0 !important;
+
+  @include breakpoint-xs {
+    margin: 0 !important;
+  }
+
+  p {
+    @include breakpoint-xs {
+      margin: 0 !important;
+    }
+  }
+
 }
 
 correct-option {

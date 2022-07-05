@@ -614,7 +614,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
   filterCourse(contents: any) {
     const list = contents.content
     const newList = list.filter((i: any) => {
-      return i.identifier !== 'do_1135049851060633601604'
+      return i.identifier !== 'do_11357408383009587211503'
     })
     contents.content = newList
     return contents

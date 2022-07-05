@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -45,6 +45,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     public quizService: QuizService,
     public route: ActivatedRoute,
     private valueSvc: ValueService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -115,6 +116,12 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.submitQuiz()
   }
 
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
+  }
+
   submitQuiz() {
     this.ngOnDestroy()
     if (!this.assesmentdata.questions.isAssessment) {
@@ -159,6 +166,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         }
       },
       (_error: any) => {
+        this.openSnackbar('Something went wrong! Unable to submit.')
         this.fetchingResultsStatus = 'error'
       },
     )
@@ -276,7 +284,6 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   nextQuestion() {
 
     this.progressbarValue += 100 / this.totalQuestion
-
     if (
       this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
@@ -288,14 +295,16 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
+      this.disableNext = true
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
       this.quizService.questionState.active_slide_index += 1
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(newSlide).fadeIn('fast', () => {
+      $(newSlide).fadeIn(800, () => {
         $(newSlide).show()
+        this.disableNext = false
         if (this.quizService.questionState.active_slide_index > 0) {
           this.diablePrevious = false
         }
@@ -321,14 +330,16 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
+      this.diablePrevious = true
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
       }
       this.quizService.questionState.active_slide_index -= 1
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(newSlide).fadeIn('fast', () => {
+      $(newSlide).fadeIn('800', () => {
         $(newSlide).show()
+        this.diablePrevious = false
         if (this.quizService.questionState.active_slide_index === 0) {
           this.diablePrevious = true
         }

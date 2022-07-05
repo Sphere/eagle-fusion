@@ -28,7 +28,7 @@
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
   color: #000000 !important;
-  padding-left: 25px;
+  padding-left: 9px;
 
   @include breakpoint-xs {
     width: calc(100% - 30px);
@@ -87,8 +87,8 @@
   overflow-y: auto;
 
   @include breakpoint-xs {
-    padding: 17px;
-    margin-top: 20px;
+    // padding: 17px;
+    // margin-top: 20px;
     // height: auto;
     height: 65vh;
     overflow: auto;
@@ -169,6 +169,7 @@
     background: #e7f2fa;
     border-radius: 16.5px;
     width: 101px;
+    place-self: flex-start;
     //place-self: end;
   }
 }
