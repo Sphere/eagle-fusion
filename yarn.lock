@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@aastrika_npmjs/discussions-ui-v8@^2.1.10":
+"@aastrika_npmjs/discussions-ui-v8@^2.1.11":
   version "2.1.11"
   resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-2.1.11.tgz#d567d3228bd7abbd5ab115898dd47c6e099816d1"
   integrity sha512-tvXPxL4K8wTJj/YQ83ld5EsELNch7ZFGDE1GCU3nNo1KIdfd/FBjZeNR+rHoYwgJWCWo7fZ03cQS8pQdOLJX5w==
