@@ -474,7 +474,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                 if (child1['children']) {
 
-                  child1['children'].map((child2: any, cindex: any, cheElement: any) => {
+                  child1['children'].map((child2: any, cindex: any) => {
                     // tslint:disable-next-line:max-line-length
                     const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
                     if (foundContent2) {
