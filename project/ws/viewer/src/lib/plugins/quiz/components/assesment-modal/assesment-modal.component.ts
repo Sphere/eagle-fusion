@@ -282,7 +282,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   }
 
   nextQuestion() {
-
+    this.disableNext = true
     this.progressbarValue += 100 / this.totalQuestion
     if (
       this.quizService.questionState.active_slide_index
@@ -295,7 +295,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
-      this.disableNext = true
+
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
@@ -323,6 +323,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     if (this.disableNext = true) {
       this.disableNext = false
     }
+    this.diablePrevious = true
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
       return
@@ -337,7 +338,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       }
       this.quizService.questionState.active_slide_index -= 1
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(newSlide).fadeIn('800', () => {
+      $(newSlide).fadeIn(800, () => {
         $(newSlide).show()
         this.diablePrevious = false
         if (this.quizService.questionState.active_slide_index === 0) {
