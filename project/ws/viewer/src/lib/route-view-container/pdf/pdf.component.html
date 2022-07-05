@@ -22,8 +22,9 @@
                   <div class="pdf next-button">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
-                    <a mat-button class="width-auto mr-10" [routerLink]="isProgressCheck() ? nextResourceUrl : ''"
-                      queryParamsHandling="" accesskey=">" [disabled]="!isProgressCheck()">
+                    <a mat-button class="width-auto mr-10"
+                      [routerLink]="isProgressCheck() ? nextResourceUrl : stopPropagation()"
+                      queryParamsHandling="preserve" accesskey=">" [disabled]="!isProgressCheck()">
                       <span class="material-icons align-right-arrow">
                         chevron_right
                       </span>

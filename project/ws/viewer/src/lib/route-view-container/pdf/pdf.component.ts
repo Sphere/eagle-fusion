@@ -76,4 +76,7 @@ export class PdfComponent implements OnInit {
     }
     return true
   }
+  stopPropagation() {
+    return
+  }
 }
