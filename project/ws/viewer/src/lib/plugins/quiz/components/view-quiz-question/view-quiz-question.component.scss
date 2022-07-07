@@ -93,3 +93,7 @@ correct-option {
 .background-well {
   background: #eee;
 }
+
+::ng-deep .cdk-overlay-pane{
+  z-index: auto !important;
+}

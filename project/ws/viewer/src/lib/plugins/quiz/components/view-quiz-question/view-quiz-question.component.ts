@@ -2,6 +2,9 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input
 import { NSQuiz } from '../../quiz.model'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
+import { QuizService } from '../../quiz.service'
+import { takeUntil } from 'rxjs/operators'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'viewer-view-quiz-question',
@@ -35,9 +38,11 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
   unTouchedBlank: boolean[] = []
   matchHintDisplay: NSQuiz.IOption[] = []
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
+  public unsubscribe = new Subject<void>()
   constructor(
     private domSanitizer: DomSanitizer,
-    private elementRef: ElementRef) {
+    private elementRef: ElementRef,
+    public quizService: QuizService) {
 
   }
 
@@ -84,8 +89,24 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
         }
       })
     }
+    this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
+      // tslint:disable-next-line:no-shadowed-variable
+      (res: any) => {
+        if (!_.isUndefined(res)) {
+          if (res) {
+            this.initJsPlump()
+          } else {
+            if (this.jsPlumbInstance) {
+              this.jsPlumbInstance.reset()
+              this.jsPlumbInstance.deleteEveryConnection()
+            }
+
+          }
+        }
+
+      })
   }
-  ngAfterViewInit() {
+  initJsPlump() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance = jsPlumb.getInstance({
         DragOptions: {
@@ -117,33 +138,37 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
       const answerSelector = `.answer${this.question.questionId}`
       const questions = this.jsPlumbInstance.getSelector(questionSelector)
       const answers = this.jsPlumbInstance.getSelector(answerSelector)
-      this.jsPlumbInstance.batch(() => {
-        this.jsPlumbInstance.makeSource((questions as unknown as string), {
-          maxConnections: 1,
-          connector: connectorType,
-          overlay: 'Arrow',
-          endpoint: [
-            'Dot',
-            {
-              radius: 3,
+      if (answers.length > 0) {
+        debugger
+        this.jsPlumbInstance.batch(() => {
+          this.jsPlumbInstance.makeSource((questions as unknown as string), {
+            maxConnections: 1,
+            connector: connectorType,
+            overlay: 'Arrow',
+            endpoint: [
+              'Dot',
+              {
+                radius: 3,
+              },
+            ],
+            anchor: 'Right',
+          })
+          this.jsPlumbInstance.makeTarget(answers as unknown as string, {
+            maxConnections: 1,
+            dropOptions: {
+              hoverClass: 'hover',
             },
-          ],
-          anchor: 'Right',
+            anchor: 'Left',
+            endpoint: [
+              'Dot',
+              {
+                radius: 3,
+              },
+            ],
+          })
         })
-        this.jsPlumbInstance.makeTarget(answers as unknown as string, {
-          maxConnections: 1,
-          dropOptions: {
-            hoverClass: 'hover',
-          },
-          anchor: 'Left',
-          endpoint: [
-            'Dot',
-            {
-              radius: 3,
-            },
-          ],
-        })
-      })
+      }
+
     } else if (this.question.questionType === 'fitb') {
       for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
         this.elementRef.nativeElement
@@ -151,6 +176,17 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
           .addEventListener('change', this.onChange.bind(this, this.question.questionId + i))
       }
     }
+  }
+  ngAfterViewInit() {
+    this.jsPlumbInstance = jsPlumb.getInstance({
+      DragOptions: {
+        cursor: 'pointer',
+      },
+      PaintStyle: {
+        stroke: 'rgba(0,0,0,0.5)',
+        strokeWidth: 3,
+      },
+    })
   }
 
   get numConnections() {
@@ -331,7 +367,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
                 endpoint,
                 source: this.jsPlumbInstance.getSelector(questionSelector) as unknown as Element,
                 target: this.jsPlumbInstance.getSelector(answerSelector) as unknown as Element,
-                anchors: ['Right', 'Left'],
+                anchors: ['Right', 'Left', 'Top'],
               })
             }
           }

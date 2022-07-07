@@ -16,7 +16,7 @@ import * as _ from 'lodash'
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class AssesmentModalComponent implements OnInit, OnDestroy {
+export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
@@ -56,7 +56,11 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
   }
-
+  ngAfterViewInit() {
+    if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
+      this.updateQuestionType(true)
+    }
+  }
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
     if (this.tabActive) {
