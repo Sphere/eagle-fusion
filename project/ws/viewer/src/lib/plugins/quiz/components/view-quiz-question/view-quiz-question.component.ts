@@ -1,17 +1,17 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-
+import * as _ from 'lodash'
 @Component({
   selector: 'viewer-view-quiz-question',
   templateUrl: './view-quiz-question.component.html',
   styleUrls: ['./view-quiz-question.component.scss'],
 })
-export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
+export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() artifactUrl = ''
   @Input() isAssessment: any
@@ -108,6 +108,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
   }
   initJsPlump() {
     if (this.question.questionType === 'mtf') {
+      console.log('call here')
       this.jsPlumbInstance = jsPlumb.getInstance({
         DragOptions: {
           cursor: 'pointer',
@@ -403,5 +404,8 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
         .setAttribute('style', 'border-style: none none solid none; border-width: 1px; padding: 8px 12px;')
     }
   }
-
+  ngOnDestroy() {
+    this.unsubscribe.next()
+    this.unsubscribe.complete()
+  }
 }

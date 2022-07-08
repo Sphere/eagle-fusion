@@ -299,7 +299,9 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userAnswer = {}
     this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
     this.tabIndex = 2
-    this.updateQuestionType(false)
+    if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
+      this.updateQuestionType(false)
+    }
   }
   nextQuestion() {
 
@@ -327,12 +329,14 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         $(newSlide).show()
       })
     })
-    // tslint:disable-next-line: max-line-length
-    if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1].questionType === 'mtf') {
-      this.updateQuestionType(true)
-    } else {
-      this.updateQuestionType(false)
-    }
+    setTimeout(() => {
+      // tslint:disable-next-line: max-line-length
+      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1].questionType === 'mtf') {
+        this.updateQuestionType(true)
+      } else {
+        this.updateQuestionType(false)
+      }
+    }, 500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion

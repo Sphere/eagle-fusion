@@ -108,7 +108,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-
   }
   openOverviewDialog() {
     let overviewData: any = {}
@@ -159,7 +158,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
 
     }
     this.viewerSvc.castResource.subscribe((content: any) => {

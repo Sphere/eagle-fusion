@@ -16,7 +16,7 @@ import * as _ from 'lodash'
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AssesmentModalComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
