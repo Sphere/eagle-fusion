@@ -58,7 +58,6 @@ export class HtmlComponent implements OnInit, OnChanges {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
-      console.log(data)
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource

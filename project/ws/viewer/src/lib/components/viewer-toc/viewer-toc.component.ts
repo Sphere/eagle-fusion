@@ -208,14 +208,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -497,6 +497,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                         }
                         return
                       }
+                      // tslint:disable-next-line: max-line-length
                     } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
                       if (element[index].children.length > 0) {
 
@@ -509,7 +510,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                         return
                       }
                     } else {
-                      console.log('>>>>>>>call me')
+
                       if (element[index].children[cindex - 1].completionPercentage !== 100) {
                         element[index].children[cindex].disabledNode = true
                       }
@@ -548,7 +549,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
     const currentCompletionPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
     const prevCompletionPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
-    console.log(this.queue)
     // tslint:disable-next-line:object-shorthand-properties-first
     this.viewerDataSvc.updateNextPrevResource({ isValid: Boolean(this.collection), prev, prevTitle, nextTitle, next, currentCompletionPercentage, prevCompletionPercentage })
   }
