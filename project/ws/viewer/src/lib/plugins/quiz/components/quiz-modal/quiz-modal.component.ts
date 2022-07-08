@@ -299,9 +299,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userAnswer = {}
     this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
     this.tabIndex = 2
-    if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
-      this.updateQuestionType(false)
-    }
+    this.updateQuestionType(false)
   }
   nextQuestion() {
 
