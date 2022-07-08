@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subscription } from 'rxjs'
@@ -16,7 +16,7 @@ import * as _ from 'lodash'
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class AssesmentModalComponent implements OnInit, OnDestroy {
+export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
@@ -56,7 +56,11 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
   }
-
+  ngAfterViewInit() {
+    if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
+      this.updateQuestionType(true)
+    }
+  }
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
     if (this.tabActive) {
@@ -282,7 +286,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
   }
 
   nextQuestion() {
-
+    this.disableNext = true
     this.progressbarValue += 100 / this.totalQuestion
     if (
       this.quizService.questionState.active_slide_index
@@ -295,7 +299,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
-      this.disableNext = true
+
       for (let i = 0; i < this.quizService.questionState.slides.length; i += 1) {
         const slide = this.quizService.questionState.slides[i]
         $(slide).hide()
@@ -310,6 +314,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
         }
       })
     })
+    // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
       this.updateQuestionType(true)
     } else {
@@ -323,6 +328,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
     if (this.disableNext = true) {
       this.disableNext = false
     }
+    this.diablePrevious = true
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
       return
@@ -337,7 +343,7 @@ export class AssesmentModalComponent implements OnInit, OnDestroy {
       }
       this.quizService.questionState.active_slide_index -= 1
       const newSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
-      $(newSlide).fadeIn('800', () => {
+      $(newSlide).fadeIn(800, () => {
         $(newSlide).show()
         this.diablePrevious = false
         if (this.quizService.questionState.active_slide_index === 0) {

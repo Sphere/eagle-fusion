@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
@@ -16,7 +16,7 @@ import * as _ from 'lodash'
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class QuizModalComponent implements OnInit, OnDestroy {
+export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
@@ -55,7 +55,14 @@ export class QuizModalComponent implements OnInit, OnDestroy {
   ) {
 
   }
-
+  ngAfterViewInit() {
+    if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
+      this.updateQuestionType(true)
+    }
+  }
+  updateQuestionType(status: any) {
+    this.quizService.updateMtf.next(status)
+  }
   ngOnInit() {
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
@@ -292,6 +299,7 @@ export class QuizModalComponent implements OnInit, OnDestroy {
     this.userAnswer = {}
     this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
     this.tabIndex = 2
+    this.updateQuestionType(false)
   }
   nextQuestion() {
 
@@ -319,7 +327,14 @@ export class QuizModalComponent implements OnInit, OnDestroy {
         $(newSlide).show()
       })
     })
-
+    setTimeout(() => {
+      // tslint:disable-next-line: max-line-length
+      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1].questionType === 'mtf') {
+        this.updateQuestionType(true)
+      } else {
+        this.updateQuestionType(false)
+      }
+    },         500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion

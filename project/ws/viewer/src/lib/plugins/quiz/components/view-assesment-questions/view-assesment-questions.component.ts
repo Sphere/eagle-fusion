@@ -95,8 +95,11 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
           if (res) {
             this.initJsPlump()
           } else {
-            this.jsPlumbInstance.reset()
-            this.jsPlumbInstance.deleteEveryConnection()
+            if (this.jsPlumbInstance) {
+              this.jsPlumbInstance.reset()
+              this.jsPlumbInstance.deleteEveryConnection()
+            }
+
           }
         }
 
