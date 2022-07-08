@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { takeUntil } from 'rxjs/operators'
@@ -40,7 +40,6 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
   public unsubscribe = new Subject<void>()
   constructor(
-    private domSanitizer: DomSanitizer,
     private elementRef: ElementRef,
     public quizService: QuizService) {
 
