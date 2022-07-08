@@ -50,10 +50,7 @@ export class OrgServiceService {
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], facets: [
-            'primaryCategory',
-            'mimeType',
-          ],
+          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'],
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
