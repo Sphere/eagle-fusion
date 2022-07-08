@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subscription } from 'rxjs'
@@ -16,7 +16,7 @@ import * as _ from 'lodash'
   // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
-export class AssesmentModalComponent implements OnInit, OnDestroy {
+export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   timeLeft = 0
   startTime = 0
