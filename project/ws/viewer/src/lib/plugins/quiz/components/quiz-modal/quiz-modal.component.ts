@@ -327,6 +327,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         $(newSlide).show()
       })
     })
+    // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex'] + 1].questionType === 'mtf') {
       this.updateQuestionType(true)
     } else {

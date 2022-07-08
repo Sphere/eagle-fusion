@@ -314,6 +314,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       })
     })
+    // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
       this.updateQuestionType(true)
     } else {

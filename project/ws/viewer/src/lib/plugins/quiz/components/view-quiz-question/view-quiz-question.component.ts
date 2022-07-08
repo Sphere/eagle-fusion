@@ -139,7 +139,6 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit {
       const questions = this.jsPlumbInstance.getSelector(questionSelector)
       const answers = this.jsPlumbInstance.getSelector(answerSelector)
       if (answers.length > 0) {
-        debugger
         this.jsPlumbInstance.batch(() => {
           this.jsPlumbInstance.makeSource((questions as unknown as string), {
             maxConnections: 1,

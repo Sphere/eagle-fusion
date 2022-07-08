@@ -50,12 +50,12 @@ export class OrgServiceService {
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], "facets": [
-            "primaryCategory",
-            "mimeType"
+          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], facets: [
+            'primaryCategory',
+            'mimeType',
           ],
-        }
-      }, query: '', sort: [{ lastUpdatedOn: 'desc' }]
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
