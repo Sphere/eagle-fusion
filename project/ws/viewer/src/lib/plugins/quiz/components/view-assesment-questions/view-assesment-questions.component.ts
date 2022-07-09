@@ -191,14 +191,13 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
         })
       }
 
+    } else if (this.question.questionType === 'fitb') {
+      for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
+        this.elementRef.nativeElement
+          .querySelector(`#${this.question.questionId}${i}`)
+          .addEventListener('change', this.onChange.bind(this, this.question.questionId + i))
+      }
     }
-    // else if (this.question.questionType === 'fitb') {
-    //   for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
-    //     this.elementRef.nativeElement
-    //       .querySelector(`#${this.question.questionId}${i}`)
-    //       .addEventListener('change', this.onChange.bind(this, this.question.questionId + i))
-    //   }
-    // }
   }
   ngAfterViewInit() {
     this.jsPlumbInstance = jsPlumb.getInstance({
