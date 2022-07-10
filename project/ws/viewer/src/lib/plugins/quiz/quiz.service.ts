@@ -85,6 +85,14 @@ export class QuizService {
       userSelectedAnswer['isCorrect'] = true
     }
     userSelectedAnswer['isExplanation'] = false
+    if (quiz.questions[questionAnswerHash['qslideIndex']].
+      questionType === 'fitb') {
+      if (_.filter(userSelectedAnswer.options, 'text')[0].text === questionAnswerHash[userSelectedAnswer.questionId][0]) {
+        userSelectedAnswer['isCorrect'] = true
+      } else {
+        userSelectedAnswer['isCorrect'] = false
+      }
+    }
     return userSelectedAnswer
   }
   shuffle(array: any[] | (string | undefined)[]) {
