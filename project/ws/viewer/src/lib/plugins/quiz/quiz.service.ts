@@ -111,15 +111,17 @@ export class QuizService {
       array[currentIndex] = array[randomIndex]
       array[randomIndex] = temporaryValue
     }
-
     return array
   }
-  checkMtfAnswer(quiz: NSQuiz.IQuiz, questionAnswerHash: any,) {
+  checkMtfAnswer(quiz: NSQuiz.IQuiz, questionAnswerHash: any) {
     const userSelectedAnswer = quiz.questions[questionAnswerHash['qslideIndex']]
     for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {
+      // tslint:disable-next-line: max-line-length
       if (questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId] && questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][i]) {
         for (let j = 0; j < questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0].length; j += 1) {
+          // tslint:disable-next-line: max-line-length
           if (quiz.questions[questionAnswerHash['qslideIndex']].options[i].text.trim() === questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][j].source.innerText.trim()) {
+            // tslint:disable-next-line: max-line-length
             quiz.questions[questionAnswerHash['qslideIndex']].options[i].response = questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][j].target.innerText
           }
         }
