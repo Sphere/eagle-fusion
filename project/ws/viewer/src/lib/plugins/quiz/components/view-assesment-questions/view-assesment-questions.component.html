@@ -1,9 +1,9 @@
 <div>
   <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">
   </h3>
-  <h3 *ngIf="question.questionType === 'fitb'" class="mat-h3" [innerHTML]="safeQuestion" class="quiz-question"></h3>
+  <h3 *ngIf="question.questionType === 'fitb'" class="m-0" [innerHTML]="safeQuestion" class="quiz-question"></h3>
 
-  <div *ngIf="question.questionType === 'fitb'">
+  <ng-container *ngIf="question.questionType === 'fitb'">
 
     <div *ngFor="let option of question?.options; let i = index">
       <div [ngClass]="{
@@ -25,7 +25,7 @@
         <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
       </div>
     </div>
-  </div>
+  </ng-container>
   <ng-container *ngIf="question.questionType === 'mcq-sca'">
     <!-- text -->
 

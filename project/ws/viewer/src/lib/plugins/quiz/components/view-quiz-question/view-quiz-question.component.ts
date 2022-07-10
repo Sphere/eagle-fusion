@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { NSQuiz } from '../../quiz.model'
-import { SafeHtml } from '@angular/platform-browser'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { takeUntil } from 'rxjs/operators'
@@ -40,6 +40,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers']
   public unsubscribe = new Subject<void>()
   constructor(
+    private domSanitizer: DomSanitizer,
     private elementRef: ElementRef,
     public quizService: QuizService) {
 
@@ -58,7 +59,22 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
         this.question.question = this.question.question.replace(toBeReplaced, `src="${newUrl}"`)
       }
     }
-
+    if (this.question.questionType === 'fitb') {
+      const iterationNumber = (this.question.question.match(/<input/g) || []).length
+      for (let i = 0; i < iterationNumber; i += 1) {
+        this.question.question = this.question.question.replace('<input', 'idMarkerForReplacement')
+        this.correctOption.push(false)
+        this.unTouchedBlank.push(true)
+      }
+      for (let i = 0; i < iterationNumber; i += 1) {
+        this.question.question = this.question.question.replace(
+          'idMarkerForReplacement',
+          `<input matInput style="border-style: none none solid none;
+          border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
+        )
+      }
+      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+    }
     if (this.question.questionType === 'mtf') {
       this.question.options.map(option => (option.matchForView = option.match))
       const array = this.question.options.map(elem => elem.match)
@@ -92,7 +108,30 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
 
       })
   }
+  initFitb() {
+    if (this.question.questionType === 'fitb') {
+      const iterationNumber = (this.question.question.match(/<input/g) || []).length
+      for (let i = 0; i < iterationNumber; i += 1) {
+        this.question.question = this.question.question.replace('<input', 'idMarkerForReplacement')
+        this.correctOption.push(false)
+        this.unTouchedBlank.push(true)
+      }
+      for (let i = 0; i < iterationNumber; i += 1) {
+        this.question.question = this.question.question.replace(
+          'idMarkerForReplacement',
+          `<input matInput style="border-style: none none solid none;
+          border-width: 1px; padding: 8px 12px;" type="text" id="${this.question.questionId}${i}"`,
+        )
+      }
+      this.safeQuestion = this.domSanitizer.bypassSecurityTrustHtml(this.question.question)
+      for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
+        this.elementRef.nativeElement
+          .querySelector(`#${this.question.questionId}${i}`)
+          .addEventListener('change', this.onChange.bind(this, this.question.questionId + i))
+      }
+    }
 
+  }
   initJsPlump() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance = jsPlumb.getInstance({
@@ -167,6 +206,13 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
         strokeWidth: 3,
       },
     })
+    if (this.question.questionType === 'fitb') {
+      for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
+        this.elementRef.nativeElement
+          .querySelector(`#${this.question.questionId}${i}`)
+          .addEventListener('change', this.onChange.bind(this, this.question.questionId + i))
+      }
+    }
   }
 
   get numConnections() {
