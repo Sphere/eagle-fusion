@@ -57,17 +57,7 @@ export class QuizService {
           }
         }
       } else if (question.questionType === 'mtf') {
-        for (let i = 0; i < question.options.length; i += 1) {
-          if (questionAnswerHash[question.questionId] && questionAnswerHash[question.questionId][0][i]) {
-            for (let j = 0; j < questionAnswerHash[question.questionId][0].length; j += 1) {
-              if (question.options[i].text.trim() === questionAnswerHash[question.questionId][0][j].source.innerText.trim()) {
-                question.options[i].response = questionAnswerHash[question.questionId][0][j].target.innerText
-              }
-            }
-          } else {
-            question.options[i].response = ''
-          }
-        }
+        question.options = questionAnswerHash[question.questionId]
       }
       return question
     })
@@ -94,6 +84,56 @@ export class QuizService {
     if (_.filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
       userSelectedAnswer['isCorrect'] = true
     }
+    userSelectedAnswer['isExplanation'] = false
+    return userSelectedAnswer
+  }
+  shuffle(array: any[] | (string | undefined)[]) {
+    let currentIndex = array.length
+    let temporaryValue
+    let randomIndex
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex)
+      currentIndex -= 1
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex]
+      array[currentIndex] = array[randomIndex]
+      array[randomIndex] = temporaryValue
+    }
+
+    return array
+  }
+  checkMtfAnswer(quiz: NSQuiz.IQuiz, questionAnswerHash: any,) {
+    const userSelectedAnswer = quiz.questions[questionAnswerHash['qslideIndex']]
+    for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {
+      if (questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId] && questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][i]) {
+        for (let j = 0; j < questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0].length; j += 1) {
+          if (quiz.questions[questionAnswerHash['qslideIndex']].options[i].text.trim() === questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][j].source.innerText.trim()) {
+            quiz.questions[questionAnswerHash['qslideIndex']].options[i].response = questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][j].target.innerText
+          }
+        }
+      } else {
+        quiz.questions[questionAnswerHash['qslideIndex']].options[i].response = ''
+      }
+    }
+    const matchHintDisplay: any = []
+    quiz.questions[questionAnswerHash['qslideIndex']].options.map(option => (option.matchForView = option.match))
+    const array = quiz.questions[questionAnswerHash['qslideIndex']].options.map(elem => elem.match)
+    const arr = this.shuffle(array)
+    for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {
+      quiz.questions[questionAnswerHash['qslideIndex']].options[i].matchForView = arr[i]
+    }
+    const matchHintDisplayLocal = [...quiz.questions[questionAnswerHash['qslideIndex']].options]
+    matchHintDisplayLocal.forEach(element => {
+
+      matchHintDisplay.push(element)
+
+    })
+    userSelectedAnswer['answer'] = matchHintDisplay
+    userSelectedAnswer['isExplanation'] = true
     return userSelectedAnswer
   }
   sanitizeAssessmentSubmitRequest(requestData: NSQuiz.IQuizSubmitRequest): NSQuiz.IQuizSubmitRequest {

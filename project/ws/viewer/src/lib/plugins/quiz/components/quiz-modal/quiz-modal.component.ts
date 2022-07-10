@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
+
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
@@ -45,6 +46,9 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public unsubscribe = new Subject<void>()
   // tslint:disable-next-line: allow-leading-underscore
   public activeSlideIndex = 0
+
+
+  viewState: NSQuiz.TQuizViewMode = 'initial'
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -139,9 +143,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   submitQuiz() {
     this.ngOnDestroy()
-    if (!this.assesmentdata.questions.isAssessment) {
-      this.calculateResults()
-    }
+
 
     const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
     this.fetchingResultsStatus = 'fetching'
@@ -295,11 +297,23 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.numIncorrectAnswers
   }
   checkAnswer() {
-    const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-    this.userAnswer = {}
-    this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
-    this.tabIndex = 2
-    this.updateQuestionType(false)
+    // tslint:disable-next-line: max-line-length
+    if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+      const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+      this.userAnswer = {}
+      this.userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
+      this.tabIndex = 2
+      this.questionAnswerHash[this.userAnswer.questionId] = this.userAnswer.answer
+      this.updateQuestionType(false)
+      console.log(this.questionAnswerHash)
+    } else {
+      const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+      this.userAnswer = {}
+      this.userAnswer = this.quizService.checkAnswer(submitQuizJson, this.questionAnswerHash)
+      this.tabIndex = 2
+      this.updateQuestionType(false)
+    }
+
   }
   nextQuestion() {
 
@@ -334,7 +348,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.updateQuestionType(false)
       }
-    },         500)
+    }, 500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion
