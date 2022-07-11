@@ -103,30 +103,30 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     public location: Location,
     public viewerDataSvc: ViewerDataService,
     public router: Router
-  ) { }
+  ) {
 
-  ngOnInit() {
-    if (this.viewState === 'initial') {
-      this.openOverviewDialog()
-    }
   }
 
+  ngOnInit() {
+  }
   openOverviewDialog() {
+    let overviewData: any = {}
+    overviewData = {
+      learningObjective: this.learningObjective,
+      complexityLevel: this.complexityLevel,
+      duration: this.duration,
+      timeLimit: this.quizJson.timeLimit,
+      noOfQuestions: this.quizJson.questions.length,
+      progressStatus: this.progressStatus,
+      isNqocnContent: this.isNqocnContent,
+      isAssessment: _.get(this.quizJson, 'isAssessment'),
+      subtitle: this.name,
+    }
     this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
       width: '542px',
       panelClass: 'overview-modal',
       disableClose: true,
-      data: {
-        learningObjective: this.learningObjective,
-        complexityLevel: this.complexityLevel,
-        duration: this.duration,
-        timeLimit: this.quizJson.timeLimit,
-        noOfQuestions: this.quizJson.questions.length,
-        progressStatus: this.progressStatus,
-        isNqocnContent: this.isNqocnContent,
-        isAssessment: _.get(this.quizJson, 'isAssessment'),
-        subtitle: this.name,
-      },
+      data: overviewData,
     })
 
     this.dialogOverview.afterClosed().subscribe((result: any) => {
@@ -154,6 +154,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   ngOnChanges(changes: SimpleChanges) {
+
+    if (this.viewState === 'initial') {
+      setTimeout(() => {
+        this.openOverviewDialog()
+      },         500)
+
+    }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
         this.viewState = 'initial'
@@ -216,6 +223,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               this.router.navigate([data.prevResource], { preserveQueryParams: true })
             } else {
               this.router.navigate([data.nextResource], { preserveQueryParams: true })
+
             }
             return
           })
@@ -273,9 +281,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
         dialogRef.close()
-        this.dialogOverview.close()
+        this.dialog.closeAll()
         this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          if (!_.isNull(data.prevResource)) {
+            this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          }
           return
         })
       } else if (result.event === 'NO') {
@@ -293,7 +303,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
         dialogRef.close()
-        this.dialogOverview.close()
+        this.dialog.closeAll()
         this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
           this.router.navigate([data.prevResource], { preserveQueryParams: true })
           return

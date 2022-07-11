@@ -2,14 +2,14 @@
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
       <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-        [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-      <div class="width-expand">
-        <div class="text-truncate cursor-pointer 1">
-          <h2 class="margin-remove text-truncate card-title">{{ content?.name }}</h2>
-          <div class="flex flex-between items-center">
-            <!-- <span class="mat-body-strong">{{ resourceContentType }}</span> -->
-            <span class="duration">
-              <!-- <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container> -->
+        (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      <div class="flex flex-between w-100">
+        <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
+          <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
+          <div>
+            <span class="mat-body-strong">{{ resourceContentType }}</span>
+            <span>
+              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
             <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
