@@ -36,12 +36,7 @@ const flattenItems = (items: any[], key: string | number) => {
 })
 export class PublicTocComponent implements OnInit, OnDestroy {
 
-  get enableAnalytics(): boolean {
-    if (this.configSvc.restrictedFeatures) {
-      return !this.configSvc.restrictedFeatures.has('tocAnalytics')
-    }
-    return false
-  }
+
   banners: NsAppToc.ITocBanner | null = null
   content: NsContent.IContent | null = null
   errorCode: NsAppToc.EWsTocErrorCode | null = null
@@ -53,7 +48,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   isCohortsRestricted = false
   isInIframe = false
   forPreview = window.location.href.includes('/author/')
-  analytics = this.route.snapshot.data.pageData.data.analytics
+
   currentFragment = 'overview'
   batchId!: string
   sticky = false
@@ -85,6 +80,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   matspinner = true
 
   @HostListener('window:scroll', ['$event'])
+  tocData: any
   handleScroll() {
     const windowScroll = window.pageYOffset
     if (windowScroll >= this.elementPosition - 100) {
@@ -113,7 +109,14 @@ export class PublicTocComponent implements OnInit, OnDestroy {
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
-
+    const navigation = this.router.getCurrentNavigation()
+    if (navigation) {
+      const extraData = navigation.extras.state as {
+        tocData: any
+      }
+      this.tocData = extraData.tocData
+    }
+    console.log(this.tocData)
   }
   ngOnInit() {
     this.checkRoute()
@@ -122,46 +125,21 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     } catch (_ex) {
       this.isInIframe = false
     }
-    if (this.route) {
-      this.routeSubscription = this.route.data.subscribe((data: Data) => {
-        if (data.content.data) {
-          if (this.checkJson(data.content.data.creatorDetails)) {
-            data.content.data.creatorDetails = JSON.parse(data.content.data.creatorDetails)
-          }
 
-          if (this.checkJson(data.content.data.reviewer)) {
-            data.content.data.reviewer = JSON.parse(data.content.data.reviewer)
-          }
-        } else {
-          if (localStorage.getItem('url_before_login')) {
-            const url = localStorage.getItem('url_before_login') || ''
-            this.router.navigate([url])
-          } else {
-            this.router.navigate(['/app/login'])
-          }
-        }
 
-        this.banners = data.pageData.data.banners
-        this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
-        this.tocSvc.showDescription = data.pageData.data.showDescription || false
-        this.tocConfig = data.pageData.data
-        this.initData(data)
-      })
-    }
-
-    this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string) => {
-      this.currentFragment = fragment || 'overview'
-    })
-    this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
-      () => {
-        this.fetchBatchDetails()
-      },
-      () => {
-        // tslint:disable-next-line: no-console
-        console.log('error on batchSubscription')
-      },
-    )
+    // this.currentFragment = 'overview'
+    // this.route.fragment.subscribe((fragment: string) => {
+    //   this.currentFragment = fragment || 'overview'
+    // })
+    // this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(
+    //   () => {
+    //     this.fetchBatchDetails()
+    //   },
+    //   () => {
+    //     // tslint:disable-next-line: no-console
+    //     console.log('error on batchSubscription')
+    //   },
+    // )
   }
 
   showContents() {
