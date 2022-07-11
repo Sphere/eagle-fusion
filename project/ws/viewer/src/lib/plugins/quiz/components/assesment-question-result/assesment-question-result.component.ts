@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 export class AssesmentQuestionResultComponent implements OnInit {
   @Input() answer: any
   @Input() isCorrect: any
+  @Input() isExplanation: any
   @Output() resultEvent = new EventEmitter()
   constructor() { }
 

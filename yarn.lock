@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aastrika_npmjs/discussions-ui-v8@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-2.1.7.tgz#067ade0fa896407a8643c0ab25978a3cd716ce7a"
-  integrity sha512-OuZ6vZabbPhznGpASKASfj7mAQsw6J/8obj6FBMZqVhjcHbESUlfAMnPiKyYW+tGbzPbqJ05czh5Sl8XvovPEA==
+"@aastrika_npmjs/discussions-ui-v8@^2.1.11":
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-2.1.11.tgz#d567d3228bd7abbd5ab115898dd47c6e099816d1"
+  integrity sha512-tvXPxL4K8wTJj/YQ83ld5EsELNch7ZFGDE1GCU3nNo1KIdfd/FBjZeNR+rHoYwgJWCWo7fZ03cQS8pQdOLJX5w==
   dependencies:
     tslib "^1.9.0"
 

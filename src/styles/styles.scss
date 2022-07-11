@@ -1019,10 +1019,15 @@ button.submit-btn[disabled] {
 
   // max-width: 87px !important;
   @include breakpoint-lt-s {
-    // bottom: 70px !important;
-    // left: 5px !important;
-    bottom: 95px !important;
+    // // bottom: 70px !important;
+    // // left: 5px !important;
+    // bottom: 95px !important;
+    // left: 0px !important;
+    bottom: 65px !important;
     left: 0px !important;
+    min-width: 90px !important;
+    max-width: 90px !important;
+    height: 46px !important;
   }
 }
 

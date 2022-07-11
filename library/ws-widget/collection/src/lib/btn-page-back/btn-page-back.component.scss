@@ -20,6 +20,7 @@
 .min-width {
   min-width: 55px;
 }
+
 .bottom-arrow a {
   position: absolute;
   bottom: -51px;
@@ -34,12 +35,14 @@ a.floating-back-btn {
   margin-left: -25px;
   border-radius: 0;
   border: none;
-  padding: 6px 0 6px 25px;
+  padding: 6px 6px 6px 25px;
+
   &:hover {
     .text {
       display: inline;
     }
   }
+
   .text {
     display: none;
   }
