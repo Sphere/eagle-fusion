@@ -11,7 +11,7 @@ import {
   MatButtonModule,
 } from '@angular/material'
 import { BtnPageBackModule } from '@ws-widget/collection'
-import { HorizontalScrollerModule, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
@@ -22,6 +22,7 @@ import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-ho
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
 import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
+import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 @NgModule({
   declarations: [
     PublicHomeComponent,
@@ -32,7 +33,8 @@ import { PublicTocComponent } from '../public-toc/public-toc.component'
     MobileHowDoesWorkComponent,
     MobileOrganizationComponent,
     MobileLeaderboardComponent,
-    PublicTocComponent
+    PublicTocComponent,
+    PublicTocBannerComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { PublicTocComponent } from '../public-toc/public-toc.component'
     HorizontalScrollerModule,
     PipeSafeSanitizerModule,
     WidgetResolverModule,
+    PipeDurationTransformModule
   ],
 
   exports: [PublicHomeComponent,
@@ -54,6 +57,7 @@ import { PublicTocComponent } from '../public-toc/public-toc.component'
     MobilePageFaqComponent,
     MobileCourseViewComponent,
     MobileHowDoesWorkComponent,
-    PublicTocComponent],
+    PublicTocComponent,
+    PublicTocBannerComponent],
 })
 export class PublicHomeModule { }

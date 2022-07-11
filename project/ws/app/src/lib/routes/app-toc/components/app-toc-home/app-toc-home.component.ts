@@ -27,7 +27,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -270,6 +270,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               return course
             })
           }
+
+
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
             // const collectionId = this.isResource ? '' : this.content.identifier
