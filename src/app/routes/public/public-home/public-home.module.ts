@@ -9,6 +9,7 @@ import {
   MatIconModule,
   MatCardModule,
   MatButtonModule,
+  MatTabsModule
 } from '@angular/material'
 import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule } from '@ws-widget/utils'
@@ -24,6 +25,9 @@ import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-lead
 import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
+import { LicenseComponent } from '../../../../../project/ws/app/src/lib/routes/app-toc/components/license/license.component'
+import { RetainScrollDirective } from '../../../../../project/ws/app/src/lib/routes/app-toc/components/app-toc-home/retain-scroll.directive'
+
 
 @NgModule({
   declarations: [
@@ -37,7 +41,9 @@ import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-ov
     MobileLeaderboardComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
-    PublicTocOverviewComponent
+    PublicTocOverviewComponent,
+    LicenseComponent,
+    RetainScrollDirective,
   ],
   imports: [
     CommonModule,
@@ -46,6 +52,7 @@ import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-ov
     MatExpansionModule,
     MatIconModule,
     MatCardModule,
+    MatTabsModule,
     BtnPageBackModule,
     MatButtonModule,
     HorizontalScrollerModule,

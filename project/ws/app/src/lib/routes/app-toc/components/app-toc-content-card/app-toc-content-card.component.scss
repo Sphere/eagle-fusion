@@ -1,4 +1,5 @@
 @import 'ws-vars';
+@import 'ws-mixins';
 
 .card-collection {
   display: flex;
@@ -171,11 +172,17 @@
 
 .progrss-box {
   align-self: center;
-  padding-right: 17px;
+  padding-right: 25px;
+
+  @include breakpoint-xs {
+    padding-right: 30px;
+  }
 
   .content-check {
     color: #27AE60;
   }
+
+
 }
 
 .text-truncate {

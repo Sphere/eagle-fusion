@@ -6,7 +6,7 @@
 
     <div class="title"><span [title]="content?.name">
         {{ content?.name }} </span></div>
-    <div class="subtitle">Respectful Maternity Care (M1-S1-U4)</div>
+    <div class="subtitle">{{ content?.subTitle }}</div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
       Duration :
       {{ content?.duration | pipeDurationTransform: 'hms' }}</div>

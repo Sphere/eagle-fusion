@@ -4,8 +4,6 @@
     <!-- Description : Conditional : If not shown here, will be shown over banner -->
     <div *ngIf="
         tocConfig?.overview?.description?.enabled &&
-        showDescription &&
-        showSubtitleOnBanner &&
         content?.description
       " class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
@@ -50,5 +48,10 @@
         </div>
       </div>
     </ng-template>
+
+    <ng-container *ngIf="currentLicenseData">
+      <ws-app-license [currentLicenseData]="currentLicenseData"></ws-app-license>
+    </ng-container>
+
   </div>
 </div>
