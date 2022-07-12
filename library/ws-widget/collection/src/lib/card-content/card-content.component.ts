@@ -185,6 +185,7 @@ export class CardContentComponent extends WidgetBaseComponent
         tocData: data
       }
     })
+    localStorage.setItem('tocData', JSON.stringify(data))
     // localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
     // // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
 

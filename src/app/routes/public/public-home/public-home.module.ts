@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-
+import { RouterModule } from '@angular/router'
 import {
   MatToolbarModule,
   MatDividerModule,
@@ -10,7 +10,7 @@ import {
   MatCardModule,
   MatButtonModule,
 } from '@angular/material'
-import { BtnPageBackModule } from '@ws-widget/collection'
+import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
@@ -23,6 +23,8 @@ import { MobileOrganizationComponent } from '../../mobile-organization/mobile-or
 import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
+import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
+
 @NgModule({
   declarations: [
     PublicHomeComponent,
@@ -34,7 +36,8 @@ import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner
     MobileOrganizationComponent,
     MobileLeaderboardComponent,
     PublicTocComponent,
-    PublicTocBannerComponent
+    PublicTocBannerComponent,
+    PublicTocOverviewComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,9 @@ import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner
     HorizontalScrollerModule,
     PipeSafeSanitizerModule,
     WidgetResolverModule,
-    PipeDurationTransformModule
+    PipeDurationTransformModule,
+    RouterModule,
+    UserImageModule
   ],
 
   exports: [PublicHomeComponent,
@@ -58,6 +63,7 @@ import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner
     MobileCourseViewComponent,
     MobileHowDoesWorkComponent,
     PublicTocComponent,
-    PublicTocBannerComponent],
+    PublicTocBannerComponent,
+    PublicTocOverviewComponent],
 })
 export class PublicHomeModule { }

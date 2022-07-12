@@ -16,6 +16,7 @@ import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mo
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
+import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
 import { PublicFaqComponent } from './routes/public/public-faq/public-faq.component'
 import { TncComponent } from './routes/tnc/tnc.component'
@@ -525,6 +526,12 @@ const routes: Routes = [
   {
     path: 'public/toc',
     component: PublicTocComponent,
+    children: [
+      {
+        path: 'overview',
+        component: PublicTocOverviewComponent,
+      },
+    ]
   },
   {
     path: 'public/faq/:tab',

@@ -9,20 +9,48 @@ import * as _ from 'lodash'
 })
 export class PublicTocComponent implements OnInit, OnDestroy {
   tocData: any
+  routelinK = 'overview'
   constructor(
     private router: Router,
 
   ) {
+
+  }
+  ngOnInit() {
     const navigation = this.router.getCurrentNavigation()
     if (navigation) {
       const extraData = navigation.extras.state as {
         tocData: any
       }
-      this.tocData = extraData.tocData
+      if (extraData) {
+        this.tocData = extraData.tocData
+      }
+    }
+    if (localStorage.getItem('tocData')) {
+      const data: any = localStorage.getItem('tocData')
+      this.tocData = JSON.parse(data)
+    }
+    this.router.navigate(['/public/toc/overview'])
+    this.checkRoute()
+  }
+  checkRoute() {
+    if (_.includes(this.router.url, 'overview')) {
+      this.toggleComponent('overview')
+    } else if (_.includes(this.router.url, 'contents')) {
+      this.toggleComponent('contents')
+    } else {
+      this.toggleComponent('license')
     }
   }
-  ngOnInit() {
-    console.log(this.tocData)
+  toggleComponent(cname: string) {
+    this.routelinK = ''
+    if (cname === 'overview') {
+      this.routelinK = 'overview'
+    } else if (cname === 'contents') {
+      this.routelinK = 'contents'
+    } else if (cname === 'license') {
+      this.routelinK = 'license'
+    }
   }
   ngOnDestroy() {
 
