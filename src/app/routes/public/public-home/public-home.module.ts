@@ -12,7 +12,7 @@ import {
   MatTabsModule
 } from '@angular/material'
 import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
-import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule } from '@ws-widget/utils'
+import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
@@ -25,9 +25,7 @@ import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-lead
 import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
-import { LicenseComponent } from '../../../../../project/ws/app/src/lib/routes/app-toc/components/license/license.component'
-import { RetainScrollDirective } from '../../../../../project/ws/app/src/lib/routes/app-toc/components/app-toc-home/retain-scroll.directive'
-
+import { PublicLicenseComponent } from '../public-license/public-license.component'
 
 @NgModule({
   declarations: [
@@ -42,8 +40,8 @@ import { RetainScrollDirective } from '../../../../../project/ws/app/src/lib/rou
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
-    LicenseComponent,
-    RetainScrollDirective,
+    PublicLicenseComponent,
+
   ],
   imports: [
     CommonModule,
@@ -60,7 +58,8 @@ import { RetainScrollDirective } from '../../../../../project/ws/app/src/lib/rou
     WidgetResolverModule,
     PipeDurationTransformModule,
     RouterModule,
-    UserImageModule
+    UserImageModule,
+    RetainScrollModule
   ],
 
   exports: [PublicHomeComponent,

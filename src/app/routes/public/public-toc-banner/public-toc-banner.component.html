@@ -12,6 +12,6 @@
     <div class="details" (click)="showOrgprofile(content?.sourceName)">Source:{{content?.sourceName}}</div>
     <div class="details" *ngIf="content?.creator">Author:{{content?.creator}}</div>
   </div>
-  <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
+  <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsUtilsRetain i18n>
     View License Terms</div>
 </div>
