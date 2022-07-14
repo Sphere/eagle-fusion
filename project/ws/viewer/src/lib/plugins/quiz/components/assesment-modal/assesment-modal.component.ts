@@ -32,7 +32,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   progressbarValue = 0
   isCompleted = false
   fetchingResultsStatus: FetchStatus = 'none'
-  questionAnswerHash: { [questionId: string]: string[] } = {}
+  questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
   dialog: any
   tabActive = false
@@ -97,7 +97,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
+  fillSelectedItems(question: NSQuiz.IQuestion, optionId: string, qindex: number) {
     if (
       this.questionAnswerHash[question.questionId] &&
       question.multiSelection
@@ -114,6 +114,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     } else {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
+    this.questionAnswerHash['qslideIndex'] = qindex
   }
 
   proceedToSubmit() {
@@ -314,12 +315,21 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       })
     })
+
+    if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+      const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+      let userAnswer: any = {}
+      userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
+      this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+    }
+
     // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
       this.updateQuestionType(true)
     } else {
       this.updateQuestionType(false)
     }
+
   }
   updateQuestionType(status: any) {
     this.quizService.updateMtf.next(status)
