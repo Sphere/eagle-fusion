@@ -315,7 +315,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       })
     })
-
+    // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
       const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
       let userAnswer: any = {}
