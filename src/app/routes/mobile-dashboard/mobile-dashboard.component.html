@@ -1,5 +1,5 @@
 <div class="content">
-  <p class="py-2 text-base">Hi {{this.configSvc.userProfile.firstName}}! Here are some courses for you
+  <p class="py-2 text-base">Hi {{this.configSvc?.userProfile?.firstName}}! Here are some courses for you
   </p>
   <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Start Learning</p>
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
