@@ -41,6 +41,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   courseNameHeader: any
   showCreateBtn = false
   isXSmall$: Observable<boolean>
+  showSearchIcon: boolean = true
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -73,6 +74,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           this.showAppNavBar = false
         } else {
           this.showAppNavBar = true
+          if(e.url.includes('/search/home')) {
+            this.showSearchIcon = false
+          } else {
+            this.showSearchIcon = true
+          }
         }
       }
 

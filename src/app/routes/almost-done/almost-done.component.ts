@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material'
 import { Router, ActivatedRoute } from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'ws-almost-done',
@@ -38,6 +39,9 @@ export class AlmostDoneComponent implements OnInit {
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
   healthVolunteerProfessions = ['ASHA\'s', 'Anganwadi Workers', 'Teachers', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  districtUrl = '../../../fusion-assets/files/district.json'
+  disticts: any
+  selectedBg = ''
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -45,21 +49,44 @@ export class AlmostDoneComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    private http: HttpClient
   ) {
   }
 
   ngOnInit() {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
+    //console.log(this.yourBackground)
+    if(this.backgroundSelect === 'Asha Worker') {
+    this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+      statesdata.states.map((item: any) => {
+        if (item.state === this.yourBackground.value.state) {
+          this.disticts = item.districts
+        }
+      })
+    })
+  }
   }
   redirectToYourBackground() {
     this.redirectToParent.emit('true')
   }
+  chooseBackground(data:any) {
+    //console.log(data)
+    this.selectedBg = data
+    if(this.selectedBg === 'Mother/Family Members') {
+      this.enableSubmit = false
+    }
+  }
 
   almostDoneFormFields() {
     return new FormGroup({
+      selectBackground: new FormControl(),
       professSelected: new FormControl(),
+      block: new FormControl(),
+      subcentre: new FormControl(),
+      locationselect: new FormControl(),
       profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       rnNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
       orgType: new FormControl(),
@@ -213,6 +240,9 @@ export class AlmostDoneComponent implements OnInit {
       case 'coursename':
         this.studentCourse = value
         break
+      case 'locationselect':
+        this.almostDoneForm.controls.locationselect.setValue(value)
+        break
       default:
         break
     }
@@ -238,6 +268,15 @@ export class AlmostDoneComponent implements OnInit {
       location: '',
       doj: '',
       completePostalAddress: '',
+    }
+    //console.log(this.backgroundSelect)
+    if(this.backgroundSelect === 'Asha Worker') {
+      org["locationselect"] = this.almostDoneForm.value.locationselect
+      org["block"] = this.almostDoneForm.value.block
+      org["subcentre"] = this.almostDoneForm.value.subcentre
+    }
+    if(this.backgroundSelect === 'Others') {
+      org["selectBackground"] = this.almostDoneForm.value.selectBackground
     }
     organisations.push(org)
     return organisations

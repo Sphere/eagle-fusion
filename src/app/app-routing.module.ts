@@ -44,15 +44,14 @@ import { PersonalDetailEditComponent } from './routes/profile-view/personal-deta
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-console.log(localStorage.getItem('lang') ? localStorage.getItem('lang') +'/' + 'public/home' : 'public/home')
 const routes: Routes = [
   {
     path: '',
-    redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') +'/' + 'public/home' : 'public/home',
+    redirectTo: 'public/home',
     pathMatch: 'full',
   },
   {
-    path: localStorage.getItem('lang') ? localStorage.getItem('lang') +'/' + 'public/home' : 'public/home',
+    path: 'public/home',
     component: PublicHomeComponent,
     data: {
       pageType: 'public',
