@@ -16,7 +16,7 @@
           <viewer-view-assesment-questions questionSlide
             *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
             [artifactUrl]="assesmentdata.artifactUrl" [slideIndex]="i"
-            (itemSelected)="fillSelectedItems(question, $event)"
+            (itemSelected)="fillSelectedItems(question, $event, i)"
             [itemSelectedList]="questionAnswerHash[(question?.questionId)]"></viewer-view-assesment-questions>
         </div>
       </ng-container>
