@@ -14,6 +14,16 @@
               <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
             </div>
 
+<!--             <div class="form-group">
+                  <label for="selectLanguage">Select Language</label>
+              <select id="selectLanguage" class="form-control select-box"
+                (change)="chooseBackground($event.target.value)" required>
+                <option [value]="null" disabled>Select Language</option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+              </select>
+            </div> -->
+
             <div class="form-group" style="margin-bottom: 0;">
               <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
                 formControlName="username">

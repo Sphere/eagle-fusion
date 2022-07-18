@@ -194,3 +194,10 @@
     margin-left: -8px !important;
   }
 }
+/*@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+   :host::ng-deep .container-v2,
+  :host::ng-deep .vjs-big-play-centered .vjs-control-bar,
+  {
+  transform: rotate(90deg);
+  }
+  }*/

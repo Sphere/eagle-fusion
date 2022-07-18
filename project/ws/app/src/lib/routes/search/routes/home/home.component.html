@@ -20,7 +20,7 @@
       <div class="w-full search">
         <form (submit)="search(query.value)" class="w-full search-form flex">
           <mat-form-field class="w-full" appearance="none">
-            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput
+            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput cdkFocusInitial
               placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
           </mat-form-field>
           <mat-autocomplete (optionSelected)="search($event.option.value)" #auto="matAutocomplete">

@@ -16,7 +16,7 @@
           [ref]="'home'"></ws-app-search-input-home>
         <span class="spacer"></span>
 
-        <div ngClass="search-small-logo">
+        <div ngClass="search-small-logo" *ngIf="showSearchIcon" >
           <ng-container [wsResolverWidget]="{
         'widgetType': 'actionButton',
         'widgetSubType': 'buttonFeature',

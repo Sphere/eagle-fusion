@@ -21,8 +21,10 @@ export class MobileDashboardComponent implements OnInit {
   homeFeatureData: any
   homeFeature: any
   userId: any
+  firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
+
   constructor(private orgService: OrgServiceService,
               private configSvc: ConfigurationsService,
               private userSvc: WidgetUserService,
@@ -51,6 +53,7 @@ export class MobileDashboardComponent implements OnInit {
       },
     ]
     if (this.configSvc.userProfile) {
+      this.firstName = this.configSvc.userProfile
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(),
       this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
