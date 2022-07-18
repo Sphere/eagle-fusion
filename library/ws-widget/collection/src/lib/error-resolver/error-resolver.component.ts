@@ -48,7 +48,6 @@ export class ErrorResolverComponent extends WidgetBaseComponent
         this.widgetData.errorDataPath ||
         this.configService.instanceConfig.defaultFeatureConfigs.error,
       )
-      console.log(config)
       this.widgetData.errorData = this.getErrorData(config)
     }
   }
