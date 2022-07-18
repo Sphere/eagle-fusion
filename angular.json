@@ -125,13 +125,6 @@
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
-            },
-              "hindi":{
-                "aot": true,
-                "i18nFile": "locale/messages.hindi.xlf",
-                "i18nFormat": "xlf",
-                "i18nLocale": "hi",
-                "i18nMissingTranslation": "warn"
             }
           }
         },
@@ -144,9 +137,6 @@
           "configurations": {
             "production": {
               "browserTarget": "fusion:build:production"
-            },
-                       "hi": {
-              "browserTarget": "fusion:build:hindi"
             }
           }
         },
