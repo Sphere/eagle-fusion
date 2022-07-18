@@ -22,7 +22,6 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   resolve(
     route: ActivatedRouteSnapshot,
   ): Observable<IResolveResponse<NsPage.IPage>> | IResolveResponse<NsPage.IPage> {
-    console.log(route.data)
     if (route.data.pageUrl) {
       return this.getData(route.data.pageUrl)
     }
