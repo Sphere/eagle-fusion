@@ -123,6 +123,7 @@
   background: #1c5d95 !important;
   border-radius: 50px !important;
   color: #f7f7f7 !important;
+  border: none;
 
   @include breakpoint-xs {
     width: 100% !important;
