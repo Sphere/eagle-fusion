@@ -16,6 +16,7 @@ export class BtnContentShareComponent extends WidgetBaseComponent
   @Input() isDisabled = false
   @Input() showText = false
   @Input() forPreview = false
+  @Input() isTocBanner: boolean = false
   showBtn = false
   isShareEnabled = false
 
