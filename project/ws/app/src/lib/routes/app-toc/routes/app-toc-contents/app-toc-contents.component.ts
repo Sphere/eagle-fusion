@@ -29,6 +29,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   contextId!: string
   contextPath!: string
   loadContent = true
+  // viewChildren = false
   /*
 * to unsubscribe the observable
 */
@@ -91,6 +92,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
     }
+    console.log(this.content)
   }
   private fetchContentParents(contentId: string) {
     this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
@@ -166,5 +168,10 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         return true
     }
   }
+
+  // ExpandViewChild(data: any) {
+  //   this.viewChildren = !this.viewChildren
+  //   console.log(data, this.viewChildren)
+  // }
 
 }

@@ -20,8 +20,7 @@
       </mat-card-content>
     </div>
     <!-- Learning objective -->
-    <div *ngIf="tocConfig?.overview?.learningObjective?.enabled && content?.learningObjective"
-      class="unit-meta-item">
+    <div *ngIf="tocConfig?.overview?.learningObjective?.enabled && content?.learningObjective" class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.learningObjective?.displayName }}</h2>
       <mat-card-content>
         <p class="mat-subheading-1" [innerHTML]="content?.learningObjective"></p>
@@ -51,8 +50,7 @@
         </div>
       </mat-card-content>
     </div>
-    <div *ngIf="tocConfig?.overview?.postContents?.enabled && content?.postContents?.length"
-      class="unit-meta-item">
+    <div *ngIf="tocConfig?.overview?.postContents?.enabled && content?.postContents?.length" class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.postContents?.displayName }}</h2>
       <mat-card-content>
         <div class="flex mb-1" *ngFor="let postContent of content?.postContents">
@@ -79,8 +77,7 @@
         </div>
       </mat-card-content>
     </div>
-    <div *ngIf="tocConfig?.overview?.studyMaterials?.enabled && content?.studyMaterials?.length"
-      class="unit-meta-item">
+    <div *ngIf="tocConfig?.overview?.studyMaterials?.enabled && content?.studyMaterials?.length" class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.studyMaterials?.displayName }}</h2>
       <mat-card-content>
         <div class="flex mb-1" *ngFor="let studyitem of content?.studyMaterials">
@@ -243,8 +240,10 @@
           <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="author.name || ''"
             [email]="author.email"></ws-widget-user-image>
           <div class="width-expand flex flex-middle flex-between">
-            <h3 class="margin-remove"><a class="margin-remove text-md font-normal" (click)="goToProfile(author.id)" [ngClass]="{'cursor-pointer': true}">{{ author.name }}</a></h3>
-            <ws-widget-btn-mail-user *ngIf="askAuthorEnabled" [widgetData]="{ content: content, emails: [author.email] }">
+            <h3 class="margin-remove"><a class="margin-remove text-md font-normal" (click)="goToProfile(author.id)"
+                [ngClass]="{'cursor-pointer': true}">{{ author.name }}</a></h3>
+            <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
+              [widgetData]="{ content: content, emails: [author.email] }">
             </ws-widget-btn-mail-user>
           </div>
         </div>
@@ -282,9 +281,6 @@
       </mat-accordion>
 
     </div>
-
-
-
   </div>
   <!-- At a glance section -->
   <div class="info-section">
@@ -292,6 +288,8 @@
       [tocStructure]="tocStructure">
     </ws-widget-player-brief>
   </div>
+  <ng-container>
+    <!-- <ws-app-license></ws-app-license> -->
+  </ng-container>
+
 </div>
-
-

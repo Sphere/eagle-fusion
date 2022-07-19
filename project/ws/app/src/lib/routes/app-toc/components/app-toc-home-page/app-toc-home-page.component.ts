@@ -30,11 +30,11 @@ const flattenItems = (items: any[], key: string | number) => {
   }, [])
 }
 @Component({
-  selector: 'ws-app-app-toc-home',
-  templateUrl: './app-toc-home.component.html',
-  styleUrls: ['./app-toc-home.component.scss'],
+  selector: 'ws-app-app-toc-home-page',
+  templateUrl: './app-toc-home-page.component.html',
+  styleUrls: ['./app-toc-home-page.component.scss']
 })
-export class AppTocHomeComponent implements OnInit, OnDestroy {
+export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   get enableAnalytics(): boolean {
     if (this.configSvc.restrictedFeatures) {
@@ -270,8 +270,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               return course
             })
           }
-
-
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
             // const collectionId = this.isResource ? '' : this.content.identifier
@@ -322,8 +320,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.routelinK = ''
     if (cname === 'overview') {
       this.routelinK = 'overview'
-    } else if (cname === 'contents') {
-      this.routelinK = 'contents'
+    } else if (cname === 'chapters') {
+      this.routelinK = 'chapters'
     } else if (cname === 'license') {
       this.routelinK = 'license'
     }
@@ -333,8 +331,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   checkRoute() {
     if (_.includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
-    } else if (_.includes(this.router.url, 'contents')) {
-      this.toggleComponent('contents')
+    } else if (_.includes(this.router.url, 'chapters')) {
+      this.toggleComponent('chapters')
     } else {
       this.toggleComponent('license')
     }
@@ -438,4 +436,5 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+
 }

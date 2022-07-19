@@ -1,0 +1,39 @@
+<div class="toc-body box ">
+  <div>
+    <button mat-icon-button class="back-icon">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="title"><span [title]="content?.name">
+        {{ content?.name }} </span></div>
+    <div class="subtitle">{{ content?.subTitle }}</div>
+    <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
+      Duration :
+      {{ content?.duration | pipeDurationTransform: 'hms' }}</div>
+    <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
+      {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} :{{ content?.lastUpdatedOn | date }}
+    </div>
+    <div class="details" (click)="showOrgprofile(content?.sourceName)">Source:{{content?.sourceName}}</div>
+    <div class="details" *ngIf="content?.creator">Author:{{content?.creator}}</div>
+    <!-- <div class="details" *ngIf="content?.creatorDetails">Curators:
+      <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+        {{curator.name}}
+        <ng-container *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+        </ng-container>
+      </span>
+    </div> -->
+    <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
+      View License Terms</div>
+    <div class="header-actions">
+      <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
+      <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
+      <div class="share-img img1">
+        <img src=".\fusion-assets\icons\share-icon.png">
+      </div>
+    </div>
+
+  </div>
+</div>
+<ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
+  [className]="'thick'" [progress]="content?.completionPercentage">
+</ws-widget-content-progress>

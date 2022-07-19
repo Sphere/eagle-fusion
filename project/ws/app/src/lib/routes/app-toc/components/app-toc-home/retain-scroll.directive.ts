@@ -23,10 +23,12 @@ export class RetainScrollDirective {
             behavior: 'smooth',
             block: 'start',
           })
-        },         0)
+        }, 0)
       } else {
         window.scrollTo(0, this.currentPosition)
       }
+    } else {
+      window.scrollTo(0, 600)
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject, } from '@angular/core'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
@@ -29,12 +29,12 @@ import moment from 'moment'
 import { DOCUMENT } from '@angular/common'
 
 @Component({
-  selector: 'ws-app-toc-banner',
-  templateUrl: './app-toc-banner.component.html',
-  styleUrls: ['./app-toc-banner.component.scss'],
+  selector: 'ws-app-app-toc-desktop',
+  templateUrl: './app-toc-desktop.component.html',
+  styleUrls: ['./app-toc-desktop.component.scss'],
   providers: [AccessControlService],
 })
-export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
+export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
   @Input() content: NsContent.IContent | null = null
   @Input() resumeData: NsContent.IContinueLearningData | null = null
@@ -88,6 +88,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   lastCourseID: any
   certificateMsg?: any
 
+
   constructor(
     private sanitizer: DomSanitizer,
     private router: Router,
@@ -101,6 +102,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
+
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document
   ) {
@@ -873,4 +875,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     // })
   }
 
+
 }
+

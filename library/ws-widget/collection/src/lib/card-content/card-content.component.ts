@@ -178,15 +178,23 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(data: any) {
-    localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+    console.log(data)
 
-    // if (localStorage.getItem('login_url')) {
-    //   const url: any = localStorage.getItem('login_url')
-    //   window.location.href = url
-    // }
-    // this.authSvc.login(key, document.baseURI)
-    this.router.navigateByUrl('app/login')
+    this.router.navigate(['/public/toc'], {
+      state: {
+        tocData: data
+      }
+    })
+    localStorage.setItem('tocData', JSON.stringify(data))
+    // localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+    // // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+
+    // // if (localStorage.getItem('login_url')) {
+    // //   const url: any = localStorage.getItem('login_url')
+    // //   window.location.href = url
+    // // }
+    // // this.authSvc.login(key, document.baseURI)
+    // this.router.navigateByUrl('app/login')
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
