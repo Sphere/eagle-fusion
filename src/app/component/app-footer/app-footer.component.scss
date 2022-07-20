@@ -32,6 +32,8 @@
   @include breakpoint-lt-xl {
     justify-content: flex-start;
   }
+
+
 }
 
 .footer-first-col {
@@ -42,6 +44,19 @@
   .list {
     padding-right: 85px !important;
     padding-top: 0px !important;
+
+    @include breakpoint-l {
+      padding-right: 5px !important;
+    }
+
+    @include breakpoint-m {
+      padding-right: 35px !important;
+    }
+
+    @include breakpoint-s {
+      padding-right: 50px !important;
+      padding-bottom: 20px;
+    }
 
     mat-list-item {
 
@@ -262,6 +277,15 @@ img.docs-footer-aastar-logo {
   border-radius: 10px;
   border: none;
   margin-top: 10px;
+
+
+
+
+}
+
+.form-box {
+  display: flex;
+  align-items: baseline;
 }
 
 .send-btn {
@@ -269,6 +293,10 @@ img.docs-footer-aastar-logo {
   background: inherit;
   position: relative;
   left: -36px;
+
+  @include breakpoint-l {
+    left: 0;
+  }
 }
 
 
@@ -277,4 +305,10 @@ img.docs-footer-aastar-logo {
   width: 50%;
   margin: 0 auto;
   margin-top: 10px;
+}
+
+.flex-col {
+  @include breakpoint-l {
+    padding-left: 25px !important;
+  }
 }
