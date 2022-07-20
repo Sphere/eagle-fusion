@@ -40,13 +40,9 @@
   align-items: center;
 }
 
-// .arrow-back {
-//   position: absolute;
-//   width: 5px;
-//   height: 10px;
-//   left: 30px;
-//   top: 48px;
-// }
+.arrow-back {
+  cursor: pointer;
+}
 
 ::ng-deep .mat-tab-header {
   border-bottom: none !important;
