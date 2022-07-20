@@ -17,6 +17,14 @@
   background: #1c5d95 !important;
 }
 
+// ::ng-deep .mat-radio-ripple {
+//   display: none !important;
+// }
+
+::ng-deep .mat-radio-ripple .mat-ripple-element {
+  background-color: rgba(#919296, 0.26) !important;
+}
+
 .wrap-mat-radio-label {
   white-space: normal;
 }
