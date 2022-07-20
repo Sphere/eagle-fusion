@@ -144,7 +144,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     //   const url: any = localStorage.getItem('login_url')
     //   window.location.href = url
     // }
-    localStorage.removeItem('url_before_login')
+    //localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/login')
   }
 
