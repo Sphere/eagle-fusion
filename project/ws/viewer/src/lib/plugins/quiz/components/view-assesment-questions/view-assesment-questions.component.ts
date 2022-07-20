@@ -230,7 +230,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     const arr = []
     for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
       const blank: HTMLInputElement = this.elementRef.nativeElement.querySelector(`#${this.question.questionId}${i}`)
-      arr.push(blank.value.trim())
+      arr.push(_.toLower(blank.value.trim()))
     }
     this.itemSelected.emit(arr.join())
     this.ifFillInTheBlankCorrect(id)

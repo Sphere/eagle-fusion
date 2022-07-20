@@ -7,13 +7,14 @@
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    background-color: #f5d58d !important;
+    // background-color: #f5d58d !important;
+    background-color: #1c5d95 !important;
   }
 }
 
 ::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
-  background: #f5d58d !important;
+  background: #1c5d95 !important;
 }
 
 .wrap-mat-radio-label {
