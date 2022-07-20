@@ -61,7 +61,25 @@
           </div>
           <!-- Background: Healthcare Worker -->
 
-
+          <div *ngIf="backgroundSelect === 'Asha Worker'"> 
+                        <div class="form-group input-box">
+              <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
+                (change)="assignFields('locationselect', $event.target.value)">
+                <option [value]=null disabled>City/Distict</option>
+              <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
+              </select>
+            </div>
+            <div class="form-group input-box">
+              <input type="text" name="block" formControlName="block" class="form-control"
+                placeholder="Block" autocomplete="off"
+                (change)="assignFields('block',almostDoneForm.controls['block'].value)">
+            </div>
+            <div class="form-group input-box">
+              <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
+                placeholder="Sub Centre" autocomplete="off"
+                (change)="assignFields('subcentre',almostDoneForm.controls['subcentre'].value)">
+            </div>
+          </div>
           <!-- Background: Healthcare Volunteer -->
           <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
             <div class="form-group input-box">
@@ -144,7 +162,15 @@
 
           <!-- Background: Others -->
           <div *ngIf="backgroundSelect ==='Others'">
-
+            <div class="form-group input-box">
+              <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
+                (change)="chooseBackground($event.target.value)" required>
+                <option [value]="null">Select Background</option>
+                <option value="Mother/Family Members">Mother/Family Members</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div *ngIf="selectedBg === 'Other'">
             <div class="form-group mt-4 input-box">
               <input type="text" class="form-control" formControlName="profession"
                 placeholder="Please Specify Profession*" required>
@@ -173,7 +199,7 @@
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
               {{errorMsg}}</mat-error>
-
+            </div>
           </div>
           <!-- Background: Others -->
 

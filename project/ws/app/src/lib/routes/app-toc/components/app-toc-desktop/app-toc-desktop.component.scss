@@ -113,7 +113,8 @@
 // border-radius: 50px;
 // }
 
-.btn {
+.banner-btn {
+  display: flex;
   width: 13%;
   flex-direction: row !important;
   justify-content: center !important;
@@ -122,18 +123,23 @@
   background: #1c5d95 !important;
   border-radius: 50px !important;
   color: #f7f7f7 !important;
+  border: none;
 
   @include breakpoint-xs {
     width: 100% !important;
   }
 }
 
-.btn-active {
+.banner-btn-active {
+  display: flex;
   color: #1c5d95 !important;
   border-radius: 50px;
   border: 1px solid #1c5d95 !important;
   margin-left: 10px;
   width: 13%;
+  justify-content: center !important;
+  align-items: center !important;
+
 
   @include breakpoint-xs {
     width: 100% !important;
@@ -148,4 +154,8 @@
   border-radius: 49%;
   padding: 9px 12px 0px;
   margin-left: 10px;
+}
+
+.banner-btn:hover {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
 }
