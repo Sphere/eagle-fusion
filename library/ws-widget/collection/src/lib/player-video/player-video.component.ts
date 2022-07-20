@@ -61,6 +61,13 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService
   ) {
     super()
+    // console.log(window.innerWidth)
+    // if (window.innerWidth < 768) {
+    //   screen.orientation.lock('landscape');
+    //   //this.isMobileResolution = true;
+    // } else {
+    //   //this.isMobileResolution = false;
+    // }
   }
 
   ngOnInit() { }

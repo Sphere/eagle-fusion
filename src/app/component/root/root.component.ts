@@ -6,6 +6,10 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+<<<<<<< Updated upstream
+=======
+  LOCALE_ID, Inject,
+>>>>>>> Stashed changes
 } from '@angular/core'
 import {
   NavigationCancel,

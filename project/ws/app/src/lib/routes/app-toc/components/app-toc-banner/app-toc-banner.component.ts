@@ -87,6 +87,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   lastCourseID: any
   certificateMsg?: any
+  // locationURL = ''
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -111,6 +112,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    // this.locationURL = encodeURIComponent(window.location.href)
     if (this.content) {
       this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
@@ -249,6 +251,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   // }
 
   ngOnChanges() {
+        console.log(this.batchData)
     this.assignPathAndUpdateBanner(this.router.url)
     if (this.content) {
       // this.content.status = 'Deleted'
