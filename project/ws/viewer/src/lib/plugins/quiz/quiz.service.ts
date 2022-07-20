@@ -87,7 +87,7 @@ export class QuizService {
     userSelectedAnswer['isExplanation'] = false
     if (quiz.questions[questionAnswerHash['qslideIndex']].
       questionType === 'fitb') {
-      if (_.filter(userSelectedAnswer.options, 'text')[0].text === questionAnswerHash[userSelectedAnswer.questionId][0]) {
+      if (_.toLower(_.filter(userSelectedAnswer.options, 'text')[0].text) === questionAnswerHash[userSelectedAnswer.questionId][0]) {
         userSelectedAnswer['isCorrect'] = true
       } else {
         userSelectedAnswer['isCorrect'] = false
