@@ -1,11 +1,11 @@
+<ng-container *ngIf="(isXSmall$ | async) === true">
+  <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </div>
+</ng-container>
 <div class="assesment-container">
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close-btn" (click)="closePopup()">&times;</button>
-  </ng-container>
-  <ng-container *ngIf="(isXSmall$ | async) === true">
-    <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </div>
   </ng-container>
   <div class="sub-title-container">
     <h3 [ngClass]="tabIndex === 2 ? 'd-none' : 'd-block'" class="sub-title" *ngIf="!showAnswer && tabIndex !== 1">
