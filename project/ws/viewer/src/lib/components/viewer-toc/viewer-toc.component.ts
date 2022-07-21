@@ -21,7 +21,6 @@ import { of, Subscription } from 'rxjs'
 import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
-import moment from 'moment'
 
 interface IViewerTocCard {
   identifier: string
@@ -58,7 +57,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   @Input() resourceChanged = ''
-  @Input() batchData!: any
   @ViewChild('highlightItem', { static: false }) highlightItem!: ElementRef<any>
   @ViewChild('outer', { static: false }) outer!: ElementRef<any>
   @ViewChild('ulTree', { static: false }) ulTree!: ElementRef<any>
@@ -117,7 +115,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-console.log("sa", this.batchData, this.batchId)
+
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.defaultContent,
@@ -125,7 +123,6 @@ console.log("sa", this.batchData, this.batchId)
     }
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
-      console.log(this.batchId)
       const collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
@@ -159,45 +156,6 @@ console.log("sa", this.batchData, this.batchId)
         this.checkIndexOfResource()
       }
     })
-  }
-
-  public fetchBatchDetails() {
-    if (this.collection && this.collection.identifier) {
-      //this.resumeData = null
-      const req = {
-        request: {
-          filters: {
-            courseId: this.collection.identifier,
-            status: ['0', '1', '2'],
-            // createdBy: 'fca2925f-1eee-4654-9177-fece3fd6afc9',
-          },
-          sort_by: { createdDate: 'desc' },
-        },
-      }
-      this.contentSvc.fetchCourseBatches(req).subscribe(
-        (data: NsContent.IBatchListResponse) => {
-          if (data.content) {
-            const batchList = data.content.filter((obj: any) => obj.endDate >= moment(new Date()).format('YYYY-DD-MM'))
-            this.batchData = {
-              content: batchList,
-              enrolled: false,
-            }
-            // if (this.getBatchId()) {
-            //   this.router.navigate(
-            //     [],
-            //     {
-            //       relativeTo: this.route,
-            //       // queryParams: { batchId: this.getBatchId() },
-            //       queryParamsHandling: 'merge',
-            //     })
-            // }
-          }
-        },
-        () => {
-          //this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
-        },
-      )
-    }
   }
 
   checkIndexOfResource() {
