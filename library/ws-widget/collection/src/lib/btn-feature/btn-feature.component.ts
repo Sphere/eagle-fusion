@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators'
 import { MobileAppsService } from '../../../../../../src/app/services/mobile-apps.service'
 import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { BtnFeatureService } from './btn-feature.service'
+import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 
 export const typeMap = {
   cardFull: 'card-full',
@@ -52,6 +53,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private mobileSvc: MobileAppsService,
     private configSvc: ConfigurationsService,
     private tour: CustomTourService,
+    private searchApi: SearchApiService
   ) {
     super()
   }
@@ -72,7 +74,14 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         .catch(_err => {})
     }
   }
-
+search() {
+  if (this.router.url.includes('/page/home')) {
+  this.searchApi.changeMessage('search')
+}
+if (this.router.url.includes('/app/search/learning')) {
+ this.router.navigateByUrl('/app/search/home')
+  }
+}
   ngOnInit() {
     this.instanceVal = this.configSvc.rootOrg || ''
     if (this.configSvc.restrictedFeatures) {

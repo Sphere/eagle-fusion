@@ -10,7 +10,7 @@
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
     </ng-container> -->
 
-    <ws-app-search-input-home placeHolder="What do you want to learn today ?" *ngIf=" (isXSmall$ | async) === false"
+    <ws-app-search-input-home i18n placeHolder="What do you want to learn today ?" *ngIf=" (isXSmall$ | async) === false"
       title="hm-plc-holder" class="my-search flex-1" [ref]="'home'">
     </ws-app-search-input-home>
     <span class="spacer"></span>
@@ -41,7 +41,7 @@
         'background-color': 'rgb(63, 81, 181)',
         'color': 'white',
         'font-size': '14px',
-        'font-weight': '400'}">
+        'font-weight': '400'}" i18n>
         Create Account</button>
     </ng-container>
   </a>

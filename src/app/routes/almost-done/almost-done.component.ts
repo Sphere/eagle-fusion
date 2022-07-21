@@ -37,7 +37,7 @@ export class AlmostDoneComponent implements OnInit {
   enableSubmit = false
   errorMsg = 'Invalid.Please correct and try again'
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
-  healthVolunteerProfessions = ['ASHA\'s', 'Anganwadi Workers', 'Teachers', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   districtUrl = '../../../fusion-assets/files/district.json'
   disticts: any
@@ -57,8 +57,8 @@ export class AlmostDoneComponent implements OnInit {
   ngOnInit() {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
-    //console.log(this.yourBackground)
-    if(this.backgroundSelect === 'Asha Worker') {
+    // console.log(this.yourBackground)
+    if (this.backgroundSelect === 'Asha Worker') {
     this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
       statesdata.states.map((item: any) => {
@@ -72,10 +72,10 @@ export class AlmostDoneComponent implements OnInit {
   redirectToYourBackground() {
     this.redirectToParent.emit('true')
   }
-  chooseBackground(data:any) {
-    //console.log(data)
+  chooseBackground(data: any) {
+    // console.log(data)
     this.selectedBg = data
-    if(this.selectedBg === 'Mother/Family Members') {
+    if (this.selectedBg === 'Mother/Family Members') {
       this.enableSubmit = false
     }
   }
@@ -269,15 +269,20 @@ export class AlmostDoneComponent implements OnInit {
       doj: '',
       completePostalAddress: '',
     }
-    //console.log(this.backgroundSelect)
-    if(this.backgroundSelect === 'Asha Worker') {
-      org["locationselect"] = this.almostDoneForm.value.locationselect
-      org["block"] = this.almostDoneForm.value.block
-      org["subcentre"] = this.almostDoneForm.value.subcentre
+    // console.log(this.backgroundSelect)
+    if (this.backgroundSelect === 'Asha Worker') {
+      org['locationselect'] = this.almostDoneForm.value.locationselect
+      org['block'] = this.almostDoneForm.value.block
+      org['subcentre'] = this.almostDoneForm.value.subcentre
     }
-    if(this.backgroundSelect === 'Others') {
-      org["selectBackground"] = this.almostDoneForm.value.selectBackground
+    if (this.backgroundSelect === 'Others') {
+      org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
+    if(this.backgroundSelect ==='Student') {
+      org['qualification'] = this.almostDoneForm.value.courseName
+      org['instituteName'] = this.almostDoneForm.value.instituteName
+    }
+
     organisations.push(org)
     return organisations
   }
