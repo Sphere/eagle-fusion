@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { ISocialSearchRequest, ISocialSearchResult, ISearchAutoComplete } from '../models/search.model'
 import { KeycloakService } from 'keycloak-angular'
 import { NSSearch } from '@ws-widget/collection'
@@ -91,7 +91,13 @@ export class SearchApiService {
   getSearchResults(request: ISocialSearchRequest): Observable<ISocialSearchResult> {
     return this.http.post<ISocialSearchResult>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)
   }
+  private messageSource = new Subject<any>()
+  public currentMessage = this.messageSource.asObservable()
 
+  changeMessage(message: string) {
+    this.messageSource.next(message)
+  }
+  
   getSearchAutoCompleteResults(params: { q: string, l: string }): Observable<ISearchAutoComplete[]> {
     return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
   }
