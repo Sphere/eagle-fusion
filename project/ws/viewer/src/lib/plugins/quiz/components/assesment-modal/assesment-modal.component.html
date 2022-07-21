@@ -1,8 +1,11 @@
-<ng-container *ngIf="(isXSmall$ | async) === true">
-  <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
-    <mat-icon>keyboard_arrow_left</mat-icon>
-  </div>
-</ng-container>
+<div class="position-relative">
+  <ng-container *ngIf="(isXSmall$ | async) === true">
+    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" (click)="closePopup()"
+      *ngIf="(isXSmall$ | async) === true">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </div>
+  </ng-container>
+</div>
 <div class="assesment-container mt-3 mb-3">
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close" (click)="closePopup()">&times;</button>

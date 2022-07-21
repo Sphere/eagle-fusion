@@ -21,9 +21,15 @@
   width: 5px;
   height: 10px;
   cursor: pointer;
-  top: 40px;
-  // left: 30px;
-  // top: 48px;
+  top: 4px;
+}
+
+.result-arrow-back {
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  cursor: pointer;
+  bottom: 10px;
 }
 
 ::ng-deep .mat-tab-header {

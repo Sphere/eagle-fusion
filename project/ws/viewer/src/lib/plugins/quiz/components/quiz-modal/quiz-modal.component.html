@@ -1,14 +1,17 @@
-<ng-container *ngIf="(isXSmall$ | async) === true">
-  <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
-    <mat-icon>keyboard_arrow_left</mat-icon>
-  </div>
-</ng-container>
+<div class="position-relative">
+  <ng-container *ngIf="(isXSmall$ | async) === true">
+    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" (click)="closePopup()"
+      *ngIf="(isXSmall$ | async) === true">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </div>
+  </ng-container>
+</div>
 <div class="assesment-container">
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close-btn" (click)="closePopup()">&times;</button>
   </ng-container>
   <div class="sub-title-container">
-    <h3 [ngClass]="tabIndex === 2 ? 'd-none' : 'd-block'" class="sub-title" *ngIf="!showAnswer && tabIndex !== 1">
+    <h3 [ngClass]="tabIndex === 2 ? 'd-none' : 'd-block'" class="sub-title m-0" *ngIf="!showAnswer && tabIndex !== 1">
       {{assesmentdata.generalData.name}}</h3>
     <ng-container *ngIf="tabIndex !== 2 ">
       <div class="flex  ml-auto timer" *ngIf="!showAnswer && tabIndex !== 1">
