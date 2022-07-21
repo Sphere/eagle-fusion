@@ -278,7 +278,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
-    if(this.backgroundSelect ==='Student') {
+    if (this.backgroundSelect === 'Student') {
       org['qualification'] = this.almostDoneForm.value.courseName
       org['instituteName'] = this.almostDoneForm.value.instituteName
     }
