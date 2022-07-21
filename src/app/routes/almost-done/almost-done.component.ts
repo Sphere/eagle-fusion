@@ -270,7 +270,7 @@ export class AlmostDoneComponent implements OnInit {
       completePostalAddress: '',
     }
     // console.log(this.backgroundSelect)
-    if (this.backgroundSelect === 'Asha Worker') {
+    if (this.backgroundSelect === 'ASHA Worker') {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
