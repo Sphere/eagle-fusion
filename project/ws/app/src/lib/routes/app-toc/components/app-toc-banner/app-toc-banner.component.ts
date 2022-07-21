@@ -251,7 +251,6 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   // }
 
   ngOnChanges() {
-        console.log(this.batchData)
     this.assignPathAndUpdateBanner(this.router.url)
     if (this.content) {
       // this.content.status = 'Deleted'

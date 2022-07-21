@@ -22,10 +22,6 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   resolve(
     route: ActivatedRouteSnapshot,
   ): Observable<IResolveResponse<NsPage.IPage>> | IResolveResponse<NsPage.IPage> {
-<<<<<<< Updated upstream
-=======
-    // console.log(route.data)
->>>>>>> Stashed changes
     if (route.data.pageUrl) {
       return this.getData(route.data.pageUrl)
     }
@@ -72,10 +68,6 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   }
 
   private getData(url: string) {
-<<<<<<< Updated upstream
-=======
-    // console.log(url)
->>>>>>> Stashed changes
     const id = (url.split('/').pop() as string).split('.')[0] || ''
     const equivalentId = id.startsWith('lex_auth_') ? id : JSON_MAP[id]
     if (equivalentId) {

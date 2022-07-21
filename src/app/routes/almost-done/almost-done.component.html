@@ -127,13 +127,13 @@
           <!-- Background: Student -->
           <div *ngIf="backgroundSelect ==='Student'">
             <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" i18n formControlName="courseName" placeholder="Course Name"
+              <input type="text" class="form-control" i18n formControlName="courseName" placeholder="Qualification"
                 (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value)">
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['courseName'].hasError('pattern')">
               {{errorMsg}}</mat-error>
             <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name*" i18n
+              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name" i18n
                 (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value)" required>
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['instituteName'].hasError('pattern')">

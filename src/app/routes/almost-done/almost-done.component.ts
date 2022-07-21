@@ -37,7 +37,7 @@ export class AlmostDoneComponent implements OnInit {
   enableSubmit = false
   errorMsg = 'Invalid.Please correct and try again'
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
-  healthVolunteerProfessions = ['ASHA\'s', 'Anganwadi Workers', 'Teachers', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   districtUrl = '../../../fusion-assets/files/district.json'
   disticts: any
@@ -278,6 +278,11 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
+    if(this.backgroundSelect ==='Student') {
+      org['qualification'] = this.almostDoneForm.value.courseName
+      org['instituteName'] = this.almostDoneForm.value.instituteName
+    }
+
     organisations.push(org)
     return organisations
   }
