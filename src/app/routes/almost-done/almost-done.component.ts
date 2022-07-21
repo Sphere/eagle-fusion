@@ -58,7 +58,7 @@ export class AlmostDoneComponent implements OnInit {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
     // console.log(this.yourBackground)
-    if (this.backgroundSelect === 'Asha Worker') {
+    if (this.backgroundSelect === 'ASHA Worker') {
     this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
       statesdata.states.map((item: any) => {
@@ -278,7 +278,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
-    if(this.backgroundSelect ==='Student') {
+    if (this.backgroundSelect === 'Student') {
       org['qualification'] = this.almostDoneForm.value.courseName
       org['instituteName'] = this.almostDoneForm.value.instituteName
     }

@@ -35,7 +35,7 @@
               <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('pattern')">
                 Invalid email or number</mat-error>
             </div>
-            <div class="form-group input-group" style="margin-top: 1rem;">
+            <div class="form-group input-group pwd" style="margin-top: 1rem;">
               <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
                 formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
