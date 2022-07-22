@@ -26,10 +26,10 @@ export class MobileDashboardComponent implements OnInit {
   featuredCourseIdentifier: any = []
 
   constructor(private orgService: OrgServiceService,
-              private configSvc: ConfigurationsService,
-              private userSvc: WidgetUserService,
-              private router: Router,
-              private http: HttpClient
+    private configSvc: ConfigurationsService,
+    private userSvc: WidgetUserService,
+    private router: Router,
+    private http: HttpClient
   ) {
 
   }
@@ -81,7 +81,7 @@ export class MobileDashboardComponent implements OnInit {
       result['name'] = value.name
       return result
 
-    },                             {})
+    }, {})
   }
 
   formatTopCertifiedCourseResponse(res: any) {
@@ -100,6 +100,7 @@ export class MobileDashboardComponent implements OnInit {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
           name: key.content.name,
         }
         myCourse.push(myCourseObject)
