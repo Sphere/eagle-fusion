@@ -63,9 +63,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
-    if (this.tabActive) {
-      this.dialogRef.close({ event: 'DONE' })
-    }
+    // if (this.tabActive) {
+    //   this.dialogRef.close({ event: 'DONE' })
+    // }
+  }
+
+  closeDone() {
+    this.dialogRef.close({ event: 'DONE' })
   }
 
   retakeQuiz() {
