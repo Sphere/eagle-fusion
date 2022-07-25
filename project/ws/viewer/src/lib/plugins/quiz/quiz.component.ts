@@ -218,7 +218,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
         } else if (result.event === 'DONE') {
-          console.log(this.route.snapshot.queryParams)
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
