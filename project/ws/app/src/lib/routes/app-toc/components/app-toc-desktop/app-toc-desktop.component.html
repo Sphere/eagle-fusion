@@ -15,13 +15,13 @@
     </div>
     <div class="details" (click)="showOrgprofile(content?.sourceName)">Source:{{content?.sourceName}}</div>
     <div class="details" *ngIf="content?.creator">Author:{{content?.creator}}</div>
-    <div class="details" *ngIf="content?.creatorDetails">Curators:
+    <!-- <div class="details" *ngIf="content?.creatorDetails">Curators:
       <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
         {{curator.name}}
         <ng-container *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
         </ng-container>
       </span>
-    </div>
+    </div> -->
     <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
       View License Terms</div>
     <div class="header-actions">
