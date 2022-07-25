@@ -24,7 +24,7 @@
   },
   "private": true,
   "dependencies": {
-    "@aastrika_npmjs/discussions-ui-v8": "^2.1.12",
+    "@aastrika_npmjs/discussions-ui-v8": "^2.1.13",
     "@angular/animations": "~8.2.1",
     "@angular/cdk": "~8.1.2",
     "@angular/common": "~8.2.1",
