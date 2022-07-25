@@ -72,11 +72,16 @@
         <button class="btn btn-active" [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">Next</button>
 
       </ng-container>
-      <ng-container *ngIf="tabIndex === 1">
+      <div class="flex flex-col">
+        <div class="text-center pt-5 flex justify-content-center">
+          <ng-container *ngIf="tabIndex === 1">
 
-        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
-        <!-- <button class="btn btn-lg btn-active" mat-raised-button>Show Answers</button> -->
-      </ng-container>
+            <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
+            <button class="btn btn-active" (click)="closeDone()" mat-raised-button>Done</button>
+          </ng-container>
+        </div>
+      </div>
+
     </div>
 
   </div>
