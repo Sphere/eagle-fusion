@@ -34,27 +34,27 @@
           </div>
 
           <div class="form-group input-box">
-            <select id="country" formControlName="country" i18n class="form-control select-box" name="country-input-field"
+            <select id="country" formControlName="country"  class="form-control select-box" name="country-input-field"
               (change)="countrySelect($event.target.value);disableNextBtn()">
               <option [value]=null disabled i18n>Country</option>
-              <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
+              <option i18n *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
             </select>
           </div>
 
           <div class="form-group input-box">
-            <select id="state" formControlName="state" i18n class="form-control select-box" name="state-input-field"
+            <select id="state" formControlName="state" class="form-control select-box" name="state-input-field"
               (change)="stateSelect($event.target.value);disableNextBtn()"
               [attr.disabled]="selectDisable ? 'disabled' : null">
               <option [value]=null disabled i18n>State</option>
-              <option *ngFor="let state of states" [value]="state.name">{{ state.name }}</option>
+              <option i18n *ngFor="let state of states" [value]="state.name">{{ state.name }}</option>
             </select>
           </div>
 
           <div class="form-group input-box">
-            <select id="distict" formControlName="distict" i18n class="form-control select-box" name="distict-input-field"
+            <select id="distict" formControlName="distict" class="form-control select-box" name="distict-input-field"
               [attr.disabled]="selectDisable ? 'disabled' : null" (change)="disableNextBtn()">
               <option [value]=null disabled i18n>City/Distict</option>
-              <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
+              <option i18n *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
             </select>
           </div>
 

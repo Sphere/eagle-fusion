@@ -4,7 +4,6 @@
     [class.ws-mat-warn-text]="isInvalid"
     [class.ws-mat-primary-text]="!isInvalid"
     aria-hidden="false"
-    i18n-aria-label
     aria-label="icon"
     >{{ icon }}</mat-icon
   >
@@ -16,6 +15,6 @@
     <ng-container *ngIf="name">{{
       name.length > 25 ? name.slice(0, 22) + '...' : name
     }}</ng-container>
-    <ng-container i18n *ngIf="!name">Untitled Content</ng-container>
+    <ng-container  *ngIf="!name">Untitled Content</ng-container>
   </span>
 </div>
