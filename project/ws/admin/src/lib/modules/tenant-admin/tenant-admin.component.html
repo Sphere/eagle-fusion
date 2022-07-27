@@ -3,39 +3,39 @@
   <button *ngIf="isLtMedium" type="button" mat-icon-button (click)="sideNavBarOpened = !sideNavBarOpened">
     <mat-icon>menu</mat-icon>
   </button>
-  <span class="ml-2" i18n>Manage</span>
+  <span class="ml-2" >Manage</span>
 </mat-toolbar>
 
 <mat-sidenav-container autosize>
   <mat-sidenav class="sidenav mat-drawer mat-sidenav" [mode]="isLtMedium ? 'over' : 'side'" [opened]="sideNavBarOpened">
     <mat-nav-list class="margin-left-s margin-right-xs">
       <a *ngIf="!restrictedFeatures?.has('adminFeatureUsers')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/users'" matTooltip="Users" i18n-matTooltip>
-        <span class="padding-left-s" i18n>Users</span>
+        [routerLink]="'/admin/tenant/users'" matTooltip="Users" >
+        <span class="padding-left-s" >Users</span>
       </a>
       <!-- <a *ngIf="!restrictedFeatures?.has('adminFeatureUserRegistration')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/user-registration'" matTooltip="User Registration" i18n-matTooltip>
-        <span class="padding-left-s" i18n>User Registration</span>
+        [routerLink]="'/admin/tenant/user-registration'" matTooltip="User Registration" >
+        <span class="padding-left-s" >User Registration</span>
       </a>
       <a *ngIf="!restrictedFeatures?.has('adminFeatureRegisteredUsers')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/registered-users'" matTooltip="Registered Users" i18n-matTooltip>
-        <span class="padding-left-s" i18n>Registered Users</span>
+        [routerLink]="'/admin/tenant/registered-users'" matTooltip="Registered Users" >
+        <span class="padding-left-s" >Registered Users</span>
       </a>
       <a *ngIf="!restrictedFeatures?.has('adminFeatureSystemRolesMgmt')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/system-roles-management'" matTooltip="System Roles" i18n-matTooltip>
-        <span class="padding-left-s" i18n>System Roles</span>
+        [routerLink]="'/admin/tenant/system-roles-management'" matTooltip="System Roles" >
+        <span class="padding-left-s" >System Roles</span>
       </a>
       <a *ngIf="!restrictedFeatures?.has('adminFeatureContentAssignment')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/content-assignment'" matTooltip="Content Assignment" i18n-matTooltip>
-        <span class="padding-left-s" i18n>Content Assignment</span>
+        [routerLink]="'/admin/tenant/content-assignment'" matTooltip="Content Assignment" >
+        <span class="padding-left-s" >Content Assignment</span>
       </a> -->
       <a *ngIf="!restrictedFeatures?.has('adminFeatureUserAccessPath')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/access-path'" matTooltip="User Access Path" i18n-matTooltip>
-        <span class="padding-left-s" i18n>User Org Management</span>
+        [routerLink]="'/admin/tenant/access-path'" matTooltip="User Access Path" >
+        <span class="padding-left-s" >User Org Management</span>
       </a>
       <a *ngIf="!restrictedFeatures?.has('adminFeatureBulkUpload')" mat-list-item routerLinkActive="mat-toolbar"
-        [routerLink]="'/admin/tenant/user-bulk-upload'" matTooltip="User Bulk Upload" i18n-matTooltip>
-        <span class="padding-left-s" i18n>User Bulk Upload</span>
+        [routerLink]="'/admin/tenant/user-bulk-upload'" matTooltip="User Bulk Upload" >
+        <span class="padding-left-s" >User Bulk Upload</span>
       </a>
     </mat-nav-list>
 

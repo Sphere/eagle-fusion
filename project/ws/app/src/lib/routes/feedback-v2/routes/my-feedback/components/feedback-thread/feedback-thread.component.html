@@ -19,11 +19,11 @@
           <div class="mat-body">
             <mat-form-field class="w-full">
               <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
-                formControlName="reply" placeholder="Type your text here" i18n-placeholder></textarea>
-              <mat-hint i18n>
+                formControlName="reply" placeholder="Type your text here" ></textarea>
+              <mat-hint >
                 Limit to 2000 characters.
               </mat-hint>
-              <mat-error i18n>
+              <mat-error >
                 You have exceeded 2000 characters.
               </mat-error>
             </mat-form-field>
@@ -35,7 +35,7 @@
             </div>
             <button mat-flat-button color="primary" type="submit"
               [disabled]="replyForm.pristine || replyForm.invalid || sendStatus === 'sending'">
-              <ng-container i18n>Submit</ng-container>
+              <ng-container >Submit</ng-container>
             </button>
           </div>
         </form>
@@ -44,7 +44,7 @@
 
     <ng-container *ngIf="threadFetchStatus === 'error'">
       <section class="my-24 flex flex-center">
-        <h3 class="mat-h3" i18n>
+        <h3 class="mat-h3" >
           There was an error while fetching this feedback thread.
         </h3>
       </section>

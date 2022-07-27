@@ -7,7 +7,7 @@
   >
     <mat-tab>
       <ng-template mat-tab-label>
-        <span i18n>Likes</span>
+        <span >Likes</span>
         <ng-container *ngIf="activityUsersResult.like.data?.total"
           >&nbsp;({{ activityUsersResult.like.data?.total }})
         </ng-container>
@@ -37,7 +37,7 @@
             type="button"
             mat-button
             (click)="fetchActivityUsers('like')"
-            i18n
+            
           >
             See More
           </button>
@@ -45,7 +45,7 @@
         <h3
           *ngIf="activityUsersResult.like.fetchStatus === 'none'"
           class="text-center margin-top-m"
-          i18n
+          
         >
           No likes
         </h3>
@@ -55,7 +55,7 @@
             !activityUsersResult.like.data?.users?.length
           "
           class="text-center margin-top-m"
-          i18n
+          
         >
           Error fetching likes
         </h3>
@@ -63,7 +63,7 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <span i18n>Up Votes</span>
+        <span >Up Votes</span>
         <ng-container *ngIf="activityUsersResult.upvote.data?.total">
           &nbsp;({{ activityUsersResult.upvote.data?.total }})
         </ng-container>
@@ -93,7 +93,7 @@
             type="button"
             mat-button
             (click)="fetchActivityUsers('upvote')"
-            i18n
+            
           >
             See More
           </button>
@@ -101,7 +101,7 @@
         <h3
           *ngIf="activityUsersResult.upvote.fetchStatus === 'none'"
           class="text-center margin-top-m"
-          i18n
+          
         >
           No up votes
         </h3>
@@ -111,7 +111,7 @@
             !activityUsersResult.upvote.data?.users?.length
           "
           class="text-center margin-top-m"
-          i18n
+          
         >
           Error fetching up votes
         </h3>
@@ -119,7 +119,7 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <span i18n>Down Votes</span>
+        <span >Down Votes</span>
         <ng-container *ngIf="activityUsersResult.downvote.data?.total">
           &nbsp;({{ activityUsersResult.downvote.data?.total }})
         </ng-container>
@@ -150,7 +150,7 @@
             type="button"
             mat-button
             (click)="fetchActivityUsers('downvote')"
-            i18n
+            
           >
             See More
           </button>
@@ -158,7 +158,7 @@
         <h3
           *ngIf="activityUsersResult.downvote.fetchStatus === 'none'"
           class="text-center margin-top-m"
-          i18n
+          
         >
           No down votes
         </h3>
@@ -168,7 +168,7 @@
             !activityUsersResult.downvote.data?.users?.length
           "
           class="text-center margin-top-m"
-          i18n
+          
         >
           Error fetching down votes
         </h3>
@@ -195,11 +195,11 @@
       <ng-container *ngIf="userFollowFetchStatus !== 'fetching'">
         <ng-container *ngIf="!ifFollowing(user.id)">
           <mat-icon class="follow-icon">person_add</mat-icon>
-          <ng-container i18n>Follow</ng-container>
+          <ng-container >Follow</ng-container>
         </ng-container>
         <ng-container *ngIf="ifFollowing(user.id)">
           <mat-icon>check</mat-icon>&nbsp;
-          <ng-container i18n>Following</ng-container>
+          <ng-container >Following</ng-container>
         </ng-container>
       </ng-container>
     </button>

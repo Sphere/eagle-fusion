@@ -3,9 +3,7 @@
     mat-raised-button
     *ngSwitchCase="'REJECT'"
     aria-label="Rejected"
-    i18n-aria-label
     matTooltip="Reject"
-    i18n-matTooltip="Reject Button"
     (click)="reject()"
   >
     Reject
@@ -14,9 +12,7 @@
     mat-raised-button
     *ngSwitchCase="'ACCEPT'"
     aria-label="Accepted"
-    i18n-aria-label
     matTooltip="Accept"
-    i18n-matTooltip="Accept Button"
     class="mat-primary"
     (click)="accept()"
   >
@@ -25,7 +21,6 @@
   <button
     mat-icon-button
     matTooltip="Please wait"
-    i18n-matTooltip="Like Button Wait"
     *ngSwitchCase="'PENDING'"
   >
     <mat-icon [color]="color">hourglass_empty</mat-icon>

@@ -6,12 +6,12 @@
   </section>
   <ng-container *ngIf="inProgress !== 'fetching'">
     <ng-container *ngIf="fetchKbs === 'done' && !knowledgeBoards?.length">
-      <h2 class="mat-title" i18n>You don't have any Knowledge Boards</h2>
-      <a (click)="redirectToCreateKb()" mat-button color="primary" i18n>Create New</a>
+      <h2 class="mat-title" >You don't have any Knowledge Boards</h2>
+      <a (click)="redirectToCreateKb()" mat-button color="primary" >Create New</a>
     </ng-container>
     <div class="ws-mat-primary-default-text mat-subheading-2 text-truncate">{{contentName}}</div>
     <mat-divider></mat-divider>
-    <h2 *ngIf="knowledgeBoards?.length" class="mat-subheading-2 margin-remove-bottom" i18n>
+    <h2 *ngIf="knowledgeBoards?.length" class="mat-subheading-2 margin-remove-bottom" >
       Select a Knowledge Board
     </h2>
     <div class="p-8 text-center" *ngIf="fetchKbs === 'fetching'">
@@ -34,11 +34,11 @@
             <mat-expansion-panel expanded>
 
               <mat-form-field>
-                <mat-label i18n>Choose Section</mat-label>
+                <mat-label >Choose Section</mat-label>
                 <mat-select [(ngModel)]="board.selectedSection" [disabled]="selectedBoards.has(board?.identifier)"
                   [matTooltipDisabled]="!selectedBoards.has(board?.identifier)"
                   [matTooltip]="'You can modify this from the board'">
-                  <mat-option *ngIf="board.sections.indexOf('Default') < 0" value="Default" i18n>Default</mat-option>
+                  <mat-option *ngIf="board.sections.indexOf('Default') < 0" value="Default" >Default</mat-option>
                   <ng-container *ngFor="let section of board.sections">
                     <mat-option [value]="section">
                       {{ section }}
@@ -55,21 +55,21 @@
           </div>
         </ng-container>
       </mat-selection-list>
-      <h2 class="mat-subheading-2" i18n>This helps in...</h2>
+      <h2 class="mat-subheading-2" >This helps in...</h2>
       <p>
         <mat-form-field appearance="fill" floatLabel="never" class="w-full">
-          <textarea matInput i18n-placeholder placeholder="Reason to add this goes here" [(ngModel)]="reason"
+          <textarea matInput -placeholder placeholder="Reason to add this goes here" [(ngModel)]="reason"
             rows="3"></textarea>
         </mat-form-field>
       </p>
 
       <div class="flex flex-row-reverse">
         <div class="flex">
-          <button name="pin-to-kb-done-button" mat-button (click)="doneChanges()" i18n>
+          <button name="pin-to-kb-done-button" mat-button (click)="doneChanges()" >
             Cancel
           </button>
           <button name="pin-to-kb-done-button" mat-button [disabled]="postSelectedBoards.size == 0"
-            (click)="addContentToKb(boards.selectedOptions.selected)" i18n>
+            (click)="addContentToKb(boards.selectedOptions.selected)" >
             Save
           </button>
 
@@ -80,6 +80,6 @@
   </ng-container>
 </div>
 
-<input #contentUpdated type="hidden" i18n-value value="Content Updated" />
-<input #contentNotUpdated type="hidden" i18n-value
+<input #contentUpdated type="hidden"  value="Content Updated" />
+<input #contentNotUpdated type="hidden" 
   value="Content not updated for some knowledge boards, add it from knowledge board home page" />

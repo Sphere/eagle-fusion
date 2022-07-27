@@ -44,22 +44,22 @@
         </span>
       </div>
       <p *ngIf="viewData?.url?.length > 0 && !screenSizeIsLtMedium && !hasInternetUrl">
-        <span i18n>You can access it </span>
+        <span >You can access it </span>
         <a style="color:cadetblue;" href="{{ viewData.url }}" target="_blank">
-          <b i18n>Here</b>
+          <b >Here</b>
         </a>
         <br />
-        <!-- <span i18n="message saying it will soon be available"
+        <!-- <span ="message saying it will soon be available"
           >You can soon access this and many other artifacts from anywhere, any
           time</span
         > -->
       </p>
       <!-- <p *ngIf="viewData?.url?.length > 0 && hasInternetUrl">
-        <span i18n="message saying the url link">You can access it </span>
+        <span ="message saying the url link">You can access it </span>
         <a style="color:cadetblue;" [routerLink]="'/viewer/' + url"><b>Here</b></a>
         <br />
       </p> -->
-      <p *ngIf="viewData?.url?.length > 0 && !hasInternetUrl" i18n="message saying content available in intranet">
+      <p *ngIf="viewData?.url?.length > 0 && !hasInternetUrl">
         This artifact is currently available only on Infosys Network. You can soon access this and many other artifacts from anywhere,
         any time.
         <br />
@@ -77,7 +77,7 @@
     <mat-spinner *ngIf="!recsStatus"></mat-spinner>
     <div>
       <h3 *ngIf="recsStatus && moreRecs.length > 0" style="margin-top: 10px;">
-        <span i18n="Label for showing morelike Recommendations">Explore Similar</span>
+        <span>Explore Similar</span>
         {{ sObject.category }}s
       </h3>
       <div *ngIf="recsStatus && !screenSizeIsLtMedium">

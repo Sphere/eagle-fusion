@@ -18,20 +18,20 @@
 
 <ng-template #startTime let-event>
   <span class="mat-body-strong">
-    <ng-container *ngIf="isCurrentTimeSmall(event.startTime); else eventStarted" i18n
+    <ng-container *ngIf="isCurrentTimeSmall(event.startTime); else eventStarted" 
       >Starts:
     </ng-container>
-    <ng-template #eventStarted i18n>Started: </ng-template>
+    <ng-template #eventStarted >Started: </ng-template>
   </span>
   <span class="mat-body date-value">{{ event.startTime | date }}</span>
 </ng-template>
 
 <ng-template #endTime let-event>
   <span class="mat-body-strong">
-    <ng-container *ngIf="isCurrentTimeSmall(event.endTime); else eventEnded" i18n
+    <ng-container *ngIf="isCurrentTimeSmall(event.endTime); else eventEnded" 
       >Ends:
     </ng-container>
-    <ng-template #eventEnded i18n>Ended: </ng-template>
+    <ng-template #eventEnded >Ended: </ng-template>
   </span>
   <span class="mat-body date-value">{{ event.endTime | date }}</span>
 </ng-template>

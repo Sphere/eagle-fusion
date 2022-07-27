@@ -1,5 +1,5 @@
 <div class="flex flex-between items-center">
-  <h2 mat-dialog-title class="heading font-weight-500" i18n>
+  <h2 mat-dialog-title class="heading font-weight-500" >
     Edit Roles
   </h2>
   <button mat-dialog-close mat-icon-button class="cursor-pointer" (click)="close()">
@@ -10,9 +10,9 @@
 <div *ngIf="roleList.length" class="flex flex-wrap">
   <div class="py-1 changeWidth w-1/2">
     <div class="p-1">
-      <mat-checkbox color="primary" [disabled]="true" [checked]="true" class="font-bold" i18n>
+      <mat-checkbox color="primary" [disabled]="true" [checked]="true" class="font-bold" >
         default-roles</mat-checkbox>
-      <p class="pl-6" i18n>Common site privileges such as Home, Channels, Knowledge Board, Playlists</p>
+      <p class="pl-6" >Common site privileges such as Home, Channels, Knowledge Board, Playlists</p>
     </div>
   </div>
   <div *ngFor="let role of roleList" class="py-1 changeWidth w-1/2">
@@ -30,6 +30,6 @@
     <mat-progress-spinner mode="indeterminate" *ngIf="processing" diameter="30"></mat-progress-spinner>
   </div>
   <button mat-raised-button class="pt-4" type="button" color="primary" (click)="changeRole()">
-    <span i18n>Save Changes</span>
+    <span >Save Changes</span>
   </button>
 </div>

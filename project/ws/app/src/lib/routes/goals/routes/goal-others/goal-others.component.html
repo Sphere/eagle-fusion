@@ -2,8 +2,8 @@
   <div class="text-center">
     <mat-spinner *ngIf="fetchGoalsStatus === 'fetching'"></mat-spinner>
   </div>
-  <h3 class="mat-subheading-2" *ngIf="fetchGoalsStatus === 'error'" i18n>Error Fetching Data</h3>
-  <h2 class="mat-title" *ngIf="fetchGoalsStatus !== 'fetching' && !othersGoals?.length" i18n>
+  <h3 class="mat-subheading-2" *ngIf="fetchGoalsStatus === 'error'" >Error Fetching Data</h3>
+  <h2 class="mat-title" *ngIf="fetchGoalsStatus !== 'fetching' && !othersGoals?.length" >
     You have not added any Goals for Others
   </h2>
   <div *ngFor="let goal of othersGoals" class="margin-bottom-m">

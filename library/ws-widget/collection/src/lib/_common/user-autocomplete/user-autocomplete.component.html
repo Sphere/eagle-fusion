@@ -5,15 +5,15 @@
       {{ selectedUser.first_name }} {{ selectedUser.last_name }}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input i18n-placeholder placeholder="Search users" #userInputForm [formControl]="userFormControl"
+    <input -placeholder placeholder="Search users" #userInputForm [formControl]="userFormControl"
       [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption class="ws-widget-user-autocomplete"
     (optionSelected)="selectUser($event, duplicate.value, selfShareError.value)">
-    <mat-option *ngIf="fetchTagsStatus === 'fetching'" i18n>Fetching users...</mat-option>
+    <mat-option *ngIf="fetchTagsStatus === 'fetching'" >Fetching users...</mat-option>
     <mat-option *ngIf="
         (fetchTagsStatus === 'done' || fetchTagsStatus === 'error') && !autocompleteAllUsers.length
-      " i18n>
+      " >
       No user found. Please check the value entered.</mat-option>
     <mat-option *ngFor="let autocompleteUser of autocompleteAllUsers" [value]="autocompleteUser">
       <div class="flex items-center">
@@ -35,5 +35,5 @@
   </mat-autocomplete>
 </mat-form-field>
 
-<input type="hidden" i18n-value value="User already added" #duplicate />
-<input type="hidden" i18n-value value="Please select a user other than yourself." #selfShareError />
+<input type="hidden"  value="User already added" #duplicate />
+<input type="hidden"  value="Please select a user other than yourself." #selfShareError />

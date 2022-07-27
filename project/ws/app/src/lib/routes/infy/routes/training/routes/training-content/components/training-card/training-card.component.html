@@ -8,7 +8,7 @@
       <div class="width-3-10">
         <div class="relative">
           <div class="absolute training-options-container flex">
-            <button mat-icon-button (click)="onClickBtnShare()" matTooltip="Share" i18n-matTooltip>
+            <button mat-icon-button (click)="onClickBtnShare()" matTooltip="Share" -matTooltip>
               <mat-icon>share</mat-icon>
             </button>
             <button mat-icon-button class="btn-training-menu absolute" [matMenuTriggerFor]="trainingOptionsMenu">
@@ -20,7 +20,7 @@
       <mat-menu #trainingOptionsMenu>
         <button mat-menu-item [matMenuTriggerFor]="educatorsMenu" *ngIf="training.sessions && training.sessions.length">
           <mat-icon>school</mat-icon>
-          <span i18n>Educators</span>
+          <span >Educators</span>
         </button>
       </mat-menu>
       <mat-menu #educatorsMenu>
@@ -60,7 +60,7 @@
           <mat-icon>access_time</mat-icon>
         </div>
         <div class="margin-left-xs">
-          <span class="mat-body-2" i18n="time zone">Time Zone: </span>
+          <span class="mat-body-2" ="time zone">Time Zone: </span>
           <span class="mat-body"> {{ training.time_zone }}</span>
         </div>
       </div>
@@ -71,7 +71,7 @@
         </div>
         <div class="margin-left-xs">
 
-          <span class="mat-body-2" i18n>Location: </span>
+          <span class="mat-body-2" >Location: </span>
           <span
             class="mat-body">{{training.sessions[0].classroom + ' , ' +training.sessions[0].building + ' , ' + training.location}}</span>
 
@@ -86,10 +86,10 @@
         </div>
         <div class="margin-left-xs width-9-10 flex flex-column flex-center">
           <div class="text-truncate">
-            <span class="mat-body-2" i18n="assessment; exam">Assessment: </span>
+            <span class="mat-body-2" ="assessment; exam">Assessment: </span>
             <span class="mat-body">
-              <ng-container *ngIf="training.hasAssessment" i18n>Yes</ng-container>
-              <ng-container *ngIf="!training.hasAssessment" i18n>No</ng-container>
+              <ng-container *ngIf="training.hasAssessment" >Yes</ng-container>
+              <ng-container *ngIf="!training.hasAssessment" >No</ng-container>
             </span>
           </div>
         </div>
@@ -102,13 +102,13 @@
         <div class="margin-left-xs width-9-10 flex flex-column flex-center text-truncate">
           <div class="text-truncate">
             <ng-container *ngIf="training.slots_available; else noSeats">
-              <span class="mat-body-2" i18n="seats available">Seats Available: </span>
+              <span class="mat-body-2" ="seats available">Seats Available: </span>
             </ng-container>
             <ng-container *ngIf="training.slots_available">{{
               training.slots_available + ' '
             }}</ng-container>
             <ng-template #noSeats>
-              <span color="warn" class="mat-body" i18n="seats full">Seats full!</span>
+              <span color="warn" class="mat-body" ="seats full">Seats full!</span>
             </ng-template>
           </div>
         </div>
@@ -127,14 +127,14 @@
   <div class="flex flex-center">
     <div [ngClass]="{'mr-4': trainingPrivileges.canNominate}" *ngIf="!training.registered">
       <button mat-flat-button color="primary" class="inline-block" (click)="onClickBtnRegister(training)"
-        [disabled]="!(training.slots_available && training.eligible) || registerStatus === 'sending'" i18n>
+        [disabled]="!(training.slots_available && training.eligible) || registerStatus === 'sending'" >
         Register
       </button>
     </div>
 
     <div [ngClass]="{'mr-4': trainingPrivileges.canNominate}" *ngIf="training.registered">
       <button mat-flat-button color="primary" class="inline-block" (click)="onClickBtnDeregister(training)"
-        [disabled]="deregisterStatus === 'sending'" [ngClass]="{'mr-4': trainingPrivileges.canNominate}" i18n>
+        [disabled]="deregisterStatus === 'sending'" [ngClass]="{'mr-4': trainingPrivileges.canNominate}" >
         De-Register
       </button>
     </div>
@@ -142,8 +142,8 @@
     <div *ngIf="trainingPrivileges.canNominate">
       <button mat-stroked-button color="primary" class="inline-block" [disabled]="
         !training.slots_available || registerStatus === 'sending' || deregisterStatus === 'sending'
-      " (click)="onClickBtnNominate()" i18n="nominate" matTooltip="Nominate other users to undergo this training."
-        i18n-matTooltip>
+      " (click)="onClickBtnNominate()" ="nominate" matTooltip="Nominate other users to undergo this training."
+        -matTooltip>
         Nominate
       </button>
     </div>
@@ -153,9 +153,9 @@
 <!-- Templates -->
 <ng-template #ineligibleForTraining let-training>
   <span [ngSwitch]="training.ineligibility_reasons[0]">
-    <ng-container *ngSwitchCase="'JL'" i18n>This training is not for your JL.</ng-container>
-    <ng-container *ngSwitchCase="'PU'" i18n>This training is not for your unit.</ng-container>
-    <ng-container *ngSwitchCase="'Role'" i18n>This training is not for your role.</ng-container>
-    <ng-container *ngSwitchDefault i18n>You are not eligible for this training.</ng-container>
+    <ng-container *ngSwitchCase="'JL'" >This training is not for your JL.</ng-container>
+    <ng-container *ngSwitchCase="'PU'" >This training is not for your unit.</ng-container>
+    <ng-container *ngSwitchCase="'Role'" >This training is not for your role.</ng-container>
+    <ng-container *ngSwitchDefault >You are not eligible for this training.</ng-container>
   </span>
 </ng-template>

@@ -7,7 +7,7 @@
     <div class="flex">
       <mat-icon>location_on</mat-icon>
       <p class="margin-left-xs">
-        <span class="mat-body-2" i18n> Location: </span>
+        <span class="mat-body-2" > Location: </span>
         <span class="mat-body">{{ training.location }}</span>
       </p>
     </div>
@@ -17,7 +17,7 @@
     <div class="flex">
       <mat-icon>school</mat-icon>
       <p class="margin-left-xs">
-        <span class="mat-body-2" i18n>Educator: </span>
+        <span class="mat-body-2" >Educator: </span>
         <span class="mat-body">{{ training.educator.name }}</span>
       </p>
     </div>
@@ -30,7 +30,7 @@
       *ngIf="training.content_feedback_required && !training.content_feedback_given"
       [routerLink]="'../' + training.offering_id + '/content'"
       [queryParams]="{ form: training.content_feedback_form }"
-      i18n="content feedback"
+      
     >
       Content Feedback
     </a>
@@ -40,7 +40,7 @@
       *ngIf="training.instructor_feedback_required && !training.instructor_feedback_given"
       [routerLink]="'../' + training.offering_id + '/instructor'"
       [queryParams]="{ form: training.instructor_feedback_form }"
-      i18n="instructor feedback"
+     
     >
       Instructor Feedback
     </a>
@@ -50,13 +50,13 @@
 <!-- Templates -->
 <ng-template #trainingType let-type>
   <span [ngSwitch]="type" class="text-truncate">
-    <ng-container *ngSwitchCase="'Classroom'" i18n="classroom training"
+    <ng-container *ngSwitchCase="'Classroom'" 
       >CLASSROOM TRAINING</ng-container
     >
-    <ng-container *ngSwitchCase="'Virtual Classroom'" i18n="virtual classroom training"
+    <ng-container *ngSwitchCase="'Virtual Classroom'" 
       >VIRTUAL TRAINING</ng-container
     >
-    <ng-container *ngSwitchCase="'Blended Classroom'" i18n="blended training"
+    <ng-container *ngSwitchCase="'Blended Classroom'" 
       >BLENDED TRAINING</ng-container
     >
   </span>

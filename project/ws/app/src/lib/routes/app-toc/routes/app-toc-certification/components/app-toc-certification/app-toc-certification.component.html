@@ -26,7 +26,7 @@
         *ngIf="content?.sourceShortName === 'IAP' && !content.isExternal"></ws-app-toc-certification-iap-card>
 
       <section class="margin-top-l text-center mat-body"
-        *ngIf="(content?.sourceShortName !== 'IAP' && !content?.isExternal) || content?.isExternal" i18n>
+        *ngIf="(content?.sourceShortName !== 'IAP' && !content?.isExternal) || content?.isExternal" >
         There was an error fetching certification data.
       </section>
     </ng-container>
@@ -72,7 +72,7 @@
 <!-- Ineligible for Certification -->
 <ng-template #ineligible>
   <div class="text-center margin-top-l">
-    <h2 class="mat-h2" i18n>
+    <h2 class="mat-h2" >
       Sorry, but you are not eligible for this certification.
     </h2>
     <p class="mat-body" *ngIf="certification?.eligibility">
@@ -80,12 +80,12 @@
     </p>
 
     <p class="mat-body" *ngIf="certification?.lastTakenDate?.day">
-      <ng-container i18n>Your last attempt was on: </ng-container>
+      <ng-container >Your last attempt was on: </ng-container>
       <ng-container>{{ certification?.lastTakenDate | pipeDateConcat }}</ng-container>
     </p>
 
     <p class="mat-body" *ngIf="certification?.eligibility?.reason?.nextRegisterDate">
-      <ng-container i18n>You can next register for this certification on or after: </ng-container>
+      <ng-container >You can next register for this certification on or after: </ng-container>
       <ng-container>
         {{ certification?.eligibility?.reason?.nextRegisterDate | pipeDateConcat }}
       </ng-container>
@@ -95,14 +95,14 @@
 
 <!-- Certification completed -->
 <ng-template #completed>
-  <h2 class="mat-title margin-top-m text-center" i18n>
+  <h2 class="mat-title margin-top-m text-center" >
     Congratulations!
   </h2>
-  <p class="mat-body text-center" i18n>
+  <p class="mat-body text-center" >
     You have completed this certification!
   </p>
   <div class="margin-top-s" *ngIf="certification?.qualified_score">
-    <h3 class="mat-h3 text-center" i18n>Result</h3>
+    <h3 class="mat-h3 text-center" >Result</h3>
     <h2 class="mat-title text-center">
       {{ certification?.qualified_score }}
     </h2>
@@ -116,10 +116,10 @@
     ">
     <button mat-flat-button [color]="'primary'" class="margin-bottom-xs" (click)="downloadProof()"
       [disabled]="downloadStatus === 'fetching'">
-      <ng-container *ngIf="downloadStatus !== 'fetching'" i18n>Download Result</ng-container>
+      <ng-container *ngIf="downloadStatus !== 'fetching'" >Download Result</ng-container>
       <ng-container *ngIf="downloadStatus === 'fetching'">
         <div class="flex flex-between">
-          <div i18n>Downloading...</div>
+          <div >Downloading...</div>
           <div class="flex flex-column flex-center">
             <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'"></mat-progress-spinner>
           </div>

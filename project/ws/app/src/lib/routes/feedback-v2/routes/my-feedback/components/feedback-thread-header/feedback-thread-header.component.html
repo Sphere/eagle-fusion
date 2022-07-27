@@ -6,11 +6,11 @@
   </div>
   <div class="mat-body-2 uppercase my-auto">
     <ng-container [ngSwitch]="threadHead.contentType">
-      <ng-container *ngSwitchCase="contentTypes.PROGRAM" i18n>Program</ng-container>
-      <ng-container *ngSwitchCase="contentTypes.COURSE" i18n>Course</ng-container>
-      <ng-container *ngSwitchCase="contentTypes.MODULE" i18n>Module</ng-container>
-      <ng-container *ngSwitchCase="contentTypes.RESOURCE" i18n>Resource</ng-container>
-      <ng-container *ngSwitchDefault i18n>Content</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.PROGRAM" >Program</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.COURSE" >Course</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.MODULE" >Module</ng-container>
+      <ng-container *ngSwitchCase="contentTypes.RESOURCE" >Resource</ng-container>
+      <ng-container *ngSwitchDefault >Content</ng-container>
     </ng-container>
   </div>
 </section>
@@ -31,7 +31,7 @@
             threadHead.feedbackType === feedbackTypes.Content ||
             threadHead.feedbackType === feedbackTypes.Platform
           "
-          i18n
+          
         >
           You gave this feedback
         </ng-container>
@@ -40,7 +40,7 @@
             threadHead.feedbackType === feedbackTypes.ContentRequest ||
             threadHead.feedbackType === feedbackTypes.ServiceRequest
           "
-          i18n
+          
         >
           You raised this request
         </ng-container>
@@ -61,7 +61,7 @@
     *ngIf="!feedbackCategory && viewedBy !== feedbackRoles.User"
   >
     <mat-icon>category</mat-icon>
-    <span class="ml-1" i18n>Assign category</span>
+    <span class="ml-1" >Assign category</span>
   </button>
 
   <mat-menu #categoryMenu="matMenu">

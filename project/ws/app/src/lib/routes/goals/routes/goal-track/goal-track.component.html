@@ -1,11 +1,11 @@
 <mat-toolbar [color]="configSvc.pageNavBar?.color" [ngStyle]="configSvc.pageNavBar?.styles">
   <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
-  <span class="margin-left-s" i18n>Track Goal</span>
+  <span class="margin-left-s" >Track Goal</span>
 </mat-toolbar>
 <main class="max-w-3xl m-auto p-4">
   <h2 class="mat-title margin-bottom-xs">{{ goal?.name }}</h2>
   <div *ngIf="goal?.duration">
-    <ng-container i18n>Target time for completion</ng-container>
+    <ng-container >Target time for completion</ng-container>
     {{goal?.duration}}
     <ng-container>day(s)</ng-container>
   </div>
@@ -15,7 +15,7 @@
   </div>
   <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="./accepted" queryParamsHandling="merge" routerLinkActive #accepted="routerLinkActive"
-      [active]="accepted.isActive" i18n>
+      [active]="accepted.isActive" >
       Accepted
     </a>
     <a mat-tab-link routerLink="./rejected" queryParamsHandling="merge" routerLinkActive #rejected="routerLinkActive"

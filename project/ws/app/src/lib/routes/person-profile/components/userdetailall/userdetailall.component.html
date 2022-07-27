@@ -3,11 +3,11 @@
     <div class="flex flex-between flex-middle w-full">
       <div class="flex flex-middle">
         <img src="/assets/images/profile/enablement.jpg" class="object-cover smallimage" />
-        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" i18n>{{name}}</h1>
-        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" i18n>by</h1>
-        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" i18n>{{userName}}</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" >{{name}}</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" >by</h1>
+        <h1 class="mat-h1 margin-left-s font-weight-bold margin-remove-bottom font-family" >{{userName}}</h1>
       </div>
-      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()" i18n>close</mat-icon>
+      <mat-icon class="float-right flex-end cursor-pointer" (click)="close()" >close</mat-icon>
     </div>
     <mat-divider></mat-divider>
     <ng-container>
@@ -34,7 +34,7 @@
           <mat-card class="flex  flex-wrap m-2 padding-remove card-container" *ngFor="let board of content;">
             <mat-card-content class="flex">
               <a (click)="raiseTelemetry()" [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link"
-                aria-label="Content" i18n-aria-label="Content | Click to view">
+                aria-label="Content" -aria-label="Content | Click to view">
                 <img [src]="board.appIcon" [id]="'card_' + board.identifier"
                   class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
                   [alt]="board.name" [title]="board.name" />
@@ -42,7 +42,7 @@
               <div class="mx-4 my-2">
                 <a class="font-family" (click)="raiseTelemetry()"
                   [routerLink]="'/app/knowledge-board/'+ board?.identifier" role="link" aria-label="Content"
-                  i18n-aria-label>
+                  -aria-label>
                   <p class="font-family mat-h3 font-weight-normal title-text text title-size" [matTooltip]="board.name">
                     {{ board.name }}</p>
                   <p class="font-family ws-mat-text-block-fade-gradient mat-h4 text descr-size">{{ board.description }}
@@ -59,7 +59,7 @@
             <a [routerLink]="playlist?.id">
               <div class="card relative">
                 <img [src]="playlist?.icon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-                  class="thumbnail ws-mat-primary-lite-background" alt="Playlist Icon" i18n-alt />
+                  class="thumbnail ws-mat-primary-lite-background" alt="Playlist Icon" -alt />
                 <div class="overlay flex flex-middle flex-center">
                   <div class="color-white playlist-font">
                     <h2 class="text-center playlist-count">
@@ -75,7 +75,7 @@
                 <span class="mat-caption">{{ playlist.visibility | uppercase }}</span>
               </div>
               <span *ngIf="playlists?.sharedBy" class="mat-body">
-                <ng-container i18n>shared by </ng-container>
+                <ng-container >shared by </ng-container>
                 <span class="mat-body-strong margin-remove-bottom">{{ playlist.sharedByDisplayName }}</span>
               </span>
             </a>

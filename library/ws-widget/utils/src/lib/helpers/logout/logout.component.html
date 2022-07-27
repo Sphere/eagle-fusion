@@ -1,13 +1,13 @@
-<h1 mat-dialog-title i18n>Logout Now</h1>
-<div class="ws-mat-primary-text text-base pb-2 title-text" *ngIf="isDownloadable" i18n>
+<h1 mat-dialog-title >Logout Now</h1>
+<div class="ws-mat-primary-text text-base pb-2 title-text" *ngIf="isDownloadable" >
   Note: On logging out all the downloaded content will be deleted.
 </div>
-<div mat-dialog-content class="text-base hide-overflow" i18n>
+<div mat-dialog-content class="text-base hide-overflow" >
   Are you sure?
 </div>
 <div mat-dialog-actions class="flex-row-reverse">
-  <button mat-flat-button color="warn" [disabled]="disabled" (click)="confirmed()" i18n>
+  <button mat-flat-button color="warn" [disabled]="disabled" (click)="confirmed()" >
     Yes
   </button>
-  <button mat-button class="margin-right-xs" [mat-dialog-close] cdkFocusInitial i18n>No</button>
+  <button mat-button class="margin-right-xs" [mat-dialog-close] cdkFocusInitial >No</button>
 </div>

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title i18n>Confirm Selection</h1>
+<h1 mat-dialog-title >Confirm Selection</h1>
 <div class="dialog-content-height" mat-dialog-content>
   <div *ngIf="configSvc?.rootOrg!=='RootOrg'" class="flex justify-center text-center">
     <span>Make this assignment mandatory for selected users
@@ -17,6 +17,6 @@
   </div>
 </div>
 <div mat-dialog-actions class="flex flex-row-reverse">
-  <button mat-button (click)="close()" i18n>Cancel</button>
-  <button mat-raised-button color='primary' (click)="close(true)" cdkFocusInitial i18n>Confirm</button>
+  <button mat-button (click)="close()" >Cancel</button>
+  <button mat-raised-button color='primary' (click)="close(true)" cdkFocusInitial >Confirm</button>
 </div>

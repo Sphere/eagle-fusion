@@ -1,12 +1,12 @@
 <!-- <mat-toolbar [color]="pageNavbar.color">
   <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
-  <span class="ml-2" i18n>Learning</span>
+  <span class="ml-2" >Learning</span>
 </mat-toolbar> -->
 <div *ngIf="apiFetchStatus === 'fetching'" class="margin-xl padding-xl flex flex-center">
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="apiFetchStatus === 'error'" class="margin-xl mat-elevation-z2">
-  <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+  <h2  class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
     Currently, You do not have any Learning Path
   </h2>
 </div>
@@ -56,14 +56,14 @@
           <div class="text-center text-sm">
             <ng-container class=" flex flex-middle flex-wrapped text-center">
               <span>{{ learningData?.role_status.course_completed }}</span>
-              <span i18n> out of </span>
+              <span > out of </span>
               <span>{{ learningData?.role_status.course_count }}</span>
             </ng-container>
           </div>
         </div>
       </div>
       <p class="text-right margin-remove-bottom text-sm">
-        <span i18n>Last updated on </span>
+        <span >Last updated on </span>
         <span>{{ learningData?.role_status.last_updated | date }}</span>
       </p>
       <div class="header-actions">
@@ -72,11 +72,11 @@
           }">
           <div class="flex items-center">
             <span [ngClass]="{ 'text-white': learningData?.role_status.current_level === 'Certified' }"
-              class="font-bold margin-remove-bottom" i18n>Certified</span>
+              class="font-bold margin-remove-bottom" >Certified</span>
             <mat-icon *ngIf="
                 learningData?.role_status.current_level === 'Professional' ||
                 learningData?.role_status.current_level === 'Master'
-              " i18n-matTooltip matTooltip="Completed" class="ws-mat-green-text check mt-2">check_circle</mat-icon>
+              " -matTooltip matTooltip="Completed" class="ws-mat-green-text check mt-2">check_circle</mat-icon>
           </div>
         </a>
         <a (click)="onClick('professional')" class="mat-raised-button button-action" [ngClass]="{
@@ -85,8 +85,8 @@
           <div class="flex items-center">
             <span [ngClass]="{
                 'text-white': learningData?.role_status.current_level === 'Professional'
-              }" class="font-bold margin-remove-bottom" i18n>Professional</span>
-            <mat-icon *ngIf="learningData?.role_status.current_level === 'Master'" i18n-matTooltip
+              }" class="font-bold margin-remove-bottom" >Professional</span>
+            <mat-icon *ngIf="learningData?.role_status.current_level === 'Master'" -matTooltip
               matTooltip="Completed" class="ws-mat-green-text check mt-2">check_circle</mat-icon>
           </div>
         </a>
@@ -94,7 +94,7 @@
             'ws-mat-primary-background': learningData?.role_status.current_level === 'Master'
           }">
           <span [ngClass]="{ 'text-white': learningData?.role_status.current_level === 'Master' }"
-            class="font-bold margin-remove-bottom" i18n>Master</span>
+            class="font-bold margin-remove-bottom" >Master</span>
         </a>
       </div>
     </div>
@@ -102,19 +102,19 @@
   <div class="margin-top-s">
     <div class="mx-8" id="certified">
       <div class="flex flex-middle flex-wrapped">
-        <h1 class="mat-h1 margin-remove-bottom" i18n>Certified</h1>
+        <h1 class="mat-h1 margin-remove-bottom" >Certified</h1>
       </div>
       <ng-container [wsResolverWidget]="widgetResolverCertifiedData"></ng-container>
     </div>
     <div class="mx-8" id="professional">
       <div class="flex flex-middle flex-wrapped">
-        <h1 class="mat-h1 margin-remove-bottom" i18n>Professional</h1>
+        <h1 class="mat-h1 margin-remove-bottom" >Professional</h1>
       </div>
       <ng-container [wsResolverWidget]="widgetResolverProfessionalData"></ng-container>
     </div>
     <div class="mx-8" id="master">
       <div class="flex flex-middle flex-wrapped">
-        <h1 class="mat-h1" i18n>Master</h1>
+        <h1 class="mat-h1" >Master</h1>
       </div>
       <ng-container [wsResolverWidget]="widgetResolverMasterData"></ng-container>
     </div>

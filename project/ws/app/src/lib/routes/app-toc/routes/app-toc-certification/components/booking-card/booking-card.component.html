@@ -1,38 +1,38 @@
 <section class="my-4 container-balanced">
-  <h2 class="mat-title" i18n>
+  <h2 class="mat-title" >
     Exam Scheduled
   </h2>
-  <p class="mat-body" i18n>
+  <p class="mat-body" >
     You have booked an exam for this certification.
   </p>
 
   <section class="mt-4">
     <mat-card>
       <mat-card-title [ngSwitch]="certification?.booking.booking_type">
-        <ng-container *ngSwitchCase="'acc'" i18n>At Test Center</ng-container>
-        <ng-container *ngSwitchCase="'atdesk'" i18n>At-Desk</ng-container>
-        <ng-container *ngSwitchDefault i18n>Booking</ng-container>
+        <ng-container *ngSwitchCase="'acc'" >At Test Center</ng-container>
+        <ng-container *ngSwitchCase="'atdesk'" >At-Desk</ng-container>
+        <ng-container *ngSwitchDefault >Booking</ng-container>
       </mat-card-title>
 
       <mat-card-content>
         <section class="pt-2">
           <section class="sm:hidden">
             <div class="my-1">
-              <span class="mat-body-2" i18n>Date: </span>
+              <span class="mat-body-2" >Date: </span>
               <span class="ml-1 mat-body">{{
                   certification?.booking?.date | pipeDateConcat
                 }}</span>
             </div>
             <div class="my-1">
-              <span class="mat-body-2" i18n>Slot: </span>
+              <span class="mat-body-2" >Slot: </span>
               <span class="ml-1 mat-body">{{ certification?.booking?.slot }}</span>
             </div>
             <div class="my-1">
-              <span class="mat-body-2" i18n>Location: </span>
+              <span class="mat-body-2" >Location: </span>
               <span class="ml-1 mat-body">{{ certification?.booking?.dc }}</span>
             </div>
             <div class="my-1">
-              <span class="mat-body-2" i18n>Venue: </span>
+              <span class="mat-body-2" >Venue: </span>
               <span class="ml-1 mat-body">{{ certification?.booking?.testcenter }}</span>
             </div>
           </section>
@@ -40,14 +40,14 @@
           <section class="hidden sm:block">
             <div class="flex">
               <div class="w-1/2">
-                <div class="mat-body-2 text-truncate" i18n>Date and Slot</div>
+                <div class="mat-body-2 text-truncate" >Date and Slot</div>
                 <div class="mat-body text-truncate">
                   {{ certification?.booking.date | pipeDateConcat }}
                 </div>
                 <div class="mat-body text-truncate">({{ certification?.booking.slot }})</div>
               </div>
               <div class="w-1/2">
-                <div class="mat-body-2 text-truncate" i18n>Location</div>
+                <div class="mat-body-2 text-truncate" >Location</div>
                 <div class="mat-body text-truncate">
                   {{ certification?.booking.dc }}, {{ certification?.booking.testcenter }}
                 </div>
@@ -73,10 +73,10 @@
         <div class="sm:hidden">
           <button mat-stroked-button [color]="'primary'" [disabled]="bookingCancelStatus === 'sending'" class="w-full"
             (click)="openCancelDialog()">
-            <ng-container *ngIf="bookingCancelStatus !== 'sending'" i18n>Cancel Slot</ng-container>
+            <ng-container *ngIf="bookingCancelStatus !== 'sending'" >Cancel Slot</ng-container>
             <ng-container *ngIf="bookingCancelStatus === 'sending'">
               <div class="flex flex-between">
-                <div i18n>Cancelling...</div>
+                <div >Cancelling...</div>
                 <div class="flex flex-column flex-center">
                   <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'">
                   </mat-progress-spinner>
@@ -89,10 +89,10 @@
         <div class="hidden sm:block">
           <button mat-stroked-button [color]="'primary'" [disabled]="bookingCancelStatus === 'sending'"
             (click)="openCancelDialog()">
-            <ng-container *ngIf="bookingCancelStatus !== 'sending'" i18n>Cancel Slot</ng-container>
+            <ng-container *ngIf="bookingCancelStatus !== 'sending'" >Cancel Slot</ng-container>
             <ng-container *ngIf="bookingCancelStatus === 'sending'">
               <div class="flex flex-between">
-                <div i18n>Cancelling...</div>
+                <div >Cancelling...</div>
                 <div class="flex flex-column flex-center">
                   <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'">
                   </mat-progress-spinner>

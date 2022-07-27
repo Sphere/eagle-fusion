@@ -1,9 +1,9 @@
 <div class="m-4">
-  <h1 class="text-bold font-normal text-2xl leading-10 pt-3" i18n>System Roles <mat-icon
+  <h1 class="text-bold font-normal text-2xl leading-10 pt-3" >System Roles <mat-icon
       class="cursor-pointer align-text-bottom" (click)="showInstruction = !showInstruction">info
     </mat-icon>
   </h1>
-  <p class="italic" *ngIf="showInstruction" i18n>Select a role to add or remove users</p>
+  <p class="italic" *ngIf="showInstruction" >Select a role to add or remove users</p>
   <mat-card>
     <div
       class="flex margin-left-m margin-right-m flex-middle margin-bottom-xl flex-between flex-wrap margin-top-m searchStyle">
@@ -14,7 +14,7 @@
             <form class="w-full search-form flex">
               <mat-form-field class="w-full" appearance="none">
                 <input [formControl]="queryControl" name="searchQuery" matInput placeholder="Search for roles"
-                  i18-aria-label aria-label="Search for roles" i18n-placeholder>
+                  i18-aria-label aria-label="Search for roles" -placeholder>
               </mat-form-field>
             </form>
           </div>
@@ -31,7 +31,7 @@
     </div>
     <div *ngIf="roles.length"
       class="flex margin-left-m margin-right-m flex-middle margin-bottom-xl flex-wrap margin-top-m">
-      <button mat-raised-button i18n
+      <button mat-raised-button 
         class="font-weight-400 margin-top-s margin-right-s margin-bottom-s mat-h3 h-12 privilagebutton "
         *ngFor="let role of roles.sort()" routerLink="/admin/tenant/system-roles-management/roles"
         [queryParams]="{role:role}">
@@ -42,7 +42,7 @@
     </div>
     <div *ngIf="!roles.length" class="mat-card warn-card">
       <mat-icon class="warn-icon" color="warn">warning</mat-icon>
-      <span i18n>No roles matches your query</span>
+      <span >No roles matches your query</span>
     </div>
 
   </mat-card>

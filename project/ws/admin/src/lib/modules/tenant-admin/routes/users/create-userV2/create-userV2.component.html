@@ -1,17 +1,17 @@
 <div class="m-1 md:m-4">
   <div class="flex items-center mb-4">
-    <span class="font-weight-500 cursor-pointer" routerLink="/admin/tenant/users" i18n>
+    <span class="font-weight-500 cursor-pointer" routerLink="/admin/tenant/users" >
       users
     </span>
     <mat-icon class="mx-1">play_arrow</mat-icon>
-    <span class="font-weight-500" i18n>
+    <span class="font-weight-500" >
       create new user
     </span>
   </div>
-  <h1 class="leading-10 pt-3 font-weight-500" i18n>Create New User</h1>
+  <h1 class="leading-10 pt-3 font-weight-500" >Create New User</h1>
   <mat-card class="mat-elevation-z6">
     <div class="text-center signup-container">
-      <h2 class="mat-title" i18n="section heading create new goal">
+      <h2 class="mat-title">
         Sign up
       </h2>
       <form class="example-form" [formGroup]="createUserForm">
@@ -41,7 +41,7 @@
           <button mat-raised-button
             color="primary"
             type="submit" 
-            i18n 
+             
             [disabled]="uploadSaveData || !createUserForm?.valid"
             (click)="onSubmit(createUserForm)">
     
@@ -57,16 +57,12 @@
  
   <input
     type="hidden"
-    i18-value
-    i18-aria-value
     aria-value="Signup successful"
     value="User created successfully!"
     #toastSuccess
   />
   <input
     type="hidden"
-    i18-value
-    i18-aria-value
     aria-value="unable to signup"
     value="Error Signing up!"
     #toastError

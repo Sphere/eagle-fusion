@@ -1,7 +1,7 @@
 <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home', titles: [{title:'Playlist', url:'none'}] }">
   </ws-widget-btn-page-back> -->
-<!-- <span i18n="page title: playlist" class="margin-left-xs">Playlist</span> -->
+<!-- <span ="page title: playlist" class="margin-left-xs">Playlist</span> -->
 <!-- </mat-toolbar> -->
 <div class="goals-header">
   <div class="banner-container">
@@ -10,8 +10,8 @@
         <h1 *ngIf="userName" class="mat-display-1 margin-bottom-l">Hey {{ userName }}!</h1>
         <mat-button-toggle-group class="no-border" value="me" (change)="goalPlayList($event?.value)"
           [value]="playListFor">
-          <mat-button-toggle value="me" i18n>My Playlist</mat-button-toggle>
-          <mat-button-toggle value="shared" i18n *ngIf="isShareEnabled">Shared with me</mat-button-toggle>
+          <mat-button-toggle value="me" >My Playlist</mat-button-toggle>
+          <mat-button-toggle value="shared"  *ngIf="isShareEnabled">Shared with me</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </div>
@@ -30,7 +30,7 @@
   <a name="accept-reject-link-playlist-home" routerLink="/app/playlist/notification" *ngIf="numNotifications">
     <mat-card class="flex flex-middle padding-remove padding-top-s padding-bottom-s margin-bottom-xl">
       <mat-icon color="accent" class="margin-left-s">notifications</mat-icon>
-      <p class="margin-left-xs margin-remove-bottom" i18n>
+      <p class="margin-left-xs margin-remove-bottom" >
         Accept or Reject playlists shared with you!
       </p>
       <span class="spacer"></span>
@@ -46,16 +46,16 @@
     <h2>{{type === EPlaylistTypes.ME?"My Playlist": "Shared Playlist"}}</h2>
     <span class="flex flex-1"></span>
     <a *ngIf="type === EPlaylistTypes.ME" mat-flat-button class="ws-mat-button-theme" style="display: inline-table;"
-      routerLink="/app/playlist/create" i18n>
+      routerLink="/app/playlist/create" >
       Create Playlist
     </a>
   </div>
   <mat-form-field class="width-1-1" appearance="fill" floatLabel="never">
     <mat-icon matSuffix>search</mat-icon>
-    <mat-label i18n *ngIf="type === EPlaylistTypes.ME">
+    <mat-label  *ngIf="type === EPlaylistTypes.ME">
       Search for your playlists
     </mat-label>
-    <mat-label i18n *ngIf="type === EPlaylistTypes.SHARED">
+    <mat-label  *ngIf="type === EPlaylistTypes.SHARED">
       Search for playlists shared with you
     </mat-label>
     <input name="search-playlists-input-playlist-home" matInput [(ngModel)]="searchPlaylistQuery" />
@@ -91,7 +91,7 @@
             <span class="create-icon-text">+</span>
           </div>
         </div>
-        <h3 class="mat-subheading-2 font-weight-500 margin-top-xxs margin-bottom-m" i18n>
+        <h3 class="mat-subheading-2 font-weight-500 margin-top-xxs margin-bottom-m" >
           Create New
         </h3>
       </a>
@@ -105,8 +105,8 @@
     </ws-app-playlist-card>
   </ng-container>
   <ng-template #emptyPlaylist>
-    <h3 *ngIf="mode === 'ME'" class="mat-h3 w-full display-block text-center" i18n>No Playlists</h3>
-    <h3 *ngIf="mode === 'SHARED'" class="mat-h3 w-full display-block text-center" i18n>
+    <h3 *ngIf="mode === 'ME'" class="mat-h3 w-full display-block text-center" >No Playlists</h3>
+    <h3 *ngIf="mode === 'SHARED'" class="mat-h3 w-full display-block text-center" >
       No playlist shared with you
     </h3>
   </ng-template>
@@ -116,15 +116,15 @@
   <ng-container [wsResolverWidget]="errorWidget"></ng-container>
 </ng-template>
 <!--
-<input #playliststart type="hidden" i18n-value value="Playlists facilitates users to add and organize their favorite content. A playlist contains a list of content (Resource,
+<input #playliststart type="hidden" -value value="Playlists facilitates users to add and organize their favorite content. A playlist contains a list of content (Resource,
 Module, Course, Program)" />
-<input #playlistwelcome type="hidden" i18n-value value="Welcome to Playlist" />
-<input #playlistserach type="hidden" i18n-value
+<input #playlistwelcome type="hidden" -value value="Welcome to Playlist" />
+<input #playlistserach type="hidden" -value
   value="You find a relevant playlist form the search your playlists section" />
-<input #playlistsearchTitle type="hidden" i18n-value value="Search Playlist" />
-<input #playlisttab1 type="hidden" i18n-value
+<input #playlistsearchTitle type="hidden" -value value="Search Playlist" />
+<input #playlisttab1 type="hidden" -value
   value="You can also add content or delete content from an existing playlist created by you" />
-<input #playlisttab1Title type="hidden" i18n-value value="My Playlist" />
-<input #playlistcreateNew type="hidden" i18n-value value="A playlist is created by providing a name and a list of content and can be shared with someone. IF the playlist is not
+<input #playlisttab1Title type="hidden" -value value="My Playlist" />
+<input #playlistcreateNew type="hidden" -value value="A playlist is created by providing a name and a list of content and can be shared with someone. IF the playlist is not
 shared with anybody it is marked private." />
-<input #playlistcreateNewTitle type="hidden" i18n-value value="Create Playlist " /> -->
+<input #playlistcreateNewTitle type="hidden" -value value="Create Playlist " /> -->

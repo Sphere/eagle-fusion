@@ -1,5 +1,5 @@
 <mat-form-field>
-  <mat-label i18n>Select a source</mat-label>
+  <mat-label >Select a source</mat-label>
   <mat-select #selectedSource [ngModel]="selectedSource" (ngModelChange)="listAllUsers(selectedSource.value)">
     <mat-option *ngFor="let source of allSources" [value]="source.sourceShortName">
       {{source.sourceName}}
@@ -9,8 +9,8 @@
 <br>
 <div *ngIf="registeredUsers.length" class="flex justify-end mb-2 pr-2">
   <button [disabled]="!selectedUsers.size" (click)="confirmation(selectedSource.value)" color="primary"
-    mat-raised-button i18n-matTooltip matTooltip="Deregister">
-    <span i18n>Deregister</span>
+    mat-raised-button -matTooltip matTooltip="Deregister">
+    <span >Deregister</span>
   </button>
 </div>
 <ng-container *ngIf="fetchingStatus === 'fetched'; else loader">
@@ -18,7 +18,7 @@
     class="mat-elevation-z8 w-full">
 
     <ng-container matColumnDef="checkBox">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n></th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header ></th>
       <td mat-cell *matCellDef="let element">
         <mat-checkbox [checked]="selectedUsers.has(element.wid)" (change)="toggleSelectedUser(element.wid)">
         </mat-checkbox>
@@ -26,7 +26,7 @@
     </ng-container>
 
     <ng-container matColumnDef="sNo">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n>SNo.</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header >SNo.</th>
       <td mat-cell *matCellDef="let element; let i=index">
         {{i+1}}
       </td>
@@ -34,19 +34,19 @@
 
 
     <ng-container matColumnDef="first_name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n> First Name </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > First Name </th>
       <td mat-cell *matCellDef="let element">
         {{element.first_name || ''}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="last_name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n> Last Name </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > Last Name </th>
       <td mat-cell *matCellDef="let element"> {{element.last_name || ''}} </td>
     </ng-container>
 
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n> Email </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header > Email </th>
       <td mat-cell *matCellDef="let element">
         {{element.email}}
       </td>
@@ -63,6 +63,6 @@
 </ng-template>
 <ng-template #noUsers>
   <div class="flex justify-center">
-    <h3 *ngIf="selectedSource.value" i18n>There are no users registered for this source</h3>
+    <h3 *ngIf="selectedSource.value" >There are no users registered for this source</h3>
   </div>
 </ng-template>

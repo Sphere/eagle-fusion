@@ -4,7 +4,7 @@
       <mat-icon color="warn">report_problem</mat-icon>
     </div>
     <mat-card-title>
-      <ng-container i18n>
+      <ng-container >
         Error as Invalid Permission for Widget
       </ng-container>
     </mat-card-title>
@@ -12,13 +12,13 @@
   <div class="flex flex-wrap flex-between">
     <div>
       <div class="margin-top-s">
-        <span class="mat-body-2" i18n>
+        <span class="mat-body-2" >
           Widget Type :
         </span>
         {{ widgetType }}
       </div>
       <div class="margin-top-s">
-        <span class="mat-body-2" i18n>
+        <span class="mat-body-2" >
           Widget Sub Type :
         </span>
         {{ widgetSubType }}
@@ -33,7 +33,7 @@
           *ngIf="!showData"
           (click)="showData = true"
         >
-          <ng-container i18n>See Details</ng-container>
+          <ng-container >See Details</ng-container>
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <button
@@ -43,14 +43,14 @@
           *ngIf="showData"
           (click)="showData = false"
         >
-          <ng-container i18n>Hide Details</ng-container>
+          <ng-container >Hide Details</ng-container>
           <mat-icon>arrow_drop_up</mat-icon>
         </button>
       </ng-container>
     </div>
   </div>
   <ng-container *ngIf="widgetData">
-    <pre *ngIf="showData" class="margin-top-s "><span i18n class="mat-body-2">Widget Data :</span>
+    <pre *ngIf="showData" class="margin-top-s "><span  class="mat-body-2">Widget Data :</span>
 {{ widgetData | json }}
     </pre>
   </ng-container>

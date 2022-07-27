@@ -18,12 +18,12 @@
         {{ post.postCreator.name }}
       </div>
       <div class="px-2" *ngIf="post.source.forumName && partOfRequired">
-        <span class="ws-mat-primary-text"><span i18n>Part Of: </span>{{ post.source.forumName }}</span>
+        <span class="ws-mat-primary-text"><span >Part Of: </span>{{ post.source.forumName }}</span>
       </div>
     </div>
     <div class="flex flex-between" *ngIf="post.activity">
       <div class="flex flex-middle">
-        <span class="ws-mat-primary-text mat-caption pr-4"><span i18n>Modified:
+        <span class="ws-mat-primary-text mat-caption pr-4"><span >Modified:
           </span>{{ post.dtLastModified | date }}</span>
 
         <ws-widget-btn-social-vote [postId]="post.id" [activity]="post.activity" [voteType]="'upVote'"

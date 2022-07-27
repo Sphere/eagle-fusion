@@ -36,12 +36,12 @@
       <div class="meta-details">
         <div class="width-auto margin-right-xs">
           <mat-chip-list>
-            <mat-chip *ngFor="let tag of item.tags" i18n-matTooltip matTooltip="Tag">{{ tag.name }}
+            <mat-chip *ngFor="let tag of item.tags"  matTooltip="Tag">{{ tag.name }}
             </mat-chip>
           </mat-chip-list>
         </div>
         <div class="creation">
-          <span class="mat-caption" i18n>asked</span>&nbsp;
+          <span class="mat-caption">asked</span>&nbsp;
           <span class="mat-caption">{{ item.dtCreated | date }}</span>&nbsp;
           <span class="ws-mat-primary-text">
             {{ item.postCreator.name }}
@@ -56,8 +56,8 @@
 
 <mat-menu #editMenu="matMenu">
   <ng-template matMenuContent>
-    <a [routerLink]="'./edit/' + item.id" mat-menu-item i18n>Edit Question</a>
-    <button (click)="deletePost(deleteMsg.value)" mat-menu-item i18n>Delete Question</button>
+    <a [routerLink]="'./edit/' + item.id" mat-menu-item>Edit Question</a>
+    <button (click)="deletePost(deleteMsg.value)" mat-menu-item>Delete Question</button>
   </ng-template>
 </mat-menu>
-<input type="hidden" i8n-value value="Successfully deleted" #deleteMsg />
+<input type="hidden" value="Successfully deleted" #deleteMsg />

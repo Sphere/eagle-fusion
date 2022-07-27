@@ -8,7 +8,7 @@
 
     <div name="discussion-post-respond-toggle-button" [hidden]="replyPlaceholderToggler"
       (click)="showCommentBox(commentBox)" class="write-reply-placeholder mt-1 blue-link uppercase cursor-pointer"
-      role="button" i18n>
+      role="button" >
       Reply
     </div>
 
@@ -23,7 +23,7 @@
       <img (click)="editMode = true" class="action-icons align-edit" src="/fusion-assets/icons/edit.png">
 
       <span class="material-icons opac-7" name="discussion-post-delete-button" type="button"
-        (click)="deletePost(deleteFailMsg.value)" i18n>
+        (click)="deletePost(deleteFailMsg.value)" >
         delete
       </span>
 
@@ -35,12 +35,12 @@
 
     <div class="mat-caption" *ngIf="!post?.lastEdited?.dtLastEdited?.length">
       Started On {{ post?.dtLastModified | date }}
-      <ng-container i18n> at </ng-container>
+      <ng-container > at </ng-container>
       <ng-container>{{ post?.dtLastModified | date: 'shortTime' }}</ng-container>
     </div>
     <div class="mat-caption" *ngIf="post?.lastEdited?.dtLastEdited?.length">
       {{ post?.lastEdited.dtLastEdited | date }}
-      <ng-container i18n> at </ng-container>
+      <ng-container > at </ng-container>
       <ng-container>{{ post?.lastEdited.dtLastEdited | date: 'shortTime' }}</ng-container>
     </div>
     <span *ngIf="post.postCreator.name" class="ws-mat-primary-text margin-left-s margin-right-s">by
@@ -70,11 +70,11 @@
     </ws-widget-editor-quill>
     <div class="text-right">
       <button type="button" name="discussion-post-update-button" class="margin-top-s" [disabled]="!postPublishEnabled"
-        mat-raised-button color="primary" i18n (click)="editPost(editFailMsg.value)">
+        mat-raised-button color="primary"  (click)="editPost(editFailMsg.value)">
         Update
       </button>
       <button type="button" name="discussion-post-cancel-button" class="margin-top-s margin-left-s" mat-stroked-button
-        color="primary" i18n (click)="editMode = false">
+        color="primary"  (click)="editMode = false">
         Cancel
       </button>
     </div>
@@ -99,11 +99,11 @@
   <div *ngIf="replyFetchStatus === 'hasMore' || isNewRepliesAvailable"
     class="text-center margin-top-xs margin-bottom-s flex flex-around">
     <button name="discussion-post-load-previous-replies-button" type="button" mat-stroked-button color="primary"
-      *ngIf="replyFetchStatus === 'hasMore'" (click)="fetchPostReplies(); showReplies=true" i18n>
+      *ngIf="replyFetchStatus === 'hasMore'" (click)="fetchPostReplies(); showReplies=true" >
       Load Previous Replies
     </button>
     <button name="discussion-post-load-new-replies-button" type="button" mat-stroked-button color="primary"
-      *ngIf="isNewRepliesAvailable" (click)="fetchPostReplies(true)" i18n>
+      *ngIf="isNewRepliesAvailable" (click)="fetchPostReplies(true)" >
       Load New Replies
     </button>
   </div>
@@ -118,11 +118,11 @@
         <div class="text-right padding-top-s mr-4 mat-app-background">
 
           <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"
-            mat-stroked-button (click)="cancelReply()" i18n>
+            mat-stroked-button (click)="cancelReply()" >
             Cancel
           </button>
           <button name="discussion-post-reply-button" [disabled]="!isValidReply || isPostingReply"
-            (click)="publishReply(editFailMsg.value)" type="button" mat-raised-button color="primary" i18n>
+            (click)="publishReply(editFailMsg.value)" type="button" mat-raised-button color="primary" >
             Reply
           </button>
           <div *ngIf="isPostingReply" class="text-center">
@@ -136,5 +136,5 @@
 
 
 
-<input type="hidden" i8n-value value="Something went wrong! Unable to delete." #deleteFailMsg />
-<input type="hidden" i8n-value value="Something went wrong! Unable to post." #editFailMsg />
+<input type="hidden"  value="Something went wrong! Unable to delete." #deleteFailMsg />
+<input type="hidden"  value="Something went wrong! Unable to post." #editFailMsg />

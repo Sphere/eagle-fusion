@@ -1,10 +1,10 @@
 <section class="py-4">
   <mat-radio-group aria-label="Select an option" [value]="contentStripRequestType.SEARCH_REQUEST"
     (change)="type = $event.value">
-    <mat-radio-button class="py-2" [value]="contentStripRequestType.SEARCH_REQUEST" i18n>Search Request
+    <mat-radio-button class="py-2" [value]="contentStripRequestType.SEARCH_REQUEST" >Search Request
     </mat-radio-button>
-    <mat-radio-button class="py-2 px-4" [value]="contentStripRequestType.IDS" i18n>Ids</mat-radio-button>
-    <!-- <mat-radio-button class="py-2" [value]="contentStripRequestType.API_REQUEST" i18n>API Request</mat-radio-button> -->
+    <mat-radio-button class="py-2 px-4" [value]="contentStripRequestType.IDS" >Ids</mat-radio-button>
+    <!-- <mat-radio-button class="py-2" [value]="contentStripRequestType.API_REQUEST" >API Request</mat-radio-button> -->
   </mat-radio-group>
 
   <div class="pt-6" [ngSwitch]="type">

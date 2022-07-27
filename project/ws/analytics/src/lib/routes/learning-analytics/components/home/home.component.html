@@ -4,7 +4,7 @@
 
 <ng-container *ngIf="fetchStatus === 'error'" [wsResolverWidget]="errorWidget"></ng-container>
 <div *ngIf="fetchStatus === 'done' && totalUsers === 0" class="text-center my-8">
-  <h2 i18n>Currently, no data is available</h2>
+  <h2 >Currently, no data is available</h2>
 </div>
 <div *ngIf="fetchStatus === 'done' && contentData">
   <ng-container *ngIf="!onExpand">
@@ -34,11 +34,11 @@
         " class="graph-card-bar margin-top-m">
         <div class="margin-top-m margin-left-m">
           <div class="flex flex-between flex-middle">
-            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
               New Users
             </p>
           </div>
-          <p class="description" i18n>How many new users visited on each day?</p>
+          <p class="description" >How many new users visited on each day?</p>
         </div>
         <div class="margin-xs">
           <mat-tab-group>
@@ -71,11 +71,11 @@
       <mat-card class="graph-card-bar margin-top-m">
         <div class="margin-top-m margin-left-m">
           <div class="flex flex-between flex-middle">
-            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
               Daily Users
             </p>
           </div>
-          <p class="description" i18n>How many users visited on each day?</p>
+          <p class="description" >How many users visited on each day?</p>
         </div>
         <div class="margin-m">
           <ng-container [wsResolverWidget]="barChartDailyUsageData"> </ng-container>
@@ -86,13 +86,13 @@
       <mat-card class="graph-card-bar margin-top-m">
         <div class="margin-m flex flex-between flex-middle flex-wrapped">
           <div>
-            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
               Hourly Usage
             </p>
-            <p class="description" i18n>How many users visited on each hour?</p>
+            <p class="description" >How many users visited on each hour?</p>
           </div>
           <mat-form-field class="filter-select x-small-typography margin-remove">
-            <mat-select [(value)]="selected" i18n-placeholder placeholder="Filter" [formControl]="filterControl">
+            <mat-select [(value)]="selected" -placeholder placeholder="Filter" [formControl]="filterControl">
               <mat-option *ngFor="let filter of filterList" [value]="filter" (click)="applyFilter(filter?.key)">
                 {{ filter?.filterName }}</mat-option>
             </mat-select>
@@ -110,11 +110,11 @@
       <mat-card class="graph-card-bar margin-top-m">
         <div class="margin-top-m margin-left-m">
           <div class="flex flex-between flex-middle">
-            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+            <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
               Users Accessing Content
             </p>
           </div>
-          <p class="description" i18n>How many users accessed the contents on each day?</p>
+          <p class="description" >How many users accessed the contents on each day?</p>
         </div>
         <div class="margin-m">
           <ng-container [wsResolverWidget]="barChartDailyUsersData"> </ng-container>
@@ -126,7 +126,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Regions
               </p>
               <button *ngIf="contentData?.region?.length >= 20" mat-icon-button
@@ -134,7 +134,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by regions</p>
+            <p class="description" >This chart displays # of unique users by regions</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartRegionData"> </ng-container>
@@ -145,7 +145,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Dealer
               </p>
               <button *ngIf="contentData?.dealer?.length >= 20" mat-icon-button
@@ -153,7 +153,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by dealer</p>
+            <p class="description" >This chart displays # of unique users by dealer</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartDealerData"> </ng-container>
@@ -164,7 +164,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>Users by
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >Users by
                 Sources
               </p>
               <button *ngIf="contentData?.content_source?.length >= 20" mat-icon-button
@@ -172,7 +172,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by source</p>
+            <p class="description" >This chart displays # of unique users by source</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartSourceData"> </ng-container>
@@ -183,7 +183,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Guild Groups
               </p>
               <button *ngIf="contentData?.guild_group?.length >= 20" mat-icon-button
@@ -191,7 +191,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by guild groups</p>
+            <p class="description" >This chart displays # of unique users by guild groups</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartGuildData"> </ng-container>
@@ -202,14 +202,14 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Roles
               </p>
               <button *ngIf="contentData?.role?.length >= 20" mat-icon-button (click)="onExpandChart('role', 'Role')">
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by roles</p>
+            <p class="description" >This chart displays # of unique users by roles</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartRoleData"> </ng-container>
@@ -220,7 +220,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Cities
               </p>
               <button *ngIf="contentData?.organizationLocationCity?.length >= 20" mat-icon-button
@@ -228,7 +228,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by city</p>
+            <p class="description" >This chart displays # of unique users by city</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartCityData"> </ng-container>
@@ -239,7 +239,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Countries
               </p>
               <button *ngIf="contentData?.organizationLocationCountry?.length >= 20" mat-icon-button
@@ -247,7 +247,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by country</p>
+            <p class="description" >This chart displays # of unique users by country</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartCountryData"> </ng-container>
@@ -258,13 +258,13 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Devices
               </p>
               <mat-slide-toggle class="mr-2" (change)="onStatusChange()">
               </mat-slide-toggle>
             </div>
-            <p class="description" i18n>
+            <p class="description" >
               This chart displays # of unique users for each device type
             </p>
           </div>
@@ -278,7 +278,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Departments
               </p>
               <button *ngIf="contentData?.departments?.length >= 20" mat-icon-button
@@ -286,7 +286,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by departments</p>
+            <p class="description" >This chart displays # of unique users by departments</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartDepartmentData"> </ng-container>
@@ -297,7 +297,7 @@
         <mat-card class="graph-card-client margin-s">
           <div class="margin-top-m margin-left-m">
             <div class="flex flex-between flex-middle">
-              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" i18n>
+              <p class="margin-remove-bottom font-bold text-left ws-mat-primary-text" >
                 Users by Sub-Departments
               </p>
               <button *ngIf="contentData?.subDepartment?.length >= 20" mat-icon-button
@@ -305,7 +305,7 @@
                 <mat-icon class="feature-icon mt-0">open_in_new</mat-icon>
               </button>
             </div>
-            <p class="description" i18n>This chart displays # of unique users by sub-Department</p>
+            <p class="description" >This chart displays # of unique users by sub-Department</p>
           </div>
           <div class="margin-m">
             <ng-container [wsResolverWidget]="barChartSubDepartmentData"> </ng-container>
@@ -316,7 +316,7 @@
   </ng-container>
   <ng-container *ngIf="onExpand">
     <mat-card class="margin-s">
-      <button mat-raised-button color="primary" class="margin-top-xl margin-left-s" matTooltip="Back" i18n-matTooltip
+      <button mat-raised-button color="primary" class="margin-top-xl margin-left-s" matTooltip="Back" -matTooltip
         (click)="onClose()">
         Back
       </button>

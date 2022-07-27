@@ -2,7 +2,7 @@
   <a mat-icon-button [routerLink]="'/app/features'">
     <mat-icon>arrow_back</mat-icon>
   </a>
-  <span i18n="page title: leaderboard" class="margin-left-xs">Admin</span>
+  <span class="margin-left-xs">Admin</span>
   <span class="spacer"></span>
 </mat-toolbar>
 
@@ -10,7 +10,7 @@
   <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
     <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
       <div class="flex flex-between flex-baseline">
-        <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
+        <span class="mat-h2 font-weight-500 margin-left-s" >Filters</span>
         <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
           (click)="sideNavBarOpened = false">
           <mat-icon class="">clear</mat-icon>
@@ -38,7 +38,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label i18n>Select Role</mat-label>
+        <mat-label >Select Role</mat-label>
         <mat-select #selectedRole [ngModel]="selectedRole" (ngModelChange)="roleChanged(selectedRole)">
           <mat-option [value]="role" *ngFor="let role of rolesList">
             <a mat-line>
@@ -48,7 +48,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label i18n>Select Region</mat-label>
+        <mat-label >Select Region</mat-label>
         <mat-select #selectedRegion [ngModel]="selectedRegion" (ngModelChange)="regionChanged(selectedRegion)">
           <mat-option [value]="region" *ngFor="let region of ['All','NTH', 'EST', 'STH', 'CEN', 'WST']">
             <a mat-line>
@@ -58,7 +58,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label i18n>Select Dealer Code</mat-label>
+        <mat-label >Select Dealer Code</mat-label>
         <mat-select #selectedDealer [ngModel]="selectedDealer" (ngModelChange)="dealerChanged(selectedDealer)">
           <mat-option [value]="dealer" *ngFor="let dealer of dealers">
             <a mat-line>
@@ -68,7 +68,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label i18n>Select Guild Group</mat-label>
+        <mat-label >Select Guild Group</mat-label>
         <mat-select #selectedGroup [ngModel]="selectedGroup" (ngModelChange)="groupChanged(selectedGroup)">
           <mat-option [value]="group" *ngFor="let group of [1,2,3,4,5]">
             <a mat-line>
@@ -87,21 +87,21 @@
             matSuffix>
             <mat-icon>search</mat-icon>
           </button>
-          <mat-label i18n>Search users</mat-label>
+          <mat-label >Search users</mat-label>
           <input matInput (keyup.enter)="handleSearchQuery(query)" [(ngModel)]="query" autocomplete="off"
             class="resize-none" />
         </mat-form-field>
       </div>
       <div class="dimensions">
         <h4 class="ws-mat-primary-text font-size-m font-weight-bold">
-          <span i18n> Apply Filters</span>
+          <span > Apply Filters</span>
           <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
             <mat-icon>filter_list</mat-icon>
           </button>
         </h4>
       </div>
       <div class="margin-left-m margin-top-l margin-bottom-l">
-        <a mat-raised-button type="button" color="primary" i18n
+        <a mat-raised-button type="button" color="primary" 
           (click)="updatePoints(leaderBoardData);exportToExcel(leaderBoardData)">
           Save
         </a>

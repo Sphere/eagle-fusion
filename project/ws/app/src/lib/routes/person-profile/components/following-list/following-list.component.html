@@ -5,16 +5,16 @@
         <mat-card-content>
           <ng-container>
             <!-- <div class="pt-4 text-center" *ngIf="followingCurrentDisplay === 0 && followersFetchStatus === 'fetching'">
-              <p class="font-family fetching" i18n>Fetching following users ...</p>
+              <p class="font-family fetching" >Fetching following users ...</p>
             </div> -->
             <div class="pt-4 text-center" *ngIf="followingCurrentDisplay?.length === 0">
               <div class="flex flex-center">
                 <span class="font-family fetching">{{name}}</span>
-                <span class="font-family fetching" i18n>'s not following anyone</span>
+                <span class="font-family fetching" >'s not following anyone</span>
               </div>
             </div>
             <!-- <div class="pt-4 text-center">
-              <p class="mat-error" i18n>Failed to fetch followers.</p>
+              <p class="mat-error" >Failed to fetch followers.</p>
             </div> -->
             <ws-app-view-followperson *ngFor="let person of followingCurrentDisplay" [wid]="person.identifier"
               [name]="person.name">

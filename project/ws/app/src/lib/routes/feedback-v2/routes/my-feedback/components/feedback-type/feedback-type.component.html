@@ -1,7 +1,7 @@
 <ng-container [ngSwitch]="feedbackType">
-  <ng-container *ngSwitchCase="feedbackTypes.Content" i18n>Content Feedback</ng-container>
-  <ng-container *ngSwitchCase="feedbackTypes.Platform" i18n>Platform Feedback</ng-container>
-  <ng-container *ngSwitchCase="feedbackTypes.ContentRequest" i18n>Content Request</ng-container>
-  <ng-container *ngSwitchCase="feedbackTypes.ServiceRequest" i18n>Service Request</ng-container>
-  <ng-container *ngSwitchDefault i18n></ng-container>
+  <ng-container *ngSwitchCase="feedbackTypes.Content" >Content Feedback</ng-container>
+  <ng-container *ngSwitchCase="feedbackTypes.Platform" >Platform Feedback</ng-container>
+  <ng-container *ngSwitchCase="feedbackTypes.ContentRequest" >Content Request</ng-container>
+  <ng-container *ngSwitchCase="feedbackTypes.ServiceRequest" >Service Request</ng-container>
+  <ng-container *ngSwitchDefault ></ng-container>
 </ng-container>

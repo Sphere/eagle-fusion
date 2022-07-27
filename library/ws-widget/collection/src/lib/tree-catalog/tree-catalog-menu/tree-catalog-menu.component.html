@@ -1,6 +1,6 @@
 <mat-menu #childMenu="matMenu" name="exploreListContainerHomePage" [overlapTrigger]="false">
   <ng-template matMenuContent>
-    <h3 class="mat-subheading-2 margin-left-m margin-right-m margin-remove-bottom" *ngIf="fetchStatus === 'error'" i18n>
+    <h3 class="mat-subheading-2 margin-left-m margin-right-m margin-remove-bottom" *ngIf="fetchStatus === 'error'" >
       Error Fetching Data
     </h3>
     <div class="flex flex-center margin-m" *ngIf="fetchStatus === 'fetching'">
@@ -11,10 +11,10 @@
     </div>
 
     <div class="m-4" *ngIf="fetchStatus === 'done' && !catalogItems?.length">
-      <h3 class="mat-subheading-2" i18n>No categories to explore.</h3>
-      <h3 class="mat-subheading-2" i18n>You can find content using search</h3>
+      <h3 class="mat-subheading-2" >No categories to explore.</h3>
+      <h3 class="mat-subheading-2" >You can find content using search</h3>
       <div class="flex flex-row-reverse">
-        <a routerLink="/app/search/learning" mat-button color="primary" i18n> SEARCH</a>
+        <a routerLink="/app/search/learning" mat-button color="primary" > SEARCH</a>
       </div>
     </div>
     <ng-container *ngIf="catalogItems?.length">
@@ -36,7 +36,7 @@
       </ng-container>
       <a mat-menu-item routerLink="/page/explore" *ngIf="isRoot && catalogItems?.length > 5 && fetchStatus === 'done'">
         <mat-icon>expand_more</mat-icon>
-        <span i18n>Explore all</span>
+        <span >Explore all</span>
       </a>
     </ng-container>
   </ng-template>

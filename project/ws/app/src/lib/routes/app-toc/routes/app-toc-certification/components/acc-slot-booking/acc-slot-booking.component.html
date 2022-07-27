@@ -1,12 +1,12 @@
 <section class="my-4">
-  <h2 class="mat-title text-center" i18n>At Assessment Center</h2>
-  <p class="mat-body text-center" i18n>
+  <h2 class="mat-title text-center" >At Assessment Center</h2>
+  <p class="mat-body text-center" >
     Book this certification exam at available assessment centers in your organization.
   </p>
 
   <div class="width-balancer-1-2 m-auto">
     <ng-container *ngIf="locations && !locations.length">
-      <div class="mat-caption text-center my-4" i18n="no certification locations available">
+      <div class="mat-caption text-center my-4">
         This certification has not been scheduled in any location.
       </div>
     </ng-container>
@@ -34,7 +34,7 @@
                 [matChipInputFor]="locationChips"
                 [formControl]="locationCtrl"
                 placeholder="Location"
-                i18n-placeholder
+                -placeholder
               />
               <mat-progress-spinner
                 matSuffix
@@ -54,16 +54,16 @@
               </mat-autocomplete>
             </mat-chip-list>
 
-            <mat-hint *ngIf="locationFetchStatus === 'fetching'" i18n>
+            <mat-hint *ngIf="locationFetchStatus === 'fetching'" >
               Fetching locations...
             </mat-hint>
-            <mat-error *ngIf="locationFetchStatus === 'error'" i18n>
+            <mat-error *ngIf="locationFetchStatus === 'error'" >
               There was an error fetching locations.
             </mat-error>
-            <mat-hint *ngIf="locationFetchStatus === 'done' && !locations.length" i18n>
+            <mat-hint *ngIf="locationFetchStatus === 'done' && !locations.length" >
               There are no locations for this certification.
             </mat-hint>
-            <mat-hint *ngIf="locationFetchStatus === 'done' && locations.length" i18n>
+            <mat-hint *ngIf="locationFetchStatus === 'done' && locations.length" >
               Search and select a location.
             </mat-hint>
           </mat-form-field>
@@ -74,7 +74,7 @@
           <mat-form-field class="w-full">
             <mat-select
               placeholder="Test Center"
-              i18n-placeholder
+              -placeholder
               formControlName="testCenter"
               (selectionChange)="getTestCenterSlots()"
             >
@@ -88,7 +88,7 @@
               </ng-container>
             </mat-select>
 
-            <mat-hint *ngIf="!(locations && locations.length)" i18n>
+            <mat-hint *ngIf="!(locations && locations.length)" >
               Select a location, then select a test center.
             </mat-hint>
           </mat-form-field>
@@ -97,7 +97,7 @@
         <!-- Date -->
         <!-- Date Fetching -->
         <div class="my-2 flex flex-between" *ngIf="dateSlotFetchStatus === 'fetching'">
-          <div class="mat-caption" i18n>Fetching dates...</div>
+          <div class="mat-caption" >Fetching dates...</div>
           <mat-progress-spinner
             matSuffix
             [color]="'primary'"
@@ -125,14 +125,14 @@
               [mode]="'indeterminate'"
             ></mat-progress-spinner>
 
-            <mat-hint *ngIf="dateSlotFetchStatus === 'fetching'" i18n>Fetching dates...</mat-hint>
-            <mat-hint *ngIf="dateSlotFetchStatus === 'done' && slots?.slotdata.length" i18n>
+            <mat-hint *ngIf="dateSlotFetchStatus === 'fetching'" >Fetching dates...</mat-hint>
+            <mat-hint *ngIf="dateSlotFetchStatus === 'done' && slots?.slotdata.length" >
               All dates are in IST (Indian Standard Time).
             </mat-hint>
-            <mat-error *ngIf="dateSlotFetchStatus === 'error'" i18n
+            <mat-error *ngIf="dateSlotFetchStatus === 'error'" 
               >There was an error fetching dates.</mat-error
             >
-            <mat-error *ngIf="dateSlotFetchStatus === 'done' && !slots.slotdata.length" i18n>
+            <mat-error *ngIf="dateSlotFetchStatus === 'done' && !slots.slotdata.length" >
               There are no dates and slots available.
             </mat-error>
           </mat-form-field>
@@ -142,7 +142,6 @@
         <div
           class="mat-caption text-center my-2"
           *ngIf="!dateHasSlots(accForm.controls['dateSlot'].value)"
-          i18n="no certification slots available"
         >
           There are no slots available for this location.
         </div>
@@ -170,10 +169,10 @@
             [color]="'primary'"
             [disabled]="accForm.invalid || bookingSendStatus === 'sending'"
           >
-            <ng-container *ngIf="bookingSendStatus !== 'sending'" i18n>Book Slot</ng-container>
+            <ng-container *ngIf="bookingSendStatus !== 'sending'" >Book Slot</ng-container>
             <ng-container *ngIf="bookingSendStatus === 'sending'">
               <div class="flex flex-between">
-                <div i18n>Sending...</div>
+                <div >Sending...</div>
                 <div class="flex flex-column flex-center">
                   <mat-progress-spinner
                     [color]="'primary'"

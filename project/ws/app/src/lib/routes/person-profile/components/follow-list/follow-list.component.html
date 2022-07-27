@@ -6,13 +6,13 @@
           <ng-container>
             <div class="pt-4 text-center"
               *ngIf="followerCurrentDisplay.length === 0 && followersFetchStatus === 'fetching'">
-              <p class="font-family fetching" i18n>Fetching followers ...</p>
+              <p class="font-family fetching" >Fetching followers ...</p>
             </div>
             <div class="pt-4 text-center" *ngIf="followerCurrentDisplay?.length === 0 ">
-              <p class="fetching font-family" i18n>No followers</p>
+              <p class="fetching font-family" >No followers</p>
             </div>
             <div class="pt-4 text-center" *ngIf="followersFetchStatus === 'error'">
-              <p class="mat-error" i18n>Failed to fetch followers.</p>
+              <p class="mat-error" >Failed to fetch followers.</p>
             </div>
             <ws-app-view-followperson *ngFor="let person of followerCurrentDisplay" [wid]="person.identifier"
               [name]="person.name" [userFollows]="person.identifier === currentUserId ? true : false">

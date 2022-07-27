@@ -1,6 +1,6 @@
 <mat-tab-group class="heightgroup">
   <mat-tab label="Resources">
-    <ng-template mat-tab-label i18n>
+    <ng-template mat-tab-label >
       Resources
     </ng-template>
     <div>
@@ -32,12 +32,12 @@
     </div>
   </mat-tab>
   <mat-tab label="Badges Earned">
-    <ng-template mat-tab-label i18n>
+    <ng-template mat-tab-label >
       Modules
     </ng-template>
     <div class="flex flex-wrap badgesearned">
       <div *ngIf="!filteredContent?.length" class="pl-4 py-4">
-        <span class="ws-mat-primary-text" i18n>No Modules learnt</span>
+        <span class="ws-mat-primary-text" >No Modules learnt</span>
       </div>
       <ng-container *ngFor="let content of filteredContent">
         <div *ngIf="content?.contentType === 'module'">
@@ -68,7 +68,7 @@
     </div>
   </mat-tab>
   <mat-tab label="Skills">
-    <ng-template mat-tab-label i18n>
+    <ng-template mat-tab-label >
       Courses
     </ng-template>
     <ng-container *ngFor="let content of filteredContent">

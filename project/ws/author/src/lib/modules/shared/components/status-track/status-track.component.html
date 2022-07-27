@@ -1,7 +1,7 @@
 <div mat-dialog-title class="relative">
-  <h2 mat-dialog-title i18n>Action History</h2>
+  <h2 mat-dialog-title >Action History</h2>
   <button
-    i18n-matTooltip
+    
     [matTooltip]="'Close'"
     *ngIf="isDialog"
     mat-button
@@ -41,28 +41,28 @@
     <span class="cursor-pointer">Complete Flow</span>
   </div>
   <div [ngClass]="{ 'my-4': !isClient1 }" class="custom-height custom-scroll">
-    <b i18n="History|History of Comments" i18n>History</b>
+    <b>History</b>
     <ng-container *ngIf="workFlowLog.length">
       <mat-card *ngFor="let comment of workFlowLog" class="example-container margin-10">
         <div class="w-full pb-2 text-base">
           <span class="circle pr-2"></span>
           <span>
-            <ng-container *ngIf="comment.action === 'approved'" i18n>Approved</ng-container>
-            <ng-container *ngIf="comment.action === 'rejected'" i18n>Rejected</ng-container>
-            <ng-container *ngIf="comment.action === 'deleted'" i18n>Deleted</ng-container>
-            <ng-container *ngIf="comment.action === 'submitted'" i18n>Submitted</ng-container>
-            <ng-container *ngIf="comment.action === 'retrieved'" i18n>Moved to Draft</ng-container>
-            <ng-container *ngIf="comment.action === 'expired'" i18n>Expired</ng-container>
-            <ng-container *ngIf="comment.action === 'markedForDeletion'" i18n
+            <ng-container *ngIf="comment.action === 'approved'" >Approved</ng-container>
+            <ng-container *ngIf="comment.action === 'rejected'" >Rejected</ng-container>
+            <ng-container *ngIf="comment.action === 'deleted'" >Deleted</ng-container>
+            <ng-container *ngIf="comment.action === 'submitted'" >Submitted</ng-container>
+            <ng-container *ngIf="comment.action === 'retrieved'" >Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'expired'" >Expired</ng-container>
+            <ng-container *ngIf="comment.action === 'markedForDeletion'" 
               >Marked For Deletion</ng-container
             >
-            <ng-container *ngIf="comment.action === 'unPublished'" i18n>Unpublished</ng-container>
-            <ng-container *ngIf="comment.action === 'restored'" i18n>Moved to Draft</ng-container>
-            <ng-container *ngIf="comment.action === 'pulledBack'" i18n>Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'unPublished'" >Unpublished</ng-container>
+            <ng-container *ngIf="comment.action === 'restored'" >Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'pulledBack'" >Moved to Draft</ng-container>
           </span>
-          <span i18n> by </span>
+          <span > by </span>
           <span>{{ comment.name || 'System' }}</span>
-          <span i18n> on </span>
+          <span > on </span>
           <span>{{ comment.date | date }}</span>
         </div>
         <div class="pl-5">
@@ -70,7 +70,7 @@
         </div>
       </mat-card>
     </ng-container>
-    <ng-container *ngIf="!workFlowLog.length" i18n>
+    <ng-container *ngIf="!workFlowLog.length" >
       <div class="ws-mat-warn-text pt-4">
         No Logs found.
       </div>
