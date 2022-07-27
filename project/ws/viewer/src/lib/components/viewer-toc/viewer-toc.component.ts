@@ -552,6 +552,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     // tslint:disable-next-line:object-shorthand-properties-first
     this.viewerDataSvc.updateNextPrevResource({
       isValid: Boolean(this.collection),
+      // tslint:disable-next-line:object-shorthand-properties-first
       prev, prevTitle, nextTitle, next, currentPercentage, prevCompletionPercentage,
     })
   }

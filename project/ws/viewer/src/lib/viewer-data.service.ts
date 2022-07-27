@@ -84,6 +84,7 @@ export class ViewerDataService {
         previousTitle: prevTitle,
         nextResTitle: nextTitle,
         currentCompletionPercentage: currentPercentage,
+        // tslint:disable-next-line:object-shorthand-properties-first
         prevCompletionPercentage,
       },
     )
