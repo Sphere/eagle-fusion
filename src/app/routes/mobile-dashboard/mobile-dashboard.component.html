@@ -1,7 +1,7 @@
 <div class="content">
-  <p class="py-2 text-base text-capitalize">Hi {{firstName?.firstName}}! Here are some courses for you
+  <p class="py-2 text-base text-capitalize">Hi {{firstName?.firstName}}! <span i18n>Here are some courses for you</span>
   </p>
-  <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Start Learning</p>
+  <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0" i18n>Start Learning</p>
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
   </ng-container>
@@ -9,35 +9,35 @@
   <!-- How does it work section -->
   <section class="mt-4" [hidden]=true>
     <ng-container>
-      <p class="text-2xl">How does it work?</p>
-      <p class="font-normal text-sm grey-color">3 simple steps</p>
+      <p class="text-2xl" i18n>How does it work?</p>
+      <p class="font-normal text-sm grey-color" i18n>3 simple steps</p>
       <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
     </ng-container>
   </section>
 
   <!-- Categories Section -->
   <section class="mt-4">
-    <p class="text-2xl">Categories</p>
+    <!-- <p class="text-2xl" i18n>Categories</p> -->
     <ws-mobile-category></ws-mobile-category>
   </section>
 
   <!-- Top certified courses -->
   <section class="mt-4">
-    <p class="text-2xl">Top certified courses</p>
+    <p class="text-2xl" i18n>Top certified courses</p>
     <div *ngFor="let course of topCertifiedCourse">
       <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
         <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
       </ng-container>
     </div>
     <a href="app/search/learning">
-      <p class="text-center blue-color text-xl">View all courses</p>
+      <p class="text-center blue-color text-xl" i18n>View all courses</p>
     </a>
   </section>
 </div>
 
 <!-- Featured Section-->
 <section class="p-4" style="background-color: #F7F7F7;">
-  <p class="text-2xl">Featured</p>
+  <p class="text-2xl" i18n>Featured</p>
   <ng-container *ngIf="featuredCourse" style="background-color: #FFF;">
     <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
   </ng-container>
@@ -46,8 +46,8 @@
 
 <!-- People follow Section -->
 <section class="p-4" [hidden]=true>
-  <p class="text-2xl">People you may want to follow</p>
-  <p>because you saw Manyata for Mothers</p>
+  <p class="text-2xl" i18n>People you may want to follow</p>
+  <p i18n>because you saw Manyata for Mothers</p>
   <div class="horizontal-scroll-content">
     <div *ngFor="let i of [1,2,3,4,5,6,7]" style="height: 260px;">
       <div class="card follow-card">
@@ -65,7 +65,7 @@
 
 <div class="py-1 px-4 mb-6">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
-      <p class="text-2xl" style="padding-top:10px">My Courses</p>
+    <p class="text-2xl" style="padding-top:10px" i18n>My Courses</p>
     <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
   </ng-container>
 </div>

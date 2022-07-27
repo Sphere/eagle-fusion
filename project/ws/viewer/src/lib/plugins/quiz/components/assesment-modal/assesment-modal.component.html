@@ -1,12 +1,16 @@
+<div class="position-relative">
+  <ng-container *ngIf="(isXSmall$ | async) === true">
+    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" (click)="closePopup()"
+      *ngIf="(isXSmall$ | async) === true">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </div>
+  </ng-container>
+</div>
 <div class="assesment-container mt-3 mb-3">
   <ng-container *ngIf="(isXSmall$ | async) === false">
     <button type="button" class="close" (click)="closePopup()">&times;</button>
   </ng-container>
-  <ng-container *ngIf="(isXSmall$ | async) === true">
-    <div class="arrow-back" (click)="closePopup()" *ngIf="(isXSmall$ | async) === true">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </div>
-  </ng-container>
+
   <!-- <div class="flex flex-row"> -->
   <div *ngIf="tabIndex === 0 " class="flex timer">
     <!-- (isXSmall$ | async) !== true && -->
@@ -68,10 +72,16 @@
         <button class="btn btn-active" [disabled]='disableNext' mat-raised-button (click)="nextQuestion()">Next</button>
 
       </ng-container>
-      <ng-container *ngIf="tabIndex === 1">
+    </div>
+    <div class="flex flex-col">
 
-        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
-        <!-- <button class="btn btn-lg btn-active" mat-raised-button>Show Answers</button> -->
+      <ng-container *ngIf="tabIndex === 1">
+        <div class="text-center pt-5 flex justify-content-center">
+          <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
+          <button class="btn btn-active" (click)="closeDone()" mat-raised-button>Done</button>
+        </div>
+
+
       </ng-container>
     </div>
 

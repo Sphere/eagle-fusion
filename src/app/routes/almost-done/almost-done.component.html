@@ -1,8 +1,8 @@
 <div class="login-page-content">
   <div class="login-card">
-    <h1>Almost done!</h1>
-    <p><span style="float:left;">Background: {{backgroundSelect}}</span>
-      <span style="float:right;color: #1C5D95; cursor: pointer;" (click)='redirectToYourBackground()'>Change</span>
+    <h1 i18n>Almost done!</h1>
+    <p><span style="float:left;"><span i18n>Background: </span>{{backgroundSelect}}</span>
+      <span style="float:right;color: #1C5D95; cursor: pointer;" i18n (click)='redirectToYourBackground()'>Change</span>
     </p>
     <div class="input-content">
       <div class="input-content-wrapper">
@@ -11,17 +11,17 @@
           <!-- Background: Healthcare Worker -->
           <div *ngIf="backgroundSelect ==='Healthcare Worker'">
             <div class="form-group input-box">
-              <select id="profession" formControlName="professSelected" class="form-control select-box"
+              <select id="profession" formControlName="professSelected" i18n class="form-control select-box"
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)"
                 required>
-                <option [value]="null" style="color:#808080;">Profession*</option>
+                <option [value]="null" style="color:#808080;" i18n>Profession*</option>
                 <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
             </div>
 
             <div class="form-group input-box" *ngIf="professionOthersField">
-              <input type="text" formControlName="professionOtherSpecify" class="form-control"
+              <input type="text" formControlName="professionOtherSpecify" i18n class="form-control"
                 placeholder="Please Specify*" autocomplete="off">
             </div>
             <mat-error class="text-danger mb-4"
@@ -30,29 +30,29 @@
 
             <div class="form-group rnBox">
               <input type="text" formControlName="rnNumber" class="form-control rnField" placeholder="RN/RM Number"
-                autocomplete="off" [readonly]="rnFieldDisabled" autofocus>
+                autocomplete="off" [readonly]="rnFieldDisabled" i18n autofocus>
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['rnNumber'].hasError('pattern')">
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
               <select id="orgType" formControlName="orgType" class="form-control select-box"
-                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)"
+                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)" i18n
                 required>
-                <option [value]="null">Organization Type*</option>
+                <option [value]="null" i18n>Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
 
             <div class="form-group input-box" *ngIf="orgOthersField">
-              <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
+              <input type="text" formControlName="orgOtherSpecify" class="form-control " i18n placeholder="Please Specify*"
                 autocomplete="off">
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgOtherSpecify'].hasError('pattern')">
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
-              <input type="text" name="orgName" formControlName="orgName" class="form-control"
+              <input type="text" name="orgName" formControlName="orgName" i18n class="form-control"
                 placeholder="Organization Name" autocomplete="off"
                 (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value)">
             </div>
@@ -61,31 +61,31 @@
           </div>
           <!-- Background: Healthcare Worker -->
 
-          <div *ngIf="backgroundSelect === 'Asha Worker'"> 
+          <div *ngIf="backgroundSelect === 'ASHA Worker'"> 
                         <div class="form-group input-box">
               <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
-                (change)="assignFields('locationselect', $event.target.value)">
-                <option [value]=null disabled>City/Distict</option>
+                (change)="assignFields('locationselect', $event.target.value)" i18n>
+                <option [value]=null disabled i18n>City/Distict</option>
               <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
               </select>
             </div>
             <div class="form-group input-box">
               <input type="text" name="block" formControlName="block" class="form-control"
-                placeholder="Block" autocomplete="off"
+                placeholder="Block" autocomplete="off" i18n
                 (change)="assignFields('block',almostDoneForm.controls['block'].value)">
             </div>
             <div class="form-group input-box">
               <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
-                placeholder="Sub Centre" autocomplete="off"
+                placeholder="Sub Centre" autocomplete="off" i18n
                 (change)="assignFields('subcentre',almostDoneForm.controls['subcentre'].value)">
             </div>
           </div>
           <!-- Background: Healthcare Volunteer -->
           <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
             <div class="form-group input-box">
-              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required i18n
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)">
-                <option [value]="null">Profession*</option>
+                <option [value]="null" i18n>Profession*</option>
                 <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
@@ -101,21 +101,21 @@
 
             <div class="form-group input-box">
               <select id="orgType" formControlName="orgType" class="form-control select-box" required
-                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)">
+                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)" i18n>
                 <option [value]="null">Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
 
             <div class="form-group input-box" *ngIf="orgOthersField">
-              <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
+              <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*" i18n
                 autocomplete="off">
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgOtherSpecify'].hasError('pattern')">
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
-              <input type="text" name="orgName" formControlName="orgName" class="form-control"
+              <input type="text" name="orgName" i18n formControlName="orgName" class="form-control"
                 placeholder="Organization Name" autocomplete="off"
                 (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value)">
             </div>
@@ -127,13 +127,13 @@
           <!-- Background: Student -->
           <div *ngIf="backgroundSelect ==='Student'">
             <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" formControlName="courseName" placeholder="Course Name"
+              <input type="text" class="form-control" i18n formControlName="courseName" placeholder="Qualification"
                 (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value)">
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['courseName'].hasError('pattern')">
               {{errorMsg}}</mat-error>
             <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name*"
+              <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name" i18n
                 (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value)" required>
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['instituteName'].hasError('pattern')">
@@ -163,16 +163,16 @@
           <!-- Background: Others -->
           <div *ngIf="backgroundSelect ==='Others'">
             <div class="form-group input-box">
-              <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
+              <select id="selectBackground" formControlName="selectBackground" class="form-control select-box" i18n
                 (change)="chooseBackground($event.target.value)" required>
-                <option [value]="null">Select Background</option>
+                <option [value]="null" i18n>Select Background</option>
                 <option value="Mother/Family Members">Mother/Family Members</option>
                 <option value="Other">Other</option>
               </select>
             </div>
             <div *ngIf="selectedBg === 'Other'">
             <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" formControlName="profession"
+              <input type="text" class="form-control" i18n formControlName="profession"
                 placeholder="Please Specify Profession*" required>
             </div>
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
@@ -205,7 +205,7 @@
 
           <div class="next-btn-div">
             <button class="form-group login-button" type="submit" (click)='onsubmit()' id="done-btn"
-              [disabled]="!almostDoneForm?.valid || enableSubmit">
+              [disabled]="!almostDoneForm?.valid || enableSubmit" i18n>
               Done</button>
           </div>
         </form>

@@ -38,10 +38,26 @@
 .sub-title-container {
   display: flex;
   align-items: center;
+
+  @include breakpoint-xs {
+    margin-top: 15px;
+    padding-top: 10px;
+  }
+
 }
 
 .arrow-back {
   cursor: pointer;
+  position: absolute;
+  //top: 10px;
+}
+
+.result-arrow-back {
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  cursor: pointer;
+  //bottom: 10px;
 }
 
 ::ng-deep .mat-tab-header {
