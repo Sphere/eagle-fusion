@@ -1,17 +1,17 @@
 <mat-card class="margin-top-m margin-bottom-m">
-  <mat-card-title >Take Online</mat-card-title>
-  <mat-card-subtitle >
+  <mat-card-title i18n>Take Online</mat-card-title>
+  <mat-card-subtitle i18n>
     This certification exam is virtually-assessed and you can take it anywhere
     and anytime.
   </mat-card-subtitle>
   <mat-card-content class="flex flex-between">
     <section>
-      <p class="mat-body-2" >What's required?</p>
+      <p class="mat-body-2" i18n>What's required?</p>
       <ul class="mat-caption margin-remove">
-        <li class="text-italic" >
+        <li class="text-italic" i18n>
           Internet connectivity.
         </li>
-        <li class="text-italic" >
+        <li class="text-italic" i18n>
           A laptop/computer with audio and video enabled.
         </li>
       </ul>
@@ -22,7 +22,7 @@
         [color]="'primary'"
         [routerLink]="'/viewer/' + content?.identifier"
         class="width-1-1"
-        
+        i18n
       >
         Take Exam
       </a>
@@ -35,7 +35,7 @@
         [color]="'primary'"
         [routerLink]="'/viewer/' + content?.identifier"
         class="width-1-1 hidden-gt-xs"
-        
+        i18n
       >
         Take Exam
       </a>

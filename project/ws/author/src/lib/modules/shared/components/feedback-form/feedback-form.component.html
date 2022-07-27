@@ -1,19 +1,19 @@
 <div mat-dialog-title class="relative">
-  <h2 mat-dialog-title >Request For Role</h2>
-  <button [disabled]="onAction" -matTooltip [matTooltip]="'Close'" mat-button class="close-icon" mat-dialog-close>
+  <h2 mat-dialog-title i18n>Request For Role</h2>
+  <button [disabled]="onAction" i18n-matTooltip [matTooltip]="'Close'" mat-button class="close-icon" mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <mat-dialog-content>
   <div class="mat-form-field my-2">
     <label>
-      <b >Add Role For</b>
+      <b i18n>Add Role For</b>
     </label>
     <mat-radio-group color="primary" (change)="changeMessage()" [(ngModel)]="forSelf" class="example-radio-group">
-      <mat-radio-button class="example-radio-button" [value]="true" >
+      <mat-radio-button class="example-radio-button" [value]="true" i18n>
         Myself
       </mat-radio-button>
-      <mat-radio-button class="example-radio-button" [value]="false" >
+      <mat-radio-button class="example-radio-button" [value]="false" i18n>
         Other users
       </mat-radio-button>
     </mat-radio-group>
@@ -21,7 +21,7 @@
 
   <section class="w-full mb-2">
     <label>
-      <b >Message to Admin</b>
+      <b i18n>Message to Admin</b>
     </label>
     <div class="mat-body">
       <mat-form-field class="w-full">
@@ -33,7 +33,7 @@
 
   <section *ngIf="!forSelf" class="w-full mb-2">
     <label>
-      <b >Add users</b>
+      <b i18n>Add users</b>
     </label>
     <div>
       <mat-form-field appearance="outline" class="margin-top-sm" class="w-full margin-top-xs">
@@ -43,13 +43,13 @@
             {{ author.name }}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
-          <input -placeholder placeholder="Search by email" #publisherDetailsView
+          <input i18n-placeholder placeholder="Search by email" #publisherDetailsView
             [formControl]="publisherDetailsCtrl" [matChipInputFor]="publisherChipList" [matAutocomplete]="publisherAuto"
             [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="removeField($event)" />
         </mat-chip-list>
         <mat-autocomplete #publisherAuto="matAutocomplete" (optionSelected)="addEmployee($event, 'publisherDetails')">
-          <mat-option *ngIf="fetchTagsStatus === 'fetching'" >Fetching users...</mat-option>
-          <mat-option *ngIf="fetchTagsStatus === 'done' && !employeeList.length" >
+          <mat-option *ngIf="fetchTagsStatus === 'fetching'" i18n>Fetching users...</mat-option>
+          <mat-option *ngIf="fetchTagsStatus === 'done' && !employeeList.length" i18n>
             No user found. Please check the value entered.</mat-option>
           <mat-option *ngFor="let author of employeeList" [value]="author">
             {{ author.displayName }} | {{ author.mail }}
@@ -65,10 +65,10 @@
     Fill all the fields
   </span>
   <div class="margin-top-s margin-bottom-s right-align">
-    <button cdkFocusInitial mat-dialog-close [disabled]="onAction" mat-raised-button >Cancel</button>
+    <button cdkFocusInitial mat-dialog-close [disabled]="onAction" mat-raised-button i18n>Cancel</button>
     <button class="margin-left-s" (click)="submitData()" [disabled]="onAction" mat-raised-button color="primary">
       <mat-spinner [diameter]="25" color="primary" *ngIf="onAction"></mat-spinner>
-      <ng-container *ngIf="!onAction" >Submit</ng-container>
+      <ng-container *ngIf="!onAction" i18n>Submit</ng-container>
     </button>
   </div>
 </mat-dialog-content>

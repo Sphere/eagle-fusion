@@ -21,7 +21,7 @@
         [postCreatorId]="item?.postCreator?.postCreatorId"
       ></ws-widget-btn-social-vote>
       <button
-        -matTooltip
+        i18n-matTooltip
         matTooltip="Accept answer"
         class="margin-top-s"
         type="button"
@@ -67,7 +67,8 @@
             class="margin-top-s"
             [disabled]="!replyPostEnabled"
             mat-raised-button
-            color="primary"            
+            color="primary"
+            i18n
             (click)="editReply(editFailMsg.value)"
           >
             Update
@@ -76,7 +77,8 @@
             type="button"
             class="margin-top-s margin-left-s"
             mat-stroked-button
-            color="primary"            
+            color="primary"
+            i18n
             (click)="editMode = false"
           >
             Cancel
@@ -84,16 +86,16 @@
         </div>
       </div>
       <mat-chip-list>
-        <mat-chip *ngFor="let tag of item.tags" -matTooltip matTooltip="Associated Tag"
+        <mat-chip *ngFor="let tag of item.tags" i18n-matTooltip matTooltip="Associated Tag"
           >{{ tag.name }}
         </mat-chip>
       </mat-chip-list>
       <div class="flex flex-between margin-top-xs">
         <div class="ws-mat-primary-text">
           <ng-container *ngIf="userId === item?.postCreator?.postCreatorId">
-            <a role="button" class="cursor-pointer"  (click)="editMode = true">edit</a
+            <a role="button" class="cursor-pointer" i18n (click)="editMode = true">edit</a
             >&nbsp;&nbsp;
-            <a role="button" class="cursor-pointer"  (click)="deleteReply(deleteFailMsg.value)"
+            <a role="button" class="cursor-pointer" i18n (click)="deleteReply(deleteFailMsg.value)"
               >delete</a
             >
           </ng-container>
@@ -105,7 +107,7 @@
             </span>
             <div class="mat-caption">
               <span>{{ item.dtCreated | date }}</span>
-              <ng-container > at </ng-container>
+              <ng-container i18n> at </ng-container>
               <span>{{ item.dtCreated | date: 'shortTime' }}</span>
             </div>
           </div>
@@ -121,7 +123,7 @@
             {{ comment.postContent.body }}
             <span class="ws-mat-primary-text"> - {{ comment.postCreator.name }} </span>
             <span class="mat-caption"> {{ comment.dtCreated | date }}</span>
-            <span class="mat-caption" > at</span>
+            <span class="mat-caption" i18n> at</span>
             <span class="mat-caption"> {{ comment.dtCreated | date: 'shortTime' }}</span>
           </div>
         </div>
@@ -131,7 +133,8 @@
             [disabled]="commentFetchStatus === 'fetching'"
             (click)="fetchQuestionComments()"
             mat-button
-            color="primary"            
+            color="primary"
+            i18n
           >
             Load More Comments
           </button>
@@ -158,8 +161,10 @@
           mat-stroked-button
           [disabled]="!commentAddRequest.postContent.body.length || isPostingComment"
           color="primary"
-          class="margin-left-s"          
-          (click)="postComment()"          
+          class="margin-left-s"
+          i18n="Post comment of question"
+          (click)="postComment()"
+          i18n
         >
           Post
         </button>
@@ -168,6 +173,6 @@
   </div>
 </div>
 
-<input type="hidden"  value="You cannot accept your own answer" #acceptAnswerMsg />
-<input type="hidden"  value="Something went wrong! Unable to delete." #deleteFailMsg />
-<input type="hidden"  value="Something went wrong! Unable to post." #editFailMsg />
+<input type="hidden" i18n-value value="You cannot accept your own answer" #acceptAnswerMsg />
+<input type="hidden" i8n-value value="Something went wrong! Unable to delete." #deleteFailMsg />
+<input type="hidden" i8n-value value="Something went wrong! Unable to post." #editFailMsg />

@@ -6,20 +6,20 @@
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
 
-    <input -placeholder placeholder="Please enter ids" [matChipInputFor]="ids"
+    <input i18n-placeholder placeholder="Please enter ids" [matChipInputFor]="ids"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
       (matChipInputTokenEnd)="addAll($event)" />
   </mat-chip-list>
 </mat-form-field>
 
-<button class="float-right"  mat-raised-button (click)="save()" [disabled]="idsList.length === 0"
+<button class="float-right" i18n mat-raised-button (click)="save()" [disabled]="idsList.length === 0"
   [color]="'primary'">
   Save
 </button> -->
 <ws-widget-picker-content (change)="updateSelectedIds($event)"
   [widgetData]="{ preselected: selectedIds, enablePreselected: true }">
 </ws-widget-picker-content>
-<button class="float-right"  mat-raised-button (click)="save()" [color]="'primary'">
+<button class="float-right" i18n mat-raised-button (click)="save()" [color]="'primary'">
   Save
 </button>
 <ng-container *ngIf="!isFetchingMeta; else loader">

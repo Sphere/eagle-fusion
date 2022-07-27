@@ -3,7 +3,7 @@
     </ws-widget-user-content-rating>
 <div mat-dialog-title>
   <h2 class="mat-title text-truncate">
-    <span >Feedback for: </span>
+    <span i18n>Feedback for: </span>
     <span>{{ content?.name }}</span>
   </h2>
 </div>
@@ -22,15 +22,15 @@
 <ng-template #sentimentForm>
   <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
     <section class="w-full mb-8">
-      <h3 class="mat-h3" >What was helpful?</h3>
+      <h3 class="mat-h3" i18n>What was helpful?</h3>
       <div class="mat-body">
         <mat-form-field class="w-full">
           <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
-            formControlName="positive" placeholder="Type your feedback here"></textarea>
-          <mat-hint >
+            formControlName="positive" placeholder="Type your feedback here" i18n-placeholder></textarea>
+          <mat-hint i18n>
             Limit to 2000 characters.
           </mat-hint>
-          <mat-error >
+          <mat-error i18n>
             You have exceeded 2000 characters.
           </mat-error>
         </mat-form-field>
@@ -39,15 +39,15 @@
 
     <section class="w-full">
       <section>
-        <h3 class="mat-h3" >What can be improved?</h3>
+        <h3 class="mat-h3" i18n>What can be improved?</h3>
         <div class="mat-body">
           <mat-form-field class="w-full">
             <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
-              formControlName="negative" placeholder="Type your feedback here" -placeholder></textarea>
-            <mat-hint >
+              formControlName="negative" placeholder="Type your feedback here" i18n-placeholder></textarea>
+            <mat-hint i18n>
               Limit to 2000 characters.
             </mat-hint>
-            <mat-error >
+            <mat-error i18n>
               You have exceeded 2000 characters.
             </mat-error>
           </mat-form-field>
@@ -66,7 +66,7 @@
           positiveFeedbackSendStatus === 'sending' ||
           negativeFeedbackSendStatus === 'sending'
         ">
-        <ng-container >Submit</ng-container>
+        <ng-container i18n>Submit</ng-container>
       </button>
     </div>
   </form>
@@ -75,15 +75,15 @@
 <ng-template #singleInputForm>
   <form [formGroup]="singleFeedbackForm" (ngSubmit)="submitSingleFeedback()">
     <section class="w-full mb-8">
-      <h3 class="mat-h3" >What do you think of this content?</h3>
+      <h3 class="mat-h3" i18n>What do you think of this content?</h3>
       <div class="mat-body">
         <mat-form-field class="w-full">
           <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
-            formControlName="feedback" placeholder="Type your feedback here" -placeholder></textarea>
-          <mat-hint >
+            formControlName="feedback" placeholder="Type your feedback here" i18n-placeholder></textarea>
+          <mat-hint i18n>
             Limit to 2000 characters.
           </mat-hint>
-          <mat-error >
+          <mat-error i18n>
             You have exceeded 2000 characters.
           </mat-error>
         </mat-form-field>
@@ -99,7 +99,7 @@
           singleFeedbackForm.invalid ||
           singleFeedbackSendStatus === 'sending'
         ">
-        <ng-container >Submit</ng-container>
+        <ng-container i18n>Submit</ng-container>
       </button>
     </div>
   </form>

@@ -8,7 +8,7 @@
     <div class="ws-mat-primary-text mat-headline title-text title-truncate">
       {{ forumViewData.name }}
     </div>
-    <div class="description-text mb-4" -title title="Description">
+    <div class="description-text mb-4" i18n-title title="Description">
       {{ forumViewData.description }}
     </div>
     <div class="flex flex-middle">
@@ -32,14 +32,14 @@
     </div>
     <div class="pb-4">
       <span class="ws-mat-primary-text title-text">
-        <span >Modified:
+        <span i18n>Modified:
         </span>{{ forumViewData.dtLastModified | date }}</span>
     </div>
 
     <mat-divider></mat-divider>
     <h3 class="pt-3">
       <strong>
-        <ng-container > Posts </ng-container>
+        <ng-container i18n> Posts </ng-container>
         <ng-container *ngIf="postsOfForum.length"> ({{ forumViewData.postCount }})</ng-container>
       </strong>
     </h3>
@@ -57,7 +57,7 @@
   <div *ngIf="timelineFetchStatus === 'hasMore'" class="text-center pt-3">
     <button (click)="fetchPosts()" type="button" mat-raised-button color="primary">
       <mat-icon>add</mat-icon>&nbsp;
-      <ng-container >View More</ng-container>
+      <ng-container i18n>View More</ng-container>
     </button>
   </div>
 </div>

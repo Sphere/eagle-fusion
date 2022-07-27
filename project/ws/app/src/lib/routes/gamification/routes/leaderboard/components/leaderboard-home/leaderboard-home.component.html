@@ -2,7 +2,7 @@
   <a mat-icon-button [routerLink]="'/app/features'">
     <mat-icon>arrow_back</mat-icon>
   </a>
-  <span  class="margin-left-xs">Leaderboard</span>
+  <span i18n="page title: leaderboard" class="margin-left-xs">Leaderboard</span>
   <span class="spacer"></span>
 </mat-toolbar>
 
@@ -10,7 +10,7 @@
   <mat-sidenav class="padding-s width-300" position="end" [fixedInViewport]="true" [(opened)]="sideNavBarOpened">
     <h4 class="ws-mat-primary-text font-weight-bold margin-remove">
       <div class="flex flex-between flex-baseline">
-        <span class="mat-h2 font-weight-500 margin-left-s" >Filters</span>
+        <span class="mat-h2 font-weight-500 margin-left-s" i18n>Filters</span>
         <button mat-icon-button color="primary" class="text-middle close-button margin-bottom-s"
           (click)="sideNavBarOpened = false">
           <mat-icon class="">clear</mat-icon>
@@ -38,7 +38,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label >Select Role</mat-label>
+        <mat-label i18n>Select Role</mat-label>
         <mat-select #selectedRole [ngModel]="selectedRole" (ngModelChange)="roleChanged(selectedRole)">
           <mat-option [value]="role" *ngFor="let role of rolesList">
             <a mat-line>
@@ -48,7 +48,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label >Select Region</mat-label>
+        <mat-label i18n>Select Region</mat-label>
         <mat-select #selectedRegion [ngModel]="selectedRegion" (ngModelChange)="regionChanged(selectedRegion)">
           <mat-option [value]="region" *ngFor="let region of ['All','NTH', 'EST', 'STH', 'CEN', 'WST']">
             <a mat-line>
@@ -58,7 +58,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class=" margin-left-m">
-        <mat-label >Select Dealer Code</mat-label>
+        <mat-label i18n>Select Dealer Code</mat-label>
         <mat-select #selectedDealer [ngModel]="selectedDealer" (ngModelChange)="dealerChanged(selectedDealer)">
           <mat-option [value]="dealer" *ngFor="let dealer of dealers">
             <a mat-line>
@@ -80,7 +80,7 @@
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
       <div class="margin-left-m margin-top-l margin-bottom-l">
-        <a mat-raised-button type="button" color="primary" 
+        <a mat-raised-button type="button" color="primary" i18n
           (click)="fetchGuildLeaderboardData(startDate.value,endDate.value);fetchActivityLeaderboardData(startDate.value,endDate.value)">
           Submit
         </a>
@@ -95,24 +95,24 @@
             matSuffix>
             <mat-icon>search</mat-icon>
           </button>
-          <mat-label >Search users</mat-label>
+          <mat-label i18n>Search users</mat-label>
           <input matInput (keyup.enter)="handleSearchQuery(query)" [(ngModel)]="query" autocomplete="off"
             class="resize-none" />
         </mat-form-field>
       </div>
       <div class="dimensions">
         <h4 class="ws-mat-primary-text font-size-m font-weight-bold">
-          <span > Apply Filters</span>
+          <span i18n> Apply Filters</span>
           <button mat-icon-button color="primary" class="text-middle" (click)="sideNavBarOpened = true">
             <mat-icon>filter_list</mat-icon>
           </button>
         </h4>
       </div>
-      <mat-button-toggle-group (change)="onTabChange($event)" -name name="leaderboardType" -aria-label
+      <mat-button-toggle-group (change)="onTabChange($event)" i18n-name name="leaderboardType" i18n-aria-label
         aria-label="Select leaderboard type" class="dimension">
-        <mat-button-toggle  [checked]="currentTab === 'Guild'" value="Guild">Guild View
+        <mat-button-toggle i18n [checked]="currentTab === 'Guild'" value="Guild">Guild View
         </mat-button-toggle>
-        <mat-button-toggle  [checked]="currentTab === 'Activity'" value="Activity">
+        <mat-button-toggle i18n [checked]="currentTab === 'Activity'" value="Activity">
           Activity View</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
@@ -133,7 +133,7 @@
         <ng-container>
           <div class="flat-error-alert margin-m">
             <mat-icon class="large-icon">info</mat-icon>
-            <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" >There is no leaderboard data
+            <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>There is no leaderboard data
               available for this sprint.</span>
           </div>
 
@@ -157,7 +157,7 @@
         <ng-container>
           <div class="flat-error-alert margin-m">
             <mat-icon class="large-icon">info</mat-icon>
-            <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" >There is no leaderboard data
+            <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>There is no leaderboard data
               available for this sprint.</span>
           </div>
         </ng-container>

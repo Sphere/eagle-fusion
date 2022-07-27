@@ -12,7 +12,7 @@
           requestItem.status !== 'Rejected' &&
           requestItem.status !== 'Cancelled'
         ">
-        <ng-container >
+        <ng-container i18n>
           Request currently with
         </ng-container>
         <ng-container>
@@ -20,7 +20,7 @@
         </ng-container>
       </div>
       <div class="mat-caption text-truncate">
-        <ng-container >
+        <ng-container i18n>
           Request raised on
         </ng-container>
         <ng-container>
@@ -34,17 +34,17 @@
         <ng-container *ngSwitchCase="'proctor_approval'">
           <div class="flex flex-between">
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >LOCATION</div>
+              <div class="mat-body-2 text-truncate" i18n>LOCATION</div>
               <div class="mat-body text-truncate">
                 {{ requestItem.location }}, {{ requestItem.country }}
               </div>
             </div>
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >EXAM DATE</div>
+              <div class="mat-body-2 text-truncate" i18n>EXAM DATE</div>
               <div class="mat-body text-truncate">{{ requestItem.date | pipeDateConcat }}</div>
             </div>
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >TIME</div>
+              <div class="mat-body-2 text-truncate" i18n>TIME</div>
               <div class="mat-body text-truncate">{{ requestItem.slot }}</div>
             </div>
           </div>
@@ -53,7 +53,7 @@
         <ng-container *ngSwitchCase="'budget_approval'">
           <div class="flex flex-between">
             <div>
-              <div class="mat-body-2 text-truncate" >AMOUNT</div>
+              <div class="mat-body-2 text-truncate" i18n>AMOUNT</div>
               <div class="mat-body text-truncate">
                 {{ requestItem.currency }} {{ requestItem.amount }}
               </div>
@@ -64,20 +64,20 @@
         <ng-container *ngSwitchCase="'result_verification'">
           <div class="flex flex-between">
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >EXAM DATE</div>
+              <div class="mat-body-2 text-truncate" i18n>EXAM DATE</div>
               <div class="mat-body text-truncate">
                 {{ requestItem.exam_date | pipeDateConcat }}
               </div>
             </div>
             <div class="width-1-3" *ngIf="requestItem.resultType">
-              <div class="mat-body-2 text-truncate" >RESULT TYPE</div>
+              <div class="mat-body-2 text-truncate" i18n>RESULT TYPE</div>
               <div class="mat-body text-truncate">
                 <ng-container [ngTemplateOutlet]="resultType"
                   [ngTemplateOutletContext]="{ $implicit: requestItem.resultType }"></ng-container>
               </div>
             </div>
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >RESULT</div>
+              <div class="mat-body-2 text-truncate" i18n>RESULT</div>
               <div class="mat-body text-truncate">{{ requestItem.result }}</div>
             </div>
           </div>
@@ -105,7 +105,7 @@
           <div class="margin-bottom-xs margin-top-xs flex">
             <mat-icon [inline]="true">money</mat-icon>
             <div class="margin-left-xs">
-              <span class="mat-body-2" >Amount: </span>
+              <span class="mat-body-2" i18n>Amount: </span>
               <span class="mat-body">
                 {{ requestItem.currency }} {{ requestItem.amount }}
               </span>
@@ -117,7 +117,7 @@
           <div class="margin-bottom-xs margin-top-xs flex">
             <mat-icon [inline]="true">calendar_today</mat-icon>
             <div class="margin-left-xs">
-              <span class="mat-body-2" >Exam Date: </span>
+              <span class="mat-body-2" i18n>Exam Date: </span>
               <span class="mat-body">{{ requestItem.exam_date | pipeDateConcat }}</span>
             </div>
           </div>
@@ -125,7 +125,7 @@
           <div class="margin-bottom-xs margin-top-xs flex" *ngIf="requestItem.resultType">
             <mat-icon [inline]="true">assignment</mat-icon>
             <div class="margin-left-xs">
-              <span class="mat-body-2" >Result Type: </span>
+              <span class="mat-body-2" i18n>Result Type: </span>
               <span class="mat-body">{{ requestItem.resultType }}</span>
             </div>
           </div>
@@ -133,7 +133,7 @@
           <div class="margin-bottom-xs margin-top-xs flex">
             <mat-icon [inline]="true">assignment_turned_in</mat-icon>
             <div class="margin-left-xs">
-              <span class="mat-body-2" >Result: </span>
+              <span class="mat-body-2" i18n>Result: </span>
               <span class="mat-body">{{ requestItem.result }}</span>
             </div>
           </div>
@@ -142,19 +142,19 @@
     </section>
 
     <section class="margin-top-xs margin-bottom-xs">
-      <span class="mat-body-2 margin-right-xs" >Status: </span>
+      <span class="mat-body-2 margin-right-xs" i18n>Status: </span>
       <span class="mat-body" [ngSwitch]="requestItem.status">
-        <ng-container *ngSwitchCase="'Submitted'" >Submitted</ng-container>
-        <ng-container *ngSwitchCase="'Approved'" >Approved</ng-container>
-        <ng-container *ngSwitchCase="'Recalled'" >Recalled</ng-container>
-        <ng-container *ngSwitchCase="'Cancelled'" >Cancelled</ng-container>
-        <ng-container *ngSwitchCase="'Uploaded'" >Uploaded</ng-container>
-        <ng-container *ngSwitchCase="'Rejected'" >Rejected</ng-container>
+        <ng-container *ngSwitchCase="'Submitted'" i18n>Submitted</ng-container>
+        <ng-container *ngSwitchCase="'Approved'" i18n>Approved</ng-container>
+        <ng-container *ngSwitchCase="'Recalled'" i18n>Recalled</ng-container>
+        <ng-container *ngSwitchCase="'Cancelled'" i18n>Cancelled</ng-container>
+        <ng-container *ngSwitchCase="'Uploaded'" i18n>Uploaded</ng-container>
+        <ng-container *ngSwitchCase="'Rejected'" i18n>Rejected</ng-container>
       </span>
     </section>
 
     <section class="margin-top-s">
-      <button mat-flat-button class="margin-right-s" [color]="'primary'"  (click)="confirmAction('cancel')"
+      <button mat-flat-button class="margin-right-s" [color]="'primary'" i18n (click)="confirmAction('cancel')"
         [disabled]="sendStatus === 'sending'" *ngIf="
           requestItem.status !== 'Approved' &&
           requestItem.status !== 'Rejected' &&
@@ -166,10 +166,10 @@
       </button>
       <button mat-stroked-button [color]="'primary'" *ngIf="requestItem.record_type === 'result_verification'"
         (click)="downloadProof()" [disabled]="downloadStatus === 'fetching'">
-        <ng-container *ngIf="downloadStatus !== 'fetching'" >Download</ng-container>
+        <ng-container *ngIf="downloadStatus !== 'fetching'" i18n>Download</ng-container>
         <ng-container *ngIf="downloadStatus === 'fetching'">
           <div class="flex flex-between">
-            <div >Downloading...</div>
+            <div i18n>Downloading...</div>
             <div class="flex flex-column flex-center">
               <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
@@ -184,10 +184,10 @@
 <!-- Result type for result verification -->
 <ng-template #resultType let-type>
   <ng-container [ngSwitch]="type">
-    <ng-container *ngSwitchCase="'score'" >Score</ng-container>
-    <ng-container *ngSwitchCase="'percentage'" >Percentage</ng-container>
-    <ng-container *ngSwitchCase="'grade'" >Grade</ng-container>
-    <ng-container *ngSwitchCase="'other'" >Other</ng-container>
+    <ng-container *ngSwitchCase="'score'" i18n>Score</ng-container>
+    <ng-container *ngSwitchCase="'percentage'" i18n>Percentage</ng-container>
+    <ng-container *ngSwitchCase="'grade'" i18n>Grade</ng-container>
+    <ng-container *ngSwitchCase="'other'" i18n>Other</ng-container>
     <ng-container *ngSwitchDefault>{{ type }}</ng-container>
   </ng-container>
 </ng-template>

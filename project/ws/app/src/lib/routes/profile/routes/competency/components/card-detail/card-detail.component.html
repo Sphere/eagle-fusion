@@ -3,7 +3,7 @@
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="apiFetchStatus === 'done'" class="container-details">
-  <h3 class="mat-title font-weight-500" >
+  <h3 class="mat-title font-weight-500" i18n>
     ASSESSMENT DETAILS
   </h3>
 
@@ -24,27 +24,27 @@
           'border-bottom-success': assessmentDetails?.isPassed,
           'border-bottom-fail': !assessmentDetails?.isPassed
         }">
-        <img *ngIf="assessmentDetails?.isPassed" alt="image whether qualified" 
+        <img *ngIf="assessmentDetails?.isPassed" alt="image whether qualified" i18n-alt="image whether qualified"
           src="\assets\images\profile\Passed.svg" />
-        <img *ngIf="!assessmentDetails?.isPassed" alt="image whether qualified"
+        <img *ngIf="!assessmentDetails?.isPassed" alt="image whether qualified" i18n-alt="image whether qualified"
           src="\assets\images\profile\Failed.svg" />
         <mat-card-content>
           <div class="flex flex-between px-6">
             <div class="flex flex-centre">
               <mat-icon>emoji_events</mat-icon>
               <ng-container class="padding-left-xs font-bold">
-                <span >SCORE - </span>
+                <span i18n>SCORE - </span>
                 <span>{{ assessmentDetails?.score }}</span>
               </ng-container>
             </div>
             <div class="pb-6 text-center">
-              <span >Percentile - </span> {{ assessmentDetails?.percentile }}
+              <span i18n>Percentile - </span> {{ assessmentDetails?.percentile }}
             </div>
           </div>
           <!-- <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <span >Show previous attempts</span>
+                <span i18n>Show previous attempts</span>
               </mat-panel-title>
             </mat-expansion-panel-header>
           </mat-expansion-panel> -->
@@ -53,12 +53,12 @@
       <mat-card class="details-card mt-4 p-4 mat-elevation-z4">
         <mat-card-title>
           <h2 class=" font-bold title-text px-4">
-            <span >Great start! You did better than</span>
-            <span>{{ assessmentDetails?.percentile }}</span><span >% of your peers.</span>
+            <span i18n>Great start! You did better than</span>
+            <span>{{ assessmentDetails?.percentile }}</span><span i18n>% of your peers.</span>
           </h2>
           <a class="nav-btn" [routerLink]="'/app/toc/' + assessmentDetails?.id + '/overview'" mat-raised-button
             type="button" color="primary">
-            <span >Go to Content</span>
+            <span i18n>Go to Content</span>
           </a>
         </mat-card-title>
       </mat-card>

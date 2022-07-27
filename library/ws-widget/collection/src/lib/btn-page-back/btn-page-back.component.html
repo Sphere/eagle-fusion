@@ -1,5 +1,5 @@
 <div class="flex flex-1" [class.min-width]="showBackIcon" *ngIf="playerScreen">
-  <a aria-label="Back" *ngIf="widgetData.url && widgetData.url !== 'none' && !playerScreen"
+  <a i18n-aria-label aria-label="Back" *ngIf="widgetData.url && widgetData.url !== 'none' && !playerScreen"
     [routerLink]="backUrl.routeUrl" [queryParams]="backUrl.queryParams" [fragment]="backUrl?.fragment" mat-icon-button>
     <mat-icon class="ws-mat-default-text" *ngIf="!showBackIcon">home</mat-icon>
     <span class="material-icons mr-5 back-icon" *ngIf="showBackIcon"> keyboard_backspace</span>
@@ -7,9 +7,9 @@
   <ng-container *ngIf="widgetData.titles && widgetData.titles.length>0">
     <div class="flex flex-1 ws-mat-default-text" *ngFor="let title of widgetData.titles">
       <mat-icon class="main-back m-auto ws-mat-default-text">arrow_forward_ios</mat-icon>
-      <span *ngIf="title.title && title.url && title.url === 'none'"
+      <span *ngIf="title.title && title.url && title.url === 'none'" i18n="page title: {{title.title}}"
         class="flex flex-1 margin-left-xs ws-mat-default-text m-auto">{{title.title}}</span>
-      <a class="m-auto" aria-label="Back" *ngIf="title.url && title.url !== 'none'"
+      <a class="m-auto" i18n-aria-label aria-label="Back" *ngIf="title.url && title.url !== 'none'"
         [routerLink]="backUrl.routeUrl" [queryParams]="backUrl.queryParams" [fragment]="backUrl?.fragment">
         {{title.title}}
       </a>

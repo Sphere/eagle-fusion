@@ -1,9 +1,9 @@
 <section class="my-4 px-4 container-balanced">
   <div>
     <mat-form-field>
-      <mat-select [formControl]="statusControl" placeholder="Completion Status" -placeholder>
-        <mat-option [value]="'completed'" >Completed</mat-option>
-        <mat-option [value]="'notcompleted'" >Not Completed</mat-option>
+      <mat-select [formControl]="statusControl" placeholder="Completion Status" i18n-placeholder>
+        <mat-option [value]="'completed'" i18n>Completed</mat-option>
+        <mat-option [value]="'notcompleted'" i18n>Not Completed</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -20,14 +20,14 @@
         </ng-container>
 
         <ng-container *ngIf="!pastCertifications.length">
-          <section class="text-center mat-body margin-top-xl" >
+          <section class="text-center mat-body margin-top-xl" i18n>
             There are no certifications that you have given in the past.
           </section>
         </ng-container>
       </ng-container>
 
       <ng-container *ngSwitchCase="'error'">
-        <section class="text-center mat-body margin-top-xl" >
+        <section class="text-center mat-body margin-top-xl" i18n>
           An error occured while fetching past certifications.
         </section>
       </ng-container>
@@ -61,17 +61,17 @@
         <div class="hidden sm:block">
           <div class="flex flex-between">
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >EXAM DATE</div>
+              <div class="mat-body-2 text-truncate" i18n>EXAM DATE</div>
               <div class="mat-body text-truncate">
                 {{ pastCertification.examDate | pipeDateConcat }}
               </div>
             </div>
             <div class="width-1-3" *ngIf="pastCertification.result_type">
-              <div class="mat-body-2 text-truncate" >RESULT TYPE</div>
+              <div class="mat-body-2 text-truncate" i18n>RESULT TYPE</div>
               <div class="mat-body text-truncate">{{ pastCertification.result_type }}</div>
             </div>
             <div class="width-1-3">
-              <div class="mat-body-2 text-truncate" >RESULT</div>
+              <div class="mat-body-2 text-truncate" i18n>RESULT</div>
               <div class="mat-body text-truncate">{{ pastCertification.result }}</div>
             </div>
           </div>
@@ -81,7 +81,7 @@
           <div class="margin-bottom-xs margin-top-xs flex">
             <mat-icon [inline]="true">calendar_today</mat-icon>
             <div class="margin-left-xs mat-body">
-              <span class="mat-body-2 margin-right-xs" >Exam Date</span>
+              <span class="mat-body-2 margin-right-xs" i18n>Exam Date</span>
               <span class="mat-body">{{ pastCertification.examDate | pipeDateConcat }}</span>
             </div>
           </div>
@@ -89,7 +89,7 @@
           <div class="margin-bottom-xs margin-top-xs flex">
             <mat-icon [inline]="true">score</mat-icon>
             <div class="margin-left-xs mat-body">
-              <span class="mat-body-2 margin-right-xs" >Result</span>
+              <span class="mat-body-2 margin-right-xs" i18n>Result</span>
               <span class="mat-body"
                 >{{ pastCertification.result_type }} {{ pastCertification.result }}</span
               >
@@ -104,7 +104,7 @@
 <!-- Templates -->
 <ng-template #certificationType let-certificationType>
   <ng-container [ngSwitch]="certificationType">
-    <ng-container *ngSwitchCase="'Internal'" >Internal Certification</ng-container>
-    <ng-container *ngSwitchCase="'External'" >External Certification</ng-container>
+    <ng-container *ngSwitchCase="'Internal'" i18n>Internal Certification</ng-container>
+    <ng-container *ngSwitchCase="'External'" i18n>External Certification</ng-container>
   </ng-container>
 </ng-template>

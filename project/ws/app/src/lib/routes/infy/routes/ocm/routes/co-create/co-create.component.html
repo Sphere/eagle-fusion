@@ -24,7 +24,7 @@
         name="answer"
         #answerText="ngModel"
       ></textarea>
-      <mat-error > Min length should be 10 characters </mat-error>
+      <mat-error i18n> Min length should be 10 characters </mat-error>
     </mat-form-field>
     <div class="flex flex-row-reverse margin-top-s">
       <button
@@ -32,23 +32,27 @@
         type="submit"
         mat-raised-button
         [color]="'primary'"
-        
+        i18n
       >
         Send Mail
       </button>
-      <button mat-button type="reset">Reset</button>
+      <button mat-button i18n="reset form" type="reset">Reset</button>
     </div>
   </form>
 </mat-card>
 
 <input
   type="hidden"
+  i18-value
+  i18-aria-value
   aria-value="send mail succesful"
   value="Thanks for your contribution."
   #toastSuccess
 />
 <input
   type="hidden"
+  i18-value
+  i18-aria-value
   aria-value="unable to submit feedback"
   value="Error sending mail!"
   #toastError

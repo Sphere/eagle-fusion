@@ -2,7 +2,7 @@
   <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
   <div>
     <span class="margin-left-s">{{ firstName }}</span>
-    <span >'s Profile</span>
+    <span i18n>'s Profile</span>
   </div>
 </mat-toolbar>
 <ng-container *ngIf="isPersonProfileAvailable">
@@ -45,7 +45,7 @@
                           <p class="margin-remove text-center mat-h3 follownumber font-family">
                             {{ followersCount }}
                           </p>
-                          <p class="margin-remove-bottom mat-h3 email font-family" >
+                          <p class="margin-remove-bottom mat-h3 email font-family" i18n>
                             Followers
                           </p>
                         </div>
@@ -54,7 +54,7 @@
                           <p class="margin-remove text-center mat-h3 follownumber font-family">
                             {{ followingCount }}
                           </p>
-                          <p class="margin-remove-bottom email mat-h3 font-family" >
+                          <p class="margin-remove-bottom email mat-h3 font-family" i18n>
                             Following
                           </p>
                         </div>
@@ -71,7 +71,7 @@
                             <div class="flex flex-center">
                               <p
                                 class="text-white margin-remove-bottom font-weight-bold font-family"
-                                
+                                i18n
                               >
                                 Follow
                               </p>
@@ -93,7 +93,7 @@
                             <div class="flex flex-center">
                               <p
                                 class="font-family margin-remove-bottom font-weight-bold text-black"
-                                
+                                i18n
                               >
                                 Unfollow
                               </p>
@@ -107,11 +107,11 @@
                 <div class="divider"></div>
                 <div class="flex flex-center flex-middle p-2">
                   <div class="interest text-left">
-                    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" >
+                    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>
                       Interests:
                     </p>
                     <div *ngIf="!interests?.length" class="pl-4 py-4">
-                      <span>No interest added</span>
+                      <span i18n="no interest ws-mat-primary-text" i18n>No interest added</span>
                     </div>
                     <div class="margin-top-xs">
                       <mat-chip-list>
@@ -180,14 +180,14 @@
               class="flex flex-evenly margin-bottom-xs ws-mat-primary-background-op10 followcard"
             >
               <div>
-                <p class="margin-remove-bottom mat-h3 email font-family" >Followers</p>
+                <p class="margin-remove-bottom mat-h3 email font-family" i18n>Followers</p>
                 <p class="margin-remove text-center mat-h3 follownumber font-family">
                   {{ followersCount }}
                 </p>
               </div>
               <div class="divider ws-mat-primary-background"></div>
               <div>
-                <p class="margin-remove-bottom email mat-h3 font-family" >Following</p>
+                <p class="margin-remove-bottom email mat-h3 font-family" i18n>Following</p>
                 <p class="margin-remove text-center mat-h3 follownumber font-family">
                   {{ followingCount }}
                 </p>
@@ -202,7 +202,7 @@
                   (click)="follow()"
                 >
                   <div class="flex flex-center">
-                    <p class="text-white margin-remove-bottom font-family" >Follow</p>
+                    <p class="text-white margin-remove-bottom font-family" i18n>Follow</p>
                   </div>
                 </button>
               </div>
@@ -214,7 +214,7 @@
                   (click)="unfollowFn()"
                 >
                   <div class="flex flex-center">
-                    <p class="text-black margin-remove-bottom font-weight-bold font-family" >
+                    <p class="text-black margin-remove-bottom font-weight-bold font-family" i18n>
                       Unfollow
                     </p>
                   </div>
@@ -224,11 +224,11 @@
             <!-- <button type="button" mat-raised-button class="follow-button ws-mat-primary-background margin-top-xs"
                       (click)="follow()">
                       <div class="flex flex-center" *ngIf="isFollow; else unFollow">
-                        <p class="text-white margin-remove-bottom font-family" >Follow</p>
+                        <p class="text-white margin-remove-bottom font-family" i18n>Follow</p>
                       </div>
                       <ng-template #unFollow>
                         <div class="flex flex-center">
-                          <p class="text-white margin-remove-bottom font-family" >Unfollow</p>
+                          <p class="text-white margin-remove-bottom font-family" i18n>Unfollow</p>
                         </div>
                       </ng-template>
                     </button> -->
@@ -239,11 +239,11 @@
           <mat-card-content>
             <div class="flex flex-center flex-middle p-2">
               <div class="interest text-left">
-                <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" >
+                <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>
                   Interests:
                 </p>
                 <div *ngIf="!interests?.length" class="pl-4 py-4">
-                  <span>No interest added</span>
+                  <span i18n="no interest ws-mat-primary-text" i18n>No interest added</span>
                 </div>
                 <div class="margin-top-xs">
                   <mat-chip-list>

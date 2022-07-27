@@ -4,20 +4,20 @@
     <mat-icon>menu</mat-icon>
   </button>
   <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
-  <span class="ml-2" >Forum</span>
+  <span class="ml-2" i18n>Forum</span>
   <span class="spacer"></span>
   <ng-container *ngIf="(isXSmall$ | async) === true && forumCreation">
     <a mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vertical</mat-icon>
     </a>
     <mat-menu #menu="matMenu">
-      <a  [routerLink]="'/app/social/forums/me'" mat-menu-item>My Forums</a>
-      <a  [routerLink]="'/app/social/forums/edit'" mat-menu-item>Create Forums</a>
+      <a i18n [routerLink]="'/app/social/forums/me'" mat-menu-item>My Forums</a>
+      <a i18n [routerLink]="'/app/social/forums/edit'" mat-menu-item>Create Forums</a>
     </mat-menu>
   </ng-container>
   <ng-container *ngIf="(isXSmall$ | async) === false && forumCreation">
-    <a mat-raised-button color="primary"  [routerLink]="'/app/social/blogs/me'" class="margin-right-s">My Forums</a>
-    <a mat-raised-button color="primary" class="margin-left-s"  [routerLink]="'/app/social/blogs/edit'">Create
+    <a mat-raised-button color="primary" i18n [routerLink]="'/app/social/blogs/me'" class="margin-right-s">My Forums</a>
+    <a mat-raised-button color="primary" class="margin-left-s" i18n [routerLink]="'/app/social/blogs/edit'">Create
       Forums</a>
   </ng-container>
 </mat-toolbar>
@@ -25,24 +25,24 @@
   <mat-sidenav #sideNavBar [opened]="!screenSizeIsLtMedium" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
     <mat-nav-list class="margin-left-s margin-right-xs">
       <a mat-list-item routerLinkActive="mat-toolbar" [routerLink]="'/app/social/forums/view-forum'"
-        (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null" matTooltip="Forum" -matTooltip="Forum">
+        (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null" matTooltip="Forum" i18n-matTooltip="Forum">
         <mat-icon>forum</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium"
-          >Forums</span>
+          i18n>Forums</span>
       </a>
       <a mat-list-item routerLinkActive="mat-toolbar" *ngIf="showModerateTab"
         [routerLink]="'/app/social/forums/moderator-timeline'"
         (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null">
         <mat-icon>rate_review</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium"
-          >Moderate</span>
+          i18n>Moderate</span>
       </a>
       <a mat-list-item routerLinkActive="mat-toolbar" [routerLink]="'/app/social/forums/recent-forumpost'"
         (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null">
-        <mat-icon>post_add</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium" >Latest
+        <mat-icon>post_add</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium" i18n>Latest
           posts</span>
       </a>
       <a mat-list-item routerLinkActive="mat-toolbar" [routerLink]="'/app/social/forums/my-forum-post'"
         (click)="screenSizeIsLtMedium ? sideNavBar.toggle() : null">
-        <mat-icon>insert_comment</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium" >My
+        <mat-icon>insert_comment</mat-icon><span class="padding-left-s" *ngIf="showText || screenSizeIsLtMedium" i18n>My
           posts</span>
       </a>
     </mat-nav-list>

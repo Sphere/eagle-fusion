@@ -23,13 +23,13 @@
                             {{ path }}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
-                        <input -placeholder placeholder="Access Paths" #accessPathsView
+                        <input i18n-placeholder placeholder="Access Paths" #accessPathsView
                             [formControl]="accessPathsCtrl" [matChipInputFor]="chipList"
                             [matAutocomplete]="accessPathAuto" [matChipInputAddOnBlur]="true"
                             (matChipInputTokenEnd)="removeField($event)" matInput />
                     </mat-chip-list>
                     <!-- <div>
-                        <input -placeholder placeholder="Access Paths" name="accessPathsCtrl"  #accessPathsView
+                        <input i18n-placeholder placeholder="Access Paths" name="accessPathsCtrl"  #accessPathsView
                         [formControl]="accessPathsCtrl" [matAutocomplete]="accessPathAuto" />
                     </div> -->
                     <mat-autocomplete #accessPathAuto="matAutocomplete"
@@ -38,7 +38,7 @@
                             {{ path }}
                         </mat-option>
                     </mat-autocomplete>
-                    <mat-error class="error-font" >Access Path is mandatory
+                    <mat-error class="error-font" i18n>Access Path is mandatory
                     </mat-error>
                 </mat-form-field>
                 <div class="mt-4 flex justify-end">
@@ -46,7 +46,7 @@
                     <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
                         <mat-spinner [diameter]="30"></mat-spinner>
                     </div>
-                    <button mat-raised-button color="primary" type="submit" 
+                    <button mat-raised-button color="primary" type="submit" i18n
                         [disabled]="uploadSaveData || !accessPathForm?.valid" (click)="onSubmit(accessPathForm)">
                         <ng-container>Save</ng-container>
                     </button>
@@ -59,7 +59,7 @@
     </div>
 </div>
 
-<input type="hidden"  aria-value="Assign access path to user successful..!"
+<input type="hidden" i18-value i18-aria-value aria-value="Assign access path to user successful..!"
     value="Assign access path to user successful..!" #toastSuccess />
-<input type="hidden"  aria-value="Unable to assign access path to user..!"
+<input type="hidden" i18-value i18-aria-value aria-value="Unable to assign access path to user..!"
     value="Unable to assign access path to user..!" #toastError />

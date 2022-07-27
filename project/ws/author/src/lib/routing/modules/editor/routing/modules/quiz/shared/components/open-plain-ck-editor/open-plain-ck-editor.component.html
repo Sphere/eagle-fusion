@@ -1,7 +1,7 @@
 <div>
   <div mat-dialog-title class="flex flex-between">
     <h1 class="ws-mat-primary-text" *ngIf="data.type==='HINT_EDITOR'">
-      <span>Hint for option-</span>{{data.index}}
+      <span i18n="edit hint! edit hint for selected option">Hint for option-</span>{{data.index}}
     </h1>
     <button mat-dialog-close mat-icon-button class="float-right cursor-pointer">
       <mat-icon>close</mat-icon>
@@ -14,7 +14,7 @@
     </ng-container>
   </div>
   <div mat-dialog-actions class="flex-row-reverse">
-    <button class="btnpdg"  mat-raised-button color="primary" [mat-dialog-close]="result">Update</button>
-    <button class="btnpdg"  mat-raised-button [mat-dialog-close]="undefined" cdkFocusInitial>Cancel</button>
+    <button class="btnpdg" i18n mat-raised-button color="primary" [mat-dialog-close]="result">Update</button>
+    <button class="btnpdg" i18n mat-raised-button [mat-dialog-close]="undefined" cdkFocusInitial>Cancel</button>
   </div>
 </div>

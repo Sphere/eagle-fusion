@@ -1,6 +1,6 @@
 <section class="my-4">
-  <h2 class="mat-title text-center" >Budget Approval</h2>
-  <p class="mat-body text-center" >
+  <h2 class="mat-title text-center" i18n>Budget Approval</h2>
+  <p class="mat-body text-center" i18n>
     Request for reimbursement of the certification's monetary cost.
   </p>
 
@@ -16,7 +16,7 @@
           <mat-select
             formControlName="currency"
             placeholder="Currency"
-            -placeholder
+            i18n-placeholder
           >
             <ng-container *ngIf="currencies">
               <mat-option
@@ -27,22 +27,22 @@
               </mat-option>
             </ng-container>
           </mat-select>
-          <mat-hint *ngIf="currencyFetchStatus === 'fetching'" >
+          <mat-hint *ngIf="currencyFetchStatus === 'fetching'" i18n>
             Fetching currencies...
           </mat-hint>
           <mat-hint
             *ngIf="currencyFetchStatus === 'done' && currencies.length"
-            
+            i18n
           >
             Please select a currency.
           </mat-hint>
           <mat-hint
             *ngIf="currencyFetchStatus === 'done' && !currencies.length"
-            
+            i18n
           >
             There are no currencies available.
           </mat-hint>
-          <mat-error *ngIf="currencyFetchStatus === 'error'" >
+          <mat-error *ngIf="currencyFetchStatus === 'error'" i18n>
             There was an error fetching currencies.
           </mat-error>
           <mat-progress-spinner
@@ -63,11 +63,11 @@
             type="number"
             formControlName="amount"
             placeholder="Amount"
-            -placeholder
+            i18n-placeholder
           />
-          <mat-hint >Enter an amount.</mat-hint>
+          <mat-hint i18n>Enter an amount.</mat-hint>
           <mat-error
-            
+            i18n
             *ngIf="
               budgetForm.controls['amount'].dirty &&
               !budgetForm.controls['amount'].value
@@ -76,7 +76,7 @@
             Please enter an amount
           </mat-error>
           <mat-error
-            
+            i18n
             *ngIf="
               budgetForm.controls['amount'].value &&
               budgetForm.controls['amount'].invalid
@@ -94,7 +94,7 @@
             matInput
             formControlName="approverEmail"
             placeholder="Approver's Email ID"
-            -placeholder
+            i18n-placeholder
           />
 
           <mat-progress-spinner
@@ -125,7 +125,7 @@
             error_outline
           </mat-icon>
 
-          <mat-hint *ngIf="managerFetchStatus === 'fetching'" >
+          <mat-hint *ngIf="managerFetchStatus === 'fetching'" i18n>
             Fetching default approver...
           </mat-hint>
           <mat-hint
@@ -133,7 +133,7 @@
               managerFetchStatus !== 'fetching' &&
               budgetForm.controls['approverEmail'].pending
             "
-            
+            i18n
           >
             Validating email...
           </mat-hint>
@@ -142,12 +142,12 @@
               managerFetchStatus === 'done' &&
               !budgetForm.controls['approverEmail'].value
             "
-            
+            i18n
           >
             Enter an approver's email ID (a JL6 line manager or any JL7+
             employee).
           </mat-hint>
-          <mat-hint  *ngIf="budgetForm.controls['approverEmail'].valid">
+          <mat-hint i18n *ngIf="budgetForm.controls['approverEmail'].valid">
             This is a valid approver email ID.
           </mat-hint>
 
@@ -156,7 +156,7 @@
               budgetForm.controls['approverEmail'].value &&
               budgetForm.controls['approverEmail'].invalid
             "
-            
+            i18n
           >
             Not a valid approver email ID.
           </mat-error>
@@ -170,12 +170,12 @@
           type="submit"
           [disabled]="!budgetForm.valid || requestSendStatus === 'sending'"
         >
-          <ng-container *ngIf="requestSendStatus !== 'sending'" 
+          <ng-container *ngIf="requestSendStatus !== 'sending'" i18n
             >Send Request</ng-container
           >
           <ng-container *ngIf="requestSendStatus === 'sending'">
             <div class="flex flex-between">
-              <div >Sending...</div>
+              <div i18n>Sending...</div>
               <div class="flex flex-column flex-center">
                 <mat-progress-spinner
                   [color]="'primary'"

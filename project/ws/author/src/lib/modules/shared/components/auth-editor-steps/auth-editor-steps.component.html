@@ -1,6 +1,6 @@
 <div class="flex margin-left-xl flex-middle margin-top-m margin-bottom-m flex-wrap">
   <div>
-    <p class="ws-mat-primary-text font-weight-bold title margin-right-xs" >
+    <p class="ws-mat-primary-text font-weight-bold title margin-right-xs" i18n>
       CONTENT CREATION
       <mat-icon class=" ws-mat-primary-text margin-bottom-xxs create-icon">create</mat-icon>
     </p>
@@ -14,7 +14,7 @@
           'ws-mat-primary-background': currentStep >= i
         }"
         (click)="!step.disabled ? change.next(i) : null"
-        
+        i18n
       >
         {{ i + 1 }}
       </div>
@@ -25,7 +25,7 @@
           'ws-mat-primary-text op100': currentStep >= i
         }"
         (click)="!step.disabled ? change.next(i) : null"
-        
+        i18n
       >
         <span [ngClass]="{ 'ws-mat-primary-border-bottom-bolder': currentStep === i }">
           {{ step.title }}

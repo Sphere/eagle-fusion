@@ -42,7 +42,7 @@
       </button>
       <mat-menu #goalMenu="matMenu" overlapTrigger="true">
         <button  name="edit-button-goal-card" mat-menu-item *ngIf="!goal?.isShared" (click)="editGoal()">
-          <mat-icon *ngIf="checkNoAccess(goal)"  matTooltip="This goal is not editable"
+          <mat-icon *ngIf="checkNoAccess(goal)" i18n-matTooltip matTooltip="This goal is not editable"
             matTooltipPosition="left">
             edit</mat-icon>
           <mat-icon *ngIf="!checkNoAccess(goal)">edit</mat-icon>
@@ -71,17 +71,17 @@
     </button>
   </div>
   <ng-container *ngIf="showProgress">
-    <div *ngIf="!goal?.progress" class="mb-1 mat-caption" >
+    <div *ngIf="!goal?.progress" class="mb-1 mat-caption" i18n>
       You have not started yet!
     </div>
     <div *ngIf="goal?.progress" class="goal-progress-percent mb-1 mat-caption"
       [ngClass]="{ 'transformx-minus-100': (goal?.progress || 0) > 0.2 }" [ngStyle]="goalProgressBarStyle">
-      <ng-container  *ngIf="(goal?.progress || 0) > 0 && (goal?.progress || 0) < 0.005">
+      <ng-container i18n *ngIf="(goal?.progress || 0) > 0 && (goal?.progress || 0) < 0.005">
         less than 1%
       </ng-container>
       <ng-container *ngIf="(goal?.progress || 0) >= 0.005">{{ (goal?.progress || 0) * 100 | number: '1.0-0' }}%
       </ng-container>
-      <ng-container >achieved</ng-container>
+      <ng-container i18n>achieved</ng-container>
     </div>
     <mat-progress-bar class="goal-progress" mode="determinate"
       value="{{ (goal?.progress || 0) * 100 | number: '1.0-0' }}">
@@ -90,7 +90,7 @@
 </mat-card>
 <mat-card *ngIf="isGoalExpanded[goal?.id]" class="border-radius-0">
   <ng-container *ngIf="!editCommonGoal">
-    <p class="mat-body" >This goal includes</p>
+    <p class="mat-body" i18n>This goal includes</p>
     <div class="ml-8">
       <ws-widget-display-contents [contents]="goal?.contentProgress || goal?.contents"></ws-widget-display-contents>
     </div>
@@ -102,20 +102,20 @@
     <ng-container *ngIf="updateGoalDurationStatus !== 'fetching'">
       <div class="mat-body flex items-center">
         <div class="flex items-center flex-1 min-w-0">
-          <ng-container >Set Duration</ng-container>
+          <ng-container i18n>Set Duration</ng-container>
           <p class="w-12 margin-left-xs margin-right-xs">
             <mat-form-field class="w-full">
               <input matInput type="number" [(ngModel)]="updatedGoalDuration" autocomplete="off" min="1" />
             </mat-form-field>
           </p>
-          <ng-container >day(s)</ng-container>
+          <ng-container i18n>day(s)</ng-container>
         </div>
         <button mat-icon-button (click)="editCommonGoal = false">
           <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="flex flex-row-reverse">
-        <button  name="update-button-goal-card"  mat-button (click)="updateCommonGoalDuration()" >
+        <button  name="update-button-goal-card"  mat-button (click)="updateCommonGoalDuration()" i18n>
           Update
         </button>
       </div>
@@ -129,7 +129,7 @@
       flag
     </mat-icon>
     <p class="margin-left-xs margin-remove-bottom" [ngClass]="{ 'mat-error': deadlinePassed }">
-      <ng-container >Deadline on </ng-container>
+      <ng-container i18n>Deadline on </ng-container>
       <span class="mat-body-strong">{{ deadline | date }}</span>
     </p>
   </span>
@@ -137,22 +137,22 @@
 
 <ng-template #sharedWithList let-sharedWith="sharedWith" let-goalType="goalType">
   <div class="py-1" *ngIf="sharedWith?.length">
-    <ng-container >shared with</ng-container>
+    <ng-container i18n>shared with</ng-container>
     {{ sharedWith[0].name }}
     <ng-container *ngIf="sharedWith?.length > 1">
-      <ng-container >and</ng-container>
+      <ng-container i18n>and</ng-container>
       {{ sharedWith?.length - 1 }}
-      <ng-container >other(s)</ng-container>
+      <ng-container i18n>other(s)</ng-container>
     </ng-container>
   </div>
 
-  <div class="py-1" *ngIf="!sharedWith?.length && goalType != 'custom_shared' && goalType != 'common_shared'" >
+  <div class="py-1" *ngIf="!sharedWith?.length && goalType != 'custom_shared' && goalType != 'common_shared'" i18n>
     You have not shared this goal yet!
   </div>
 </ng-template>
 
-<input #errorDurationUpdate type="hidden"  value="Error updating goal duration" />
-<input #durationUpdate type="hidden"  value="Goal duration updated" />
-<input #editError type="hidden"  value="Unable to edit the goal" />
-<input #shareError type="hidden" 
+<input #errorDurationUpdate type="hidden" i18n-value value="Error updating goal duration" />
+<input #durationUpdate type="hidden" i18n-value value="Goal duration updated" />
+<input #editError type="hidden" i18n-value value="Unable to edit the goal" />
+<input #shareError type="hidden" i18n-value
   value="Unable to share the goal because you don't have access to some of it's contents" />

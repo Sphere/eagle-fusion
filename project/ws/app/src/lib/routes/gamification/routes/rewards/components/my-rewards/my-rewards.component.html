@@ -2,7 +2,7 @@
   <a mat-icon-button [routerLink]="'/app/features'">
     <mat-icon>arrow_back</mat-icon>
   </a>
-  <span class="margin-left-xs">Rewards And Recognition Dashboard</span>
+  <span i18n="page title: Rewards" class="margin-left-xs">Rewards And Recognition Dashboard</span>
   <span class="spacer"></span>
 </mat-toolbar>
 
@@ -15,15 +15,15 @@
         </div>
       </div>
       <div class="text-hover">
-        <span class="mat-title" >{{users.column2}}</span>
+        <span class="mat-title" i18n>{{users.column2}}</span>
       </div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="text-hover align-center margin-small">
       <div class="text-info child-display">{{users.TotalPoints}}</div>
-      <div class="mat-title" >Current Points Balance</div>
+      <div class="mat-title" i18n>Current Points Balance</div>
       <div class="margin-left-m">
-        <a mat-raised-button type="button" >
+        <a mat-raised-button type="button" i18n>
           Redeem
         </a>
       </div>
@@ -31,16 +31,16 @@
     <mat-divider [vertical]="true"></mat-divider>
     <div class="align-items">
       <div class="text-hover">
-        <span class="mat-title" >Guild Group : {{users.column1}}</span>
+        <span class="mat-title" i18n>Guild Group : {{users.column1}}</span>
       </div>
       <div class="text-hover">
-        <span class="mat-title" >Level : Master</span>
+        <span class="mat-title" i18n>Level : Master</span>
       </div>
     </div>
   </div>
 </mat-card>
 
-<div class="headings mat-headline ws-mat-primary-text mb-10 " color="primary" >RootOrg
+<div class="headings mat-headline ws-mat-primary-text mb-10 " color="primary" i18n>RootOrg
   Guild Performance Metrics</div>
 <!--Sales manager H1-->
 <div class="notifications-container mat-card" *ngIf="h1 && users.column2==='Sales Manager'">
@@ -54,31 +54,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Sales CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Objective</div>
+      <div class="width-1-5" i18n>Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Consultant Professional Training Mix </div>
+      <div class="width-1-5" i18n>Sales Consultant Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -94,31 +94,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Advisor Professional Training Mix </div>
+      <div class="width-1-5" i18n>Service Advisor Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -134,19 +134,19 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Service CVP Index</div>
+      <div class="width-1-5" i18n>Individual Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Service Technician Training (Self) : </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}%</span>
+      <span i18n>Service Technician Training (Self) : </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}%</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
   </div>
 </div>
@@ -162,31 +162,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Trade Sales Objective</div>
+      <div class="width-1-5" i18n>Trade Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Parts Sales Consultants Professional Training Mix </div>
+      <div class="width-1-5" i18n>Parts Sales Consultants Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -202,25 +202,25 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Sales CVP Index</div>
+      <div class="width-1-5" i18n>Individual Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Individual Training Status </div>
+      <div class="width-1-5" i18n>Individual Training Status </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Individual Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -236,31 +236,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Service CVP Index</div>
+      <div class="width-1-5" i18n>Individual Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Consultant Professional Training Mix </div>
+      <div class="width-1-5" i18n>Service Consultant Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -276,30 +276,30 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Trade Sales/Parts Purchases Performance </div>
+      <div class="width-1-5" i18n>Dealership Trade Sales/Parts Purchases Performance </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Sales Consultants Training (Self) : </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Parts Sales Consultants Training (Self) : </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -315,54 +315,54 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Sales CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Trade Sales/Parts Purchases Performance </div>
+      <div class="width-1-5" i18n>Dealership Trade Sales/Parts Purchases Performance </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <span >Parts Sales Consultants Training (Self) : </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Parts Sales Consultants Training (Self) : </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Objective</div>
+      <div class="width-1-5" i18n>Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
 
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -379,31 +379,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Sales CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Objective</div>
+      <div class="width-1-5" i18n>Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Consultant Professional Training Mix </div>
+      <div class="width-1-5" i18n>Sales Consultant Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -419,31 +419,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Advisor Professional Training Mix </div>
+      <div class="width-1-5" i18n>Service Advisor Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -459,19 +459,19 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Service CVP Index</div>
+      <div class="width-1-5" i18n>Individual Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <span class="width-1-5" >Service Technician Training (Self) : </span>
-      <span class="width-1-5" class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span class="width-1-5" i18n>Service Technician Training (Self) : </span>
+      <span class="width-1-5" class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
   </div>
 </div>
@@ -487,31 +487,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Trade Sales Objective</div>
+      <div class="width-1-5" i18n>Trade Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Parts Sales Consultants Professional Training Mix </div>
+      <div class="width-1-5" i18n>Parts Sales Consultants Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -527,24 +527,24 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Sales CVP Index</div>
+      <div class="width-1-5" i18n>Individual Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <span class="width-1-5" >Individual Training Status : </span>
-      <span class="width-1-5" class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span class="width-1-5" i18n>Individual Training Status : </span>
+      <span class="width-1-5" class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -560,31 +560,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Service CVP Index</div>
+      <div class="width-1-5" i18n>Individual Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Consultant Professional Training Mix </div>
+      <div class="width-1-5" i18n>Service Consultant Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -600,30 +600,30 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Trade Sales/Parts Purchases Performance </div>
+      <div class="width-1-5" i18n>Dealership Trade Sales/Parts Purchases Performance </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Sales Consultants Training (Self) </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Parts Sales Consultants Training (Self) </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -639,30 +639,30 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Trade Sales/Parts Purchases Performance </div>
+      <div class="width-1-5" i18n>Dealership Trade Sales/Parts Purchases Performance </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Sales Consultants Training (Self) </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Parts Sales Consultants Training (Self) </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -679,31 +679,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Sales CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Objective</div>
+      <div class="width-1-5" i18n>Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Sales Consultant Professional Training Mix </div>
+      <div class="width-1-5" i18n>Sales Consultant Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -719,31 +719,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Advisor Professional Training Mix </div>
+      <div class="width-1-5" i18n>Service Advisor Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -759,19 +759,19 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Service CVP Index</div>
+      <div class="width-1-5" i18n>Individual Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Service Technician Training (Self) </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Service Technician Training (Self) </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
   </div>
 </div>
@@ -787,31 +787,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Trade Sales Objective</div>
+      <div class="width-1-5" i18n>Trade Sales Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Parts Sales Consultants Professional Training Mix </div>
+      <div class="width-1-5" i18n>Parts Sales Consultants Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -827,24 +827,24 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Sales CVP Index</div>
+      <div class="width-1-5" i18n>Individual Sales CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Training Status </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Individual Training Status </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Sales Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Sales Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -860,31 +860,31 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Individual Service CVP Index</div>
+      <div class="width-1-5" i18n>Individual Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Consultant Professional Training Mix </div>
+      <div class="width-1-5" i18n>Service Consultant Professional Training Mix </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.TrainingMix"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.TrainingMix}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.TrainingMix}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Service Retention Objective</div>
+      <div class="width-1-5" i18n>Service Retention Objective</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.ServiceRetention"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.ServiceRetention}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.ServiceRetention}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Individual Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Individual Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >CX Process : </span>
-      <span class="mat-title" >{{metrics.H1.QCStatus}}</span>
+      <span i18n>CX Process : </span>
+      <span class="mat-title" i18n>{{metrics.H1.QCStatus}}</span>
     </div>
   </div>
 </div>
@@ -900,30 +900,30 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Trade Sales/Parts Purchases Performance </div>
+      <div class="width-1-5" i18n>Dealership Trade Sales/Parts Purchases Performance </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Sales Consultants Training (Self) </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Parts Sales Consultants Training (Self) </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -939,30 +939,30 @@
   </div>
   <div class="intro width-auto flex-align">
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Service CVP Index</div>
+      <div class="width-1-5" i18n>Dealership Service CVP Index</div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.CVPIndex"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.CVPIndex}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.CVPIndex}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="box event-name">
-      <div class="width-1-5" >Dealership Trade Sales/Parts Purchases Performance </div>
+      <div class="width-1-5" i18n>Dealership Trade Sales/Parts Purchases Performance </div>
       <mat-progress-bar class="progress-style" [value]="metrics.H1.SalesObjective"></mat-progress-bar>
-      <div class="width-1-5" class="mat-title" >{{metrics.H1.SalesObjective}}%</div>
+      <div class="width-1-5" class="mat-title" i18n>{{metrics.H1.SalesObjective}}%</div>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Sales Consultants Training (Self) </span>
-      <span class="mat-title" >{{metrics.H1.IndividualTrainingStatus}}</span>
+      <span i18n>Parts Sales Consultants Training (Self) </span>
+      <span class="mat-title" i18n>{{metrics.H1.IndividualTrainingStatus}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Dealership Service Trust CVP Score : </span>
-      <span class="mat-title" >{{metrics.H1.CVPTrust}}</span>
+      <span i18n>Dealership Service Trust CVP Score : </span>
+      <span class="mat-title" i18n>{{metrics.H1.CVPTrust}}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
     <div class="event-name">
-      <span >Parts Group : </span>
-      <span class="mat-title" >{{metrics.H1.partsGroup}}</span>
+      <span i18n>Parts Group : </span>
+      <span class="mat-title" i18n>{{metrics.H1.partsGroup}}</span>
     </div>
   </div>
 </div>
@@ -971,7 +971,7 @@
   <ng-container>
     <div class="flat-error-alert margin-m">
       <mat-icon class="large-icon">info</mat-icon>
-      <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" >There is no performance data
+      <span class="font-weight-bold margin-left-s mat-h3 margin-remove-bottom" i18n>There is no performance data
         available for this sprint.</span>
     </div>
   </ng-container>

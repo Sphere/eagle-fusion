@@ -1,7 +1,7 @@
 <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
 
-  <span  class="margin-left-xs">Blog</span>
+  <span i18n class="margin-left-xs">Blog</span>
 </mat-toolbar> -->
 
 <div #blogContainer class="blog-container ">
@@ -16,9 +16,9 @@
     </div>
     <mat-menu #editMenu="matMenu">
       <ng-template matMenuContent>
-        <a  aria-label="Edit Blog" [routerLink]="'/app/social/blogs/edit/' + conversationRequest?.postId"
-          mat-menu-item >Edit Blog</a>
-        <button (click)="deleteBlog(deleteMsg.value)" mat-menu-item >Delete Blog</button>
+        <a i18n-aria-label aria-label="Edit Blog" [routerLink]="'/app/social/blogs/edit/' + conversationRequest?.postId"
+          mat-menu-item i18n>Edit Blog</a>
+        <button (click)="deleteBlog(deleteMsg.value)" mat-menu-item i18n>Delete Blog</button>
       </ng-template>
     </mat-menu>
     <h2 class="margin-bottom-m">{{ conversation?.mainPost?.postContent?.abstract }}</h2>
@@ -32,7 +32,7 @@
             </span>
           </div>
         </div>
-        <span class="mat-caption"><span class="mat-caption" >Last Modified:
+        <span class="mat-caption"><span class="mat-caption" i18n>Last Modified:
           </span>{{ conversation?.mainPost?.dtLastModified | date }}</span>
       </div>
     </div>
@@ -64,7 +64,7 @@
     <ng-container *ngIf="conversation?.mainPost.status === 'Active'">
       <h3>
         <strong>
-          <ng-container > Responses </ng-container>
+          <ng-container i18n> Responses </ng-container>
           <ng-container *ngIf="conversation?.replyPost?.length">
             ({{ conversation?.replyPost.length + conversation?.postCount }})</ng-container>
         </strong>
@@ -75,7 +75,7 @@
             <mat-panel-title>
               <div class="flex flex-middle">
                 <ws-widget-user-image [email]="userEmail"></ws-widget-user-image>
-                <span class="padding-left-s" >Write a response</span>
+                <span class="padding-left-s" i18n>Write a response</span>
               </div>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -85,7 +85,7 @@
           <mat-spinner *ngIf="postingReply"></mat-spinner>
 
           <button type="button" (click)="publishReply(failMsg.value)" [disabled]="!replyEnabled || postingReply"
-            mat-stroked-button color="primary" >
+            mat-stroked-button color="primary" i18n>
             Publish
           </button>
         </mat-expansion-panel>
@@ -100,7 +100,7 @@
   </div>
   <div class="text-center margin-top-s" *ngIf="conversation?.postCount > 0">
     <button mat-stroked-button [color]="'primary'" [disabled]="fetchStatus === 'fetching'" class="width-1-1"
-      type="button"  (click)="fetchConversationData()">
+      type="button" i18n (click)="fetchConversationData()">
       Show More Responses
     </button>
   </div>
@@ -114,9 +114,9 @@
   </mat-chip-list>
 </div>
 
-<h2 *ngIf="fetchStatus === 'none'" class="text-center margin-top-m" >
+<h2 *ngIf="fetchStatus === 'none'" class="text-center margin-top-m" i18n>
   Blog may be in draft state or unavailable.
 </h2>
 
-<input type="hidden"  value="Successfully deleted" #deleteMsg />
-<input type="hidden"  value="Something went wrong! Unable to post." #failMsg />
+<input type="hidden" i8n-value value="Successfully deleted" #deleteMsg />
+<input type="hidden" i8n-value value="Something went wrong! Unable to post." #failMsg />

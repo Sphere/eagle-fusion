@@ -1,10 +1,10 @@
 <div class="m-1 md:m-4">
   <div class="flex flex-between">
     <div>
-      <h1 class="font-weight-500" >Users</h1>
+      <h1 class="font-weight-500" i18n>Users</h1>
     </div>
     <div class="mb-2 mr-6">
-      <a mat-raised-button color="primary" routerLink="/admin/tenant/users/create-user-v2" >Create User</a>
+      <a mat-raised-button color="primary" routerLink="/admin/tenant/users/create-user-v2" i18n>Create User</a>
     </div>
   </div>
   <mat-card class="mat-elevation-z6 main-card">
@@ -17,7 +17,7 @@
     </div>
     <div class="flex flex-center items-center empty-block" *ngIf="!userIds.length">
       <mat-icon class="ws-mat-primary-text search-icon">search</mat-icon>
-      <h1 class="empty-message ws-mat-primary-text" >Search for Users</h1>
+      <h1 class="empty-message ws-mat-primary-text" i18n>Search for Users</h1>
     </div>
     <div *ngIf="userIds.length" class="flex flex-wrap flex-start search-block">
       <mat-card *ngFor="let id of userIds" class="user-card pt-4">
@@ -34,7 +34,7 @@
             <h3 class="break-all"><span class="font-weight-500">Email:&nbsp;</span>{{userDetails[id].email}}</h3>
             <div>
               <button mat-stroked-button type="button" (click)=openDialog(id)>
-                <span >
+                <span i18n>
                   Edit</span></button>
             </div>
           </div>

@@ -6,7 +6,7 @@
 <div class="page-container margin-top-xl margin-bottom-xl">
   <div *ngIf="isFetchingPlaylists" class="text-center mb-4">
     <mat-spinner [diameter]="40"></mat-spinner>
-    <h3 >Checking for new action(s)</h3>
+    <h3 i18n>Checking for new action(s)</h3>
   </div>
   <h2 *ngIf="!isFetchingPlaylists && !playlists?.length" class="mat-title text-center margin-top-xl">
     All the actions completed.
@@ -14,7 +14,7 @@
   <ng-container *ngIf="playlists?.length">
     <div class="flex flex-middle margin-bottom-m">
       <mat-icon color="primary">notifications</mat-icon>
-      <p class="margin-left-xs margin-remove-bottom" >
+      <p class="margin-left-xs margin-remove-bottom" i18n>
         Accept or Reject playlists shared with you!
       </p>
       <div class="margin-left-xs notificaton-circle ws-mat-accent-background ws-mat-primary-default-text">
@@ -35,9 +35,9 @@
                   class="margin-right-xs" [disabled]="acceptRejectPlaylistStatus[playlist.id] === 'fetching'"
                   (click)="acceptPlaylist(playlist.id)">
                   <mat-icon>check</mat-icon>
-                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] !== 'fetching'" >Accept
+                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] !== 'fetching'" i18n>Accept
                   </ng-container>
-                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] === 'fetching'" >Please Wait...
+                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] === 'fetching'" i18n>Please Wait...
                   </ng-container>
                 </button>
               </div>
@@ -46,9 +46,9 @@
                   class="margin-right-xs" [disabled]="acceptRejectPlaylistStatus[playlist.id] === 'fetching'"
                   (click)="rejectPlaylist(playlist.id)">
                   <mat-icon>close</mat-icon>
-                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] !== 'fetching'" >Reject
+                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] !== 'fetching'" i18n>Reject
                   </ng-container>
-                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] === 'fetching'" >Please Wait...
+                  <ng-container *ngIf="acceptRejectPlaylistStatus[playlist.id] === 'fetching'" i18n>Please Wait...
                   </ng-container>
                 </button>
               </div>
@@ -65,5 +65,5 @@
   </ng-container>
 </div>
 
-<input #errorAccept type="hidden" -value value="Error accepting playlist" />
-<input #errorReject type="hidden" -value value="Error rejecting playlist" />
+<input #errorAccept type="hidden" i18n-value value="Error accepting playlist" />
+<input #errorReject type="hidden" i18n-value value="Error rejecting playlist" />

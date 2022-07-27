@@ -3,7 +3,7 @@
     <div class="text-right margin-top-m margin-right-xl">
       <mat-slide-toggle class="mat-body" (change)="onStatusChange()">
         <ng-container>
-          <span >Completed</span>
+          <span i18n>Completed</span>
         </ng-container>
       </mat-slide-toggle>
     </div>
@@ -12,7 +12,7 @@
         (selectedIndexChange)="onTabChange($event)">
         <mat-tab *ngIf="enabledTabs?.programs">
           <ng-template mat-tab-label>
-            <span accesskey="1" >Programs</span>
+            <span accesskey="1" i18n>Programs</span>
           </ng-template>
           <ng-container *ngIf="lhContent[0]">
             <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[0] }"></ng-container>
@@ -20,7 +20,7 @@
         </mat-tab>
         <mat-tab *ngIf="enabledTabs?.courses">
           <ng-template mat-tab-label>
-            <span accesskey="2" >Courses</span>
+            <span accesskey="2" i18n>Courses</span>
           </ng-template>
           <ng-container *ngIf="lhContent[1]">
             <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[1] }"></ng-container>
@@ -28,7 +28,7 @@
         </mat-tab>
         <mat-tab *ngIf="enabledTabs?.modules">
           <ng-template mat-tab-label>
-            <span accesskey="3" >Learning Modules</span>
+            <span accesskey="3" i18n>Learning Modules</span>
           </ng-template>
           <ng-container *ngIf="lhContent[2]">
             <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[2] }"></ng-container>
@@ -36,7 +36,7 @@
         </mat-tab>
         <mat-tab *ngIf="enabledTabs?.resources">
           <ng-template mat-tab-label>
-            <span accesskey="4" >Resources</span>
+            <span accesskey="4" i18n>Resources</span>
           </ng-template>
           <ng-container *ngIf="lhContent[3]">
             <ng-container *ngTemplateOutlet="historyView; context: { $implicit: lhContent[3] }"></ng-container>
@@ -44,7 +44,7 @@
         </mat-tab>
         <!-- <mat-tab>
       <ng-template mat-tab-label>
-        <span accesskey="5" >Certifications</span>
+        <span accesskey="5" i18n>Certifications</span>
       </ng-template>
       <ng-container *ngIf="lhContent[4]">
         <ng-container
@@ -65,7 +65,7 @@
 
             <ng-template #content>
               <ng-template [ngIf]="!lhData.content.result.length" [ngIfElse]="progressList">
-                <div class="mat-body lh-no-data">
+                <div i18n="learning history : no content" class="mat-body lh-no-data">
                   No content found.
                 </div>
               </ng-template>
@@ -83,7 +83,7 @@
             </ng-template>
           </section>
           <ng-container *ngIf="lhData.contentType !== 'certification'">
-            <button mat-button [color]="'primary'" class="lh-btn-view-more"
+            <button i18n="view more" mat-button [color]="'primary'" class="lh-btn-view-more"
               (click)="getUserProgress(lhData)" *ngIf="
                 lhData.content.page_state !== '-1' &&
                 lhData.content.result.length &&
@@ -101,7 +101,7 @@
   </ng-container>
   <div *ngIf="!history?.enabled">
     <div class="margin-xl mat-elevation-z2">
-      <h2  class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
         We are gathering the data to provide insights!
       </h2>
     </div>
@@ -112,7 +112,7 @@
   <div *ngIf="history?.enabled && showHistory" class="button-row margin-left-m ">
     <div *ngIf="userProgressData?.last_updated_on" class="mat-caption justify-end margin-right-s flex flex-middle">
       <ng-container>
-        <span >Last Updated on :</span>
+        <span i18n>Last Updated on :</span>
         <span class="ml-2"> {{ userProgressData?.last_updated_on | date: 'MMM d, y' }}</span>
       </ng-container>
     </div>
@@ -136,7 +136,7 @@
     </div>
     <div *ngIf="history?.isFilter" class="text-right margin-xs">
       <mat-form-field class="filter-select x-small-typography margin-remove">
-        <mat-select [(value)]="selected" -placeholder placeholder="Filter" [formControl]="filterControl">
+        <mat-select [(value)]="selected" i18n-placeholder placeholder="Filter" [formControl]="filterControl">
           <mat-option *ngFor="let filter of filterList" [value]="filter" (click)="applyFilter(filter)">
             {{ filter }}</mat-option>
         </mat-select>
@@ -145,39 +145,39 @@
     <mat-tab-group mat-align-tabs="center" (selectedIndexChange)="onTabChangeClient($event)">
       <mat-tab *ngIf="enabledTabs?.courses">
         <ng-template mat-tab-label>
-          <span accesskey="1" class="font-bold" >Courses</span>
+          <span accesskey="1" class="font-bold" i18n>Courses</span>
         </ng-template>
         <div *ngIf="courseFetchStatus === 'done'">
           <mat-card *ngIf="!screenSizeIsLtMedium">
             <mat-grid-list cols="5" rowHeight="35px">
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-inside-grid">Courses</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >My Progress</mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Total Users</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Completed Users</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >Org-wide Progress</mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >Source</mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
             </mat-grid-list>
           </mat-card>
           <mat-card *ngIf="screenSizeIsLtMedium">
             <mat-grid-list cols="4" rowHeight="35px">
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-inside-grid">Courses</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >My Progress</mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Total Users</p>
               </mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Completed Users</p>
               </mat-grid-tile> -->
-              <mat-grid-tile class="mat-body-strong" >Org-wide Progress</mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >Source</mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
             </mat-grid-list>
           </mat-card>
           <div *ngFor="let data of progressData | slice: page.p1:page.p1 + 10">
@@ -189,13 +189,13 @@
           <div *ngIf="progressData.length === 0" class="progress">
             <div class="progress-container">
               <div class="progress-content flex flex-center flex-wrapped margin-top-xl">
-                <h4 >No courses found</h4>
+                <h4 i18n>No courses found</h4>
               </div>
             </div>
           </div>
         </div>
         <div *ngIf="courseFetchStatus === 'error'" class="learning-container">
-          <h4  class="coming-soon-msg p-4 flex flex-center ws-mat-primary-text">
+          <h4 i18n class="coming-soon-msg p-4 flex flex-center ws-mat-primary-text">
             We are gathering the data to provide insights!
           </h4>
         </div>
@@ -205,39 +205,39 @@
       </mat-tab>
       <mat-tab *ngIf="enabledTabs?.modules">
         <ng-template mat-tab-label>
-          <span accesskey="2" class="font-bold" >Modules</span>
+          <span accesskey="2" class="font-bold" i18n>Modules</span>
         </ng-template>
         <ng-container *ngIf="modulesFetchStatus === 'done'">
           <mat-card *ngIf="!screenSizeIsLtMedium">
             <mat-grid-list cols="5" rowHeight="35px">
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-inside-grid">Modules</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >My Progress</mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Total Users</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Completed Users</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >Org-wide Progress</mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >Source</mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
             </mat-grid-list>
           </mat-card>
           <mat-card *ngIf="screenSizeIsLtMedium">
             <mat-grid-list cols="4" rowHeight="35px">
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-inside-grid">Modules</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >My Progress</mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Total Users</p>
               </mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Completed Users</p>
               </mat-grid-tile> -->
-              <mat-grid-tile class="mat-body-strong" >Org-wide Progress</mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >Source</mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
             </mat-grid-list>
           </mat-card>
           <div *ngFor="let data of progressData | slice: page.p2:page.p2 + 10">
@@ -249,13 +249,13 @@
           <div *ngIf="progressData.length === 0" class="progress">
             <div class="progress-container">
               <div class="progress-content flex flex-center margin-top-xl">
-                <h4 >No modules found</h4>
+                <h4 i18n>No modules found</h4>
               </div>
             </div>
           </div>
         </ng-container>
         <div *ngIf="modulesFetchStatus === 'error'" class="learning-container">
-          <h4  class="coming-soon-msg p-4 flex flex-center ws-mat-primary-text">
+          <h4 i18n class="coming-soon-msg p-4 flex flex-center ws-mat-primary-text">
             We are gathering the data to provide insights!
           </h4>
         </div>
@@ -265,39 +265,39 @@
       </mat-tab>
       <mat-tab *ngIf="enabledTabs?.resources">
         <ng-template mat-tab-label>
-          <span accesskey="3" class="font-bold" >Resources</span>
+          <span accesskey="3" class="font-bold" i18n>Resources</span>
         </ng-template>
         <ng-container *ngIf="resourceFetchStatus === 'done'">
           <mat-card *ngIf="!screenSizeIsLtMedium">
             <mat-grid-list cols="5" rowHeight="35px">
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-inside-grid">Resources</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >My Progress</mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Total Users</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Completed Users</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >Org-wide Progress</mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >Source</mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
             </mat-grid-list>
           </mat-card>
           <mat-card *ngIf="screenSizeIsLtMedium">
             <mat-grid-list cols="4" rowHeight="35px">
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-inside-grid">Resources</p>
               </mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >My Progress</mat-grid-tile>
-              <mat-grid-tile class="mat-body-strong" >
+              <mat-grid-tile class="mat-body-strong" i18n>My Progress</mat-grid-tile>
+              <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Total Users</p>
               </mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>
                 <p class="text-outside-grid">Completed Users</p>
               </mat-grid-tile> -->
-              <mat-grid-tile class="mat-body-strong" >Org-wide Progress</mat-grid-tile>
-              <!-- <mat-grid-tile class="mat-body-strong" >Source</mat-grid-tile> -->
+              <mat-grid-tile class="mat-body-strong" i18n>Org-wide Progress</mat-grid-tile>
+              <!-- <mat-grid-tile class="mat-body-strong" i18n>Source</mat-grid-tile> -->
             </mat-grid-list>
           </mat-card>
           <div *ngFor="let data of progressData | slice: page.p2:page.p2 + 10">
@@ -309,13 +309,13 @@
           <div *ngIf="progressData.length === 0" class="progress">
             <div class="progress-container">
               <div class="progress-content flex flex-center margin-top-xl">
-                <h4 >No resources found</h4>
+                <h4 i18n>No resources found</h4>
               </div>
             </div>
           </div>
         </ng-container>
         <div *ngIf="resourceFetchStatus === 'error'" class="learning-container">
-          <h4  class="flex flex-center coming-soon-msg p-4 ws-mat-primary-text">
+          <h4 i18n class="flex flex-center coming-soon-msg p-4 ws-mat-primary-text">
             We are gathering the data to provide insights!
           </h4>
         </div>
@@ -327,7 +327,7 @@
   </div>
   <div *ngIf="!history?.enabled || !showHistory">
     <div class="margin-xl mat-elevation-z2">
-      <h2  class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
+      <h2 i18n class="flex flex-center coming-soon-msg p-4 flex ws-mat-primary-text">
         We are gathering the data to provide insights!
       </h2>
     </div>

@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <p >Deleted posts are gone forever. Are you sure?</p>
+  <p i18n>Deleted posts are gone forever. Are you sure?</p>
 </div>
 <div mat-dialog-actions class="flex-row-reverse">
   <button
@@ -10,9 +10,10 @@
     (click)="deletePost()"
     mat-button
     aria-label="Yes"
+    i18n-aria-label
   >
-    <ng-container *ngIf="isDeleting" >Please Wait...</ng-container>
-    <ng-container *ngIf="!isDeleting" >Yes</ng-container>
+    <ng-container *ngIf="isDeleting" i18n>Please Wait...</ng-container>
+    <ng-container *ngIf="!isDeleting" i18n>Yes</ng-container>
   </button>
   <button
     name="delete-post-no-button"
@@ -21,12 +22,14 @@
     [disabled]="isDeleting"
     mat-button
     aria-label="No"
+    i18n-aria-label
+    i18n
   >
     No
   </button>
 </div>
 
 <div *ngIf="errorInDeleting" class="margin-top-m">
-  <ng-container >Unable to delete! Please retry or </ng-container>
-  <a mat-stroked-button (click)="dialogRef.close()" routerLink="/feedback" >Report to us</a>
+  <ng-container i18n>Unable to delete! Please retry or </ng-container>
+  <a mat-stroked-button (click)="dialogRef.close()" routerLink="/feedback" i18n>Report to us</a>
 </div>

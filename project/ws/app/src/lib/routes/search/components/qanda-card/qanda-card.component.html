@@ -58,20 +58,20 @@
       </div>
       <mat-menu #editMenu="matMenu">
         <ng-template matMenuContent>
-          <!-- <a [routerLink]="'/qna/ask/' + item.id" mat-menu-item >Edit Question</a> -->
+          <!-- <a [routerLink]="'/qna/ask/' + item.id" mat-menu-item i18n>Edit Question</a> -->
           <!-- <btn-social-delete-post [postId]="item.id"></btn-social-delete-post> -->
         </ng-template>
       </mat-menu>
       <div class="meta-details">
         <div class="width-auto margin-right-xs">
           <mat-chip-list>
-            <mat-chip *ngFor="let tag of item.tags" matTooltip="Associated Tag"
+            <mat-chip *ngFor="let tag of item.tags" i18n-matTooltip matTooltip="Associated Tag"
               >{{ tag }}
             </mat-chip>
           </mat-chip-list>
         </div>
         <div class="creation">
-          <span class="mat-caption" >asked</span>&nbsp;
+          <span class="mat-caption" i18n>asked</span>&nbsp;
           <span class="mat-caption">{{ item.dtCreated | date }}</span
           >&nbsp;
           <!-- <a [routerLink]="'/profile/' + item.postCreator.emailId"
@@ -85,4 +85,4 @@
     </div>
   </div>
 </ng-container>
-<input type="hidden" value="Successfully deleted" #deleteMsg />
+<input type="hidden" i8n-value value="Successfully deleted" #deleteMsg />

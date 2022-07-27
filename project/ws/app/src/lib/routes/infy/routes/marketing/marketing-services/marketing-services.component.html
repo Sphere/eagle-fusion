@@ -1,7 +1,7 @@
 <div>
   <div class="flex display-toggle-margin">
     <img
-      
+      i18n-alt
       alt="pentagon filter"
       src="\assets\images\marketing\pentagon-filter.svg"
       (click)="displayType = 'pentagon'"
@@ -15,7 +15,7 @@
     <span
       class="mat-title cur-pointer"
       (click)="displayType = 'a2z'"
-      
+      i18n="marketing services a-z offerings"
       [ngClass]="{ 'bold-text': displayType === 'a2z' }"
       >A-Z</span
     >

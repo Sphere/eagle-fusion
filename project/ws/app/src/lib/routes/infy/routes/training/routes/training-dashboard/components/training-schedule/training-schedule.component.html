@@ -4,7 +4,7 @@
   </div>
 
   <div *ngIf="scheduleFetchStatus === 'error'" class="text-center my-8">
-    <h2 >No Data Available</h2>
+    <h2 i18n>No Data Available</h2>
   </div>
 
   <div [hidden]="scheduleFetchStatus !== 'done'">
@@ -38,11 +38,11 @@
 
       <div>
         <button class="margin-top-xs margin-bottom-l" [matTooltip]="'Apply filter'" mat-raised-button color="primary"
-          type="submit" (click)="applyDateFilter()" >
+          type="submit" (click)="applyDateFilter()" i18n>
           Apply
         </button>
         <button class="margin-top-xs margin-bottom-l margin-left-m" [matTooltip]="'Reset'" mat-raised-button
-          color="primary" type="reset" (click)="resetDateFilter()" >
+          color="primary" type="reset" (click)="resetDateFilter()" i18n>
           Reset
         </button>
       </div>
@@ -51,7 +51,7 @@
     <div class="mat-elevation-z8 margin-bottom-xl">
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="courseTitle">
-          <th mat-header-cell *matHeaderCellDef class="mat-title" >
+          <th mat-header-cell *matHeaderCellDef class="mat-title" i18n>
             Course Title
           </th>
           <td mat-cell *matCellDef="let element">
@@ -60,7 +60,7 @@
         </ng-container>
 
         <ng-container matColumnDef="startDate">
-          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" >
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" i18n>
             Start Date
           </th>
           <td mat-cell *matCellDef="let element" class="text-center">
@@ -69,7 +69,7 @@
         </ng-container>
 
         <ng-container matColumnDef="endDate">
-          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" >
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" i18n>
             End Date
           </th>
           <td mat-cell *matCellDef="let element" class="text-center">
@@ -78,7 +78,7 @@
         </ng-container>
 
         <ng-container matColumnDef="location">
-          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" >
+          <th mat-header-cell *matHeaderCellDef class="mat-title text-center" i18n>
             Location
           </th>
           <td mat-cell *matCellDef="let element" class="text-center">
@@ -93,10 +93,10 @@
           <td class="text-center register cursor-pointer" color="primary" mat-cell *matCellDef="let element">
             <mat-spinner *ngIf="fetching[element?.intCourseOfferingId]"></mat-spinner>
             <div *ngIf="!fetching[element?.intCourseOfferingId]">
-              <p class="register" *ngIf="!element?.isRegister" (click)="register(element?.intCourseOfferingId)" >
+              <p class="register" *ngIf="!element?.isRegister" (click)="register(element?.intCourseOfferingId)" i18n>
                 Register
               </p>
-              <p class="register" *ngIf="element?.isRegister" (click)="deRegister(element?.intCourseOfferingId)" >
+              <p class="register" *ngIf="element?.isRegister" (click)="deRegister(element?.intCourseOfferingId)" i18n>
                 De-register
               </p>
             </div>
@@ -111,17 +111,17 @@
     </div>
   </div>
 </div>
-<input #successDeRegContent type="hidden" -value value="De-registered Successfully" />
-<input #alreadyDeRegContent type="hidden" -value value="Already de-registered" />
-<input #notRegContent type="hidden" -value value="Not registered for that course" />
-<input #expireContent type="hidden" -value value="De-registration date expired" />
-<input #failedDeRegContent type="hidden" -value value="De-registration failed" />
-<input #successRegContent type="hidden" -value value="Registered Successfully" />
-<input #existsRegContent type="hidden" -value value="Another course is registered on that Day" />
-<input #alreadyRegContent type="hidden" -value value="Already registered" />
-<input #notExistsContent type="hidden" -value value="Course Id does not exists" />
-<input #failedRegContent type="hidden" -value value="Registration failed" />
-<input #seatsFullContent type="hidden" -value value="Seats are full" />
-<input #notMetContent type="hidden" -value value="Pre-requisite are not met" />
-<input #closedRegContent type="hidden" -value value="Registration closed" />
-<input #conflictsRegContent type="hidden" -value value="Conflicts with the selected date" />
+<input #successDeRegContent type="hidden" i18n-value value="De-registered Successfully" />
+<input #alreadyDeRegContent type="hidden" i18n-value value="Already de-registered" />
+<input #notRegContent type="hidden" i18n-value value="Not registered for that course" />
+<input #expireContent type="hidden" i18n-value value="De-registration date expired" />
+<input #failedDeRegContent type="hidden" i18n-value value="De-registration failed" />
+<input #successRegContent type="hidden" i18n-value value="Registered Successfully" />
+<input #existsRegContent type="hidden" i18n-value value="Another course is registered on that Day" />
+<input #alreadyRegContent type="hidden" i18n-value value="Already registered" />
+<input #notExistsContent type="hidden" i18n-value value="Course Id does not exists" />
+<input #failedRegContent type="hidden" i18n-value value="Registration failed" />
+<input #seatsFullContent type="hidden" i18n-value value="Seats are full" />
+<input #notMetContent type="hidden" i18n-value value="Pre-requisite are not met" />
+<input #closedRegContent type="hidden" i18n-value value="Registration closed" />
+<input #conflictsRegContent type="hidden" i18n-value value="Conflicts with the selected date" />

@@ -1,7 +1,7 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
 
   <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
-  <!-- <span class="ml-2" >Search</span> -->
+  <!-- <span class="ml-2" i18n>Search</span> -->
   <span class="spacer"></span>
   <div class="flex items-center border search border-solid search" style="width: 100%;
     max-width: 500px;
@@ -14,7 +14,7 @@
       <mat-form-field appearance="none" class="autocomplete-form" color="primary" style="width:100%;;"
         [floatLabel]="'never'">
         <input type="search" class="border-2 border-gray-300 bg-white pr-16 rounded-lg text-sm focus:outline-none"
-         [placeholder]="placeHolder"  aria-label="Query"
+          i18n-placeholder="search content" [placeholder]="placeHolder" i18-aria-label aria-label="Query"
           style="width:90%;margin-left: 10%;" matInput [(ngModel)]="queryEntered" />
 
       </mat-form-field>
@@ -26,10 +26,10 @@
   </div>
 
 </mat-toolbar>
-<!-- <span ="search route hits showing">Showing </span>
+<!-- <span i18n="search route hits showing">Showing </span>
 <span>{{ searchResult.total}} </span>
-<span *ngIf="searchResult.total > 1" ="search route hits results">results </span>
-<span *ngIf="searchResult.total <= 1" ="search route hits result">result </span> -->
+<span *ngIf="searchResult.total > 1" i18n="search route hits results">results </span>
+<span *ngIf="searchResult.total <= 1" i18n="search route hits result">result </span> -->
 <!-- <div *ngIf="!showFilter && filterEnabled" class="text-right">
   <button mat-icon-button *ngIf="!showFilter" (click)="showFilter = !showFilter;">
     <mat-icon>filter_list</mat-icon>
@@ -81,10 +81,10 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content-min-height">
-    <span>Showing </span>
+    <span i18n="search route hits showing">Showing </span>
     <span>{{ searchResult.total}} </span>
-    <span *ngIf="searchResult.total > 1">results </span>
-    <span *ngIf="searchResult.total <= 1">result </span>
+    <span *ngIf="searchResult.total > 1" i18n="search route hits results">results </span>
+    <span *ngIf="searchResult.total <= 1" i18n="search route hits result">result </span>
     <!-- <div *ngIf="!showFilter && filterEnabled" class="text-right">
       <button mat-icon-button *ngIf="!showFilter" (click)="showFilter = !showFilter;">
         <mat-icon>filter_list</mat-icon>
@@ -133,12 +133,12 @@
                 {{post.postCreator?.name}}
               </div>
               <div class="px-2" *ngIf="post.source.forumName && partOfRequired">
-                <span class="ws-mat-primary-text"><span >Part Of: </span>{{ post.source.forumName }}</span>
+                <span class="ws-mat-primary-text"><span i18n>Part Of: </span>{{ post.source.forumName }}</span>
               </div>
             </div>
             <div class="flex flex-between" *ngIf="post.activity">
               <div class="flex flex-middle">
-                <span class="ws-mat-primary-text mat-caption pr-4"><span >Modified:
+                <span class="ws-mat-primary-text mat-caption pr-4"><span i18n>Modified:
                   </span>{{ post.dtLastModified | date }}</span>
                 <ws-widget-btn-social-vote class="block" [voteType]="'upVote'" [postId]="post.id"
                   [postCreatorId]="post.postCreator?.postCreatorId" [activity]="post.activity" [iconType]="'triangle'">
@@ -173,7 +173,7 @@
       </div>
     </mat-card>
 
-    <h2 class="text-center margin-top-m"  *ngIf="timelineFetchStatus === 'none'">
+    <h2 class="text-center margin-top-m" i18n *ngIf="timelineFetchStatus === 'none'">
       There are no posts present on the searched keyword
     </h2>
     <div *ngIf="timelineFetchStatus === 'fetching'" class="text-center margin-top-s">

@@ -34,8 +34,8 @@
     </div>
   </quill-editor>
   <span *ngIf="(editor.dirty || editor.touched) && editor.invalid" class="error-text mat-caption">
-    <ng-container > Minimum </ng-container>
+    <ng-container i18n> Minimum </ng-container>
     {{ minLength }}
-    <ng-container > characters are required </ng-container>
+    <ng-container i18n> characters are required </ng-container>
   </span>
 </ng-container>

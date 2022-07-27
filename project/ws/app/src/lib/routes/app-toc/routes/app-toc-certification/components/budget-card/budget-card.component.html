@@ -1,7 +1,7 @@
 <mat-card class="margin-top-m margin-bottom-m">
   <mat-card-title>
     <div class="flex flex-between">
-      <div >Budget Approval</div>
+      <div i18n>Budget Approval</div>
       <div *ngIf="
           certification?.budget_Request?.status === 'Submitted' ||
           certification?.budget_Request?.status === 'Pending'
@@ -21,16 +21,16 @@
         !certification?.budget_Request.status ||
         certification?.budget_Request?.status === 'Cancelled' ||
         certification?.budget_Request?.status === 'Rejected'
-      " >
+      " i18n>
       Request for reimbursement of the certification's monetary cost.
     </ng-container>
     <ng-container *ngIf="
         certification?.budget_Request?.status === 'Submitted' ||
         certification?.budget_Request?.status === 'Pending'
-      " >
+      " i18n>
       You have made a request for reimbursement!
     </ng-container>
-    <ng-container *ngIf="certification?.budget_Request?.status === 'Approved'" >
+    <ng-container *ngIf="certification?.budget_Request?.status === 'Approved'" i18n>
       Your budget approval request has been approved!
     </ng-container>
   </mat-card-subtitle>
@@ -42,7 +42,7 @@
         certification?.budget_Request?.status === 'Rejected'
       ">
       <section>
-        <p class="mat-body-2" >
+        <p class="mat-body-2" i18n>
           The Approval is required only for reimbursement.
         </p>
 
@@ -53,18 +53,18 @@
           ">
           <p class="mat-body">
             {{ certification.budget_Request.manager_id }}
-            <ng-container >
+            <ng-container i18n>
               rejected your previous request.
             </ng-container>
           </p>
-          <div class="mat-body-2" >Reason:</div>
+          <div class="mat-body-2" i18n>Reason:</div>
           <div class="mat-body">
             {{ certification?.budget_Request?.reject_reason }}
           </div>
         </ng-container>
       </section>
       <section class="hidden sm:block">
-        <button mat-flat-button [color]="'primary'" class="width-1-1"  [routerLink]="['./budgetApproval']">
+        <button mat-flat-button [color]="'primary'" class="width-1-1" i18n [routerLink]="['./budgetApproval']">
           Apply
         </button>
       </section>
@@ -77,7 +77,7 @@
       ">
       <section>
         <div>
-          <span class="mat-body-2" >Amount</span>
+          <span class="mat-body-2" i18n>Amount</span>
           <span class="mat-body margin-left-xs">
             {{
               certification?.budget_Request?.currency + ' ' + certification?.budget_Request?.amount
@@ -85,7 +85,7 @@
           </span>
         </div>
         <div>
-          <span class="mat-body-2" >Approver</span>
+          <span class="mat-body-2" i18n>Approver</span>
           <span class="mat-body margin-left-xs">
             {{certification?.budget_Request?.manager_id}}
           </span>
@@ -98,10 +98,10 @@
             certification?.budget_Request?.status === 'Submitted' ||
             certification?.budget_Request?.status === 'Pending'
           ">
-          <ng-container *ngIf="budgetCancelStatus !== 'sending'" >Cancel</ng-container>
+          <ng-container *ngIf="budgetCancelStatus !== 'sending'" i18n>Cancel</ng-container>
           <ng-container *ngIf="budgetCancelStatus === 'sending'">
             <div class="flex flex-between">
-              <div >Cancelling...</div>
+              <div i18n>Cancelling...</div>
               <div class="flex flex-column flex-center">
                 <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'">
                 </mat-progress-spinner>
@@ -115,7 +115,7 @@
 
   <mat-card-actions>
     <section class="sm:hidden">
-      <button mat-flat-button [color]="'primary'" class="width-1-1"  [routerLink]="['./budgetApproval']" *ngIf="
+      <button mat-flat-button [color]="'primary'" class="width-1-1" i18n [routerLink]="['./budgetApproval']" *ngIf="
           !certification?.budget_Request?.status ||
           certification?.budget_Request?.status === 'Cancelled' ||
           certification?.budget_Request?.status === 'Rejected'
@@ -127,10 +127,10 @@
           certification?.budget_Request?.status === 'Submitted' ||
           certification?.budget_Request?.status === 'Pending'
         ">
-        <ng-container *ngIf="budgetCancelStatus !== 'sending'" >Cancel</ng-container>
+        <ng-container *ngIf="budgetCancelStatus !== 'sending'" i18n>Cancel</ng-container>
         <ng-container *ngIf="budgetCancelStatus === 'sending'">
           <div class="flex flex-between">
-            <div >Cancelling...</div>
+            <div i18n>Cancelling...</div>
             <div class="flex flex-column flex-center">
               <mat-progress-spinner [color]="'primary'" [diameter]="16" [mode]="'indeterminate'"></mat-progress-spinner>
             </div>
