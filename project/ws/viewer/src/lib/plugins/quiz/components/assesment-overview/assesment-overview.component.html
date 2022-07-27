@@ -46,13 +46,13 @@
       <div class="card-section">
         <h3 class="mat-h3">
           <img src=".\fusion-assets\images\Ellipseblue1.png">
-          <ng-container i18n="quiz difficulty label">Difficulty : </ng-container>
+          <ng-container ="quiz difficulty label">Difficulty : </ng-container>
           {{ complexityLevel }}
         </h3>
         <h3 class="mat-h3">
           <ng-container>
             <img src=".\fusion-assets\images\Ellipseblue1.png">
-            <ng-container i18n="quiz duration label">11 : </ng-container>
+            <ng-container ="quiz duration label">11 : </ng-container>
             <ng-container *ngIf="duration">{{
               duration | pipeDurationTransform: 'hms'
               }}</ng-container>
@@ -63,14 +63,14 @@
         </h3>
         <h3 class="mat-h3">
           <img src=".\fusion-assets\images\Ellipseblue1.png">
-          <ng-container i18n="quiz number of questions label">Questions : </ng-container>
+          <ng-container ="quiz number of questions label">Questions : </ng-container>
           {{ noOfQuestions }}
         </h3>
       </div>
     </div>-->
   <div class="text-center">
     <!-- <div class="start-btn"> -->
-    <button class="btn btn-active" mat-raised-button i18n="button start quiz" [mat-dialog-close]="true"
+    <button class="btn btn-active" mat-raised-button  [mat-dialog-close]="true"
       [hidden]="assesmentdata.progressStatus==='completed' && assesmentdata.isNqocnContent">
       Start Now!
     </button>

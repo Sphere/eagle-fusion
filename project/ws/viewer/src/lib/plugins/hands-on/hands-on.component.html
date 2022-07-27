@@ -9,7 +9,7 @@
   <mat-progress-bar mode="determinate" [value]="(exerciseTimeRemaining / exerciseData?.timeLimit) * 100" *ngIf="resourceType === 'Exercise'"></mat-progress-bar>
 </mat-card>
 <!-- <mat-card class="margin-m">
-  <h3 class="mat-h3" i18n="problem statement heading">Problem Statement</h3>
+  <h3 class="mat-h3" ="problem statement heading">Problem Statement</h3>
   <div [innerHtml]="exerciseData.safeProblemStatement"></div>
 </mat-card> -->
 <div class="margin-m">
@@ -17,7 +17,7 @@
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h3 class="mat-h3" i18n="problem statement heading">
+          <h3 class="mat-h3">
             Problem Statement
           </h3>
         </mat-panel-title>
@@ -29,7 +29,7 @@
 <mat-card class="margin-m">
   <div class="flex">
     <h3 class="mat-h3">
-      <ng-container i18n="coding language heading">Code in</ng-container>
+      <ng-container>Code in</ng-container>
       {{ (exerciseData?.supportedLanguages)[0].language }}
     </h3>
     <span class="spacer"></span>
@@ -45,17 +45,17 @@
     <div class="flex flex-between flex-wrapped">
       <div class="flex flex flex-between flex-wrapped">
         <div class="margin-top-m flex flex-wrapped">
-          <button mat-raised-button color="primary" class="margin-left-xs" (click)="reset() ; raiseClickEvent()" i18n="button reset code pane text">
+          <button mat-raised-button color="primary" class="margin-left-xs" (click)="reset() ; raiseClickEvent()">
             Reset
           </button>
           <button mat-raised-button color="primary" class="margin-left-s" (click)="showPostActionSection('execute') ; raiseClickEvent()"
-            i18n="button execute code pane text">
+            >
             Execute
           </button>
         </div>
         <div class="margin-top-m flex flex-wrapped">
           <div class="tooltip">
-            <span class="tooltiptext" id="myTooltip" i18n>Copy to clipboard</span>
+            <span class="tooltiptext" id="myTooltip" >Copy to clipboard</span>
             <button mat-raised-button color="primary" (click)="copyToClipBoardFunction() ; raiseClickEvent()" (mouseout)="outFunc()">
               Copy Code
             </button>
@@ -65,16 +65,16 @@
       <div class="flex flex-between flex-wrapped" *ngIf="resourceType === 'Exercise'">
         <div class="margin-top-m flex flex-wrapped">
           <button mat-raised-button color="primary" (click)="showPostActionSection('verify') ; raiseClickEvent()" class="margin-left-xs"
-            i18n="button verify code pane text">
+            >
             Verify
           </button>
           <button mat-raised-button color="primary" (click)="showPostActionSection('submit') ; raiseClickEvent()" class="margin-left-s"
-            i18n="button submit code pane text">
+            >
             Submit
           </button>
         </div>
         <div class="margin-top-m flex flex-wrapped">
-          <button mat-raised-button color="primary" (click)="viewLastSubmission() ; raiseClickEvent()" class="margin-left-xs" i18n="button submit code pane text">
+          <button mat-raised-button color="primary" (click)="viewLastSubmission() ; raiseClickEvent()" class="margin-left-xs">
             Last Submission
           </button>
         </div>
@@ -84,12 +84,12 @@
 
   <!-- <mat-card *ngIf="isPostActionSectionShown && postActionSectionContent === 'execute'">
     <mat-card-header>
-      <h2 class="mat-title" i18n="execution dialog heading">
+      <h2 class="mat-title" ="execution dialog heading">
         Execution Result
       </h2>
     </mat-card-header>
     <div class="text-center" *ngIf="!exerciseResult && executionInProgress">
-      <h3 class="mat-h3" i18n="fetching result in progress message">
+      <h3 class="mat-h3" ="fetching result in progress message">
         Your code is executing...
       </h3>
       <ws-spinner></ws-spinner>
@@ -99,7 +99,7 @@
       <div>
         <span [ngSwitch]="exerciseResult.status">
           <div *ngSwitchCase="'success'">
-            <p i18n="output text">Output:</p>
+            <p ="output text">Output:</p>
             <div class="status success" [innerText]="exerciseResult.showOutput"></div>
           </div>
           <div
@@ -118,11 +118,11 @@
   </mat-card> -->
 
   <ng-container *ngIf="isPostActionSectionShown && postActionSectionContent === 'execute'">
-    <h2 class="mat-title" i18n="execution dialog heading">
+    <h2 class="mat-title">
       Execution Result
     </h2>
     <div class="text-center" *ngIf="!exerciseResult && executionInProgress">
-      <h3 class="mat-h3" i18n="fetching result in progress message">
+      <h3 class="mat-h3">
         Your code is executing...
       </h3>
       <mat-spinner></mat-spinner>
@@ -132,7 +132,7 @@
       <div>
         <span [ngSwitch]="exerciseResult.status">
           <div *ngSwitchCase="'success'">
-            <p i18n="output text">Output:</p>
+            <p>Output:</p>
             <div class="status success" [innerText]="exerciseResult.showOutput"></div>
           </div>
           <div *ngSwitchCase="'error'" class="status error" [innerText]="exerciseResult.showOutput"></div>
@@ -144,13 +144,13 @@
 
   <mat-card *ngIf="isPostActionSectionShown && postActionSectionContent === 'verify'">
     <mat-card-header>
-      <h2 class="mat-title" i18n="Verification dialog heading">
+      <h2 class="mat-title">
         Verification Result
       </h2>
     </mat-card-header>
     <ng-container>
       <div class="text-center" *ngIf="!verifyResult && executionInProgress">
-        <h3 class="mat-h3" i18n="fetching verification result in progress message">
+        <h3 class="mat-h3">
           Your code is being verified...
         </h3>
         <mat-progress-spinner></mat-progress-spinner>
@@ -168,7 +168,7 @@
                     <div class="flex flex-middle flex-center width-1-1">
                       <ws-widget-completion-spinner [completed]="verifyResult?.NumericalStatistics?.TotalCasesPassed" [outOf]="verifyResult?.NumericalStatistics?.TotalTestCases"></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label number of correct answers">
+                    <h2 class="mat-title">
                       Total
                     </h2>
                   </div>
@@ -177,7 +177,7 @@
                       <ws-widget-completion-spinner [completed]="verifyResult?.NumericalStatistics?.StructuralTestCasesPassed" [outOf]="verifyResult?.NumericalStatistics?.TotalStructuralTestCases">
                       </ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label number of incorrect answers">
+                    <h2 class="mat-title">
                       Structural
                     </h2>
                   </div>
@@ -186,7 +186,7 @@
                       <ws-widget-completion-spinner [completed]="verifyResult?.NumericalStatistics?.LogicalTestCasesPassed" [outOf]="verifyResult?.NumericalStatistics?.TotalLogicalTestCases">
                       </ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label of unanswered questions">
+                    <h2 class="mat-title">
                       Logical
                     </h2>
                   </div>
@@ -194,28 +194,28 @@
               </ng-container>
               <table class="table-verify">
                 <tr>
-                  <th i18n>
+                  <th >
                     Sl. No.
                   </th>
-                  <th i18n>
+                  <th >
                     Type
                   </th>
-                  <th i18n>
+                  <th >
                     S/A
                   </th>
-                  <th i18n>
+                  <th >
                     Test Target
                   </th>
-                  <th i18n>
+                  <th >
                     Input
                   </th>
-                  <th i18n>
+                  <th >
                     Expected Output
                   </th>
-                  <th i18n>
+                  <th >
                     Actual Output
                   </th>
-                  <th i18n>
+                  <th >
                     Result
                   </th>
                 </tr>
@@ -328,7 +328,7 @@
                         1 * verifyResult?.verifySummary?.SampleTCFailed
                         "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label number of correct answers">
+                    <h2 class="mat-title">
                       Total
                     </h2>
                   </div>
@@ -339,7 +339,7 @@
                           1 * verifyResult?.verifySummary?.SampleTCFailed
                         "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label number of incorrect answers">
+                    <h2 class="mat-title">
                       Sample
                     </h2>
                   </div>
@@ -350,7 +350,7 @@
                           1 * verifyResult?.verifySummary?.HiddenTCFailed
                         "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label of unanswered questions">
+                    <h2 class="mat-title">
                       Actual
                     </h2>
                   </div>
@@ -358,22 +358,22 @@
               </ng-container>
               <table class="table-verify">
                 <tr>
-                  <th i18n>
+                  <th >
                     Sl. No.
                   </th>
-                  <th i18n>
+                  <th >
                     Type
                   </th>
-                  <th i18n>
+                  <th >
                     Input
                   </th>
-                  <th i18n>
+                  <th >
                     Expected Output
                   </th>
-                  <th i18n>
+                  <th >
                     Actual Output
                   </th>
-                  <th i18n>
+                  <th >
                     Result
                   </th>
                 </tr>
@@ -381,7 +381,7 @@
                   <td>
                     {{ i + 1 }}
                   </td>
-                  <td [attr.rowspan]="verifyResult?.Samples?.length" *ngIf="i === 0" i18n>
+                  <td [attr.rowspan]="verifyResult?.Samples?.length" *ngIf="i === 0" >
                     Sample
                   </td>
                   <td>
@@ -402,13 +402,13 @@
                   </td>
                   <td [attr.rowspan]="
                       verifyResult?.Hiddens?.length + verifyResult?.HiddensFailedHalved?.length
-                    " *ngIf="i === 0" i18n>
+                    " *ngIf="i === 0" >
                     Actual
                   </td>
                   <td>
                     {{ obj.input }}
                   </td>
-                  <td i18n>
+                  <td >
                     N/A
                   </td>
                   <td [innerHTML]="obj.output | pipeSafeSanitizer: 'html'"></td>
@@ -421,13 +421,13 @@
                   <td>
                     {{ i + 1 + verifyResult?.Samples?.length + verifyResult?.Hiddens?.length }}
                   </td>
-                  <td [attr.rowspan]="verifyResult?.HiddensFailedHalved?.length" *ngIf="verifyResult?.Hiddens?.length < 1 && i === 0" i18n>
+                  <td [attr.rowspan]="verifyResult?.HiddensFailedHalved?.length" *ngIf="verifyResult?.Hiddens?.length < 1 && i === 0" >
                     Actual
                   </td>
                   <td>
                     {{ obj.input }}
                   </td>
-                  <td i18n>
+                  <td >
                     N/A
                   </td>
                   <td [innerHTML]="obj.output | pipeSafeSanitizer: 'html'"></td>
@@ -448,7 +448,7 @@
             <div *ngSwitchCase="'200'">
               <ng-container>
                 <mat-card-header>
-                  <h3 class="mat-h3" i18n>Test Cases Passed</h3>
+                  <h3 class="mat-h3" >Test Cases Passed</h3>
                 </mat-card-header>
                 <div class="flex flex-wrapped flex-center text-center">
                   <div class="card-section">
@@ -466,7 +466,7 @@
                               1 * verifyJavaResult?.resultSummary?.failedProceduralActualTC
                               "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label number of correct answers">
+                    <h2 class="mat-title">
                       Total
                     </h2>
                   </div>
@@ -477,7 +477,7 @@
                                 1 * verifyJavaResult?.resultSummary?.passedStructuralTC
                               "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label number of incorrect answers">
+                    <h2 class="mat-title">
                       Structural
                     </h2>
                   </div>
@@ -488,7 +488,7 @@
                                 1 * verifyJavaResult?.resultSummary?.failedProceduralSampleTC
                               "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label of unanswered questions">
+                    <h2 class="mat-title">
                       Sample
                     </h2>
                   </div>
@@ -499,7 +499,7 @@
                                                   1 * verifyJavaResult?.resultSummary?.failedProceduralActualTC
                                                 "></ws-widget-completion-spinner>
                     </div>
-                    <h2 class="mat-title" i18n="label of unanswered questions">
+                    <h2 class="mat-title">
                       Actual
                     </h2>
                   </div>
@@ -507,28 +507,28 @@
               </ng-container>
               <table class="table-verify">
                 <tr>
-                  <th i18n>
+                  <th >
                     Sl. No.
                   </th>
-                  <th i18n>
+                  <th >
                     Type
                   </th>
-                  <th i18n>
+                  <th >
                     S/A
                   </th>
-                  <th i18n>
+                  <th >
                     Target
                   </th>
-                  <th i18n>
+                  <th >
                     Input
                   </th>
-                  <th i18n>
+                  <th >
                     Expected Output
                   </th>
-                  <th i18n>
+                  <th >
                     Actual Output
                   </th>
-                  <th i18n>
+                  <th >
                     Result
                   </th>
                 </tr>
@@ -536,33 +536,33 @@
                   <td>
                     {{ i + 1 }}
                   </td>
-                  <td [attr.rowspan]="verifyJavaResult?.structural?.length" *ngIf="i === 0" i18n>
+                  <td [attr.rowspan]="verifyJavaResult?.structural?.length" *ngIf="i === 0" >
                     Structural
                   </td>
-                  <td i18n>
+                  <td >
                     N/A
                   </td>
                   <td>
                     <ng-container *ngIf="obj.tcclass">
-                      <ng-container i18n>Class </ng-container>{{ obj.tcclass }}
+                      <ng-container >Class </ng-container>{{ obj.tcclass }}
                       <br>
                     </ng-container>
                     <ng-container *ngIf="obj.tcmethod">
-                      <ng-container i18n>Method: </ng-container>{{ obj.tcmethod }}
+                      <ng-container >Method: </ng-container>{{ obj.tcmethod }}
                       <br>
                     </ng-container>
                     <ng-container *ngIf="obj.tctarget">
-                      <ng-container i18n>Target: </ng-container>{{ obj.tctarget }}
+                      <ng-container >Target: </ng-container>{{ obj.tctarget }}
                       <br>
                     </ng-container>
                   </td>
-                  <td i18n>
+                  <td >
                     N/A
                   </td>
-                  <td i18n>
+                  <td >
                     N/A
                   </td>
-                  <td i18n>
+                  <td >
                     N/A
                   </td>
                   <td>
@@ -574,23 +574,23 @@
                   <td>
                     {{ (verifyJavaResult?.structural?.length || 0) + i + 1 }}
                   </td>
-                  <td [attr.rowspan]="(verifyJavaResult?.sample?.length || 0) + (verifyJavaResult?.actual?.length || 0)" *ngIf="i === 0" i18n>
+                  <td [attr.rowspan]="(verifyJavaResult?.sample?.length || 0) + (verifyJavaResult?.actual?.length || 0)" *ngIf="i === 0" >
                     Procedural
                   </td>
-                  <td i18n [attr.rowspan]="verifyJavaResult?.sample?.length" *ngIf="i === 0">
+                  <td  [attr.rowspan]="verifyJavaResult?.sample?.length" *ngIf="i === 0">
                     Sample
                   </td>
                   <td>
                     <ng-container *ngIf="obj.tcclass">
-                      <ng-container i18n>Class </ng-container>{{ obj.tcclass }}
+                      <ng-container >Class </ng-container>{{ obj.tcclass }}
                       <br>
                     </ng-container>
                     <ng-container *ngIf="obj.tcmethod">
-                      <ng-container i18n>Method: </ng-container>{{ obj.tcmethod }}
+                      <ng-container >Method: </ng-container>{{ obj.tcmethod }}
                       <br>
                     </ng-container>
                     <ng-container *ngIf="obj.tctarget">
-                      <ng-container i18n>Target: </ng-container>{{ obj.tctarget }}
+                      <ng-container >Target: </ng-container>{{ obj.tctarget }}
                       <br>
                     </ng-container>
                   </td>
@@ -611,23 +611,23 @@
                     {{ (verifyJavaResult?.structural?.length || 0) + (verifyJavaResult?.sample?.length || 0) + i + 1 }}
                   </td>
                   <td [attr.rowspan]="verifyJavaResult?.sample?.length || 0 + verifyJavaResult?.actual?.length || 0" *ngIf="i === 0 && (!verifyJavaResult?.sample || !verifyJavaResult?.sample?.length)"
-                    i18n>
+                    >
                     Procedural
                   </td>
-                  <td i18n *ngIf="i === 0" [attr.rowspan]="verifyJavaResult?.actual?.length">
+                  <td  *ngIf="i === 0" [attr.rowspan]="verifyJavaResult?.actual?.length">
                     Actual
                   </td>
                   <td>
                     <ng-container *ngIf="obj.tcclass">
-                      <ng-container i18n>Class </ng-container>{{ obj.tcclass }}
+                      <ng-container >Class </ng-container>{{ obj.tcclass }}
                       <br>
                     </ng-container>
                     <ng-container *ngIf="obj.tcmethod">
-                      <ng-container i18n>Method: </ng-container>{{ obj.tcmethod }}
+                      <ng-container >Method: </ng-container>{{ obj.tcmethod }}
                       <br>
                     </ng-container>
                     <ng-container *ngIf="obj.tctarget">
-                      <ng-container i18n>Target: </ng-container>{{ obj.tctarget }}
+                      <ng-container >Target: </ng-container>{{ obj.tctarget }}
                       <br>
                     </ng-container>
                   </td>
@@ -638,7 +638,7 @@
                     <ng-container *ngIf="obj.tcexpected else elseBlock">
                       {{obj.tcexpected}}
                     </ng-container>
-                    <ng-template #elseBlock i18n>N/A</ng-template>
+                    <ng-template #elseBlock >N/A</ng-template>
                   </td>
                   <td [innerHTML]="obj.tcactual | pipeSafeSanitizer: 'html'"></td>
                   <td>
@@ -649,7 +649,7 @@
               </table>
               <ng-container *ngIf="verifyJavaResult.codeQuality">
                 <br>
-                <h3 *ngIf="verifyJavaResult.codeQuality.message" i18n>Code Analysis</h3>
+                <h3 *ngIf="verifyJavaResult.codeQuality.message" >Code Analysis</h3>
                 {{verifyJavaResult.codeQuality.message}}
                 <table *ngIf="verifyJavaResult.codeQuality.data && verifyJavaResult.codeQuality.data.length" class="table-verify">
                   <tr>
@@ -691,7 +691,7 @@
           </span>
         </div>
       </div>
-      <div *ngIf="!verifyResult && !verifyJavaResult && apiErrorOccurred" class="status error" i18n>
+      <div *ngIf="!verifyResult && !verifyJavaResult && apiErrorOccurred" class="status error" >
         Some Error Occured
       </div>
     </ng-container>
@@ -700,13 +700,13 @@
 
   <mat-card *ngIf="isPostActionSectionShown && postActionSectionContent === 'submit'">
     <mat-card-header>
-      <h2 class="mat-title" i18n="Submission dialog heading">
+      <h2 class="mat-title">
         Submission Result
       </h2>
     </mat-card-header>
     <ng-container>
       <div class="text-center" *ngIf="!submitResult && executionInProgress">
-        <h3 class="mat-h3" i18n="fetching result in progress message">
+        <h3 class="mat-h3">
           Your code is being submitted...
         </h3>
         <mat-progress-spinner></mat-progress-spinner>
@@ -721,7 +721,7 @@
           </span>
         </div>
       </div>
-      <div *ngIf="!submitResult && apiErrorOccurred" class="status error" i18n>
+      <div *ngIf="!submitResult && apiErrorOccurred" class="status error" >
         Some Error Occurred
       </div>
     </ng-container>

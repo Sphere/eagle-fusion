@@ -1,11 +1,11 @@
 <mat-card class="margin-m" *ngIf="result">
   <div class="margin-s">
-    <h3 i18n>Classes</h3>
+    <h3 >Classes</h3>
     <!-- <ng-container *ngIf="result.classErrorsSpecification[0].className === 'Classes'">
-      <span class="text-center margin-top-s" i18n="all classes missing">All classes are missing</span>
+      <span class="text-center margin-top-s" ="all classes missing">All classes are missing</span>
     </ng-container> -->
     <ng-container *ngIf="!result?.classErrorsSpecification?.length">
-      <span class="text-center" i18n="all classes correct">All classes are correct</span>
+      <span class="text-center">All classes are correct</span>
       <mat-icon class="margin-xs correct alignment">done</mat-icon>
     </ng-container>
     <ng-container *ngIf="result?.classErrorsSpecification?.length">
@@ -46,7 +46,7 @@
     </ng-container>
   </div>
   <div class="margin-s">
-    <h3 i18n>Relationships</h3>
+    <h3 >Relationships</h3>
     <ng-container *ngIf="result?.relationErrorsSpecification?.length">
       <table mat-table [dataSource]="result?.relationErrorsSpecification" class="mat-elevation-z8" style="width:100%;">
         <!-- Relationship Column -->
