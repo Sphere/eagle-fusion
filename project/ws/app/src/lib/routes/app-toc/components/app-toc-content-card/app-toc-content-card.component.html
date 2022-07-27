@@ -2,19 +2,31 @@
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
       <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-        (click)="viewChildren = !viewChildren" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-      <div class="flex flex-between w-100">
-        <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
-          <h2 class="margin-remove text-truncate">{{ content?.name }}</h2>
-          <div>
-            <span class="mat-body-strong">{{ resourceContentType }}</span>
-            <span>
-              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
+        [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      <div class="width-expand">
+        <div class="text-truncate cursor-pointer 1">
+          <h2 class="margin-remove text-truncate card-title">{{ content?.name }}</h2>
+          <div class="flex flex-between items-center">
+            <!-- <span class="mat-body-strong">{{ resourceContentType }}</span> -->
+            <span class="duration">
+              <!-- <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container> -->
               {{ content?.duration | pipeDurationTransform: 'hms' }}
             </span>
+            <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
+              <mat-icon>more_vertical</mat-icon>
+            </button>
+            <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button
+              color="primary">
+              <ng-container *ngIf="!viewChildren" i18n>
+                <mat-icon>expand_more</mat-icon>
+              </ng-container>
+              <ng-container *ngIf="viewChildren" i18n>
+                <mat-icon>expand_less</mat-icon>
+              </ng-container>
+            </button>
           </div>
-
-          <div *ngIf="hasContentStructure" class="child-meta-container">
+          <!-- old design iteams  -->
+          <!-- <div *ngIf="hasContentStructure" class="child-meta-container">
             <div class="child-structure">
               <mat-icon class="structure-icon">import_contacts</mat-icon>
               <span *ngIf="contentStructure?.course > 0">
@@ -82,7 +94,7 @@
               </span>
             </div>
 
-          </div>
+          </div> -->
 
         </div>
 
@@ -94,26 +106,17 @@
           <img [src]="redTickIcon" class="image" />
         </ng-template> -->
 
-        <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
-          <mat-icon>more_vertical</mat-icon>
-        </button>
+
       </div>
-      <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button color="primary">
-        <ng-container *ngIf="!viewChildren" i18n>
-          <mat-icon>expand_more</mat-icon>
-        </ng-container>
-        <ng-container *ngIf="viewChildren" i18n>
-          <mat-icon>expand_less</mat-icon>
-        </ng-container>
-      </button>
+
     </div>
-
-
     <div class="children-container" *ngIf="viewChildren">
       <ws-app-toc-content-card [content]="child" [expandAll]="expandAll" [rootId]="rootId"
         [rootContentType]="rootContentType" *ngFor="let child of content?.children; trackBy: contentTrackBy">
       </ws-app-toc-content-card>
     </div>
+
+
   </ng-container>
   <div *ngIf="isResource" class="resource-container">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
@@ -122,28 +125,67 @@
     <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
       name="thumbnail-banner-img" (click)="viewChildren = !viewChildren; reDirect(resourceLink)"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-    <div class="flex flex-between width-expand">
+    <div class="resource-contents">
       <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
         <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
-          <h2 class="margin-remove text-truncate" name="content-heading">{{ content?.name }}</h2>
-          <div class="align-rt">
-            <span class="content-top"
-              *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseResourcePercentage">
-              <img [src]="greenTickIcon" class="image" name="greentick-icon" />
-            </span>
-            <ng-template #elseResourcePercentage>
-              <img [src]="redTickIcon" class="image" name="redtick-icon" />
-            </ng-template>
+          <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+          <div class="flex flex-between items-center ">
+            <div class="flex items-center">
+              <ng-container *ngIf="resourceContentType">
+                <div class="pr-1" [ngSwitch]="resourceContentType | lowercase">
+                  <div *ngSwitchCase="'pdf'">
+                    <img src=".\fusion-assets\icons\pdf-icon.png">
+                  </div>
+                  <div *ngSwitchCase="'video'">
+                    <img src=".\fusion-assets\icons\video-icon.png">
+                  </div>
+                  <div *ngSwitchCase="'scorm'">
+                    <img src=".\fusion-assets\icons\video-icon.png">
+                  </div>
+                  <div *ngSwitchCase="'link'">
+                    <img src=".\fusion-assets\icons\link-icon.png">
+                  </div>
+                  <div *ngSwitchDefault>{{resourceContentType}}</div>
+                </div>
+              </ng-container>
+              <!-- <span class="mat-body-strong" id="video">{{ resourceContentType }}</span> -->
+
+              <span class="pt-1 text-gray-500">
+                <ng-container *ngIf="content?.mimeType"></ng-container>
+                {{ content?.duration | pipeDurationTransform: 'hms' }}
+              </span>
+            </div>
+            <div class="align-rt progrss-box">
+              <span class="content-check"
+                *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseResourcePercentage">
+                <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
+                <mat-icon>check</mat-icon>
+
+              </span>
+              <ng-template #elseResourcePercentage>
+                <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
+                  <circle-progress class="flex items-center " [percent]="content?.completionPercentage"
+                    [maxPercent]="100" [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2"
+                    [space]="-2" [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'"
+                    [animation]="true" [animationDuration]="300" [showTitle]="false" [showUnits]="false"
+                    [showSubtitle]="false" [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10"
+                    [startFromZero]="false" [imageHeight]="24" [imageWidth]="24" [showBackground]="false"
+                    [backgroundStrokeWidth]="0" [outerStrokeLinecap]="'round'">
+                  </circle-progress>
+                </ng-container>
+
+                <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
+              </ng-template>
+              <ng-template #elseResourseLock>
+                <img src=".\fusion-assets\icons\lock.png">
+              </ng-template>
+            </div>
           </div>
-          <div>
-            <span class="mat-body-strong" id="video">{{ resourceContentType }}</span>
-            <span>
-              <ng-container *ngIf="content?.mimeType">&nbsp;&nbsp;|&nbsp;</ng-container>
-              {{ content?.duration | pipeDurationTransform: 'hms' }}
-            </span>
-          </div>
+
         </div>
       </a>
+
+
       <!-- <ng-container *ngIf="content?.identifier && content?.completionPercentage">
         <ng-container *ngIf="content?.completionStatus == 2"> -->
       <!-- <circle-progress title="Completion Percentage : {{content?.completionPercentage}}%"

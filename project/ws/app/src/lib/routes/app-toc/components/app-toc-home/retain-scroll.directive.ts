@@ -27,6 +27,8 @@ export class RetainScrollDirective {
       } else {
         window.scrollTo(0, this.currentPosition)
       }
+    } else {
+      window.scrollTo(0, 600)
     }
   }
 }

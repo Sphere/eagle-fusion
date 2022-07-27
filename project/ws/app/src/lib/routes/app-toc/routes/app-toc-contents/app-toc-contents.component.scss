@@ -3,34 +3,46 @@
 
 // $border-color: #c7c7c7;
 $border-color: #d8d8d8;
+
 .contents-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   margin: $size-m 0 $size-l 0;
+
   .main-container {
     width: 100%;
     padding-right: 2 * $size-l;
     box-sizing: border-box;
+
     .toc-section {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid $border-color;
       padding-bottom: $size-s;
     }
+
     .content-card {
-      padding: $size-s 0;
-      border-bottom: 1px solid $border-color;
+      padding: 0;
+      // border-bottom: 1px solid $border-color;
+      // border: 1px solid #d8d8d8;
+      margin-bottom: 0;
+      // border-radius: 10px;
+      // box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+
     }
+
     @include breakpoint-lt-m {
       width: 100%;
       padding-right: 0;
       margin-bottom: $size-xl;
     }
   }
+
   .side-container {
     flex: 1;
     min-width: 250px;
+
     @include breakpoint-lt-m {
       width: 100%;
     }
@@ -39,15 +51,18 @@ $border-color: #d8d8d8;
 
 .playgrounds-container {
   margin: 0 0 $size-l 0;
+
   .plg-card {
     position: relative;
     margin-bottom: $size-s;
     margin-right: $size-l;
+
     .plg-img {
       display: block;
       width: 265px;
       height: 150px;
     }
+
     .plg-overlay {
       position: absolute;
       bottom: 0;

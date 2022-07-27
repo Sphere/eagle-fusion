@@ -270,6 +270,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
               return course
             })
           }
+
           // If current course is present in the list of user enrolled course
           if (enrolledCourse && enrolledCourse.batchId) {
             // const collectionId = this.isResource ? '' : this.content.identifier

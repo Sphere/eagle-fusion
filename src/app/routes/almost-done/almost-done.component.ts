@@ -59,15 +59,15 @@ export class AlmostDoneComponent implements OnInit {
     this.createUserForm = this.createUserFormFields()
     // console.log(this.yourBackground)
     if (this.backgroundSelect === 'ASHA Worker') {
-    this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
-    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
-        if (item.state === this.yourBackground.value.state) {
-          this.disticts = item.districts
-        }
+      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+        statesdata.states.map((item: any) => {
+          if (item.state === this.yourBackground.value.state) {
+            this.disticts = item.districts
+          }
+        })
       })
-    })
-  }
+    }
   }
   redirectToYourBackground() {
     this.redirectToParent.emit('true')
