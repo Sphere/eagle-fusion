@@ -8,6 +8,7 @@
     padding: $size-m $size-l;
   }
 }
+
 .visibility-0 {
   // visibility: hidden;
   display: none;
@@ -39,7 +40,7 @@
   padding-right: 20px;
   display: flex;
   align-items: flex-end;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .title {
