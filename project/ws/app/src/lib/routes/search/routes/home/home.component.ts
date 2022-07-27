@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
     }
         this.searchApi.currentMessage.subscribe(
       (data: any) => {
-        if(data) {
+        if (data) {
           this.search()
         }
       })
