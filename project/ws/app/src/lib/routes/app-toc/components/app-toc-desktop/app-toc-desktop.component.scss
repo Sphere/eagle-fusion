@@ -8,6 +8,10 @@
     padding: $size-m $size-l;
   }
 }
+.visibility-0 {
+  // visibility: hidden;
+  display: none;
+}
 
 .box {
   width: 100%;

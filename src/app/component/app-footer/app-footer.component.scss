@@ -46,7 +46,8 @@
     padding-top: 0px !important;
 
     @include breakpoint-l {
-      padding-right: 85px !important;
+      padding-right: 30px !important;
+      line-height: 23px;
     }
 
     @include breakpoint-m {
