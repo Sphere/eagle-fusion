@@ -79,7 +79,7 @@
 
 .header-actions {
   display: flex;
-  margin-top: 24px;
+  margin-top: 3px;
 
   &.top {
     margin-top: 0;
@@ -154,6 +154,29 @@
   border-radius: 49%;
   padding: 9px 12px 0px;
   margin-left: 10px;
+}
+
+.mat-progress-bar {
+  width: 275px;
+  border-radius: 40px;
+  height: 20px;
+}
+
+.value {
+  position: relative;
+  bottom: 19px;
+  color: #1C5D95;
+  left: 100px;
+}
+
+::ng-deep.theme-igot.day-mode .mat-progress-bar-fill::after {
+  background: #34D6A4 0% 0% no-repeat padding-box;
+  border-radius: 40px;
+}
+
+::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
+  background-color: #EDEDED;
+  // background-color: #E7E6E6 !important;
 }
 
 .banner-btn:hover {
