@@ -20,8 +20,9 @@
   position: absolute;
   width: 5px;
   height: 10px;
-  left: 30px;
-  top: 48px;
+  cursor: pointer;
+  // left: 30px;
+  // top: 48px;
 }
 
 ::ng-deep .mat-tab-header {
@@ -64,6 +65,7 @@
   @include breakpoint-xs {
     padding: 0px 17px 17px 17px;
     margin-top: 20px;
+    height: 65vh;
   }
 }
 

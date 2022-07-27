@@ -43,6 +43,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() batchData!: any
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
+  isTocBanner = true
   // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'

@@ -40,11 +40,14 @@
 }
 .iconPosition1 {
   position: absolute;
-  right: 5px;
+  right: -18px;
   top: 10px;
 }
 a{
   color: #000 !important;
+}
+:host::ng-deep .pwd {
+  width: 93% !important;
 }
 .next-button {
   width: 100%;

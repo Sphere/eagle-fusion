@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
@@ -10,6 +10,7 @@ import { Router } from '@angular/router'
   templateUrl: './create-account.component.html',
   styleUrls: ['./create-account.component.scss'],
 })
+
 export class CreateAccountComponent implements OnInit {
   uploadSaveData = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -49,6 +50,11 @@ export class CreateAccountComponent implements OnInit {
       otpCode: new FormControl('', [Validators.required]),
     })
     localStorage.removeItem(`userUUID`)
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+     window.location.href = '/public/home'
   }
 
   toggle1() {

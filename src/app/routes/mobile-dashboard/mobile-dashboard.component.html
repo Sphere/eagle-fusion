@@ -1,5 +1,5 @@
 <div class="content">
-  <p class="py-2 text-base" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Hi User! Here are some courses for you
+  <p class="py-2 text-base text-capitalize">Hi {{firstName?.firstName}}! Here are some courses for you
   </p>
   <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0">Start Learning</p>
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
@@ -65,7 +65,7 @@
 
 <div class="py-1 px-4 mb-6">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
-      <p class="text-2xl">My Courses</p>
+      <p class="text-2xl" style="padding-top:10px">My Courses</p>
     <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
   </ng-container>
 </div>

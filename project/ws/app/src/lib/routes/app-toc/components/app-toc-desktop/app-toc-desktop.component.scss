@@ -79,7 +79,7 @@
 
 .header-actions {
   display: flex;
-  margin-top: 24px;
+  margin-top: 3px;
 
   &.top {
     margin-top: 0;
@@ -113,7 +113,8 @@
 // border-radius: 50px;
 // }
 
-.btn {
+.banner-btn {
+  display: flex;
   width: 13%;
   flex-direction: row !important;
   justify-content: center !important;
@@ -122,18 +123,23 @@
   background: #1c5d95 !important;
   border-radius: 50px !important;
   color: #f7f7f7 !important;
+  border: none;
 
   @include breakpoint-xs {
     width: 100% !important;
   }
 }
 
-.btn-active {
+.banner-btn-active {
+  display: flex;
   color: #1c5d95 !important;
   border-radius: 50px;
   border: 1px solid #1c5d95 !important;
   margin-left: 10px;
   width: 13%;
+  justify-content: center !important;
+  align-items: center !important;
+
 
   @include breakpoint-xs {
     width: 100% !important;
@@ -160,7 +166,7 @@
   position: relative;
   bottom: 19px;
   color: #1C5D95;
-  left: 30px;
+  left: 100px;
 }
 
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-fill::after {
@@ -171,5 +177,8 @@
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
   background-color: #EDEDED;
   // background-color: #E7E6E6 !important;
+}
 
+.banner-btn:hover {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
 }

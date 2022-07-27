@@ -3,31 +3,70 @@
 .footer-container {
   background-color: #f7f7f7;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding: 1.5rem 10rem;
 
   @include breakpoint-lt-l {
     padding: 1.5rem 4rem;
   }
+
   @include breakpoint-s {
-    padding: 1.5rem 7rem;
+    padding: 3.5rem 7rem;
   }
-   @include breakpoint-l {
-    padding: 1.5rem 7rem;
+
+  @include breakpoint-l {
+    padding: 1.5rem 12rem;
   }
+
   @include breakpoint-xs {
     flex-direction: column;
   }
+
   color: #7b6961;
 }
+
 .footer-flex {
-  justify-content: center;
+
+
   @include breakpoint-lt-xl {
-    justify-content: space-around;
+    justify-content: flex-start;
   }
+
+
 }
+
 .footer-first-col {
-  width: 35%;
+  justify-content: flex-start;
+  // align-items: center;
+
+  // width: 35%;
+  .list {
+    padding-right: 85px !important;
+    padding-top: 0px !important;
+
+    @include breakpoint-l {
+      padding-right: 85px !important;
+    }
+
+    @include breakpoint-m {
+      padding-right: 35px !important;
+    }
+
+    @include breakpoint-s {
+      padding-right: 50px !important;
+      padding-bottom: 20px;
+    }
+
+    mat-list-item {
+
+      font-weight: 400;
+      font-size: 16px;
+      color: #7B6961;
+    }
+
+  }
+
   @include breakpoint-lt-m {
     width: 100%;
   }
@@ -40,6 +79,7 @@
 .text-dark {
   color: #353535 !important;
 }
+
 .mat-figure {
   top: 0;
   left: 0;
@@ -53,9 +93,11 @@
   padding: 0;
   margin: 0;
 }
+
 .footer-image {
   height: auto;
   max-width: 58%;
+
   @include breakpoint-xs {
     max-width: 32%;
     max-height: 50px;
@@ -78,6 +120,7 @@
 .theme-igot.day-mode .mat-list-base .mat-list-item a {
   font-size: 14px !important;
 }
+
 // .w-mobile {
 //   @include breakpoint-xs {
 //     width: 100%;
@@ -89,6 +132,7 @@
   .col-width {
     min-width: 315px;
   }
+
   .col-width-1 {
     min-width: 320px;
   }
@@ -98,6 +142,7 @@
   .col-width {
     min-width: 30%;
   }
+
   .col-width-1 {
     min-width: 32%;
   }
@@ -107,6 +152,7 @@
   .col-width {
     min-width: 25%;
   }
+
   .col-width-1 {
     min-width: 27%;
   }
@@ -116,6 +162,7 @@
   .col-width {
     min-width: 19%;
   }
+
   .col-width-1 {
     min-width: 22%;
   }
@@ -126,10 +173,12 @@
     margin-top: -12rem;
   }
 }
+
 .docs-footer {
   background: #f7f7f7;
   color: #fff;
   padding: 1.25rem;
+
   // padding: 1.25rem 9rem;
   @include breakpoint-xs {
     margin-top: -20px;
@@ -146,12 +195,16 @@
 }
 
 img.docs-footer-aastar-logo {
+  width: 104px;
+  height: 124px;
   max-width: 70%;
+
   @include breakpoint-xs {
     max-width: 45%;
     text-align: center;
   }
 }
+
 .docs-footer-copyright {
   display: flex;
   flex: 1;
@@ -162,22 +215,100 @@ img.docs-footer-aastar-logo {
 
 .docs-footer-version {
   min-width: 175px;
+
   @include breakpoint-xs {
     text-align: center;
   }
 }
+
 ::ng-deep .footer-container .mat-list-base .mat-list-item .mat-list-item-content {
   padding: 0;
+
   @include breakpoint-xs {
-      display: block !important;
-      text-align: center;
+    display: block !important;
+    text-align: center;
   }
 }
+
 @media screen and (min-width:1200px) {
   .left-content {
     margin-left: 10%;
   }
+
   .right-content {
-     margin-right: 10%;
+    margin-right: 10%;
+  }
+}
+
+.partner {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #9F8D85;
+  line-height: 0.1em !important;
+  margin: 10px 0 20px !important;
+
+}
+
+.partner span {
+  background: #f7f7f7;
+  padding: 0 10px;
+  color: #7B6961;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.list-item {
+  font-weight: 400;
+  font-size: 16px;
+  color: #7B6961 !important;
+}
+
+.mail {
+  font-weight: 400;
+  font-size: 24px;
+  color: #7B6961;
+}
+
+.input-fiels {
+  width: 383px;
+  height: 53px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+
+
+
+
+}
+
+.form-box {
+  display: flex;
+  align-items: baseline;
+}
+
+.send-btn {
+  border: none;
+  background: inherit;
+  position: relative;
+  left: -36px;
+
+  @include breakpoint-l {
+    left: 0;
+  }
+}
+
+
+.partner-list {
+  justify-content: space-evenly;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.flex-col {
+  @include breakpoint-l {
+    padding-left: 25px !important;
   }
 }
