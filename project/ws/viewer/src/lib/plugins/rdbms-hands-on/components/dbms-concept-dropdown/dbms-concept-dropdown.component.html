@@ -62,7 +62,6 @@
             [hidden]="!contentData?.run"
             [disabled]="executed"
             (click)="run() ;raiseClickEvent()"
-            i18n="button run"
           >
             Run
           </button>
@@ -100,10 +99,10 @@
     *ngIf="contentData?.telltext && executedResult && showTelltext"
     [innerHTML]="contentData?.telltext"
   ></div>
-  <div class="p-2 pl-0 text-justify" *ngIf="!selectedOption && contentData?.dropdown" i18n>
+  <div class="p-2 pl-0 text-justify" *ngIf="!selectedOption && contentData?.dropdown" >
     Use the dropdown to see a concept with a sample query and query output.
   </div>
-  <div class="p-2 pl-0 text-justify" *ngIf="!contentData?.dropdown && !executedResult" i18n>
+  <div class="p-2 pl-0 text-justify" *ngIf="!contentData?.dropdown && !executedResult" >
     Click on Run button to see the result
   </div>
   <ng-template #noDropdown>
@@ -115,7 +114,7 @@
           color="primary"
           [disabled]="executed"
           (click)="run() ;raiseClickEvent()"
-          i18n="button run"
+          
         >
           Run
         </button>
@@ -124,11 +123,11 @@
   </ng-template>
 </div>
 
-<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
-<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
+<input #dbRefreshSuccess type="hidden"  value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden"  value="Database refresh failed." />
 <input
   #someErrorOccurred
   type="hidden"
-  i18n-value
+  
   value="Some error occurred. Please try again later!"
 />

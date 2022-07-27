@@ -34,7 +34,7 @@
           color="primary"
           [disabled]="executed"
           (click)="run('create')"
-          i18n="button run"
+          
         >
           Run
         </button>
@@ -45,7 +45,7 @@
           class="margin-left-xs"
           (click)="isEdit = true"
           [disabled]="isEdit"
-          i18n="button edit"
+          
         >
           Edit
         </button>
@@ -106,7 +106,7 @@
             [hidden]="hideButton"
             [disabled]="executed"
             (click)="run('insert')"
-            i18n="button run"
+            
           >
             Run
           </button>
@@ -116,7 +116,7 @@
             *ngIf="contentData?.createInsert?.insert.retryQuery"
             [ngClass]="{ 'margin-left-xs': !hideButton }"
             (click)="retry(contentData?.createInsert?.insert.retryQuery)"
-            i18n="button retry"
+            
           >
             Retry
           </button>
@@ -143,7 +143,7 @@
           color="primary"
           [disabled]="executed"
           (click)="run('drop')"
-          i18n="button run"
+          
         >
           Run
         </button>
@@ -154,7 +154,7 @@
           class="margin-left-xs"
           (click)="isDropEdit = true"
           [disabled]="isDropEdit"
-          i18n="button edit"
+          
         >
           Edit
         </button>
@@ -164,7 +164,7 @@
           *ngIf="contentData?.createInsert?.drop.retryQuery"
           class="margin-left-xs"
           (click)="retry(contentData?.createInsert?.drop.retryQuery)"
-          i18n="button retry"
+          
         >
           Retry
         </button>
@@ -244,34 +244,34 @@
   </form>
 </ng-template>
 
-<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
-<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
+<input #dbRefreshSuccess type="hidden" value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden" value="Database refresh failed." />
 <input
   #someErrorOccurred
   type="hidden"
-  i18n-value
+  
   value="Some error occurred. Please try again later!"
 />
 <input
   #clickOnEntryButton
   type="hidden"
-  i18n-value
+  
   value="Click on the Entry button to see the records to be inserted."
 />
 <input
   #clickOnRunButton
   type="hidden"
-  i18n-value
+  
   value="Click on the Run button to insert record into the table."
 />
 <input
   #clickOnRunToCreate
   type="hidden"
-  i18n-value
+  
   value="Click on the Run button to create the table."
 />
-<input #viewTableLevelConstraints type="hidden" i18n-value value="View Table Level Constraint" />
-<input #viewColumnLevelConstraints type="hidden" i18n-value value="View Column Level Constraint" />
-<input #firstEntry type="hidden" i18n-value value="First entry" />
-<input #secondEntry type="hidden" i18n-value value="Second entry" />
-<input #thirdEntry type="hidden" i18n-value value="Third entry" />
+<input #viewTableLevelConstraints type="hidden" value="View Table Level Constraint" />
+<input #viewColumnLevelConstraints type="hidden" value="View Column Level Constraint" />
+<input #firstEntry type="hidden" value="First entry" />
+<input #secondEntry type="hidden" value="Second entry" />
+<input #thirdEntry type="hidden" value="Third entry" />

@@ -1,6 +1,6 @@
 <!-- <mat-toolbar class = "ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: '/app/infy/channels/leadership' }"></ws-widget-btn-page-back>
-  <span class="margin-left-s" i18n>Leadership</span>
+  <span class="margin-left-s" >Leadership</span>
 </mat-toolbar> -->
 
 
@@ -89,14 +89,14 @@
 </div>
 
 <div class="text-center margin-top-m">
-  <h2 class="mat-h2" i18n *ngIf="!leaderData && !errorFetchingJson">
+  <h2 class="mat-h2"  *ngIf="!leaderData && !errorFetchingJson">
     No Data Available for this leader.
   </h2>
-  <h2 class="mat-h2" i18n *ngIf="errorFetchingJson">
+  <h2 class="mat-h2"  *ngIf="errorFetchingJson">
     Something went wrong. Not able to load the content.
   </h2>
 </div>
 
-<input #followed type="hidden" i18n-value value="You started following" />
-<input #unfollowed type="hidden" i18n-value value="You unfollowed" />
-<input #followUnfollowError type="hidden" i18n-value value="Error occured. Please try again later." />
+<input #followed type="hidden" value="You started following" />
+<input #unfollowed type="hidden" value="You unfollowed" />
+<input #followUnfollowError type="hidden" value="Error occured. Please try again later." />
