@@ -63,6 +63,23 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
+    {
+    path: 'hi',
+    redirectTo: 'hi/public/home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'hi/public/home',
+    component: PublicHomeComponent,
+    data: {
+      pageType: 'public',
+      pageKey: 'id',
+      isPublic: true,
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
+  },
   {
     path: 'practice/behavioral',
     pathMatch: 'full',

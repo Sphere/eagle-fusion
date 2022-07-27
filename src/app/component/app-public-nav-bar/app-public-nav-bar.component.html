@@ -10,8 +10,8 @@
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
     </ng-container> -->
 
-    <ws-app-search-input-home i18n placeHolder="What do you want to learn today ?" *ngIf=" (isXSmall$ | async) === false"
-      title="hm-plc-holder" class="my-search flex-1" [ref]="'home'">
+    <ws-app-search-input-home i18n-placeHolder placeHolder="What do you want to learn today ?" *ngIf=" (isXSmall$ | async) === false"
+      title="search" class="my-search flex-1" [ref]="'home'">
     </ws-app-search-input-home>
     <span class="spacer"></span>
     <!-- <div ngClass="search-small-logo">
