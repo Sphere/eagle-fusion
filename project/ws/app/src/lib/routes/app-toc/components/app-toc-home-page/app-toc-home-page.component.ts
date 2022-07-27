@@ -27,12 +27,12 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  }, [])
+  },                  [])
 }
 @Component({
   selector: 'ws-app-app-toc-home-page',
   templateUrl: './app-toc-home-page.component.html',
-  styleUrls: ['./app-toc-home-page.component.scss']
+  styleUrls: ['./app-toc-home-page.component.scss'],
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
 

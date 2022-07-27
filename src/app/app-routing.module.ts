@@ -530,7 +530,7 @@ const routes: Routes = [
         path: 'overview',
         component: PublicTocOverviewComponent,
       },
-    ]
+    ],
   },
   {
     path: 'public/faq/:tab',

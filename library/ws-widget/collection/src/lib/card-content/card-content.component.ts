@@ -178,12 +178,10 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(data: any) {
-    console.log(data)
-
     this.router.navigate(['/public/toc'], {
       state: {
-        tocData: data
-      }
+        tocData: data,
+      },
     })
     localStorage.setItem('tocData', JSON.stringify(data))
     // localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)

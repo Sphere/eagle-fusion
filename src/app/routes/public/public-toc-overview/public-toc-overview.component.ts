@@ -4,17 +4,16 @@ import { Subject } from 'rxjs'
 
 import * as _ from 'lodash'
 // import { takeUntil } from 'rxjs/operators'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
-import { HttpErrorResponse } from '@angular/common/http'
-
+// import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
   selector: 'ws-public-toc-overview',
   templateUrl: './public-toc-overview.component.html',
-  styleUrls: ['./public-toc-overview.component.scss']
+  styleUrls: ['./public-toc-overview.component.scss'],
 })
 export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   /*
@@ -25,13 +24,12 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   tocConfig: any = null
   currentLicenseData: any
   licenseName: any
-  license = 'CC BY';
+  license = 'CC BY'
   constructor(
-
     private http: HttpClient,
     private route: ActivatedRoute,
     private widgetContentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService,) { }
+    private configSvc: ConfigurationsService) { }
 
   ngOnInit() {
     if (localStorage.getItem('tocData')) {
@@ -47,7 +45,6 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   }
   fetchTocConfig() {
     this.http.get('assets/configurations/feature/toc.json').pipe().subscribe((res: any) => {
-      console.log(res)
       this.tocConfig = res
     })
   }
@@ -58,10 +55,9 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
       const licenseData = data
       if (licenseData) {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
-        console.log(this.currentLicenseData)
       }
     },
-      (err: HttpErrorResponse) => {
+                                                            (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

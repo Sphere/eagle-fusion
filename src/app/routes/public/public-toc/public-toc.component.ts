@@ -5,7 +5,7 @@ import * as _ from 'lodash'
 @Component({
   selector: 'ws-public-toc',
   templateUrl: './public-toc.component.html',
-  styleUrls: ['./public-toc.component.scss']
+  styleUrls: ['./public-toc.component.scss'],
 })
 export class PublicTocComponent implements OnInit, OnDestroy {
   tocData: any

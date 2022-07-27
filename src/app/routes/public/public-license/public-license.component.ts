@@ -9,7 +9,7 @@ import * as _ from 'lodash'
 @Component({
   selector: 'ws-public-license',
   templateUrl: './public-license.component.html',
-  styleUrls: ['./public-license.component.scss']
+  styleUrls: ['./public-license.component.scss'],
 })
 export class PublicLicenseComponent implements OnInit {
   isXSmall = false
@@ -22,7 +22,7 @@ export class PublicLicenseComponent implements OnInit {
 */
   public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService,
-    private tocSvc: AppTocService
+              private tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
@@ -41,4 +41,3 @@ export class PublicLicenseComponent implements OnInit {
 
   }
 }
-

@@ -73,6 +73,7 @@ export class ViewerDataService {
   }
   // tslint:disable-next-line: max-line-length
   updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevCompletionPercentage }:
+    // tslint:disable-next-line: max-line-length
     { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevCompletionPercentage: number | null }) {
     // tslint:disable-next-line:object-shorthand-properties-first
     this.tocChangeSubject.next(

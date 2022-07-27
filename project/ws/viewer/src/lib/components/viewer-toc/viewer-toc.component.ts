@@ -208,14 +208,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -550,7 +550,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
     const prevCompletionPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
     // tslint:disable-next-line:object-shorthand-properties-first
-    this.viewerDataSvc.updateNextPrevResource({ isValid: Boolean(this.collection), prev, prevTitle, nextTitle, next, currentPercentage, prevCompletionPercentage })
+    this.viewerDataSvc.updateNextPrevResource({
+      isValid: Boolean(this.collection),
+      prev, prevTitle, nextTitle, next, currentPercentage, prevCompletionPercentage,
+    })
   }
   resourceContentTypeFunct(type: any) {
     if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {

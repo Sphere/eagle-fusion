@@ -92,7 +92,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
     }
-    console.log(this.content)
   }
   private fetchContentParents(contentId: string) {
     this.tocSvc.fetchContentParents(contentId).subscribe(contents => {

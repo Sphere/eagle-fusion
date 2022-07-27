@@ -201,7 +201,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
 
   expandView() {
-    console.log("expand")
     this.expandChild.emit(true)
   }
 }

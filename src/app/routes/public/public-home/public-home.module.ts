@@ -9,7 +9,7 @@ import {
   MatIconModule,
   MatCardModule,
   MatButtonModule,
-  MatTabsModule
+  MatTabsModule,
 } from '@angular/material'
 import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
@@ -59,7 +59,7 @@ import { PublicLicenseComponent } from '../public-license/public-license.compone
     PipeDurationTransformModule,
     RouterModule,
     UserImageModule,
-    RetainScrollModule
+    RetainScrollModule,
   ],
 
   exports: [PublicHomeComponent,

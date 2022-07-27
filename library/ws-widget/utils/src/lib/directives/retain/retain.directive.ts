@@ -16,16 +16,14 @@ export class RetainScrollDirective {
 
   @HostListener('click') clicking() {
     const scrollHeight = document.getElementById('scroll-height')
-    console.log(scrollHeight)
     if (scrollHeight) {
       setTimeout(() => {
         scrollHeight.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
         })
-      }, 0)
-    }
-    else {
+      },         0)
+    } else {
       window.scrollTo(0, window.outerHeight)
     }
   }

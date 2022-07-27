@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { PublicTocComponent } from './public-toc.component';
+import { PublicTocComponent } from './public-toc.component'
 
 describe('PublicTocComponent', () => {
-  let component: PublicTocComponent;
-  let fixture: ComponentFixture<PublicTocComponent>;
+  let component: PublicTocComponent
+  let fixture: ComponentFixture<PublicTocComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PublicTocComponent ]
+      declarations: [PublicTocComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PublicTocComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(PublicTocComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

@@ -229,7 +229,7 @@ import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-des
     // AppTocSinglePageComponent,
     // AppTocSinglePageRootComponent,
     CreateBatchDialogComponent,
-    AppTocHomePageComponent
+    AppTocHomePageComponent,
   ],
 })
 export class AppTocModule { }
