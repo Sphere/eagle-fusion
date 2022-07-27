@@ -2,14 +2,14 @@
 <div class="login-page-content">
   <div class="login-card">
     <div>
-      <h1 class="display-3" style="font-size: 40px;line-height: 48px;">Welcome!</h1>
+      <h1 class="display-3" style="font-size: 40px;line-height: 48px;" i18n>Welcome!</h1>
       <div class="input-content">
         <div class="input-content-wrapper">
           <form [formGroup]="loginForm">
 
-            <div class="text-info">Due to security reasons all users have to reset their password after 5th of Feb
+            <!--<div class="text-info" i18n>Due to security reasons all users have to reset their password after 5th of Feb
               2022. Old password will
-              no longer work.</div>
+              no longer work.</div> -->
             <div style="margin-bottom: 10px; margin-top: 10px;">
               <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
             </div>
@@ -17,25 +17,25 @@
 <!--             <div class="form-group">
                   <label for="selectLanguage">Select Language</label>
               <select id="selectLanguage" class="form-control select-box"
-                (change)="chooseBackground($event.target.value)" required>
+                 required>
                 <option [value]="null" disabled>Select Language</option>
-                <option value="en">English</option>
+                <option value="en" selected>English</option>
                 <option value="hi">Hindi</option>
               </select>
             </div> -->
 
             <div class="form-group" style="margin-bottom: 0;">
-              <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
+              <input type="text" class="form-control" i18n placeholder="Phone Number/Email ID" id="userid-field"
                 formControlName="username">
             </div>
             <div style="margin-top: 4px;">
-              <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
+              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('required') &&
                   (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
                 This field is required</mat-error>
-              <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('pattern')">
+              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('pattern')">
                 Invalid email or number</mat-error>
             </div>
-            <div class="form-group input-group" style="margin-top: 1rem;">
+            <div class="form-group input-group pwd" style="margin-top: 1rem;">
               <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
                 formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
@@ -45,15 +45,15 @@
               </div>
             </div>
             <div style="margin-top: 4px;">
-              <mat-error class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') &&
+              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['password'].hasError('required') &&
                   (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
                 This field is required</mat-error>
             </div>
             <div class="form-group">
-              <p>Forgot password?<a href="public/forgot-password"> Click Here</a> to reset</p>
+              <p i18n>Forgot password?<a href="public/forgot-password" i18n> Click Here </a> <span i18n>to reset</span></p>
             </div>
             <div class="form-group">
-              <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()"
+              <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()" i18n
                 [disabled]="!loginForm?.valid">
                 Log in</button>
             </div>
@@ -62,7 +62,7 @@
       </div>
 
       <div class="form-group">
-        <p>Do not have an account? <a href="app/create-account">Create an account</a></p>
+        <p><span i18n>Do not have an account? </span><a href="app/create-account" i18n>Create an account</a></p>
       </div>
 
       <!--<div class="form-group">

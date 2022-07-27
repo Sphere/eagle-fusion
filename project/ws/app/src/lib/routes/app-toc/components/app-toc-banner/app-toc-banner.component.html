@@ -73,16 +73,16 @@
                 <!-- Table Structure -->
                 <div>
                   <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
-                    Duration :
+                    <span i18n>Duration </span>:
                     {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
                   <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
                     {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
                   </div>
                   <div *ngIf="content?.sourceName">
-                    Source: <a class="blue-link cursor-pointer"
+                    <span i18n>Source</span>: <a class="blue-link cursor-pointer"
                       (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</a>
                   </div>
-                  <div *ngIf="content?.creator"> Author : {{content?.creator}}
+                  <div *ngIf="content?.creator"><span i18n>Author </span>: {{content?.creator}}
                     <!-- <span *ngFor="let author of content?.creator; let i = index" class="mr-1">{{author.name}}
                       <ng-container
                         *ngIf="content?.creatorContacts.length > 1 && i !== content?.creatorContacts.length - 1">,
@@ -98,7 +98,7 @@
                     </span>
                   </div> -->
                   <div>
-                    Progress :
+                    <span i18n>Progress </span>:
                     <span class="mr-1">
                       {{content?.completionPercentage || 0}} %
                     </span>
@@ -125,7 +125,7 @@
                 <ng-container>
                   <button *ngIf="!batchData?.enrolled" mat-button [color]="'primary'" id="start-btn"
                     class="ws-mat-primary-background mat-button-base margin-right-m"
-                    (click)="enrollUser(batchData.content)">
+                    (click)="enrollUser(batchData.content)" i18n>
                     Start
                   </button>
                   <!--(click)="resumeBtn()" -->
