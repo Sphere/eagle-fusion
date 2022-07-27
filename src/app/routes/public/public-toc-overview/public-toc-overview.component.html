@@ -1,0 +1,57 @@
+<!-- <ng-template wsAppAppTocOverview></ng-template> -->
+<div class="flex flex-between flex-wrapped mt-4">
+  <div class="meta-section">
+    <!-- Description : Conditional : If not shown here, will be shown over banner -->
+    <div *ngIf="
+        tocConfig?.overview?.description?.enabled &&
+        content?.description
+      " class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
+      <mat-card-content>
+        <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
+      </mat-card-content>
+    </div>
+    <!-- Content Body -->
+    <div *ngIf="tocConfig?.overview?.body?.enabled && content?.instructions" class="unit-meta-item">
+      <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+      <mat-card-content>
+        <div class="break-words" [innerHTML]="content?.instructions"></div>
+      </mat-card-content>
+    </div>
+    <div class="width-1-1 mt-5 mb-4">
+      <div class="margin-bottom-m mr-0" *ngIf="content?.creator?.length">
+        <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+          authors: content?.creator,
+          title: 'AUTHOR'
+        }">
+        </ng-container>
+      </div>
+      <div class="hidden sm:block margin-bottom-m mr-0" *ngIf="content?.creatorContacts?.length">
+        <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+          authors: content?.creatorContacts,
+          title: 'CONTACT'
+        }">
+        </ng-container>
+      </div>
+    </div>
+
+    <ng-template #creators let-authors="authors" let-title="title">
+      <div class="unit-meta-item">
+        <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
+        <mat-divider></mat-divider>
+        <div class="author">
+          <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">
+          </ws-widget-user-image>
+          <div class="width-expand flex flex-middle flex-between author-name">
+            <h3 class="margin-remove">{{ authors }}</h3>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-container *ngIf="currentLicenseData">
+      <ws-public-license [currentLicenseData]="currentLicenseData"></ws-public-license>
+    </ng-container>
+
+  </div>
+</div>

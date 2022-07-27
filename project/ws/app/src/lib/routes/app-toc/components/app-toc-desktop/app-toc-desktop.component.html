@@ -1,0 +1,71 @@
+<div class="toc-body box ">
+  <div>
+    <button [routerLink]="'/page/home'" mat-icon-button [disableRipple]="true" class="back-icon">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="title"><span [title]="content?.name">
+        {{ content?.name }} </span></div>
+    <div class="subtitle">{{ content?.subTitle }}</div>
+    <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
+      Duration :
+      {{ content?.duration | pipeDurationTransform: 'hms' }}</div>
+    <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
+      {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} :{{ content?.lastUpdatedOn | date }}
+    </div>
+    <div class="details" (click)="showOrgprofile(content?.sourceName)">Source:{{content?.sourceName}}</div>
+    <div class="details" *ngIf="content?.creator">Author:{{content?.creator}}</div>
+    <!-- <div class="details" *ngIf="content?.creatorDetails">Curators:
+      <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+        {{curator.name}}
+        <ng-container *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+        </ng-container>
+      </span>
+    </div> -->
+    <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
+      View License Terms</div> -->
+    <div class="mt-3">
+      <mat-progress-bar [mode]="'determinate'" [value]="
+        content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ contentId"
+        [ngClass]="{ 'visibility-0': progress === undefined, 'thick': className}" i18n-aria-label>
+        {{content?.completionPercentage}} %
+      </mat-progress-bar>
+      <span class="value">{{content?.completionPercentage}}%</span>
+
+    </div>
+    <!-- <ws-widget-content-progress [isDesktop]='true' *ngIf="content?.identifier" [forPreview]="forPreview"
+      [contentId]="content?.identifier" [className]="'thick'" [progress]="content?.completionPercentage">
+    </ws-widget-content-progress> -->
+    <div class="header-actions">
+      <ng-container>
+        <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn" (click)="enrollUser(batchData.content)">
+          Start
+        </button>
+        <!--(click)="resumeBtn()" -->
+        <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+          [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
+          [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="banner-btn resumeButton">
+          <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+            {{resumeData?"Resume":"Resume"}}
+          </ng-container>
+        </a>
+
+        <button *ngIf="content?.issueCertification === true" (click)="downloadCertificate(content)"
+          class="banner-btn-active " data-toggle="modal">
+          <mat-icon>file_download</mat-icon>Certificate
+        </button>
+        <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
+        </ws-widget-btn-content-share>
+      </ng-container>
+      <!-- <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
+      <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
+      <div class="share-img img1">
+        <img src=".\fusion-assets\icons\share-icon.png">
+      </div> -->
+    </div>
+
+  </div>
+</div>
+<!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
+  [className]="'thick'" [progress]="content?.completionPercentage">
+</ws-widget-content-progress> -->

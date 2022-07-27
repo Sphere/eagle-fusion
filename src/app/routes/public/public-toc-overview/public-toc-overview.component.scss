@@ -1,0 +1,51 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.theme-igot.day-mode .mat-typography .unit-meta-item h2{
+   margin-bottom: 0px;
+}
+.meta-section {
+  flex: 1;
+  min-width: 1px;
+
+  .unit-meta-item {
+    border-radius: 2px;
+    box-sizing: border-box;
+    margin-bottom: $size-xl;
+    margin-top: $size-m;
+    clear: both;
+    border-bottom: solid 1px #dfdfdf;
+    h2 {
+      font-size: 22px;
+      margin-bottom: 0px;
+    }
+  }
+
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.topic-button {
+  display: block;
+  width: 32%;
+  margin: 4px 0;
+
+  @include breakpoint-xs {
+    width: 100%;
+  }
+}
+.author {
+  padding: $size-s 0;
+  display: flex;
+
+  .author-image {
+    margin-right: $size-s;
+    $size: 44px;
+    height: $size;
+    width: $size;
+  }
+  .author-name{
+    justify-content: space-between;
+  }
+}

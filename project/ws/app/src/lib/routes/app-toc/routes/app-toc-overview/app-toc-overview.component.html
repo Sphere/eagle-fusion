@@ -238,5 +238,10 @@
         </div>
       </div>
     </ng-template>
+
+    <ng-container *ngIf="currentLicenseData">
+      <ws-app-license [currentLicenseData]="currentLicenseData"></ws-app-license>
+    </ng-container>
+
   </div>
 </div>
