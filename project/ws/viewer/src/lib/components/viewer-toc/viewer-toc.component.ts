@@ -548,11 +548,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
     const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
-    const prevCompletionPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
+    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.viewerDataSvc.updateNextPrevResource({
       isValid: Boolean(this.collection),
-      prev, prevTitle, nextTitle, next, currentPercentage, prevCompletionPercentage,
+      // tslint:disable-next-line:object-shorthand-properties-first
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage,
     })
   }
   resourceContentTypeFunct(type: any) {

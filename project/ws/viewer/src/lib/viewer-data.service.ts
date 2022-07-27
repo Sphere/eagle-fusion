@@ -72,9 +72,9 @@ export class ViewerDataService {
     this.changedSubject.next()
   }
   // tslint:disable-next-line: max-line-length
-  updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevCompletionPercentage }:
+  updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevPercentage }:
     // tslint:disable-next-line: max-line-length
-    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevCompletionPercentage: number | null }) {
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevPercentage: number | null }) {
     // tslint:disable-next-line:object-shorthand-properties-first
     this.tocChangeSubject.next(
       {
@@ -84,7 +84,7 @@ export class ViewerDataService {
         previousTitle: prevTitle,
         nextResTitle: nextTitle,
         currentCompletionPercentage: currentPercentage,
-        prevCompletionPercentage,
+        prevCompletionPercentage: prevPercentage,
       },
     )
   }

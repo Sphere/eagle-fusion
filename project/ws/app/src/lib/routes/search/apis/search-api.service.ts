@@ -88,19 +88,6 @@ const API_END_POINTS = {
 })
 export class SearchApiService {
   constructor(private http: HttpClient, private keycloakSvc: KeycloakService) { }
-  getSearchResults(request: ISocialSearchRequest): Observable<ISocialSearchResult> {
-    return this.http.post<ISocialSearchResult>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)
-  }
-  private messageSource = new Subject<any>()
-  public currentMessage = this.messageSource.asObservable()
-
-  changeMessage(message: string) {
-    this.messageSource.next(message)
-  }
-  
-  getSearchAutoCompleteResults(params: { q: string, l: string }): Observable<ISearchAutoComplete[]> {
-    return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
-  }
 
   get userId(): string | undefined {
     const kc = this.keycloakSvc.getKeycloakInstance()
@@ -108,6 +95,19 @@ export class SearchApiService {
       return
     }
     return (kc.tokenParsed && kc.tokenParsed.sub) || (kc.idTokenParsed && kc.idTokenParsed.sub)
+  }
+  private messageSource = new Subject<any>()
+  public currentMessage = this.messageSource.asObservable()
+  getSearchResults(request: ISocialSearchRequest): Observable<ISocialSearchResult> {
+    return this.http.post<ISocialSearchResult>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)
+  }
+
+  changeMessage(message: string) {
+    this.messageSource.next(message)
+  }
+
+  getSearchAutoCompleteResults(params: { q: string, l: string }): Observable<ISearchAutoComplete[]> {
+    return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
   }
 
   // getSearchV6Results(body: NSSearch.ISearchV6Request): Observable<NSSearch.ISearchV6ApiResult> {

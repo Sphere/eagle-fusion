@@ -158,7 +158,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
 
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
@@ -224,7 +224,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: {
                   primaryCategory: 'Course',
                   batchId: this.route.snapshot.queryParams.batchId,
-                }
+                },
               })
               // this.router.navigate([data.prevResource], { preserveQueryParams: true })
             } else {
@@ -270,7 +270,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: {
                   primaryCategory: 'Course',
                   batchId: this.route.snapshot.queryParams.batchId,
-                }
+                },
               })
               // this.router.navigate([data.prevResource], { preserveQueryParams: true })
             } else {
