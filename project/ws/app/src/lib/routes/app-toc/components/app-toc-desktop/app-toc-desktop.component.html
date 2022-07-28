@@ -14,7 +14,7 @@
       {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} :{{ content?.lastUpdatedOn | date }}
     </div>
     <div class="details" (click)="showOrgprofile(content?.sourceName)">Source:{{content?.sourceName}}</div>
-    <div class="details" *ngIf="content?.creator">Author:{{content?.creator}}</div>
+    <div class="details mb-3" *ngIf="content?.creator">Author:{{content?.creator}}</div>
     <!-- <div class="details" *ngIf="content?.creatorDetails">Curators:
       <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
         {{curator.name}}
@@ -24,7 +24,7 @@
     </div> -->
     <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
       View License Terms</div> -->
-    <div class="mt-3">
+    <div *ngIf="content?.completionPercentage > 0">
       <mat-progress-bar [mode]="'determinate'" [value]="
         content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
         [ngClass]="{ 'visibility-0': content?.completionPercentage === undefined, 'thick': content?.completionPercentage}"
@@ -39,7 +39,8 @@
     </ws-widget-content-progress> -->
     <div class="header-actions">
       <ng-container>
-        <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn" (click)="enrollUser(batchData.content)">
+        <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
+          (click)="enrollUser(batchData.content)">
           Start
         </button>
         <!--(click)="resumeBtn()" -->

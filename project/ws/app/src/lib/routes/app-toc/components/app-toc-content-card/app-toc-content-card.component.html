@@ -126,64 +126,71 @@
       name="thumbnail-banner-img" (click)="viewChildren = !viewChildren; reDirect(resourceLink)"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="resource-contents">
-      <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
-        <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
+      <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
+      <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
+        <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">
+          <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+            <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+          </a>
+        </ng-container>
+        <ng-template #elseRouterLock>
           <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
-          <div class="flex flex-between items-center ">
-            <div class="flex items-center">
-              <ng-container *ngIf="resourceContentType">
-                <div class="pr-1" [ngSwitch]="resourceContentType | lowercase">
-                  <div *ngSwitchCase="'pdf'">
-                    <img src=".\fusion-assets\icons\pdf-icon.png">
-                  </div>
-                  <div *ngSwitchCase="'video'">
-                    <img src=".\fusion-assets\icons\video-icon.png">
-                  </div>
-                  <div *ngSwitchCase="'scorm'">
-                    <img src=".\fusion-assets\icons\video-icon.png">
-                  </div>
-                  <div *ngSwitchCase="'link'">
-                    <img src=".\fusion-assets\icons\link-icon.png">
-                  </div>
-                  <div *ngSwitchDefault>{{resourceContentType}}</div>
+        </ng-template>
+        <div class="flex flex-between items-center ">
+          <div class="flex items-center">
+            <ng-container *ngIf="resourceContentType">
+              <div class="pr-1" [ngSwitch]="resourceContentType | lowercase">
+                <div *ngSwitchCase="'pdf'">
+                  <img src=".\fusion-assets\icons\pdf-icon.png">
                 </div>
-              </ng-container>
-              <!-- <span class="mat-body-strong" id="video">{{ resourceContentType }}</span> -->
+                <div *ngSwitchCase="'video'">
+                  <img src=".\fusion-assets\icons\video-icon.png">
+                </div>
+                <div *ngSwitchCase="'scorm'">
+                  <img src=".\fusion-assets\icons\video-icon.png">
+                </div>
+                <div *ngSwitchCase="'link'">
+                  <img src=".\fusion-assets\icons\link-icon.png">
+                </div>
+                <div *ngSwitchDefault>{{resourceContentType}}</div>
+              </div>
+            </ng-container>
+            <!-- <span class="mat-body-strong" id="video">{{ resourceContentType }}</span> -->
 
-              <span class="pt-1 text-gray-500">
-                <ng-container *ngIf="content?.mimeType"></ng-container>
-                {{ content?.duration | pipeDurationTransform: 'hms' }}
-              </span>
-            </div>
-            <div class="align-rt progrss-box">
-              <span class="content-check"
-                *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseResourcePercentage">
-                <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
-                <mat-icon>check</mat-icon>
-
-              </span>
-              <ng-template #elseResourcePercentage>
-                <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
-                  <circle-progress class="flex items-center " [percent]="content?.completionPercentage"
-                    [maxPercent]="100" [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2"
-                    [space]="-2" [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'"
-                    [animation]="true" [animationDuration]="300" [showTitle]="false" [showUnits]="false"
-                    [showSubtitle]="false" [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10"
-                    [startFromZero]="false" [imageHeight]="24" [imageWidth]="24" [showBackground]="false"
-                    [backgroundStrokeWidth]="0" [outerStrokeLinecap]="'round'">
-                  </circle-progress>
-                </ng-container>
-
-                <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
-              </ng-template>
-              <ng-template #elseResourseLock>
-                <img src=".\fusion-assets\icons\lock.png">
-              </ng-template>
-            </div>
+            <span class="pt-1 text-gray-500">
+              <ng-container *ngIf="content?.mimeType"></ng-container>
+              {{ content?.duration | pipeDurationTransform: 'hms' }}
+            </span>
           </div>
+          <div class="align-rt progrss-box">
+            <span class="content-check"
+              *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseResourcePercentage">
+              <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
+              <mat-icon>check</mat-icon>
 
+            </span>
+            <ng-template #elseResourcePercentage>
+              <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
+                <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
+                  [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
+                  [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
+                  [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
+                  [outerStrokeLinecap]="'round'">
+                </circle-progress>
+              </ng-container>
+
+              <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
+            </ng-template>
+            <ng-template #elseResourseLock>
+              <img src=".\fusion-assets\icons\lock.png">
+            </ng-template>
+          </div>
         </div>
-      </a>
+
+      </div>
+
 
 
       <!-- <ng-container *ngIf="content?.identifier && content?.completionPercentage">
