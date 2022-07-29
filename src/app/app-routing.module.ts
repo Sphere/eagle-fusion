@@ -1,3 +1,4 @@
+ /* eslint no-use-before-define: 0 */  // --> OFF
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
@@ -48,11 +49,11 @@ import { PersonalDetailEditComponent } from './routes/profile-view/personal-deta
 const routes: Routes = [
   {
     path: '',
-    redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
+    redirectTo: localStorage.getItem(`lang`) ? localStorage.getItem(`lang`) + `/` + 'public/home' : 'public/home',
     pathMatch: 'full',
   },
   {
-    path: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
+    path: localStorage.getItem(`lang`) ? localStorage.getItem(`lang`) + `/` + 'public/home' : 'public/home',
     component: PublicHomeComponent,
     data: {
       pageType: 'public',
@@ -70,7 +71,7 @@ const routes: Routes = [
   // },
   {
     path: 'public/home',
-redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
+redirectTo: localStorage.getItem(`lang`) ? localStorage.getItem(`lang`) + `/` + 'public/home' : 'public/home',
     pathMatch: 'full',
     // data: {
     //   pageType: 'public',
