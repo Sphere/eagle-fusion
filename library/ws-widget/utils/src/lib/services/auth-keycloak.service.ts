@@ -154,6 +154,7 @@ export class AuthKeycloakService {
     storage.removeItem('telemetrySessionId')
     localStorage.removeItem('loginbtn')
     localStorage.removeItem('url_before_login')
+    localStorage.removeItem('tocData')
     // this.http.get('/apis/reset')
     try {
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
