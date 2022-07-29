@@ -23,7 +23,7 @@
       <a *ngIf="content?.children?.length" mat-tab-link (click)="toggleComponent('chapters')"
         [routerLink]="'./chapters'" [queryParams]="{batchId: batchId ,contentId: content.identifier}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'chapters'}" id="content-link" wsAppRetainScroll
-        i18n>Chapters</a>
+        i18n>Content</a>
 
 
       <!-- <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
