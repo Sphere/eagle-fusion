@@ -30,6 +30,7 @@ import { environment } from '../../environments/environment'
 import * as _ from "lodash"
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
+//import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { retry } from 'rxjs/operators'
 
 // interface IDetailsResponse {
@@ -62,6 +63,7 @@ export class InitService {
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
+        //private signupService: SignupService,
     // private widgetContentSvc: WidgetContentService,
     // private loginResolverService: LoginResolverService,
 
@@ -129,7 +131,8 @@ export class InitService {
       // const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
       // this.configSvc.userPreference = userPrefPromise
       // this.configSvc.userPreference.selectedTheme = 'theme-igot'
-      // this.reloadAccordingToLocale()
+      //console.log(this.configSvc)
+       //this.reloadAccordingToLocale()
       // if (this.configSvc.userPreference.pinnedApps) {
       //   const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')
       //   this.configSvc.pinnedApps.next(new Set(pinnedApps))
@@ -196,10 +199,11 @@ export class InitService {
   //     return
   //   }
   //   let pathName = window.location.href.replace(window.location.origin, '')
-  //   const runningAppLang = this.locale
+  //   const runningAppLang = 'hi'
   //   if (pathName.startsWith(`//${runningAppLang}//`)) {
   //     pathName = pathName.replace(`//${runningAppLang}//`, '/')
   //   }
+    
   //   const instanceLocales = this.configSvc.instanceConfig && this.configSvc.instanceConfig.locals
   //   if (Array.isArray(instanceLocales) && instanceLocales.length) {
   //     const foundInLocales = instanceLocales.some(locale => {
@@ -217,14 +221,19 @@ export class InitService {
   //           languageToLoad = ''
   //         }
   //         location.assign(`${location.origin}${languageToLoad}${pathName}`)
+  //       } else {
+  //         let languageToLoad = 'hi'
+  //         location.assign(`${location.origin}/${languageToLoad}${pathName}`)
   //       }
   //     }
   //   }
   // }
 
-  private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
+  //async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
+   async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
+            //const result = await this.fetchStartUpDetails()
     const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
+      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config-hi.json`)
       .toPromise()
     this.configSvc.instanceConfig = publicConfig
     this.configSvc.rootOrg = publicConfig.rootOrg
@@ -285,7 +294,8 @@ export class InitService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
-            phone: _.get(userPidProfile, 'phone')
+            phone: _.get(userPidProfile, 'phone'),
+            //language : userPidProfile['profileDetails']['profileReq']['personalDetails']['knownLanguages'][0]
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
@@ -315,7 +325,7 @@ export class InitService {
           profileDetailsStatus: !!_.get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
           roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
           tncStatus: !(_.isUndefined(this.configSvc.unMappedUser)),
-          isActive: !!!userPidProfile.isDeleted,
+          isActive: !!!userPidProfile.isDeleted
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
         this.configSvc.profileDetailsStatus = details.profileDetailsStatus

@@ -6,17 +6,19 @@
         <mat-card-content class="padding-bottom-s">
           <h3 class="mat-subheading-2 flex flex-middle">
             <mat-icon class="margin-right-s">translate</mat-icon>
-            <ng-container i18n="settings: choose a language">Choose your Language</ng-container>
+            <ng-container i18n="settings: choose a language">Choose your Languageaa</ng-container>
           </h3>
           <section>
             <mat-form-field class="language-drop-down-width">
               <mat-select [value]="appLanguage" (selectionChange)="langChanged($event)">
-                <mat-option value="en" *ngIf="isLocaleAvailable('')" [disabled]="!isLocaleEnabled('')">
-                  <a mat-line>
-                    <ng-container>English&nbsp;&nbsp;</ng-container>
+                <mat-option [value]="'en'" *ngIf="isLocaleAvailable('')" [disabled]="!isLocaleEnabled('')">English
+                  <!-- a mat-line> -->
+                  <!--<ng-container>English&nbsp;&nbsp;</ng-container>
                     <ng-container i18n> English (en)</ng-container>
-                  </a>
+                    <ng-container i18n> Hindi (hi)</ng-container> -->
+                  <!--</a> -->
                 </mat-option>
+                 <mat-option [value]="'hi'" i18n>Hindi</mat-option>
                 <mat-option value="de" *ngIf="isLocaleAvailable('de')" [disabled]="!isLocaleEnabled('de')">
                   <a mat-line>
                     <ng-container>Deutsch&nbsp;&nbsp;</ng-container>

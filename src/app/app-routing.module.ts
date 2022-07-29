@@ -48,37 +48,38 @@ import { PersonalDetailEditComponent } from './routes/profile-view/personal-deta
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'public/home',
+    redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
     pathMatch: 'full',
   },
+  {
+    path: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
+    component: PublicHomeComponent,
+    data: {
+      pageType: 'public',
+      pageKey: 'id',
+      isPublic: true,
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
+  },
+  //   {
+  //   path: 'hi',
+  //   redirectTo: 'hi/public/home',
+  //   pathMatch: 'full',
+  // },
   {
     path: 'public/home',
-    component: PublicHomeComponent,
-    data: {
-      pageType: 'public',
-      pageKey: 'id',
-      isPublic: true,
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
-  },
-    {
-    path: 'hi',
-    redirectTo: 'hi/public/home',
+redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
     pathMatch: 'full',
-  },
-  {
-    path: 'hi/public/home',
-    component: PublicHomeComponent,
-    data: {
-      pageType: 'public',
-      pageKey: 'id',
-      isPublic: true,
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
+    // data: {
+    //   pageType: 'public',
+    //   pageKey: 'id',
+    //   isPublic: true,
+    // },
+    // resolve: {
+    //   pageData: PageResolve,
+    // },
   },
   {
     path: 'practice/behavioral',
