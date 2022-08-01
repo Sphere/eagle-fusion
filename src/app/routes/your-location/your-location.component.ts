@@ -32,6 +32,7 @@ export class YourLocationComponent implements OnInit {
   countryUrl = '../../../fusion-assets/files/country.json'
   districtUrl = '../../../fusion-assets/files/district.json'
   stateUrl = '../../../fusion-assets/files/state.json'
+  startDate = new Date(1999, 0, 1);
 
   constructor(
     private http: HttpClient
@@ -72,16 +73,16 @@ export class YourLocationComponent implements OnInit {
     const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
     this.aboutYouForm.controls.countryCode.setValue(selectedCountry[0].countryCode)
   }
-onDateChange(event: any) {
+  onDateChange(event: any) {
     const customerDate = moment(event)
     const dateNow = moment(new Date())
     const duration = moment.duration(dateNow.diff(customerDate))
     if (duration.asYears() > 18) {
-         this.invalidDob = false
+      this.invalidDob = false
     } else {
-         this.invalidDob = true
+      this.invalidDob = true
     }
-}
+  }
   disableNextBtn() {
     if (this.aboutYouForm.controls.dob) {
       if (this.aboutYouForm.controls.country.value !== 'India') {

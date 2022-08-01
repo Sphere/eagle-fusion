@@ -40,6 +40,7 @@ export class PersonalDetailEditComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA]
   rnShow = false
   professionOtherField = false
+  startDate = new Date(1999, 0, 1);
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
@@ -47,9 +48,9 @@ export class PersonalDetailEditComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
 
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -231,6 +232,7 @@ export class PersonalDetailEditComponent implements OnInit {
     const customerDate = moment(event)
     const dateNow = moment(new Date())
     const duration = moment.duration(dateNow.diff(customerDate))
+    console.log(customerDate, dateNow)
     if (duration.asYears() > 18) {
       this.invalidDob = false
       this.savebtnDisable = false

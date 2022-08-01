@@ -2,14 +2,17 @@
   padding: 60px 20px 60px;
   font-size: 16px;
 }
+
 ::placeholder {
   color: #bebebe !important;
 }
+
 .date-picker {
   position: absolute;
   right: 0px;
   top: 0px;
 }
+
 .field-fullwidth {
   width: 100% !important;
 }
@@ -26,7 +29,7 @@
   background-color: #1C5D95;
   border-radius: 50px;
   color: #fff;
-  border:0;
+  border: 0;
   font-size: 16px;
   line-height: 19px;
   float: right;
@@ -39,11 +42,17 @@
   cursor: default;
 }
 
-::ng-deep .mat-form-field-wrapper{
+::ng-deep .mat-form-field-wrapper {
   padding-bottom: 1rem !important;
   margin-bottom: 0 !important;
 }
 
 :ng-deep .mat-form-field-flex {
   height: 45px !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff;
+  opacity: 1;
 }
