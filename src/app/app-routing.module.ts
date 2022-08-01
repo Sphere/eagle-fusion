@@ -46,11 +46,15 @@ import { PersonalDetailEditComponent } from './routes/profile-view/personal-deta
 const routes: Routes = [
   {
     path: '',
-    redirectTo: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
+    redirectTo: 'public/home',
     pathMatch: 'full',
   },
+    {
+    path: 'hi/create-account',
+    component: CreateAccountComponent,
+  },
   {
-    path: localStorage.getItem('lang') ? localStorage.getItem('lang') + '/' + 'public/home' : 'public/home',
+    path: 'public/home',
     component: PublicHomeComponent,
     data: {
       pageType: 'public',
