@@ -20,8 +20,8 @@ import { FormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatSnackBar, MatSelectChange, MatTabChangeEvent } from '@angular/material'
-//import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-//dimport { SignupService } from 'src/app/routes/signup/signup.service'
+// import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+// dimport { SignupService } from 'src/app/routes/signup/signup.service'
 
 @Component({
   selector: 'ws-app-settings',
@@ -68,8 +68,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private utilitySvc: UtilityService,
-    //private userProfileSvc: UserProfileService,
-    //private signupService: SignupService
+    // private userProfileSvc: UserProfileService,
+    // private signupService: SignupService
   ) {}
 
   ngOnInit() {
@@ -216,10 +216,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  //async langChanged(path: MatSelectChange) {
+  // async langChanged(path: MatSelectChange) {
   langChanged(path: MatSelectChange) {
     this.chosenLanguage = path.value
-    //const result = await this.signupService.fetchStartUpDetails()
+    // const result = await this.signupService.fetchStartUpDetails()
     this.langChangedEvent.emit(path.value)
     localStorage.removeItem('lang')
     localStorage.setItem('lang', path.value)
