@@ -232,7 +232,6 @@ export class PersonalDetailEditComponent implements OnInit {
     const customerDate = moment(event)
     const dateNow = moment(new Date())
     const duration = moment.duration(dateNow.diff(customerDate))
-    console.log(customerDate, dateNow)
     if (duration.asYears() > 18) {
       this.invalidDob = false
       this.savebtnDisable = false
