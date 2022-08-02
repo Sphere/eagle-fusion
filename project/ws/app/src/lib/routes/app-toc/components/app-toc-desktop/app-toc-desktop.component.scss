@@ -171,7 +171,9 @@
   position: relative;
   bottom: 19px;
   color: #1C5D95;
-  left: 100px;
+  width: 275px;
+  display: flex;
+  justify-content: center;
 }
 
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-fill::after {
