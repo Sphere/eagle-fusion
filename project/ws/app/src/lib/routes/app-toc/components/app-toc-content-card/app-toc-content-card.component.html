@@ -6,6 +6,23 @@
       <div class="width-expand">
         <div class="text-truncate cursor-pointer 1">
           <h2 class="margin-remove text-truncate card-title">{{ content?.name }}</h2>
+          <div style="float: right;margin:-22px 20px;">
+                        <mat-icon *ngIf="
+                !content?.incomplete" style="color: #27AE60"
+              i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-start">
+              check_circle_outline</mat-icon>
+
+              <ng-container *ngIf="content?.incomplete">
+                <circle-progress class="flex items-center " [percent]="30" [maxPercent]="100"
+                  [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
+                  [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
+                  [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
+                  [outerStrokeLinecap]="'round'">
+                </circle-progress>
+              </ng-container>
+            </div>
           <div class="flex flex-between items-center">
             <!-- <span class="mat-body-strong">{{ resourceContentType }}</span> -->
             <span class="duration">

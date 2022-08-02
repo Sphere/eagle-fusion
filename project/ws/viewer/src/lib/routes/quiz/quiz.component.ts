@@ -6,6 +6,7 @@ import { NSQuiz } from '../../plugins/quiz/quiz.model'
 import { ActivatedRoute } from '@angular/router'
 import { WsEvents, EventService } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { Viewertocmodalcomponent } from 'project/ws/viewer/src/lib/components/viewer-toc/viewer-toc-modal-component'
 
 @Component({
   selector: 'viewer-quiz',

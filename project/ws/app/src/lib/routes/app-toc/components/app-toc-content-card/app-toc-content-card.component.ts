@@ -43,7 +43,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   constructor(
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -89,7 +89,17 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     this.router.navigateByUrl(`${url}`)
   }
   get isCollection(): boolean {
-    if (this.content) {
+    if (this.content && this.content.children) {
+      const filteredData = this.content.children.filter(function (data: any) {
+        // @ts-ignore
+  return data!.completionPercentage < 100 || data!.completionPercentage === undefined;
+});
+
+if (filteredData.length > 0) {
+  this.content['incomplete'] = true
+} else {
+  this.content['incomplete'] = false
+}
       this.resourceContentTypeFunct(this.content.mimeType)
       return this.content.mimeType === NsContent.EMimeTypes.COLLECTION
     }

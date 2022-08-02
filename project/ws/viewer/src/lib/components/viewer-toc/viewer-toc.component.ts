@@ -2,7 +2,7 @@ import { NestedTreeControl } from '@angular/cdk/tree'
 import {
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource } from '@angular/material'
+import { MatTreeNestedDataSource, MatDialog } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import {
-  // LoggerService,
+  LoggerService,
   ConfigurationsService,
   UtilityService,
 } from '@ws-widget/utils'
@@ -21,6 +21,7 @@ import { of, Subscription } from 'rxjs'
 import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { Viewertocmodalcomponent } from './viewer-toc-modal-component'
 
 interface IViewerTocCard {
   identifier: string
@@ -68,15 +69,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   collectionId = ''
   resourceContentType: any
   disabledNode: boolean
+  showCompletionMsg = false
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
-    // private logger: LoggerService,
+    private loggerSvc: LoggerService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    public dialog: MatDialog,
     // private contentProgressSvc: ContentProgressService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
@@ -121,6 +124,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.configSvc.instanceConfig.logos.defaultContent,
       )
     }
+
+
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
@@ -208,14 +213,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -281,6 +286,45 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (content && content.gatingEnabled) {
         this.viewerDataSvc.setNode(content.gatingEnabled)
       }
+      let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        let enrolledCourse: NsContent.ICourse | undefined
+        if (this.collection && this.collection.identifier) {
+          if (courses && courses.length) {
+            enrolledCourse = courses.find(course => {
+              const identifier = this.collection && this.collection.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+          }
+          // @ts-ignore
+          console.log(enrolledCourse)
+           // @ts-ignore
+          if (enrolledCourse && enrolledCourse!.completionPercentage < 100) {
+            this.showCompletionMsg = true
+          } else {
+            this.showCompletionMsg = false
+          }
+          if (enrolledCourse && enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
+            this.dialog.open(Viewertocmodalcomponent, {
+      width: '542px',
+      panelClass: 'overview-modal',
+      disableClose: true,
+      data: 'Congratulations!, you have completed the course',
+    })
+          }
+        }
+      },
+      (error: any) => {
+        this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+      },
+    )
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
@@ -553,7 +597,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.viewerDataSvc.updateNextPrevResource({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage,
     })
   }
   resourceContentTypeFunct(type: any) {

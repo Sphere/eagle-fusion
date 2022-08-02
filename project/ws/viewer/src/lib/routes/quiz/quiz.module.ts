@@ -5,6 +5,7 @@ import {
   MatCardModule,
   MatDividerModule,
   MatButtonModule,
+  MatDialogModule,
   MatToolbarModule,
   MatIconModule,
   MatSnackBarModule,
@@ -34,11 +35,12 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import { QuizComponent } from './quiz.component'
 import { QuizRoutingModule } from './quiz-routing.module'
-
+import { Viewertocmodalcomponent } from 'project/ws/viewer/src/lib/components/viewer-toc/viewer-toc-modal-component'
 import { QuizModule as QuizViewContainerModule } from '../../route-view-container/quiz/quiz.module'
 
 @NgModule({
-  declarations: [QuizComponent],
+  declarations: [QuizComponent, Viewertocmodalcomponent],
+  entryComponents: [Viewertocmodalcomponent],
   imports: [
     CommonModule,
     QuizRoutingModule,
@@ -47,6 +49,7 @@ import { QuizModule as QuizViewContainerModule } from '../../route-view-containe
     MatDividerModule,
     MatButtonModule,
     MatToolbarModule,
+    MatDialogModule,
     MatIconModule,
     MatSnackBarModule,
     BtnContentDownloadModule,
