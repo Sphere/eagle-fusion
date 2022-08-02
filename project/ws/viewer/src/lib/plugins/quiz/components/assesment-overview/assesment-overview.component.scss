@@ -16,6 +16,11 @@
   letter-spacing: -0.02em;
   color: #000000;
   text-align: center;
+
+  @include breakpoint-xs {
+    font-size: 16px;
+    line-height: 20px;
+  }
 }
 
 .label1 {

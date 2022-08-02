@@ -2,7 +2,10 @@
 <div class="login-page-content">
   <div class="login-card">
     <div>
-      <h1 class="display-3" style="font-size: 40px;line-height: 48px;" i18n>Welcome!</h1>
+      <h1 [ngClass]="source === 'register' ? 'register': 'non-register'" i18n>
+        {{source === 'register' ? 'Registration Successful!, Please use the mobile number or email id with password you
+        used to create the account to login' : 'Welcome!'}}
+      </h1>
       <div class="input-content">
         <div class="input-content-wrapper">
           <form [formGroup]="loginForm">
@@ -14,7 +17,7 @@
               <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
             </div>
 
-<!--             <div class="form-group">
+            <!--             <div class="form-group">
                   <label for="selectLanguage">Select Language</label>
               <select id="selectLanguage" class="form-control select-box"
                  required>
@@ -53,8 +56,8 @@
               <p><span i18n>Forgot password?</span><a href="public/forgot-password"><span i18n> Click Here </span></a> <span i18n>to reset</span></p>
             </div>
             <div class="form-group">
-              <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()" i18n
-                [disabled]="!loginForm?.valid">
+              <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()"
+                i18n [disabled]="!loginForm?.valid">
                 Log in</button>
             </div>
           </form>
