@@ -27,6 +27,16 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
 import * as _ from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
+import { Viewertocmodalcomponent } from './confirm-modal-component'
+import {
+  NsContent,
+  WidgetContentService,
+} from '@ws-widget/collection'
+import {
+  LoggerService,
+  ConfigurationsService,
+} from '@ws-widget/utils'
+
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
@@ -90,6 +100,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogOverview: any
   public dialogAssesment: any
   public dialogQuiz: any
+  showCompletionMsg = false
+  enrolledCourse: NsContent.ICourse | undefined
   /*
 * to unsubscribe the observable
 */
@@ -102,7 +114,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     public route: ActivatedRoute,
     public location: Location,
     public viewerDataSvc: ViewerDataService,
-    public router: Router
+    public router: Router,
+    private contentSvc: WidgetContentService,
+    private loggerSvc: LoggerService,
+    private configSvc: ConfigurationsService,
   ) {
 
   }
@@ -179,6 +194,36 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     }
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        if (this.collection && this.collection.identifier) {
+          if (courses && courses.length) {
+            this.enrolledCourse = courses.find(course => {
+              const identifier = this.collection && this.collection.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+          }
+          // @ts-ignore
+          console.log(this.enrolledCourse)
+          // @ts-ignore
+          if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
+            this.showCompletionMsg = true
+          } else {
+            this.showCompletionMsg = false
+          }
+        }
+      },
+      (error: any) => {
+        this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+      },
+    )
   }
 
   ngOnDestroy() {
@@ -224,7 +269,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: {
                   primaryCategory: 'Course',
                   batchId: this.route.snapshot.queryParams.batchId,
-                }
+                },
               })
               // this.router.navigate([data.prevResource], { preserveQueryParams: true })
             } else {
@@ -266,17 +311,32 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         } else if (result.event === 'DONE') {
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.route.snapshot.queryParams.batchId,
-                }
-              })
+              if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
+                this.dialog.open(Viewertocmodalcomponent, {
+                  width: '542px',
+                  panelClass: 'overview-modal',
+                  disableClose: true,
+                  data: 'Congratulations!, you have completed the course',
+                })
+              }
+              // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              //   queryParams: {
+              //     primaryCategory: 'Course',
+              //     batchId: this.route.snapshot.queryParams.batchId,
+              //   },
+              // })
               // this.router.navigate([data.prevResource], { preserveQueryParams: true })
             } else {
               this.router.navigate([data.nextResource], { preserveQueryParams: true })
             }
             return
+          })
+        } else if (result.event === 'DONE') {
+          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            queryParams: {
+              primaryCategory: 'Course',
+              batchId: this.route.snapshot.queryParams.batchId,
+            },
           })
         }
       }
