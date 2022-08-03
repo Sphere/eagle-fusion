@@ -145,7 +145,32 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
 
     this.dialogOverview.afterClosed().subscribe((result: any) => {
-      if (result) {
+      if (result.event === 'close-overview') {
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          if (_.isNull(data.nextResource)) {
+            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              queryParams: {
+                primaryCategory: 'Course',
+                batchId: this.route.snapshot.queryParams.batchId,
+              }
+            })
+            // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          }
+          else {
+            if (_.isNull(data.prevResource)) {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.route.snapshot.queryParams.batchId,
+                }
+              })
+            } else {
+              this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            }
+          }
+          return
+        })
+      } else {
         // this.startQuiz()
         if (_.get(this.quizJson, 'isAssessment')) {
           this.openAssesmentDialog()
