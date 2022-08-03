@@ -101,7 +101,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogAssesment: any
   public dialogQuiz: any
   showCompletionMsg = false
-  enrolledCourse: NsContent.ICourse | undefined
+  enrolledCourse: null | any | undefined
   /*
 * to unsubscribe the observable
 */
@@ -152,17 +152,16 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               queryParams: {
                 primaryCategory: 'Course',
                 batchId: this.route.snapshot.queryParams.batchId,
-              }
+              },
             })
             // this.router.navigate([data.prevResource], { preserveQueryParams: true })
-          }
-          else {
+          } else {
             if (_.isNull(data.prevResource)) {
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
                   primaryCategory: 'Course',
                   batchId: this.route.snapshot.queryParams.batchId,
-                }
+                },
               })
             } else {
               this.router.navigate([data.prevResource], { preserveQueryParams: true })
@@ -197,7 +196,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -276,11 +275,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
                 // tslint:disable-next-line: no-non-null-assertion
+                if(this.enrolledCourse != null) {
                 if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
                 }
+              }
                 this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
                     // tslint:disable-next-line: no-non-null-assertion
