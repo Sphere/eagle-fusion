@@ -197,7 +197,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -276,7 +276,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
                 // tslint:disable-next-line
-                if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
+                if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
@@ -409,7 +409,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
                 // tslint:disable-next-line
-                if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
+                if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
