@@ -258,7 +258,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         } else if (result.event === 'DONE') {
           let userId
           if (this.configSvc.userProfile) {
-            // tslint:disable-next-line: no-non-null-assertion
+            // tslint:disable-next-line
             userId = this.configSvc.userProfile.userId || ''
           }
           this.contentSvc.fetchUserBatchList(userId).subscribe(
@@ -275,7 +275,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
-                // tslint:disable-next-line: no-non-null-assertion
+                // tslint:disable-next-line
                 if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
                   this.showCompletionMsg = true
                 } else {
@@ -283,7 +283,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
-                    // tslint:disable-next-line: no-non-null-assertion
+                    // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '542px',
@@ -408,7 +408,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
-                // tslint:disable-next-line: no-non-null-assertion
+                // tslint:disable-next-line
                 if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
                   this.showCompletionMsg = true
                 } else {
@@ -416,7 +416,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
-                    // tslint:disable-next-line: no-non-null-assertion
+                    // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '542px',
