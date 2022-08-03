@@ -27,7 +27,7 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
 import * as _ from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
-import { Confirmmodalcomponent } from './confirm-modal-component'
+import { ConfirmmodalComponent } from './confirm-modal-component'
 import {
   NsContent,
   WidgetContentService,
@@ -212,6 +212,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           console.log(this.enrolledCourse)
           // tslint:disable-next-line: no-non-null-assertion
           if (this.enrolledCourse && this.enrolledCourse.completionPercentage < 100) {
+            // tslint:disable-next-line: no-non-null-assertion
             this.showCompletionMsg = true
           } else {
             this.showCompletionMsg = false
@@ -263,6 +264,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         } else if (result.event === 'DONE') {
           let userId
           if (this.configSvc.userProfile) {
+            // tslint:disable-next-line: no-non-null-assertion
             userId = this.configSvc.userProfile.userId || ''
           }
           this.contentSvc.fetchUserBatchList(userId).subscribe(
@@ -294,7 +296,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
               if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-                let confirmdialog = this.dialog.open(Confirmmodalcomponent, {
+                let confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '542px',
                   panelClass: 'overview-modal',
                   disableClose: true,
@@ -390,7 +392,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
               if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-                let confirmdialog = this.dialog.open(Confirmmodalcomponent, {
+                let confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '542px',
                   panelClass: 'overview-modal',
                   disableClose: true,
