@@ -130,7 +130,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
 
     this.dialogOverview.afterClosed().subscribe((result: any) => {
-      console.log(result)
       if (result.event === 'close-overview') {
         this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
           if (_.isNull(data.nextResource)) {
