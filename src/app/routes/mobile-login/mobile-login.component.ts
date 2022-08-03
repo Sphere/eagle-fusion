@@ -3,7 +3,7 @@ import {
   ViewChild,
 } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
@@ -28,6 +28,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private http: HttpClient,
+    private activeRoute: ActivatedRoute
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
@@ -50,7 +51,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   errorMessage = ''
   googleAuth = false
   private baseUrl = 'assets/configurations'
-
+  source: string = ''
   public isSignedIn = false
   public signinURL = ''
   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
@@ -83,7 +84,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -97,12 +98,16 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
   }
   ngOnInit() {
+    this.activeRoute.queryParams.subscribe(params => {
+      this.source = params.source
+    }
+    )
     this.checkGoogleAuth()
     const storageItem1 = localStorage.getItem(`google_token`)
     const storageItem2 = localStorage.getItem(`google_isSignedIn`)
