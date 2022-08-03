@@ -106,4 +106,7 @@ export class HtmlComponent implements OnInit, OnChanges {
     }
     return true
   }
+  stopPropagation() {
+    return
+  }
 }
