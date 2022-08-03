@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import {
   Component,
   ElementRef,
@@ -101,7 +102,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogAssesment: any
   public dialogQuiz: any
   showCompletionMsg = false
-  enrolledCourse: null | any | undefined
+  enrolledCourse: null | NsContent.ICourse | undefined
   /*
 * to unsubscribe the observable
 */
@@ -275,13 +276,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
                 // tslint:disable-next-line: no-non-null-assertion
-                if(this.enrolledCourse != null) {
                 if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
                 }
-              }
                 this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
                     // tslint:disable-next-line: no-non-null-assertion
