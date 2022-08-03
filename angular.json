@@ -178,7 +178,8 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "app/project/ws/app/src/lib/routes/app-toc/components/app-toc-content-card/app-toc-content-card.component"
+              "app/project/ws/app/src/lib/routes/app-toc/components/app-toc-content-card/app-toc-content-card.component",
+              "project/ws/viewer/src/lib/plugins/quiz/quiz.component"
             ]
           }
         },
