@@ -8,24 +8,30 @@
   @extend %height-mat-toolbar-sibling;
   padding: 0;
   box-sizing: border-box;
+
   @include breakpoint-gt-s {
-      max-width: 30%;
+    max-width: 30%;
   }
+
   @include breakpoint-gt-m {
-      max-width: 25%;
+    max-width: 25%;
   }
+
   @include breakpoint-gt-l {
-      max-width: 20%;
+    max-width: 20%;
   }
+
   @include breakpoint-s {
     max-width: 50%;
     padding: 12px;
   }
+
   @include breakpoint-xs {
-    max-width:90%;
-    margin:auto;
+    max-width: 90%;
+    margin: auto;
   }
 }
+
 .login-card {
   margin: 0;
   padding: 20px 20px 30px 20px;
@@ -43,31 +49,50 @@ a {
   color: #fff;
   line-height: 19px;
 }
+
 .login-btn:disabled {
   background: #BFBFBF;
   color: #808080;
   cursor: default;
 }
 
-.f-w-500{
+.f-w-500 {
   font-weight: 500 !important;
 }
+
 .iconPosition {
   position: absolute;
   right: -18px;
   top: 10px;
 }
+
 .f-black {
   color: #000;
 }
+
 .border-radius {
   border-radius: 20px;
 }
+
 :host::ng-deep .pwd {
   width: 93% !important;
 }
+
 @media screen and (max-width:600px) {
   .input-content {
     width: 100%;
   }
+}
+
+.register {
+  @include breakpoint-xs {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+  }
+}
+
+.non-register {
+  font-size: 40px !important;
+  line-height: 48px !important;
 }
