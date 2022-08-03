@@ -7,9 +7,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
   styleUrls: ['./confirm-modal-component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class Viewertocmodalcomponent implements OnInit {
+export class Confirmmodalcomponent implements OnInit {
   constructor(
-    public dialogRef: MatDialogRef<Viewertocmodalcomponent>,
+    public dialogRef: MatDialogRef<Confirmmodalcomponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 

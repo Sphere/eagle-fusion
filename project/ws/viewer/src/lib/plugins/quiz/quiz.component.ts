@@ -27,7 +27,7 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
 import * as _ from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
-import { Viewertocmodalcomponent } from './confirm-modal-component'
+import { Confirmmodalcomponent } from './confirm-modal-component'
 import {
   NsContent,
   WidgetContentService,
@@ -174,7 +174,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       setTimeout(() => {
         this.openOverviewDialog()
       }, 500)
-
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -210,10 +209,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               return course
             })
           }
-          // @ts-ignore
+          // tslint:disable-next-line:no-console
           console.log(this.enrolledCourse)
-          // @ts-ignore
-          if (this.enrolledCourse && this.enrolledCourse!.completionPercentage < 100) {
+          // tslint:disable-next-line: no-non-null-assertion
+          if (this.enrolledCourse && this.enrolledCourse.completionPercentage < 100) {
             this.showCompletionMsg = true
           } else {
             this.showCompletionMsg = false
@@ -312,7 +311,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
               if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-                this.dialog.open(Viewertocmodalcomponent, {
+                this.dialog.open(Confirmmodalcomponent, {
                   width: '542px',
                   panelClass: 'overview-modal',
                   disableClose: true,
