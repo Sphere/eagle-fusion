@@ -89,11 +89,11 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   get isCollection(): boolean {
     if (this.content && this.content.children) {
-       const filteredData = this.content.children.filter(function (data: any) {
-        // @ts-ignore
-        return data!.completionPercentage < 100 || data!.completionPercentage === undefined;
-      });
-       if (filteredData.length > 0) {
+      const filteredData = this.content.children.filter((data: any) => {
+        // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
+        return data!.completionPercentage < 100 || data!.completionPercentage === undefined
+      })
+      if (filteredData.length > 0) {
         this.content['incomplete'] = true
       } else {
         this.content['incomplete'] = false
