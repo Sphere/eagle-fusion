@@ -152,17 +152,16 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               queryParams: {
                 primaryCategory: 'Course',
                 batchId: this.route.snapshot.queryParams.batchId,
-              }
+              },
             })
             // this.router.navigate([data.prevResource], { preserveQueryParams: true })
-          }
-          else {
+          } else {
             if (_.isNull(data.prevResource)) {
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
                   primaryCategory: 'Course',
                   batchId: this.route.snapshot.queryParams.batchId,
-                }
+                },
               })
             } else {
               this.router.navigate([data.prevResource], { preserveQueryParams: true })
@@ -236,7 +235,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           // tslint:disable-next-line:no-console
           console.log(this.enrolledCourse)
           // tslint:disable-next-line: no-non-null-assertion
-          if (this.enrolledCourse && this.enrolledCourse.completionPercentage < 100) {
+          if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
             // tslint:disable-next-line: no-non-null-assertion
             this.showCompletionMsg = true
           } else {
@@ -307,7 +306,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
                 // tslint:disable-next-line: no-non-null-assertion
-                if (this.enrolledCourse && this.enrolledCourse.completionPercentage < 100) {
+                if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
@@ -321,7 +320,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
               if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-                let confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '542px',
                   panelClass: 'overview-modal',
                   disableClose: true,
@@ -403,7 +402,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
                 // tslint:disable-next-line: no-non-null-assertion
-                if (this.enrolledCourse && this.enrolledCourse.completionPercentage < 100) {
+                if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
@@ -417,7 +416,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
             if (_.isNull(data.nextResource)) {
               if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-                let confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '542px',
                   panelClass: 'overview-modal',
                   disableClose: true,
