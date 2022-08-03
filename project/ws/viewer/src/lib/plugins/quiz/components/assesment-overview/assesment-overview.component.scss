@@ -7,6 +7,12 @@
   align-items: center;
 }
 
+.close {
+    place-self: flex-end;
+    font-weight: 400;
+    font-size: 17px;
+}
+
 .header1 {
   font-family: 'Roboto';
   font-style: normal;
