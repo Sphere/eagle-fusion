@@ -34,6 +34,7 @@ import { AssesmentQuestionResultComponent } from './components/assesment-questio
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewQuizQuestionComponent } from './components/view-quiz-question/view-quiz-question.component'
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
+import { ConfirmmodalComponent } from './confirm-modal-component'
 
 @NgModule({
   declarations: [
@@ -50,10 +51,11 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
     QuizModalComponent,
     ViewQuizQuestionComponent,
     CloseQuizModalComponent,
+    ConfirmmodalComponent
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,
-    QuizModalComponent, CloseQuizModalComponent],
+    QuizModalComponent, CloseQuizModalComponent, ConfirmmodalComponent],
   imports: [
     CommonModule,
     PipeDurationTransformModule,

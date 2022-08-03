@@ -177,7 +177,8 @@
               "e2e/tsconfig.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "app/project/ws/app/src/lib/routes/app-toc/components/app-toc-content-card/app-toc-content-card.component"
             ]
           }
         },
