@@ -276,7 +276,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
-                const customerDate = moment(this.enrolledCourse?.completedOn! )
+                const customerDate = moment(this.enrolledCourse?.completedOn!)
                 const dateNow = moment(new Date())
                 const duration = moment.duration(dateNow.diff(customerDate))
                 // tslint:disable-next-line
