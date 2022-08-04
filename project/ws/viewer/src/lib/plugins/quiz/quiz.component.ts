@@ -37,6 +37,7 @@ import {
   LoggerService,
   ConfigurationsService,
 } from '@ws-widget/utils'
+import moment from 'moment'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -197,7 +198,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -275,8 +276,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
+                const customerDate = moment(this.enrolledCourse?.completedOn! )
+                const dateNow = moment(new Date())
+                const duration = moment.duration(dateNow.diff(customerDate))
                 // tslint:disable-next-line
-                if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+                if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
@@ -313,7 +318,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     // this.router.navigate([data.prevResource], { preserveQueryParams: true })
                   } else {
                     this.router.navigate([data.nextResource], { preserveQueryParams: true })
-
                   }
                   return
                 })
@@ -323,42 +327,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
             },
           )
-          // this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          //   if (_.isNull(data.nextResource)) {
-          //     console.log('1')
-          //     if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-          //       let confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-          //         width: '542px',
-          //         panelClass: 'overview-modal',
-          //         disableClose: true,
-          //         data: 'Congratulations!, you have completed the course',
-          //       })
-          //       confirmdialog.afterClosed().subscribe((res: any) => {
-          //         if (res.event === 'CONFIRMED') {
-          //           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //             queryParams: {
-          //               primaryCategory: 'Course',
-          //               batchId: this.route.snapshot.queryParams.batchId,
-          //             },
-          //           })
-          //         }
-          //       })
-          //     } else {
-          //       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //         queryParams: {
-          //           primaryCategory: 'Course',
-          //           batchId: this.route.snapshot.queryParams.batchId,
-          //         },
-          //       })
-          //     }
-
-          //     // this.router.navigate([data.prevResource], { preserveQueryParams: true })
-          //   } else {
-          //     this.router.navigate([data.nextResource], { preserveQueryParams: true })
-
-          //   }
-          //   return
-          // })
         }
       }
     })
@@ -408,8 +376,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
+                const customerDate = moment(this.enrolledCourse!.completedOn!)
+                const dateNow = moment(new Date())
+                const duration = moment.duration(dateNow.diff(customerDate))
                 // tslint:disable-next-line
-                if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+                if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
                   this.showCompletionMsg = true
                 } else {
                   this.showCompletionMsg = false
@@ -460,45 +432,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
             },
           )
-          // this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          //   if (_.isNull(data.nextResource)) {
-          //     if (this.enrolledCourse && this.enrolledCourse.completionPercentage === 100 && this.showCompletionMsg) {
-          //       let confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-          //         width: '542px',
-          //         panelClass: 'overview-modal',
-          //         disableClose: true,
-          //         data: 'Congratulations!, you have completed the course',
-          //       })
-          //       confirmdialog.afterClosed().subscribe((res: any) => {
-          //         if (res.event === 'CONFIRMED') {
-          //           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //             queryParams: {
-          //               primaryCategory: 'Course',
-          //               batchId: this.route.snapshot.queryParams.batchId,
-          //             },
-          //           })
-          //         }
-          //       })
-          //     } else {
-          //       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //         queryParams: {
-          //           primaryCategory: 'Course',
-          //           batchId: this.route.snapshot.queryParams.batchId,
-          //         },
-          //       })
-          //     }
-          //     // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //     //   queryParams: {
-          //     //     primaryCategory: 'Course',
-          //     //     batchId: this.route.snapshot.queryParams.batchId,
-          //     //   },
-          //     // })
-          //     // this.router.navigate([data.prevResource], { preserveQueryParams: true })
-          //   } else {
-          //     this.router.navigate([data.nextResource], { preserveQueryParams: true })
-          //   }
-          //   return
-          // })
         }
       }
     })
