@@ -71,7 +71,7 @@ export class LoginOtpComponent implements OnInit {
       async (res: any) => {
         //   await this.signupService.fetchStartUpDetails()
         this.openSnackbar(res.message)
-        this.router.navigate(['app/login'])
+        this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
       },
       (err: any) => {
         this.openSnackbar(err.error.error || err.error.message)
