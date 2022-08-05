@@ -103,7 +103,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogAssesment: any
   public dialogQuiz: any
   showCompletionMsg = false
-  enrolledCourse: null | NsContent.ICourse | undefined
+  enrolledCourse: any
   /*
 * to unsubscribe the observable
 */
@@ -198,7 +198,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -276,7 +276,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
-                const customerDate = moment(this.enrolledCourse?.completedOn!)
+                // if (this.enrolledCourse != null) {
+                const customerDate = moment(this.enrolledCourse.completedOn)
                 const dateNow = moment(new Date())
                 const duration = moment.duration(dateNow.diff(customerDate))
                 // tslint:disable-next-line
@@ -286,6 +287,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 } else {
                   this.showCompletionMsg = false
                 }
+              // }
                 this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
                     // tslint:disable-next-line
@@ -376,7 +378,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // tslint:disable-next-line:no-console
                 console.log(this.enrolledCourse)
-                const customerDate = moment(this.enrolledCourse!.completedOn!)
+                const customerDate = moment(this.enrolledCourse.completedOn)
                 const dateNow = moment(new Date())
                 const duration = moment.duration(dateNow.diff(customerDate))
                 // tslint:disable-next-line
