@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isFetching; else Loading">
 
-  <mat-divider *ngIf="collection" class="margin-bottom-xs"></mat-divider>
+  <!-- <mat-divider *ngIf="collection" class="margin-bottom-xs"></mat-divider> -->
   <div *ngIf="collection" class="flex flex-middle">
   </div>
   <section *ngIf="!collection">
@@ -22,14 +22,14 @@
     </mat-list-item>
   </mat-list>
   <!-- Tree -->
-  <div class="flex mt-10">
+  <!-- <div class="flex mt-10">
     <span role="button" matRipple class="margin-left-xs mt-2 width-9-10">
       <h2 class="text-truncate margin-remove" id="course content-title">Course Content</h2>
     </span>
     <button class="width-9-10" mat-icon-button (click)="minimizenav()">
       <mat-icon class="" name="video full screen-arrow">arrow_back_ios</mat-icon>
     </button>
-  </div>
+  </div> -->
   <div [ngClass]="{'outer-ul': queue.length > 7}" #outer>
     <ul [hidden]="tocMode !== 'TREE'" class="toc-tree" #ulTree>
       <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl">
