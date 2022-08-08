@@ -9,7 +9,6 @@
     (toggle)="toggleSideBar()" [screenContent]="content">
   </viewer-viewer-top-bar>
   <mat-sidenav-container autosize class="viewer-sidenav-container">
-    <!-- side couse list -->
     <mat-sidenav [ngClass]="isTypeOfCollection?'viewer-sidenav':'viewer-sidenav-standalone'" position="end"
       [opened]="sideNavBarOpened" [mode]="mode">
       <!-- <mat-tab-group>
@@ -68,94 +67,94 @@
       </section>
       <router-outlet (activate)="getContentData($event)"></router-outlet>
 
-      <mat-tab-group animationDuration="0ms" class="minhightab">
-        <!-- <mat-tab i18n-label label="Discussion"> -->
-        <!-- *ngIf="discussionForumWidget && isRestricted" -->
-        <!-- <div class="padding-m">
-            <div class="video-discussion-forum-in">
 
-              <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
-            </div>
-          </div>
-        </mat-tab> -->
-        <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
-          <div class="stack-container">
-            <div class="div-1">
-              <mat-card class="unit-meta-item ml-5">
-                <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
-                <mat-card-content>
-                  <div class="mat-subheading-1" [innerHTML]="contentData?.description"></div>
-                </mat-card-content>
-              </mat-card>
-              <!-- Content Body -->
-              <mat-card *ngIf="tocConfig?.overview?.body?.enabled && contentData?.instructions"
-                class="unit-meta-item ml-5">
-                <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
-                <mat-card-content>
-                  <div class="break-words" [innerHTML]="contentData?.instructions"></div>
-                </mat-card-content>
-              </mat-card>
-
-              <div class="width-1-1 ml-3 mt-3">
-                <div class="mr-5" *ngIf="contentData?.creator?.length">
-                  <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
-                authors: contentData?.creator,
-                title: 'AUTHOR'
-              }">
-                  </ng-container>
-                </div>
-                <div class="mr-5" *ngIf="contentData?.creatorContacts?.length">
-                  <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
-                authors: contentData?.creatorContacts,
-                title: 'CONTACT'
-              }">
-                  </ng-container>
-                </div>
-              </div>
-
-              <ng-template #creators let-authors="authors" let-title="title">
-                <div class="unit-meta-item ml-5">
-                  <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
-                  <div class="author">
-                    <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">
-                    </ws-widget-user-image>
-                    <div class="width-expand flex flex-middle flex-start author-name">
-                      <h3 class="margin-remove">{{ authors }}</h3>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-
-
-              <!-- <div class="mt-5 ml-5 mb-4">
-
-                <ws-app-toc-cohorts [content]="content" class="cohorts">
-
-                </ws-app-toc-cohorts>
-
-              </div> -->
-
-            </div>
-            <div class="div-2">
-              <ws-widget-player-brief [forPreview]="forPreview" [content]="content"></ws-widget-player-brief>
-            </div>
-          </div>
-        </mat-tab>
-
-        <mat-tab i18n-label label="License">
-          <div class="mt-3 ml-5 mb-3 mr-5" *ngIf="currentLicense">
-            <h2 class="margin-bottom-m">License terms</h2>
-            <p>{{currentLicense[0]?.licenseName}}</p>
-            <p>{{currentLicense[0]?.desc}}</p>
-            <p>{{currentLicense[0]?.licenseName}} For details see below:‎</p>
-            <a class="blue-link" href="{{currentLicense[0]?.link}}" target="_blank">{{currentLicense[0]?.link}}</a>
-          </div>
-        </mat-tab>
-
-      </mat-tab-group>
 
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <mat-tab-group animationDuration="0ms" class="minhightab">
+    <!-- <mat-tab i18n-label label="Discussion"> -->
+    <!-- *ngIf="discussionForumWidget && isRestricted" -->
+    <!-- <div class="padding-m">
+              <div class="video-discussion-forum-in">
+
+                <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
+              </div>
+            </div>
+          </mat-tab> -->
+    <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
+      <div class="stack-container">
+        <div class="div-1">
+          <mat-card class="unit-meta-item ml-5">
+            <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
+            <mat-card-content>
+              <div class="mat-subheading-1" [innerHTML]="contentData?.description"></div>
+            </mat-card-content>
+          </mat-card>
+          <!-- Content Body -->
+          <mat-card *ngIf="tocConfig?.overview?.body?.enabled && contentData?.instructions" class="unit-meta-item ml-5">
+            <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+            <mat-card-content>
+              <div class="break-words" [innerHTML]="contentData?.instructions"></div>
+            </mat-card-content>
+          </mat-card>
+
+          <div class="width-1-1 ml-3 mt-3">
+            <div class="mr-5" *ngIf="contentData?.creator?.length">
+              <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+                  authors: contentData?.creator,
+                  title: 'AUTHOR'
+                }">
+              </ng-container>
+            </div>
+            <div class="mr-5" *ngIf="contentData?.creatorContacts?.length">
+              <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+                  authors: contentData?.creatorContacts,
+                  title: 'CONTACT'
+                }">
+              </ng-container>
+            </div>
+          </div>
+
+          <ng-template #creators let-authors="authors" let-title="title">
+            <div class="unit-meta-item ml-5">
+              <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
+              <div class="author">
+                <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">
+                </ws-widget-user-image>
+                <div class="width-expand flex flex-middle flex-start author-name">
+                  <h3 class="margin-remove">{{ authors }}</h3>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+
+          <!-- <div class="mt-5 ml-5 mb-4">
+
+                  <ws-app-toc-cohorts [content]="content" class="cohorts">
+
+                  </ws-app-toc-cohorts>
+
+                </div> -->
+
+        </div>
+        <div class="div-2">
+          <ws-widget-player-brief [forPreview]="forPreview" [content]="content"></ws-widget-player-brief>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab i18n-label label="License">
+      <div class="mt-3 ml-5 mb-3 mr-5" *ngIf="currentLicense">
+        <h2 class="margin-bottom-m">License terms</h2>
+        <p>{{currentLicense[0]?.licenseName}}</p>
+        <p>{{currentLicense[0]?.desc}}</p>
+        <p>{{currentLicense[0]?.licenseName}} For details see below:‎</p>
+        <a class="blue-link" href="{{currentLicense[0]?.link}}" target="_blank">{{currentLicense[0]?.link}}</a>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
 </section>
 <div class="full-height-width-iframe" *ngIf="!isNotEmbed">
   <router-outlet></router-outlet>

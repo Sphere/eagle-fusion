@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http'
 @Component({
   selector: 'ws-app-assessment-detail',
   templateUrl: './assessment-detail.component.html',
-  styleUrls: ['./assessment-detail.component.scss']
+  styleUrls: ['./assessment-detail.component.scss'],
 })
 export class AssessmentDetailComponent implements OnInit {
 
@@ -30,7 +30,7 @@ export class AssessmentDetailComponent implements OnInit {
     isAssessment: false,
   }
   constructor(private viewSvc: ViewerUtilService,
-    private http: HttpClient,) { }
+              private http: HttpClient) { }
 
   async ngOnInit() {
     this.assesmentdata = await this.transformQuiz(this.content)

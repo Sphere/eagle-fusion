@@ -1,5 +1,5 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3 mb-4">
-  <a class="d-flex justify-content-end " mat-icon-button>
+  <a [routerLink]="'/app'+'/toc/' + collectionId + '/overview'" class="d-flex justify-content-end " mat-icon-button>
     <mat-icon class="">arrow_back_ios</mat-icon>
   </a>
   <!-- <a *ngIf="logo" href="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper ">

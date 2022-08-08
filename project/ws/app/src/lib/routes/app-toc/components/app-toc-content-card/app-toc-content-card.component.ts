@@ -65,7 +65,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     }
   }
 
-
   resourceContentTypeFunct(type: any) {
     if (type === 'application/vnd.ekstep.content-collection') {
       this.resourceContentType = 'Topic'
