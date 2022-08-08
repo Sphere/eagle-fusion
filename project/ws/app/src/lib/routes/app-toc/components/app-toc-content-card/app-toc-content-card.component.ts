@@ -3,9 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
-import { ViewerUtilService } from '../../../../../../../viewer/src/lib/viewer-util.service'
-import { NSQuiz } from '../../../../../../../viewer/src/lib/plugins/quiz/quiz.model'
-import { HttpClient } from '@angular/common/http'
+
 @Component({
   selector: 'ws-app-toc-content-card',
   templateUrl: './app-toc-content-card.component.html',
@@ -46,8 +44,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
     private router: Router,
-    private viewSvc: ViewerUtilService,
-    private http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -86,9 +82,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     } else if (type === 'video/x-youtube' || type === 'text/x-url' || type === 'application/web-module') {
       this.resourceContentType = 'Link'
     } else { this.resourceContentType = 'Course' }
-    // if (this.resourceContentType === 'Assessment') {
-    //   this.transformQuiz(this.content)
-    // }
   }
 
   reDirect(content: any) {
@@ -180,32 +173,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       }
     }
   }
-
-  /* api call to get info of quiz or assessment */
-  private async transformQuiz(content: any): Promise<NSQuiz.IQuiz> {
-    console.log(content)
-    const artifactUrl = this.forPreview
-      ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-      : content.artifactUrl
-    let quizJSON: NSQuiz.IQuiz = await this.http
-      .get<any>(artifactUrl || '')
-      .toPromise()
-      .catch((_err: any) => {
-        // throw new DataResponseError('MANIFEST_FETCH_FAILED');
-      })
-    if (this.forPreview && quizJSON) {
-      quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-    }
-    quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-      if (question.multiSelection && question.questionType === undefined) {
-        question.questionType = 'mcq-mca'
-      } else if (!question.multiSelection && question.questionType === undefined) {
-        question.questionType = 'mcq-sca'
-      }
-    })
-    return quizJSON
-  }
-
 
   get contextPath() {
     return {
