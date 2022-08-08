@@ -44,6 +44,7 @@ app.use(haltOnTimedOut)
 app.use('/ScormCoursePlayer', proxyCreator(express.Router(), 'http://localhost/ScormCoursePlayer'))
 
 serveAssets('')
+serveAssets('/hi')
 serveAssets('/ar')
 serveAssets('/de')
 serveAssets('/es')
@@ -69,6 +70,7 @@ uiHostCreator('/fr-ca', 'fr-ca')
 uiHostCreator('/nl', 'nl')
 uiHostCreator('/zh-CN', 'zh-CN')
 uiHostCreator('/ja', 'ja')
+uiHostCreator('/hi', 'hi')
 uiHostCreator('', 'en')
 app.use(haltOnTimedOut)
 
@@ -87,6 +89,7 @@ function proxyCreator(route, baseUrl) {
 }
 
 function uiHostCreator(hostPath, hostFolderName) {
+  console.log(hostFolderName)
   app.use(
     `${hostPath}`,
     expressStaticGzip(path.join(__dirname, `www/${hostFolderName}`), {

@@ -240,6 +240,10 @@ const routes: Routes = [
     path: 'app/create-account',
     component: CreateAccountComponent,
   },
+    {
+    path: 'hi/create-account',
+    component: CreateAccountComponent,
+  },
   {
     path: 'app/about-you',
     component: AboutYou,

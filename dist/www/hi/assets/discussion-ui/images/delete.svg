@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>delete</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="delete" stroke="#231F20" stroke-width="1.5">
+            <path d="M17.0835,21.75 L5.4165,21.75 C4.7725,21.75 4.2505,21.228 4.2505,20.583 L4.2505,4.25 L18.2505,4.25 L18.2505,20.583 C18.2505,21.228 17.7275,21.75 17.0835,21.75 Z" id="Stroke-1"></path>
+            <line x1="0.75" y1="4.25" x2="21.75" y2="4.25" id="Stroke-3"></line>
+            <polygon id="Stroke-5" points="7.75 4.25 14.75 4.25 14.75 0.75 7.75 0.75"></polygon>
+            <line x1="9.3638" y1="7.75" x2="9.3638" y2="18.25" id="Stroke-7"></line>
+            <line x1="13" y1="7.75" x2="13" y2="18.25" id="Stroke-8"></line>
+        </g>
+    </g>
+</svg>

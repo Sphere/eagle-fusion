@@ -214,6 +214,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   langChanged(path: MatSelectChange) {
     this.chosenLanguage = path.value
+    localStorage.setItem('lang', 'hi')
     this.langChangedEvent.emit(path.value)
   }
 
