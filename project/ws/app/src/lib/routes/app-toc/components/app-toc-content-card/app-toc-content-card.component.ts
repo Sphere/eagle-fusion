@@ -43,7 +43,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   constructor(
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -64,6 +64,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       }
     }
   }
+
 
   resourceContentTypeFunct(type: any) {
     if (type === 'application/vnd.ekstep.content-collection') {

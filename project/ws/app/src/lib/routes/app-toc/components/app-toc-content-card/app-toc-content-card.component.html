@@ -118,14 +118,18 @@
 
 
   </ng-container>
+
   <div *ngIf="isResource" class="resource-container">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
     </ws-widget-display-content-type-icon> -->
 
-    <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-      name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
+    <ng-container *ngIf="resourceContentType === 'Assessment'">
+      <ws-app-assessment-detail [content]="content"></ws-app-assessment-detail>
+    </ng-container>
+    <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
+      [src]="content?.appIcon" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-    <div class="resource-contents">
+    <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
       <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
         <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">

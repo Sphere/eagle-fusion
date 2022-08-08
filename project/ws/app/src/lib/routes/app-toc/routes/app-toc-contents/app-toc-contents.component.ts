@@ -83,6 +83,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
+    console.log(this.content)
     this.errorCode = initData.errorCode
     if (this.content) {
       if (!this.contextId || !this.contextPath) {
