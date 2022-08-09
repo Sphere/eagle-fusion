@@ -34,7 +34,8 @@
     <ul [hidden]="tocMode !== 'TREE'" class="toc-tree" #ulTree>
       <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl">
         <mat-tree-node class="" *matTreeNodeDef="let node" matTreeNodeToggle>
-          <li class="mat-tree-node leaf-node" #highlightItem [ngClass]="{ 'li-active': pathSet.has(node.identifier) }">
+          <li class="mat-tree-node leaf-node ml-3" #highlightItem
+            [ngClass]="{ 'li-active': pathSet.has(node.identifier) }">
             <ng-container *ngTemplateOutlet="TocContentList; context: { $implicit: node }"></ng-container>
             <!-- <ng-container
             *ngTemplateOutlet="TocContentCard; context: { $implicit: node }"
@@ -150,7 +151,7 @@
 
 <ng-template let-content #TocContentList>
   <!-- <div class="resource-container margin-left-xl"> -->
-  <div class="resource-container ml-3">
+  <div class="resource-container">
     <!-- <ws-widget-display-content-type-icon class="flex margin-left-xs" [displayContentType]="content?.type">
     </ws-widget-display-content-type-icon> -->
     <div class="resource-meta width-expand">

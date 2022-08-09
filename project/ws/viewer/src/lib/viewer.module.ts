@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgCircleProgressModule } from 'ng-circle-progress'
-
+import { AllDiscussionWidgetComponent } from '../../../app/src/lib/routes/app-toc/routes/widget/all-discussion-widget/all-discussion-widget.component'
 import {
   MatCardModule,
   MatSidenavModule,

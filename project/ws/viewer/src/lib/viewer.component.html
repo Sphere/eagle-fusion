@@ -71,7 +71,12 @@
 
     </mat-sidenav-content>
   </mat-sidenav-container>
-  <mat-tab-group animationDuration="0ms" class="minhightab">
+  <div>
+    <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
+    </all-discussion-widget>
+  </div>
+
+  <mat-tab-group animationDuration="0ms" class="minhightab d-none">
     <!-- <mat-tab i18n-label label="Discussion"> -->
     <!-- *ngIf="discussionForumWidget && isRestricted" -->
     <!-- <div class="padding-m">
@@ -81,6 +86,11 @@
               </div>
             </div>
           </mat-tab> -->
+
+    <mat-tab i18n-label label="Disussion">
+
+    </mat-tab>
+
     <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
       <div class="stack-container">
         <div class="div-1">
@@ -101,16 +111,16 @@
           <div class="width-1-1 ml-3 mt-3">
             <div class="mr-5" *ngIf="contentData?.creator?.length">
               <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
-                  authors: contentData?.creator,
-                  title: 'AUTHOR'
-                }">
+                authors: contentData?.creator,
+                title: 'AUTHOR'
+              }">
               </ng-container>
             </div>
             <div class="mr-5" *ngIf="contentData?.creatorContacts?.length">
               <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
-                  authors: contentData?.creatorContacts,
-                  title: 'CONTACT'
-                }">
+                authors: contentData?.creatorContacts,
+                title: 'CONTACT'
+              }">
               </ng-container>
             </div>
           </div>
@@ -144,7 +154,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab i18n-label label="License">
+    <!-- <mat-tab i18n-label label="License">
       <div class="mt-3 ml-5 mb-3 mr-5" *ngIf="currentLicense">
         <h2 class="margin-bottom-m">License terms</h2>
         <p>{{currentLicense[0]?.licenseName}}</p>
@@ -152,7 +162,7 @@
         <p>{{currentLicense[0]?.licenseName}} For details see below:‎</p>
         <a class="blue-link" href="{{currentLicense[0]?.link}}" target="_blank">{{currentLicense[0]?.link}}</a>
       </div>
-    </mat-tab>
+    </mat-tab> -->
 
   </mat-tab-group>
 </section>

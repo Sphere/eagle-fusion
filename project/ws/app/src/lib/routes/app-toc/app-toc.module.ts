@@ -223,7 +223,7 @@ import { AssessmentDetailComponent } from './components/assessment-detail/assess
     AccessControlService,
     ProfileResolverService,
   ],
-  exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent],
+  exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
   entryComponents: [
     AppTocDialogIntroVideoComponent,
     AppTocOverviewComponent,
