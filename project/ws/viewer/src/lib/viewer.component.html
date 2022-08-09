@@ -77,6 +77,11 @@
             </div>
           </div>
         </mat-tab> -->
+        <mat-tab i18n-label label="Disussion">
+          <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
+          </all-discussion-widget>
+        </mat-tab>
+
         <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
           <div class="stack-container">
             <div class="div-1">
