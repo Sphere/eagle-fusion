@@ -170,7 +170,7 @@
             *ngIf="content?.completionPercentage === 100" i18n-matTooltip matTooltip="Completed"
             class="completed-icon margin-left-xs align-self-center">check_circle_outline</mat-icon> -->
         </h3>
-        <div class="d-flex">
+        <div *ngIf="content?.type !== 'Assessment' " class="d-flex">
           <!-- <span class="mat-body-1"> -->
           <!-- <span>{{ content.type | pipeLimitTo: 300 }}</span> -->
           <ng-container *ngIf="content.type">
@@ -221,10 +221,13 @@
             </ng-template>
           </div>
         </div>
+        <div *ngIf="content?.type === 'Assessment' ">
+          <ws-app-assessment-detail [content]="content"></ws-app-assessment-detail>
+        </div>
         <!-- <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
             {{ content?.complexity | pipeLimitTo: 300 }}</span>
         </span> -->
-        <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex">
+        <h1 *ngIf="content?.type === enumContentTypes.ASSESSMENT" class="margin-remove flex d-none">
           {{ content?.title | pipeLimitTo: 30 }}
           <mat-icon title="{{content?.completionPercentage}}%" *ngIf="
               content?.completionPercentage === 100

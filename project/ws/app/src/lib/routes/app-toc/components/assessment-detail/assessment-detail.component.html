@@ -8,9 +8,14 @@
   </div>
   <div class="row">
     <div class=" m-2 p-2 ellips">
-      <h4 class="label2">{{
+      <h4 *ngIf="assesmentdata.timeLimit" class="label2">{{
         assesmentdata.timeLimit | pipeDurationTransform: 'mnts'
-        }}</h4>
+        }}
+      </h4>
+      <h4 *ngIf="assesmentdata.duration" class="label2">{{
+        assesmentdata.duration | pipeDurationTransform: 'mnts'
+        }}
+      </h4>
       <h4 class="label3">Minutes</h4>
     </div>
     <div class="m-2 p-2 ellips">
