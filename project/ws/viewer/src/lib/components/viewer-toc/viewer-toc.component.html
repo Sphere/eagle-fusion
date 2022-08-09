@@ -51,7 +51,7 @@
             </ws-widget-display-content-type-icon> -->
               <span role="button" [ngClass]="{ 'content-active': pathSet.has(node.identifier) }" matRipple
                 matTreeNodeToggle class="margin-left-xs mt-2 width-9-10">
-                <h3 class="text-truncate margin-remove">{{ node.title }}</h3>
+                <h3 class="margin-remove node-title">{{ node.title }}</h3>
                 <div class="mb-3 width-max-content f-w-500">
                   {{ node.duration | pipeDurationTransform: 'hms' }}
                 </div>
@@ -71,7 +71,8 @@
                   contentProgressHash[node.identifier] > 0.99
                 " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs">check_circle</mat-icon>
               </span>
-              <button class="width-9-10" mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+              <button class="width-9-10 pt-2" mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + node.name">
                 <mat-icon class="mat-icon-rtl-mirror">
                   {{ nestedTreeControl.isExpanded(node) ? 'expand_less' : 'expand_more' }}
                 </mat-icon>

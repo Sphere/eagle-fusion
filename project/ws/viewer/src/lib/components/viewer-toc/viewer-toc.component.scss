@@ -163,7 +163,7 @@ a.disabled {
 }
 
 ::ng-deep .mat-tree-node {
-  align-items: flex-start;
+  align-items: flex-start !important;
 }
 
 ::ng-deep mat-tree-node .li-active {
@@ -199,4 +199,8 @@ a.disabled {
   .content-check {
     color: #27AE60;
   }
+}
+
+.node-title {
+  line-height: 19px !important;
 }

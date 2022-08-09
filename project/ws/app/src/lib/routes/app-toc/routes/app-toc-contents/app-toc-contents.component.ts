@@ -44,6 +44,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.forPreview = window.location.href.includes('/author/')
     this.routeQuerySubscription = this.route.queryParamMap.subscribe(qParamsMap => {
+      console.log(qParamsMap)
       const contextId = qParamsMap.get('contextId')
       const contextPath = qParamsMap.get('contextPath')
       if (contextId && contextPath) {
