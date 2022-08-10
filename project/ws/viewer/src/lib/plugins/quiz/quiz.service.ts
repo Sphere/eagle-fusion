@@ -148,7 +148,6 @@ export class QuizService {
   }
   sanitizeAssessmentSubmitRequest(requestData: NSQuiz.IQuizSubmitRequest): NSQuiz.IQuizSubmitRequest {
     requestData.questions.map(question => {
-      console.log(question)
       question.question = ''
       question.options.map(option => {
         option.hint = ''

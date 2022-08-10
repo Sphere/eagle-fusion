@@ -133,10 +133,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   submitQuiz() {
     this.ngOnDestroy()
-    if (!this.assesmentdata.questions.isAssessment) {
-      this.calculateResults()
-    }
-
     const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
     this.fetchingResultsStatus = 'fetching'
     const requestData: NSQuiz.IQuizSubmitRequest = this.quizService.createAssessmentSubmitRequest(
@@ -291,6 +287,32 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   nextQuestion() {
+    // tslint:disable-next-line: max-line-length
+    // tslint:disable-next-line: max-line-length
+    if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
+      this.updateQuestionType(true)
+    } else {
+      this.updateQuestionType(false)
+    }
+    if (this.questionAnswerHash && this.questionAnswerHash['qslideIndex']) {
+      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+        let userAnswer: any = {}
+        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
+        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+        this.updateQuestionType(false)
+      }
+    } else {
+      if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1] && this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
+        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+        let questionAnswerHash: any = {}
+        questionAnswerHash['qslideIndex'] = this.quizService.questionState.active_slide_index + 1
+        let userAnswer: any = {}
+        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, questionAnswerHash)
+        console.log(userAnswer)
+        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+      }
+    }
     this.disableNext = true
     this.progressbarValue += 100 / this.totalQuestion
     if (
@@ -319,34 +341,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       })
     })
-    // tslint:disable-next-line: max-line-length
-    if (this.questionAnswerHash && this.questionAnswerHash['qslideIndex']) {
-      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
-        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-        let userAnswer: any = {}
-        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
-        console.log(userAnswer)
-        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
-      }
-    } else {
-      if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1] && this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
-        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-        let questionAnswerHash: any = {}
-        questionAnswerHash['qslideIndex'] = this.quizService.questionState.active_slide_index + 1
-        let userAnswer: any = {}
-        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, questionAnswerHash)
-        console.log(userAnswer)
-        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
-      }
-    }
-
-
-    // tslint:disable-next-line: max-line-length
-    if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
-      this.updateQuestionType(true)
-    } else {
-      this.updateQuestionType(false)
-    }
 
   }
   updateQuestionType(status: any) {
