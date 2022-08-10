@@ -332,6 +332,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
+    console.log("certificate", content)
     // is enrolled?
     if (this.batchData.enrolled) {
       let userId = ''
@@ -846,7 +847,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

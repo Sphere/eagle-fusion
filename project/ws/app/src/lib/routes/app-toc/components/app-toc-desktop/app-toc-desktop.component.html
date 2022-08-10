@@ -53,7 +53,7 @@
         </a>
 
         <button *ngIf="content?.issueCertification === true" (click)="downloadCertificate(content)"
-          class="banner-btn-active " data-toggle="modal">
+          class="banner-btn-active cursor-pointer" data-toggle="modal">
           <mat-icon>file_download</mat-icon>Certificate
         </button>
         <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
@@ -64,6 +64,30 @@
       <div class="share-img img1">
         <img src=".\fusion-assets\icons\share-icon.png">
       </div> -->
+      <div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" [ngStyle]="{'margin-top' : '40px'}">
+              <!--<h4 class="modal-title">Modal Heading</h4> -->
+              <button type="button" class="close" data-dismiss="modal" (click)="closePopup()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <h3>{{certificateMsg}}</h3>
+
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal"
+                (click)="closePopup()">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
