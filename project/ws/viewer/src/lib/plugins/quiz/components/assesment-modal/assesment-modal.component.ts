@@ -289,7 +289,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   nextQuestion() {
     // tslint:disable-next-line: max-line-length
     if (this.questionAnswerHash && this.questionAnswerHash['qslideIndex']) {
-      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] &&
+        this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']]
+          .questionType === 'mtf') {
         const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
         let userAnswer: any = {}
         userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
@@ -297,9 +299,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.updateQuestionType(false)
       }
     } else {
-      if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1] && this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
+      if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1] &&
+        this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1]
+          .questionType === 'mtf') {
         const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-        let questionAnswerHash: any = {}
+        const questionAnswerHash: any = {}
         questionAnswerHash['qslideIndex'] = this.quizService.questionState.active_slide_index + 1
         let userAnswer: any = {}
         userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, questionAnswerHash)

@@ -32,7 +32,7 @@ export class YourLocationComponent implements OnInit {
   countryUrl = '../../../fusion-assets/files/country.json'
   districtUrl = '../../../fusion-assets/files/district.json'
   stateUrl = '../../../fusion-assets/files/state.json'
-  startDate = new Date(1999, 0, 1);
+  startDate = new Date(1999, 0, 1)
 
   constructor(
     private http: HttpClient
