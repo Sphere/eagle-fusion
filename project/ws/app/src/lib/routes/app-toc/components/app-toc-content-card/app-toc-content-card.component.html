@@ -124,7 +124,8 @@
     </ws-widget-display-content-type-icon> -->
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
-      <ws-app-assessment-detail [content]="content"></ws-app-assessment-detail>
+      <ws-app-assessment-detail [resourceLink]="resourceLink" [content]="content">
+      </ws-app-assessment-detail>
     </ng-container>
     <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
       [src]="content?.appIcon" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
