@@ -320,12 +320,26 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       })
     })
     // tslint:disable-next-line: max-line-length
-    if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
-      const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-      let userAnswer: any = {}
-      userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
-      this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+    if (this.questionAnswerHash && this.questionAnswerHash['qslideIndex']) {
+      if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+        let userAnswer: any = {}
+        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
+        console.log(userAnswer)
+        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+      }
+    } else {
+      if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1] && this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
+        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+        let questionAnswerHash: any = {}
+        questionAnswerHash['qslideIndex'] = this.quizService.questionState.active_slide_index + 1
+        let userAnswer: any = {}
+        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, questionAnswerHash)
+        console.log(userAnswer)
+        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+      }
     }
+
 
     // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
