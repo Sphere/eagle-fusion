@@ -1,9 +1,12 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
-  <a *ngIf="logo" href="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3 mb-4">
+  <a [routerLink]="'/app'+'/toc/' + collectionId + '/overview'" class="d-flex justify-content-end text-black ">
+    <mat-icon class="">chevron_left</mat-icon>
+  </a>
+  <!-- <a *ngIf="logo" href="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper ">
     <img *ngIf="appIcon" src="/fusion-assets/icons/logo.png" alt="Application Logo" id="app-logo"
       class="viewer-app-logo" />
-  </a>
-  <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
+  </a> -->
+  <!-- <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
       url: isTypeOfCollection
         ? collectionType === 'Playlist'
           ? '/app/playlist/me/' + collectionId
@@ -15,7 +18,7 @@
         ? {}
         : {}
       : {primaryCategory: resourcePrimaryCategory}
-    }" [playerScreen]='true'></ws-widget-btn-page-back>
+    }" [playerScreen]='true'></ws-widget-btn-page-back> -->
   <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{
       url: isTypeOfCollection
@@ -26,9 +29,9 @@
     }"></ws-widget-btn-page-back>
   <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
 
-  <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo"
-    id="banner-logo" />
-  <span *ngIf="logo" class="text-left width-1-8 margin-left-l text-truncate">
+  <!-- <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo"
+    id="banner-logo" /> -->
+  <span *ngIf="logo" class="top-title text-left width-1-8 text-truncate">
     {{ collection?.name }}
   </span>
   <span class="header-spacer"></span>
