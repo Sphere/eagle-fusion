@@ -173,12 +173,12 @@
               </div>
 
               <div class="header-actions header-act-btn">
-                <button [color]="'primary'"
+                <!--<button [color]="'primary'"
                   *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('mdo_admin') || this.configSvc.userRoles.has('spv_admin'))"
                   class="ws-mat-primary-background mat-button-base margin-right-m" mat-button
                   (click)="openDialog(content)">
                   Create Batch
-                </button>
+                </button> -->
                 <ng-container *ngIf="
                               actionBtnStatus !== 'wait' &&
                               content?.status !== 'Deleted' &&
