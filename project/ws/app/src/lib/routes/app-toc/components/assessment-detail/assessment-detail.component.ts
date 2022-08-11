@@ -65,13 +65,13 @@ export class AssessmentDetailComponent implements OnInit {
         }
       })
       return quizJSON
-    } else {
-      const content = await (
+    } {
+      const contents = await (
         this.contentSvc.fetchContent(this.content.identifier, 'detail')
       ).toPromise()
       const artifactUrl = this.forPreview
-        ? this.viewSvc.getAuthoringUrl(content.result.content.artifactUrl)
-        : content.result.content.artifactUrl
+        ? this.viewSvc.getAuthoringUrl(contents.result.content.artifactUrl)
+        : contents.result.content.artifactUrl
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
