@@ -332,7 +332,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
-    console.log("certificate", content)
     // is enrolled?
     if (this.batchData.enrolled) {
       let userId = ''

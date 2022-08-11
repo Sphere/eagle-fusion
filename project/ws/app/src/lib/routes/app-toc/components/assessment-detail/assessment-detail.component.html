@@ -1,11 +1,17 @@
 <div class="overview-container">
 
   <div class="header1">
+    <div *ngIf="resourceLink">
+      <a [routerLink]="resourceLink?.url? resourceLink.url : content.viewerUrl "
+        [queryParams]="resourceLink?.queryParams?resourceLink.queryParams : 'preserve' ">
+        {{content.name}}
+      </a>
+    </div>
     {{content.name}}
   </div>
-  <div class="label1 pt-1">
+  <!-- <div class="label1 pt-1">
     {{assesmentdata.isAssessment ? 'Assessment' : 'Quiz'}}
-  </div>
+  </div> -->
   <div class="row">
     <div class=" m-2 p-2 ellips">
       <h4 *ngIf="assesmentdata.timeLimit" class="label2">{{
