@@ -241,8 +241,8 @@ const routes: Routes = [
     component: CreateAccountComponent,
   },
     {
-    path: 'hi/create-account',
-    component: CreateAccountComponent,
+    path: 'hi/login',
+    component: loginComponent,
   },
   {
     path: 'app/about-you',

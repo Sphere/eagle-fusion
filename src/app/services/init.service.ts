@@ -236,7 +236,7 @@ export class InitService {
     return publicConfig
     } else {
        const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config-hi.json`)
+      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
       .toPromise()
           this.configSvc.instanceConfig = publicConfig
     this.configSvc.rootOrg = publicConfig.rootOrg
