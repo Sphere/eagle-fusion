@@ -123,36 +123,37 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       const batchId = this.route.snapshot.queryParams.batchId
-      
+
       // tslint:disable-next-line: no-console
-      console.log('Batch value <>>>>>>>>>>' + batchId)
+      console.log(`Batch value <>>>>>>>>>> ${batchId}`)
 
       if (batchId) {
         // tslint:disable-next-line: no-console
         console.log('batchId present')
         this.contentSvc.fetchUserBatchList(this.userId).subscribe((data: any) => {
           // tslint:disable-next-line: no-console
-          console.log('Data >>>>>>>' + data)
-          const courseData = data.map((data: { courseId: any }) => data.courseId)
+          console.log(`Data >>>>>>> ${data}`)
+          const courseData = data.map((el: { courseId: any }) => el.courseId)
           const identifier = (this.content) ? this.content.identifier : ''
           if (!courseData.includes(identifier)) {
             const req = {
               request: {
+                batchId,
                 userId: this.userId,
                 courseId: identifier,
-                batchId,
+
               },
             }
             // tslint:disable-next-line: no-console
-            console.log('Request data >>>>>>>' + JSON.stringify(req))
+            console.log(`Request data >>>>>>> ${JSON.stringify(req)}`)
             this.contentSvc.enrollUserToBatch(req).then((enrollData: any) => {
               // tslint:disable-next-line: no-console
-              console.log('Enrolled Successfully!' + enrollData)
+              console.log(`Enrolled Successfully! ${enrollData}`)
             })
 
           }
           // tslint:disable-next-line: no-console
-          console.log('Enrolled >>>>' + courseData.includes(identifier))
+          console.log(`Enrolled >>>> ${courseData.includes(identifier)} `)
 
         })
       }
