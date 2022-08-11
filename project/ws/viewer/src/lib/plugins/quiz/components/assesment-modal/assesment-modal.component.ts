@@ -298,12 +298,16 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
         this.updateQuestionType(false)
       } else {
-        const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-        const questionAnswerHash: any = {}
-        questionAnswerHash['qslideIndex'] = this.quizService.questionState.active_slide_index
-        let userAnswer: any = {}
-        userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, questionAnswerHash)
-        this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+        if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index]
+          .questionType === 'mtf') {
+          const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+          const questionAnswerHash: any = {}
+          questionAnswerHash['qslideIndex'] = this.quizService.questionState.active_slide_index
+          let userAnswer: any = {}
+          userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, questionAnswerHash)
+          this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+        }
+
       }
     } else if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index] &&
       this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index]
