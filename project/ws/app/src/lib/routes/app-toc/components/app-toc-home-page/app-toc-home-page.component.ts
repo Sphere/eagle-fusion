@@ -27,7 +27,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home-page',
@@ -321,12 +321,16 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     if (cname === 'overview') {
       this.routelinK = 'overview'
     } else if (cname === 'chapters') {
+
       this.routelinK = 'chapters'
     } else if (cname === 'license') {
       this.routelinK = 'license'
     }
     this.tocSvc._showComponent.next({ showComponent: true })
     this.loadDiscussionWidget = false
+
+    console.log(this.batchData
+    )
   }
   checkRoute() {
     if (_.includes(this.router.url, 'overview')) {
