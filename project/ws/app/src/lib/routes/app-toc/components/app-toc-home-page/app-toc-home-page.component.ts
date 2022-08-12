@@ -35,6 +35,7 @@ const flattenItems = (items: any[], key: string | number) => {
   styleUrls: ['./app-toc-home-page.component.scss'],
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
+  [x: string]: any
 
   get enableAnalytics(): boolean {
     if (this.configSvc.restrictedFeatures) {
@@ -317,14 +318,20 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     this.tocSvc._showComponent.next({ showComponent: false })
   }
   toggleComponent(cname: string) {
+    debugger
     this.routelinK = ''
     if (cname === 'overview') {
       this.routelinK = 'overview'
     } else if (cname === 'chapters') {
+      if (this.batchData && !this.batchData.enrolled) {
+        
+        this.enrollUser(this.batchData)
+      }
       this.routelinK = 'chapters'
     } else if (cname === 'license') {
       this.routelinK = 'license'
     }
+
     this.tocSvc._showComponent.next({ showComponent: true })
     this.loadDiscussionWidget = false
   }
@@ -436,5 +443,58 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       },
     )
   }
+
+  enrollUser(batchData: any) {
+    let userId = ''
+    if (batchData) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req = {
+        request: {
+          userId,
+          courseId: batchData[0].courseId,
+          batchId: batchData[0].batchId,
+        },
+      }
+      console.log("Req data >>>>>.."+req)
+      this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        console.log("contentSvc data >>>>>..")
+        if (data && data.result && data.result.response === 'SUCCESS') {
+          // this.batchData = {
+          //   content: [data],
+          //   enrolled: true,
+          // }
+          this.router.navigate(
+            [],
+            {
+              relativeTo: this.route,
+              queryParams: { batchId: batchData[0].batchId },
+              queryParamsHandling: 'merge',
+            })
+          this.openSnackbar('Enrolled Successfully!')
+          setTimeout(() => {
+            if (this.resumeData && this.resumeDataLink) {
+              const query = this.generateQuery('RESUME')
+              this.router.navigate([this.resumeDataLink.url], { queryParams: query })
+            } else if (this.firstResourceLink) {
+              const query = this.generateQuery('START')
+              this.router.navigate([this.firstResourceLink.url], { queryParams: query })
+            }
+          },         500)
+
+        } else {
+          this.openSnackbar('Something went wrong, please try again later!')
+        }
+      })
+        .catch((err: any) => {
+
+          this.openSnackbar(err.error.params.errmsg)
+        })
+    }
+
+  }
+
+
 
 }
