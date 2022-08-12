@@ -43,7 +43,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   constructor(
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {

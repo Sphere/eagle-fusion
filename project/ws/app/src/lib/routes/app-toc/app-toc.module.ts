@@ -111,6 +111,7 @@ import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.d
 import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
 import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-home-page.component'
 import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-desktop.component'
+import { AssessmentDetailComponent } from './components/assessment-detail/assessment-detail.component'
 @NgModule({
   declarations: [
     AppTocAnalyticsComponent,
@@ -139,6 +140,7 @@ import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-des
     AllDiscussionWidgetComponent,
     AppTocHomePageComponent,
     AppTocDesktopComponent,
+    AssessmentDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -221,7 +223,7 @@ import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-des
     AccessControlService,
     ProfileResolverService,
   ],
-  exports: [AppTocDiscussionComponent, AppTocCohortsComponent],
+  exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
   entryComponents: [
     AppTocDialogIntroVideoComponent,
     AppTocOverviewComponent,

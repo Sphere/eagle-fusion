@@ -11,6 +11,7 @@
     max-height: 30px;
   }
 }
+
 .logo-wrapper {
   border-right: solid 1px #fff;
   padding-right: 14px;
@@ -21,12 +22,14 @@
   margin-top: 10px;
   border-right: solid 1px #b9b8b8;
   margin-right: -52px;
-   padding-right: 10px;
+  padding-right: 10px;
+
   @include breakpoint-xs {
     max-width: 80px;
     max-height: 30px;
   }
 }
+
 .mr-10 {
   margin-right: 10px;
 }
@@ -40,9 +43,11 @@
 .header-spacer {
   flex: 1 1 auto;
 }
+
 .margin-fs {
   margin-top: 7px;
 }
+
 ::ng-deep .mt-3 img.action-icons {
   border: none !important;
   width: 20px;
@@ -54,4 +59,10 @@
 
 mat-toolbar {
   position: relative;
+}
+
+.top-title {
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  color: #000000;
 }

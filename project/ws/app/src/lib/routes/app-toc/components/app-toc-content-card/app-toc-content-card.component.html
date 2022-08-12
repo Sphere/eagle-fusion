@@ -118,14 +118,20 @@
 
 
   </ng-container>
+
   <div *ngIf="isResource" class="resource-container">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
     </ws-widget-display-content-type-icon> -->
 
-    <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-      name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
+    <ng-container *ngIf="resourceContentType === 'Assessment'">
+      <ws-app-assessment-detail [resourceLink]="content?.completionPercentage > 0 ? resourceLink : ''"
+        [content]="content">
+      </ws-app-assessment-detail>
+    </ng-container>
+    <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
+      [src]="content?.appIcon" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-    <div class="resource-contents">
+    <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
       <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
         <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">
@@ -134,8 +140,19 @@
           </a>
         </ng-container>
         <ng-template #elseRouterLock>
-          <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+          <ng-container *ngIf="batchId ; else elsewithoutbatchId">
+            <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+          </ng-container>
         </ng-template>
+        <ng-template #elsewithoutbatchId>
+          <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+            <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+          </a>
+        </ng-template>
+        <!-- <ng-template #elseRouterLock>
+
+          <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+        </ng-template> -->
         <div class="flex flex-between items-center ">
           <div class="flex items-center">
             <ng-container *ngIf="resourceContentType">

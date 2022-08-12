@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs'
 import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
 import { ViewerUtilService } from './viewer-util.service'
-
+import { DiscussConfigResolve } from '../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 export enum ErrorType {
   accessForbidden = 'accessForbidden',
   notFound = 'notFound',
@@ -55,7 +55,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   htmlData: NsContent.IContent | null = null
   currentLicense: any
   currentLicenseName = ''
-
+  discussionConfig: any = {}
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -67,8 +67,16 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     public configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
+    private discussiConfig: DiscussConfigResolve
   ) {
     this.rootSvc.showNavbarDisplay$.next(false)
+    this.discussiConfig.setConfig()
+    if (this.configSvc.userProfile) {
+      this.discussionConfig = {
+        userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
+      }
+    }
+
   }
 
   getContentData(e: any) {
@@ -223,18 +231,23 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
-    this.discussionForumWidget = {
-      widgetData: {
-        description: content.description,
-        id: content.identifier,
-        name: NsDiscussionForum.EDiscussionType.LEARNING,
-        title: content.name,
-        initialPostCount: 2,
-        isDisabled: this.forPreview,
-      },
-      widgetSubType: 'discussionForum',
-      widgetType: 'discussionForum',
+    this.discussionConfig.contextIdArr = content ? [content.identifier] : []
+    if (this.content) {
+      this.discussionConfig.categoryObj = {
+        category: {
+          name: content.name,
+          pid: '',
+          description: content.description,
+          context: [
+            {
+              type: 'course',
+              identifier: content.identifier,
+            },
+          ],
+        },
+      }
     }
+    this.discussionConfig.contextType = 'course'
   }
 
   ngOnDestroy() {
