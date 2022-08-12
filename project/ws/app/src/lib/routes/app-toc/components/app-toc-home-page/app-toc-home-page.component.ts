@@ -30,11 +30,11 @@ const flattenItems = (items: any[], key: string | number) => {
   },                  [])
 }
 @Component({
-  selector: 'ws-app-app-toc-home',
-  templateUrl: './app-toc-home.component.html',
-  styleUrls: ['./app-toc-home.component.scss'],
+  selector: 'ws-app-app-toc-home-page',
+  templateUrl: './app-toc-home-page.component.html',
+  styleUrls: ['./app-toc-home-page.component.scss'],
 })
-export class AppTocHomeComponent implements OnInit, OnDestroy {
+export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   get enableAnalytics(): boolean {
     if (this.configSvc.restrictedFeatures) {
@@ -73,8 +73,6 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     },
   }
   tocConfig: any = null
-
-  userId: any
   elementPosition: any
   batchSubscription: Subscription | null = null
   @ViewChild('stickyMenu', { static: true }) menuElement!: ElementRef
@@ -120,47 +118,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit() {
-    if (this.configSvc.userProfile) {
-      this.userId = this.configSvc.userProfile.userId || ''
-      const batchId = this.route.snapshot.queryParams.batchId
-      
-      // tslint:disable-next-line: no-console
-      console.log('Batch value <>>>>>>>>>>' + batchId)
-
-      if (batchId) {
-        // tslint:disable-next-line: no-console
-        console.log('batchId present')
-        this.contentSvc.fetchUserBatchList(this.userId).subscribe((data: any) => {
-          // tslint:disable-next-line: no-console
-          console.log('Data >>>>>>>' + data)
-          const courseData = data.map((data: { courseId: any }) => data.courseId)
-          const identifier = (this.content) ? this.content.identifier : ''
-          if (!courseData.includes(identifier)) {
-            const req = {
-              request: {
-                userId: this.userId,
-                courseId: identifier,
-                batchId,
-              },
-            }
-            // tslint:disable-next-line: no-console
-            console.log('Request data >>>>>>>' + JSON.stringify(req))
-            this.contentSvc.enrollUserToBatch(req).then((enrollData: any) => {
-              // tslint:disable-next-line: no-console
-              console.log('Enrolled Successfully!' + enrollData)
-            })
-
-          }
-          // tslint:disable-next-line: no-console
-          console.log('Enrolled >>>>' + courseData.includes(identifier))
-
-        })
-      }
-      // tslint:disable-next-line: no-console
-      console.log('batchId not present')
-
-    }
-
+    this.checkRoute()
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
@@ -362,8 +320,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.routelinK = ''
     if (cname === 'overview') {
       this.routelinK = 'overview'
-    } else if (cname === 'contents') {
-      this.routelinK = 'contents'
+    } else if (cname === 'chapters') {
+      this.routelinK = 'chapters'
     } else if (cname === 'license') {
       this.routelinK = 'license'
     }
@@ -373,8 +331,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   checkRoute() {
     if (_.includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
-    } else if (_.includes(this.router.url, 'contents')) {
-      this.toggleComponent('contents')
+    } else if (_.includes(this.router.url, 'chapters')) {
+      this.toggleComponent('chapters')
     } else {
       this.toggleComponent('license')
     }
@@ -478,4 +436,5 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
     )
   }
+
 }
