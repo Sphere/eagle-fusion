@@ -3336,7 +3336,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">170</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2777aef7e57af7f2987a459bbf4ffebcf8fc6f98" datatype="html">
@@ -3347,7 +3347,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">93</context>
         </context-group>
         <note priority="1" from="description">English language name and its language code (en) in braces</note>
       </trans-unit>
@@ -3359,7 +3359,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">100</context>
         </context-group>
         <note priority="1" from="description">German language name and its language code (de) in braces</note>
       </trans-unit>
@@ -3371,11 +3371,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">107</context>
         </context-group>
         <note priority="1" from="description">Arabic language name and its language code (ar) in braces</note>
       </trans-unit>
@@ -3397,11 +3397,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">47</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">121</context>
         </context-group>
         <note priority="1" from="description">French language name and its language code (fr) in braces</note>
       </trans-unit>
@@ -3423,11 +3423,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">129</context>
+          <context context-type="linenumber">135</context>
         </context-group>
         <note priority="1" from="description">Dutch language name and its language code (nl) in braces</note>
       </trans-unit>
@@ -3449,11 +3449,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">148</context>
         </context-group>
         <note priority="1" from="description">Spanish language name and its language code (es) in braces</note>
       </trans-unit>
@@ -3498,11 +3498,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">41</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
@@ -3528,11 +3528,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">122</context>
+          <context context-type="linenumber">128</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
@@ -8312,29 +8312,36 @@
           <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="0f941fac30aebb4258c057f571025e9bc76a8fb9" datatype="html">
+        <source> Hindi (IN)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="cfb6ae57935c2c2c0bc712e1f322bfa9f68b58e5" datatype="html">
         <source> German (de)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="885f85866ede6f99a3b52b64c9f1a29d4324e763" datatype="html">
         <source>Japanese (ja)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">142</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9fbe4ab9a30068de6e79de7827d627d4f44c8a85" datatype="html">
         <source>Do you want to select additional languages for Content?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="82fbdd8d2450c7ec25af7962b0301afe6e765a99" datatype="html">
@@ -8343,7 +8350,7 @@
               application will reload</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">153</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f2848ce0ecfd04913e2eacca6c6f98fd21dda06e" datatype="html">
@@ -8352,14 +8359,14 @@
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="538222d53eba8efac930edf8623604c6f210fda8" datatype="html">
         <source>Choose a suitable font-size</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">162</context>
+          <context context-type="linenumber">168</context>
         </context-group>
         <note priority="1" from="description">settings: choose a font size</note>
       </trans-unit>
@@ -8374,7 +8381,7 @@
         <source>Notifications</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">223</context>
+          <context context-type="linenumber">229</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/notification/components/notification/notification.component.html</context>
@@ -8385,7 +8392,7 @@
         <source>Preferences Saved</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">230</context>
+          <context context-type="linenumber">236</context>
         </context-group>
         <note priority="1" from="description">Toast msg after successfully saving preferences</note>
       </trans-unit>
@@ -8393,7 +8400,7 @@
         <source>Failed to save preference</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">232</context>
+          <context context-type="linenumber">238</context>
         </context-group>
         <note priority="1" from="description">Toast msg after failed to save preferences</note>
       </trans-unit>
@@ -8401,7 +8408,7 @@
         <source>This feature is in beta and hence parts of the site may appear in English only.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">235</context>
+          <context context-type="linenumber">241</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9fd5837edbc2251bbb4e62f97fce40f008ec33a8" datatype="html">
@@ -8409,14 +8416,14 @@
       appear in English only. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">236</context>
+          <context context-type="linenumber">242</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ce84e484ecfe57e8d09af00211399001102a96b6" datatype="html">
         <source>Only 2 content language are allowed</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">238</context>
+          <context context-type="linenumber">244</context>
         </context-group>
       </trans-unit>
       <trans-unit id="14c112a39e3736ddf3266dbf90e11e5bcb383ceb" datatype="html">

@@ -66,7 +66,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private utilitySvc: UtilityService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     const tab = this.route.snapshot.queryParamMap.get('tab')
@@ -214,7 +214,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   langChanged(path: MatSelectChange) {
     this.chosenLanguage = path.value
-    localStorage.setItem('lang', 'hi')
+    localStorage.setItem('lang', path.value)
     this.langChangedEvent.emit(path.value)
   }
 
@@ -238,7 +238,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           if (this.configSvc.userUrl) {
             this.router.navigateByUrl(this.configSvc.userUrl)
           } else {
-            this.router.navigate(['page', 'home'])
+            // this.router.navigate(['page', 'home'])
           }
         }
         this.snackBar.open(this.successToast.nativeElement.value)

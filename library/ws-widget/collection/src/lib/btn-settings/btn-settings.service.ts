@@ -238,7 +238,11 @@ export class BtnSettingsService {
         this.configurationsSvc.isRTL = activeLocale.isRTL
       }
       this.htmlElem.setAttribute('dir', this.configurationsSvc.isRTL ? 'rtl' : 'ltr')
-      this.htmlElem.setAttribute('lang', this.locale)
+      if (!localStorage.getItem('lang')) {
+        this.htmlElem.setAttribute('lang', this.locale)
+      } else {
+        this.htmlElem.setAttribute('lang', 'hi')
+      }
     }
   }
 
