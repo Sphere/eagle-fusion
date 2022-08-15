@@ -318,13 +318,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     this.tocSvc._showComponent.next({ showComponent: false })
   }
   toggleComponent(cname: string) {
-    debugger
     this.routelinK = ''
     if (cname === 'overview') {
       this.routelinK = 'overview'
     } else if (cname === 'chapters') {
       if (this.batchData && !this.batchData.enrolled) {
-        
         this.enrollUser(this.batchData)
       }
       this.routelinK = 'chapters'
@@ -340,6 +338,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.toggleComponent('overview')
     } else if (_.includes(this.router.url, 'chapters')) {
       this.toggleComponent('chapters')
+      this.enrollUser(this.batchData)
     } else {
       this.toggleComponent('license')
     }
@@ -453,18 +452,12 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       const req = {
         request: {
           userId,
-          courseId: batchData[0].courseId,
-          batchId: batchData[0].batchId,
+          courseId: batchData.content[0].courseId,
+          batchId: batchData.content[0].batchId,
         },
       }
-      console.log("Req data >>>>>.."+req)
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
-        console.log("contentSvc data >>>>>..")
         if (data && data.result && data.result.response === 'SUCCESS') {
-          // this.batchData = {
-          //   content: [data],
-          //   enrolled: true,
-          // }
           this.router.navigate(
             [],
             {
@@ -494,7 +487,4 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
 
   }
-
-
-
 }
