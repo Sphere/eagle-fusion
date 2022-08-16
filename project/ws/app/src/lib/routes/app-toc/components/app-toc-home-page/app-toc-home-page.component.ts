@@ -462,19 +462,14 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             [],
             {
               relativeTo: this.route,
-              queryParams: { batchId: batchData[0].batchId },
+              queryParams: { batchId: batchData.content[0].batchId },
               queryParamsHandling: 'merge',
             })
           this.openSnackbar('Enrolled Successfully!')
           setTimeout(() => {
-            if (this.resumeData && this.resumeDataLink) {
               const query = this.generateQuery('RESUME')
               this.router.navigate([this.resumeDataLink.url], { queryParams: query })
-            } else if (this.firstResourceLink) {
-              const query = this.generateQuery('START')
-              this.router.navigate([this.firstResourceLink.url], { queryParams: query })
-            }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
