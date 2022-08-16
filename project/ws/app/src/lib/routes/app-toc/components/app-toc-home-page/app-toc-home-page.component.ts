@@ -332,6 +332,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
     this.tocSvc._showComponent.next({ showComponent: true })
     this.loadDiscussionWidget = false
+
+    console.log(this.batchData
+    )
   }
   checkRoute() {
     if (_.includes(this.router.url, 'overview')) {
