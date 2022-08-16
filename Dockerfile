@@ -6,7 +6,7 @@ COPY . .
 #RUN npm i yarn
 #RUN yarn global add @angular/cli@latest
 RUN npm install -g @angular/cli
-RUN export NODE_OPTIONS=--max-old-space-size=8192
+RUN export NODE_OPTIONS=--max-old-space-size=10240
 
 RUN yarn && yarn add moment && yarn add vis-util && yarn add jspdf && yarn add lodash && npm run build --prod --build-optimizer && npm run build:hi --prod --build-optimizer
 RUN ng build --prod --outputPath=dist/www/en --baseHref=/ --i18nLocale=en --verbose=true
