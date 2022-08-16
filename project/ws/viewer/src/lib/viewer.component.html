@@ -2,7 +2,7 @@
   <viewer-viewer-top-bar *ngIf="fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" (fsState)="fullScreenState($event)" [screenContent]="content">
   </viewer-viewer-top-bar>
-  <button *ngIf="!sideNavBarOpened" class="floating-btn" mat-raised-button (click)="minimizeBar()"><img
+  <button *ngIf="!sideNavBarOpened" class="floating-btn d-none" mat-raised-button (click)="minimizeBar()"><img
       src="/fusion-assets/icons/nav-right.png"> <span class="text"> Course Content</span>
   </button>
   <viewer-viewer-top-bar *ngIf="!fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
@@ -71,15 +71,16 @@
 
     </mat-sidenav-content>
   </mat-sidenav-container>
-  <div class="discussion-container mb-5">
+  <div *ngIf="(isXSmall$ | async) !== true && (isLtMedium$ | async) !== true" class="discussion-container mb-5">
     <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
     </all-discussion-widget>
   </div>
 
-  <mat-tab-group animationDuration="0ms" class="minhightab d-none">
-    <!-- <mat-tab i18n-label label="Discussion"> -->
-    <!-- *ngIf="discussionForumWidget && isRestricted" -->
-    <!-- <div class="padding-m">
+  <ng-container *ngIf="(isXSmall$ | async) === true && (isLtMedium$ | async) === true">
+    <mat-tab-group animationDuration="0ms" class="minhightab ">
+      <!-- <mat-tab i18n-label label="Discussion"> -->
+      <!-- *ngIf="discussionForumWidget && isRestricted" -->
+      <!-- <div class="padding-m">
               <div class="video-discussion-forum-in">
 
                 <ng-container [wsResolverWidget]="discussionForumWidget"></ng-container>
@@ -87,59 +88,64 @@
             </div>
           </mat-tab> -->
 
-    <mat-tab i18n-label label="Disussion">
+      <mat-tab i18n-label label="Chapters">
 
-    </mat-tab>
+      </mat-tab>
+      <mat-tab i18n-label class="discussion-container mb-5" label="Disussion">
+        <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
+        </all-discussion-widget>
+      </mat-tab>
 
-    <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Overview">
-      <div class="stack-container">
-        <div class="div-1">
-          <mat-card class="unit-meta-item ml-5">
-            <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
-            <mat-card-content>
-              <div class="mat-subheading-1" [innerHTML]="contentData?.description"></div>
-            </mat-card-content>
-          </mat-card>
-          <!-- Content Body -->
-          <mat-card *ngIf="tocConfig?.overview?.body?.enabled && contentData?.instructions" class="unit-meta-item ml-5">
-            <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
-            <mat-card-content>
-              <div class="break-words" [innerHTML]="contentData?.instructions"></div>
-            </mat-card-content>
-          </mat-card>
+      <mat-tab *ngIf="isTypeOfCollection" class="d-noneP" i18n-label label="Overview">
+        <div class="stack-container">
+          <div class="div-1">
+            <mat-card class="unit-meta-item ml-5">
+              <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
+              <mat-card-content>
+                <div class="mat-subheading-1" [innerHTML]="contentData?.description"></div>
+              </mat-card-content>
+            </mat-card>
+            <!-- Content Body -->
+            <mat-card *ngIf="tocConfig?.overview?.body?.enabled && contentData?.instructions"
+              class="unit-meta-item ml-5">
+              <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+              <mat-card-content>
+                <div class="break-words" [innerHTML]="contentData?.instructions"></div>
+              </mat-card-content>
+            </mat-card>
 
-          <div class="width-1-1 ml-3 mt-3">
-            <div class="mr-5" *ngIf="contentData?.creator?.length">
-              <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+            <div class="width-1-1 ml-3 mt-3">
+              <div class="mr-5" *ngIf="contentData?.creator?.length">
+                <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
                 authors: contentData?.creator,
                 title: 'AUTHOR'
               }">
-              </ng-container>
-            </div>
-            <div class="mr-5" *ngIf="contentData?.creatorContacts?.length">
-              <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
+                </ng-container>
+              </div>
+              <div class="mr-5" *ngIf="contentData?.creatorContacts?.length">
+                <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
                 authors: contentData?.creatorContacts,
                 title: 'CONTACT'
               }">
-              </ng-container>
-            </div>
-          </div>
-
-          <ng-template #creators let-authors="authors" let-title="title">
-            <div class="unit-meta-item ml-5">
-              <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
-              <div class="author">
-                <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">
-                </ws-widget-user-image>
-                <div class="width-expand flex flex-middle flex-start author-name">
-                  <h3 class="margin-remove">{{ authors }}</h3>
-                </div>
+                </ng-container>
               </div>
             </div>
-          </ng-template>
+
+            <ng-template #creators let-authors="authors" let-title="title">
+              <div class="unit-meta-item ml-5">
+                <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
+                <div class="author">
+                  <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="authors || ''">
+                  </ws-widget-user-image>
+                  <div class="width-expand flex flex-middle flex-start author-name">
+                    <h3 class="margin-remove">{{ authors }}</h3>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
 
 
-          <!-- <div class="mt-5 ml-5 mb-4">
+            <!-- <div class="mt-5 ml-5 mb-4">
 
                   <ws-app-toc-cohorts [content]="content" class="cohorts">
 
@@ -147,14 +153,14 @@
 
                 </div> -->
 
+          </div>
+          <div class="div-2">
+            <ws-widget-player-brief [forPreview]="forPreview" [content]="content"></ws-widget-player-brief>
+          </div>
         </div>
-        <div class="div-2">
-          <ws-widget-player-brief [forPreview]="forPreview" [content]="content"></ws-widget-player-brief>
-        </div>
-      </div>
-    </mat-tab>
+      </mat-tab>
 
-    <!-- <mat-tab i18n-label label="License">
+      <!-- <mat-tab i18n-label label="License">
       <div class="mt-3 ml-5 mb-3 mr-5" *ngIf="currentLicense">
         <h2 class="margin-bottom-m">License terms</h2>
         <p>{{currentLicense[0]?.licenseName}}</p>
@@ -164,7 +170,9 @@
       </div>
     </mat-tab> -->
 
-  </mat-tab-group>
+    </mat-tab-group>
+  </ng-container>
+
 </section>
 <div class="full-height-width-iframe" *ngIf="!isNotEmbed">
   <router-outlet></router-outlet>

@@ -24,6 +24,7 @@ export enum ErrorType {
   styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
+  isXSmall$ = this.valueSvc.isXSmall$
   fullScreenContainer: HTMLElement | null = null
   content: NsContent.IContent | null = null
   contentData: any
@@ -76,6 +77,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       }
     }
+    console.log("small", this.isLtMedium$, this.isXSmall$)
 
   }
 
@@ -128,6 +130,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit() {
+    console.log("smallgg", this.isLtMedium$, this.isXSmall$)
     this.getCourseContentData()
 
     this.getTocConfig()
@@ -189,7 +192,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
     },
-                                                            err => {
+      err => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }
