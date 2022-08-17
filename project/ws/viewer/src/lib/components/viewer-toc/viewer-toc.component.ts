@@ -207,14 +207,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -443,7 +443,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           fields: ['progressdetails'],
         },
       }
-      console.log(this.viewerDataSvc.getNode())
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
