@@ -204,7 +204,6 @@
 
             </span>
             <ng-template #elseResourcePercentage>
-              {{content?.completionPercentage}}
               <ng-container
                 *ngIf="content?.completionPercentage > 0 && content?.completionPercentage !==100 ; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
