@@ -42,6 +42,11 @@
 .viewer-sidenav-container {
   // height: calc(100vh - 56px);
   margin: 0 50px;
+
+  @include breakpoint-xs {
+    margin: 0 !important;
+  }
+
 }
 
 .viewer-sidenav {
@@ -173,4 +178,8 @@ viewer-quiz {
 .discussion-container {
   width: 50%;
   margin-left: 50px;
+}
+
+::ng-deep .mat-tab-body-content {
+  padding: 5px;
 }
