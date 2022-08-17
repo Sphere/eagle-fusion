@@ -3,7 +3,7 @@
     <a *ngIf="showBackBtn" [routerLink]="'/app/profile/dashboard'">
       <mat-icon>arrow_back_ios</mat-icon>
 
-      <span class="back-text"> Back</span>
+      <span class="back-text" i18n> Back</span>
     </a>
     <form class="" [formGroup]="createUserForm">
       <mat-tab-group animationDuration="0ms" class="mat-tab-labels w-full" mat-stretch-tabs
@@ -93,7 +93,7 @@
                           </mat-error>
                         </mat-form-field>
                         <div>
-                          <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
+                          <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
                         </div>
                       </div>
 
@@ -395,7 +395,7 @@
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
                       <input #telephone type="number" matInput placeholder="Telephone Number"
-                        formControlName="telephone">
+                        formControlName="telephone" i18n-placeholder>
                       <mat-error [hidden]="false" i18n="Telephone Number Error|Explains name is required">
                         Telephone Number is mandatory
                       </mat-error>
@@ -435,7 +435,7 @@
                         i18n-placeholder #residenceAddress></textarea>
                       <!-- <input matInput #residenceAddress formControlName="residenceAddress" i18n-placeholder
                         placeholder="Enter Postal Address Here" [required]="true" /> -->
-                      <mat-hint align="end">{{ residenceAddress.value.length }} /200 characters</mat-hint>
+                      <mat-hint align="end">{{ residenceAddress.value.length }} /200 <span i18n>characters</span></mat-hint>
                       <mat-error i18n>
                         You have exceeded 200 characters.
                       </mat-error>
@@ -447,7 +447,7 @@
                       Pincode
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input #pincode type="text" matInput placeholder="Pincode" formControlName="pincode">
+                      <input #pincode type="text" matInput i18n-placeholder placeholder="Pincode" formControlName="pincode">
                       <mat-error [hidden]="false" i18n="Pincode Error|Explains name is required"
                         *ngIf="createUserForm?.controls['pincode'].errors?.required">
                         Pincode is mandatory
@@ -479,7 +479,7 @@
           <div class="margin-top-xl new-mobile">
             <div class="flex flex-wrap mobile-break">
               <div class="w-full profile-cols-full bg-grey">
-                <p class="heading">10th Standard</p>
+                <p class="heading" i18n>10th Standard</p>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -517,7 +517,7 @@
                 </div>
               </div>
               <div class="w-full profile-cols-full bg-grey">
-                <p class="heading">12th Standard</p>
+                <p class="heading" i18n>12th Standard</p>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
@@ -555,7 +555,7 @@
                 </div>
               </div>
               <div class="w-full profile-cols-full bg-grey">
-                <p class="heading">Graduation Details</p>
+                <p class="heading" i18n>Graduation Details</p>
                 <ng-container formArrayName="degrees" *ngFor="let degrees of degreesControls; let i = index;">
                   <div class="flex flex-wrap section-input" [formGroupName]="i">
                     <div class="item">
@@ -624,7 +624,7 @@
                 </div>
               </div>
               <div class="w-full profile-cols-full bg-grey">
-                <p class="heading">Post Graduation Details</p>
+                <p class="heading" i18n>Post Graduation Details</p>
                 <ng-container formArrayName="postDegrees" *ngFor="let degrees of postDegreesControls; let i = index;">
                   <div class="flex flex-wrap section-input" [formGroupName]="i">
                     <div class="item">
@@ -843,7 +843,7 @@
                       <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="4"
                         formControlName="orgDesc" placeholder="Type Your your Address Here" i18n-placeholder
                         #orgDesc></textarea>
-                      <mat-hint align="end">{{ orgDesc.value.length }} /500 characters</mat-hint>
+                      <mat-hint align="end">{{ orgDesc.value.length }} /500 <span>characters</span></mat-hint>
                       <mat-error i18n>
                         You have exceeded 500 characters.
                       </mat-error>
@@ -1012,7 +1012,7 @@
             <div class="flex flex-wrap mobile-break">
               <div class="w-full profile-cols-full bg-grey">
                 <div class="flex flex-column flex-wrap section-input-single">
-                  <p class="heading">Additional Skill Acquired/Course Completed</p>
+                  <p class="heading" i18n>Additional Skill Acquired/Course Completed</p>
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Description label|Label which explains the user to enter Description">
@@ -1028,7 +1028,7 @@
                       </mat-error> -->
                     </mat-form-field>
                   </div>
-                  <p class="heading">Provide Certification Details</p>
+                  <p class="heading" i18n>Provide Certification Details</p>
                   <div class="item">
                     <p class=" margin-remove-bottom form-label"
                       i18n="Provide Certification Details label|Label which explains the user to enter Provide Certification Details">
@@ -1048,7 +1048,7 @@
               </div>
               <div class="w-full profile-cols-full bg-grey">
                 <div class="flex flex-column flex-wrap section-input-single">
-                  <p class="heading">Professional Interests</p>
+                  <p class="heading" i18n>Professional Interests</p>
                   <div class="item">
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
                       <mat-chip-list #chipListInterests>
@@ -1065,7 +1065,7 @@
                         (matChipInputTokenEnd)="addPersonalInterests($event)" class="w-full-imp" />
                     </mat-form-field>
                   </div>
-                  <p class="heading">Hobbies</p>
+                  <p class="heading" i18n>Hobbies</p>
                   <div class="item">
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
                       <mat-chip-list #chipListHobies>

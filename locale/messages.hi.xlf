@@ -1863,7 +1863,7 @@
         <target state="final">बेस का फ़ॉन्ट साइज़</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">170</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2777aef7e57af7f2987a459bbf4ffebcf8fc6f98" datatype="html">
@@ -1872,7 +1872,7 @@
         <note priority="1" from="description">English language name and its language code (en) in braces</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">87</context>
+          <context context-type="linenumber">93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4ff5912371fe54b6bb7edca9624fc7d2720a5fb6" datatype="html">
@@ -1881,7 +1881,7 @@
         <note priority="1" from="description">German language name and its language code (de) in braces</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ac8ec7c81d889ac3e1e21bad25f57156e23addb4" datatype="html">
@@ -1890,7 +1890,7 @@
         <note priority="1" from="description">Arabic language name and its language code (ar) in braces</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="be519474f7b7f4c6a033252adccc3dba8555e891" datatype="html">
@@ -1909,7 +1909,7 @@
         <note priority="1" from="description">French language name and its language code (fr) in braces</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">121</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f7f040ba3fc44233e81b00ff21e492f4a1fe0ebf" datatype="html">
@@ -1928,7 +1928,7 @@
         <note priority="1" from="description">Dutch language name and its language code (nl) in braces</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">129</context>
+          <context context-type="linenumber">135</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d9e7930c07807967b9e671c4851be6da75c47e33" datatype="html">
@@ -1947,7 +1947,7 @@
         <note priority="1" from="description">Spanish language name and its language code (es) in braces</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3036da15cd52c877cf47bfb593f53a50fc4e26ef" datatype="html">
@@ -2325,6 +2325,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b9f856180c49aebb377b33216619f4d9835f875e" datatype="html">
+        <source>Duration: </source>
+        <target state="final">अवधि:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-nominate-dialog/training-nominate-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html">
@@ -4608,6 +4616,30 @@
           <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="fa56473c66da5baba33e3a1652dcaaa075ce245f" datatype="html">
+        <source>Create your account</source>
+        <target state="final">अपना खाता बनाएं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="043ab529469faed2b893790ecb918af7b0c9fa0f" datatype="html">
+        <source>This is the name that will show up on your certificate) </source><target>पासवर्ड में कम से कम 8 अक्षर होने चाहिए जिनमें अंक, लोअर और अपर केस अक्षर और बिना स्थान के विशेष वर्ण शामिल हैं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ef47d8cdae9cd41e1a2aa0a10fe1f94fc81487ac" datatype="html">
+        <source>Password must contain a minimum of 8 characters including numerals, lower and
+                upper
+                case alphabets and special characters without space </source><target>यह वह नाम है जो आपके प्रमाणपत्र पर दिखाई देगा</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a43f25a9ac40e8e2441ff0be7a36b8e5d15534df" datatype="html">
         <source>Country</source>
         <target state="final">देश</target>
@@ -4647,7 +4679,7 @@
         <target state="final">हो गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">208</context>
+          <context context-type="linenumber">206</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9ee0f11dd278ca1c90e1464c5f8a95528d857e5a" datatype="html">
@@ -4672,7 +4704,7 @@
         <target state="final">जर्मन (de)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="885f85866ede6f99a3b52b64c9f1a29d4324e763" datatype="html">
@@ -4680,7 +4712,7 @@
         <target state="final">जापानी (ja)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">142</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9fbe4ab9a30068de6e79de7827d627d4f44c8a85" datatype="html">
@@ -4688,7 +4720,7 @@
         <target state="final">क्या आप कंटेंट के लिए अतिरिक्त भाषा चुनना चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f2848ce0ecfd04913e2eacca6c6f98fd21dda06e" datatype="html">
@@ -4697,7 +4729,7 @@
         <target state="final">आवेदन करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">151</context>
+          <context context-type="linenumber">157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="538222d53eba8efac930edf8623604c6f210fda8" datatype="html">
@@ -4706,7 +4738,7 @@
         <note priority="1" from="description">settings: choose a font size</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">162</context>
+          <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3d53f64033c4b76fdc1076ba15955d913209866c" datatype="html">
@@ -4731,7 +4763,7 @@
         <note priority="1" from="description">Toast msg after successfully saving preferences</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">230</context>
+          <context context-type="linenumber">236</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8ebc5f359a62d0e365f9606e67b3912f8883805f" datatype="html">
@@ -4740,7 +4772,7 @@
         <note priority="1" from="description">Toast msg after failed to save preferences</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">232</context>
+          <context context-type="linenumber">238</context>
         </context-group>
       </trans-unit>
       <trans-unit id="174c6a1d3f40413d249b8f9e68c895d249cc530d" datatype="html">
@@ -4748,7 +4780,7 @@
         <target state="final">यह फ़ीचर बीटा में है और इसलिए साइट के कुछ हिस्से केवल अंग्रेज़ी में दिखाई दे सकते हैं।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">235</context>
+          <context context-type="linenumber">241</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ce84e484ecfe57e8d09af00211399001102a96b6" datatype="html">
@@ -4756,7 +4788,7 @@
         <target state="final">आपके आस-पास केवल 2 कंटेंट भाषा की अनुमति है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">238</context>
+          <context context-type="linenumber">244</context>
         </context-group>
       </trans-unit>
       <trans-unit id="14c112a39e3736ddf3266dbf90e11e5bcb383ceb" datatype="html">
@@ -12278,14 +12310,6 @@
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b9f856180c49aebb377b33216619f4d9835f875e" datatype="html">
-        <source>Duration: </source>
-        <target state="final">अवधि:</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-nominate-dialog/training-nominate-dialog.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="1595305f3724382831566acf5f8e116bdb9b57f4" datatype="html">
         <source>
   Share</source>
@@ -16785,6 +16809,14 @@
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8c2e731ee23fd5de9f7fac6bad93993a5f6ba3a8" datatype="html">
+        <source> Back</source>
+        <target state="final">पीछे जाएं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="ca9230080bbc4648cdd12b43d55e69a9677b91a0" datatype="html">
         <source>
             Personal Details</source>
@@ -17140,6 +17172,14 @@
           <context context-type="linenumber">393</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="ee3dff723ac6541216032a5fd1479d22d28b3305" datatype="html">
+        <source>Telephone Number</source>
+        <target state="final">टेलीफ़ोन नंबर</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">397</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="ab027246bc7b8e6d3708cab3a093d19ecf31778b" datatype="html">
         <source>
                         Telephone Number is mandatory</source>
@@ -17185,6 +17225,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">446</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bc08adc46d777e176025060f5e63cb4f7a795a41" datatype="html">
+        <source>Pincode</source>
+        <target state="final">पिनकोड</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">450</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b0438f9986cd75017c0d6836bf9229a9ff518607" datatype="html">

@@ -134,8 +134,8 @@
     </div>
     <ng-template #showElseTemplate>
       <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
-        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+        <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
+        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'" i18n
           [queryParams]="{edit: 0}">+ Add
           your info</button>
       </div>
@@ -143,26 +143,26 @@
 
     <ng-template #showElseProfession>
       <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" matTooltip="Edit your professional info"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}">+ Add
+          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}" i18n>+ Add
           your info</button>
       </div>
     </ng-template>
 
     <ng-template #showElseSkills>
       <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" matTooltip="Edit your Skills"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}">+ Add
+          [routerLink]="'/app/user-profile/details'" i18n [queryParams]="{edit: 3}">+ Add
           your info</button>
       </div>
     </ng-template>
 
     <div *ngIf="!showAcademicElse" class="mb-8">
-      <div class="ml-4 mb-4">You have not added your info in Profile</div>
+      <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
       <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
-        [queryParams]="{edit: 1}">+ Add your
+        [queryParams]="{edit: 1}" i18n>+ Add your
         info</button>
 
     </div>

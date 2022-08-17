@@ -86,6 +86,12 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
         catchError(err => of({ data: null, error: err })),
       )
     }
+
+    if(!localStorage.getItem('lang')){
+      url = url
+    } else {
+      url = url+`.hi`
+    }
     const pageRequest = [
       (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
         mergeMap(() =>

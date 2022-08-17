@@ -4357,6 +4357,57 @@
           <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="b851302c1463a3dd52bb1460ddfd751de899c7b1" datatype="html">
+        <source>Published on: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b9f856180c49aebb377b33216619f4d9835f875e" datatype="html">
+        <source>Duration: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-share-dialog/training-share-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-nominate-dialog/training-nominate-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61c58c7f484580d386b86c6099edc1d79986a745" datatype="html">
+        <source>Author:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bd92fdfb839e2124ea65e7630fac97335d88ed03" datatype="html">
+        <source>Author:
+          </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2f2d3537be5ad6783862d60ec1e4b6a034714783" datatype="html">
+        <source>Source:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7e593917155986a9f9ec5143a35432e806a5eccc" datatype="html">
+        <source>Course Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html">
         <source>Description</source>
         <context-group purpose="location">
@@ -7566,9 +7617,8 @@
           <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b17eed820e54bfa923df55605c57a4e4bb470be0" datatype="html">
-        <source>
-    </source>
+      <trans-unit id="6bec7734cb3740b324966b003c0f45f0148a70e8" datatype="html">
+        <source>search</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-public-nav-bar/app-public-nav-bar.component.html</context>
           <context context-type="linenumber">14</context>
@@ -8100,6 +8150,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/your-location/your-location.component.html</context>
           <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a43f25a9ac40e8e2441ff0be7a36b8e5d15534df" datatype="html">
@@ -17034,17 +17088,6 @@
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b9f856180c49aebb377b33216619f4d9835f875e" datatype="html">
-        <source>Duration: </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-share-dialog/training-share-dialog.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-nominate-dialog/training-nominate-dialog.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="1595305f3724382831566acf5f8e116bdb9b57f4" datatype="html">
         <source>
   Share
@@ -21083,6 +21126,49 @@
         </context-group>
         <note priority="1" from="description">Education</note>
       </trans-unit>
+      <trans-unit id="fd0813fa1e4fe42ae8fc1dd7e4cf54ae80edbd29" datatype="html">
+        <source>You have not added your info in Profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">146</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2da528944774b4fb017bdb88a9cdbc3b932b1bb6" datatype="html">
+        <source>+ Add
+          your info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">157</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d293981be13802a27c906578cba69923764ec354" datatype="html">
+        <source>+ Add your
+        info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9edba767ef6fa50e345e4e7766815193caddc695" datatype="html">
         <source>
         Professional info</source>
@@ -22144,6 +22230,13 @@
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8c2e731ee23fd5de9f7fac6bad93993a5f6ba3a8" datatype="html">
+        <source> Back</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="ca9230080bbc4648cdd12b43d55e69a9677b91a0" datatype="html">
         <source>
             Personal Details
@@ -22528,6 +22621,13 @@
         <note priority="1" from="description">Label which explains the user to enter Telephone Number</note>
         <note priority="1" from="meaning">Telephone Number label</note>
       </trans-unit>
+      <trans-unit id="ee3dff723ac6541216032a5fd1479d22d28b3305" datatype="html">
+        <source>Telephone Number</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">397</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="ab027246bc7b8e6d3708cab3a093d19ecf31778b" datatype="html">
         <source>
                         Telephone Number is mandatory
@@ -22557,6 +22657,13 @@
           <context context-type="linenumber">434</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="045471269e2e82b0ac2b7dba5c4d731da645c14c" datatype="html">
+        <source>characters</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">438</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="55be521adc0fd7454aa4e66bd91dd050b4d77fd4" datatype="html">
         <source>
                         You have exceeded 200 characters.
@@ -22577,6 +22684,13 @@
         <note priority="1" from="description">Label which explains the user to enter Pincode</note>
         <note priority="1" from="meaning">Pincode label</note>
       </trans-unit>
+      <trans-unit id="bc08adc46d777e176025060f5e63cb4f7a795a41" datatype="html">
+        <source>Pincode</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">450</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="b0438f9986cd75017c0d6836bf9229a9ff518607" datatype="html">
         <source>
                         Pincode is mandatory
@@ -22595,6 +22709,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">476</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2c99a2ffbbf9085c41ec4acf399719e85c9272f8" datatype="html">
+        <source>10th Standard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">482</context>
         </context-group>
       </trans-unit>
       <trans-unit id="983283e65d2d4d0ea06ef687fdbad68f87049b9f" datatype="html">
@@ -22670,6 +22791,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">675</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e951e8c40c9d4b9101115f2d0e43025764a464fe" datatype="html">
+        <source>12th Standard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">520</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5c38aaafc30410f2313073138dbb409e28b7d302" datatype="html">
+        <source>Graduation Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">558</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6c982143f3bbe68859b2465a4068f367688e2649" datatype="html">
@@ -22759,6 +22894,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">691</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ec36be54787f7dd589f3aecbb9ac64bf99b57cfb" datatype="html">
+        <source>Post Graduation Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">627</context>
         </context-group>
       </trans-unit>
       <trans-unit id="29653a193be147ec650acffe2d84cf9d97375ad5" datatype="html">
@@ -22940,6 +23082,13 @@
           <context context-type="linenumber">1008</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8533bfb0adb8297d79faa4729ced9d790e9a579e" datatype="html">
+        <source>Additional Skill Acquired/Course Completed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">1015</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5378dd396007707ac399f21dd693a09cd1e809b8" datatype="html">
         <source>
                       Description
@@ -22956,6 +23105,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">1023</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8e5bc4e9aadbe42eff5c17bb91c5953afd1eb4bd" datatype="html">
+        <source>Provide Certification Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">1031</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0e254e40ececeff55ea4a04de1720d4459b59bee" datatype="html">
@@ -22976,6 +23132,13 @@
           <context context-type="linenumber">1039</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="0f39248c4d1c3a5579b481bd3fa0af0e72da511c" datatype="html">
+        <source>Professional Interests</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">1051</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7f29980b5c13d994a5e35a348edcbfda5e7d0e03" datatype="html">
         <source>Type your interests and press enter</source>
         <context-group purpose="location">
@@ -22989,6 +23152,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">1063</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8e450499802dc164b0325b2bb12f7e437a8d387e" datatype="html">
+        <source>Hobbies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
+          <context context-type="linenumber">1068</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ae838226c3c34aaf481d34fef8d1d24da3818ba2" datatype="html">
