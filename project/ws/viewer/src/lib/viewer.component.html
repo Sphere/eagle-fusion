@@ -8,6 +8,7 @@
   <viewer-viewer-top-bar *ngIf="!fullScreenContainer" [forPreview]="forPreview" [frameReference]="fullScreenContainer"
     (toggle)="toggleSideBar()" [screenContent]="content">
   </viewer-viewer-top-bar>
+
   <ng-container *ngIf="(isXSmall$ | async) !== true">
     <mat-sidenav-container autosize class="viewer-sidenav-container">
       <mat-sidenav [ngClass]="isTypeOfCollection?'viewer-sidenav':'viewer-sidenav-standalone'" position="end"
@@ -71,11 +72,12 @@
 
       </mat-sidenav-content>
     </mat-sidenav-container>
-    <div class="discussion-container mb-5">
+    <div class="discussion-container mb-10">
       <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
       </all-discussion-widget>
     </div>
   </ng-container>
+
   <!-- small screen -->
   <ng-container *ngIf="(isXSmall$ | async) === true">
     <mat-sidenav-container autosize class="viewer-sidenav-container">
@@ -133,10 +135,6 @@
 
       </mat-sidenav-content>
     </mat-sidenav-container>
-    <div class="discussion-container mb-10">
-      <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
-      </all-discussion-widget>
-    </div>
 
     <mat-tab-group animationDuration="0ms" class="minhightab ">
       <!-- <mat-tab i18n-label label="Discussion"> -->
@@ -150,12 +148,10 @@
           </mat-tab> -->
 
       <mat-tab i18n-label label="Chapters">
-
         <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
         </viewer-viewer-toc>
-
-
       </mat-tab>
+
       <mat-tab i18n-label class="discussion-container" label="Disussion">
         <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
         </all-discussion-widget>
