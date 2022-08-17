@@ -124,7 +124,8 @@
     </ws-widget-display-content-type-icon> -->
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
-      <ws-app-assessment-detail [resourceLink]="content?.completionPercentage > 0 ? resourceLink : ''"
+      <ws-app-assessment-detail
+        [resourceLink]="content?.completionPercentage > 0 ||  content.index === 1 ? resourceLink : ''"
         [content]="content">
       </ws-app-assessment-detail>
     </ng-container>
@@ -141,7 +142,15 @@
         </ng-container>
         <ng-template #elseRouterLock>
           <ng-container *ngIf="batchId ; else elsewithoutbatchId">
-            <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+            <ng-container *ngIf="content.index === 1">
+              <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+                <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+              </a>
+            </ng-container>
+            <ng-container *ngIf="content.index !== 1">
+              <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+            </ng-container>
+
           </ng-container>
         </ng-template>
         <ng-template #elsewithoutbatchId>
@@ -201,7 +210,10 @@
               <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourseLock>
-              <img src=".\fusion-assets\icons\lock.png">
+              <ng-container *ngIf="content.index !== 1">
+                <img src=".\fusion-assets\icons\lock.png">
+              </ng-container>
+
             </ng-template>
           </div>
         </div>
