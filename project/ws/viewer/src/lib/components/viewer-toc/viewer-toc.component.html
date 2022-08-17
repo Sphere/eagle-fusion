@@ -219,7 +219,9 @@
               <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourseLock>
-              <img src=".\fusion-assets\icons\lock.png">
+              <ng-container *ngIf="content.disabledNode">
+                <img src=".\fusion-assets\icons\lock.png">
+              </ng-container>
             </ng-template>
           </div>
         </div>
