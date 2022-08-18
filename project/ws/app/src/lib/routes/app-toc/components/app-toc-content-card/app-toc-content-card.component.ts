@@ -61,6 +61,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     })
     this.disabledNode = this.tocSvc.getNode()
   }
+
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'expandAll') {

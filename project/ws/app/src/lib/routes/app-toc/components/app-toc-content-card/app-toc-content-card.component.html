@@ -118,7 +118,6 @@
 
 
   </ng-container>
-
   <div *ngIf="isResource" class="resource-container">
     <!-- <ws-widget-display-content-type-icon class="flex" [displayContentType]="content?.displayContentType">
     </ws-widget-display-content-type-icon> -->
@@ -142,12 +141,12 @@
         </ng-container>
         <ng-template #elseRouterLock>
           <ng-container *ngIf="batchId ; else elsewithoutbatchId">
-            <ng-container *ngIf="content.index === 1">
+            <ng-container *ngIf="content.index === 1 && content?.hideLocIcon">
               <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
                 <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
               </a>
             </ng-container>
-            <ng-container *ngIf="content.index !== 1">
+            <ng-container *ngIf="!content?.hideLocIcon">
               <ng-container *ngIf="disabledNode ; else enableNode">
                 <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
               </ng-container>
@@ -217,7 +216,7 @@
               <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourseLock>
-              <ng-container *ngIf="content.index !== 1 && disabledNode">
+              <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
                 <img src=".\fusion-assets\icons\lock.png">
               </ng-container>
 
