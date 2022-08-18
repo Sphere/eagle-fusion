@@ -36,8 +36,9 @@ export class AssessmentDetailComponent implements OnInit {
   }
 
   constructor(private viewSvc: ViewerUtilService,
-              private http: HttpClient,
-              private contentSvc: WidgetContentService) { }
+    private http: HttpClient,
+    private contentSvc: WidgetContentService) {
+  }
 
   async ngOnInit() {
     this.assesmentdata = await this.transformQuiz(this.content)

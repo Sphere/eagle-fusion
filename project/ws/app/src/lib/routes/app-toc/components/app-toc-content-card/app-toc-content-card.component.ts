@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
-
+import { AppTocService } from '../../services/app-toc.service'
 @Component({
   selector: 'ws-app-toc-content-card',
   templateUrl: './app-toc-content-card.component.html',
@@ -17,6 +17,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() forPreview = false
   @Input() batchId!: string
   @Output() expandChild = new EventEmitter<any>()
+  disabledNode = false
   contentId!: string
   hasContentStructure = false
   resourceContentType: any
@@ -44,7 +45,9 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     private configSvc: ConfigurationsService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+    private tocSvc: AppTocService,
+  ) {
+  }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
@@ -56,6 +59,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       this.batchId = params['batchId']
       this.contentId = params['contentId']
     })
+    this.disabledNode = this.tocSvc.getNode()
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {

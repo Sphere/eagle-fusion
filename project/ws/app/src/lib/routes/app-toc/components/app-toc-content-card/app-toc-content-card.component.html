@@ -125,7 +125,7 @@
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
       <ws-app-assessment-detail
-        [resourceLink]="content?.completionPercentage > 0 ||  content.index === 1 ? resourceLink : ''"
+        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode ? resourceLink : ''"
         [content]="content">
       </ws-app-assessment-detail>
     </ng-container>
@@ -148,10 +148,17 @@
               </a>
             </ng-container>
             <ng-container *ngIf="content.index !== 1">
-              <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+              <ng-container *ngIf="disabledNode ; else enableNode">
+                <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+              </ng-container>
             </ng-container>
-
           </ng-container>
+
+        </ng-template>
+        <ng-template #enableNode>
+          <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+            <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+          </a>
         </ng-template>
         <ng-template #elsewithoutbatchId>
           <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
@@ -210,7 +217,7 @@
               <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
             </ng-template>
             <ng-template #elseResourseLock>
-              <ng-container *ngIf="content.index !== 1">
+              <ng-container *ngIf="content.index !== 1 && disabledNode">
                 <img src=".\fusion-assets\icons\lock.png">
               </ng-container>
 

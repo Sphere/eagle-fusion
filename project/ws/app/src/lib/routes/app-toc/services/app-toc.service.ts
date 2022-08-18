@@ -41,7 +41,7 @@ export class AppTocService {
   batchReplaySubject: Subject<any> = new Subject()
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null
-
+  gatingEnabled = false
   constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
   private data: any
 
@@ -378,5 +378,13 @@ export class AppTocService {
   }
   updateBatchData() {
     this.batchReplaySubject.next()
+  }
+
+  getNode(): boolean {
+    return this.gatingEnabled
+  }
+
+  setNode(value: any) {
+    this.gatingEnabled = value
   }
 }

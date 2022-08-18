@@ -83,6 +83,9 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
+    if (this.content && this.content.gatingEnabled) {
+      this.tocSvc.setNode(this.content.gatingEnabled)
+    }
     this.errorCode = initData.errorCode
     if (this.content) {
       if (!this.contextId || !this.contextPath) {
