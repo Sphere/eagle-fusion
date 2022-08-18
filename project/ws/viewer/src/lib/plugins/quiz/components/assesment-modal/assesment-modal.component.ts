@@ -56,6 +56,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.questionAnswerHash = {}
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
+    this.progressbarValue += 100 / this.totalQuestion
   }
   ngAfterViewInit() {
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
@@ -298,7 +299,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
       this.disableNext = true
-      this.quizService.questionState.active_slide_index += 1
+      //this.quizService.questionState.active_slide_index += 1
       this.showSubmit = true
       // this.proceedToSubmit()
 
@@ -354,13 +355,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
     if (
       this.quizService.questionState.active_slide_index
-      === (this.quizService.questionState.slides.length)) {
+      === (this.quizService.questionState.slides.length - 1)) {
       this.diablePrevious = false
-      this.quizService.questionState.active_slide_index -= 1
       this.showSubmit = false
       // this.proceedToSubmit()
-
-      return
     }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {

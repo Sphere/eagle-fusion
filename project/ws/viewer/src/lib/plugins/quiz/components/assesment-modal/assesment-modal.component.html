@@ -62,7 +62,7 @@
 
   <div class="flex">
     <div *ngIf="tabIndex === 0" class="assesment-progress-bar">
-      <span>{{quizService.questionState.active_slide_index}}/{{quizService.questionState.slides.length}}</span>
+      <span>{{quizService.questionState.active_slide_index+1}}/{{quizService.questionState.slides.length}}</span>
       <mat-progress-bar class="audio-progress-bar" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
       </mat-progress-bar>
     </div>
