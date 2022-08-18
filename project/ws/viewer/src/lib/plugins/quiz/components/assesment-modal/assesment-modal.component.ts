@@ -18,6 +18,7 @@ import * as _ from 'lodash'
 })
 export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
+  showSubmit = false
   timeLeft = 0
   startTime = 0
   tabIndex = 0
@@ -297,7 +298,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.quizService.questionState.active_slide_index
       === (this.quizService.questionState.slides.length - 1)) {
       this.disableNext = true
-      this.proceedToSubmit()
+      this.quizService.questionState.active_slide_index += 1
+      this.showSubmit = true
+      // this.proceedToSubmit()
 
       return
     }
@@ -343,8 +346,20 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.disableNext = false
     }
     this.diablePrevious = true
+
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
+      return
+    }
+
+    if (
+      this.quizService.questionState.active_slide_index
+      === (this.quizService.questionState.slides.length)) {
+      this.diablePrevious = false
+      this.quizService.questionState.active_slide_index -= 1
+      this.showSubmit = false
+      // this.proceedToSubmit()
+
       return
     }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
