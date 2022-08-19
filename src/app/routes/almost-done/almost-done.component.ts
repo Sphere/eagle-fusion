@@ -42,7 +42,9 @@ export class AlmostDoneComponent implements OnInit {
   districtUrl = '../../../fusion-assets/files/district.json'
   disticts: any
   selectedBg = ''
-
+  blockEntered = false
+  subcentreEntered = false
+  hideAsha = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -57,26 +59,40 @@ export class AlmostDoneComponent implements OnInit {
   ngOnInit() {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
-    // console.log(this.yourBackground)
+    if (this.yourBackground.value.country !== 'India') {
+      this.hideAsha = true
+    } else {
+      this.hideAsha = false
+    }
     if (this.backgroundSelect === 'ASHA') {
-    this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
-    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
-        if (item.state === this.yourBackground.value.state) {
-          this.disticts = item.districts
-        }
+      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+        statesdata.states.map((item: any) => {
+          if (item.state === this.yourBackground.value.state) {
+            this.disticts = item.districts
+          }
+        })
       })
-    })
-  }
+    }
   }
   redirectToYourBackground() {
     this.redirectToParent.emit('true')
   }
   chooseBackground(data: any) {
-    // console.log(data)
     this.selectedBg = data
     if (this.selectedBg === 'Mother/Family Members') {
       this.enableSubmit = false
+    }
+    if (this.selectedBg === 'Asha Facilitator') {
+      this.enableSubmit = true
+      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+        statesdata.states.map((item: any) => {
+          if (item.state === this.yourBackground.value.state) {
+            this.disticts = item.districts
+          }
+        })
+      })
     }
   }
 
@@ -243,8 +259,27 @@ export class AlmostDoneComponent implements OnInit {
       case 'locationselect':
         this.almostDoneForm.controls.locationselect.setValue(value)
         break
+      case 'block':
+        if (value && value !== '') {
+          this.blockEntered = true
+        } else {
+          this.blockEntered = false
+        }
+        break
+      case 'subcentre':
+        if (value && value !== '') {
+          this.subcentreEntered = true
+        } else {
+          this.subcentreEntered = false
+        }
+        break
       default:
         break
+    }
+    if (this.blockEntered && this.subcentreEntered) {
+      this.enableSubmit = false
+    } else {
+      this.enableSubmit = true
     }
     if (this.profession === 'student' && this.studentInstitute) {
       this.degrees = this.createUserForm.get('degrees') as FormArray
@@ -269,7 +304,7 @@ export class AlmostDoneComponent implements OnInit {
       doj: '',
       completePostalAddress: '',
     }
-    // console.log(this.backgroundSelect)
+    
     if (this.backgroundSelect === 'ASHA') {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
@@ -277,6 +312,12 @@ export class AlmostDoneComponent implements OnInit {
     }
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
+    }
+    if (this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Facilitator') {
+      org['selectBackground'] = this.almostDoneForm.value.selectBackground
+      org['locationselect'] = this.almostDoneForm.value.locationselect
+      org['block'] = this.almostDoneForm.value.block
+      org['subcentre'] = this.almostDoneForm.value.subcentre
     }
     if (this.backgroundSelect === 'Student') {
       org['qualification'] = this.almostDoneForm.value.courseName

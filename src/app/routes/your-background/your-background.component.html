@@ -4,18 +4,18 @@
     <div class="content">
       <div class="content-wrapper" *ngFor="let img of professions; let i = index">
         <div class="column" (click)="imgSelect(img)" tabindex="-1">
-          <a>
+          <a (click)="onsubmit()">
             <h4>{{img.name}}</h4>
             <img [src]="img.image" height="80" alt="{{img.name}}" />
           </a>
         </div>
       </div>
     </div>
-    <div class="next-btn-div">
+<!--     <div class="next-btn-div">
       <button class="form-group login-button" name="login" type="submit" (click)="onsubmit()" id="next-btn" i18n
         [disabled]="nextBtnDisable">
         Next</button>
-    </div>
+    </div> -->
   </div>
 </div>
 
