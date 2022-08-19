@@ -86,8 +86,11 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.content = initData.content
     if (this.content && this.content.gatingEnabled) {
       this.tocSvc.setNode(this.content.gatingEnabled)
-
-      this.content.children[0].children[0]['hideLocIcon'] = true
+      if (this.content.children[0].children) {
+        this.content.children[0].children[0]['hideLocIcon'] = true
+      } else {
+        this.content.children[0]['hideLocIcon'] = true
+      }
     }
     this.errorCode = initData.errorCode
     if (this.content) {
