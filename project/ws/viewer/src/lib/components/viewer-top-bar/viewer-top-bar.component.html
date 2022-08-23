@@ -1,6 +1,6 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3 mb-4 p-0">
   <ng-container *ngIf="!isSmall">
-    <a [routerLink]="'/app'+'/toc/' + collectionId + '/overview'" class="d-flex justify-content-end text-black ">
+    <a [routerLink]="'/app'+'/toc/' + collectionId + '/chapters'" class="d-flex justify-content-end text-black ">
       <mat-icon class="">chevron_left</mat-icon>
     </a>
     <!-- <a *ngIf="logo" href="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper ">

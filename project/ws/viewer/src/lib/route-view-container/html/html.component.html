@@ -25,9 +25,10 @@
                     </span>
                   </div>
 
-                  <div class="next-button">
-                    <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
-                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
+                  <div class="next-button" (click)="navigatetoOverview
+                  ()">
+                    <!-- <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
+                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span> -->
                     <a mat-button class="width-auto mr-10"
                       [routerLink]="isProgressCheck() ? nextResourceUrl : stopPropagation()"
                       queryParamsHandling="preserve" accesskey=">" [disabled]="!isProgressCheck()">
