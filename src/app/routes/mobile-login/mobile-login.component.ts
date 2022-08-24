@@ -50,9 +50,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   emailPhoneType: any
   errorMessage = ''
   googleAuth = false
-  source = ''
   private baseUrl = 'assets/configurations'
-
+  source: string = ''
   public isSignedIn = false
   public signinURL = ''
   private clientId = '836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com'
@@ -85,7 +84,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -99,7 +98,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -109,7 +108,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       this.source = params.source
     }
     )
-
     this.checkGoogleAuth()
     const storageItem1 = localStorage.getItem(`google_token`)
     const storageItem2 = localStorage.getItem(`google_isSignedIn`)

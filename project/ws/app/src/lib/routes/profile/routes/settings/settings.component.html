@@ -17,6 +17,12 @@
                     <ng-container i18n> English (en)</ng-container>
                   </a>
                 </mat-option>
+                 <mat-option value="hi" *ngIf="isLocaleAvailable('hi')" [disabled]="!isLocaleEnabled('hi')">
+                  <a mat-line>
+                    <ng-container>Hindi&nbsp;&nbsp;</ng-container>
+                    <ng-container i18n> Hindi (IN)</ng-container>
+                  </a>
+                </mat-option>
                 <mat-option value="de" *ngIf="isLocaleAvailable('de')" [disabled]="!isLocaleEnabled('de')">
                   <a mat-line>
                     <ng-container>Deutsch&nbsp;&nbsp;</ng-container>

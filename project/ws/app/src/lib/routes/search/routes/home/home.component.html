@@ -20,8 +20,8 @@
       <div class="w-full search">
         <form (submit)="search(query.value)" class="w-full search-form flex">
           <mat-form-field class="w-full" appearance="none">
-            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput cdkFocusInitial
-              placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
+            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput
+              cdkFocusInitial placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
           </mat-form-field>
           <mat-autocomplete (optionSelected)="search($event.option.value)" #auto="matAutocomplete">
             <mat-option *ngIf="query.value" [value]="query.value">{{query.value}}</mat-option>
@@ -44,7 +44,6 @@
   </div>
 </div>
 <ws-app-learning></ws-app-learning>
-
 <mat-menu #sortLang="matMenu">
   <ng-template matMenuContent>
     <div *ngFor="let lang of languageSearch; index as i">

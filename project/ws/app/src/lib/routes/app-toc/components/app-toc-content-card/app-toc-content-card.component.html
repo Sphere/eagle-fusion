@@ -106,8 +106,37 @@
           <img [src]="redTickIcon" class="image" />
         </ng-template> -->
 
-
+        <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
+          <mat-icon>more_vertical</mat-icon>
+        </button>
       </div>
+      <div class="progressLogo">
+        <mat-icon *ngIf="
+                !content?.incomplete" style="color: #27AE60" i18n-matTooltip matTooltip="Completed"
+          class="completed-icon margin-left-xs align-self-start">
+          check_circle_outline</mat-icon>
+
+        <ng-container *ngIf="content?.incomplete">
+          <circle-progress class="flex items-center " [percent]="30" [maxPercent]="100" [radius]="8" [clockwise]="true"
+            [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2" [outerStrokeColor]="'rgba(39, 174, 96, 1)'"
+            [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true" [animationDuration]="300" [showTitle]="false"
+            [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [showZeroOuterStroke]=false
+            [backgroundPadding]="10" [startFromZero]="false" [imageHeight]="24" [imageWidth]="24"
+            [showBackground]="false" [backgroundStrokeWidth]="0" [outerStrokeLinecap]="'round'">
+          </circle-progress>
+        </ng-container>
+      </div>
+      <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button color="primary">
+        <ng-container *ngIf="!viewChildren" i18n>
+          <mat-icon>expand_more</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="viewChildren" i18n>
+          <mat-icon>expand_less</mat-icon>
+        </ng-container>
+      </button>
+    </div>
+
+    </div>
 
     </div>
     <div class="children-container" *ngIf="viewChildren">
