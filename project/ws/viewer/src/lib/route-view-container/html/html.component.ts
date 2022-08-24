@@ -36,7 +36,6 @@ export class HtmlComponent implements OnInit, OnChanges {
   nextTitle: string | null | undefined
   collectionIdentifier: any
 
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -113,7 +112,6 @@ export class HtmlComponent implements OnInit, OnChanges {
   }
   navigatetoOverview() {
     if (!this.nextResourceUrl) {
-      console.log('call ki')
       this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
     }
   }
