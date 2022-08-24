@@ -42,6 +42,7 @@ import { EducationEditComponent } from './routes/profile-view/education-edit/edu
 import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
+
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -187,6 +188,12 @@ const routes: Routes = [
   },
   {
     path: 'app/profile',
+    loadChildren: () =>
+      import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'hi/app/profile',
     loadChildren: () =>
       import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
     canActivate: [GeneralGuard],

@@ -27,14 +27,14 @@
               autocomplete="off" (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob"
               id="dob-inputfield" class="form-control dob-input" (click)="picker.open()">
             <mat-datepicker-toggle [for]="picker" id="datepicker-icon"></mat-datepicker-toggle>
-            <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+            <mat-datepicker #picker [startAt]="startDate" [startAt]="startDate"></mat-datepicker>
           </div>
           <div>
             <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
           </div>
 
           <div class="form-group input-box">
-            <select id="country" formControlName="country" i18n class="form-control select-box"
+            <select id="country" formControlName="country" class="form-control select-box"
               name="country-input-field" (change)="countrySelect($event.target.value);disableNextBtn()">
               <option [value]=null disabled i18n>Country</option>
               <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>

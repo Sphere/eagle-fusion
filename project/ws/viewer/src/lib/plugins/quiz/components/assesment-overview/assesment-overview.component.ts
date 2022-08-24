@@ -15,5 +15,7 @@ export class AssesmentOverviewComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  closePopup() {
+    this.dialogRef.close({ event: 'close-overview' })
+  }
 }

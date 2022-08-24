@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>edit</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="edit" stroke="#231F20" stroke-width="1.5">
+            <polygon id="Stroke-1" stroke-linecap="round" points="15.6149 0.7501 22.0519 7.1871 8.4899 20.7501 0.7499 22.0521 2.0519 14.3131"></polygon>
+            <line x1="12.2941" y1="4.0705" x2="18.7311" y2="10.5075" id="Stroke-3"></line>
+            <line x1="5.6119" y1="17.1901" x2="12.2939" y2="10.5081" id="Stroke-4" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

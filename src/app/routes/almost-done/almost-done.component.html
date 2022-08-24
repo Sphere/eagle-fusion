@@ -11,7 +11,7 @@
           <!-- Background: Healthcare Worker -->
           <div *ngIf="backgroundSelect ==='Healthcare Worker'">
             <div class="form-group input-box">
-              <select id="profession" formControlName="professSelected" i18n class="form-control select-box"
+              <select id="profession" formControlName="professSelected" class="form-control select-box"
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)"
                 required>
                 <option [value]="null" style="color:#808080;" i18n>Profession*</option>
@@ -37,8 +37,7 @@
 
             <div class="form-group input-box">
               <select id="orgType" formControlName="orgType" class="form-control select-box"
-                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)" i18n
-                required>
+                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value)" required>
                 <option [value]="null" i18n>Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
@@ -61,10 +60,10 @@
           </div>
           <!-- Background: Healthcare Worker -->
 
-          <div *ngIf="backgroundSelect === 'ASHA Worker'"> 
+          <div *ngIf="backgroundSelect === 'ASHA'"> 
                         <div class="form-group input-box">
               <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
-                (change)="assignFields('locationselect', $event.target.value)" i18n>
+                (change)="assignFields('locationselect', $event.target.value)">
                 <option [value]=null disabled i18n>City/Distict</option>
               <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
               </select>
@@ -83,8 +82,7 @@
           <!-- Background: Healthcare Volunteer -->
           <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
             <div class="form-group input-box">
-              <select id="profession" formControlName="professSelected" class="form-control select-box" required i18n
-                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value)">
                 <option [value]="null" i18n>Profession*</option>
                 <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
                 </option>
@@ -163,7 +161,7 @@
           <!-- Background: Others -->
           <div *ngIf="backgroundSelect ==='Others'">
             <div class="form-group input-box">
-              <select id="selectBackground" formControlName="selectBackground" class="form-control select-box" i18n
+              <select id="selectBackground" formControlName="selectBackground" class="form-control select-box" 
                 (change)="chooseBackground($event.target.value)" required>
                 <option [value]="null" i18n>Select Background</option>
                 <option value="Mother/Family Members">Mother/Family Members</option>

@@ -1,3 +1,4 @@
+
 <div class="login-page-content">
   <div class="login-card">
     <div class="img-box">
@@ -21,8 +22,14 @@
               *ngIf="emailPhoneType === 'email'" i18n>mail?</span>
             <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here </span> <span i18n>to resend</span>
           </div>
+          <span *ngIf="!loginVerification">
           <button class="form-group login-button mt-4 cursor-pointer" name="login" type="submit"
             (click)="verifyOtp()" i18n>Next</button>
+          </span>
+          <span *ngIf="loginVerification">
+          <button class="form-group login-button mt-4 cursor-pointer" name="login" type="submit"
+          (click)="loginVerifyOtp()" i18n>Next</button>
+        </span>
         </form>
       </div>
     </div>

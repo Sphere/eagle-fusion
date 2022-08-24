@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
@@ -10,10 +12,13 @@ import { SignupService } from '../signup/signup.service'
   styleUrls: ['./login-otp.component.scss'],
 })
 export class LoginOtpComponent implements OnInit {
+  [x: string]: any
   loginOtpForm: FormGroup
   @Input() signUpdata: any
+  @Input() loginData: any
   @Output() redirectToParent = new EventEmitter()
   emailPhoneType: any = 'phone'
+  loginVerification = false
 
   constructor(
     private fb: FormBuilder,
@@ -39,9 +44,17 @@ export class LoginOtpComponent implements OnInit {
     if (window.location.href.includes('email-otp')) {
       this.emailPhoneType = 'email'
     }
+    if (this.loginData) {
+      this.loginVerification = true
+    }
+
   }
 
   redirectToSignUp() {
+    this.redirectToParent.emit('true')
+  }
+
+  redirectToMobileLogin() {
     this.redirectToParent.emit('true')
   }
 
@@ -76,6 +89,37 @@ export class LoginOtpComponent implements OnInit {
       (err: any) => {
         this.openSnackbar(err.error.error || err.error.message)
       })
+  }
+
+  async loginVerifyOtp() {
+    let request: any = []
+    const username = this.loginData.value.username
+    if (!username.includes('@')) {
+      request = {
+        mobileNumber: this.loginData.value.username,
+        password: this.loginData.value.password,
+        otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`),
+      }
+
+    } else {
+      request = {
+        email: this.loginData.value.username,
+        password: this.loginData.value.password,
+        otp: this.loginOtpForm.value.code,
+        userUUID: localStorage.getItem(`userUUID`),
+      }
+    }
+    this.signupService.validateOtp(request).subscribe(
+      async (res: any) => {
+        this.openSnackbar(res.message)
+        location.href = '/page/home'
+        return res
+      },
+      (err: any) => {
+        this.openSnackbar(err.error.error || err.error.message)
+      })
+
   }
 
   resendOTP(emailPhoneType: string) {

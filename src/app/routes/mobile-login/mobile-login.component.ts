@@ -18,6 +18,7 @@ declare const gapi: any
   styleUrls: ['./mobile-login.component.scss'],
 })
 export class MobileLoginComponent implements OnInit, AfterViewInit {
+  [x: string]: any
   constructor(
     private fb: FormBuilder,
     // private element: ElementRef,
@@ -51,7 +52,14 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   errorMessage = ''
   googleAuth = false
   source = ''
+  otpPage = false
+  uploadSaveData = false
+  showAllFields = true
+  loginVerification = false
+  redirectMsg = 'Please verify your account before logged in !!'
+
   private baseUrl = 'assets/configurations'
+  // const errMsgL = 'Sorry ! Account doesnot exist !! Try Signup..'
 
   public isSignedIn = false
   public signinURL = ''
@@ -105,6 +113,20 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       })
   }
   ngOnInit() {
+
+    if (this.signUpdata) {
+      let phone = this.signUpdata.value.emailOrMobile
+      phone = phone.replace(/[^0-9+#]/g, '')
+      if (phone.length >= 10) {
+        this.emailPhoneType = 'phone'
+      } else {
+        this.emailPhoneType = 'email'
+      }
+    }
+    if (window.location.href.includes('email-otp')) {
+      this.emailPhoneType = 'email'
+    }
+
     this.activeRoute.queryParams.subscribe(params => {
       this.source = params.source
     }
@@ -217,6 +239,24 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       async (results: any) => {
         const result = await this.signupService.fetchStartUpDetails()
 
+        if (result.status === 200) {
+         // resendOTP();
+          if (result.roles && result.roles.length > 0) {
+            localStorage.setItem(`loginbtn`, `userLoggedIn`)
+            this.openSnackbar(results.msg)
+            if (localStorage.getItem('url_before_login')) {
+              location.href = localStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
+          } else {
+            this.openSnackbar(this.redirectMsg)
+            this.otpPage = true
+            this.loginVerification = true
+            localStorage.setItem(`userUUID`, result.userId)
+            this.generateOtp(this.emailPhoneType, this.loginForm.value.username.trim())
+          }
+        }
         if (result.status === 400) {
           this.openSnackbar(result.error.params.errmsg)
         }
@@ -226,15 +266,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         if (result.status === 419) {
           this.openSnackbar(result.error.params.errmsg)
         }
-        if (result.roles && result.roles.length > 0) {
-          localStorage.setItem(`loginbtn`, `userLoggedIn`)
-          this.openSnackbar(results.msg)
-          if (localStorage.getItem('url_before_login')) {
-            location.href = localStorage.getItem('url_before_login') || ''
-          } else {
-            location.href = '/page/home'
-          }
-        }
+        // this.openSnackbar(this.errMsgL)
+
       },
       (err: any) => {
         // this.openSnackbar(err.error.error)
@@ -250,4 +283,37 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       duration,
     })
   }
+
+  generateOtp(type: any, username: any) {
+    let requestBody
+    if (type === 'email') {
+      requestBody = {
+        email: username,
+      }
+    } else {
+      requestBody = {
+        mobileNumber: username,
+      }
+    }
+
+      this.signupService.generateOtp(requestBody).subscribe(
+        (res: any) => {
+          if (res.message === 'Success') {
+            // this.isMobile = true
+          }
+          // this.openSnackbar(res.message)
+        },
+        (err: any) => {
+          this.openSnackbar(err)
+
+        }
+      )
+  }
+
+  showParentForm(event: any) {
+    if (event === 'true') {
+      this.loginVerification = true
+    }
+  }
+
 }

@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const httpProxy = require('http-proxy')
 
 const CONSTANTS = {
-  PORTAL_PORT: parseInt(process.env.PORTAL_PORT || '3002', 10),
+  PORTAL_PORT: parseInt(process.env.PORTAL_PORT || '3000', 10),
   LA_HOST_PROXY: process.env.LA_HOST_PROXY || 'http://localhost',
   WEB_HOST_PROXY: process.env.WEB_HOST_PROXY || 'http://localhost:3007',
   FRAME_ANCESTORS: process.env.FRAME_ANCESTORS || "'self'",
@@ -44,6 +44,7 @@ app.use(haltOnTimedOut)
 app.use('/ScormCoursePlayer', proxyCreator(express.Router(), 'http://localhost/ScormCoursePlayer'))
 
 serveAssets('')
+serveAssets('/hi')
 serveAssets('/ar')
 serveAssets('/de')
 serveAssets('/es')
@@ -54,6 +55,7 @@ serveAssets('/zh-CN')
 serveAssets('/ja')
 
 function serveAssets(hostPath) {
+  console.log("hostPath====>",hostPath)
   app.use(
     `${hostPath}/assets`,
     // proxyCreator(express.Router(), CONSTANTS.WEB_HOST_PROXY + '/web-hosted/client-assets/dist'),
@@ -69,6 +71,7 @@ uiHostCreator('/fr-ca', 'fr-ca')
 uiHostCreator('/nl', 'nl')
 uiHostCreator('/zh-CN', 'zh-CN')
 uiHostCreator('/ja', 'ja')
+uiHostCreator('/hi', 'hi')
 uiHostCreator('', 'en')
 app.use(haltOnTimedOut)
 
@@ -87,6 +90,7 @@ function proxyCreator(route, baseUrl) {
 }
 
 function uiHostCreator(hostPath, hostFolderName) {
+  console.log("hostPath===>>",hostPath ,"hostFolderName===>>" ,hostFolderName)
   app.use(
     `${hostPath}`,
     expressStaticGzip(path.join(__dirname, `www/${hostFolderName}`), {
@@ -95,10 +99,11 @@ function uiHostCreator(hostPath, hostFolderName) {
     }),
   )
   app.get(`${hostPath}/*`, (req, res) => {
-    if (req.url.startsWith('/assets/')) {
+    if (req.url.startsWith('/assets/') || req.url.endsWith('.js')) {
        res.sendFile(path.join(__dirname, `www/${hostFolderName}/${req.url}`))
      // res.status(404).send('requested asset is not available')
     } else {
+      console.log("path===>>",path ,"hostFolderName===>",hostFolderName)
       res.sendFile(path.join(__dirname, `www/${hostFolderName}/index.html`))
     }
   })

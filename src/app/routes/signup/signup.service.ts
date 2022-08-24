@@ -136,6 +136,8 @@ export class SignupService {
           roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
           tncStatus: !(_.isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
+          userId: userPidProfile.userId,
+          status : 200,
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
         this.configSvc.profileDetailsStatus = details.profileDetailsStatus

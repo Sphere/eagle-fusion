@@ -1,5 +1,5 @@
 <ws-header></ws-header>
-<div class="login-page-content">
+<div class="login-page-content" *ngIf="!otpPage">
   <div class="login-card">
     <div>
       <h1 [ngClass]="source === 'register' ? 'register': 'non-register'" i18n>
@@ -87,4 +87,13 @@
   </div>
 </div>
 
-<input type="hidden" i18-value i18-aria-value aria-value="unable to signin" value="Error Signing up!" #toastError />
+<!-- Create Account Form Close-->
+<input type="hidden" i18-value i18-aria-value aria-value="Verification successful" value="Thanks for Verifying your account"
+  #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="Unable to Signin" value="Error Signing in!" #toastError />
+
+<!-- OTP Form -->
+<div *ngIf="otpPage">
+  <ws-login-otp [loginData]="loginForm" (redirectToParent)="showParentForm($event)"></ws-login-otp>
+</div>
+<!-- OTP Form Close-->

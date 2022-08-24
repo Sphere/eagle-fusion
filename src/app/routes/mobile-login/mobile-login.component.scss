@@ -60,23 +60,28 @@ a {
   font-weight: 500 !important;
 }
 
+
 .iconPosition {
   position: absolute;
   right: -18px;
   top: 10px;
 }
 
+
 .f-black {
   color: #000;
 }
+
 
 .border-radius {
   border-radius: 20px;
 }
 
+
 :host::ng-deep .pwd {
   width: 93% !important;
 }
+
 
 @media screen and (max-width:600px) {
   .input-content {

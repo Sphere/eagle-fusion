@@ -125,6 +125,13 @@
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
+            },
+            "hi":{
+                "aot": true,
+                "i18nFile": "locale/messages.hi.xlf",
+                "i18nFormat": "xlf",
+                "i18nLocale": "hi",
+                "i18nMissingTranslation": "warn"
             }
           }
         },
@@ -137,6 +144,9 @@
           "configurations": {
             "production": {
               "browserTarget": "fusion:build:production"
+            },
+            "hi": {
+              "browserTarget": "fusion:build:hi"
             }
           }
         },
@@ -177,7 +187,9 @@
               "e2e/tsconfig.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "app/project/ws/app/src/lib/routes/app-toc/components/app-toc-content-card/app-toc-content-card.component",
+              "project/ws/viewer/src/lib/plugins/quiz/quiz.component"
             ]
           }
         },
@@ -355,18 +367,6 @@
             "tsConfig": "project/ws/author/tsconfig.spec.json",
             "karmaConfig": "project/ws/author/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/author/tsconfig.lib.json",
-              "project/ws/author/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -390,18 +390,6 @@
             "tsConfig": "project/ws/admin/tsconfig.spec.json",
             "karmaConfig": "project/ws/admin/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/admin/tsconfig.lib.json",
-              "project/ws/admin/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -424,18 +412,6 @@
             "main": "project/ws/analytics/src/test.ts",
             "tsConfig": "project/ws/analytics/tsconfig.spec.json",
             "karmaConfig": "project/ws/analytics/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/analytics/tsconfig.lib.json",
-              "project/ws/analytics/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
