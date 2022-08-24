@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const httpProxy = require('http-proxy')
 
 const CONSTANTS = {
-  PORTAL_PORT: parseInt(process.env.PORTAL_PORT || '3000', 10),
+  PORTAL_PORT: parseInt(process.env.PORTAL_PORT || '3002', 10),
   LA_HOST_PROXY: process.env.LA_HOST_PROXY || 'http://localhost',
   WEB_HOST_PROXY: process.env.WEB_HOST_PROXY || 'http://localhost:3007',
   FRAME_ANCESTORS: process.env.FRAME_ANCESTORS || "'self'",

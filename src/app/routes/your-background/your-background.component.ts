@@ -34,7 +34,13 @@ export class YourBackgroundComponent implements OnInit {
 
   ngOnInit() {
     this.http.get(this.professionUrl).subscribe((data: any) => {
-      this.professions = data.professions
+      if (this.aboutYou.value.country !== 'India') {
+        this.professions = data.professions.filter((s: any) => {
+          return s.name !== 'ASHA'
+        })
+      } else {
+        this.professions = data.professions
+      }
     })
     this.nextBtnDisable = true
   }
@@ -43,6 +49,7 @@ export class YourBackgroundComponent implements OnInit {
       this.nextBtnDisable = false
     }
     this.bgImgSelect = img.name
+    this.onsubmit()
   }
   changeBackgroung() {
     this.almostDone = false
