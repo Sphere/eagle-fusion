@@ -1,0 +1,62 @@
+select option:first-child {
+  color: #000;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+select option {
+  font-size: 16px;
+  line-height: 24px;
+  height: 15px;
+}
+
+.input-box {
+  padding: 3px 0 3px 0;
+  border-radius: 6px;
+  border: 1px solid #e3e3e3;
+  width: 100%;
+}
+
+
+.select-box {
+  border: none;
+  width: 97%;
+  height: 44px;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+
+.form-control:focus {
+  border: none;
+  border-color: transparent !important;
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: red;
+}
+
+
+select {
+  color: #808080;
+}
+
+select.ng-dirty {
+  color: #000;
+}
+
+select option:first-child {
+  color: #000;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+select option {
+  font-size: 16px;
+  line-height: 24px;
+  height: 15px;
+}
