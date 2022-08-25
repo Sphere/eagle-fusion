@@ -20,6 +20,7 @@ import { FormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatSnackBar, MatSelectChange, MatTabChangeEvent } from '@angular/material'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Component({
   selector: 'ws-app-settings',
@@ -66,6 +67,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private utilitySvc: UtilityService,
+    private userProfileSvc: UserProfileService
   ) { }
 
   ngOnInit() {
@@ -213,9 +215,42 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   langChanged(path: MatSelectChange) {
-    this.chosenLanguage = path.value
-    localStorage.setItem('lang', path.value)
-    this.langChangedEvent.emit(path.value)
+    // console.log(this.configSvc)
+    if (this.configSvc.userProfileV2) {
+      let user: any
+      const userid = this.configSvc.userProfileV2.userId
+      this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
+        // console.log(data)
+        user = data
+        const obj = {
+          preferences: {
+            language: path.value,
+          },
+        }
+        // user["profileDetails"] = obj
+        // console.log(Object.assign(user['profileDetails'], obj))
+        const userdata = Object.assign(user['profileDetails'], obj)
+
+        this.chosenLanguage = path.value
+        const reqUpdate = {
+          request: {
+            userId: userid,
+            profileDetails: userdata,
+          },
+        }
+        this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+          () => {
+            // console.log(data1)
+          },
+          () => {
+            // console.log(err)
+            // this.openSnackbar(this.toastError.nativeElement.value)
+            // this.uploadSaveData = false
+          })
+        // localStorage.setItem('lang', path.value)
+        // this.langChangedEvent.emit(path.value)
+      })
+    }
   }
 
   applyChanges() {

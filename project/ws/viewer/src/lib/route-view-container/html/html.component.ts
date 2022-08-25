@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
@@ -43,7 +43,8 @@ export class HtmlComponent implements OnInit, OnChanges {
     private pipeLimitTo: PipeLimitToPipe,
     private valueSvc: ValueService,
     private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService
+    private viewerDataSvc: ViewerDataService,
+    public router: Router
 
   ) {
 
@@ -108,5 +109,11 @@ export class HtmlComponent implements OnInit, OnChanges {
   }
   stopPropagation() {
     return
+  }
+
+  navigatetoOverview() {
+    if (!this.nextResourceUrl) {
+      this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
+    }
   }
 }
