@@ -94,18 +94,20 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     this.router.navigateByUrl(`${url}`)
   }
   get isCollection(): boolean {
-    if (this.content && this.content.children) {
-      const filteredData = this.content.children.filter((data: any) => {
-        // tslint:disable-next-line: no-non-null-assertion
-        return data!.completionPercentage < 100 || data!.completionPercentage === undefined
-      })
-      if (filteredData.length > 0) {
-        this.content['incomplete'] = true
-      } else {
-        this.content['incomplete'] = false
-      }
+    if (this.content) {
       this.resourceContentTypeFunct(this.content.mimeType)
-      return this.content.mimeType === NsContent.EMimeTypes.COLLECTION
+      if (this.content.mimeType === NsContent.EMimeTypes.COLLECTION) {
+        const filteredData = this.content.children.filter((data: any) => {
+          // tslint:disable-next-line: no-non-null-assertion
+          return data!.completionPercentage < 100 || data!.completionPercentage === undefined
+        })
+        if (filteredData.length > 0) {
+          this.content['incomplete'] = true
+        } else {
+          this.content['incomplete'] = false
+        }
+        return true
+      }
     }
     return false
   }
