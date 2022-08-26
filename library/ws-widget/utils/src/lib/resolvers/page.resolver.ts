@@ -117,7 +117,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
           },
         ),
       )
-    } else {
+    }  {
       const pageRequest = [
         (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
           mergeMap(() =>
