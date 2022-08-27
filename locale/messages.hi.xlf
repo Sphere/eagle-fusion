@@ -19368,13 +19368,36 @@
       </trans-unit>
             <trans-unit id="9cbb44c8a0413a2353eacd247109a943e05be324" datatype="html">
         <source>
-            Privacy Policy <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-            &amp; Terms of Use
+            Privacy Policy &amp; Terms of Use
           </source>
           <target>गोपनीयता नीति और उपयोग की शर्तें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="3da117d2230a9e7a790069a208a8aef71380429b" datatype="html">
+        <source>Endorsing</source>
+        <target>का अनुमोदन</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="578d8dd6e1649811b13f6feea484aaacd321b950" datatype="html">
+        <source>A Collaboration with </source>
+        <target>के साथ एक सहयोग</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f05bac3298746432ff872dbcfa7341fdc591c8e" datatype="html">
+        <source>An initiative of</source>
+        <target>की एक पहल</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f431980bd209488ed4d15ea500502b092265ebca" datatype="html">
