@@ -68,7 +68,6 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
   }
 
   private getData(url: string) {
-    const checkUrl = url
     const id = (url.split('/').pop() as string).split('.')[0] || ''
     const equivalentId = id.startsWith('lex_auth_') ? id : JSON_MAP[id]
     if (equivalentId) {
@@ -87,65 +86,55 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
         catchError(err => of({ data: null, error: err })),
       )
     }
-
-    if (localStorage.getItem('lang')) {
-      const lang = localStorage.getItem('lang')
-      const url1 = `${checkUrl}.${lang}`
-      const pageRequest = [
-        (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
-          mergeMap(() =>
-            this.http.get<NsPage.IPage>(`${url1}.json`).pipe(
-              map(data => ({ data, error: null })),
-              catchError(err => of({ data: null, error: err })),
-            ),
-          ),
-        ),
-        this.locale === 'en' || this.locale === 'en-US' ?
-          of({ data: undefined as any, error: null }) :
-          this.http.get<NsPage.IPage>(`${url1}.${this.locale}.json`).pipe(
-            map(data => ({ data, error: null })),
-            catchError(err => of({ data: null, error: err })),
-          ),
-      ]
-      return forkJoin(pageRequest).pipe(
-        map(
-          ([general, withLocale]): IResolveResponse<NsPage.IPage> => {
-            if (withLocale.data) {
-              return withLocale
-            }
-            return general
-          },
-        ),
-      )
-    } else {
-      const pageRequest = [
-        (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
-          mergeMap(() =>
-            this.http.get<NsPage.IPage>(`${url}.json`).pipe(
-              map(data => ({ data, error: null })),
-              catchError(err => of({ data: null, error: err })),
-            ),
-          ),
-        ),
-        this.locale === 'en' || this.locale === 'en-US' ?
-          of({ data: undefined as any, error: null }) :
-          this.http.get<NsPage.IPage>(`${url}.${this.locale}.json`).pipe(
-            map(data => ({ data, error: null })),
-            catchError(err => of({ data: null, error: err })),
-          ),
-      ]
-
-      return forkJoin(pageRequest).pipe(
-        map(
-          ([general, withLocale]): IResolveResponse<NsPage.IPage> => {
-            if (withLocale.data) {
-              return withLocale
-            }
-            return general
-          },
-        ),
-      )
+    // tslint:disable-next-line: no-non-null-assertion
+    if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = this.configSvc.userProfile!.language
     }
-  }
+    // tslint:disable-next-line: no-non-null-assertion
+    if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = this.configSvc.userProfile!.language
+    }
+    if (localStorage.getItem('lang')) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = localStorage.getItem('lang') || ''
+    }
+    // tslint:disable-next-line: no-non-null-assertion
+    if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = this.configSvc.userProfile!.language
+      // tslint:disable-next-line: no-non-null-assertion
+      if (this.configSvc.userProfile!.language === 'en') {
+        this.locale = ''
+      }
+    }
+    const pageRequest = [
+      (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
+        mergeMap(() =>
+          this.http.get<NsPage.IPage>(`${url}.json`).pipe(
+            map(data => ({ data, error: null })),
+            catchError(err => of({ data: null, error: err })),
+          ),
+        ),
+      ),
+      this.locale === 'en' || this.locale === 'en-US' ?
+        of({ data: undefined as any, error: null }) :
+        this.http.get<NsPage.IPage>(`${url}.${this.locale}.json`).pipe(
+          map(data => ({ data, error: null })),
+          catchError(err => of({ data: null, error: err })),
+        ),
+    ]
 
+    return forkJoin(pageRequest).pipe(
+      map(
+        ([general, withLocale]): IResolveResponse<NsPage.IPage> => {
+          if (withLocale.data) {
+            return withLocale
+          }
+          return general
+        },
+      ),
+    )
+  }
 }

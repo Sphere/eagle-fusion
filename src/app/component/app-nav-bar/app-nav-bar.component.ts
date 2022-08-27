@@ -42,7 +42,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showCreateBtn = false
   isXSmall$: Observable<boolean>
   showSearchIcon = true
-
+  locale: string = ''
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -81,7 +81,39 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           }
         }
       }
-
+      // tslint:disable-next-line: no-non-null-assertion
+      if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (localStorage.getItem('lang')) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = localStorage.getItem('lang') || ''
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        // tslint:disable-next-line: no-non-null-assertion
+        if (this.configSvc.userProfile!.language === 'en') {
+          this.locale = ''
+        }
+      }
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
