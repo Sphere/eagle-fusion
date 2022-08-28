@@ -89,14 +89,14 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           this.locale = ''
         }
       }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
+      // // tslint:disable-next-line: no-non-null-assertion
+      // if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      //   // tslint:disable-next-line: no-non-null-assertion
+      //   this.locale = this.configSvc.userProfile!.language
+      //   if (this.locale === 'en') {
+      //     this.locale = ''
+      //   }
+      // }
       // tslint:disable-next-line: no-non-null-assertion
       if (localStorage.getItem('lang')) {
         // tslint:disable-next-line: no-non-null-assertion
@@ -106,7 +106,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         }
       }
       // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
         // tslint:disable-next-line: no-non-null-assertion
         this.locale = this.configSvc.userProfile!.language
         // tslint:disable-next-line: no-non-null-assertion
