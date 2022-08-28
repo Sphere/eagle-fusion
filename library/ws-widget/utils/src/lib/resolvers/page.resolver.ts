@@ -101,13 +101,13 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       this.locale = localStorage.getItem('lang') || ''
     }
     // tslint:disable-next-line: no-non-null-assertion
-    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {      
+    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
       // tslint:disable-next-line: no-non-null-assertion
       if (this.configSvc.userProfile!.language === 'en') {
         this.locale = ''
       } else {
         // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
+        this.locale = this.configSvc.userProfile!.language || ''
       }
     }
     const pageRequest = [
