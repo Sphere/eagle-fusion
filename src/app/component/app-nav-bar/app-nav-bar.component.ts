@@ -105,15 +105,16 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           this.locale = ''
         }
       }
+    // tslint:disable-next-line: no-non-null-assertion
+    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {      
       // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
+      if (this.configSvc.userProfile!.language === 'en') {
+        this.locale = ''
+      } else {
         // tslint:disable-next-line: no-non-null-assertion
         this.locale = this.configSvc.userProfile!.language
-        // tslint:disable-next-line: no-non-null-assertion
-        if (this.configSvc.userProfile!.language === 'en') {
-          this.locale = ''
-        }
       }
+    }
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
