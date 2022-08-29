@@ -248,7 +248,7 @@ export namespace NsUser {
     rootOrgId?: string
     rootOrgName?: string
     phone?: string
-
+    language?: null | string
   }
   export interface IUserPidProfile {
     kid_updated: boolean
