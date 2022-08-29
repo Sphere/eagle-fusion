@@ -1,6 +1,7 @@
 @import 'ws-common';
 @import 'ws-mixins';
 
+
 .login-page-content {
   box-sizing: border-box;
   // padding: $size-m;
@@ -81,3 +82,25 @@ a{
 .mat-error {
     padding: 6px;
 }
+
+span.display-language {
+    color: #3c57c8;
+    font-weight: 400;
+}
+
+
+img.lang-img {
+    width: 33px;
+}
+
+.lang-subtitle {
+    padding-bottom: 15px;
+}
+
+span.mat-button-wrapper {
+    color: white;
+}
+
+
+
+

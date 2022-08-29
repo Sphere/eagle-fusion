@@ -1,0 +1,32 @@
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<br />
+
+
+<span class="language">
+  <strong>
+    <h1>Select Preferred Language for learning</h1>
+  </strong>
+  <p>You can change this setting under "Profile"</p>
+</span>
+
+<span class="search-box">
+  <input type="text" class="form-control icon-rtl" value placeholder="Search Language">
+</span>
+
+
+
+
+<mat-selection-list #language>
+  <mat-list-option checkboxPosition="before" *ngFor="let language of preferredLanguage">
+    {{language}}
+  </mat-list-option>
+</mat-selection-list>
+
+<div mat-dialog-actions align="end" class="lang-done">
+  <button class="primary-color" mat-raised-button color="primary">Done</button>
+</div>
+<br />

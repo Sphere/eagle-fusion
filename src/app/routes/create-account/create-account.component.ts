@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
-import { MatSnackBar } from '@angular/material'
+import { MatDialog, MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
+import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 
 @Component({
   selector: 'ws-create-account',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router'
 
 export class CreateAccountComponent implements OnInit {
   uploadSaveData = false
+  languageIcon = '../../../fusion-assets/images/lang-icon.png'
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('toastError', { static: true }) toastError!: ElementRef<any>
   emailOrMobile: any
@@ -23,6 +25,7 @@ export class CreateAccountComponent implements OnInit {
   isOtpValid = false
   emailPhoneType: any
   otpPage = false
+  languageDialog = false
   createAccountForm: FormGroup
   otpCodeForm: FormGroup
   hide1 = true
@@ -34,6 +37,7 @@ export class CreateAccountComponent implements OnInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
+    public dialog: MatDialog
   ) {
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
@@ -44,7 +48,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -54,7 +58,7 @@ export class CreateAccountComponent implements OnInit {
 
   @HostListener('window:popstate', ['$event'])
   onPopState() {
-     window.location.href = '/public/home'
+    window.location.href = '/public/home'
   }
 
   toggle1() {
@@ -83,7 +87,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -150,7 +154,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -177,7 +181,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
         }
@@ -195,5 +199,9 @@ export class CreateAccountComponent implements OnInit {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
+  }
+
+  changeLanguage() {
+    this.dialog.open(LanguageDialogComponent)
   }
 }

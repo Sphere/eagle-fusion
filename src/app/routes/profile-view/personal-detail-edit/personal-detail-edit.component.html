@@ -89,6 +89,10 @@
       </mat-select>
     </mat-form-field>
 
+    <div class="form-group">
+      <input type="text" class="form-control icon" value placeholder="Search">
+    </div>
+
     <mat-form-field appearance="outline" class="w-full margin-top-xs">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let lang of selectedKnowLangs" [selectable]="true" [removable]="true"

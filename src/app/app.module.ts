@@ -99,6 +99,7 @@ import { PersonalDetailEditComponent } from './routes/profile-view/personal-deta
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
+import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -159,6 +160,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileProfileNavComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
+    LanguageDialogComponent
   ],
   imports: [
     FormsModule,
@@ -221,6 +223,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     ProfileSelectComponent,
     ImageCropComponent,
     NotificationComponent,
+    LanguageDialogComponent
   ],
   providers: [
     {
