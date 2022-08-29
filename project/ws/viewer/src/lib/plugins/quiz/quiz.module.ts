@@ -51,7 +51,7 @@ import { ConfirmmodalComponent } from './confirm-modal-component'
     QuizModalComponent,
     ViewQuizQuestionComponent,
     CloseQuizModalComponent,
-    ConfirmmodalComponent
+    ConfirmmodalComponent,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,
