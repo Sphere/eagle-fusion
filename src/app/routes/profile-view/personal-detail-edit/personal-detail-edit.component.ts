@@ -46,11 +46,11 @@ export class PersonalDetailEditComponent implements OnInit {
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
-
+  langList = ['English', 'Hindi']
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -69,6 +69,7 @@ export class PersonalDetailEditComponent implements OnInit {
       mobile: new FormControl(),
       postalAddress: new FormControl(),
       pincode: new FormControl(),
+      languages: new FormControl()
     })
   }
 

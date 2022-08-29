@@ -3,7 +3,6 @@
   <p class="text-2xl mt-3">Personal Details</p>
 
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
-
     <div class="form-group">
       <input type="text" formControlName="userName" class="form-control" (change)="fieldChange()"
         placeholder="User's Name*" autocomplete="off">
@@ -19,6 +18,13 @@
     <div>
       <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
     </div>
+    <mat-form-field appearance="outline" class="field-fullwidth">
+      <mat-select formControlName="languages" i18n-placeholder placeholder="languages"
+        (selectionChange)="langChange($event.value)">
+        <mat-option [value]="lang" *ngFor="let lang of langList">{{lang}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
       <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
