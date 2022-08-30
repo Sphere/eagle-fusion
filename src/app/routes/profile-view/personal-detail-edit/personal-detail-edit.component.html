@@ -89,10 +89,11 @@
     </mat-form-field>
 
     <div class="form-group">
-      <input type="text" class="form-control icon" value placeholder="Search">
+      <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()">
+      <input formControlName="knownLanguages" type="text" class="form-control" value placeholder="Search">
     </div>
 
-    <mat-form-field appearance="outline" class="w-full margin-top-xs">
+    <!-- <mat-form-field appearance="outline" class="w-full margin-top-xs">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let lang of selectedKnowLangs" [selectable]="true" [removable]="true"
           (removed)="removeKnowLanguage(lang)">
@@ -109,7 +110,7 @@
       <mat-option *ngFor="let option of masterKnownLanguages | async" [value]="option.name">
         {{ option.name }}
       </mat-option>
-    </mat-autocomplete>
+    </mat-autocomplete> -->
 
     <div class="form-group">
       <input type="text" formControlName="mobile" class="form-control" placeholder="Phone Number" autocomplete="off"

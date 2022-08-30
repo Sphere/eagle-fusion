@@ -5,12 +5,13 @@ import { ConfigurationsService } from '../../../../../library/ws-widget/utils/sr
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
-import { DateAdapter, MatChipInputEvent, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
+import { DateAdapter, MatChipInputEvent, MatDialog, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
+import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
 
 @Component({
   selector: 'ws-personal-detail-edit',
@@ -48,9 +49,10 @@ export class PersonalDetailEditComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langList = ['English', 'Hindi']
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -334,6 +336,10 @@ export class PersonalDetailEditComponent implements OnInit {
 
   private openSnackbar(message: string) {
     this.matSnackBar.open(message)
+  }
+
+  changeLanguage() {
+    this.dialog.open(LanguageDialogComponent)
   }
 
 }
