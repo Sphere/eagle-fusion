@@ -21,8 +21,7 @@
     <mat-form-field appearance="outline" class="field-fullwidth">
       <mat-select formControlName="languages" i18n-placeholder placeholder="languages"
         (selectionChange)="langChange($event.value)">
-        <mat-option [value]="lang" *ngFor="let lang of langList">{{lang}}
-        </mat-option>
+        <mat-option [value]="lang" *ngFor="let lang of langList">{{lang}}</mat-option>
       </mat-select>
     </mat-form-field>
 
