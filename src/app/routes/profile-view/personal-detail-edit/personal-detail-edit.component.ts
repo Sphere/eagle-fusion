@@ -48,9 +48,9 @@ export class PersonalDetailEditComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langList = ['English', 'Hindi']
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -334,6 +334,10 @@ export class PersonalDetailEditComponent implements OnInit {
 
   private openSnackbar(message: string) {
     this.matSnackBar.open(message)
+  }
+
+  langChange(event: any) {
+    console.log(event)
   }
 
 }
