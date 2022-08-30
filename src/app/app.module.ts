@@ -98,7 +98,7 @@ import { CertificateReceivedComponent } from './routes/profile-view/certificate-
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
-import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component';
+import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { DropdownDobComponent } from './component/dropdown-dob/dropdown-dob.component'
 
 @Injectable()
