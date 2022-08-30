@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core'
 export class LanguageDialogComponent implements OnInit {
 
   preferredLanguage: string[] = ['English', 'हिंदी', 'বাংলা', 'मराठी', 'தமிழ்', 'Urdu'];
+  languageCheckbox = false;
 
   constructor() { }
 

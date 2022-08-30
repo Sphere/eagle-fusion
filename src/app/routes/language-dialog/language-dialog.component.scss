@@ -14,3 +14,27 @@ button.primary-color.mat-raised-button.mat-button-base.mat-primary {
   padding-top: 8px;
   right: 65px;
 }
+
+.lang-box {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .mat-list-base {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
+}
+
+.form-control {
+  border-radius: 100px;
+}
+
+.btn-done {
+  background: #1C5D95;
+  border-radius: 50px;
+  color: #ffffff;
+  width: 101px;
+  height: 35px;
+  border: none;
+}
