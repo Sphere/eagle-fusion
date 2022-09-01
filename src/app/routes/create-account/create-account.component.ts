@@ -32,6 +32,8 @@ export class CreateAccountComponent implements OnInit {
   hide2 = true
   iconChange1 = 'fas fa-eye-slash'
   iconChange2 = 'fas fa-eye-slash'
+  langDialog: any
+  preferedLanguage: any = 'english'
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -202,6 +204,16 @@ export class CreateAccountComponent implements OnInit {
   }
 
   changeLanguage() {
-    this.dialog.open(LanguageDialogComponent)
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage
+      }
+    })
+
+
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+    })
   }
 }

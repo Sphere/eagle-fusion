@@ -4,8 +4,11 @@
   <div class="login-card">
     <div>
       <div class="lang-subtitle">
-        <h1 class="display-3" i18n>Create your account</h1>
-        Language for Learning : <span class="display-language" i18n> English</span>
+        <h1 class="display-3 mb-1" i18n>Create your account</h1>
+
+      </div>
+      <div class="flex gap-2">
+        <h3 class="mb-2">Language for Learning : <span class="display-language" i18n> {{preferedLanguage}}</span></h3>
         <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" />
       </div>
       <div class="input-content">

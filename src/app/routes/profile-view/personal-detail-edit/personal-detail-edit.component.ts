@@ -339,7 +339,9 @@ export class PersonalDetailEditComponent implements OnInit {
   }
 
   changeLanguage() {
-    this.dialog.open(LanguageDialogComponent)
+    this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal'
+    })
   }
 
 }
