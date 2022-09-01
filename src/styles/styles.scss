@@ -1071,6 +1071,10 @@ button.submit-btn[disabled] {
 
 .language-modal {
   padding: 22px;
+
+  @include breakpoint-xs {
+    padding: 0;
+  }
 }
 
 .modal-border {

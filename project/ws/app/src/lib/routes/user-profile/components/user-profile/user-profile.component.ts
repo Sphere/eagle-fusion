@@ -31,6 +31,7 @@ import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import moment from 'moment'
+import { LanguageDialogComponent } from '../../../../../../../../../src/app/routes/language-dialog/language-dialog.component'
 
 @Component({
   selector: 'ws-app-user-profile',
@@ -121,6 +122,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   degreeUrl = '/fusion-assets/files/degrees.json'
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  langDialog: any
+  preferedLanguage: any = 'English'
 
   constructor(
     private snackBar: MatSnackBar,
@@ -802,7 +805,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -1385,5 +1388,20 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.invalidDob = true
     }
+  }
+
+
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage
+      }
+    })
+
+
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+    })
   }
 }

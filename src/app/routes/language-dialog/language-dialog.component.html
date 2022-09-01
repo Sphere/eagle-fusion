@@ -1,33 +1,29 @@
 <div class="lang-box" *ngIf="languageCheckbox">
-  <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <br />
-
-
-  <span class="language">
+  <button class="align-self-end" mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="language">
     <strong>
-      <h1>Select Preferred Language for learning</h1>
+      <h1 class="mb-1">Select Preferred Language for learning</h1>
     </strong>
     <p>You can change this setting under "Profile"</p>
-  </span>
+  </div>
 
-  <div class="search-box pb-2 d-block">
+  <div class="search-box pb-2 d-none">
     <img src="/fusion-assets/icons/search.png" class="icon-rtl" alt="">
     <input class="form-control" placeholder="Search Language">
   </div>
 
 
-  <mat-selection-list #language>
-    <mat-list-option checkboxPosition="before" *ngFor="let language of preferredLanguage">
+  <mat-selection-list #language [(ngModel)]="preferredLanguage" (ngModelChange)="onNgModelChange($event)">
+    <mat-list-option class="line-bottom" checkboxPosition="before" [value]="language"
+      *ngFor="let language of preferredLanguageList">
       {{language}}
     </mat-list-option>
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done">Done</button>
+    <button class="btn-done" (click)="multiLanguage(preferredLanguage)">Done</button>
   </div>
 </div>
 

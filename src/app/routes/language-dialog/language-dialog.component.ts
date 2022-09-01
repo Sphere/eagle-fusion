@@ -15,13 +15,29 @@ export class LanguageDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<LanguageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
-  ) { }
+
+  ) {
+
+
+  }
 
   ngOnInit() {
     this.preferredLanguage = this.selectedData.selected
+    this.languageCheckbox = this.selectedData.checkbox
   }
 
   chooseLanguage(data: any) {
     this.dialogRef.close(data)
   }
+  multiLanguage(data: any) {
+    console.log(data)
+    this.dialogRef.close(data)
+  }
+
+  onNgModelChange(event: any) {
+    console.log(event)
+    this.preferredLanguage = event
+  }
+
+
 }
