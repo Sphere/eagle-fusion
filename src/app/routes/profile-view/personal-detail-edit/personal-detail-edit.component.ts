@@ -337,6 +337,7 @@ export class PersonalDetailEditComponent implements OnInit {
   }
 
   langChange(event: any) {
+    // tslint:disable-next-line: no-console
     console.log(event)
   }
 
