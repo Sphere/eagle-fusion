@@ -42,7 +42,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showCreateBtn = false
   isXSmall$: Observable<boolean>
   showSearchIcon = true
-  locale: string = ''
+  locale = ''
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,

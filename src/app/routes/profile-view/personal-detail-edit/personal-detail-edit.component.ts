@@ -71,7 +71,7 @@ export class PersonalDetailEditComponent implements OnInit {
       mobile: new FormControl(),
       postalAddress: new FormControl(),
       pincode: new FormControl(),
-      languages: new FormControl()
+      languages: new FormControl(),
     })
   }
 

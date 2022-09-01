@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup } from '@angular/forms'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
 import moment from 'moment'
 import { Observable } from 'rxjs'
@@ -38,7 +38,7 @@ export class YourLocationComponent implements OnInit {
     private http: HttpClient
   ) {
     this.aboutYouForm = new FormGroup({
-      dob: new FormControl([Validators.required]),
+      dob: new FormControl(),
       country: new FormControl(),
       distict: new FormControl(),
       state: new FormControl(),
@@ -111,8 +111,12 @@ export class YourLocationComponent implements OnInit {
     })
   }
 
-  onsubmit(form: any) {
-    form.value.dob = moment(form.value.dob).format('DD-MM-YYYY')
+  onsubmit() {
+    // form.value.dob = moment(form.value.dob).format('DD-MM-YYYY')
     this.yourBackground = true
+  }
+
+  dobData(data: any) {
+    this.aboutYouForm.get['dob'].setValue(data)
   }
 }
