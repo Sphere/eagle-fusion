@@ -56,38 +56,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
       if (!this.profileImage && localStorage.getItem(this.configSvc.userProfile.userId)) {
         this.profileImage = localStorage.getItem(this.configSvc.userProfile.userId)
       }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
-      if (localStorage.getItem('lang')) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = localStorage.getItem('lang') || ''
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        // tslint:disable-next-line: no-non-null-assertion
-        if (this.configSvc.userProfile!.language === 'en') {
-          this.locale = ''
-        }
-      }
     }
 
     if (this.configSvc.appsConfig) {

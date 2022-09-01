@@ -15,6 +15,7 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 export class GeneralGuard implements CanActivate {
   dobFlag = false
   isXSmall = false
+  locale : string = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
               private userProfileSvc: UserProfileService) { }
 
@@ -33,6 +34,39 @@ export class GeneralGuard implements CanActivate {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
+
+      // tslint:disable-next-line: no-non-null-assertion
+      if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      if (localStorage.getItem('lang')) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = localStorage.getItem('lang') || ''
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        // tslint:disable-next-line: no-non-null-assertion
+        if (this.configSvc.userProfile!.language === 'en') {
+          this.locale = ''
+        }
+      }
 
     // setTimeout(() => {
 
@@ -57,7 +91,7 @@ export class GeneralGuard implements CanActivate {
       this.configSvc.instanceConfig &&
       !Boolean(this.configSvc.instanceConfig.disablePidCheck)
     ) {
-      return this.router.parseUrl('/public/home')
+      return this.router.navigateByUrl(`${this.locale}/public/home`)
     }
     /**
      * Test IF User Tnc Is Accepted
@@ -98,8 +132,9 @@ export class GeneralGuard implements CanActivate {
           // if (this.dobFlag) {
           //   return this.router.parseUrl('/page/home')
           // }
+
           if (data.profileDetails) {
-            return this.router.parseUrl('/page/home')
+            return this.router.navigateByUrl(`${this.locale}/page/home`)
           }
           return this.router.navigate(['app', 'new-tnc'])
 
@@ -116,7 +151,7 @@ export class GeneralGuard implements CanActivate {
       )
 
       if (!requiredRolePreset) {
-        return this.router.parseUrl('/page/home')
+        return this.router.navigateByUrl(`${this.locale}/page/home`)
       }
     }
 
@@ -127,7 +162,7 @@ export class GeneralGuard implements CanActivate {
       )
 
       if (requiredFeaturesMissing) {
-        return this.router.parseUrl('/page/home')
+        return this.router.navigateByUrl(`${this.locale}/page/home`)
       }
     }
     return true
