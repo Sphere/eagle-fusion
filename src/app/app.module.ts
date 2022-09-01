@@ -160,7 +160,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileProfileNavComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
-    LanguageDialogComponent
+    LanguageDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -223,7 +223,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     ProfileSelectComponent,
     ImageCropComponent,
     NotificationComponent,
-    LanguageDialogComponent
+    LanguageDialogComponent,
   ],
   providers: [
     {
