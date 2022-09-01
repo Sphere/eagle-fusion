@@ -338,8 +338,9 @@ export class PersonalDetailEditComponent implements OnInit {
     this.matSnackBar.open(message)
   }
 
-  changeLanguage() {
-    this.dialog.open(LanguageDialogComponent)
+  langChange(event: any) {
+    // tslint:disable-next-line: no-console
+    console.log(event)
   }
 
 }
