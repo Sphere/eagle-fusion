@@ -213,7 +213,6 @@ export class CreateAccountComponent implements OnInit {
       }
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
-      console.log(result)
       this.preferedLanguage = result
     })
   }
