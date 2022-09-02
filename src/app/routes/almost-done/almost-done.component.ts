@@ -369,10 +369,16 @@ export class AlmostDoneComponent implements OnInit {
       }
     })
 
+    const obj = {
+      preferences: {
+        language: localStorage.getItem('preferedLanguage'),
+      },
+    }
+    const userdata = Object.assign(userObject, obj)
     const profileReq = {
       id: this.userId,
       userId: this.userId,
-      personalDetails: userObject,
+      personalDetails: userdata,
       academics: this.getAcademics(),
       employmentDetails: {},
       professionalDetails: [

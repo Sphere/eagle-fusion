@@ -16,9 +16,9 @@
 
 
   <mat-selection-list #language [(ngModel)]="preferredLanguage" (ngModelChange)="onNgModelChange($event)">
-    <mat-list-option class="line-bottom" checkboxPosition="before" [value]="language"
+    <mat-list-option class="line-bottom" checkboxPosition="before" [value]="language.id"
       *ngFor="let language of preferredLanguageList">
-      {{language}}
+      {{language.lang}}
     </mat-list-option>
   </mat-selection-list>
 
@@ -55,8 +55,8 @@
 
   <mat-selection-list #language>
     <mat-radio-button class="line-bottom" checkboxPosition="before" *ngFor="let language of preferredLanguageList"
-      [value]="language" [checked]="language == preferredLanguage" (change)="preferredLanguage = $event.value">
-      {{language}}
+      [value]="language" [checked]="language.id == preferredLanguage" (change)="preferredLanguage = $event.value">
+      {{language.lang}}
     </mat-radio-button>
 
   </mat-selection-list>

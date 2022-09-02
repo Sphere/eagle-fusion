@@ -32,7 +32,6 @@ import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import moment from 'moment'
 import { LanguageDialogComponent } from '../../../../../../../../../src/app/routes/language-dialog/language-dialog.component'
-
 @Component({
   selector: 'ws-app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -123,7 +122,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langDialog: any
-  preferedLanguage: any = 'English'
+  preferedLanguage: any;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -560,6 +559,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.id) {
       if (this.configSvc.userProfile) {
+        if (this.configSvc.userProfile.language) {
+          this.preferedLanguage = { "lang": this.configSvc.userProfile.language }
+        } else {
+          this.preferedLanguage = { "id": "en", "lang": 'English' }
+        }
+
         if (this.configSvc.userProfile.email) {
           this.mobileNumberLogin = true
           // this.createUserForm.controls.mobile.disable()
@@ -1402,6 +1407,32 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
+      if (this.configSvc.userProfileV2) {
+        let user: any
+        const userid = this.configSvc.userProfileV2.userId
+        this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
+          user = data
+          const obj = {
+            preferences: {
+              language: result.id,
+            },
+          }
+          const userdata = Object.assign(user['profileDetails'], obj)
+
+          //this.chosenLanguage = path.value
+          const reqUpdate = {
+            request: {
+              userId: userid,
+              profileDetails: userdata,
+            },
+          }
+          this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+            () => {
+            },
+            () => {
+            })
+        })
+      }
     })
   }
 }

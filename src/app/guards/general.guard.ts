@@ -15,9 +15,9 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 export class GeneralGuard implements CanActivate {
   dobFlag = false
   isXSmall = false
-  locale : string = ''
+  locale: string = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -35,40 +35,41 @@ export class GeneralGuard implements CanActivate {
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
 
+    // tslint:disable-next-line: no-non-null-assertion
+    if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
-      if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
+      this.locale = this.configSvc.userProfile!.language
+      if (this.locale === 'en') {
+        this.locale = ''
       }
+    }
+    // // tslint:disable-next-line: no-non-null-assertion
+    // if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   this.locale = this.configSvc.userProfile!.language
+    //   if (this.locale === 'en') {
+    //     this.locale = ''
+    //   }
+    // }
+    if (localStorage.getItem('lang')) {
       // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
+      this.locale = localStorage.getItem('lang') || ''
+      if (this.locale === 'en') {
+        this.locale = ''
       }
-      if (localStorage.getItem('lang')) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = localStorage.getItem('lang') || ''
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
+    }
+    // tslint:disable-next-line: no-non-null-assertion
+    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
       // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      if (this.configSvc.userProfile!.language === 'en') {
+        //this.locale = 'en-US'
+      } else {
         // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        // tslint:disable-next-line: no-non-null-assertion
-        if (this.configSvc.userProfile!.language === 'en') {
-          this.locale = ''
-        }
+        this.locale = this.configSvc.userProfile!.language || 'en-US'
       }
-      // tslint:disable-next-line:no-console
-      console.log(this.locale)
+    }
+    // tslint:disable-next-line:no-console
+    console.log(this.locale)
     // setTimeout(() => {
 
     // }, 5000)
