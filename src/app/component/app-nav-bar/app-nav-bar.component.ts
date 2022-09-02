@@ -44,7 +44,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showCreateBtn = false
   isXSmall$: Observable<boolean>
   showSearchIcon = true
-  locale = ''
+  langDialog: any
+  preferedLanguage: any = ['english']
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -82,40 +83,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           } else {
             this.showSearchIcon = true
           }
-        }
-      }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
-      // // tslint:disable-next-line: no-non-null-assertion
-      // if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
-      //   // tslint:disable-next-line: no-non-null-assertion
-      //   this.locale = this.configSvc.userProfile!.language
-      //   if (this.locale === 'en') {
-      //     this.locale = ''
-      //   }
-      // }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (localStorage.getItem('lang')) {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = localStorage.getItem('lang') || ''
-        if (this.locale === 'en') {
-          this.locale = ''
-        }
-      }
-      // tslint:disable-next-line: no-non-null-assertion
-      if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
-        // tslint:disable-next-line: no-non-null-assertion
-        if (this.configSvc.userProfile!.language === 'en') {
-          this.locale = ''
-        } else {
-          // tslint:disable-next-line: no-non-null-assertion
-          this.locale = this.configSvc.userProfile!.language || ''
         }
       }
     })
@@ -162,6 +129,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   goHomePage() {
+    // localStorage.setItem('url_before_login', '/page/home')
     this.router.navigateByUrl('/page/home')
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -228,10 +196,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         checkbox: true
       }
     })
-
-
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
+      // tslint:disable-next-line:no-console
       console.log(this.preferedLanguage)
     })
   }
