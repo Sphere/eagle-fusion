@@ -49,10 +49,10 @@ export class PersonalDetailEditComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langList = ['English', 'Hindi']
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
