@@ -67,7 +67,8 @@ export class GeneralGuard implements CanActivate {
           this.locale = ''
         }
       }
-
+      // tslint:disable-next-line:no-console
+      console.log(this.locale)
     // setTimeout(() => {
 
     // }, 5000)
@@ -91,7 +92,7 @@ export class GeneralGuard implements CanActivate {
       this.configSvc.instanceConfig &&
       !Boolean(this.configSvc.instanceConfig.disablePidCheck)
     ) {
-      return this.router.navigateByUrl(`${this.locale}/public/home`)
+      return this.router.parseUrl(`${this.locale}/public/home`)
     }
     /**
      * Test IF User Tnc Is Accepted
@@ -134,7 +135,7 @@ export class GeneralGuard implements CanActivate {
           // }
 
           if (data.profileDetails) {
-            return this.router.navigateByUrl(`${this.locale}/page/home`)
+            return this.router.parseUrl(`${this.locale}/page/home`)
           }
           return this.router.navigate(['app', 'new-tnc'])
 
@@ -151,7 +152,7 @@ export class GeneralGuard implements CanActivate {
       )
 
       if (!requiredRolePreset) {
-        return this.router.navigateByUrl(`${this.locale}/page/home`)
+        return this.router.parseUrl(`${this.locale}/page/home`)
       }
     }
 
@@ -162,7 +163,7 @@ export class GeneralGuard implements CanActivate {
       )
 
       if (requiredFeaturesMissing) {
-        return this.router.navigateByUrl(`${this.locale}/page/home`)
+        return this.router.parseUrl(`${this.locale}/page/home`)
       }
     }
     return true
