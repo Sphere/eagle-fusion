@@ -317,11 +317,11 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   raiseTelemetry() {
+    // tslint:disable-next-line: no-non-null-assertion
     if (this.configSvc.unMappedUser && this.configSvc.userProfile && this.configSvc.userProfile!.language) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data.profileDetails.profileReq.personalDetails.dob !== undefined) {
-            console.log('abcd')
             return this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
           } else {
             const url = `/app/toc/${this.widgetData.content.identifier}/overview`
