@@ -12,7 +12,7 @@ import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
-
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -48,6 +48,8 @@ export class PersonalDetailEditComponent implements OnInit {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langList = ['English', 'Hindi']
+  langDialog: any
+  preferedLanguage: any = 'English'
   constructor(private configSvc: ConfigurationsService,
               private userProfileSvc: UserProfileService,
               private router: Router,
@@ -68,16 +70,20 @@ export class PersonalDetailEditComponent implements OnInit {
       gender: new FormControl(),
       maritalStatus: new FormControl(),
       knownLanguages: new FormControl([], []),
+      knownLanguage: new FormControl(this.preferedLanguage),
       mobile: new FormControl(),
       postalAddress: new FormControl(),
       pincode: new FormControl(),
       languages: new FormControl(),
     })
+
+    // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
   }
 
   ngOnInit() {
     this.getUserDetails()
     this.fetchMeta()
+
   }
 
   fetchMeta() {
@@ -338,9 +344,20 @@ export class PersonalDetailEditComponent implements OnInit {
     this.matSnackBar.open(message)
   }
 
-  langChange(event: any) {
-    // tslint:disable-next-line: no-console
-    console.log(event)
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage
+      }
+    })
+
+
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+      this.personalDetailForm.controls.
+        knownLanguage.setValue(_.upperFirst(result))
+    })
   }
 
 }

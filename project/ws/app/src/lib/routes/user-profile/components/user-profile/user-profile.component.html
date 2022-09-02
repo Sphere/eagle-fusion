@@ -435,7 +435,8 @@
                         i18n-placeholder #residenceAddress></textarea>
                       <!-- <input matInput #residenceAddress formControlName="residenceAddress" i18n-placeholder
                         placeholder="Enter Postal Address Here" [required]="true" /> -->
-                      <mat-hint align="end">{{ residenceAddress.value.length }} /200 <span i18n>characters</span></mat-hint>
+                      <mat-hint align="end">{{ residenceAddress.value.length }} /200 <span i18n>characters</span>
+                      </mat-hint>
                       <mat-error i18n>
                         You have exceeded 200 characters.
                       </mat-error>
@@ -447,7 +448,8 @@
                       Pincode
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
-                      <input #pincode type="text" matInput i18n-placeholder placeholder="Pincode" formControlName="pincode">
+                      <input #pincode type="text" matInput i18n-placeholder placeholder="Pincode"
+                        formControlName="pincode">
                       <mat-error [hidden]="false" i18n="Pincode Error|Explains name is required"
                         *ngIf="createUserForm?.controls['pincode'].errors?.required">
                         Pincode is mandatory
@@ -456,6 +458,12 @@
                         Please enter a valid 6 digit pincode
                       </mat-error>
                     </mat-form-field>
+                  </div>
+
+                  <div class="flex gap-2">
+                    <h3 class="mb-2">Language for Learning : <span class="display-language" i18n>
+                        {{preferedLanguage}}</span></h3>
+                    <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" />
                   </div>
                   <!-- <div class="input-wrapper margin-top-s">
                     <mat-checkbox [checked]="tncAccepted" (change)="tncCheck()"></mat-checkbox>

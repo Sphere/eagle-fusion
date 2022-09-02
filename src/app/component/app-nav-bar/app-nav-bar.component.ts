@@ -7,6 +7,8 @@ import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 import { Observable } from 'rxjs'
+import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
+import { MatDialog } from '@angular/material'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -42,7 +44,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showCreateBtn = false
   isXSmall$: Observable<boolean>
   showSearchIcon = true
-
+  locale = ''
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -50,6 +52,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
+    public dialog: MatDialog
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -81,7 +84,40 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           }
         }
       }
-
+      // tslint:disable-next-line: no-non-null-assertion
+      if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // // tslint:disable-next-line: no-non-null-assertion
+      // if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      //   // tslint:disable-next-line: no-non-null-assertion
+      //   this.locale = this.configSvc.userProfile!.language
+      //   if (this.locale === 'en') {
+      //     this.locale = ''
+      //   }
+      // }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (localStorage.getItem('lang')) {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = localStorage.getItem('lang') || ''
+        if (this.locale === 'en') {
+          this.locale = ''
+        }
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
+        // tslint:disable-next-line: no-non-null-assertion
+        if (this.configSvc.userProfile!.language === 'en') {
+          this.locale = ''
+        } else {
+          // tslint:disable-next-line: no-non-null-assertion
+          this.locale = this.configSvc.userProfile!.language || ''
+        }
+      }
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -126,7 +162,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   goHomePage() {
-    // localStorage.setItem('url_before_login', '/page/home')
     this.router.navigateByUrl('/page/home')
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -183,5 +218,21 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.isTourGuideClosed = false
     }
 
+  }
+
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage,
+        checkbox: true
+      }
+    })
+
+
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+      console.log(this.preferedLanguage)
+    })
   }
 }
