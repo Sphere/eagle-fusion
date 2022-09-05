@@ -750,7 +750,7 @@ a.width-auto.mat-button {
   }
 
   @include breakpoint-xs {
-    min-height: 600px;
+    min-height: 500px;
     height: 100%;
     display: flex;
     flex-direction: column;
