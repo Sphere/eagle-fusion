@@ -93,7 +93,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -107,7 +107,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -240,7 +240,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         const result = await this.signupService.fetchStartUpDetails()
 
         if (result.status === 200) {
-         // resendOTP();
+          // resendOTP();
           if (result.roles && result.roles.length > 0) {
             localStorage.setItem(`loginbtn`, `userLoggedIn`)
             this.openSnackbar(results.msg)
@@ -296,18 +296,18 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     }
 
-      this.signupService.generateOtp(requestBody).subscribe(
-        (res: any) => {
-          if (res.message === 'Success') {
-            // this.isMobile = true
-          }
-          // this.openSnackbar(res.message)
-        },
-        (err: any) => {
-          this.openSnackbar(err)
-
+    this.signupService.generateOtp(requestBody).subscribe(
+      (res: any) => {
+        if (res.message === 'Success') {
+          // this.isMobile = true
         }
-      )
+        // this.openSnackbar(res.message)
+      },
+      (err: any) => {
+        this.openSnackbar(err)
+
+      }
+    )
   }
 
   showParentForm(event: any) {
