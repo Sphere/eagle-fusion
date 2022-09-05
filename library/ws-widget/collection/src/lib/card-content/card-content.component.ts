@@ -317,28 +317,6 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   raiseTelemetry() {
-    // tslint:disable-next-line: no-non-null-assertion
-    if (this.configSvc.unMappedUser && this.configSvc.userProfile && this.configSvc.userProfile!.language) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          if (data.profileDetails.profileReq.personalDetails.dob !== undefined) {
-            return this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
-          } else {
-            const url = `/app/toc/${this.widgetData.content.identifier}/overview`
-            return this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
-          }
-        })
-    } else {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
-          if (data.profileDetails.profileReq.personalDetails.dob !== undefined) {
-            return this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
-          } else {
-            const url = `/app/toc/${this.widgetData.content.identifier}/overview`
-            return this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
-          }
-        })
-    }
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
         return of(data)
@@ -356,7 +334,6 @@ export class CardContentComponent extends WidgetBaseComponent
         }
       })
     }
-
   }
 
   get isGreyedImage() {

@@ -45,6 +45,7 @@ export class YourBackgroundComponent implements OnInit {
     this.nextBtnDisable = true
   }
   imgSelect(img: any) {
+    console.log(img)
     if (img) {
       this.nextBtnDisable = false
     }
@@ -98,6 +99,7 @@ export class YourBackgroundComponent implements OnInit {
     }
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
+      console.log(data)
       if (data) {
         this.openSnackbar('User profile details updated successfully!')
       }

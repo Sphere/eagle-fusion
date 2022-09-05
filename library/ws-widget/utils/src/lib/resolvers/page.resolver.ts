@@ -102,6 +102,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       // tslint:disable-next-line: no-non-null-assertion
       this.locale = 'hi'
     }
+    console.log(this.locale)
     // tslint:disable-next-line: no-non-null-assertion
     // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
     //   // tslint:disable-next-line: no-non-null-assertion

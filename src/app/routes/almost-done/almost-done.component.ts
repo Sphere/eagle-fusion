@@ -281,6 +281,20 @@ export class AlmostDoneComponent implements OnInit {
     } else {
       this.enableSubmit = true
     }
+    console.log(this.backgroundSelect)
+    if(this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
+      console.log(this.almostDoneForm.value.professSelected)
+      console.log(this.almostDoneForm.value.orgType)
+       console.log(this.almostDoneForm.value.orgName)
+      if(this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
+        this.enableSubmit = false
+      }
+    }
+        if(this.backgroundSelect === 'Healthcare Worker') {
+      if(this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
+        this.enableSubmit = false
+      }
+        }
     if (this.profession === 'student' && this.studentInstitute) {
       this.degrees = this.createUserForm.get('degrees') as FormArray
       this.degrees.removeAt(0)
@@ -346,13 +360,13 @@ export class AlmostDoneComponent implements OnInit {
 
   private constructReq() {
     if (this.configSvc.userProfile) {
-      this.userId = this.configSvc.userProfile.userId || ''
+      this.userId = this.configSvc.unMappedUser.id || ''
       this.email = this.configSvc.userProfile.email || ''
       this.firstName = this.configSvc.userProfile.firstName || ''
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
-
+console.log(this.yourBackground.value)
     const userObject = {
       firstname: this.firstName,
       middlename: this.middleName,
@@ -369,16 +383,16 @@ export class AlmostDoneComponent implements OnInit {
       }
     })
 
-    const obj = {
-      preferences: {
-        language: localStorage.getItem('preferedLanguage'),
-      },
-    }
-    const userdata = Object.assign(userObject, obj)
+    // const obj = {
+    //   preferences: {
+    //     language: localStorage.getItem('preferedLanguage'),
+    //   },
+    // }
+    //const userdata = Object.assign(userObject, obj)
     const profileReq = {
       id: this.userId,
       userId: this.userId,
-      personalDetails: userdata,
+      personalDetails: userObject,
       academics: this.getAcademics(),
       employmentDetails: {},
       professionalDetails: [
@@ -399,22 +413,29 @@ export class AlmostDoneComponent implements OnInit {
 
   updateProfile() {
     const profileRequest = this.constructReq()
-
-    if (this.configSvc.userProfile) {
-      this.userId = this.configSvc.userProfile.userId || ''
+console.log(this.configSvc)
+    if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
+      this.userId = this.configSvc.unMappedUser.id || ''
     }
-
+    const obj = {
+      preferences: {
+        language: localStorage.getItem('preferedLanguage'),
+      },
+    }
+    const userdata = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userId,
-        profileDetails: profileRequest,
+        profileDetails: userdata,
       },
     }
+    console.log(reqUpdate)
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
         this.openSnackbar('User profile details updated successfully!')
         this.activateRoute.queryParams.subscribe(params => {
+          console.log(params)
           const url = params.redirect
           if (url) {
             localStorage.removeItem('url_before_login')
