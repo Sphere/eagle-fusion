@@ -1,8 +1,33 @@
+@import 'ws-mixins';
+
 .content {
   padding: 60px 20px 30px;
+  margin: auto;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 35%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 30%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
 }
 
-.heading, .head-2, .head-3 {
+.heading,
+.head-2,
+.head-3 {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
@@ -43,8 +68,24 @@
   color: #1C5D95;
   font-size: 20px;
 }
-.edit-icon{
-  position: absolute;
-  right: 1rem;
+
+.edit-icon {
+  // position: absolute;
+  // right: 1rem;
+  // color: #1C5D95;
+
+  position: relative;
+  left: 10rem;
   color: #1C5D95;
+  float: right;
+  top: 6px;
+
+
+  @include breakpoint-gt-m {
+    left: 24rem;
+  }
+
+  @include breakpoint-gt-l {
+    left: 24rem;
+  }
 }

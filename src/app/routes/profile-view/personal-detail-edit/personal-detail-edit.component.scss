@@ -1,6 +1,29 @@
+@import 'ws-mixins';
+
 .content {
   padding: 60px 20px 60px;
   font-size: 16px;
+  margin: auto;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 35%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 30%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
 }
 
 ::placeholder {
@@ -72,7 +95,7 @@
 img.lang-img {
   width: 33px;
   float: right;
-  position: absolute;
-  right: 27px;
-  padding-top: 8px;
+  position: relative;
+  margin-right: 8px;
+  top: 30px;
 }

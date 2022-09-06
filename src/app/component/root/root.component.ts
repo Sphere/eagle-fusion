@@ -196,21 +196,21 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           this.mobileView = false
         }
-        this.valueSvc.isXSmall$.subscribe(isXSmall => {
-          if (event.url.includes('/app/profile/dashboard')) {
-            if (isXSmall) {
-              this.router.navigate(['/app/profile-view'])
-            }
-          } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') ||
-            event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
-            if (!isXSmall) {
-              this.router.navigate(['/app/profile/dashboard'])
-            }
-          } else if (!isXSmall && event.url.includes('/app/video-player') &&
-            this.configSvc.userProfile === null) {
-            this.router.navigate(['/public/home'])
-          }
-        })
+        // this.valueSvc.isXSmall$.subscribe(isXSmall => {
+        //   if (event.url.includes('/app/profile/dashboard')) {
+        //     if (isXSmall) {
+        //       this.router.navigate(['/app/profile-view'])
+        //     }
+        //   } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') ||
+        //     event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
+        //     if (!isXSmall) {
+        //       this.router.navigate(['/app/profile/dashboard'])
+        //     }
+        //   } else if (!isXSmall && event.url.includes('/app/video-player') &&
+        //     this.configSvc.userProfile === null) {
+        //     this.router.navigate(['/public/home'])
+        //   }
+        // })
         this.routeChangeInProgress = true
         this.changeDetector.detectChanges()
       } else if (
@@ -232,10 +232,10 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
-      } 
-       if(this.configSvc.unMappedUser){
-         this.isNavBarRequired = true
-          this.showNavbar = true
+      }
+      if (this.configSvc.unMappedUser) {
+        this.isNavBarRequired = true
+        this.showNavbar = true
       }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()

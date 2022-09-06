@@ -51,10 +51,10 @@ export class PersonalDetailEditComponent implements OnInit {
   langDialog: any
   preferedLanguage: any = 'English'
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar,
-              public dialog: MatDialog
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -356,6 +356,12 @@ export class PersonalDetailEditComponent implements OnInit {
       this.preferedLanguage = result
       this.personalDetailForm.controls.
         knownLanguage.setValue(_.upperFirst(result))
+    })
+  }
+
+  dobData(event: any) {
+    this.personalDetailForm.patchValue({
+      dob: event,
     })
   }
 
