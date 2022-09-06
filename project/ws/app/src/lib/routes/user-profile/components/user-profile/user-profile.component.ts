@@ -810,7 +810,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -1416,7 +1416,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             },
           }
           const userdata = Object.assign(user['profileDetails'], obj)
-
           // this.chosenLanguage = path.value
           const reqUpdate = {
             request: {
@@ -1426,6 +1425,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
             () => {
+              if (result.id === 'en') {
+                //this.chosenLanguage = ''
+                window.location.assign(`${location.origin}/page/home`)
+                // window.location.reload(true)
+              } else {
+                // window.location.reload(true)
+                window.location.assign(`${location.origin}/${result.id}/page/home`)
+              }
             },
             () => {
             })

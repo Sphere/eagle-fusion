@@ -122,6 +122,7 @@ export class DashboardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
   ) {
+
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
       this.userEmail = this.configSvc.userProfile.email || ''
@@ -191,7 +192,7 @@ export class DashboardComponent implements OnInit {
             }
           }
         },
-        (_err: any) => {
+        () => {
         })
     }
   }

@@ -224,7 +224,7 @@ export class InitService {
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
 
-    if (!localStorage.getItem('lang')) {
+    if((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
       const publicConfig: NsInstanceConfig.IConfig = await this.http
         .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
         .toPromise()
@@ -284,7 +284,7 @@ export class InitService {
           }
           localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
-          const profileV2 = _.get(userPidProfile, 'profiledetails')
+          const profileV2 = _.get(userPidProfile, 'profileDetails.profileReq')
           this.configSvc.userProfile = {
             country: _.get(profileV2, 'personalDetails.countryCode') || null,
             email: _.get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
@@ -302,7 +302,7 @@ export class InitService {
             dealerCode: null,
             isManager: false,
             phone: _.get(userPidProfile, 'phone'),
-            language: userPidProfile.profileDetails.preferences.language || null,
+            language: (userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
@@ -317,7 +317,7 @@ export class InitService {
             profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
-            language: userPidProfile.profileDetails.preferences.language || null,
+            language: (userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           if (!this.configSvc.nodebbUserProfile) {
             this.configSvc.nodebbUserProfile = {
@@ -346,6 +346,7 @@ export class InitService {
         this.configSvc.isActive = details.isActive
         return details
       } catch (e) {
+        console.log(e)
         this.configSvc.userProfile = null
         return e
       }

@@ -332,7 +332,11 @@ export class WidgetContentService {
   }
 
   loginAuth(req: any): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(catchError(this.handleError))
+  return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
+        map(
+          (data: any) => data
+        )
+      )
   }
   googleAuthenticate(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))
