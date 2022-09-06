@@ -283,9 +283,6 @@ export class AlmostDoneComponent implements OnInit {
     }
     console.log(this.backgroundSelect)
     if(this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
-      console.log(this.almostDoneForm.value.professSelected)
-      console.log(this.almostDoneForm.value.orgType)
-       console.log(this.almostDoneForm.value.orgName)
       if(this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
         this.enableSubmit = false
       }
@@ -366,7 +363,7 @@ export class AlmostDoneComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
-console.log(this.yourBackground.value)
+
     const userObject = {
       firstname: this.firstName,
       middlename: this.middleName,
@@ -413,7 +410,7 @@ console.log(this.yourBackground.value)
 
   updateProfile() {
     const profileRequest = this.constructReq()
-console.log(this.configSvc)
+
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || ''
     }
@@ -429,13 +426,11 @@ console.log(this.configSvc)
         profileDetails: userdata,
       },
     }
-    console.log(reqUpdate)
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
         this.openSnackbar('User profile details updated successfully!')
         this.activateRoute.queryParams.subscribe(params => {
-          console.log(params)
           const url = params.redirect
           if (url) {
             localStorage.removeItem('url_before_login')

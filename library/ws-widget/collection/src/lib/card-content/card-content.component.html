@@ -350,12 +350,12 @@
 </ng-template>
 
 <ng-template #cardStandard>
-  <mat-card class="card-standard-container mr-8 3" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
+  <mat-card class="card-standard-container mr-8 3 123" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
       greyOut:
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
           : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
+    }"  #target="mdePopoverTrigger"
     [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500"
     [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="offSetXValue"
     [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
