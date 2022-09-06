@@ -24,8 +24,8 @@ export class YourLocationComponent implements OnInit {
   selectDisable = true
   yourBackground = false
   aboutYouForm: FormGroup
-  maxDate = new Date()
-  minDate = new Date(1900, 1, 1)
+  // maxDate = new Date()
+  // minDate = new Date(1900, 1, 1)
   invalidDob = false
   nextBtnDisable = true
   filteredOptionsDistrict: Observable<string[]> | undefined
@@ -117,9 +117,8 @@ export class YourLocationComponent implements OnInit {
   }
 
   dobData(event: any) {
-    // this.aboutYouForm.get['dob'].setValue(event)
-    this.aboutYouForm.setValue({
-   dob: event,
-})
+    this.aboutYouForm.patchValue({
+      dob: event,
+    });
   }
 }
