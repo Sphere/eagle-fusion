@@ -92,16 +92,16 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       // tslint:disable-next-line: no-non-null-assertion
       this.locale = this.configSvc.userProfile!.language
     } else {
-      this.locale = 'en-US'
+      this.locale = 'en'
     }
 
-    if (url.indexOf('public-home') > -1) {
-      // tslint:disable-next-line: no-non-null-assertion
-      this.locale = 'en-US'
-    } else if (url.indexOf('hi/public-home') > -1) {
-      // tslint:disable-next-line: no-non-null-assertion
-      this.locale = 'hi'
-    }
+    // if (url.indexOf('public-home') > -1) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   this.locale = 'en-US'
+    // } else if (url.indexOf('hi/public-home') > -1) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   this.locale = 'hi'
+    // }
 
     // tslint:disable-next-line: no-non-null-assertion
     // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
@@ -113,15 +113,15 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     //   this.locale = localStorage.getItem('lang') || ''
     // }
     // tslint:disable-next-line: no-non-null-assertion
-    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
-      // tslint:disable-next-line: no-non-null-assertion
-      if (this.configSvc.userProfile!.language === 'en') {
-        // this.locale = 'en-US'
-      } else {
-        // tslint:disable-next-line: no-non-null-assertion
-        this.locale = this.configSvc.userProfile!.language || 'en-US'
-      }
-    }
+    // if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   if (this.configSvc.userProfile!.language === 'en') {
+    //     // this.locale = 'en-US'
+    //   } else {
+    //     // tslint:disable-next-line: no-non-null-assertion
+    //     this.locale = this.configSvc.userProfile!.language || 'en-US'
+    //   }
+    // }
      // tslint:disable-next-line:no-console
      console.log(this.locale, url)
     const pageRequest = [

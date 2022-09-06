@@ -1,4 +1,6 @@
-import { Injectable, LOCALE_ID, Inject } from '@angular/core'
+import { Injectable,
+//  LOCALE_ID, Inject
+} from '@angular/core'
 import { ConfigurationsService, NsInstanceConfig, UserPreferenceService } from '@ws-widget/utils'
 
 @Injectable({
@@ -13,7 +15,7 @@ export class BtnSettingsService {
   private loadedThemeStyles = new Set<string>()
   private notifyOnChange = true
   constructor(
-    @Inject(LOCALE_ID) private locale: string,
+    //@Inject(LOCALE_ID) private locale: string,
     private configurationsSvc: ConfigurationsService,
     private userPrefSvc: UserPreferenceService,
   ) { }
@@ -238,11 +240,6 @@ export class BtnSettingsService {
         this.configurationsSvc.isRTL = activeLocale.isRTL
       }
       this.htmlElem.setAttribute('dir', this.configurationsSvc.isRTL ? 'rtl' : 'ltr')
-      if (!localStorage.getItem('lang')) {
-        this.htmlElem.setAttribute('lang', this.locale)
-      } else {
-        this.htmlElem.setAttribute('lang', 'hi')
-      }
     }
   }
 
