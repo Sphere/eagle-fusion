@@ -193,8 +193,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       panelClass: 'language-modal',
       data: {
         selected: this.preferedLanguage,
-        checkbox: true
-      }
+        checkbox: true,
+      },
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result

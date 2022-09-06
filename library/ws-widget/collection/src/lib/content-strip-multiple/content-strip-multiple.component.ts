@@ -221,6 +221,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       const queryParams = _.get(strip.request.enrollmentList, 'queryParams')
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId
+      } else {
+        userId = this.configSvc.unMappedUser.id
       }
       // tslint:disable-next-line: deprecation
       this.userSvc.fetchUserBatchList(userId, queryParams).subscribe(

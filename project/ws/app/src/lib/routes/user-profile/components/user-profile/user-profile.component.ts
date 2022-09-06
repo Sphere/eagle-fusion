@@ -122,7 +122,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langDialog: any
-  preferedLanguage: any;
+  preferedLanguage: any
 
   constructor(
     private snackBar: MatSnackBar,
@@ -560,9 +560,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.id) {
       if (this.configSvc.userProfile) {
         if (this.configSvc.userProfile.language) {
-          this.preferedLanguage = { "lang": this.configSvc.userProfile.language }
+          this.preferedLanguage = { lang: this.configSvc.userProfile.language }
         } else {
-          this.preferedLanguage = { "id": "en", "lang": 'English' }
+          this.preferedLanguage = { id: 'en', lang: 'English' }
         }
 
         if (this.configSvc.userProfile.email) {
@@ -810,7 +810,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -1395,15 +1395,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-
   changeLanguage() {
     this.langDialog = this.dialog.open(LanguageDialogComponent, {
       panelClass: 'language-modal',
       data: {
-        selected: this.preferedLanguage
-      }
+        selected: this.preferedLanguage,
+      },
     })
-
 
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
@@ -1419,7 +1417,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           const userdata = Object.assign(user['profileDetails'], obj)
 
-          //this.chosenLanguage = path.value
+          // this.chosenLanguage = path.value
           const reqUpdate = {
             request: {
               userId: userid,
