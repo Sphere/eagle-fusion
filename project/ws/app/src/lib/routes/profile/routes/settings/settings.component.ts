@@ -104,8 +104,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.fonts = instanceConfig.fontSizes
       this.isLanguageEnabled = instanceConfig.locals.length > 1
       this.appLanguage = (this.configSvc.activeLocale && this.configSvc.activeLocale.path) || ''
-      if (this.appLanguage === '') {
+      // tslint:disable-next-line: no-non-null-assertion
+      if (this.appLanguage === '' && !this.configSvc.userProfile!.language) {
         this.appLanguage = 'en'
+      } else {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.appLanguage = this.configSvc.userProfile!.language || ''
       }
       this.chosenLanguage = this.appLanguage
       this.fonts.sort((a, b) => a.scale - b.scale)
@@ -215,20 +219,16 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   langChanged(path: MatSelectChange) {
-    // console.log(this.configSvc)
     if (this.configSvc.userProfileV2) {
       let user: any
       const userid = this.configSvc.userProfileV2.userId
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
-        // console.log(data)
         user = data
         const obj = {
           preferences: {
             language: path.value,
           },
         }
-        // user["profileDetails"] = obj
-        // console.log(Object.assign(user['profileDetails'], obj))
         const userdata = Object.assign(user['profileDetails'], obj)
 
         this.chosenLanguage = path.value
@@ -240,15 +240,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
         }
         this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
           () => {
-            // console.log(data1)
           },
           () => {
-            // console.log(err)
-            // this.openSnackbar(this.toastError.nativeElement.value)
-            // this.uploadSaveData = false
           })
-        // localStorage.setItem('lang', path.value)
-        // this.langChangedEvent.emit(path.value)
       })
     }
   }
@@ -265,9 +259,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
             this.chosenLanguage = ''
           }
           if (this.mode === 'settings') {
-            location.assign(`${location.origin}/${this.chosenLanguage}${this.router.url}`)
+            window.location.assign(`${location.origin}/${this.chosenLanguage}${this.router.url}`)
           } else {
-            location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
+            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
           }
         } else if (this.mode !== 'settings') {
           if (this.configSvc.userUrl) {
@@ -275,6 +269,21 @@ export class SettingsComponent implements OnInit, OnDestroy {
           } else {
             // this.router.navigate(['page', 'home'])
           }
+        } else {
+          if (this.chosenLanguage === 'en') {
+            this.chosenLanguage = ''
+            window.location.assign(`${location.origin}/page/home`)
+          } else {
+            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
+          }
+        }
+        if (this.chosenLanguage === 'en') {
+          this.chosenLanguage = ''
+           window.location.assign(`${location.origin}/page/home`)
+          // window.location.reload(true)
+        } else {
+          // window.location.reload(true)
+           window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
         }
         this.snackBar.open(this.successToast.nativeElement.value)
       })

@@ -32,7 +32,7 @@ export class YourLocationComponent implements OnInit {
   countryUrl = '../../../fusion-assets/files/country.json'
   districtUrl = '../../../fusion-assets/files/district.json'
   stateUrl = '../../../fusion-assets/files/state.json'
-  startDate = new Date(1999, 0, 1);
+  startDate = new Date(1999, 0, 1)
 
   constructor(
     private http: HttpClient
@@ -111,15 +111,15 @@ export class YourLocationComponent implements OnInit {
     })
   }
 
-  onsubmit(form: any) {
-    console.log(form.value)
+  onsubmit() {
     // form.value.dob = moment(form.value.dob).format('DD-MM-YYYY')
-    console.log(form.valid)
     this.yourBackground = true
   }
 
-
-  dobData(data: any) {
-    this.aboutYouForm.get['dob'].setValue(data)
+  dobData(event: any) {
+    //this.aboutYouForm.get['dob'].setValue(event)
+    this.aboutYouForm.setValue({
+   dob: event,
+});
   }
 }

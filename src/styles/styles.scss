@@ -750,7 +750,7 @@ a.width-auto.mat-button {
   }
 
   @include breakpoint-xs {
-    min-height: 600px;
+    // min-height: 500px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1066,6 +1066,14 @@ button.submit-btn[disabled] {
   @include breakpoint-xs {
     width: 100vw;
     height: 100vh;
+  }
+}
+
+.language-modal {
+  padding: 22px;
+
+  @include breakpoint-xs {
+    padding: 0;
   }
 }
 

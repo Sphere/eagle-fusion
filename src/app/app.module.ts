@@ -98,8 +98,9 @@ import { CertificateReceivedComponent } from './routes/profile-view/certificate-
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
-import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component';
-import { DropdownDobComponent } from './component/dropdown-dob/dropdown-dob.component'
+import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
+import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
+import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -160,7 +161,8 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     MobileProfileNavComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
-    DropdownDobComponent,
+    LanguageDialogComponent,
+    DropdownDobComponent
   ],
   imports: [
     FormsModule,
@@ -223,6 +225,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     ProfileSelectComponent,
     ImageCropComponent,
     NotificationComponent,
+    LanguageDialogComponent,
   ],
   providers: [
     {

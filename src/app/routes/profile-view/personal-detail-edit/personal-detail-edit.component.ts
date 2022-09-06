@@ -5,13 +5,14 @@ import { ConfigurationsService } from '../../../../../library/ws-widget/utils/sr
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
-import { DateAdapter, MatChipInputEvent, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
+import { DateAdapter, MatChipInputEvent, MatDialog, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
-
+import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -46,11 +47,14 @@ export class PersonalDetailEditComponent implements OnInit {
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
-
+  langList = ['English', 'Hindi']
+  langDialog: any
+  preferedLanguage: any = 'English'
   constructor(private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -66,15 +70,20 @@ export class PersonalDetailEditComponent implements OnInit {
       gender: new FormControl(),
       maritalStatus: new FormControl(),
       knownLanguages: new FormControl([], []),
+      knownLanguage: new FormControl(this.preferedLanguage),
       mobile: new FormControl(),
       postalAddress: new FormControl(),
       pincode: new FormControl(),
+      languages: new FormControl(),
     })
+
+    // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
   }
 
   ngOnInit() {
     this.getUserDetails()
     this.fetchMeta()
+
   }
 
   fetchMeta() {
@@ -333,6 +342,22 @@ export class PersonalDetailEditComponent implements OnInit {
 
   private openSnackbar(message: string) {
     this.matSnackBar.open(message)
+  }
+
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage
+      }
+    })
+
+
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+      this.personalDetailForm.controls.
+        knownLanguage.setValue(_.upperFirst(result))
+    })
   }
 
 }

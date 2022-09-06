@@ -32,6 +32,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // AfterViewInit,
   NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   public route: string
+  public locale = ''
   isXSmall$ = this.valueSvc.isXSmall$
 
   constructor(

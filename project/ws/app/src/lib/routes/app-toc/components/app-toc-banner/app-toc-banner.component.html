@@ -74,7 +74,8 @@
                 <div>
                   <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
                     <span i18n>Duration </span>:
-                    {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
+                    {{ content?.duration | pipeDurationTransform: 'hms' }}
+                  </div>
                   <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
                     {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
                   </div>
@@ -139,7 +140,8 @@
                   </a>
                   <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
                   </ws-widget-btn-content-share>
-                  <button *ngIf="content?.issueCertification === true" mat-button [color]="'primary'" (click)="downloadCertificate(content)"
+                  <button *ngIf="content?.issueCertification === true" mat-button [color]="'primary'"
+                    (click)="downloadCertificate(content)"
                     class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
                     <mat-icon>file_download</mat-icon>Certificate
                   </button>

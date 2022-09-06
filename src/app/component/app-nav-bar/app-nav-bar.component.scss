@@ -35,13 +35,15 @@
   max-width: 150px;
   display: block;
   width: 100%;
-/*  padding-top: 10px;
+  /*  padding-top: 10px;
   padding-right: 16px;*/
   cursor: pointer;
 }
+
 .header-btn {
   margin: 14px 5px 14px;
 }
+
 .app-logo {
   height: auto;
   max-width: 100%;
@@ -52,6 +54,7 @@
     max-width: 100px;
   }
 }
+
 .site-description {
   font-size: 14px;
   // display: inline-block;
@@ -67,6 +70,7 @@
   box-sizing: content-box;
   // font-size: 9px;
   line-height: 1.33333em;
+
   p {
     margin-top: 10px;
   }
@@ -88,6 +92,7 @@
 }
 
 @media screen and (min-width: 980px) {
+
   .logo-dim,
   .site-description {
     // -webkit-flex-shrink:0;
@@ -95,6 +100,7 @@
     // flex-shrink: 0;
   }
 }
+
 .title {
   font-size: 12px !important;
   line-height: 26px !important;
@@ -204,11 +210,13 @@
   .search-small-logo {
     display: flex;
     padding: 10px;
-    display: none;
+    // display: none;
   }
+
   .top-right-profile {
     display: none;
   }
+
   .mat-tool-navbar {
     box-shadow: none !important;
   }
@@ -219,8 +227,16 @@
     display: none;
   }
 }
+
 .hide-xs {
   @include breakpoint-xs {
     display: none;
   }
+}
+
+.lang-img {
+  width: 33px;
+  height: 24px;
+  align-self: center;
+  margin-right: 10px;
 }

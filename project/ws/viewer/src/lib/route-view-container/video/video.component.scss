@@ -9,14 +9,14 @@
   flex-wrap: wrap;
 }
 
-.padding-dynamic {
-  padding: $size-xs;
-  padding-top: $size-m;
+// .padding-dynamic {
+//   padding: $size-xs;
+//   padding-top: $size-m;
 
-  @include breakpoint-xs {
-    padding: $size-xs;
-  }
-}
+//   @include breakpoint-xs {
+//     padding: $size-xs;
+//   }
+// }
 
 .video-player-container {
   height: auto;
@@ -51,11 +51,13 @@
 .video-player,
 #fullScreenContainer {
   width: 98.6%;
-  height: 75vh;
+  height: 45vh;
   position: relative;
-  min-height: 75vh;
+  min-height: 45vh;
   margin: 0 6px 0 0px;
   padding: 0 9px;
+
+
 
   @include breakpoint-lt-xl {
     height: 70vh;
@@ -79,7 +81,13 @@
     // position: relative;
     // top: 0;
     // left: 14px;
-    padding: 0 !important;
+    // padding: 0 !important;
+    width: 103.6%;
+    height: 45vh !important;
+    position: relative;
+    min-height: 45vh !important;
+    margin: 0px 0 0 -7px;
+    padding: 0px 9px;
   }
 
   @include breakpoint-m {

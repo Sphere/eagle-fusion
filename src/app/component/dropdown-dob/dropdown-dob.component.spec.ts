@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { DropdownDobComponent } from './dropdown-dob.component';
+import { DropdownDobComponent } from './dropdown-dob.component'
 
 describe('DropdownDobComponent', () => {
-  let component: DropdownDobComponent;
-  let fixture: ComponentFixture<DropdownDobComponent>;
+  let component: DropdownDobComponent
+  let fixture: ComponentFixture<DropdownDobComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DropdownDobComponent ]
+      declarations: [DropdownDobComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DropdownDobComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(DropdownDobComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

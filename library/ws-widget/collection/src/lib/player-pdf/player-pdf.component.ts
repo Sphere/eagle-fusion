@@ -106,6 +106,11 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         this.zoom.setValue(0.5)
       }
     })
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.zoom.setValue(0.4)
+      }
+    })
 
     this.widgetData.disableTelemetry = false
     if (this.widgetData.readValuesQueryParamsKey) {

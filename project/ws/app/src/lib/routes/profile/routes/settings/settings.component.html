@@ -17,7 +17,7 @@
                     <ng-container i18n> English (en)</ng-container>
                   </a>
                 </mat-option>
-                 <mat-option value="hi" *ngIf="isLocaleAvailable('hi')" [disabled]="!isLocaleEnabled('hi')">
+                <mat-option value="hi" *ngIf="isLocaleAvailable('hi')" [disabled]="!isLocaleEnabled('hi')">
                   <a mat-line>
                     <ng-container>Hindi&nbsp;&nbsp;</ng-container>
                     <ng-container i18n> Hindi (IN)</ng-container>
@@ -75,15 +75,15 @@
             </mat-form-field>
           </section>
 
-          <mat-divider></mat-divider>
+          <!-- <mat-divider></mat-divider>
 
           <div class="flex flex-middle py-4 cursor-pointer" (click)="showContentLang = !showContentLang">
             <mat-icon *ngIf="showContentLang">keyboard_arrow_down</mat-icon>
             <mat-icon *ngIf="!showContentLang">chevron_right</mat-icon>
 
             <span i18n class="px-4">Do you want to select additional languages for Content?</span>
-          </div>
-          <mat-selection-list class="flex flex-wrapped" [hidden]="!showContentLang" [formControl]="contentLangForm"
+          </div> -->
+          <!--<mat-selection-list class="flex flex-wrapped" [hidden]="!showContentLang" [formControl]="contentLangForm"
             (selectionChange)="contentLangChanged()">
             <mat-list-option [ngStyle]="{ opacity: !isLocaleEnabled('') || isPrimary('en') ? 0.4 : 1 }"
               [checkboxPosition]="'before'" *ngIf="isLocaleAvailable('')"
@@ -147,10 +147,11 @@
               <h4 mat-line>Español</h4>
               <p mat-line i18n>Spanish (es)</p>
             </mat-list-option>
-          </mat-selection-list>
+          </mat-selection-list> -->
           <mat-divider></mat-divider>
           <div class="flex flex-middle flex-between mt-4">
-            <span *ngIf="mode === 'settings'" i18n class="ws-mat-primary-text">After changing the application language,
+            <span *ngIf="mode === 'settings'" i18n class="ws-mat-primary-text" i18n>After changing the application
+              language,
               the
               application will reload</span>
             <div *ngIf="mode === 'settings'">
@@ -171,7 +172,7 @@
             (click)="changeFont(font.fontClass)">
             <mat-icon>{{
               activeFontClass === font.fontClass ? 'radio_button_checked' : 'radio_button_unchecked'
-            }}</mat-icon>
+              }}</mat-icon>
             <span [style.fontSize]="font.baseFontSize">
               <span i18n>Base font size</span>
               ({{ font.baseFontSize }})

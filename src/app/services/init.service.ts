@@ -94,6 +94,7 @@ export class InitService {
 
   async init() {
     // this.logger.removeConsoleAccess()
+
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
     // if (!authenticated) {
@@ -111,7 +112,6 @@ export class InitService {
     // Invalid User
     try {
       // await this.fetchStartUpDetails()
-
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.fetchStartUpDetails() // detail: depends only on userID
       }
@@ -129,7 +129,7 @@ export class InitService {
       // const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
       // this.configSvc.userPreference = userPrefPromise
       // this.configSvc.userPreference.selectedTheme = 'theme-igot'
-       this.reloadAccordingToLocale()
+      this.reloadAccordingToLocale()
       // if (this.configSvc.userPreference.pinnedApps) {
       //   const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')
       //   this.configSvc.pinnedApps.next(new Set(pinnedApps))
@@ -223,28 +223,29 @@ export class InitService {
   }
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
-    if(!localStorage.getItem('lang')){
-    const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
-      .toPromise()
-          this.configSvc.instanceConfig = publicConfig
-    this.configSvc.rootOrg = publicConfig.rootOrg
-    this.configSvc.org = publicConfig.org
-    // TODO: set one org as default org :: use user preference
-    this.configSvc.activeOrg = publicConfig.org[0]
-    this.configSvc.appSetup = publicConfig.appSetup
-    return publicConfig
+
+    if (!localStorage.getItem('lang')) {
+      const publicConfig: NsInstanceConfig.IConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.configSvc.rootOrg = publicConfig.rootOrg
+      this.configSvc.org = publicConfig.org
+      // TODO: set one org as default org :: use user preference
+      this.configSvc.activeOrg = publicConfig.org[0]
+      this.configSvc.appSetup = publicConfig.appSetup
+      return publicConfig
     } else {
-       const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
-      .toPromise()
-          this.configSvc.instanceConfig = publicConfig
-    this.configSvc.rootOrg = publicConfig.rootOrg
-    this.configSvc.org = publicConfig.org
-    // TODO: set one org as default org :: use user preference
-    this.configSvc.activeOrg = publicConfig.org[0]
-    this.configSvc.appSetup = publicConfig.appSetup
-    return publicConfig
+      const publicConfig: NsInstanceConfig.IConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.configSvc.rootOrg = publicConfig.rootOrg
+      this.configSvc.org = publicConfig.org
+      // TODO: set one org as default org :: use user preference
+      this.configSvc.activeOrg = publicConfig.org[0]
+      this.configSvc.appSetup = publicConfig.appSetup
+      return publicConfig
     }
 
   }
@@ -271,6 +272,7 @@ export class InitService {
           .get<any>(endpoint.profilePid)
           .pipe(map((res: any) => res.result.response))
           .toPromise()
+
         if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
           this.hasRole(userPidProfile.roles)) {
           // if (userPidProfile.result.response.organisations.length > 0) {
@@ -299,7 +301,8 @@ export class InitService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
-            phone: _.get(userPidProfile, 'phone')
+            phone: _.get(userPidProfile, 'phone'),
+            language: userPidProfile.profileDetails.preferences.language || null,
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
@@ -314,6 +317,7 @@ export class InitService {
             profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
+            language: userPidProfile.profileDetails.preferences.language || null,
           }
           if (!this.configSvc.nodebbUserProfile) {
             this.configSvc.nodebbUserProfile = {

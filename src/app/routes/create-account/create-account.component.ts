@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
-import { MatSnackBar } from '@angular/material'
+import { MatDialog, MatSnackBar } from '@angular/material'
 import { mustMatch } from '../password-validator'
 import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
+import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 
 @Component({
   selector: 'ws-create-account',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router'
 
 export class CreateAccountComponent implements OnInit {
   uploadSaveData = false
+  languageIcon = '../../../fusion-assets/images/lang-icon.png'
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('toastError', { static: true }) toastError!: ElementRef<any>
   emailOrMobile: any
@@ -23,17 +25,21 @@ export class CreateAccountComponent implements OnInit {
   isOtpValid = false
   emailPhoneType: any
   otpPage = false
+  languageDialog = false
   createAccountForm: FormGroup
   otpCodeForm: FormGroup
   hide1 = true
   hide2 = true
   iconChange1 = 'fas fa-eye-slash'
   iconChange2 = 'fas fa-eye-slash'
+  langDialog: any
+  preferedLanguage: any = { "id": "en", "lang": 'English' }
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
+    public dialog: MatDialog
   ) {
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
@@ -44,7 +50,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -54,7 +60,7 @@ export class CreateAccountComponent implements OnInit {
 
   @HostListener('window:popstate', ['$event'])
   onPopState() {
-     window.location.href = '/public/home'
+    window.location.href = '/public/home'
   }
 
   toggle1() {
@@ -83,7 +89,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -145,12 +151,13 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
+          localStorage.setItem(`preferedLanguage`, this.preferedLanguage.id)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -172,12 +179,13 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
+          localStorage.setItem(`preferedLanguage`, this.preferedLanguage.id)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
         }
@@ -194,6 +202,18 @@ export class CreateAccountComponent implements OnInit {
   private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
+    })
+  }
+
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage
+      }
+    })
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
     })
   }
 }

@@ -3,8 +3,14 @@
 <div class="login-page-content" *ngIf="!otpPage">
   <div class="login-card">
     <div>
-      <h1 class="display-3" i18n>Create your account</h1>
+      <div class="lang-subtitle">
+        <h1 class="display-3 mb-1" i18n>Create your account</h1>
 
+      </div>
+      <div class="flex gap-2">
+        <h3 class="mb-2">Language for Learning : <span class="display-language" i18n> {{preferedLanguage.lang}}</span></h3>
+        <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" />
+      </div>
       <div class="input-content">
         <div class="input-content-wrapper">
           <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
@@ -21,6 +27,7 @@
                 Invalid name Format</mat-error>
             </div>
 
+
             <div class="form-group">
               <input id="lastname-field" class="form-control" i18n formControlName="lastname" type="text"
                 placeholder="Last Name" autocomplete="off">
@@ -32,7 +39,8 @@
                 *ngIf="createAccountForm.controls['lastname'].hasError('pattern') &&
                                     (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
                 Invalid name Format</mat-error>
-              <label class="label-text">( <span i18n>This is the name that will show up on your certificate) </span></label>
+              <label class="label-text">( <span i18n>This is the name that will show up on your certificate)
+                </span></label>
             </div>
 
             <div class="form-group">
@@ -42,7 +50,8 @@
                 *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
                 (createAccountForm.controls['emailOrMobile'].dirty || createAccountForm.controls['emailOrMobile'].touched)">
                 This field is required</mat-error>
-              <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['emailOrMobile'].hasError('pattern')">
+              <mat-error class="text-danger" i18n
+                *ngIf="createAccountForm.controls['emailOrMobile'].hasError('pattern')">
                 Invalid email or number</mat-error>
             </div>
             <div class="form-group">
@@ -55,9 +64,10 @@
                   </a>
                 </div>
               </div>
-              <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including numerals, lower and
-                upper
-                case alphabets and special characters without space </span>)</label>
+              <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including numerals,
+                  lower and
+                  upper
+                  case alphabets and special characters without space </span>)</label>
               <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
                   (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
                 This field is required</mat-error>

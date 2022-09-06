@@ -97,14 +97,16 @@
             </div>
           </span>
         </div>
-        <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author:</span> {{ widgetData?.content?.creator}}
+        <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author:</span> {{
+          widgetData?.content?.creator}}
         </p>
         <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500" i18n>Author:
           </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
 
         <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
           {{widgetData.content?.uniqueUsersCount}}</p>
-        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500" i18n>Source:</span> {{widgetData.content.sourceName}}
+        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500" i18n>Source:</span>
+          {{widgetData.content.sourceName}}
         </p>
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
           <div class="fw-500 mb-1"><span i18n>Course Description</span></div>

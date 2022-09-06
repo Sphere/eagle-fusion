@@ -12,6 +12,17 @@
   .pdf-nav-bar {
     font-size: 12px !important;
     padding: 0 0px 0 25px !important;
+
+  }
+
+  .pdf-page-container {
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .pdf-page-container {
+    margin: 0 !important;
   }
 }
 
@@ -21,6 +32,7 @@
   text-align: center;
   overflow: auto;
   margin: auto;
+
 }
 
 .pdf-page-num {
@@ -39,7 +51,7 @@
 }
 
 .custom-scroll-small {
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 // .pdf-scroll {
@@ -55,6 +67,7 @@
   border: none !important;
   width: 20px;
 }
+
 ::ng-deep .fullscreen #youtubeTag {
   height: 100vh !important;
 }
