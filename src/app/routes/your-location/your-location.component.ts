@@ -117,9 +117,9 @@ export class YourLocationComponent implements OnInit {
   }
 
   dobData(event: any) {
-    //this.aboutYouForm.get['dob'].setValue(event)
+    // this.aboutYouForm.get['dob'].setValue(event)
     this.aboutYouForm.setValue({
    dob: event,
-});
+})
   }
 }

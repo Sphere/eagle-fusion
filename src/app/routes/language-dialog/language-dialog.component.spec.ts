@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { LanguageDialogComponent } from './language-dialog.component';
+import { LanguageDialogComponent } from './language-dialog.component'
 
 describe('LanguageDialogComponent', () => {
-  let component: LanguageDialogComponent;
-  let fixture: ComponentFixture<LanguageDialogComponent>;
+  let component: LanguageDialogComponent
+  let fixture: ComponentFixture<LanguageDialogComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LanguageDialogComponent ]
+      declarations: [LanguageDialogComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LanguageDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(LanguageDialogComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

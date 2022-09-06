@@ -15,9 +15,9 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 export class GeneralGuard implements CanActivate {
   dobFlag = false
   isXSmall = false
-  locale: string = ''
+  locale = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) { }
+              private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -62,7 +62,7 @@ export class GeneralGuard implements CanActivate {
     if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
       // tslint:disable-next-line: no-non-null-assertion
       if (this.configSvc.userProfile!.language === 'en') {
-        //this.locale = 'en-US'
+        // this.locale = 'en-US'
       } else {
         // tslint:disable-next-line: no-non-null-assertion
         this.locale = this.configSvc.userProfile!.language || 'en-US'

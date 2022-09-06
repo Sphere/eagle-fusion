@@ -86,7 +86,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
         catchError(err => of({ data: null, error: err })),
       )
     }
-    
+
     // tslint:disable-next-line: no-non-null-assertion
     if (this.configSvc.userProfile && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
@@ -102,7 +102,6 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       // tslint:disable-next-line: no-non-null-assertion
       this.locale = 'hi'
     }
-    console.log(this.locale)
     // tslint:disable-next-line: no-non-null-assertion
     // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
     //   // tslint:disable-next-line: no-non-null-assertion
@@ -116,7 +115,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
       // tslint:disable-next-line: no-non-null-assertion
       if (this.configSvc.userProfile!.language === 'en') {
-        //this.locale = 'en-US'
+        // this.locale = 'en-US'
       } else {
         // tslint:disable-next-line: no-non-null-assertion
         this.locale = this.configSvc.userProfile!.language || 'en-US'
