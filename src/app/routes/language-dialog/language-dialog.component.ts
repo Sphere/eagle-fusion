@@ -8,8 +8,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 })
 export class LanguageDialogComponent implements OnInit {
 
-  preferredLanguageList: any[] = [{"id" : "en","lang" : "English"}, {"id" : "hi","lang" : 'हिंदी'}, {"id" : "ta","lang" : 'தமிழ்'}];
-  languageCheckbox = false;
+  preferredLanguageList: any[] = [{ id : 'en', lang : 'English' }, { id : 'hi', lang : 'हिंदी' }, { id : 'ta', lang : 'தமிழ்' }]
+  languageCheckbox = false
   preferredLanguage = ''
 
   constructor(
@@ -29,13 +29,13 @@ export class LanguageDialogComponent implements OnInit {
     this.dialogRef.close(data)
   }
   multiLanguage(data: any) {
-    // tslint:disable-next-line:no-console    
+    // tslint:disable-next-line:no-console
     console.log(data)
     this.dialogRef.close(data)
   }
 
   onNgModelChange(event: any) {
-    // tslint:disable-next-line:no-console    
+    // tslint:disable-next-line:no-console
     console.log(event)
     this.preferredLanguage = event
   }

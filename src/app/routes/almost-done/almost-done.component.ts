@@ -281,17 +281,17 @@ export class AlmostDoneComponent implements OnInit {
     } else {
       this.enableSubmit = true
     }
-    console.log(this.backgroundSelect)
-    if(this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
-      if(this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
+
+    if (this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
+      if (this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
         this.enableSubmit = false
       }
     }
-        if(this.backgroundSelect === 'Healthcare Worker') {
-      if(this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
+    if (this.backgroundSelect === 'Healthcare Worker') {
+      if (this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
         this.enableSubmit = false
       }
-        }
+    }
     if (this.profession === 'student' && this.studentInstitute) {
       this.degrees = this.createUserForm.get('degrees') as FormArray
       this.degrees.removeAt(0)
@@ -380,12 +380,6 @@ export class AlmostDoneComponent implements OnInit {
       }
     })
 
-    // const obj = {
-    //   preferences: {
-    //     language: localStorage.getItem('preferedLanguage'),
-    //   },
-    // }
-    //const userdata = Object.assign(userObject, obj)
     const profileReq = {
       id: this.userId,
       userId: this.userId,

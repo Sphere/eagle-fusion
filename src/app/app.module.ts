@@ -162,7 +162,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
-    DropdownDobComponent
+    DropdownDobComponent,
   ],
   imports: [
     FormsModule,
