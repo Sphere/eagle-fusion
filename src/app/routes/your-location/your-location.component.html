@@ -22,7 +22,7 @@
 
         <form [formGroup]="aboutYouForm">
 
-          <div class="form-group mt-4 input-box  d-none">
+          <!--<div class="form-group mt-4 input-box  d-none">
             <input [matDatepicker]="picker" i18n [min]="minDate" [max]="maxDate" formControlName="dob"
               autocomplete="off" (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob"
               id="dob-inputfield" class="form-control dob-input" (click)="picker.open()" readonly>
@@ -31,7 +31,7 @@
           </div>
           <div>
             <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
-          </div>
+          </div> -->
           <!-- dropdown dob -->
           <h3 class="mb-1" for="dob" i18n>Date of Birth</h3>
           <div class="form-group ">

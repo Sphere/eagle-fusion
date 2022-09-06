@@ -3,8 +3,8 @@
   </p>
   <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0" i18n>Start Learning</p>
 
-  <span class="language-text">English <mat-icon>close</mat-icon></span>
-  <span class="language-text">हिन्दी <mat-icon>close</mat-icon></span>
+  <!-- <span class="language-text">English <mat-icon>close</mat-icon></span>
+  <span class="language-text">हिन्दी <mat-icon>close</mat-icon></span> -->
 
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
