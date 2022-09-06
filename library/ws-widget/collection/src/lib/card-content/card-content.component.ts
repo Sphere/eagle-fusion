@@ -318,7 +318,7 @@ export class CardContentComponent extends WidgetBaseComponent
 
   raiseTelemetry() {
     if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(1000), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
         if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {

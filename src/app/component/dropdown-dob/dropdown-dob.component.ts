@@ -8,7 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class DropdownDobComponent implements OnInit {
 
-  @Output() dobValue = new EventEmitter
+  @Output() dobValue = new EventEmitter()
   dobForm: FormGroup
 
   dateValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
@@ -40,12 +40,10 @@ export class DropdownDobComponent implements OnInit {
   }
 
   countrySelect() {
-    if (this.dobForm.value.date || this.dobForm.value.months || this.dobForm.value.years) {
-      const dob = `${this.dobForm.value.date}-${this.dobForm.value.months}-${this.dobForm.value.years}`
+    if (this.dobForm.value.dateField || this.dobForm.value.monthField || this.dobForm.value.yearField) {
+      const dob = `${this.dobForm.value.dateField}-${this.dobForm.value.monthField}-${this.dobForm.value.yearField}`
       this.dobValue.emit(dob)
-
     }
-
   }
 
   initYear() {

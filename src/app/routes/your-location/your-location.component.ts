@@ -116,7 +116,10 @@ export class YourLocationComponent implements OnInit {
     this.yourBackground = true
   }
 
-  dobData(data: any) {
-    this.aboutYouForm.get['dob'].setValue(data)
+  dobData(event: any) {
+    //this.aboutYouForm.get['dob'].setValue(event)
+    this.aboutYouForm.setValue({
+   dob: event,
+});
   }
 }
