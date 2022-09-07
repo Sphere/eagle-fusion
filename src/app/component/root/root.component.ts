@@ -232,11 +232,11 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
-      } 
-       if(this.configSvc.unMappedUser){
-         this.isNavBarRequired = true
-          this.showNavbar = true
       }
+      // if (this.configSvc.unMappedUser) {
+      //   this.isNavBarRequired = true
+      //   //this.showNavbar = true
+      // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         if (this.appStartRaised) {
