@@ -31,8 +31,8 @@ export class LoginOtpComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.signUpdata) {
-      let phone = this.signUpdata.value.emailOrMobile
+    if (this.signUpdata || this.loginData) {
+      let phone = this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username
       phone = phone.replace(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
         this.emailPhoneType = 'phone'
@@ -125,11 +125,11 @@ export class LoginOtpComponent implements OnInit {
     let requestBody
     if (emailPhoneType === 'email') {
       requestBody = {
-        email: this.signUpdata.value.emailOrMobile,
+        email: this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username,
       }
     } else {
       requestBody = {
-        mobileNumber: this.signUpdata.value.emailOrMobile,
+        mobileNumber: this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username,
       }
     }
     this.signupService.generateOtp(requestBody).subscribe(
