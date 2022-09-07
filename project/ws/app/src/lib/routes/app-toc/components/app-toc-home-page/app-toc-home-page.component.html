@@ -23,14 +23,14 @@
       <a *ngIf="content?.children?.length" mat-tab-link (click)="toggleComponent('chapters')"
         [routerLink]="'./chapters'" [queryParams]="{batchId: batchId ,contentId: content.identifier}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'chapters'}" id="content-link" wsAppRetainScroll
-        i18n>Content</a>
+        i18n>Modules</a>
 
 
       <!-- <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>License</a> -->
 
       <a mat-tab-link (click)="redirectTo()" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'discuss'}"
-        id="license-link" wsAppRetainScroll i18n>Discuss</a>
+        id="license-link" wsAppRetainScroll i18n>Discussion</a>
 
     </nav>
 
