@@ -168,10 +168,11 @@
                 <option [value]="null" i18n>Select Background</option>
                 <option value="Mother/Family Members">Mother/Family Members</option>
                 <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
+                <option value="Asha Trainer" *ngIf='!hideAsha'>Asha Trainer</option>
                 <option value="Other">Others</option>
               </select>
             </div>
-            <div *ngIf="selectedBg === 'Asha Facilitator'">
+            <div *ngIf="selectedBg === 'Asha Facilitator' ||  selectedBg === 'Asha Trainer'">
               <div class="form-group input-box">
                 <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
                   (change)="assignFields('locationselect', $event.target.value)" i18n>
