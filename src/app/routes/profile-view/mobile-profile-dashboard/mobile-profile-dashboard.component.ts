@@ -56,7 +56,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                             'identifier')
+    })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -73,11 +73,12 @@ export class MobileProfileDashboardComponent implements OnInit {
             _.forEach(this.certificates, cvalue => {
               if (res[cvalue.identifier]) {
                 cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
+                cvalue['printUri'] = res[cvalue.identifier]
               }
             })
           }
         })
-      },         500)
+      }, 500)
     })
 
   }
@@ -85,35 +86,16 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                                (result: any, value) => {
+    })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    },                                  [])
+    }, [])
     this.certificates = issuedCertificates
   }
-  // convertToJpeg(imgVal: any, callback: any) {
-  //   const img = new Image()
-  //   let url = imgVal.result.printUri
 
-  //   img.onload = function () {
-  //     const canvas: any = document.getElementById('certCanvas') || {}
-  //     const ctx = canvas.getContext('2d')
-  //     const imgWidth = img.width
-  //     const imgHeight = img.height
-  //     canvas.width = imgWidth
-  //     canvas.height = imgHeight
-  //     ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
-  //     let imgURI = canvas
-  //       .toDataURL('image/jpeg')
-
-  //     imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
-  //     callback(imgURI)
-  //   }
-  //   img.src = url
-  // }
 
   openAboutDialog() {
     const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
