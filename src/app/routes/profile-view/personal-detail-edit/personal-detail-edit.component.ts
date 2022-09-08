@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
@@ -42,6 +42,8 @@ export class PersonalDetailEditComponent implements OnInit {
   rnShow = false
   professionOtherField = false
   startDate = new Date(1999, 0, 1)
+  showbackButton: boolean = false;
+  showLogOutIcon: boolean = false;
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
@@ -54,7 +56,8 @@ export class PersonalDetailEditComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private router: Router,
     private matSnackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private valueSvc: ValueService,
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -83,6 +86,17 @@ export class PersonalDetailEditComponent implements OnInit {
   ngOnInit() {
     this.getUserDetails()
     this.fetchMeta()
+
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.showbackButton = true
+        this.showLogOutIcon = true
+
+      } else {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      }
+    })
 
   }
 

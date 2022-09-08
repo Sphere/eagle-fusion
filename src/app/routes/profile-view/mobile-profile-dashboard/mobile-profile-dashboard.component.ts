@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -28,6 +28,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   photoUrl: any
   image = '/fusion-assets/icons/prof1.png'
   loader = true
+  showbackButton: boolean = false;
+  showLogOutIcon: boolean = false;
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -35,6 +37,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
+    private valueSvc: ValueService,
   ) {
   }
 
@@ -50,13 +53,24 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
+
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.showbackButton = true
+        this.showLogOutIcon = true
+
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   processCertiFicate(data: any) {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                             'identifier')
+    })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -77,7 +91,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      },         500)
+      }, 500)
     })
 
   }
@@ -85,13 +99,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                                (result: any, value) => {
+    })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    },                                  [])
+    }, [])
     this.certificates = issuedCertificates
   }
   // convertToJpeg(imgVal: any, callback: any) {

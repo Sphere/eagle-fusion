@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
 import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
@@ -22,12 +22,15 @@ export class WorkInfoEditComponent implements OnInit {
   workInfoForm: FormGroup
   userProfileData!: any
   userID = ''
+  showbackButton: boolean = false;
+  showLogOutIcon: boolean = false;
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private route: ActivatedRoute) {
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private valueSvc: ValueService,) {
     this.workInfoForm = new FormGroup({
       doj: new FormControl('', []),
       organizationName: new FormControl('', []),
@@ -38,6 +41,16 @@ export class WorkInfoEditComponent implements OnInit {
 
   ngOnInit() {
     this.getUserDetails()
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.showbackButton = true
+        this.showLogOutIcon = true
+
+      } else {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   updateForm() {
