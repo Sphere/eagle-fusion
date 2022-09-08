@@ -1,5 +1,5 @@
 <div class="content">
-  <ws-mobile-profile-nav></ws-mobile-profile-nav>
+  <ws-mobile-profile-nav [showbackButton]="showbackButton" [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
   <p class="text-2xl mt-3">Personal Details</p>
 
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
@@ -9,16 +9,17 @@
     </div>
 
     <div class="form-group mt-4 relative">
-      <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
+      <!-- <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
         (dateInput)="onDateChange($event.value)" placeholder="Date of Birth*" name="dob" id="dob-inputfield"
         class="form-control" readonly (click)="picker.open()">
       <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+      <mat-datepicker #picker [startAt]="startDate"></mat-datepicker> -->
+      <ws-dropdown-dob (dobValue)="dobData($event)"></ws-dropdown-dob>
     </div>
     <div>
       <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
     </div>
-<!--     <mat-form-field appearance="outline" class="field-fullwidth">
+    <!--     <mat-form-field appearance="outline" class="field-fullwidth">
       <mat-select formControlName="languages" i18n-placeholder placeholder="languages"
         (selectionChange)="langChange($event.value)">
         <mat-option [value]="lang" *ngFor="let lang of langList">{{lang}}</mat-option>

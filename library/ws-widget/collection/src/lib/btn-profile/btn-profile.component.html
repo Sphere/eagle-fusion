@@ -43,8 +43,7 @@
   </section>
 
   <section class="padding-s border-bottom">
-    <a role="link" [routerLink]="((isXSmall$ | async) === true) ? '/app/profile-view' : '/app/profile/dashboard'"
-      class="all-features" id="viewprofile">
+    <a role="link" routerLink="/app/profile-view" class="all-features" id="viewprofile">
       <div class="float-left">
         <!-- <mat-icon>account_circle</mat-icon> -->
         <ws-widget-avatar-photo [name]="givenName" [size]="'m'" [photoUrl]="profileImage"></ws-widget-avatar-photo>
