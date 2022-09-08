@@ -126,7 +126,33 @@
       <ws-app-assessment-detail
         [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode ? resourceLink : ''"
         [content]="content">
+
       </ws-app-assessment-detail>
+      <div class="align-rt progrss-box">
+        <span class="content-check"
+          *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseAssesmentPercentage">
+          <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
+          <mat-icon>check</mat-icon>
+        </span>
+        <ng-template #elseAssesmentPercentage>
+          <ng-container *ngIf="content?.completionPercentage > 0; else elseAssesmentLock">
+            <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
+              [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
+              [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+              [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
+              [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
+              [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
+              [outerStrokeLinecap]="'round'">
+            </circle-progress>
+          </ng-container>
+        </ng-template>
+        <ng-template #elseAssesmentLock>
+          <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
+            <img src=".\fusion-assets\icons\lock.png">
+          </ng-container>
+
+        </ng-template>
+      </div>
     </ng-container>
     <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
       [src]="content?.appIcon" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
@@ -201,6 +227,21 @@
               <mat-icon>check</mat-icon>
 
             </span>
+            <ng-template #elseAssesmentPercentage>
+              coming Assessment
+              <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
+                <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
+                  [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
+                  [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
+                  [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
+                  [outerStrokeLinecap]="'round'">
+                </circle-progress>
+              </ng-container>
+
+              <!-- <img [src]="redTickIcon" class="image" name="redtick-icon" /> -->
+            </ng-template>
             <ng-template #elseResourcePercentage>
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"

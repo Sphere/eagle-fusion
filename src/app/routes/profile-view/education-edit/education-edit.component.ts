@@ -16,16 +16,16 @@ export class EducationEditComponent implements OnInit {
   academics: any = []
   userID = ''
   userProfileData!: any
-  showbackButton: boolean = false;
-  showLogOutIcon: boolean = false;
+  showbackButton = false
+  showLogOutIcon = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = '(^[0-9]{4}$)'
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private route: ActivatedRoute,
-    private valueSvc: ValueService,) {
+              private userProfileSvc: UserProfileService,
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private route: ActivatedRoute,
+              private valueSvc: ValueService) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),

@@ -13,7 +13,7 @@ export class CertificateReceivedComponent implements OnInit {
   }
   convertToJpeg(imgVal: any) {
     const img = new Image()
-    let url = imgVal.printUri
+    const url = imgVal.printUri
 
     img.onload = function () {
       const canvas: any = document.getElementById('certCanvas') || {}

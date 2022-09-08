@@ -11,12 +11,12 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 })
 export class WorkInfoListComponent implements OnInit {
   userProfileData!: IUserProfileDetailsFromRegistry
-  showbackButton: boolean = false;
-  showLogOutIcon: boolean = false;
+  showbackButton = false
+  showLogOutIcon = false
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private valueSvc: ValueService,) { }
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private valueSvc: ValueService) { }
 
   ngOnInit() {
     this.getUserDetails()

@@ -15,7 +15,7 @@ export class BtnSettingsService {
   private loadedThemeStyles = new Set<string>()
   private notifyOnChange = true
   constructor(
-    //@Inject(LOCALE_ID) private locale: string,
+    // @Inject(LOCALE_ID) private locale: string,
     private configurationsSvc: ConfigurationsService,
     private userPrefSvc: UserPreferenceService,
   ) { }
