@@ -11,12 +11,12 @@ import { Router } from '@angular/router'
 })
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
-  showbackButton: boolean = false;
-  showLogOutIcon: boolean = false;
+  showbackButton = false
+  showLogOutIcon = false
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private valueSvc: ValueService,) {
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private valueSvc: ValueService) {
 
   }
 

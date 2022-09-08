@@ -42,8 +42,8 @@ export class PersonalDetailEditComponent implements OnInit {
   rnShow = false
   professionOtherField = false
   startDate = new Date(1999, 0, 1)
-  showbackButton: boolean = false;
-  showLogOutIcon: boolean = false;
+  showbackButton = false
+  showLogOutIcon = false
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
@@ -53,11 +53,11 @@ export class PersonalDetailEditComponent implements OnInit {
   langDialog: any
   preferedLanguage: any = 'English'
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private valueSvc: ValueService,
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private valueSvc: ValueService,
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -391,7 +391,7 @@ export class PersonalDetailEditComponent implements OnInit {
           this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
             () => {
               if (result.id === 'en') {
-                //this.chosenLanguage = ''
+                // this.chosenLanguage = ''
                 window.location.assign(`${location.origin}/page/home`)
                 // window.location.reload(true)
               } else {
