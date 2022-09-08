@@ -65,6 +65,7 @@ export class AlmostDoneComponent implements OnInit {
       this.hideAsha = false
     }
     if (this.backgroundSelect === 'ASHA') {
+      this.enableSubmit = true
       this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
         statesdata.states.map((item: any) => {
@@ -83,7 +84,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.selectedBg === 'Mother/Family Members') {
       this.enableSubmit = false
     }
-    if (this.selectedBg === 'Asha Facilitator') {
+    if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
       this.enableSubmit = true
       this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
@@ -287,6 +288,12 @@ export class AlmostDoneComponent implements OnInit {
         this.enableSubmit = false
       }
     }
+    if (this.backgroundSelect === 'ASHA') {
+      if (this.almostDoneForm.value.block && this.almostDoneForm.value.subcentre) {
+        this.enableSubmit = false
+      }
+    }
+
     if (this.backgroundSelect === 'Healthcare Worker') {
       if (this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
         this.enableSubmit = false
@@ -324,7 +331,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
-    if (this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Facilitator') {
+    if ((this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Facilitator') || (this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Trainer')) {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block

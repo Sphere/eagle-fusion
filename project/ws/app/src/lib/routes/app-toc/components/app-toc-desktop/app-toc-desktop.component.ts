@@ -374,7 +374,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
                   this.displayStyle = 'block'
                   // tslint:disable-next-line: max-line-length
-                  this.certificateMsg = 'Your certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again'
+                  this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
                   this.sendApi()
                   // trigger this.downloadCertificate
 

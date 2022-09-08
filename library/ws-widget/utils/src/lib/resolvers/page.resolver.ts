@@ -95,13 +95,9 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       this.locale = 'en'
     }
 
-    // if (url.indexOf('public-home') > -1) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.locale = 'en-US'
-    // } else if (url.indexOf('hi/public-home') > -1) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.locale = 'hi'
-    // }
+    if (location.href.indexOf('hi/public-home') > -1) {
+      this.locale = 'hi'
+    }
 
     // tslint:disable-next-line: no-non-null-assertion
     // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
