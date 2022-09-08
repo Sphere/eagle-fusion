@@ -88,4 +88,10 @@
   @include breakpoint-gt-l {
     left: 24rem;
   }
+
+  @include breakpoint-s {
+    left: 17rem;
+  }
+
+
 }
