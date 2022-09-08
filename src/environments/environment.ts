@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment: IEnvironment = {
-  production: false,
+  production: true,
   sitePath: 'sphere.aastrika.org',
 }
 interface IEnvironment {

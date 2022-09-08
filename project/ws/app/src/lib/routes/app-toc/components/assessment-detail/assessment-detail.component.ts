@@ -33,6 +33,7 @@ export class AssessmentDetailComponent implements OnInit {
       },
     ],
     isAssessment: false,
+    passPercentage : 60
   }
 
   constructor(private viewSvc: ViewerUtilService,
@@ -58,6 +59,7 @@ export class AssessmentDetailComponent implements OnInit {
       if (this.forPreview && quizJSON) {
         quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
       }
+
       quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
         if (question.multiSelection && question.questionType === undefined) {
           question.questionType = 'mcq-mca'
@@ -65,6 +67,9 @@ export class AssessmentDetailComponent implements OnInit {
           question.questionType = 'mcq-sca'
         }
       })
+      if(!quizJSON.hasOwnProperty('passPercentage')){
+          quizJSON.passPercentage = 60
+      }
       return quizJSON
     } {
       const contents = await (
