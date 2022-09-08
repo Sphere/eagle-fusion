@@ -331,7 +331,8 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
-    if ((this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Facilitator') || (this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Trainer')) {
+    if ((this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Facilitator')
+      || (this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Trainer')) {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block

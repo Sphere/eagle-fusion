@@ -119,6 +119,6 @@ export class YourLocationComponent implements OnInit {
   dobData(event: any) {
     this.aboutYouForm.patchValue({
       dob: event,
-    });
+    })
   }
 }

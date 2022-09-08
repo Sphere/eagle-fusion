@@ -22,15 +22,15 @@ export class WorkInfoEditComponent implements OnInit {
   workInfoForm: FormGroup
   userProfileData!: any
   userID = ''
-  showbackButton: boolean = false;
-  showLogOutIcon: boolean = false;
+  showbackButton = false
+  showLogOutIcon = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private valueSvc: ValueService,) {
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private snackBar: MatSnackBar,
+              private route: ActivatedRoute,
+              private valueSvc: ValueService) {
     this.workInfoForm = new FormGroup({
       doj: new FormControl('', []),
       organizationName: new FormControl('', []),

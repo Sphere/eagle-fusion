@@ -333,7 +333,7 @@ export class WidgetContentService {
 
   loginAuth(req: any): Observable<any> {
   return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
-        map(
+                                                                  map(
           (data: any) => data
         )
       )
