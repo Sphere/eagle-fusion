@@ -150,10 +150,7 @@
           </mat-selection-list> -->
           <mat-divider></mat-divider>
           <div class="flex flex-middle flex-between mt-4">
-            <span *ngIf="mode === 'settings'" i18n class="ws-mat-primary-text" i18n>After changing the application
-              language,
-              the
-              application will reload</span>
+            <span *ngIf="mode === 'settings'" class="ws-mat-primary-text" i18n>After changing the application language, the application will reload</span>
             <div *ngIf="mode === 'settings'">
               <a mat-raised-button type="button" color="primary" (click)="applyChanges()" i18n>
                 Apply

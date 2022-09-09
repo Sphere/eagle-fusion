@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://sphere.aastrika.org",
+    "target": "https://aastrika-stage.tarento.com",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
@@ -54,7 +54,7 @@
     }
   },
   "/assets/*": {
-    "target": "https://sphere.aastrika.org",
+    "target": "http://localhost:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

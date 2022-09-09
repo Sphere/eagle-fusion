@@ -46,7 +46,7 @@
 
           <span *ngIf="content.duration">| {{ content.duration | pipeDurationTransform : 'hms' }} | </span>
           <!-- | pipeDurationTransform -->
-          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s">last Updated On {{
+          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s"><span i18n>last Updated On </span>{{
             content.lastUpdatedOn | date
             }}</span>
           <!-- commented earlier -->

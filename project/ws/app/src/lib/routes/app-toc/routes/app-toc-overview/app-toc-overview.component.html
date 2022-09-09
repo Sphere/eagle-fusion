@@ -8,14 +8,14 @@
         showSubtitleOnBanner &&
         content?.description
       " class="unit-meta-item">
-      <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
+      <h2 i18n>Summary</h2>
       <mat-card-content>
         <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
       </mat-card-content>
     </div>
     <!-- Content Body -->
     <div *ngIf="tocConfig?.overview?.body?.enabled && content?.instructions" class="unit-meta-item">
-      <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+      <h2 i18n>Description</h2>
       <mat-card-content>
         <div class="break-words" [innerHTML]="content?.instructions"></div>
       </mat-card-content>

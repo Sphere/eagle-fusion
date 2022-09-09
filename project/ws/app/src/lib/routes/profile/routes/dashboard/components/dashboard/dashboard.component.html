@@ -40,8 +40,7 @@
     <mat-divider></mat-divider>
 
     <div class="flex flex-middle">
-      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="About">
-        About</span>
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n>About</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 0}"
         *ngIf="userProfileData?.personalDetails?.about != undefined && userProfileData?.personalDetails?.about != ''">
@@ -168,7 +167,7 @@
     </div>
     <mat-divider></mat-divider>
     <div class="flex flex-middle">
-      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Professional info">
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n>
         Professional info</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"

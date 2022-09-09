@@ -1,20 +1,20 @@
 <form class="flex gap-3" [formGroup]="dobForm">
   <div class="form-group input-box ">
-    <select id="year" formControlName="yearField" i18n class="form-control select-box" name="date-input-field"
+    <select id="year" formControlName="yearField" class="form-control select-box" name="date-input-field"
       (change)="countrySelect()">
       <option [value]='null' [selected]="'Year'" disabled selected i18n>Years</option>
       <option *ngFor="let years of yearsValue" [value]="years">{{ years }}</option>
     </select>
   </div>
   <div class="form-group input-box ">
-    <select id="month" formControlName="monthField" i18n class="form-control select-box" name="date-input-field"
+    <select id="month" formControlName="monthField"  class="form-control select-box" name="date-input-field"
       (change)="countrySelect()">
       <option [value]='null' [selected]="'Month'" disabled i18n>Month</option>
       <option *ngFor="let months of monthValue" [value]="months.id">{{ months.name }}</option>
     </select>
   </div>
   <div class="form-group input-box ">
-    <select id="date" formControlName="dateField" i18n class="form-control select-box" name="date-input-field"
+    <select id="date" formControlName="dateField"  class="form-control select-box" name="date-input-field"
       (change)="countrySelect()">
       <option [value]='null' [selected]="'Date'" disabled i18n>Date</option>
       <option *ngFor="let date of dateValue" [value]="date">{{ date }}</option>

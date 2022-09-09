@@ -245,9 +245,15 @@
   integrity sha512-7EhN9JJbAJcH2xCa+rIOmekjiEuB0qwPdHuD5qn/wwMfRzMZo+Db4hHbR9KHrLH6H82PTwYKye/LLpDaZqoHOA==
 
 "@angular/localize@^14.1.2":
+<<<<<<< Updated upstream
   version "14.2.0"
   resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-14.2.0.tgz#3c03358c7aa3490bcb71525c51021d7116988dde"
   integrity sha512-sV+4itOllkgYkHMMtfYGsOvO+nuFMBlk6RKFVqWZcFO+XgOC4E9bXhRbkpGZ0JcIr42tlB63krjopnYfN9u+7A==
+=======
+  version "14.1.3"
+  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-14.1.3.tgz#817cd1e20ae0b31273eb983d2a1a96ebc5e64db8"
+  integrity sha512-u6llXXTm7WAPAjg2jbqgKMHkquVP0dT9LI92hc91gX8HSbojSNYK2Hsx6QJ2VWOpjXxfc13W5IMhp2G6u29urw==
+>>>>>>> Stashed changes
   dependencies:
     "@babel/core" "7.18.9"
     glob "8.0.3"
@@ -326,10 +332,17 @@
     invariant "^2.2.4"
     semver "^5.5.0"
 
+<<<<<<< Updated upstream
 "@babel/compat-data@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.19.0.tgz#2a592fd89bacb1fcde68de31bee4f2f2dacb0e86"
   integrity sha512-y5rqgTTPTmaF5e2nVhOxw+Ur9HDJLsWb6U/KpgUzRZEdPfE6VOubXBKLdbcUTijzRptednSBDQbYZBOSqJxpJw==
+=======
+"@babel/compat-data@^7.18.8":
+  version "7.18.13"
+  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.18.13.tgz#6aff7b350a1e8c3e40b029e46cbe78e24a913483"
+  integrity sha512-5yUzC5LqyTFp2HLmDoxGQelcdYgSpP9xsnMWBphAscOdFrHSAVbLNzWiy32sVNDqJRDiJK6klfDnAgu6PAGSHw==
+>>>>>>> Stashed changes
 
 "@babel/core@7.18.9":
   version "7.18.9"
@@ -405,12 +418,21 @@
     lodash "^4.17.13"
     source-map "^0.5.0"
 
+<<<<<<< Updated upstream
 "@babel/generator@^7.18.9", "@babel/generator@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.19.0.tgz#785596c06425e59334df2ccee63ab166b738419a"
   integrity sha512-S1ahxf1gZ2dpoiFgA+ohK9DIpz50bJ0CWs7Zlzb54Z4sG8qmdIrGrVqmy1sAtTVRb+9CU6U8VqT9L0Zj7hxHVg==
   dependencies:
     "@babel/types" "^7.19.0"
+=======
+"@babel/generator@^7.18.13", "@babel/generator@^7.18.9":
+  version "7.18.13"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.18.13.tgz#59550cbb9ae79b8def15587bdfbaa388c4abf212"
+  integrity sha512-CkPg8ySSPuHTYPJYo7IRALdqyjM9HCbt/3uOBEFbzyGVP6Mn8bwFPB0jX6982JVNBlYzM1nnPkfjuXSOPtQeEQ==
+  dependencies:
+    "@babel/types" "^7.18.13"
+>>>>>>> Stashed changes
     "@jridgewell/gen-mapping" "^0.3.2"
     jsesc "^2.5.1"
 
@@ -430,11 +452,19 @@
     "@babel/types" "^7.10.3"
 
 "@babel/helper-compilation-targets@^7.18.9":
+<<<<<<< Updated upstream
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.19.0.tgz#537ec8339d53e806ed422f1e06c8f17d55b96bb0"
   integrity sha512-Ai5bNWXIvwDvWM7njqsG3feMlL9hCVQsPYXodsZyLwshYkZVJt59Gftau4VrE8S9IT9asd2uSP1hG6wCNw+sXA==
   dependencies:
     "@babel/compat-data" "^7.19.0"
+=======
+  version "7.18.9"
+  resolved "https://registry.yarnpkg.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.18.9.tgz#69e64f57b524cde3e5ff6cc5a9f4a387ee5563bf"
+  integrity sha512-tzLCyVmqUiFlcFoAPLA/gL9TeYrF61VLNtb+hvkuVaB5SUjW7jcfrglBIX1vUIoT7CLP3bBlIMeyEsIl2eFQNg==
+  dependencies:
+    "@babel/compat-data" "^7.18.8"
+>>>>>>> Stashed changes
     "@babel/helper-validator-option" "^7.18.6"
     browserslist "^4.20.2"
     semver "^6.3.0"
@@ -490,6 +520,7 @@
     "@babel/template" "^7.10.3"
     "@babel/types" "^7.10.3"
 
+<<<<<<< Updated upstream
 "@babel/helper-function-name@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.19.0.tgz#941574ed5390682e872e52d3f38ce9d1bef4648c"
@@ -497,6 +528,15 @@
   dependencies:
     "@babel/template" "^7.18.10"
     "@babel/types" "^7.19.0"
+=======
+"@babel/helper-function-name@^7.18.9":
+  version "7.18.9"
+  resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.18.9.tgz#940e6084a55dee867d33b4e487da2676365e86b0"
+  integrity sha512-fJgWlZt7nxGksJS9a0XdSaI4XvpExnNIgRP+rVefWh5U7BL8pPuir6SJUmFKRfjWQ51OtWSzwOxhaH/EBWWc0A==
+  dependencies:
+    "@babel/template" "^7.18.6"
+    "@babel/types" "^7.18.9"
+>>>>>>> Stashed changes
 
 "@babel/helper-get-function-arity@^7.10.1", "@babel/helper-get-function-arity@^7.10.3":
   version "7.10.3"
@@ -554,18 +594,30 @@
     lodash "^4.17.13"
 
 "@babel/helper-module-transforms@^7.18.9":
+<<<<<<< Updated upstream
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-module-transforms/-/helper-module-transforms-7.19.0.tgz#309b230f04e22c58c6a2c0c0c7e50b216d350c30"
   integrity sha512-3HBZ377Fe14RbLIA+ac3sY4PTgpxHVkFrESaWhoI5PuyXPBBX8+C34qblV9G89ZtycGJCmCI/Ut+VUDK4bltNQ==
+=======
+  version "7.18.9"
+  resolved "https://registry.yarnpkg.com/@babel/helper-module-transforms/-/helper-module-transforms-7.18.9.tgz#5a1079c005135ed627442df31a42887e80fcb712"
+  integrity sha512-KYNqY0ICwfv19b31XzvmI/mfcylOzbLtowkw+mfvGPAQ3kfCnMLYbED3YecL5tPd8nAYFQFAd6JHp2LxZk/J1g==
+>>>>>>> Stashed changes
   dependencies:
     "@babel/helper-environment-visitor" "^7.18.9"
     "@babel/helper-module-imports" "^7.18.6"
     "@babel/helper-simple-access" "^7.18.6"
     "@babel/helper-split-export-declaration" "^7.18.6"
     "@babel/helper-validator-identifier" "^7.18.6"
+<<<<<<< Updated upstream
     "@babel/template" "^7.18.10"
     "@babel/traverse" "^7.19.0"
     "@babel/types" "^7.19.0"
+=======
+    "@babel/template" "^7.18.6"
+    "@babel/traverse" "^7.18.9"
+    "@babel/types" "^7.18.9"
+>>>>>>> Stashed changes
 
 "@babel/helper-optimise-call-expression@^7.10.1", "@babel/helper-optimise-call-expression@^7.10.3":
   version "7.10.3"
@@ -676,6 +728,7 @@
     "@babel/types" "^7.10.1"
 
 "@babel/helpers@^7.18.9":
+<<<<<<< Updated upstream
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.19.0.tgz#f30534657faf246ae96551d88dd31e9d1fa1fc18"
   integrity sha512-DRBCKGwIEdqY3+rPJgG/dKfQy9+08rHIAJx8q2p+HSWP87s2HCrQmaAMMyMll2kIXKCW0cO1RdQskx15Xakftg==
@@ -683,6 +736,15 @@
     "@babel/template" "^7.18.10"
     "@babel/traverse" "^7.19.0"
     "@babel/types" "^7.19.0"
+=======
+  version "7.18.9"
+  resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.18.9.tgz#4bef3b893f253a1eced04516824ede94dcfe7ff9"
+  integrity sha512-Jf5a+rbrLoR4eNdUmnFu8cN5eNJT6qdTdOg5IHIzq87WwyRw9PwguLFOWYgktN/60IP4fgDUawJvs7PjQIzELQ==
+  dependencies:
+    "@babel/template" "^7.18.6"
+    "@babel/traverse" "^7.18.9"
+    "@babel/types" "^7.18.9"
+>>>>>>> Stashed changes
 
 "@babel/highlight@^7.10.3":
   version "7.10.3"
@@ -707,10 +769,17 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.10.3.tgz#7e71d892b0d6e7d04a1af4c3c79d72c1f10f5315"
   integrity sha512-oJtNJCMFdIMwXGmx+KxuaD7i3b8uS7TTFYW/FNG2BT8m+fmGHoiPYoH0Pe3gya07WuFmM5FCDIr1x0irkD/hyA==
 
+<<<<<<< Updated upstream
 "@babel/parser@^7.18.10", "@babel/parser@^7.18.9", "@babel/parser@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.19.0.tgz#497fcafb1d5b61376959c1c338745ef0577aa02c"
   integrity sha512-74bEXKX2h+8rrfQUfsBfuZZHzsEs6Eql4pqy/T4Nn6Y9wNPggQOqD6z6pn5Bl8ZfysKouFZT/UXEH94ummEeQw==
+=======
+"@babel/parser@^7.18.10", "@babel/parser@^7.18.13", "@babel/parser@^7.18.9":
+  version "7.18.13"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.18.13.tgz#5b2dd21cae4a2c5145f1fbd8ca103f9313d3b7e4"
+  integrity sha512-dgXcIfMuQ0kgzLB2b9tRZs7TTFFaGM2AbtA4fJgUUYukzGH4jwsS7hzQHEGs67jdehpm22vkgKwvbU+aEflgwg==
+>>>>>>> Stashed changes
 
 "@babel/plugin-proposal-async-generator-functions@^7.8.3":
   version "7.10.3"
@@ -1165,7 +1234,11 @@
     "@babel/parser" "^7.10.3"
     "@babel/types" "^7.10.3"
 
+<<<<<<< Updated upstream
 "@babel/template@^7.18.10", "@babel/template@^7.18.6":
+=======
+"@babel/template@^7.18.6":
+>>>>>>> Stashed changes
   version "7.18.10"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.18.10.tgz#6f9134835970d1dbf0835c0d100c9f38de0c5e71"
   integrity sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==
@@ -1189,6 +1262,7 @@
     globals "^11.1.0"
     lodash "^4.17.13"
 
+<<<<<<< Updated upstream
 "@babel/traverse@^7.18.9", "@babel/traverse@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.19.0.tgz#eb9c561c7360005c592cc645abafe0c3c4548eed"
@@ -1202,6 +1276,21 @@
     "@babel/helper-split-export-declaration" "^7.18.6"
     "@babel/parser" "^7.19.0"
     "@babel/types" "^7.19.0"
+=======
+"@babel/traverse@^7.18.9":
+  version "7.18.13"
+  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.18.13.tgz#5ab59ef51a997b3f10c4587d648b9696b6cb1a68"
+  integrity sha512-N6kt9X1jRMLPxxxPYWi7tgvJRH/rtoU+dbKAPDM44RFHiMH8igdsaSBgFeskhSl/kLWLDUvIh1RXCrTmg0/zvA==
+  dependencies:
+    "@babel/code-frame" "^7.18.6"
+    "@babel/generator" "^7.18.13"
+    "@babel/helper-environment-visitor" "^7.18.9"
+    "@babel/helper-function-name" "^7.18.9"
+    "@babel/helper-hoist-variables" "^7.18.6"
+    "@babel/helper-split-export-declaration" "^7.18.6"
+    "@babel/parser" "^7.18.13"
+    "@babel/types" "^7.18.13"
+>>>>>>> Stashed changes
     debug "^4.1.0"
     globals "^11.1.0"
 
@@ -1214,10 +1303,17 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+<<<<<<< Updated upstream
 "@babel/types@^7.18.10", "@babel/types@^7.18.6", "@babel/types@^7.18.9", "@babel/types@^7.19.0":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.19.0.tgz#75f21d73d73dc0351f3368d28db73465f4814600"
   integrity sha512-YuGopBq3ke25BVSiS6fgF49Ul9gH1x70Bcr6bqRLjWCkcX8Hre1/5+z+IiWOIerRMSSEfGZVB9z9kyq7wVs9YA==
+=======
+"@babel/types@^7.18.10", "@babel/types@^7.18.13", "@babel/types@^7.18.6", "@babel/types@^7.18.9":
+  version "7.18.13"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.18.13.tgz#30aeb9e514f4100f7c1cb6e5ba472b30e48f519a"
+  integrity sha512-ePqfTihzW0W6XAU+aMw2ykilisStJfDnsejDCXRchCcMJ4O0+8DhPXf2YUbZ6wjBlsEmZwLK/sPweWtu8hcJYQ==
+>>>>>>> Stashed changes
   dependencies:
     "@babel/helper-string-parser" "^7.18.10"
     "@babel/helper-validator-identifier" "^7.18.6"
@@ -3093,9 +3189,15 @@ caniuse-lite@^1.0.30000980, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.300010
   integrity sha512-ftdc5oGmhEbLUuMZ/Qp3mOpzfZLCxPYKcvGv6v2dJJ+8EdqcvZRbAGOiLmkM/PV1QGta/uwBs8/nCl6sokDW6w==
 
 caniuse-lite@^1.0.30001370:
+<<<<<<< Updated upstream
   version "1.0.30001390"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001390.tgz#158a43011e7068ef7fc73590e9fd91a7cece5e7f"
   integrity sha512-sS4CaUM+/+vqQUlCvCJ2WtDlV81aWtHhqeEVkLokVJJa3ViN4zDxAGfq9R8i1m90uGHxo99cy10Od+lvn3hf0g==
+=======
+  version "1.0.30001382"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001382.tgz#4d37f0d0b6fffb826c8e5e1c0f4bf8ce592db949"
+  integrity sha512-2rtJwDmSZ716Pxm1wCtbPvHtbDWAreTPxXbkc5RkKglow3Ig/4GNGazDI9/BVnXbG/wnv6r3B5FEbkfg9OcTGg==
+>>>>>>> Stashed changes
 
 canonical-path@1.0.0:
   version "1.0.0"
@@ -4510,9 +4612,15 @@ electron-to-chromium@^1.3.378, electron-to-chromium@^1.3.413:
   integrity sha512-yQleB+7Pf5rkSNaFwdYqbLFKc8cbQbKCJrAjS5gMgHYKrvgiK7i5f4nFihkBc0Hc+56ldKqq+WQMXfb+Aj4xOA==
 
 electron-to-chromium@^1.4.202:
+<<<<<<< Updated upstream
   version "1.4.242"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.242.tgz#51284820b0e6f6ce6c60d3945a3c4f9e4bd88f5f"
   integrity sha512-nPdgMWtjjWGCtreW/2adkrB2jyHjClo9PtVhR6rW+oxa4E4Wom642Tn+5LslHP3XPL5MCpkn5/UEY60EXylNeQ==
+=======
+  version "1.4.227"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.227.tgz#28e46e2a701fed3188db3ca7bf0a3a475e484046"
+  integrity sha512-I9VVajA3oswIJOUFg2PSBqrHLF5Y+ahIfjOV9+v6uYyBqFZutmPxA6fxocDUUmgwYevRWFu1VjLyVG3w45qa/g==
+>>>>>>> Stashed changes
 
 elliptic@^6.0.0, elliptic@^6.5.2:
   version "6.5.3"
@@ -10912,9 +11020,15 @@ upath@^1.1.1:
   integrity sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==
 
 update-browserslist-db@^1.0.5:
+<<<<<<< Updated upstream
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.7.tgz#16279639cff1d0f800b14792de43d97df2d11b7d"
   integrity sha512-iN/XYesmZ2RmmWAiI4Z5rq0YqSiv0brj9Ce9CfhNE4xIW2h+MFxcgkxIzZ+ShkFPUkjU3gQ+3oypadD3RAMtrg==
+=======
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.5.tgz#be06a5eedd62f107b7c19eb5bcefb194411abf38"
+  integrity sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==
+>>>>>>> Stashed changes
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
