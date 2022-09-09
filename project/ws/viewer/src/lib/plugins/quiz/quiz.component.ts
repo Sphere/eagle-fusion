@@ -73,7 +73,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     ],
     isAssessment: false,
-    passPercentage:60
+    passPercentage: 60
   }
   @ViewChildren('questionsReference') questionsReference: QueryList<QuestionComponent> | null = null
   @ViewChild('sidenav', { static: false }) sideNav: MatSidenav | null = null
@@ -200,7 +200,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -475,7 +475,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         dialogRef.close()
         this.dialog.closeAll()
         this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          if (!_.isNull(data.prevResource)) {
+            this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          }
+
           return
         })
       } else if (result.event === 'NO') {
