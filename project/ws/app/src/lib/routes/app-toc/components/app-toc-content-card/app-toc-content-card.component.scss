@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   margin: $size-xs 0;
-
+  justify-content: space-between;
   .card-thumbnail {
     $image-height: 65px;
     height: $image-height;

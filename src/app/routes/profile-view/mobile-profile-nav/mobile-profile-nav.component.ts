@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Location } from '@angular/common'
 import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -9,10 +9,12 @@ import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/publ
   styleUrls: ['./mobile-profile-nav.component.scss'],
 })
 export class MobileProfileNavComponent implements OnInit {
-
+  @Input() showbackButton?: Boolean
+  @Input() showLogOutIcon?: Boolean
   constructor(
     private dialog: MatDialog,
-    private _location: Location) { }
+    private _location: Location) {
+  }
 
   ngOnInit() {
   }

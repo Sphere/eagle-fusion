@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -28,6 +28,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   photoUrl: any
   image = '/fusion-assets/icons/prof1.png'
   loader = true
+  showbackButton = false
+  showLogOutIcon = false
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -35,6 +37,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
+    private valueSvc: ValueService,
   ) {
   }
 
@@ -49,6 +52,17 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.loader = false
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
+    })
+
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.showbackButton = true
+        this.showLogOutIcon = true
+
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
     })
   }
 
@@ -73,6 +87,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             _.forEach(this.certificates, cvalue => {
               if (res[cvalue.identifier]) {
                 cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
+                cvalue['printUri'] = res[cvalue.identifier]
               }
             })
           }
@@ -94,26 +109,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     },                                  [])
     this.certificates = issuedCertificates
   }
-  // convertToJpeg(imgVal: any, callback: any) {
-  //   const img = new Image()
-  //   let url = imgVal.result.printUri
-
-  //   img.onload = function () {
-  //     const canvas: any = document.getElementById('certCanvas') || {}
-  //     const ctx = canvas.getContext('2d')
-  //     const imgWidth = img.width
-  //     const imgHeight = img.height
-  //     canvas.width = imgWidth
-  //     canvas.height = imgHeight
-  //     ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
-  //     let imgURI = canvas
-  //       .toDataURL('image/jpeg')
-
-  //     imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
-  //     callback(imgURI)
-  //   }
-  //   img.src = url
-  // }
 
   openAboutDialog() {
     const dialogRef = this.dialog.open(MobileAboutPopupComponent, {

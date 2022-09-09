@@ -45,10 +45,10 @@
         </mat-card>
       </div>
     </div>
-    <div class="vidoe-title margin-top-m" *ngIf="quizData">
+    <div class="vidoe-title margin-top-m" *ngIf="quizData" >
       <mat-card *ngIf="isSmall" class="unit-meta-item">
         <div class="flex">
-          <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+          <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
                                                               quizData
                                                                 | pipePartialContent
                                                                   : [
@@ -60,11 +60,11 @@
                                                                       'isExternal',
                                                                 'artifactUrl'
                                                                     ]
-                                                            "></ws-widget-btn-content-download>
+                                                            "></ws-widget-btn-content-download> -->
           <!-- <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier} ">
           </ws-widget-btn-content-like> -->
-          <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="quizData">
-          </ws-widget-btn-content-share>
+          <!-- <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="quizData">
+          </ws-widget-btn-content-share> -->
           <!-- <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
           <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
                                                             contentId: quizData?.identifier,

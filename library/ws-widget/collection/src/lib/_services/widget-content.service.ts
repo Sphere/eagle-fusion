@@ -89,7 +89,7 @@ export class WidgetContentService {
   }
 
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
-    const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?mode=edit`
+    const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=detail`
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -333,7 +333,7 @@ export class WidgetContentService {
 
   loginAuth(req: any): Observable<any> {
   return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
-        map(
+                                                                  map(
           (data: any) => data
         )
       )

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
 import * as _ from 'lodash'
@@ -16,13 +16,16 @@ export class EducationEditComponent implements OnInit {
   academics: any = []
   userID = ''
   userProfileData!: any
+  showbackButton = false
+  showLogOutIcon = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = '(^[0-9]{4}$)'
   constructor(private configSvc: ConfigurationsService,
               private userProfileSvc: UserProfileService,
               private snackBar: MatSnackBar,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private valueSvc: ValueService) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),
@@ -51,6 +54,16 @@ export class EducationEditComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.nameOfInstitute) {
         this.updateForm(params)
+      }
+    })
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.showbackButton = true
+        this.showLogOutIcon = true
+
+      } else {
+        this.showbackButton = true
+        this.showLogOutIcon = false
       }
     })
   }

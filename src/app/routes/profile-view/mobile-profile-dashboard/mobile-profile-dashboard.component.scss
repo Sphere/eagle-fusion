@@ -1,5 +1,28 @@
+@import 'ws-mixins';
+
 .content {
   padding: 60px 20px 50px;
+  margin: auto;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 35%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 30%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
 }
 
 .pencil {
@@ -23,7 +46,7 @@
   background-color: #1C5D95 !important;
 }
 
-.health{
+.health {
   width: 136px;
   height: 20px;
   left: 25px;
@@ -33,15 +56,17 @@
 .edit-button {
   width: 180px;
   background-color: #fff;
-  border : 1px solid #3f51b5;
+  border: 1px solid #3f51b5;
   border-radius: 20px;
-  color : #3f51b5 !important;
+  color: #3f51b5 !important;
   font-size: 16px !important;
   line-height: 2 !important;
   margin-top: 12px;
 }
 
-.heading, .head-2, .head-3 {
+.heading,
+.head-2,
+.head-3 {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
@@ -68,7 +93,7 @@
   padding: 4px 0 0;
 }
 
-.header2{
+.header2 {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
