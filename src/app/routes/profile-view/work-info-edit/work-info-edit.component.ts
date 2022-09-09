@@ -44,7 +44,6 @@ export class WorkInfoEditComponent implements OnInit {
       if (isXSmall) {
         this.showbackButton = true
         this.showLogOutIcon = true
-
       } else {
         this.showbackButton = true
         this.showLogOutIcon = false

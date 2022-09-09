@@ -413,7 +413,6 @@ export class AlmostDoneComponent implements OnInit {
 
   updateProfile() {
     const profileRequest = this.constructReq()
-
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || ''
     }
