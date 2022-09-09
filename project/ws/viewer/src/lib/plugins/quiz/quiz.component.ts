@@ -73,7 +73,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     ],
     isAssessment: false,
-    passPercentage:60
+    passPercentage: 60,
   }
   @ViewChildren('questionsReference') questionsReference: QueryList<QuestionComponent> | null = null
   @ViewChild('sidenav', { static: false }) sideNav: MatSidenav | null = null
@@ -139,7 +139,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       isNqocnContent: this.isNqocnContent,
       isAssessment: _.get(this.quizJson, 'isAssessment'),
       subtitle: this.name,
-      passPercentage: (this.quizJson && this.quizJson.hasOwnProperty('passPercentage')) ? this.quizJson.passPercentage : 60
+      passPercentage: (this.quizJson && this.quizJson.hasOwnProperty('passPercentage')) ? this.quizJson.passPercentage : 60,
     }
     this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
       width: '542px',

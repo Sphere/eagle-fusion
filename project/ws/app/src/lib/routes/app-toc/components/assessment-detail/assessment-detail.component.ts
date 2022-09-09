@@ -33,7 +33,7 @@ export class AssessmentDetailComponent implements OnInit {
       },
     ],
     isAssessment: false,
-    passPercentage : 60
+    passPercentage : 60,
   }
 
   constructor(private viewSvc: ViewerUtilService,
@@ -67,7 +67,7 @@ export class AssessmentDetailComponent implements OnInit {
           question.questionType = 'mcq-sca'
         }
       })
-      if(!quizJSON.hasOwnProperty('passPercentage')){
+      if (!quizJSON.hasOwnProperty('passPercentage')) {
           quizJSON.passPercentage = 60
       }
       return quizJSON
