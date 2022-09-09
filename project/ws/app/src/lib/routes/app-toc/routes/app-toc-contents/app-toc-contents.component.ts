@@ -111,6 +111,16 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
               if (child1['children'][cindex + 1] && _.get(child1['children'][cindex + 1], 'completionPercentage') !== 100) {
                 child1['children'][cindex + 1].hideLocIcon = true
               }
+            } else {
+              // tslint:disable-next-line: max-line-length
+              if (element[index - 1]) {
+                // tslint:disable-next-line: max-line-length
+                if (element[index - 1].children &&
+                  element[index - 1].children.length > 0 &&
+                  element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                  element[index].children[0].hideLocIcon = true
+                }
+              }
             }
           })
         } else {
