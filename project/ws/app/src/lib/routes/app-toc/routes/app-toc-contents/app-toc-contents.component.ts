@@ -56,6 +56,15 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.initData(data)
       })
     }
+    this.tocSvc.resumeData.subscribe(((dataResult: any) => {
+      if (dataResult && dataResult.length) {
+        if (this.route && this.route.parent) {
+          this.routeSubscription = this.route.parent.data.subscribe((data: Data) => {
+            this.initData(data)
+          })
+        }
+      }
+    }))
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
@@ -84,7 +93,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
-    //console.log(this.content)
     if (this.content && this.content.gatingEnabled) {
       this.tocSvc.setNode(this.content.gatingEnabled)
       if (this.content.children[0].children) {
@@ -106,7 +114,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       this.content.children.map((child1: any, index: any, element: any) => {
         if (child1['children']) {
           child1['children'].map((child2: any, cindex: any) => {
-            console.log((_.get(child2, 'completionPercentage') === 100))
             if (_.get(child2, 'completionPercentage') === 100) {
               if (child1['children'][cindex + 1] && _.get(child1['children'][cindex + 1], 'completionPercentage') !== 100) {
                 child1['children'][cindex + 1].hideLocIcon = true
@@ -133,7 +140,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         }
       })
     }
-    console.log(this.content)
   }
   private fetchContentParents(contentId: string) {
     this.tocSvc.fetchContentParents(contentId).subscribe(contents => {

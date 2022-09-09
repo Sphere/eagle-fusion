@@ -207,14 +207,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -459,10 +459,16 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 } else if (this.viewerDataSvc.getNode()) {
                   if (index === 0) {
                     element[index].disabledNode = false
+                    if (child1.completionPercentage === 100) {
+                      if (element && element[index + 1]) {
+                        element[index + 1].disabledNode = false
+                      }
+                    }
                   } else {
-                    element[index].disabledNode = true
+                    if (element[index + 1]) {
+                      element[index + 1].disabledNode = true
+                    }
                   }
-
                 }
                 if (child1.completionPercentage === 100) {
                   if (element && element[index + 1]) {
