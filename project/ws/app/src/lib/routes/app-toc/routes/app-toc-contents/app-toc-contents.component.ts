@@ -103,7 +103,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       this.populateContentPlayWidget(this.content)
     }
     if (this.content && this.content.gatingEnabled && this.content.children) {
-      this.content.children.map((child1: any) => {
+      this.content.children.map((child1: any, index: any, element: any) => {
         if (child1['children']) {
           child1['children'].map((child2: any, cindex: any) => {
             console.log((_.get(child2, 'completionPercentage') === 100))
@@ -113,6 +113,13 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
               }
             }
           })
+        } else {
+          /* condition for when don't have children */
+          if (_.get(element[index], 'completionPercentage') === 100) {
+            if (element[index + 1] && _.get(element[index + 1], 'completionPercentage') !== 100) {
+              element[index + 1].hideLocIcon = true
+            }
+          }
         }
       })
     }
