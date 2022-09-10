@@ -56,6 +56,15 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.initData(data)
       })
     }
+    this.tocSvc.resumeData.subscribe(((dataResult: any) => {
+      if (dataResult && dataResult.length) {
+        if (this.route && this.route.parent) {
+          this.routeSubscription = this.route.parent.data.subscribe((data: Data) => {
+            this.initData(data)
+          })
+        }
+      }
+    }))
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
@@ -100,6 +109,36 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       }
       this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
+    }
+    if (this.content && this.content.gatingEnabled && this.content.children) {
+      this.content.children.map((child1: any, index: any, element: any) => {
+        if (child1['children']) {
+          child1['children'].map((child2: any, cindex: any) => {
+            if (_.get(child2, 'completionPercentage') === 100) {
+              if (child1['children'][cindex + 1] && _.get(child1['children'][cindex + 1], 'completionPercentage') !== 100) {
+                child1['children'][cindex + 1].hideLocIcon = true
+              }
+            } else {
+              // tslint:disable-next-line: max-line-length
+              if (element[index - 1]) {
+                // tslint:disable-next-line: max-line-length
+                if (element[index - 1].children &&
+                  element[index - 1].children.length > 0 &&
+                  element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                  element[index].children[0].hideLocIcon = true
+                }
+              }
+            }
+          })
+        } else {
+          /* condition for when don't have children */
+          if (_.get(element[index], 'completionPercentage') === 100) {
+            if (element[index + 1] && _.get(element[index + 1], 'completionPercentage') !== 100) {
+              element[index + 1].hideLocIcon = true
+            }
+          }
+        }
+      })
     }
   }
   private fetchContentParents(contentId: string) {

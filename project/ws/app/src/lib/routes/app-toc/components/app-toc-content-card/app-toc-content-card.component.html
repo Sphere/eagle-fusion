@@ -172,6 +172,11 @@
                 <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
               </a>
             </ng-container>
+            <ng-container *ngIf="content.index !== 1 && content?.hideLocIcon">
+              <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+                <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
+              </a>
+            </ng-container>
             <ng-container *ngIf="!content?.hideLocIcon">
               <ng-container *ngIf="disabledNode ; else enableNode">
                 <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
