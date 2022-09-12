@@ -447,6 +447,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             })
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
+              let name = this.enrolledCourse.courseName
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
                   const img = new Image()
@@ -474,7 +475,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                       u8arr[n] = bstr.charCodeAt(n)
                     }
                     const blob = new Blob([u8arr], { type: mime })
-                    FileSaver.saveAs(blob, 'certificate.jpeg')
+                    FileSaver.saveAs(blob, `${name}`)
                     if (localStorage.getItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)) {
                       localStorage.removeItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)
                     }

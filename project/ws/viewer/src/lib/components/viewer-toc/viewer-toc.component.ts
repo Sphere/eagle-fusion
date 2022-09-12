@@ -155,6 +155,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.checkIndexOfResource()
       }
     })
+    this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(_data => {
+      this.ngOnInit()
+    })
   }
 
   checkIndexOfResource() {
