@@ -15,6 +15,7 @@ const API_END_POINTS = {
   SCROM_UPDTE_PROGRESS: `/apis/proxies/v8/content-progres`,
   SCROM_FETCH_PROGRESS: `/apis/proxies/v8/read/content-progres`,
 }
+//import { ViewerDataService } from '../../../viewer-data.service'
 @Injectable({
   providedIn: 'root',
 })
@@ -290,6 +291,10 @@ export class SCORMAdapterService {
     } else {
       req = {}
     }
+    // if (this.getPercentage(postData) === 100) {
+    //   this.viewerDataSvc.changedSubject.next(true)
+    // }
+
 
     //if(Object.keys(postData).length > 3) {
     return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)

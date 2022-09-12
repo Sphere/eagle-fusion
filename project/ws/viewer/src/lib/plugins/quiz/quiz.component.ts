@@ -161,14 +161,39 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             // this.router.navigate([data.prevResource], { preserveQueryParams: true })
           } else {
             if (_.isNull(data.prevResource)) {
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.route.snapshot.queryParams.batchId,
-                },
-              })
+              if (this.viewerDataSvc.gatingEnabled) {
+                if (data.currentCompletionPercentage === 100) {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                } else {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.route.snapshot.queryParams.batchId,
+                    },
+                  })
+                }
+
+              } else {
+                this.router.navigate([data.nextResource], { preserveQueryParams: true })
+              }
+
             } else {
-              this.router.navigate([data.prevResource], { preserveQueryParams: true })
+              if (this.viewerDataSvc.gatingEnabled) {
+                if (data.currentCompletionPercentage === 100) {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                } else {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.route.snapshot.queryParams.batchId,
+                    },
+                  })
+                }
+
+              } else {
+                this.router.navigate([data.nextResource], { preserveQueryParams: true })
+              }
+              // this.router.navigate([data.prevResource], { preserveQueryParams: true })
             }
           }
           return
