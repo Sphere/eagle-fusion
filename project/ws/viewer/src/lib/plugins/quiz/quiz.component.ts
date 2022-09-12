@@ -148,13 +148,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       data: overviewData,
     })
 
-
     this.dialogOverview.afterClosed().subscribe((result: any) => {
       if (result.event === 'close-overview') {
         this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
           if (_.isNull(data.nextResource)) {
-            console.log(this.viewerDataSvc.gatingEnabled)
-
             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
               queryParams: {
                 primaryCategory: 'Course',
@@ -218,7 +215,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
