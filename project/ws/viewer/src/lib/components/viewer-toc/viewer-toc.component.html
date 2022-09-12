@@ -225,8 +225,16 @@
             </ng-template>
           </div>
         </div>
-        <div *ngIf="content?.type === 'Assessment' ">
+        <div class="d-flex align-items-center" *ngIf="content?.type === 'Assessment' ">
           <ws-app-assessment-detail [content]="content"></ws-app-assessment-detail>
+          <div class="align-rt progrss-box">
+            <span class="content-check"
+              *ngIf="content?.completionPercentage === 100 && content?.completionStatus == 2; else elseResourcePercentage">
+              <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
+              <mat-icon>check</mat-icon>
+
+            </span>
+          </div>
         </div>
         <!-- <span class="mat-body-1 margin-left-xxs" *ngIf="content?.complexity"><span>|
             {{ content?.complexity | pipeLimitTo: 300 }}</span>
