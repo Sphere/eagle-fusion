@@ -4,7 +4,7 @@ import { Storage, IScromData } from './storage'
 import { errorCodes } from './errors'
 import _ from 'lodash'
 import { HttpBackend, HttpClient } from '@angular/common/http'
-import { ActivatedRoute, Router  } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import { NsContent } from '@ws-widget/collection'
 import * as dayjs from 'dayjs'
@@ -14,6 +14,7 @@ const API_END_POINTS = {
   SCROM_UPDTE_PROGRESS: `/apis/proxies/v8/content-progres`,
   SCROM_FETCH_PROGRESS: `/apis/proxies/v8/read/content-progres`,
 }
+import { ViewerDataService } from '../../../viewer-data.service'
 @Injectable({
   providedIn: 'root',
 })
@@ -25,7 +26,8 @@ export class SCORMAdapterService {
     handler: HttpBackend,
     private activatedRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
-    private router: Router 
+    private router: Router,
+    private viewerDataSvc: ViewerDataService
   ) {
     this.http = new HttpClient(handler)
   }
@@ -41,7 +43,7 @@ export class SCORMAdapterService {
 
   LMSInitialize() {
     this.store.contentKey = this.contentId
-   // this.loadDataV2();
+    // this.loadDataV2();
     // this.loadDataAsync().subscribe((response) => {
     //   const data = response.result.data
     //   const loadDatas: IScromData = {
@@ -103,11 +105,11 @@ export class SCORMAdapterService {
       // data = Base64.encode(newData)
       let _return = false
       //if(Object.keys(data).length >= 0) {
-        let url
-        url = this.router.url
-        let splitUrl1 = url.split('?primary')
-        let splitUrl2 = splitUrl1[0].split('/viewer/html/')
-        if(splitUrl2[1] === this.contentId) {
+      let url
+      url = this.router.url
+      let splitUrl1 = url.split('?primary')
+      let splitUrl2 = splitUrl1[0].split('/viewer/html/')
+      if (splitUrl2[1] === this.contentId) {
         this.addDataV2(data).subscribe((response) => {
           // console.log(response)
           if (response) {
@@ -250,11 +252,11 @@ export class SCORMAdapterService {
       return 1
     }
   }
-  getPercentage(postData : any): number {
+  getPercentage(postData: any): number {
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
-      } 
+      }
       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
@@ -276,7 +278,7 @@ export class SCORMAdapterService {
               status: this.getStatus(postData) || 2,
               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
               progressdetails: postData,
-              completionPercentage :  this.getPercentage(postData) || 0
+              completionPercentage: this.getPercentage(postData) || 0
             },
           ],
         },
@@ -285,9 +287,13 @@ export class SCORMAdapterService {
     } else {
       req = {}
     }
+    if (this.getPercentage(postData) === 100) {
+      this.viewerDataSvc.changedSubject.next(true)
+    }
+
 
     //if(Object.keys(postData).length > 3) {
-      return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req) 
+    return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
     //}
 
   }
