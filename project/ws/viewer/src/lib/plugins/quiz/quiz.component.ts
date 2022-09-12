@@ -162,24 +162,34 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           } else {
             if (_.isNull(data.prevResource)) {
               if (this.viewerDataSvc.gatingEnabled) {
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.route.snapshot.queryParams.batchId,
-                  },
-                })
+                if (data.currentCompletionPercentage === 100) {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                } else {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.route.snapshot.queryParams.batchId,
+                    },
+                  })
+                }
+
               } else {
                 this.router.navigate([data.nextResource], { preserveQueryParams: true })
               }
 
             } else {
               if (this.viewerDataSvc.gatingEnabled) {
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.route.snapshot.queryParams.batchId,
-                  },
-                })
+                if (data.currentCompletionPercentage === 100) {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                } else {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.route.snapshot.queryParams.batchId,
+                    },
+                  })
+                }
+
               } else {
                 this.router.navigate([data.nextResource], { preserveQueryParams: true })
               }
@@ -215,7 +225,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
