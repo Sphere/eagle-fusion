@@ -2,9 +2,9 @@
   <div class="w-full search">
     <form (submit)="updateQuery(queryControl.value)">
       <mat-form-field appearance="none" class="autocomplete-form" color="primary" [floatLabel]="'never'">
-        <input type="search" #searchInput class="ml-2 search-placeholder" i18n-placeholder="search content"
-          [placeholder]="placeHolder" i18-aria-label aria-label="Query" matInput [formControl]="queryControl"
-          [matAutocomplete]="auto" accesskey="F" />
+        <input type="search" id="search-field" #searchInput class="ml-2 search-placeholder"
+          i18n-placeholder="search content" placeholder="What do you want to learn today ?" i18-aria-label aria-label="Query" matInput
+          [formControl]="queryControl" [matAutocomplete]="auto" accesskey="F" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
           (optionSelected)="updateQuery($event.option.value)">
           <mat-option *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
@@ -19,7 +19,7 @@
       </mat-form-field>
     </form>
   </div>
-  <div (click)="updateQuery(queryControl.value)"
+  <div (click)="updateQuery(queryControl.value)" id="search-icon"
     class="search-home flex items-center justify-center w-8 sm:w-16 cursor-pointer">
     <mat-icon>search</mat-icon>
   </div>

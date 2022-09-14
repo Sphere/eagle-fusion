@@ -1,0 +1,119 @@
+@import 'ws-common';
+@import 'ws-mixins';
+
+.login-page-content {
+  box-sizing: border-box;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  box-sizing: border-box;
+  padding: 0;
+  height: 175px;
+  max-width: 430px;
+  @include breakpoint-s {
+    padding: 12px;
+  }
+}
+.login-card {
+  margin: 0;
+  margin-top: 20px;
+  padding: 20px 20px 30px 20px;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+  background: #fff;
+}
+.input-box {
+  padding: 3px 0 3px 6px;
+  font-size: 16px;
+  line-height: 19px;
+  box-shadow: 0px 0px 2px rgb(0 0 0 / 8%);
+  border-radius: 6px;
+  border: 1px solid #e3e3e3;
+  color: #000
+}
+.rnBox {
+  font-size: 16px;
+  line-height: 19px;
+  border-radius: 6px;
+  border: none;
+  color: #000
+}
+.rnField {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e3e3e3;
+}
+.form-control:focus {
+  box-shadow: none;
+}
+.form-control:disabled {
+  background-color: #fff;
+  color: #808080;
+}
+.form-control[readonly] ::placeholder{
+  background-color: #ffff !important;
+  color: #e3e3e3;
+  border-color: #e3e3e3;
+}
+
+input {
+  border: none;
+  padding: 7px 2px;
+}
+.login-button {
+  width: 98px;
+  height: 38px;
+  background: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border:0;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+}
+.login-button:disabled {
+  background: #BFBFBF;
+  color: #808080;
+  cursor: default;
+}
+.next-btn-div {
+  text-align: right;
+  margin-top: 2rem;
+}
+.select-box{
+  border: none;
+  width: 97%;
+  padding-top: 8px;
+  padding-left: 0;
+  font-size: 16px;
+  line-height: 19px;
+}
+.select-box:focus{
+  outline: none!important;
+}
+@media screen and (max-width:600px) {
+  .input-content {
+    width: 100%;
+  }
+  .login-card {
+    margin-top: 100px;
+  }
+}
+
+select {
+   color: #808080;
+}
+select.ng-dirty {
+  color: #000;
+}
+select option:first-child {
+  color: #808080;
+}
+::placeholder {
+  color: #808080;
+}
+.form-control[readonly] {
+  background-color: #fff;
+  color: #E3E3E3;
+  opacity: 0.6;
+}

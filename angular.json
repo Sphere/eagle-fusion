@@ -20,7 +20,12 @@
             "assets": [
               "src/favicon.ico",
               "src/favicon.png",
-              "src/fusion-assets"
+              "src/fusion-assets",
+              {
+                "glob": "**/*.*",
+                "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
+                "output": "./assets/discussion-ui"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -34,8 +39,11 @@
               },
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
+              "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
               {
                 "input": "src/themes/theme-deep-purple.scss",
                 "bundleName": "theme-deep-purple",
@@ -111,12 +119,19 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4mb",
-                  "maximumError": "10mb"
+                  "maximumWarning": "11mb",
+                  "maximumError": "11mb"
                 }
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
+            },
+            "hi":{
+                "aot": true,
+                "i18nFile": "locale/messages.hi.xlf",
+                "i18nFormat": "xlf",
+                "i18nLocale": "hi",
+                "i18nMissingTranslation": "warn"
             }
           }
         },
@@ -130,8 +145,8 @@
             "production": {
               "browserTarget": "fusion:build:production"
             },
-            "de": {
-              "browserTarget": "fusion:build:de"
+            "hi": {
+              "browserTarget": "fusion:build:hi"
             }
           }
         },
@@ -150,7 +165,12 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/fusion-assets"
+              "src/fusion-assets",
+              {
+                "glob": "**/*.*",
+                "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
+                "output": "./assets/discussion-ui"
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -167,7 +187,9 @@
               "e2e/tsconfig.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "app/project/ws/app/src/lib/routes/app-toc/components/app-toc-content-card/app-toc-content-card.component",
+              "project/ws/viewer/src/lib/plugins/quiz/quiz.component"
             ]
           }
         },
@@ -345,18 +367,6 @@
             "tsConfig": "project/ws/author/tsconfig.spec.json",
             "karmaConfig": "project/ws/author/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/author/tsconfig.lib.json",
-              "project/ws/author/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -380,18 +390,6 @@
             "tsConfig": "project/ws/admin/tsconfig.spec.json",
             "karmaConfig": "project/ws/admin/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/admin/tsconfig.lib.json",
-              "project/ws/admin/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -414,18 +412,6 @@
             "main": "project/ws/analytics/src/test.ts",
             "tsConfig": "project/ws/analytics/tsconfig.spec.json",
             "karmaConfig": "project/ws/analytics/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "project/ws/analytics/tsconfig.lib.json",
-              "project/ws/analytics/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }

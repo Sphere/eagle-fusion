@@ -11,6 +11,7 @@ export * from './lib/directives/image-responsive/image-responsive.module'
 export * from './lib/directives/in-view-port/in-view-port.module'
 export * from './lib/directives/navigation/navigation.module'
 export * from './lib/directives/permission/permission.module'
+export * from './lib/directives/retain/retain-scroll.module'
 export * from './lib/helpers/functions/getStringifiedQueryParams'
 // helpers
 export * from './lib/helpers/horizontal-scroller/horizontal-scroller.module'

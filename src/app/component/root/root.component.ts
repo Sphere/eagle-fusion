@@ -32,11 +32,12 @@ import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import * as _ from 'lodash'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
-
+import { CsModule } from '@project-sunbird/client-services'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -60,6 +61,9 @@ export class RootComponent implements OnInit, AfterViewInit {
   isSetupPage = false
   showNavigation = true
   hideHeaderFooter = false
+  isLoggedIn = false
+  mobileView = true
+  showMobileDashboard = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -73,9 +77,51 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    // private location: Location
   ) {
     this.mobileAppsSvc.init()
+    const locationOrigin = location.origin
+    CsModule.instance.init({
+      core: {
+        httpAdapter: 'HttpClientBrowserAdapter',
+        global: {
+          channelId: '', // required
+          producerId: '', // required
+          deviceId: '', // required
+          sessionId: '',
+        },
+        api: {
+          host: `${locationOrigin}/apis/proxies/v8`, // default host
+          // host: 'http://localhost:3004/proxies/v8', // default host
+          // host: 'http://localhost:3002', // default host
+          authentication: {
+            // bearerToken: "", // optional
+            // userToken: "5574b3c5-16ca-49d8-8059-705304f2c7fb"
+            // bearerToken: this.loginToken,
+            // optional
+          },
+        },
+      },
+      services: {
+        groupServiceConfig: {
+          apiPath: '/learner/group/v1',
+          dataApiPath: '/learner/data/v1/group',
+          updateGroupGuidelinesApiPath: '/learner/group/membership/v1',
+        },
+        userServiceConfig: {
+          apiPath: '/learner/user/v2',
+        },
+        formServiceConfig: {
+          apiPath: '/learner/data/v1/form',
+        },
+        courseServiceConfig: {
+          apiPath: '/learner/course/v1',
+          certRegistrationApiPath: '/learner/certreg/v2/certs',
+        },
+        discussionServiceConfig: {
+          apiPath: '/discussion',
+        },
+      },
+    })
   }
 
   ngOnInit() {
@@ -105,6 +151,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = true
       }
     }
+
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {
@@ -112,14 +159,58 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
       }
       if (event instanceof NavigationStart) {
-        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')
-          || event.url.includes('/app/org-details')) {
+        // tslint:disable-next-line: max-line-length
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
           this.isNavBarRequired = false
+          this.hideHeaderFooter = true
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
+          // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('app/toc') &&
+          this.configSvc.userProfile === null) {
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+            }` + `/overview`)
+          this.router.navigateByUrl('app/login')
+        } else if (event.url.includes('page/home')) {
+          this.hideHeaderFooter = false
+          this.isNavBarRequired = true
+          this.mobileView = true
+          // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
+          event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
+          event.url.includes('/app/create-account')) {
+          this.hideHeaderFooter = true
+          this.isNavBarRequired = false
+          this.showMobileDashboard = false
+          this.mobileView = false
+        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+          this.isNavBarRequired = true
+          this.hideHeaderFooter = true
+          this.mobileView = false
+        } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') ||
+          event.url.includes('/app/profile/dashboard')) {
+          this.mobileView = false
+          this.isNavBarRequired = true
+          this.showNavbar = true
         } else {
           this.isNavBarRequired = true
+          this.mobileView = false
         }
+        // this.valueSvc.isXSmall$.subscribe(isXSmall => {
+        //   if (event.url.includes('/app/profile/dashboard')) {
+        //     if (isXSmall) {
+        //       this.router.navigate(['/app/profile-view'])
+        //     }
+        //   } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') ||
+        //     event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
+        //     if (!isXSmall) {
+        //       this.router.navigate(['/app/profile/dashboard'])
+        //     }
+        //   } else if (!isXSmall && event.url.includes('/app/video-player') &&
+        //     this.configSvc.userProfile === null) {
+        //     this.router.navigate(['/public/home'])
+        //   }
+        // })
         this.routeChangeInProgress = true
         this.changeDetector.detectChanges()
       } else if (
@@ -132,16 +223,20 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.changeDetector.detectChanges()
       }
 
-      if (sessionStorage.getItem('loginbtn') || (sessionStorage.getItem('url_before_login'))) {
-        this.isNavBarRequired = true
-        this.showNavigation = false
-      } else {
+      // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
+      //   this.isNavBarRequired = true
+      //   this.showNavigation = false
+      // } else {
+      //   this.isNavBarRequired = false
+      //   this.showNavigation = true
+      // }
+      if (this.configSvc.userProfile === null) {
         this.isNavBarRequired = false
-         this.showNavigation = true
-        // this.authSvc.logout();
-        // window.location.href = `${redirectUrl}apis/reset`
       }
-
+      // if (this.configSvc.unMappedUser) {
+      //   this.isNavBarRequired = true
+      //   //this.showNavbar = true
+      // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         if (this.appStartRaised) {
@@ -149,6 +244,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.appStartRaised = false
         }
       }
+
     })
 
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
@@ -157,14 +253,18 @@ export class RootComponent implements OnInit, AfterViewInit {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
-                if (sessionStorage.getItem('url_before_login')) {
-  const url = sessionStorage.getItem(`url_before_login`) || ''
 
-    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-// this.location.replaceState(url)
-  this.router.navigateByUrl(url)
-}
-
+    // if (localStorage.getItem('url_before_login')) {
+    //   const url = localStorage.getItem(`url_before_login`) || ''
+    //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
+    //   // this.location.replaceState(url)
+    //   this.router.navigateByUrl(url)
+    // }
+    if (this.configSvc.userProfile) {
+      this.isLoggedIn = true
+    } else {
+      this.isLoggedIn = false
+    }
   }
 
   ngAfterViewInit() {

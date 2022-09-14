@@ -20,6 +20,7 @@ import { FormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatSnackBar, MatSelectChange, MatTabChangeEvent } from '@angular/material'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Component({
   selector: 'ws-app-settings',
@@ -66,7 +67,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private utilitySvc: UtilityService,
-  ) {}
+    private userProfileSvc: UserProfileService
+  ) { }
 
   ngOnInit() {
     const tab = this.route.snapshot.queryParamMap.get('tab')
@@ -102,8 +104,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
       this.fonts = instanceConfig.fontSizes
       this.isLanguageEnabled = instanceConfig.locals.length > 1
       this.appLanguage = (this.configSvc.activeLocale && this.configSvc.activeLocale.path) || ''
-      if (this.appLanguage === '') {
+      // tslint:disable-next-line: no-non-null-assertion
+      if (this.appLanguage === '' && !this.configSvc.userProfile!.language) {
         this.appLanguage = 'en'
+      } else {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.appLanguage = this.configSvc.userProfile!.language || ''
       }
       this.chosenLanguage = this.appLanguage
       this.fonts.sort((a, b) => a.scale - b.scale)
@@ -213,8 +219,32 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   langChanged(path: MatSelectChange) {
-    this.chosenLanguage = path.value
-    this.langChangedEvent.emit(path.value)
+    if (this.configSvc.userProfileV2) {
+      let user: any
+      const userid = this.configSvc.userProfileV2.userId
+      this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
+        user = data
+        const obj = {
+          preferences: {
+            language: path.value,
+          },
+        }
+        const userdata = Object.assign(user['profileDetails'], obj)
+
+        this.chosenLanguage = path.value
+        const reqUpdate = {
+          request: {
+            userId: userid,
+            profileDetails: userdata,
+          },
+        }
+        this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+          () => {
+          },
+          () => {
+          })
+      })
+    }
   }
 
   applyChanges() {
@@ -229,16 +259,31 @@ export class SettingsComponent implements OnInit, OnDestroy {
             this.chosenLanguage = ''
           }
           if (this.mode === 'settings') {
-            location.assign(`${location.origin}/${this.chosenLanguage}${this.router.url}`)
+            window.location.assign(`${location.origin}/${this.chosenLanguage}${this.router.url}`)
           } else {
-            location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
+            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
           }
         } else if (this.mode !== 'settings') {
           if (this.configSvc.userUrl) {
             this.router.navigateByUrl(this.configSvc.userUrl)
           } else {
-            this.router.navigate(['page', 'home'])
+            // this.router.navigate(['page', 'home'])
           }
+        } else {
+          if (this.chosenLanguage === 'en') {
+            this.chosenLanguage = ''
+            window.location.assign(`${location.origin}/page/home`)
+          } else {
+            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
+          }
+        }
+        if (this.chosenLanguage === 'en') {
+          this.chosenLanguage = ''
+           window.location.assign(`${location.origin}/page/home`)
+          // window.location.reload(true)
+        } else {
+          // window.location.reload(true)
+           window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
         }
         this.snackBar.open(this.successToast.nativeElement.value)
       })

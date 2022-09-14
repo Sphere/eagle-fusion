@@ -247,13 +247,17 @@ export namespace NsUser {
     profileImage?: string
     rootOrgId?: string
     rootOrgName?: string
-
+    phone?: string
+    language?: null | string
   }
   export interface IUserPidProfile {
     kid_updated: boolean
     user: IUser
   }
-
+  export interface INodebbUserProfile {
+    username: string
+    email: string
+  }
   export interface IUserPidProfileV2 {
     kid_updated: boolean
     result: {

@@ -25,7 +25,7 @@
       <ng-container [ngTemplateOutlet]="buttonContent" [ngTemplateOutletContext]="widgetData"></ng-container>
     </a>
     <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
-      [name]="widgetData.actionBtnName" [routerLink]="widgetData.actionBtn?.url" mat-icon-button>
+      [name]="widgetData.actionBtnName" [routerLink]="widgetData.actionBtn?.url" mat-icon-button (click)="search()">
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
           iconType: widgetData.actionBtn.iconType,
           icon: widgetData.actionBtn.icon
@@ -45,8 +45,8 @@
 <!-- TEMPLATES -->
 <ng-template #buttonContent let-actionBtn="actionBtn" let-config="config">
   <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="actionBtn"></ng-container>
-  <span id="widgetInstanceId" *ngIf="!config.hideTitle"
-    [ngClass]="{ 'ml-2': actionBtn.icon }">{{ actionBtn.name }}</span>
+  <span id="widgetInstanceId" *ngIf="!config.hideTitle" [ngClass]="{ 'ml-2': actionBtn.icon }">{{ actionBtn.name
+    }}</span>
 </ng-template>
 
 <ng-template #buttonExternalLinkTextContent let-actionBtn="actionBtn">

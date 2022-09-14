@@ -1,0 +1,88 @@
+<!-- About You Form -->
+<!-- <ws-header></ws-header>
+<div class="close-div">
+  <a href="/page/home">
+    <img alt="close" width="15" height="15" src="../../../fusion-assets/icons/close-vector.png">
+  </a>
+</div> -->
+
+<div class="login-page-content" *ngIf="!yourBackground">
+  <div class="login-card">
+
+    <div class="create-acct-text mb-4" name="location-detail-heading"><span i18n>Tell us more about you</span>
+      <p style="font-size: 16px;" i18n>And unlock access to multiple courses</p>
+    </div>
+
+    <div class="img-box">
+      <img alt="logo" width="155" height="105" src="../../../fusion-assets/images/about-you.png">
+    </div>
+
+    <div class="input-content">
+      <div class="input-content-wrapper">
+
+        <form [formGroup]="aboutYouForm">
+
+          <!--<div class="form-group mt-4 input-box  d-none">
+            <input [matDatepicker]="picker" i18n [min]="minDate" [max]="maxDate" formControlName="dob"
+              autocomplete="off" (dateInput)="onDateChange($event.value)" placeholder="Date of Birth" name="dob"
+              id="dob-inputfield" class="form-control dob-input" (click)="picker.open()" readonly>
+            <mat-datepicker-toggle [for]="picker" id="datepicker-icon"></mat-datepicker-toggle>
+            <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+          </div>
+          <div>
+            <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
+          </div> -->
+          <!-- dropdown dob -->
+          <h3 class="mb-1" for="dob" i18n>Date of Birth</h3>
+          <div class="form-group ">
+            <!-- <lable>Date of Birth</lable> -->
+            <ws-dropdown-dob (dobValue)="dobData($event)"></ws-dropdown-dob>
+          </div>
+          <div>
+            <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
+          </div>
+
+          <h3 class="mb-1" i18n>Your Location</h3>
+          <div class="form-group input-box ">
+            <select id="country" formControlName="country" class="form-control select-box"
+              name="country-input-field" (change)="countrySelect($event.target.value);disableNextBtn()">
+              <option [value]=null disabled i18n>Country</option>
+              <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group input-box">
+            <select id="state" formControlName="state" class="form-control select-box" name="state-input-field"
+              (change)="stateSelect($event.target.value);disableNextBtn()"
+              [attr.disabled]="selectDisable ? 'disabled' : null">
+              <option [value]=null disabled i18n>State</option>
+              <option *ngFor="let state of states" [value]="state.name">{{ state.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group input-box">
+            <select id="distict" formControlName="distict" class="form-control select-box"
+              name="distict-input-field" [attr.disabled]="selectDisable ? 'disabled' : null"
+              (change)="disableNextBtn()">
+              <option [value]=null disabled i18n>City/Distict</option>
+              <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
+            </select>
+          </div>
+
+          <div class="next-btn-div">
+            <button class="form-group login-button" name="login" type="submit" id="next-btn"
+              [disabled]="!aboutYouForm?.valid || nextBtnDisable " (click)="onsubmit(aboutYouForm)" i18n>Next</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- About You Form Close-->
+
+<div *ngIf="yourBackground">
+  <ws-your-background [aboutYou]="aboutYouForm"></ws-your-background>
+</div>

@@ -1,8 +1,13 @@
-<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
-  <a *ngIf="logo" routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper">
-    <img *ngIf="appIcon" src="/fusion-assets/icons/logo.png" alt="Application Logo" class="viewer-app-logo" />
-  </a>
-  <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
+<mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3 mb-4 p-0">
+  <ng-container *ngIf="!isSmall">
+    <a [routerLink]="'/app'+'/toc/' + collectionId + '/chapters'" class="d-flex justify-content-end text-black ">
+      <mat-icon class="">chevron_left</mat-icon>
+    </a>
+    <!-- <a *ngIf="logo" href="/page/home" i18n-matTooltip matTooltip="Home" class="logo-wrapper ">
+    <img *ngIf="appIcon" src="/fusion-assets/icons/logo.png" alt="Application Logo" id="app-logo"
+      class="viewer-app-logo" />
+  </a> -->
+    <!-- <ws-widget-btn-page-back *ngIf="!isPreview" [widgetData]="{
       url: isTypeOfCollection
         ? collectionType === 'Playlist'
           ? '/app/playlist/me/' + collectionId
@@ -14,8 +19,8 @@
         ? {}
         : {}
       : {primaryCategory: resourcePrimaryCategory}
-    }" [playerScreen]='true'></ws-widget-btn-page-back>
-  <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
+    }" [playerScreen]='true'></ws-widget-btn-page-back> -->
+    <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="mat-primary mat-elevation-z3">
   <ws-widget-btn-page-back *ngIf="!forChannel" [widgetData]="{
       url: isTypeOfCollection
         ? collectionType === 'Playlist'
@@ -25,16 +30,14 @@
     }"></ws-widget-btn-page-back>
   <mat-icon style="cursor: pointer;" (click)="back()" *ngIf="forChannel">arrow_back</mat-icon> -->
 
-  <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo" />
-
-  <span *ngIf="logo" class="text-left width-1-8 margin-left-l text-truncate">
-    {{ collection?.name }}
-  </span>
-
-
-  <span class="header-spacer"></span>
-  <div class="flex justify-center mt-0" *ngIf="!isSmall">
-    <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+    <!-- <img *ngIf="!isAuthor && collection?.appIcon" [src]="collection?.appIcon" alt="Logo" class="app-logo viewer-logo"
+    id="banner-logo" /> -->
+    <span *ngIf="logo" class="top-title text-left width-1-8 text-truncate">
+      {{ collection?.name }}
+    </span>
+    <span class="header-spacer"></span>
+    <div class="flex justify-center mt-0">
+      <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
       pdfData
         | pipePartialContent
           : [
@@ -47,14 +50,14 @@
       'artifactUrl'
             ]
     "></ws-widget-btn-content-download> -->
-    <!-- screenContent ==>{{ obj| json}} -->
-    <ws-widget-btn-content-like [forPreview]="forPreview" *ngIf="collection" [widgetData]="{
+      <!-- screenContent ==>{{ obj| json}} -->
+      <!-- <ws-widget-btn-content-like [forPreview]="forPreview" *ngIf="collection" [widgetData]="{
       identifier: collectionIdentifier,
       isDisabled: isPreview
-    }"></ws-widget-btn-content-like>
-    <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview">
-    </ws-widget-btn-content-share>
-    <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
+    }"></ws-widget-btn-content-like> -->
+      <!-- <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview">
+      </ws-widget-btn-content-share> -->
+      <!-- <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
     <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
       contentId: collection?.identifier,
       contentName: collection?.name,
@@ -66,15 +69,37 @@
       identifier: collection?.identifier,
       name: collection?.name,
       isDisabled: isPreview
-    }"></ws-widget-btn-content-feedback-v2>
+    }"></ws-widget-btn-content-feedback-v2> -->
 
-    <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
-      [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
+      <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+        [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)"></ws-widget-btn-fullscreen>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isSmall">
+    <div class="flex flex-col  w-100">
+      <div class="flex align-items-center">
+        <a [routerLink]="'/app'+'/toc/' + collectionId + '/overview'" class="d-flex justify-content-end text-black ">
+          <mat-icon class="">chevron_left</mat-icon>
+        </a>
+        <div class="flex justify-center mt-0 ml-auto">
+          <!-- <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview"> -->
+          <!-- </ws-widget-btn-content-share> -->
+          <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+            [widgetData]="{ fsContainer: frameReference }" (fsState)="fullScreenState($event)">
+          </ws-widget-btn-fullscreen>
+        </div>
+      </div>
 
-  </div>
+      <h3 *ngIf="logo" class=" pl-3 text-truncate">
+        {{ collection?.name }}
+      </h3>
+    </div>
 
 
-  <a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
+    <!-- <span class="header-spacer"></span> -->
+
+  </ng-container>
+  <!--<a mat-icon-button *ngIf="isTypeOfCollection" class="width-auto" (click)="toggleSideBar()" accesskey="M">
     <mat-icon [ngClass]="logo ? 'hidden' : 'xsmall'">menu</mat-icon>
-  </a>
+  </a>-->
 </mat-toolbar>

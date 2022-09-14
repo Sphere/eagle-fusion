@@ -1,5 +1,5 @@
 import { Directive, Input, ViewContainerRef, OnChanges } from '@angular/core'
-import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from './widget-resolver.model'
 import { WidgetResolverService } from './widget-resolver.service'
 
@@ -11,22 +11,22 @@ export class WidgetResolverDirective implements OnChanges {
   constructor(
     private viewContainerRef: ViewContainerRef,
     private widgetResolverSvc: WidgetResolverService,
-    private logger: LoggerService,
+    // private logger: LoggerService,
     private configSvc: ConfigurationsService,
   ) { }
 
   ngOnChanges() {
     const url = window.location.href
-    if (url.indexOf('login') < 0 && url.indexOf('explore') < 0) {
-      if (!this.widgetResolverSvc.isInitialized) {
-        this.logger.error(
-          'Widgets Registration Not Done. Used Before Initialization.',
-          this.wsResolverWidget,
-        )
-        return
-      }
-    }
-    if (url.indexOf('explore') > 0) {
+    // if (url.indexOf('login') < 0 && url.indexOf('explore') < 0) {
+    //   if (!this.widgetResolverSvc.isInitialized) {
+    //     this.logger.error(
+    //       'Widgets Registration Not Done. Used Before Initialization.',
+    //       this.wsResolverWidget,
+    //     )
+    //     return
+    //   }
+    // }
+    if (url.indexOf('/public/home') > 0) {
       if (!this.widgetResolverSvc.isInitialized) {
         this.widgetResolverSvc.initialize(this.configSvc.restrictedWidgets,
                                           this.configSvc.userRoles,

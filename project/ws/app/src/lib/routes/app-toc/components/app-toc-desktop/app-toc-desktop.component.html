@@ -1,0 +1,96 @@
+<div class="toc-body box ">
+  <div>
+    <button [routerLink]="'/page/home'" mat-icon-button [disableRipple]="true" class="back-icon">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div class="title"><span [title]="content?.name">
+        {{ content?.name }} </span></div>
+    <div class="subtitle">{{ content?.subTitle }}</div>
+    <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
+      <span i18n>Duration </span>:
+      {{ content?.duration | pipeDurationTransform: 'hms' }}</div>
+    <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
+      <span i18n>Last updated on</span> : {{ content?.lastUpdatedOn | date }}
+    </div>
+    <div class="details" (click)="showOrgprofile(content?.sourceName)"><span i18n>Source</span> : {{content?.sourceName}}</div>
+    <div class="details mb-3" *ngIf="content?.creator"><span i18n>Author</span> : {{content?.creator}}</div>
+    <!-- <div class="details" *ngIf="content?.creatorDetails">Curators:
+      <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
+        {{curator.name}}
+        <ng-container *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
+        </ng-container>
+      </span>
+    </div> -->
+    <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
+      View License Terms</div> -->
+    <div *ngIf="content?.completionPercentage > 0" class="mt-2">
+      <mat-progress-bar [mode]="'determinate'" [value]="
+        content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+        [ngClass]="{ 'visibility-0': content?.completionPercentage === undefined, 'thick': content?.completionPercentage}"
+        i18n-aria-label>
+        {{content?.completionPercentage}} %
+      </mat-progress-bar>
+      <span class="value" *ngIf="content?.completionPercentage" i18n>{{content?.completionPercentage}}%</span>
+    </div>
+    <!-- <ws-widget-content-progress [isDesktop]='true' *ngIf="content?.identifier" [forPreview]="forPreview"
+      [contentId]="content?.identifier" [className]="'thick'" [progress]="content?.completionPercentage">
+    </ws-widget-content-progress> -->
+    <div class="header-actions">
+      <ng-container>
+        <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
+          (click)="enrollUser(batchData.content)" i18n>
+          Start
+        </button>
+        <!--(click)="resumeBtn()" -->
+        <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+          [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
+          [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="banner-btn resumeButton">
+          <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+            {{resumeData?"Resume":"Resume"}}
+          </ng-container>
+        </a>
+
+        <button *ngIf="content?.issueCertification === true" (click)="downloadCertificate(content)"
+          class="banner-btn-active cursor-pointer" data-toggle="modal" i18n>
+          <mat-icon>file_download</mat-icon>Certificate
+        </button>
+        <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
+        </ws-widget-btn-content-share>
+      </ng-container>
+      <!-- <button class="btn " mat-raised-button (click)="nextQuestion()">Resume</button>
+      <button class=" btn-active" mat-raised-button (click)="previousQuestion()">Certificate</button>
+      <div class="share-img img1">
+        <img src=".\fusion-assets\icons\share-icon.png">
+      </div> -->
+      <div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" [ngStyle]="{'margin-top' : '40px'}">
+              <!--<h4 class="modal-title">Modal Heading</h4> -->
+              <button type="button" class="close" data-dismiss="modal" (click)="closePopup()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <h3>{{certificateMsg}}</h3>
+
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal"
+                (click)="closePopup()">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="certCanvas"></canvas>
+  </div>
+</div>
+<!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
+  [className]="'thick'" [progress]="content?.completionPercentage">
+</ws-widget-content-progress> -->

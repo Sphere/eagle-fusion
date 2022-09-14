@@ -1,14 +1,29 @@
 .pdf-nav-bar {
-  // position: relative;
-  // height: 40px;
-  // font-size: 1em;
   display: flex;
   align-items: center;
   min-height: 56px;
   overflow: hidden;
   font: inherit;
   background-color: #edf1e5 !important;
-  height: 60px !important;
+  height: 50px !important;
+}
+
+@media screen and (max-width:350px) {
+  .pdf-nav-bar {
+    font-size: 12px !important;
+    padding: 0 0px 0 25px !important;
+
+  }
+
+  .pdf-page-container {
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .pdf-page-container {
+    margin: 0 !important;
+  }
 }
 
 .pdf-page-container {
@@ -17,6 +32,7 @@
   text-align: center;
   overflow: auto;
   margin: auto;
+
 }
 
 .pdf-page-num {
@@ -35,7 +51,7 @@
 }
 
 .custom-scroll-small {
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 // .pdf-scroll {
@@ -51,6 +67,7 @@
   border: none !important;
   width: 20px;
 }
+
 ::ng-deep .fullscreen #youtubeTag {
   height: 100vh !important;
 }

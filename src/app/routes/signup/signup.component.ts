@@ -21,8 +21,9 @@ export class SignupComponent implements OnInit, OnDestroy {
   emailOrMobile: any
   phone = false
   email: any
-  showAllFields = false
+  showAllFields = true
   isMobile = false
+  isOtpValid = false
   constructor(
     private snackBar: MatSnackBar,
     private signupService: SignupService,
@@ -34,6 +35,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
+      emailOrMobile: new FormControl('', [Validators.required]),
     },                              {})
   }
 
@@ -43,34 +45,58 @@ export class SignupComponent implements OnInit, OnDestroy {
     // })
   }
 
-  verifyEntry() {
-    let phone = this.emailOrMobile
+  // generate otp
+
+  generateOtp() {
+    let phone = this.signupForm.controls.emailOrMobile.value
 
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
-      this.isMobile = true
-      // Call OTP Api, show resend Button true
+      // Call OTP valiate  Api, show resend Button true
       const request = {
         mobileNumber: phone,
       }
-      this.signupService.registerWithMobile(request).subscribe(
+      this.signupService.generateOtp(request).subscribe(
         (res: any) => {
-          this.openSnackbar(res.message)
+          if (res.message === 'Success') {
+            // this.isMobile = true
+          }
+          // this.openSnackbar(res.message)
         },
         (err: any) => {
           this.openSnackbar(err)
 
         }
       )
-    } else {
-      this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        this.emailOrMobile
-      )
-      if (this.email) {
-        this.isMobile = false
-        this.showAllFields = true
+    }
+  }
+
+  verifyOtp() {
+    let phone = this.signupForm.controls.emailOrMobile.value
+
+    phone = phone.replace(/[^0-9+#]/g, '')
+    // at least 10 in number
+    if (phone.length >= 10) {
+      this.isMobile = false
+      // Call OTP Api, show resend Button true
+      const request = {
+        mobileNumber: phone,
+        otp: this.signupForm.controls.otp.value,
       }
+
+      this.signupService.validateOtp(request).subscribe(
+        (res: any) => {
+          if (res.message === 'Success') {
+            this.router.navigate(['/page/home'])
+          }
+          // this.openSnackbar(res.message)
+        },
+        (err: any) => {
+          this.openSnackbar(err)
+
+        }
+      )
     }
   }
 
@@ -93,53 +119,58 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: any) {
+    let phone = this.signupForm.controls.emailOrMobile.value
+
+    phone = phone.replace(/[^0-9+#]/g, '')
+    // at least 10 in number
+    if (phone.length >= 10) {
+      this.isMobile = true
+      // Call OTP Api, show resend Button true
+    } else {
+      this.email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        this.signupForm.controls.emailOrMobile.value
+      )
+    }
     this.uploadSaveData = true
     let reqObj
 
     if (this.email) {
       reqObj = {
-        data: {
-          firstname: form.value.firstName,
-          lastname: form.value.lastName,
-          username: this.emailOrMobile,
-          email: this.emailOrMobile,
-          password: form.value.password,
-        },
-        type: 'email',
+        firstName: form.value.firstName,
+        lastName: form.value.lastName,
+        email: form.value.emailOrMobile,
+        password: form.value.password,
       }
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.message === 'Success') {
           form.reset()
+          this.showAllFields = false
           this.uploadSaveData = false
           this.openSnackbar(this.toastSuccess.nativeElement.value)
         }
       },
                                                   err => {
-          this.openSnackbar(err.error.error)
+          this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           form.reset()
         }
       )
     } else {
       const requestBody = {
-
-        data: {
-          firstname: form.value.firstName,
-          lastname: form.value.lastName,
-          username: this.emailOrMobile,
-          password: form.value.password,
-          otp: form.value.otp,
-        },
-        mobileNumber: this.emailOrMobile,
-
+        firstName: form.value.firstName,
+        lastName: form.value.lastName,
+        phone: form.value.emailOrMobile,
+        password: form.value.password,
       }
-      this.signupService.verifyUserMobile(requestBody).subscribe(res => {
-        if (res.message === 'Success') {
-          this.router.navigate(['/page/home'])
+      this.signupService.registerWithMobile(requestBody).subscribe(res => {
+        if (res.status === 'success') {
+          this.showAllFields = false
+          this.generateOtp()
+          // this.router.navigate(['/page/home'])
         }
       },
-                                                                 err => {
-          this.openSnackbar(err.error.error)
+                                                                   err => {
+          this.openSnackbar(err.error.msg)
           form.reset()
         }
       )

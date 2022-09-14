@@ -106,7 +106,8 @@
   }
 
   .header-meta-banner {
-    height: 135px;
+    // height: 135px;
+    min-height: 180px;
     overflow: hidden;
   }
 
@@ -115,8 +116,8 @@
   }
 
   .resumeButton {
-    height: 52px;
-    min-width: 160px;
+    // height: 52px;
+    // min-width: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,10 +141,13 @@
     }
 
     .action-btns {
-      margin-left: auto;
+      // margin-left: auto;
       order: 2;
       // color: white;
     }
+  }
+  .header-act-btn{
+    margin-top: 5px;
   }
 }
 
@@ -239,13 +243,6 @@
   }
 }
 
-.info-msg {
-  // font: 14px/20px Poppins-Regular;
-  mat-icon {
-    // color: #fff !important;
-  }
-}
-
 .sticky-banner {
   z-index: 999;
   position: sticky;
@@ -276,6 +273,7 @@
   .header-right,
   .header-left {
     width: 100%;
+    margin-top: 50px;
   }
   .header-right {
     display: none;

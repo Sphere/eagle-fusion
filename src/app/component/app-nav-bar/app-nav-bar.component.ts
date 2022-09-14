@@ -1,11 +1,14 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { IBtnAppsConfig, CustomTourService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, NsInstanceConfig, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
+import { Observable } from 'rxjs'
+import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
+import { MatDialog } from '@angular/material'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -38,14 +41,21 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showAppNavBar = false
   popupTour: any
   courseNameHeader: any
-
+  showCreateBtn = false
+  isXSmall$: Observable<boolean>
+  showSearchIcon = true
+  langDialog: any
+  preferedLanguage: any = ['english']
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
     private tourService: CustomTourService,
     private router: Router,
-    private accessService: AccessControlService
+    private accessService: AccessControlService,
+    private valueSvc: ValueService,
+    public dialog: MatDialog
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
@@ -57,9 +67,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
-
     // Header view
-
   }
 
   ngOnInit() {
@@ -70,8 +78,20 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           this.showAppNavBar = false
         } else {
           this.showAppNavBar = true
+          if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
+            this.showSearchIcon = false
+          } else {
+            this.showSearchIcon = true
+          }
         }
+      }
+    })
 
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
       }
     })
 
@@ -103,10 +123,15 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
-goHomePage() {
-  sessionStorage.setItem('url_before_login', '/page/home')
-  this.router.navigateByUrl('/page/home')
-}
+  createAcct() {
+    localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/create-account')
+  }
+
+  goHomePage() {
+    // localStorage.setItem('url_before_login', '/page/home')
+    this.router.navigateByUrl('/page/home')
+  }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {
@@ -125,6 +150,17 @@ goHomePage() {
         }
       }
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
+      }
+    })
   }
 
   startTour() {
@@ -150,5 +186,20 @@ goHomePage() {
       this.isTourGuideClosed = false
     }
 
+  }
+
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage,
+        checkbox: true,
+      },
+    })
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+      // tslint:disable-next-line:no-console
+      console.log(this.preferedLanguage)
+    })
   }
 }

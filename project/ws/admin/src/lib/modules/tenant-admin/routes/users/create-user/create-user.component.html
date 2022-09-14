@@ -34,6 +34,12 @@
                   <input matInput name="firstname" formControlName="firstname" type="text" class="input">
                 </mat-form-field>
               </div>
+              <div class="w-1/2 pr-2">
+                <p class="font-weight-500" i18n>First Name</p>
+                <mat-form-field class="w-full" appearance="outline">
+                  <input matInput name="firstname" formControlName="firstname" type="text" class="input">
+                </mat-form-field>
+              </div>
               <div class="w-1/2 pl-2">
                 <p class="font-weight-500" i18n>Last Name</p>
                 <mat-form-field class="w-full" appearance="outline">
@@ -56,7 +62,7 @@
               </div> -->
             </div>
             <!-- <div class="Email"> -->
-              <div>
+            <div>
               <!-- <mat-radio-group class="m-0" [value]="passwordType" (change)="passwordType = $event.value ; onRadioChange()">
                 <mat-radio-button class="font-weight-500"  [value]="'UserPassword'" i18n>Enter Password</mat-radio-button>
                 <mat-radio-button class="font-weight-500 pl-4" [value]="'GeneratePassword'" i18n>Generate Password</mat-radio-button>
@@ -69,26 +75,27 @@
               </div>
               <ng-template #UserPassword>
                 <div class="flex flex-div">
-                <div class="w-1/2 pr-2">
-                  <p class="font-weight-500" i18n>Password</p>
-                  <mat-form-field class="w-full" appearance="outline">
-                    <input #password matInput name="password" formControlName="password" type="password" class="input">
-                  </mat-form-field>
-                  <mat-error *ngIf="registerUser.controls.password.touched &&
+                  <div class="w-1/2 pr-2">
+                    <p class="font-weight-500" i18n>Password</p>
+                    <mat-form-field class="w-full" appearance="outline">
+                      <input #password matInput name="password" formControlName="password" type="password"
+                        class="input">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerUser.controls.password.touched &&
                !(registerUser.controls.password.valid) && registerUser.controls.password.value" i18n>
-                    Password must be atleast 6 characters</mat-error>
-                </div>
-                <div class="w-1/2 pl-2">
-                  <p class="font-weight-500" i18n>Confirm Password</p>
-                  <mat-form-field class=" w-full" appearance="outline">
-                    <input #cpassword matInput name="cpassword" formControlName="cpassword" type="password"
-                      class="input">
-                  </mat-form-field>
-                  <mat-error *ngIf="registerUser.controls.cpassword.touched &&
+                      Password must be atleast 6 characters</mat-error>
+                  </div>
+                  <div class="w-1/2 pl-2">
+                    <p class="font-weight-500" i18n>Confirm Password</p>
+                    <mat-form-field class=" w-full" appearance="outline">
+                      <input #cpassword matInput name="cpassword" formControlName="cpassword" type="password"
+                        class="input">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerUser.controls.cpassword.touched &&
                registerUser.controls.password.value !== registerUser.controls.cpassword.value
                && registerUser.controls.password.value" i18n>
-                    The password and confirmation password do not match</mat-error>
-                </div>
+                      The password and confirmation password do not match</mat-error>
+                  </div>
                 </div>
               </ng-template>
               <ng-template #GeneratePassword>
@@ -107,8 +114,7 @@
         </form>
       </mat-expansion-panel>
       <mat-divider class="pt-1"></mat-divider>
-      <mat-expansion-panel  [expanded]="step === 1" (opened)="step = 1"
-        (closed)="step = 0">
+      <mat-expansion-panel [expanded]="step === 1" (opened)="step = 1" (closed)="step = 0">
         <mat-expansion-panel-header class="padding-top-xs">
           <mat-panel-title>
             <div class="flex items-end">
@@ -128,9 +134,9 @@
         <div *ngIf="rolesHash.length" class="flex flex-wrap">
           <div class="py-1 changeWidth w-1/2">
             <div class="p-1">
-              <mat-checkbox  color="primary" [disabled]="true" [checked]="true" class="font-bold" i18n>
+              <mat-checkbox color="primary" [disabled]="true" [checked]="true" class="font-bold" i18n>
                 default-roles</mat-checkbox>
-              <p  class="pl-6" i18n>Common site privileges such as Home, Channels, Knowledge Board, Playlists</p>
+              <p class="pl-6" i18n>Common site privileges such as Home, Channels, Knowledge Board, Playlists</p>
             </div>
           </div>
           <div *ngFor="let role of rolesHash" class="py-1 changeWidth w-1/2">
@@ -155,8 +161,7 @@
     <mat-action-row class="button-row" *ngIf="step === 1">
       <mat-progress-spinner *ngIf="isFetching" class="margin-right-m" mode="indeterminate" diameter="35">
       </mat-progress-spinner>
-      <button mat-stroked-button color="primary" type="button" (click)="step = 0"
-        i18n>Back</button>
+      <button mat-stroked-button color="primary" type="button" (click)="step = 0" i18n>Back</button>
       <button mat-raised-button [disabled]="!registerUser.valid || isFetching" type="button" color="primary"
         (click)="createUser()" i18n>Create</button>
     </mat-action-row>

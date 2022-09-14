@@ -1,0 +1,98 @@
+@import 'ws-mixins';
+
+.main {
+  display: flex;
+  height: calc(100vh - 125px)
+}
+
+.main .child {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.congrats-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 58px;
+  letter-spacing: -0.02em;
+  color: #89c575;
+}
+
+.better-luck {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 58px;
+  /* or 120% */
+  letter-spacing: -0.02em;
+  color: #b4b4b4;
+  text-align: center;
+}
+
+.correct-answer {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;
+  /* or 150% */
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #818181;
+}
+
+.answer-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  /* or 120% */
+
+  text-align: center;
+  letter-spacing: -0.02em;
+
+  color: #1c5d95;
+}
+
+.next-btn {
+  border-radius: 50px;
+  width: 100px !important;
+  height: 38px !important;
+  color: #1c5d95 !important;
+  // border-color: #1C5D95 !important;
+  border: 1px solid #1c5d95 !important;
+
+  @include breakpoint-xs {}
+}
+
+.btn-active {
+  background-color: #1c5d95 !important;
+  color: #ffffff !important;
+}
+
+
+
+.mat-column-response {
+  @include breakpoint-xs {
+    word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 28% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  }
+}

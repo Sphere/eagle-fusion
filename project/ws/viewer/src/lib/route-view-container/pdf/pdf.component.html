@@ -19,12 +19,12 @@
                         Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
                     </span>
                   </div>
-
                   <div class="pdf next-button">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
-                    <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
-                      accesskey=">" [disabled]="!nextResourceUrl">
+                    <a mat-button class="width-auto mr-10"
+                      [routerLink]="isProgressCheck() ? nextResourceUrl : stopPropagation()"
+                      queryParamsHandling="preserve" accesskey=">" [disabled]="!isProgressCheck()">
                       <span class="material-icons align-right-arrow">
                         chevron_right
                       </span>
@@ -38,7 +38,7 @@
         </mat-card>
       </div>
 
-      <div class="vidoe-title margin-top-m" *ngIf="pdfData">
+      <div class="vidoe-title margin-top-m d-none" *ngIf="pdfData">
         <mat-card *ngIf="isSmall" class="unit-meta-item">
           <div class="flex">
             <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
@@ -54,11 +54,11 @@
                                   'artifactUrl'
                                       ]
                               "></ws-widget-btn-content-download>
-            <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier}">
-            </ws-widget-btn-content-like>
+            <!-- <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier}">
+            </ws-widget-btn-content-like> -->
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="pdfData">
             </ws-widget-btn-content-share>
-            <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
+            <!-- <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
             <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
                               contentId: pdfData?.identifier,
                               contentName: pdfData?.name,
@@ -70,7 +70,7 @@
                                   identifier: pdfData?.identifier,
                                   name: pdfData?.name,
                                   isDisabled: isPreview
-                                }"></ws-widget-btn-content-feedback-v2>
+                                }"></ws-widget-btn-content-feedback-v2> -->
           </div>
         </mat-card>
       </div>

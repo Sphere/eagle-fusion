@@ -3,7 +3,11 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/cor
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, EventService, LoggerService, NsPage, ValueService, WsEvents, LogoutComponent } from '@ws-widget/utils'
+import {
+  ConfigurationsService, EventService, LoggerService, NsPage,
+  // ValueService,
+  WsEvents, LogoutComponent, ValueService,
+} from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
@@ -47,9 +51,8 @@ export class PageComponent extends WidgetBaseComponent
     super()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
-      this.links = this.getNavLinks()
+      // this.links = this.getNavLinks()
     })
-    // console.log('widgetData', this.widgetData)
   }
   ngOnInit() {
     // this.authenticated = this.authSvc.isAuthenticated

@@ -1,14 +1,12 @@
 import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/lib/btn-apps/btn-apps.model'
-import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 
-import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges } from '@angular/core'
+import { Component, OnInit, OnDestroy, Input, SimpleChanges, OnChanges, HostListener } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
-import { ActivatedRoute } from '@angular/router'
+import { Observable, Subscription } from 'rxjs'
+import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
-
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -23,11 +21,12 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   isClientLogin = false
   private subscriptionLogin: Subscription | null = null
   loginConfig: IWSPublicLoginConfig | null = null
-  private redirectUrl = ''
+  redirectUrl = ''
   primaryNavbarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
   pageNavbar: Partial<NsPage.INavBackground> | null = null
   featureApps: string[] = []
   appBottomIcon?: SafeUrl
+  showCreateBtn = false
 
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
@@ -36,10 +35,15 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
   instanceVal = ''
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$: Observable<boolean>
 
-  constructor(private domSanitizer: DomSanitizer, private configSvc: ConfigurationsService,
-              private activateRoute: ActivatedRoute, private authSvc: AuthKeycloakService, private valueSvc: ValueService) {
+  constructor(
+    private domSanitizer: DomSanitizer,
+    private configSvc: ConfigurationsService,
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private valueSvc: ValueService) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
 
@@ -56,6 +60,14 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.navBar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
     }
+
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = false
+      } else {
+        this.showCreateBtn = true
+      }
+    })
 
     // this.subscriptionLogin = this.activateRoute.data.subscribe(data => {
     //   // todo
@@ -112,13 +124,28 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  login(key: 'E' | 'N' | 'S') {
-    this.authSvc.login(key, this.redirectUrl)
-       if (sessionStorage.getItem('loginbtn')) {
-      sessionStorage.removeItem('loginbtn')
-    }
-    sessionStorage.setItem(`loginbtn`, window.location.href)
-    window.location.href = `${this.redirectUrl}apis/reset`
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = false
+      } else {
+        this.showCreateBtn = true
+      }
+    })
+  }
+
+  createAcct() {
+    localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/create-account')
+  }
+  login() {
+    // if (localStorage.getItem('login_url')) {
+    //   const url: any = localStorage.getItem('login_url')
+    //   window.location.href = url
+    // }
+    // localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/login')
   }
 
   ngOnDestroy() {

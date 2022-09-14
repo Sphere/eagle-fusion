@@ -1,0 +1,94 @@
+@import 'ws-mixins';
+
+.overview-container {
+  padding: 45px;
+
+  @include breakpoint-xs {
+    padding: 5px;
+  }
+}
+
+.btn-box {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.btn {
+  margin-left: 20px;
+  border-radius: 50px;
+  width: 100px !important;
+  height: 38px !important;
+  color: #1c5d95 !important;
+  // border-color: #1C5D95 !important;
+  border: 1px solid #1c5d95 !important;
+
+  @include breakpoint-xs {
+    margin-left: 0px;
+    width: 75px !important;
+  }
+}
+
+.btn-active {
+  background-color: #1c5d95 !important;
+  color: #ffffff !important;
+}
+
+h2 {
+  text-align: center;
+}
+
+h3 {
+  font-weight: 400px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
+
+::ng-deep.close-modal .mat-dialog-container {
+  border-radius: 34px !important;
+
+  @include breakpoint-xs {
+    border-radius: 18px !important;
+  }
+}
+::ng-deep.assesment-close-modal .mat-dialog-container {
+  border-radius: 34px !important;
+
+  @include breakpoint-xs {
+    border-radius: 25px !important;
+  }
+}
+
+.title-break-1::after {
+  content: '\a';
+  white-space: pre;
+
+  @include breakpoint-xs {
+    // content: "";
+    white-space: nowrap;
+  }
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  line-height: 25px;
+
+  @include breakpoint-xs {
+    font-size: 13px;
+    font-weight: 500;
+  }
+}
+
+.sub-title {
+  font-size: 17px;
+  font-weight: 400;
+  margin-bottom: 40px;
+  text-align: center;
+
+  @include breakpoint-xs {
+    font-size: 12px;
+  }
+}

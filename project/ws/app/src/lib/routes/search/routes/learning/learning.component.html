@@ -1,15 +1,17 @@
 <mat-sidenav-container role="main" class="sidenav-container" autosize *ngIf="!error.load">
-  <mat-sidenav #sideNavBar class="sidenav" [opened]="sideNavBarOpened" (closed)="closeFilter(false)"
+  <mat-sidenav #sideNavBar class="sidenav" [opened]="false" (closed)="closeFilter(false)"
     [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
     <ws-app-filter-display #appFilterDisplay *ngIf="searchResults?.result?.content?.length"
-      [filtersResetAble]="filtersResetAble" [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse"
+      [filtersResetAble]="filtersResetAble" [sideNavBarOpened]="false" [filtersResponse]="filtersResponse"
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0">
-      <span i18n="search route hits showing">Showing </span>
-      <span>{{ searchResults.result.count }} </span>
-      <span *ngIf="searchResults.result.count > 1" i18n="search route hits results">results </span>
+    <div role="link" tabindex="0" class="searchHeading">
+      <span i18n="search route hits showing" *ngIf="(isXSmall$ | async) !== true">Showing </span>
+      <span *ngIf="(isXSmall$ | async) !== true">{{ searchResults.result.count }} </span>
+      <p class="text-xl" *ngIf="(isXSmall$ | async) === true">All Courses</p>
+      <span *ngIf="searchResults.result.count > 1 && (isXSmall$ | async) !== true "
+        i18n="search route hits results">results </span>
       <span *ngIf="searchResults.result.count <= 1" i18n="search route hits result">result </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred languages</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
@@ -34,10 +36,10 @@
         <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer" i18n>Click here </a>
         <span i18n="search route hits for showing actual query">to explore more. </span>
       </ng-container>
-      <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+      <!--<button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
         (click)="sideNavBarOpened = !sideNavBarOpened">
         <mat-icon>filter_list</mat-icon>
-      </button>
+      </button> -->
     </div>
     <div class="margin-bottom-m">
       <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
@@ -67,9 +69,17 @@
       </mat-chip-list>
     </div>
     <div *ngIf="searchResults?.result?.content?.length">
-      <ws-app-learning-card class="search-card"
-        *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy" [displayType]="resultsDisplayType"
-        [content]="result"></ws-app-learning-card>
+      <ng-container *ngIf="(isXSmall$ | async) !== true">
+        <ws-app-learning-card class="search-card"
+          *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
+          [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
+      </ng-container>
+      <ng-container *ngIf="(isXSmall$ | async) === true">
+        <ws-mobile-course-view *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
+          [courseData]="result">
+        </ws-mobile-course-view>
+      </ng-container>
+
       <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
         <mat-spinner></mat-spinner>
         <!-- <h2 class="h2-title">

@@ -1,8 +1,8 @@
-<viewer-overview *ngIf="viewState === 'initial'" [learningObjective]="learningObjective"
+<!-- <viewer-overview *ngIf="viewState === 'initial'" [learningObjective]="learningObjective"
   [complexityLevel]="complexityLevel" [duration]="duration" [timeLimit]="quizJson?.timeLimit"
   [progressStatus]="progressStatus" [noOfQuestions]="quizJson?.questions?.length" (userSelection)="overViewed($event)"
   [isNqocnContent]="collectionId==='lex_auth_0131241730330624000'">
-</viewer-overview>
+</viewer-overview> -->
 
 <div #quizContainer *ngIf="viewState !== 'initial'" class="quiz-container">
   <nav class="quiz-nav-bar mat-toolbar mat-caption">
@@ -18,7 +18,7 @@
       <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
         {{ timeLeft | pipeDurationTransform: 'hms' }}
       </div>
-      <div *ngIf="isSubmitted" class="margin-left-xs mat-body-strong" i18n>
+      <div *ngIf="isSubmitted && fetchingResultsStatus !== 'error'" class="margin-left-xs mat-body-strong" i18n>
         (Submitted)
       </div>
     </div>
@@ -74,8 +74,8 @@
             </h2>
             <h2 *ngIf="quizJson.isAssessment" class="mat-title">
               <ng-container i18n="quiz result label">Result:</ng-container>
-              <ng-container i18n *ngIf="isCompleted">PASS</ng-container>
-              <ng-container i18n *ngIf="!isCompleted">FAIL</ng-container>
+              <ng-container i18n *ngIf="isCompleted">Pass</ng-container>
+              <ng-container i18n *ngIf="!isCompleted">Did not Pass</ng-container>
             </h2>
             <div class="flex flex-wrapped flex-center text-center">
               <div class="card-section">
@@ -105,6 +105,13 @@
                 </h2>
               </div>
             </div>
+            <div class="text-center">
+              <p class="h3">Your Score is</p>
+              <p class="h3 text-danger">{{result | number: '1.0-0'}} %</p>
+              <p class="h4" *ngIf="result<passPercentage">You need to score atleast {{passPercentage}}% to complete this
+                module.</p>
+              <button i18n mat-raised-button color="primary" (click)="reTakeQuiz()">Retake Assessment</button>
+            </div>
           </ng-container>
         </mat-card>
         <div class="text-center">
@@ -119,7 +126,6 @@
           </button>
         </div>
       </div>
-      <div id="quiz-end"></div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

@@ -2,27 +2,32 @@
 @import 'ws-mixins';
 
 ::ng-deep .theme-igot.day-mode .mat-drawer-container {
-    background-color: transparent;
+  background-color: transparent;
 }
+
 .floating-btn {
   position: fixed;
   z-index: 9;
   background-color: #d8d8d8 !important;
   padding: 3px 8px 3px 5px;
   transition: linear 1s;
-      top: 134px;
-      border-radius: 0;
-      min-width: 50px;
-      .text{
-        font-size: 1.25em;
-      }
-      span {
-        display: none;
-      }
-   &:hover span {
-     display: inline;
-   }
+  top: 134px;
+  border-radius: 0;
+  min-width: 50px;
+
+  .text {
+    font-size: 1.25em;
+  }
+
+  span {
+    display: none;
+  }
+
+  &:hover span {
+    display: inline;
+  }
 }
+
 .width-expand {
   flex: 1;
   min-width: 1px;
@@ -30,15 +35,24 @@
 
 .minhightab {
   @include breakpoint-gt-xs {
- min-height: 450px;
+    min-height: 450px;
   }
 }
-// .viewer-sidenav-container {
-//   height: calc(100vh - 56px);
-// }
+
+.viewer-sidenav-container {
+  // height: calc(100vh - 56px);
+  margin: 0 50px;
+
+  @include breakpoint-xs {
+    margin: 0 !important;
+  }
+
+}
 
 .viewer-sidenav {
   width: 100%;
+  border: none !important;
+  padding-top: 24px;
 
   @include breakpoint-gt-xs {
     width: 25%;
@@ -49,11 +63,19 @@
 
 .viewer-sidenav-standalone {
   width: 100%;
+  border: none !important;
+  padding-top: 24px;
 
   @include breakpoint-gt-xs {
     width: 25%;
     min-width: 300px;
     max-width: 400px;
+  }
+}
+
+.unit-meta-item {
+  h2 {
+    margin: 0px;
   }
 }
 
@@ -71,13 +93,15 @@
 }
 
 viewer-quiz {
-    display: flex;
-    width: 100%;
-    flex-flow: column;
+  display: flex;
+  width: 100%;
+  flex-flow: column;
 }
+
 .mat-drawer-content {
   overflow-x: hidden;
 }
+
 // .info-container {
 //   padding: $size-s $size-m;
 //   margin-bottom: $size-m;
@@ -111,14 +135,17 @@ viewer-quiz {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap-reverse;
+
   .div-1 {
     flex: 1;
     min-width: 1px;
     overflow-x: hidden;
   }
+
   .mat-card {
     box-shadow: none !important;
   }
+
   // .div-2 {
   //   width: 28%;
   //   margin-left: 48px;
@@ -146,4 +173,13 @@ viewer-quiz {
 
 .theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
+}
+
+.discussion-container {
+  width: 50%;
+  margin-left: 50px;
+}
+
+::ng-deep .mat-tab-body-content {
+  padding: 5px;
 }

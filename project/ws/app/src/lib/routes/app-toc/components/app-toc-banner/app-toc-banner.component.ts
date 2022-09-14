@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject } from '@angular/core'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
-  ContentProgressService,
+  // ContentProgressService,
   NsContent,
   NsGoal,
   NsPlaylist,
@@ -23,6 +23,10 @@ import { FormControl, Validators } from '@angular/forms'
 import * as dayjs from 'dayjs'
 import * as  lodash from 'lodash'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
+import * as FileSaver from 'file-saver'
+import moment from 'moment'
+
+import { DOCUMENT } from '@angular/common'
 
 @Component({
   selector: 'ws-app-toc-banner',
@@ -36,10 +40,10 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() resumeData: NsContent.IContinueLearningData | null = null
   @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
-  @Input() batchData: NsContent.IBatchListResponse | null = null
+  @Input() batchData!: any
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
-  contentProgress = 0
+  // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
   validPaths = new Set(['overview', 'contents', 'analytics'])
@@ -79,6 +83,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   defaultSLogo = ''
   disableEnrollBtn = false
   batchId!: string
+  displayStyle = 'none'
+  enrolledCourse: any
+  lastCourseID: any
+  certificateMsg?: any
+  // locationURL = ''
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -87,17 +96,23 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     private dialog: MatDialog,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    private progressSvc: ContentProgressService,
+    // private progressSvc: ContentProgressService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
-
     // private authAccessService: AccessControlService,
-  ) { }
+    @Inject(DOCUMENT) public document: Document
+  ) {
+  }
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    window.location.href = '/page/home'
+  }
 
   ngOnInit() {
+    // this.locationURL = encodeURIComponent(window.location.href)
     if (this.content) {
       this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
@@ -116,7 +131,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
         })
       }
     })
-
+    this.getCourseID()
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig && instanceConfig.logos && instanceConfig.logos.defaultSourceLogo) {
       this.defaultSLogo = instanceConfig.logos.defaultSourceLogo
@@ -188,7 +203,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get isPostAssessment(): boolean {
-    if (!(this.tocConfig && this.tocConfig.postAssessment)) {
+    if (!(this.tocConfig)) {
       return false
     }
     if (this.content) {
@@ -207,6 +222,33 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   get showSubtitleOnBanner() {
     return this.tocSvc.subtitleOnBanners
   }
+
+  // resumeBtn() {
+  //   if(localStorage.getItem(`resume_URL`)){
+  //     this.resumeDataLink.url = localStorage.getItem(`resume_URL`)
+  //       console.log(resume_URL)
+  //       //location.href = resume_URL
+  //       //this.router.navigateByUrl(`${resume_URL}`)
+  //   } else {
+  //     console.log(this.lastCourseID)
+  //     this.resumeDataLink = viewerRouteGenerator(
+  //       this.lastCourseID.content.identifier,
+  //       this.lastCourseID.content.mimeType,
+  //       this.isResource ? undefined : this.lastCourseID.content.identifier,
+  //       this.isResource ? undefined : this.lastCourseID.content.contentType,
+  //       this.forPreview,
+  //       'Learning Resource',
+  //       this.getBatchId(),
+  //     )
+  //     console.log(this.resumeDataLink)
+  //      const query = this.generateQuery('RESUME')
+  //      console.log(query)
+  //      console.log(this.resumeDataLink)
+  // tslint:disable-next-line:max-line-length
+  //     let url = this.resumeDataLink.url+'?primaryCategory='+query.primaryCategory+'&collectionId='+query.collectionId+'&collectionType='+query.collectionType+'&batchId='+query.batchId
+
+  //   }
+  // }
 
   ngOnChanges() {
     this.assignPathAndUpdateBanner(this.router.url)
@@ -287,6 +329,191 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+
+  downloadCertificate(content: any) {
+    // is enrolled?
+    if (this.batchData.enrolled) {
+      let userId = ''
+      let duration: number
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+
+      if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`)) {
+
+        const customerDate = moment(localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`))
+        const dateNow = moment(new Date())
+        duration = dateNow.diff(customerDate, 'minutes')
+      }
+
+      if (this.content && this.content.identifier && content.completionPercentage === 100) {
+        const req = {
+          request: {
+            courseId: this.content.identifier,
+            batchId: this.getBatchId(),
+            userIds: [userId],
+          },
+        }
+        // if course is complete
+
+        // check if certificate is already generated
+        this.contentSvc.fetchUserBatchList(userId).subscribe(
+          (courses: NsContent.ICourse[]) => {
+            // let enrolledCourse: NsContent.ICourse | undefined
+            if (this.content && this.content.identifier && !this.forPreview) {
+
+              if (courses && courses.length) {
+                this.enrolledCourse = courses.find(course => {
+                  const identifier = this.content && this.content.identifier || ''
+                  if (course.courseId !== identifier) {
+                    return undefined
+                  }
+                  return course
+                })
+                if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
+                  this.displayStyle = 'block'
+                  // tslint:disable-next-line: max-line-length
+                  this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
+                  this.sendApi()
+                  // trigger this.downloadCertificate
+
+                } else {
+                  // trigger request
+                  // check for exisitng request
+
+                  if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
+                    this.displayStyle = 'block'
+                    // tslint:disable-next-line: max-line-length
+                    this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
+                  } else {
+                    this.contentSvc.processCertificate(req).subscribe((response: any) => {
+                      if (response.responseCode === 'OK') {
+                        // this.sendApi()
+                        // tslint:disable-next-line: max-line-length
+                        localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
+                        this.displayStyle = 'block'
+                        // tslint:disable-next-line: max-line-length
+                        this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
+                      } else {
+                        this.displayStyle = 'block'
+                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                      }
+                    },
+                      err => {
+                        this.displayStyle = 'block'
+                        /* tslint:disable-next-line */
+                        console.log(err.error.params.errmsg)
+                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        // this.openSnackbar(err.error.params.errmsg)
+                      })
+                  }
+                }
+
+              }
+            }
+          })
+
+      } else {
+        // tslint:disable-next-line:max-line-length
+        this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
+        this.displayStyle = 'block'
+      }
+    } else {
+      // tslint:disable-next-line: max-line-length
+      this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
+      this.displayStyle = 'block'
+    }
+
+  }
+  sendApi() {
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        // let enrolledCourse: NsContent.ICourse | undefined
+        if (this.content && this.content.identifier && !this.forPreview) {
+          // tslint:disable-next-line:no-this-assignment
+          const self = this
+          if (courses && courses.length) {
+            this.enrolledCourse = courses.find(course => {
+              const identifier = this.content && this.content.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+            if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
+              const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
+              this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
+                if (response.responseCode) {
+                  const img = new Image()
+                  const url = response.result.printUri
+                  img.onload = function () {
+
+                    const canvas: any = document.getElementById('certCanvas') || {}
+                    const ctx = canvas.getContext('2d')
+                    const imgWidth = img.width
+                    const imgHeight = img.height
+                    canvas.width = imgWidth
+                    canvas.height = imgHeight
+                    ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
+                    let imgURI = canvas
+                      .toDataURL('image/jpeg')
+
+                    imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
+                    const arr = imgURI.split(',')
+                    const mime = arr[0].match(/:(.*?);/)[1]
+                    const bstr = atob(arr[1])
+                    let n = bstr.length
+                    const u8arr = new Uint8Array(n)
+                    while (n) {
+                      n = n - 1
+                      u8arr[n] = bstr.charCodeAt(n)
+                    }
+                    const blob = new Blob([u8arr], { type: mime })
+                    FileSaver.saveAs(blob, 'certificate.jpeg')
+                    if (localStorage.getItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)) {
+                      localStorage.removeItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)
+                    }
+                  }
+                  //  DOMURL.revokeObjectURL(url)
+                  img.src = url
+                }
+              })
+            } else {
+              this.displayStyle = 'block'
+            }
+          }
+        }
+      })
+  }
+
+  closePopup() {
+    this.displayStyle = 'none'
+  }
+
+  getCourseID() {
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        if (this.content && this.content.identifier && !this.forPreview) {
+          if (courses && courses.length) {
+            this.lastCourseID = courses.find(course => {
+              const identifier = this.content && this.content.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+          }
+        }
+      })
   }
 
   get showInstructorLedMsg() {
@@ -378,11 +605,11 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
   }
   private getLearningUrls() {
     if (this.content) {
-      if (!this.forPreview) {
-        this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
-          this.contentProgress = data
-        })
-      }
+      // if (!this.forPreview) {
+      //   this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
+      //     this.contentProgress = data
+      //   })
+      // }
       // this.progressSvc.fetchProgressHashContentsId({
       //   "contentIds": [
       //     "lex_29959473947367270000",
@@ -582,19 +809,70 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
+  enrollUser(batchData: any) {
+    let userId = ''
+    if (batchData) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req = {
+        request: {
+          userId,
+          courseId: batchData[0].courseId,
+          batchId: batchData[0].batchId,
+        },
+      }
+      this.contentSvc.enrollUserToBatch(req).then((data: any) => {
 
+        if (data && data.result && data.result.response === 'SUCCESS') {
+          // this.batchData = {
+          //   content: [data],
+          //   enrolled: true,
+          // }
+          this.router.navigate(
+            [],
+            {
+              relativeTo: this.route,
+              queryParams: { batchId: batchData[0].batchId },
+              queryParamsHandling: 'merge',
+            })
+          this.openSnackbar('Enrolled Successfully!')
+          this.disableEnrollBtn = false
+          setTimeout(() => {
+            if (this.resumeData && this.resumeDataLink) {
+              const query = this.generateQuery('RESUME')
+              this.router.navigate([this.resumeDataLink.url], { queryParams: query })
+            } else if (this.firstResourceLink) {
+              const query = this.generateQuery('START')
+              this.router.navigate([this.firstResourceLink.url], { queryParams: query })
+            }
+          },         500)
+
+        } else {
+          this.openSnackbar('Something went wrong, please try again later!')
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+
+          this.openSnackbar(err.error.params.errmsg)
+        })
+    }
+
+  }
   openDialog(content: any): void {
-    const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+    this.createBatchDialog.open(CreateBatchDialogComponent, {
       // height: '400px',
       width: '600px',
       data: { content },
     })
     // dialogRef.componentInstance.xyz = this.configSvc
-    dialogRef.afterClosed().subscribe((_result: any) => {
-      if (!this.batchId) {
-        this.tocSvc.updateBatchData()
-      }
-    })
+    // dialogRef.afterClosed().subscribe((_result: any) => {
+    //   if (!this.batchId) {
+    //     this.tocSvc.updateBatchData()
+    //   }
+    // })
   }
 
 }

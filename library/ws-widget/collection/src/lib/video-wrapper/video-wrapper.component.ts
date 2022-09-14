@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { WidgetBaseComponent, NsWidgetResolver } from '../../../../resolver/src/public-api'
+// import { WidgetBaseComponent, NsWidgetResolver } from '../../../../resolver/src/public-api'
+import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { IWidgetWrapperMedia } from './video-wrapper.model'
 import { Platform } from '@angular/cdk/platform'
 

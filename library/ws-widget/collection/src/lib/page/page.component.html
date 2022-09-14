@@ -1,25 +1,25 @@
-<mat-toolbar role="navigation" *ngIf="pageData?.navigationBar && !error && isXSmall" [ngClass]="{
+<!-- <mat-toolbar role="navigation" *ngIf="pageData?.navigationBar && !error && isXSmall" [ngClass]="{
     navbar: !isXSmall && !pageData.navigationBar.pageBackLink && !pageData.navigationBar.pageTitle
   }" [color]="navBackground?.color" [ngStyle]="navBackground?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: pageData?.navigationBar?.pageBackLink }"></ws-widget-btn-page-back>
   <ng-container *ngIf="!navbarIcon">
     <span class="ml-4">{{ pageData?.navigationBar?.pageTitle }}</span>
-  </ng-container>
-  <ng-container *ngIf="navbarIcon && isXSmall">
+  </ng-container> -->
+<!-- <ng-container *ngIf="navbarIcon && isXSmall">
     <a routerLink="/page/home" class="pt-2 pl-2">
       <img width="80px" height="30px" [src]="navbarIcon" i18n-alt alt="Home" />
     </a>
   </ng-container>
-  <span class="spacer"></span>
-  <ng-container *ngIf="!isXSmall">
+  <span class="spacer"></span> -->
+<!-- <ng-container *ngIf="!isXSmall">
     <ng-container *ngFor="let link of links" [wsResolverWidget]="link"></ng-container>
-  </ng-container>
-  <ng-container *ngIf="isXSmall">
-    <ng-container *ngIf="pageData?.navigationBar?.xsmallNonMenuLinks">
+  </ng-container> -->
+<!-- <ng-container *ngIf="isXSmall"> -->
+<!-- <ng-container *ngIf="pageData?.navigationBar?.xsmallNonMenuLinks">
       <ng-container *ngFor="let link of pageData?.navigationBar?.xsmallNonMenuLinks" [wsResolverWidget]="link">
       </ng-container>
-    </ng-container>
-    <button matTooltip="Tour Guide" mat-icon-button class="tourGuideBtn" *ngIf="isTourGuideAvailable"
+    </ng-container> -->
+<!-- <button matTooltip="Tour Guide" mat-icon-button class="tourGuideBtn" *ngIf="isTourGuideAvailable"
       (click)="startTour()">
       <mat-icon>contact_support</mat-icon>
     </button>
@@ -29,11 +29,12 @@
     <button class="home-help" mat-icon-button id='helper' [matMenuTriggerFor]="helpMenu" *ngIf="!isHlpMenuXs">
       <mat-icon>more_vertical</mat-icon>
     </button>
-  </ng-container>
-</mat-toolbar>
+  </ng-container> -->
+<!-- </mat-toolbar> -->
 <!-- pageData==>{{pageData | json}} -->
-<ng-container *ngIf="!error && authenticated" [wsResolverWidget]="pageData?.pageLayout"></ng-container>
-<ng-container *ngIf="!error && !authenticated" [wsLoginResolverWidget]="pageData?.pageLayout"></ng-container>
+<ng-container *ngIf="!error && authenticated && !isXSmall" [wsResolverWidget]="pageData?.pageLayout"></ng-container>
+<ng-container *ngIf="!error && !authenticated && !isXSmall" [wsLoginResolverWidget]="pageData?.pageLayout">
+</ng-container>
 <h2 *ngIf="error" class="mat-error margin-top-m text-center">
   <ng-container *ngIf="error === 'NoContent'" i18n>
     Page not found. Check the url.

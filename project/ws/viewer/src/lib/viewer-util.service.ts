@@ -2,8 +2,8 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { noop, Observable, BehaviorSubject } from 'rxjs'
-import { NsContent } from '@ws-widget/collection'
 import * as dayjs from 'dayjs'
+import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,7 @@ export class ViewerUtilService {
     setS3Cookie: `/apis/v8/protected/content/setCookie`,
     // PROGRESS_UPDATE: `/apis/protected/v8/user/realTimeProgress/update`,
     PROGRESS_UPDATE: `/apis/proxies/v8/content-progres`,
+    SCORM_UPDATE: `/apis/proxies/v8/getContents/`,
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
@@ -42,35 +43,41 @@ export class ViewerUtilService {
     return
   }
 
-  // realTimeProgressUpdate(contentId: string, request: any) {
-  //   // console.log('realtime', contentId, request)
-  //   this.http
-  //     .post(`${this.API_ENDPOINTS.PROGRESS_UPDATE}/${contentId}`, request)
-  //     .subscribe(noop, noop)
-  // }
-
-  calculatePercent(current: string[], max: number, mimeType?: string): number {
+  calculatePercent(current: any, max: number, mimeType?: string): number {
     try {
-      const temp = [...current]
-      if (temp && temp.length && max) {
-        const latest = parseFloat(temp.pop() || '0')
-        const percentMilis = (latest / max) * 100
-        let percent = parseFloat(percentMilis.toFixed(2))
+      // const temp = [...current]
+      const temp = current
+      if (temp && max) {
         if (
           mimeType === NsContent.EMimeTypes.MP4 ||
           mimeType === NsContent.EMimeTypes.M3U8 ||
           mimeType === NsContent.EMimeTypes.MP3 ||
           mimeType === NsContent.EMimeTypes.M4A
         ) {
-          if (percent <= 5) {
-            // if percentage is less than 5% make it 0
-            percent = 0
-          } else if (percent >= 95) {
-            // if percentage is greater than 95% make it 100
-            percent = 100
-          }
+          const percent = (current / max) * 100
+          return Math.ceil(percent)
+          // if (percent <= 5) {
+          //   // if percentage is less than 5% make it 0
+          //   percent = 0
+          // } else if (percent >= 95) {
+          //   // if percentage is greater than 95% make it 100
+          //   percent = 100
+          // }
+        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+          return 100
+        } if (mimeType === NsContent.EMimeTypes.ZIP) {
+          return 100
+
+        } if (mimeType === NsContent.EMimeTypes.PDF) {
+
+          const latest = parseFloat(temp.slice(-1) || '0')
+          // const latest = parseFloat(temp[temp.length - 1] || '0')
+          const percentMilis = (latest / max) * 100
+          const percent = parseFloat(percentMilis.toFixed(2))
+          return percent
         }
-        return percent
+        return 2
+
       }
       return 0
     } catch (e) {
@@ -80,7 +87,7 @@ export class ViewerUtilService {
     }
   }
 
-  getStatus(current: string[], max: number, mimeType?: string) {
+  getStatus(current: number, max: number, mimeType: string) {
     try {
       const percentage = this.calculatePercent(current, max, mimeType)
       // for videos and audios
@@ -90,20 +97,42 @@ export class ViewerUtilService {
         mimeType === NsContent.EMimeTypes.MP3 ||
         mimeType === NsContent.EMimeTypes.M4A
       ) {
-        // if percentage is less than 5% then make status started
-        if (Math.ceil(percentage) <= 5) {
+        if (Math.ceil(percentage) <= 1) {
+          return 0
+        }
+        // if percentage is less than 6% then make status started
+        if (Math.ceil(percentage) >= 5 && Math.ceil(percentage) <= 6) {
           return 1
         }
         // if percentage is greater than 95% then make status complete
         if (Math.ceil(percentage) >= 95) {
           return 2
         }
-      } else {
-        if (Math.ceil(percentage) >= 100) {
-          return 2
+      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+        // if (current === 1) {
+        //   return 0
+        // }
+        // if (current === 5) {
+        //   return 1
+        // }
+        // if (current === 10) {
+        //   return 2
+        // }
+        return 2
+      } else if (mimeType === NsContent.EMimeTypes.PDF) {
+        if (percentage <= 25) {
+          return 0
+        } if (percentage > 26 && percentage <= 75) {
+          return 1
         }
+        return 2
+
+      } else if (mimeType === NsContent.EMimeTypes.ZIP) {
+        return 2
+      } else {
+        return 1
       }
-      return 1
+      return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)
@@ -114,6 +143,10 @@ export class ViewerUtilService {
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
     if (this.configservice.userProfile) {
+      let percentage = this.calculatePercent(request.current, request.max_size, request.mime_type)
+      if (percentage > 95) {
+        percentage = 100
+      }
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',
@@ -129,7 +162,7 @@ export class ViewerUtilService {
                 current: request.current,
                 mimeType: request.mime_type,
               },
-              completionPercentage: this.calculatePercent(request.current, request.max_size, request.mime_type),
+              completionPercentage: percentage,
             },
           ],
         },
@@ -167,6 +200,9 @@ export class ViewerUtilService {
       .subscribe(noop, noop)
   }
 
+  scormUpdate(artifactUrl: string): Observable<any> {
+    return this.http.get(`${this.API_ENDPOINTS.SCORM_UPDATE}${artifactUrl}`, { responseType: 'text' as 'json' })
+  }
   getContent(contentId: string): Observable<NsContent.IContent> {
     return this.http.get<NsContent.IContent>(
       // tslint:disable-next-line:max-line-length

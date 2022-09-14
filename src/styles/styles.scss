@@ -3,6 +3,7 @@
 @import './utility.scss';
 
 @import '../../node_modules/quill/dist/quill.snow.css';
+
 @include print {
   * {
     display: none !important;
@@ -41,6 +42,11 @@ body {
 
 .font-mono {
   font-family: $font-family-mono;
+}
+
+button:focus,
+.btn:focus {
+  outline: none !important;
 }
 
 .custom-scroll {
@@ -150,10 +156,24 @@ body {
   }
 }
 
+.ng2-tag-input__text-input {
+  width: 100%;
+}
+
+.ng2-tag-input .ng2-tags-container {
+  display: inherit !important;
+}
+
 .ws-fixed-placeholder {
   display: block;
   width: 100%;
   height: 56px;
+}
+
+.discuss-home {
+  margin: 0 !important;
+  padding: 7px 5px !important;
+  font-size: 14px !important;
 }
 
 // visibility & hiding
@@ -189,6 +209,7 @@ iframe {
 }
 
 mat-toolbar {
+
   &.mat-toolbar-row,
   &.mat-toolbar-single-row {
     height: 80px;
@@ -479,7 +500,7 @@ h3.shepherd-title {
 //   overflow: hidden;
 // }
 
-.checkbox-sidenav > div.mat-drawer-inner-container {
+.checkbox-sidenav>div.mat-drawer-inner-container {
   height: auto !important;
   overflow: hidden !important;
 }
@@ -504,6 +525,7 @@ h3.shepherd-title {
 .ql-editor img {
   max-width: 100%;
 }
+
 .author {
   padding: $size-s 0;
   display: flex;
@@ -543,15 +565,18 @@ h3.shepherd-title {
   font: 400 14px/20px Roboto;
   color: #424242 !important;
 }
+
 .mat-h1,
 .fw-500 {
   font-weight: 500 !important;
 }
+
 .mat-raised-button {
   line-height: 40px !important;
   box-shadow: none !important;
   background-color: #f5d58d;
 }
+
 .theme-igot.day-mode .mat-raised-button.mat-primary {
   background-color: #f5d58d !important;
   line-height: 40px !important;
@@ -570,13 +595,16 @@ h3.shepherd-title {
   width: 22px;
   margin-top: 1px;
   opacity: 0.65;
+
   &:hover {
     opacity: 1;
   }
+
   @include breakpoint-xs {
     padding: 4px;
   }
 }
+
 .floating-btn img,
 .floating-back-btn img {
   width: 35px;
@@ -589,12 +617,13 @@ h3.shepherd-title {
   top: 50%;
   // opacity: 0; // uncomment this
   width: 100%;
+
   @include breakpoint-xs {
     opacity: 1;
   }
 }
 
-#fullScreenContainer > div {
+#fullScreenContainer>div {
   pointer-events: none;
   position: absolute;
   // top: 0;
@@ -603,13 +632,13 @@ h3.shepherd-title {
   align-items: center;
 }
 
-#fullScreenContainer > div > div.flex {
+#fullScreenContainer>div>div.flex {
   justify-content: space-between;
   position: relative;
   width: 100%;
 }
 
-#fullScreenContainer:hover > div {
+#fullScreenContainer:hover>div {
   opacity: 1;
 }
 
@@ -621,24 +650,28 @@ span.title {
   opacity: 1;
 }
 
-a.width-auto:hover + span,
-.next-button:hover > span {
+a.width-auto:hover+span,
+.next-button:hover>span {
   display: inline-block !important;
 }
+
 a.width-auto {
   display: inline-block;
   pointer-events: auto;
 }
+
 .align-right-arrow {
   right: 15px;
   position: relative;
   top: -4px;
   color: #fff;
   font-size: 27px;
+
   @include breakpoint-xs {
     right: 17px;
   }
 }
+
 .align-left-arrow {
   // change this
   position: relative;
@@ -647,11 +680,13 @@ a.width-auto {
   color: #fff;
   font-size: 27px;
 }
+
 .fs-small {
   font-size: 13px;
   margin-bottom: -1px;
   display: block;
 }
+
 .theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
   opacity: 0.4;
 }
@@ -663,6 +698,7 @@ a.width-auto {
 .theme-igot.day-mode .mat-menu-item-highlighted:not([disabled]) {
   background: rgb(255 255 255) !important;
 }
+
 .mat-menu-panel {
   min-height: auto !important;
   max-width: 290px !important;
@@ -685,22 +721,44 @@ a.width-auto.mat-button {
     font-size: 38px;
   }
 }
+
 .padding-dynamic .mat-card {
   box-shadow: none !important;
+
   @include breakpoint-xs {
     padding: 15px;
   }
 }
+
 .padding-dynamic {
   @include breakpoint-gt-s {
     min-height: 600px;
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  @include breakpoint-s {
+    min-height: 600px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  @include breakpoint-xs {
+    // min-height: 500px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
     overflow-x: hidden;
   }
 }
+
 body.custom-scroll::-webkit-scrollbar,
 .padding-dynamic::-webkit-scrollbar {
   width: 1em;
@@ -729,23 +787,29 @@ body.custom-scroll::-webkit-scrollbar-thumb {
 .theme-igot.day-mode .mat-expansion-panel:not([class*='mat-elevation-z']) {
   box-shadow: none !important;
 }
+
 .prev-button .width-auto {
   left: -26px;
   top: -5px;
 }
+
 .next-button .width-auto {
   right: -26px;
   top: -5px;
 }
+
 .blue-link {
   color: #5996e6 !important;
 }
+
 .opac-7 {
   opacity: 0.7;
+
   &:hover {
     opacity: 1;
   }
 }
+
 .prev-button .title,
 .next-button .title {
   display: inline-block;
@@ -754,61 +818,73 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   color: #000;
   font-size: 18px;
 }
+
 .next-button .title {
   padding-right: 5px;
   margin-right: -8px;
   text-align: right;
+
   @include breakpoint-xs {
     margin-right: -17px;
   }
 }
+
 .prev-button .title {
   padding-left: 5px;
   margin-left: -8px !important;
 }
 
-::ng-deep .pdf-fullscreen > button > span > img {
+::ng-deep .pdf-fullscreen>button>span>img {
   border: none !important;
   width: 18px !important;
 }
+
 .svg {
   filter: invert(0.2);
   width: 30px;
   margin-top: -3px;
 }
+
 button.action-button,
 a.action-button {
   @include breakpoint-xs {
     width: 28px;
   }
 }
+
 .padding-dynamic .unit-meta-item {
   .action-button {
     @include breakpoint-xs {
       width: 35px;
     }
   }
+
   background-color: #f7f7f7 !important;
 }
+
 .unit-meta-item .flex {
   @include breakpoint-xs {
     justify-content: center;
   }
 }
+
 table {
   width: 100%;
+
   @include breakpoint-xs {
     td {
       max-width: 0;
     }
   }
 }
+
 @media (max-device-width: 768px) and (orientation: landscape) {
   .slider-header-text {
     width: 62%;
     float: left;
   }
 }
+
 .md-large-button {
   width: 100%;
   height: 50px;
@@ -816,6 +892,7 @@ table {
 
 ws-widget-btn-catalog {
   margin-top: 7px;
+
   @include breakpoint-xs {
     margin-top: -9px;
   }
@@ -828,10 +905,12 @@ ws-widget-btn-catalog {
   margin-top: 5vh;
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
+
   @include breakpoint-xs {
     margin-left: 0px;
     padding: 0 15px;
   }
+
   @include breakpoint-gt-xs {
     max-width: 45%;
   }
@@ -859,6 +938,7 @@ ws-widget-btn-catalog {
     background-color: rgb(255, 255, 255);
   }
 }
+
 .centered {
   @include breakpoint-gt-xs {
     position: absolute;
@@ -873,22 +953,26 @@ ws-widget-btn-catalog {
   @include breakpoint-xs {
     display: none;
   }
+
   @include breakpoint-gt-xs {
     left: 0;
     background-color: #eaeaea;
   }
 }
+
 .right {
   @include breakpoint-gt-xs {
     right: 0;
   }
 }
+
 .width-40 {
   @include breakpoint-gt-xs {
     width: 40%;
     text-align: center;
   }
 }
+
 .width-60 {
   @include breakpoint-gt-xs {
     width: 60%;
@@ -909,12 +993,108 @@ ws-widget-btn-catalog {
   top: -10px;
   position: relative;
 }
+
+.resend.disabled {
+  color: rgba($color: #000099, $alpha: 1);
+  pointer-events: none;
+  cursor: default;
+  text-decoration: underline;
+}
+
 .submit-btn {
   min-width: 135px;
 }
+
 button.cancel-btn {
   line-height: 38px;
 }
+
 button.submit-btn[disabled] {
   opacity: 0.8;
+}
+
+#freshworks-container iframe {
+  bottom: 65px !important;
+  min-width: 87px !important;
+
+  // max-width: 87px !important;
+  @include breakpoint-lt-s {
+    // // bottom: 70px !important;
+    // // left: 5px !important;
+    // bottom: 95px !important;
+    // left: 0px !important;
+    bottom: 65px !important;
+    left: 0px !important;
+    min-width: 90px !important;
+    max-width: 90px !important;
+    height: 46px !important;
+  }
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.activeLink {
+  cursor: pointer;
+}
+
+#certCanvas {
+  display: none;
+}
+
+.assesment-modal {
+  width: 70vw;
+  height: auto;
+  max-width: 100vw !important;
+  max-height: 100vh;
+
+  //overrides default height of dialog
+  @include breakpoint-xs {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.quiz-modal {
+  width: 70vw;
+  height: 95vh;
+  max-width: 100vw !important;
+  max-height: 100vh;
+
+  //overrides default height of dialog
+  @include breakpoint-xs {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.language-modal {
+  padding: 22px;
+
+  @include breakpoint-xs {
+    padding: 0;
+  }
+}
+
+.modal-border {
+  border-radius: 34px;
+}
+
+.close-modal {
+  width: 440px;
+  height: 350px;
+
+  @include breakpoint-xs {
+    height: 220px !important;
+  }
+}
+
+.assesment-close-modal {
+  width: 440px;
+  height: auto;
+
+  @include breakpoint-xs {
+    height: auto !important;
+  }
 }

@@ -1,9 +1,9 @@
-<mat-card class="mt-5 ml-5 mb-4" [ngClass]="{'ml-5': !isXSmall }">
-    <h2 class="margin-bottom-m">License terms</h2>
-    <p>CC BY 4.0</p>
-    <p>CC BY 4.0 For details see below:‎</p>
+<mat-card class="p-0 m-0" [ngClass]="{'mb-5': isXSmall}" id="scroll-height" *ngIf="currentLicenseData && loadLicense">
+    <h2 class="margin-bottom-m" i18n>License terms</h2>
+    <p>{{currentLicenseData[0].licenseName}}</p>
+    <p>{{currentLicenseData[0].desc}}</p>
+    <p>{{currentLicenseData[0].licenseName}} For details see below:‎</p>
     <div class="license-link">
-        <a class="blue-link" href="https://creativecommons.org/licenses/by/4.0/"
-            target="_blank">https://creativecommons.org/licenses/by/4.0/</a>
+        <a class="blue-link" href="{{currentLicenseData[0].link}}" target="_blank">{{currentLicenseData[0].link}}</a>
     </div>
 </mat-card>

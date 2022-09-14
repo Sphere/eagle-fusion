@@ -1,10 +1,12 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef } from '@angular/core'
+import {
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
+} from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import {
-  ContentProgressService,
+  // ContentProgressService,
   NsContent,
   VIEWER_ROUTE_FROM_MIME,
   WidgetContentService,
@@ -51,7 +53,7 @@ interface ICollectionCard {
   templateUrl: './viewer-toc.component.html',
   styleUrls: ['./viewer-toc.component.scss'],
 })
-export class ViewerTocComponent implements OnInit, OnDestroy {
+export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
   @Input() forPreview = false
   @Input() resourceChanged = ''
@@ -64,7 +66,8 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   reverse = ''
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   collectionId = ''
-
+  resourceContentType: any
+  disabledNode: boolean
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -73,11 +76,12 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     private utilitySvc: UtilityService,
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
-    private configSvc: ConfigurationsService,
-    private contentProgressSvc: ContentProgressService
+    private configSvc: ConfigurationsService
+    // private contentProgressSvc: ContentProgressService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
+    this.disabledNode = this.viewerDataSvc.getNode()
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
@@ -101,6 +105,9 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   isErrorOccurred = false
   private paramSubscription: Subscription | null = null
   private viewerDataServiceSubscription: Subscription | null = null
+  message!: string
+  subscription: Subscription | null = null
+
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
   private _getChildren = (node: IViewerTocCard) => {
@@ -140,28 +147,101 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         this.processCurrentResourceChange()
       }
     })
+
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
         this.processCurrentResourceChange()
+        this.checkIndexOfResource()
       }
+    })
+    this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(_data => {
+      this.ngOnInit()
     })
   }
 
+  checkIndexOfResource() {
+    if (this.collection) {
+      const index = this.queue.findIndex(x => x.identifier === this.resourceId)
+      this.scrollToUserView(index)
+    }
+  }
+  async ngOnChanges() {
+    await this.contentSvc.currentMessage.subscribe(
+      (data: any) => {
+        if (data) {
+          this.ngOnInit()
+        }
+      })
+  }
+  scrollToUserView(index: number) {
+
+    setTimeout(() => {
+      if (index > 3) {
+        if (this.highlightItem.nativeElement.classList.contains('li-active')) {
+
+          const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
+          const outerClientHeight = this.outer.nativeElement.clientHeight
+          const liItemHeight = this.highlightItem.nativeElement.clientHeight
+
+          if (outerClientHeight < (highlightItemOffset + liItemHeight)) {
+            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+
+          } else {
+            this.outer.nativeElement.scrollTop = 0
+          }
+
+          if (highlightItemOffset > 535 && this.reverse === 'next') {
+
+            this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            this.outer.nativeElement.scrollTop = window.innerHeight
+            this.highlightItem.nativeElement.offsetTop = 300
+            this.highlightItem.nativeElement.scrollTop = 300
+            if (highlightItemOffset - window.innerHeight > 80) {
+              window.scrollTo(0, 80)
+            }
+          } else {
+
+            if (this.highlightItem.nativeElement.offsetTop + this.outer.nativeElement.offsetTop > window.innerHeight) {
+              this.outer.nativeElement.scrollTop = this.highlightItem.nativeElement.offsetTop
+            }
+
+          }
+        }
+
+      }
+    },         300)
+  }
+
+  ngAfterViewInit() {
+
+    setTimeout(() => {
+      this.checkIndexOfResource()
+    },         300)
+  }
   // updateSearchModel(value) {
   //   this.searchModel = value
   //   // this.searchModelChange.emit(this.searchModel)
   // }
   sendStatus(content: any) {
     this.viewSvc.editResourceData(content)
+    if (window.innerWidth < 600) {
+      this.minimizenav()
+    }
+
   }
 
-  private getContentProgressHash() {
-    this.contentProgressSvc.getProgressHash().subscribe(progressHash => {
-      this.contentProgressHash = progressHash
-    })
-  }
-
+  // private getContentProgressHash() {
+  //   this.contentProgressSvc.getProgressHash().subscribe(progressHash => {
+  //     this.contentProgressHash = progressHash
+  //   })
+  // }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any) {
+  //   if (event.target.innerWidth < 600) {
+  //     this.minimizenav()
+  //   }
+  // }
   ngOnDestroy() {
     if (this.paramSubscription) {
       this.paramSubscription.unsubscribe()
@@ -169,6 +249,10 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
     if (this.viewerDataServiceSubscription) {
       this.viewerDataServiceSubscription.unsubscribe()
     }
+    // if(this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
+
   }
   changeTocMode() {
     if (this.tocMode === 'FLAT') {
@@ -181,16 +265,9 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
 
   private processCurrentResourceChange() {
     if (this.collection && this.resourceId) {
-      const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
-      const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
-      const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
-      const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
-      const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-      // tslint:disable-next-line:object-shorthand-properties-first
-      this.viewerDataSvc.updateNextPrevResource({ isValid: Boolean(this.collection), prev, prevTitle, nextTitle, next })
       this.processCollectionForTree()
       this.expandThePath()
-      this.getContentProgressHash()
+      // this.getContentProgressHash()
     }
   }
   private async getCollection(
@@ -202,8 +279,11 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         ? this.contentSvc.fetchAuthoringContent(collectionId)
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
-
       content = content.result.content
+      if (content && content.gatingEnabled) {
+        this.viewerDataSvc.setNode(content.gatingEnabled)
+      }
+      this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
@@ -246,6 +326,7 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         .toPromise()
 
       const content: NsContent.IContent = playlistFetchResponse.data
+      this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
@@ -279,27 +360,16 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
   }
 
   private convertContentToIViewerTocCard(content: NsContent.IContent): IViewerTocCard {
-    // return {
-    //   identifier: content.identifier,
-    //   viewerUrl: `/viewer/${VIEWER_ROUTE_FROM_MIME(content.mimeType)}/${content.identifier}`,
-    //   thumbnailUrl: content.appIcon,
-    //   title: content.name,
-    //   duration: content.duration,
-    //   type: content.displayContentType,
-    //   complexity: content.complexityLevel,
-    //   children: Array.isArray(content.children) && content.children.length ?
-    //     content.children.map(child => this.convertContentToIViewerTocCard(child)) : null,
-    // }
-
+    this.resourceContentTypeFunct(content.mimeType)
     return {
       identifier: content.identifier,
       viewerUrl: `${this.forPreview ? '/author' : ''}/viewer/${VIEWER_ROUTE_FROM_MIME(
         content.mimeType,
       )}/${content.identifier}`,
-      thumbnailUrl: this.viewSvc.getAuthoringUrl(content.appIcon),
+      thumbnailUrl: content.appIcon,
       title: content.name,
       duration: content.duration,
-      type: content.resourceType ? content.resourceType : content.contentType,
+      type: this.resourceContentType,
       complexity: content.complexityLevel,
       // tslint:disable
       completionPercentage: content.completionPercentage!,
@@ -309,24 +379,16 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
         Array.isArray(content.children) && content.children.length
           ? content.children.map(child => this.convertContentToIViewerTocCard(child))
           : null,
+
     }
   }
 
   private createCollectionCard(
     collection: NsContent.IContent | NsContent.IContentMinimal,
   ): ICollectionCard {
-    // return {
-    //   type: this.getCollectionTypeCard(collection.displayContentType),
-    //   id: collection.identifier,
-    //   title: collection.name,
-    //   thumbnail: collection.appIcon,
-    //   subText1: collection.displayContentType || collection.contentType,
-    //   subText2: collection.complexityLevel,
-    //   duration: collection.duration,
-    //   redirectUrl: this.getCollectionTypeRedirectUrl(collection.displayContentType, collection.identifier),
-    // }
+    this.resourceContentTypeFunct(collection.mimeType)
     return {
-      type: this.getCollectionTypeCard(collection.displayContentType),
+      type: this.resourceContentType,
       id: collection.identifier,
       title: collection.name,
       thumbnail: this.forPreview
@@ -341,41 +403,6 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       ),
     }
   }
-
-  private getCollectionTypeCard(
-    displayContentType?: NsContent.EDisplayContentTypes,
-  ): TCollectionCardType | null {
-    switch (displayContentType) {
-      case NsContent.EDisplayContentTypes.PROGRAM:
-      case NsContent.EDisplayContentTypes.COURSE:
-      case NsContent.EDisplayContentTypes.MODULE:
-        return 'content'
-      case NsContent.EDisplayContentTypes.GOALS:
-        return 'goals'
-      case NsContent.EDisplayContentTypes.PLAYLIST:
-        return 'playlist'
-      default:
-        return null
-    }
-  }
-
-  // private getCollectionTypeRedirectUrl(
-  //   identifier: string,
-  //   displayContentType?: NsContent.EDisplayContentTypes,
-  // ): string | null {
-  //   switch (displayContentType) {
-  //     case NsContent.EDisplayContentTypes.PROGRAM:
-  //     case NsContent.EDisplayContentTypes.COURSE:
-  //     case NsContent.EDisplayContentTypes.MODULE:
-  //       return `${this.forPreview ? '/author' : '/app'}/toc/${identifier}/overview`
-  //     case NsContent.EDisplayContentTypes.GOALS:
-  //       return `/app/goals/${identifier}`
-  //     case NsContent.EDisplayContentTypes.PLAYLIST:
-  //       return `/app/playlist/${identifier}`
-  //     default:
-  //       return null
-  //   }
-  // }
 
   private getCollectionTypeRedirectUrl(
     identifier: string,
@@ -422,21 +449,108 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
-            this.collection.children.map(child => {
-              const foundContent = data['result']['contentList'].find((el: any) => el.contentId === child.identifier)
-              if (foundContent) {
-                child.completionPercentage = foundContent.completionPercentage
-                child.completionStatus = foundContent.status
-              }
-            })
+            const mergeData = (collection: any) => {
+
+              collection.map((child1: any, index: any, element: any) => {
+                const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
+                if (foundContent) {
+                  child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
+                  child1.completionStatus = foundContent.status
+                  if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
+                    child1.disabledNode = false
+                  }
+                } else if (this.viewerDataSvc.getNode()) {
+                  if (index === 0) {
+                    element[index].disabledNode = false
+                    if (child1.completionPercentage === 100) {
+                      if (element && element[index + 1]) {
+                        element[index + 1].disabledNode = false
+                      }
+                    }
+                  } else {
+                    if (element[index + 1]) {
+                      element[index + 1].disabledNode = true
+                    }
+                  }
+                }
+                if (child1.completionPercentage === 100) {
+                  if (element && element[index + 1]) {
+                    element[index + 1].disabledNode = false
+                  }
+
+                }
+
+                if (child1['children']) {
+
+                  child1['children'].map((child2: any, cindex: any) => {
+                    // tslint:disable-next-line:max-line-length
+                    const foundContent2 = data['result']['contentList'].find((el2: any) => el2.contentId === child2.identifier)
+                    if (foundContent2) {
+                      child2.completionPercentage = foundContent2.completionPercentage
+                      child2.completionStatus = foundContent2.status
+
+                      // tslint:disable-next-line:max-line-length
+                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                      if (element[index].children.length > 0) {
+                        if (cindex === 0) {
+                          element[index].children[cindex].disabledNode = false
+                        } else {
+                          if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                            element[index].children[cindex].disabledNode = false
+                          } else {
+                            if (this.viewerDataSvc.getNode()) {
+                              element[index].children[cindex].disabledNode = true
+                            } else {
+                              element[index].children[cindex].disabledNode = false
+                            }
+
+                          }
+
+                        }
+                        return
+                      }
+                      // tslint:disable-next-line: max-line-length
+                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
+                      if (element[index].children.length > 0) {
+
+                        if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                          element[index].children[cindex].disabledNode = false
+                        } else {
+                          if (this.viewerDataSvc.getNode()) {
+                            element[index].children[cindex].disabledNode = true
+                          } else {
+                            element[index].children[cindex].disabledNode = false
+                          }
+
+                        }
+                        return
+                      }
+                    } else {
+
+                      if (element[index].children[cindex - 1].completionPercentage !== 100) {
+                        if (this.viewerDataSvc.getNode()) {
+                          element[index].children[cindex].disabledNode = true
+                        } else {
+                          element[index].children[cindex].disabledNode = false
+                        }
+
+                      }
+                    }
+                  })
+                }
+              })
+            }
+            mergeData(this.collection.children)
           }
+          this.updateResourceChange()
         },
         (error: any) => {
           // tslint:disable-next-line:no-console
           console.log('CONTENT HISTORY FETCH ERROR >', error)
         },
       )
-
       this.nestedDataSource.data = this.collection.children
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
@@ -445,8 +559,41 @@ export class ViewerTocComponent implements OnInit, OnDestroy {
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
+
           })
       }
+    }
+  }
+  updateResourceChange() {
+    const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
+    const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
+    const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
+    const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
+    const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
+    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
+    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
+    // tslint:disable-next-line:object-shorthand-properties-first
+    this.viewerDataSvc.updateNextPrevResource({
+      isValid: Boolean(this.collection),
+      // tslint:disable-next-line:object-shorthand-properties-first
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage,
+    })
+  }
+  resourceContentTypeFunct(type: any) {
+    if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
+      this.resourceContentType = 'Lecture'
+    } else if (type === 'application/quiz' || type === 'application/json') {
+      this.resourceContentType = 'Assessment'
+    } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
+      this.resourceContentType = 'Scrom'
+    } else if (type === 'application/x-mpegURL' || type === 'video/mp4') {
+      this.resourceContentType = 'Video'
+    } else if (type === 'audio/mpeg') {
+      this.resourceContentType = 'Audio'
+    } else if (type === 'video/x-youtube' || type === 'text/x-url' || type === 'application/web-module') {
+      this.resourceContentType = 'Link'
+    } else {
+      this.resourceContentType = 'Course'
     }
   }
 

@@ -30,6 +30,9 @@
     }
   }
 }
+a {
+  cursor: pointer;
+}
 
 %content-status {
   width: 16px;
@@ -433,6 +436,7 @@
     overflow: hidden;
     height: $title-line-count * $title-line-height;
     line-height: $title-line-height;
+    color: #424242 ;
   }
 
   .author-image {
@@ -502,7 +506,7 @@ $title-line-count: 2;
 .popover-card {
   min-width: 350px;
   max-width: 350px;
-  max-height: 500px;
+  height: auto;
   box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
 }
@@ -549,4 +553,18 @@ a.rounded-t:hover span.img-overlay {
 
 ::ng-deep .theme-igot.day-mode .mat-progress-bar-buffer {
   background-color: bisque;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .title-text{
+    color:#1C5D95 !important ;
+    font-weight: 400 !important;
+    font-size:16px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .card-standard-container {
+    background-color: #F7F7F7 !important;
+  }
 }

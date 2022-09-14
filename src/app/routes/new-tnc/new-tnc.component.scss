@@ -1,0 +1,93 @@
+@import 'ws-mixins';
+
+.tnc-bottom-navbar {
+  padding: 12px 0;
+  background-color: #fff;
+  text-align: right;
+}
+
+.decline-div,
+.accept-div {
+  display: inline-block;
+  text-align: right;
+}
+
+.decline-div {
+  padding-right: 5px;
+}
+
+.decline-btn {
+  background: none;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1C5D95;
+  border: none;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.accept-btn {
+  background: #1C5D95;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  padding: 8px 32px;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.tnc-render-content {
+  border: 1.25px solid #000;
+  height: 465px;
+  overflow-y: scroll;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media screen and (min-width:600px) {
+  .tnc-main {
+    margin: auto;
+    margin-top: 2rem;
+    width: 70%;
+  }
+
+  .tnc-bottom-navbar {
+    margin-top: 3rem;
+  }
+}
+
+@media screen and (min-width:1600px) {
+  .tnc-main {
+    margin-top: 2rem;
+    width: 60%;
+  }
+}
+
+@media screen and (max-width:599px) {
+  .tnc-header {
+    display: none;
+  }
+
+  .tnc-render-content {
+    border: none;
+    height: unset;
+  }
+
+  .tnc-main {
+    margin-top: 15px;
+  }
+
+  .tnc-bottom-navbar {
+    z-index: 100;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 50px;
+  }
+
+  .accept-div {
+    margin-right: 10px;
+  }
+}

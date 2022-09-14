@@ -1,22 +1,24 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
-import { Router } from '@angular/router'
-import { NsContent } from '@ws-widget/collection'
+import { ActivatedRoute, Router } from '@angular/router'
+import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
+// import { Interval, Observable, Subscription } from 'rxjs'
+import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 
 @Component({
   selector: 'viewer-plugin-html',
   templateUrl: './html.component.html',
   styleUrls: ['./html.component.scss'],
 })
-export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
+export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
   // private mobileOpenInNewTab!: any
-
+  @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   @ViewChild('mobileOpenInNewTab', { read: ElementRef, static: false }) mobileOpenInNewTab !: ElementRef<HTMLAnchorElement>
   @Input() htmlContent: NsContent.IContent | null = null
   iframeUrl: SafeResourceUrl | null = null
@@ -29,8 +31,30 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
   intranetUrlPatterns: string[] | undefined = []
   isIntranetUrl = false
   progress = 100
-
   iframeName = `piframe_${Date.now()}`
+  urlContains = ''
+  mimeType = ''
+
+  @HostListener('window:blur', ['$event'])
+  onBlur(): void {
+    if (this.urlContains.includes('youtube') && this.htmlContent !== null) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+      setTimeout(() => {
+        const data2 = {
+          current: 10,
+          max_size: 10,
+          mime_type: this.mimeType,
+        }
+        // @ts-ignore: Object is possibly 'null'.
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
+      },         50)
+
+      this.contentSvc.changeMessage('youtube')
+    }
+  }
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -41,6 +65,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
     private events: EventService,
+    private contentSvc: WidgetContentService,
+    private viewerSvc: ViewerUtilService,
+    private activatedRoute: ActivatedRoute
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
@@ -49,11 +76,15 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     // this.mobAppSvc.simulateMobile()
-    if (this.htmlContent && this.htmlContent.identifier) {
-      this.scormAdapterService.contentId = this.htmlContent.identifier
-      // this.scormAdapterService.loadData()
-      this.scormAdapterService.loadDataV2()
-    }
+    // if (this.htmlContent && this.htmlContent.identifier) {
+    //   console.log(this.htmlContent.identifier)
+    //   this.scormAdapterService.contentId = this.htmlContent.identifier
+    //   // this.scormAdapterService.loadData()
+    //   this.scormAdapterService.loadDataV2()
+    // }
+
+  }
+  ngAfterViewInit() {
   }
 
   ngOnDestroy() {
@@ -61,7 +92,41 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
     // window.removeEventListener('onmessage', this.receiveMessage)
   }
 
+  executeForms() {
+    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+      setTimeout(() => {
+        const data2 = {
+          current: 10,
+          max_size: 10,
+          mime_type: this.mimeType,
+        }
+        // @ts-ignore: Object is possibly 'null'.
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
+      },         50)
+
+      this.contentSvc.changeMessage('docs.google')
+    }
+  }
   ngOnChanges() {
+    if (this.htmlContent && this.htmlContent.identifier) {
+      this.urlContains = this.htmlContent.artifactUrl
+    }
+
+    if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
+      this.executeForms()
+    }
+
+    if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+      this.contentSvc.changeMessage('scorm')
+      this.scormAdapterService.contentId = this.htmlContent.identifier
+      // this.scormAdapterService.loadData()
+      this.scormAdapterService.loadDataV2()
+    }
+
     this.isIntranetUrl = false
     this.progress = 100
     this.pageFetchStatus = 'fetching'
@@ -70,7 +135,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       ? this.configSvc.instanceConfig.intranetIframeUrls
       : []
 
-    // //console.log(this.htmlContent)
     let iframeSupport: boolean | string | null =
       this.htmlContent && this.htmlContent.isIframeSupported
     if (this.htmlContent && this.htmlContent.artifactUrl) {
@@ -108,24 +172,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
           }
         })
       }
-      // if (this.htmlContent.isInIntranet || this.isIntranetUrl) {
-      //   this.checkIfIntranet().subscribe(
-      //     data => {
-      //       //console.log(data)
-      //       this.isUserInIntranet = data ? true : false
-      //       //console.log(this.isUserInIntranet)
-      //     },
-      //     () => {
-      //       this.isUserInIntranet = false
-      //       //console.log(this.isUserInIntranet)
-      //     },
-      //   )
-      // }
+
       this.showIsLoadingMessage = false
+
       if (this.htmlContent.isIframeSupported !== 'No') {
         setTimeout(
           () => {
-            if (this.pageFetchStatus === 'fetching') {
+            if (this.pageFetchStatus === 'fetching' && !this.urlContains.includes('docs.google')) {
               this.showIsLoadingMessage = true
             }
           },
@@ -134,19 +187,81 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       if (this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+        this.mimeType = this.htmlContent.mimeType
         if (this.htmlContent.status !== 'Live') {
-          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            `https://igot.blob.core.windows.net/content/content/html/${this.htmlContent.identifier}-latest/index.html`
-          )
+          if (this.htmlContent && this.htmlContent.artifactUrl) {
+            this.contentSvc
+              .fetchHierarchyContent(this.htmlContent.identifier)
+              .toPromise()
+              .then((res: any) => {
+
+                let url = res['result']['content']['streamingUrl']
+                if (res['result']['content']['entryPoint']) {
+                  url = url + res['result']['content']['entryPoint']
+
+                }
+                this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(url)
+              })
+              .catch((err: any) => {
+                /* tslint:disable-next-line */
+                console.log(err)
+              })
+          }
         } else {
-          this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            `https://igot.blob.core.windows.net/content/content/html/${this.htmlContent.identifier}-snapshot/index.html`
-          )
+          if (this.htmlContent && this.htmlContent.artifactUrl) {
+            const streamingUrl = this.htmlContent.streamingUrl.substring(51)
+            const entryPoint = this.htmlContent.entryPoint || ''
+            const newUrl = `/apis/proxies/v8/getContents/${streamingUrl}${entryPoint}`
+            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
+            // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
+            // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
+            //   .then((res: string) => {
+            //     /* tslint:disable-next-line */
+            //     console.log(res)
+            //     console.log(res['result']['content']['streamingUrl'].substring(51))
+            //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${this.htmlContent.artifactUrl}`)
+            //   })
+            //   .catch((err: any) => {
+            //     /* tslint:disable-next-line */
+            //     console.log(err)
+            //   })
+            // this.contentSvc
+            //   .fetchHierarchyContent(this.htmlContent.identifier)
+            //   .toPromise()
+            //   .then((res: any) => {
+            //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${res['result']['content']['streamingUrl']}`)
+            //   })
+            //   .catch((err: any) => {
+            //     /* tslint:disable-next-line */
+            //     console.log(err)
+            //   })
+          }
         }
+
+        if (this.htmlContent.entryPoint && this.htmlContent.entryPoint.includes('lms') === false) {
+          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+            this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+          const data1 = {
+            current: 1,
+            max_size: 1,
+            mime_type: this.mimeType,
+          }
+
+          setTimeout(() => {
+            if (this.htmlContent) {
+              this.viewerSvc
+                .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+              this.contentSvc.changeMessage('html')
+            }
+          },         50)
+        }
+
       } else {
+        this.mimeType = this.htmlContent.mimeType
         this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.htmlContent.artifactUrl,
-        )
+          this.htmlContent.artifactUrl)
       }
 
     } else if (this.htmlContent && this.htmlContent.artifactUrl === '') {
@@ -195,6 +310,24 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy {
 
   openInNewTab() {
     if (this.htmlContent) {
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+      const data1 = {
+        current: 1,
+        max_size: 1,
+        mime_type: this.mimeType,
+      }
+
+      setTimeout(() => {
+        if (this.htmlContent) {
+          this.viewerSvc
+            .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+          this.contentSvc.changeMessage('html')
+        }
+      },         50)
+
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
         // window.open(this.htmlContent.artifactUrl)
         setTimeout(

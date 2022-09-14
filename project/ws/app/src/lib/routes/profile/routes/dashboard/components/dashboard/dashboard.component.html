@@ -19,14 +19,20 @@
       </section>
       <div class="user-name">
         <h2 class="pl-4 ws-mat-primary-text margin-zero sm:pl-0">{{ userProfileData?.personalDetails.firstname }}
-          {{userProfileData?.personalDetails.surname}}</h2>
-        <div *ngIf="userProfileData?.professionalDetails[0]">
-          {{userProfileData?.professionalDetails[0].designation === 'Other' ?
-          userProfileData?.professionalDetails[0].designationOther : userProfileData?.professionalDetails[0].designation
+          <span *ngIf="userProfileData?.personalDetails.middlename"> {{userProfileData?.personalDetails.middlename}}
+          </span>
+          {{userProfileData?.personalDetails.surname}}
+        </h2>
+        <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
+          {{userProfileData?.professionalDetails[0].profession === 'Others' ?
+          userProfileData?.professionalDetails[0].professionOtherSpecify :
+          userProfileData?.professionalDetails[0].profession
           }}
         </div>
-        <div class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }} /
-          {{userProfileData?.personalDetails?.mobile}}</div>
+        <div *ngIf="userProfileData?.personalDetails?.primaryEmail || mobile"
+          class="color-blue margin-zero pl-4 sm:pl-0">{{ userProfileData?.personalDetails?.primaryEmail }}
+          {{mobile}}
+        </div>
       </div>
     </mat-card>
 
@@ -34,8 +40,7 @@
     <mat-divider></mat-divider>
 
     <div class="flex flex-middle">
-      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="About">
-        About</span>
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n>About</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 0}"
         *ngIf="userProfileData?.personalDetails?.about != undefined && userProfileData?.personalDetails?.about != ''">
@@ -62,16 +67,16 @@
         Education</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" matTooltip="Edit your personal detail"
-        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="!showAcademicElse">
+        [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 1}" *ngIf="showAcademicElse">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
 
     <div>
 
-      <ng-container *ngIf="academicsArray">
+      <ng-container *ngIf="academicsArray.length>0 || showAcademicElse;">
         <div class="academic-row" *ngFor="let academic of academicsArray">
-          <div class="flex" *ngIf="xStandardValues === 1 && academic.type == 'X_STANDARD'">
+          <div class="flex" *ngIf="xStandardValues > 1 && academic.type == 'X_STANDARD'">
             <button mat-fab disabled>
               <mat-icon mat-list-icon>school</mat-icon>
             </button>
@@ -83,7 +88,7 @@
             </div>
           </div>
 
-          <div class="flex" *ngIf="xiiStandardValues === 1 && academic?.type == 'XII_STANDARD'">
+          <div class="flex" *ngIf="xiiStandardValues > 1 && academic?.type == 'XII_STANDARD'">
             <button mat-fab disabled>
               <mat-icon mat-list-icon>school</mat-icon>
             </button>
@@ -101,7 +106,7 @@
             </button>
             <div class="ml-2">
               <div>
-                <div>Graduate: </div>
+                <div>Graduate</div>
                 {{academic.nameOfQualification}}
               </div>
               <div>{{academic.nameOfInstitute}}</div>
@@ -115,7 +120,7 @@
             </button>
             <div class="ml-2">
               <div>
-                <div>Post Graduate :</div>
+                <div>Post Graduate</div>
                 {{academic.nameOfQualification}}
               </div>
               <div>{{academic.nameOfInstitute}}</div>
@@ -128,8 +133,8 @@
     </div>
     <ng-template #showElseTemplate>
       <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
-        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
+        <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
+        <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'" i18n
           [queryParams]="{edit: 0}">+ Add
           your info</button>
       </div>
@@ -137,40 +142,41 @@
 
     <ng-template #showElseProfession>
       <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" matTooltip="Edit your professional info"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}">+ Add
+          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}" i18n>+ Add
           your info</button>
       </div>
     </ng-template>
 
     <ng-template #showElseSkills>
       <div class="mb-8">
-        <div class="ml-4 mb-4">You have not added your info in Profile</div>
+        <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
         <button mat-stroked-button color="primary" class="info-btn" matTooltip="Edit your Skills"
-          [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}">+ Add
+          [routerLink]="'/app/user-profile/details'" i18n [queryParams]="{edit: 3}">+ Add
           your info</button>
       </div>
     </ng-template>
 
-    <div *ngIf="showAcademicElse" class="mb-8">
-      <div class="ml-4 mb-4">You have not added your info in Profile</div>
+    <div *ngIf="!showAcademicElse" class="mb-8">
+      <div class="ml-4 mb-4" i18n>You have not added your info in Profile</div>
       <button mat-stroked-button color="primary" class="info-btn" [routerLink]="'/app/user-profile/details'"
-        [queryParams]="{edit: 1}">+ Add your
+        [queryParams]="{edit: 1}" i18n>+ Add your
         info</button>
 
     </div>
     <mat-divider></mat-divider>
     <div class="flex flex-middle">
-      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n="Professional info">
+      <span class="font-bold mat-title margin-zero pl-4 py-4" i18n>
         Professional info</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 2}"
-        *ngIf="userProfileData?.professionalDetails[0]?.designation != ''">
+        *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]?.designation != ''">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
-    <ng-container *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails.length">
+    <ng-container
+      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails.length; else showElseProfession">
       <div *ngIf="userProfileData?.professionalDetails[0]?.designation != ''; else showElseProfession">
 
 
@@ -199,11 +205,13 @@
         Skills & Certification</span>
       <span class="spacer"></span>
       <span class="interest-edit cursor-pointer" [routerLink]="'/app/user-profile/details'" [queryParams]="{edit: 3}"
-        *ngIf="userProfileData?.skills?.additionalSkills !=''">
+        *ngIf="(userProfileData?.skills?.additionalSkills !='' || userProfileData?.skills?.certificateDetails !='' ||
+            userProfileData?.interests?.professional !='' || userProfileData?.interests?.hobbies !='') ">
         <mat-icon>edit</mat-icon>
       </span>
     </div>
-    <div *ngIf="userProfileData?.skills?.additionalSkills !=''; else showElseSkills">
+    <div *ngIf="(userProfileData?.skills?.additionalSkills !='' || userProfileData?.skills?.certificateDetails !='' ||
+    userProfileData?.interests?.professional !='' || userProfileData?.interests?.hobbies !='') ; else showElseSkills">
 
       <div class="academic-row mb-4">
         <button mat-fab disabled>

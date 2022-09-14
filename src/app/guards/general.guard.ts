@@ -14,6 +14,8 @@ import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-
 })
 export class GeneralGuard implements CanActivate {
   dobFlag = false
+  isXSmall = false
+  locale = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
               private userProfileSvc: UserProfileService) { }
 
@@ -23,6 +25,7 @@ export class GeneralGuard implements CanActivate {
   ): Promise<boolean | UrlTree> {
     const requiredFeatures = (next.data && next.data.requiredFeatures) || []
     const requiredRoles = (next.data && next.data.requiredRoles) || []
+
     return await this.shouldAllow<boolean | UrlTree>(requiredFeatures, requiredRoles)
   }
 
@@ -32,6 +35,41 @@ export class GeneralGuard implements CanActivate {
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
 
+    // tslint:disable-next-line: no-non-null-assertion
+    if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = this.configSvc.userProfile!.language
+      if (this.locale === 'en') {
+        this.locale = ''
+      }
+    }
+    // // tslint:disable-next-line: no-non-null-assertion
+    // if (!localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   this.locale = this.configSvc.userProfile!.language
+    //   if (this.locale === 'en') {
+    //     this.locale = ''
+    //   }
+    // }
+    if (localStorage.getItem('lang')) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = localStorage.getItem('lang') || ''
+      if (this.locale === 'en') {
+        this.locale = ''
+      }
+    }
+    // tslint:disable-next-line: no-non-null-assertion
+    if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
+      // tslint:disable-next-line: no-non-null-assertion
+      if (this.configSvc.userProfile!.language === 'en') {
+        // this.locale = 'en-US'
+      } else {
+        // tslint:disable-next-line: no-non-null-assertion
+        this.locale = this.configSvc.userProfile!.language || 'en-US'
+      }
+    }
+    // tslint:disable-next-line:no-console
+    console.log(this.locale)
     // setTimeout(() => {
 
     // }, 5000)
@@ -55,7 +93,7 @@ export class GeneralGuard implements CanActivate {
       this.configSvc.instanceConfig &&
       !Boolean(this.configSvc.instanceConfig.disablePidCheck)
     ) {
-      return this.router.parseUrl('/app/invalid-user')
+      return this.router.parseUrl(`/public/home`)
     }
     /**
      * Test IF User Tnc Is Accepted
@@ -84,21 +122,28 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/details')
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-      (data: any) => {
-        if (data) {
-          const userData = data.profileDetails.profileReq.personalDetails
-          this.dobFlag = userData.dob || ''
-        }
-        if (this.dobFlag) {
-          return this.router.parseUrl('/page/home')
-        }
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
+          // if (data) {
+          //   const userData = data.profileDetails.personalDetails
+          //   if (userData.dob) {
+          //     this.dobFlag = userData.dob || ''
+          //   }
+          // }
+          // if (this.dobFlag) {
+          //   return this.router.parseUrl('/page/home')
+          // }
 
-        return this.router.navigate(['public', 'tnc'])
+          if (data.profileDetails) {
+            return this.router.parseUrl(`/page/home`)
+          }
+          return this.router.navigate(['app', 'new-tnc'])
 
-      },
-      (_err: any) => {
-      })
+        },
+        (_err: any) => {
+        })
+    }
     /**
      * Test IF User has requried role to access the page
      */
@@ -108,7 +153,7 @@ export class GeneralGuard implements CanActivate {
       )
 
       if (!requiredRolePreset) {
-        return this.router.parseUrl('/page/home')
+        return this.router.parseUrl(`/page/home`)
       }
     }
 
@@ -119,7 +164,7 @@ export class GeneralGuard implements CanActivate {
       )
 
       if (requiredFeaturesMissing) {
-        return this.router.parseUrl('/page/home')
+        return this.router.parseUrl(`/page/home`)
       }
     }
     return true

@@ -2,12 +2,12 @@ import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } fro
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { UtilityService, ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { RootService } from '../../../../../src/app/component/root/root.service'
 import { TStatus, ViewerDataService } from './viewer-data.service'
 import { ViewerUtilService } from './viewer-util.service'
-
+import { DiscussConfigResolve } from '../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 export enum ErrorType {
   accessForbidden = 'accessForbidden',
   notFound = 'notFound',
@@ -24,8 +24,10 @@ export enum ErrorType {
   styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
+  isXSmall$ = this.valueSvc.isXSmall$
   fullScreenContainer: HTMLElement | null = null
   content: NsContent.IContent | null = null
+  contentData: any
   errorType = ErrorType
   private isLtMedium$ = this.valueSvc.isLtMedium$
   sideNavBarOpened = false
@@ -52,20 +54,30 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   > | null = null
   private viewerDataSubscription: Subscription | null = null
   htmlData: NsContent.IContent | null = null
-
+  currentLicense: any
+  currentLicenseName = ''
+  discussionConfig: any = {}
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private valueSvc: ValueService,
     private dataSvc: ViewerDataService,
     private rootSvc: RootService,
-    private utilitySvc: UtilityService,
+    // private utilitySvc: UtilityService,
     private changeDetector: ChangeDetectorRef,
     public configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
+    private discussiConfig: DiscussConfigResolve
   ) {
     this.rootSvc.showNavbarDisplay$.next(false)
+    this.discussiConfig.setConfig()
+    if (this.configSvc.userProfile) {
+      this.discussionConfig = {
+        userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
+      }
+    }
+
   }
 
   getContentData(e: any) {
@@ -92,11 +104,21 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         // if (this.discussionForumWidget) {
         //   this.discussionForumWidget.widgetData.isDisabled = true
         // }
-
+        this.currentLicenseName = this.content.learningObjective || 'CC BY'
+        this.getLicenseConfig()
       }
     })
   }
-
+  getCourseContentData() {
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
+    try {
+      this.widgetContentSvc.fetchContent(collectionId).subscribe((data: any) => {
+        this.contentData = data.result.content
+      })
+    } catch (e) {
+      // console.log(e)
+    }
+  }
   checkJson(str: any) {
     try {
       JSON.parse(str)
@@ -107,6 +129,8 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.getCourseContentData()
+
     this.getTocConfig()
     this.isNotEmbed = !(
       window.location.href.includes('/embed/') ||
@@ -153,12 +177,25 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       if (this.error && this.error.errorType === this.errorType.previewUnAuthorised) {
       }
-      // //console.log(this.error)
     })
 
     // this.getDiscussionConfig()
   }
+  getLicenseConfig() {
+    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
+      const licenseData = data
+      if (licenseData) {
+        this.currentLicense = licenseData.licenses.filter((license: any) => license.licenseName === this.currentLicenseName)
+      }
 
+    },
+                                                            err => {
+        if (err.status === 404) {
+          this.getLicenseConfig()
+        }
+      })
+  }
   getDiscussionConfig() {
     this.viewerDataSubscription = this.viewerSvc
       .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
@@ -195,18 +232,23 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
-    this.discussionForumWidget = {
-      widgetData: {
-        description: content.description,
-        id: content.identifier,
-        name: NsDiscussionForum.EDiscussionType.LEARNING,
-        title: content.name,
-        initialPostCount: 2,
-        isDisabled: this.forPreview,
-      },
-      widgetSubType: 'discussionForum',
-      widgetType: 'discussionForum',
+    this.discussionConfig.contextIdArr = content ? [content.identifier] : []
+    if (this.content) {
+      this.discussionConfig.categoryObj = {
+        category: {
+          name: content.name,
+          pid: '',
+          description: content.description,
+          context: [
+            {
+              type: 'course',
+              identifier: content.identifier,
+            },
+          ],
+        },
+      }
     }
+    this.discussionConfig.contextType = 'course'
   }
 
   ngOnDestroy() {
@@ -228,9 +270,9 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   minimizeBar() {
     this.sideNavBarOpened = !this.sideNavBarOpened
-    if (this.utilitySvc.isMobile) {
-      this.sideNavBarOpened = true
-    }
+    // if (this.utilitySvc.isMobile) {
+    //   this.sideNavBarOpened = true
+    // }
   }
 
   public parseJsonData(s: string) {

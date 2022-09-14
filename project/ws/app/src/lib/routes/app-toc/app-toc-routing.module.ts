@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { PageResolve } from '@ws-widget/utils'
 import { GeneralGuard } from '../../../../../../../src/app/guards/general.guard'
 // import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
-import { AppTocDiscussionComponent } from './components/app-toc-discussion/app-toc-discussion.component'
+
 import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
 import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
@@ -14,7 +14,8 @@ import { AppTocHomeComponent } from './routes/app-toc-home/app-toc-home.componen
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { LicenseComponent } from './components/license/license.component'
-
+import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
+import { DiscussConfigResolve } from '../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
 const routes: Routes = [
   {
     path: ':id',
@@ -44,7 +45,7 @@ const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'contents',
+        path: 'chapters',
         component: AppTocContentsComponent,
       },
       {
@@ -52,8 +53,11 @@ const routes: Routes = [
         component: AppTocOverviewRootComponent,
       },
       {
-        path: 'discussion',
-        component: AppTocDiscussionComponent,
+        path: 'discussion-forum',
+        component: AllDiscussionWidgetComponent,
+        resolve: {
+          data: DiscussConfigResolve,
+        },
       },
       {
         path: 'details',

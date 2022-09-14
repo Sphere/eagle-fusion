@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment: IEnvironment = {
-  production: false,
-  sitePath: 'aastrika-sb.idc.tarento.com',
+  production: true,
+  sitePath: 'sphere.aastrika.org',
 }
 interface IEnvironment {
   production: boolean

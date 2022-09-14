@@ -67,7 +67,8 @@
   </mat-card-content>
 </mat-card>
 
-<h2 class="text-center mat-primary-text margin-top-m load" *ngIf="showIsLoadingMessage " i18n>
+<h2 class="text-center mat-primary-text margin-top-m load"
+  *ngIf="showIsLoadingMessage || (htmlContent && htmlContent.isIframeSupported === 'Yes')" i18n>
   Please wait! Content requested is loading
 </h2>
 
@@ -83,11 +84,9 @@
   </h2>
 </div>
 
-<iframe #iframeElem [hidden]="this.pageFetchStatus !== 'done'" *ngIf="
-    htmlContent?.isIframeSupported !== 'No' &&
-    (!htmlContent?.isInIntranet || (htmlContent?.isInIntranet && isUserInIntranet)) &&
-    (!isIntranetUrl || (isIntranetUrl && isUserInIntranet))
-  " title="HTML Content Viewer" i18n-title [src]="iframeUrl" (load)="onIframeLoadOrError('load',iframeElem,$event)"
-  (error)="onIframeLoadOrError('error')"
-  allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; microphone; camera;"
-  class="html-iframe"></iframe>
+<div class="container-v2" *ngIf="htmlContent && htmlContent.isIframeSupported === 'Yes'">
+  <iframe #iframeElem title="HTML Content Viewer" i18n-title [src]="iframeUrl"
+    (load)="onIframeLoadOrError('load',iframeElem,$event)" (error)="onIframeLoadOrError('error')"
+    allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; microphone; camera;"
+    class="html-iframe"></iframe>
+</div>

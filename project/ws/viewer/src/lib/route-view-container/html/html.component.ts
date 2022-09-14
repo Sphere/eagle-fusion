@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
@@ -29,6 +29,7 @@ export class HtmlComponent implements OnInit, OnChanges {
   isRestricted = false
   prevResourceUrl: string | null = null
   nextResourceUrl: string | null = null
+  currentCompletionPercentage: number | null = null
   collectionType: any
   viewerDataServiceSubscription: any
   prevTitle: string | null | undefined
@@ -42,7 +43,8 @@ export class HtmlComponent implements OnInit, OnChanges {
     private pipeLimitTo: PipeLimitToPipe,
     private valueSvc: ValueService,
     private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService
+    private viewerDataSvc: ViewerDataService,
+    public router: Router
 
   ) {
 
@@ -57,11 +59,11 @@ export class HtmlComponent implements OnInit, OnChanges {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
-
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
       this.nextResourceUrl = data.nextResource
+      this.currentCompletionPercentage = data.currentCompletionPercentage
     })
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =
@@ -75,7 +77,7 @@ export class HtmlComponent implements OnInit, OnChanges {
     // })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
-
+    this.isProgressCheck()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -97,6 +99,21 @@ export class HtmlComponent implements OnInit, OnChanges {
         }
 
       }
+    }
+  }
+  isProgressCheck(): boolean {
+    if (typeof this.currentCompletionPercentage === 'undefined' && this.currentCompletionPercentage !== 100) {
+      return false
+    }
+    return true
+  }
+  stopPropagation() {
+    return
+  }
+
+  navigatetoOverview() {
+    if (!this.nextResourceUrl) {
+      this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
     }
   }
 }

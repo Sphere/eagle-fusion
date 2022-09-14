@@ -16,7 +16,9 @@ export class OverviewComponent implements OnInit {
   @Input() isNqocnContent = false
   @Output() userSelection = new EventEmitter<NSQuiz.TUserSelectionType>()
 
-  constructor() { }
+  constructor(
+
+  ) { }
 
   ngOnInit() {
   }

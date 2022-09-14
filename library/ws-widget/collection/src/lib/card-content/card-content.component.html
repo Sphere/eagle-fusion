@@ -38,10 +38,10 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
+        <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.appIcon"
+            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.thumbnail"
               [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
               [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
               [title]="widgetData.content.name" />
@@ -52,7 +52,7 @@
         </a>
         <mat-card-content>
 
-          <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+          <div class="mat-title title-text ws-mat-text-block-fade-gradient"
             style="margin-top:65px; margin-left: -11px;">
             {{ widgetData.content.name }}
           </div>
@@ -85,10 +85,10 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span>Published on: </span>
+        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span i18n>Published on: </span>
           {{widgetData.content?.publishedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
-          <span class="mr-1 orange-text">Duration: </span>
+          <span class="mr-1 orange-text" i18n>Duration: </span>
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
           <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
@@ -97,22 +97,25 @@
             </div>
           </span>
         </div>
-        <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.children?.length}}</p>
-        <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
+        <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author:</span> {{
+          widgetData?.content?.creator}}
+        </p>
+        <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500" i18n>Author:
           </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
 
         <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
           {{widgetData.content?.uniqueUsersCount}}</p>
-        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
+        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500" i18n>Source:</span>
+          {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-          <div class="fw-500 mb-1">Course Description</div>
+        <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Description">
+          <div class="fw-500 mb-1"><span i18n>Course Description</span></div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
         </div>
 
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+        <div class="mt-0 flex justify-between items-center">
           <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
-            (click)="loginRedirect('S',  widgetData.content.identifier)"> Login
+            (click)="login(widgetData.content)"> Login
           </button>
         </div>
       </mat-card-content>
@@ -142,10 +145,10 @@
           <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
             matTooltip="Available only in Company's network"
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-          <a (click)="login('S')" class="rounded-t" role="link" aria-label="Content"
+          <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
-              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
                 [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
                 [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
                 [title]="widgetData.content.name" />
@@ -156,7 +159,7 @@
           </a>
           <mat-card-content>
 
-            <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
+            <div class="mat-title title-text ws-mat-text-block-fade-gradient"
               style="margin-top:65px; margin-left: -11px;">
               {{ widgetData.content.name }}
             </div>
@@ -200,17 +203,15 @@
       <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
         matTooltip="Available only in Company's network"
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="card-link" role="link"
-        aria-label="Content" i18n-aria-label="Content | Click to view">
-        <img [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+      <a (click)="raiseTelemetry()" class="card-link" role="link" aria-label="Content"
+        i18n-aria-label="Content | Click to view">
+        <img [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
           class="card-thumbnail ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
       </a>
       <div class="card-overlay">
         <h3 *ngIf="widgetData.content.name" class="text-truncate card-title">
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link">
+          <a (click)="raiseTelemetry()" role="link">
             {{ widgetData.content.name }}
           </a>
         </h3>
@@ -229,8 +230,9 @@
           </button>
         </div>
       </div>
+      <!--1 -->
       <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-        [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+        [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
       </ws-widget-content-progress>
     </div>
   </div>
@@ -256,21 +258,19 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
-          aria-label="Content" i18n-aria-label="Content | Click to view">
-          <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+        <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
+          i18n-aria-label="Content | Click to view">
+          <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
             class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
           <span class="img-overlay"></span>
         </a>
+        <!--2 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
         <mat-card-content>
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-            i18n-aria-label>
+          <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
             <div class="card-header-meta">
               <ws-widget-display-content-type i18n-title title="Content Type"
                 *ngIf="widgetData.content?.displayContentType" class="ws-mat-primary-text font-normal"
@@ -319,9 +319,8 @@
               }}
             </span>
           </div>
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" aria-label="Content"
-            i18n-aria-label="Content | Click to view" class="ws-mat-primary-text mat-title text-truncate title-text">
+          <a (click)="raiseTelemetry()" aria-label="Content" i18n-aria-label="Content | Click to view"
+            class="ws-mat-primary-text mat-title text-truncate title-text">
             {{ widgetData.content.name }}
           </a>
           <div *ngIf="widgetData?.content?.description" class="mt-4 flip-desc-text ws-mat-text-block-fade-gradient">
@@ -351,12 +350,12 @@
 </ng-template>
 
 <ng-template #cardStandard>
-  <mat-card class="card-standard-container mr-8 3" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
+  <mat-card class="card-standard-container mr-8 3 123" *ngIf="!showEndPopup; else elseBlock" [ngClass]="{
       greyOut:
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
           : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-    }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()" #target="mdePopoverTrigger"
+    }"  #target="mdePopoverTrigger"
     [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500"
     [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="offSetXValue"
     [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
@@ -373,12 +372,10 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()"
-          [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
-          aria-label="Content" i18n-aria-label="Content | Click to view">
+        <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
+          i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
               [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
               [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
               [title]="widgetData.content.name" />
@@ -391,7 +388,7 @@
         <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t" role="link"
           aria-label="Content" i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
               [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
               [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
               [title]="widgetData.content.name" />
@@ -405,14 +402,13 @@
           (click)="isCardFlipped = true" aria-label="Details" i18n-aria-label="Details | Click to see details">
           <mat-icon>flip_to_back</mat-icon>
         </button>
+        <!--3 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
 
         <mat-card-content>
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-            i18n-aria-label>
+          <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
 
             <div class="text-gray-time complexity flex-between flex-center">
               <div *ngIf="showIsMode" i18n i18n-title title="Newly Added"
@@ -421,8 +417,7 @@
               </div>
             </div>
 
-            <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-              style="margin-left: -11px;">
+            <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-left: -11px;">
               {{ widgetData.content.name }}
             </div>
             <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title>
@@ -470,11 +465,10 @@
           <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
             matTooltip="Available only in Company's network"
             *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
-            aria-label="Content" i18n-aria-label="Content | Click to view">
+          <a (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
+            i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
-              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.appIcon"
+              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
                 [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
                 [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
                 [title]="widgetData.content.name" />
@@ -488,14 +482,13 @@
             (click)="isCardFlipped = true" aria-label="Details" i18n-aria-label="Details | Click to see details">
             <mat-icon>flip_to_back</mat-icon>
           </button>
+          <!--4 -->
           <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-            [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+            [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
           </ws-widget-content-progress>
 
           <mat-card-content>
-            <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-              [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-              i18n-aria-label>
+            <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
 
               <div class="text-gray-time complexity flex-between flex-center">
                 <div *ngIf="showIsMode" i18n i18n-title title="Newly Added"
@@ -504,8 +497,7 @@
                 </div>
               </div>
 
-              <div class="ws-mat-primary-text mat-title title-text ws-mat-text-block-fade-gradient"
-                style="margin-left: -11px;">
+              <div class=" mat-title title-text ws-mat-text-block-fade-gradient" style="margin-left: -11px;">
                 {{ widgetData.content.name }}
               </div>
               <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;" i18n-title>
@@ -541,19 +533,23 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.publishedOn"><span>Published on: </span>
-          {{widgetData.content?.publishedOn | date }}</div>
+        <div class="mb-2" *ngIf="widgetData.content?.lastPublishedOn"><span class="fw-500">Published On: </span>
+          {{widgetData.content?.lastPublishedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
           <span class="mr-1  orange-text">Duration: </span>
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
-          <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+          <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
             <div class="flex items-start">
               <ng-container [ngTemplateOutlet]="rating"></ng-container>
             </div>
-          </span>
+          </span> -->
         </div>
-        <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.children?.length}}</p>
+        <p *ngIf="widgetData?.content?.completionPercentage"><span class="fw-500">Progress :</span> {{
+          widgetData?.content?.completionPercentage}} %</p>
+        <!-- <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.childNodes?.length}}</p> -->
+        <p *ngIf="widgetData?.content?.creator"><span class="fw-500">Author:</span> {{ widgetData?.content?.creator}}
+        </p>
         <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500">Author:
           </span>{{ widgetData.content?.creatorContacts[0]?.name}}</p>
 
@@ -561,27 +557,27 @@
           {{widgetData.content?.uniqueUsersCount}}</p>
         <p *ngIf="widgetData.content?.sourceName"><span class="fw-500">Source:</span> {{widgetData.content.sourceName}}
         </p>
-        <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
+        <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
           <div class="fw-500 mb-1">Course Description</div>
           {{ widgetData.content.description | pipeHtmlTagRemoval }}
-        </div>
-        <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+        </div> -->
+        <div class="mt-0 flex">
           <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
             class="header-btn text-white ws-mat-primary-background mat-button-base"
-            [routerLink]="(widgetData.content | pipeContentRoute).url">
-            View Course </button>
+            (click)="clickToRedirect(widgetData.content)">
+            View Course</button>
           <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
             class="header-btn text-white ws-mat-primary-background mat-button-base"
             (click)="clickToRedirect(widgetData.content)">
             View Course </button>
-          <div class="flex flex-middle">
+          <div class="flex">
             <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
-            <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+            <!--<ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
               [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
-            </ws-widget-btn-content-like>
+            </ws-widget-btn-content-like> -->
 
-            <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
-            </ws-widget-btn-playlist>
+            <!--<ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
+            </ws-widget-btn-playlist> -->
             <ws-widget-btn-content-download [widgetData]="
                 widgetData.content
                   | pipePartialContent
@@ -622,10 +618,9 @@
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" class="rounded-t" role="link"
-          aria-label="Content" i18n-aria-label="Content | Click to view">
-          <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+        <a (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
+          i18n-aria-label="Content | Click to view">
+          <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
             class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
             [alt]="widgetData.content.name" [title]="widgetData.content.name" />
           <span class="img-overlay"></span>
@@ -634,13 +629,12 @@
           aria-label="Details" i18n-aria-label="Details | Click to see details">
           <mat-icon>flip_to_back</mat-icon>
         </button>
+        <!--5 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
         <mat-card-content>
-          <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-            [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-            i18n-aria-label>
+          <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
             <div class="text-gray-600 complexity flex-middle">
               <mat-icon matTooltip="{{ imageIcon[1] }}">{{ imageIcon[0] }}</mat-icon>
 
@@ -675,12 +669,12 @@
           <mat-divider></mat-divider>
           <div class="flex flex-middle">
             <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
-            <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+            <!-- <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
               [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
             </ws-widget-btn-content-like>
 
             <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
-            </ws-widget-btn-playlist>
+            </ws-widget-btn-playlist> -->
             <ws-widget-btn-content-download [widgetData]="
                 widgetData.content
                   | pipePartialContent
@@ -736,22 +730,20 @@
       <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
         matTooltip="Available only in Company's network"
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
-        aria-label="Content" i18n-aria-label="Content | Click to view">
-        <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+      <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
+        i18n-aria-label="Content | Click to view">
+        <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
+        <!--6 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
       </a>
 
       <mat-card-content class="m-small">
-        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-          i18n-aria-label>
+        <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
           <div class="ws-mat-primary-background text-truncate px-4 py-2 -mx-4 text-white">
             <span *ngIf="widgetData.content?.complexityLevel">{{
               widgetData.content?.complexityLevel
@@ -808,9 +800,8 @@
       <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
         matTooltip="Available only in Company's network"
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
-        aria-label="Content" i18n-aria-label="Content | Click to view">
+      <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
+        i18n-aria-label="Content | Click to view">
         <div *ngIf="
             widgetData.content?.creatorDetails?.length ||
             widgetData.content?.creatorContacts?.length
@@ -840,19 +831,18 @@
           </div>
         </div>
 
-        <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+        <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
           class="card-img ws-mat-primary-lite-background" [ngClass]="{ 'greyed-img': isGreyedImage }"
           [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
           [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
+        <!--7 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
-          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.progress">
+          [contentId]="widgetData.content?.identifier" [progress]="widgetData.content?.completionPercentage">
         </ws-widget-content-progress>
       </a>
       <mat-card-content>
-        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-          i18n-aria-label>
+        <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
           <div *ngIf="widgetData.content?.resourceType || widgetData.content?.contentType"
             class="back-color px-4 py-2 -mx-4 text-white">
             <ws-widget-display-content-type i18n-title title="Content Type"
@@ -909,9 +899,9 @@
                   'artifactUrl'
                 ]
         "></ws-widget-btn-content-download>
-      <ws-widget-btn-content-like [widgetData]="widgetData.content | pipePartialContent: ['identifier']">
-      </ws-widget-btn-content-like>
-      <ws-widget-btn-content-mail-me [widgetData]="widgetData.content"></ws-widget-btn-content-mail-me>
+      <!-- <ws-widget-btn-content-like [widgetData]="widgetData.content | pipePartialContent: ['identifier']">
+      </ws-widget-btn-content-like> -->
+      <!-- <ws-widget-btn-content-mail-me [widgetData]="widgetData.content"></ws-widget-btn-content-mail-me> -->
       <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
       <ws-widget-btn-channel-analytics [widgetData]="widgetData.content"></ws-widget-btn-channel-analytics>
       <ws-widget-btn-kb [contentId]="widgetData?.content?.identifier" [forPreview]="false"
@@ -921,9 +911,9 @@
           targetId: widgetData?.content?.identifier,
           type: widgetData?.content?.contentType
         }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow>
-      <ws-widget-btn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
+      <!-- <ws-widget-btptocn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
       <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
-      </ws-widget-btn-playlist>
+      </ws-widget-btn-playlist> -->
       <ws-widget-btn-kb-analytics [widgetData]="
           widgetData.content
             | pipePartialContent
@@ -960,18 +950,15 @@
       <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
         matTooltip="Available only in Company's network"
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-      <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-        [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" class="rounded-t"
-        aria-label="Content" i18n-aria-label="Content | Click to view">
-        <img mat-card-image [src]="widgetData.content.appIcon" [id]="'card_' + widgetData.content.identifier"
+      <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
+        i18n-aria-label="Content | Click to view">
+        <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
           class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
       </a>
       <mat-card-content>
-        <a (click)="raiseTelemetry()" [routerLink]="(widgetData.content | pipeContentRoute).url"
-          [queryParams]="(widgetData.content | pipeContentRoute).queryParams" role="link" aria-label="Content"
-          i18n-aria-label>
+        <a (click)="raiseTelemetry()" role="link" aria-label="Content" i18n-aria-label>
           <div class="text-gray-600 complexity flex-between flex-center">
             <div *ngIf="widgetData.content.duration" class="duration" i18n-title title="Duration">
               {{ widgetData.content.duration | pipeDurationTransform: 'hms' }}

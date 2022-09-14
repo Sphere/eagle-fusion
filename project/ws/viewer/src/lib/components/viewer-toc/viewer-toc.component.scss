@@ -3,9 +3,14 @@
 ::ng-deep .theme-igot.day-mode .mat-typography h3.sub-heading {
   line-height: 22px;
 }
-::ng-deep .theme-igot.day-mode .mat-tree {
-    background: #f8f8f8 !important;
+
+.sub-heading {
+  font-weight: 400;
 }
+
+// ::ng-deep .theme-igot.day-mode .mat-tree {
+//     background: #f8f8f8 !important;
+// }
 
 .treemode-slider {
   text-align: right;
@@ -22,12 +27,23 @@
   // padding-left: $size-m;
 }
 
+.outer-ul {
+  overflow-y: scroll;
+  max-height: 94.5vh;
+}
+
 .toc-tree-invisible {
   display: none;
 }
 
+.f-w-500 {
+  font-weight: 500
+}
+
 .toc-tree {
   padding-inline-start: 0px;
+  min-height: 100%;
+  overflow-y: auto;
 
   ul,
   li {
@@ -36,19 +52,27 @@
     list-style-type: none;
   }
 }
-li.li-active > div.mat-tree-node {
-    background-color: #e5e5e5;
+
+li.li-active>div.mat-tree-node {
+  // background-color: #e5e5e5;
+  background-color: #F7F7F7;
+  margin: 10px;
 }
-.li-active ul{
-    background: #e5e5e5;
-    padding-left: 2em;
-    margin-left: 0;
+
+.li-active ul {
+  padding: 0 10px;
+  // background: #e5e5e5;
+  // padding-left: 2em;
+  // margin-left: 0;
 }
- span.content-active {
+
+span.content-active {
   // font-size: 1.02rem;
   font-weight: 500;
 }
-.content-active > span , .content-active h3 {
+
+.content-active>span,
+.content-active h3 {
   font-weight: normal;
   font-size: 1rem;
 }
@@ -102,21 +126,26 @@ app-content-icon {
 .resource-container {
   display: flex !important;
   justify-content: space-between;
-  margin: $size-s 0;
-  padding: 0 $size-s 0 0;
+  // margin: $size-s 0;
+  // padding: 0 $size-s 0 0;
+  padding: $size-s 0 $size-s 0;
   width: 100%;
+  border-bottom: 1px solid #dddddd;
+
   ws-display-content-type-icon {
     display: flex;
     align-items: center;
   }
+
   .resource-meta {
-    margin-left: $size-s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    span {
-      opacity: 0.85;
-    }
+    margin: 0 $size-s;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+
+    // span {
+    //   opacity: 0.85;
+    // }
   }
 }
 
@@ -128,6 +157,51 @@ app-content-icon {
   margin-left: 4px;
 }
 
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+::ng-deep .mat-tree-node {
+  align-items: flex-start !important;
+}
+
 ::ng-deep mat-tree-node .li-active {
-  background-color: #ede5d6;
+  // background-color: #ede5d6;
+  background-color: #E7F2FA;
+
+  .resource-container {
+    border-bottom: 1px solid #E7F2FA;
+
+    .sub-heading {
+      color: #154976;
+    }
+  }
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.tree-node {
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
+  margin: 10px;
+}
+
+
+
+
+.progrss-box {
+  margin-left: auto;
+  padding-right: 12px;
+
+  .content-check {
+    color: #27AE60;
+  }
+}
+
+.node-title {
+  line-height: 19px !important;
 }

@@ -1,0 +1,17 @@
+<div class="mt-2 horizontal-scroll-content">
+  <div *ngFor="let category of categories;">
+    <div class="column py-2 px-0">
+      <a class="flex">
+        <div class="category-img-box">
+          <!-- <img [src]="category.first.image" height="50" width="50" alt="{{category.first.name}}" /> -->
+        </div>
+        <div class="mx-0 my-auto category-content">
+          <p class="text-sm mb-0">{{category.name}}</p>
+          <!-- <span class="font-normal grey-color text-sm leading-snug">{{category.first.courseCount}} Courses -->
+          <!-- </span> -->
+        </div>
+      </a>
+    
+    </div>
+  </div>
+</div>

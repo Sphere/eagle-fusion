@@ -1,14 +1,11 @@
 {
   "/apis/*": {
-    "target": "https://aastrika-sb.idc.tarento.com",
+    "target": "https://aastrika-stage.tarento.com",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
       "/apis": "/apis"
-    },
-    "headers" : {
-      "cookie" : "connect.sid=s%3AgTM57_v9RQ48EfU5rz9OUnXBZnKfpW8n.pFNC54O8cuKDphTRH5qtIv9yz4q%2Fb4L2KKueLGWBBX8"
     }
   },
   "/content-api/*": {

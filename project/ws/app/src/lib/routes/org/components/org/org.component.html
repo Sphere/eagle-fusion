@@ -22,7 +22,7 @@
               <mat-card-title>
                 <h2>{{orgName}}</h2>
               </mat-card-title>
-              <mat-card-subtitle><span>{{courseCount === 1 ? '1 Course': courseCount + ' Courses'}} </span>
+              <mat-card-subtitle><span>{{courseCount === 1 ? '1 Course': courseCount.length + ' Courses'}} </span>
               </mat-card-subtitle>
               <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and
                 its
@@ -93,19 +93,18 @@
         Courses</span>
     </div>
   </div>
-  <div class="w-100" *ngIf="courseData?.result > 5">
+  <div class="w-100" *ngIf="courseData > 5">
     <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
   </div>
   <div class="flex-main mt-4">
-    <ng-container *ngFor="let widget of courseData?.result">
+    <ng-container *ngFor="let widget of courseData">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
-        <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover"
-          #popoverTrigger="mdePopoverTrigger" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
-          [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-140"
+        <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content" #target="mdePopoverTrigger"
+          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
+          [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
           (mouseover)="showTarget($event)">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.appIcon"
+            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.thumbnail"
               [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
               [alt]="widget.name" />
             <span class="img-overlay"></span>
@@ -133,15 +132,15 @@
               {{ widget.name }}
             </div>
             <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
-              {{ widget.description }}
+              {{ widget.subTitle }}
             </div>
 
             <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>Published on: </span>
-              {{widget?.lastUpdatedOn | date }}</div>
+              {{widget?.publishedOn | date }}</div>
             <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
               <span class="mr-1 orange-text">Duration: </span>
               <mat-icon>access_time</mat-icon>
-
+              <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
               <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
 
               </span>
@@ -156,12 +155,12 @@
             </p>
             <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
               <div class="fw-500 mb-1">Course Description</div>
-              {{ widget.description }}
+              {{ (widget.description.length>156)? (widget.description  | slice:0:120) + '...' :(widget.description) }}
             </div>
 
             <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
               <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
-                (click)="loginRedirect('S',  widget.identifier)"> {{btnText}}
+                (click)="loginRedirect(widget.identifier)"> {{btnText}}
               </button>
             </div>
           </mat-card-content>

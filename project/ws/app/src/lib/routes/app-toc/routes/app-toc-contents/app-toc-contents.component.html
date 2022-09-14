@@ -1,19 +1,21 @@
-<div class="contents-container">
+<div class="contents-container" *ngIf="loadContent">
   <div class="main-container">
     <ng-container *ngIf="content?.children?.length; else noChildren">
-      <div class="toc-section">
-        <h2 class="margin-remove">Table of contents {{contentType}}</h2>
+      <!-- <div class="toc-section">
+        <h2 class="margin-remove" id="table-content-heading">Table of contents {{contentType}}</h2>
         <button type="button"
           *ngIf="!contextPath || contextPath !== 'Collection' &&  content?.children[0]?.category === 'Collection'"
           color="primary" (click)="expandAll = !expandAll" mat-button>
           <ng-container *ngIf="!expandAll" i18n>Expand All</ng-container>
           <ng-container *ngIf="expandAll" i18n>Collapse All</ng-container>
         </button>
-      </div>
+      </div> -->
       <div class="content-card" *ngFor="let card of content?.children; trackBy: contentTrackBy">
         <ws-app-toc-content-card [forPreview]="forPreview" [expandAll]="expandAll" [rootId]="contextId"
-          [rootContentType]="contextPath" [content]="card"></ws-app-toc-content-card>
+          [rootContentType]="contextPath" [content]="card">
+        </ws-app-toc-content-card>
       </div>
+
     </ng-container>
     <ng-template #noChildren>
       <div *ngIf="!isPlayable"

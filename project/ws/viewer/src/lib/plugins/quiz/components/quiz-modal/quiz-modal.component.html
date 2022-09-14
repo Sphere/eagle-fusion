@@ -1,0 +1,94 @@
+<div class="position-relative">
+  <ng-container *ngIf="(isXSmall$ | async) === true">
+    <div [ngClass]="{'arrow-back': tabIndex ==0, 'result-arrow-back' : tabIndex === 1 }" (click)="closePopup()"
+      *ngIf="(isXSmall$ | async) === true">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </div>
+  </ng-container>
+</div>
+<div class="assesment-container">
+  <ng-container *ngIf="(isXSmall$ | async) === false">
+    <button type="button" class="close-btn" (click)="closePopup()">&times;</button>
+  </ng-container>
+  <div class="sub-title-container">
+    <h3 [ngClass]="tabIndex === 2 ? 'd-none' : 'd-block'" class="sub-title m-0" *ngIf="!showAnswer && tabIndex !== 1">
+      {{assesmentdata.generalData.name}}</h3>
+    <ng-container *ngIf="tabIndex !== 2 ">
+      <div class="flex  ml-auto timer" *ngIf="!showAnswer && tabIndex !== 1">
+        <!-- (isXSmall$ | async) !== true && -->
+        <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
+        <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
+          {{ timeLeft | pipeDurationTransform: 'hms' }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- <div class="flex flex-row"> -->
+
+
+  <ng-container *ngIf="!assesmentdata.questions.isAssessment">
+    <div class="quiz-question-wrapper" *ngIf="tabIndex ===0">
+      <viewer-view-quiz-question questionSlide [isAssessment]="assesmentdata?.questions?.isAssessment"
+        *ngFor="let question of assesmentdata.questions?.questions; let i = index" [question]="question"
+        [slideIndex]="i" (itemSelected)="fillSelectedItems(question, $event,i)"></viewer-view-quiz-question>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="tabIndex === 2">
+
+    <viewer-assesment-question-result *ngIf="userAnswer" [answer]="userAnswer.answer" [isCorrect]="userAnswer.isCorrect"
+      [isExplanation]="userAnswer.isExplanation" (resultEvent)="nextQuestion()">
+    </viewer-assesment-question-result>
+  </ng-container>
+
+  <ng-container *ngIf="tabIndex === 1">
+    <div class="flex flex-col items-center m-0  result-wrapper pt-5" *ngIf="tabActive">
+      <h1 class="result-title text-center"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted">
+          Pass</span>
+        <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
+      </h1>
+      <h4 class="result-score-title text-center">Your score is:</h4>
+      <h1 class="result-score text-center">{{result}}<span>%</span></h1>
+
+      <div class="result-overview-container">
+        <div class="result-overview">
+          <h4 class="digit">{{numUnanswered}}</h4>
+          <h4 class="lable">Not Attempted</h4>
+        </div>
+        <div class="result-overview ml-2">
+          <h4 class="digit">{{numCorrectAnswers}}</h4>
+          <h4 class="lable">Correct</h4>
+        </div>
+        <div class="result-overview ml-2">
+          <h4 class="digit">{{numIncorrectAnswers}}</h4>
+          <h4 class="lable">Incorrect</h4>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="flex ">
+    <div *ngIf="tabIndex === 0" class="assesment-progress-bar pl-3">
+      <span>{{activeSlideIndex+1}}/{{quizService.questionState.slides.length}}</span>
+      <mat-progress-bar class="quiz-progress-bar" [color]="primary" [mode]="'determinate'" [value]="progressbarValue">
+      </mat-progress-bar>
+    </div>
+    <div class="ml-auto pt-3">
+      <ng-container *ngIf="tabIndex === 0 ">
+        <button class="btn" mat-raised-button (click)="retakeQuiz()">Restart</button>
+        <button [disabled]="disableSubmit" class="btn btn-active" mat-raised-button
+          (click)="checkAnswer()">Submit</button>
+
+      </ng-container>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <ng-container *ngIf="tabIndex === 1">
+      <div class="text-center pt-5 flex justify-content-center">
+        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Quiz</button>
+        <button class="btn btn-active" (click)="closeDone()" mat-raised-button>Continue</button>
+      </div>
+    </ng-container>
+  </div>
+</div>

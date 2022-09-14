@@ -32,7 +32,8 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   constructor(
     private snackBar: MatSnackBar,
-    private fb: FormBuilder, private router: Router,
+    private fb: FormBuilder,
+    private router: Router,
     private tncService: TncPublicResolverService,
     private authSvc: AuthKeycloakService
   ) {
@@ -229,9 +230,9 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   gotoHome() {
-    this.router.navigate(['/login'])
-      .then(() => {
-        window.location.reload()
-      })
+    this.router.navigate(['/page/home'])
+      // .then(() => {
+      //   window.location.reload()
+      // })
   }
 }

@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
-import { ActivatedRoute, Params } from '@angular/router'
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
+import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
-
+import { AppTocService } from '../../services/app-toc.service'
 @Component({
   selector: 'ws-app-toc-content-card',
   templateUrl: './app-toc-content-card.component.html',
@@ -16,7 +16,11 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() rootContentType!: string
   @Input() forPreview = false
   @Input() batchId!: string
+  @Output() expandChild = new EventEmitter<any>()
+  disabledNode = false
+  contentId!: string
   hasContentStructure = false
+  resourceContentType: any
   enumContentTypes = NsContent.EDisplayContentTypes
   contentStructure: NsAppToc.ITocStructure = {
     assessment: 0,
@@ -35,7 +39,15 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
   defaultThumbnail = ''
   viewChildren = false
-  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute) { }
+  greenTickIcon = '/fusion-assets/images/green-checked3.svg'
+  redTickIcon = '/fusion-assets/images/red-tick.svg'
+  constructor(
+    private configSvc: ConfigurationsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private tocSvc: AppTocService,
+  ) {
+  }
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
@@ -45,9 +57,11 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     }
     this.route.queryParams.subscribe((params: Params) => {
       this.batchId = params['batchId']
+      this.contentId = params['contentId']
     })
-
+    this.disabledNode = this.tocSvc.getNode()
   }
+
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'expandAll') {
@@ -55,9 +69,45 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  resourceContentTypeFunct(type: any) {
+    if (type === 'application/vnd.ekstep.content-collection') {
+      this.resourceContentType = 'Topic'
+    } else if (type === 'application/pdf') {
+      this.resourceContentType = 'PDF'
+    } else if (type === 'application/quiz' || type === 'application/json') {
+      this.resourceContentType = 'Assessment'
+    } else if (type === 'application/html' || type === 'application/vnd.ekstep.html-archive') {
+      this.resourceContentType = 'Scorm'
+    } else if (type === 'application/x-mpegURL' || type === 'video/mp4') {
+      this.resourceContentType = 'Video'
+    } else if (type === 'audio/mpeg') {
+      this.resourceContentType = 'Audio'
+    } else if (type === 'video/x-youtube' || type === 'text/x-url' || type === 'application/web-module') {
+      this.resourceContentType = 'Link'
+    } else { this.resourceContentType = 'Course' }
+  }
+
+  reDirect(content: any) {
+    // tslint:disable-next-line:max-line-length
+    const url = `${content.url}?primaryCategory=${content.queryParams.primaryCategory}&collectionId=${content.queryParams.collectionId}&collectionType=${content.queryParams.collectionType}&batchId=${content.queryParams.batchId}`
+    this.router.navigateByUrl(`${url}`)
+  }
   get isCollection(): boolean {
     if (this.content) {
-      return this.content.mimeType === NsContent.EMimeTypes.COLLECTION
+      this.resourceContentTypeFunct(this.content.mimeType)
+      if (this.content.mimeType === NsContent.EMimeTypes.COLLECTION) {
+        const filteredData = this.content.children.filter((data: any) => {
+          // tslint:disable-next-line: no-non-null-assertion
+          return data!.completionPercentage < 100 || data!.completionPercentage === undefined
+        })
+        if (filteredData.length > 0) {
+          this.content['incomplete'] = true
+        } else {
+          this.content['incomplete'] = false
+        }
+        return true
+      }
     }
     return false
   }
@@ -115,11 +165,9 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
               this.contentStructure.webPage += 1
               break
             case NsContent.EMimeTypes.QUIZ:
-              if (child.resourceType === 'Assessment') {
-                this.contentStructure.assessment += 1
-              } else {
-                this.contentStructure.quiz += 1
-              }
+
+              this.contentStructure.assessment += 1
+
               break
             case NsContent.EMimeTypes.WEB_MODULE:
               this.contentStructure.webModule += 1
@@ -151,14 +199,14 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
 
   public progressColor(content: number) {
     // tslint:disable
-     if (content <= 30) {
-       return '#D13924'
-     } else if (content > 30 && content <= 70) {
-       return '#E99E38'
-     } else {
-       return '#1D8923'
-     }
-     // tslint:enable
+    if (content <= 30) {
+      return '#D13924'
+    } else if (content > 30 && content <= 70) {
+      return '#E99E38'
+    } else {
+      return '#1D8923'
+    }
+    // tslint:enable
   }
 
   public contentTrackBy(_index: number, content: NsContent.IContent) {
@@ -166,5 +214,9 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
       return null
     }
     return content.identifier
+  }
+
+  expandView() {
+    this.expandChild.emit(true)
   }
 }

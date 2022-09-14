@@ -9,13 +9,14 @@
   flex-wrap: wrap;
 }
 
-.padding-dynamic {
-  padding: $size-xs;
-  padding-top: $size-m;
-  @include breakpoint-xs {
-    padding: $size-xs;
-  }
-}
+// .padding-dynamic {
+//   padding: $size-xs;
+//   padding-top: $size-m;
+
+//   @include breakpoint-xs {
+//     padding: $size-xs;
+//   }
+// }
 
 .video-player-container {
   height: auto;
@@ -25,9 +26,11 @@
 
 .video-player-title {
   width: 65%;
+
   @include breakpoint-gt-s {
     width: 70%;
   }
+
   @include breakpoint-xs {
     width: 100%;
   }
@@ -35,9 +38,11 @@
 
 .video-summary {
   width: 30%;
+
   @include breakpoint-gt-s {
     width: 25%;
   }
+
   @include breakpoint-xs {
     width: 100%;
   }
@@ -46,30 +51,45 @@
 .video-player,
 #fullScreenContainer {
   width: 98.6%;
-  height: 75vh;
+  height: 45vh;
   position: relative;
-  min-height: 75vh;
+  min-height: 45vh;
   margin: 0 6px 0 0px;
   padding: 0 9px;
+
+
+
   @include breakpoint-lt-xl {
     height: 70vh;
   }
+
   @include breakpoint-lt-l {
     height: 65vh;
   }
+
   @include breakpoint-lt-m {
     height: 60vh;
-    width: 97.5%;
+    // width: 97.5%;
   }
+
   @include breakpoint-lt-s {
     height: 55vh;
-    width: 89%;
+    // width: 89%;
   }
+
   @include breakpoint-xs {
+    // position: relative;
+    // top: 0;
+    // left: 14px;
+    // padding: 0 !important;
+    width: 103.6%;
+    height: 45vh !important;
     position: relative;
-    top: 0;
-    left: 14px;
+    min-height: 45vh !important;
+    margin: 0px 0 0 -7px;
+    padding: 0px 9px;
   }
+
   @include breakpoint-m {
     width: 96.6%;
   }
@@ -82,6 +102,7 @@
 .prev-button .width-auto {
   left: -11px;
 }
+
 .align-arrow {
   margin-left: -12px;
   top: -3px;
@@ -91,12 +112,15 @@
 .prev-button .title {
   margin-left: -12px !important;
 }
+
 .next-button .title {
   margin-right: -11px;
 }
+
 ::ng-deep #youtubeTag {
   min-height: 75vh;
 }
+
 .video-player-mobile {
   @include breakpoint-xs {
     padding: 0;
@@ -117,19 +141,23 @@
   .info-container {
     padding: $size-s $size-m;
     margin-bottom: $size-m;
+
     .info-item {
       display: flex;
       align-items: center;
       padding: $size-xs 0;
       box-sizing: border-box;
+
       h3 {
         margin: 0;
       }
+
       .item-heading {
         width: 40%;
         min-width: 80px;
         max-width: 140px;
       }
+
       .item-icon {
         $icon-size: 20px;
         width: $icon-size;
@@ -139,6 +167,7 @@
       }
     }
   }
+
   @include breakpoint-xs {
     width: 100%;
   }
@@ -147,6 +176,7 @@
 .author {
   padding: $size-s 0;
   display: flex;
+
   .author-image {
     margin-right: $size-s;
     $size: 4 * $size-s;

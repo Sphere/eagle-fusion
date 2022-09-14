@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { Observable, Subject } from 'rxjs'
 import { ISocialSearchRequest, ISocialSearchResult, ISearchAutoComplete } from '../models/search.model'
 import { KeycloakService } from 'keycloak-angular'
 import { NSSearch } from '@ws-widget/collection'
@@ -12,7 +12,7 @@ const API_END_POINTS = {
   // `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
-  SEARCH_V6PUBLIC: '/apis/proxies/v8/sunbirdigot/search',
+  SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
 
 }
 
@@ -88,13 +88,6 @@ const API_END_POINTS = {
 })
 export class SearchApiService {
   constructor(private http: HttpClient, private keycloakSvc: KeycloakService) { }
-  getSearchResults(request: ISocialSearchRequest): Observable<ISocialSearchResult> {
-    return this.http.post<ISocialSearchResult>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)
-  }
-
-  getSearchAutoCompleteResults(params: { q: string, l: string }): Observable<ISearchAutoComplete[]> {
-    return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
-  }
 
   get userId(): string | undefined {
     const kc = this.keycloakSvc.getKeycloakInstance()
@@ -102,6 +95,19 @@ export class SearchApiService {
       return
     }
     return (kc.tokenParsed && kc.tokenParsed.sub) || (kc.idTokenParsed && kc.idTokenParsed.sub)
+  }
+  private messageSource = new Subject<any>()
+  public currentMessage = this.messageSource.asObservable()
+  getSearchResults(request: ISocialSearchRequest): Observable<ISocialSearchResult> {
+    return this.http.post<ISocialSearchResult>(API_END_POINTS.SOCIAL_VIEW_SEARCH_RESULT, request)
+  }
+
+  changeMessage(message: string) {
+    this.messageSource.next(message)
+  }
+
+  getSearchAutoCompleteResults(params: { q: string, l: string }): Observable<ISearchAutoComplete[]> {
+    return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
   }
 
   // getSearchV6Results(body: NSSearch.ISearchV6Request): Observable<NSSearch.ISearchV6ApiResult> {

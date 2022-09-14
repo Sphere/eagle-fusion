@@ -31,7 +31,7 @@ export class LoginGuard implements CanActivate {
         //   redirectUrl += this.router.parseUrl(ref || '')
         // }
         // this.authSvc.login(this.configSvc.instanceConfig.keycloak.defaultidpHint, redirectUrl)
-        return false
+        return true
       }
       return true
     }

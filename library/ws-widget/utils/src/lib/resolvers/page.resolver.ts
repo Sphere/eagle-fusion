@@ -36,6 +36,11 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       return this.getData(`${this.baseUrl}/page/${route.paramMap.get(route.data.pageKey)}`)
     }
     if (
+      route.data.pageType === 'public' &&
+      route.data.pageKey) {
+      return this.getData(`${this.baseUrl}/page/public-home`)
+    }
+    if (
       route.data.pageType === 'page' &&
       route.data.pageKey &&
       route.data.pageKey === 'toc'
@@ -81,6 +86,40 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
         catchError(err => of({ data: null, error: err })),
       )
     }
+
+    // tslint:disable-next-line: no-non-null-assertion
+    if (this.configSvc.userProfile && this.configSvc.userProfile!.language) {
+      // tslint:disable-next-line: no-non-null-assertion
+      this.locale = this.configSvc.userProfile!.language
+    } else {
+      this.locale = 'en'
+    }
+
+    if (location.href.indexOf('hi/public-home') > -1) {
+      this.locale = 'hi'
+    }
+
+    // tslint:disable-next-line: no-non-null-assertion
+    // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   this.locale = this.configSvc.userProfile!.language || 'en-US'
+    // }
+    // if (localStorage.getItem('lang')) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   this.locale = localStorage.getItem('lang') || ''
+    // }
+    // tslint:disable-next-line: no-non-null-assertion
+    // if (!localStorage.getItem('lang') && this.configSvc.userProfile !== null) {
+    //   // tslint:disable-next-line: no-non-null-assertion
+    //   if (this.configSvc.userProfile!.language === 'en') {
+    //     // this.locale = 'en-US'
+    //   } else {
+    //     // tslint:disable-next-line: no-non-null-assertion
+    //     this.locale = this.configSvc.userProfile!.language || 'en-US'
+    //   }
+    // }
+     // tslint:disable-next-line:no-console
+     console.log(this.locale, url)
     const pageRequest = [
       (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
         mergeMap(() =>
@@ -97,6 +136,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
           catchError(err => of({ data: null, error: err })),
         ),
     ]
+
     return forkJoin(pageRequest).pipe(
       map(
         ([general, withLocale]): IResolveResponse<NsPage.IPage> => {
@@ -108,5 +148,4 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       ),
     )
   }
-
 }

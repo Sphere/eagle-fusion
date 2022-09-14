@@ -1,8 +1,8 @@
 <div class="banner-container mb-4" (swipeleft)="slideTo(currentIndex + 1)" (swiperight)="slideTo(currentIndex - 1)"
-  *ngIf="widgetData?.length">
-  <a (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"
+  *ngIf="widgetData?.length" [ngClass]="{'m-t-80' : screenSize === 'less', 'm-t-0' : screenSize === 'medium'}">
+  <!-- <a (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"
     [routerLink]=" !isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'" class="banner-overlay"
-    [ngClass]="{'cursor-auto': !widgetData[currentIndex].redirectUrl}"></a>
+    [ngClass]="{'cursor-auto': !widgetData[currentIndex].redirectUrl}"></a> -->
   <div class="banner WidgetInstanceId" *ngFor="let slide of widgetData; let i = index" [hidden]="i !== currentIndex">
     <img i18n-alt alt="Page Banner" [src]="slide.banners" wsUtilsImageResponsive class="banner-image" />
     <div class="text-block" align="center">

@@ -369,7 +369,7 @@ export namespace NsContent {
     M3U8 = 'application/x-mpegURL',
     INTERACTION = 'video/interactive',
     PDF = 'application/pdf',
-    QUIZ = 'application/quiz',
+    QUIZ = 'application/json',
     DRAG_DROP = 'application/drag-drop',
     HTML_PICKER = 'application/htmlpicker',
     WEB_MODULE = 'application/web-module',

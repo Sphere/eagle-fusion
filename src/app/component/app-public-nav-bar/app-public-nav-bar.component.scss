@@ -3,7 +3,7 @@
   max-width: 150px;
   display: block;
   width: 100%;
-  padding-top: 8px;
+  //padding-top: 8px;
   @include breakpoint-xs {
     max-width: 60px;
   }
@@ -31,11 +31,10 @@
 .my-search {
   display: flex;
   margin-left: 8px;
-  margin-right: 0;
+  margin-right: 8px;
   text-align: center;
   flex: 1;
   height: 50px;
-  margin-top: 6px;
   max-width: 470px;
   @include breakpoint-xs {
     margin-right: 7px;

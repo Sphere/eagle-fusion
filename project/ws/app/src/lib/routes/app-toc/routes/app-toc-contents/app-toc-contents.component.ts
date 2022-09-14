@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Data } from '@angular/router'
-import { Subscription } from 'rxjs'
+import { Subject, Subscription } from 'rxjs'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-
+import { takeUntil } from 'rxjs/operators'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-app-app-toc-contents',
   templateUrl: './app-toc-contents.component.html',
@@ -27,7 +28,12 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   expandPartOf = false
   contextId!: string
   contextPath!: string
-
+  loadContent = true
+  // viewChildren = false
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
@@ -50,10 +56,27 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.initData(data)
       })
     }
+    this.tocSvc.resumeData.subscribe(((dataResult: any) => {
+      if (dataResult && dataResult.length) {
+        if (this.route && this.route.parent) {
+          this.routeSubscription = this.route.parent.data.subscribe((data: Data) => {
+            this.initData(data)
+          })
+        }
+      }
+    }))
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
+
+    this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
+      if (item && !_.get(item, 'showComponent')) {
+        this.loadContent = item.showComponent
+      } else {
+        this.loadContent = true
+      }
+    })
   }
   ngOnDestroy() {
     if (this.routeSubscription) {
@@ -62,11 +85,22 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     if (this.routeQuerySubscription) {
       this.routeQuerySubscription.unsubscribe()
     }
+    this.unsubscribe.next()
+    this.unsubscribe.complete()
+    this.tocSvc.setNode(false)
   }
 
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
+    if (this.content && this.content.gatingEnabled) {
+      this.tocSvc.setNode(this.content.gatingEnabled)
+      if (this.content.children[0].children) {
+        this.content.children[0].children[0]['hideLocIcon'] = true
+      } else {
+        this.content.children[0]['hideLocIcon'] = true
+      }
+    }
     this.errorCode = initData.errorCode
     if (this.content) {
       if (!this.contextId || !this.contextPath) {
@@ -75,6 +109,36 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       }
       this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
+    }
+    if (this.content && this.content.gatingEnabled && this.content.children) {
+      this.content.children.map((child1: any, index: any, element: any) => {
+        if (child1['children']) {
+          child1['children'].map((child2: any, cindex: any) => {
+            if (_.get(child2, 'completionPercentage') === 100) {
+              if (child1['children'][cindex + 1] && _.get(child1['children'][cindex + 1], 'completionPercentage') !== 100) {
+                child1['children'][cindex + 1].hideLocIcon = true
+              }
+            } else {
+              // tslint:disable-next-line: max-line-length
+              if (element[index - 1]) {
+                // tslint:disable-next-line: max-line-length
+                if (element[index - 1].children &&
+                  element[index - 1].children.length > 0 &&
+                  element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                  element[index].children[0].hideLocIcon = true
+                }
+              }
+            }
+          })
+        } else {
+          /* condition for when don't have children */
+          if (_.get(element[index], 'completionPercentage') === 100) {
+            if (element[index + 1] && _.get(element[index + 1], 'completionPercentage') !== 100) {
+              element[index + 1].hideLocIcon = true
+            }
+          }
+        }
+      })
     }
   }
   private fetchContentParents(contentId: string) {
@@ -151,4 +215,10 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         return true
     }
   }
+
+  // ExpandViewChild(data: any) {
+  //   this.viewChildren = !this.viewChildren
+  //   console.log(data, this.viewChildren)
+  // }
+
 }

@@ -111,6 +111,7 @@ export class DashboardComponent implements OnInit {
   showAcademicElse = false
   showInterest = false
   academicsArray: any[] = []
+  mobile: any
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -121,10 +122,12 @@ export class DashboardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
   ) {
+
     if (this.configSvc.userProfile) {
       this.userName = this.configSvc.userProfile.givenName || ''
       this.userEmail = this.configSvc.userProfile.email || ''
       this.departmentName = this.configSvc.userProfile.departmentName || ''
+      this.mobile = this.configSvc.userProfile.phone || ''
 
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
@@ -140,7 +143,7 @@ export class DashboardComponent implements OnInit {
 
                   for (const key in xstandardArray) {
 
-                    if (xstandardArray[key] === '') {
+                    if (xstandardArray[key] !== '') {
                       this.xStandardValues = this.xStandardValues + 1
                     }
                   }
@@ -151,7 +154,7 @@ export class DashboardComponent implements OnInit {
 
                   for (const key in xiistandardArray) {
 
-                    if (xiistandardArray[key] === '') {
+                    if (xiistandardArray[key] !== '') {
                       this.xiiStandardValues = this.xiiStandardValues + 1
                     }
                   }
@@ -162,7 +165,7 @@ export class DashboardComponent implements OnInit {
 
                   for (const key in graduateArray) {
 
-                    if (graduateArray[key] === '') {
+                    if (graduateArray[key] !== '') {
                       this.graduate = this.graduate + 1
                     }
                   }
@@ -173,7 +176,7 @@ export class DashboardComponent implements OnInit {
 
                   for (const key in postGraduateArray) {
 
-                    if (postGraduateArray[key] === '') {
+                    if (postGraduateArray[key] !== '') {
                       this.postGraduate = this.postGraduate + 1
                     }
                   }
@@ -183,18 +186,13 @@ export class DashboardComponent implements OnInit {
 
               if (this.xStandardValues > 1 || this.xiiStandardValues > 1 || this.graduate > 1 || this.postGraduate > 1) {
                 this.showAcademicElse = true
+              } else {
+                this.showAcademicElse = false
               }
             }
-            // const academics = this.populateAcademics(data[0])
-            // this.setDegreeValuesArray(academics)
-            // this.setPostDegreeValuesArray(academics)
-            // const organisations = this.populateOrganisationDetails(data[0])
-            // this.constructFormFromRegistry(data[0], academics, organisations)
-            // this.populateChips(data[0])
           }
-          // this.handleFormData(data[0])
         },
-        (_err: any) => {
+        () => {
         })
     }
   }

@@ -79,10 +79,11 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
+    request.request.filters['status'] = ['Live']
     const v6Request: NSSearch.ISearchV6RequestV2 = {
       request: {
         query: request.request.query,
-        filters: request.request.filters,
+        filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },

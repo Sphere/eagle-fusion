@@ -1,0 +1,101 @@
+@import 'ws-mixins';
+
+.content {
+  padding: 60px 20px 60px;
+  font-size: 16px;
+  margin: auto;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 35%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 30%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
+}
+
+::placeholder {
+  color: #bebebe !important;
+}
+
+.date-picker {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.field-fullwidth {
+  width: 100% !important;
+}
+
+::ng-deep .mat-form-field-infix {
+  padding: 5px 0 !important;
+  font-size: 16px;
+  line-height: 14px !important;
+}
+
+.save-btn {
+  width: 88px;
+  height: 38px;
+  background-color: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border: 0;
+  font-size: 16px;
+  line-height: 19px;
+  float: right;
+  cursor: pointer;
+}
+
+.save-btn:disabled {
+  background-color: #BFBFBF;
+  color: #808080;
+  cursor: default;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 1rem !important;
+  margin-bottom: 0 !important;
+}
+
+:ng-deep .mat-form-field-flex {
+  height: 45px !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+.icon {
+  padding-left: 25px;
+  background: url("https://static.thenounproject.com/png/101791-200.png") no-repeat left;
+  background-size: 20px;
+}
+
+// .lang-icon {
+//   padding-left: 25px;
+//   background: url("/fusion-assets/icons/lang-icon.png") no-repeat left;
+//   background-size: 20px;
+// }
+
+img.lang-img {
+  width: 33px;
+  float: right;
+  position: relative;
+  margin-right: 8px;
+  top: 30px;
+}

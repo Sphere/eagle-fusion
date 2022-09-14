@@ -1,0 +1,142 @@
+<div>
+  <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">
+  </h3>
+  <h3 *ngIf="question.questionType === 'fitb'" class="m-0" [innerHTML]="safeQuestion" class="quiz-question"></h3>
+
+  <ng-container *ngIf="question.questionType === 'fitb'">
+
+    <div *ngFor="let option of question?.options; let i = index">
+      <div [ngClass]="{
+            'correct-option': viewState === 'answer' && option?.isCorrect
+          }" *ngIf="viewState === 'answer' && option?.isCorrect">
+        {{ option?.text }}
+      </div>
+      <div class="background-well padding-left-m padding-xs"
+        *ngIf="viewState === 'review' && option?.hint && !unTouchedBlank[i]" [ngClass]="{
+            'correct-option': viewState === 'review' && correctOption[i],
+            'incorrect-option': viewState === 'review' && !correctOption[i]
+          }">
+        <p class="margin-remove mat-body-2">
+          <ng-container i18n="explanation/hint message for blank label in fill-in-the-blanks">
+            Explanation for blank
+          </ng-container>
+          <ng-container> {{ i + 1 }} : </ng-container>
+        </p>
+        <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="question.questionType === 'mcq-sca'">
+    <!-- text -->
+
+    <mat-radio-group *ngIf="question.questionType === 'mcq-sca'" class="quiz-radio-group">
+      <div *ngFor="let option of question?.options">
+        <mat-radio-button class="quiz-radio-button" [ngClass]="{
+              'correct-answer':
+                (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
+                (viewState === 'answer' && option?.isCorrect),
+              'incorrect-answer': viewState === 'review' && !option?.isCorrect && isSelected(option)
+            }" [value]="option.optionId" (change)="itemSelected.emit(option.optionId)">
+          <span class="wrap-mat-radio-label">
+            <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+              {{ option?.text }}
+            </mat-error>
+            <div [ngClass]="{
+                  'correct-option':
+                    (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
+                    (viewState === 'answer' && option?.isCorrect)
+                }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+              {{ option?.text }}
+            </div>
+          </span>
+        </mat-radio-button>
+        <div class="background-well padding-left-m padding-xs"
+          *ngIf="viewState === 'review' && isSelected(option) && option?.hint">
+          <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+            <p class="margin-remove mat-body-2" i18n="option explanation label">
+              Explanation:
+            </p>
+            <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
+          </mat-error>
+          <div [ngClass]="{
+                'correct-option':
+                  (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
+                  (viewState === 'answer' && option?.isCorrect)
+              }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+            <p class="margin-remove mat-body-2" i18n="option explanation label">
+              Explanation :
+            </p>
+            <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
+          </div>
+        </div>
+      </div>
+    </mat-radio-group>
+  </ng-container>
+
+  <ng-container *ngIf="question.questionType === 'mcq-mca'">
+
+    <mat-selection-list class="app-class">
+      <div [ngClass]="{
+            'correct-answer':
+              (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
+              (viewState === 'answer' && option?.isCorrect),
+            'incorrect-answer': viewState === 'review' && !option?.isCorrect && isSelected(option)
+          }" *ngFor="let option of question?.options">
+        <mat-list-option checkboxPosition="before" (click)="itemSelected.emit(option.optionId)">
+          <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+            {{ option?.text }}
+          </mat-error>
+          <div [ngClass]="{
+                'correct-option':
+                  (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
+                  (viewState === 'answer' && option?.isCorrect)
+              }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+            {{ option?.text }}
+          </div>
+        </mat-list-option>
+        <div class="background-well padding-left-m padding-xs"
+          *ngIf="viewState === 'review' && isSelected(option) && option?.hint">
+          <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+            <p class="margin-remove mat-body-2" i18n="option explanation label">
+              Explanation
+            </p>
+            <p class="margin-remove" [innerHTML]="option?.hint"></p>
+          </mat-error>
+          <div [ngClass]="{
+                'correct-option':
+                  (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
+                  (viewState === 'answer' && option?.isCorrect)
+              }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
+            <p class="margin-remove mat-body-2" i18n="option explanation label">
+              Explanation
+            </p>
+            <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
+          </div>
+        </div>
+      </div>
+    </mat-selection-list>
+  </ng-container>
+
+  <ng-container *ngIf="question.questionType === 'mtf'">
+
+    <div (scroll)="repaintEveryThing()" (resize)="repaintEveryThing()">
+      <div style="height:auto">
+        <div style="display: flex;flex-direction: column;" [id]="question.questionId">
+          <div *ngFor="let option of question.options; let i = index">
+            <div style="display: flex;justify-content: space-around;flex-wrap: wrap;  height:auto;">
+              <div [class]="'question' + question.questionId + ' question'" [id]="'c1' + question.questionId + (i + 1)">
+                {{ option.text }}
+              </div>
+              <div [class]="'answer' + question.questionId + ' answer'" [id]="'c2' + question.questionId + (i + 1)">
+                {{ option.matchForView }}
+              </div>
+            </div>
+            <br />
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

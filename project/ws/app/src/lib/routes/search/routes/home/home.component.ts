@@ -5,6 +5,8 @@ import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ISearchAutoComplete, ISearchQuery, ISuggestedFilters } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
+import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
+
 @Component({
   selector: 'ws-app-home',
   templateUrl: './home.component.html',
@@ -28,6 +30,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private searchSvc: SearchServService,
+    private searchApi: SearchApiService
   ) {
     const isAutoCompleteAllowed = this.route.snapshot.data.pageData.data.search.isAutoCompleteAllowed
     if (typeof isAutoCompleteAllowed === 'undefined' ||
@@ -40,6 +43,12 @@ export class HomeComponent implements OnInit {
         this.getAutoCompleteResults()
       })
     }
+        this.searchApi.currentMessage.subscribe(
+      (data: any) => {
+        if (data) {
+          this.search()
+        }
+      })
   }
 
   search(query?: string) {

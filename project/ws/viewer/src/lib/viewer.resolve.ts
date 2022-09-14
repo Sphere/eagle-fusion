@@ -9,7 +9,7 @@ import { ViewerDataService } from './viewer-data.service'
 import { MobileAppsService } from '../../../../../src/app/services/mobile-apps.service'
 import { Platform } from '@angular/cdk/platform'
 
-const ADDITIONAL_FIELDS_IN_CONTENT = ['creatorContacts', 'source', 'exclusiveContent', 'body']
+// const ADDITIONAL_FIELDS_IN_CONTENT = ['creatorContacts', 'source', 'exclusiveContent', 'body']
 @Injectable()
 export class ViewerResolve
   implements
@@ -121,16 +121,20 @@ export class ViewerResolve
     const forPreview = window.location.href.includes('/author/') || route.queryParamMap.get('preview') === 'true'
     return (forPreview
       ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
-      : this.contentSvc.fetchContent(
-        this.viewerDataSvc.resourceId,
-        'detail',
-        ADDITIONAL_FIELDS_IN_CONTENT,
-        this.viewerDataSvc.primaryCategory,
-      )
+      : this.contentSvc.fetchHierarchyContent(this.viewerDataSvc.resourceId)
+      // this.contentSvc.fetchContent(
+      //   this.viewerDataSvc.resourceId,
+      //   'detail',
+      //   ADDITIONAL_FIELDS_IN_CONTENT,
+      //   this.viewerDataSvc.primaryCategory,
+      // )
     ).pipe(
       tap(content => {
         // tslint:disable-next-line: no-parameter-reassignment
         content = content.result.content
+        if (content && content.gatingEnabled) {
+          this.viewerDataSvc.setNode(content.gatingEnabled)
+        }
         if (content.status === 'Deleted' || content.status === 'Expired') {
           this.router.navigate([
             `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview?primaryCategory=${content.primaryCategory}`,

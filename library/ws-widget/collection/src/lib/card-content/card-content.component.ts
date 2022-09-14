@@ -1,14 +1,16 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, EventService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
-import { Subscription } from 'rxjs'
+import { ConfigurationsService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
+import { Subscription, of } from 'rxjs'
 import { NsGoal } from '../btn-goals/btn-goals.model'
 import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
-// import { Router } from '@angular/router';
+import { Router } from '@angular/router'
+import { delay, mergeMap } from 'rxjs/operators'
+import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -37,13 +39,15 @@ export class CardContentComponent extends WidgetBaseComponent
   isIntranetAllowedSettings = false
   showLoggedInCard = false
   showEndPopup = false
+  userDetails: any
+
   constructor(
-    private events: EventService,
     private configSvc: ConfigurationsService,
     private utilitySvc: UtilityService,
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
-    // private router: Router
+    private userProfileSvc: UserProfileService,
+    private router: Router
   ) {
     super()
     this.offSetXValue = 290
@@ -55,10 +59,10 @@ export class CardContentComponent extends WidgetBaseComponent
     // if (url.indexOf('login') > 0 || url.indexOf('explore') > 0 && !this.authSvc.isAuthenticated) {
     //   this.showLoggedInCard = true
     // }
-    if (url.indexOf('login') > 0 || url.indexOf('explore') > 0) {
+    if (url.indexOf('/public/home') > 0 || url.indexOf('explore') > 0) {
       this.showLoggedInCard = true
     }
-    if (sessionStorage.getItem('loginbtn') || sessionStorage.getItem('url_before_login')) {
+    if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {
       this.isUserLoggedIn = false
@@ -111,12 +115,15 @@ export class CardContentComponent extends WidgetBaseComponent
       // console.log('this.showEndPopup', this.showEndPopup)
     }
   }
-
   clickToRedirect(data: any) {
-    sessionStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-    // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-    // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-    window.location.href = `${this.defaultRedirectUrl}apis/reset`
+    if (this.configSvc.userProfile === null) {
+      localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+      const url = localStorage.getItem(`url_before_login`) || ''
+      this.router.navigateByUrl(url)
+    } else {
+      this.raiseTelemetry()
+    }
+
   }
 
   checkContentTypeCriteria() {
@@ -170,12 +177,27 @@ export class CardContentComponent extends WidgetBaseComponent
     }
   }
 
-  login(key: 'E' | 'N' | 'S') {
-    this.authSvc.login(key, document.baseURI)
+  login(data: any) {
+    this.router.navigate(['/public/toc'], {
+      state: {
+        tocData: data,
+      },
+    })
+    localStorage.setItem('tocData', JSON.stringify(data))
+    localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+    // // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+
+    // // if (localStorage.getItem('login_url')) {
+    // //   const url: any = localStorage.getItem('login_url')
+    // //   window.location.href = url
+    // // }
+    // // this.authSvc.login(key, document.baseURI)
+    // this.router.navigateByUrl('app/login')
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
-    const url = `/app/toc/${contentId}/overview`
+    const localUrl = location.origin
+    const url = `${localUrl}/app/toc/${contentId}/overview`
     this.authSvc.login(key, url)
   }
 
@@ -185,14 +207,14 @@ export class CardContentComponent extends WidgetBaseComponent
     this.offSetYValue = -340
   }
 
-  private get defaultRedirectUrl(): string {
-    try {
-      const baseUrl = document.baseURI
-      return baseUrl || location.origin
-    } catch (error) {
-      return location.origin
-    }
-  }
+  // private get defaultRedirectUrl(): string {
+  //   try {
+  //     const baseUrl = document.baseURI
+  //     return baseUrl || location.origin
+  //   } catch (error) {
+  //     return location.origin
+  //   }
+  // }
 
   get checkDisplayName(): string {
     if (this.widgetData.content.creatorDetails && this.widgetData.content.creatorDetails.length) {
@@ -295,11 +317,23 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   raiseTelemetry() {
-    this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-      contentId: this.widgetData.content.identifier,
-      contentType: this.widgetData.content.contentType,
-      context: this.widgetData.context,
-    })
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
+        return of(data)
+      })).subscribe((userDetails: any) => {
+        if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
+          //   contentId: this.widgetData.content.identifier,
+          //   contentType: this.widgetData.content.contentType,
+          //   context: this.widgetData.context,
+          // })
+          this.router.navigateByUrl(`/app/toc/${this.widgetData.content.identifier}/overview?primaryCategory=Course`)
+        } else {
+          const url = `/app/toc/${this.widgetData.content.identifier}/overview`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+        }
+      })
+    }
   }
 
   get isGreyedImage() {
@@ -315,10 +349,12 @@ export class CardContentComponent extends WidgetBaseComponent
   convertToISODate(date = ''): Date {
     try {
       return new Date(
-        `${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(6, 8)}${date.substring(
+        `${date.substring(0, 4)
+        } -${date.substring(4, 6)} -${date.substring(6, 8)}${date.substring(
           8,
           11,
-        )}:${date.substring(11, 13)}:${date.substring(13, 15)}.000Z`,
+        )
+        }:${date.substring(11, 13)}:${date.substring(13, 15)} .000Z`,
       )
     } catch (ex) {
       return new Date(new Date().setMonth(new Date().getMonth() - 1))

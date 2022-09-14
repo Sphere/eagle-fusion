@@ -9,12 +9,14 @@ import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
+  // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
   // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
-  AuthKeycloakService,
+  // AuthKeycloakService,
+  // AuthKeycloakService,
   ConfigurationsService,
   LoggerService,
   NsAppsConfig,
@@ -55,7 +57,7 @@ export class InitService {
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    private authSvc: AuthKeycloakService,
+    // private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
@@ -64,7 +66,7 @@ export class InitService {
     // private loginResolverService: LoginResolverService,
 
     @Inject(APP_BASE_HREF) private baseHref: string,
-    // private router: Router,
+    //private router: Router,
     domSanitizer: DomSanitizer,
     iconRegistry: MatIconRegistry,
   ) {
@@ -92,6 +94,7 @@ export class InitService {
 
   async init() {
     // this.logger.removeConsoleAccess()
+
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
     // if (!authenticated) {
@@ -108,7 +111,11 @@ export class InitService {
     // }
     // Invalid User
     try {
-      await this.fetchStartUpDetails() // detail: depends only on userID
+      // await this.fetchStartUpDetails()
+      if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
+        await this.fetchStartUpDetails() // detail: depends only on userID
+      }
+
     } catch (e) {
       this.settingsSvc.initializePrefChanges(environment.production)
       this.updateNavConfig()
@@ -122,7 +129,7 @@ export class InitService {
       // const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
       // this.configSvc.userPreference = userPrefPromise
       // this.configSvc.userPreference.selectedTheme = 'theme-igot'
-      // this.reloadAccordingToLocale()
+      this.reloadAccordingToLocale()
       // if (this.configSvc.userPreference.pinnedApps) {
       //   const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')
       //   this.configSvc.pinnedApps.next(new Set(pinnedApps))
@@ -184,48 +191,63 @@ export class InitService {
     return true
   }
 
-  // private reloadAccordingToLocale() {
-  //   if (window.location.origin.indexOf('http://localhost:') > -1) {
-  //     return
-  //   }
-  //   let pathName = window.location.href.replace(window.location.origin, '')
-  //   const runningAppLang = this.locale
-  //   if (pathName.startsWith(`//${runningAppLang}//`)) {
-  //     pathName = pathName.replace(`//${runningAppLang}//`, '/')
-  //   }
-  //   const instanceLocales = this.configSvc.instanceConfig && this.configSvc.instanceConfig.locals
-  //   if (Array.isArray(instanceLocales) && instanceLocales.length) {
-  //     const foundInLocales = instanceLocales.some(locale => {
-  //       return locale.path !== runningAppLang
-  //     })
-  //     if (foundInLocales) {
-  //       if (
-  //         this.configSvc.userPreference &&
-  //         this.configSvc.userPreference.selectedLocale &&
-  //         runningAppLang !== this.configSvc.userPreference.selectedLocale
-  //       ) {
-  //         let languageToLoad = this.configSvc.userPreference.selectedLocale
-  //         languageToLoad = `\\${languageToLoad}`
-  //         if (this.configSvc.userPreference.selectedLocale === 'en') {
-  //           languageToLoad = ''
-  //         }
-  //         location.assign(`${location.origin}${languageToLoad}${pathName}`)
-  //       }
-  //     }
-  //   }
-  // }
+  private reloadAccordingToLocale() {
+    if (window.location.origin.indexOf('http://localhost:') > -1) {
+      return
+    }
+    let pathName = window.location.href.replace(window.location.origin, '')
+    const runningAppLang = this.locale
+    if (pathName.startsWith(`//${runningAppLang}//`)) {
+      pathName = pathName.replace(`//${runningAppLang}//`, '/')
+    }
+    const instanceLocales = this.configSvc.instanceConfig && this.configSvc.instanceConfig.locals
+    if (Array.isArray(instanceLocales) && instanceLocales.length) {
+      const foundInLocales = instanceLocales.some(locale => {
+        return locale.path !== runningAppLang
+      })
+      if (foundInLocales) {
+        if (
+          this.configSvc.userPreference &&
+          this.configSvc.userPreference.selectedLocale &&
+          runningAppLang !== this.configSvc.userPreference.selectedLocale
+        ) {
+          let languageToLoad = this.configSvc.userPreference.selectedLocale
+          languageToLoad = `\\${languageToLoad}`
+          if (this.configSvc.userPreference.selectedLocale === 'en') {
+            languageToLoad = ''
+          }
+          location.assign(`${location.origin}${languageToLoad}${pathName}`)
+        }
+      }
+    }
+  }
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
-    const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
-      .toPromise()
-    this.configSvc.instanceConfig = publicConfig
-    this.configSvc.rootOrg = publicConfig.rootOrg
-    this.configSvc.org = publicConfig.org
-    // TODO: set one org as default org :: use user preference
-    this.configSvc.activeOrg = publicConfig.org[0]
-    this.configSvc.appSetup = publicConfig.appSetup
-    return publicConfig
+
+    if((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
+      const publicConfig: NsInstanceConfig.IConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.configSvc.rootOrg = publicConfig.rootOrg
+      this.configSvc.org = publicConfig.org
+      // TODO: set one org as default org :: use user preference
+      this.configSvc.activeOrg = publicConfig.org[0]
+      this.configSvc.appSetup = publicConfig.appSetup
+      return publicConfig
+    } else {
+      const publicConfig: NsInstanceConfig.IConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.configSvc.rootOrg = publicConfig.rootOrg
+      this.configSvc.org = publicConfig.org
+      // TODO: set one org as default org :: use user preference
+      this.configSvc.activeOrg = publicConfig.org[0]
+      this.configSvc.appSetup = publicConfig.appSetup
+      return publicConfig
+    }
+
   }
 
   get locale(): string {
@@ -241,81 +263,6 @@ export class InitService {
     return appsConfig
   }
 
-
-
-  // private async fetchStartUpDetails(): Promise<IDetailsResponse> {
-  //   const userRoles: string[] = []
-  //   if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
-  //     let userPidProfile: NsUser.IUserPidProfileV2 | null = null
-  //     try {
-  //       userPidProfile = await this.http
-  //         .get<NsUser.IUserPidProfileV2>(endpoint.profilePid)
-  //         .toPromise()
-  //     } catch (e) {
-  //       this.configSvc.userProfile = null
-  //       throw new Error('Invalid user')
-  //     }
-  //     if (userPidProfile) {
-  //       this.configSvc.unMappedUser = userPidProfile.result.response
-  //       this.configSvc.userProfile = {
-  //         country: userPidProfile.result.response.countryCode || null,
-  //         // departmentName: userPidProfile.result.response.department_name || '',
-  //         email: userPidProfile.result.response.email,
-  //         givenName: userPidProfile.result.response.firstName,
-  //         userId: userPidProfile.result.response.userId,
-  //         firstName: userPidProfile.result.response.firstName,
-  //         lastName: userPidProfile.result.response.lastName,
-  //         rootOrgId: userPidProfile.result.response.rootOrgId,
-  //         rootOrgName: userPidProfile.result.response.rootOrgName,
-  //         // unit: userPidProfile.user.unit_name,
-  //         // tslint:disable-next-line:max-line-length
-  //         userName: `${userPidProfile.result.response.firstName ? userPidProfile.result.response.firstName : ' '}${userPidProfile.result.response.lastName ? userPidProfile.result.response.lastName : ' '}`,
-
-  //         // source_profile_picture: userPidProfile.result.response.source_profile_picture || '',
-  //         dealerCode: null,
-  //         isManager: false,
-  //         // dealerCode:
-  //         //   userPidProfile &&
-  //         //     userPidProfile.result.response.json_unmapped_fields &&
-  //         //     userPidProfile.result.response.json_unmapped_fields.dealer_code
-  //         //     ? userPidProfile.result.response.json_unmapped_fields.dealer_code
-  //         //     : null,
-  //         // isManager:
-  //         //   userPidProfile &&
-  //         //     userPidProfile.result.response.json_unmapped_fields &&
-  //         //     userPidProfile.result.response.json_unmapped_fields.is_manager
-  //         //     ? userPidProfile.result.response.json_unmapped_fields.is_manager
-  //         //     : false,
-  //         // userName: `${userPidProfile.user.first_name} ${userPidProfile.user.last_name}`,
-  //       }
-  //     }
-  //     const details = { group: [], profileDetailsStatus: true, roles: (userRoles || []).map(v => v.toLowerCase()), tncStatus: true }
-  //     this.configSvc.hasAcceptedTnc = details.tncStatus
-  //     this.configSvc.profileDetailsStatus = details.profileDetailsStatus
-  //     // this.configSvc.userRoles = new Set((userRoles || []).map(v => v.toLowerCase()))
-  //     const detailsV: IDetailsResponse = await this.http
-  //       .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
-  //       .toPromise()
-  //     this.configSvc.userGroups = new Set(detailsV.group)
-  //     this.configSvc.userRoles = new Set((detailsV.roles || []).map(v => v.toLowerCase()))
-  //     return details
-  //   } else {
-  //     return { group: [], profileDetailsStatus: true, roles: userRoles, tncStatus: true }
-
-  //     // const details: IDetailsResponse = await this.http
-  //     //   .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
-  //     //   .toPromise()
-  //     // this.configSvc.userGroups = new Set(details.group)
-  //     // this.configSvc.userRoles = new Set(details.roles)
-  //     // if (this.configSvc.userProfile && this.configSvc.userProfile.isManager) {
-  //     //   this.configSvc.userRoles.add('is_manager')
-  //     // }
-  //     // this.configSvc.hasAcceptedTnc = details.tncStatus
-  //     // this.configSvc.profileDetailsStatus = details.profileDetailsStatus
-  //     // return details
-  //   }
-  // }
-
   private async fetchStartUpDetails(): Promise<any> {
     // const userRoles: string[] = []
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
@@ -325,6 +272,7 @@ export class InitService {
           .get<any>(endpoint.profilePid)
           .pipe(map((res: any) => res.result.response))
           .toPromise()
+
         if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
           this.hasRole(userPidProfile.roles)) {
           // if (userPidProfile.result.response.organisations.length > 0) {
@@ -336,7 +284,7 @@ export class InitService {
           }
           localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
-          const profileV2 = _.get(userPidProfile, 'profiledetails')
+          const profileV2 = _.get(userPidProfile, 'profileDetails.profileReq')
           this.configSvc.userProfile = {
             country: _.get(profileV2, 'personalDetails.countryCode') || null,
             email: _.get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
@@ -353,6 +301,8 @@ export class InitService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
+            phone: _.get(userPidProfile, 'phone'),
+            language: (userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
@@ -367,15 +317,22 @@ export class InitService {
             profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
+            language: (userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
+          }
+          if (!this.configSvc.nodebbUserProfile) {
+            this.configSvc.nodebbUserProfile = {
+              username: userPidProfile.userName,
+              email: 'null',
+            }
           }
         } else {
-          this.authSvc.logout()
+          //this.authSvc.logout()
         }
         const details = {
           group: [],
           profileDetailsStatus: !!_.get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
           roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
-          tncStatus: !userPidProfile.promptTnC,
+          tncStatus: !(_.isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
@@ -389,8 +346,9 @@ export class InitService {
         this.configSvc.isActive = details.isActive
         return details
       } catch (e) {
+        console.log(e)
         this.configSvc.userProfile = null
-        throw new Error('Invalid user')
+        return e
       }
     } else {
       return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }

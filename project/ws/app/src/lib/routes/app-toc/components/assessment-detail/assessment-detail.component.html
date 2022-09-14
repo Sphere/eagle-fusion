@@ -1,0 +1,43 @@
+<div class="overview-container">
+
+  <div class="header1">
+    <div *ngIf="resourceLink; else elseRouterLock">
+      <a [routerLink]="resourceLink?.url? resourceLink.url : content.viewerUrl "
+        [queryParams]="resourceLink?.queryParams?resourceLink.queryParams : 'preserve' ">
+        {{content.name}}
+      </a>
+    </div>
+    <ng-template #elseRouterLock>
+      {{content.name}}
+    </ng-template>
+  </div>
+  <!-- <div class="label1 pt-1">
+    {{assesmentdata.isAssessment ? 'Assessment' : 'Quiz'}}
+  </div> -->
+  <div class="row">
+    <div class=" m-2 p-2 ellips">
+      <h4 *ngIf="assesmentdata.timeLimit" class="label2">{{
+        assesmentdata.timeLimit | pipeDurationTransform: 'mnts'
+        }}
+      </h4>
+      <h4 *ngIf="assesmentdata.duration" class="label2">{{
+        assesmentdata.duration | pipeDurationTransform: 'mnts'
+        }}
+      </h4>
+      <h4 class="label3">Minutes</h4>
+    </div>
+    <div class="m-2 p-2 ellips">
+      <h4 class="label2">
+        {{assesmentdata.questions.length}}</h4>
+      <h4 class="label3">Questions</h4>
+    </div>
+    <div class=" m-2 p-2 ellips">
+      <h4 class="label2">{{assesmentdata.passPercentage}}<span>%</span></h4>
+      <h4 class="label3">Required</h4>
+
+    </div>
+  </div>
+
+
+
+</div>

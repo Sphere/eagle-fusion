@@ -16,6 +16,10 @@
 
 .custom {
   height: 80px;
+
+  @include breakpoint-xs {
+    height: 54px;
+  }
 }
 
 .tourGuideBtn:hover {
@@ -31,11 +35,15 @@
   max-width: 150px;
   display: block;
   width: 100%;
-  padding-top: 3px;
+  /*  padding-top: 10px;
+  padding-right: 16px;*/
+  cursor: pointer;
 }
+
 .header-btn {
   margin: 14px 5px 14px;
 }
+
 .app-logo {
   height: auto;
   max-width: 100%;
@@ -43,9 +51,10 @@
   max-height: 60px;
 
   @include breakpoint-xs {
-    max-width: 80px;
+    max-width: 100px;
   }
 }
+
 .site-description {
   font-size: 14px;
   // display: inline-block;
@@ -61,6 +70,7 @@
   box-sizing: content-box;
   // font-size: 9px;
   line-height: 1.33333em;
+
   p {
     margin-top: 10px;
   }
@@ -82,6 +92,7 @@
 }
 
 @media screen and (min-width: 980px) {
+
   .logo-dim,
   .site-description {
     // -webkit-flex-shrink:0;
@@ -89,6 +100,7 @@
     // flex-shrink: 0;
   }
 }
+
 .title {
   font-size: 12px !important;
   line-height: 26px !important;
@@ -179,12 +191,12 @@
 
 .my-search {
   display: flex;
-  margin-left: 8px;
-  margin-right: 0;
+  margin-left: 20px;
+  //margin-right: 0;
   text-align: center;
   flex: 1;
   height: 50px;
-  margin-top: 6px;
+  //margin-top: 12px;
   max-width: 470px;
 }
 
@@ -192,9 +204,21 @@
   .my-search {
     display: none;
   }
+}
 
+@media only screen and (max-width: 600px) {
   .search-small-logo {
     display: flex;
+    padding: 10px;
+    // display: none;
+  }
+
+  .top-right-profile {
+    display: none;
+  }
+
+  .mat-tool-navbar {
+    box-shadow: none !important;
   }
 }
 
@@ -203,10 +227,16 @@
     display: none;
   }
 }
+
 .hide-xs {
   @include breakpoint-xs {
     display: none;
   }
 }
-// @media
-// 760px
+
+.lang-img {
+  width: 33px;
+  height: 24px;
+  align-self: center;
+  margin-right: 10px;
+}

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService } from '@ws-widget/utils'
+import { EventService, ConfigurationsService } from '@ws-widget/utils'
 import videoJs from 'video.js'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -13,6 +13,7 @@ import {
   videoInitializer,
   videoJsInitializer,
 } from '../_services/videojs-util'
+import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 
 const videoJsOptions: videoJs.PlayerOptions = {
@@ -50,13 +51,23 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   @ViewChild('realvideoTag', { static: false }) realvideoTag!: ElementRef<HTMLVideoElement>
   private player: videoJs.Player | null = null
   private dispose: (() => void) | null = null
+  contentData: any
+
   constructor(
     private eventSvc: EventService,
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private activatedRoute: ActivatedRoute,
+    private configSvc: ConfigurationsService
   ) {
     super()
+    // console.log(window.innerWidth)
+    // if (window.innerWidth < 768) {
+    //   screen.orientation.lock('landscape');
+    //   //this.isMobileResolution = true;
+    // } else {
+    //   //this.isMobileResolution = false;
+    // }
   }
 
   ngOnInit() { }
@@ -141,6 +152,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
 
     }
+
     if (this.widgetData.resumePoint && this.widgetData.resumePoint !== 0) {
       this.realvideoTag.nativeElement.currentTime = this.widgetData.resumePoint
     }
@@ -168,42 +180,42 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const saveCLearning: saveContinueLearningFunction = data => {
-      if (this.widgetData.identifier) {
+      if (this.widgetData.identifier && data) {
         if (this.activatedRoute.snapshot.queryParams.collectionType &&
           this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-          const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-            resourceId: data.resourceId,
-            contextType: 'playlist',
-            dateAccessed: Date.now(),
-            data: JSON.stringify({
-              progress: data.progress,
-              timestamp: Date.now(),
-              contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-            }),
-          }
-          this.contentSvc
-            .saveContinueLearning(continueLearningData)
-            .toPromise()
-            .catch()
+          // const continueLearningData = {
+          //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
+          //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+          //   resourceId: data.resourceId,
+          //   contextType: 'playlist',
+          //   dateAccessed: Date.now(),
+          //   data: JSON.stringify({
+          //     progress: data.progress,
+          //     timestamp: Date.now(),
+          //     contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
+          //   }),
+          // }
+          // this.contentSvc
+          //   .saveContinueLearning(continueLearningData)
+          //   .toPromise()
+          //   .catch()
         } else {
-          const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-              ? this.activatedRoute.snapshot.queryParams.collectionId
-              : this.widgetData.identifier,
-            ...data,
-            // resourceId: data.resourceId,
-            // dateAccessed: Date.now(),
-            // data: JSON.stringify({
-            //   progress: data.progress,
-            //   timestamp: Date.now(),
-            // }),
-          }
-          this.contentSvc
-            .saveContinueLearning(continueLearningData)
-            .toPromise()
-            .catch()
+          // const continueLearningData = {
+          //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
+          //     ? this.activatedRoute.snapshot.queryParams.collectionId
+          //     : this.widgetData.identifier,
+          //   ...data,
+          //   // resourceId: data.resourceId,
+          //   // dateAccessed: Date.now(),
+          //   // data: JSON.stringify({
+          //   //   progress: data.progress,
+          //   //   timestamp: Date.now(),
+          //   // }),
+          // }
+          // this.contentSvc
+          //   .saveContinueLearning(continueLearningData)
+          //   .toPromise()
+          //   .catch()
         }
       }
     }
@@ -212,12 +224,43 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
         this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
-      if (this.widgetData.identifier && identifier && data) {
-        this.viewerSvc
-          .realTimeProgressUpdate(identifier, data, collectionId, batchId)
-      }
 
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId,
+          courseId: collectionId,
+          contentIds: [],
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        result => {
+          this.contentData = result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
+          const temp = data.current
+          const latest = parseFloat(temp[temp.length - 1] || '0')
+          const percentMilis = (latest / data.max_size) * 100
+          const percent = parseFloat(percentMilis.toFixed(2))
+          if (this.contentData && percent >= this.contentData.completionPercentage) {
+            if (this.widgetData.identifier && identifier && data) {
+              this.viewerSvc
+                .realTimeProgressUpdate(identifier, data, collectionId, batchId)
+              this.contentSvc.changeMessage('Video')
+            }
+          }
+          if (this.contentData === undefined && percent > 95) {
+            this.viewerSvc
+              .realTimeProgressUpdate(identifier, data, collectionId, batchId)
+            this.contentSvc.changeMessage('Video')
+          }
+
+        })
     }
+
     let enableTelemetry = false
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {
       enableTelemetry = true
@@ -239,6 +282,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.widgetData,
       this.widgetData.mimeType,
     )
+
     this.player = initObj.player
     this.dispose = initObj.dispose
     initObj.player.ready(() => {
@@ -261,6 +305,27 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     })
   }
+  // onTimeUpdate() {
+  //   const percentage = (this.videoTag.nativeElement.currentTime / this.videoTag.nativeElement.duration) * 100
+
+  //   const data = {
+  //     current: this.videoTag.nativeElement.currentTime,
+  //     max_size: this.videoTag.nativeElement.duration,
+  //     mime_type: this.widgetData.mimeType,
+  //   }
+
+  //   const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+  //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+  //   const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+  //     this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+  //   if (this.widgetData.identifier) {
+  //     if (percentage >= 98) {
+  //       data.current = data.max_size;
+  //       this.viewerSvc
+  //         .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
+  //    }
+  //   }
+  // }
   async fetchContent() {
     const content = await this.contentSvc
       .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)

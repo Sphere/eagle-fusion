@@ -8,7 +8,7 @@ $nav-height: 40px;
   width: 100%;
   display: flex;
   flex-direction: column;
-}
+ }
 
 // Contents of SideNav Menu
 .sidenav {
@@ -73,6 +73,7 @@ $nav-height: 40px;
 .card-section {
   width: 40%;
   margin: $size-s;
+
 
   @include breakpoint-gt-xs {
     width: 20%;

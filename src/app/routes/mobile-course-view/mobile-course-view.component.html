@@ -1,0 +1,18 @@
+<section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+  <a (click)="navigateToToc(courseData.identifier)">
+    <div class="box">
+      <div class="text-center">
+        <img class="appIcon" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+      </div>
+      <div class="pl-3 pt-3">
+        <p class="name">{{courseData.name}}</p>
+        <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p>
+
+        <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
+      </div>
+      <div *ngIf="enableConfig" class="p-2">
+        <a href="app/toc/{{courseData.identifier}}/overview" class="btn start-btn" i18n>Start now!</a>
+      </div>
+    </div>
+  </a>
+</section>

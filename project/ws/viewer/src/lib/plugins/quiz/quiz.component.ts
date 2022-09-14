@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import {
   Component,
   ElementRef,
@@ -7,9 +8,10 @@ import {
   SimpleChanges,
   ViewChild, ViewChildren,
 } from '@angular/core'
+import { Location } from '@angular/common'
 import { MatDialog, MatSidenav } from '@angular/material'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
@@ -18,6 +20,24 @@ import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
+import { ActivatedRoute, Router } from '@angular/router'
+import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
+import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
+import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
+import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
+import * as _ from 'lodash'
+import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
+import { ViewerDataService } from '../../viewer-data.service'
+import { ConfirmmodalComponent } from './confirm-modal-component'
+import {
+  NsContent,
+  WidgetContentService,
+} from '@ws-widget/collection'
+import {
+  LoggerService,
+  ConfigurationsService,
+} from '@ws-widget/utils'
+import moment from 'moment'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -25,6 +45,7 @@ import { ViewerUtilService } from './../../viewer-util.service'
   styleUrls: ['./quiz.component.scss'],
 })
 export class QuizComponent implements OnInit, OnChanges, OnDestroy {
+  [x: string]: any
 
   @Input() identifier = ''
   @Input() artifactUrl = ''
@@ -52,6 +73,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     ],
     isAssessment: false,
+    passPercentage: 60,
   }
   @ViewChildren('questionsReference') questionsReference: QueryList<QuestionComponent> | null = null
   @ViewChild('sidenav', { static: false }) sideNav: MatSidenav | null = null
@@ -78,14 +100,114 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   timerSubscription: Subscription | null = null
   viewState: NSQuiz.TQuizViewMode = 'initial'
   paramSubscription: Subscription | null = null
+  public dialogOverview: any
+  public dialogAssesment: any
+  public dialogQuiz: any
+  showCompletionMsg = false
+  enrolledCourse: any
+  /*
+* to unsubscribe the observable
+*/
+  public unsubscribe = new Subject<void>()
   constructor(
     private events: EventService,
     public dialog: MatDialog,
     private quizSvc: QuizService,
-    private viewerSvc: ViewerUtilService
-  ) { }
+    private viewerSvc: ViewerUtilService,
+    public route: ActivatedRoute,
+    public location: Location,
+    public viewerDataSvc: ViewerDataService,
+    public router: Router,
+    private contentSvc: WidgetContentService,
+    private loggerSvc: LoggerService,
+    private configSvc: ConfigurationsService,
+  ) {
+
+  }
 
   ngOnInit() {
+  }
+  openOverviewDialog() {
+    let overviewData: any = {}
+    overviewData = {
+      learningObjective: this.learningObjective,
+      complexityLevel: this.complexityLevel,
+      duration: this.duration,
+      timeLimit: this.quizJson.timeLimit,
+      noOfQuestions: this.quizJson.questions.length,
+      progressStatus: this.progressStatus,
+      isNqocnContent: this.isNqocnContent,
+      isAssessment: _.get(this.quizJson, 'isAssessment'),
+      subtitle: this.name,
+      passPercentage: (this.quizJson && this.quizJson.hasOwnProperty('passPercentage')) ? this.quizJson.passPercentage : 60,
+    }
+    this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
+      width: '542px',
+      panelClass: 'overview-modal',
+      disableClose: true,
+      data: overviewData,
+    })
+
+    this.dialogOverview.afterClosed().subscribe((result: any) => {
+      if (result.event === 'close-overview') {
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          if (_.isNull(data.nextResource)) {
+            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              queryParams: {
+                primaryCategory: 'Course',
+                batchId: this.route.snapshot.queryParams.batchId,
+              },
+            })
+            // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          } else {
+            if (_.isNull(data.prevResource)) {
+              if (this.viewerDataSvc.gatingEnabled) {
+                if (data.currentCompletionPercentage === 100) {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                } else {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.route.snapshot.queryParams.batchId,
+                    },
+                  })
+                }
+
+              } else {
+                this.router.navigate([data.nextResource], { preserveQueryParams: true })
+              }
+
+            } else {
+              if (this.viewerDataSvc.gatingEnabled) {
+                if (data.currentCompletionPercentage === 100) {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                } else {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.route.snapshot.queryParams.batchId,
+                    },
+                  })
+                }
+
+              } else {
+                this.router.navigate([data.nextResource], { preserveQueryParams: true })
+              }
+              // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            }
+          }
+          return
+        })
+      } else {
+        // this.startQuiz()
+        if (_.get(this.quizJson, 'isAssessment')) {
+          this.openAssesmentDialog()
+        } else {
+          this.openQuizDialog()
+        }
+
+      }
+    })
   }
 
   scroll(qIndex: number) {
@@ -100,6 +222,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   ngOnChanges(changes: SimpleChanges) {
+    if (this.viewState === 'initial') {
+      setTimeout(() => {
+        this.openOverviewDialog()
+      }, 500)
+    }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
         this.viewState = 'initial'
@@ -127,8 +254,262 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.telemetrySubscription) {
       this.telemetrySubscription.unsubscribe()
     }
+    this.unsubscribe.complete()
+
     this.startTime = 0
     this.timeLeft = 0
+  }
+
+  openAssesmentDialog() {
+    this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
+      panelClass: 'assesment-modal',
+      disableClose: true,
+      data: {
+        questions: this.quizJson,
+        generalData: {
+          identifier: this.identifier,
+          artifactUrl: this.artifactUrl,
+          name: this.name,
+          collectionId: this.collectionId,
+        },
+
+      },
+    })
+    this.dialogAssesment.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (result.event === 'CLOSE') {
+          this.closeBtnDialog()
+        }
+
+        if (result.event === 'RETAKE_QUIZ') {
+          this.openOverviewDialog()
+        } else if (result.event === 'DONE') {
+          let userId
+          if (this.configSvc.userProfile) {
+            // tslint:disable-next-line
+            userId = this.configSvc.userProfile.userId || ''
+          }
+          this.contentSvc.fetchUserBatchList(userId).subscribe(
+            async (courses: NsContent.ICourse[]) => {
+              if (this.collectionId) {
+                if (courses && courses.length) {
+                  this.enrolledCourse = await courses.find(course => {
+                    const identifier = this.collectionId || ''
+                    if (course.courseId !== identifier) {
+                      return undefined
+                    }
+                    return course
+                  })
+                }
+                // tslint:disable-next-line:no-console
+                console.log(this.enrolledCourse)
+                // if (this.enrolledCourse != null) {
+                const customerDate = moment(this.enrolledCourse.completedOn)
+                const dateNow = moment(new Date())
+                const duration = moment.duration(dateNow.diff(customerDate))
+                // tslint:disable-next-line
+                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+                if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
+                  this.showCompletionMsg = true
+                } else {
+                  this.showCompletionMsg = false
+                }
+                // }
+                this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+                  if (_.isNull(data.nextResource)) {
+                    // tslint:disable-next-line
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
+                      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '542px',
+                        panelClass: 'overview-modal',
+                        disableClose: true,
+                        data: 'Congratulations!, you have completed the course',
+                      })
+                      confirmdialog.afterClosed().subscribe((res: any) => {
+                        if (res.event === 'CONFIRMED') {
+                          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                            queryParams: {
+                              primaryCategory: 'Course',
+                              batchId: this.route.snapshot.queryParams.batchId,
+                            },
+                          })
+                        }
+                      })
+                    } else {
+                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                        queryParams: {
+                          primaryCategory: 'Course',
+                          batchId: this.route.snapshot.queryParams.batchId,
+                        },
+                      })
+                    }
+
+                    // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+                  } else {
+                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                  }
+                  return
+                })
+              }
+            },
+            (error: any) => {
+              this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+            },
+          )
+        }
+      }
+    })
+  }
+
+  /*open quiz dialog*/
+  openQuizDialog() {
+    this.dialogQuiz = this.dialog.open(QuizModalComponent, {
+      panelClass: 'quiz-modal',
+      disableClose: true,
+      data: {
+        questions: this.quizJson,
+        generalData: {
+          identifier: this.identifier,
+          artifactUrl: this.artifactUrl,
+          name: this.name,
+          collectionId: this.collectionId,
+        },
+
+      },
+    })
+    this.dialogQuiz.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (result.event === 'CLOSE') {
+          this.closeQuizBtnDialog(result.event)
+        }
+
+        if (result.event === 'RETAKE_QUIZ') {
+          // this.openOverviewDialog(result.event)
+          this.closeQuizBtnDialog(result.event)
+        } else if (result.event === 'DONE') {
+          let userId
+          if (this.configSvc.userProfile) {
+            userId = this.configSvc.userProfile.userId || ''
+          }
+          this.contentSvc.fetchUserBatchList(userId).subscribe(
+            async (courses: NsContent.ICourse[]) => {
+              if (this.collectionId) {
+                if (courses && courses.length) {
+                  this.enrolledCourse = await courses.find(course => {
+                    const identifier = this.collectionId || ''
+                    if (course.courseId !== identifier) {
+                      return undefined
+                    }
+                    return course
+                  })
+                }
+                // tslint:disable-next-line:no-console
+                console.log(this.enrolledCourse)
+                const customerDate = moment(this.enrolledCourse.completedOn)
+                const dateNow = moment(new Date())
+                const duration = moment.duration(dateNow.diff(customerDate))
+                // tslint:disable-next-line
+                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+                if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
+                  this.showCompletionMsg = true
+                } else {
+                  this.showCompletionMsg = false
+                }
+                this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+                  if (_.isNull(data.nextResource)) {
+                    // tslint:disable-next-line
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
+                      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '542px',
+                        panelClass: 'overview-modal',
+                        disableClose: true,
+                        data: 'Congratulations!, you have completed the course',
+                      })
+                      confirmdialog.afterClosed().subscribe((res: any) => {
+                        if (res.event === 'CONFIRMED') {
+                          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                            queryParams: {
+                              primaryCategory: 'Course',
+                              batchId: this.route.snapshot.queryParams.batchId,
+                            },
+                          })
+                        }
+                      })
+                    } else {
+                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                        queryParams: {
+                          primaryCategory: 'Course',
+                          batchId: this.route.snapshot.queryParams.batchId,
+                        },
+                      })
+                    }
+                    // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    //   queryParams: {
+                    //     primaryCategory: 'Course',
+                    //     batchId: this.route.snapshot.queryParams.batchId,
+                    //   },
+                    // })
+                    // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+                  } else {
+                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                  }
+                  return
+                })
+              }
+            },
+            (error: any) => {
+              this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+            },
+          )
+        }
+      }
+    })
+  }
+  closeQuizBtnDialog(event: String) {
+    const dialogRef = this.dialog.open(CloseQuizModalComponent, {
+      panelClass: 'assesment-close-modal',
+      disableClose: true,
+      data: {
+        type: event,
+      },
+    })
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
+        dialogRef.close()
+        this.dialog.closeAll()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          if (!_.isNull(data.prevResource)) {
+            this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          }
+          return
+        })
+      } else if (result.event === 'NO') {
+        this.openQuizDialog()
+      } else if (result.event === 'RETAKE_QUIZ') {
+        this.openOverviewDialog()
+      }
+    })
+  }
+  closeBtnDialog() {
+    const dialogRef = this.dialog.open(AssesmentCloseModalComponent, {
+      panelClass: 'assesment-close-modal',
+      disableClose: true,
+    })
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result.event === 'CLOSE') {
+        dialogRef.close()
+        this.dialog.closeAll()
+        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          if (!_.isNull(data.prevResource)) {
+            this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          }
+
+          return
+        })
+      } else if (result.event === 'NO') {
+        this.openOverviewDialog()
+      }
+    })
   }
 
   overViewed(event: NSQuiz.TUserSelectionType) {
@@ -172,7 +553,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         })
     }
   }
-
+  reTakeQuiz() {
+    this.startQuiz()
+  }
   fillSelectedItems(question: NSQuiz.IQuestion, optionId: string) {
     this.raiseTelemetry('mark', optionId, 'click')
     if (this.viewState === 'answer') {
@@ -248,9 +631,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       this.questionAnswerHash,
     )
     const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
-
+    sanitizedRequestData['artifactUrl'] = this.artifactUrl
+    sanitizedRequestData['contentId'] = this.identifier
+    sanitizedRequestData['courseId'] = this.collectionId
+    sanitizedRequestData['batchId'] = this.route.snapshot.queryParams.batchId
+    sanitizedRequestData['userId'] = localStorage.getItem('userUUID')
     this.quizSvc.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
+        window.scrollTo(0, 0)
         if (this.quizJson.isAssessment) {
           this.isIdeal = true
         }
@@ -281,10 +669,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         //   this.isIdeal,
         //   true,
         // )
-        const top = document.getElementById('quiz-end')
-        if (top !== null) {
-          top.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
       },
       (_error: any) => {
         this.fetchingResultsStatus = 'error'

@@ -4,7 +4,7 @@
 <!-- <span i18n="page title: search" class="margin-left-xs hidden-inline-s">Search</span> -->
 <!-- <span class="spacer"></span>
 </mat-toolbar> -->
-<div role="main" class="flex search justify-center px-4 mt-12">
+<div role="main" class="flex search justify-center px-3 mt-12">
   <div class="w-full md:w-10/12 lg:w-6/12">
     <h1 class="text-center mat-title" i18n>What do you want to learn?</h1>
     <div role="form" class="flex border border-solid search-border">
@@ -20,7 +20,7 @@
       <div class="w-full search">
         <form (submit)="search(query.value)" class="w-full search-form flex">
           <mat-form-field class="w-full" appearance="none">
-            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput
+            <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput cdkFocusInitial
               placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
           </mat-form-field>
           <mat-autocomplete (optionSelected)="search($event.option.value)" #auto="matAutocomplete">
@@ -43,6 +43,7 @@
     </div>
   </div>
 </div>
+<ws-app-learning></ws-app-learning>
 
 <mat-menu #sortLang="matMenu">
   <ng-template matMenuContent>

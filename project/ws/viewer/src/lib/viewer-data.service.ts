@@ -8,6 +8,8 @@ export interface IViewerTocChangeEvent {
   prevResource: string | null
   previousTitle: string | null
   nextResTitle: string | null
+  currentCompletionPercentage: number | null
+  prevCompletionPercentage: number | null
 }
 export interface IViewerResourceOptions {
   page?: {
@@ -35,6 +37,7 @@ export class ViewerDataService {
   error: any
   status: TStatus = 'none'
   resourceChangedSubject = new Subject<string>()
+  scromChangeSubject = new Subject<boolean>()
   changedSubject = new ReplaySubject(1)
   tocChangeSubject = new ReplaySubject<IViewerTocChangeEvent>(1)
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)
@@ -42,7 +45,7 @@ export class ViewerDataService {
   // private setName = new BehaviorSubject<any>("");
   // To get the name from other component
   getFullScreenStatus = this.fullScreenResource.asObservable()
-
+  gatingEnabled = false
   constructor() { }
 
   reset(resourceId: string | null = null, status: TStatus = 'none', primaryCategory?: string) {
@@ -69,8 +72,11 @@ export class ViewerDataService {
     }
     this.changedSubject.next()
   }
-  updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null }:
-    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null }) {
+  // tslint:disable-next-line: max-line-length
+  updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevPercentage }:
+    // tslint:disable-next-line: max-line-length
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevPercentage: number | null }) {
+    // tslint:disable-next-line:object-shorthand-properties-first
     this.tocChangeSubject.next(
       {
         tocAvailable: isValid,
@@ -78,10 +84,19 @@ export class ViewerDataService {
         prevResource: prev,
         previousTitle: prevTitle,
         nextResTitle: nextTitle,
+        currentCompletionPercentage: currentPercentage,
+        prevCompletionPercentage: prevPercentage,
       },
     )
   }
   changeFullScreen(isFullScreen: boolean | undefined) {
     this.fullScreenResource.next(isFullScreen)
+  }
+  getNode(): boolean {
+    return this.gatingEnabled
+  }
+
+  setNode(value: any) {
+    this.gatingEnabled = value
   }
 }

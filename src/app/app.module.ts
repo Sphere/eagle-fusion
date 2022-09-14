@@ -1,7 +1,7 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler } from '@angular/core'
+import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import {
   GestureConfig,
   MatButtonModule,
@@ -22,13 +22,17 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatListModule,
+  MatAutocompleteModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSelectModule,
 } from '@angular/material'
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BtnFeatureModule, ErrorResolverModule, TourModule, WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import { ImageCropComponent, ImageCropModule, LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
@@ -51,6 +55,7 @@ import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
 import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
+import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
 import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
@@ -65,8 +70,37 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
 import { MdePopoverModule } from '@material-extended/mde'
-// import { ServiceWorkerModule } from '@angular/service-worker'
-// import { environment } from '../environments/environment'
+import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
+import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { YourLocationComponent } from './routes/your-location/your-location.component'
+import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
+import { YourBackgroundComponent } from './routes/your-background/your-background.component'
+import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
+import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
+import { HeaderComponent } from './routes/header/header.component'
+import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
+import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
+import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
+import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
+import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
+import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
+import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
+import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
+import { MobileProfileNavComponent } from './routes/profile-view/mobile-profile-nav/mobile-profile-nav.component'
+import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
+import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
+import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
+import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
+import { LoaderService } from '../../project/ws/author/src/public-api'
+import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
+import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
+import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
+import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -103,6 +137,32 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     LoginRootDirective,
     ForgotPasswordComponent,
     OrgComponent,
+    MobileLoginComponent,
+    LoginOtpComponent,
+    CreateAccountComponent,
+    YourLocationComponent,
+    NewTncComponent,
+    YourBackgroundComponent,
+    AlmostDoneComponent,
+    CompleteProfileComponent,
+    HeaderComponent,
+    GoogleCallbackComponent,
+    MobileDashboardComponent,
+    MobileCategoryComponent,
+    MobileVideoPlayerComponent,
+    MobileFooterComponent,
+    MobileProfileDashboardComponent,
+    MobileAboutPopupComponent,
+    ProfileSelectComponent,
+    EducationListComponent,
+    EducationEditComponent,
+    WorkInfoListComponent,
+    WorkInfoEditComponent,
+    MobileProfileNavComponent,
+    CertificateReceivedComponent,
+    PersonalDetailEditComponent,
+    LanguageDialogComponent,
+    DropdownDobComponent,
   ],
   imports: [
     FormsModule,
@@ -117,7 +177,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
     StickyHeaderModule,
     ErrorResolverModule,
-    // Material Imports
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
@@ -137,6 +196,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     SearchModule,
     BtnFeatureModule,
     PublicAboutModule,
+    PublicHomeModule,
     PublicContactModule,
     PublicFaqModule,
     MobileAppModule,
@@ -144,15 +204,28 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TourModule,
     SlidersModule,
     MdePopoverModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatExpansionModule,
+    DiscussionUiModule.forRoot(ConfigService),
+    ImageCropModule,
+    SharedModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
+    MobileDashboardComponent,
+    CertificateReceivedComponent,
   ],
   bootstrap: [RootComponent],
   entryComponents: [
     DialogConfirmComponent,
     LoginComponent,
+    ProfileSelectComponent,
+    ImageCropComponent,
+    NotificationComponent,
+    LanguageDialogComponent,
   ],
   providers: [
     {
@@ -178,6 +251,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     TncPublicResolverService,
     PipeContentRoutePipe,
     AppTocResolverService,
+    LoaderService,
     {
       provide: APP_BASE_HREF,
       useFactory: getBaseHref,
@@ -187,5 +261,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }

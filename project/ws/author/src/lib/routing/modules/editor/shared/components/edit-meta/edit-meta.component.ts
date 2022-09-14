@@ -117,6 +117,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filteredOptions$: Observable<string[]> = of([])
   saveParent: any
+  licenseTypes: string[] = []
   orgNames: string[] = []
 
   constructor(
@@ -309,6 +310,26 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
+    )
+    this.getLicenses()
+  }
+
+  getLicenses() {
+    this.editorService.fetchConfig().subscribe(
+      data => {
+        if (data && data.licenses && data.licenses.length > 0) {
+          data.licenses.filter((item: { licenseName: string }) => {
+            if (item.licenseName) {
+              this.licenseTypes.push(item.licenseName)
+            }
+          })
+        }
+      },
+      err => {
+        if (err) {
+          this.getLicenses()
+        }
+      }
     )
   }
 

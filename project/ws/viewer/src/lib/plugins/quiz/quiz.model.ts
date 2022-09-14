@@ -2,7 +2,8 @@ export namespace NSQuiz {
   export interface IQuiz {
     timeLimit: number
     questions: IQuestion[]
-    isAssessment: boolean
+    isAssessment: boolean,
+    passPercentage?: number
   }
 
   export interface IQuestion {

@@ -1,0 +1,40 @@
+<div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="!isExplanation">
+  <div class="child">
+    <p class="congrats-title mb-4" *ngIf="isCorrect">Congratulations!</p>
+    <p class="better-luck" *ngIf="!isCorrect">Better luck next time!</p>
+    <p class="correct-answer m-0">Correct Answer:</p>
+    <p class="answer-title m-0 p-0">{{answer}}</p>
+    <div class="mt-5">
+      <button class="btn next-btn btn-active" mat-raised-button (click)="emitResult()">Next</button>
+    </div>
+
+  </div>
+</div>
+<div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="isExplanation">
+  <p i18n="option explanation label">Explanation</p>
+  <table mat-table [dataSource]="answer" class="mat-elevation-z8">
+    <ng-container matColumnDef="text">
+      <th mat-header-cell *matHeaderCellDef i18n="mtf explanation Option">
+        Option
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.text }}</td>
+    </ng-container>
+    <ng-container matColumnDef="match">
+      <th mat-header-cell *matHeaderCellDef i18n="mtf explanation Match">
+        Match
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.match}}</td>
+    </ng-container>
+    <ng-container matColumnDef="response">
+      <th mat-header-cell *matHeaderCellDef i18n="mtf explanation Response">
+        Response
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.response}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['text', 'match', 'response']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['text', 'match', 'response']"></tr>
+  </table>
+  <div class="mt-2">
+    <button class="btn next-btn btn-active" mat-raised-button (click)="emitResult()">Next</button>
+  </div>
+</div>

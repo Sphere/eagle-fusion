@@ -12,7 +12,7 @@
                   <div class="prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
                       accesskey="<" [disabled]="!prevResourceUrl">
-                      <span class="material-icons align-arrow icon-tour ">chevron_left</span>
+                      <span class="material-icons align-arrow icon-tour" id="left-arrow">chevron_left</span>
                     </a>
                     <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
                         Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
@@ -22,9 +22,10 @@
                   <div class="next-button">
                     <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
                         Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
-                    <a mat-button class="width-auto mr-10" [routerLink]="nextResourceUrl" queryParamsHandling="preserve"
-                      accesskey=">" [disabled]="!nextResourceUrl">
-                      <span class="material-icons icon-tour  align-right-arrow">chevron_right</span>
+                    <a mat-button class="width-auto mr-10"
+                      [routerLink]="isProgressCheck() ? nextResourceUrl : stopPropagation()"
+                      queryParamsHandling="preserve" accesskey=">" [disabled]="!isProgressCheck()">
+                      <span class="material-icons icon-tour  align-right-arrow" id="right-arrow">chevron_right</span>
                     </a>
                   </div>
                 </div>
@@ -35,7 +36,7 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="vidoe-title margin-top-m" *ngIf="videoData">
+      <div class="vidoe-title margin-top-m d-none" *ngIf="videoData">
         <mat-card *ngIf="isScreenSizeSmall" class="unit-meta-item">
           <div class="flex">
             <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
@@ -51,11 +52,11 @@
                                                       'artifactUrl'
                                                           ]
                                                   "></ws-widget-btn-content-download>
-            <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier} ">
-            </ws-widget-btn-content-like>
+            <!-- <ws-widget-btn-content-like [forPreview]="forPreview" [widgetData]="{ identifier: collectionIdentifier} ">
+            </ws-widget-btn-content-like> -->
             <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="videoData">
             </ws-widget-btn-content-share>
-            <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
+            <!-- <ws-widget-btn-goals [forPreview]="forPreview"></ws-widget-btn-goals>
             <ws-widget-btn-playlist [forPreview]="forPreview" [widgetData]="{
                                                   contentId: videoData?.identifier,
                                                   contentName: videoData?.name,
@@ -67,7 +68,7 @@
                                                       identifier: videoData?.identifier,
                                                       name: videoData?.name,
                                                       isDisabled: isPreview
-                                                    }"></ws-widget-btn-content-feedback-v2>
+                                                    }"></ws-widget-btn-content-feedback-v2> -->
           </div>
         </mat-card>
       </div>

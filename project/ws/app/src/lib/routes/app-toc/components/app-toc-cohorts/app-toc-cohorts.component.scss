@@ -14,6 +14,18 @@
     font-size: $user-image-size;
   }
 }
+.progressLogo {
+  float: right;
+  margin:-22px 20px;
+}
+
+@media screen and (max-width:600px) {
+  .progressLogo {
+   width: 60px;
+    text-align: center;
+    margin-top: 5px
+  }
+}
 .cohortSection{
   margin:50px auto;
   width: 70%;

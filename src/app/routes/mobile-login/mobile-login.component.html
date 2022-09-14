@@ -1,0 +1,112 @@
+<ws-header></ws-header>
+<div class="login-page-content" *ngIf="!otpPage">
+  <div class="login-card">
+    <div>
+      <div *ngIf="source === 'register'; else welcome ">
+        <h1 class="register mb-1">
+          Registration succefull!
+        </h1>
+        <h1 class="register">
+          Login here using the mobile number or your
+          email id and the password that you used
+          while creating your account.
+        </h1>
+      </div>
+      <ng-template #welcome>
+        <h1 class="non-register" i18n>
+          Welcome!
+        </h1>
+      </ng-template>
+
+      <div class="input-content">
+        <div class="input-content-wrapper">
+          <form [formGroup]="loginForm">
+
+            <!--<div class="text-info" i18n>Due to security reasons all users have to reset their password after 5th of Feb
+              2022. Old password will
+              no longer work.</div> -->
+            <div style="margin-bottom: 10px; margin-top: 10px;">
+              <mat-error class="text-danger" *ngIf="errorMessage!==''">{{errorMessage}}</mat-error>
+            </div>
+
+            <!--             <div class="form-group">
+                  <label for="selectLanguage">Select Language</label>
+              <select id="selectLanguage" class="form-control select-box"
+                 required>
+                <option [value]="null" disabled>Select Language</option>
+                <option value="en" selected>English</option>
+                <option value="hi">Hindi</option>
+              </select>
+            </div> -->
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <input type="text" class="form-control" i18n-placeholder placeholder="Phone Number/Email ID"
+                id="userid-field" formControlName="username">
+            </div>
+            <div style="margin-top: 4px;">
+              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('required') &&
+                  (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+                This field is required</mat-error>
+              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['username'].hasError('pattern')">
+                Invalid email or number</mat-error>
+            </div>
+            <div class="form-group input-group pwd" style="margin-top: 1rem;">
+              <input [type]="hide ? 'password' : 'text'" i18n-placeholder placeholder="Password" id="password-field"
+                formControlName="password" class="form-control">
+              <div class="input-group-addon iconPosition">
+                <a href="javascript:void(0)" (click)="toggle()" class="f-black">
+                  <i [ngClass]="iconChange" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <div style="margin-top: 4px;">
+              <mat-error class="text-danger" i18n *ngIf="loginForm.controls['password'].hasError('required') &&
+                  (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+                This field is required</mat-error>
+            </div>
+            <div class="form-group">
+              <p><span i18n>Forgot password?</span><a href="public/forgot-password" i18n> Click Here </a><span i18n>to
+                  reset</span>
+              </p>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block border-radius login-btn" type="submit" id="login-btn" (click)="loginUser()"
+                i18n [disabled]="!loginForm?.valid">
+                Log in</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <p><span i18n>Do not have an account? </span><a href="app/create-account" i18n>Create an account</a></p>
+      </div>
+
+      <!--<div class="form-group">
+          <h4 class="font-weight-bolder f-w-500">OR</h4>
+        </div>
+        <div class="form-group">
+          <a href="javascript:void(0)" #myDiv id="googleBtn" title="Google sign-in"
+            class="btn btn-outline-primary btn-block text-left f-black border-radius" role="button"
+            (click)="googleInit()" id="social-google">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+              width="20" height="20">
+            <span style="padding-left: 10px;">Log in with Google</span>
+          </a>
+        </div>
+-->
+    </div>
+  </div>
+</div>
+
+<!-- Create Account Form Close-->
+<input type="hidden" i18-value i18-aria-value aria-value="Verification successful"
+  value="Thanks for Verifying your account" #toastSuccess />
+<input type="hidden" i18-value i18-aria-value aria-value="Unable to Signin" value="Error Signing in!" #toastError />
+
+<!-- OTP Form -->
+<div *ngIf="otpPage">
+  <ws-login-otp [loginData]="loginForm" (redirectToParent)="showParentForm($event)"></ws-login-otp>
+</div>
+<!-- OTP Form Close-->

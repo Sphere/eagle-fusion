@@ -1,0 +1,49 @@
+@import 'ws-mixins';
+
+.content {
+  padding: 60px 20px 30px;
+  margin: auto;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 35%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 30%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
+}
+
+.date-picker {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+::placeholder {
+  color: #bebebe !important;
+}
+
+.save-btn {
+  width: 88px;
+  height: 38px;
+  background-color: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border: 0;
+  font-size: 16px;
+  line-height: 19px;
+  float: right;
+  cursor: pointer;
+}

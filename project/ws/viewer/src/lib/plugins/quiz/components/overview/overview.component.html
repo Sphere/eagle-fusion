@@ -15,10 +15,10 @@
           <ng-container i18n="quiz duration label">Duration : </ng-container>
           <ng-container *ngIf="duration">{{
             duration | pipeDurationTransform: 'hms'
-          }}</ng-container>
+            }}</ng-container>
           <ng-container *ngIf="!duration">{{
             timeLimit | pipeDurationTransform: 'hms'
-          }}</ng-container>
+            }}</ng-container>
         </h3>
         <h3 class="mat-h3">
           <ng-container i18n="quiz number of questions label">Questions : </ng-container>

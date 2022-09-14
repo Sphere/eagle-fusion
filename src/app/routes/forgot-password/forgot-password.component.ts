@@ -2,10 +2,10 @@ import { SignupService } from '../signup/signup.service'
 import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
-import { mustMatch } from '../password-validator'
+// import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material'
-import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
-import { EmailMobileValidators } from '../emailMobile.validator'
+// import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
+// import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
   selector: 'ws-forgot-password',
@@ -16,84 +16,94 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   forgotPasswordForm: FormGroup
   email: any
   emailOrMobile = ''
-  otp = ''
   showOtpPwd = false
   showCheckEmailText = false
   emailForm: FormGroup
   @ViewChild('resend', { static: false }) resend!: ElementRef
   showResend = false
+  key = ''
+  resendOTPbtn: any
+  counter: any
+  disableResendButton = false
+  resendOtpCounter = 1
+  maxResendTry = 4
 
   constructor(private router: Router, private signupService: SignupService,
-              private fb: FormBuilder, private snackBar: MatSnackBar, private authSvc: AuthKeycloakService) {
+              private fb: FormBuilder, private snackBar: MatSnackBar,
+    // private authSvc: AuthKeycloakService
+  ) {
     this.forgotPasswordForm = this.fb.group({
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl(['']),
-    },                                      { validator: mustMatch('password', 'confirmPassword') })
+      otp: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    })
 
     this.emailForm = this.fb.group({
-      userInput: new FormControl(['']),
-    },                             { validators: EmailMobileValidators.combinePattern })
+      // tslint:disable-next-line:max-line-length
+      userInput: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+    })
   }
 
   ngOnInit() {
-
+    this.resendOtpEnablePostTimer()
   }
 
   ngAfterViewChecked() {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    },         30000)
+    },         1000)
   }
 
-  forgotPassword() {
+  forgotPassword(resendOTP?: string) {
+    if (resendOTP) {
+      this.resendOtpCounter = this.resendOtpCounter + 1
+      if (this.resendOtpCounter >= this.maxResendTry) {
+        this.disableResendButton = false
+        this.openSnackbar('Maximum retry limit exceeded please try again.')
+        return
+      }
+    }
     let phone = ''
     this.emailOrMobile = this.emailForm.value.userInput
 
     phone = this.emailOrMobile
+    phone = phone.replace(/[^0-9+#]/g, '')
     // Allow only indian mobile numbers
-    if (phone.length === 10 && (/^[6-9]\d{9}$/.test(phone))) {
+    if (phone.length >= 10) {
+      this.key = 'phone'
       const requestBody = {
-        username: this.emailOrMobile,
+        userName: this.emailOrMobile.trim(),
       }
 
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
-          if (res.message === 'Success') {
-            phone = this.emailOrMobile.replace(/^[6-9]\d{9}$/, '')
-            // Allow only indian mobile numbers
-            if (phone.length === 10) {
-              this.showOtpPwd = true
-            }
+          if (res.message) {
+            this.openSnackbar(res.message)
+            this.resendOtpEnablePostTimer()
+            this.showOtpPwd = true
           }
         },
         (error: any) => {
-          if (error.error.error === 'User Not Found') {
-            this.openSnackbar('Mobile number doesnot exist')
-          } else {
-            this.openSnackbar(error.error.error)
-          }
+          this.openSnackbar(error.error)
         })
       // tslint:disable-next-line: max-line-length
-    } else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.emailOrMobile)) {
+    } else if (/^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(this.emailOrMobile)) {
 
       const requestBody = {
-        username: this.emailOrMobile,
+        userName: this.emailOrMobile.trim(),
       }
+      this.key = 'email'
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
-          if (res.message === 'Success') {
+          if (res.message) {
+            this.openSnackbar(res.message)
+            this.showOtpPwd = true
+            this.resendOtpEnablePostTimer()
             this.showCheckEmailText = true
           }
         },
         (error: any) => {
-          if (error.error.error === 'User Not Found') {
-            this.openSnackbar('User data doesnot exist')
-          } else {
-            this.openSnackbar(error.error.error)
-          }
+          this.openSnackbar(error.error.message)
         })
-      this.emailForm.reset()
     }
   }
 
@@ -103,25 +113,43 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
   onSubmit() {
     const requestBody = {
-      username: this.emailOrMobile,
-      password: this.forgotPasswordForm.value.password,
-      otp: this.otp,
-
+      key: this.emailOrMobile,
+      type: this.key,
+      otp: this.forgotPasswordForm.value.otp,
     }
     this.signupService.setPasswordWithOtp(requestBody).subscribe(
-      res => {
-        if (res) {
-          this.openSnackbar('Password changed successfully')
+      (res: any) => {
+        if (res.response) {
+          this.openSnackbar(res.response)
           setTimeout(() => {
-            this.authSvc.login('S', document.baseURI)
-          },         5000)
+            this.router.navigate(['/app/login'])
+            window.open(res.link, '_self')
+            // this.authSvc.login('S', document.baseURI)
+          },         2000)
         }
       },
       (error: any) => {
-        this.openSnackbar(error.error.error)
-        this.otp = ''
+        this.openSnackbar(error.error.message || 'Something went wrong')
       }
     )
+  }
+
+  resendOtpEnablePostTimer() {
+    this.counter = 60
+    this.disableResendButton = false
+    setTimeout(() => {
+      this.disableResendButton = true
+    },         1000)
+    const interval = setInterval(() => {
+      this.resendOTPbtn = `Resend OTP(${(this.counter)})`
+      // tslint:disable-next-line:no-bitwise
+      this.counter = this.counter - 1
+      if (this.counter < 0) {
+        this.resendOTPbtn = 'Resend OTP'
+        clearInterval(interval)
+        this.disableResendButton = false
+      }
+    },                           1000)
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 2000) {
@@ -131,7 +159,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   }
 
   gotoHome() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/public/home'])
       .then(() => {
         window.location.reload()
       })

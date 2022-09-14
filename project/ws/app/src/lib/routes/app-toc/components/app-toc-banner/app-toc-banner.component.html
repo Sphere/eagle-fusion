@@ -1,9 +1,5 @@
 <div [ngStyle]="{'background-color': ((content?.posterImage || '').length === 7? content?.posterImage : '#F8AD1E')}">
-
   <div [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content">
-
-
-
     <!-- <div class="pt-10 header-actions top">
       <div class="action-btns">
         <div class="hidden-block-xs">
@@ -15,14 +11,10 @@
       </div>
     </div> -->
 
-
     <div class="flex flex-between flex-wrap-reverse">
-
       <div class="header-left">
         <div class="header-synopsis">
           <!-- <div class="header-synopsis" [ngClass]="{ 'header-synopsis-gradient': bannerUrl }" *ngIf="content"> -->
-
-
           <div class="header-title flex-col sm:flex-row">
             <!-- <div *ngIf="content?.appIcon" class="apIcon">
             <img [src]="content?.creatorLogo" [id]="'source_' + content.identifier" class="source-icon"
@@ -40,19 +32,15 @@
                 <mat-icon class="ws-mat-accent-text">check_circle</mat-icon>
               </span>
             </div>
-
           </div>
-
           <div class="flex flex-col sm:flex-row">
-
             <div class="sm:ml-5 flex flex-col flex-auto">
               <div [ngSwitch]="routePath" class="header-meta margin-bottom-m"
                 [ngClass]="{ 'header-meta-banner': bannerUrl }">
-
                 <div class="banner-overview-container" [hidden]="!content?.purpose && showSubtitleOnBanner"
                   *ngSwitchCase="'overview'">
                   <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
-                    {{ content?.purpose | pipeLimitTo: 250 }}
+                    {{ content?.subTitle | pipeLimitTo: 250 }}
                   </h2>
                   <h3 class="overview-description" *ngIf="!showSubtitleOnBanner" i18n-title title="Description">
                     {{ content?.purpose | pipeLimitTo: 450 }}
@@ -62,8 +50,10 @@
                     <mat-icon role="button" class="overview-intro-overlay">play_arrow</mat-icon>
                   </div>
                 </div>
-
                 <div *ngSwitchCase="'contents'">
+                  <h2 class="overview-description" *ngIf="showSubtitleOnBanner" i18n-title title="Subtitle">
+                    {{content?.subTitle}}
+                  </h2>
                 </div>
 
                 <div class="banner-overview-container" [hidden]="!content?.subTitle && showSubtitleOnBanner"
@@ -80,49 +70,41 @@
                   </div>
                 </div>
 
-
                 <!-- Table Structure -->
                 <div>
                   <div class="toc-banner-item" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
-                    Duration :
-                    {{ content?.duration | pipeDurationTransform: 'hms' }} </div>
-                  <div class="toc-banner-item"
-                    *ngIf="tocConfig?.atAGlance?.expiryDate?.enabled && content?.expiryDate && content?.expiryDate?.startsWith('20')">
-                    {{tocConfig?.atAGlance?.expiryDate?.displayName}} : {{ content?.expiryDate | date }}</div>
+                    <span i18n>Duration </span>:
+                    {{ content?.duration | pipeDurationTransform: 'hms' }}
+                  </div>
                   <div class="info-item" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
                     {{tocConfig?.atAGlance?.lastUpdatedOn?.displayName}} : {{ content?.lastUpdatedOn | date }}
                   </div>
                   <div *ngIf="content?.sourceName">
-                    Source: <a class="blue-link cursor-pointer"
+                    <span i18n>Source</span>: <a class="blue-link cursor-pointer"
                       (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</a>
                   </div>
-                  <div *ngIf="content?.creator"> Author : {{content?.creator}}
+                  <div *ngIf="content?.creator"><span i18n>Author </span>: {{content?.creator}}
                     <!-- <span *ngFor="let author of content?.creator; let i = index" class="mr-1">{{author.name}}
                       <ng-container
                         *ngIf="content?.creatorContacts.length > 1 && i !== content?.creatorContacts.length - 1">,
                       </ng-container>
                     </span> -->
                   </div>
-                  <div *ngIf="content?.creatorDetails">
+                  <!--<div *ngIf="content?.creatorDetails">
                     Curators :
                     <span *ngFor="let curator of content?.creatorDetails; let i = index" class="mr-1">
                       {{curator.name}} <ng-container
                         *ngIf="content?.creatorDetails.length > 1 && i !== content?.creatorDetails.length - 1">,
                       </ng-container>
                     </span>
-                  </div>
-
-
-                  <!-- {{fetchCohorts(cohortTypesEnum.ACTIVE_USERS)}} -->
-                  <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
-                    <a [routerLink]="'./details'" [queryParams]="{id: content.identifier}">
-                      Cohorts :<span class="blue-link"> {{cohortResults[cohortTypesEnum.ACTIVE_USERS].count}} Active
-                        Learners
-                      </span></a>
+                  </div> -->
+                  <div>
+                    <span i18n>Progress </span>:
+                    <span class="mr-1">
+                      {{content?.completionPercentage || 0}} %
+                    </span>
                   </div>
                 </div>
-
-
               </div>
 
               <!-- <div *ngIf="content?.averageRating" class="flex items-center my-1 mb-3 rating mt-5 mb-5">
@@ -140,49 +122,30 @@
                 <span class="rating-count" *ngIf="!content?.totalRating">
                   ( {{ 0 | pipeCountTransform }} )</span>
               </div> -->
-
-
-              <!-- <div class="action-btns">
-                <div class="hidden-block-xs">
-                  <ng-container [ngTemplateOutlet]="actions"></ng-container>
-                </div>
-                <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
-                  *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-                  <img src="/fusion-assets/icons/edit.png" class="action-icons" />
-                </a>
-                <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
-                  *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
-                  <img src="/assets/images/upload.svg" class="action-icons" />
-                </a>
-                <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
-                          content
-                            | pipePartialContent
-                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
-                                      'artifactUrl']
-                        "></ws-widget-btn-content-download>
-                <ws-widget-btn-content-like [forPreview]="forPreview"
-                  [widgetData]="content | pipePartialContent: ['identifier']">
-                </ws-widget-btn-content-like>
-                <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
-                </ws-widget-btn-content-share>
-                <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
-                  [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
-                </ws-widget-btn-kb>
-                <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
-                  [widgetData]="btnGoalsConfig">
-                </ws-widget-btn-goals>
-                <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
-                  [widgetData]="btnPlaylistConfig">
-                </ws-widget-btn-playlist>
-                <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
-                  [widgetData]="content | pipePartialContent: ['identifier', 'name']">
-                </ws-widget-btn-content-feedback-v2>
-
-              </div> -->
-
-              <div class="header-actions mb-4">
-                <ng-container *ngIf="batchData && !batchData?.enrolled && batchData?.content?.length">
-                  <form>
+              <div class="header-actions">
+                <ng-container>
+                  <button *ngIf="!batchData?.enrolled" mat-button [color]="'primary'" id="start-btn"
+                    class="ws-mat-primary-background mat-button-base margin-right-m"
+                    (click)="enrollUser(batchData.content)" i18n>
+                    Start
+                  </button>
+                  <!--(click)="resumeBtn()" -->
+                  <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+                    [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
+                    [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
+                    class="margin-right-m resumeButton" mat-button>
+                    <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+                      {{resumeData && content?.completionPercentage === 100 ?"Completed":"Resume"}}
+                    </ng-container>
+                  </a>
+                  <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="content">
+                  </ws-widget-btn-content-share>
+                  <button *ngIf="content?.issueCertification === true" mat-button [color]="'primary'"
+                    (click)="downloadCertificate(content)"
+                    class="ws-mat-primary-background mat-button-base margin-right-m" data-toggle="modal">
+                    <mat-icon>file_download</mat-icon>Certificate
+                  </button>
+                  <!--<form>
                     <mat-form-field appearance="fill">
                       <mat-label>Select batch to enroll</mat-label>
                       <mat-select [formControl]="batchControl" required>
@@ -190,19 +153,20 @@
                         <mat-option *ngFor="let batch of batchData.content" [value]="batch"
                           [disabled]="handleEnrollmentEndDate(batch) || disableEnrollBtn">
                           <p>{{batch.name}}
-                            ({{batch.startDate}} - {{batch.endDate || 'present'}})</p>
+                            ({{batch.startDate | date}} - {{(batch.endDate | date ) || 'present'}})</p>
                         </mat-option>
                       </mat-select>
                       <mat-error *ngIf="batchControl.hasError('required')">Please choose a batch to start course
                       </mat-error>
                     </mat-form-field>
-                  </form>
+                  </form> -->
                 </ng-container>
-                <ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
+                <!--<ng-container *ngIf="batchData && batchData?.enrolled && batchData?.content?.length">
                   <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngFor="let batch of batchData.content">
-                    Enrolled batch: {{batch.name}} ({{batch.startDate}} - {{batch.endDate || 'present'}})
+                    Enrolled batch: {{batch.name}} ({{batch.startDate | date}} - {{(batch.endDate | date ) ||
+                    'present'}})
                   </h3>
-                </ng-container>
+                </ng-container> -->
                 <ng-container *ngIf="batchData && !batchData?.enrolled && !batchData?.content?.length">
                   <h3 class="margin-remove-bottom pt-4 info-msg" i18n>
                     No batches
@@ -210,12 +174,13 @@
                 </ng-container>
               </div>
 
-              <div class="header-actions mb-4">
-                <a [color]="'primary'"
-                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('MDO_ADMIN') || this.configSvc.userRoles.has('SPV_ADMIN'))"
-                  class="margin-right-m resumeButton" mat-button (click)="openDialog(content)">
+              <div class="header-actions header-act-btn">
+                <button [color]="'primary'"
+                  *ngIf="this.configSvc.userRoles && (this.configSvc.userRoles.has('mdo_admin') || this.configSvc.userRoles.has('spv_admin'))"
+                  class="ws-mat-primary-background mat-button-base margin-right-m" mat-button
+                  (click)="openDialog(content)">
                   Create Batch
-                </a>
+                </button>
                 <ng-container *ngIf="
                               actionBtnStatus !== 'wait' &&
                               content?.status !== 'Deleted' &&
@@ -235,16 +200,16 @@
                       ) &&
                                   !(content?.contentType === 'Resource' && !content?.artifactUrl)
                                 ">
-                      <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
+                      <!-- <a [color]="'primary'" *ngIf="showStart.show && !isPostAssessment"
                         [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                         [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
-                        class="margin-right-m resumeButton" mat-flat-button>
+                        class="margin-right-m resumeButton" mat-button>
                         <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-                          {{resumeData?"Resume":"Start"}}
+                          {{resumeData?"Resume":""}}
                         </ng-container>
-                      </a>
+                      </a> -->
                       <a [color]="'primary'" *ngIf="isPostAssessment && showTakeAssessment?.post_assessment"
-                        [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-flat-button>
+                        [routerLink]="firstResourceLink?.url" class="margin-right-m" mat-button>
                         <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>Take Assessment
                         </ng-container>
                       </a>
@@ -268,30 +233,84 @@
                 <h3 class="margin-remove-bottom pt-4 info-msg" i18n *ngIf="content?.status === 'InReview'">
                   The content is in review.
                 </h3>
+
+                <div class="action-btns">
+                  <!-- <div class="hidden-block-xs">
+                              <ng-container [ngTemplateOutlet]="actions"></ng-container>
+                            </div> -->
+                  <!-- <a i18n-aria-label aria-label="Edit" i18n-matTooltip matTooltip="Edit" mat-icon-button
+                *ngIf="editButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                <img src="/fusion-assets/icons/edit.png" class="action-icons" />
+              </a> -->
+                  <!-- <a i18n-aria-label aria-label="Take Action" i18n-matTooltip matTooltip="Take Action" mat-icon-button
+                              *ngIf="reviewButton" [routerLink]="['/author/editor/' + content?.identifier]" class="action-button">
+                              <img src="/assets/images/upload.svg" class="action-icons" />
+                            </a> -->
+                  <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="
+                                      content
+                                        | pipePartialContent
+                                              : ['identifier', 'contentType', 'resourceType', 'mimeType', 'downloadUrl', 'isExternal',
+                                                      'artifactUrl']
+                                        "></ws-widget-btn-content-download> -->
+                  <!-- <ws-widget-btn-content-like [forPreview]="forPreview"
+                                  [widgetData]="content | pipePartialContent: ['identifier']">
+                                </ws-widget-btn-content-like> -->
+
+                  <!-- <ws-widget-btn-kb [forPreview]="forPreview" [contentId]="content?.identifier"
+                    [contentName]="content?.name" [contentType]="content?.contentType" [status]="content?.status">
+                  </ws-widget-btn-kb>
+                  <ws-widget-btn-goals [forPreview]="forPreview" *ngIf="isGoalsEnabled && btnGoalsConfig"
+                    [widgetData]="btnGoalsConfig">
+                  </ws-widget-btn-goals>
+                  <ws-widget-btn-playlist [forPreview]="forPreview" *ngIf="btnPlaylistConfig"
+                    [widgetData]="btnPlaylistConfig">
+                  </ws-widget-btn-playlist>
+                  <ws-widget-btn-content-feedback-v2 [forPreview]="forPreview"
+                    [widgetData]="content | pipePartialContent: ['identifier', 'name']">
+                  </ws-widget-btn-content-feedback-v2> -->
+
+                  <div class="modal fade" id="myModal"
+                    [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header" [ngStyle]="{'margin-top' : '40px'}">
+                          <!--<h4 class="modal-title">Modal Heading</h4> -->
+                          <button type="button" class="close" data-dismiss="modal"
+                            (click)="closePopup()">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                          <h3>{{certificateMsg}}</h3>
+
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal"
+                            (click)="closePopup()">Close</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-
-
-
             </div>
           </div>
-
-
         </div>
       </div>
 
-
-
-      <div class="header-right" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
+      <div class="header-right" id="banner" [ngStyle]="{'background-image': 'url(' + content?.posterImage + ')'}">
       </div>
     </div>
-
     <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
-      [className]="'thick'" [progress]="content?.progress?.progress">
+      [className]="'thick'" [progress]="content?.completionPercentage">
     </ws-widget-content-progress>
 
   </div>
-
+  <canvas id="certCanvas"></canvas>
 </div>
 
 

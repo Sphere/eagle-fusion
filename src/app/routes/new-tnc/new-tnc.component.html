@@ -1,0 +1,21 @@
+<!-- <ws-header class="tnc-header"></ws-header> -->
+<div class="tnc-main">
+  <div class="tnc-render-content">
+    <ws-tnc-renderer (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">
+    </ws-tnc-renderer>
+  </div>
+
+  <div class="tnc-bottom-navbar" *ngIf="showAcceptbtn">
+    <div class="decline-div">
+      <button class="decline-btn cursor-pointer" (click)="gotoLogin()">
+        <ng-container i18n>Decline</ng-container>
+      </button>
+    </div>
+    <div class="accept-div">
+      <button (click)="acceptTnc()" class="accept-btn cursor-pointer">
+        <ng-container i18n>Agree and continue</ng-container>
+      </button>
+    </div>
+  </div>
+
+</div>

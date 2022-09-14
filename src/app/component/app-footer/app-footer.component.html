@@ -1,54 +1,118 @@
-<div class="mat-toolbar mat-ws-mat-primary-text footer-container py-5 px-4 sm:px-48 md:px-10ss">
-  <div class="mat-body" [ngClass]="{'flex flex-between w-full': !isXSmall && !isMedium}">
-    <div [ngClass]="{'flex': !isXSmall}">
-      <mat-list class="flex-1 col-width">
-        <div class="docs-footer-version"><img [src]="appIcon" alt="Angular icon" class="docs-footer-aastar-logo">
+<div class="mat-toolbar mat-ws-mat-primary-text footer-container pb-0 sm:px-48 md:px-10ss">
+
+  <div class="mat-body  footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
+    <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
+      <mat-list class="list">
+        <div class="">
+          <!-- <img [src]="appIcon" alt="Angular icon" id="footer-aastar-logo" class="docs-footer-aastar-logo"> -->
+          <img src=".\fusion-assets\icons\aastrika-footer-logo.svg" alt="Angular icon" id="footer-aastar-logo">
         </div>
       </mat-list>
 
-      <mat-list class="flex-1 col-width" [ngClass]="{'ml-20': !isXSmall}">
-        <mat-list-item> <a routerLink="/app/info/about" i18n> <span i18n>About Us</span></a> </mat-list-item>
-        <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank"><span i18n>Vision</span></a>
+      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item> <a class="list-item" routerLink="/public/about" id="footer-about-us"> <span i18n>About Us</span></a> </mat-list-item>
+        <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank" id="footer-vision"><span
+              class="list-item" i18n>Vision</span></a>
         </mat-list-item>
-        <mat-list-item><a href="https://www.aastrika.org/team/" target="_blank"><span i18n>Team</span></a>
+        <mat-list-item><a href="https://www.aastrika.org/team/" target="_blank" id=footer-team><span class="list-item"
+              i18n>Team</span></a>
         </mat-list-item>
-        <mat-list-item> <a routerLink="/public/contact" i18n>Help & Contact </a> </mat-list-item>
-        <mat-list-item> <a routerLink="/public/tnc" i18n>Privacy Policy</a> </mat-list-item>
-        <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item>
+      </mat-list>
+
+      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
+
+
+
+        <mat-list-item> <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n
+            id="footer-help-contact" class="list-item">Help & Contact </a>
+        </mat-list-item>
+
+        <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
+        <mat-list-item style="margin-top: 10px;">
+          <a class="list-item" routerLink="/public/tnc" i18n>
+            Privacy policy and terms of use
+          </a>
+        </mat-list-item>
       </mat-list>
     </div>
 
-    <div class="text-center" [ngClass]="{'flex': !isXSmall }">
-      <div class="w-mobile">
-        <h2 class="footer-heading">An initiative of</h2>
-        <a href="https://rohininilekani.org/" target="_blank"><img class="footer-image mt-1"
+    <!-- <div class="text-center" [ngClass]="{'flex': !isXSmall }" style="margin-top: 10px;">
+      <div>
+        <h2 class="footer-heading text-center" i18n>An initiative of</h2>
+        <a href="https://rohininilekani.org/" target="_blank">
+          <img class="footer-image mt-1"
             src="https://www.aastrika.org/wp-content/uploads/2020/03/nilekani-philanthropies-logo.png"
             style="max-width: 80px;" /></a>
       </div>
       <div>
-        <h2 class="footer-heading" style="margin-left: -5px;">A Collaboration with </h2>
-        <a href="https://societalplatform.org/" target="_blank"><img class="footer-image mt-2"
-            src="/assets/instances/eagle/app_logos/SPT-logo-small.png" /></a>
+        <h2 class="footer-heading text-center" i18n>A Collaboration with </h2>
+        <a href="https://societalplatform.org/" target="_blank">
+          <img class="footer-image mt-2" src="/assets/instances/eagle/app_logos/SPT-logo-small.png" /></a>
       </div>
       <div>
-        <h2 class="footer-heading text-center">Endorsing</h2>
+        <h2 class="footer-heading text-center" i18n>Endorsing</h2>
         <div class="text-center">
           <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" class="text-center"
-            target="_blank"><img class="footer-image mt-1"
+            target="_blank">
+            <img class="footer-image mt-1"
               src="https://www.aastrika.org/wp-content/uploads/2020/03/respectful-maternal-care-logo.png" /></a>
         </div>
+      </div>
+    </div> -->
+    <div [ngClass]="{'flex': !isXSmall}" class="flex-col">
+      <!--       <h2 class="mail">Write to us!</h2>
+      <div class="form-box">
+
+        <input class="input-fiels" type="text" placeholder="Type message">
+        <button class="send-btn">
+          <img src=".\fusion-assets\icons\send-icon.png" alt="">
+        </button>
+      </div> -->
+    </div>
+  </div>
+  <!-- partner border -->
+  <div class="flex">
+    <h2 class="partner"><span>Partners</span></h2>
+  </div>
+  <!-- partners list -->
+  <div class="partner-list" [ngClass]="{'flex ': !isXSmall }">
+    <div>
+      <!-- <h2 class="footer-heading text-center">An initiative of</h2> -->
+      <a href="https://rohininilekani.org/" target="_blank">
+        <!-- <img class="footer-image mt-1"
+          src="https://www.aastrika.org/wp-content/uploads/2020/03/nilekani-philanthropies-logo.png"
+          style="max-width: 80px;" /></a> -->
+        <img class="" src=".\fusion-assets\icons\partner-1.svg" style="max-width: 80px;" />
+      </a>
+    </div>
+    <div>
+      <!-- <h2 class="footer-heading text-center">A Collaboration with </h2> -->
+      <a href="https://societalplatform.org/" target="_blank">
+        <!-- <img class="footer-image mt-2" src="/assets/instances/eagle/app_logos/SPT-logo-small.png" /></a> -->
+        <img class="" src=".\fusion-assets\icons\partner-2.svg" />
+      </a>
+    </div>
+    <div>
+      <!-- <h2 class="footer-heading text-center">Endorsing</h2> -->
+      <div class="text-center">
+        <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" class="text-center"
+          target="_blank">
+          <!-- <img class="footer-image mt-1"
+            src="https://www.aastrika.org/wp-content/uploads/2020/03/respectful-maternal-care-logo.png" /></a> -->
+          <img class="" src=".\fusion-assets\icons\partner-3.svg" />
+        </a>
       </div>
     </div>
   </div>
 </div>
 
-<footer class="docs-footer py-5 px-4 sm:px-8 md:px-10ss">
+<footer class="docs-footer px-4 pt-0 sm:px-8 md:px-10ss">
   <div [ngClass]="{'docs-footer-list': !isXSmall}">
     <!-- <div class="docs-footer-version">
     </div> -->
     <div class="docs-footer-copyright flex-1">
       <div>
-        <div class="text-dark" [ngClass]="isXSmall ? 'mt--8 text-center': 'mt-1'" i18n>&copy; {{currentYear}}
+        <div class="text-dark" [ngClass]="isXSmall ? 'mt--8 text-center': 'mt-1'" i18n>&copy; 2022
           AastarUrmika Health
           Systems Pvt
           Ltd. All rights reserved. </div>

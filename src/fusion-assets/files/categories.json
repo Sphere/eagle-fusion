@@ -1,0 +1,40 @@
+{
+  "categories": [
+    {
+      "first": {
+        "name": "Ante-Natal Period",
+        "image": "../../../fusion-assets/images/Lifesavers Family.png",
+        "courseCount": "6"
+      },
+      "second": {
+        "name": "Pre-Conception",
+        "image": "../../../fusion-assets/images/Lifesavers Using Computer.png",
+        "courseCount": "5"
+      }
+    },
+    {
+      "first": {
+        "name": "Peri-Natal Period",
+        "image": "../../../fusion-assets/images/Lifesavers Bust.png",
+        "courseCount": "4"
+      },
+      "second": {
+        "name": "Provision of Car",
+        "image": "../../../fusion-assets/images/Lifesavers Sitting.png",
+        "courseCount": "7"
+      }
+    },
+    {
+      "first": {
+        "name": "Post-Natal Period",
+        "image": "../../../fusion-assets/images/Lifesavers Standing.png",
+        "courseCount": "8"
+      },
+      "second": {
+        "name": "Experience of Care",
+        "image": "../../../fusion-assets/images/Lifesavers Stand.png",
+        "courseCount": "4"
+      }
+    }
+  ]
+}

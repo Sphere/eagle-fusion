@@ -2,20 +2,17 @@
   <h2 class="mat-title" i18n="section heading create new goal">
     Sign up
   </h2>
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>Email id / Mobile Number</mat-label>
-    <input type="text" matInput placeholder="Mobile number" [(ngModel)]="emailOrMobile">
-  </mat-form-field>
-  <div class="mt-8 mb-8 d-flex flex-center">
+
+  <!-- <div class="mt-8 mb-8 d-flex flex-center">
     <button mat-raised-button class="w-50" color="primary" *ngIf="!isMobile" (click)="verifyEntry()">
       Next</button>
-  </div>
+  </div> -->
 
 
 
   <form class="example-form mt-8" [formGroup]="signupForm">
-
-    <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile">
+    <!-- otp validate html -->
+    <mat-form-field appearance="outline" class="w-full" *ngIf="isMobile && !showAllFields">
       <mat-label>Enter OTP</mat-label>
       <input type="text" matInput placeholder="otp" formControlName="otp">
     </mat-form-field>
@@ -23,10 +20,17 @@
     <button mat-stroked-button *ngIf="isMobile" class="resend mr-4 w-50" tabindex="0" (click)="resendOTP()">
       Resend OTP</button>
 
+    <div class="mt-8 mb-8 d-flex flex-center">
+      <button mat-raised-button class="w-50" color="primary" *ngIf="isMobile && !showAllFields" (click)="verifyOtp()">
+        Next</button>
+    </div>
 
 
-    <div *ngIf="showAllFields || isMobile">
-
+    <div *ngIf="showAllFields">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email id / Mobile Number</mat-label>
+        <input type="text" matInput placeholder="Mobile number" formControlName="emailOrMobile">
+      </mat-form-field>
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>First name</mat-label>
         <input type="text" matInput placeholder="First Name" formControlName="firstName">
@@ -60,7 +64,7 @@
         <button mat-raised-button class="md-large-button" color="primary" type="submit" i18n
           [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
 
-          <ng-container i18n>Register</ng-container>
+          <ng-container>Register</ng-container>
         </button>
 
 

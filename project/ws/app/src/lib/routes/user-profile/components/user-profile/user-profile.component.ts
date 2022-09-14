@@ -30,7 +30,8 @@ import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
-
+import moment from 'moment'
+import { LanguageDialogComponent } from '../../../../../../../../../src/app/routes/language-dialog/language-dialog.component'
 @Component({
   selector: 'ws-app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -75,6 +76,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   isEditable = false
   tncAccepted = false
   isOfficialEmail = false
+  invalidDob = false
+  maxDate = new Date()
+  minDate = new Date(1900, 1, 1)
   // govtOrgMeta!: IGovtOrgMeta
   // industriesMeta!: IIndustriesMeta
   degreesMeta!: IdegreesMeta
@@ -96,6 +100,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   mobileNumberLogin = false
   mobileLoginNumber = ''
   userID = ''
+  orgOthersField = false
+  professionOtherField = false
   nursingCouncilNames: string[] = ['Andhra Pradesh Nurses & Midwives Council', 'Arunachal Pradesh Nursing Council',
     'Assam Nurses Midwives & Health Visitor Council', 'Bihar Nurses Registration Council', 'Chattisgarh Nursing Council',
     'Delhi Nursing Council', 'Goa Nursing Council', 'Gujarat Nursing Council', 'Haryana Nursing Council',
@@ -113,6 +119,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   unApprovedField!: any[]
   stateUrl = '/fusion-assets/files/state.json'
   degreeUrl = '/fusion-assets/files/degrees.json'
+  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
+  orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  langDialog: any
+  preferedLanguage: any
 
   constructor(
     private snackBar: MatSnackBar,
@@ -136,10 +146,10 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       surname: new FormControl('', [Validators.required]),
       about: new FormControl(''),
       photo: new FormControl('', []),
-      countryCode: new FormControl('', [Validators.required]),
-      mobile: new FormControl('', [Validators.required, Validators.pattern(this.phoneNumberPattern)]),
+      countryCode: new FormControl(''),
+      mobile: new FormControl('', [Validators.pattern(this.phoneNumberPattern)]),
       telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', [Validators.required, Validators.email]),
+      primaryEmail: new FormControl('', [Validators.email]),
       primaryEmailType: new FormControl(this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.OFFICIAL), []),
       secondaryEmail: new FormControl('', []),
       nationality: new FormControl('', []),
@@ -168,11 +178,13 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: new FormControl('', []),
       isGovtOrg: new FormControl(false, []),
       orgName: new FormControl('', []),
+      orgType: new FormControl(),
+      orgOtherSpecify: new FormControl(),
       orgNameOther: new FormControl('', []),
       industry: new FormControl('', []),
       industryOther: new FormControl('', []),
       designation: new FormControl('', []),
-      designationOther: new FormControl('', []),
+      profession: new FormControl('', []),
       location: new FormControl('', []),
       locationOther: new FormControl('', []),
       doj: new FormControl('', []),
@@ -186,6 +198,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       employeeCode: new FormControl('', []),
       otherDetailsOfficeAddress: new FormControl('', []),
       otherDetailsOfficePinCode: new FormControl('', []),
+      professionOtherSpecify: new FormControl(),
     })
   }
 
@@ -208,6 +221,36 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.navigatedFromProfile = true
       const indexValue = Number(this.route.snapshot.queryParams.edit)
       this.goToNextTabIndex(this.usetMatTab, indexValue)
+    }
+  }
+
+  professionalChange(value: any) {
+    if (value === 'Healthcare Worker') {
+      this.professionOtherField = false
+    } else if (value === 'Healthcare Volunteer') {
+      this.professionOtherField = false
+    } else if (value === 'Others') {
+      this.professionOtherField = true
+    } else {
+      this.professionOtherField = false
+    }
+  }
+
+  orgTypeSelect(option: any) {
+    if (option !== 'null') {
+      this.createUserForm.controls.orgType.setValue(option)
+    } else {
+      this.createUserForm.controls.orgType.setValue(null)
+    }
+
+    if (option === 'Others') {
+      this.orgOthersField = true
+      this.createUserForm.controls.orgOtherSpecify.setValue(null)
+      this.createUserForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+    } else {
+      this.orgOthersField = false
+      this.createUserForm.controls.orgOtherSpecify.clearValidators()
+      this.createUserForm.controls.orgOtherSpecify.setValue(null)
     }
   }
 
@@ -433,8 +476,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
     if (this.createUserForm.get('knownLanguages')) {
-      // tslint:disable-next-line: no-non-null-assertion
-      // this.createUserForm.get('knownLanguages')!.setValue(null)
     }
   }
 
@@ -444,7 +485,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (index >= 0) {
       this.selectedKnowLangs.splice(index, 1)
     }
-
   }
 
   add(event: MatChipInputEvent): void {
@@ -461,11 +501,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       input.value = ''
     }
     this.knownLanguagesInputRef.nativeElement.value = ''
-
-    // if (this.createUserForm.get('knownLanguages')) {
-    //   // tslint:disable-next-line: no-non-null-assertion
-    //   this.createUserForm.get('knownLanguages')!.setValue(null)
-    // }
   }
 
   addPersonalInterests(event: MatChipInputEvent): void {
@@ -524,6 +559,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   getUserDetails() {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.id) {
       if (this.configSvc.userProfile) {
+        if (this.configSvc.userProfile.language) {
+          this.preferedLanguage = { lang: this.configSvc.userProfile.language }
+        } else {
+          this.preferedLanguage = { id: 'en', lang: 'English' }
+        }
+
         if (this.configSvc.userProfile.email) {
           this.mobileNumberLogin = true
           // this.createUserForm.controls.mobile.disable()
@@ -590,7 +631,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private populateOrganisationDetails(data: any) {
     let org = {
-      isGovtOrg: true,
       orgName: '',
       industry: '',
       designation: '',
@@ -601,28 +641,28 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       completePostalAddress: '',
       orgNameOther: '',
       industryOther: '',
-      designationOther: '',
+      profession: '',
+      orgType: '',
+      orgOtherSpecify: '',
+      professionOtherSpecify: '',
     }
     if (data && data.professionalDetails && data.professionalDetails.length > 0) {
       const organisation = data.professionalDetails[0]
       org = {
-        isGovtOrg: organisation.organisationType,
         orgName: organisation.name,
+        orgType: organisation.orgType,
+        orgOtherSpecify: organisation.orgOtherSpecify,
         orgNameOther: organisation.nameOther,
         industry: organisation.industry,
         industryOther: organisation.industryOther,
         designation: organisation.designation,
-        designationOther: organisation.designationOther,
+        profession: organisation.profession,
+        professionOtherSpecify: organisation.professionOtherSpecify,
         location: organisation.location,
         responsibilities: organisation.responsibilities,
         doj: this.getDateFromText(organisation.doj),
         orgDesc: organisation.description,
         completePostalAddress: organisation.completePostalAddress,
-      }
-      if (organisation.organisationType === 'Government') {
-        org.isGovtOrg = true
-      } else {
-        org.isGovtOrg = false
       }
     }
 
@@ -677,14 +717,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     }
-    if (data.interests.professional && data.interests.professional.length) {
+    if (data.interests && data.interests.professional && data.interests.professional.length) {
       // data.interests.professional.map((interest: IChipItems) => {
       //   if (interest) {
       this.personalInterests.push(data.interests.professional)
       // }
       // })
     }
-    if (data.interests.hobbies && data.interests.hobbies.length) {
+    if (data.interests && data.interests.hobbies && data.interests.hobbies.length) {
       // data.interests.hobbies.map((interest: IChipItems) => {
       //   if (interest) {
       this.selectedHobbies.push(data.interests.hobbies)
@@ -706,10 +746,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private constructFormFromRegistry(data: any, academics: NsUserProfileDetails.IAcademics, organisation: any) {
+    if (organisation.orgType === 'Others') {
+      this.orgOthersField = true
+    } else {
+      this.orgOthersField = false
+    }
+
+    organisation.profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
+
     this.createUserForm.patchValue({
       firstname: data.personalDetails.firstname,
       middlename: data.personalDetails.middlename,
-      surname: data.personalDetails.surname,
+      surname: data.personalDetails.lastName || data.personalDetails.surname,
       about: data.personalDetails.about,
       photo: data.photo,
       dob: this.getDateFromText(data.personalDetails.dob),
@@ -738,6 +786,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       yop12: academics.XII_STANDARD.yop12,
       isGovtOrg: organisation.isGovtOrg,
       orgName: organisation.orgName,
+      orgType: organisation.orgType,
+      orgOtherSpecify: organisation.orgOtherSpecify,
       industry: organisation.industry,
       designation: organisation.designation,
       location: organisation.location,
@@ -745,7 +795,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       orgDesc: organisation.orgDesc,
       orgNameOther: organisation.orgNameOther,
       industryOther: organisation.industryOther,
-      designationOther: organisation.designationOther,
+      profession: organisation.profession,
+      professionOtherSpecify: organisation.professionOtherSpecify,
       // orgName: _.get(data, 'employmentDetails.departmentName') || '',
       service: _.get(data, 'employmentDetails.service') || '',
       cadre: _.get(data, 'employmentDetails.cadre') || '',
@@ -985,13 +1036,14 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   private getOrganisationsHistory(form: any) {
     const organisations: any = []
     const org = {
-      organisationType: '',
       name: form.value.orgName,
+      orgType: form.value.orgType,
+      orgOtherSpecify: form.value.orgOtherSpecify,
       nameOther: form.value.orgNameOther,
       industry: form.value.industry,
       industryOther: form.value.industryOther,
       designation: form.value.designation,
-      designationOther: form.value.designationOther,
+      profession: form.value.profession,
       location: form.value.location,
       responsibilities: '',
       doj: form.value.doj,
@@ -999,11 +1051,6 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       completePostalAddress: '',
       additionalAttributes: {},
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
-    }
-    if (form.value.isGovtOrg) {
-      org.organisationType = 'Government'
-    } else {
-      org.organisationType = 'Non-Government'
     }
     organisations.push(org)
     return organisations
@@ -1270,7 +1317,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (field === 'designation' && value !== 'Other') {
       this.showDesignationOther = false
-      this.createUserForm.controls['designationOther'].setValue('')
+      this.createUserForm.controls['profession'].setValue('')
     }
   }
 
@@ -1334,6 +1381,63 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       },
+    })
+  }
+
+  onDateChange(event: any) {
+    const customerDate = moment(event)
+    const dateNow = moment(new Date())
+    const duration = moment.duration(dateNow.diff(customerDate))
+    if (duration.asYears() > 18) {
+      this.invalidDob = false
+    } else {
+      this.invalidDob = true
+    }
+  }
+
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage,
+      },
+    })
+
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+      if (this.configSvc.userProfileV2) {
+        let user: any
+        const userid = this.configSvc.userProfileV2.userId
+        this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
+          user = data
+          const obj = {
+            preferences: {
+              language: result.id,
+            },
+          }
+          const userdata = Object.assign(user['profileDetails'], obj)
+          // this.chosenLanguage = path.value
+          const reqUpdate = {
+            request: {
+              userId: userid,
+              profileDetails: userdata,
+            },
+          }
+          this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+            () => {
+              if (result.id === 'en') {
+                // this.chosenLanguage = ''
+                window.location.assign(`${location.origin}/page/home`)
+                // window.location.reload(true)
+              } else {
+                // window.location.reload(true)
+                window.location.assign(`${location.origin}/${result.id}/page/home`)
+              }
+            },
+            () => {
+            })
+        })
+      }
     })
   }
 }

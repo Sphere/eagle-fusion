@@ -1,8 +1,12 @@
-import { AuthKeycloakService, ConfigurationsService } from '@ws-widget/utils'
+import {
+  // AuthKeycloakService,
+  ConfigurationsService,
+} from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
+
 @Component({
   selector: 'ws-app-org',
   templateUrl: './org.component.html',
@@ -10,7 +14,7 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
-  orgName = 'Indian Nursing Council'
+  orgName!: string
   courseData!: any
   routeSubscription: any
   orgData: any
@@ -19,8 +23,12 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
   courseCount = 0
 
-  constructor(private activateRoute: ActivatedRoute, private orgService: OrgServiceService,
-    private router: Router, private authSvc: AuthKeycloakService, private configSvc: ConfigurationsService) { }
+  constructor(private activateRoute: ActivatedRoute,
+              private orgService: OrgServiceService,
+              private router: Router,
+    // private authSvc: AuthKeycloakService,
+              private configSvc: ConfigurationsService) {
+  }
 
   ngOnInit() {
     // this.orgName = this.activateRoute.snapshot.queryParams.orgId
@@ -28,6 +36,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.orgService.hideHeaderFooter.next(true)
     // }
     this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
+      this.orgName = this.activateRoute.snapshot.queryParams.orgId
       const currentOrg = this.orgName
       if (response.orgData) {
         this.orgData = response.orgData.data.sources
@@ -39,89 +48,28 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
-    const req = {
-      orgId: [this.orgName],
-      searchFilters: {
-        locale: [
-          'en',
-        ],
-        pageSize: 5,
-        query: 'all',
-        didYouMean: true,
-        filters: [
-          {
-            andFilters: [
-              {
-                contentType: [
-                  'Course',
-                  'Program',
-                ],
-              },
-            ],
-          },
-        ],
-        visibleFilters: {
-          learningMode: {
-            displayName: 'Mode',
-          },
-          duration: {
-            displayName: 'Duration',
-          },
-          exclusiveContent: {
-            displayName: 'Costs',
-          },
-          complexityLevel: {
-            displayName: 'Level',
-          },
-          catalogPaths: {
-            displayName: 'Catalog',
-            order: [
-              {
-                _key: 'asc',
-              },
-            ],
-          },
-          sourceShortName: {
-            displayName: 'Source',
-          },
-          resourceType: {
-            displayName: 'Format',
-          },
-          region: {
-            displayName: 'Region',
-          },
-          concepts: {
-            displayName: 'Concepts',
-          },
-          lastUpdatedOn: {
-            displayName: 'Published Date',
-          },
-        },
-        includeSourceFields: [
-          'creatorLogo',
-        ],
-        sort: [
-          {
-            lastUpdatedOn: 'desc',
-          },
-        ],
-      },
-    }
-    this.orgService.getDatabyOrgId(req).subscribe((data: any) => {
-      this.courseData = data
-      this.courseCount = this.courseData.result.length
+    this.orgService.getSearchResults().subscribe((result: any) => {
+      this.courseData = result.result.content.filter(
+        (org: any) => org.sourceName === this.orgName
+      )
+      this.courseCount = this.courseData
     })
+    // this.orgService.getDatabyOrgId().then((data: any) => {
+    //   console.log(data)
+    //   this.courseData = data
+    //   this.courseCount = this.courseData.result.length
+    // })
     this.configSvc.isAuthenticated ? this.btnText = 'View Course' : this.btnText = 'Login'
   }
 
   gotoOverview(identifier: any) {
-    if (this.configSvc.isAuthenticated) {
-      this.router.navigate([`/app/toc/${identifier}/overview`])
-    } else {
-      const url = `/app/toc/${identifier}/overview`
-      localStorage.setItem('selectedCourse', url)
-      this.authSvc.login('S', url)
-    }
+    // if (this.configSvc.isAuthenticated) {
+    this.router.navigate([`/app/toc/${identifier}/overview`])
+    // } else {
+    // const url = `/app/toc/${identifier}/overview`
+    // localStorage.setItem('selectedCourse', url)
+    // this.authSvc.login('S', url)
+    // }
   }
 
   showMoreCourses() {
@@ -139,14 +87,14 @@ export class OrgComponent implements OnInit, OnDestroy {
       // console.log('this.showEndPopup', this.showEndPopup)
     }
   }
-  loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {
-    if (this.configSvc.isAuthenticated) {
-      this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
-    } else {
-      const url = `/app/toc/${contentId}/overview`
-      localStorage.setItem('selectedCourse', url)
-      this.authSvc.login(key, url)
-    }
+  loginRedirect(contentId: any) {
+    // if (this.configSvc.isAuthenticated) {
+    this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
+    // } else {
+    //   const url = `/app/toc/${contentId}/overview`
+    //   localStorage.setItem('selectedCourse', url)
+    //   this.authSvc.login(key, url)
+    // }
   }
   ngOnDestroy() {
     this.orgService.hideHeaderFooter.next(false)

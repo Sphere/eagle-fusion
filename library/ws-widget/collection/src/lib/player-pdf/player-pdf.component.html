@@ -36,9 +36,9 @@
     </mat-menu>
     <mat-slider *ngIf="!isSmallViewPort" thumbLabel min="0.2" max="3" step="0.05" [formControl]="zoom"></mat-slider> -->
 
-    <button mat-icon-button (click)="refresh()" aria-label="refresh" i18n-aria-label>
+    <!-- <button mat-icon-button (click)="refresh()" aria-label="refresh" i18n-aria-label>
       <mat-icon>refresh</mat-icon>
-    </button>
+    </button> -->
     <div class="pdf-fullscreen">
       <ws-widget-btn-fullscreen (fsState)="fullScreenState($event)" (click)="refresh()"
         [widgetData]="{ fsContainer: fullScreenContainer }">
@@ -46,6 +46,6 @@
     </div>
   </mat-toolbar>
   <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pdf-page-container">
-    <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="container" #pdfContainer></div>
+    <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pl-0 container" #pdfContainer></div>
   </div>
 </section>
