@@ -1,8 +1,7 @@
 import * as _ from 'lodash'
-//import { changeformat } from '../../../../project/ws/app/src/public-api'
+// import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
-console.log(form)
   const profileReq = {
     id: userid,
     userId: userid,
@@ -191,7 +190,6 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     additionalAttributes: {},
     osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
   }
-  console.log(org)
   organisations.push(org)
   return organisations
 }
