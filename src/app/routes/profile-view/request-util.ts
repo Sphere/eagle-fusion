@@ -1,40 +1,40 @@
 import * as _ from 'lodash'
-import { changeformat } from '../../../../project/ws/app/src/public-api'
+//import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
-
+console.log(form)
   const profileReq = {
     id: userid,
     userId: userid,
     personalDetails: {
-      firstname: _.get(form.value, 'firstname') ? form.value.firstname : userProfileData.personalDetails.firstname,
-      middlename: _.get(form.value, 'middlename') ? form.value.middlename : userProfileData.personalDetails.middlename,
-      surname: _.get(form.value, 'surname') ? form.value.surname : userProfileData.personalDetails.surname,
-      about: _.get(form.value, 'about') ? form.value.about : userProfileData.personalDetails.about,
-      photo: _.get(form.value, 'photo') ? form.value.photo : userProfileData.personalDetails.photo,
-      dob: _.get(form.value, 'dob') ? form.value.dob : userProfileData.personalDetails.dob,
-      nationality: _.get(form.value, 'nationality') ? form.value.nationality : userProfileData.personalDetails.nationality,
-      domicileMedium: _.get(form.value, 'domicileMedium') ? form.value.domicileMedium : userProfileData.domicileMedium,
-      regNurseRegMidwifeNumber: _.get(form.value, 'regNurseRegMidwifeNumber') ? form.value.regNurseRegMidwifeNumber :
+      firstname: _.get(form, 'firstname') ? form.firstname : userProfileData.personalDetails.firstname,
+      middlename: _.get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename,
+      surname: _.get(form, 'surname') ? form.surname : userProfileData.personalDetails.surname,
+      about: _.get(form, 'about') ? form.about : userProfileData.personalDetails.about,
+      photo: _.get(form, 'photo') ? form.photo : userProfileData.personalDetails.photo,
+      dob: _.get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob,
+      nationality: _.get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality,
+      domicileMedium: _.get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.domicileMedium,
+      regNurseRegMidwifeNumber: _.get(form, 'regNurseRegMidwifeNumber') ? form.regNurseRegMidwifeNumber :
         userProfileData.personalDetails.regNurseRegMidwifeNumber,
       nationalUniqueId: userProfileData.nationalUniqueId,
       doctorRegNumber: userProfileData.doctorRegNumber,
       instituteName: userProfileData.instituteName,
       nursingCouncil: userProfileData.nursingCouncil,
-      gender: _.get(form.value, 'gender') ? form.value.gender : userProfileData.personalDetails.gender,
-      maritalStatus: _.get(form.value, 'maritalStatus') ? form.value.maritalStatus : userProfileData.personalDetails.maritalStatus,
+      gender: _.get(form, 'gender') ? form.gender : userProfileData.personalDetails.gender,
+      maritalStatus: _.get(form, 'maritalStatus') ? form.maritalStatus : userProfileData.personalDetails.maritalStatus,
       category: userProfileData.category,
-      knownLanguages: _.get(form.value, 'knownLanguages') ? form.value.knownLanguages : userProfileData.personalDetails.knownLanguages,
+      knownLanguages: _.get(form, 'knownLanguages') ? form.knownLanguages : userProfileData.personalDetails.knownLanguages,
       countryCode: userProfileData.countryCode,
-      mobile: _.get(form.value, 'mobile') ? form.value.mobile : userProfileData.personalDetails.mobile,
+      mobile: _.get(form, 'mobile') ? form.mobile : userProfileData.personalDetails.mobile,
       telephone: userProfileData.personalDetails.telephone,
       primaryEmail: userProfileData.personalDetails.primaryEmail,
       officialEmail: '',
       personalEmail: '',
-      postalAddress: _.get(form.value, 'postalAddress') ? form.value.postalAddress : userProfileData.personalDetails.postalAddress,
-      pincode: _.get(form.value, 'pincode') ? form.value.pincode : userProfileData.personalDetails.pincode,
+      postalAddress: _.get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress,
+      pincode: _.get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode,
     },
-    academics: _.get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
+    academics: _.get(form, 'courseDegree') ? populateAcademics(form, userProfileData) : populateAcademics(userProfileData),
     employmentDetails: {
       service: _.get(userProfileData, 'employmentDetails.service') || '',
       cadre: _.get(userProfileData, 'employmentDetails.cadre') || '',
@@ -172,25 +172,26 @@ export const getPostDegree = (data: any, userProfileData?: any) => {
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
-    orgType: _.get(form.value, 'orgType') ? form.value.orgType : userProfileData.professionalDetails[0].orgType,
-    professionOtherSpecify: _.get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify :
+    orgType: _.get(form, 'orgType') ? form.orgType : userProfileData.professionalDetails[0].orgType,
+    professionOtherSpecify: _.get(form, 'professionOtherSpecify') ? form.professionOtherSpecify :
       userProfileData.professionalDetails[0].professionOtherSpecify,
-    orgOtherSpecify: _.get(form.value, 'orgOtherSpecify') ? form.value.orgOtherSpecify :
+    orgOtherSpecify: _.get(form, 'orgOtherSpecify') ? form.orgOtherSpecify :
       userProfileData.professionalDetails[0].orgOtherSpecify,
-    name: form.value.organizationName,
-    nameOther: form.value.orgNameOther,
-    industry: form.value.industry,
-    industryOther: form.value.industryOther,
-    designation: _.get(form.value, 'designation') ? form.value.designation : userProfileData.professionalDetails[0].designation,
-    profession: _.get(form.value, 'profession') ? form.value.profession : userProfileData.professionalDetails[0].profession,
-    location: _.get(form.value, 'location') ? form.value.location : userProfileData.professionalDetails[0].location,
+    name: form.organizationName,
+    nameOther: form.orgNameOther,
+    industry: form.industry,
+    industryOther: form.industryOther,
+    designation: _.get(form, 'designation') ? form.designation : userProfileData.professionalDetails[0].designation,
+    profession: _.get(form, 'profession') ? form.profession : userProfileData.professionalDetails[0].profession,
+    location: _.get(form, 'location') ? form.location : userProfileData.professionalDetails[0].location,
     responsibilities: '',
-    doj: _.get(form.value, 'doj') ? changeformat(new Date(`${form.value.doj}`)) : userProfileData.professionalDetails[0].doj,
-    description: form.value.orgDesc,
+    doj: _.get(form, 'doj') ? form.doj : userProfileData.professionalDetails[0].doj,
+    description: form.orgDesc,
     completePostalAddress: '',
     additionalAttributes: {},
     osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
   }
+  console.log(org)
   organisations.push(org)
   return organisations
 }
