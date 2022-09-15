@@ -476,8 +476,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 if (child1.completionPercentage === 100) {
                   if (element && element[index + 1]) {
                     element[index + 1].disabledNode = false
-                  }
-
+                  } else {
+                    if (element[index + 1]) {
+                      element[index + 1].disabledNode = true
+                    }
                 }
 
                 if (child1['children']) {
