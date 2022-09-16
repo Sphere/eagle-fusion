@@ -210,14 +210,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -453,6 +453,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               collection.map((child1: any, index: any, element: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
+
                 if (foundContent) {
                   child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
                   child1.completionStatus = foundContent.status
@@ -477,7 +478,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   if (element && element[index + 1]) {
                     element[index + 1].disabledNode = false
                   }
-
+                } else {
+                  if (element[index + 1]) {
+                    element[index + 1].disabledNode = true
+                  }
                 }
 
                 if (child1['children']) {
@@ -559,6 +563,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
+
 
           })
       }
