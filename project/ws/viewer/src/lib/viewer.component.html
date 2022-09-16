@@ -72,11 +72,11 @@
 
       </mat-sidenav-content>
     </mat-sidenav-container>
-    <div *ngIf="(isXSmall$ | async) !== true" class="discussion-container mb-10">
+    <div *ngIf="(isXSmall$ | async) !== true && (isLtMedium$ | async) !== true" class="discussion-container mb-10">
       <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
       </all-discussion-widget>
     </div>
-    <div *ngIf="(isXSmall$ | async) === true">
+    <div *ngIf="(isXSmall$ | async) === true || (isLtMedium$ | async) === true">
       <mat-tab-group animationDuration="0ms" class="minhightab ">
 
         <mat-tab i18n-label label="Modules">
