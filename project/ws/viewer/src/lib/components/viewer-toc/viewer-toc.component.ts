@@ -612,10 +612,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     }
   }
 
-  minimizenav() {
-    this.hidenav.emit(false)
-    this.hideSideNav = !this.hideSideNav
-  }
+  // minimizenav() {
+  //   this.hidenav.emit(false)
+  //   this.hideSideNav = !this.hideSideNav
+  // }
 
   public progressColor(): string {
     return '#1D8923'
