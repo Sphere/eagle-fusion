@@ -1,0 +1,96 @@
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, ReplaySubject } from 'rxjs'
+import * as _ from 'lodash'
+import { map, take } from 'rxjs/operators'
+
+export interface IPlayerSateStore {
+  tocAvailable: boolean
+  nextResource: string | null
+  prevResource: string | null
+  previousTitle: string | null
+  nextResTitle: string | null
+  currentCompletionPercentage: number | null
+  prevCompletionPercentage: number | null
+}
+@Injectable({
+  providedIn: 'root',
+})
+
+export class PlayerStateService {
+
+  playerState = new ReplaySubject<IPlayerSateStore>(1)
+  trigger$ = new BehaviorSubject<any>(undefined)
+  // tslint:disable-next-line: max-line-length
+  setState({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevPercentage }:
+    // tslint:disable-next-line: max-line-length
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevPercentage: number | null }) {
+    // tslint:disable-next-line:object-shorthand-properties-first
+    this.playerState.next(
+      {
+        tocAvailable: isValid,
+        nextResource: next,
+        prevResource: prev,
+        previousTitle: prevTitle,
+        nextResTitle: nextTitle,
+        currentCompletionPercentage: currentPercentage,
+        prevCompletionPercentage: prevPercentage,
+      },
+    )
+  }
+
+  getCurrentCompletionPercentage() {
+    return this.playerState.subscribe((data: any) => {
+      if (_.get(data, 'currentCompletionPercentage')) {
+        return _.get(data, 'currentCompletionPercentage')
+      }
+    })
+  }
+
+  getPrevCompletionPercentage() {
+    return this.playerState.subscribe((data: any) => {
+      if (_.get(data, 'prevCompletionPercentage')) {
+        return _.get(data, 'prevCompletionPercentage')
+      }
+    })
+  }
+
+  getPrevResource() {
+    return this.playerState.subscribe((data: any) => {
+      if (_.get(data, 'prevResource')) {
+        return _.get(data, 'prevResource')
+      }
+    })
+  }
+
+  getNextResource() {
+    let nextResource = ''
+    this.playerState.pipe(take(1)).subscribe((data: any) => {
+      if (_.get(data, 'nextResource')) {
+        nextResource = _.get(data, 'nextResource')
+        return nextResource
+      }
+      return nextResource
+    })
+    return nextResource
+  }
+
+  isResourceCompleted() {
+    let isResourceCompleted = false
+    const tdata = this.trigger$.getValue()
+    if (tdata !== 'triggered' || _.isUndefined(tdata)) {
+      this.playerState.pipe(map((data: any) => _.get(data, 'currentCompletionPercentage') === 100 ? true : false)).
+        subscribe((data: any) => {
+          if (data) {
+            isResourceCompleted = data
+          } else {
+            this.trigger$.next('not-triggered')
+          }
+          return isResourceCompleted
+        })
+    } else {
+      isResourceCompleted = false
+    }
+    return isResourceCompleted
+  }
+
+}

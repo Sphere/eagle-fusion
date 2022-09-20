@@ -447,7 +447,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             })
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
-              let name = this.enrolledCourse.courseName
+              const name = this.enrolledCourse.courseName
               this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
                 if (response.responseCode) {
                   const img = new Image()
