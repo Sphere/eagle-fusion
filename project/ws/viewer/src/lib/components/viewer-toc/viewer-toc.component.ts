@@ -4,7 +4,7 @@ import {
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import {
   // ContentProgressService,
   NsContent,
@@ -21,6 +21,7 @@ import { of, Subscription } from 'rxjs'
 import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { PlayerStateService } from '../../player-state.service'
 
 interface IViewerTocCard {
   identifier: string
@@ -76,8 +77,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     private utilitySvc: UtilityService,
     private viewerDataSvc: ViewerDataService,
     private viewSvc: ViewerUtilService,
-    private configSvc: ConfigurationsService
-    // private contentProgressSvc: ContentProgressService
+    private configSvc: ConfigurationsService,
+    // private contentProgressSvc: ContentProgressService,
+    private playerStateService: PlayerStateService,
+    public router: Router,
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -210,14 +213,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -267,7 +270,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (this.collection && this.resourceId) {
       this.processCollectionForTree()
       this.expandThePath()
-      // this.getContentProgressHash()
     }
   }
   private async getCollection(
@@ -529,7 +531,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       }
                     } else {
 
-                      if (element[index].children[cindex - 1].completionPercentage !== 100) {
+                      if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage !== 100) {
                         if (this.viewerDataSvc.getNode()) {
                           element[index].children[cindex].disabledNode = true
                         } else {
@@ -573,13 +575,21 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
     // tslint:disable-next-line:object-shorthand-properties-first
-    this.viewerDataSvc.updateNextPrevResource({
+    this.playerStateService.setState({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage,
     })
+    setTimeout(() => {
+      if (this.playerStateService.isResourceCompleted()) {
+        const nextResource = this.playerStateService.getNextResource()
+        this.router.navigate([nextResource], { preserveQueryParams: true })
+        this.playerStateService.trigger$.complete()
+      }
+    }, 500)
   }
-  resourceContentTypeFunct(type: any) {
+
+  resourceContentTypeFunct(type: any): void {
     if (type === 'application/vnd.ekstep.content-collection' || type === 'application/pdf') {
       this.resourceContentType = 'Lecture'
     } else if (type === 'application/quiz' || type === 'application/json') {

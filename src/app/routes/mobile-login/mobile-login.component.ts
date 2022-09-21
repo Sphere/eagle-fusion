@@ -93,7 +93,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-      (googleUser: any) => {
+                                  (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -107,7 +107,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-      (error: any) => {
+                                  (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })

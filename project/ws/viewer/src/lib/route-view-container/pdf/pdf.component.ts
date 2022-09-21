@@ -1,4 +1,4 @@
-import { ViewerDataService } from './../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -42,7 +42,7 @@ export class PdfComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+    private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -57,7 +57,7 @@ export class PdfComponent implements OnInit {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
