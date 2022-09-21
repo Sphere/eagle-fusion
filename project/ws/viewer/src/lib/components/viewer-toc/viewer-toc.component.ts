@@ -228,10 +228,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   // }
   sendStatus(content: any) {
     this.viewSvc.editResourceData(content)
-    if (window.innerWidth < 600) {
-      this.minimizenav()
-    }
-
   }
 
   // private getContentProgressHash() {
