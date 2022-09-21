@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
 import * as _ from 'lodash'
-import { first, map, take } from 'rxjs/operators'
+import { map, take } from 'rxjs/operators'
 
 export interface IPlayerSateStore {
   tocAvailable: boolean
@@ -76,7 +76,7 @@ export class PlayerStateService {
 
   getNextResource() {
     let nextResource = ''
-    this.playerState.pipe(take(1), first()).subscribe((data: any) => {
+    this.playerState.pipe(take(1)).subscribe((data: any) => {
       if (_.get(data, 'nextResource')) {
         nextResource = _.get(data, 'nextResource')
         return nextResource
