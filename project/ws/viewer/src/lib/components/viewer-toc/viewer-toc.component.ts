@@ -228,10 +228,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   // }
   sendStatus(content: any) {
     this.viewSvc.editResourceData(content)
-    if (window.innerWidth < 600) {
-      this.minimizenav()
-    }
-
   }
 
   // private getContentProgressHash() {
@@ -455,6 +451,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               collection.map((child1: any, index: any, element: any) => {
                 const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
+
                 if (foundContent) {
                   child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
                   child1.completionStatus = foundContent.status
@@ -479,7 +476,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   if (element && element[index + 1]) {
                     element[index + 1].disabledNode = false
                   }
-
+                } else {
+                  if (element[index + 1]) {
+                    element[index + 1].disabledNode = true
+                  }
                 }
 
                 if (child1['children']) {
@@ -562,6 +562,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .subscribe(() => {
             this.expandThePath()
 
+
           })
       }
     }
@@ -617,10 +618,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     }
   }
 
-  minimizenav() {
-    this.hidenav.emit(false)
-    this.hideSideNav = !this.hideSideNav
-  }
+  // minimizenav() {
+  //   this.hidenav.emit(false)
+  //   this.hideSideNav = !this.hideSideNav
+  // }
 
   public progressColor(): string {
     return '#1D8923'
