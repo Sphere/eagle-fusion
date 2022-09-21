@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
 import * as _ from 'lodash'
-import { map, take } from 'rxjs/operators'
+import { first, map, take } from 'rxjs/operators'
 
 export interface IPlayerSateStore {
   tocAvailable: boolean
@@ -39,32 +39,44 @@ export class PlayerStateService {
   }
 
   getCurrentCompletionPercentage() {
-    return this.playerState.subscribe((data: any) => {
+    let currentCompletionPercentage: any
+    this.playerState.subscribe((data: any) => {
       if (_.get(data, 'currentCompletionPercentage')) {
-        return _.get(data, 'currentCompletionPercentage')
+        currentCompletionPercentage = _.get(data, 'currentCompletionPercentage')
       }
     })
+    return currentCompletionPercentage
   }
 
   getPrevCompletionPercentage() {
-    return this.playerState.subscribe((data: any) => {
+    let prevCompletionPercentage: any
+    this.playerState.subscribe((data: any) => {
       if (_.get(data, 'prevCompletionPercentage')) {
-        return _.get(data, 'prevCompletionPercentage')
+        prevCompletionPercentage = _.get(data, 'prevCompletionPercentage')
       }
     })
+    return prevCompletionPercentage
   }
 
   getPrevResource() {
-    return this.playerState.subscribe((data: any) => {
-      if (_.get(data, 'prevResource')) {
-        return _.get(data, 'prevResource')
-      }
-    })
+    let prevResource: any
+    const tdata = this.trigger$.getValue()
+    if (_.isUndefined(tdata)) {
+      this.playerState.subscribe((data: any) => {
+        if (_.get(data, 'prevResource')) {
+          prevResource = _.get(data, 'prevResource')
+          this.trigger$.next(prevResource)
+        }
+      })
+      return prevResource
+    } else {
+      return prevResource
+    }
   }
 
   getNextResource() {
     let nextResource = ''
-    this.playerState.pipe(take(1)).subscribe((data: any) => {
+    this.playerState.pipe(take(1), first()).subscribe((data: any) => {
       if (_.get(data, 'nextResource')) {
         nextResource = _.get(data, 'nextResource')
         return nextResource
