@@ -39,27 +39,39 @@ export class PlayerStateService {
   }
 
   getCurrentCompletionPercentage() {
-    return this.playerState.subscribe((data: any) => {
+    let currentCompletionPercentage: any
+    this.playerState.subscribe((data: any) => {
       if (_.get(data, 'currentCompletionPercentage')) {
-        return _.get(data, 'currentCompletionPercentage')
+        currentCompletionPercentage = _.get(data, 'currentCompletionPercentage')
       }
     })
+    return currentCompletionPercentage
   }
 
   getPrevCompletionPercentage() {
-    return this.playerState.subscribe((data: any) => {
+    let prevCompletionPercentage: any
+    this.playerState.subscribe((data: any) => {
       if (_.get(data, 'prevCompletionPercentage')) {
-        return _.get(data, 'prevCompletionPercentage')
+        prevCompletionPercentage = _.get(data, 'prevCompletionPercentage')
       }
     })
+    return prevCompletionPercentage
   }
 
   getPrevResource() {
-    return this.playerState.subscribe((data: any) => {
-      if (_.get(data, 'prevResource')) {
-        return _.get(data, 'prevResource')
-      }
-    })
+    let prevResource: any
+    const tdata = this.trigger$.getValue()
+    if (_.isUndefined(tdata)) {
+      this.playerState.subscribe((data: any) => {
+        if (_.get(data, 'prevResource')) {
+          prevResource = _.get(data, 'prevResource')
+          this.trigger$.next(prevResource)
+        }
+      })
+      return prevResource
+    } else {
+      return prevResource
+    }
   }
 
   getNextResource() {
