@@ -158,8 +158,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.checkIndexOfResource()
       }
     })
-    this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(_data => {
-      this.ngOnInit()
+    this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
+      if (data) {
+        this.ngOnInit()
+        setTimeout(() => {
+          if (this.playerStateService.isResourceCompleted()) {
+            const nextResource = this.playerStateService.getNextResource()
+            this.router.navigate([nextResource], { preserveQueryParams: true })
+            this.playerStateService.trigger$.complete()
+          }
+        }, 4000)
+      }
+
     })
   }
 
@@ -581,13 +591,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       // tslint:disable-next-line:object-shorthand-properties-first
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage,
     })
-    setTimeout(() => {
-      if (this.playerStateService.isResourceCompleted()) {
-        const nextResource = this.playerStateService.getNextResource()
-        this.router.navigate([nextResource], { preserveQueryParams: true })
-        this.playerStateService.trigger$.complete()
-      }
-    }, 500)
   }
 
   resourceContentTypeFunct(type: any): void {
