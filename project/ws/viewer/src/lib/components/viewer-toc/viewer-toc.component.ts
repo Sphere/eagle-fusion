@@ -22,7 +22,7 @@ import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
-
+import * as _ from 'lodash'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -164,8 +164,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         setTimeout(() => {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
-            this.router.navigate([nextResource], { preserveQueryParams: true })
-            this.playerStateService.trigger$.complete()
+            if (!_.isNull(nextResource)) {
+              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.playerStateService.trigger$.complete()
+            } else {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.batchId,
+                },
+              })
+            }
+
           }
         }, 4000)
       }
