@@ -155,6 +155,7 @@ export class AuthKeycloakService {
     localStorage.removeItem('loginbtn')
     localStorage.removeItem('url_before_login')
     localStorage.removeItem('tocData')
+    localStorage.removeItem(`userUUID`)
     // this.http.get('/apis/reset')
     try {
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
