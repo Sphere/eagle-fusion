@@ -3,19 +3,19 @@
     <a mat-icon-button routerLink="/app/infy/navigator">
       <mat-icon>arrow_back</mat-icon>
     </a>
-    <span i18n="page title: navigator explore" class="margin-left-xs">Offerings</span>
+    <span class="margin-left-xs">Offerings</span>
   </div>
 </mat-toolbar>
 
 <div class="headings mat-headline  margin-top">
   <div *ngIf="status === 'done'">
     <div class="toolbar">
-      <p class="mat-title" i18n>
+      <p class="mat-title" >
         Explore learning paths for new service offerings based on Industry trends
       </p>
     </div>
     <div class="margin-top-l">
-      <p class="mat-h2 text-center" i18n>Select a Pillar</p>
+      <p class="mat-h2 text-center" >Select a Pillar</p>
       <ws-app-pentagon [default]="'Accelerate'" (trackClicked)="trackClicked($event)"></ws-app-pentagon>
     </div>
     <div class="role">

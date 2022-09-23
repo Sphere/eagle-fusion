@@ -1,9 +1,9 @@
 <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles" class="position-relative small-height-toolbar">
   <!-- <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back> -->
-  <div class="center-align" i18n>What do you want to learn?</div>
+  <div class="center-align" >What do you want to learn?</div>
 </mat-toolbar>
 <div class="m-4">
-  <div i18n>Select the topics you are interested in and pick content that suits you.</div>
+  <div >Select the topics you are interested in and pick content that suits you.</div>
 
   <ws-utils-horizontal-scroller class="block pt-4 mx-4" *ngIf="interestsData?.length" [loadStatus]="'done'"
     [onHover]='true'>
@@ -17,10 +17,10 @@
   </ws-utils-horizontal-scroller>
   <div *ngIf="fetchStatus === 'fetching'" class="margin-top-s text-center">
     <mat-spinner class="display-inline-block" [diameter]="30" [strokeWidth]="3"></mat-spinner>
-    <div class="mat-caption" class="margin-top-xs" i18n>Fetching interests</div>
+    <div class="mat-caption" class="margin-top-xs" >Fetching interests</div>
   </div>
   <div *ngIf="fetchStatus === 'error'" class="margin-top-s text-center">
-    <div class="mat-caption" class="margin-top-xs" i18n>Error while fetching interests</div>
+    <div class="mat-caption" class="margin-top-xs" >Error while fetching interests</div>
   </div>
   <div class="flex-container" *ngIf="fetchStatus === 'done' && interestContent.length">
     <div *ngFor="let content of interestContent" class="flex">
@@ -46,11 +46,11 @@
 
   </div>
 
-  <button class="tnc-bottom-navbar" color="primary" (click)="addInterest()" mat-raised-button i18n>
+  <button class="tnc-bottom-navbar" color="primary" (click)="addInterest()" mat-raised-button >
     Done
   </button>
 
 </div>
 
-<input #createPlaylistSuccess type="hidden" i18n-value value="Contents are successfully added" />
-<input #createPlaylistError type="hidden" i18n-value value="Error creating playlist" />
+<input #createPlaylistSuccess type="hidden"  value="Contents are successfully added" />
+<input #createPlaylistError type="hidden"  value="Error creating playlist" />

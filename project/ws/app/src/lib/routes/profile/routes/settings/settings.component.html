@@ -6,7 +6,7 @@
         <mat-card-content class="padding-bottom-s">
           <h3 class="mat-subheading-2 flex flex-middle">
             <mat-icon class="margin-right-s">translate</mat-icon>
-            <ng-container i18n="settings: choose a language">Choose your Language</ng-container>
+            <ng-container i18n>Choose your Language</ng-container>
           </h3>
           <section>
             <mat-form-field class="language-drop-down-width">
@@ -152,9 +152,7 @@
           <div class="flex flex-middle flex-between mt-4">
             <span *ngIf="mode === 'settings'" class="ws-mat-primary-text" i18n>After changing the application language, the application will reload</span>
             <div *ngIf="mode === 'settings'">
-              <a mat-raised-button type="button" color="primary" (click)="applyChanges()" i18n>
-                Apply
-              </a>
+              <a mat-raised-button type="button" color="primary" (click)="applyChanges()" i18n>Apply</a>
             </div>
           </div>
         </mat-card-content>
@@ -163,7 +161,7 @@
         <mat-card-content class="padding-bottom-s">
           <h3 class="mat-subheading-2 flex flex-middle">
             <mat-icon class="margin-right-s">text_fields</mat-icon>
-            <ng-container i18n="settings: choose a font size">Choose a suitable font-size</ng-container>
+            <ng-container i18n>Choose a suitable font-size</ng-container>
           </h3>
           <button mat-menu-item class="content-v-center" *ngFor="let font of fonts"
             (click)="changeFont(font.fontClass)">
@@ -233,10 +231,7 @@
 </mat-tab-group>
 <input type="hidden" i18n-value="Toast msg after successfully saving preferences" value="Preferences Saved"
   #successToast />
-<input type="hidden" i18n-value="Toast msg after failed to save preferences" value="Failed to save preference"
-  #failureToast />
-<input type="hidden" id="lang-change-toast" i18n-value
-  value="This feature is in beta and hence parts of the site may appear in English only." />
-<input type="hidden" id="lang-change-toast" i18n-value value="This feature is in beta and hence parts of the site may
-      appear in English only. " />
+<input type="hidden" i18n-value="Toast msg after failed to save preferences" value="Failed to save preference" #failureToast />
+<input type="hidden" id="lang-change-toast" i18n-value value="This feature is in beta and hence parts of the site may appear in English only." />
+<input type="hidden" id="lang-change-toast" i18n-value value="This feature is in beta and hence parts of the site may appear in English only. " />
 <input type="hidden" #maxContentLangToast i18n-value value="Only 2 content language are allowed" />

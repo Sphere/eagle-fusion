@@ -4,16 +4,16 @@
   </a>
   <span class="padding-left-xs">{{
     fullStackData.fs_name
-  }}</span>
+    }}</span>
 </mat-toolbar>
 
 <div class="margin-bottom-xl">
   <div class="banner ws-mat-primary-background-op50">
     <div class="banner-description margin-bottom-m padding-top-m ">
-      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text">
         Choose a course below that you need to learn
       </h1>
-      <h2 i18n class="mat-title margin-top-xl small-banner-description ">
+      <h2 class="mat-title margin-top-xl small-banner-description ">
         After learning you can take certifications to strengthen your knowledge
       </h2>
     </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="margin-top-xs practice-certification">
       <div class="margin-top-l margin-left-l" *ngIf="playgroundData.length">
-        <h1 class="mat-headline padding-top-l text-bold padding-left-l" i18n>Practice</h1>
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l">Practice</h1>
         <div class="card-holder">
           <ng-container *ngFor="let playItem of playgroundData">
             <ws-app-lp-card [navigatorCard]="playItem"></ws-app-lp-card>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="margin-top-l margin-left-l" *ngIf="certificationData.length">
-        <h1 class="mat-headline padding-top-l text-bold padding-left-l margin-remove-bottom" i18n>Certification
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l margin-remove-bottom">Certification
           <ng-container *ngIf="certificationData.length>1">s</ng-container>
         </h1>
         <ws-utils-horizontal-scroller>

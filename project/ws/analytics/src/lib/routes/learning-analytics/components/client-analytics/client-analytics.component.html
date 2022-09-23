@@ -42,11 +42,11 @@
       <h2 class="mat-subheading-2 margin-remove padding-left-xs" [ngSwitch]="currentTab">
         <span *ngSwitchCase="'home'" accesskey="1">
           <mat-icon>home</mat-icon>
-          <span class="margin-left-xs" i18n>{{ analytics?.tabs?.home?.displayName }}</span>
+          <span class="margin-left-xs">{{ analytics?.tabs?.home?.displayName }}</span>
         </span>
         <span *ngSwitchCase="'content'" accesskey="2">
           <mat-icon>library_books</mat-icon>
-          <span class="margin-left-xs" i18n>{{ analytics?.tabs?.content?.displayName }}</span>
+          <span class="margin-left-xs">{{ analytics?.tabs?.content?.displayName }}</span>
         </span>
       </h2>
     </div>
@@ -65,14 +65,14 @@
       </ng-container>
       <ng-container *ngIf="contentData?.last_updated_on">
         <div class="mat-body-1 flex flex-middle remove-margin-top margin-m">
-          <span i18n>Last Updated on :</span>
+          <span>Last Updated on :</span>
           <span>{{ contentData?.last_updated_on | date: 'EEEE, MMMM d, y' }}</span>
         </div>
       </ng-container>
       <div class="m-4 flex flex-start flex-middle flex-wrapped" *ngIf="
           filterData.length > 0
         ">
-        <h4 class="filter" i18n>Showing data for :</h4>
+        <h4 class="filter">Showing data for :</h4>
         <mat-chip-list class="ml-4" #chipList aria-label="filter">
           <mat-chip *ngFor="let filter of filterData" [selectable]="selectable" [removable]="removable"
             (removed)="remove(filter)">

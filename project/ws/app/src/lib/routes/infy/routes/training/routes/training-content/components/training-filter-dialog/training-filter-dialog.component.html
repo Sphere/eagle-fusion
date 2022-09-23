@@ -1,10 +1,10 @@
 <section class="width-1-1">
-  <h2 class="mat-title" i18n>Filter Trainings</h2>
+  <h2 class="mat-title" >Filter Trainings</h2>
 
   <form [formGroup]="filterForm" (ngSubmit)="onApplyFilters()">
     <mat-form-field class="width-1-1">
       <mat-label>
-        <span i18n>Location</span>
+        <span >Location</span>
       </mat-label>
       <mat-select formControlName="location">
         <mat-option *ngFor="let location of trainingLocations" [value]="location.name"
@@ -13,7 +13,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="margin-top-s mat-caption" i18n>Starting between the following dates:</div>
+    <div class="margin-top-s mat-caption" >Starting between the following dates:</div>
 
     <mat-form-field class="width-1-1">
       <input
@@ -42,28 +42,28 @@
     </mat-form-field>
 
     <section>
-      <mat-checkbox [color]="'primary'" formControlName="assessmentOnly" i18n>
+      <mat-checkbox [color]="'primary'" formControlName="assessmentOnly" >
         Trainings with assessment
       </mat-checkbox>
     </section>
 
     <section>
-      <mat-checkbox [color]="'primary'" formControlName="seatsAvailableOnly" i18n>
+      <mat-checkbox [color]="'primary'" formControlName="seatsAvailableOnly" >
         Trainings with seats available
       </mat-checkbox>
     </section>
 
     <section>
-      <mat-checkbox [color]="'primary'" formControlName="eligibleOnly" i18n>
+      <mat-checkbox [color]="'primary'" formControlName="eligibleOnly" >
         Eligible trainings
       </mat-checkbox>
     </section>
 
     <section class="padding-top-m">
-      <button mat-raised-button color="primary" type="submit" i18n [disabled]="!filterForm.valid">
+      <button mat-raised-button color="primary" type="submit"  [disabled]="!filterForm.valid">
         Apply
       </button>
-      <button mat-stroked-button color="primary" type="reset" class="margin-left-m" i18n>
+      <button mat-stroked-button color="primary" type="reset" class="margin-left-m" >
         Reset
       </button>
     </section>

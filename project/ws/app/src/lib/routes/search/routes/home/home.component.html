@@ -1,12 +1,12 @@
 <!-- <mat-toolbar role="navigation" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'back',titles:[{title:'Search',url:'none'}] }">
   </ws-widget-btn-page-back> -->
-<!-- <span i18n="page title: search" class="margin-left-xs hidden-inline-s">Search</span> -->
+<!-- <span ="page title: search" class="margin-left-xs hidden-inline-s">Search</span> -->
 <!-- <span class="spacer"></span>
 </mat-toolbar> -->
 <div role="main" class="flex search justify-center px-3 mt-12">
   <div class="w-full md:w-10/12 lg:w-6/12">
-    <h1 class="text-center mat-title" i18n>What do you want to learn?</h1>
+    <h1 class="text-center mat-title" >What do you want to learn?</h1>
     <div role="form" class="flex border border-solid search-border">
       <div [ngClass]="{'border-right': languageSearch?.length}" class="flex items-center">
         <button class="lang-btn margin-right-s" *ngIf="languageSearch?.length" mat-button
@@ -21,7 +21,7 @@
         <form (submit)="search(query.value)" class="w-full search-form flex">
           <mat-form-field class="w-full" appearance="none">
             <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput cdkFocusInitial
-              placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
+              placeholder="Search" i18-aria-label aria-label="Query">
           </mat-form-field>
           <mat-autocomplete (optionSelected)="search($event.option.value)" #auto="matAutocomplete">
             <mat-option *ngIf="query.value" [value]="query.value">{{query.value}}</mat-option>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="flex flex-wrap md:flex-no-wrap justify-around mt-10">
-      <a *ngFor="let filter of suggestedFilters" matRipple role="button" i18n-aria-label aria-label="Suggested filter"
+      <a *ngFor="let filter of suggestedFilters" matRipple role="button" -aria-label aria-label="Suggested filter"
         [routerLink]="filter?.url" [queryParams]="filter?.queryParams" class="w-1/3 filter-button">
         <mat-icon class="mb-2">{{filter.icon}}</mat-icon>
         <span class="font-normal">{{filter.title}}</span>

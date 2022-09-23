@@ -166,6 +166,7 @@ export class ContentPickerV2Component implements OnInit, OnDestroy {
     this.initSearchResults()
     this.triggerSearchSubscription = this.searchApiSvc.getSearchV6Results(this.searchReq).subscribe(
       (results: any) => {
+        console.log(results)
         this.fetchStatus = 'done'
         this.searchResults = JSON.parse(JSON.stringify(results))
       },

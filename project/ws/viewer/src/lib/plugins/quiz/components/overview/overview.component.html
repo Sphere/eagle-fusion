@@ -8,11 +8,11 @@
       </div>
       <div class="card-section">
         <h3 class="mat-h3">
-          <ng-container i18n="quiz difficulty label">Difficulty : </ng-container>
+          <ng-container i18n>Difficulty : </ng-container>
           {{ complexityLevel }}
         </h3>
         <h3 class="mat-h3">
-          <ng-container i18n="quiz duration label">Duration : </ng-container>
+          <ng-container i18n>Duration : </ng-container>
           <ng-container *ngIf="duration">{{
             duration | pipeDurationTransform: 'hms'
             }}</ng-container>
@@ -21,18 +21,18 @@
             }}</ng-container>
         </h3>
         <h3 class="mat-h3">
-          <ng-container i18n="quiz number of questions label">Questions : </ng-container>
+          <ng-container i18n>Questions : </ng-container>
           {{ noOfQuestions }}
         </h3>
       </div>
     </div>
     <div class="text-center">
       <button mat-raised-button color="primary" (click)="userSelection.emit('start')" class="margin-right-m"
-        i18n="button start quiz" [hidden]="progressStatus==='completed' && isNqocnContent">
+        i18n [hidden]="progressStatus==='completed' && isNqocnContent">
         Start
       </button>
       <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
-        <p>You have already completed the Assessment</p>
+        <p i18n>You have already completed the Assessment</p>
       </ng-container>
     </div>
   </mat-card>

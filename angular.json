@@ -131,7 +131,7 @@
                 "i18nFile": "locale/messages.hi.xlf",
                 "i18nFormat": "xlf",
                 "i18nLocale": "hi",
-                "i18nMissingTranslation": "warn"
+                "i18nMissingTranslation": "warning"
             }
           }
         },

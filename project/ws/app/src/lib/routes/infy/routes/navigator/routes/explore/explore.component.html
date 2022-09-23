@@ -3,7 +3,7 @@
     <a mat-icon-button routerLink="/app/infy/navigator">
       <mat-icon>arrow_back</mat-icon>
     </a>
-    <span i18n="page title: navigator explore" class="margin-left-xs">Explore</span>
+    <span class="margin-left-xs">Explore</span>
   </div>
 </mat-toolbar>
 
@@ -13,13 +13,13 @@
     <div class="headings mat-headline ws-mat-primary-text margin-top">
       <div *ngIf="status === 'done'; else loader">
         <div class="toolbar margin-top-xl">
-          <p [ngClass]="smallScreen == false ? 'mat-headline' : 'mat-title'" i18n>
+          <p [ngClass]="smallScreen == false ? 'mat-headline' : 'mat-title'" >
             Learning path(s) in high demand
           </p>
           <div class="button-holder">
             <a mat-flat-button [routerLink]="['/app/infy/navigator/tech/learning-path/result']"
               [queryParams]="selectionjava">
-              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold " i18n>SEE ALL</span>
+              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold " >SEE ALL</span>
               <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
             </a>
           </div>
@@ -41,13 +41,13 @@
     <div class="headings mat-headline ws-mat-primary-text margin-top">
       <div *ngIf="statusFs === 'done'">
         <div class="toolbar margin-top-xl">
-          <p [ngClass]="smallScreen == false ? 'mat-headline' : 'mat-title'" i18n>
+          <p [ngClass]="smallScreen == false ? 'mat-headline' : 'mat-title'" >
             Pick a full stack offering of your choice to learn
           </p>
 
           <div class="button-holder">
             <a mat-flat-button [routerLink]="'/app/infy/navigator/fs/all/'">
-              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>SEE ALL</span>
+              <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" >SEE ALL</span>
               <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
             </a>
           </div>

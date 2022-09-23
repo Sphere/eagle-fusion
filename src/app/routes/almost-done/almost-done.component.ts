@@ -331,7 +331,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
     }
-    
+
     // tslint:disable-next-line:max-line-length
     if ((this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Facilitator') || (this.backgroundSelect === 'Others' && this.selectedBg === 'Asha Trainer')) {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground

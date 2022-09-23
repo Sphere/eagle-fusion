@@ -19,6 +19,7 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
+    "extract-i18n": "ng run fusion:extract-i18n --output-path locale",
     "i18n": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng xi18n --output-path locale",
     "tailwind": "./node_modules/.bin/tailwind build ./src/tailwind-build.scss  -o ./src/styles.scss",
     "prestart": "npm run tailwind"

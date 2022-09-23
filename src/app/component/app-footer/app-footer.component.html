@@ -10,7 +10,7 @@
       </mat-list>
 
       <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item> <a class="list-item" routerLink="/public/about" id="footer-about-us"> <span i18n>About Us</span></a> </mat-list-item>
+        <mat-list-item> <a routerLink="/public/about" id="footer-about-us"> <span i18n class="list-item">About Us</span></a> </mat-list-item>
         <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank" id="footer-vision"><span
               class="list-item" i18n>Vision</span></a>
         </mat-list-item>
@@ -72,7 +72,7 @@
   </div>
   <!-- partner border -->
   <div class="flex">
-    <h2 class="partner"><span>Partners</span></h2>
+    <h2 class="partner"><span i18n>Partners</span></h2>
   </div>
   <!-- partners list -->
   <div class="partner-list" [ngClass]="{'flex ': !isXSmall }">

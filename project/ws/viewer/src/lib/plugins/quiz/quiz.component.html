@@ -69,30 +69,30 @@
             Unable to Submit
           </h2>
           <ng-container *ngIf="fetchingResultsStatus === 'done'">
-            <h2 *ngIf="!quizJson.isAssessment" class="mat-title" i18n="quiz end message">
+            <h2 *ngIf="!quizJson.isAssessment" class="mat-title" i18n>
               Thank you for your attempt.
             </h2>
             <h2 *ngIf="quizJson.isAssessment" class="mat-title">
-              <ng-container i18n="quiz result label">Result:</ng-container>
+              <ng-container i18>Result:</ng-container>
               <ng-container i18n *ngIf="isCompleted">Pass</ng-container>
               <ng-container i18n *ngIf="!isCompleted">Did not Pass</ng-container>
             </h2>
             <div class="flex flex-wrapped flex-center text-center">
               <div class="card-section">
                 <h2 class="mat-title">{{ numCorrectAnswers }}</h2>
-                <h2 class="mat-title" i18n="label number of correct answers">
+                <h2 class="mat-title" i18n>
                   Correct
                 </h2>
               </div>
               <div class="card-section">
                 <h2 class="mat-title">{{ numIncorrectAnswers }}</h2>
-                <h2 class="mat-title" i18n="label number of incorrect answers">
+                <h2 class="mat-title" i18n>
                   Incorrect
                 </h2>
               </div>
               <div class="card-section">
                 <h2 class="mat-title">{{ numUnanswered }}</h2>
-                <h2 class="mat-title" i18n="label of unanswered questions">
+                <h2 class="mat-title" i18n>
                   Unanswered
                 </h2>
               </div>
@@ -100,7 +100,7 @@
                 <h2 class="mat-title">
                   {{ result | number: '1.0-0' }}
                 </h2>
-                <h2 class="mat-title" i18n="label quiz percentage">
+                <h2 class="mat-title" i18n>
                   Percentage
                 </h2>
               </div>
@@ -116,12 +116,10 @@
         </mat-card>
         <div class="text-center">
           <button class="margin-right-m" mat-raised-button color="primary"
-            *ngIf="!(viewState === 'answer' && quizJson?.isAssessment)" (click)="proceedToSubmit()"
-            i18n="button quiz submit">
+            *ngIf="!(viewState === 'answer' && quizJson?.isAssessment)" (click)="proceedToSubmit()" i18n>
             Submit
           </button>
-          <button mat-raised-button color="primary" *ngIf="viewState === 'review'" (click)="showAnswers()"
-            i18n="button quiz show answers">
+          <button mat-raised-button color="primary" *ngIf="viewState === 'review'" (click)="showAnswers()" i18n>
             Show Answers
           </button>
         </div>
