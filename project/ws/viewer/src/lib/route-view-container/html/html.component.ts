@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser'
 import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pipe-limit-to.pipe'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
-import { ViewerDataService } from '../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 @Component({
   selector: 'viewer-html-container',
   templateUrl: './html.component.html',
@@ -43,7 +43,7 @@ export class HtmlComponent implements OnInit, OnChanges {
     private pipeLimitTo: PipeLimitToPipe,
     private valueSvc: ValueService,
     private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService,
+    private viewerDataSvc: PlayerStateService,
     public router: Router
 
   ) {
@@ -58,7 +58,7 @@ export class HtmlComponent implements OnInit, OnChanges {
     // this.setcookies().then(() => {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource
