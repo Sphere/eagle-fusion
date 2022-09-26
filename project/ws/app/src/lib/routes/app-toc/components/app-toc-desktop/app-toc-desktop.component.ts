@@ -44,6 +44,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   isTocBanner = true
+  issueCertificate = false
   // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
@@ -113,6 +114,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    this.enrollApi()
     if (this.content) {
       this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
@@ -426,6 +428,33 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
+
+  enrollApi() {
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        // let enrolledCourse: NsContent.ICourse | undefined
+        if (this.content && this.content.identifier && !this.forPreview) {
+          // tslint:disable-next-line:no-this-assignment
+          if (courses && courses.length) {
+            this.enrolledCourse = courses.find(course => {
+              const identifier = this.content && this.content.identifier || ''
+              if (course.courseId !== identifier) {
+                return undefined
+              }
+              return course
+            })
+            if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
+              this.issueCertificate = true
+            }
+          }
+        }
+      })
+  }
+
   sendApi() {
     let userId
     if (this.configSvc.userProfile) {
@@ -847,7 +876,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

@@ -33,6 +33,8 @@ import { LoginResolverService } from '../../../../library/ws-widget/resolver/src
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import * as _ from 'lodash'
+import { Plugins } from '@capacitor/core'
+const { App } = Plugins
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -151,6 +153,11 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.showNavigation = true
       }
     }
+    App.addListener('backButton', () => {
+
+        window.history.go(-1)
+
+    });
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {

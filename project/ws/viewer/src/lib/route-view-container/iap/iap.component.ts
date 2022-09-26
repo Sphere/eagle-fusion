@@ -3,7 +3,7 @@ import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-import { ViewerDataService } from '../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 
 @Component({
   selector: 'viewer-iap-container',
@@ -28,14 +28,14 @@ export class IapComponent implements OnInit {
   nextTitle: string | null | undefined
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: PlayerStateService) { }
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =
         !this.configSvc.restrictedFeatures.has('disscussionForum')
     }
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
 
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
