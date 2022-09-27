@@ -101,8 +101,7 @@ import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/sha
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
-import { Capacitor } from '@capacitor/core';
-
+import { Capacitor } from '@capacitor/core'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -132,8 +131,6 @@ if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
   console.log('Web!')
 }
-
-
 
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({

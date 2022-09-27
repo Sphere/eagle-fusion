@@ -46,16 +46,16 @@
           <context context-type="linenumber">9</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">51</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/curate/components/url-upload/url-upload.component.html</context>
           <context context-type="linenumber">33</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/curate/components/url-upload/url-upload.component.html</context>
           <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-certification/components/request-cancel-dialog/request-cancel-dialog.component.html</context>
@@ -291,20 +291,20 @@
           <context context-type="linenumber">74</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/quiz/components/quiz/quiz.component.html</context>
           <context context-type="linenumber">103</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/web-page/components/web-module-editor/web-module-editor.component.html</context>
           <context context-type="linenumber">209</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
+          <context context-type="linenumber">10</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/users/create-user/create-user.component.html</context>
@@ -2339,7 +2339,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">19</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/feedback-v2/routes/my-feedback/components/home/home.component.html</context>
@@ -2378,7 +2378,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7e593917155986a9f9ec5143a35432e806a5eccc" datatype="html">
@@ -4720,16 +4720,16 @@
           <context context-type="linenumber">3</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/home/home.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/collection/components/course-header/course-header.component.html</context>
           <context context-type="linenumber">3</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/collection/components/course-header/course-header.component.html</context>
           <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/home/home.component.html</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8f64c0fc47dacc325ebdc5feb4a0a87f6da19e7c" datatype="html">
@@ -5061,10 +5061,6 @@
           <context context-type="linenumber">40</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
-          <context context-type="linenumber">43</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
           <context context-type="linenumber">8</context>
         </context-group>
@@ -5075,6 +5071,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7eec194fdb5177fb2a2b67ddfd1a5c71a943eb9d" datatype="html">
@@ -5655,330 +5655,23 @@
           <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9ee0f11dd278ca1c90e1464c5f8a95528d857e5a" datatype="html">
-        <source>Choose your Language</source>
+      <trans-unit id="744cc066fd07bf6924f4c5309941395bbdf3dca7" datatype="html">
+        <source>500 characters</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="245175432dfd3c69c2bca943fee64c0e4d78b6aa" datatype="html">
-        <source> English (en)</source>
+      <trans-unit id="c84df9553019022cc521320e3afaed42f23feca1" datatype="html">
+        <source>Save
+    </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">17</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0f941fac30aebb4258c057f571025e9bc76a8fb9" datatype="html">
-        <source> Hindi (IN)</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
           <context context-type="linenumber">23</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="cfb6ae57935c2c2c0bc712e1f322bfa9f68b58e5" datatype="html">
-        <source> German (de)</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">29</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="885f85866ede6f99a3b52b64c9f1a29d4324e763" datatype="html">
-        <source>Japanese (ja)</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">65</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8810a4f4e8086282f09cdaa5c71607d2ff45fb3a" datatype="html">
-        <source>After changing the application language, the application will reload</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">153</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="538222d53eba8efac930edf8623604c6f210fda8" datatype="html">
-        <source>Choose a suitable font-size</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">164</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3d53f64033c4b76fdc1076ba15955d913209866c" datatype="html">
-        <source>General</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8bcabdf6b16cad0313a86c7e940c5e3ad7f9f8ab" datatype="html">
-        <source>Notifications</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">225</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="deb31049fbfef03c27b4fc677fbefd84f39ff235" datatype="html">
-        <source>Preferences Saved</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">232</context>
-        </context-group>
-        <note priority="1" from="description">Toast msg after successfully saving preferences</note>
-      </trans-unit>
-      <trans-unit id="8ebc5f359a62d0e365f9606e67b3912f8883805f" datatype="html">
-        <source>Failed to save preference</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">234</context>
-        </context-group>
-        <note priority="1" from="description">Toast msg after failed to save preferences</note>
-      </trans-unit>
-      <trans-unit id="174c6a1d3f40413d249b8f9e68c895d249cc530d" datatype="html">
-        <source>This feature is in beta and hence parts of the site may appear in English only.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">235</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="92476b80ca728adf4171d1017a82066b52e9b932" datatype="html">
-        <source>This feature is in beta and hence parts of the site may appear in English only. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">236</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ce84e484ecfe57e8d09af00211399001102a96b6" datatype="html">
-        <source>Only 2 content language are allowed</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">237</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="14c112a39e3736ddf3266dbf90e11e5bcb383ceb" datatype="html">
-        <source> is built around you. Find out what´s in it for you:
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3fb93e10f182d012d6852ea400e8adc50be8c184" datatype="html">
-        <source>Choose video&apos;s language</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
-          <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4d665c6c2c1d69484cfc636b22fd895512246d90" datatype="html">
-        <source>
-    Next
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="76f3dbd0b2d8f1d1003fcecfea9cf5b6f145e082" datatype="html">
-        <source>About us</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5e5cb3fe9a34e90deecb848491779ad297cf4bb5" datatype="html">
-        <source>Interests</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c2375280c2228be7eb5fc89446188193eb20f03b" datatype="html">
-        <source>Prev</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">26</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="eb075d0450deb6f381616f7da4b9244ced843053" datatype="html">
-        <source>Skip</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">29</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f031826de4d223f5af8f4fcec0c4f2ed1c035e87" datatype="html">
-        <source>
-      Done
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-share-dialog/goal-share-dialog.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-shared-delete-dialog/goal-shared-delete-dialog.component.html</context>
-          <context context-type="linenumber">14</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8f4ed47ce14bdb275d99e37fd43dbd0756fe8659" datatype="html">
-        <source>
-    Click Yes to take you to the link you tried to access
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">44</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="11f78ba7176f45e770dc165dc9e67d99062f9983" datatype="html">
-        <source>
-      Yes
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-delete-dialog/goal-delete-dialog.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="7b7968d8c49fae6c771489193884db0718cc5b48" datatype="html">
-        <source>Step </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/home/home.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="817d00f562390a2189ef2dbde70ed361c2693541" datatype="html">
-        <source>Hi </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c72e5b55bdad9208b215211ddfe17df5dafc928f" datatype="html">
-        <source> good to see you!</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4e8d814f8d20e873f4956c22049f8bafc703f4fd" datatype="html">
-        <source>What language do you prefer?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
-          <context context-type="linenumber">4</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d66a016417e9015175dca48080bd4a26d4d0685f" datatype="html">
-        <source>I agree to the terms &amp; conditions</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc/tnc.component.html</context>
-          <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d012960491f7ce1387630a5543aace61816554c9" datatype="html">
-        <source>Next
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc/tnc.component.html</context>
-          <context context-type="linenumber">17</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6c429239b146b037e71bfba1f142c3c0be00388e" datatype="html">
-        <source>
-      Terms and Conditions have been updated.
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="af70f8cef71b8a9c5dba5131162636c75824cb64" datatype="html">
-        <source>
-      Data privacy has been upgraded.
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
-          <context context-type="linenumber">126</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a57da59f9144ff93ecfef39d16d1f00841414ea0" datatype="html">
-        <source>Congratulations</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/setup-done/setup-done.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3ea51cf415feffef55e82c7b60e9486055837661" datatype="html">
-        <source>Finish</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/setup-done/setup-done.component.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8584415f0ea0781b032da5dcc1626b0976223837" datatype="html">
-        <source>Notification Settings</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">1</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="d631531d5575d6ead45bbbd86beef5aad8bd6a79" datatype="html">
-        <source>Notifications you receive on modes other than the application.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="34fa9f8c509a685c695f203371a869d7afedb639" datatype="html">
-        <source>
-  Unable to fetch notification settings. Please try after sometime.
-</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2ff387ade72f4ff445245518a3a020b1cafe2d92" datatype="html">
-        <source>On</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">34</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a7804fe870222d53868f968e434a3412e2b2b3c1" datatype="html">
-        <source>Off</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">35</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f5833cd28694dbcb93674b247abb9126dc02c581" datatype="html">
-        <source>Settings Updated</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">46</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="60bdbbe6ee80f531eb5ed50c7a4f42f7993e9141" datatype="html">
-        <source>Error in updating</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
-          <context context-type="linenumber">47</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="49731d977a6c9c67c59ca0293df1241a199380d4" datatype="html">
-        <source>
-        The preview for this type of content is unavailable. Please click on Start button above to view.
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-contents/app-toc-contents.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
       <trans-unit id="527b7b510b86a67bed1c3a675bb4bc32af5f00ae" datatype="html">
@@ -7529,6 +7222,394 @@
           <context context-type="linenumber">110</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8ce9a4c453a65f183821b946e848a780ec315c80" datatype="html">
+        <source>Edit
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="40ecc06479164e9030fc6e6d39059bc4ed1445a9" datatype="html">
+        <source>Share
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="425b950d9cef882aa6a02d7555edca9b2e1a8d6c" datatype="html">
+        <source>Edit your About detail</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="45934aa7b744a95e6ab9b14801f3c88bfcad1153" datatype="html">
+        <source>Certificates received</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ddb23021acde0ce82888106f550fdcd3b8cccea8" datatype="html">
+        <source>Education</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/education-list/education-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="79d739325f9f625949a6792e2b9d1c279b01234e" datatype="html">
+        <source>Edit your Education detail</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c2205ba088411ecd80c595a4ecf6a47a688ee898" datatype="html">
+        <source>Work Info</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bd22b699d5194b843881a1230a05e094c641c621" datatype="html">
+        <source>+ Add Education</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/education-list/education-list.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9ee0f11dd278ca1c90e1464c5f8a95528d857e5a" datatype="html">
+        <source>Choose your Language</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="245175432dfd3c69c2bca943fee64c0e4d78b6aa" datatype="html">
+        <source> English (en)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f941fac30aebb4258c057f571025e9bc76a8fb9" datatype="html">
+        <source> Hindi (IN)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cfb6ae57935c2c2c0bc712e1f322bfa9f68b58e5" datatype="html">
+        <source> German (de)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="885f85866ede6f99a3b52b64c9f1a29d4324e763" datatype="html">
+        <source>Japanese (ja)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8810a4f4e8086282f09cdaa5c71607d2ff45fb3a" datatype="html">
+        <source>After changing the application language, the application will reload</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="538222d53eba8efac930edf8623604c6f210fda8" datatype="html">
+        <source>Choose a suitable font-size</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d53f64033c4b76fdc1076ba15955d913209866c" datatype="html">
+        <source>General</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8bcabdf6b16cad0313a86c7e940c5e3ad7f9f8ab" datatype="html">
+        <source>Notifications</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">225</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="deb31049fbfef03c27b4fc677fbefd84f39ff235" datatype="html">
+        <source>Preferences Saved</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">232</context>
+        </context-group>
+        <note priority="1" from="description">Toast msg after successfully saving preferences</note>
+      </trans-unit>
+      <trans-unit id="8ebc5f359a62d0e365f9606e67b3912f8883805f" datatype="html">
+        <source>Failed to save preference</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">234</context>
+        </context-group>
+        <note priority="1" from="description">Toast msg after failed to save preferences</note>
+      </trans-unit>
+      <trans-unit id="174c6a1d3f40413d249b8f9e68c895d249cc530d" datatype="html">
+        <source>This feature is in beta and hence parts of the site may appear in English only.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">235</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92476b80ca728adf4171d1017a82066b52e9b932" datatype="html">
+        <source>This feature is in beta and hence parts of the site may appear in English only. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">236</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ce84e484ecfe57e8d09af00211399001102a96b6" datatype="html">
+        <source>Only 2 content language are allowed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">237</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="14c112a39e3736ddf3266dbf90e11e5bcb383ceb" datatype="html">
+        <source> is built around you. Find out what´s in it for you:
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3fb93e10f182d012d6852ea400e8adc50be8c184" datatype="html">
+        <source>Choose video&apos;s language</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d665c6c2c1d69484cfc636b22fd895512246d90" datatype="html">
+        <source>
+    Next
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="76f3dbd0b2d8f1d1003fcecfea9cf5b6f145e082" datatype="html">
+        <source>About us</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5e5cb3fe9a34e90deecb848491779ad297cf4bb5" datatype="html">
+        <source>Interests</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c2375280c2228be7eb5fc89446188193eb20f03b" datatype="html">
+        <source>Prev</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb075d0450deb6f381616f7da4b9244ced843053" datatype="html">
+        <source>Skip</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f031826de4d223f5af8f4fcec0c4f2ed1c035e87" datatype="html">
+        <source>
+      Done
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-share-dialog/goal-share-dialog.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-shared-delete-dialog/goal-shared-delete-dialog.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8f4ed47ce14bdb275d99e37fd43dbd0756fe8659" datatype="html">
+        <source>
+    Click Yes to take you to the link you tried to access
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="11f78ba7176f45e770dc165dc9e67d99062f9983" datatype="html">
+        <source>
+      Yes
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-delete-dialog/goal-delete-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7b7968d8c49fae6c771489193884db0718cc5b48" datatype="html">
+        <source>Step </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/home/home.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="817d00f562390a2189ef2dbde70ed361c2693541" datatype="html">
+        <source>Hi </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c72e5b55bdad9208b215211ddfe17df5dafc928f" datatype="html">
+        <source> good to see you!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4e8d814f8d20e873f4956c22049f8bafc703f4fd" datatype="html">
+        <source>What language do you prefer?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d66a016417e9015175dca48080bd4a26d4d0685f" datatype="html">
+        <source>I agree to the terms &amp; conditions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc/tnc.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d012960491f7ce1387630a5543aace61816554c9" datatype="html">
+        <source>Next
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc/tnc.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6c429239b146b037e71bfba1f142c3c0be00388e" datatype="html">
+        <source>
+      Terms and Conditions have been updated.
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="af70f8cef71b8a9c5dba5131162636c75824cb64" datatype="html">
+        <source>
+      Data privacy has been upgraded.
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a57da59f9144ff93ecfef39d16d1f00841414ea0" datatype="html">
+        <source>Congratulations</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/setup-done/setup-done.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3ea51cf415feffef55e82c7b60e9486055837661" datatype="html">
+        <source>Finish</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/setup-done/setup-done.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8584415f0ea0781b032da5dcc1626b0976223837" datatype="html">
+        <source>Notification Settings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d631531d5575d6ead45bbbd86beef5aad8bd6a79" datatype="html">
+        <source>Notifications you receive on modes other than the application.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="34fa9f8c509a685c695f203371a869d7afedb639" datatype="html">
+        <source>
+  Unable to fetch notification settings. Please try after sometime.
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2ff387ade72f4ff445245518a3a020b1cafe2d92" datatype="html">
+        <source>On</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a7804fe870222d53868f968e434a3412e2b2b3c1" datatype="html">
+        <source>Off</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f5833cd28694dbcb93674b247abb9126dc02c581" datatype="html">
+        <source>Settings Updated</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="60bdbbe6ee80f531eb5ed50c7a4f42f7993e9141" datatype="html">
+        <source>Error in updating</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/components/notification-settings/notification-settings.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="49731d977a6c9c67c59ca0293df1241a199380d4" datatype="html">
+        <source>
+        The preview for this type of content is unavailable. Please click on Start button above to view.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-contents/app-toc-contents.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="a8233de047500bf0f0d9f9f1712ddb071501a283" datatype="html">
         <source>Summary</source>
         <context-group purpose="location">
@@ -8106,7 +8187,7 @@
         <source>Last updated on</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="203803bce1fff43a040395e465f62d28c8d912b6" datatype="html">
@@ -8115,14 +8196,30 @@
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9e37e0d06148c7708e88b4a1eb412babbe1a4afc" datatype="html">
-        <source>Certificate</source>
+      <trans-unit id="abc1affb36c5396670ae927712fa14d270150c70" datatype="html">
+        <source>
+            <x id="START_TAG_MAT-ICON" ctype="x-mat-icon" equiv-text="&lt;mat-icon&gt;"/>file_download<x id="CLOSE_TAG_MAT-ICON" ctype="x-mat-icon" equiv-text="&lt;/mat-icon&gt;"/>Certificate
+          </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="58528accd31ce0abd8730d8ca0688d8afb9723b9" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{
+        assesmentdata.timeLimit | pipeDurationTransform: &apos;mnts&apos;
+        }}"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="41e62daa962947c0d23ded0981975d1bddf0bf38" datatype="html">
@@ -12574,87 +12671,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/chatbot/chatbot/chatbot.component.html</context>
           <context context-type="linenumber">121</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="744cc066fd07bf6924f4c5309941395bbdf3dca7" datatype="html">
-        <source>500 characters</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c84df9553019022cc521320e3afaed42f23feca1" datatype="html">
-        <source>Save
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
-          <context context-type="linenumber">132</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8ce9a4c453a65f183821b946e848a780ec315c80" datatype="html">
-        <source>Edit
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="40ecc06479164e9030fc6e6d39059bc4ed1445a9" datatype="html">
-        <source>Share
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">34</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="425b950d9cef882aa6a02d7555edca9b2e1a8d6c" datatype="html">
-        <source>Edit your About detail</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">43</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="45934aa7b744a95e6ab9b14801f3c88bfcad1153" datatype="html">
-        <source>Certificates received</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ddb23021acde0ce82888106f550fdcd3b8cccea8" datatype="html">
-        <source>Education</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">61</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/education-list/education-list.component.html</context>
-          <context context-type="linenumber">5</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="79d739325f9f625949a6792e2b9d1c279b01234e" datatype="html">
-        <source>Edit your Education detail</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">62</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c2205ba088411ecd80c595a4ecf6a47a688ee898" datatype="html">
-        <source>Work Info</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">83</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="bd22b699d5194b843881a1230a05e094c641c621" datatype="html">
-        <source>+ Add Education</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/education-list/education-list.component.html</context>
-          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b28b981c9b0ca9c9b8418d44772bc96c57719154" datatype="html">

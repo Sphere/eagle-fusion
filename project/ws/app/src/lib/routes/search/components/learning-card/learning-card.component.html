@@ -12,7 +12,7 @@
 
 <ng-container *ngIf="displayType === 'advanced'">
   <mat-card *ngIf="content" class="advanced-view relative">
-    <div *ngIf="content.status === 'Deleted' || content.status === 'Expired'" -aria-label
+    <div *ngIf="content.status === 'Deleted' || content.status === 'Expired'" i18n-aria-label
       aria-label="Content expired or deleted"  matTooltip="Content may be expired or deleted"
       class="status-danger"></div>
     <mat-card-content>
@@ -20,7 +20,7 @@
         <!--[routerLink]="(content | pipeContentRoute).url"
           [queryParams]="(content | pipeContentRoute).queryParams" -->
         <a (click)="raiseTelemetry(content)" class="image-section cursor-pointer">
-          <img -alt alt="thumbnail" class="mat-lite-background" [src]="content.appIcon"
+          <img i18n-alt alt="thumbnail" class="mat-lite-background" [src]="content.appIcon"
             [wsUtilsDefaultThumbnail]="defaultThumbnail" />
         </a>
         <div class="width-expand card-content">
@@ -41,12 +41,12 @@
             <span *ngIf="content.complexityLevel">
               | {{ content.complexityLevel | titlecase }} </span>
             <span *ngIf="content.exclusiveContent">
-              | <span class="ws-mat-primary-text font-normal">Paid Content</span></span>
+              | <span class="ws-mat-primary-text font-normal" i18n>Paid Content</span></span>
           </span>
 
           <span *ngIf="content.duration">| {{ content.duration | pipeDurationTransform : 'hms' }} | </span>
           <!-- | pipeDurationTransform -->
-          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s"><span >last Updated On </span>{{
+          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s"><span i18n>last Updated On </span>{{
             content.lastUpdatedOn | date
             }}</span>
           <!-- commented earlier -->
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="width-auto">
-          <button aria-label="Toggle Expand" -aria-label (click)="isExpanded = !isExpanded" mat-icon-button>
+          <button aria-label="Toggle Expand" i18n-aria-label (click)="isExpanded = !isExpanded" mat-icon-button>
             <mat-icon>{{ isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
           </button>
         </div>

@@ -28,7 +28,7 @@ export class IapComponent implements OnInit {
   nextTitle: string | null | undefined
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-    private viewerDataSvc: PlayerStateService) { }
+              private viewerDataSvc: PlayerStateService) { }
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
       this.isRestricted =

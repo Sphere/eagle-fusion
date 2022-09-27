@@ -110,7 +110,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private viewerDataServiceSubscription: Subscription | null = null
   message!: string
   subscription: Subscription | null = null
-
+  // tslint:disable-next-line:no-shadowed-variable
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
   private _getChildren = (node: IViewerTocCard) => {
@@ -177,7 +177,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
 
           }
-        }, 4000)
+        },         4000)
       }
 
     })
@@ -233,14 +233,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -581,7 +581,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
-
 
           })
       }

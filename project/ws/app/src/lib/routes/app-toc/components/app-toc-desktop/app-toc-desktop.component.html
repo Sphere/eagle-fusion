@@ -61,8 +61,8 @@
         </ng-container>
         <ng-template #download>
           <button *ngIf="content?.issueCertification === true" (click)="downloadCertificate(content)"
-            class="banner-btn-active cursor-pointer" data-toggle="modal" i18n>
-            <mat-icon>file_download</mat-icon>Certificate
+            class="banner-btn-active cursor-pointer" data-toggle="modal">
+            <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
           </button>
         </ng-template>
         <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
