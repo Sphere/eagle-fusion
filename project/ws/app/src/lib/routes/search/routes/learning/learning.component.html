@@ -8,10 +8,9 @@
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="searchHeading">
       <span *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
-      <span *ngIf="(isXSmall$ | async) !== true">{{ searchResults.result.count }} </span>
+      <span *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.count }} </span>
       <p class="text-xl" *ngIf="(isXSmall$ | async) === true" i18n>All Courses</p>
-      <span *ngIf="searchResults.result.count > 1 && (isXSmall$ | async) !== true "
-       i18n>results </span>
+      <span *ngIf="searchResults.result.count > 1 && (isXSmall$ | async) !== true " i18n>results </span>
       <span *ngIf="searchResults.result.count <= 1" i18n>result </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred language</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
@@ -24,7 +23,8 @@
             [innerHTML]="searchResults?.doYouMean" (click)="didYouMeanSearch(searchResults?.doYouMean)"
             class="cursor-pointer ws-mat-primary-text cursor-pointer"></span>”
           ?</span>
-        <span *ngIf="searchResults?.queryUsed"><span i18n>Showing results for</span><span>&nbsp;“</span>{{searchResults?.queryUsed}}”. <span i18n>Search instead for</span>
+        <span *ngIf="searchResults?.queryUsed"><span i18n>Showing results
+            for</span><span>&nbsp;“</span>{{searchResults?.queryUsed}}”. <span i18n>Search instead for</span>
           <span>&nbsp;“</span><span class="cursor-pointer ws-mat-primary-text cursor-pointer"
             (click)="searchInsteadFor()">{{searchRequestObject.query}}</span>”.</span>
       </ng-container>

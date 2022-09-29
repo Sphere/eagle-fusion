@@ -18,8 +18,7 @@
       <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
         {{ timeLeft | pipeDurationTransform: 'hms' }}
       </div>
-      <div *ngIf="isSubmitted && fetchingResultsStatus !== 'error'" class="margin-left-xs mat-body-strong" i18n>
-        (Submitted)
+      <div *ngIf="isSubmitted && fetchingResultsStatus !== 'error'" class="margin-left-xs mat-body-strong" i18n>(Submitted)
       </div>
     </div>
   </nav>
@@ -106,10 +105,10 @@
               </div>
             </div>
             <div class="text-center">
-              <p class="h3">Your Score is</p>
+              <p class="h3" i18n>Your Score is</p>
               <p class="h3 text-danger">{{result | number: '1.0-0'}} %</p>
-              <p class="h4" *ngIf="result<passPercentage">You need to score atleast {{passPercentage}}% to complete this
-                module.</p>
+              <p class="h4" *ngIf="result<passPercentage">You need to score atleast {{passPercentage}}%
+              to complete this module.</p>
               <button i18n mat-raised-button color="primary" (click)="reTakeQuiz()">Retake Assessment</button>
             </div>
           </ng-container>

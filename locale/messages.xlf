@@ -311,8 +311,16 @@
           <context context-type="linenumber">159</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
+          <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e9e2c2392fe275b071273523ee016e8eadbf6ae4" datatype="html">
@@ -935,6 +943,14 @@
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/hands-on/components/hands-on-dialog/hands-on-dialog.component.html</context>
           <context context-type="linenumber">2</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="e8f213381b7e906a18897f37be08336d24c8ce9f" datatype="html">
         <source>What do you think of this content?</source>
@@ -1249,14 +1265,14 @@
         <source>Download QR</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-content-share/btn-content-share-dialog/btn-content-share-dialog.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
         <source>Close</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-content-share/btn-content-share-dialog/btn-content-share-dialog.component.html</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">47</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/curate/components/curate/curate.component.html</context>
@@ -1310,7 +1326,7 @@
         <source>icon</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">194</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/collection/components/auth-table-tree-label/auth-table-tree-label.component.html</context>
@@ -2144,6 +2160,10 @@
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
           <context context-type="linenumber">946</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="32c86a7b862efff63dbadf23ef0701e9463c2f37" datatype="html">
         <source>Content may be expired or deleted</source>
@@ -2713,6 +2733,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/channel-hub/channel-hub.component.html</context>
           <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
@@ -3950,6 +3974,10 @@
           <context context-type="linenumber">209</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/knowledge/knowledge.component.html</context>
           <context context-type="linenumber">56</context>
         </context-group>
@@ -4196,6 +4224,27 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about/components/about-home.component.html</context>
           <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0ee2335b8b4320ca1b84583da77d7019849331b8" datatype="html">
+        <source>Upskill now</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="20b923d2d41e6604f553ca49d3ddccb8404671de" datatype="html">
+        <source>Access free healthcare courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b18f1a183a93ce6e499870d29a4c48b5aaf25dae" datatype="html">
+        <source>Get Certified on completing a Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ef276d1da2c549dbe15baf4d3e83fe6e88f7358c" datatype="html">
@@ -4748,6 +4797,14 @@
           <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6e3e6f48db67f57d248b6c5650213cb608d291fc" datatype="html">
+        <source>
+            Create Account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/app-nav-bar/app-nav-bar.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
         <source>Help</source>
         <context-group purpose="location">
@@ -4908,8 +4965,9 @@
           <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="847171f94c5e932a67df0c3b4d57e4e10d844b52" datatype="html">
-        <source>About Us</source>
+      <trans-unit id="63a854826e09994176431beff325b21cce730972" datatype="html">
+        <source>About
+              Us</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">13</context>
@@ -4919,21 +4977,21 @@
         <source>Vision</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="764a8a101f8ee5a4b98844e93406182fb078507b" datatype="html">
         <source>Team</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a0088b22add94978522d9b8d4188bfc887fb0a9d" datatype="html">
         <source>Help &amp; Contact </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bd1ff292b919e8bf77938f282c378ddb6a1c52ef" datatype="html">
@@ -4942,24 +5000,32 @@
           </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9ee0f11dd278ca1c90e1464c5f8a95528d857e5a" datatype="html">
+        <source>Choose your Language</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e85a30628b502c939d1ad9f651309a0356f40af8" datatype="html">
         <source>Partners</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="096f69ee73be7c1a122a6545d71bd92b1f24591b" datatype="html">
-        <source>© 2022
-          AastarUrmika Health
-          Systems Pvt
-          Ltd. All rights reserved. </source>
+      <trans-unit id="00c998b6914c9b9349f2cbe299de641b8d5d2a1b" datatype="html">
+        <source>© 2022 AastarUrmika Health Systems Pvt Ltd. All rights reserved.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">129</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7d371d6b4ee7d579047e496d05472b713cd4f9a6" datatype="html">
@@ -5119,11 +5185,9 @@
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6d1c7066bc747ce08b4ae885eff32340a7824786" datatype="html">
+      <trans-unit id="61641c0f025ecfb239172bb3a8d5a8d021b18db0" datatype="html">
         <source>
-          Login here using the mobile number or your
-          email id and the password that you used
-          while creating your account.
+          Login here using the mobile number or your email id and the password that you used while creating your account.
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
@@ -5136,14 +5200,14 @@
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bc4c3f3f1216a9fd847075502cd34206c9ca498c" datatype="html">
         <source>Phone Number/Email ID</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
@@ -5155,11 +5219,11 @@
                 This field is required</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cc5ba4125d48810f860112c76a7b345bc740bbd1" datatype="html">
@@ -5167,14 +5231,14 @@
                 Invalid email or number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
         <source>Password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
@@ -5189,14 +5253,14 @@
         <source>Forgot password?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
@@ -5207,28 +5271,28 @@
         <source>to reset</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html">
         <source>Log in</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="45913631a0c41cb1535bbdf1ac675cbd1d5c5896" datatype="html">
         <source>Do not have an account? </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d207cc1965ec0c29e594e0e9917f39bfc276ed87" datatype="html">
         <source>Create an account</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b49526241d3936e44e8414619c258b03ffca7ca0" datatype="html">
@@ -5645,11 +5709,8 @@
           <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5f74484f92b1379e18704eaf715f46c621abd445" datatype="html">
-        <source>©2022
-          AastarUrmika Health
-          Systems Pvt
-          Ltd. All rights reserved. </source>
+      <trans-unit id="304c4c90adb0e308c27d9399d83e6c69dbf0ad03" datatype="html">
+        <source>© 2022 AastarUrmika Health Systems Pvt Ltd. All rights reserved. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
           <context context-type="linenumber">73</context>
@@ -6302,6 +6363,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/analytics/src/lib/routes/learning-analytics/components/home/home.component.html</context>
           <context context-type="linenumber">319</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <note priority="1" from="description">Back button to go to previous page</note>
       </trans-unit>
@@ -7284,13 +7349,6 @@
           <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9ee0f11dd278ca1c90e1464c5f8a95528d857e5a" datatype="html">
-        <source>Choose your Language</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="245175432dfd3c69c2bca943fee64c0e4d78b6aa" datatype="html">
         <source> English (en)</source>
         <context-group purpose="location">
@@ -8199,27 +8257,15 @@
           <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="abc1affb36c5396670ae927712fa14d270150c70" datatype="html">
-        <source>
-            <x id="START_TAG_MAT-ICON" ctype="x-mat-icon" equiv-text="&lt;mat-icon&gt;"/>file_download<x id="CLOSE_TAG_MAT-ICON" ctype="x-mat-icon" equiv-text="&lt;/mat-icon&gt;"/>Certificate
-          </source>
+      <trans-unit id="9e37e0d06148c7708e88b4a1eb412babbe1a4afc" datatype="html">
+        <source>Certificate</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">64</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="58528accd31ce0abd8730d8ca0688d8afb9723b9" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{
-        assesmentdata.timeLimit | pipeDurationTransform: &apos;mnts&apos;
-        }}"/>
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
-          <context context-type="linenumber">19</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="41e62daa962947c0d23ded0981975d1bddf0bf38" datatype="html">
@@ -8228,12 +8274,20 @@
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
           <context context-type="linenumber">27</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="c8706cd57d97eb04a61f99e848a9d47d1ccb7d53" datatype="html">
         <source>Questions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
           <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
+          <context context-type="linenumber">26</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
@@ -8245,6 +8299,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
           <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bbd2ba2462dbaf48a0872e02d7763375a2137868" datatype="html">
@@ -11029,6 +11087,117 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="f3f13217303d139905eec79a2535af481a906c15" datatype="html">
+        <source>Showing </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/knowledge/knowledge.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1f360f6968ad81f88da1d34e4a9a855680d81074" datatype="html">
+        <source>All Courses</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f119172e02faa8b5c4c8da24c472517f6d9792b5" datatype="html">
+        <source>results </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f6b4ccdc92ad4ce5a66ada60321ddba4f04feb1c" datatype="html">
+        <source>result </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6ae14cbca4c1c3f4c9b70157964ed2712c9a670" datatype="html">
+        <source>across your preferred language</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9ae36eb95cd70e6ec257a4987968013f890e471a" datatype="html">
+        <source>Did you mean</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="78f38378850fbfeeacea6dcb8390c5f3cb953602" datatype="html">
+        <source>Showing results for</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dccce7a7aecff0da474a505daae0fbdd684dd6b9" datatype="html">
+        <source>Search instead for</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1b35d31a75cc59a1bf311a7ceb4ec53f15106212" datatype="html">
+        <source>for the exact match on</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1e85e7d3a833d31c845e0ac3bca10c8723d19bca" datatype="html">
+        <source>Click here </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1e7e621636299185b4e8ab9e1edb79a1984e539c" datatype="html">
+        <source>to explore more. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c7d761ff7a5f7e7a8f6d3899d4a7fe62e73afab3" datatype="html">
+        <source>cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a07134ad1baf60899729cd1064c0f10d6c73205" datatype="html">
+        <source>Different keywords</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">118</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="bc56b2e58706df3bcb07aa8e07b86d26e1e3d93d" datatype="html">
         <source>Updated on</source>
         <context-group purpose="location">
@@ -11047,22 +11216,6 @@
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/forums/forum-admin/components/admin-timeline.component.html</context>
           <context context-type="linenumber">231</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="f3f13217303d139905eec79a2535af481a906c15" datatype="html">
-        <source>Showing </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/knowledge/knowledge.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
-          <context context-type="linenumber">20</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
-          <context context-type="linenumber">84</context>
-        </context-group>
-        <note priority="1" from="description">search route hits showing</note>
       </trans-unit>
       <trans-unit id="deb97b3c21ecc2a0c45e196d20757c41f1622b9e" datatype="html">
         <source>results. </source>
@@ -11183,6 +11336,20 @@
           <context context-type="linenumber">114</context>
         </context-group>
         <note priority="1" from="description">Sort by trending on social</note>
+      </trans-unit>
+      <trans-unit id="4287f804850aee82bf19a085448f1bab7552980c" datatype="html">
+        <source>Paid Content</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="23ae7f781845c01c88c54122a144cc6c3acee44f" datatype="html">
+        <source>last Updated On </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="f8d24345f3bcc4440a172b5f3b557c28843b4ef5" datatype="html">
         <source>Associated Tag</source>
@@ -11639,22 +11806,6 @@
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/blogs/blogs-reply/components/blog-reply.component.html</context>
           <context context-type="linenumber">29</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="f119172e02faa8b5c4c8da24c472517f6d9792b5" datatype="html">
-        <source>results </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
-          <context context-type="linenumber">86</context>
-        </context-group>
-        <note priority="1" from="description">search route hits results</note>
-      </trans-unit>
-      <trans-unit id="f6b4ccdc92ad4ce5a66ada60321ddba4f04feb1c" datatype="html">
-        <source>result </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
-          <context context-type="linenumber">87</context>
-        </context-group>
-        <note priority="1" from="description">search route hits result</note>
       </trans-unit>
       <trans-unit id="78e935c9933c95f8595d0887cf9ee73cbd4f96ee" datatype="html">
         <source>Modified:
@@ -12680,8 +12831,8 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c87d4abefdd2ccee50d72cb38bf15b70b05e3e89" datatype="html">
-        <source>User&apos;s Name*</source>
+      <trans-unit id="bb8d27978e81a66cb18ba4e5e40c7067884ab3fc" datatype="html">
+        <source>User&apos;s Name</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">8</context>
@@ -14851,6 +15002,173 @@
           <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="a71a6122e65e1ac9b96b74a6fd4271a45f184d4b" datatype="html">
+        <source>You have already completed the Assessment</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fb5756bf26b2e0ab2d1c42d6891782bd18ce5d75" datatype="html">
+        <source>Result:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8272de798dd803f04d5e5fcbe1013bc6267aa010" datatype="html">
+        <source>Pass</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71a470fee4c26bd34cbdfb847fc37d0be79f6cfe" datatype="html">
+        <source> Did not pass</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="47a28e7d7887dc7bb0e15d38c45ecfb56f738924" datatype="html">
+        <source>Your score is:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="83d44aee3d87a7a87a1511283288564da14d6573" datatype="html">
+        <source>Not Attempted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3db39135c783da4bb320d5826f4de893f62c7e1b" datatype="html">
+        <source>Correct</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8b42d54000704393a3c06e5f8b668880014f6986" datatype="html">
+        <source>Incorrect</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fa12bcbc32d48189bd54f67e32eabc052a8c139f" datatype="html">
+        <source>Retake Assessment</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac10a3d9b59575640797c1a8e6aea642cf5d5e77" datatype="html">
+        <source>Continue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5174448b981e4d0f9b5804ffc247cd3629ae74fd" datatype="html">
+        <source>Your results will not be saved. Are you sure you want to restart the quiz?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8262018b9df7cc683336d3684bf88352d0617f76" datatype="html">
+        <source>Yes, Restart</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="659d2de57277e8a64ec78d2b9862d876855ec4fc" datatype="html">
+        <source>No,Continue Quiz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c697787c79df11dd6fa573a5652abb0558e80249" datatype="html">
+        <source>Your results will not be saved. Are you sure you want to exit the quiz?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6d4f75ba1bfbab43e15e33af9ea0af45f6ecb45f" datatype="html">
+        <source>Yes, Exit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b6d79c6ff771d7b86ce572306867a1705200f957" datatype="html">
+        <source>Restart</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="20c49ce56ac886cf835224eadf1ede2587bf2ce3" datatype="html">
+        <source>Retake Quiz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5245d60c0fa304ee9fabf7f176964c77b6c88e86" datatype="html">
         <source>menu toggle</source>
         <context-group purpose="location">
@@ -14883,13 +15201,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">72</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8272de798dd803f04d5e5fcbe1013bc6267aa010" datatype="html">
-        <source>Pass</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
-          <context context-type="linenumber">77</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9e26ba2ee6f33ab84a5de6c5123307dc72f5a13f" datatype="html">
@@ -14935,13 +15246,6 @@
           <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="fa12bcbc32d48189bd54f67e32eabc052a8c139f" datatype="html">
-        <source>Retake Assessment</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
-          <context context-type="linenumber">113</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="0fd4fcb658dd30be4142914628a15338bc5420d2" datatype="html">
         <source>
             Show Answers
@@ -14979,13 +15283,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
           <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a71a6122e65e1ac9b96b74a6fd4271a45f184d4b" datatype="html">
-        <source>You have already completed the Assessment</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
-          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5d90ffbe58bc8a9ffbd25b0d296d817ed5423d5" datatype="html">
@@ -15072,6 +15369,15 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="70c82462fb963763e2dc9a3ea372402c64190417" datatype="html">
+        <source>
+        Response
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
+          <context context-type="linenumber">29</context>
         </context-group>
       </trans-unit>
       <trans-unit id="da35fca24a238c89018466c0e294b8e8ab494e33" datatype="html">

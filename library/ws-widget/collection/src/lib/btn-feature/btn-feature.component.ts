@@ -34,6 +34,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   @Input() widgetData!: NsPage.INavLink
   @Input() showFixedLength = false
+  profileImage!: string | null
+  givenName = ''
   // @Input()
   // @HostBinding('id')
   // public id!: string
@@ -56,6 +58,14 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private searchApi: SearchApiService
   ) {
     super()
+    if (this.configurationsSvc.userProfile) {
+      this.givenName = `${this.configurationsSvc.userProfile.firstName} ${this.configurationsSvc.userProfile.lastName}`
+      this.profileImage = this.configurationsSvc.userProfile.profileImage ||
+        (this.configurationsSvc.userProfileV2 ? this.configurationsSvc.userProfileV2.profileImage : null) || null
+      if (!this.profileImage && localStorage.getItem(this.configurationsSvc.userProfile.userId)) {
+        this.profileImage = localStorage.getItem(this.configurationsSvc.userProfile.userId)
+      }
+    }
   }
 
   updateBadge() {
@@ -71,17 +81,17 @@ export class BtnFeatureComponent extends WidgetBaseComponent
             this.badgeCount = ''
           }
         })
-        .catch(_err => {})
+        .catch(_err => { })
     }
   }
-search() {
-  if (this.router.url.includes('/page/home')) {
-  this.searchApi.changeMessage('search')
-}
-if (this.router.url.includes('/app/search/learning')) {
- this.router.navigateByUrl('/app/search/home')
+  search() {
+    if (this.router.url.includes('/page/home')) {
+      this.searchApi.changeMessage('search')
+    }
+    if (this.router.url.includes('/app/search/learning')) {
+      this.router.navigateByUrl('/app/search/home')
+    }
   }
-}
   ngOnInit() {
     this.instanceVal = this.configSvc.rootOrg || ''
     if (this.configSvc.restrictedFeatures) {

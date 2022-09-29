@@ -12,7 +12,7 @@ import {
   MatBadgeModule,
 } from '@angular/material'
 import { WidgetUrlResolverDirective } from './widget-url-resolver.directive'
-
+import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
 @NgModule({
   declarations: [BtnFeatureComponent, WidgetUrlResolverDirective],
   imports: [
@@ -25,8 +25,9 @@ import { WidgetUrlResolverDirective } from './widget-url-resolver.directive'
     MatMenuModule,
     MatRippleModule,
     MatBadgeModule,
+    AvatarPhotoModule
   ],
   exports: [BtnFeatureComponent],
   entryComponents: [BtnFeatureComponent],
 })
-export class BtnFeatureModule {}
+export class BtnFeatureModule { }

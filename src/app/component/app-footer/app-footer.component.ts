@@ -39,16 +39,10 @@ export class AppFooterComponent {
     }
   }
   redirect(lang: string) {
-    console.log(lang)
-    console.log(this.router.url)
     if (lang !== '') {
-      console.log(`${location.origin}/${lang}${this.router.url}`)
       window.location.assign(`${location.origin}/${lang}${this.router.url}`)
     } else {
-      console.log('ss')
       if (this.router.url.includes('hi')) {
-        console.log(location.origin)
-        console.log(this.router.url)
         let lan = this.router.url.replace('/hi/', '')
         console.log(`${location.origin}/${lan}`)
         window.location.assign(`${location.origin}/${lan}`)

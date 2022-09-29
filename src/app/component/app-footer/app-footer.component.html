@@ -40,10 +40,7 @@
             <ng-container i18n>Choose your Language</ng-container>
           </p> -->
           <!--       <mat-form-field> -->
-          <label>
-            <!-- <img src="/fusion-assets/icons/lang-icon.png" width="35" height="24" /> -->
-            Choose your Language
-          </label>
+          <label i18n>Choose your Language</label>
           <div class="d-inline" style="margin-top: -5px; font-size: small;">
             <a (click)="redirect('')" class="languages">English</a>
             <a (click)="redirect('hi')" class="languages">हिन्दी</a>
@@ -129,8 +126,7 @@
     </div> -->
     <div class="docs-footer-copyright flex-1">
       <div>
-        <div class="text-dark" [ngClass]="isXSmall ? 'mt--8 text-center': 'mt-1'" i18n>&copy; 2022 AastarUrmika Health
-          Systems Pvt Ltd. All rights reserved. </div>
+        <div class="text-dark" [ngClass]="isXSmall ? 'mt--8 text-center': 'mt-1'" i18n>&copy; 2022 AastarUrmika Health Systems Pvt Ltd. All rights reserved.</div>
       </div>
     </div>
   </div>

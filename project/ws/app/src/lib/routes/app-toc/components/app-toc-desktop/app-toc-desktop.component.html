@@ -55,8 +55,8 @@
         <!-- #if cetification ininrollment api -->
         <ng-container *ngIf="issueCertificate === true; else download ">
           <button *ngIf="content?.issueCertification === true" (click)="sendApi()"
-            class="banner-btn-active cursor-pointer" data-toggle="modal" i18n>
-            <mat-icon>file_download</mat-icon>Certificate
+            class="banner-btn-active cursor-pointer" data-toggle="modal">
+            <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
           </button>
         </ng-container>
         <ng-template #download>

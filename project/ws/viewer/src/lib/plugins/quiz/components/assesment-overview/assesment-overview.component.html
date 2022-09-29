@@ -13,7 +13,7 @@
       <h4 class="label2">{{
         assesmentdata.duration | pipeDurationTransform: 'mnts'
         }}</h4>
-      <h4 class="label3">Minutes</h4>
+      <h4 class="label3" i18n>Minutes</h4>
       <!-- <span class="label2">11</span> -->
       <!-- <div>
         <span class="label3">Minutes</span>
@@ -23,7 +23,7 @@
     <div class="m-2 p-2 ellips">
       <h4 class="label2">
         {{assesmentdata.noOfQuestions}}</h4>
-      <h4 class="label3">Questions</h4>
+      <h4 class="label3" i18n>Questions</h4>
       <!-- <span class="label2">7</span> -->
       <!-- <div>
         <span class="label3" style="margin: -13px;">Questions</span> -->
@@ -31,7 +31,7 @@
     </div>
     <div class=" m-2 p-2 ellips">
       <h4 class="label2">{{assesmentdata.passPercentage}}<span>%</span></h4>
-      <h4 class="label3">Required</h4>
+      <h4 class="label3" i18n>Required</h4>
       <!-- <span class="label2">
         45%</span> -->
       <!-- <div>
@@ -78,7 +78,7 @@
     </button>
     <!-- </div> -->
     <ng-container *ngIf="assesmentdata.progressStatus==='completed' && assesmentdata.isNqocnContent">
-      <p>You have already completed the Assessment</p>
+      <p i18n>You have already completed the Assessment</p>
     </ng-container>
   </div>
 

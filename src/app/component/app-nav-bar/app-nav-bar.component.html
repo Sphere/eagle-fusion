@@ -39,7 +39,7 @@
           Add Course </button>
 
         <!-- top-right Profile drop down -->
-<!--         <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
+        <!--         <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
         <section class="top-right-profile">
 
           <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
@@ -67,7 +67,7 @@
       </ng-container>
     </ng-container>
 
-    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'">
+    <div class="flex justify-between items-center w-full 123" *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">

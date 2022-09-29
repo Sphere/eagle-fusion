@@ -102,12 +102,30 @@
   </a>
 </ng-template>
 <ng-template #cardMini let-actionBtn="actionBtn" let-config="config">
+
   <a role="button" matRipple routerLink={{actionBtn.url}} active [wsWidgetUrlResolver]="actionBtn.isExternal"
-    routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box">
+    *ngIf="actionBtn.name === 'Home'" routerLinkActive="ws-mat-accent-text"
+    class="flex items-center flex-col px-2 box-sizing-box">
     <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     <span *ngIf="!config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-      'mat-caption'">{{ actionBtn.name }}</span>
+      'mat-caption'">{{ actionBtn.name }}--</span>
   </a>
+  <a role="button" matRipple routerLink={{actionBtn.url}} active [wsWidgetUrlResolver]="actionBtn.isExternal"
+    *ngIf="actionBtn.name === 'Profile'" routerLinkActive="ws-mat-accent-text"
+    class="flex items-center flex-col px-2 box-sizing-box">
+    <!--     <span *ngIf="!config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
+      'mat-caption'">{{ actionBtn.name }}--</span> -->
+    <span class="profile-content">
+      <span class="flex flex-column flex-middle actn-btn-wrapper">
+        <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
+        </ws-widget-avatar-photo>
+        <span [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
+      'mat-caption'">Profile</span>
+      </span>
+
+    </span>
+  </a>
+
 </ng-template>
 <ng-template #featureItem let-actionBtn="actionBtn" let-config="config">
   <div class="relative py-2" id="{{actionBtn?.id}}" *ngIf="desktopVisible" [ngClass]="{
