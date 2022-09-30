@@ -53,11 +53,11 @@ export class PersonalDetailEditComponent implements OnInit {
   langDialog: any
   preferedLanguage: any = 'English'
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private valueSvc: ValueService,
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private valueSvc: ValueService,
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -172,7 +172,7 @@ export class PersonalDetailEditComponent implements OnInit {
             this.userProfileData = data.profileDetails.profileReq
             this.updateForm()
             this.personalDetailForm.patchValue({
-              knownLanguage: data.profileDetails.preferences.language || 'en'
+              knownLanguage: data.profileDetails.preferences.language || 'en',
             })
             this.populateChips(this.userProfileData)
           }

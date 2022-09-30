@@ -40,14 +40,19 @@ export class AppFooterComponent {
   }
   redirect(lang: string) {
     if (lang !== '') {
-      window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}/${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+      }
     } else {
       if (this.router.url.includes('hi')) {
-        let lan = this.router.url.replace('/hi/', '')
-        console.log(`${location.origin}/${lan}`)
-        window.location.assign(`${location.origin}/${lan}`)
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}${lang}${this.router.url}`)
       }
-
     }
   }
 }

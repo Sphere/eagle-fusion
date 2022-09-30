@@ -25,7 +25,7 @@ import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
     MatMenuModule,
     MatRippleModule,
     MatBadgeModule,
-    AvatarPhotoModule
+    AvatarPhotoModule,
   ],
   exports: [BtnFeatureComponent],
   entryComponents: [BtnFeatureComponent],

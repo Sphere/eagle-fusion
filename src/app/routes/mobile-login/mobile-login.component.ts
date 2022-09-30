@@ -246,16 +246,18 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
             localStorage.setItem(`loginbtn`, `userLoggedIn`)
             this.openSnackbar(results.msg)
             let lang = ''
+            // tslint:disable-next-line:max-line-length
             if (this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined) {
+              // tslint:disable-next-line:max-line-length
               lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' || ''
             } else {
               lang = ''
             }
             if (localStorage.getItem('url_before_login')) {
-              let url = localStorage.getItem('url_before_login') || ''
+              const url = localStorage.getItem('url_before_login') || ''
               location.href = `${lang}${url}`
             } else {
-              let url = '/page/home'
+              const url = '/page/home'
               location.href = `${lang}${url}`
             }
           } else {
