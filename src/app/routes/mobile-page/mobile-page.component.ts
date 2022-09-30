@@ -37,7 +37,7 @@ export class MobilePageComponent implements OnInit {
       },
     ]
 
-    this.http.get(`assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
+    this.http.get(`https://sphere.aastrika.org/assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
       this.pageLayout = res.pageLayout
     })
   }

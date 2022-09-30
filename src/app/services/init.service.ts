@@ -42,7 +42,7 @@ import { v4 as uuid } from 'uuid'
 interface IFeaturePermissionConfigs {
   [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
 }
-const PROXY_CREATE_V8 = '/apis/proxies/v8'
+const PROXY_CREATE_V8 = 'https://sphere.aastrika.org/apis/proxies/v8'
 const endpoint = {
   profilePid: '/apis/proxies/v8/api/user/v2/read',
   // details: `/apis/protected/v8/user/details?ts=${Date.now()}`,
@@ -53,7 +53,7 @@ const endpoint = {
   providedIn: 'root',
 })
 export class InitService {
-  private baseUrl = 'assets/configurations'
+  private baseUrl = 'https://sphere.aastrika.org/assets/configurations'
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,

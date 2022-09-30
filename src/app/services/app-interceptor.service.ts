@@ -1,4 +1,4 @@
-import { Injectable, LOCALE_ID, Inject } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -10,36 +10,40 @@ import { catchError } from 'rxjs/operators'
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
     private configSvc: ConfigurationsService, // private http: HttpClient,
-    @Inject(LOCALE_ID) private locale: string,
+
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const lang = [this.locale.replace('en-US', 'en')]
-    if (this.configSvc.userPreference) {
-      (this.configSvc.userPreference.selectedLangGroup || '')
-        .split(',')
-        .map(u => u.trim())
-        .filter(u => u.length)
-        .forEach(locale => {
-          if (!lang.includes(locale)) {
-            lang.push(locale)
-          }
-        })
-    }
+    // const lang = [this.locale.replace('en-US', 'en')]
+    // if (this.configSvc.userPreference) {
+    //   (this.configSvc.userPreference.selectedLangGroup || '')
+    //     .split(',')
+    //     .map(u => u.trim())
+    //     .filter(u => u.length)
+    //     .forEach(locale => {
+    //       if (!lang.includes(locale)) {
+    //         lang.push(locale)
+    //       }
+    //     })
+    // }
+
+
+
+
 
     if (this.configSvc.activeOrg && this.configSvc.rootOrg) {
       const modifiedReq = req.clone({
         setHeaders: {
           org: this.configSvc.activeOrg,
           rootOrg: this.configSvc.rootOrg,
-          locale: lang.join(','),
+
           wid: (this.configSvc.userProfile && this.configSvc.userProfile.userId) || '',
           hostPath: this.configSvc.hostPath,
           Authorization: '',
         },
       })
-
+      const apiReq = modifiedReq.clone({ url: `https://sphere.aastrika.org${req.url}` })
       // return next.handle(modifiedReq)
-      return next.handle(modifiedReq).pipe(
+      return next.handle(apiReq).pipe(
         catchError((error: { status: any; error: { redirectUrl: string } }) => {
           if (error instanceof HttpErrorResponse) {
             switch (error.status) {

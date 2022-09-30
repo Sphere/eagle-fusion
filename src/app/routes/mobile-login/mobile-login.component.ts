@@ -58,7 +58,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   loginVerification = false
   redirectMsg = 'Please verify your account before logged in !!'
 
-  private baseUrl = 'assets/configurations'
+  private baseUrl = 'https://sphere.aastrika.org/assets/configurations'
   // const errMsgL = 'Sorry ! Account doesnot exist !! Try Signup..'
 
   public isSignedIn = false

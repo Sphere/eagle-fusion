@@ -21,8 +21,8 @@ export class ConfigurationsService {
   appSetup = true
   // The url the user tried to access while landing in the app before accepting tnc
   userUrl = ''
-  baseUrl = 'assets/configurations'
-  sitePath = 'assets/configurations'
+  baseUrl = 'https://sphere.aastrika.org/assets/configurations'
+  sitePath = 'https://sphere.aastrika.org/assets/configurations'
   // baseUrl = `assets/configurations/${(locationHost || window.location.host).replace(':', '_')}`
   // sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
   //   ':',
