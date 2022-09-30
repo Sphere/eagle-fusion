@@ -10,18 +10,18 @@
   <form [formGroup]="aboutForm" class="mt-2">
 
     <mat-form-field appearance="outline" class="py-1 textfield">
-      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="5" [matAutosizeMinRows]="3" formControlName="about" i18n-placeholder
-        placeholder="About" #about></textarea>
+      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="5" [matAutosizeMinRows]="3" formControlName="about"
+        i18n-placeholder placeholder="About" #about></textarea>
       <mat-hint>{{ about.value.length }} / <span i18n>500 characters</span></mat-hint>
       <mat-error *ngIf="aboutForm.controls['about'].touched && aboutForm.controls['about'].hasError('required')">
         About field is required
       </mat-error>
-      <mat-error *ngIf="aboutForm.controls['about'].touched && aboutForm.controls['about'].hasError('maxLength')">
+      <mat-error *ngIf="aboutForm.controls['about'].touched && aboutForm.controls['about'].hasError('maxLength')" i18n>
         You have exceeded 500 characters.
       </mat-error>
     </mat-form-field>
-    <button type="submit" (click)="onSubmit(aboutForm)" class="save-btn" [disabled]="!aboutForm?.valid" i18n>Save
-    </button>
+    <button type="submit" (click)="onSubmit(aboutForm)" class="save-btn" [disabled]="!aboutForm?.valid"
+      i18n>Save</button>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
     value="User profile details updated successfully!" #toastSuccess />

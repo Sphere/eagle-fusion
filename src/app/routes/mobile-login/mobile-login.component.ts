@@ -9,6 +9,7 @@ import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 import { HttpClient } from '@angular/common/http'
+import { ConfigurationsService } from '@ws-widget/utils'
 
 declare const gapi: any
 
@@ -29,7 +30,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private http: HttpClient,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private configSvc: ConfigurationsService,
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
@@ -93,7 +95,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -107,7 +109,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -243,10 +245,18 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
           if (result.roles && result.roles.length > 0) {
             localStorage.setItem(`loginbtn`, `userLoggedIn`)
             this.openSnackbar(results.msg)
-            if (localStorage.getItem('url_before_login')) {
-              location.href = localStorage.getItem('url_before_login') || ''
+            let lang = ''
+            if (this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined) {
+              lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' || ''
             } else {
-              location.href = '/page/home'
+              lang = ''
+            }
+            if (localStorage.getItem('url_before_login')) {
+              let url = localStorage.getItem('url_before_login') || ''
+              location.href = `${lang}${url}`
+            } else {
+              let url = '/page/home'
+              location.href = `${lang}${url}`
             }
           } else {
             this.openSnackbar(this.redirectMsg)
