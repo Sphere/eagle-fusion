@@ -309,7 +309,6 @@ export class AlmostDoneComponent implements OnInit {
     }
     if (this.backgroundSelect === 'Student') {
       this.almostDoneForm.valueChanges.subscribe(value => {
-        console.log(value.instituteName)
         if (value.instituteName) {
           this.enableSubmit = false
         } else {
