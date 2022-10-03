@@ -270,7 +270,6 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
               } else {
                 location.href = `${lang}${url}`
               }
-              //location.href = `${lang}${url}`
             }
           } else {
             this.openSnackbar(this.redirectMsg)
