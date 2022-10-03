@@ -3799,7 +3799,7 @@
       </trans-unit>
       <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html">
         <source>Forgot password?</source>
-        <target state="final">पासवर्ड भूल गए?</target>
+        <target state="final"> पासवर्ड भूल गए? </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">64</context>
@@ -3807,7 +3807,7 @@
       </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
-        <target state="final">रीसेट करने के लिए</target>
+        <target state="final"> रीसेट करने के लिए </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
@@ -3815,7 +3815,7 @@
       </trans-unit>
       <trans-unit id="99b98dee373ce2472502d17fa958ef997e0efd0c" datatype="html">
         <source>to reset</source>
-        <target state="final">यहां क्लिक करें</target>
+        <target state="final"> यहां क्लिक करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">64</context>
@@ -3831,7 +3831,7 @@
       </trans-unit>
       <trans-unit id="45913631a0c41cb1535bbdf1ac675cbd1d5c5896" datatype="html">
         <source>Do not have an account? </source>
-        <target state="final">आपका अकाउंट नहीं है?</target>
+        <target state="final">आपका अकाउंट नहीं है? </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">76</context>

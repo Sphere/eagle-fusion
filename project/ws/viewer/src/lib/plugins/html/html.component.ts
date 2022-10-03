@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, EventService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, TelemetryService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
@@ -67,7 +67,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     private events: EventService,
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private telemetrySvc: TelemetryService,
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
@@ -114,6 +115,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   ngOnChanges() {
     if (this.htmlContent && this.htmlContent.identifier) {
       this.urlContains = this.htmlContent.artifactUrl
+      const courseId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+        let obj = {
+          "resourceID" : this.htmlContent.identifier,
+          "courseID" : courseId,
+          "moduleID" : this.htmlContent.parent
+        }
+    this.telemetrySvc.end('player', 'view', '', obj)
     }
 
     if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {

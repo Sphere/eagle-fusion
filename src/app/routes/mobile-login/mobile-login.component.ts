@@ -255,10 +255,22 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
             }
             if (localStorage.getItem('url_before_login')) {
               const url = localStorage.getItem('url_before_login') || ''
-              location.href = `${lang}${url}`
+              if (url.includes('hi')) {
+                const lan = url.split('hi/').join('')
+                location.href = `${lang}${lan}`
+              } else {
+                location.href = `${lang}${url}`
+              }
             } else {
               const url = '/page/home'
-              location.href = `${lang}${url}`
+              const baseurl = this.router.url
+              if (baseurl.includes('hi')) {
+                const lan = baseurl.split('hi/').join('')
+                location.href = `${lang}${lan}`
+              } else {
+                location.href = `${lang}${url}`
+              }
+              //location.href = `${lang}${url}`
             }
           } else {
             this.openSnackbar(this.redirectMsg)
@@ -289,6 +301,24 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     )
   }
+    redirect(lang: string) {
+    if (lang !== '') {
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}/${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+      }
+    } else {
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}${lang}${this.router.url}`)
+      }
+    }
+  }
+
   private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
