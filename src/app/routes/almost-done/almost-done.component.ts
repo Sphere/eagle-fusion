@@ -232,7 +232,7 @@ export class AlmostDoneComponent implements OnInit {
     this.updateProfile()
   }
 
-  assignFields(qid: any, data: any) {
+  assignFields(qid: any, data: any, event: any) {
     const value = data.trim()
     switch (qid) {
       case 'profession':
@@ -284,21 +284,53 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     if (this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
-      if (this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
-        this.enableSubmit = false
-      }
+      this.almostDoneForm.valueChanges.subscribe(value => {
+        if (value.professSelected || value.professionOtherSpecify || value.orgOtherSpecify && value.orgType && value.orgName) {
+          this.enableSubmit = false
+        } else {
+          this.enableSubmit = true
+        }
+      })
+      // if (this.almostDoneForm.value.professSelected && this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
+      //   this.enableSubmit = false
+      // }
     }
     if (this.backgroundSelect === 'ASHA') {
-      if (this.almostDoneForm.value.block && this.almostDoneForm.value.subcentre) {
-        this.enableSubmit = false
-      }
+      this.almostDoneForm.valueChanges.subscribe(value => {
+        if (value.block && value.subcentre) {
+          this.enableSubmit = false
+        } else {
+          this.enableSubmit = true
+        }
+      })
+      // if (this.almostDoneForm.value.block && this.almostDoneForm.value.subcentre) {
+      //   this.enableSubmit = false
+      // }
+    }
+    if (this.backgroundSelect === 'Student') {
+      this.almostDoneForm.valueChanges.subscribe(value => {
+        console.log(value.instituteName)
+        if (value.instituteName) {
+          this.enableSubmit = false
+        } else {
+          this.enableSubmit = true
+        }
+      })
     }
 
-    if (this.backgroundSelect === 'Healthcare Worker') {
-      if (this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
-        this.enableSubmit = false
-      }
-    }
+    // if (this.backgroundSelect === 'Healthcare Worker') {
+    //   this.almostDoneForm.valueChanges.subscribe(value => {
+    //     if (value.professSelected || value.professionOtherSpecify && value.orgOtherSpecify && value.orgType && value.orgName) {
+    //       this.enableSubmit = false
+    //     } else {
+    //       this.enableSubmit = true
+    //     }
+    //   })
+
+    //   // if (this.almostDoneForm.value.orgType && this.almostDoneForm.value.orgName) {
+    //   //   this.enableSubmit = false
+    //   // }
+    // }
     if (this.profession === 'student' && this.studentInstitute) {
       this.degrees = this.createUserForm.get('degrees') as FormArray
       this.degrees.removeAt(0)
@@ -307,6 +339,10 @@ export class AlmostDoneComponent implements OnInit {
         instituteName: new FormControl(this.studentInstitute, []),
         yop: new FormControl('', []),
       }))
+    }
+
+    if (Object.keys(event).length && this.almostDoneForm.dirty) {
+      this.enableSubmit = false
     }
   }
 
