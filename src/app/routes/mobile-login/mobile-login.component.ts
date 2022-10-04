@@ -255,21 +255,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
             }
             if (localStorage.getItem('url_before_login')) {
               const url = localStorage.getItem('url_before_login') || ''
-              if (url.includes('hi')) {
-                const lan = url.split('hi/').join('')
-                location.href = `${lang}${lan}`
-              } else {
-                location.href = `${lang}${url}`
-              }
+                localStorage.removeItem('loginbtn')
+                localStorage.removeItem('url_before_login')
+                location.href = `${lang}/${url}`
             } else {
               const url = '/page/home'
-              const baseurl = this.router.url
-              if (baseurl.includes('hi')) {
-                const lan = baseurl.split('hi/').join('')
-                location.href = `${lang}${lan}`
-              } else {
                 location.href = `${lang}${url}`
-              }
             }
           } else {
             this.openSnackbar(this.redirectMsg)

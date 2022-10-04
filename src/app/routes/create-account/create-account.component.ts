@@ -50,7 +50,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -89,7 +89,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -103,6 +103,10 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (localStorage.getItem(`preferedLanguage`)) {
+      let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+      this.preferedLanguage = JSON.parse(reqObj)
+    }
   }
 
   onSubmit(form: any) {
@@ -151,13 +155,12 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          localStorage.setItem(`preferedLanguage`, this.preferedLanguage.id)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -179,13 +182,13 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          localStorage.setItem(`preferedLanguage`, this.preferedLanguage.id)
+          localStorage.removeItem(`preferedLanguage`)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
         }
@@ -214,6 +217,22 @@ export class CreateAccountComponent implements OnInit {
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
+      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+      let lang = result.id === 'hi' ? result.id : ''
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        if (lang === 'hi') {
+          window.location.assign(`${location.origin}/${lang}${lan}`)
+        } else {
+          window.location.assign(`${location.origin}${lang}${lan}`)
+        }
+      } else {
+        if (lang === 'hi') {
+          window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+        } else {
+          window.location.assign(`${location.origin}${lang}${this.router.url}`)
+        }
+      }
     })
   }
 }
