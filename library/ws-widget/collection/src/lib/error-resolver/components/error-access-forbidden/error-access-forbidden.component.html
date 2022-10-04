@@ -1,13 +1,9 @@
 <div class="error-not-found flex flex-wrapped margin-left-m margin-top-xl margin-right-m">
   <div class="error-logo">
-    <img
-      alt
-      class="error-image"
-      *ngIf="errorData"
-      [src]="isDarkMode ? errorData?.errorImageDark : errorData?.errorImageLite"
-    />
+    <img alt class="error-image" *ngIf="errorData"
+      [src]="isDarkMode ? errorData?.errorImageDark : errorData?.errorImageLite" />
 
-    <div class="error-message ws-mat-primary-text font-weight-bold">Access Forbidden</div>
+    <div class="error-message ws-mat-primary-text font-weight-bold" i18n>Access Forbidden</div>
   </div>
   <div class="error-support flex flex-wrapped">
     <div>
@@ -21,9 +17,7 @@
         <li i18n>Contact your local admin for access related issues.</li>
         <li i18n>Check for any typos in the URL</li>
         <li>
-          <ng-container i18n>
-            Do you suspect a site problem?
-          </ng-container>
+          <ng-container i18n>Do you suspect a site problem?</ng-container>
         </li>
       </ul>
       <!-- <a
@@ -34,14 +28,8 @@
     >
       Report the issue
     </a> -->
-      <a
-        mat-raised-button
-        color="primary"
-        *ngIf="errorData?.mailId"
-        [routerLink]="'/app/feedback/platform_feedback'"
-      >
-        Report the issue
-      </a>
+      <a mat-raised-button color="primary" *ngIf="errorData?.mailId" [routerLink]="'/app/feedback/platform_feedback'"
+        i18n> Report the issue</a>
     </div>
   </div>
 </div>

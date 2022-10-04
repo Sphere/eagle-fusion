@@ -1338,6 +1338,20 @@
           <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1221f6cd4cbb536198793ce866e04cbd6e3b3587" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ actionBtn.name }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8" datatype="html">
+        <source>Profile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="dc660f0b2b272ccbe6a7f7a71ffb56b851ee8b85" datatype="html">
         <source>icon</source>
         <context-group purpose="location">
@@ -3267,20 +3281,27 @@
           <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2ead86c88805d4d1f0f537533fa57b3f7bbfaa1c" datatype="html">
+        <source>Access Forbidden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3acdfe4abddca5788fa61dc7cb8f527d21e6e926" datatype="html">
         <source>
         You do not have sufﬁcient access rights to view this page.
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8c3ce0e1d5c7299b9833232629a59d2438e2ef93" datatype="html">
         <source>You might want to:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">13</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-content-unavailable/error-content-unavailable.component.html</context>
@@ -3307,27 +3328,32 @@
         <source>Contact your local admin for access related issues.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="481d7b22502edf47cf52c3094acb7369802b96d5" datatype="html">
         <source>Check for any typos in the URL</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">18</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="60b7fedc990b4537f8281d87d0a0a778b154a3ec" datatype="html">
-        <source>
-            Do you suspect a site problem?
-          </source>
+      <trans-unit id="5171944208e06bb48dd6e17087d9d3438e61a1bf" datatype="html">
+        <source>Do you suspect a site problem?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="88c0e17cbce7a4156dfd86403278cb9b2bacd6b4" datatype="html">
+        <source> Report the issue</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b72e1dc425d08d246a787550b2ff538ef98a4f66" datatype="html">
@@ -4557,7 +4583,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">222</context>
+          <context context-type="linenumber">223</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/shared/components/catalog-select/catalog-select.component.html</context>
@@ -5864,7 +5890,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">173</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ce3bb7411069c96e2065502c115323680e7f1ce0" datatype="html">
@@ -5917,7 +5943,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d8890aa3ffad8322b0afde87b8723c265e44bedf" datatype="html">
@@ -5928,11 +5954,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">47</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">92</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
@@ -5940,7 +5962,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">203</context>
+          <context context-type="linenumber">205</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
@@ -5974,7 +5996,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="783945bcd32ae118a093a367621aecb6b25d4da1" datatype="html">
@@ -5989,7 +6011,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">212</context>
+          <context context-type="linenumber">213</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
@@ -6004,18 +6026,18 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">178</context>
         </context-group>
       </trans-unit>
       <trans-unit id="36c733af1fe898b83d0f66aaf1734c2f06fafd03" datatype="html">
         <source>Sub Centre</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">76</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">182</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0265b800c553bb4dd120c2398013073f7a722079" datatype="html">
@@ -6029,7 +6051,7 @@
         <source>Institution Name</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">131</context>
+          <context context-type="linenumber">130</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
@@ -6040,7 +6062,7 @@
         <source>Designation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">143</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
@@ -6055,21 +6077,21 @@
         <source>Institution Name*</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">149</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8506e18325577c4f5208f195601392ca482f95e9" datatype="html">
         <source>Select Background</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">161</context>
+          <context context-type="linenumber">162</context>
         </context-group>
       </trans-unit>
       <trans-unit id="de4ab6d523c423e93084146e9d266db4abdaede7" datatype="html">
         <source>Please Specify Profession*</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
-          <context context-type="linenumber">189</context>
+          <context context-type="linenumber">191</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>

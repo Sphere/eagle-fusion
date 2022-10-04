@@ -108,7 +108,7 @@
     class="flex items-center flex-col px-2 box-sizing-box">
     <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     <span *ngIf="!config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-      'mat-caption'">{{ actionBtn.name }}--</span>
+      'mat-caption'" i18n>{{ actionBtn.name }}</span>
   </a>
   <a role="button" matRipple routerLink={{actionBtn.url}} active [wsWidgetUrlResolver]="actionBtn.isExternal"
     *ngIf="actionBtn.name === 'Profile'" routerLinkActive="ws-mat-accent-text"
@@ -120,7 +120,7 @@
         <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
         </ws-widget-avatar-photo>
         <span [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-      'mat-caption'">Profile</span>
+      'mat-caption'" i18n>Profile</span>
       </span>
 
     </span>
