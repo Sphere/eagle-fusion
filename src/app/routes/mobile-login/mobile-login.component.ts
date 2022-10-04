@@ -260,7 +260,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
                 location.href = `${lang}/${url}`
             } else {
               const url = '/page/home'
-                location.href = `${lang}${url}`
+              window.location.assign(`${lang}${url}`)
             }
           } else {
             this.openSnackbar(this.redirectMsg)
