@@ -149,7 +149,20 @@ export class CreateAccountComponent implements OnInit {
 
       this.signupService.signup(reqObj).subscribe(res => {
         if (res.status) {
-          this.openSnackbar(res.msg)
+          if (localStorage.getItem(`preferedLanguage`)) {
+            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            let lang = JSON.parse(reqObj) || ''
+            if (lang.id === 'hi') {
+              if (res.msg === "user created successfully") {
+                let msg = "उपयोगकर्ता सफलतापूर्वक बनाया गया"
+                this.openSnackbar(msg)
+              }
+            } else {
+              this.openSnackbar(res.msg)
+            }
+          } else {
+            this.openSnackbar(res.msg)
+          }
           // this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
@@ -161,9 +174,24 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
-          this.openSnackbar(err.error.msg)
-          this.uploadSaveData = false
-          // form.reset()
+          if (localStorage.getItem(`preferedLanguage`)) {
+            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            let lang = JSON.parse(reqObj) || ''
+            if (lang.id === 'hi') {
+              if (err.error.msg === "Email id  already exists.") {
+                let err = "ईमेल आईडी पहले से मौजूद है।"
+                this.openSnackbar(err)
+                this.uploadSaveData = false
+              }
+            } else {
+              this.openSnackbar(err.error.msg)
+              this.uploadSaveData = false
+            }
+          } else {
+            this.openSnackbar(err.error.msg)
+            this.uploadSaveData = false
+            // form.reset()
+          }
         }
       )
     } else {
@@ -176,21 +204,49 @@ export class CreateAccountComponent implements OnInit {
 
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
         if (res.status === 'success') {
-          this.openSnackbar(res.msg)
+          if (localStorage.getItem(`preferedLanguage`)) {
+            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            let lang = JSON.parse(reqObj) || ''
+            if (lang.id === 'hi') {
+              if (res.msg === "user created successfully") {
+                let msg = "उपयोगकर्ता सफलतापूर्वक बनाया गया"
+                this.openSnackbar(msg)
+              }
+            } else {
+              this.openSnackbar(res.msg)
+            }
+          } else {
+            this.openSnackbar(res.msg)
+          }
           // this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          localStorage.removeItem(`preferedLanguage`)
+          //localStorage.removeItem(`preferedLanguage`)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
         err => {
-          this.openSnackbar(err.error.msg)
-          this.uploadSaveData = false
+          if (localStorage.getItem(`preferedLanguage`)) {
+            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            let lang = JSON.parse(reqObj) || ''
+            if (lang.id === 'hi') {
+              if (err.error.msg === "Email id  already exists.") {
+                let err = "ईमेल आईडी पहले से मौजूद है।"
+                this.openSnackbar(err)
+                this.uploadSaveData = false
+              }
+            } else {
+              this.openSnackbar(err.error.msg)
+              this.uploadSaveData = false
+            }
+          } else {
+            this.openSnackbar(err.error.msg)
+            this.uploadSaveData = false
+          }
         }
       )
     }

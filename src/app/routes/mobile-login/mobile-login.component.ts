@@ -247,7 +247,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
             this.openSnackbar(results.msg)
             let lang = ''
             // tslint:disable-next-line:max-line-length
-            if (this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined) {
+            if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined) {
               // tslint:disable-next-line:max-line-length
               lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' || ''
             } else {
@@ -255,9 +255,9 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
             }
             if (localStorage.getItem('url_before_login')) {
               const url = localStorage.getItem('url_before_login') || ''
-                localStorage.removeItem('loginbtn')
-                localStorage.removeItem('url_before_login')
-                location.href = `${lang}/${url}`
+              localStorage.removeItem('loginbtn')
+              localStorage.removeItem('url_before_login')
+              window.location.assign(`${lang}/${url}`)
             } else {
               const url = '/page/home'
               window.location.assign(`${lang}${url}`)
@@ -291,7 +291,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     )
   }
-    redirect(lang: string) {
+  redirect(lang: string) {
     if (lang !== '') {
       if (this.router.url.includes('hi')) {
         const lan = this.router.url.split('hi/').join('')

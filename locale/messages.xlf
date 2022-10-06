@@ -3350,7 +3350,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="88c0e17cbce7a4156dfd86403278cb9b2bacd6b4" datatype="html">
-        <source> Report the issue</source>
+        <source>Report the issue</source>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
           <context context-type="linenumber">32</context>
@@ -5358,9 +5358,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="7d371d6b4ee7d579047e496d05472b713cd4f9a6" datatype="html">
-        <source>
-          Forgot Password
-        </source>
+        <source>Forgot Password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">12</context>

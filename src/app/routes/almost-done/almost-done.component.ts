@@ -451,9 +451,11 @@ export class AlmostDoneComponent implements OnInit {
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || ''
     }
+    let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+    let obj1 = JSON.parse(reqObj)
     const obj = {
       preferences: {
-        language: localStorage.getItem('preferedLanguage'),
+        language: obj1.id,
       },
     }
     const userdata = Object.assign(profileRequest, obj)
@@ -467,6 +469,7 @@ export class AlmostDoneComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
         this.openSnackbar('User profile details updated successfully!')
+        localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
           const url = params.redirect
           if (url) {
