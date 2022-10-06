@@ -257,10 +257,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
               const url = localStorage.getItem('url_before_login') || ''
               localStorage.removeItem('loginbtn')
               localStorage.removeItem('url_before_login')
-              window.location.assign(`${lang}/${url}`)
+              window.location.assign(`${location.origin}/${lang}/${url}`)
             } else {
               const url = '/page/home'
-              window.location.assign(`${lang}${url}`)
+              window.location.assign(`${location.origin}/${lang}${url}`)
             }
           } else {
             this.openSnackbar(this.redirectMsg)
