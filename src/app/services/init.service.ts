@@ -9,12 +9,14 @@ import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
+  LoginResolverService,
   // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
   // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
+  AuthKeycloakService,
   // AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,
@@ -57,13 +59,13 @@ export class InitService {
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    // private authSvc: AuthKeycloakService,
+    private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
-    // private loginResolverService: LoginResolverService,
+    private loginResolverService: LoginResolverService,
 
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
@@ -96,19 +98,20 @@ export class InitService {
     // this.logger.removeConsoleAccess()
 
     await this.fetchDefaultConfig()
-    // const authenticated = await this.authSvc.initAuth()
-    // if (!authenticated) {
-    //   this.settingsSvc.initializePrefChanges(environment.production)
-    //   // TODO: use the rootOrg and org to fetch the instance
-    //   const publicConfig = await this.http
-    //     .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
-    //     .toPromise()
-    //   this.configSvc.instanceConfig = publicConfig
-    //   this.updateNavConfig()
-    //   this.logger.info('Not Authenticated')
-    //   this.loginResolverService.initialize()
-    //   return false
-    // }
+    const authenticated = await this.authSvc.initAuth()
+
+    if (!authenticated) {
+      this.settingsSvc.initializePrefChanges(environment.production)
+      // TODO: use the rootOrg and org to fetch the instance
+      const publicConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.updateNavConfig()
+      this.logger.info('Not Authenticated')
+      this.loginResolverService.initialize()
+      return false
+    }
     // Invalid User
     try {
       // await this.fetchStartUpDetails()
@@ -172,6 +175,7 @@ export class InitService {
       // Apply the settings using settingsService
       this.settingsSvc.initializePrefChanges(environment.production)
       this.userPreference.initialize()
+
     } catch (e) {
       this.logger.warn(
         'Initialization process encountered some error. Application may not work as expected',
@@ -224,7 +228,7 @@ export class InitService {
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
 
-    if((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
+    if ((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
       const publicConfig: NsInstanceConfig.IConfig = await this.http
         .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
         .toPromise()
