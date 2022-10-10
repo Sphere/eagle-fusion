@@ -157,7 +157,7 @@ export class RootComponent implements OnInit, AfterViewInit {
 
         window.history.go(-1)
 
-    });
+    })
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
