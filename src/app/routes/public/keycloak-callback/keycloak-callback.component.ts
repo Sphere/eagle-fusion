@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { Router, NavigationStart } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 @Component({
   selector: 'ws-keycloak-callback',
   templateUrl: './keycloak-callback.component.html',
@@ -8,14 +8,12 @@ import { Router, NavigationStart } from '@angular/router'
 })
 export class KeycloakCallbackComponent implements OnInit {
 
-  constructor(private orgService: OrgServiceService, private router: Router) { }
+  constructor(private orgService: OrgServiceService, private route: ActivatedRoute,) { }
 
   ngOnInit() {
     this.checkKeycloakCallback()
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationStart) {
-        console.log(event.url)
-      }
+    this.route.fragment.subscribe((fragment: string) => {
+      console.log("My hash fragment is here => ", fragment)
     })
   }
   checkKeycloakCallback() {
