@@ -8,9 +8,9 @@
 }
 
 .close {
-    place-self: flex-end;
-    font-weight: 400;
-    font-size: 17px;
+  place-self: flex-end;
+  font-weight: 400;
+  font-size: 17px;
 }
 
 .header1 {
@@ -59,6 +59,13 @@
     margin: 5px !important;
   }
 
+  @include breakpoint-s {
+    width: 100px;
+    height: 100px;
+    padding: 0 !important;
+    margin: 5px !important;
+  }
+
   // h4 {
   //   margin: 0 !important;
   // }
@@ -82,11 +89,19 @@
     @include breakpoint-xs {
       font-size: 11px !important;
     }
+
+    @include breakpoint-s {
+      font-size: 20px !important;
+    }
   }
 
 
   @include breakpoint-xs {
     font-size: 24px !important;
+  }
+
+  @include breakpoint-s {
+    font-size: 36px !important;
   }
 }
 
@@ -106,6 +121,11 @@
   @include breakpoint-xs {
     font-size: 12px !important;
     margin-top: 0 !important;
+  }
+
+  @include breakpoint-s {
+    font-size: 16px !important;
+    // margin-top: 0 !important;
   }
 }
 
@@ -143,4 +163,13 @@
 ::ng-deep .btn btn-active mat-raised-button mat-button-base {
   background: #1C5D95;
   border-radius: 50px;
+}
+
+.status-box {
+  display: flex;
+  padding: 12px 32px 32px 32px;
+
+  @include breakpoint-xs {
+    padding: 20px 0px;
+  }
 }

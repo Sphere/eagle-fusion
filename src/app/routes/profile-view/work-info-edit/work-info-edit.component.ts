@@ -99,7 +99,7 @@ export class WorkInfoEditComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          form.reset()
+          this.workInfoForm.reset()
           this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.router.navigate(['/app/workinfo-list'])
         }
