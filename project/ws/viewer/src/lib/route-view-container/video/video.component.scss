@@ -111,10 +111,20 @@
 
 .prev-button .title {
   margin-left: -12px !important;
+
+  @include breakpoint-xs {
+    display: none !important;
+  }
+
+
 }
 
 .next-button .title {
   margin-right: -11px;
+
+  @include breakpoint-xs {
+    display: none !important;
+  }
 }
 
 ::ng-deep #youtubeTag {
