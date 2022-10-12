@@ -56,4 +56,13 @@ export class OrgServiceService {
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
+
+  setConnectSid(authCode: any) {
+    const req = {
+      request: {
+        code: authCode
+      },
+    }
+    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+  }
 }
