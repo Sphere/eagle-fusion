@@ -272,22 +272,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     } else {
       this.isLoggedIn = false
     }
-    this.checkState()
   }
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
-  }
-  checkState() {
-    if ((window.location.href).indexOf('state') > 0) {
-      const urlParams = new URLSearchParams(window.location.href)
-      const authCode = urlParams.get('code')
-      this.orgService.setConnectSid(authCode).pipe().subscribe((res: any) => {
-        if (res) {
-
-        }
-      })
-
-    }
   }
 }
