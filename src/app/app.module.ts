@@ -132,6 +132,18 @@ if (Capacitor.getPlatform() === 'ios') {
   console.log('Web!')
 }
 
+
+
+let url = window.location.href
+// console.log(url)
+if(url.indexOf('&code=')>0){
+  const code = url.slice(url.indexOf('&code=')+6)
+  window.location.href = document.baseURI + 'openid/keycloakcallback/' + code
+}
+
+
+
+
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [

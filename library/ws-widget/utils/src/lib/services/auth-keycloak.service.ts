@@ -123,7 +123,7 @@ export class AuthKeycloakService {
 
   login(
     idpHint: 'E' | 'N' | 'S' = 'E',
-    redirectUrl: string = this.defaultRedirectUrl,
+    redirectUrl: string
   ): Promise<void> {
     return this.keycloakSvc.login({
       idpHint,
