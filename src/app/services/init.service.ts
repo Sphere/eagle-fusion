@@ -240,16 +240,30 @@ export class InitService {
       this.configSvc.appSetup = publicConfig.appSetup
       return publicConfig
     } else {
-      const publicConfig: NsInstanceConfig.IConfig = await this.http
-        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
-        .toPromise()
-      this.configSvc.instanceConfig = publicConfig
-      this.configSvc.rootOrg = publicConfig.rootOrg
-      this.configSvc.org = publicConfig.org
-      // TODO: set one org as default org :: use user preference
-      this.configSvc.activeOrg = publicConfig.org[0]
-      this.configSvc.appSetup = publicConfig.appSetup
-      return publicConfig
+      if (this.configSvc.userProfile === null) {
+        const publicConfig: NsInstanceConfig.IConfig = await this.http
+          .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
+          .toPromise()
+        this.configSvc.instanceConfig = publicConfig
+        this.configSvc.rootOrg = publicConfig.rootOrg
+        this.configSvc.org = publicConfig.org
+        // TODO: set one org as default org :: use user preference
+        this.configSvc.activeOrg = publicConfig.org[0]
+        this.configSvc.appSetup = publicConfig.appSetup
+        return publicConfig
+      } else {
+        const publicConfig: NsInstanceConfig.IConfig = await this.http
+          .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
+          .toPromise()
+        this.configSvc.instanceConfig = publicConfig
+        this.configSvc.rootOrg = publicConfig.rootOrg
+        this.configSvc.org = publicConfig.org
+        // TODO: set one org as default org :: use user preference
+        this.configSvc.activeOrg = publicConfig.org[0]
+        this.configSvc.appSetup = publicConfig.appSetup
+        return publicConfig
+      }
+
     }
 
   }
