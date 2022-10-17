@@ -54,7 +54,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'openid/keycloakcallback/:code',
+    path: 'openid/keycloak',
     component: KeycloakCallbackComponent,
   },
   {

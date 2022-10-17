@@ -58,7 +58,10 @@ export class OrgServiceService {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
-  setConnectSid(authCode: any) {
+  setConnectSid(authCode: any): Observable<any> {
+    // console.log(authCode)
+
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
+
   }
 }
