@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -142,12 +143,18 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     this.router.navigateByUrl('app/create-account')
   }
   login(key: 'E' | 'N' | 'S') {
-    // if (localStorage.getItem('login_url')) {
-    //   const url: any = localStorage.getItem('login_url')
-    //   window.location.href = url
-    // }
-    // localStorage.removeItem('url_before_login')
-    // this.router.navigateByUrl('app/login')
+    if (localStorage.getItem('login_url')) {
+      const url: any = localStorage.getItem('login_url')
+      window.location.href = url
+    }
+    localStorage.removeItem('url_before_login')
+    //this.router.navigateByUrl('app/login')
+
+    const state = uuid()
+    const nonce = uuid()
+
+    const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+    window.location.href  = Keycloakurl
     this.authSvc.login(key, this.redirectUrl)
   }
 

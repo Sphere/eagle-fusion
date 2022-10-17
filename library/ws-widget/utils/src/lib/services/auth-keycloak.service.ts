@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { KeycloakEvent, KeycloakEventType, KeycloakInitOptions, KeycloakService } from 'keycloak-angular'
-import { fromEvent, ReplaySubject } from 'rxjs'
-import { filter } from 'rxjs/operators'
+import { KeycloakEvent, KeycloakEventType, KeycloakService } from 'keycloak-angular'
+import {  ReplaySubject } from 'rxjs'
+// import { filter } from 'rxjs/operators'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
 
@@ -99,8 +99,8 @@ export class AuthKeycloakService {
       this.msAuthSvc.init({ microsoft: instanceConfig.microsoft })
     }
     try {
-      this.setupGlobalAuthResponder()
-      this.addKeycloakEventListener()
+      // this.setupGlobalAuthResponder()
+       this.addKeycloakEventListener()
       return await this.keycloakSvc.init({
         config: {
           url: instanceConfig.keycloak.url,
@@ -108,9 +108,9 @@ export class AuthKeycloakService {
           clientId: instanceConfig.keycloak.clientId,
         },
         initOptions: {
-          ...this.getSavedKcConfig(),
-          onLoad: instanceConfig.keycloak.onLoad || 'check-sso',
-          checkLoginIframe: false,
+          // ...this.getSavedKcConfig(),
+          // onLoad: instanceConfig.keycloak.onLoad || 'check-sso',
+          // checkLoginIframe: false,
         },
         enableBearerInterceptor: true,
         loadUserProfileAtStartUp: false,
@@ -124,11 +124,9 @@ export class AuthKeycloakService {
   login(
     idpHint: 'E' | 'N' | 'S' = 'E',
     redirectUrl: string
-  ): Promise<void> {
-    return this.keycloakSvc.login({
-      idpHint,
-      redirectUri: redirectUrl,
-    })
+  ) {
+     // tslint:disable-next-line: no-console
+    console.log(idpHint,redirectUrl)
   }
 
   register(
@@ -183,73 +181,74 @@ export class AuthKeycloakService {
         case KeycloakEventType.OnReady:
           this.loginChangeSubject.next(event.args)
           if (event.args) {
-            this.saveKeycloakConfig()
+         //   this.saveKeycloakConfig()
           }
           break
         case KeycloakEventType.OnTokenExpired:
-          this.keycloakSvc.updateToken(60)
+        //  this.keycloakSvc.updateToken(60)
           break
       }
     })
   }
 
-  private setupGlobalAuthResponder() {
-    fromEvent<MessageEvent>(window, 'message')
-      .pipe(
-        filter(
-          (event: MessageEvent) =>
-            Boolean(event) &&
-            Boolean(event.data) &&
-            event.data.type === 'AUTH_REQUEST' &&
-            Boolean(event.source && typeof event.source.postMessage === 'function'),
-        ),
-      )
-      .subscribe(async (event: MessageEvent) => {
-        const contentWindow = event.source as Window
-        const token = await this.keycloakSvc.getToken()
-        const response = {
-          app: 'WEB_PORTAL',
-          type: 'AUTH_RESPONSE',
-          state: 'NONE',
-          plugin: 'NONE',
-          data: {
-            token,
-            id: event.data && event.data.data && event.data.data.id,
-          },
-        }
-        contentWindow.postMessage(response, '*')
-      })
-  }
+  // private setupGlobalAuthResponder() {
+  //   fromEvent<MessageEvent>(window, 'message')
+  //     .pipe(
+  //       filter(
+  //         (event: MessageEvent) =>
+  //           Boolean(event) &&
+  //           Boolean(event.data) &&
+  //           event.data.type === 'AUTH_REQUEST' &&
+  //           Boolean(event.source && typeof event.source.postMessage === 'function'),
+  //       ),
+  //     )
+  //     .subscribe(async (event: MessageEvent) => {
+  //       const contentWindow = event.source as Window
+  //     // //  const token = await this.keycloakSvc.getToken()
+  //     //   const response = {
+  //     //     app: 'WEB_PORTAL',
+  //     //     type: 'AUTH_RESPONSE',
+  //     //     state: 'NONE',
+  //     //     plugin: 'NONE',
+  //     //     data: {
+  //     //       token,
+  //     //       id: event.data && event.data.data && event.data.data.id,
+  //     //     },
+  //     //   }
+  //       contentWindow.postMessage('resp', '*')
+  //     })
+  // }
 
   // Utility Methods
-  private saveKeycloakConfig() {
-    const kc = this.keycloakSvc.getKeycloakInstance()
-    const kcInitOptions: KeycloakInitOptions = {
-      idToken: kc.idToken,
-      refreshToken: kc.refreshToken,
-      timeSkew: kc.timeSkew,
-      token: kc.token,
-    }
-    storage.setItem(storageKey, JSON.stringify(kcInitOptions))
-  }
-  private getSavedKcConfig(): KeycloakInitOptions {
-    try {
-      // const lastSaved = KEYCLOAK_STORAGE.getItem(key);
-      const lastSaved = storage.getItem(storageKey)
-      if (lastSaved) {
-        const processed = JSON.parse(lastSaved)
-        if (
-          'idToken' in processed &&
-          'refreshToken' in processed &&
-          'timeSkew' in processed &&
-          'token' in processed
-        ) {
-          return processed
-        }
-      }
-    } catch (e) { }
-    return {}
-  }
+  // private saveKeycloakConfig() {
+  //  // const kc = this.keycloakSvc.getKeycloakInstance()
+  //   // const kcInitOptions: KeycloakInitOptions = {
+  //   //   idToken: kc.idToken,
+  //   //   refreshToken: kc.refreshToken,
+  //   //   timeSkew: kc.timeSkew,
+  //   //   token: kc.token,
+  //   // }
+  // //  storage.setItem(storageKey, JSON.stringify(kcInitOptions))
+  // return
+  // }
+  // private getSavedKcConfig(): KeycloakInitOptions {
+  //   try {
+  //     // const lastSaved = KEYCLOAK_STORAGE.getItem(key);
+  //     const lastSaved = storage.getItem(storageKey)
+  //     if (lastSaved) {
+  //       const processed = JSON.parse(lastSaved)
+  //       if (
+  //         'idToken' in processed &&
+  //         'refreshToken' in processed &&
+  //         'timeSkew' in processed &&
+  //         'token' in processed
+  //       ) {
+  //         return processed
+  //       }
+  //     }
+  //   } catch (e) { }
+  //   return {}
+  // }
 
   private get defaultRedirectUrl(): string {
     try {
