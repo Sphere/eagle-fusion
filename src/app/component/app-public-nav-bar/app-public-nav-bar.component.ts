@@ -85,7 +85,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     } else if (href.indexOf('org-details') > 0) {
       this.redirectUrl = href
     } else {
-      this.redirectUrl = document.baseURI +'openid/keycloak'
+      this.redirectUrl = document.baseURI + 'openid/keycloak'
     }
 
     // added from app nav
@@ -152,9 +152,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
     const state = uuid()
     const nonce = uuid()
-
+    sessionStorage.setItem('login-btn', 'clicked')
     const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-    window.location.href  = Keycloakurl
+    window.location.href = Keycloakurl
     this.authSvc.login(key, this.redirectUrl)
   }
 
