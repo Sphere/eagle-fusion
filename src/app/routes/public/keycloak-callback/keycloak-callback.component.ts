@@ -34,11 +34,11 @@ export class KeycloakCallbackComponent implements OnInit {
           console.log(result)
           if (result.status === 200 && result.roles.length > 0) {
             this.openSnackbar('logged in')
-            if (localStorage.getItem('url_before_login')) {
-              location.href = localStorage.getItem('url_before_login') || ''
-            } else {
-              location.href = '/page/home'
-            }
+            // if (localStorage.getItem('url_before_login')) {
+            //   location.href = localStorage.getItem('url_before_login') || ''
+            // } else {
+            //   location.href = '/page/home'
+            // }
           }
           // if (localStorage.getItem('url_before_login')) {
           //   location.href = localStorage.getItem('url_before_login') || ''
@@ -48,15 +48,19 @@ export class KeycloakCallbackComponent implements OnInit {
         }
       }, (err: any) => {
         // console.log(err)
+        // tslint:disable-next-line:no-console
+        console.log(err)
         if (err.status === 400) {
           sessionStorage.clear()
           this.snackBarSvc.open(err.error.error)
-          location.href = "/public/home"
+          //location.href = "/public/home"
         }
       })
     } catch (err) {
+      // tslint:disable-next-line:no-console
+      console.log(err)
       // alert('Error Occured while logging in')
-      location.href = "/public/home"
+      //location.href = "/public/home"
     }
   }
   private openSnackbar(primaryMsg: string, duration: number = 3000) {
