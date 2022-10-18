@@ -363,7 +363,8 @@ export class InitService {
         this.configSvc.userRoles = new Set((details.roles || []).map((v: string) => v.toLowerCase()))
         this.configSvc.isActive = details.isActive
         return details
-      } catch (e: any) {
+      } catch (e) {
+        // tslint:disable-next-line:no-console
         console.log(e)
         this.configSvc.userProfile = null
         if (e.status === 419) {
