@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { Router } from '@angular/router'
 @Component({
   selector: 'ws-keycloak-callback',
   templateUrl: './keycloak-callback.component.html',
@@ -11,7 +10,7 @@ import { Router } from '@angular/router'
 export class KeycloakCallbackComponent implements OnInit {
 
   constructor(private orgService: OrgServiceService, private snackBarSvc: MatSnackBar,
-    private signupService: SignupService, private snackBar: MatSnackBar, private router: Router) { }
+    private signupService: SignupService, private snackBar: MatSnackBar) { }
 
 
 

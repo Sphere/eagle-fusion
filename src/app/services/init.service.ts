@@ -98,20 +98,20 @@ export class InitService {
     // this.logger.removeConsoleAccess()
 
     await this.fetchDefaultConfig()
-    const authenticated = await this.authSvc.initAuth()
+    // const authenticated = await this.authSvc.initAuth()
 
-    if (!authenticated) {
-      this.settingsSvc.initializePrefChanges(environment.production)
-      // TODO: use the rootOrg and org to fetch the instance
-      const publicConfig = await this.http
-        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
-        .toPromise()
-      this.configSvc.instanceConfig = publicConfig
-      this.updateNavConfig()
-      this.logger.info('Not Authenticated')
-      this.loginResolverService.initialize()
-      return false
-    }
+    // if (!authenticated) {
+    //   this.settingsSvc.initializePrefChanges(environment.production)
+    //   // TODO: use the rootOrg and org to fetch the instance
+    //   const publicConfig = await this.http
+    //     .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+    //     .toPromise()
+    //   this.configSvc.instanceConfig = publicConfig
+    //   this.updateNavConfig()
+    //   this.logger.info('Not Authenticated')
+    //   this.loginResolverService.initialize()
+    //   return false
+    // }
     // Invalid User
     try {
       // await this.fetchStartUpDetails()
