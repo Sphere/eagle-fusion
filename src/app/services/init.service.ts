@@ -16,7 +16,7 @@ import {
   // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
-  //AuthKeycloakService,
+  AuthKeycloakService,
   // AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,
@@ -59,7 +59,7 @@ export class InitService {
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    //private authSvc: AuthKeycloakService,
+    private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
@@ -363,9 +363,12 @@ export class InitService {
         this.configSvc.userRoles = new Set((details.roles || []).map((v: string) => v.toLowerCase()))
         this.configSvc.isActive = details.isActive
         return details
-      } catch (e) {
+      } catch (e: any) {
         console.log(e)
         this.configSvc.userProfile = null
+        if (e.status === 419) {
+          this.authSvc.logout()
+        }
         return e
       }
     } else {
