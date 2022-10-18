@@ -40,6 +40,7 @@ export class KeycloakCallbackComponent implements OnInit {
               //this.openSnackbar('logged in')
               if (localStorage.getItem('url_before_login')) {
                 window.location.href = localStorage.getItem('url_before_login') || ''
+                localStorage.removeItem('url_before_login')
               } else {
                 window.location.href = '/page/home'
                 this.isLoading = false
