@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, Input } from '@angular/core'
 
 import { Subject } from 'rxjs'
 
@@ -8,6 +8,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+
 // import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
@@ -19,6 +20,7 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   /*
 * to unsubscribe the observable
 */
+  @Input() tocData: any
   public unsubscribe = new Subject<void>()
   content: any
   tocConfig: any = null
@@ -32,6 +34,9 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService) { }
 
   ngOnInit() {
+    if (this.tocData) {
+      this.content = this.tocData
+    }
     if (localStorage.getItem('tocData')) {
       const data: any = localStorage.getItem('tocData')
       this.content = JSON.parse(data)
@@ -57,7 +62,7 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }
