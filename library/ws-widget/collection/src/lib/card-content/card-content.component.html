@@ -355,10 +355,9 @@
         widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
           ? true
           : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-    }"  #target="mdePopoverTrigger"
-    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500"
-    [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="offSetXValue"
-    [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
+    }" #target="mdePopoverTrigger" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover"
+    [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2"
+    [mdePopoverOffsetX]="offSetXValue" [mdePopoverOffsetY]="offSetYValue" (mouseover)="showTarget($event)">
 
     <div class="display-contents" [ngClass]="{
         disableClick:
@@ -375,10 +374,10 @@
         <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
-              [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
-              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
-              [title]="widgetData.content.name" />
+            <img mat-card-image style="position: absolute; z-index: 2; height: 152px;"
+              [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+              class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
             <span class="img-overlay"></span>
             <div class="source-div">
 
