@@ -154,7 +154,7 @@ export class AuthKeycloakService {
     // this.http.get('/apis/reset')
     try {
       const url = `${document.baseURI}public/home`
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout&redirect_uri=${encodeURIComponent(url)}`
+      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
       window.location.href = Keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
       storage.removeItem('telemetrySessionId')
