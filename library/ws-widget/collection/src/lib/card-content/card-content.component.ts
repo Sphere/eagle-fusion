@@ -178,10 +178,13 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(data: any) {
-    this.router.navigate(['/public/toc'], {
+    this.router.navigate(['/public/toc/overview'], {
       state: {
         tocData: data,
       },
+      queryParams: {
+        courseId: data.identifier
+      }
     })
     localStorage.setItem('tocData', JSON.stringify(data))
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
