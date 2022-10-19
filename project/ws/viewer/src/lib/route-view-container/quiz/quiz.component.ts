@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { NsContent } from '@ws-widget/collection'
 import { NSQuiz } from '../../plugins/quiz/quiz.model'
 import { ActivatedRoute } from '@angular/router'
-import { ViewerDataService } from '../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 import { ValueService } from '@ws-widget/utils'
 
 @Component({
@@ -33,8 +33,8 @@ export class QuizComponent implements OnInit {
   isSmall = false
   collectionIdentifier: any
 
-  constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: ViewerDataService,
-              private valueSvc: ValueService) {
+  constructor(private activatedRoute: ActivatedRoute, private viewerDataSvc: PlayerStateService,
+    private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -47,7 +47,7 @@ export class QuizComponent implements OnInit {
     }
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource

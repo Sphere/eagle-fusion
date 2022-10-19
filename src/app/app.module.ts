@@ -101,6 +101,8 @@ import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/sha
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
+import { Capacitor } from '@capacitor/core';
+
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -119,6 +121,19 @@ const appInitializer = (initSvc: InitService, logger: LoggerService) => async ()
 const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
+
+if (Capacitor.getPlatform() === 'ios') {
+  // tslint:disable-next-line:no-console
+  console.log('iOS!')
+} else if (Capacitor.getPlatform() === 'android') {
+  // tslint:disable-next-line:no-console
+  console.log('Android!')
+} else {
+  // tslint:disable-next-line:no-console
+  console.log('Web!')
+}
+
+
 
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({

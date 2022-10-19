@@ -28,6 +28,7 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
 import * as _ from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 import { ConfirmmodalComponent } from './confirm-modal-component'
 import {
   NsContent,
@@ -117,6 +118,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     public route: ActivatedRoute,
     public location: Location,
     public viewerDataSvc: ViewerDataService,
+    public playerStateService: PlayerStateService,
     public router: Router,
     private contentSvc: WidgetContentService,
     private loggerSvc: LoggerService,
@@ -150,7 +152,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
     this.dialogOverview.afterClosed().subscribe((result: any) => {
       if (result.event === 'close-overview') {
-        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+        this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
           if (_.isNull(data.nextResource)) {
             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
               queryParams: {
@@ -315,7 +317,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   this.showCompletionMsg = false
                 }
                 // }
-                this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+                this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
@@ -415,7 +417,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 } else {
                   this.showCompletionMsg = false
                 }
-                this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+                this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (_.isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
@@ -477,7 +479,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       if (result.event === 'CLOSE') {
         dialogRef.close()
         this.dialog.closeAll()
-        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+        this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
           if (!_.isNull(data.prevResource)) {
             this.router.navigate([data.prevResource], { preserveQueryParams: true })
           }
@@ -499,7 +501,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       if (result.event === 'CLOSE') {
         dialogRef.close()
         this.dialog.closeAll()
-        this.viewerDataSvc.tocChangeSubject.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+        this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
           if (!_.isNull(data.prevResource)) {
             this.router.navigate([data.prevResource], { preserveQueryParams: true })
           }

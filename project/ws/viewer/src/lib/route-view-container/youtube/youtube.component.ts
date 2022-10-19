@@ -3,8 +3,7 @@ import { NsContent, IWidgetsPlayerMediaData, NsDiscussionForum } from '@ws-widge
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-import { ViewerDataService } from '../../viewer-data.service'
-
+import { PlayerStateService } from '../../player-state.service'
 @Component({
   selector: 'viewer-youtube-container',
   templateUrl: './youtube.component.html',
@@ -34,7 +33,7 @@ export class YoutubeComponent implements OnInit {
   collectionIdentifier!: string
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: PlayerStateService) { }
 
   ngOnInit() {
 
@@ -43,7 +42,7 @@ export class YoutubeComponent implements OnInit {
         !this.configSvc.restrictedFeatures.has('disscussionForum')
     }
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
 
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle

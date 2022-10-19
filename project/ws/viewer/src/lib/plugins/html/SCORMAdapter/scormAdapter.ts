@@ -115,6 +115,9 @@ export class SCORMAdapterService {
           // console.log(response)
           if (this.getPercentage(data) === 100) {
             this.viewerDataSvc.scromChangeSubject.next(true)
+            setTimeout(() => {
+              this.LMSFinish()
+            })
           }
           if (response) {
             _return = true

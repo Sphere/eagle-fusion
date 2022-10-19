@@ -3,7 +3,7 @@ import { NsContent, IWidgetsPlayerMediaData, NsDiscussionForum } from '@ws-widge
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-import { ViewerDataService } from '../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 
 @Component({
   selector: 'viewer-video-container',
@@ -35,7 +35,7 @@ export class VideoComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService) { }
+    private viewerDataSvc: PlayerStateService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -45,7 +45,7 @@ export class VideoComponent implements OnInit {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
       this.prevResourceUrl = data.prevResource

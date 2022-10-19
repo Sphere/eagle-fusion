@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { ViewerDataService } from '../../viewer-data.service'
+import { PlayerStateService } from '../../player-state.service'
 import { WidgetContentService } from '@ws-widget/collection/src/lib/_services/widget-content.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
@@ -48,6 +49,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
     // private logger: LoggerService,
     private configSvc: ConfigurationsService,
     private viewerDataSvc: ViewerDataService,
+    private playerStateSvc: PlayerStateService,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService
@@ -102,7 +104,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
               )
             }
             // tslint:disable-next-line:no-shadowed-variable
-            this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+            this.viewerDataServiceSubscription = this.playerStateSvc.playerState.subscribe(data => {
               this.prevResourceUrl = data.prevResource
               this.nextResourceUrl = data.nextResource
               if (this.resourceId !== this.viewerDataSvc.resourceId) {

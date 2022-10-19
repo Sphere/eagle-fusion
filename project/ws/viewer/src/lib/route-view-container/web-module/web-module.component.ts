@@ -3,8 +3,7 @@ import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-import { ViewerDataService } from '../../viewer-data.service'
-
+import { PlayerStateService } from '../../player-state.service'
 @Component({
   selector: 'viewer-web-module-container',
   templateUrl: './web-module.component.html',
@@ -33,7 +32,7 @@ export class WebModuleComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: ViewerDataService, private valueSvc: ValueService) {
+    private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -48,7 +47,7 @@ export class WebModuleComponent implements OnInit {
     if (this.isTypeOfCollection) {
       this.collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     }
-    this.viewerDataServiceSubscription = this.viewerDataSvc.tocChangeSubject.subscribe(data => {
+    this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
 
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle

@@ -186,12 +186,12 @@ const routes: Routes = [
       import('./routes/route-playlist-app.module').then(u => u.RoutePlaylistAppModule),
     canActivate: [GeneralGuard],
   },
-  // {
-  //   path: 'app/profile',
-  //   loadChildren: () =>
-  //     import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
-  //   canActivate: [GeneralGuard],
-  // },
+  {
+    path: 'app/profile',
+    loadChildren: () =>
+      import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
+    canActivate: [GeneralGuard],
+  },
   {
     path: 'hi/app/profile',
     loadChildren: () =>
