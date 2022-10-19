@@ -13,7 +13,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 // import { ILoginDescriptiveFooterConfig, IWSPublicLoginConfig } from './login.model'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-
 @Component({
   selector: 'ws-public-home',
   templateUrl: './public-home.component.html',

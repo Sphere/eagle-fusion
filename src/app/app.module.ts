@@ -101,8 +101,7 @@ import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/sha
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
-import { Capacitor } from '@capacitor/core';
-
+import { Capacitor } from '@capacitor/core'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -130,8 +129,28 @@ if (Capacitor.getPlatform() === 'ios') {
   console.log('Android!')
 } else {
   // tslint:disable-next-line:no-console
+
   console.log('Web!')
 }
+
+
+
+let url = window.location.href
+// console.log(url)
+
+if (url.indexOf('&code=') > 0) {
+
+  const code = url.slice(url.indexOf('&code=') + 6)
+  // localStorage.clear()
+  sessionStorage.setItem('code', code)
+
+  // window.location.assign(`${location.origin}/openid/keycloak/${code}`)
+  // console.log(`${location.origin} /openid / keycloakcallback / ${code}`)
+  // console.log(code)
+  // window.location.href = document.baseURI + 'openid/keycloakcallback/' + code
+  // location.href = 'openid/keycloakcallback/' + code
+}
+
 
 
 

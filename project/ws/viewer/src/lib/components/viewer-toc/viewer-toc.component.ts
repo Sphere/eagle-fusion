@@ -590,7 +590,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .subscribe(() => {
             this.expandThePath()
 
-
           })
       }
     }
