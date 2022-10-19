@@ -9,6 +9,7 @@ import { ConfigurationsService } from '../../../../../../../../library/ws-widget
 import { NsContent } from '@ws-widget/collection'
 import * as dayjs from 'dayjs'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
+import { Subscription } from 'rxjs'
 const API_END_POINTS = {
   SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
   SCROM_FETCH: '/apis/protected/v8/scrom/get',
@@ -21,6 +22,7 @@ const API_END_POINTS = {
 })
 export class SCORMAdapterService {
   id = ''
+  scromSubscription: Subscription | null = null
   constructor(
     private store: Storage,
     private http: HttpClient,
@@ -111,7 +113,7 @@ export class SCORMAdapterService {
       let splitUrl1 = url.split('?primary')
       let splitUrl2 = splitUrl1[0].split('/viewer/html/')
       if (splitUrl2[1] === this.contentId) {
-        this.addDataV2(data).subscribe((response) => {
+        this.scromSubscription = this.addDataV2(data).subscribe((response) => {
           // console.log(response)
           if (this.getPercentage(data) === 100) {
             this.viewerDataSvc.scromChangeSubject.next(true)
@@ -303,5 +305,10 @@ export class SCORMAdapterService {
     return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
     //}
 
+  }
+  ngOnDestroy() {
+    if (this.scromSubscription) {
+      this.scromSubscription.unsubscribe()
+    }
   }
 }

@@ -69,9 +69,9 @@ export class PlayerStateService {
         }
       })
       return prevResource
-    } else {
-      return prevResource
     }
+      return prevResource
+
   }
 
   getNextResource() {

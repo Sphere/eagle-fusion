@@ -35,7 +35,7 @@ export class VideoComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-    private viewerDataSvc: PlayerStateService) { }
+              private viewerDataSvc: PlayerStateService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {

@@ -7,6 +7,8 @@ import { Observable, Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
+import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -42,7 +44,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private configSvc: ConfigurationsService,
     private router: Router,
     private activateRoute: ActivatedRoute,
-    private valueSvc: ValueService) {
+    private valueSvc: ValueService,
+    private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
@@ -82,7 +85,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     } else if (href.indexOf('org-details') > 0) {
       this.redirectUrl = href
     } else {
-      this.redirectUrl = document.baseURI
+      this.redirectUrl = document.baseURI + 'openid/keycloak'
     }
 
     // added from app nav
@@ -139,13 +142,20 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/create-account')
   }
-  login() {
-    // if (localStorage.getItem('login_url')) {
-    //   const url: any = localStorage.getItem('login_url')
-    //   window.location.href = url
-    // }
-    // localStorage.removeItem('url_before_login')
-    this.router.navigateByUrl('app/login')
+  login(key: 'E' | 'N' | 'S') {
+    if (localStorage.getItem('login_url')) {
+      const url: any = localStorage.getItem('login_url')
+      window.location.href = url
+    }
+    //localStorage.removeItem('url_before_login')
+    //this.router.navigateByUrl('app/login')
+
+    const state = uuid()
+    const nonce = uuid()
+    sessionStorage.setItem('login-btn', 'clicked')
+    const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+    window.location.href = Keycloakurl
+    this.authSvc.login(key, this.redirectUrl)
   }
 
   ngOnDestroy() {

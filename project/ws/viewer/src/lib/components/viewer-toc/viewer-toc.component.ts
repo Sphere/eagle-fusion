@@ -118,6 +118,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   ngOnInit() {
+    // console.log("onint")
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.defaultContent,
@@ -160,24 +161,31 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     })
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
       if (data) {
-        this.ngOnInit()
-        setTimeout(() => {
-          if (this.playerStateService.isResourceCompleted()) {
-            const nextResource = this.playerStateService.getNextResource()
-            if (!_.isNull(nextResource)) {
-              this.router.navigate([nextResource], { preserveQueryParams: true })
-              this.playerStateService.trigger$.complete()
-            } else {
-              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                queryParams: {
-                  primaryCategory: 'Course',
-                  batchId: this.batchId,
-                },
-              })
-            }
+        //
+        // console.log(this.playerStateService.trigger$.getValue())
+        if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === "not-triggered") {
+          this.ngOnInit()
 
-          }
-        }, 4000)
+          // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
+          setTimeout(() => {
+            if (this.playerStateService.isResourceCompleted()) {
+              const nextResource = this.playerStateService.getNextResource()
+              if (!_.isNull(nextResource)) {
+                this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.playerStateService.trigger$.complete()
+
+              } else {
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
+
+            }
+          }, 4000)
+        }
       }
 
     })
@@ -449,7 +457,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
 
-  private processCollectionForTree() {
+  private async processCollectionForTree() {
     if (this.collection && this.collection.children) {
       let userId
       if (this.configSvc.userProfile) {
@@ -464,7 +472,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           fields: ['progressdetails'],
         },
       }
-      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+      await this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
@@ -581,7 +589,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
-
 
           })
       }

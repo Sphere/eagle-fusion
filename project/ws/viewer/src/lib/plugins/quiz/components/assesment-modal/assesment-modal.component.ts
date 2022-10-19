@@ -301,7 +301,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.disableNext = true
       // this.quizService.questionState.active_slide_index += 1
       this.showSubmit = true
-      // this.proceedToSubmit()
+      this.proceedToSubmit()
 
       return
     }
@@ -358,7 +358,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       === (this.quizService.questionState.slides.length - 1)) {
       this.diablePrevious = false
       this.showSubmit = false
-      // this.proceedToSubmit()
+      this.proceedToSubmit()
     }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {

@@ -1,8 +1,10 @@
 <div class="content">
   <p class="py-2 text-base text-capitalize">Hi {{firstName?.firstName}}! <span i18n>Here are some courses for you</span>
   </p>
-  <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0" i18n>Start Learning</p>
-
+  <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue Learning</p>
+  <ng-template #start>
+    <p class="text-2xl" i18n>Start Learning</p>
+  </ng-template>
   <!-- <span class="language-text">English <mat-icon>close</mat-icon></span>
   <span class="language-text">हिन्दी <mat-icon>close</mat-icon></span> -->
 
