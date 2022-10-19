@@ -43,8 +43,8 @@ export class KeycloakCallbackComponent implements OnInit {
                 localStorage.removeItem('url_before_login')
               } else {
                 window.location.href = '/page/home'
-                this.isLoading = false
               }
+              this.isLoading = false
             }
             // if (localStorage.getItem('url_before_login')) {
             //   location.href = localStorage.getItem('url_before_login') || ''
