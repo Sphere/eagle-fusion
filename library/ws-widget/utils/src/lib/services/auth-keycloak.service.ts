@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { KeycloakEvent, KeycloakEventType, KeycloakService } from 'keycloak-angular'
-import {  ReplaySubject } from 'rxjs'
+import { ReplaySubject } from 'rxjs'
 // import { filter } from 'rxjs/operators'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
@@ -100,7 +100,7 @@ export class AuthKeycloakService {
     }
     try {
       // this.setupGlobalAuthResponder()
-       this.addKeycloakEventListener()
+      this.addKeycloakEventListener()
       return await this.keycloakSvc.init({
         config: {
           url: instanceConfig.keycloak.url,
@@ -125,8 +125,8 @@ export class AuthKeycloakService {
     idpHint: 'E' | 'N' | 'S' = 'E',
     redirectUrl: string
   ) {
-     // tslint:disable-next-line: no-console
-    console.log(idpHint,redirectUrl)
+    // tslint:disable-next-line: no-console
+    console.log(idpHint, redirectUrl)
   }
 
   register(
@@ -148,17 +148,22 @@ export class AuthKeycloakService {
   // }
   // async logout(redirectUrl = this.defaultRedirectUrl)
   async logout() {
+    // let keycloakID = await this.http.get('https://aastrika-stage.tarento.com/auth/realms/sunbird/protocol/openid-connect/logout').toPromise()
+    // console.log(keycloakID)
     // if (storage.getItem('telemetrySessionId') || (localStorage.getItem('loginbtn'))) {
-    storage.removeItem('telemetrySessionId')
-    localStorage.removeItem('loginbtn')
-    localStorage.removeItem('url_before_login')
-    localStorage.removeItem('tocData')
-    localStorage.removeItem(`userUUID`)
     // this.http.get('/apis/reset')
     try {
+      const url = `${document.baseURI}public/home`
+      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout&redirect_uri=${encodeURIComponent(url)}`
+      window.location.href = Keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
+      storage.removeItem('telemetrySessionId')
+      localStorage.removeItem('loginbtn')
+      localStorage.removeItem('url_before_login')
+      localStorage.removeItem('tocData')
+      localStorage.removeItem(`userUUID`)
     } catch (error) { }
-    window.location.href = `${this.defaultRedirectUrl}public/home`
+    // window.location.href = `${this.defaultRedirectUrl}public/home`
     // this.router.navigate(['/page/home'])
     // }
   }
@@ -181,11 +186,11 @@ export class AuthKeycloakService {
         case KeycloakEventType.OnReady:
           this.loginChangeSubject.next(event.args)
           if (event.args) {
-         //   this.saveKeycloakConfig()
+            //   this.saveKeycloakConfig()
           }
           break
         case KeycloakEventType.OnTokenExpired:
-        //  this.keycloakSvc.updateToken(60)
+          //  this.keycloakSvc.updateToken(60)
           break
       }
     })
