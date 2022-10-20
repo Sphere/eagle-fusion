@@ -17,7 +17,7 @@ export class LoginOtpComponent implements OnInit {
   @Output() redirectToParent = new EventEmitter()
   emailPhoneType: any = 'phone'
   loginVerification = false
-
+  redirectUrl = ''
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -79,9 +79,10 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
+        this.redirectUrl = document.baseURI + 'openid/keycloak'
         //   await this.signupService.fetchStartUpDetails()
         this.openSnackbar(res.message)
-       // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
+        // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
         const state = uuid()
         const nonce = uuid()
         sessionStorage.setItem('login-btn', 'clicked')

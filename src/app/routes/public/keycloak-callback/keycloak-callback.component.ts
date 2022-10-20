@@ -45,6 +45,12 @@ export class KeycloakCallbackComponent implements OnInit {
                 window.location.href = '/page/home'
               }
               this.isLoading = false
+            } else {
+              window.location.href = "/public/home"
+            }
+            if (result.status === 419) {
+              this.snackBarSvc.open(result.params.errmsg)
+              window.location.href = "/public/home"
             }
             // if (localStorage.getItem('url_before_login')) {
             //   location.href = localStorage.getItem('url_before_login') || ''
