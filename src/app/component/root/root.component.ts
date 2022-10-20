@@ -34,6 +34,7 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import * as _ from 'lodash'
 import { Plugins } from '@capacitor/core'
+import { v4 as uuid } from 'uuid'
 const { App } = Plugins
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
@@ -181,7 +182,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.configSvc.userProfile === null) {
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
-          this.router.navigateByUrl('app/login')
+          const redirectUrl = document.baseURI + 'openid/keycloak'
+          const state = uuid()
+          const nonce = uuid()
+          window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
+          //this.router.navigateByUrl('app/login')
+
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
