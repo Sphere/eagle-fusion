@@ -165,6 +165,10 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isSetupPage = true
         }
       }
+
+      if (this.configSvc.userProfile === null) {
+        this.isNavBarRequired = false
+      }
       if (event instanceof NavigationStart) {
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
@@ -182,6 +186,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
+          if (this.configSvc.userProfile === null) {
+            this.isNavBarRequired = false
+          }
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
           event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
@@ -237,9 +244,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       //   this.isNavBarRequired = false
       //   this.showNavigation = true
       // }
-      if (this.configSvc.userProfile === null) {
-        this.isNavBarRequired = false
-      }
+
       // if (this.configSvc.unMappedUser) {
       //   this.isNavBarRequired = true
       //   //this.showNavbar = true
