@@ -4,31 +4,31 @@
     <!-- Description : Conditional : If not shown here, will be shown over banner -->
     <div *ngIf="
         tocConfig?.overview?.description?.enabled &&
-        content?.description
+        tocData?.description
       " class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
       <mat-card-content>
-        <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
+        <div class="mat-subheading-1" [innerHTML]="tocData?.description"></div>
       </mat-card-content>
     </div>
     <!-- Content Body -->
-    <div *ngIf="tocConfig?.overview?.body?.enabled && content?.instructions" class="unit-meta-item">
+    <div *ngIf="tocConfig?.overview?.body?.enabled && tocData?.instructions" class="unit-meta-item">
       <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
       <mat-card-content>
-        <div class="break-words" [innerHTML]="content?.instructions"></div>
+        <div class="break-words" [innerHTML]="tocData?.instructions"></div>
       </mat-card-content>
     </div>
     <div class="width-1-1 mt-5 mb-4">
-      <div class="margin-bottom-m mr-0" *ngIf="content?.creator?.length">
+      <div class="margin-bottom-m mr-0" *ngIf="tocData?.creator?.length">
         <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
-          authors: content?.creator,
+          authors: tocData?.creator,
           title: 'AUTHOR'
         }">
         </ng-container>
       </div>
-      <div class="hidden sm:block margin-bottom-m mr-0" *ngIf="content?.creatorContacts?.length">
+      <div class="hidden sm:block margin-bottom-m mr-0" *ngIf="tocData?.creatorContacts?.length">
         <ng-container [ngTemplateOutlet]="creators" [ngTemplateOutletContext]="{
-          authors: content?.creatorContacts,
+          authors: tocData?.creatorContacts,
           title: 'CONTACT'
         }">
         </ng-container>
