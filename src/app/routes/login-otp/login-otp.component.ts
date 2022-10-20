@@ -2,9 +2,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
-import { Router } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
-
+import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
@@ -22,8 +21,7 @@ export class LoginOtpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService,
-    private router: Router
+    private signupService: SignupService
   ) {
     this.loginOtpForm = this.fb.group({
       code: new FormControl('', [Validators.required]),
@@ -83,7 +81,12 @@ export class LoginOtpComponent implements OnInit {
       async (res: any) => {
         //   await this.signupService.fetchStartUpDetails()
         this.openSnackbar(res.message)
-        this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
+       // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
+        const state = uuid()
+        const nonce = uuid()
+        sessionStorage.setItem('login-btn', 'clicked')
+        const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+        window.location.href = Keycloakurl
       },
       (err: any) => {
         this.openSnackbar(err.error.error || err.error.message)

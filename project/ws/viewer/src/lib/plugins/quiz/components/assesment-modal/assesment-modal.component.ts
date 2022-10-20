@@ -309,6 +309,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.showSubmit = true
       this.proceedToSubmit()
       this.updateQuestionType(false)
+
       return
     }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]

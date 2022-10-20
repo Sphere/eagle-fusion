@@ -32,7 +32,7 @@ export class WebModuleComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-    private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
+              private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })

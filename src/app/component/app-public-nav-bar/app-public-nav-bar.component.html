@@ -3,15 +3,16 @@
     matTooltip="Home">
     <img [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
       *ngIf=" (isXSmall$ | async) === false" />
-    <img src="/assets/instances/eagle/app_logos/aastar-logo.svg" width="100px" height="40px" *ngIf=" (isXSmall$ | async) === true" />
+    <img src="/assets/instances/eagle/app_logos/aastar-logo.svg" width="100px" height="40px"
+      *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">
     <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
       *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
     </ng-container> -->
 
-    <ws-app-search-input-home i18n-placeholder *ngIf=" (isXSmall$ | async) === false"  i18n-title
-      title="search" class="my-search flex-1" [ref]="'home'">
+    <ws-app-search-input-home i18n-placeholder *ngIf=" (isXSmall$ | async) === false" i18n-title title="search"
+      class="my-search flex-1" [ref]="'home'">
     </ws-app-search-input-home>
     <span class="spacer"></span>
     <!-- <div ngClass="search-small-logo">
@@ -48,12 +49,12 @@
 
   <div class="flex justify-center flex-col login-btn">
     <button *ngIf="(isXSmall$ | async) === false" name="login_client_button" color="primary" mat-raised-button
-      i18n="login: client" (click)="login()" class="login-btn header-btn ws-mat-primary-background mat-button-base">
+      i18n="login: client" (click)="login('S')" class="login-btn header-btn ws-mat-primary-background mat-button-base">
       Login
     </button>
     <button *ngIf="(isXSmall$ | async) === true" name="login_client_button"
       [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#3f51b5', 'font-size': 'medium'}"
-      mat-raised-button i18n="login: client" (click)="login()">
+      mat-raised-button i18n="login: client" (click)="login('S')">
       Log in
     </button>
   </div>

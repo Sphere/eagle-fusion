@@ -31,7 +31,7 @@ export class AudioNativeComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-    private playerStateSvc: PlayerStateService) { }
+              private playerStateSvc: PlayerStateService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {

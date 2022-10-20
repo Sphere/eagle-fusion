@@ -8,15 +8,16 @@
 
       </div>
       <div class="flex gap-2">
-        <h3 class="mb-2"><span i18n>Language for Learning </span>: <span class="display-language" i18n> {{preferedLanguage.lang}}</span></h3>
+        <h3 class="mb-2"><span i18n>Language for Learning </span>: <span class="display-language" i18n>
+            {{preferedLanguage.lang}}</span></h3>
         <!-- <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
       </div>
       <div class="input-content">
         <div class="input-content-wrapper">
           <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
             <div class="form-group">
-              <input id="firstname-field" i18n class="form-control" formControlName="firstname" type="text" i18n-placeholder
-                placeholder="First Name" autocomplete="off">
+              <input id="firstname-field" i18n class="form-control" formControlName="firstname" type="text"
+                i18n-placeholder placeholder="First Name" autocomplete="off">
               <mat-error class="text-danger" i18n
                 *ngIf="createAccountForm.controls['firstname'].hasError('required') &&
                           (createAccountForm.controls['firstname'].dirty || createAccountForm.controls['firstname'].touched)">
@@ -44,8 +45,8 @@
             </div>
 
             <div class="form-group">
-              <input id="email-field" class="form-control" i18n formControlName="emailOrMobile" type="text" i18n-placeholder
-                placeholder="Phone Number/Email ID" autocomplete="off">
+              <input id="email-field" class="form-control" i18n formControlName="emailOrMobile" type="text"
+                i18n-placeholder placeholder="Phone Number/Email ID" autocomplete="off">
               <mat-error class="text-danger" i18n
                 *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
                 (createAccountForm.controls['emailOrMobile'].dirty || createAccountForm.controls['emailOrMobile'].touched)">
@@ -56,8 +57,8 @@
             </div>
             <div class="form-group">
               <div class="input-group pwd" id="show_hide_password_1">
-                <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field" i18n-placeholder
-                  [type]="hide1 ? 'password' : 'text'">
+                <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field"
+                  i18n-placeholder [type]="hide1 ? 'password' : 'text'">
                 <div class="input-group-addon iconPosition1">
                   <a href="javascript:void(0)" (click)="toggle1()">
                     <i [ngClass]="iconChange1" aria-hidden="true"></i>
@@ -77,8 +78,8 @@
             </div>
             <div class="form-group">
               <div class="input-group pwd">
-                <input class="form-control" i18n formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'" i18n-placeholder
-                  placeholder="Confirm Password" id="confpassword-field">
+                <input class="form-control" i18n formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
+                  i18n-placeholder placeholder="Confirm Password" id="confpassword-field">
                 <div class="input-group-addon iconPosition1">
                   <a href="javascript:void(0)" (click)="toggle2()">
                     <i [ngClass]="iconChange2" aria-hidden="true"></i>
@@ -97,6 +98,10 @@
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
                 [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
+            </div>
+            <div style="margin-top:10px">
+              <a href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank"
+                style="color: #1C5D95;font-weight: 400;" i18n>Get help on WhatsApp</a>
             </div>
           </form>
 

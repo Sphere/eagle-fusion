@@ -8,7 +8,8 @@ import { NsCardContent } from '../../../../../../../../../library/ws-widget/coll
 import { of } from 'rxjs'
 import { delay, mergeMap } from 'rxjs/operators'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-
+import { v4 as uuid } from 'uuid'
+import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
   selector: 'ws-app-learning-card',
   templateUrl: './learning-card.component.html',
@@ -25,11 +26,13 @@ export class LearningCardComponent extends WidgetBaseComponent
   isExpanded = false
   defaultThumbnail = ''
   description: SafeHtml = ''
+  redirectUrl = ''
   constructor(
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private router: Router,
-    private userProfileSvc: UserProfileService
+    private userProfileSvc: UserProfileService,
+    private authSvc: AuthKeycloakService
   ) { super() }
 
   ngOnInit() {
@@ -37,7 +40,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
-
+    this.redirectUrl = document.baseURI + 'openid/keycloak'
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const prop in changes) {
@@ -52,7 +55,13 @@ export class LearningCardComponent extends WidgetBaseComponent
     const url = `app/toc/` + `${content.identifier}` + `/overview`
     if (localStorage.getItem('telemetrySessionId') === null && localStorage.getItem('loginbtn') === null) {
       localStorage.setItem(`url_before_login`, url)
-      this.router.navigateByUrl('app/login')
+      //this.router.navigateByUrl('app/login')
+      const state = uuid()
+      const nonce = uuid()
+      sessionStorage.setItem('login-btn', 'clicked')
+      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+      window.location.href = Keycloakurl
+      this.authSvc.login('S', this.redirectUrl)
     } else {
       // this.router.navigateByUrl(url)
       if (this.configSvc.unMappedUser) {

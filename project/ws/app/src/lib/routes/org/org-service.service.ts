@@ -12,6 +12,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 // }
 const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
+  KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2'
 }
 @Injectable({
   providedIn: 'root',
@@ -55,5 +56,12 @@ export class OrgServiceService {
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+  }
+
+  setConnectSid(authCode: any): Observable<any> {
+    // console.log(authCode)
+
+    return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
+
   }
 }
