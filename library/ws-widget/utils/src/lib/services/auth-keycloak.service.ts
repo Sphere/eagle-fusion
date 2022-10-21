@@ -153,15 +153,16 @@ export class AuthKeycloakService {
     // if (storage.getItem('telemetrySessionId') || (localStorage.getItem('loginbtn'))) {
     // this.http.get('/apis/reset')
     try {
-      const url = `${document.baseURI}public/home`
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-      window.location.href = Keycloakurl
-      await this.http.get('/apis/proxies/v8/logout/user').toPromise()
-      storage.removeItem('telemetrySessionId')
+      let res = await this.http.get('/apis/proxies/v8/logout/user').toPromise()
+      localStorage.setItem('loggedout2', JSON.stringify(res))
+      localStorage.removeItem('telemetrySessionId')
       localStorage.removeItem('loginbtn')
       localStorage.removeItem('url_before_login')
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
+      const url = `${document.baseURI}public/home`
+      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      window.location.href = Keycloakurl
     } catch (error) { }
     // window.location.href = `${this.defaultRedirectUrl}public/home`
     // this.router.navigate(['/page/home'])
