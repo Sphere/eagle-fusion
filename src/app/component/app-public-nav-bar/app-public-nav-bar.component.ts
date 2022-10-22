@@ -72,7 +72,6 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
         )
         localStorage.removeItem('telemetrySessionId')
         localStorage.removeItem('loginbtn')
-        localStorage.removeItem('url_before_login')
         localStorage.removeItem('tocData')
         localStorage.removeItem(`userUUID`)
         // const url = `${document.baseURI}public/home`
