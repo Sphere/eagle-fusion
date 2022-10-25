@@ -34,7 +34,7 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <a role="button" *ngIf="(isXSmall$ | async) === false && !configSvc.userProfile"
+  <a role="button" *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)"
     class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
     routerLinkActive="ws-mat-accent-text">
     <ng-container>
@@ -68,11 +68,3 @@
   <!-- <ws-widget-btn-feature *ngIf="item.type === 'featureButton'" [id]="item.config.actionBtnId" [widgetData]="item.config"
     [showFixedLength]="true"></ws-widget-btn-feature> -->
 </ng-template>
-<!-- <div class="overlay" *ngIf="isLoading">
-  <div class="loader-container">
-    <div class="loader-ripple">
-      <div></div>
-      <div></div>
-    </div>
-  </div>
-</div> -->
