@@ -58,26 +58,27 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   async ngOnInit() {
     if (this.configSvc.instanceConfig) {
-      try {
-        await this.http.get('/apis/proxies/v8/logout/user').subscribe(
-          (res: any) => {
-            // tslint:disable-next-line:no-console
-            console.log(res)
-            localStorage.setItem('loggedout', JSON.stringify(res))
-          },
-          (err: any) => {
-            // tslint:disable-next-line:no-console
-            console.log(err)
-          }
-        )
-        localStorage.removeItem('telemetrySessionId')
-        localStorage.removeItem('loginbtn')
-        localStorage.removeItem('tocData')
-        localStorage.removeItem(`userUUID`)
-        // const url = `${document.baseURI}public/home`
-        // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-        // window.location.href = Keycloakurl
-      } catch (error) { }
+      // try {
+      //   await this.http.get('/apis/proxies/v8/logout/user').subscribe(
+      //     (res: any) => {
+      //       // tslint:disable-next-line:no-console
+      //       console.log(res)
+      //       localStorage.setItem('loggedout', JSON.stringify(res))
+      //     },
+      //     (err: any) => {
+      //       console.log(this.router.url)
+      //       // tslint:disable-next-line:no-console
+      //       console.log(err)
+      //     }
+      //   )
+      //   localStorage.removeItem('telemetrySessionId')
+      //   localStorage.removeItem('loginbtn')
+      //   localStorage.removeItem('tocData')
+      //   localStorage.removeItem(`userUUID`)
+      //   // const url = `${document.baseURI}public/home`
+      //   // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      //   // window.location.href = Keycloakurl
+      // } catch (error) { }
 
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.app,
