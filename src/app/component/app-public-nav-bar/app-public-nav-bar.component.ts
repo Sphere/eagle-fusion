@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+//import { HttpClient } from '@angular/common/http'
 import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-app-public-nav-bar',
@@ -45,6 +46,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
+    //private http: HttpClient,
     private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -54,8 +56,30 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     return true
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.configSvc.instanceConfig) {
+      // try {
+      //   await this.http.get('/apis/proxies/v8/logout/user').subscribe(
+      //     (res: any) => {
+      //       // tslint:disable-next-line:no-console
+      //       console.log(res)
+      //       localStorage.setItem('loggedout', JSON.stringify(res))
+      //     },
+      //     (err: any) => {
+      //       console.log(this.router.url)
+      //       // tslint:disable-next-line:no-console
+      //       console.log(err)
+      //     }
+      //   )
+      //   localStorage.removeItem('telemetrySessionId')
+      //   localStorage.removeItem('loginbtn')
+      //   localStorage.removeItem('tocData')
+      //   localStorage.removeItem(`userUUID`)
+      //   // const url = `${document.baseURI}public/home`
+      //   // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      //   // window.location.href = Keycloakurl
+      // } catch (error) { }
+
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.app,
       )
