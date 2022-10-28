@@ -152,10 +152,21 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
 
-  gotoLogin() {
-    this.http.get('/apis/proxies/v8/logout/user').toPromise()
-    this.configSvc.userProfile = null
-    this.router.navigate(['/app/login'])
+  async gotoLogin() {
+    // this.http.get('/apis/proxies/v8/logout/user').toPromise()
+    // this.configSvc.userProfile = null
+    // this.router.navigate(['/app/login'])
+    try {
+      const url = `${document.baseURI}public/home`
+      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      window.location.href = Keycloakurl
+      await this.http.get('/apis/proxies/v8/logout/user').toPromise()
+      localStorage.removeItem('telemetrySessionId')
+      localStorage.removeItem('loginbtn')
+      localStorage.removeItem('url_before_login')
+      localStorage.removeItem('tocData')
+      localStorage.removeItem(`userUUID`)
+    } catch (error) { }
   }
 
   private constructReq(form: any) {
@@ -251,7 +262,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
           //   })
         }
       },
-                                                                    (err: any) => {
+        (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true

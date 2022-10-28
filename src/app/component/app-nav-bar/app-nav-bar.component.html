@@ -39,7 +39,7 @@
           Add Course </button>
 
         <!-- top-right Profile drop down -->
-<!--         <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
+        <!--         <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
         <section class="top-right-profile">
 
           <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
@@ -73,8 +73,9 @@
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
         </div>
       </ng-container>
-      <a *ngIf="showCreateBtn === true" role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box"
-        (click)="createAcct()" active [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+      <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
+        class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
+        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
         <ng-container>
           <button mat-raised-button [ngStyle]="{
             'background-color': '#1C5D95',

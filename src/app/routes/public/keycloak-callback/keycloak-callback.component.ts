@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { HttpClient } from '@angular/common/http'
 @Component({
   selector: 'ws-keycloak-callback',
   templateUrl: './keycloak-callback.component.html',
@@ -11,25 +10,12 @@ import { HttpClient } from '@angular/common/http'
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService, private snackBarSvc: MatSnackBar,
-    private signupService: SignupService, private http: HttpClient,
+    private signupService: SignupService,
   ) { }
 
 
 
   async ngOnInit() {
-    try {
-      let res = await this.http.get('/apis/proxies/v8/logout/user').toPromise()
-      localStorage.setItem('loggedout', JSON.stringify(res))
-      localStorage.removeItem('telemetrySessionId')
-      localStorage.removeItem('loginbtn')
-      localStorage.removeItem('url_before_login')
-      localStorage.removeItem('tocData')
-      localStorage.removeItem(`userUUID`)
-      const url = `${document.baseURI}public/home`
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-      window.location.href = Keycloakurl
-    } catch (error) { }
-
     const loginBtn = sessionStorage.getItem('login-btn') || null
     if (loginBtn === 'clicked') {
       this.isLoading = true
