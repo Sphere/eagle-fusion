@@ -24,21 +24,21 @@ export class KeycloakCallbackComponent implements OnInit {
     const code = sessionStorage.getItem('code') || null
     if (code !== null) {
       try {
-        this.orgService.setConnectSid(code).subscribe((res: any) => {
+        this.orgService.setConnectSid(code).subscribe(async (res: any) => {
           if (res) {
             // console.log(res)
             sessionStorage.clear()
-            let result: any
-            setTimeout(() => {
-              result = this.signupService.fetchStartUpDetails()
-            }, 1500)
+            const result = await this.signupService.fetchStartUpDetails()
             // tslint:disable-next-line:no-console
             console.log(result)
             if (result && result.status === 200 && result.roles.length > 0) {
               // this.openSnackbar('logged in')
               if (localStorage.getItem('url_before_login')) {
-                window.location.href = localStorage.getItem('url_before_login') || ''
+                //window.location.href = localStorage.getItem('url_before_login') || ''
+
+                let url = localStorage.getItem('url_before_login') || ''
                 localStorage.removeItem('url_before_login')
+                location.href = url
               } else {
                 window.location.href = '/page/home'
               }
