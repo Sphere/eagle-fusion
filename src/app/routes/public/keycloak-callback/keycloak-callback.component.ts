@@ -37,7 +37,7 @@ export class KeycloakCallbackComponent implements OnInit {
                 //window.location.href = localStorage.getItem('url_before_login') || ''
 
                 let url = localStorage.getItem('url_before_login') || ''
-                localStorage.removeItem('url_before_login')
+                //localStorage.removeItem('url_before_login')
                 location.href = url
               } else {
                 window.location.href = '/page/home'
