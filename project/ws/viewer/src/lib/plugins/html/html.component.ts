@@ -50,7 +50,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         50)
+      }, 50)
 
       this.contentSvc.changeMessage('youtube')
     }
@@ -106,7 +106,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         50)
+      }, 50)
 
       this.contentSvc.changeMessage('docs.google')
     }
@@ -161,6 +161,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.showIframeSupportWarning = true
         } else {
           this.showIframeSupportWarning = false
+          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+            this.activatedRoute.snapshot.queryParams.batchId : this.htmlContent.identifier
+          const data1 = {
+            current: 1,
+            max_size: 1,
+            mime_type: this.htmlContent.mimeType,
+          }
+
+          setTimeout(() => {
+            if (this.htmlContent) {
+              this.viewerSvc
+                .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
+              this.contentSvc.changeMessage('html')
+            }
+          }, 50)
         }
       }
       if (this.intranetUrlPatterns && this.intranetUrlPatterns.length) {
@@ -255,7 +272,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
               this.contentSvc.changeMessage('html')
             }
-          },         50)
+          }, 50)
         }
 
       } else {
@@ -326,7 +343,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
           this.contentSvc.changeMessage('html')
         }
-      },         50)
+      }, 50)
 
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
         // window.open(this.htmlContent.artifactUrl)
