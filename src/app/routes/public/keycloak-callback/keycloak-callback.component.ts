@@ -5,7 +5,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 @Component({
   selector: 'ws-keycloak-callback',
   templateUrl: './keycloak-callback.component.html',
-  styleUrls: ['./keycloak-callback.component.scss']
+  styleUrls: ['./keycloak-callback.component.scss'],
 })
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
@@ -13,11 +13,7 @@ export class KeycloakCallbackComponent implements OnInit {
     private signupService: SignupService,
   ) { }
 
-
-
-  ngOnInit() {
-    // console.log(s
-    // sessionStorage.getItem('code'))
+  async ngOnInit() {
     const loginBtn = sessionStorage.getItem('login-btn') || null
     if (loginBtn === 'clicked') {
       this.isLoading = true
@@ -26,18 +22,20 @@ export class KeycloakCallbackComponent implements OnInit {
   }
   checkKeycloakCallback() {
     const code = sessionStorage.getItem('code') || null
-    // console.log(code)
     if (code !== null) {
       try {
-        this.orgService.setConnectSid(code).subscribe(async (res: any) => {
+        this.orgService.setConnectSid(code).subscribe((res: any) => {
           if (res) {
             // console.log(res)
             sessionStorage.clear()
-            const result = await this.signupService.fetchStartUpDetails()
+            let result: any
+            setTimeout(() => {
+              result = this.signupService.fetchStartUpDetails()
+            }, 1500)
             // tslint:disable-next-line:no-console
             console.log(result)
-            if (result.status === 200 && result.roles.length > 0) {
-              //this.openSnackbar('logged in')
+            if (result && result.status === 200 && result.roles.length > 0) {
+              // this.openSnackbar('logged in')
               if (localStorage.getItem('url_before_login')) {
                 window.location.href = localStorage.getItem('url_before_login') || ''
                 localStorage.removeItem('url_before_login')
@@ -45,10 +43,12 @@ export class KeycloakCallbackComponent implements OnInit {
                 window.location.href = '/page/home'
               }
               this.isLoading = false
+            } else {
+              window.location.href = '/public/home'
             }
             if (result.status === 419) {
               this.snackBarSvc.open(result.params.errmsg)
-              window.location.href = "/public/home"
+              window.location.href = '/public/home'
             }
             // if (localStorage.getItem('url_before_login')) {
             //   location.href = localStorage.getItem('url_before_login') || ''
@@ -63,14 +63,14 @@ export class KeycloakCallbackComponent implements OnInit {
           if (err.status === 400) {
             sessionStorage.clear()
             this.snackBarSvc.open(err.error.error)
-            //location.href = "/public/home"
+            // location.href = "/public/home"
           }
         })
       } catch (err) {
         // tslint:disable-next-line:no-console
         console.log(err)
         // alert('Error Occured while logging in')
-        //location.href = "/public/home"
+        // location.href = "/public/home"
       }
     }
   }

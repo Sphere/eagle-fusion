@@ -85,7 +85,7 @@ export class LoginOtpComponent implements OnInit {
         // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
         const state = uuid()
         const nonce = uuid()
-
+        sessionStorage.setItem('login-btn', 'clicked')
         const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
         window.location.href = Keycloakurl
       },
