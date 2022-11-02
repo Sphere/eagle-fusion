@@ -178,16 +178,17 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
-        } else if (event.url.includes('app/toc') &&
-          this.configSvc.userProfile === null) {
-          localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
-            }` + `/overview`)
-          sessionStorage.setItem('login-btn', 'clicked')
-          const redirectUrl = document.baseURI + 'openid/keycloak'
-          const state = uuid()
-          const nonce = uuid()
-          window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
-          //this.router.navigateByUrl('app/login')
+        } else if (event.url.includes('app/toc')) {
+          if (this.configSvc.userProfile === null) {
+            localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+              }` + `/overview`)
+            sessionStorage.setItem('login-btn', 'clicked')
+            const redirectUrl = document.baseURI + 'openid/keycloak'
+            const state = uuid()
+            const nonce = uuid()
+            window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
+            // this.router.navigateByUrl('app/login')
+          }
 
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
