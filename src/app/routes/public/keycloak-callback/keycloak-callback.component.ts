@@ -16,7 +16,8 @@ export class KeycloakCallbackComponent implements OnInit {
 
   ngOnInit() {
     const loginBtn = sessionStorage.getItem('login-btn') || null
-    if (loginBtn === 'clicked') {
+    const code = sessionStorage.getItem('code') || null
+    if (loginBtn === 'clicked' || code) {
       this.isLoading = true
       this.checkKeycloakCallback()
     }
