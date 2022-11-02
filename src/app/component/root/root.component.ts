@@ -183,10 +183,11 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('app/toc')) {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
+              localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+                }` + `/overview`)
+              sessionStorage.setItem('login-btn', 'clicked')
               if (result && result.status !== 200) {
-                localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
-                  }` + `/overview`)
-                sessionStorage.setItem('login-btn', 'clicked')
+
                 const redirectUrl = document.baseURI + 'openid/keycloak'
                 const state = uuid()
                 const nonce = uuid()
@@ -194,6 +195,7 @@ export class RootComponent implements OnInit, AfterViewInit {
                 window.location.href = Keycloakurl
               }
             })
+
           }, 1000)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
