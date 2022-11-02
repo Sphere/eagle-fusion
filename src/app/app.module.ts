@@ -102,6 +102,7 @@ import { NotificationComponent } from '../../project/ws/author/src/lib/modules/s
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { Capacitor } from '@capacitor/core'
+import { CompetenciesComponent } from './routes/profile-view/competencies/competencies.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -189,6 +190,7 @@ if (url.indexOf('&code=') > 0) {
     MobileProfileNavComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
+    CompetenciesComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
   ],
