@@ -1,14 +1,26 @@
 <div class="content">
-  <mat-icon class="cursor-pointer" (click)="openCompetency()">chevron_left</mat-icon>
+  <mat-icon class="cursor-pointer mb-3" (click)="openCompetency()">chevron_left</mat-icon>
 
-  <h3 class=" mb-1 pl-2 ">Competencies</h3>
+  <h1 class=" pl-2 ">Competencies</h1>
 
-  <div>
-    <mat-tab-group animationDuration="0ms">
+  <div class="pl-2">
+    <mat-tab-group class="remove-border-bottom" animationDuration="0ms">
       <mat-tab label="Assigned">
+        <div class="legent-container">
+          <div class="legent"></div>
+          <h5>Required</h5>
+        </div>
         Assigned
       </mat-tab>
-      <mat-tab label="Gained">Gained</mat-tab>
+      <mat-tab label="Gained">
+        <div class="legent-container">
+          <div class="legent"></div>
+          <h5>Required</h5>
+          <div class="legent legent-border"></div>
+          <h5>Gained</h5>
+        </div>
+        Gained
+      </mat-tab>
 
     </mat-tab-group>
   </div>
