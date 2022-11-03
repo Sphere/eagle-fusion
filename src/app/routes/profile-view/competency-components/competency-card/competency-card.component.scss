@@ -1,0 +1,51 @@
+.box {
+  margin: 7px 2px 15px;
+	padding: 16px 10px 20px 14px;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+	border-radius: 10px;
+	background: #FFFFFF;
+}
+
+.title {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 29px;
+	letter-spacing: -0.02em;
+  margin-bottom: 7px;
+}
+
+.description {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 17px;
+	letter-spacing: -0.02em;
+}
+
+.startBtn {
+  background-color: #1C5D95 !important;
+  border-radius: 50px;
+  padding: 8px 32px;
+  gap: 8px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #FFFFFF !important;
+  margin-top: 10px;
+}
+
+.proficiency {
+  color: #1C5D96;
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+  margin-top: 4px;
+}
