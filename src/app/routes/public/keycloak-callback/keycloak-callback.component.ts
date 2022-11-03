@@ -16,17 +16,11 @@ export class KeycloakCallbackComponent implements OnInit {
 
   ngOnInit() {
     const loginBtn = sessionStorage.getItem('login-btn') || null
-    if (loginBtn === 'clicked') {
+    const code = sessionStorage.getItem('code') || null
+    if (loginBtn === 'clicked' || code) {
       this.isLoading = true
       this.checkKeycloakCallback()
     }
-    setTimeout(() => {
-      this.signupService.fetchStartUpDetails().then(result => {
-        // tslint:disable-next-line:no-console
-        console.log(result)
-      })
-    }, 10000)
-
   }
 
   checkKeycloakCallback() {
@@ -66,7 +60,7 @@ export class KeycloakCallbackComponent implements OnInit {
                 //   location.href = '/page/home'
                 // }
               })
-            }, 10000)
+            }, 1000)
           }
         }, (err: any) => {
           // console.log(err)
