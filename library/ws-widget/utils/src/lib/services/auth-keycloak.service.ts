@@ -153,6 +153,7 @@ export class AuthKeycloakService {
     // if (storage.getItem('telemetrySessionId') || (localStorage.getItem('loginbtn'))) {
     // this.http.get('/apis/reset')
     try {
+      sessionStorage.clear()
       localStorage.removeItem('telemetrySessionId')
       localStorage.removeItem('loginbtn')
       localStorage.removeItem('url_before_login')
