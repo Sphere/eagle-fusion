@@ -1,0 +1,26 @@
+@import 'ws-mixins';
+
+.content {
+  padding: 60px 20px 50px;
+  margin: auto;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 35%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 30%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
+}
