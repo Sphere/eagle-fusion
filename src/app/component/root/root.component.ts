@@ -181,6 +181,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('app/toc')) {
+          this.hideHeaderFooter = false
+          this.isNavBarRequired = true
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
