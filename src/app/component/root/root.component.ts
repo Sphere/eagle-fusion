@@ -196,7 +196,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 1000)
+          }, 10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
