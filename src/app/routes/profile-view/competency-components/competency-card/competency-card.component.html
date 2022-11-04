@@ -1,0 +1,17 @@
+<div class="card_box">
+  <ng-container *ngIf="competency?.title">
+    <div class="title">{{competency?.title}}</div>
+  </ng-container>
+  <ng-container *ngIf="competency?.description">
+    <div class="description">{{competency?.description}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="actionBtn; else proficiencyLevel">
+    <button mat-button class="startBtn">Start</button>
+  </ng-container>
+  <ng-template #proficiencyLevel>
+    <div class="proficiency">
+      <span>{{proficiency}}</span>
+    </div>
+  </ng-template>
+</div>
