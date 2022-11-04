@@ -1,0 +1,7 @@
+<div class="mt-3 flex gap-3">
+  <ng-container *ngFor="let level of proficiency">
+    <button class="cursor-pointer proficiency-level"
+      [ngClass]="{'selected': level.selected , 'gained-level': level.gained}">
+      {{level.level}}</button>
+  </ng-container>
+</div>

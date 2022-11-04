@@ -56,20 +56,20 @@
 }
 
 
-.legent-container {
+.legend-container {
   display: flex;
   gap: 10px;
   margin-top: 20px;
   align-items: center;
 
-  .legent {
+  .legend {
     width: 15px;
     height: 15px;
     background: #DFEDF9;
     border-radius: 50%;
   }
 
-  .legent-border {
+  .legend-border {
     border: 2px solid #1C5D96;
   }
 

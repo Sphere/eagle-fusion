@@ -1,17 +1,21 @@
 <div class="card_box">
-  <ng-container *ngIf="competency?.title">
-    <div class="title">{{competency?.title}}</div>
+  <ng-container *ngIf="cardData?.title">
+    <div class="title">{{cardData?.title}}</div>
   </ng-container>
-  <ng-container *ngIf="competency?.description">
-    <div class="description">{{competency?.description}}</div>
+  <ng-container *ngIf="cardData?.description">
+    <div class="description">{{cardData?.description}}</div>
   </ng-container>
 
-  <ng-container *ngIf="actionBtn; else proficiencyLevel">
-    <button mat-button class="startBtn">Start</button>
+  <ng-container>
+    <ws-proficiency-level [proficiency]="cardData?.proficency"></ws-proficiency-level>
   </ng-container>
-  <ng-template #proficiencyLevel>
+
+  <ng-container *ngIf="cardData?.proficencySource; else actionBtn">
     <div class="proficiency">
-      <span>{{proficiency}}</span>
+      <span>{{cardData?.proficencySource}}</span>
     </div>
+  </ng-container>
+  <ng-template #actionBtn>
+    <button mat-button class="startBtn">Start</button>
   </ng-template>
 </div>

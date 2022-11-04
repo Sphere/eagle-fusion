@@ -104,6 +104,7 @@ import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-do
 import { Capacitor } from '@capacitor/core'
 import { CompetenciesComponent } from './routes/profile-view/competencies/competencies.component'
 import { CompetencyCardComponent } from './routes/profile-view/competency-components/competency-card/competency-card.component'
+import { ProficiencyLevelComponent } from './routes/profile-view/competency-components/proficiency-level/proficiency-level.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -194,7 +195,8 @@ if (url.indexOf('&code=') > 0) {
     CompetenciesComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
-    CompetencyCardComponent
+    CompetencyCardComponent,
+    ProficiencyLevelComponent
   ],
   imports: [
     FormsModule,
