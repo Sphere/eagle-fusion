@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
         this.getAutoCompleteResults()
       })
     }
-        this.searchApi.currentMessage.subscribe(
+    this.searchApi.currentMessage.subscribe(
       (data: any) => {
         if (data) {
           this.search()
@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
         queryParams: {
           q: query || this.searchQuery.q,
           lang: this.searchQuery.l,
-          f: JSON.stringify({ contentType : ['Course'] }),
+          f: JSON.stringify({ contentType: ['Course'] }),
         },
       })
     })
@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
       this.languageSearch = this.languageSearch.sort()
       this.swapRemove(this.languageSearch, this.languageSearch.indexOf('all'), 0)
       if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
-      this.languageSearch.splice(1, 0, this.preferredLanguages)
+        this.languageSearch.splice(1, 0, this.preferredLanguages)
       }
     })
     this.searchSvc.getSearchConfig().then(res => {

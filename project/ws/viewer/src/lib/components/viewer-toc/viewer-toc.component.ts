@@ -163,7 +163,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (data) {
         //
         // console.log(this.playerStateService.trigger$.getValue())
-        if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === "not-triggered") {
+        if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === 'not-triggered') {
           this.ngOnInit()
 
           // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
@@ -184,7 +184,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          }, 4000)
+          },         4000)
         }
       }
 
@@ -241,14 +241,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value

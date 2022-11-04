@@ -12,7 +12,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 // }
 const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
-  KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2'
+  KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
 }
 @Injectable({
   providedIn: 'root',

@@ -43,6 +43,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   isPinned = false
   instanceVal = ''
   isPinFeatureAvailable = true
+  searchButton = false
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
   constructor(
@@ -56,6 +57,9 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private searchApi: SearchApiService
   ) {
     super()
+    if (localStorage.getItem('orgValue') === 'nshrc') {
+      this.searchButton = true
+    }
   }
 
   updateBadge() {
@@ -71,17 +75,17 @@ export class BtnFeatureComponent extends WidgetBaseComponent
             this.badgeCount = ''
           }
         })
-        .catch(_err => {})
+        .catch(_err => { })
     }
   }
-search() {
-  if (this.router.url.includes('/page/home')) {
-  this.searchApi.changeMessage('search')
-}
-if (this.router.url.includes('/app/search/learning')) {
- this.router.navigateByUrl('/app/search/home')
+  search() {
+    if (this.router.url.includes('/page/home')) {
+      this.searchApi.changeMessage('search')
+    }
+    if (this.router.url.includes('/app/search/learning')) {
+      this.router.navigateByUrl('/app/search/home')
+    }
   }
-}
   ngOnInit() {
     this.instanceVal = this.configSvc.rootOrg || ''
     if (this.configSvc.restrictedFeatures) {

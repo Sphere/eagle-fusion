@@ -1,13 +1,44 @@
-<!-- Carousel Start -->
-<div class="container-fluid p-0 mb-5">
-  <div class="row justify-content-start">
-    <div class="col-sm-10 col-lg-8 slider-part">
-      <h5 class="display-3 text-white slider-text">E-nnovated</h5>
-      <p class="display-3 text-white slider-text-pb-2">Learning Process<br>for learning at your comfort.</p>
-      <img class="img-responsive img-fluid slider-img" src="./../../fusion-assets/images/pm.png.png">
+<br><br>
+<div class="container-start">
+  Hi User!
+</div>
+<span class="resume-learning">
+  Continue Learning
+</span>
+<div class="container-xxl py-5 category">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
+        <div class="row g-3">
+          <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
+            style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+            <a class="position-relative d-block overflow-hidden" href="">
+              <img class="img-fluid  img-responsive courses" [src]="content[0].logo">
+            </a>
+            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+              <h5 class="m-0"> {{content[0].name}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<div class="banner-header">
+  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
+</div>
+<!-- Carousel Start -->
+<!-- <div class="container-fluid p-0 mb-5">
+  <div class="row justify-content-start">
+    <div class="col-sm-10 col-lg-8 slider-part">
+      <h5 class="display-3 text-white slider-text">E-nnovated</h5>
+      <p class="display-3 text-white slider-text-pb-2">Learning Process<br>for learning <br>at your comfort.</p>
+      <img class="img-responsive img-fluid slider-img" src="./../../fusion-assets/images/pm.png.png"><img
+        class="img-responsive img-fluid slider-images" src="./../../fusion-assets/images/hmoi.png">
+    </div>
+  </div>
+</div> -->
 <!-- Carousel End -->
 
 <div class="container-fluid  p-0-elearn">
@@ -24,20 +55,16 @@
 <!-- Categories Start -->
 <div class="container-xxl py-5 category">
   <div class="container">
-    <div class="text-center wow fadeInUp" data-wow-delay="0.1s"
-      style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-      <h1 class="mb-5">Courses</h1>
-    </div>
     <div class="row g-3">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultResponse">
         <div class="row g-3">
           <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
             style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
             <a class="position-relative d-block overflow-hidden" href="">
-              <img class="img-fluid  img-responsive" [src]="content.appIcon">
+              <img class="img-fluid  img-responsive courses" [src]="content.appIcon">
             </a>
             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-              <h5 class="m-0">{{content.subTitle}}</h5>
+              <h5 class="m-0">{{content.name}}</h5>
             </div>
           </div>
         </div>
@@ -47,7 +74,7 @@
 </div>
 <!-- Categories Start -->
 
-<div class="container-xxl py-5">
+<!-- <div class="container-xxl py-5">
   <div class="container">
     <div class="row g-5">
       <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s"
@@ -81,9 +108,11 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-
+<!-- <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+  *ngIf="showNavbar && !hideHeaderFooter">
+</ws-app-footer> -->
 
 
 <!-- Footer Start -->
@@ -138,4 +167,3 @@
     </div>
   </div>
 </div>
-<!-- Footer End -->

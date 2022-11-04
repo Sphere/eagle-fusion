@@ -24,13 +24,18 @@
     <a *ngSwitchCase="displayType.matFlatButton" [routerLink]="widgetData.actionBtn?.url" mat-flat-button>
       <ng-container [ngTemplateOutlet]="buttonContent" [ngTemplateOutletContext]="widgetData"></ng-container>
     </a>
-    <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
-      [name]="widgetData.actionBtnName" [routerLink]="widgetData.actionBtn?.url" mat-icon-button (click)="search()">
-      <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
-          iconType: widgetData.actionBtn.iconType,
-          icon: widgetData.actionBtn.icon
-        }"></ng-container>
-    </a>
+    <span elseIf="searchButton==false">
+      <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
+        [name]="widgetData.actionBtnName" [routerLink]="widgetData.actionBtn?.url" mat-icon-button (click)="search()">
+        <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
+              iconType: widgetData.actionBtn.iconType,
+              icon: widgetData.actionBtn.icon
+            }"></ng-container>
+      </a>
+    </span>
+    <span *ngIf="searchButton==true">
+      <img class="org-logo img-responsive" src="./../../../../../../../fusion-assets/images/E-abhyaas-logo.svg">
+    </span>
     <a *ngSwitchCase="displayType.matMiniFabButton" [routerLink]="widgetData.actionBtn?.url" mat-mini-fab>
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="widgetData.actionBtn"></ng-container>
     </a>
@@ -166,7 +171,7 @@
       {{ icon }}
     </mat-icon>
   </ng-container>
-  <img class="feature-icon-img" [ngStyle]="
+  < <img class="feature-icon-img" [ngStyle]="
       scale
         ? {
             height: scale * defaultIconSize + 'px',

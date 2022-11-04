@@ -81,6 +81,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
   ) {
+
     this.mobileAppsSvc.init()
     const locationOrigin = location.origin
     CsModule.instance.init({
@@ -128,6 +129,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
@@ -187,7 +189,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           const state = uuid()
           const nonce = uuid()
           window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
-          //this.router.navigateByUrl('app/login')
+          // this.router.navigateByUrl('app/login')
 
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false

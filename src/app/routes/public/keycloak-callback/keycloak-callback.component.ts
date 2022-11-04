@@ -10,7 +10,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService, private snackBarSvc: MatSnackBar,
-    private signupService: SignupService,
+              private signupService: SignupService,
   ) { }
 
   async ngOnInit() {
@@ -31,7 +31,7 @@ export class KeycloakCallbackComponent implements OnInit {
             let result: any
             setTimeout(() => {
               result = this.signupService.fetchStartUpDetails()
-            }, 1500)
+            },         1500)
             // tslint:disable-next-line:no-console
             console.log(result)
             if (result && result.status === 200 && result.roles.length > 0) {
@@ -56,7 +56,7 @@ export class KeycloakCallbackComponent implements OnInit {
             //   location.href = '/page/home'
             // }
           }
-        }, (err: any) => {
+        },                                            (err: any) => {
           // console.log(err)
           // tslint:disable-next-line:no-console
           console.log(err)

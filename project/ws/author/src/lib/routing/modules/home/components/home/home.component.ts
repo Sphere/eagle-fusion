@@ -23,7 +23,12 @@ export class AuthHomeComponent implements OnInit, OnDestroy {
   private defaultSideNavBarOpenedSubscription: any
   mode$ = this.isLtMedium$.pipe(map(isMedium => (isMedium ? 'over' : 'side')))
   public screenSizeIsLtMedium = false
-  constructor(private valueSvc: ValueService, private accessService: AccessControlService) { }
+  router: any
+  constructor(private valueSvc: ValueService, private accessService: AccessControlService) {
+    if (localStorage.getItem('orgValue') === 'nshrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
+  }
 
   ngOnInit() {
     this.allowAuthor = this.canShow('author')

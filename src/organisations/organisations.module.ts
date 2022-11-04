@@ -8,37 +8,37 @@ const routes: Routes = [
   {
     path: 'home',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'dashboard',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'course-view',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'profile-view',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'home',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'home',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'home',
     pathMatch: 'full',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
 ]
 
@@ -46,8 +46,8 @@ const routes: Routes = [
   declarations: [OrgHomeComponent, AppComponent],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
   ],
-  exports: [OrgHomeComponent]
+  exports: [OrgHomeComponent],
 })
 export class OrganisationsModule { }

@@ -34,6 +34,7 @@ export class PageComponent extends WidgetBaseComponent
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
   authenticated: boolean | undefined = false
+  router: any
   constructor(
     private activateRoute: ActivatedRoute,
     private logger: LoggerService,
@@ -49,6 +50,9 @@ export class PageComponent extends WidgetBaseComponent
     private exploreResolverSvc: ExploreResolverService,
   ) {
     super()
+    if (localStorage.getItem('orgValue') === 'nshrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
       // this.links = this.getNavLinks()

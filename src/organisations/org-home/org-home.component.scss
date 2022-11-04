@@ -2049,7 +2049,7 @@
 }
 .col-sm-10.col-lg-8.slider-part {
     padding-top: 63px;
-    margin-left: 32px;
+    //margin-left: 32px;
     color: white;
     background-color: #060589;
     margin-right: 10px;
@@ -2072,4 +2072,51 @@ p.display-3.text-white.slider-text-pb-2 {
     /* max-width: 100%; */
     height: auto;
     width: 100% !important;
+}
+
+.theme-igot.day-mode .mat-body-1 p, .theme-igot.day-mode .mat-body p, .theme-igot.day-mode .mat-typography p {
+    /* margin: 0 0 12px; */
+    padding-left: 14px !important;
+}
+
+p.display-3.text-white.slider-text-pb-2 {
+    font-size: 15px;
+     padding-left: 14px !important;
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
+img.img-responsive.img-fluid.slider-img {
+    width: 110px !important;
+    height: 108px;
+    margin-left: 150px;
+}
+
+img.img-responsive.img-fluid.slider-images {
+    width: 110px !important;
+    height: 108px;
+}
+
+img.img-fluid.img-responsive.courses {
+    border-radius: 14px;
+}
+
+img.img-banner.img-responsive {
+    width: 100%;
+    height: auto;
+    padding-bottom: 10px;
+}
+img.org-logo.img-responsive {
+    padding-top: 9px;
+}
+.container-start {
+    padding-top: 21px;
+    padding-left: 19px;
+    font-size: 16px;
+}
+
+span.resume-learning {
+    font-size: 24px;
+    padding-left: 15px;
+    padding-top: 9px;
 }

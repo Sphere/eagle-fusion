@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-//import { HttpClient } from '@angular/common/http'
+// import { HttpClient } from '@angular/common/http'
 import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-app-public-nav-bar',
@@ -46,7 +46,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
-    //private http: HttpClient,
+    // private http: HttpClient,
     private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -171,8 +171,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       const url: any = localStorage.getItem('login_url')
       window.location.href = url
     }
-    //localStorage.removeItem('url_before_login')
-    //this.router.navigateByUrl('app/login')
+    // localStorage.removeItem('url_before_login')
+    // this.router.navigateByUrl('app/login')
 
     const state = uuid()
     const nonce = uuid()
