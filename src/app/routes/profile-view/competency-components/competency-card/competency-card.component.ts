@@ -14,7 +14,7 @@ export class CompetencyCardComponent implements OnInit {
     }]
   }
 
-  showButton = true;
+  actionBtn = true;
   proficiency = 'Self assessment';
 
   constructor() { }
