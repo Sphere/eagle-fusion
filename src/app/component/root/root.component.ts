@@ -181,6 +181,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('app/toc')) {
+          if (this.configSvc.userProfile !== null) {
+            this.mobileView = false
+          }
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]

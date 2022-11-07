@@ -15,8 +15,8 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any
   @Input() enableConfig = false
   constructor(private router: Router,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService
   ) { }
 
   ngOnInit() {
@@ -27,8 +27,8 @@ export class MobileCourseViewComponent implements OnInit {
     // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
 
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
-    if (localStorage.getItem('telemetrySessionId') === null && localStorage.getItem('loginbtn') === null) {
-      localStorage.setItem(`url_before_login`, url)
+    if (this.configSvc.userProfile === null) {
+      // localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
@@ -36,6 +36,8 @@ export class MobileCourseViewComponent implements OnInit {
           return of(data)
         })).subscribe((userDetails: any) => {
           if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+
+            // location.href = url
             this.router.navigateByUrl(url)
           } else {
             const courseUrl = `/app/toc/${contentIdentifier}/overview`
