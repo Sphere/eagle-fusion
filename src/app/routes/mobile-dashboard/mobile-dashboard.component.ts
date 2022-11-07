@@ -26,12 +26,12 @@ export class MobileDashboardComponent implements OnInit {
   featuredCourseIdentifier: any = []
 
   constructor(private orgService: OrgServiceService,
-              private configSvc: ConfigurationsService,
-              private userSvc: WidgetUserService,
-              private router: Router,
-              private http: HttpClient
+    private configSvc: ConfigurationsService,
+    private userSvc: WidgetUserService,
+    private router: Router,
+    private http: HttpClient
   ) {
-    if (localStorage.getItem('orgValue') === 'nshrc') {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
   }
@@ -83,7 +83,7 @@ export class MobileDashboardComponent implements OnInit {
       result['name'] = value.name
       return result
 
-    },                             {})
+    }, {})
   }
 
   formatTopCertifiedCourseResponse(res: any) {

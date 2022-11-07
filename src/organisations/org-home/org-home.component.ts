@@ -33,9 +33,10 @@ export class OrgHomeComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         enrollmentArr = responseEnrollment.map((identifierValue: { contentId: any, courseName: any, courseLogoUrl: any }) => [{ identifier: identifierValue.contentId, name: identifierValue.courseName, logo: identifierValue.courseLogoUrl }])
 
-        this.resultEnroll = enrollmentArr
+        //this.resultEnroll = enrollmentArr
       })
     }
+    console.log("enrollmentArr array >>>>>>>>..." + enrollmentArr)
   }
 
   getCourseDetails() {

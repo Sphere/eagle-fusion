@@ -25,7 +25,7 @@ export class AuthHomeComponent implements OnInit, OnDestroy {
   public screenSizeIsLtMedium = false
   router: any
   constructor(private valueSvc: ValueService, private accessService: AccessControlService) {
-    if (localStorage.getItem('orgValue') === 'nshrc') {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
   }

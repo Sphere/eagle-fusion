@@ -24,18 +24,20 @@
     <a *ngSwitchCase="displayType.matFlatButton" [routerLink]="widgetData.actionBtn?.url" mat-flat-button>
       <ng-container [ngTemplateOutlet]="buttonContent" [ngTemplateOutletContext]="widgetData"></ng-container>
     </a>
-    <span elseIf="searchButton==false">
+    <ng-container *ngIf="searchButton===false;else second">
       <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
         [name]="widgetData.actionBtnName" [routerLink]="widgetData.actionBtn?.url" mat-icon-button (click)="search()">
-        <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
-              iconType: widgetData.actionBtn.iconType,
-              icon: widgetData.actionBtn.icon
-            }"></ng-container>
+        <ng-container *ngIf="searchButton===false;" [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
+                        iconType: widgetData.actionBtn.iconType,
+                        icon: widgetData.actionBtn.icon
+                      }"></ng-container>
       </a>
-    </span>
-    <span *ngIf="searchButton==true">
+    </ng-container>
+    <ng-template #second>
       <img class="org-logo img-responsive" src="./../../../../../../../fusion-assets/images/E-abhyaas-logo.svg">
-    </span>
+    </ng-template>
+
+
     <a *ngSwitchCase="displayType.matMiniFabButton" [routerLink]="widgetData.actionBtn?.url" mat-mini-fab>
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="widgetData.actionBtn"></ng-container>
     </a>
@@ -106,7 +108,7 @@
     <div class="mt-2">{{ actionBtn.name }}</div>
   </a>
 </ng-template>
-<ng-template #cardMini let-actionBtn="actionBtn" let-config="config">
+<ng-template *ngIf="searchButton===false;" #cardMini let-actionBtn="actionBtn" let-config="config">
   <a role="button" matRipple routerLink={{actionBtn.url}} active [wsWidgetUrlResolver]="actionBtn.isExternal"
     routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box">
     <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
@@ -171,7 +173,7 @@
       {{ icon }}
     </mat-icon>
   </ng-container>
-  < <img class="feature-icon-img" [ngStyle]="
+  <img class="feature-icon-img" [ngStyle]="
       scale
         ? {
             height: scale * defaultIconSize + 'px',

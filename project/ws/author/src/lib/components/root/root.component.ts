@@ -28,7 +28,7 @@ export class AuthRootComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private snackBar: MatSnackBar,
   ) {
-    if (localStorage.getItem('orgValue') === 'nshrc') {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
   }

@@ -50,7 +50,7 @@ export class PageComponent extends WidgetBaseComponent
     private exploreResolverSvc: ExploreResolverService,
   ) {
     super()
-    if (localStorage.getItem('orgValue') === 'nshrc') {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
     this.valueSvc.isXSmall$.subscribe(isXSmall => {

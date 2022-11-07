@@ -57,7 +57,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private searchApi: SearchApiService
   ) {
     super()
-    if (localStorage.getItem('orgValue') === 'nshrc') {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = true
     }
   }
