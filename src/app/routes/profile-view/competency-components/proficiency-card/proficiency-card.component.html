@@ -1,0 +1,15 @@
+<div class="proficiency-card" *ngIf="cardData">
+
+  <h3>{{cardData?.title}}</h3>
+  <div class="flex gap-3">
+    <div class="circle-card">
+      <p class="mb-0">{{cardData.minutes}}</p>
+      <p class="mb-0">Minutes</p>
+    </div>
+    <div class="circle-card">
+      <p class="mb-0">{{cardData.questions}}</p>
+      <p class="mb-0">Questions</p>
+    </div>
+  </div>
+
+</div>

@@ -291,13 +291,14 @@ const routes: Routes = [
   },
   {
     path: 'user/competency',
+    // loadChildren: () => import('./routes/route-competency.modue').then(u => u.RouteCompetencyModule),
     component: CompetenciesComponent,
-    children: [
-      { path: 'proficiency', component: ProficiencyLandingComponent },]
+    // children: [
+    //   { path: 'proficiency', component: ProficiencyLandingComponent },]
   },
-  // {
-  //   path: 'user/competency/proficiency', component: ProficiencyLandingComponent
-  // },
+  {
+    path: 'user/competency/proficiency', component: ProficiencyLandingComponent
+  },
 
   {
     path: 'app/new-tnc',

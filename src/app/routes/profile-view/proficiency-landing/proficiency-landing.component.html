@@ -1,1 +1,10 @@
-<p>proficiency-landing works!</p>
+<mat-tab-group class="remove-border-bottom" animationDuration="0ms">
+  <mat-tab label="Proficiencies">
+
+    <ng-container *ngFor="let profeciency of profeciencyData">
+      <ws-proficiency-card [cardData]="profeciency"></ws-proficiency-card>
+    </ng-container>
+  </mat-tab>
+
+
+</mat-tab-group>

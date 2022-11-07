@@ -106,6 +106,7 @@ import { CompetenciesComponent } from './routes/profile-view/competencies/compet
 import { CompetencyCardComponent } from './routes/profile-view/competency-components/competency-card/competency-card.component'
 import { ProficiencyLevelComponent } from './routes/profile-view/competency-components/proficiency-level/proficiency-level.component'
 import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
+import { ProficiencyCardComponent } from './routes/profile-view/competency-components/proficiency-card/proficiency-card.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -198,7 +199,8 @@ if (url.indexOf('&code=') > 0) {
     DropdownDobComponent,
     CompetencyCardComponent,
     ProficiencyLevelComponent,
-    ProficiencyLandingComponent
+    ProficiencyLandingComponent,
+    ProficiencyCardComponent
   ],
   imports: [
     FormsModule,

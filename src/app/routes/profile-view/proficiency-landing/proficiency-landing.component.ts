@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'ws-proficiency-landing',
@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProficiencyLandingComponent implements OnInit {
 
+  profeciencyData = [{
+    title: "Understands HCM guidelines",
+    minutes: '11',
+    questions: '7'
+  },
+  {
+    title: "Lists raw material required",
+    minutes: '4',
+    questions: '3'
+  },
+  ]
   constructor() { }
 
   ngOnInit() {
   }
+
+
 
 }
