@@ -4,7 +4,7 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-
+import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-mobile-course-view',
   templateUrl: './mobile-course-view.component.html',
@@ -24,12 +24,18 @@ export class MobileCourseViewComponent implements OnInit {
 
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
+    const redirectUrl = document.baseURI + 'openid/keycloak'
     // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
 
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
     if (this.configSvc.userProfile === null) {
       // localStorage.setItem(`url_before_login`, url)
-      this.router.navigateByUrl('app/login')
+      //this.router.navigateByUrl('app/login')
+      const state = uuid()
+      const nonce = uuid()
+      sessionStorage.setItem('login-btn', 'clicked')
+      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+      window.location.href = Keycloakurl
     } else {
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
