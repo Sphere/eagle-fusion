@@ -7,12 +7,7 @@ import { Component, Input, OnInit } from '@angular/core'
 })
 export class CompetencyCardComponent implements OnInit {
 
-  @Input() competency = {
-    title: 'Procurement and Distribution of HCM',
-    description: 'Manages procurement and store raw materials for HCMs as per the pre-decided menu Supervises the preparation and distribution of HCM by Anganwadi Helper (AWH)',
-    proficency: [{
-    }]
-  }
+  @Input() cardData: any
 
   actionBtn = true;
   proficiency = 'Self assessment';
