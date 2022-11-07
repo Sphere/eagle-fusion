@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+import { CompetencyService } from '../../../services/competency.service'
 
 @Component({
   selector: 'ws-proficiency-landing',
@@ -7,7 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProficiencyLandingComponent implements OnInit {
 
-  constructor() { }
+  CompetencyData: any
+
+  constructor(
+    private router: Router,
+    private competencyService: CompetencyService
+  ) {
+    this.CompetencyData = this.competencyService.getCompetencyData
+    if (!this.CompetencyData) {
+      this.router.navigateByUrl('user/competency')
+    }
+  }
 
   ngOnInit() {
   }
