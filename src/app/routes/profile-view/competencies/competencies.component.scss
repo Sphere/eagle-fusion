@@ -29,7 +29,7 @@
   border-bottom: none;
 }
 
-::ng-deep .mat-tab-header {
+:host ::ng-deep .remove-border-bottom .mat-tab-header {
   border-bottom: none !important;
 }
 
@@ -48,7 +48,7 @@
 
 }
 
-::ng-deep .mat-ink-bar {
+:host ::ng-deep .mat-ink-bar {
   width: 66px !important;
   height: 3px !important;
   background: #1C5D95 !important;
