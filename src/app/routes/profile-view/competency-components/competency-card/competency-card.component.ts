@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
+import { CompetencyService } from '../../../../services/competency.service'
 
 @Component({
   selector: 'ws-competency-card',
@@ -15,13 +16,18 @@ export class CompetencyCardComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private competencyService: CompetencyService
   ) { }
 
   ngOnInit() {
   }
 
   startCompetency() {
-    this.router.navigateByUrl("user/competency/proficiency")
+    console.log("lkjsldk")
+    if (this.cardData) {
+      this.competencyService.pushCompetencyData(this.cardData)
+      this.router.navigateByUrl('user/competency/proficiency')
+    }
   }
 
 }

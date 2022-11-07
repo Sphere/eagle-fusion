@@ -1,3 +1,25 @@
+<div class="proficiency-body box ">
+  <div>
+    <mat-icon class="back-icon">chevron_left</mat-icon>
+  </div>
+  <div>
+    <ng-container *ngIf="CompetencyData?.title">
+      <div class="title">{{CompetencyData?.title}}</div>
+    </ng-container>
+  </div>
+  <div>
+    <ng-container *ngIf="CompetencyData?.description">
+      <div class="description">{{CompetencyData?.description}}</div>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="CompetencyData?.proficency">
+    <ws-proficiency-level [proficiency]="CompetencyData?.proficency"></ws-proficiency-level>
+  </ng-container>
+  <div>
+    <button mat-button class="startBtn" (click)="startCompetency()">Start</button>
+  </div>
+</div>
+
 <mat-tab-group class="remove-border-bottom" animationDuration="0ms">
   <mat-tab label="Proficiencies">
 
