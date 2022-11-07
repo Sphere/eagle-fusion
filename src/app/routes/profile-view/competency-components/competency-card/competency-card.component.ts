@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-competency-card',
@@ -12,9 +13,15 @@ export class CompetencyCardComponent implements OnInit {
   actionBtn = true;
   proficiency = 'Self assessment';
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+  }
+
+  startCompetency() {
+    this.router.navigateByUrl("user/competency/proficiency")
   }
 
 }
