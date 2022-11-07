@@ -22,10 +22,10 @@ export class CompetencyCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  viewProficiencies() {
+  startCompetency() {
     if (this.cardData) {
       this.competencyService.pushCompetencyData(this.cardData)
-      this.router.navigateByUrl('user/competency/proficiencies')
+      this.router.navigateByUrl('user/competency/proficiency')
     }
   }
 

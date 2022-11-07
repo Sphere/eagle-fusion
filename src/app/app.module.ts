@@ -105,6 +105,7 @@ import { Capacitor } from '@capacitor/core'
 import { CompetenciesComponent } from './routes/profile-view/competencies/competencies.component'
 import { CompetencyCardComponent } from './routes/profile-view/competency-components/competency-card/competency-card.component'
 import { ProficiencyLevelComponent } from './routes/profile-view/competency-components/proficiency-level/proficiency-level.component'
+import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -196,7 +197,8 @@ if (url.indexOf('&code=') > 0) {
     LanguageDialogComponent,
     DropdownDobComponent,
     CompetencyCardComponent,
-    ProficiencyLevelComponent
+    ProficiencyLevelComponent,
+    ProficiencyLandingComponent
   ],
   imports: [
     FormsModule,
