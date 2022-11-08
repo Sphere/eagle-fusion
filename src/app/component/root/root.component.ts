@@ -181,11 +181,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('app/toc')) {
-<<<<<<< HEAD
           if (this.configSvc.userProfile !== null) {
             this.mobileView = false
           }
-=======
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           //this.showNavigation = true
@@ -193,7 +191,6 @@ export class RootComponent implements OnInit, AfterViewInit {
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
->>>>>>> ad26870ffebcfd0229d1c66d40b285fade1d93d3
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
