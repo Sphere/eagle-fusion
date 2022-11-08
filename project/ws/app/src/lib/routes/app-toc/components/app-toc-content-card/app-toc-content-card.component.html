@@ -124,7 +124,7 @@
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
       <ws-app-assessment-detail
-        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode ? resourceLink : ''"
+        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
         [content]="content">
 
       </ws-app-assessment-detail>

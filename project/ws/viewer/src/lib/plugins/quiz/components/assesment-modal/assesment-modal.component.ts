@@ -9,6 +9,7 @@ import { QuizService } from '../../quiz.service'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
+import { ViewerDataService } from '../../../../viewer-data.service'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -40,6 +41,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   disableNext = false
   diablePrevious = true
   assesmentActive = true
+  disableContinue = false
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -47,6 +49,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
+    public viewerDataSvc: ViewerDataService,
   ) { }
 
   ngOnInit() {
@@ -174,6 +177,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.assesmentActive = false
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
+        }
+        if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
+          this.disableContinue = true
         }
       },
       (_error: any) => {
