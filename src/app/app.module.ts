@@ -141,6 +141,7 @@ if (url.indexOf('&code=') > 0) {
   sessionStorage.setItem('code', code)
 }
 
+<<<<<<< HEAD
 // Conditions added for checking if nhsrc organisation is present in url
 if (url.indexOf('?org=') > 0) {
   const queryString = window.location.search
@@ -154,6 +155,8 @@ if (url.indexOf('?org=') > 0) {
   }
 }
 
+=======
+>>>>>>> 220b9d94a749a4619a9c498334cbb91f232033fb
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [

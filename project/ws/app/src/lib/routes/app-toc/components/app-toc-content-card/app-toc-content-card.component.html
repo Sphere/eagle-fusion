@@ -124,7 +124,7 @@
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
       <ws-app-assessment-detail
-        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode ? resourceLink : ''"
+        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
         [content]="content">
 
       </ws-app-assessment-detail>
@@ -233,7 +233,6 @@
 
             </span>
             <ng-template #elseAssesmentPercentage>
-              coming Assessment
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
