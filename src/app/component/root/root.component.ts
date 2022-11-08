@@ -130,6 +130,8 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+    window.fcWidget.init()
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
