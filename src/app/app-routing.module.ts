@@ -44,6 +44,7 @@ import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
 import { CompetenciesComponent } from './routes/profile-view/competencies/competencies.component'
+import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -290,8 +291,15 @@ const routes: Routes = [
   },
   {
     path: 'user/competency',
+    // loadChildren: () => import('./routes/route-competency.modue').then(u => u.RouteCompetencyModule),
     component: CompetenciesComponent,
+    // children: [
+    //   { path: 'proficiency', component: ProficiencyLandingComponent },]
   },
+  {
+    path: 'user/competency/proficiency', component: ProficiencyLandingComponent
+  },
+
   {
     path: 'app/new-tnc',
     component: NewTncComponent,
