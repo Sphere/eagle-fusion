@@ -20,24 +20,18 @@ export class OrgHomeComponent implements OnInit {
     this.orgService.getLiveSearchResults().subscribe((response: any) => {
       this.resultResponse = response.result.content
       courseArray = this.resultResponse.map((identifierValue: { identifier: any }) => identifierValue.identifier)
-      // tslint:disable-next-line:no-console
-      console.log('1. Courses values are : ' + courseArray)
+      let userId = ''
+      let enrollmentArr: any = []
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+
+        this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
+          // tslint:disable-next-line:max-line-length
+          enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
+          this.resultEnroll = enrollmentArr
+        })
+      }
     })
-
-    let userId = ''
-    let enrollmentArr: any = []
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
-
-      this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
-        // tslint:disable-next-line:max-line-length
-        enrollmentArr = responseEnrollment.map((identifierValue: { contentId: any, courseName: any, courseLogoUrl: any }) => [{ identifier: identifierValue.contentId, name: identifierValue.courseName, logo: identifierValue.courseLogoUrl }])
-
-        this.resultEnroll = enrollmentArr
-      })
-    }
-    // tslint:disable-next-line:no-console
-    console.log('enrollmentArr array >>>>>>>>...' + enrollmentArr)
   }
 
   getCourseDetails() {
