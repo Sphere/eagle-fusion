@@ -188,7 +188,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           }
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
-          //this.showNavigation = true
+          // this.showNavigation = true
           this.isLoggedIn = true
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
@@ -249,12 +249,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
-        }
-        // else if (event.url.includes('viewer')) {
-        //   this.hideHeaderFooter = true
-        //   this.isNavBarRequired = false
-        // }
-        else {
+        } else {
           this.isNavBarRequired = true
           this.mobileView = false
         }
