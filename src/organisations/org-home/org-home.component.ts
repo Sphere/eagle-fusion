@@ -36,6 +36,7 @@ export class OrgHomeComponent implements OnInit {
         this.resultEnroll = enrollmentArr
       })
     }
+    // tslint:disable-next-line:no-console
     console.log('enrollmentArr array >>>>>>>>...' + enrollmentArr)
   }
 
