@@ -181,6 +181,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('app/toc')) {
+          if (this.configSvc.userProfile !== null) {
+            this.mobileView = false
+          }
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           //this.showNavigation = true
@@ -236,10 +239,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
-        } else if (event.url.includes('viewer')) {
-          this.hideHeaderFooter = true
-          this.isNavBarRequired = false
-        } else {
+        }
+        // else if (event.url.includes('viewer')) {
+        //   this.hideHeaderFooter = true
+        //   this.isNavBarRequired = false
+        // }
+        else {
           this.isNavBarRequired = true
           this.mobileView = false
         }
