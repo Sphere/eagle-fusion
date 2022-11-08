@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
+
 @Component({
   selector: 'ws-keycloak-callback',
   templateUrl: './keycloak-callback.component.html',
@@ -13,48 +14,53 @@ export class KeycloakCallbackComponent implements OnInit {
     private signupService: SignupService,
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     const loginBtn = sessionStorage.getItem('login-btn') || null
-    if (loginBtn === 'clicked') {
+    const code = sessionStorage.getItem('code') || null
+    if (loginBtn === 'clicked' || code) {
       this.isLoading = true
       this.checkKeycloakCallback()
     }
   }
+
   checkKeycloakCallback() {
     const code = sessionStorage.getItem('code') || null
     if (code !== null) {
       try {
-        this.orgService.setConnectSid(code).subscribe((res: any) => {
+        this.orgService.setConnectSid(code).subscribe(async (res: any) => {
           if (res) {
             // console.log(res)
             sessionStorage.clear()
-            let result: any
             setTimeout(() => {
-              result = this.signupService.fetchStartUpDetails()
-            }, 1500)
-            // tslint:disable-next-line:no-console
-            console.log(result)
-            if (result && result.status === 200 && result.roles.length > 0) {
-              // this.openSnackbar('logged in')
-              if (localStorage.getItem('url_before_login')) {
-                window.location.href = localStorage.getItem('url_before_login') || ''
-                localStorage.removeItem('url_before_login')
-              } else {
-                window.location.href = '/page/home'
-              }
-              this.isLoading = false
-            } else {
-              window.location.href = '/public/home'
-            }
-            if (result.status === 419) {
-              this.snackBarSvc.open(result.params.errmsg)
-              window.location.href = '/public/home'
-            }
-            // if (localStorage.getItem('url_before_login')) {
-            //   location.href = localStorage.getItem('url_before_login') || ''
-            // } else {
-            //   location.href = '/page/home'
-            // }
+              this.signupService.fetchStartUpDetails().then(result => {
+                // tslint:disable-next-line:no-console
+                console.log(result)
+                if (result && result.status === 200 && result.roles.length > 0) {
+                  // this.openSnackbar('logged in')
+                  if (localStorage.getItem('url_before_login')) {
+                    //window.location.href = localStorage.getItem('url_before_login') || ''
+
+                    let url = localStorage.getItem('url_before_login') || ''
+                    //localStorage.removeItem('url_before_login')
+                    location.href = url
+                  } else {
+                    window.location.href = '/page/home'
+                  }
+                  this.isLoading = false
+                } else {
+                  window.location.href = '/public/home'
+                }
+                if (result.status === 419) {
+                  this.snackBarSvc.open(result.params.errmsg)
+                  window.location.href = '/public/home'
+                }
+                // if (localStorage.getItem('url_before_login')) {
+                //   location.href = localStorage.getItem('url_before_login') || ''
+                // } else {
+                //   location.href = '/page/home'
+                // }
+              })
+            }, 1000)
           }
         }, (err: any) => {
           // console.log(err)
@@ -63,7 +69,7 @@ export class KeycloakCallbackComponent implements OnInit {
           if (err.status === 400) {
             sessionStorage.clear()
             this.snackBarSvc.open(err.error.error)
-            // location.href = "/public/home"
+            location.href = "/public/home"
           }
         })
       } catch (err) {
