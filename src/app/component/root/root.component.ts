@@ -181,14 +181,21 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('app/toc')) {
+<<<<<<< HEAD
           if (this.configSvc.userProfile !== null) {
             this.mobileView = false
           }
+=======
+          this.hideHeaderFooter = false
+          this.isNavBarRequired = true
+          //this.showNavigation = true
+          this.isLoggedIn = true
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+            }` + `/overview`)
+          sessionStorage.setItem('login-btn', 'clicked')
+>>>>>>> ad26870ffebcfd0229d1c66d40b285fade1d93d3
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
-              localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
-                }` + `/overview`)
-              sessionStorage.setItem('login-btn', 'clicked')
               if (result && result.status !== 200) {
 
                 const redirectUrl = document.baseURI + 'openid/keycloak'
@@ -199,7 +206,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 1000)
+          }, 10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -215,9 +222,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
-          if (this.configSvc.userProfile === null) {
-            this.isNavBarRequired = false
-          }
+          // if (this.configSvc.userProfile === null) {
+          //   this.isNavBarRequired = false
+          // }
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
           event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
@@ -235,6 +242,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
+        } else if (event.url.includes('viewer')) {
+          this.hideHeaderFooter = true
+          this.isNavBarRequired = false
         } else {
           this.isNavBarRequired = true
           this.mobileView = false
