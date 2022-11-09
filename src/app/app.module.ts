@@ -292,3 +292,9 @@ if (url.indexOf('&code=') > 0) {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }
+
+declare global {
+  interface Window {
+    fcWidget?: any
+  }
+}

@@ -130,6 +130,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.fcSettingsFunc()
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
@@ -319,5 +320,21 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
+  }
+
+  //freshChat functionality
+  fcSettingsFunc() {
+    try {
+      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.init()
+      if (this.configSvc.userProfile) {
+        window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
+        window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
+        window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
+        window.fcWidget.user.setMeta({ "userId": this.configSvc.userProfile.userId, "username": this.configSvc.userProfile.userName })
+      }
+    } catch (error) {
+      throw error
+    }
   }
 }
