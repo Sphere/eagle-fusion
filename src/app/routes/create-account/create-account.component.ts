@@ -50,7 +50,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -89,7 +89,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -106,6 +106,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+    sessionStorage.setItem('login-btn', 'clicked')
     let phone = this.createAccountForm.controls.emailOrMobile.value
     // const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
@@ -157,7 +158,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -185,12 +186,26 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
         }
       )
     }
+  }
+  eventTrigger(p1: string, p2: string) {
+    let obj = {
+      EventDetails: {
+        EventName: p1,
+        Name: p2
+      }
+    }
+    // @ts-ignore: Unreachable code error
+    const userdata = Object.assign(MainVisitorDetails, obj)
+    this.signupService.plumb5SendEvent(userdata).subscribe((res: any) => {
+      // @ts-ignore: Unreachable code error
+      console.log(res)
+    })
   }
 
   gotoHome() {
