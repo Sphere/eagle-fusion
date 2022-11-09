@@ -181,8 +181,13 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('app/toc')) {
+          if (this.configSvc.userProfile !== null) {
+            this.mobileView = false
+          }
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
+          //this.showNavigation = true
+          this.isLoggedIn = true
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
@@ -214,9 +219,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
-          if (this.configSvc.userProfile === null) {
-            this.isNavBarRequired = false
-          }
+          // if (this.configSvc.userProfile === null) {
+          //   this.isNavBarRequired = false
+          // }
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
           event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
@@ -234,7 +239,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
-        } else {
+        }
+        // else if (event.url.includes('viewer')) {
+        //   this.hideHeaderFooter = true
+        //   this.isNavBarRequired = false
+        // }
+        else {
           this.isNavBarRequired = true
           this.mobileView = false
         }
