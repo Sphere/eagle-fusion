@@ -6,6 +6,7 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import * as _ from 'lodash'
 import { v4 as uuid } from 'uuid'
 
+
 const API_END_POINTS = {
   USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
   REGISTERUSERWITHMOBILE: `/apis/public/v8/emailMobile/registerUserWithMobile`,
@@ -57,6 +58,13 @@ export class SignupService {
       })
     )
   }
+  plumb5SendEvent(data: any) {
+    return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(
+      map(response => {
+        return response
+      })
+    )
+  }
   validateOtp(data: any) {
     return this.http.post<any>(API_END_POINTS.VALIDATE_OTP, data).pipe(
       map(response => {
@@ -78,6 +86,7 @@ export class SignupService {
         return response
       }))
   }
+
   async fetchStartUpDetails(): Promise<any> {
     if (this.configSvc.instanceConfig) {
       let userPidProfile: any | null = null
