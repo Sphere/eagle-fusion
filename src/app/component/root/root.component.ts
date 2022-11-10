@@ -334,7 +334,8 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.user.setMeta({ "userId": this.configSvc.userProfile.userId, "username": this.configSvc.userProfile.userName })
       }
     } catch (error) {
-      throw error
+      //tslint:disable-next-line:no-console
+      console.log(error)
     }
   }
 }
