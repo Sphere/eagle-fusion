@@ -18,7 +18,16 @@
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
         </span>
       </span>
-      <ng-container *ngIf="searchResults?.doYouMean || searchResults?.queryUsed">
+      <div class="filter-lang" *ngIf="(isXSmall$ | async) !== true">
+        <label i18n class="pos-rel">Filter based on Language : </label>
+        <select class="form-control lang-select"
+          [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
+          (change)="selectLang(contact)">
+          <option></option>
+          <option *ngFor="let method of contactMethods" [value]="method.id">{{ method.label }}</option>
+        </select>
+      </div>
+      <ng-container *ngIf=" searchResults?.doYouMean || searchResults?.queryUsed">
         <span>.</span><span>&nbsp;</span>
         <span *ngIf="searchResults?.doYouMean"><span i18n>Did you mean</span><span>&nbsp;“</span><span
             [innerHTML]="searchResults?.doYouMean" (click)="didYouMeanSearch(searchResults?.doYouMean)"

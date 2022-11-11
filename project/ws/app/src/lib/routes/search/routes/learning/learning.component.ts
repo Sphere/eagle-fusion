@@ -28,6 +28,12 @@ export class LearningComponent implements OnInit, OnDestroy {
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
   searchRequestStatus: IKhubFetchStatus = 'none'
+  lang: string = ''
+  contactMethods = [
+    { id: 'en', label: "English" },
+    { id: 'hi', label: "हिंदी" }
+  ]
+  contact: string = ''
   // searchResults: NSSearch.ISearchV6ApiResult = {
   //   totalHits: 0,
   //   result: [],
@@ -186,6 +192,14 @@ export class LearningComponent implements OnInit, OnDestroy {
     // }
     return false
   }
+  selectLang(e: any) {
+    this.lang = e
+    this.router.navigate([], {
+      queryParams: { lang: e },
+      relativeTo: this.activated.parent,
+      queryParamsHandling: 'merge',
+    })
+  }
 
   removeDefaultFiltersApplied() {
     const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig || {}))
@@ -321,9 +335,12 @@ export class LearningComponent implements OnInit, OnDestroy {
       if (this.searchRequest.lang !== queryParams.get('lang') || this.getActiveLocale() || 'en') {
         this.expandToPrefLang = true
       }
-      this.searchRequest.lang = queryParams.get('lang') || this.getActiveLocale() || 'en'
+      this.searchRequest.lang = queryParams.get('lang')
       if (this.searchRequest.lang) {
         this.searchRequest.lang = this.searchRequest.lang.toLowerCase()
+        this.searchRequestObject.request.filters['lang'] = this.searchRequest.lang.toLowerCase()
+        this.lang = this.searchRequest.lang.toLowerCase()
+        this.contact = this.lang
         // this.searchRequestObject.locale =
         //   this.searchRequest.lang !== '' ? this.searchRequest.lang.split(',') : []
       }
