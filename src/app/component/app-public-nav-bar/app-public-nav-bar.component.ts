@@ -9,11 +9,7 @@ import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 // import { HttpClient } from '@angular/common/http'
-<<<<<<< HEAD
-import { v4 as uuid } from 'uuid'
-=======
 import { SignupService } from '../../routes/signup/signup.service'
->>>>>>> 220b9d94a749a4619a9c498334cbb91f232033fb
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -50,10 +46,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
-<<<<<<< HEAD
-=======
     private signUpSvc: SignupService,
->>>>>>> 220b9d94a749a4619a9c498334cbb91f232033fb
     // private http: HttpClient,
     private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -180,21 +173,12 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
     // localStorage.removeItem('url_before_login')
     // this.router.navigateByUrl('app/login')
-<<<<<<< HEAD
-
-    const state = uuid()
-    const nonce = uuid()
-    sessionStorage.setItem('login-btn', 'clicked')
-    const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-    window.location.href = Keycloakurl
-=======
     this.signUpSvc.keyClockLogin()
     // const state = uuid()
     // const nonce = uuid()
     // sessionStorage.setItem('login-btn', 'clicked')
     // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
     // window.location.href = Keycloakurl
->>>>>>> 220b9d94a749a4619a9c498334cbb91f232033fb
     this.authSvc.login(key, this.redirectUrl)
   }
 
