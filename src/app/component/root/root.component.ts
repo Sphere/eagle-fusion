@@ -131,7 +131,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
+    this.fcSettingsFunc()
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
@@ -193,13 +193,6 @@ export class RootComponent implements OnInit, AfterViewInit {
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
-<<<<<<< HEAD
-          const redirectUrl = document.baseURI + 'openid/keycloak'
-          const state = uuid()
-          const nonce = uuid()
-          window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
-          // this.router.navigateByUrl('app/login')
-=======
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
@@ -223,7 +216,6 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
           //   // this.router.navigateByUrl('app/login')
           // }
->>>>>>> 220b9d94a749a4619a9c498334cbb91f232033fb
 
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
@@ -324,5 +316,22 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
+  }
+
+  //freshChat functionality
+  fcSettingsFunc() {
+    try {
+      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.init()
+      if (this.configSvc.userProfile) {
+        window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
+        window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
+        window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
+        window.fcWidget.user.setMeta({ "userId": this.configSvc.userProfile.userId, "username": this.configSvc.userProfile.userName })
+      }
+    } catch (error) {
+      //tslint:disable-next-line:no-console
+      console.log(error)
+    }
   }
 }

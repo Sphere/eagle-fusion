@@ -9,7 +9,7 @@
   <mat-card *ngIf="collection && pathSet && !pathSet.has(resourceId)">
     <mat-card-content>
       <span class="width-expand flex flex-middle mat-error" i18n>
-        The Resource is not part of the collection
+        <!-- The Resource is not part of the collection -->
       </span>
     </mat-card-content>
   </mat-card>
@@ -251,3 +251,11 @@
     </div>
   </div>
 </ng-template>
+<div class="overlay" *ngIf="isLoading">
+  <div class="loader-container">
+    <div class="loader-ripple">
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>

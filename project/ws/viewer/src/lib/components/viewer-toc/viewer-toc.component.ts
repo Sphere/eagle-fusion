@@ -110,7 +110,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private viewerDataServiceSubscription: Subscription | null = null
   message!: string
   subscription: Subscription | null = null
-
+  isLoading = false
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
   private _getChildren = (node: IViewerTocCard) => {
@@ -118,7 +118,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    // console.log("onint")
+    console.log("onint")
+    this.isLoading = true
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.defaultContent,
@@ -150,6 +151,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (this.resourceId) {
         this.processCurrentResourceChange()
       }
+
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
@@ -589,7 +591,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
-
+            this.isLoading = false
           })
       }
     }

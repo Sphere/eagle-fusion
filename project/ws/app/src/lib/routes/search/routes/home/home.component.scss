@@ -22,7 +22,19 @@ ws-app-home .search .mat-form-field-wrapper {
     padding-bottom: 10px;
   }
 }
-
+.lang-select {
+    font-size: small !important;
+}
+.lang-icon {
+    background-image: url('/fusion-assets/icons/lang-icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width:73px !important;
+}
+.filter-lang {
+    float: right;
+    width: 268px;
+}
 ws-app-home .lang-btn {
   margin-right: 0 !important;
 }

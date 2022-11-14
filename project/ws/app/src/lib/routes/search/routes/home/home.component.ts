@@ -17,6 +17,7 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 export class HomeComponent implements OnInit {
 
   query: FormControl = new FormControl('')
+  lang: string = ''
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   autoCompleteResults: ISearchAutoComplete[] = []
   searchQuery: ISearchQuery = {
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   }
   languageSearch: string[] = []
   suggestedFilters: ISuggestedFilters[] = []
+  contact: string = ''
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -51,9 +53,9 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  search(query?: string) {
+  search(query?: string, lang?: string) {
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang: this.searchQuery.l, q: query || this.searchQuery.q },
+      queryParams: { lang: lang, q: query || this.searchQuery.q },
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
         queryParams: {
@@ -64,7 +66,20 @@ export class HomeComponent implements OnInit {
       })
     })
   }
-
+  selectLang(e: any) {
+    this.lang = e
+    this.router.navigate(['/app/search/home'], {
+      queryParams: { lang: e, q: this.searchQuery.q },
+    }).then(() => {
+      this.router.navigate(['/app/search/learning'], {
+        queryParams: {
+          q: this.searchQuery.q,
+          lang: this.searchQuery.l,
+          f: JSON.stringify({ contentType: ['Course'] }),
+        },
+      })
+    })
+  }
   searchWithFilter(filter: any): void {
     const objType = filter.contentType ? { contentType: [filter.contentType] } :
       filter.resourceType ? { resourceType: [filter.resourceType] } : filter.combinedType === 'learningContent' ?
@@ -119,6 +134,10 @@ export class HomeComponent implements OnInit {
     }).then(() => {
       this.getAutoCompleteResults()
     })
+  }
+
+  langSelect(lang: string) {
+    this.lang = lang
   }
 
   ngOnInit() {
