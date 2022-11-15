@@ -5,25 +5,25 @@
 <span class="resume-learning">
   Continue Learning
 </span>
-<div class="container-xxl py-5 category">
+<!-- <div class="container-xxl py-5 category">
   <div class="container">
     <div class="row g-3">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
         <div class="row g-3">
           <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
             style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-            <a class="position-relative d-block overflow-hidden" href="">
+            <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
               <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
             </a>
             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-              <h5 class="m-0"> {{content.courseName}}</h5>
+              <h5 class="m-0"> {{resultEnroll.content.courseName}}</h5>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="banner-header">
   <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
@@ -60,7 +60,7 @@
         <div class="row g-3">
           <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
             style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-            <a class="position-relative d-block overflow-hidden" href="">
+            <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
               <img class="img-fluid  img-responsive courses" [src]="content.appIcon">
             </a>
             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
