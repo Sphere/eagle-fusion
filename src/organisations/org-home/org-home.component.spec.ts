@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { KeycloakCallbackComponent } from './keycloak-callback.component'
+import { OrgHomeComponent } from './org-home.component'
 
-describe('KeycloakCallbackComponent', () => {
-  let component: KeycloakCallbackComponent
-  let fixture: ComponentFixture<KeycloakCallbackComponent>
+describe('OrgHomeComponent', () => {
+  let component: OrgHomeComponent
+  let fixture: ComponentFixture<OrgHomeComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [KeycloakCallbackComponent],
+      declarations: [OrgHomeComponent],
     })
     .compileComponents()
   }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(KeycloakCallbackComponent)
+    fixture = TestBed.createComponent(OrgHomeComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })
