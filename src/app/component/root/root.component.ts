@@ -68,6 +68,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showMobileDashboard = true
+  isCommonChatEnabled = true;
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -325,6 +326,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   //freshChat functionality
   fcSettingsFunc() {
     try {
+      window.fcWidget.hide()
       window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       window.fcWidget.init()
       if (this.configSvc.userProfile) {
@@ -337,5 +339,17 @@ export class RootComponent implements OnInit, AfterViewInit {
       //tslint:disable-next-line:no-console
       console.log(error)
     }
+  }
+
+  showSocialChats() {
+    this.isCommonChatEnabled = false
+    window.fcWidget.show()
+    window.fcWidget.init()
+  }
+
+  backToChatIcon() {
+    this.isCommonChatEnabled = true
+    window.fcWidget.hide()
+    window.fcWidget.init()
   }
 }

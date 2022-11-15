@@ -75,3 +75,20 @@ ws-app-nav-bar {
     display: none;
   }
 }
+
+//chat-style
+.chat-icon{
+  z-index: 1;
+  left: 1.1rem;
+  position: fixed;
+  bottom: 1.3rem;
+  width: 70px;
+}
+
+.whatsapp-icon{
+  z-index: 1;
+  left: 1.1rem;
+  position: fixed;
+  bottom: 7.3rem;
+  width: 63px;
+}

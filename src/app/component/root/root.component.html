@@ -38,3 +38,15 @@
 
 <input #appUpdateTitle type="hidden" i18n-value value="App Update" />
 <input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />
+
+<!--Chat icon-->
+<div *ngIf="isCommonChatEnabled">
+  <img src="/fusion-assets/images/chat.png" class="chat-icon" (click)="showSocialChats()" alt="chat image" />
+</div>
+
+<div *ngIf="!isCommonChatEnabled">
+  <a href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank"
+    (click)="backToChatIcon()">
+    <img src="/fusion-assets/images/whatsapp.png" class="whatsapp-icon" alt="whatsapp image" />
+  </a>
+</div>
