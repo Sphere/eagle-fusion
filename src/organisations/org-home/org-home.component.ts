@@ -32,16 +32,15 @@ export class OrgHomeComponent implements OnInit {
       courseArray = this.resultResponse.map((identifierValue: { identifier: any }) => identifierValue.identifier)
       let userId = ''
       let enrollmentArr: any = []
-      console.log('1.New course >>>>>>>>>>>>>>>>' + this.resultResponse)
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
 
         this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
           // tslint:disable-next-line:max-line-length
           enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
+
           this.resultEnroll = enrollmentArr
         })
-        console.log('2.New course >>>>>>>>>>>>>>>>' + this.resultEnroll)
       }
     })
   }
