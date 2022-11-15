@@ -20,13 +20,18 @@ export class AuthRootComponent implements OnInit, OnDestroy {
   isLoading = false
   loaderSubscription!: Subscription
   isWidthMessageShown = false
+  router: any
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
     private loader: LoaderService,
     private changeDetector: ChangeDetectorRef,
     private snackBar: MatSnackBar,
-  ) { }
+  ) {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
+  }
 
   async ngOnInit() {
     if (window.innerWidth < 1163 && !this.isWidthMessageShown) {

@@ -90,6 +90,11 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'organisations',
+    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
+    // canActivate: [GeneralGuard],
+  },
+  {
     path: 'analytics',
     loadChildren: () => import('./routes/route-analytics.module').then(u => u.RouteAnalyticsModule),
     canActivate: [GeneralGuard],

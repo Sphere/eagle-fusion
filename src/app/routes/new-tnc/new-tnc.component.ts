@@ -262,7 +262,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
           //   })
         }
       },
-        (err: any) => {
+                                                                    (err: any) => {
           this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
           // TO DO: Telemetry event for failure
           this.errorInAccepting = true

@@ -59,9 +59,32 @@
 .catalog-link {
   border-bottom: 1px dotted;
 }
-
+.lang-select {
+    position: absolute;
+    z-index: 9;
+    width: auto;
+    right: 14px;
+    top: 12px;
+    height: 30px !important;
+    border-radius: 16px;
+    font-size: small;
+}
+.lang-icon {
+    background-image: url('/fusion-assets/icons/lang-icon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.filter-lang {
+    float: right;
+    width: 268px;
+}
 .hide-filter-btn {
   visibility: hidden;
+}
+.pos-rel {
+  position: relative;
+      font-weight: 500;
 }
 .searchHeading {
   margin-top: 15px;

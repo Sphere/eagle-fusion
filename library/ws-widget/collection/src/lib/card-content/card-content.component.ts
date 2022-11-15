@@ -183,8 +183,8 @@ export class CardContentComponent extends WidgetBaseComponent
         tocData: data,
       },
       queryParams: {
-        courseId: data.identifier
-      }
+        courseId: data.identifier,
+      },
     })
     localStorage.setItem('tocData', JSON.stringify(data))
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
