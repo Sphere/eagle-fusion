@@ -11,7 +11,6 @@ import { forkJoin, from } from 'rxjs'
 import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
-
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
@@ -171,7 +170,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.router.navigate([`app/personal-detail-edit`])
   }
 
-  openCompetency() {
-    this.router.navigate([`user/competency`])
+  openCompetency(event: any) {
+    console.log(event)
+    this.router.navigate([`app/user/self-assessment`])
   }
 }

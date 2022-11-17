@@ -43,9 +43,8 @@ import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
-import { CompetenciesComponent } from './routes/profile-view/competencies/competencies.component'
 import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
-
+import { SelfAssessmentComponent } from '@aastrika/comptency/self-assessment'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -290,11 +289,8 @@ const routes: Routes = [
     component: PersonalDetailEditComponent,
   },
   {
-    path: 'user/competency',
-    // loadChildren: () => import('./routes/route-competency.modue').then(u => u.RouteCompetencyModule),
-    component: CompetenciesComponent,
-    // children: [
-    //   { path: 'proficiency', component: ProficiencyLandingComponent },]
+    path: 'app/user/self-assessment',
+    component: SelfAssessmentComponent,
   },
   {
     path: 'user/competency/proficiency', component: ProficiencyLandingComponent

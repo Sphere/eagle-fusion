@@ -107,6 +107,8 @@ import { CompetencyCardComponent } from './routes/profile-view/competency-compon
 import { ProficiencyLevelComponent } from './routes/profile-view/competency-components/proficiency-level/proficiency-level.component'
 import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
 import { ProficiencyCardComponent } from './routes/profile-view/competency-components/proficiency-card/proficiency-card.component'
+import { EntryModule } from '@aastrika/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika/comptency/self-assessment'
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -250,6 +252,8 @@ if (url.indexOf('&code=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
+    SelfAssessmentModule,
+    EntryModule.forRoot({ 'userName': 'Aman', 'userId': 1 })
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
