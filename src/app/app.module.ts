@@ -253,7 +253,7 @@ if (url.indexOf('&code=') > 0) {
     ImageCropModule,
     SharedModule,
     SelfAssessmentModule,
-    EntryModule.forRoot({ 'userName': 'Aman', 'userId': 1 })
+    EntryModule.forRoot({ config: { 'userName': 'aman' } })
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
