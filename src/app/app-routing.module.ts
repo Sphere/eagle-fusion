@@ -43,8 +43,9 @@ import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
-import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
+// import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
 import { SelfAssessmentComponent } from '@aastrika/comptency/self-assessment'
+import { CompetencyDashboardComponent } from '@aastrika/comptency/competency'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -293,7 +294,7 @@ const routes: Routes = [
     component: SelfAssessmentComponent,
   },
   {
-    path: 'user/competency/proficiency', component: ProficiencyLandingComponent
+    path: 'app/user/competency', component: CompetencyDashboardComponent
   },
 
   {
