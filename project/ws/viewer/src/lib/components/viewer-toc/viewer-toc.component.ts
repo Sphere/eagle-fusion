@@ -186,7 +186,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          },         4000)
+          }, 4000)
         }
       }
 
@@ -243,14 +243,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -476,6 +476,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       await this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
+          // tslint:disable-next-line: no-console
+          console.log(data['result']['contentList'])
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
@@ -583,6 +585,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           console.log('CONTENT HISTORY FETCH ERROR >', error)
         },
       )
+      // tslint:disable-next-line: no-console
+      console.log(this.collection.children)
       this.nestedDataSource.data = this.collection.children
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
