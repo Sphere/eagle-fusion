@@ -41,7 +41,7 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
     PublicLicenseComponent,
-    KeycloakCallbackComponent
+    KeycloakCallbackComponent,
 
   ],
   imports: [
