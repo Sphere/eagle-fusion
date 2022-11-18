@@ -48,7 +48,7 @@ export class OrgHomeComponent implements OnInit {
   getCourseDetails() {
     this.orgService.getDatabyOrgId().then((response: any) => {
       // tslint:disable-next-line:no-console
-      console.log('Total course >>>>>>>>>>>>>>>>' + response)
+      console.log(`Total course >>>>>>>>>>>>>>>> ${response}`)
     })
   }
 
@@ -60,7 +60,7 @@ export class OrgHomeComponent implements OnInit {
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
       // localStorage.setItem(`url_before_login`, url)
-      //this.router.navigateByUrl('app/login')
+      // this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {

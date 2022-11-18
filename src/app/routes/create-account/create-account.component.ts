@@ -50,7 +50,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                                   { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -89,7 +89,7 @@ export class CreateAccountComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
+    },                                                   { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -158,7 +158,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                  err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           // form.reset()
@@ -186,7 +186,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                                   err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
         }
@@ -194,16 +194,17 @@ export class CreateAccountComponent implements OnInit {
     }
   }
   eventTrigger(p1: string, p2: string) {
-    let obj = {
+    const obj = {
       EventDetails: {
         EventName: p1,
-        Name: p2
-      }
+        Name: p2,
+      },
     }
     // @ts-ignore: Unreachable code error
     const userdata = Object.assign(MainVisitorDetails, obj)
     this.signupService.plumb5SendEvent(userdata).subscribe((res: any) => {
       // @ts-ignore: Unreachable code error
+      // tslint:disable-next-line
       console.log(res)
     })
   }

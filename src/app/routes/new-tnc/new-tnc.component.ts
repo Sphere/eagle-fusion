@@ -158,8 +158,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
     // this.router.navigate(['/app/login'])
     try {
       const url = `${document.baseURI}public/home`
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-      window.location.href = Keycloakurl
+      const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      window.location.href = keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
       localStorage.removeItem('telemetrySessionId')
       localStorage.removeItem('loginbtn')
