@@ -122,6 +122,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
       this.contentSvc.changeMessage('scorm')
+      console.log('after complete')
       this.scormAdapterService.contentId = this.htmlContent.identifier
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()

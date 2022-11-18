@@ -164,10 +164,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
       if (data) {
         //
+
         // console.log(this.playerStateService.trigger$.getValue())
         if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === 'not-triggered') {
-          this.ngOnInit()
-
+          this.scromUpdateCheck(data)
           // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
@@ -192,7 +192,32 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     })
   }
-
+  async scromUpdateCheck(data: any) {
+    this.batchId = data.batchId
+    const collectionId = data.collectionId
+    const collectionType = data.collectionType
+    if (collectionId && collectionType) {
+      if (
+        collectionType.toLowerCase() ===
+        NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
+      ) {
+        this.collection = await this.getPlaylistContent(collectionId, collectionType)
+      } else if (
+        collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
+        collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
+        collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
+      ) {
+        this.collection = await this.getCollection(collectionId, collectionType)
+      } else {
+        this.isErrorOccurred = true
+      }
+      if (this.collection) {
+        this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
+      }
+    }
+    this.processCurrentResourceChange()
+    this.checkIndexOfResource()
+  }
   checkIndexOfResource() {
     if (this.collection) {
       const index = this.queue.findIndex(x => x.identifier === this.resourceId)

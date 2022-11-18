@@ -30,7 +30,8 @@ export class SCORMAdapterService {
     private activatedRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
     private viewerDataSvc: ViewerDataService,
-    private router: Router
+    private router: Router,
+
   ) {
     this.http = new HttpClient(handler)
   }
@@ -117,6 +118,19 @@ export class SCORMAdapterService {
 
         this.scromSubscription = this.addDataV2(data).subscribe((response) => {
           // console.log(response)
+          if (this.getPercentage(data) === 100) {
+            this.viewerDataSvc.scromChangeSubject.next(
+              {
+                'completed': true,
+                'batchId':
+                  this.activatedRoute.snapshot.queryParamMap.get('batchId'),
+                'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
+                , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
+              })
+          }
+          setTimeout(() => {
+            this.LMSFinish()
+          })
           if (response) {
             _return = true
           }
