@@ -174,4 +174,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     console.log(event)
     this.router.navigate([`app/user/self-assessment`])
   }
+  openCompetencyDashboard(event: any) {
+    console.log(event)
+    this.router.navigate([`app/user/competency`])
+  }
 }
