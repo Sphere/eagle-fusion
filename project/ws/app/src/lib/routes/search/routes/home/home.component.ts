@@ -17,7 +17,7 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 export class HomeComponent implements OnInit {
 
   query: FormControl = new FormControl('')
-  lang: string = ''
+  lang = ''
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   autoCompleteResults: ISearchAutoComplete[] = []
   searchQuery: ISearchQuery = {
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   }
   languageSearch: string[] = []
   suggestedFilters: ISuggestedFilters[] = []
-  contact: string = ''
+  contact = ''
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
   search(query?: string, lang?: string) {
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang: lang, q: query || this.searchQuery.q },
+      queryParams: { lang, q: query || this.searchQuery.q },
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
         queryParams: {
