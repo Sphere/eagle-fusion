@@ -208,9 +208,12 @@ export class SCORMAdapterService {
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req.request.courseId}`, req
     ).subscribe(
       data => {
+        // tslint:disable-next-line: no-console
+        console.log(data)
         if (data && data.result && data.result.contentList.length) {
           for (const content of data.result.contentList) {
-            //console.log('loading state for ', this.contentId)
+            // tslint:disable-next-line: no-console
+            console.log('loading state for ', content)
             if (content.contentId === this.contentId && content.progressdetails) {
               const data = content.progressdetails
               const loadDatas: IScromData = {
@@ -309,7 +312,8 @@ export class SCORMAdapterService {
     // if (this.getPercentage(postData) === 100) {
     //   this.viewerDataSvc.changedSubject.next(true)
     // }
-
+    // tslint:disable-next-line: no-console
+    console.log(req)
 
     //if(Object.keys(postData).length > 3) {
     return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
