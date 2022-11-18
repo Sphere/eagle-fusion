@@ -71,10 +71,14 @@ export class SCORMAdapterService {
       this._setError(301)
       return false
     }
-    let _return = this.LMSCommit()
+    let data = this.store.getAll()
+    if (this.getPercentage(data) !== 100) {
+      let _return = this.LMSCommit()
+      return _return
+    }
     this.store.setItem('Initialized', false)
     this.store.clearAll()
-    return _return
+    return true
   }
 
   LMSGetValue(element: any) {
@@ -113,13 +117,24 @@ export class SCORMAdapterService {
       let splitUrl1 = url.split('?primary')
       let splitUrl2 = splitUrl1[0].split('/viewer/html/')
       if (splitUrl2[1] === this.contentId) {
+
+        if (this.store.getItem('scrompercentage') === 'completed') {
+          return
+        }
+
         this.scromSubscription = this.addDataV2(data).subscribe((response) => {
           // console.log(response)
           if (this.getPercentage(data) === 100) {
+            if (this.scromSubscription) {
+              this.store.setItem('scrompercentage', 'completed')
+              this.scromSubscription.unsubscribe()
+            }
+            if (!this._isInitialized()) {
+              this._setError(301)
+            }
+            this.store.setItem('Initialized', false)
+            this.store.clearAll()
             this.viewerDataSvc.scromChangeSubject.next(true)
-            setTimeout(() => {
-              this.LMSFinish()
-            })
           }
           if (response) {
             _return = true
