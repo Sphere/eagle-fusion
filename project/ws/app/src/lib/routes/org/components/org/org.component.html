@@ -99,8 +99,9 @@
   <div class="flex-main mt-4">
     <ng-container *ngFor="let widget of courseData">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
-        <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content" #target="mdePopoverTrigger"
-          i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
+        <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
+          #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
+          mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
           [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
           (mouseover)="showTarget($event)">
           <div style="position: relative; z-index: 1;">
@@ -155,7 +156,7 @@
             </p>
             <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
               <div class="fw-500 mb-1">Course Description</div>
-              {{ (widget.description.length>156)? (widget.description  | slice:0:120) + '...' :(widget.description) }}
+              {{ (widget.description.length>156)? (widget.description | slice:0:120) + '...' :(widget.description) }}
             </div>
 
             <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
@@ -223,7 +224,7 @@
       <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
         class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
       <div class="support-txt ml-10">Platform powered by</div><img
-        src="/assets/instances/eagle/app_logos/aastar-logo.svg" class="mt-5 ml-5 footer-aastrika-logo"
-        (click)="goToLink('https://aastrika.org')" />
+        src="./../../../../../../../../../src/fusion-assets/images/sphere-new-logo.svg"
+        class="mt-5 ml-5 footer-aastrika-logo" (click)="goToLink('https://aastrika.org')" />
     </div>
   </div>
