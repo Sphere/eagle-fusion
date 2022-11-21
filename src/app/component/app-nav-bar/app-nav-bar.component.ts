@@ -96,9 +96,15 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
 
     if (this.configSvc.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app,
-      )
+      if (localStorage.getItem('orgValue') === 'nhsrc') {
+        this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+          '/fusion-assets/images/sphere-new-logo.svg',
+        )
+      }
+      else {
+        this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+          this.configSvc.instanceConfig.logos.app)
+      }
       this.instanceVal = this.configSvc.rootOrg || ''
       if (this.configSvc.instanceConfig.logos.appBottomNav) {
         this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(

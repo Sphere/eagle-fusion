@@ -16,7 +16,7 @@
               <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
             </a>
             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-              <h5 class="m-0"> {{resultEnroll.content.courseName}}</h5>
+              <h5 class="m-0"> {{content.courseName}}</h5>
             </div>
           </div>
         </div>
@@ -28,18 +28,6 @@
 <div class="banner-header">
   <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
 </div>
-<!-- Carousel Start -->
-<!-- <div class="container-fluid p-0 mb-5">
-  <div class="row justify-content-start">
-    <div class="col-sm-10 col-lg-8 slider-part">
-      <h5 class="display-3 text-white slider-text">E-nnovated</h5>
-      <p class="display-3 text-white slider-text-pb-2">Learning Process<br>for learning <br>at your comfort.</p>
-      <img class="img-responsive img-fluid slider-img" src="./../../fusion-assets/images/pm.png.png"><img
-        class="img-responsive img-fluid slider-images" src="./../../fusion-assets/images/hmoi.png">
-    </div>
-  </div>
-</div> -->
-<!-- Carousel End -->
 
 <div class="container-fluid  p-0-elearn">
   E-Learning Modules
@@ -47,12 +35,14 @@
 <br>
 <div class="container-fluid  p-0-lang">
   <u>
-    English </u> &nbsp;&nbsp;&nbsp; <u>हिन्दी
-  </u>
+    <a (click)='getCourseDetails("en")'>
+      English
+    </a> </u> &nbsp;&nbsp;&nbsp;
+  <u>
+    <a (click)='getCourseDetails("hi")'>हिन्दी</a></u>
 </div>
 
 
-<!-- Categories Start -->
 <div class="container-xxl py-5 category">
   <div class="container">
     <div class="row g-3">
@@ -72,50 +62,6 @@
     </div>
   </div>
 </div>
-<!-- Categories Start -->
-
-<!-- <div class="container-xxl py-5">
-  <div class="container">
-    <div class="row g-5">
-      <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s"
-        style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-        <h1 class="mb-4">About Us</h1>
-        <p class="mb-4">Aastar is a learning solution accessible anytime, anywhere and on any device. It enables
-          organizations to focus on
-          training their talent of today.</p>
-        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita
-          erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-        <div class="row gy-2 gx-4 mb-4">
-          <div class="col-sm-6">
-            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-          </div>
-          <div class="col-sm-6">
-            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-          </div>
-          <div class="col-sm-6">
-            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-          </div>
-          <div class="col-sm-6">
-            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-          </div>
-          <div class="col-sm-6">
-            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-          </div>
-          <div class="col-sm-6">
-            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-  *ngIf="showNavbar && !hideHeaderFooter">
-</ws-app-footer> -->
-
-
-<!-- Footer Start -->
 <div class="container-fluid footer-alignment" data-wow-delay="0.1s">
   <div class="container py-5">
     <div class="row g-5">
@@ -130,13 +76,13 @@
         </a>
       </div>
       <div class="col-lg-3 col-md-6 footer-alignment">
-        <a class="btn btn-link" href="">About Us</a>
+        <a class="btn btn-link" href="/public/about">About Us</a>
         <a class="btn btn-link" routerLink="/public/tnc">Privacy Policy and terms of use</a>
         <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
         <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
           class="list-item">Help & Contact</a>
-        <a class="btn btn-link" href="">Blog</a>
-        <a class="btn btn-link" href="">Vision</a>
+        <a class="btn btn-link" href="#">Blog</a>
+        <a class="btn btn-link" href="https://www.aastrika.org/vision/" target="_blank">Vision</a>
       </div>
       <div class="col-lg-3 col-md-6">
         <h4 class="input-mb-3">Partners
