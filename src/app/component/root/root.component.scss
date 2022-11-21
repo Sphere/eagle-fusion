@@ -78,7 +78,8 @@ ws-app-nav-bar {
 
 //chat-style
 .chat-icon{
-  z-index: 1;
+  cursor: pointer;
+  z-index: 1000;
   left: 1.1rem;
   position: fixed;
   bottom: 1.3rem;
@@ -86,6 +87,7 @@ ws-app-nav-bar {
 }
 
 .whatsapp-icon{
+  cursor: pointer;
   z-index: 1;
   left: 1.1rem;
   position: fixed;

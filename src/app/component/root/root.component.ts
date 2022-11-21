@@ -326,8 +326,8 @@ export class RootComponent implements OnInit, AfterViewInit {
   //freshChat functionality
   fcSettingsFunc() {
     try {
-      window.fcWidget.hide()
-      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      //window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       window.fcWidget.init()
       if (this.configSvc.userProfile) {
         window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
@@ -342,14 +342,25 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   showSocialChats() {
-    this.isCommonChatEnabled = false
-    window.fcWidget.show()
-    window.fcWidget.init()
+    try {
+      this.isCommonChatEnabled = false
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.init()
+    } catch (error) {
+      //tslint:disable-next-line:no-console
+      console.log(error)
+    }
   }
 
   backToChatIcon() {
-    this.isCommonChatEnabled = true
-    window.fcWidget.hide()
-    window.fcWidget.init()
+    try {
+      this.isCommonChatEnabled = true
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      window.fcWidget.init()
+    } catch (error) {
+      //tslint:disable-next-line:no-console
+      console.log(error)
+    }
   }
 }
