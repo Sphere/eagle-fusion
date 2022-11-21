@@ -97,15 +97,16 @@
             </div>
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
-                [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
+                [disabled]="!createAccountForm?.valid"
+                (click)="onSubmit(createAccountForm);eventTrigger('Create Account Page', 'next-btn')">Next</button>
             </div>
             <div class="rel">
               <span class="whatsApp">
                 <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
               </span>
               <a href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank"
-                class="greenButton" mat-button i18n
-                (click)="eventTrigger('WhatsApp', 'WhatsApp-CreateAccount Page')">Get help on
+                class="greenButton" mat-button i18n id="whatsApp-createaccount-page"
+                (click)="eventTrigger('WhatsApp-Help-Create', 'whatsApp-createaccount-page')">Get help on
                 WhatsApp</a>
             </div>
           </form>

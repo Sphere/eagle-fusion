@@ -40,7 +40,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
-    this.redirectUrl = document.baseURI + 'openid/keycloak'
+    this.redirectUrl = `${document.baseURI}openid/keycloak`
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const prop in changes) {
@@ -59,8 +59,9 @@ export class LearningCardComponent extends WidgetBaseComponent
       const state = uuid()
       const nonce = uuid()
       sessionStorage.setItem('login-btn', 'clicked')
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-      window.location.href = Keycloakurl
+      // tslint:disable-next-line:max-line-length
+      const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+      window.location.href = keycloakurl
       this.authSvc.login('S', this.redirectUrl)
     } else {
       // this.router.navigateByUrl(url)
