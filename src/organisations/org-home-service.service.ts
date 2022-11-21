@@ -56,14 +56,26 @@ export class OrgServiceService {
     return this.http.get<any>(`${url}`).toPromise()
   }
 
-  getLiveSearchResults(): Observable<any> {
+  getLiveSearchResults(language: string): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    const req = {
-      request: {
-        filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: ['Ministry of Health and Family Welfare'],
-        },
-      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
+    let req
+    if (language) {
+      req = {
+        request: {
+          filters: {
+            primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: ['Ministry of Health and Family Welfare'], lang: language
+          },
+        }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
+      }
+    }
+    else {
+      req = {
+        request: {
+          filters: {
+            primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: ['Ministry of Health and Family Welfare']
+          },
+        }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
+      }
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
