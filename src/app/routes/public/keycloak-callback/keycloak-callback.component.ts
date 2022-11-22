@@ -11,7 +11,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService, private snackBarSvc: MatSnackBar,
-    private signupService: SignupService,
+              private signupService: SignupService,
   ) { }
 
   ngOnInit() {
@@ -38,10 +38,10 @@ export class KeycloakCallbackComponent implements OnInit {
                 if (result && result.status === 200 && result.roles.length > 0) {
                   // this.openSnackbar('logged in')
                   if (localStorage.getItem('url_before_login')) {
-                    //window.location.href = localStorage.getItem('url_before_login') || ''
+                    // window.location.href = localStorage.getItem('url_before_login') || ''
 
-                    let url = localStorage.getItem('url_before_login') || ''
-                    //localStorage.removeItem('url_before_login')
+                    const url = localStorage.getItem('url_before_login') || ''
+                    // localStorage.removeItem('url_before_login')
                     location.href = url
                   } else {
                     window.location.href = '/page/home'
@@ -60,16 +60,16 @@ export class KeycloakCallbackComponent implements OnInit {
                 //   location.href = '/page/home'
                 // }
               })
-            }, 1000)
+            },         1000)
           }
-        }, (err: any) => {
+        },                                            (err: any) => {
           // console.log(err)
           // tslint:disable-next-line:no-console
           console.log(err)
           if (err.status === 400) {
             sessionStorage.clear()
             this.snackBarSvc.open(err.error.error)
-            location.href = "/public/home"
+            location.href = '/public/home'
           }
         })
       } catch (err) {
