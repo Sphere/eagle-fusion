@@ -11,6 +11,7 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -47,7 +48,8 @@ export class CardContentComponent extends WidgetBaseComponent
     private snackBar: MatSnackBar,
     private authSvc: AuthKeycloakService,
     private userProfileSvc: UserProfileService,
-    private router: Router
+    private router: Router,
+    private titleService: Title
   ) {
     super()
     this.offSetXValue = 290
@@ -178,6 +180,7 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(data: any) {
+    this.titleService.setTitle(data.name + " - Aastrika")
     this.router.navigate(['/public/toc/overview'], {
       state: {
         tocData: data,
