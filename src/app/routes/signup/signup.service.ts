@@ -6,7 +6,6 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import * as _ from 'lodash'
 import { v4 as uuid } from 'uuid'
 
-
 const API_END_POINTS = {
   USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
   REGISTERUSERWITHMOBILE: `/apis/public/v8/emailMobile/registerUserWithMobile`,
@@ -24,7 +23,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService
+              private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {

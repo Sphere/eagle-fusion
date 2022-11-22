@@ -149,7 +149,8 @@ if (url.indexOf('?org=') > 0) {
   if (orgValue) {
     localStorage.setItem('orgValue', orgValue)
     if (orgValue === 'nhsrc') {
-      window.location.href = document.baseURI + 'organisations/home'
+      window.location.href = `${document.baseURI}organisations/home`
+      //window.location.href = document.baseURI + 'organisations/home'
     }
   }
 }
@@ -294,7 +295,7 @@ if (url.indexOf('?org=') > 0) {
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
-    Title
+    Title,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

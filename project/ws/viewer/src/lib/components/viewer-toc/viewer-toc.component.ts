@@ -118,7 +118,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    console.log("onint")
+    console.log('onint')
     this.isLoading = true
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(

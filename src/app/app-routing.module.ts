@@ -52,7 +52,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
-    data: { title: 'Home - Aastrika' }
+    data: { title: 'Home - Aastrika' },
   },
   {
     path: 'openid/keycloak',
@@ -528,7 +528,7 @@ const routes: Routes = [
     path: 'public/tnc',
     component: TncComponent,
     data: {
-      title: "Terms of Use - Aastrika",
+      title: 'Terms of Use - Aastrika',
       isPublic: true,
     },
     resolve: {
