@@ -1,4 +1,11 @@
-<br><br>
+<br><br><br><br>
+<!-- <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1" [ref]="'home'">
+</ws-app-search-input-home> -->
+<div class="banner-header">
+  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
+</div>
+
+
 <div class="container-start">
   Hi User!
 </div>
@@ -10,36 +17,47 @@
     <div class="row g-3">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
         <div class="row g-3">
-          <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
-            style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-            <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
+              style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
               <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
-            </a>
-            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-              <h5 class="m-0"> {{content.courseName}}</h5>
+              <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                <h5 class="m-0"> {{content.courseName}}</h5>
+              </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="banner-header">
-  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
-</div>
+
+
+
+
+
 
 <div class="container-fluid  p-0-elearn">
   E-Learning Modules
 </div>
 <br>
 <div class="container-fluid  p-0-lang">
-  <u>
-    <a (click)='getCourseDetails("en")'>
+  <a (click)='getCourseDetails("")'>
+    <button class="all-courses">
+      All
+    </button></a>
+  &nbsp;&nbsp;&nbsp;
+
+  <a (click)='getCourseDetails("en")'>
+    <button class="en-courses">
       English
-    </a> </u> &nbsp;&nbsp;&nbsp;
-  <u>
-    <a (click)='getCourseDetails("hi")'>हिन्दी</a></u>
+    </button></a>
+  &nbsp;&nbsp;&nbsp;
+  <a (click)='getCourseDetails("hi")'>
+    <button class="hi-courses">हिन्दी
+    </button>
+  </a>
 </div>
 
 
@@ -48,15 +66,15 @@
     <div class="row g-3">
       <div class="col-lg-7 col-md-6" *ngFor="let content of resultResponse">
         <div class="row g-3">
-          <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
-            style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-            <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
+              style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
               <img class="img-fluid  img-responsive courses" [src]="content.appIcon">
-            </a>
-            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-              <h5 class="m-0">{{content.name}}</h5>
+              <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                <h5 class="m-0">{{content.name}}</h5>
+              </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -71,12 +89,13 @@
       </div>
 
       <div class="col-lg-3 col-md-6 footer-alignment">
-        <a class="btn btn-link" href="/public/about">About Us</a>
-        <a class="btn btn-link" routerLink="/public/tnc">Privacy Policy and terms of use</a>
-        <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
+        <a class="btn btn-link" href="/public/about">About Us</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc">Privacy Policy</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc">Terms of use</a><br>
+        <!-- <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
         <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
           class="list-item">Help & Contact</a>
-        <a class="btn btn-link" href="#">Blog</a>
+        <a class="btn btn-link" href="#">Blog</a> -->
         <a class="btn btn-link" href="https://www.aastrika.org/vision/" target="_blank">Vision</a>
       </div>
       <div class="col-lg-3 col-md-6">

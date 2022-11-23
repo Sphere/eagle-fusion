@@ -19,6 +19,7 @@ export class OrgHomeComponent implements OnInit {
   contentId: any = []
   language: any = ""
 
+
   constructor(
     private router: Router,
     private orgService: OrgServiceService,
