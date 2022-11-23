@@ -2180,9 +2180,9 @@ input.form-control.mr-sm-2 {
 }
 
 button.all-courses {
-    background-color: #3851c6;
+    background-color: #eee;
     border: none;
-    color: white;
+    color: blue;
     padding: 7px;
     text-align: center;
     text-decoration: none;
@@ -2265,4 +2265,18 @@ button.all-courses:focus {
 
 .text-dark.mt-1 {
     font-size: 12px;
+}
+
+button.all-courses:focus {
+    background-color: #3851c6;
+    border: none;
+    color: white;
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
