@@ -102,11 +102,6 @@ import { NotificationComponent } from '../../project/ws/author/src/lib/modules/s
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { Capacitor } from '@capacitor/core'
-import { CompetenciesComponent } from './routes/profile-view/competencies/competencies.component'
-import { CompetencyCardComponent } from './routes/profile-view/competency-components/competency-card/competency-card.component'
-import { ProficiencyLevelComponent } from './routes/profile-view/competency-components/proficiency-level/proficiency-level.component'
-import { ProficiencyLandingComponent } from './routes/profile-view/proficiency-landing/proficiency-landing.component'
-import { ProficiencyCardComponent } from './routes/profile-view/competency-components/proficiency-card/proficiency-card.component'
 import { EntryModule } from '@aastrika/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika/comptency/competency'
@@ -200,13 +195,8 @@ if (url.indexOf('&code=') > 0) {
     MobileProfileNavComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
-    CompetenciesComponent,
     LanguageDialogComponent,
-    DropdownDobComponent,
-    CompetencyCardComponent,
-    ProficiencyLevelComponent,
-    ProficiencyLandingComponent,
-    ProficiencyCardComponent
+    DropdownDobComponent
   ],
   imports: [
     FormsModule,
