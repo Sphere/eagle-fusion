@@ -28,12 +28,12 @@ export class LearningComponent implements OnInit, OnDestroy {
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
   searchRequestStatus: IKhubFetchStatus = 'none'
-  lang: string = ''
+  lang = ''
   contactMethods = [
-    { id: 'en', label: "English" },
-    { id: 'hi', label: "हिंदी" }
+    { id: 'en', label: 'English' },
+    { id: 'hi', label: 'हिंदी' },
   ]
-  contact: string = ''
+  contact = ''
   // searchResults: NSSearch.ISearchV6ApiResult = {
   //   totalHits: 0,
   //   result: [],

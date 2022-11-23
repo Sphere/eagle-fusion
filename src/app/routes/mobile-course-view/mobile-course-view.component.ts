@@ -15,9 +15,9 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any
   @Input() enableConfig = false
   constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService
+              private configSvc: ConfigurationsService,
+              private userProfileSvc: UserProfileService,
+              private signUpSvc: SignupService
   ) { }
 
   ngOnInit() {
@@ -32,7 +32,7 @@ export class MobileCourseViewComponent implements OnInit {
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
       // localStorage.setItem(`url_before_login`, url)
-      //this.router.navigateByUrl('app/login')
+      // this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
