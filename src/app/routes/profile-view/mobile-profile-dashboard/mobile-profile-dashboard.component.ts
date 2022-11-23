@@ -11,6 +11,7 @@ import { forkJoin, from } from 'rxjs'
 import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
+import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
@@ -37,6 +38,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
+    private CompetencyConfiService: CompetencyConfiService
   ) {
   }
 
@@ -63,6 +65,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
+    this.CompetencyConfiService.setConfig()
   }
 
   processCertiFicate(data: any) {

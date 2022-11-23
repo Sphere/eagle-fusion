@@ -110,6 +110,7 @@ import { ProficiencyCardComponent } from './routes/profile-view/competency-compo
 import { EntryModule } from '@aastrika/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika/comptency/competency'
+import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 
 
 @Injectable()
@@ -129,6 +130,7 @@ const appInitializer = (initSvc: InitService, logger: LoggerService) => async ()
 const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
+
 
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
@@ -255,7 +257,7 @@ if (url.indexOf('&code=') > 0) {
     ImageCropModule,
     SharedModule,
     SelfAssessmentModule,
-    EntryModule.forRoot({ config: { 'userName': 'aman' } }),
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     CompetencyModule,
 
   ],
