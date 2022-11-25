@@ -1,38 +1,35 @@
-<br><br><br><br>
 <!-- <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1" [ref]="'home'">
 </ws-app-search-input-home> -->
 <div class="banner-header">
   <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
 </div>
 
-
-<div *ngIf="enrollData; else elseBlock">
-  Content to render when condition is true.
-</div>
-<ng-template #elseBlock>
-  <div class="container-start">
-    Hi User!
-  </div>
-  <span class="resume-learning">
-    Continue Learning
-  </span>
-  <div class="container-xxl py-5 category">
-
-    <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
-      <div class="row g-3" *ngIf="resultEnroll.length>0">
-        <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)">
-          <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
-            style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
-            <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
-            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-              <h5 class="m-0"> {{content.courseName}}</h5>
+<ng-container *ngIf="enrollData===false;else second">
+  <div>
+    <div class="container-start">
+      Hi User!
+    </div>
+    <span class="resume-learning">
+      Continue Learning
+    </span>
+    <div class="container-xxl py-5 category">
+      <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
+        <div class="row g-3" *ngIf="resultEnroll.length>0">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)">
+            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
+              style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+              <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
+              <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                <h5 class="m-0"> {{content.courseName}}</h5>
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   </div>
-
+</ng-container>
+<ng-template #second>
 </ng-template>
 
 
