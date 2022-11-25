@@ -18,6 +18,7 @@ export class OrgHomeComponent implements OnInit {
   resultEnroll: any
   contentId: any = []
   language: any = ""
+  enrollData: boolean = false
 
 
   constructor(
@@ -47,6 +48,10 @@ export class OrgHomeComponent implements OnInit {
           enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
           enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
           this.resultEnroll = [enrollmentArr[0]]
+          console.log("resultEnroll >>>>>>>>>>>." + JSON.stringify(enrollmentArr[0]))
+          console.log("resultEnroll >>>>>>>>>>>." + this.resultEnroll.length)
+          if (this.resultEnroll == 'undefined' && this.resultEnroll.length < 1) { this.enrollData = true }
+          console.log("><<<<<<<<<<<<<<<<<>>>>>>>>>>>" + this.enrollData)
         })
       }
       return courseArray
