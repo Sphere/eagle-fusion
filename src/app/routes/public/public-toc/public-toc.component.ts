@@ -71,6 +71,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
             if (findRes.identifier === id) {
               this.tocData = findRes
               localStorage.setItem('tocData', JSON.stringify(this.tocData))
+              localStorage.setItem(`url_before_login`, `app/toc/` + `${id}` + `/overview`)
             }
 
           })
