@@ -284,6 +284,7 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     if (this.backgroundSelect === 'Healthcare Volunteer' || this.backgroundSelect === 'Healthcare Worker') {
+      // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
         if (value.professSelected || value.professionOtherSpecify || value.orgOtherSpecify && value.orgType && value.orgName) {
           this.enableSubmit = false
@@ -296,6 +297,7 @@ export class AlmostDoneComponent implements OnInit {
       // }
     }
     if (this.backgroundSelect === 'ASHA') {
+      // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
         if (value.block && value.subcentre) {
           this.enableSubmit = false
@@ -308,6 +310,7 @@ export class AlmostDoneComponent implements OnInit {
       // }
     }
     if (this.backgroundSelect === 'Student') {
+      // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
         if (value.instituteName) {
           this.enableSubmit = false

@@ -71,6 +71,7 @@ export class SCORMAdapterService {
       this._setError(301)
       return false
     }
+    this.viewerDataSvc.scromChangeSubject.next(true)
     let _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
@@ -116,7 +117,14 @@ export class SCORMAdapterService {
         this.scromSubscription = this.addDataV2(data).subscribe((response) => {
           // console.log(response)
           if (this.getPercentage(data) === 100) {
-            this.viewerDataSvc.scromChangeSubject.next(true)
+            this.viewerDataSvc.scromChangeSubject.next(
+              {
+                'completed': true,
+                'batchId':
+                  this.activatedRoute.snapshot.queryParamMap.get('batchId'),
+                'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
+                , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
+              })
             setTimeout(() => {
               this.LMSFinish()
             })
@@ -198,9 +206,12 @@ export class SCORMAdapterService {
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req.request.courseId}`, req
     ).subscribe(
       data => {
+        // tslint:disable-next-line: no-console
+        console.log(data)
         if (data && data.result && data.result.contentList.length) {
           for (const content of data.result.contentList) {
-            //console.log('loading state for ', this.contentId)
+            // tslint:disable-next-line: no-console
+            console.log('loading state for ', content)
             if (content.contentId === this.contentId && content.progressdetails) {
               const data = content.progressdetails
               const loadDatas: IScromData = {
@@ -299,7 +310,8 @@ export class SCORMAdapterService {
     // if (this.getPercentage(postData) === 100) {
     //   this.viewerDataSvc.changedSubject.next(true)
     // }
-
+    // tslint:disable-next-line: no-console
+    console.log(req)
 
     //if(Object.keys(postData).length > 3) {
     return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
