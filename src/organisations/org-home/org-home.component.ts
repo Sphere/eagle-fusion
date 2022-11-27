@@ -18,6 +18,8 @@ export class OrgHomeComponent implements OnInit {
   resultEnroll: any
   contentId: any = []
   language: any = ""
+  enrollData: any = true
+
 
   constructor(
     private router: Router,
@@ -46,6 +48,7 @@ export class OrgHomeComponent implements OnInit {
           enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
           enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
           this.resultEnroll = [enrollmentArr[0]]
+          if (this.resultEnroll.length > 0) { this.enrollData = false }
         })
       }
       return courseArray

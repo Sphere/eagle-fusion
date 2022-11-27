@@ -13,6 +13,7 @@ import {
   NavigationError,
   NavigationStart,
   Router,
+  ActivatedRoute,
 } from '@angular/router'
 // import { Location } from '@angular/common'
 
@@ -26,7 +27,7 @@ import {
   ValueService,
   WsEvents,
 } from '@ws-widget/utils'
-import { delay } from 'rxjs/operators'
+import { delay, filter, map } from 'rxjs/operators'
 import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
@@ -42,6 +43,8 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { MatDialog } from '@angular/material'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
+import { Title } from '@angular/platform-browser'
+
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -82,6 +85,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
     private signupService: SignupService,
+    private titleService: Title,
+    private activatedRoute: ActivatedRoute
   ) {
 
     this.mobileAppsSvc.init()
@@ -131,7 +136,9 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.setPageTitle()
     this.fcSettingsFunc()
+
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
@@ -196,6 +203,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
+
 
                 const redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
@@ -335,5 +343,25 @@ export class RootComponent implements OnInit, AfterViewInit {
       // tslint:disable-next-line:no-console
       console.log(error)
     }
+  }
+
+  // set page title
+  setPageTitle() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => {
+        const appTitle = this.titleService.getTitle()
+        const child = this.activatedRoute.firstChild
+        if ((child !== null)) {
+          if (child.snapshot.data['title']) {
+            return child.snapshot.data['title']
+          }
+          return appTitle
+        }
+        return appTitle
+      })
+    ).subscribe((title: string) => {
+      this.titleService.setTitle(title)
+    })
   }
 }
