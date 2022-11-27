@@ -49,10 +49,8 @@ export class OrgHomeComponent implements OnInit {
           enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
           this.resultEnroll = [enrollmentArr[0]]
           if (this.resultEnroll.length > 0) { this.enrollData = false }
-          console.log("this.enrollData >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + this.enrollData)
         })
       }
-      console.log("this.enrollData >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + this.enrollData)
       return courseArray
     })
   }
