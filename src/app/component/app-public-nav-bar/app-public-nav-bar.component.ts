@@ -77,7 +77,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       //   localStorage.removeItem('tocData')
       //   localStorage.removeItem(`userUUID`)
       //   // const url = `${document.baseURI}public/home`
-      //   // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      //   // const Keycloakurl = `${document.baseURI}auth/
+      // realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
       //   // window.location.href = Keycloakurl
       // } catch (error) { }
 
@@ -110,7 +111,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     } else if (href.indexOf('org-details') > 0) {
       this.redirectUrl = href
     } else {
-      this.redirectUrl = document.baseURI + 'openid/keycloak'
+      this.redirectUrl = `${document.baseURI}openid/keycloak`
     }
 
     // added from app nav
@@ -177,6 +178,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     // const state = uuid()
     // const nonce = uuid()
     // sessionStorage.setItem('login-btn', 'clicked')
+    // tslint:disable-next-line:max-line-length
     // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
     // window.location.href = Keycloakurl
     this.authSvc.login(key, this.redirectUrl)
