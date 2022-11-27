@@ -48,7 +48,7 @@ export class OrgHomeComponent implements OnInit {
           enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
           enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
           this.resultEnroll = [enrollmentArr[0]]
-          if (this.resultEnroll.length > 0) { this.enrollData = false }
+          if (enrollmentArr[0]) { this.enrollData = false }
         })
       }
       return courseArray
