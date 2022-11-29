@@ -30,6 +30,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   loader = true
   showbackButton = false
   showLogOutIcon = false
+  profileData: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -51,6 +52,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
       this.loader = false
+      this.profileData = res[0].profileDetails.profileReq
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -65,7 +67,8 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
-    this.CompetencyConfiService.setConfig()
+    console.log(this.profileData)
+    // this.CompetencyConfiService.setConfig(this.profileData)
   }
 
   processCertiFicate(data: any) {
@@ -131,6 +134,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
         this.academicsArray = this.userProfileData.academics
       }
+      this.CompetencyConfiService.setConfig(this.userProfileData)
     }
   }
   getUserDetails() {
