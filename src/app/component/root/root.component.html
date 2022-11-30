@@ -1,12 +1,13 @@
-<mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
-</mat-progress-bar>
-<ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"
-  (menuClick)="getMenuClickValue($event)">
-</ws-app-public-nav-bar>
-<ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
+<div [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
+  <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
+  </mat-progress-bar>
+  <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"
+    (menuClick)="getMenuClickValue($event)">
+  </ws-app-public-nav-bar>
+  <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
 
-<!-- </ws-widget-sticky-header> -->
-<div class="height-adjust" [ngClass]="{
+  <!-- </ws-widget-sticky-header> -->
+  <div class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll':
       (isXSmall$ | async) === true && showNavbar,
       'height-adjust-setup' : isSetupPage,
@@ -15,26 +16,44 @@
       showNavbar && isNavBarRequired
   }">
 
-  <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn"></ws-mobile-dashboard>
-  <router-outlet></router-outlet>
-</div>
+    <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn"></ws-mobile-dashboard>
+    <router-outlet></router-outlet>
+  </div>
 
-<!-- Mobile Footer -->
-<!-- <ws-mobile-footer class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
+  <!-- Mobile Footer -->
+  <!-- <ws-mobile-footer class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
 </ws-mobile-footer> -->
 
-<!-- Desktop Footer -->
-<ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-  *ngIf="showNavbar && !hideHeaderFooter">
-</ws-app-footer>
+  <!-- Desktop Footer -->
+  <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+    *ngIf="showNavbar && !hideHeaderFooter">
+  </ws-app-footer>
 
-<ng-container>
-  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
-    [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
-  </ws-app-nav-bar>
-</ng-container>
+  <ng-container>
+    <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
+      [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
+    </ws-app-nav-bar>
+  </ng-container>
 
-<ng-container #previewContainer></ng-container>
+  <ng-container #previewContainer></ng-container>
 
-<input #appUpdateTitle type="hidden" i18n-value value="App Update" />
-<input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />
+  <input #appUpdateTitle type="hidden" i18n-value value="App Update" />
+  <input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />
+</div>
+
+<!--Chat icon-->
+<div *ngIf="isCommonChatEnabled">
+  <img src="/fusion-assets/images/Get-help.svg" class="chat-icon" (click)="showSocialChats()" alt="chat image" />
+</div>
+
+<div *ngIf="!isCommonChatEnabled">
+  <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />
+  <a href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank"
+    (click)="backToChatIcon()">
+    <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp image" />
+    <div>
+      <p class="whtsapp-text">Chat with us on WhatsApp</p>
+      <p class="fcapp-text">Connect with us</p>
+    </div>
+  </a>
+</div>
