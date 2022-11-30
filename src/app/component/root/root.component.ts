@@ -321,6 +321,15 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
+    try {
+      window.fcWidget.on("widget:closed", () => {
+        this.backToChatIcon()
+      })
+    } catch (error) {
+      //tslint:disable-next-line:no-console
+      console.log(error)
+    }
+
   }
 
   //freshChat functionality
