@@ -204,6 +204,7 @@ export class CreateAccountComponent implements OnInit {
     const userdata = Object.assign(MainVisitorDetails, obj)
     this.signupService.plumb5SendEvent(userdata).subscribe((res: any) => {
       // @ts-ignore: Unreachable code error
+      // tslint:disable-next-line
       console.log(res)
     })
   }

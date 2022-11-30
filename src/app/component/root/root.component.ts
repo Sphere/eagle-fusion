@@ -205,16 +205,17 @@ export class RootComponent implements OnInit, AfterViewInit {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
 
-                //const redirectUrl = document.baseURI + 'openid/keycloak'
+
                 const redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
-                const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = Keycloakurl
+                // tslint:disable-next-line:max-line-length
+                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                window.location.href = keycloakurl
               }
             })
 
-          }, 10)
+          },         10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -222,6 +223,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   const redirectUrl = document.baseURI + 'openid/keycloak'
           //   const state = uuid()
           //   const nonce = uuid()
+          // tslint:disable-next-line:max-line-length
           //   window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
           //   // this.router.navigateByUrl('app/login')
           // }
