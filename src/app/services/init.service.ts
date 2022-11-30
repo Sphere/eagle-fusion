@@ -9,14 +9,14 @@ import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
-  //LoginResolverService,
+  // LoginResolverService,
   // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
   // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
-  //AuthKeycloakService,
+  // AuthKeycloakService,
   // AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,

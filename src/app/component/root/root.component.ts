@@ -68,7 +68,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showMobileDashboard = true
-  isCommonChatEnabled = true;
+  isCommonChatEnabled = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -188,7 +188,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           }
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
-          //this.showNavigation = true
+          // this.showNavigation = true
           this.isLoggedIn = true
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
@@ -197,7 +197,7 @@ export class RootComponent implements OnInit, AfterViewInit {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
 
-                const redirectUrl = document.baseURI + 'openid/keycloak'
+                const redirectUrl = `${document.baseURI} openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
                 const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
@@ -241,12 +241,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
-        }
-        // else if (event.url.includes('viewer')) {
-        //   this.hideHeaderFooter = true
-        //   this.isNavBarRequired = false
-        // }
-        else {
+        } else {
           this.isNavBarRequired = true
           this.mobileView = false
         }
@@ -322,30 +317,30 @@ export class RootComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {
-      window.fcWidget.on("widget:closed", () => {
+      window.fcWidget.on('widget:closed', () => {
         this.backToChatIcon()
       })
     } catch (error) {
-      //tslint:disable-next-line:no-console
+      // tslint:disable-next-line:no-console
       console.log(error)
     }
 
   }
 
-  //freshChat functionality
+  // freshChat functionality
   fcSettingsFunc() {
     try {
       window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-      //window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       window.fcWidget.init()
       if (this.configSvc.userProfile) {
         window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
         window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
         window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
-        window.fcWidget.user.setMeta({ "userId": this.configSvc.userProfile.userId, "username": this.configSvc.userProfile.userName })
+        window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
       }
     } catch (error) {
-      //tslint:disable-next-line:no-console
+      // tslint:disable-next-line:no-console
       console.log(error)
     }
   }
@@ -357,7 +352,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       window.fcWidget.init()
     } catch (error) {
-      //tslint:disable-next-line:no-console
+      // tslint:disable-next-line:no-console
       console.log(error)
     }
   }
@@ -368,7 +363,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
       window.fcWidget.init()
     } catch (error) {
-      //tslint:disable-next-line:no-console
+      // tslint:disable-next-line:no-console
       console.log(error)
     }
   }
