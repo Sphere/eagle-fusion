@@ -17,6 +17,7 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 export class HomeComponent implements OnInit {
 
   query: FormControl = new FormControl('')
+  lang = ''
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   autoCompleteResults: ISearchAutoComplete[] = []
   searchQuery: ISearchQuery = {
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   }
   languageSearch: string[] = []
   suggestedFilters: ISuggestedFilters[] = []
+  contact = ''
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -43,7 +45,7 @@ export class HomeComponent implements OnInit {
         this.getAutoCompleteResults()
       })
     }
-        this.searchApi.currentMessage.subscribe(
+    this.searchApi.currentMessage.subscribe(
       (data: any) => {
         if (data) {
           this.search()
@@ -51,20 +53,33 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  search(query?: string) {
+  search(query?: string, lang?: string) {
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang: this.searchQuery.l, q: query || this.searchQuery.q },
+      queryParams: { lang, q: query || this.searchQuery.q },
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
         queryParams: {
           q: query || this.searchQuery.q,
           lang: this.searchQuery.l,
-          f: JSON.stringify({ contentType : ['Course'] }),
+          f: JSON.stringify({ contentType: ['Course'] }),
         },
       })
     })
   }
-
+  selectLang(e: any) {
+    this.lang = e
+    this.router.navigate(['/app/search/home'], {
+      queryParams: { lang: e, q: this.searchQuery.q },
+    }).then(() => {
+      this.router.navigate(['/app/search/learning'], {
+        queryParams: {
+          q: this.searchQuery.q,
+          lang: this.searchQuery.l,
+          f: JSON.stringify({ contentType: ['Course'] }),
+        },
+      })
+    })
+  }
   searchWithFilter(filter: any): void {
     const objType = filter.contentType ? { contentType: [filter.contentType] } :
       filter.resourceType ? { resourceType: [filter.resourceType] } : filter.combinedType === 'learningContent' ?
@@ -121,6 +136,10 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  langSelect(lang: string) {
+    this.lang = lang
+  }
+
   ngOnInit() {
     this.route.queryParamMap.subscribe(queryParam => {
       if (queryParam.has('q')) {
@@ -140,7 +159,7 @@ export class HomeComponent implements OnInit {
       this.languageSearch = this.languageSearch.sort()
       this.swapRemove(this.languageSearch, this.languageSearch.indexOf('all'), 0)
       if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
-      this.languageSearch.splice(1, 0, this.preferredLanguages)
+        this.languageSearch.splice(1, 0, this.preferredLanguages)
       }
     })
     this.searchSvc.getSearchConfig().then(res => {

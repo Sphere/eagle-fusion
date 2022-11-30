@@ -471,7 +471,7 @@ export class InitService {
 
   private updateAppIndexMeta() {
     if (this.configSvc.instanceConfig) {
-      document.title = this.configSvc.instanceConfig.details.appName
+      //document.title = this.configSvc.instanceConfig.details.appName
       try {
         if (this.configSvc.instanceConfig.indexHtmlMeta.description) {
           const manifestElem = document.getElementById('id-app-description')

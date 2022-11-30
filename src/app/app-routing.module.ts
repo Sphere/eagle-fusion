@@ -52,6 +52,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
+    data: { title: 'Home - Aastrika' },
   },
   {
     path: 'openid/keycloak',
@@ -61,6 +62,7 @@ const routes: Routes = [
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
+      title: 'Home - Aastrika',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -88,6 +90,11 @@ const routes: Routes = [
     },
     loadChildren: () => import('./routes/route-admin.module').then(u => u.RouteAdminModule),
     canActivate: [GeneralGuard],
+  },
+  {
+    path: 'organisations',
+    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
+    // canActivate: [GeneralGuard],
   },
   {
     path: 'analytics',
@@ -486,6 +493,7 @@ const routes: Routes = [
     path: 'public/about',
     component: PublicAboutComponent,
     data: {
+      title: 'About - Aastrika',
       pageType: 'feature',
       pageKey: 'about',
       isPublic: true,
@@ -520,6 +528,7 @@ const routes: Routes = [
     path: 'public/tnc',
     component: TncComponent,
     data: {
+      title: 'Terms of Use - Aastrika',
       isPublic: true,
     },
     resolve: {

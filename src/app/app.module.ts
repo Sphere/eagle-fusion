@@ -27,7 +27,7 @@ import {
   MatNativeDateModule,
   MatSelectModule,
 } from '@angular/material'
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
+import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BtnFeatureModule, ErrorResolverModule, TourModule, WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
@@ -129,7 +129,6 @@ if (Capacitor.getPlatform() === 'ios') {
   console.log('Android!')
 } else {
   // tslint:disable-next-line:no-console
-
   console.log('Web!')
 }
 
@@ -140,12 +139,20 @@ if (url.indexOf('&code=') > 0) {
   const code = url.slice(url.indexOf('&code=') + 6)
   // localStorage.clear()
   sessionStorage.setItem('code', code)
+}
 
-  // window.location.assign(`${location.origin}/openid/keycloak/${code}`)
-  // console.log(`${location.origin} /openid / keycloakcallback / ${code}`)
-  // console.log(code)
-  // window.location.href = document.baseURI + 'openid/keycloakcallback/' + code
-  // location.href = 'openid/keycloakcallback/' + code
+// Conditions added for checking if nhsrc organisation is present in url
+if (url.indexOf('?org=') > 0) {
+  const queryString = window.location.search
+  const urlParams = new URLSearchParams(queryString)
+  const orgValue = urlParams.get('org')
+  if (orgValue) {
+    localStorage.setItem('orgValue', orgValue)
+    if (orgValue === 'nhsrc') {
+      window.location.href = `${document.baseURI}organisations/home`
+      //window.location.href = document.baseURI + 'organisations/home'
+    }
+  }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -288,6 +295,7 @@ if (url.indexOf('&code=') > 0) {
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
+    Title,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
