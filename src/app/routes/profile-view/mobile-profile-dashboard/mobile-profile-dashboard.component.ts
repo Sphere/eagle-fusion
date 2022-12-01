@@ -67,7 +67,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
-    console.log(this.profileData)
+
     // this.CompetencyConfiService.setConfig(this.profileData)
   }
 
