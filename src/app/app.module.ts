@@ -149,7 +149,11 @@ if (url.indexOf('?org=') > 0) {
   if (orgValue) {
     localStorage.setItem('orgValue', orgValue)
     if (orgValue === 'nhsrc') {
-      window.location.href = `${document.baseURI}organisations/home`
+      if (url.indexOf('do_') > 0) {
+        window.location.href = `${url}`
+      }
+      else
+        window.location.href = `${document.baseURI}organisations/home`
     }
   }
 }
