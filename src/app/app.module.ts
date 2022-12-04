@@ -102,9 +102,9 @@ import { NotificationComponent } from '../../project/ws/author/src/lib/modules/s
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { Capacitor } from '@capacitor/core'
-import { EntryModule } from '@aastrika/comptency/entry-module'
-import { SelfAssessmentModule } from '@aastrika/comptency/self-assessment'
-import { CompetencyModule } from '@aastrika/comptency/competency'
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 
 
