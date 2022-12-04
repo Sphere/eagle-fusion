@@ -25,6 +25,7 @@
   },
   "private": true,
   "dependencies": {
+    "@aastrika_npmjs/comptency-ui-lib": "../../aastrika-UI/competency-ui-lib/dist/competency-ui",
     "@aastrika_npmjs/discussions-ui-v8": "^2.1.14",
     "@angular/animations": "~8.2.1",
     "@angular/cdk": "~8.1.2",
@@ -40,9 +41,9 @@
     "@angular/pwa": "^0.803.14",
     "@angular/router": "~8.2.1",
     "@angular/service-worker": "~8.2.1",
+    "@capacitor/android": "2.0.0",
     "@capacitor/cli": "2.0.0",
     "@capacitor/core": "2.0.0",
-    "@capacitor/android": "2.0.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@material-extended/mde": "^2.3.1",
     "@project-sunbird/client-services": "3.9.5",

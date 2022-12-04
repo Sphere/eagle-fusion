@@ -3,6 +3,7 @@
 @import './utility.scss';
 
 @import '../../node_modules/quill/dist/quill.snow.css';
+@import "../../node_modules/@aastrika_npmjs/comptency-ui-lib/assets/styles/global.scss";
 
 @include print {
   * {
