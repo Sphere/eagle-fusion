@@ -102,6 +102,11 @@ import { NotificationComponent } from '../../project/ws/author/src/lib/modules/s
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { Capacitor } from '@capacitor/core'
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
+
 
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -120,6 +125,7 @@ const appInitializer = (initSvc: InitService, logger: LoggerService) => async ()
 const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
+
 
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
@@ -200,7 +206,7 @@ if (url.indexOf('?org=') > 0) {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
-    DropdownDobComponent,
+    DropdownDobComponent
   ],
   imports: [
     FormsModule,
@@ -250,6 +256,10 @@ if (url.indexOf('?org=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
+    SelfAssessmentModule,
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    CompetencyModule,
+
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
