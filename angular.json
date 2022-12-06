@@ -25,6 +25,11 @@
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
                 "output": "./assets/discussion-ui"
+              },
+              {
+                "glob": "**/*.*",
+                "input": "./node_modules/@aastrika_npmjs/comptency-ui-lib/assets",
+                "output": "./assets/comptency"
               }
             ],
             "stylePreprocessorOptions": {
@@ -126,12 +131,12 @@
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
             },
-            "hi":{
-                "aot": true,
-                "i18nFile": "locale/messages.hi.xlf",
-                "i18nFormat": "xlf",
-                "i18nLocale": "hi",
-                "i18nMissingTranslation": "warn"
+            "hi": {
+              "aot": true,
+              "i18nFile": "locale/messages.hi.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "hi",
+              "i18nMissingTranslation": "warn"
             }
           }
         },

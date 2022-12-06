@@ -26,11 +26,11 @@ export class WorkInfoEditComponent implements OnInit {
   showLogOutIcon = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private route: ActivatedRoute,
-              private valueSvc: ValueService) {
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private valueSvc: ValueService) {
     this.workInfoForm = new FormGroup({
       doj: new FormControl('', []),
       organizationName: new FormControl('', []),
@@ -82,8 +82,8 @@ export class WorkInfoEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    if (form.value.doj) {
-      form.value.doj = changeformat(new Date(`${form.value.doj}`))
+    if (form.doj) {
+      form.doj = changeformat(new Date(`${form.doj}`))
     }
 
     if (this.configSvc.userProfile) {
