@@ -33,7 +33,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       postalAddress: _.get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress,
       pincode: _.get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode,
     },
-    academics: _.get(form, 'courseDegree') ? populateAcademics(form, userProfileData) : populateAcademics(userProfileData),
+    academics: _.get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
     employmentDetails: {
       service: _.get(userProfileData, 'employmentDetails.service') || '',
       cadre: _.get(userProfileData, 'employmentDetails.cadre') || '',
