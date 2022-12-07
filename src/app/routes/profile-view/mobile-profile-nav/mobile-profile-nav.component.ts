@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Location } from '@angular/common'
+import { Router } from '@angular/router'
 import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
@@ -11,9 +12,11 @@ import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/publ
 export class MobileProfileNavComponent implements OnInit {
   @Input() showbackButton?: Boolean
   @Input() showLogOutIcon?: Boolean
+  @Input() trigerrNavigation?: Boolean = false
   constructor(
     private dialog: MatDialog,
-    private _location: Location) {
+    private _location: Location,
+    public router: Router) {
   }
 
   ngOnInit() {
@@ -24,6 +27,11 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   backScreen() {
-    this._location.back()
+
+    if (this.trigerrNavigation) {
+      this.router.navigate(['/app/profile-view'])
+    } else {
+      this._location.back()
+    }
   }
 }
