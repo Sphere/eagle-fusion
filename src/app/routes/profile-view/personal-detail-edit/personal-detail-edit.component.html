@@ -135,7 +135,6 @@
       <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" autocomplete="off"
         (change)="fieldChange()">
     </div>
-    {{savebtnDisable}}
     <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
       [disabled]="personalDetailForm?.invalid || savebtnDisable">Save
     </button>
