@@ -35,6 +35,18 @@
     </button>
   </div>
 
+  <div class="mt-3">
+
+    <!-- <div class=" competency-card">
+      <h4 class="mb-0">Competencies</h4>
+      <mat-icon class="cursor-pointer" (click)="openCompetency()">chevron_right</mat-icon>
+    </div> -->
+    <!-- <ws-competencies></ws-competencies> -->
+    <lib-slef-assessment-entry (stateChange)="openCompetency($event)"></lib-slef-assessment-entry>
+    <div class="mt-3">
+      <lib-competency-entry (stateChange)="openCompetencyDashboard($event)"></lib-competency-entry>
+    </div>
+  </div>
 
   <!-- About Section -->
   <div class="mt-3">

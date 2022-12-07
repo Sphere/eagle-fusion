@@ -11,7 +11,7 @@ import { forkJoin, from } from 'rxjs'
 import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
-
+import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
@@ -30,6 +30,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   loader = true
   showbackButton = false
   showLogOutIcon = false
+  profileData: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -38,6 +39,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
+    private CompetencyConfiService: CompetencyConfiService
   ) {
   }
 
@@ -50,6 +52,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
       this.loader = false
+      this.profileData = res[0].profileDetails.profileReq
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -64,13 +67,15 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
+
+    // this.CompetencyConfiService.setConfig(this.profileData)
   }
 
   processCertiFicate(data: any) {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                             'identifier')
+    })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -92,7 +97,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      },         500)
+      }, 500)
     })
 
   }
@@ -100,13 +105,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                                (result: any, value) => {
+    })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    },                                  [])
+    }, [])
     this.certificates = issuedCertificates
   }
 
@@ -129,6 +134,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
         this.academicsArray = this.userProfileData.academics
       }
+      this.CompetencyConfiService.setConfig(this.userProfileData)
     }
   }
   getUserDetails() {
@@ -169,5 +175,14 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   personalDetailEdit() {
     this.router.navigate([`app/personal-detail-edit`])
+  }
+
+  openCompetency(event: any) {
+    console.log(event)
+    this.router.navigate([`app/user/self-assessment`])
+  }
+  openCompetencyDashboard(event: any) {
+    console.log(event)
+    this.router.navigate([`app/user/competency`])
   }
 }
