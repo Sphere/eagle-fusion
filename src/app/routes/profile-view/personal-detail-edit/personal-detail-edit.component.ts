@@ -52,6 +52,7 @@ export class PersonalDetailEditComponent implements OnInit {
   langList = ['English', 'Hindi']
   langDialog: any
   preferedLanguage: any = 'English'
+  loadDob = false
   constructor(private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
@@ -299,12 +300,13 @@ export class PersonalDetailEditComponent implements OnInit {
         pincode: data.personalDetails.pincode,
       })
     }
+    this.loadDob = true
   }
 
   private getDateFromText(dateString: string): any {
     if (dateString) {
       const splitValues: string[] = dateString.split('-')
-      const [dd, mm, yyyy] = splitValues
+      const [mm, dd, yyyy] = splitValues
       const dateToBeConverted = `${yyyy}-${mm}-${dd}`
       return new Date(dateToBeConverted)
     }
