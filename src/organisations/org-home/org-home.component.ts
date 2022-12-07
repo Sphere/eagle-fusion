@@ -61,6 +61,7 @@ export class OrgHomeComponent implements OnInit {
   navigateToToc(contentIdentifier: any) {
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
     if (this.configSvc.userProfile === null) {
+      localStorage.setItem(`url_before_login`, `app/toc/` + `${contentIdentifier}` + `/overview`)
       this.signUpSvc.keyClockLogin()
     } else {
       if (this.configSvc.unMappedUser) {
