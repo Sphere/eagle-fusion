@@ -43,8 +43,8 @@ import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
-import { SelfAssessmentComponent } from '@aastrika_npmjs/comptency/self-assessment'
-import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
+// import { SelfAssessmentComponent } from '@aastrika_npmjs/comptency/self-assessment'
+// import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -295,13 +295,13 @@ const routes: Routes = [
     path: 'app/personal-detail-edit',
     component: PersonalDetailEditComponent,
   },
-  {
-    path: 'app/user/self-assessment',
-    component: SelfAssessmentComponent,
-  },
-  {
-    path: 'app/user/competency', component: CompetencyDashboardComponent
-  },
+  // {
+  //   path: 'app/user/self-assessment',
+  //   component: SelfAssessmentComponent,
+  // },
+  // {
+  //   path: 'app/user/competency', component: CompetencyDashboardComponent
+  // },
 
   {
     path: 'app/new-tnc',
