@@ -446,7 +446,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchRequestObject.request.filters['sourceName'] = ['Ministry of Health and Family Welfare']
     }
-    console.log(this.searchRequestObject)
+
     this.searchResultsSubscription = this.searchServ
       .getLearning(this.searchRequestObject)
       .subscribe(
