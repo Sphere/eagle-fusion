@@ -13,10 +13,11 @@ export class WorkInfoListComponent implements OnInit {
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
   showLogOutIcon = false
+  trigerrNavigation = true
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private valueSvc: ValueService) { }
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private valueSvc: ValueService) { }
 
   ngOnInit() {
     this.getUserDetails()
