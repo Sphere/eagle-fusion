@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, Input, AfterViewInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -6,9 +6,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
   templateUrl: './dropdown-dob.component.html',
   styleUrls: ['./dropdown-dob.component.scss'],
 })
-export class DropdownDobComponent implements OnInit {
+export class DropdownDobComponent implements OnInit, AfterViewInit {
 
   @Output() dobValue = new EventEmitter<any>()
+  @Input() dob?: Date
   dobForm: FormGroup
 
   dateValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
@@ -35,8 +36,21 @@ export class DropdownDobComponent implements OnInit {
       yearField: new FormControl('', Validators.required),
     })
   }
+  ngAfterViewInit(): void {
+    this.updateForm()
+  }
 
   ngOnInit() {
+  }
+  /* function to update the form if input is there*/
+  updateForm(): void {
+    if (this.dob) {
+      this.dobForm.patchValue({
+        dateField: this.dob.getDate(),
+        monthField: this.dob.getMonth() as number + 1,
+        yearField: this.dob.getFullYear()
+      })
+    }
   }
 
   countrySelect() {

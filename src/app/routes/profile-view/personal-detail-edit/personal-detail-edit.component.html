@@ -14,7 +14,15 @@
         class="form-control" readonly (click)="picker.open()">
       <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
       <mat-datepicker #picker [startAt]="startDate"></mat-datepicker> -->
-      <ws-dropdown-dob (dobValue)="dobData($event)"></ws-dropdown-dob>
+      <ng-container *ngIf="loadDob; else withoutDob">
+        <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="personalDetailForm.get('dob').value ">
+        </ws-dropdown-dob>
+      </ng-container>
+      <ng-template #withoutDob>
+        <ws-dropdown-dob (dobValue)="dobData($event)">
+        </ws-dropdown-dob>
+      </ng-template>
+
     </div>
     <div>
       <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
@@ -127,7 +135,6 @@
       <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" autocomplete="off"
         (change)="fieldChange()">
     </div>
-
     <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
       [disabled]="personalDetailForm?.invalid || savebtnDisable">Save
     </button>
