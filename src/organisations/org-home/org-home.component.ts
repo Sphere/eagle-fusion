@@ -19,7 +19,7 @@ export class OrgHomeComponent implements OnInit {
   contentId: any = []
   language: any = ""
   enrollData: any = true
-
+  firstName: any
 
   constructor(
     private router: Router,
@@ -35,6 +35,7 @@ export class OrgHomeComponent implements OnInit {
 
   getCourseDetails(language: string) {
     let courseArray: any = []
+
     try {
       this.orgService.getLiveSearchResults(language).subscribe((response: any) => {
         this.resultResponse = response.result.content
@@ -43,6 +44,7 @@ export class OrgHomeComponent implements OnInit {
         let enrollmentArr: any = []
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
+          this.firstName = this.configSvc.userProfile
           try {
             this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
               // tslint:disable-next-line:max-line-length
