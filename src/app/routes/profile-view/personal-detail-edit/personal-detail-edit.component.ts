@@ -311,10 +311,9 @@ export class PersonalDetailEditComponent implements OnInit {
   private getDateFromText(dateString: string): any {
     if (dateString) {
       const splitValues: string[] = dateString.split('-')
-      const [mm, dd, yyyy] = splitValues
+      const [dd, mm, yyyy] = splitValues
       const dateToBeConverted = `${dd}/${mm}/${yyyy}`
-      const formatedDate = new Date(dateToBeConverted)
-      return formatedDate
+      return dateToBeConverted
     }
     return ''
   }
