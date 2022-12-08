@@ -139,7 +139,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     setTimeout(() => {
       window.fcWidget.hide()
-    },         500)
+    }, 500)
     this.setPageTitle()
     this.fcSettingsFunc()
 
@@ -217,7 +217,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          },         10)
+          }, 10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -330,10 +330,11 @@ export class RootComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {
-      window.fcWidget.on('widget:closed', () => {
-        // console.log('l')
-        // this.backToChatIcon()
-      })
+      if (window.fcWidget) {
+        window.fcWidget.on('widget:closed', () => {
+          // this.backToChatIcon()
+        })
+      }
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
@@ -344,9 +345,12 @@ export class RootComponent implements OnInit, AfterViewInit {
   // freshChat functionality
   fcSettingsFunc() {
     try {
-      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-      // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      window.fcWidget.init()
+      if (window.fcWidget) {
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+        // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+        window.fcWidget.init()
+      }
+
       if (this.configSvc.userProfile) {
         window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
         window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
