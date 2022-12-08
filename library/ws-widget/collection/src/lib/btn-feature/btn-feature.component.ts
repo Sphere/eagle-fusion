@@ -58,7 +58,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.searchButton = true
+      this.searchButton = false
     }
   }
 
