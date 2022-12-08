@@ -31,6 +31,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   profileData: any
+  navigateTohome = true
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,

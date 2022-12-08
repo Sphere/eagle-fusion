@@ -44,7 +44,7 @@ export class PersonalDetailEditComponent implements OnInit {
   startDate = new Date(1999, 0, 1)
   showbackButton = false
   showLogOutIcon = false
-
+  trigerrNavigation = true
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']

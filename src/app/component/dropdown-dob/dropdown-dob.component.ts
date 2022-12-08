@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input, AfterViewInit } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, Input, AfterContentChecked } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
   templateUrl: './dropdown-dob.component.html',
   styleUrls: ['./dropdown-dob.component.scss'],
 })
-export class DropdownDobComponent implements OnInit, AfterViewInit {
+export class DropdownDobComponent implements OnInit, AfterContentChecked {
 
   @Output() dobValue = new EventEmitter<any>()
   @Input() dob?: Date
@@ -36,7 +36,7 @@ export class DropdownDobComponent implements OnInit, AfterViewInit {
       yearField: new FormControl('', Validators.required),
     })
   }
-  ngAfterViewInit(): void {
+  ngAfterContentChecked(): void {
     this.updateForm()
   }
 

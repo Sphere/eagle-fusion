@@ -13,6 +13,7 @@ export class MobileProfileNavComponent implements OnInit {
   @Input() showbackButton?: Boolean
   @Input() showLogOutIcon?: Boolean
   @Input() trigerrNavigation?: Boolean = false
+  @Input() navigateTohome?: Boolean = false
   constructor(
     private dialog: MatDialog,
     private _location: Location,
@@ -31,7 +32,17 @@ export class MobileProfileNavComponent implements OnInit {
     if (this.trigerrNavigation) {
       this.router.navigate(['/app/profile-view'])
     } else {
-      this._location.back()
+      console.log(this.navigateTohome)
+      if (this.navigateTohome) {
+        if (localStorage.getItem('orgValue') === 'nhsrc') {
+          this.router.navigateByUrl('/organisations/home')
+        } else {
+          this.router.navigate(['/page/home'])
+        }
+      } else {
+        this._location.back()
+      }
+
     }
   }
 }
