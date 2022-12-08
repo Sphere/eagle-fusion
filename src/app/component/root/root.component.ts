@@ -71,6 +71,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showMobileDashboard = true
+  isCommonChatEnabled = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -326,12 +327,22 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
+    try {
+      window.fcWidget.on('widget:closed', () => {
+        this.backToChatIcon()
+      })
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+
   }
 
   // freshChat functionality
   fcSettingsFunc() {
     try {
-      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       window.fcWidget.init()
       if (this.configSvc.userProfile) {
         window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
@@ -339,6 +350,29 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
         window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
       }
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+
+  showSocialChats() {
+    try {
+      this.isCommonChatEnabled = false
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.init()
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+
+  backToChatIcon() {
+    try {
+      this.isCommonChatEnabled = true
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      window.fcWidget.init()
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)

@@ -75,3 +75,63 @@ ws-app-nav-bar {
     display: none;
   }
 }
+
+//chat-style
+.chat-icon{
+  cursor: pointer;
+  z-index: 1000;
+  left: 0rem;
+  position: fixed;
+  bottom: 5.3rem;
+  width: 70px;
+}
+
+.whatsapp-icon{
+  cursor: pointer;
+  z-index: 1;
+  left: 1.2rem;
+  position: fixed;
+  bottom: 6.3rem;
+  width: 3.9rem;
+}
+
+.blur-screen{
+  background-image: linear-gradient(45deg, black, transparent);
+  opacity: 1;
+  pointer-events: none;
+  filter: blur(3px);
+  -webkit-filter :blur(3px);
+}
+
+.cross-icon{
+  width: 5rem;
+  left: 0rem;
+  bottom: 11.5rem;
+  cursor: pointer;
+  z-index: 1;
+  position: fixed;
+}
+
+.whtsapp-text{
+  font-weight: 500;
+  color:#1C5D95;
+  background-color: white;
+  z-index: 1;
+  left: 6.1rem;
+  position: fixed;
+  bottom: 6.9rem;
+  padding: 0.1rem;
+  border-radius: 0.3rem;
+}
+
+.fcapp-text{
+  font-weight: 500;
+  color:#1C5D95;
+  background-color: white;
+  z-index: 1;
+  left: 6.1rem;
+  position: fixed;
+  bottom: 1.9rem;
+  padding: 0.1rem;
+  border-radius: 0.3rem;
+}

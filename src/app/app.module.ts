@@ -121,6 +121,7 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
 
+
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
   console.log('iOS!')
@@ -149,7 +150,11 @@ if (url.indexOf('?org=') > 0) {
   if (orgValue) {
     localStorage.setItem('orgValue', orgValue)
     if (orgValue === 'nhsrc') {
-      window.location.href = `${document.baseURI}organisations/home`
+      if (url.indexOf('do_') > 0) {
+        window.location.href = `${url}`
+      }
+      else
+        window.location.href = `${document.baseURI}organisations/home`
     }
   }
 }
@@ -196,7 +201,7 @@ if (url.indexOf('?org=') > 0) {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
-    DropdownDobComponent,
+    DropdownDobComponent
   ],
   imports: [
     FormsModule,
@@ -246,6 +251,8 @@ if (url.indexOf('?org=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
+
+
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
