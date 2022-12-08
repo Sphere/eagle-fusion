@@ -137,6 +137,9 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      window.fcWidget.hide()
+    },         500)
     this.setPageTitle()
     this.fcSettingsFunc()
 
@@ -205,7 +208,6 @@ export class RootComponent implements OnInit, AfterViewInit {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
 
-
                 const redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
@@ -215,7 +217,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 10)
+          },         10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -329,7 +331,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     // this.initAppUpdateCheck()
     try {
       window.fcWidget.on('widget:closed', () => {
-        this.backToChatIcon()
+        // console.log('l')
+        // this.backToChatIcon()
       })
     } catch (error) {
       // tslint:disable-next-line:no-console
@@ -358,6 +361,7 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   showSocialChats() {
     try {
+      window.fcWidget.show()
       this.isCommonChatEnabled = false
       window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
       window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
