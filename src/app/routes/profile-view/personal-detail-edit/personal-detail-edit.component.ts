@@ -44,7 +44,7 @@ export class PersonalDetailEditComponent implements OnInit {
   startDate = new Date(1999, 0, 1)
   showbackButton = false
   showLogOutIcon = false
-
+  trigerrNavigation = true
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
@@ -277,6 +277,11 @@ export class PersonalDetailEditComponent implements OnInit {
         this.profileUserName += `${data.personalDetails.surname}`
       }
 
+      // if (data.personalDetails.dob) {
+
+      //   this.getDateFromText(data.personalDetails.dob)
+      // }
+
       data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
       data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
       data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
@@ -307,8 +312,9 @@ export class PersonalDetailEditComponent implements OnInit {
     if (dateString) {
       const splitValues: string[] = dateString.split('-')
       const [mm, dd, yyyy] = splitValues
-      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
-      return new Date(dateToBeConverted)
+      const dateToBeConverted = `${dd}/${mm}/${yyyy}`
+      const formatedDate = new Date(dateToBeConverted)
+      return formatedDate
     }
     return ''
   }
