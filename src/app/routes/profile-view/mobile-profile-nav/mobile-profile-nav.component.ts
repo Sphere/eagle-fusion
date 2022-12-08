@@ -32,7 +32,6 @@ export class MobileProfileNavComponent implements OnInit {
     if (this.trigerrNavigation) {
       this.router.navigate(['/app/profile-view'])
     } else {
-      console.log(this.navigateTohome)
       if (this.navigateTohome) {
         if (localStorage.getItem('orgValue') === 'nhsrc') {
           this.router.navigateByUrl('/organisations/home')
