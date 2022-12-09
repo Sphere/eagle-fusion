@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input, AfterViewInit } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -6,7 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
   templateUrl: './dropdown-dob.component.html',
   styleUrls: ['./dropdown-dob.component.scss'],
 })
-export class DropdownDobComponent implements OnInit, AfterViewInit {
+export class DropdownDobComponent implements OnInit {
 
   @Output() dobValue = new EventEmitter<any>()
   @Input() dob?: String
@@ -36,11 +36,11 @@ export class DropdownDobComponent implements OnInit, AfterViewInit {
       yearField: new FormControl('', Validators.required),
     })
   }
-  ngAfterViewInit(): void {
-    this.updateForm()
-  }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.updateForm()
+    }, 500)
   }
   /* function to update the form if input is there*/
   updateForm(): void {
