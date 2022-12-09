@@ -33,11 +33,11 @@ export class ProfileSelectComponent implements OnInit {
   ]
 
   constructor(public dialogRef: MatDialogRef<ProfileSelectComponent>,
-              private snackBar: MatSnackBar,
-              private userProfileSvc: UserProfileService,
-              private configSvc: ConfigurationsService,
-              private dialog: MatDialog,
-              private loader: LoaderService,
+    private snackBar: MatSnackBar,
+    private userProfileSvc: UserProfileService,
+    private configSvc: ConfigurationsService,
+    private dialog: MatDialog,
+    private loader: LoaderService,
   ) {
     this.createUserForm = new FormGroup({
       photo: new FormControl('', []),
@@ -133,7 +133,7 @@ export class ProfileSelectComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form, this.userProfileData)
+    const profileRequest = constructReq(form.value, this.userProfileData)
     const reqUpdate = {
       request: {
         userId: this.userID,
