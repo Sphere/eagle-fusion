@@ -6,6 +6,8 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  Renderer2,
+  Inject
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -44,7 +46,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
-
+import { DOCUMENT } from '@angular/common'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -87,7 +89,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     private orgService: OrgServiceService,
     private signupService: SignupService,
     private titleService: Title,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document: Document
   ) {
 
     this.mobileAppsSvc.init()
@@ -137,9 +141,6 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      window.fcWidget.hide()
-    }, 500)
     this.setPageTitle()
     this.fcSettingsFunc()
 
@@ -331,6 +332,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     // this.initAppUpdateCheck()
     try {
       if (window.fcWidget) {
+        window.fcWidget.hide()
         window.fcWidget.on('widget:closed', () => {
           // this.backToChatIcon()
         })
@@ -365,11 +367,16 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   showSocialChats() {
     try {
-      window.fcWidget.show()
+      // window.fcWidget.show()
       this.isCommonChatEnabled = false
-      window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
-      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      window.fcWidget.init()
+      let script = this._renderer2.createElement('script')
+      script.src = "//in.fw-cdn.com/30492305/271953.js"
+      this._renderer2.appendChild(this._document.body, script)
+      setTimeout(() => {
+        window.fcWidget.init()
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      }, 150)
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
