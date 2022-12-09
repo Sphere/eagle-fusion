@@ -12,7 +12,6 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
-import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -64,17 +63,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
-        // if (userDetails.profileDetails) {
-        //   this.showAcceptbtn = false
-        // } else {
-        //   this.showAcceptbtn = true
-        // }
         if (userDetails.profileDetails) {
-          if (userDetails.profileDetails.profileReq && userDetails.profileDetails.profileReq.personalDetails && !_.get(userDetails.profileDetails.profileReq.personalDetails, 'tncAccepted')) {
-            this.showAcceptbtn = true
-          } else {
-            this.showAcceptbtn = false
-          }
+          this.showAcceptbtn = false
+        } else {
+          this.showAcceptbtn = true
         }
       })
     }
@@ -194,7 +186,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
         personalDetails: userObject,
       },
     }
-
     return profileReq
   }
 
@@ -239,145 +230,45 @@ export class NewTncComponent implements OnInit, OnDestroy {
         },
       }
 
-      if (this.configSvc.unMappedUser) {
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
-          return of(userData)
-        })).subscribe((userDetails: any) => {
-          if (userDetails.profileDetails) {
-            if (userDetails.profileDetails.profileReq && userDetails.profileDetails.profileReq.personalDetails && !_.get(userDetails.profileDetails.profileReq.personalDetails, 'tncAccepted')) {
+      this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
+        if (data) {
+          this.configSvc.profileDetailsStatus = true
+          this.configSvc.hasAcceptedTnc = true
+          if (this.result.tncStatus) {
+            if (this.configSvc.unMappedUser) {
+              this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
+                return of(userData)
+              })).subscribe((userDetails: any) => {
+                if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
 
-              userDetails.profileDetails.profileReq.personalDetails.tncAccepted = true
-              userDetails.profileDetails.profileReq.personalDetails.regNurseRegMidwifeNumber = '[NA]'
-              const reqUpdate = {
-                request: {
-                  userId: this.userId,
-                  profileDetails: userDetails,
-                },
-              }
-
-              this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-                if (data) {
-                  this.configSvc.profileDetailsStatus = true
-                  this.configSvc.hasAcceptedTnc = true
-                  if (this.result.tncStatus) {
-                    if (this.configSvc.unMappedUser) {
-                      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
-                        return of(userData)
-                      })).subscribe((userDetails: any) => {
-                        if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-
-                          if (localStorage.getItem('url_before_login')) {
-                            const courseUrl = localStorage.getItem('url_before_login')
-                            this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-                          } else {
-                            location.href = '/page/home'
-                          }
-                        } else {
-                          location.href = localStorage.getItem('url_before_login') || ''
-                        }
-                      })
-                    }
+                  if (localStorage.getItem('url_before_login')) {
+                    const courseUrl = localStorage.getItem('url_before_login')
+                    this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
                   } else {
                     location.href = '/page/home'
                   }
-                  // location.href = '/page/home'
-                  // this.router.navigate(['/page/home'])
-                  //   .then(() => {
-                  //     window.location.reload()
-                  //   })
+                } else {
+                  location.href = localStorage.getItem('url_before_login') || ''
                 }
-              },
-                (err: any) => {
-                  this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
-                  // TO DO: Telemetry event for failure
-                  this.errorInAccepting = true
-                  this.isAcceptInProgress = false
-                },
-              )
-              // this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-              //   if (data) {
-              //     this.configSvc.profileDetailsStatus = true
-              //     this.configSvc.hasAcceptedTnc = true
-              //     if (this.result.tncStatus) {
-              //       if (this.configSvc.unMappedUser) {
-              //         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
-              //           return of(userData)
-              //         })).subscribe((userDetails: any) => {
-              //           if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-
-              //             if (localStorage.getItem('url_before_login')) {
-              //               const courseUrl = localStorage.getItem('url_before_login')
-              //               this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-              //             } else {
-              //               location.href = '/page/home'
-              //             }
-              //           } else {
-              //             location.href = localStorage.getItem('url_before_login') || ''
-              //           }
-              //         })
-              //       }
-              //     } else {
-              //       location.href = '/page/home'
-              //     }
-              //     // location.href = '/page/home'
-              //     // this.router.navigate(['/page/home'])
-              //     //   .then(() => {
-              //     //     window.location.reload()
-              //     //   })
-              //   }
-              // },
-              //   (err: any) => {
-              //     this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
-              //     // TO DO: Telemetry event for failure
-              //     this.errorInAccepting = true
-              //     this.isAcceptInProgress = false
-              //   },
-              // )
-            } else {
-              this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-                if (data) {
-                  this.configSvc.profileDetailsStatus = true
-                  this.configSvc.hasAcceptedTnc = true
-                  if (this.result.tncStatus) {
-                    if (this.configSvc.unMappedUser) {
-                      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
-                        return of(userData)
-                      })).subscribe((userDetails: any) => {
-                        if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-
-                          if (localStorage.getItem('url_before_login')) {
-                            const courseUrl = localStorage.getItem('url_before_login')
-                            this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-                          } else {
-                            location.href = '/page/home'
-                          }
-                        } else {
-                          location.href = localStorage.getItem('url_before_login') || ''
-                        }
-                      })
-                    }
-                  } else {
-                    location.href = '/page/home'
-                  }
-                  // location.href = '/page/home'
-                  // this.router.navigate(['/page/home'])
-                  //   .then(() => {
-                  //     window.location.reload()
-                  //   })
-                }
-              },
-                (err: any) => {
-                  this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
-                  // TO DO: Telemetry event for failure
-                  this.errorInAccepting = true
-                  this.isAcceptInProgress = false
-                },
-              )
+              })
             }
+          } else {
+            location.href = '/page/home'
           }
-        })
-      }
-
+          // location.href = '/page/home'
+          // this.router.navigate(['/page/home'])
+          //   .then(() => {
+          //     window.location.reload()
+          //   })
+        }
+      },
+        (err: any) => {
+          this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
+          // TO DO: Telemetry event for failure
+          this.errorInAccepting = true
+          this.isAcceptInProgress = false
+        },
+      )
     } else {
       this.errorInAccepting = false
     }

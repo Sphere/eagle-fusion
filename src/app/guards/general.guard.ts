@@ -8,7 +8,7 @@ import {
 } from '@angular/router'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import * as _ from 'lodash'
+
 @Injectable({
   providedIn: 'root',
 })
@@ -136,11 +136,7 @@ export class GeneralGuard implements CanActivate {
           // }
 
           if (data.profileDetails) {
-            if (data.profileDetails.profileReq && data.profileDetails.profileReq.personalDetails && !_.get(data.profileDetails.profileReq.personalDetails, 'tncAccepted')) {
-              return this.router.navigate(['app', 'new-tnc'])
-            } else {
-              return this.router.parseUrl(`/page/home`)
-            }
+            return this.router.parseUrl(`/page/home`)
           }
           return this.router.navigate(['app', 'new-tnc'])
 
