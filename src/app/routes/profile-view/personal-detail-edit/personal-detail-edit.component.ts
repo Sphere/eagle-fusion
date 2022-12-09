@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -21,9 +21,9 @@ import * as _ from 'lodash'
     { provide: DateAdapter, useClass: AppDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
-
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PersonalDetailEditComponent implements OnInit, AfterViewChecked {
+export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -88,9 +88,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewChecked {
 
 
   ngOnInit() {
-    this.getUserDetails()
     this.fetchMeta()
-
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
@@ -421,7 +419,11 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewChecked {
       dob: event,
     })
   }
+  ngAfterViewInit(): void {
+    this.getUserDetails()
+  }
   ngAfterViewChecked(): void {
+    this.changeDetectorRef.markForCheck()
     this.changeDetectorRef.detectChanges()
   }
 }
