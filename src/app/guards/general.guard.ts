@@ -8,7 +8,7 @@ import {
 } from '@angular/router'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-
+import * as _ from 'lodash'
 @Injectable({
   providedIn: 'root',
 })
@@ -17,7 +17,7 @@ export class GeneralGuard implements CanActivate {
   isXSmall = false
   locale = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -136,7 +136,11 @@ export class GeneralGuard implements CanActivate {
           // }
 
           if (data.profileDetails) {
-            return this.router.parseUrl(`/page/home`)
+            if (data.profileDetails.profileReq && data.profileDetails.profileReq.personalDetails && !_.get(data.profileDetails.profileReq.personalDetails, 'tncAccepted')) {
+              return this.router.navigate(['app', 'new-tnc'])
+            } else {
+              return this.router.parseUrl(`/page/home`)
+            }
           }
           return this.router.navigate(['app', 'new-tnc'])
 

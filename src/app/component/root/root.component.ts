@@ -351,13 +351,12 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
         // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
         window.fcWidget.init()
-      }
-
-      if (this.configSvc.userProfile) {
-        window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
-        window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
-        window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
-        window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
+        if (this.configSvc.userProfile) {
+          window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
+          window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
+          window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
+          window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
+        }
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
@@ -376,7 +375,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      }, 150)
+      }, 500)
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
