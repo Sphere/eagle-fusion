@@ -131,7 +131,12 @@ export class MobileProfileDashboardComponent implements OnInit {
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      this.photoUrl = this.userProfileData.photo
+      if (_.get(this.userProfileData, 'personalDetails')) {
+        this.photoUrl = this.userProfileData.personalDetails.photo
+      } else {
+        this.photoUrl = this.userProfileData.photo
+      }
+
       if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
         this.academicsArray = this.userProfileData.academics
       }

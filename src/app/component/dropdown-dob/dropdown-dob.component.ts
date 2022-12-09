@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -28,7 +28,7 @@ export class DropdownDobComponent implements OnInit {
   ]
 
   yearsValue: number[] = []
-  constructor() {
+  constructor(public cdr: ChangeDetectorRef) {
     this.initYear()
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
@@ -41,6 +41,7 @@ export class DropdownDobComponent implements OnInit {
     setTimeout(() => {
       this.updateForm()
     }, 500)
+
   }
   /* function to update the form if input is there*/
   updateForm(): void {

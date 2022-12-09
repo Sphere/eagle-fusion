@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -21,8 +21,9 @@ import * as _ from 'lodash'
     { provide: DateAdapter, useClass: AppDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
+
 })
-export class PersonalDetailEditComponent implements OnInit {
+export class PersonalDetailEditComponent implements OnInit, AfterViewChecked {
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -59,6 +60,7 @@ export class PersonalDetailEditComponent implements OnInit {
     private matSnackBar: MatSnackBar,
     public dialog: MatDialog,
     private valueSvc: ValueService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -83,6 +85,7 @@ export class PersonalDetailEditComponent implements OnInit {
 
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
   }
+
 
   ngOnInit() {
     this.getUserDetails()
@@ -418,5 +421,7 @@ export class PersonalDetailEditComponent implements OnInit {
       dob: event,
     })
   }
-
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges()
+  }
 }
