@@ -43,6 +43,7 @@ import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
+import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
 // import { SelfAssessmentComponent } from '@aastrika_npmjs/comptency/self-assessment'
 // import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -95,7 +96,11 @@ const routes: Routes = [
   {
     path: 'organisations',
     loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
-    // canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'public/organisations/home',
+    component: OrgHomeComponent
   },
   {
     path: 'analytics',
