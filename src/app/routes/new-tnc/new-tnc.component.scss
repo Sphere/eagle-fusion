@@ -72,11 +72,12 @@
 
   .tnc-render-content {
     border: none;
-    height: unset;
+    // height: unset;
+    max-height: calc(100vh - 170px);
   }
 
   .tnc-main {
-    margin-top: 15px;
+    margin-top: 50px;
   }
 
   .tnc-bottom-navbar {
