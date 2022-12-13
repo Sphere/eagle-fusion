@@ -39,23 +39,26 @@ export class OrgHomeComponent implements OnInit {
     try {
       this.orgService.getLiveSearchResults(language).subscribe((response: any) => {
         this.resultResponse = response.result.content
-        courseArray = this.resultResponse.map((identifierValue: { identifier: any }) => identifierValue.identifier)
-        let userId = ''
-        let enrollmentArr: any = []
-        if (this.configSvc.userProfile) {
-          userId = this.configSvc.userProfile.userId || ''
-          this.firstName = this.configSvc.userProfile
-          try {
-            this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
-              // tslint:disable-next-line:max-line-length
-              enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
-              enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
-              this.resultEnroll = [enrollmentArr[0]]
-              if (enrollmentArr[0]) { this.enrollData = false }
-            })
-          } catch (err) { }
+        if (this.resultResponse) {
+          courseArray = this.resultResponse.map((identifierValue: { identifier: any }) => identifierValue.identifier)
+          let userId = ''
+          let enrollmentArr: any = []
+          if (this.configSvc.userProfile) {
+            userId = this.configSvc.userProfile.userId || ''
+            this.firstName = this.configSvc.userProfile
+            try {
+              this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
+                // tslint:disable-next-line:max-line-length
+                enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
+                enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
+                this.resultEnroll = [enrollmentArr[0]]
+                if (enrollmentArr[0]) { this.enrollData = false }
+              })
+            } catch (err) { }
+          }
+          return courseArray
         }
-        return courseArray
+
       })
     } catch (err) { }
   }
