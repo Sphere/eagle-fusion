@@ -101,6 +101,7 @@ import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/sha
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
+import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
 import { Capacitor } from '@capacitor/core'
 
 @Injectable()
@@ -205,7 +206,8 @@ if (url.indexOf('?org=') > 0) {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
-    DropdownDobComponent
+    DropdownDobComponent,
+    OrgHomeComponent
   ],
   imports: [
     FormsModule,
