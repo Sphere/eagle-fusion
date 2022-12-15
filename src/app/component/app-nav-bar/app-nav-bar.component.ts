@@ -46,6 +46,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showSearchIcon = true
   langDialog: any
   preferedLanguage: any = ['english']
+  hideCreateButton = false
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -71,6 +72,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.hideCreateButton = true
+    }
     this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {
