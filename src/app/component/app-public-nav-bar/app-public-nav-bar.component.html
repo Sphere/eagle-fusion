@@ -37,7 +37,7 @@
   <a role="button" *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)"
     class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
     routerLinkActive="ws-mat-accent-text">
-    <ng-container>
+    <ng-container *ngIf="hideCreateButton">
       <button id="create-account-btn" mat-raised-button [ngStyle]="{
         'background-color': 'rgb(63, 81, 181)',
         'color': 'white',
