@@ -30,7 +30,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   featureApps: string[] = []
   appBottomIcon?: SafeUrl
   showCreateBtn = false
-  hideCreateButton = false
+  hideCreateButton = true
 
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
@@ -60,7 +60,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   async ngOnInit() {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.hideCreateButton = true
+      this.hideCreateButton = false
     }
     if (this.configSvc.instanceConfig) {
       // try {
