@@ -103,7 +103,10 @@ import { LanguageDialogComponent } from './routes/language-dialog/language-dialo
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
-
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -256,7 +259,10 @@ if (url.indexOf('?org=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
-    OrganisationsModule
+    OrganisationsModule,
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    SelfAssessmentModule,
+    CompetencyModule
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
