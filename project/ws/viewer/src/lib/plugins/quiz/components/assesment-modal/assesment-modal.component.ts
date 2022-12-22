@@ -10,6 +10,7 @@ declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
 import { ViewerDataService } from '../../../../viewer-data.service'
+import { ConfigurationsService } from '@ws-widget/utils'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -51,6 +52,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
     public viewerDataSvc: ViewerDataService,
+    private configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {
@@ -222,6 +224,41 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
           this.disableContinue = true
         }
+        const data = localStorage.getItem('competency_meta_data')
+        let competency_meta_data: any
+        if (data) {
+          competency_meta_data = JSON.parse(data)
+        }
+        let userId = ''
+        if (this.configSvc.userProfile) {
+          userId = this.configSvc.userProfile.userId || ''
+        }
+
+        const formatedData = {
+          request: {
+            competencyDetails: [
+              {
+                acquiredDetails: {
+                  additionalParams: {
+                    remarks: '',
+                  },
+                  competencyLevelId: '',
+                  acquiredChannel: 'selfAssessment',
+                },
+                additionalParams: {
+                  competencyName: competency_meta_data.competencyName,
+                },
+                competencyId: competency_meta_data.competencyId,
+              },
+            ],
+            typeName: 'competency',
+            userId: userId,
+
+          },
+        }
+        this.quizService.updatePassbook(formatedData).subscribe((res: any) => {
+          console.log(res)
+        })
       },
       (_error: any) => {
         this.openSnackbar('Something went wrong! Unable to submit.')
