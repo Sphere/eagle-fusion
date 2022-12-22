@@ -85,7 +85,7 @@
     </div>
     <div class="flex flex-col">
 
-      <ng-container *ngIf="tabIndex === 1">
+      <ng-container *ngIf="tabIndex === 1 && !isCompetency">
         <div class="text-center pt-5 flex justify-content-center">
           <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
           <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()"
