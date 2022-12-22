@@ -30,6 +30,7 @@ export class SelfAssessmentComponent implements OnInit {
     /**
     * here we will redirect to player screen
     */
+    localStorage.removeItem('competency_meta_data')
     this.eventData = event
     if (this.eventData) {
       this.eventData['mimeType'] = 'application/json'
@@ -37,6 +38,9 @@ export class SelfAssessmentComponent implements OnInit {
       const courseBatch = this.getCourseBatch()
       forkJoin([content, courseBatch]).pipe(mergeMap((res: any) => {
         this.content = res[0].result.content
+        if (this.content.competencies_v1) {
+          localStorage.setItem('competency_meta_data', JSON.parse(this.content.competencies_v1))
+        }
         this.batchData = res[1].content
         if (!this.batchData[0].enrollmentEndDate) {
           return this.enrollUser(this.batchData)
