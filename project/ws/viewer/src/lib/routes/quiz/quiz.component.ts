@@ -100,10 +100,8 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private async transformQuiz(content: NsContent.IContent): Promise<NSQuiz.IQuiz> {
     if (this.activatedRoute.snapshot.queryParams.competency) {
-      const artifactUrl = this.forPreview
-        ? this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
-        )
-        : content.artifactUrl
+      const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
+      )
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
