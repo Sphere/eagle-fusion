@@ -25,6 +25,11 @@
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
                 "output": "./assets/discussion-ui"
+              },
+              {
+                "glob": "**/*.*",
+                "input": "./node_modules/@aastrika_npmjs/comptency/assets",
+                "output": "./assets/comptency"
               }
             ],
             "stylePreprocessorOptions": {
