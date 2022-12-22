@@ -98,9 +98,10 @@ export class SelfAssessmentComponent implements OnInit {
       },
     }
     this.contentSvc.fetchContentHistoryV2(req).subscribe((data: any) => {
-      if (data && data.result && data.result.contentList && data.result.contentList.length) {
+      if (data && data.result && data.result.contentList && data.result.contentList.length > 0) {
         this.resumeData = _.get(data, 'result.contentList')
         const resumeDataV2 = this.getResumeDataFromList()
+        resumeDataV2['mimeType'] = 'application/json'
         this.resumeDataLink = viewerRouteGenerator(
           resumeDataV2.identifier,
           resumeDataV2.mimeType,

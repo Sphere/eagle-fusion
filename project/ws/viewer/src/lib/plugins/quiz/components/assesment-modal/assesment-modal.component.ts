@@ -160,6 +160,15 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     sanitizedRequestData['courseId'] = this.assesmentdata.generalData.collectionId
     sanitizedRequestData['batchId'] = this.route.snapshot.queryParams.batchId
     sanitizedRequestData['userId'] = localStorage.getItem('userUUID')
+    if (this.route.snapshot.queryParams.competency) {
+      this.submitCompetencyQuizV2(sanitizedRequestData)
+    } else {
+      this.submitQuizV2(sanitizedRequestData)
+    }
+
+
+  }
+  submitQuizV2(sanitizedRequestData: any) {
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
         window.scrollTo(0, 0)
@@ -176,13 +185,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
-        if (this.route.snapshot.queryParams.competency) {
-          if (this.result >= this.passPercentage) {
-            this.isCompleted = true
-            this.isCompetency = this.route.snapshot.queryParams.competency
-            console.log(this.isCompetency)
-          }
-        }
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
@@ -195,9 +197,38 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.fetchingResultsStatus = 'error'
       },
     )
-
   }
-
+  submitCompetencyQuizV2(sanitizedRequestData: any) {
+    this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
+      (res: NSQuiz.IQuizSubmitResponse) => {
+        window.scrollTo(0, 0)
+        if (this.assesmentdata.questions.isAssessment) {
+          this.isIdeal = true
+        }
+        this.fetchingResultsStatus = 'done'
+        this.numCorrectAnswers = res.correct
+        this.numIncorrectAnswers = res.inCorrect
+        this.numUnanswered = res.blank
+        /* tslint:disable-next-line:max-line-length */
+        this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
+        this.result = _.round(res.result)
+        this.tabIndex = 1
+        this.tabActive = true
+        this.assesmentActive = false
+        if (this.result >= this.passPercentage) {
+          this.isCompleted = true
+        }
+        this.isCompetency = this.route.snapshot.queryParams.competency
+        if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
+          this.disableContinue = true
+        }
+      },
+      (_error: any) => {
+        this.openSnackbar('Something went wrong! Unable to submit.')
+        this.fetchingResultsStatus = 'error'
+      },
+    )
+  }
   calculateResults() {
     const correctAnswers = this.assesmentdata.questions.map(
       (question: NSQuiz.IQuestion) => {
