@@ -42,6 +42,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   diablePrevious = true
   assesmentActive = true
   disableContinue = false
+  isCompetency = false
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -175,6 +176,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
+        if (this.route.snapshot.queryParams.competency) {
+          if (this.result >= this.passPercentage) {
+            this.isCompleted = true
+            this.isCompetency = this.route.snapshot.queryParams.competency
+            console.log(this.isCompetency)
+          }
+        }
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }

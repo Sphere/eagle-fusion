@@ -32,7 +32,7 @@
       </ng-container>
     </mat-tab>
     <mat-tab label="Results" [disabled]='!tabActive'>
-      <div class="flex flex-col justify-content-center items-center m-0  result-wrapper pt-5">
+      <div class="flex flex-col justify-content-center items-center m-0  result-wrapper pt-5" *ngIf="!isCompetency">
         <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
           <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
         </h1>
@@ -53,8 +53,19 @@
             <h4 class="lable">Incorrect</h4>
           </div>
         </div>
+      </div>
 
+      <div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="isCompetency">
+        <div class="child">
+          <p class="congrats-title mb-4" *ngIf="isCorrect">Congratulations!</p>
+          <p class="better-luck" *ngIf="!isCorrect">Better luck next time!</p>
+          <p class="correct-answer m-0">Proficiency Level 1 unlocked</p>
 
+          <div class="mt-5">
+            <button class="btn next-btn btn-active" mat-raised-button>Next</button>
+          </div>
+
+        </div>
       </div>
 
     </mat-tab>
