@@ -62,8 +62,8 @@ export class QuizComponent implements OnInit, OnDestroy {
       this.activatedRoute.snapshot.queryParams.collectionType
       && this.quizData) {
       await this.contentSvc.continueLearning(this.quizData.identifier,
-                                             this.activatedRoute.snapshot.queryParams.collectionId,
-                                             this.activatedRoute.snapshot.queryParams.collectionType,
+        this.activatedRoute.snapshot.queryParams.collectionId,
+        this.activatedRoute.snapshot.queryParams.collectionType,
       )
     } else if (this.quizData) {
       await this.contentSvc.continueLearning(this.quizData.identifier)
@@ -99,26 +99,51 @@ export class QuizComponent implements OnInit, OnDestroy {
   }
 
   private async transformQuiz(content: NsContent.IContent): Promise<NSQuiz.IQuiz> {
-    const artifactUrl = this.forPreview
-      ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-      : content.artifactUrl
-    let quizJSON: NSQuiz.IQuiz = await this.http
-      .get<any>(artifactUrl || '')
-      .toPromise()
-      .catch((_err: any) => {
-        // throw new DataResponseError('MANIFEST_FETCH_FAILED');
-      })
-    if (this.forPreview && quizJSON) {
-      quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-    }
-    quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-      if (question.multiSelection && question.questionType === undefined) {
-        question.questionType = 'mcq-mca'
-      } else if (!question.multiSelection && question.questionType === undefined) {
-        question.questionType = 'mcq-sca'
+    if (this.activatedRoute.snapshot.queryParams.competency) {
+      const artifactUrl = this.forPreview
+        ? this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
+        )
+        : content.artifactUrl
+      let quizJSON: NSQuiz.IQuiz = await this.http
+        .get<any>(artifactUrl || '')
+        .toPromise()
+        .catch((_err: any) => {
+          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
+        })
+      if (this.forPreview && quizJSON) {
+        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
       }
-    })
-    return quizJSON
+      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+        if (question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-mca'
+        } else if (!question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-sca'
+        }
+      })
+      return quizJSON
+    } else {
+      const artifactUrl = this.forPreview
+        ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
+        : content.artifactUrl
+      let quizJSON: NSQuiz.IQuiz = await this.http
+        .get<any>(artifactUrl || '')
+        .toPromise()
+        .catch((_err: any) => {
+          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
+        })
+      if (this.forPreview && quizJSON) {
+        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
+      }
+      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+        if (question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-mca'
+        } else if (!question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-sca'
+        }
+      })
+      return quizJSON
+    }
+
   }
   private async setS3Cookie(contentId: string) {
     await this.contentSvc
