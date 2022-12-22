@@ -44,7 +44,7 @@ import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
 import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
-import { SelfAssessmentComponent } from '@aastrika_npmjs/comptency/self-assessment'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
