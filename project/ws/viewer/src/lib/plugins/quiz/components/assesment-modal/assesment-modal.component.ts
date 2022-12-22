@@ -227,7 +227,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         const data = localStorage.getItem('competency_meta_data')
         let competency_meta_data: any
         if (data) {
-          competency_meta_data = JSON.parse(data)
+          competency_meta_data = data[0]
         }
         let userId = ''
         if (this.configSvc.userProfile) {

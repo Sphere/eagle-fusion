@@ -39,7 +39,7 @@ export class SelfAssessmentComponent implements OnInit {
       forkJoin([content, courseBatch]).pipe(mergeMap((res: any) => {
         this.content = res[0].result.content
         if (this.content.competencies_v1) {
-          localStorage.setItem('competency_meta_data', JSON.parse(this.content.competencies_v1))
+          localStorage.setItem('competency_meta_data', (this.content.competencies_v1))
         }
         this.batchData = res[1].content
         if (!this.batchData[0].enrollmentEndDate) {
