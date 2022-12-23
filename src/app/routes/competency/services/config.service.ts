@@ -15,6 +15,7 @@ export class ConfigService {
     const config = {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       profileData: (profileData.professionalDetails),
+      id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath
     }
 
