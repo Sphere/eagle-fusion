@@ -60,7 +60,8 @@
           <p class="congrats-title">Congratulations!</p>
           <p class="proficiceny-level  m-0">Proficiency Level 1 unlocked</p>
           <div class="mt-5">
-            <button class="btn next-btn btn-active" mat-raised-button>Next</button>
+            <button class="btn next-btn btn-active" [disabled]='!isCompetencyComplted' mat-raised-button
+              (click)="nextCompetency()">Next</button>
           </div>
         </div>
       </div>

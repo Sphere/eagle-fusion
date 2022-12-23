@@ -34,6 +34,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   result = 0
   progressbarValue = 0
   isCompleted = false
+  isCompetencyComplted = false
   fetchingResultsStatus: FetchStatus = 'none'
   questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
@@ -82,6 +83,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   retakeQuiz() {
     this.dialogRef.close({ event: 'RETAKE_QUIZ' })
+  }
+  nextCompetency() {
+    this.dialogRef.close({
+      event: 'NEXT_COMPETENCY',
+      competency: this.route.snapshot.queryParams.competency
+    })
   }
 
   timer(data: any) {
@@ -219,6 +226,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.assesmentActive = false
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
+          this.isCompetencyComplted = true
         }
         this.isCompetency = this.route.snapshot.queryParams.competency
         if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
