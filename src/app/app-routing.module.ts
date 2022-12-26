@@ -305,7 +305,7 @@ const routes: Routes = [
     component: SelfAssessmentComponent,
   },
   {
-    path: 'app/user/competency', component: CompetencyDashboardComponent
+    path: 'app/user/competency', component: CompetencyDashboardComponent,
   },
 
   {
