@@ -57,11 +57,21 @@
 
       <div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="isCompetency">
         <div class="child">
-          <p class="congrats-title">Congratulations!</p>
-          <p class="proficiceny-level  m-0">Proficiency Level 1 unlocked</p>
-          <div class="mt-5">
+          <ng-container *ngIf="isCompetencyComplted">
+            <p class="congrats-title">Congratulations!</p>
+            <p class="proficiceny-level  m-0">Proficiency Level {{proficiencyLevel}} unlocked</p>
+          </ng-container>
+          <ng-container *ngIf="!isCompetencyComplted">
+            <p class="congrats-title">You didn't pass the assessment</p>
+            <p class="proficiceny-level  m-0">Your proficieny is still Level {{proficiencyLevel - 1}}</p>
+          </ng-container>
+
+          <div class="mt-5 d-flex gap-5 flex-col align-items-center">
             <button class="btn next-btn btn-active" [disabled]='!isCompetencyComplted' mat-raised-button
               (click)="nextCompetency()">Next</button>
+            <button class="btn btn-xll" *ngIf="!isCompetencyComplted" mat-raised-button
+              (click)="CompetencyDashboard()">Go to Competency Dashboard</button>
+
           </div>
         </div>
       </div>

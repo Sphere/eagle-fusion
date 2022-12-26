@@ -45,6 +45,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   assesmentActive = true
   disableContinue = false
   isCompetency = false
+  proficiencyLevel = ''
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -53,7 +54,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
     public viewerDataSvc: ViewerDataService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
@@ -64,6 +65,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
     this.progressbarValue += 100 / this.totalQuestion
+    this.proficiencyLevel = this.assesmentdata.generalData.name.split('Proficiency')[1]
   }
   ngAfterViewInit() {
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
@@ -83,6 +85,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   retakeQuiz() {
     this.dialogRef.close({ event: 'RETAKE_QUIZ' })
+  }
+  CompetencyDashboard() {
+    this.dialogRef.close({
+      event: 'FAILED_COMPETENCY',
+      competency: this.route.snapshot.queryParams.competency
+    })
   }
   nextCompetency() {
     this.dialogRef.close({

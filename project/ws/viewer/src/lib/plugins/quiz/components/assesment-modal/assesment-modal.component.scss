@@ -31,20 +31,21 @@
   font-style: normal;
   font-weight: 400;
   font-size: 35px;
-  line-height: 58px;
+  line-height: 40px;
   letter-spacing: -0.02em;
+  text-align: center;
   color: #89c575;
 }
 
 .proficiceny-level {
   font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 24px;
-text-align: center;
-letter-spacing: -0.02em;
-color: #1C5D95;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #1C5D95;
 }
 
 .arrow-back {
@@ -159,6 +160,11 @@ color: #1C5D95;
 .btn-lg {
   width: 155px !important;
 }
+
+.btn-xll {
+  width: 220px !important;
+}
+
 
 .btn-active {
   background-color: #1c5d95 !important;

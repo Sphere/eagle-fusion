@@ -282,6 +282,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'NEXT_COMPETENCY' && result.competency) {
           this.nextCompetency()
         }
+        if (result.event === 'FAILED_COMPETENCY') {
+          this.router.navigate([`/app/user/competency`])
+        }
         if (result.event === 'CLOSE') {
           this.closeBtnDialog()
         }
