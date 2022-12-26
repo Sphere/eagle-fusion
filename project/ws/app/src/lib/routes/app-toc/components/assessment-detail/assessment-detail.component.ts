@@ -77,9 +77,9 @@ export class AssessmentDetailComponent implements OnInit {
         const contents = await (
           this.contentSvc.fetchContent(this.content.identifier, 'detail')
         ).toPromise()
-        const artifactUrl = this.forPreview
-          ? this.viewSvc.getAuthoringUrl(contents.result.content.artifactUrl)
-          : contents.result.content.artifactUrl
+
+        const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(contents.result.content.artifactUrl.split('/content')[1]
+        )
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()
