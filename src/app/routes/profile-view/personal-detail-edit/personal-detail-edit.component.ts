@@ -54,6 +54,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   langDialog: any
   preferedLanguage: any = 'English'
   loadDob = false
+  showDesignation = false
   constructor(private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
@@ -66,6 +67,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
+      designation: new FormControl(),
       professionOtherSpecify: new FormControl(),
       regNurseRegMidwifeNumber: new FormControl(),
       orgType: new FormControl(),
@@ -99,7 +101,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         this.showLogOutIcon = false
       }
     })
-
   }
 
   fetchMeta() {
@@ -228,6 +229,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
+      this.showDesignation = true
       this.orgTypeField = false
       this.professionOtherField = false
     } else if (value === 'Healthcare Volunteer') {
@@ -304,6 +306,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         mobile: data.personalDetails.mobile,
         postalAddress: data.personalDetails.postalAddress,
         pincode: data.personalDetails.pincode,
+        designation: data.professionalDetails[0].designation
       })
     }
     this.loadDob = true
