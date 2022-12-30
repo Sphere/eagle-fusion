@@ -8,7 +8,7 @@
               <ng-container *ngIf="isFetchingDataComplete">
                 <viewer-plugin-quiz [identifier]="quizData?.identifier" [artifactUrl]="quizData?.artifactUrl"
                   [name]="quizData?.name" [learningObjective]="quizData?.learningObjective"
-                  [complexityLevel]="quizData?.complexityLevel" [duration]="quizData?.duration"
+                  [complexityLevel]="quizData?.complexityLevel" [duration]="quizJson?.timeLimit"
                   [progressStatus]="quizData?.progress?.progressStatus" [quizJson]="quizJson"
                   [collectionId]="collectionId" [viewStateChange]="stateChange">
                 </viewer-plugin-quiz>
@@ -45,7 +45,7 @@
         </mat-card>
       </div>
     </div>
-    <div class="vidoe-title margin-top-m" *ngIf="quizData" >
+    <div class="vidoe-title margin-top-m" *ngIf="quizData">
       <mat-card *ngIf="isSmall" class="unit-meta-item">
         <div class="flex">
           <!-- <ws-widget-btn-content-download [forPreview]="forPreview" [widgetData]="

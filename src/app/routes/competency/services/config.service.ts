@@ -14,7 +14,9 @@ export class ConfigService {
   setConfig(profileData: any) {
     const config = {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
-      profileData: (profileData.professionalDetails)
+      profileData: (profileData.professionalDetails),
+      id: this.configSvc.unMappedUser.id,
+      hostPath: this.configSvc.hostPath
     }
 
     localStorage.setItem('competency', JSON.stringify(config))

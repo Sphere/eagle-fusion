@@ -103,6 +103,7 @@ import { LanguageDialogComponent } from './routes/language-dialog/language-dialo
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
@@ -210,6 +211,7 @@ if (url.indexOf('?org=') > 0) {
     PersonalDetailEditComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
+    SelfAssessmentComponent
   ],
   imports: [
     FormsModule,
@@ -262,7 +264,7 @@ if (url.indexOf('?org=') > 0) {
     OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
-    CompetencyModule
+    CompetencyModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

@@ -216,7 +216,9 @@ export class ViewerUtilService {
       ? `/apis/authContent/${url.includes('/content-store/') ? new URL(url).pathname.slice(1) : encodeURIComponent(url)}`
       : ''
   }
-
+  getCompetencyAuthoringUrl(url: string): string {
+    return `apis/protected/v8/assessmentCompetency/v1/assessment/content${url}`
+  }
   regexDownloadReplace = (_str = '', group1: string, group2: string): string => {
     return `${this.authoringBase}${encodeURIComponent(group1)}${group2}`
   }
