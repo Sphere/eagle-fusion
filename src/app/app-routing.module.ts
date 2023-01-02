@@ -46,6 +46,7 @@ import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/key
 import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
+import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -302,7 +303,7 @@ const routes: Routes = [
   },
   {
     path: 'app/user/self-assessment',
-    component: SelfAssessmentComponent,
+    component: SelfAssessmentComponent, canActivate: [SelfAssessmentGuard]
   },
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,
