@@ -22,6 +22,9 @@ import { WidgetContentService } from '../_services/widget-content.service'
 import { IWidgetsPlayerPdfData } from './player-pdf.model'
 
 const pdfjsViewer = require('pdfjs-dist/web/pdf_viewer')
+import {
+  TelemetryService,
+} from '@ws-widget/utils'
 @Component({
   selector: 'ws-widget-player-pdf',
   templateUrl: './player-pdf.component.html',
@@ -73,7 +76,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private valueSvc: ValueService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private telemetrySvc: TelemetryService,
   ) {
     super()
   }
@@ -303,6 +307,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
+    this.telemetrySvc.start('pdf-start', 'assessment-close-start', this.activatedRoute.snapshot.queryParams.collectionId ?
+      this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
@@ -338,10 +344,14 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           if (this.contentData && percent >= this.contentData.completionPercentage) {
+            this.telemetrySvc.end('pdf-next', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
             this.contentSvc.changeMessage('PDF')
           }
           if (this.contentData === undefined && percent > 0) {
+            this.telemetrySvc.end('pdf-next', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
             this.contentSvc.changeMessage('PDF')
           }

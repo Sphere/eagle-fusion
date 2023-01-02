@@ -10,7 +10,11 @@ declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
 import { ViewerDataService } from '../../../../viewer-data.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import {
+  ConfigurationsService,
+  TelemetryService,
+} from '@ws-widget/utils'
+//declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -55,9 +59,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private snackBar: MatSnackBar,
     public viewerDataSvc: ViewerDataService,
     private configSvc: ConfigurationsService,
+    private telemetrySvc: TelemetryService,
   ) { }
 
   ngOnInit() {
+    //Telemetry.impression()
+    //Telemetry.start()
+    this.telemetrySvc.impression()
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
@@ -68,15 +76,15 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.proficiencyLevel = this.assesmentdata.generalData.name.split('Proficiency')[1]
   }
   ngAfterViewInit() {
+    this.telemetrySvc.start('assessment-start', 'assessment-start', this.assesmentdata.generalData.identifier)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
   }
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
-    // if (this.tabActive) {
-    //   this.dialogRef.close({ event: 'DONE' })
-    // }
+    this.telemetrySvc.start('assessment-close-start', 'assessment-close-start', this.assesmentdata.generalData.identifier)
+    this.telemetrySvc.end('assessment-close', 'assessment-close', this.assesmentdata.generalData.identifier)
   }
 
   closeDone() {
@@ -188,6 +196,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   submitQuizV2(sanitizedRequestData: any) {
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
+        this.telemetrySvc.end('assessment-submit', 'assessment-submit', this.assesmentdata.generalData.identifier)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true

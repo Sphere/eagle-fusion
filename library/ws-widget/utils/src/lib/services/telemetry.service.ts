@@ -64,6 +64,7 @@ export class TelemetryService {
   }
 
   start(type: string, mode: string, id: string, data?: any) {
+    console.log(type)
     try {
       if (this.telemetryConfig) {
         $t.start(
@@ -165,6 +166,7 @@ export class TelemetryService {
   impression() {
     try {
       const page = this.getPageDetails()
+      console.log(page)
       const edata = {
         pageid: page.pageid, // Required. Unique page id
         type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
@@ -231,6 +233,7 @@ export class TelemetryService {
   }
 
   addTimeSpentListener() {
+    console.log('k')
     this.eventsSvc.events$
       .pipe(
         filter(
