@@ -65,7 +65,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
     this.progressbarValue += 100 / this.totalQuestion
-    this.proficiencyLevel = this.assesmentdata.generalData.name.split('Proficiency')[1]
+    this.proficiencyLevel = this.assesmentdata.generalData.name
+      .replace('Proficency', 'Proficiency').split('Proficiency')[1]
   }
   ngAfterViewInit() {
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
@@ -249,29 +250,30 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
         }
-
-        const formatedData = {
-          request: {
-            competencyDetails: [
-              {
-                acquiredDetails: {
-                  competencyLevelId: this.proficiencyLevel,
-                  acquiredChannel: 'selfAssessment',
+        if (this.isCompetencyComplted) {
+          const formatedData = {
+            request: {
+              competencyDetails: [
+                {
+                  acquiredDetails: {
+                    competencyLevelId: this.proficiencyLevel,
+                    acquiredChannel: 'selfAssessment',
+                  },
+                  additionalParams: {
+                    competencyName: competency_meta_data.competencyName,
+                  },
+                  competencyId: competency_meta_data.competencyId,
                 },
-                additionalParams: {
-                  competencyName: competency_meta_data.competencyName,
-                },
-                competencyId: competency_meta_data.competencyId,
-              },
-            ],
-            typeName: 'competency',
-            userId: userId,
+              ],
+              typeName: 'competency',
+              userId: userId,
 
-          },
+            },
+          }
+          this.quizService.updatePassbook(formatedData).subscribe((res: any) => {
+            console.log(res)
+          })
         }
-        this.quizService.updatePassbook(formatedData).subscribe((res: any) => {
-          console.log(res)
-        })
       },
       (_error: any) => {
         this.openSnackbar('Something went wrong! Unable to submit.')

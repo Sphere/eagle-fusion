@@ -17,6 +17,8 @@ export class ViewerUtilService {
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
+  competencyAsessment = new BehaviorSubject<any>(null)
+  competencyAsessment$ = this.competencyAsessment.asObservable()
   constructor(private http: HttpClient, private configservice: ConfigurationsService) { }
 
   private currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
