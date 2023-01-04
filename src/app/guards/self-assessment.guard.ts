@@ -26,9 +26,14 @@ export class SelfAssessmentGuard implements CanActivate {
 
   canActivate(
     next: ActivatedRouteSnapshot) {
-    if (_.get(next, 'queryParams')) {
-      return this.selfAsesment(_.get(next, 'queryParams'))
+    if (this.configSvc.userProfile) {
+      if (_.get(next, 'queryParams')) {
+        return this.selfAsesment(_.get(next, 'queryParams'))
+      } else {
+        return false
+      }
     } else {
+      this.router.navigate([`public/home`])
       return false
     }
   }

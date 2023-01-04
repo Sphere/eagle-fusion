@@ -395,6 +395,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.router.navigate([data.nextResource], { preserveQueryParams: true })
         this.viewerSvc.competencyAsessment$.subscribe((res) => {
+          console.log('nextCompetency', res)
           if (res === 'true') {
             setTimeout(() => {
               this.openOverviewDialog()

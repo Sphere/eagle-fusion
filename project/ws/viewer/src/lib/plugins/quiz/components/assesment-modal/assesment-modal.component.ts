@@ -270,8 +270,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
             },
           }
-          this.quizService.updatePassbook(formatedData).subscribe((res: any) => {
-            console.log(res)
+          this.quizService.updatePassbook(formatedData).subscribe(() => {
           })
         }
       },
