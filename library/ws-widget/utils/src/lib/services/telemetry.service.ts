@@ -64,7 +64,6 @@ export class TelemetryService {
   }
 
   start(type: string, mode: string, id: string, data?: any) {
-    console.log(type)
     try {
       if (this.telemetryConfig) {
         $t.start(
@@ -233,7 +232,6 @@ export class TelemetryService {
   }
 
   addTimeSpentListener() {
-    console.log('k')
     this.eventsSvc.events$
       .pipe(
         filter(
