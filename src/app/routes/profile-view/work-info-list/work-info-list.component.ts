@@ -15,9 +15,9 @@ export class WorkInfoListComponent implements OnInit {
   showLogOutIcon = false
   trigerrNavigation = true
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private valueSvc: ValueService) { }
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private valueSvc: ValueService) { }
 
   ngOnInit() {
     this.getUserDetails()

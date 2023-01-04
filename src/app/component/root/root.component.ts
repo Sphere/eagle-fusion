@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef,
   Renderer2,
-  Inject
+  Inject,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -218,7 +218,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 10)
+          },         10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -368,14 +368,14 @@ export class RootComponent implements OnInit, AfterViewInit {
     try {
       // window.fcWidget.show()
       this.isCommonChatEnabled = false
-      let script = this._renderer2.createElement('script')
-      script.src = "//in.fw-cdn.com/30492305/271953.js"
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
       this._renderer2.appendChild(this._document.body, script)
       setTimeout(() => {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      }, 500)
+      },         500)
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)

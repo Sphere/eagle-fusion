@@ -104,8 +104,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
           '/fusion-assets/images/sphere-new-logo.svg',
         )
-      }
-      else {
+      } else {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
           this.configSvc.instanceConfig.logos.app)
       }

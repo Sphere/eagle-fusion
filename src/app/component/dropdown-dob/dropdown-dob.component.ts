@@ -40,7 +40,7 @@ export class DropdownDobComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.updateForm()
-    }, 500)
+    },         500)
 
   }
   /* function to update the form if input is there*/
@@ -50,7 +50,7 @@ export class DropdownDobComponent implements OnInit {
       this.dobForm.patchValue({
         dateField: Number(splitValues[0]),
         monthField: Number(splitValues[1]),
-        yearField: Number(splitValues[2])
+        yearField: Number(splitValues[2]),
       })
     }
   }

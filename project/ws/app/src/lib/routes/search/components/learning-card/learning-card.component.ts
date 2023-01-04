@@ -41,8 +41,8 @@ export class LearningCardComponent extends WidgetBaseComponent
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
 
-    //this.redirectUrl = document.baseURI + 'openid/keycloak'
-    let url = `${document.baseURI}openid/keycloak`
+    // this.redirectUrl = document.baseURI + 'openid/keycloak'
+    const url = `${document.baseURI}openid/keycloak`
     this.redirectUrl = url
   }
   ngOnChanges(changes: SimpleChanges) {

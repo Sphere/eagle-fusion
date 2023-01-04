@@ -232,7 +232,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -377,7 +377,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   nextCompetency() {
     this.viewState = 'answer'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      console.log("next", data.nextResource)
       if (_.isNull(data.nextResource)) {
         // tslint:disable-next-line
         if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
@@ -396,14 +395,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.router.navigate([`/app/user/self-assessment`])
         }
 
-
       } else {
         this.router.navigate([data.nextResource], { preserveQueryParams: true })
-        this.subscription = this.viewerSvc.competencyAsessment$.subscribe((res) => {
+        this.subscription = this.viewerSvc.competencyAsessment$.subscribe(res => {
           if (res) {
             setTimeout(() => {
               this.openOverviewDialog()
-            }, 500)
+            },         500)
           }
         })
       }

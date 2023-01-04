@@ -234,8 +234,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
           request: {
             userId: this.userId,
             profileDetails: this.userData.profileDetails,
-            tcStatus: "true",
-          }
+            tcStatus: 'true',
+          },
         }
         this.updateUser(reqUpdate)
 

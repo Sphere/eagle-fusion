@@ -33,11 +33,11 @@ export class ProfileSelectComponent implements OnInit {
   ]
 
   constructor(public dialogRef: MatDialogRef<ProfileSelectComponent>,
-    private snackBar: MatSnackBar,
-    private userProfileSvc: UserProfileService,
-    private configSvc: ConfigurationsService,
-    private dialog: MatDialog,
-    private loader: LoaderService,
+              private snackBar: MatSnackBar,
+              private userProfileSvc: UserProfileService,
+              private configSvc: ConfigurationsService,
+              private dialog: MatDialog,
+              private loader: LoaderService,
   ) {
     this.createUserForm = new FormGroup({
       photo: new FormControl('', []),

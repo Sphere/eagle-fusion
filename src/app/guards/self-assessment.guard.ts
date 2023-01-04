@@ -8,7 +8,7 @@ import { ConfigurationsService } from '../../../library/ws-widget/utils/src/publ
 import { viewerRouteGenerator } from '@ws-widget/collection'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SelfAssessmentGuard implements CanActivate {
 
@@ -81,7 +81,6 @@ export class SelfAssessmentGuard implements CanActivate {
     return this.contentSvc.enrollUserToBatch(req)
   }
 
-
   getContent() {
     return this.contentSvc.fetchContent(this.eventData.contentId)
   }
@@ -147,7 +146,6 @@ export class SelfAssessmentGuard implements CanActivate {
     })
     return false
 
-
   }
 
   private getResumeDataFromList() {
@@ -161,11 +159,11 @@ export class SelfAssessmentGuard implements CanActivate {
 
   routeNavigation(batchId?: any, viewMode?: any) {
     if (this.resumeDataLink) {
-      let qParams: { [key: string]: string } = {
+      const qParams: { [key: string]: string } = {
         ...this.resumeDataLink.queryParams,
         batchId: batchId,
         viewMode: viewMode,
-        competency: true
+        competency: true,
       }
       this.router.navigate([this.resumeDataLink.url], { queryParams: qParams })
     }
