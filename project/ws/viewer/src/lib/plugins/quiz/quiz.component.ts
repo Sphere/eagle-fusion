@@ -106,6 +106,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogQuiz: any
   showCompletionMsg = false
   enrolledCourse: any
+  subscription: any
   /*
 * to unsubscribe the observable
 */
@@ -131,6 +132,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
   openOverviewDialog() {
     let overviewData: any = {}
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+    this.viewerSvc.competencyAsessment.next(false)
     overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
@@ -394,9 +399,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
       } else {
         this.router.navigate([data.nextResource], { preserveQueryParams: true })
-        setTimeout(() => {
-          this.openOverviewDialog()
-        }, 500)
+        this.subscription = this.viewerSvc.competencyAsessment$.subscribe((res) => {
+          if (res) {
+            setTimeout(() => {
+              this.openOverviewDialog()
+            }, 500)
+          }
+        })
       }
       return
     })
