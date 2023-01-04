@@ -100,7 +100,6 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private async transformQuiz(content: NsContent.IContent): Promise<NSQuiz.IQuiz> {
     if (this.activatedRoute.snapshot.queryParams.competency) {
-      this.viewSvc.competencyAsessment.next(false)
       const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
       )
       let quizJSON: NSQuiz.IQuiz = await this.http
@@ -119,7 +118,6 @@ export class QuizComponent implements OnInit, OnDestroy {
           question.questionType = 'mcq-sca'
         }
       })
-      console.log('transformQuiz')
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
     } else {
