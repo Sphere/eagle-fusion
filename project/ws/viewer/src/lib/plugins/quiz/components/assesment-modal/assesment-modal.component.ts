@@ -7,10 +7,9 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
-import { ValueService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import * as _ from 'lodash'
 import { ViewerDataService } from '../../../../viewer-data.service'
-import { ConfigurationsService } from '@ws-widget/utils'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -90,13 +89,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   CompetencyDashboard() {
     this.dialogRef.close({
       event: 'FAILED_COMPETENCY',
-      competency: this.route.snapshot.queryParams.competency
+      competency: this.route.snapshot.queryParams.competency,
     })
   }
   nextCompetency() {
     this.dialogRef.close({
       event: 'NEXT_COMPETENCY',
-      competency: this.route.snapshot.queryParams.competency
+      competency: this.route.snapshot.queryParams.competency,
     })
   }
 
@@ -183,7 +182,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     } else {
       this.submitQuizV2(sanitizedRequestData)
     }
-
 
   }
   submitQuizV2(sanitizedRequestData: any) {

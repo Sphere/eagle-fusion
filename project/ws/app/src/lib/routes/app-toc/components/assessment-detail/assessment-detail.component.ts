@@ -40,7 +40,7 @@ export class AssessmentDetailComponent implements OnInit {
   constructor(private viewSvc: ViewerUtilService,
     private http: HttpClient,
     private contentSvc: WidgetContentService,
-    private activatedRoute: ActivatedRoute,) {
+    private activatedRoute: ActivatedRoute) {
   }
 
   async ngOnInit() {
@@ -150,7 +150,5 @@ export class AssessmentDetailComponent implements OnInit {
         return quizJSON
       }
     }
-
-
   }
 }

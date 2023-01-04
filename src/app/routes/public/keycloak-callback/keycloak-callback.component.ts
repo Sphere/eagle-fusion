@@ -11,8 +11,8 @@ import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/au
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService, private snackBarSvc: MatSnackBar,
-    private signupService: SignupService,
-    private authSvc: AuthKeycloakService,
+              private signupService: SignupService,
+              private authSvc: AuthKeycloakService,
 
   ) { }
 

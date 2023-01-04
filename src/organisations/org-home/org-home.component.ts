@@ -17,7 +17,7 @@ export class OrgHomeComponent implements OnInit {
   resultResponse: any
   resultEnroll: any
   contentId: any = []
-  language: any = ""
+  language: any = ''
   enrollData: any = true
   firstName: any
 
@@ -86,5 +86,3 @@ export class OrgHomeComponent implements OnInit {
   }
 
 }
-
-

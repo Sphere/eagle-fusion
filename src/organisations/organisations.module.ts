@@ -4,7 +4,6 @@ import { OrgHomeComponent } from './org-home/org-home.component'
 import { RouterModule, Routes } from '@angular/router'
 import { AppComponent } from './public/app/app.component'
 
-
 const routes: Routes = [
   {
     path: 'home',

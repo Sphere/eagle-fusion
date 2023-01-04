@@ -126,7 +126,6 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
 
-
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
   console.log('iOS!')
@@ -161,9 +160,9 @@ if (url.indexOf('?org=') > 0) {
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
         window.location.href = `${document.baseURI}organisations/home`
-      }
-      else
+      } else {
         window.location.href = `${document.baseURI}organisations/home`
+      }
     }
   }
 }
@@ -211,7 +210,7 @@ if (url.indexOf('?org=') > 0) {
     PersonalDetailEditComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
-    SelfAssessmentComponent
+    SelfAssessmentComponent,
   ],
   imports: [
     FormsModule,

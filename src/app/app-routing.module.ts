@@ -101,7 +101,7 @@ const routes: Routes = [
   },
   {
     path: 'public/organisations/home',
-    component: OrgHomeComponent
+    component: OrgHomeComponent,
   },
   {
     path: 'analytics',
@@ -303,7 +303,7 @@ const routes: Routes = [
   },
   {
     path: 'app/user/self-assessment',
-    component: SelfAssessmentComponent, canActivate: [SelfAssessmentGuard]
+    component: SelfAssessmentComponent, canActivate: [SelfAssessmentGuard],
   },
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,

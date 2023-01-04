@@ -1,15 +1,15 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, async, inject } from '@angular/core/testing'
 
-import { SelfAssessmentGuard } from './self-assessment.guard';
+import { SelfAssessmentGuard } from './self-assessment.guard'
 
 describe('SelfAssessmentGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SelfAssessmentGuard]
-    });
-  });
+      providers: [SelfAssessmentGuard],
+    })
+  })
 
   it('should ...', inject([SelfAssessmentGuard], (guard: SelfAssessmentGuard) => {
-    expect(guard).toBeTruthy();
-  }));
-});
+    expect(guard).toBeTruthy()
+  }))
+})
