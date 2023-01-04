@@ -400,6 +400,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               this.openOverviewDialog()
             }, 500)
             this.viewerSvc.competencyAsessment.complete()
+            this.viewerSvc.competencyAsessment.next(false)
             this.viewerSvc.competencyAsessment.unsubscribe()
           }
         })
