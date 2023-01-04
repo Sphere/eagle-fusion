@@ -371,7 +371,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      }, 500)
+      }, 300)
 
       // window.fcWidget.show()
       //this.isCommonChatEnabled = false

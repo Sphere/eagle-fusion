@@ -76,15 +76,22 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.proficiencyLevel = this.assesmentdata.generalData.name.split('Proficiency')[1]
   }
   ngAfterViewInit() {
-    this.telemetrySvc.start('assessment-start', 'assessment-start', this.assesmentdata.generalData.identifier)
+    this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
   }
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
-    this.telemetrySvc.start('assessment-close-start', 'assessment-close-start', this.assesmentdata.generalData.identifier)
-    this.telemetrySvc.end('assessment-close', 'assessment-close', this.assesmentdata.generalData.identifier)
+    var data: any = {
+      courseID: this.assesmentdata.generalData.collectionId,
+      contentId: this.assesmentdata.generalData.identifier,
+      name: this.assesmentdata.generalData.name,
+      moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+    }
+
+    this.telemetrySvc.start('assessment', 'assessment-close-start', this.assesmentdata.generalData.identifier)
+    this.telemetrySvc.end('assessment', 'assessment-close-end', this.assesmentdata.generalData.identifier, data)
   }
 
   closeDone() {
@@ -119,6 +126,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         .subscribe(_timeRemaining => {
           this.timeLeft -= 0.1
           if (this.timeLeft < 0) {
+            var data: any = {
+              courseID: this.assesmentdata.generalData.collectionId,
+              contentId: this.assesmentdata.generalData.identifier,
+              name: this.assesmentdata.generalData.name,
+              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+            }
+            this.telemetrySvc.end('assessment', 'assessment-auto-submit', this.assesmentdata.generalData.identifier, data)
             this.isIdeal = true
             this.timeLeft = 0
             if (this.timerSubscription) {
@@ -196,7 +210,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   submitQuizV2(sanitizedRequestData: any) {
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
-        this.telemetrySvc.end('assessment-submit', 'assessment-submit', this.assesmentdata.generalData.identifier)
+        var data: any = {
+          courseID: this.assesmentdata.generalData.collectionId,
+          contentId: this.assesmentdata.generalData.identifier,
+          name: this.assesmentdata.generalData.name,
+          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+        }
+        this.telemetrySvc.end('assessment', 'assessment-submit', this.assesmentdata.generalData.identifier, data)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
@@ -227,6 +247,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   submitCompetencyQuizV2(sanitizedRequestData: any) {
     this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
+        var data1: any = {
+          courseID: this.assesmentdata.generalData.collectionId,
+          contentId: this.assesmentdata.generalData.identifier,
+          name: this.assesmentdata.generalData.name,
+          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+        }
+        this.telemetrySvc.end('competency', 'competency-submit', this.assesmentdata.generalData.identifier, data1)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
