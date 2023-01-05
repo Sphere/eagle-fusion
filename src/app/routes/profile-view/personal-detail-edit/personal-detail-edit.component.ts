@@ -21,7 +21,7 @@ import * as _ from 'lodash'
     { provide: DateAdapter, useClass: AppDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   maxDate = new Date()
@@ -56,12 +56,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private valueSvc: ValueService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private valueSvc: ValueService,
+              private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),
@@ -87,7 +87,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
   }
-
 
   ngOnInit() {
     this.fetchMeta()
@@ -306,7 +305,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         mobile: data.personalDetails.mobile,
         postalAddress: data.personalDetails.postalAddress,
         pincode: data.personalDetails.pincode,
-        designation: data.professionalDetails[0].designation
+        designation: data.professionalDetails[0].designation,
       })
     }
     this.loadDob = true

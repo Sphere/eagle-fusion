@@ -118,6 +118,7 @@ export class QuizComponent implements OnInit, OnDestroy {
           question.questionType = 'mcq-sca'
         }
       })
+      this.viewSvc.competencyAsessment.next(true)
       return quizJSON
     } else {
       const artifactUrl = this.forPreview

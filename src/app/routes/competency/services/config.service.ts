@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils'
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigService {
   userProfileData: any
@@ -16,7 +16,7 @@ export class ConfigService {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       profileData: (profileData.professionalDetails),
       id: this.configSvc.unMappedUser.id,
-      hostPath: this.configSvc.hostPath
+      hostPath: this.configSvc.hostPath,
     }
 
     localStorage.setItem('competency', JSON.stringify(config))

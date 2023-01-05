@@ -180,7 +180,7 @@ export class CardContentComponent extends WidgetBaseComponent
   }
 
   login(data: any) {
-    let name = `${data.name} - Aastrika`
+    const name = `${data.name} - Aastrika`
     this.titleService.setTitle(name)
     this.router.navigate(['/public/toc/overview'], {
       state: {

@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef,
   Renderer2,
-  Inject
+  Inject,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -373,9 +373,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       }, 300)
       // window.fcWidget.show()
-      //this.isCommonChatEnabled = false
-      let script = this._renderer2.createElement('script')
-      script.src = "//in.fw-cdn.com/30492305/271953.js"
+      this.isCommonChatEnabled = false
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
       this._renderer2.appendChild(this._document.body, script)
     } catch (error) {
       // tslint:disable-next-line:no-console

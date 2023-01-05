@@ -7,10 +7,10 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
-import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
 import { ViewerDataService } from '../../../../viewer-data.service'
 import {
+  ValueService,
   ConfigurationsService,
   TelemetryService,
 } from '@ws-widget/utils'
@@ -73,7 +73,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
     this.progressbarValue += 100 / this.totalQuestion
-    this.proficiencyLevel = this.assesmentdata.generalData.name.split('Proficiency')[1]
+    this.proficiencyLevel = this.assesmentdata.generalData.name
+      .replace('Proficency', 'Proficiency').split('Proficiency')[1]
   }
   ngAfterViewInit() {
     this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier)
@@ -104,13 +105,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   CompetencyDashboard() {
     this.dialogRef.close({
       event: 'FAILED_COMPETENCY',
-      competency: this.route.snapshot.queryParams.competency
+      competency: this.route.snapshot.queryParams.competency,
     })
   }
   nextCompetency() {
     this.dialogRef.close({
       event: 'NEXT_COMPETENCY',
-      competency: this.route.snapshot.queryParams.competency
+      competency: this.route.snapshot.queryParams.competency,
     })
   }
 
@@ -205,7 +206,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.submitQuizV2(sanitizedRequestData)
     }
 
-
   }
   submitQuizV2(sanitizedRequestData: any) {
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
@@ -285,29 +285,29 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
         }
-
-        const formatedData = {
-          request: {
-            competencyDetails: [
-              {
-                acquiredDetails: {
-                  competencyLevelId: this.proficiencyLevel,
-                  acquiredChannel: 'selfAssessment',
+        if (this.isCompetencyComplted) {
+          const formatedData = {
+            request: {
+              competencyDetails: [
+                {
+                  acquiredDetails: {
+                    competencyLevelId: this.proficiencyLevel,
+                    acquiredChannel: 'selfAssessment',
+                  },
+                  additionalParams: {
+                    competencyName: competency_meta_data.competencyName,
+                  },
+                  competencyId: competency_meta_data.competencyId,
                 },
-                additionalParams: {
-                  competencyName: competency_meta_data.competencyName,
-                },
-                competencyId: competency_meta_data.competencyId,
-              },
-            ],
-            typeName: 'competency',
-            userId: userId,
+              ],
+              typeName: 'competency',
+              userId: userId,
 
-          },
+            },
+          }
+          this.quizService.updatePassbook(formatedData).subscribe(() => {
+          })
         }
-        this.quizService.updatePassbook(formatedData).subscribe((res: any) => {
-          console.log(res)
-        })
       },
       (_error: any) => {
         this.openSnackbar('Something went wrong! Unable to submit.')

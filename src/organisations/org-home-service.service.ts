@@ -63,16 +63,15 @@ export class OrgServiceService {
       req = {
         request: {
           filters: {
-            primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: 'Ministry of Health and Family Welfare', lang: language
+            primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: 'Ministry of Health and Family Welfare', lang: language,
           },
         }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
       }
-    }
-    else {
+    } else {
       req = {
         request: {
           filters: {
-            primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: 'Ministry of Health and Family Welfare'
+            primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'], sourceName: 'Ministry of Health and Family Welfare',
           },
         }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
       }
