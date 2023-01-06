@@ -165,7 +165,6 @@ export class TelemetryService {
   impression() {
     try {
       const page = this.getPageDetails()
-      console.log(page)
       const edata = {
         pageid: page.pageid, // Required. Unique page id
         type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
