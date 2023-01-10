@@ -30,7 +30,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   personalDetailForm: FormGroup
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
-  profileUserName: any
+  // profileUserName: any
   userID = ''
   savebtnDisable = true
   orgTypeField = false
@@ -56,15 +56,17 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar,
-              public dialog: MatDialog,
-              private valueSvc: ValueService,
-              private readonly changeDetectorRef: ChangeDetectorRef
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private valueSvc: ValueService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
-      userName: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      // userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
       designation: new FormControl(),
@@ -271,13 +273,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
 
-      this.profileUserName = `${data.personalDetails.firstname} `
-      if (data.personalDetails.middlename) {
-        this.profileUserName += `${data.personalDetails.middlename} `
-      }
-      if (data.personalDetails.surname) {
-        this.profileUserName += `${data.personalDetails.surname}`
-      }
+      // this.profileUserName = `${data.personalDetails.firstname} `
+      // if (data.personalDetails.middlename) {
+      //   this.profileUserName += `${data.personalDetails.middlename} `
+      // }
+      // if (data.personalDetails.surname) {
+      //   this.profileUserName += `${data.personalDetails.surname}`
+      // }
 
       // if (data.personalDetails.dob) {
 
@@ -289,7 +291,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
 
       this.personalDetailForm.patchValue({
-        userName: this.profileUserName,
+        // userName: this.profileUserName,
+        firstname: data.personalDetails.firstname,
+        surname: data.personalDetails.surname,
         dob: this.getDateFromText(data.personalDetails.dob),
         profession: data.professionalDetails[0].profession,
         professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
