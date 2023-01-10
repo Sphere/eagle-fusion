@@ -232,7 +232,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -388,11 +388,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           })
           confirmdialog.afterClosed().subscribe((res: any) => {
             if (res.event === 'CONFIRMED') {
-              this.router.navigate([`/app/user/self-assessment`])
+              this.router.navigate([`/app/user/competency`])
             }
           })
         } else {
-          this.router.navigate([`/app/user/self-assessment`])
+          this.router.navigate([`/app/user/competency`])
         }
 
       } else {
@@ -401,7 +401,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           if (res) {
             setTimeout(() => {
               this.openOverviewDialog()
-            },         500)
+            }, 500)
           }
         })
       }
