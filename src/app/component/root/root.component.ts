@@ -218,7 +218,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          },         10)
+          }, 10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -366,16 +366,17 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   showSocialChats() {
     try {
-      // window.fcWidget.show()
-      this.isCommonChatEnabled = false
-      const script = this._renderer2.createElement('script')
-      script.src = '//in.fw-cdn.com/30492305/271953.js'
-      this._renderer2.appendChild(this._document.body, script)
       setTimeout(() => {
+        this.isCommonChatEnabled = false
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      },         500)
+      }, 300)
+      // window.fcWidget.show()
+      //this.isCommonChatEnabled = false
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
+      this._renderer2.appendChild(this._document.body, script)
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)

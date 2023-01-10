@@ -176,6 +176,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       const url: any = localStorage.getItem('login_url')
       window.location.href = url
     }
+    if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
+      localStorage.removeItem('url_before_login')
+    }
     // localStorage.removeItem('url_before_login')
     // this.router.navigateByUrl('app/login')
     this.signUpSvc.keyClockLogin()
