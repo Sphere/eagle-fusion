@@ -291,7 +291,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
               competencyDetails: [
                 {
                   acquiredDetails: {
-                    competencyLevelId: this.proficiencyLevel,
+                    competencyLevelId: _.trim(this.proficiencyLevel),
                     acquiredChannel: 'selfAssessment',
                   },
                   additionalParams: {
