@@ -106,6 +106,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   public dialogQuiz: any
   showCompletionMsg = false
   enrolledCourse: any
+  subscription: any
   /*
 * to unsubscribe the observable
 */
@@ -131,6 +132,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
   openOverviewDialog() {
     let overviewData: any = {}
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+    this.viewerSvc.competencyAsessment.next(false)
     overviewData = {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
@@ -227,7 +232,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -279,6 +284,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
       if (result) {
+        if (result.event === 'NEXT_COMPETENCY' && result.competency) {
+          this.nextCompetency()
+        }
+        if (result.event === 'FAILED_COMPETENCY') {
+          this.router.navigate([`/app/user/competency`])
+        }
         if (result.event === 'CLOSE') {
           this.closeBtnDialog()
         }
@@ -360,6 +371,41 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           )
         }
       }
+    })
+  }
+
+  nextCompetency() {
+    this.viewState = 'answer'
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      if (_.isNull(data.nextResource)) {
+        // tslint:disable-next-line
+        if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
+          const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+            width: '542px',
+            panelClass: 'overview-modal',
+            disableClose: true,
+            data: 'Congratulations!, you have completed the course',
+          })
+          confirmdialog.afterClosed().subscribe((res: any) => {
+            if (res.event === 'CONFIRMED') {
+              this.router.navigate([`/app/user/competency`])
+            }
+          })
+        } else {
+          this.router.navigate([`/app/user/competency`])
+        }
+
+      } else {
+        this.router.navigate([data.nextResource], { preserveQueryParams: true })
+        this.subscription = this.viewerSvc.competencyAsessment$.subscribe(res => {
+          if (res) {
+            setTimeout(() => {
+              this.openOverviewDialog()
+            }, 500)
+          }
+        })
+      }
+      return
     })
   }
 

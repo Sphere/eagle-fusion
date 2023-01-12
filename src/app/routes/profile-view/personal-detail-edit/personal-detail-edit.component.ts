@@ -21,7 +21,7 @@ import * as _ from 'lodash'
     { provide: DateAdapter, useClass: AppDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   maxDate = new Date()
@@ -30,7 +30,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   personalDetailForm: FormGroup
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
-  profileUserName: any
+  // profileUserName: any
   userID = ''
   savebtnDisable = true
   orgTypeField = false
@@ -54,6 +54,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   langDialog: any
   preferedLanguage: any = 'English'
   loadDob = false
+  showDesignation = false
   constructor(private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
@@ -63,9 +64,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
-      userName: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      // userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
+      designation: new FormControl(),
       professionOtherSpecify: new FormControl(),
       regNurseRegMidwifeNumber: new FormControl(),
       orgType: new FormControl(),
@@ -86,7 +90,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
   }
 
-
   ngOnInit() {
     this.fetchMeta()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -99,7 +102,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         this.showLogOutIcon = false
       }
     })
-
   }
 
   fetchMeta() {
@@ -228,6 +230,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
+      this.showDesignation = true
       this.orgTypeField = false
       this.professionOtherField = false
     } else if (value === 'Healthcare Volunteer') {
@@ -270,13 +273,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
 
-      this.profileUserName = `${data.personalDetails.firstname} `
-      if (data.personalDetails.middlename) {
-        this.profileUserName += `${data.personalDetails.middlename} `
-      }
-      if (data.personalDetails.surname) {
-        this.profileUserName += `${data.personalDetails.surname}`
-      }
+      // this.profileUserName = `${data.personalDetails.firstname} `
+      // if (data.personalDetails.middlename) {
+      //   this.profileUserName += `${data.personalDetails.middlename} `
+      // }
+      // if (data.personalDetails.surname) {
+      //   this.profileUserName += `${data.personalDetails.surname}`
+      // }
 
       // if (data.personalDetails.dob) {
 
@@ -288,7 +291,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
 
       this.personalDetailForm.patchValue({
-        userName: this.profileUserName,
+        // userName: this.profileUserName,
+        firstname: data.personalDetails.firstname,
+        surname: data.personalDetails.surname,
         dob: this.getDateFromText(data.personalDetails.dob),
         profession: data.professionalDetails[0].profession,
         professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
@@ -304,6 +309,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         mobile: data.personalDetails.mobile,
         postalAddress: data.personalDetails.postalAddress,
         pincode: data.personalDetails.pincode,
+        designation: data.professionalDetails[0].designation,
       })
     }
     this.loadDob = true

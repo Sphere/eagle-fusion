@@ -103,7 +103,11 @@ import { LanguageDialogComponent } from './routes/language-dialog/language-dialo
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
-
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -121,7 +125,6 @@ const appInitializer = (initSvc: InitService, logger: LoggerService) => async ()
 const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
-
 
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
@@ -157,9 +160,9 @@ if (url.indexOf('?org=') > 0) {
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
         window.location.href = `${document.baseURI}organisations/home`
-      }
-      else
+      } else {
         window.location.href = `${document.baseURI}organisations/home`
+      }
     }
   }
 }
@@ -207,6 +210,7 @@ if (url.indexOf('?org=') > 0) {
     PersonalDetailEditComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
+    SelfAssessmentComponent,
   ],
   imports: [
     FormsModule,
@@ -256,7 +260,10 @@ if (url.indexOf('?org=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
-    OrganisationsModule
+    OrganisationsModule,
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    SelfAssessmentModule,
+    CompetencyModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

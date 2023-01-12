@@ -20,8 +20,11 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { IWidgetsPlayerPdfData } from './player-pdf.model'
-
+import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 const pdfjsViewer = require('pdfjs-dist/web/pdf_viewer')
+import {
+  TelemetryService,
+} from '@ws-widget/utils'
 @Component({
   selector: 'ws-widget-player-pdf',
   templateUrl: './player-pdf.component.html',
@@ -73,7 +76,9 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private valueSvc: ValueService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private telemetrySvc: TelemetryService,
+    public viewerDataSvc: ViewerDataService,
   ) {
     super()
   }
@@ -303,6 +308,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
+    this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?
+      this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
@@ -337,11 +344,22 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
+          var data1: any = {
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            contentId: this.identifier,
+            name: this.viewerDataSvc.resource!.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+          }
           if (this.contentData && percent >= this.contentData.completionPercentage) {
+            this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
             this.contentSvc.changeMessage('PDF')
           }
           if (this.contentData === undefined && percent > 0) {
+            this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
             this.contentSvc.changeMessage('PDF')
           }

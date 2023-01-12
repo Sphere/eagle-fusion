@@ -13,7 +13,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       photo: _.get(form, 'photo') ? form.photo : userProfileData.personalDetails.photo,
       dob: _.get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob,
       nationality: _.get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality,
-      domicileMedium: _.get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.domicileMedium,
+      domicileMedium: _.get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.personalDetails.domicileMedium,
       regNurseRegMidwifeNumber: _.get(form, 'regNurseRegMidwifeNumber') ? form.regNurseRegMidwifeNumber :
         userProfileData.personalDetails.regNurseRegMidwifeNumber,
       nationalUniqueId: userProfileData.nationalUniqueId,
@@ -176,7 +176,7 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
       userProfileData.professionalDetails[0].professionOtherSpecify,
     orgOtherSpecify: _.get(form, 'orgOtherSpecify') ? form.orgOtherSpecify :
       userProfileData.professionalDetails[0].orgOtherSpecify,
-    name: form.organizationName,
+    name: _.get(form, 'organizationName', _.get(userProfileData, 'professionalDetails[0].name', '')),
     nameOther: form.orgNameOther,
     industry: form.industry,
     industryOther: form.industryOther,

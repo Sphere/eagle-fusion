@@ -22,6 +22,7 @@ ws-app-nav-bar {
 .height-on-top {
   padding-top: 72px;
 }
+
 // .height-on-top.padding-0 {
 //   padding-top: 0 !important;
 // }
@@ -59,6 +60,7 @@ ws-app-nav-bar {
   @include breakpoint-gt-xs {
     padding: 0;
   }
+
   // @include breakpoint-xs {
   //   padding-bottom: 0px;
   // }
@@ -77,7 +79,7 @@ ws-app-nav-bar {
 }
 
 //chat-style
-.chat-icon{
+.chat-icon {
   cursor: pointer;
   z-index: 1000;
   left: 0rem;
@@ -86,7 +88,7 @@ ws-app-nav-bar {
   width: 70px;
 }
 
-.whatsapp-icon{
+.whatsapp-icon {
   cursor: pointer;
   z-index: 1;
   left: 1.2rem;
@@ -95,15 +97,15 @@ ws-app-nav-bar {
   width: 3.9rem;
 }
 
-.blur-screen{
+.blur-screen {
   background-image: linear-gradient(45deg, black, transparent);
   opacity: 1;
   pointer-events: none;
   filter: blur(3px);
-  -webkit-filter :blur(3px);
+  -webkit-filter: blur(3px);
 }
 
-.cross-icon{
+.cross-icon {
   width: 5rem;
   left: 0rem;
   bottom: 11.5rem;
@@ -112,9 +114,9 @@ ws-app-nav-bar {
   position: fixed;
 }
 
-.whtsapp-text{
+.whtsapp-text {
   font-weight: 500;
-  color:#1C5D95;
+  color: #1C5D95;
   background-color: white;
   z-index: 1;
   left: 6.1rem;
@@ -124,9 +126,9 @@ ws-app-nav-bar {
   border-radius: 0.3rem;
 }
 
-.fcapp-text{
+.fcapp-text {
   font-weight: 500;
-  color:#1C5D95;
+  color: #1C5D95 !important;
   background-color: white;
   z-index: 1;
   left: 6.1rem;
