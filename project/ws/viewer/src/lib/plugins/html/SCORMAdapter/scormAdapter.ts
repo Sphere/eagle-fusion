@@ -71,7 +71,15 @@ export class SCORMAdapterService {
       this._setError(301)
       return false
     }
-    this.viewerDataSvc.scromChangeSubject.next(true)
+    this.viewerDataSvc.scromChangeSubject.next(
+      {
+        'completed': true,
+        'batchId':
+          this.activatedRoute.snapshot.queryParamMap.get('batchId'),
+        'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
+        , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
+      }
+    )
     let _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()

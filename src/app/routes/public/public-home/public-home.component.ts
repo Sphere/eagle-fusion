@@ -66,7 +66,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.router.navigateByUrl('/organisations/home')
+      this.router.navigateByUrl('/public/organisations/home')
     }
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {

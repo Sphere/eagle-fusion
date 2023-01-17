@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/app/search/home'], {
       queryParams: { lang: e, q: this.searchQuery.q },
     }).then(() => {
-      this.router.navigate(['/app/search/learning'], {
+      this.router.navigate(['/app/search/home'], {
         queryParams: {
           q: this.searchQuery.q,
           lang: this.searchQuery.l,

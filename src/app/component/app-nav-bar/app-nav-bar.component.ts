@@ -46,6 +46,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showSearchIcon = true
   langDialog: any
   preferedLanguage: any = ['english']
+  hideCreateButton = true
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -71,6 +72,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.hideCreateButton = false
+    }
     this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {
@@ -100,8 +104,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
           '/fusion-assets/images/sphere-new-logo.svg',
         )
-      }
-      else {
+      } else {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
           this.configSvc.instanceConfig.logos.app)
       }

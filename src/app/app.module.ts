@@ -101,13 +101,13 @@ import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/sha
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
+import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
-
-
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -125,7 +125,6 @@ const appInitializer = (initSvc: InitService, logger: LoggerService) => async ()
 const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
 }
-
 
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
@@ -156,10 +155,14 @@ if (url.indexOf('?org=') > 0) {
     localStorage.setItem('orgValue', orgValue)
     if (orgValue === 'nhsrc') {
       if (url.indexOf('do_') > 0) {
-        window.location.href = `${url}`
-      }
-      else
+        // window.location.href = `${url}`
+        console.log(url)
+        localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
+          }` + `/overview`)
         window.location.href = `${document.baseURI}organisations/home`
+      } else {
+        window.location.href = `${document.baseURI}organisations/home`
+      }
     }
   }
 }
@@ -206,7 +209,8 @@ if (url.indexOf('?org=') > 0) {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
-    DropdownDobComponent
+    DropdownDobComponent,
+    SelfAssessmentComponent,
   ],
   imports: [
     FormsModule,
@@ -256,10 +260,10 @@ if (url.indexOf('?org=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
-    SelfAssessmentModule,
+    OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    SelfAssessmentModule,
     CompetencyModule,
-
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

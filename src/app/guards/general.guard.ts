@@ -134,7 +134,9 @@ export class GeneralGuard implements CanActivate {
           // if (this.dobFlag) {
           //   return this.router.parseUrl('/page/home')
           // }
-
+          if (data.tcStatus && data.tcStatus === 'false') {
+            return this.router.navigate(['app', 'new-tnc'])
+          }
           if (data.profileDetails) {
             return this.router.parseUrl(`/page/home`)
           }

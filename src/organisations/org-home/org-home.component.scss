@@ -42,6 +42,9 @@
     font-family: 'Nunito', sans-serif;
     font-weight: 600;
     transition: .5s;
+    border: unset!important;
+    color: unset !important;
+    width: auto !important;
 }
 
 .btn.btn-primary,
@@ -2180,6 +2183,7 @@ input.form-control.mr-sm-2 {
     border-radius: 21px;
     padding-left: 0px;
     padding-right: 0px;
+    margin-bottom: 3px;
 }
 
 button.all-courses {

@@ -1,7 +1,7 @@
 import { ExploreResolverService } from './../../../../resolver/src/lib/explore-resolver.service'
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   ConfigurationsService, EventService, LoggerService, NsPage,
@@ -34,7 +34,6 @@ export class PageComponent extends WidgetBaseComponent
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
   authenticated: boolean | undefined = false
-  router: any
   constructor(
     private activateRoute: ActivatedRoute,
     private logger: LoggerService,
@@ -48,6 +47,7 @@ export class PageComponent extends WidgetBaseComponent
     // private authSvc: AuthKeycloakService,
     // private loginResolverSvc: LoginResolverService,
     private exploreResolverSvc: ExploreResolverService,
+    public router: Router
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
