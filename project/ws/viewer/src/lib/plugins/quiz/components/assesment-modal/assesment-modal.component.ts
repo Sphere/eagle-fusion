@@ -14,6 +14,7 @@ import {
   ConfigurationsService,
   TelemetryService,
 } from '@ws-widget/utils'
+import moment from 'moment'
 //declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
@@ -288,21 +289,22 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.isCompetencyComplted) {
           const formatedData = {
             request: {
+              userId: userId,
+              typeName: 'competency',
               competencyDetails: [
                 {
-                  acquiredDetails: {
-                    competencyLevelId: _.trim(this.proficiencyLevel),
-                    acquiredChannel: 'selfAssessment',
-                  },
-                  additionalParams: {
-                    competencyName: competency_meta_data.competencyName,
-                  },
                   competencyId: competency_meta_data.competencyId,
+                  additionalParams: {
+                  },
+                  acquiredDetails: {
+                    competencyName: competency_meta_data.competencyName,
+                    acquiredChannel: 'selfAssessment',
+                    competencyLevelId: _.trim(this.proficiencyLevel),
+                    effectiveDate: moment().format("YYYY-MM-DD h:mm:ss")
+                  },
+
                 },
               ],
-              typeName: 'competency',
-              userId: userId,
-
             },
           }
           this.quizService.updatePassbook(formatedData).subscribe(() => {
