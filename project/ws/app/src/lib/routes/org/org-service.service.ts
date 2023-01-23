@@ -13,6 +13,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
+  Sashakt_Auth: '/apis/public/v8/sashaktAuth/login'
 }
 @Injectable({
   providedIn: 'root',
@@ -57,10 +58,10 @@ export class OrgServiceService {
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
-
+  setSashaktId(token: any, id: any): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
+  }
   setConnectSid(authCode: any): Observable<any> {
-    // console.log(authCode)
-
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
 
   }
