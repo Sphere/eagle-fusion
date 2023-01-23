@@ -44,6 +44,11 @@ import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
+import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
+import { SelfAssessmentGuard } from './guards/self-assessment.guard'
+
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -98,7 +103,11 @@ const routes: Routes = [
   {
     path: 'organisations',
     loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
-    // canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'public/organisations/home',
+    component: OrgHomeComponent,
   },
   {
     path: 'analytics',
@@ -298,6 +307,14 @@ const routes: Routes = [
     path: 'app/personal-detail-edit',
     component: PersonalDetailEditComponent,
   },
+  {
+    path: 'app/user/self-assessment',
+    component: SelfAssessmentComponent, canActivate: [SelfAssessmentGuard],
+  },
+  {
+    path: 'app/user/competency', component: CompetencyDashboardComponent,
+  },
+
   {
     path: 'app/new-tnc',
     component: NewTncComponent,

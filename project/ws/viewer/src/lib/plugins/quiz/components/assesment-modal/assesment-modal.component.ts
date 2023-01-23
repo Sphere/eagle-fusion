@@ -7,9 +7,14 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
-import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
 import { ViewerDataService } from '../../../../viewer-data.service'
+import {
+  ValueService,
+  ConfigurationsService,
+  TelemetryService,
+} from '@ws-widget/utils'
+//declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -33,6 +38,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   result = 0
   progressbarValue = 0
   isCompleted = false
+  isCompetencyComplted = false
   fetchingResultsStatus: FetchStatus = 'none'
   questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
@@ -42,6 +48,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   diablePrevious = true
   assesmentActive = true
   disableContinue = false
+  isCompetency = false
+  proficiencyLevel = ''
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -50,9 +58,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
     public viewerDataSvc: ViewerDataService,
+    private configSvc: ConfigurationsService,
+    private telemetrySvc: TelemetryService,
   ) { }
 
   ngOnInit() {
+    //Telemetry.impression()
+    //Telemetry.start()
+    this.telemetrySvc.impression()
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
@@ -60,17 +73,26 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.totalQuestion = Object.keys(this.assesmentdata.questions.questions).length
     // this.progressbarValue = this.totalQuestion
     this.progressbarValue += 100 / this.totalQuestion
+    this.proficiencyLevel = this.assesmentdata.generalData.name
+      .replace('Proficency', 'Proficiency').split('Proficiency')[1]
   }
   ngAfterViewInit() {
+    this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
   }
   closePopup() {
     this.dialogRef.close({ event: 'CLOSE' })
-    // if (this.tabActive) {
-    //   this.dialogRef.close({ event: 'DONE' })
-    // }
+    var data: any = {
+      courseID: this.assesmentdata.generalData.collectionId,
+      contentId: this.assesmentdata.generalData.identifier,
+      name: this.assesmentdata.generalData.name,
+      moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+    }
+
+    this.telemetrySvc.start('assessment', 'assessment-close-start', this.assesmentdata.generalData.identifier)
+    this.telemetrySvc.end('assessment', 'assessment-close-end', this.assesmentdata.generalData.identifier, data)
   }
 
   closeDone() {
@@ -79,6 +101,18 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   retakeQuiz() {
     this.dialogRef.close({ event: 'RETAKE_QUIZ' })
+  }
+  CompetencyDashboard() {
+    this.dialogRef.close({
+      event: 'FAILED_COMPETENCY',
+      competency: this.route.snapshot.queryParams.competency,
+    })
+  }
+  nextCompetency() {
+    this.dialogRef.close({
+      event: 'NEXT_COMPETENCY',
+      competency: this.route.snapshot.queryParams.competency,
+    })
   }
 
   timer(data: any) {
@@ -93,6 +127,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         .subscribe(_timeRemaining => {
           this.timeLeft -= 0.1
           if (this.timeLeft < 0) {
+            var data: any = {
+              courseID: this.assesmentdata.generalData.collectionId,
+              contentId: this.assesmentdata.generalData.identifier,
+              name: this.assesmentdata.generalData.name,
+              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+            }
+            this.telemetrySvc.end('assessment', 'assessment-auto-submit', this.assesmentdata.generalData.identifier, data)
             this.isIdeal = true
             this.timeLeft = 0
             if (this.timerSubscription) {
@@ -159,8 +200,23 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     sanitizedRequestData['courseId'] = this.assesmentdata.generalData.collectionId
     sanitizedRequestData['batchId'] = this.route.snapshot.queryParams.batchId
     sanitizedRequestData['userId'] = localStorage.getItem('userUUID')
+    if (this.route.snapshot.queryParams.competency) {
+      this.submitCompetencyQuizV2(sanitizedRequestData)
+    } else {
+      this.submitQuizV2(sanitizedRequestData)
+    }
+
+  }
+  submitQuizV2(sanitizedRequestData: any) {
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
+        var data: any = {
+          courseID: this.assesmentdata.generalData.collectionId,
+          contentId: this.assesmentdata.generalData.identifier,
+          name: this.assesmentdata.generalData.name,
+          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+        }
+        this.telemetrySvc.end('assessment', 'assessment-submit', this.assesmentdata.generalData.identifier, data)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
@@ -187,9 +243,78 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.fetchingResultsStatus = 'error'
       },
     )
-
   }
+  submitCompetencyQuizV2(sanitizedRequestData: any) {
+    this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
+      (res: NSQuiz.IQuizSubmitResponse) => {
+        var data1: any = {
+          courseID: this.assesmentdata.generalData.collectionId,
+          contentId: this.assesmentdata.generalData.identifier,
+          name: this.assesmentdata.generalData.name,
+          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+        }
+        this.telemetrySvc.end('competency', 'competency-submit', this.assesmentdata.generalData.identifier, data1)
+        window.scrollTo(0, 0)
+        if (this.assesmentdata.questions.isAssessment) {
+          this.isIdeal = true
+        }
+        this.fetchingResultsStatus = 'done'
+        this.numCorrectAnswers = res.correct
+        this.numIncorrectAnswers = res.inCorrect
+        this.numUnanswered = res.blank
+        /* tslint:disable-next-line:max-line-length */
+        this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
+        this.result = _.round(res.result)
+        this.tabIndex = 1
+        this.tabActive = true
+        this.assesmentActive = false
+        if (this.result >= this.passPercentage) {
+          this.isCompleted = true
+          this.isCompetencyComplted = true
+        }
+        this.isCompetency = this.route.snapshot.queryParams.competency
+        if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
+          this.disableContinue = true
+        }
+        const data = localStorage.getItem('competency_meta_data')
+        let competency_meta_data: any
+        if (data) {
+          competency_meta_data = JSON.parse(data)[0]
+        }
+        let userId = ''
+        if (this.configSvc.userProfile) {
+          userId = this.configSvc.userProfile.userId || ''
+        }
+        if (this.isCompetencyComplted) {
+          const formatedData = {
+            request: {
+              competencyDetails: [
+                {
+                  acquiredDetails: {
+                    competencyLevelId: _.trim(this.proficiencyLevel),
+                    acquiredChannel: 'selfAssessment',
+                  },
+                  additionalParams: {
+                    competencyName: competency_meta_data.competencyName,
+                  },
+                  competencyId: competency_meta_data.competencyId,
+                },
+              ],
+              typeName: 'competency',
+              userId: userId,
 
+            },
+          }
+          this.quizService.updatePassbook(formatedData).subscribe(() => {
+          })
+        }
+      },
+      (_error: any) => {
+        this.openSnackbar('Something went wrong! Unable to submit.')
+        this.fetchingResultsStatus = 'error'
+      },
+    )
+  }
   calculateResults() {
     const correctAnswers = this.assesmentdata.questions.map(
       (question: NSQuiz.IQuestion) => {

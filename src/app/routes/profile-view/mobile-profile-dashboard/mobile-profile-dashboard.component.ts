@@ -11,7 +11,7 @@ import { forkJoin, from } from 'rxjs'
 import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
-
+import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
@@ -30,6 +30,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   loader = true
   showbackButton = false
   showLogOutIcon = false
+  profileData: any
+  navigateTohome = true
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -38,6 +40,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
+    private CompetencyConfiService: CompetencyConfiService
   ) {
   }
 
@@ -50,6 +53,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
       this.loader = false
+      this.profileData = res[0].profileDetails.profileReq
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -64,6 +68,8 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
+
+    // this.CompetencyConfiService.setConfig(this.profileData)
   }
 
   processCertiFicate(data: any) {
@@ -125,10 +131,16 @@ export class MobileProfileDashboardComponent implements OnInit {
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      this.photoUrl = this.userProfileData.photo
+      if (_.get(this.userProfileData, 'personalDetails')) {
+        this.photoUrl = this.userProfileData.personalDetails.photo
+      } else {
+        this.photoUrl = this.userProfileData.photo
+      }
+
       if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
         this.academicsArray = this.userProfileData.academics
       }
+      this.CompetencyConfiService.setConfig(this.userProfileData)
     }
   }
   getUserDetails() {
@@ -169,5 +181,14 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   personalDetailEdit() {
     this.router.navigate([`app/personal-detail-edit`])
+  }
+
+  openCompetency(event: any) {
+    console.log(event)
+    this.router.navigate([`app/user/self-assessment`])
+  }
+  openCompetencyDashboard(event: any) {
+    console.log(event)
+    this.router.navigate([`app/user/competency`])
   }
 }
