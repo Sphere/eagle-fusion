@@ -150,7 +150,7 @@ if (url.indexOf('&code=') > 0) {
 if (url.includes('token') && url.includes('moduleId')) {
   const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
   sessionStorage.setItem('sashakt_token', sashakt_token)
-  const sashakt_moduleId = url.slice(url.indexOf('&sashakt_moduleId=') + 10)
+  const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
   sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
 }
 
