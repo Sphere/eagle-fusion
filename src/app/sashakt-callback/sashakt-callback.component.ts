@@ -24,6 +24,7 @@ export class SashaktCallbackComponent implements OnInit {
       setTimeout(() => {
         this.orgService.setSashaktId(token, id).subscribe((res: any) => {
           // tslint:disable-next-line:no-console
+          window.location = res.resRedirectUrl
           console.log(res)
         }, (err: any) => {
           // tslint:disable-next-line:no-console
