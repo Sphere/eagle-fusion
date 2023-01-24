@@ -6,6 +6,8 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  Renderer2,
+  Inject,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -44,7 +46,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
-
+import { DOCUMENT } from '@angular/common'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -87,7 +89,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     private orgService: OrgServiceService,
     private signupService: SignupService,
     private titleService: Title,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document: Document
   ) {
 
     this.mobileAppsSvc.init()
@@ -205,7 +209,6 @@ export class RootComponent implements OnInit, AfterViewInit {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
 
-
                 const redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
@@ -215,7 +218,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          },         10)
+          }, 10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -328,9 +331,12 @@ export class RootComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {
-      window.fcWidget.on('widget:closed', () => {
-        this.backToChatIcon()
-      })
+      if (window.fcWidget) {
+        window.fcWidget.hide()
+        window.fcWidget.on('widget:closed', () => {
+          // this.backToChatIcon()
+        })
+      }
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
@@ -341,14 +347,16 @@ export class RootComponent implements OnInit, AfterViewInit {
   // freshChat functionality
   fcSettingsFunc() {
     try {
-      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-      // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      window.fcWidget.init()
-      if (this.configSvc.userProfile) {
-        window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
-        window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
-        window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
-        window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
+      if (window.fcWidget) {
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+        // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+        window.fcWidget.init()
+        if (this.configSvc.userProfile) {
+          window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
+          window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
+          window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
+          window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
+        }
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
@@ -358,10 +366,17 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   showSocialChats() {
     try {
-      this.isCommonChatEnabled = false
-      window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
-      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      window.fcWidget.init()
+      setTimeout(() => {
+        this.isCommonChatEnabled = false
+        window.fcWidget.init()
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      }, 300)
+      // window.fcWidget.show()
+      //this.isCommonChatEnabled = false
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
+      this._renderer2.appendChild(this._document.body, script)
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)

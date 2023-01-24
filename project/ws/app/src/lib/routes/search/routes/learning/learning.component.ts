@@ -443,6 +443,10 @@ export class LearningComponent implements OnInit, OnDestroy {
     // if (this.searchRequestObject.locale && this.searchRequestObject.locale.length > 1) {
     //   this.searchRequestObject.didYouMean = false
     // }
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.searchRequestObject.request.filters['sourceName'] = ['Ministry of Health and Family Welfare']
+    }
+
     this.searchResultsSubscription = this.searchServ
       .getLearning(this.searchRequestObject)
       .subscribe(

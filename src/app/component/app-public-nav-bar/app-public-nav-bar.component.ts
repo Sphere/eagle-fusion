@@ -30,6 +30,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   featureApps: string[] = []
   appBottomIcon?: SafeUrl
   showCreateBtn = false
+  hideCreateButton = true
 
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
@@ -58,6 +59,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async ngOnInit() {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.hideCreateButton = false
+    }
     if (this.configSvc.instanceConfig) {
       // try {
       //   await this.http.get('/apis/proxies/v8/logout/user').subscribe(
@@ -171,6 +175,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     if (localStorage.getItem('login_url')) {
       const url: any = localStorage.getItem('login_url')
       window.location.href = url
+    }
+    if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
+      localStorage.removeItem('url_before_login')
     }
     // localStorage.removeItem('url_before_login')
     // this.router.navigateByUrl('app/login')

@@ -6,6 +6,8 @@ import * as _ from 'lodash'
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
   ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,
+  UPDATE_PASSBOOK: `/apis/proxies/v8/user/v1/passbook`,
+  COMPETENCY_ASSESSMENT_SUBMIT_V2: 'apis/protected/v8/assessmentCompetency/v1/assessment/submit',
 }
 
 @Injectable({
@@ -24,7 +26,13 @@ export class QuizService {
   submitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.ASSESSMENT_SUBMIT_V2, req)
   }
+  competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
+    return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2, req)
+  }
 
+  updatePassbook(passbookBody: any) {
+    return this.http.patch(`${API_END_POINTS.UPDATE_PASSBOOK}`, passbookBody)
+  }
   createAssessmentSubmitRequest(
     identifier: string,
     title: string,

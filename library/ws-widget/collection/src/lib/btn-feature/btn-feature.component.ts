@@ -43,7 +43,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   isPinned = false
   instanceVal = ''
   isPinFeatureAvailable = true
-  searchButton = false
+  searchButton = true
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
   constructor(
@@ -58,7 +58,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.searchButton = true
+      this.searchButton = false
     }
   }
 
