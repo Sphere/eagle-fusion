@@ -65,6 +65,9 @@ export class PublicHomeComponent extends WidgetBaseComponent
     private valueSvc: ValueService,
   ) {
     super()
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/public/organisations/home')
+    }
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -73,6 +76,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
       this.productLogo = instanceConfig.logos.company
       this.developedBy = instanceConfig.logos.developedBy
     }
+
     if (this.configSvc.instanceConfig && this.configSvc.userProfile !== null) {
       this.router.navigate(['/page/home'])
     }

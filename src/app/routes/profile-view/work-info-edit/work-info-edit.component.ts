@@ -82,8 +82,8 @@ export class WorkInfoEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    if (form.value.doj) {
-      form.value.doj = changeformat(new Date(`${form.value.doj}`))
+    if (form.doj) {
+      form.doj = changeformat(new Date(`${form.doj}`))
     }
 
     if (this.configSvc.userProfile) {

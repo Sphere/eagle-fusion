@@ -31,7 +31,9 @@ export class MobileDashboardComponent implements OnInit {
               private router: Router,
               private http: HttpClient
   ) {
-
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
   }
 
   ngOnInit() {

@@ -155,7 +155,7 @@
       </div>
     </ng-container>
     <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
-      [src]="content?.appIcon" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
+      [src]="content?.thumbnail" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->

@@ -102,8 +102,9 @@ export class HtmlComponent implements OnInit, OnChanges {
     }
   }
   isProgressCheck(): boolean {
-    // tslint:disable-next-line:max-line-length
-    if (typeof this.currentCompletionPercentage === 'undefined' && this.currentCompletionPercentage !== 100 || this.currentCompletionPercentage !== 100) {
+    if (typeof this.currentCompletionPercentage === 'undefined' &&
+      this.currentCompletionPercentage !== 100 ||
+      this.currentCompletionPercentage !== 100) {
       return false
     }
     return true

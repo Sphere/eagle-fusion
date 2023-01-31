@@ -24,7 +24,8 @@
               </mat-card-title>
               <mat-card-subtitle><span>{{courseCount === 1 ? '1 Course': courseCount.length + ' Courses'}} </span>
               </mat-card-subtitle>
-              <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and its limitations</mat-card-subtitle>
+              <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and its
+                limitations</mat-card-subtitle>
             </div>
           </div>
         </div>
@@ -134,7 +135,7 @@
 
             <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
               {{widget?.publishedOn | date }}</div>
-            <div *ngIf="widget.duration" class="duration mb-2"  title="Duration">
+            <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
               <span class="mr-1 orange-text" i18n>Duration</span>:
               <mat-icon>access_time</mat-icon>
               <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
@@ -143,14 +144,15 @@
               </span>
             </div>
             <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.children?.length}}</p>
-            <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{ widget?.creatorContacts[0]?.name}}</p>
+            <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+              widget?.creatorContacts[0]?.name}}</p>
 
             <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
               {{widget?.uniqueUsersCount}}</p>
             <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
             </p>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-20" title="Description">
-              <div class="fw-500 mb-1" i18n>Course Description</div>:
+            <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
+              <div class="fw-500 mb-1">Course Description</div>
               {{ (widget.description.length>156)? (widget.description | slice:0:120) + '...' :(widget.description) }}
             </div>
 
@@ -218,8 +220,8 @@
     <div class="align-logo flex-center">
       <div class="support-txt" i18n>Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
         class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
-      <div class="support-txt ml-10" i18n>Platform powered by</div><img
-        src="/assets/instances/eagle/app_logos/aastar-logo.svg" class="mt-5 ml-5 footer-aastrika-logo"
-        (click)="goToLink('https://aastrika.org')" />
+      <div class="support-txt ml-10">Platform powered by</div><img
+        src="./../../../../../../../../../src/fusion-assets/images/sphere-new-logo.svg"
+        class="mt-5 ml-5 footer-aastrika-logo" (click)="goToLink('https://aastrika.org')" />
     </div>
   </div>

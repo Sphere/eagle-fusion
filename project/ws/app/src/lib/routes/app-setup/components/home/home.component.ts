@@ -14,6 +14,9 @@ export class HomeComponent implements OnInit {
   appName = ''
   showStepCount = false
   constructor(private configSvc: ConfigurationsService, private domSanitizer: DomSanitizer, private router: Router) {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.router.navigateByUrl('/organisations/home')
+    }
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {
         if (e.url.includes('lang')) {

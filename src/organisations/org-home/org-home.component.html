@@ -1,0 +1,121 @@
+<div class="banner-header">
+  <img class="img-banner img-responsive" src="./../../fusion-assets/images/Banner.png">
+</div>
+
+<ng-container *ngIf="enrollData===false;else second">
+  <div>
+    <div class="container-start">
+      Hi {{firstName?.firstName}}!
+    </div>
+    <span class="resume-learning">
+      Continue Learning
+    </span>
+    <div class="container-xxl py-5 category">
+      <div class="col-lg-7 col-md-6" *ngFor="let content of resultEnroll">
+        <div class="row g-3" *ngIf="resultEnroll.length>0">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.contentId)">
+            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
+              style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+              <img class="img-fluid  img-responsive courses" [src]="content.courseLogoUrl">
+              <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                <h5 class="m-0"> {{content.courseName}}</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #second>
+</ng-template>
+
+
+
+
+
+
+<div class="container-fluid  p-0-elearn">
+  E-Learning Modules
+</div>
+<br>
+<div class="container-fluid  p-0-lang">
+  <a (click)='getCourseDetails("")'>
+    <button class="all-courses">
+      All
+    </button></a>
+  &nbsp;&nbsp;&nbsp;
+
+  <a (click)='getCourseDetails("en")'>
+    <button class="en-courses">
+      English
+    </button></a>
+  &nbsp;&nbsp;&nbsp;
+  <a (click)='getCourseDetails("hi")'>
+    <button class="hi-courses">हिन्दी
+    </button>
+  </a>
+</div>
+
+
+<div class="container-xxl py-5 category">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-lg-7 col-md-6" *ngFor="let content of resultResponse">
+        <div class="row g-3">
+          <a class="position-relative d-block overflow-hidden" (click)="navigateToToc(content.identifier)">
+            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s"
+              style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+              <img class="img-fluid  img-responsive courses" [src]="content.thumbnail">
+              <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                <h5 class="m-0">{{content.name}}</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid footer-alignment" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-3 col-md-6">
+        <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/sphere-new-logo.svg">
+        <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/Asha-E-ABhyass-logo.svg">
+      </div>
+
+      <div class="col-lg-3 col-md-6 footer-alignment">
+        <a class="btn btn-link" routerLink="/public/about">About Us</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc">Privacy Policy</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc">Terms of use</a><br>
+        <!-- <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
+        <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
+          class="list-item">Help & Contact</a>
+        <a class="btn btn-link" href="#">Blog</a> -->
+        <a class="btn btn-link" href="https://www.aastrika.org/vision/" target="_blank">Vision</a>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h4 class="input-mb-3">Partners
+          <hr>
+        </h4>
+        <a href="https://rohininilekani.org/" target="_blank">
+          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-1.svg">
+        </a>
+        <a href="https://societalplatform.org/" target="_blank">
+          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-2.svg">
+        </a>
+        <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" class="text-center"
+          target="_blank">
+          <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-3.svg">
+        </a>
+        <br>
+        <div class="text-dark mt-1">© 2022
+          AastarUrmika Health Systems Pvt Ltd. All rights reserved.
+          <br><br> <br>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

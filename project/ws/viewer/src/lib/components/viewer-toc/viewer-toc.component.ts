@@ -110,7 +110,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private viewerDataServiceSubscription: Subscription | null = null
   message!: string
   subscription: Subscription | null = null
-  // tslint:disable-next-line:no-shadowed-variable
+  isLoading = false
+  // tslint:disable-next-line
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
   private _getChildren = (node: IViewerTocCard) => {
@@ -118,7 +119,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    // console.log("onint")
+
+    this.isLoading = true
     if (this.configSvc.instanceConfig) {
       this.defaultThumbnail = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.defaultContent,
@@ -150,6 +152,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (this.resourceId) {
         this.processCurrentResourceChange()
       }
+
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
@@ -163,8 +166,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (data) {
         //
         // console.log(this.playerStateService.trigger$.getValue())
-        if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === "not-triggered") {
-          this.ngOnInit()
+        if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === 'not-triggered') {
+          this.scromUpdateCheck(data)
 
           // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
@@ -189,6 +192,32 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
 
     })
+  }
+  async scromUpdateCheck(data: any) {
+    this.batchId = data.batchId
+    const collectionId = data.collectionId
+    const collectionType = data.collectionType
+    if (collectionId && collectionType) {
+      if (
+        collectionType.toLowerCase() ===
+        NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
+      ) {
+        this.collection = await this.getPlaylistContent(collectionId, collectionType)
+      } else if (
+        collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
+        collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
+        collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
+      ) {
+        this.collection = await this.getCollection(collectionId, collectionType)
+      } else {
+        this.isErrorOccurred = true
+      }
+      if (this.collection) {
+        this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
+      }
+    }
+    this.processCurrentResourceChange()
+    this.checkIndexOfResource()
   }
 
   checkIndexOfResource() {
@@ -474,6 +503,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       await this.contentSvc.fetchContentHistoryV2(req).subscribe(
         data => {
+          // tslint:disable-next-line: no-console
+          console.log(data['result']['contentList'])
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
@@ -581,6 +612,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           console.log('CONTENT HISTORY FETCH ERROR >', error)
         },
       )
+      // tslint:disable-next-line: no-console
+      console.log(this.collection.children)
       this.nestedDataSource.data = this.collection.children
       this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
@@ -589,7 +622,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           .pipe(delay(2000))
           .subscribe(() => {
             this.expandThePath()
-
+            this.isLoading = false
           })
       }
     }

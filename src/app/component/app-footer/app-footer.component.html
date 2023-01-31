@@ -10,7 +10,8 @@
       </mat-list>
 
       <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item> <a routerLink="/public/about" id="footer-about-us"> <span i18n class="list-item">About Us</span></a> </mat-list-item>
+        <mat-list-item> <a class="list-item" routerLink="/public/about" id="footer-about-us"> <span i18n>About
+              Us</span></a> </mat-list-item>
         <mat-list-item><a href="https://www.aastrika.org/vision/" target="_blank" id="footer-vision"><span
               class="list-item" i18n>Vision</span></a>
         </mat-list-item>
@@ -125,7 +126,10 @@
     </div> -->
     <div class="docs-footer-copyright flex-1">
       <div>
-        <div class="text-dark" [ngClass]="isXSmall ? 'mt--8 text-center': 'mt-1'" i18n>&copy; 2022 AastarUrmika Health Systems Pvt Ltd. All rights reserved.</div>
+        <div class="text-dark" class="footer-alignment" i18n>&copy; 2023
+          AastarUrmika Health
+          Systems Pvt
+          Ltd. All rights reserved. </div>
       </div>
     </div>
   </div>

@@ -25,11 +25,15 @@
       <ng-container [ngTemplateOutlet]="buttonContent" [ngTemplateOutletContext]="widgetData"></ng-container>
     </a>
     <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
-      [name]="widgetData.actionBtnName" [routerLink]="widgetData.actionBtn?.url" mat-icon-button (click)="search()">
-      <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
+      [name]="widgetData.actionBtnName" [routerLink]="searchButton ? widgetData.actionBtn?.url : '' " mat-icon-button
+      (click)="search()">
+      <ng-container *ngIf="searchButton" [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
           iconType: widgetData.actionBtn.iconType,
           icon: widgetData.actionBtn.icon
         }"></ng-container>
+      <ng-container *ngIf="!searchButton">
+        <img class="org-logo img-responsive" src="./../../../../../../../fusion-assets/images/Asha-E-ABhyass-logo.svg">
+      </ng-container>
     </a>
     <a *ngSwitchCase="displayType.matMiniFabButton" [routerLink]="widgetData.actionBtn?.url" mat-mini-fab>
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="widgetData.actionBtn"></ng-container>

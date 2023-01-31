@@ -6,6 +6,8 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
+  Renderer2,
+  Inject,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -13,6 +15,7 @@ import {
   NavigationError,
   NavigationStart,
   Router,
+  ActivatedRoute,
 } from '@angular/router'
 // import { Location } from '@angular/common'
 
@@ -26,7 +29,7 @@ import {
   ValueService,
   WsEvents,
 } from '@ws-widget/utils'
-import { delay } from 'rxjs/operators'
+import { delay, filter, map } from 'rxjs/operators'
 import { MobileAppsService } from '../../services/mobile-apps.service'
 import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
@@ -42,6 +45,8 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { MatDialog } from '@angular/material'
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
+import { Title } from '@angular/platform-browser'
+import { DOCUMENT } from '@angular/common'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -68,6 +73,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showMobileDashboard = true
+  isCommonChatEnabled = true
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -82,7 +88,12 @@ export class RootComponent implements OnInit, AfterViewInit {
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
     private signupService: SignupService,
+    private titleService: Title,
+    private activatedRoute: ActivatedRoute,
+    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document: Document
   ) {
+
     this.mobileAppsSvc.init()
     const locationOrigin = location.origin
     CsModule.instance.init({
@@ -130,7 +141,9 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.setPageTitle()
     this.fcSettingsFunc()
+
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
@@ -187,7 +200,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           }
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
-          //this.showNavigation = true
+          // this.showNavigation = true
           this.isLoggedIn = true
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
@@ -196,11 +209,12 @@ export class RootComponent implements OnInit, AfterViewInit {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
 
-                const redirectUrl = document.baseURI + 'openid/keycloak'
+                const redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
-                const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = Keycloakurl
+                // tslint:disable-next-line:max-line-length
+                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                window.location.href = keycloakurl
               }
             })
 
@@ -212,6 +226,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   const redirectUrl = document.baseURI + 'openid/keycloak'
           //   const state = uuid()
           //   const nonce = uuid()
+          // tslint:disable-next-line:max-line-length
           //   window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
           //   // this.router.navigateByUrl('app/login')
           // }
@@ -240,12 +255,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
-        }
-        // else if (event.url.includes('viewer')) {
-        //   this.hideHeaderFooter = true
-        //   this.isNavBarRequired = false
-        // }
-        else {
+        } else {
           this.isNavBarRequired = true
           this.mobileView = false
         }
@@ -320,22 +330,87 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
-  }
-
-  //freshChat functionality
-  fcSettingsFunc() {
     try {
-      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      window.fcWidget.init()
-      if (this.configSvc.userProfile) {
-        window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
-        window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
-        window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
-        window.fcWidget.user.setMeta({ "userId": this.configSvc.userProfile.userId, "username": this.configSvc.userProfile.userName })
+      if (window.fcWidget) {
+        window.fcWidget.hide()
+        window.fcWidget.on('widget:closed', () => {
+          // this.backToChatIcon()
+        })
       }
     } catch (error) {
-      //tslint:disable-next-line:no-console
+      // tslint:disable-next-line:no-console
       console.log(error)
     }
+
+  }
+
+  // freshChat functionality
+  fcSettingsFunc() {
+    try {
+      if (window.fcWidget) {
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+        // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+        window.fcWidget.init()
+        if (this.configSvc.userProfile) {
+          window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
+          window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
+          window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
+          window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
+        }
+      }
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+
+  showSocialChats() {
+    try {
+      setTimeout(() => {
+        this.isCommonChatEnabled = false
+        window.fcWidget.init()
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      }, 300)
+      // window.fcWidget.show()
+      //this.isCommonChatEnabled = false
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
+      this._renderer2.appendChild(this._document.body, script)
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+
+  backToChatIcon() {
+    try {
+      this.isCommonChatEnabled = true
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      window.fcWidget.init()
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+
+  // set page title
+  setPageTitle() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => {
+        const appTitle = this.titleService.getTitle()
+        const child = this.activatedRoute.firstChild
+        if ((child !== null)) {
+          if (child.snapshot.data['title']) {
+            return child.snapshot.data['title']
+          }
+          return appTitle
+        }
+        return appTitle
+      })
+    ).subscribe((title: string) => {
+      this.titleService.setTitle(title)
+    })
   }
 }

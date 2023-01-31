@@ -1,6 +1,8 @@
 <div class="content">
 
-  <ws-mobile-profile-nav [showbackButton]="showbackButton" [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
+  <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+    [showLogOutIcon]="showLogOutIcon">
+  </ws-mobile-profile-nav>
 
   <p class="text-2xl mt-2" i18n>Work Info</p>
   <mat-icon *ngIf="userProfileData && userProfileData.professionalDetails" class="float-right pencil cursor-pointer"

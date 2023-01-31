@@ -133,7 +133,7 @@ export class ProfileSelectComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form, this.userProfileData)
+    const profileRequest = constructReq(form.value, this.userProfileData)
     const reqUpdate = {
       request: {
         userId: this.userID,

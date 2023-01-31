@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -21,15 +21,16 @@ import * as _ from 'lodash'
     { provide: DateAdapter, useClass: AppDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PersonalDetailEditComponent implements OnInit {
+export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
   personalDetailForm: FormGroup
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
-  profileUserName: any
+  // profileUserName: any
   userID = ''
   savebtnDisable = true
   orgTypeField = false
@@ -44,7 +45,7 @@ export class PersonalDetailEditComponent implements OnInit {
   startDate = new Date(1999, 0, 1)
   showbackButton = false
   showLogOutIcon = false
-
+  trigerrNavigation = true
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
@@ -52,17 +53,23 @@ export class PersonalDetailEditComponent implements OnInit {
   langList = ['English', 'Hindi']
   langDialog: any
   preferedLanguage: any = 'English'
+  loadDob = false
+  showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar,
-              public dialog: MatDialog,
-              private valueSvc: ValueService,
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private valueSvc: ValueService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
-      userName: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      // userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
+      designation: new FormControl(),
       professionOtherSpecify: new FormControl(),
       regNurseRegMidwifeNumber: new FormControl(),
       orgType: new FormControl(),
@@ -84,9 +91,7 @@ export class PersonalDetailEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUserDetails()
     this.fetchMeta()
-
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
@@ -97,7 +102,6 @@ export class PersonalDetailEditComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
-
   }
 
   fetchMeta() {
@@ -229,6 +233,7 @@ export class PersonalDetailEditComponent implements OnInit {
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
+      this.showDesignation = true
       this.orgTypeField = false
       this.professionOtherField = false
     } else if (value === 'Healthcare Volunteer') {
@@ -270,20 +275,28 @@ export class PersonalDetailEditComponent implements OnInit {
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-      this.profileUserName = `${data.personalDetails.firstname} `
-      if (data.personalDetails.middlename) {
-        this.profileUserName += `${data.personalDetails.middlename} `
-      }
-      if (data.personalDetails.surname) {
-        this.profileUserName += `${data.personalDetails.surname}`
-      }
+
+      // this.profileUserName = `${data.personalDetails.firstname} `
+      // if (data.personalDetails.middlename) {
+      //   this.profileUserName += `${data.personalDetails.middlename} `
+      // }
+      // if (data.personalDetails.surname) {
+      //   this.profileUserName += `${data.personalDetails.surname}`
+      // }
+
+      // if (data.personalDetails.dob) {
+
+      //   this.getDateFromText(data.personalDetails.dob)
+      // }
 
       data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
       data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
       data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
 
       this.personalDetailForm.patchValue({
-        userName: this.profileUserName,
+        // userName: this.profileUserName,
+        firstname: data.personalDetails.firstname,
+        surname: data.personalDetails.surname,
         dob: this.getDateFromText(data.personalDetails.dob),
         profession: data.professionalDetails[0].profession,
         professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
@@ -299,16 +312,18 @@ export class PersonalDetailEditComponent implements OnInit {
         mobile: data.personalDetails.mobile,
         postalAddress: data.personalDetails.postalAddress,
         pincode: data.personalDetails.pincode,
+        designation: data.professionalDetails[0].designation,
       })
     }
+    this.loadDob = true
   }
 
   private getDateFromText(dateString: string): any {
     if (dateString) {
       const splitValues: string[] = dateString.split('-')
       const [dd, mm, yyyy] = splitValues
-      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
-      return new Date(dateToBeConverted)
+      const dateToBeConverted = `${dd}/${mm}/${yyyy}`
+      return dateToBeConverted
     }
     return ''
   }
@@ -340,7 +355,7 @@ export class PersonalDetailEditComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form, this.userProfileData)
+    const profileRequest = constructReq(form.value, this.userProfileData)
     const reqUpdate = {
       request: {
         userId: this.userID,
@@ -413,5 +428,11 @@ export class PersonalDetailEditComponent implements OnInit {
       dob: event,
     })
   }
-
+  ngAfterViewInit(): void {
+    this.getUserDetails()
+  }
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.markForCheck()
+    this.changeDetectorRef.detectChanges()
+  }
 }

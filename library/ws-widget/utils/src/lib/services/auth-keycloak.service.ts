@@ -148,7 +148,8 @@ export class AuthKeycloakService {
   // }
   // async logout(redirectUrl = this.defaultRedirectUrl)
   async logout() {
-    // let keycloakID = await this.http.get('https://aastrika-stage.tarento.com/auth/realms/sunbird/protocol/openid-connect/logout').toPromise()
+    // let keycloakID = await this.http.get(
+    // 'https://aastrika-stage.tarento.com/auth/realms/sunbird/protocol/openid-connect/logout').toPromise()
     // console.log(keycloakID)
     // if (storage.getItem('telemetrySessionId') || (localStorage.getItem('loginbtn'))) {
     // this.http.get('/apis/reset')
@@ -160,8 +161,8 @@ export class AuthKeycloakService {
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
       const url = `${document.baseURI}public/home`
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-      window.location.href = Keycloakurl
+      const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      window.location.href = keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
     } catch (error) { }
     // window.location.href = `${this.defaultRedirectUrl}public/home`

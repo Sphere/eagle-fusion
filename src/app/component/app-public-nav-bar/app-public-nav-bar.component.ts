@@ -30,6 +30,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   featureApps: string[] = []
   appBottomIcon?: SafeUrl
   showCreateBtn = false
+  hideCreateButton = true
 
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
@@ -58,6 +59,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async ngOnInit() {
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.hideCreateButton = false
+    }
     if (this.configSvc.instanceConfig) {
       // try {
       //   await this.http.get('/apis/proxies/v8/logout/user').subscribe(
@@ -77,7 +81,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       //   localStorage.removeItem('tocData')
       //   localStorage.removeItem(`userUUID`)
       //   // const url = `${document.baseURI}public/home`
-      //   // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      //   // const Keycloakurl = `${document.baseURI}auth/
+      // realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
       //   // window.location.href = Keycloakurl
       // } catch (error) { }
 
@@ -110,7 +115,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     } else if (href.indexOf('org-details') > 0) {
       this.redirectUrl = href
     } else {
-      this.redirectUrl = document.baseURI + 'openid/keycloak'
+      this.redirectUrl = `${document.baseURI}openid/keycloak`
     }
 
     // added from app nav
@@ -171,12 +176,16 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       const url: any = localStorage.getItem('login_url')
       window.location.href = url
     }
+    if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
+      localStorage.removeItem('url_before_login')
+    }
     // localStorage.removeItem('url_before_login')
     // this.router.navigateByUrl('app/login')
     this.signUpSvc.keyClockLogin()
     // const state = uuid()
     // const nonce = uuid()
     // sessionStorage.setItem('login-btn', 'clicked')
+    // tslint:disable-next-line:max-line-length
     // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
     // window.location.href = Keycloakurl
     this.authSvc.login(key, this.redirectUrl)

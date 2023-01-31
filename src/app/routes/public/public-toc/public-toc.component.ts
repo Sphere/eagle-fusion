@@ -24,18 +24,20 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     this.activeRoute.queryParams.subscribe(params => {
       this.courseid = params['courseId']
     })
-    const navigation = this.router.getCurrentNavigation()
-    if (navigation) {
-      const extraData = navigation.extras.state as {
-        tocData: any
-      }
-      if (extraData) {
-        this.tocData = extraData.tocData
-      }
-    }
+    // const navigation = this.router.getCurrentNavigation()
+    // if (navigation) {
+    //   const extraData = navigation.extras.state as {
+    //     tocData: any
+    //   }
+    //   console.log(extraData.tocData)
+    //   if (extraData) {
+    //     this.tocData = extraData.tocData
+    //   }
+    // }
     if (localStorage.getItem('tocData')) {
-      const data: any = localStorage.getItem('tocData')
-      this.tocData = JSON.parse(data)
+      localStorage.removeItem('tocData')
+      // const data: any = localStorage.getItem('tocData')
+      // this.tocData = JSON.parse(data)
     }
     if (this.tocData === undefined) {
       this.seachAPI(this.courseid)
@@ -65,10 +67,11 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     this.orgService.getSearchResults().subscribe((res: any) => {
       if (res) {
         _.find(res.result.content
-          , (findRes) => {
+          ,    findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
               localStorage.setItem('tocData', JSON.stringify(this.tocData))
+              localStorage.setItem(`url_before_login`, `app/toc/` + `${id}` + `/overview`)
             }
 
           })

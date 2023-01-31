@@ -45,6 +45,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   isPinned = false
   instanceVal = ''
   isPinFeatureAvailable = true
+  searchButton = true
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
   constructor(
@@ -58,13 +59,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private searchApi: SearchApiService
   ) {
     super()
-    if (this.configurationsSvc.userProfile) {
-      this.givenName = `${this.configurationsSvc.userProfile.firstName} ${this.configurationsSvc.userProfile.lastName}`
-      this.profileImage = this.configurationsSvc.userProfile.profileImage ||
-        (this.configurationsSvc.userProfileV2 ? this.configurationsSvc.userProfileV2.profileImage : null) || null
-      if (!this.profileImage && localStorage.getItem(this.configurationsSvc.userProfile.userId)) {
-        this.profileImage = localStorage.getItem(this.configurationsSvc.userProfile.userId)
-      }
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.searchButton = false
     }
   }
 

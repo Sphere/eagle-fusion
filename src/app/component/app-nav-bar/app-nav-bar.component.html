@@ -67,27 +67,29 @@
       </ng-container>
     </ng-container>
 
-    <div class="flex justify-between items-center w-full 123" *ngIf="mode === 'bottom'">
+    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'" [ngStyle]="{'margin':'0 40px'}">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
         </div>
       </ng-container>
-      <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
-        class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
-        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
-        <ng-container>
-          <button mat-raised-button [ngStyle]="{
+      <div class="w-full" *ngIf="hideCreateButton">
+        <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
+          class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
+          [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+          <ng-container>
+            <button mat-raised-button [ngStyle]="{
             'background-color': '#1C5D95',
             'width': '100%',
             'border': '1px solid #1C5D95',
             'border-radius': '20px',
             'color': 'white',
             'font-size': '16px',
-            'font-weight': '400'}" i18n>
-            Create Account</button>
-        </ng-container>
-      </a>
+            'font-weight': '400'}">
+              Create Account</button>
+          </ng-container>
+        </a>
+      </div>
       <!-- <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
         routerLinkActive="ws-mat-accent-text" *ngIf="!showCreateBtn">
         <ng-container *ngIf="!appBottomIcon">

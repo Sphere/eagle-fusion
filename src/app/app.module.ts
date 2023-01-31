@@ -27,7 +27,7 @@ import {
   MatNativeDateModule,
   MatSelectModule,
 } from '@angular/material'
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
+import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BtnFeatureModule, ErrorResolverModule, TourModule, WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
@@ -101,8 +101,14 @@ import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/sha
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
+import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
-
+import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -129,7 +135,6 @@ if (Capacitor.getPlatform() === 'ios') {
   console.log('Android!')
 } else {
   // tslint:disable-next-line:no-console
-
   console.log('Web!')
 }
 
@@ -140,12 +145,34 @@ if (url.indexOf('&code=') > 0) {
   const code = url.slice(url.indexOf('&code=') + 6)
   // localStorage.clear()
   sessionStorage.setItem('code', code)
+}
 
-  // window.location.assign(`${location.origin}/openid/keycloak/${code}`)
-  // console.log(`${location.origin} /openid / keycloakcallback / ${code}`)
-  // console.log(code)
-  // window.location.href = document.baseURI + 'openid/keycloakcallback/' + code
-  // location.href = 'openid/keycloakcallback/' + code
+if (url.includes('token') && url.includes('moduleId')) {
+  const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+  sessionStorage.setItem('sashakt_token', sashakt_token)
+  const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+  sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+}
+
+// Conditions added for checking if nhsrc organisation is present in url
+if (url.indexOf('?org=') > 0) {
+  const queryString = window.location.search
+  const urlParams = new URLSearchParams(queryString)
+  const orgValue = urlParams.get('org')
+  if (orgValue) {
+    localStorage.setItem('orgValue', orgValue)
+    if (orgValue === 'nhsrc') {
+      if (url.indexOf('do_') > 0) {
+        // window.location.href = `${url}`
+        console.log(url)
+        localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
+          }` + `/overview`)
+        window.location.href = `${document.baseURI}organisations/home`
+      } else {
+        window.location.href = `${document.baseURI}organisations/home`
+      }
+    }
+  }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -191,6 +218,8 @@ if (url.indexOf('&code=') > 0) {
     PersonalDetailEditComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
+    SashaktCallbackComponent,
+    SelfAssessmentComponent,
   ],
   imports: [
     FormsModule,
@@ -240,6 +269,10 @@ if (url.indexOf('&code=') > 0) {
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
+    OrganisationsModule,
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    SelfAssessmentModule,
+    CompetencyModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
@@ -288,6 +321,7 @@ if (url.indexOf('&code=') > 0) {
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
+    Title,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
