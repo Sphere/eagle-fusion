@@ -30,8 +30,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private http: HttpClient,
-    private activeRoute: ActivatedRoute,
-    private configSvc: ConfigurationsService,
+    private activeRoute: ActivatedRoute
   ) {
     this.route = location.path()
     this.loginForm = this.fb.group({
