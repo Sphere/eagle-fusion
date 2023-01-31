@@ -7,6 +7,9 @@ import { Observable, Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
+import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+// import { HttpClient } from '@angular/common/http'
+import { SignupService } from '../../routes/signup/signup.service'
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -42,7 +45,10 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private configSvc: ConfigurationsService,
     private router: Router,
     private activateRoute: ActivatedRoute,
-    private valueSvc: ValueService) {
+    private valueSvc: ValueService,
+    private signUpSvc: SignupService,
+    // private http: HttpClient,
+    private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
   }
@@ -51,8 +57,30 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     return true
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.configSvc.instanceConfig) {
+      // try {
+      //   await this.http.get('/apis/proxies/v8/logout/user').subscribe(
+      //     (res: any) => {
+      //       // tslint:disable-next-line:no-console
+      //       console.log(res)
+      //       localStorage.setItem('loggedout', JSON.stringify(res))
+      //     },
+      //     (err: any) => {
+      //       console.log(this.router.url)
+      //       // tslint:disable-next-line:no-console
+      //       console.log(err)
+      //     }
+      //   )
+      //   localStorage.removeItem('telemetrySessionId')
+      //   localStorage.removeItem('loginbtn')
+      //   localStorage.removeItem('tocData')
+      //   localStorage.removeItem(`userUUID`)
+      //   // const url = `${document.baseURI}public/home`
+      //   // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      //   // window.location.href = Keycloakurl
+      // } catch (error) { }
+
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.app,
       )
@@ -82,7 +110,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     } else if (href.indexOf('org-details') > 0) {
       this.redirectUrl = href
     } else {
-      this.redirectUrl = document.baseURI
+      this.redirectUrl = document.baseURI + 'openid/keycloak'
     }
 
     // added from app nav
@@ -136,16 +164,22 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   createAcct() {
-    localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/create-account')
   }
-  login() {
-    // if (localStorage.getItem('login_url')) {
-    //   const url: any = localStorage.getItem('login_url')
-    //   window.location.href = url
-    // }
+  login(key: 'E' | 'N' | 'S') {
+    if (localStorage.getItem('login_url')) {
+      const url: any = localStorage.getItem('login_url')
+      window.location.href = url
+    }
     // localStorage.removeItem('url_before_login')
-    this.router.navigateByUrl('app/login')
+    // this.router.navigateByUrl('app/login')
+    this.signUpSvc.keyClockLogin()
+    // const state = uuid()
+    // const nonce = uuid()
+    // sessionStorage.setItem('login-btn', 'clicked')
+    // const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+    // window.location.href = Keycloakurl
+    this.authSvc.login(key, this.redirectUrl)
   }
 
   ngOnDestroy() {

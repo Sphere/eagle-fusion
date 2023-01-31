@@ -72,9 +72,8 @@
         <button class="btn" [disabled]='diablePrevious' mat-raised-button (click)="previousQuestion()"
           i18n>Back</button>
         <button class="btn btn-active" *ngIf="!showSubmit" [disabled]='disableNext' mat-raised-button
-          (click)="nextQuestion()" i18n>Next</button>
-        <button class="btn btn-active" *ngIf="showSubmit" mat-raised-button (click)="proceedToSubmit()"
-          i18n>Submit</button>
+          (click)="nextQuestion()">Next</button>
+        <!-- <button class="btn btn-active" *ngIf="showSubmit" mat-raised-button (click)="proceedToSubmit()">Submit</button> -->
 
       </ng-container>
     </div>
@@ -82,8 +81,9 @@
 
       <ng-container *ngIf="tabIndex === 1">
         <div class="text-center pt-5 flex justify-content-center">
-          <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()" i18n>Retake Assessment</button>
-          <button class="btn btn-active" (click)="closeDone()" mat-raised-button i18n>Continue</button>
+          <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
+          <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()"
+            mat-raised-button>Continue</button>
         </div>
 
 

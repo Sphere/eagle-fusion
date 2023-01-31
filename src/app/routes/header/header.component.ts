@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-  home() {
-    location.href = `/public/home`
+  homePage() {
+    location.href = '/public/home'
   }
 }

@@ -3,9 +3,12 @@
   <div class="login-card">
     <div>
       <div *ngIf="source === 'register'; else welcome ">
-        <h1 class="register mb-1" i18n>Registration succefull!</h1>
-        <h1 class="register" i18n>
-          Login here using the mobile number or your email id and the password that you used while creating your account.
+        <h1 class="register mb-1">
+          Registration successful!
+        </h1>
+        <h1 class="register">
+          Login here using the mobile number or your email id and the password that you used while creating your
+          account.
         </h1>
       </div>
       <ng-template #welcome>
@@ -61,7 +64,8 @@
                 This field is required</mat-error>
             </div>
             <div class="form-group">
-              <p><span i18n>Forgot password?</span><a href="public/forgot-password" i18n> Click Here </a><span i18n>to reset</span>
+              <p><span i18n>Forgot password?</span><a href="public/forgot-password" i18n> Click Here </a><span i18n>to
+                  reset</span>
               </p>
             </div>
             <div class="form-group">
@@ -76,10 +80,10 @@
         <p><span i18n>Do not have an account? </span><a href="app/create-account" i18n>Create an account</a>
         </p>
         <label i18n>Choose your Language</label>
-          <div class="d-inline" style="margin-top: -5px; font-size: small;">
-            <a (click)="redirect('')" class="languages">English</a>
-            <a (click)="redirect('hi')" class="languages">हिन्दी</a>
-          </div>
+        <div class="d-inline" style="margin-top: -5px; font-size: small;">
+          <a (click)="redirect('')" class="languages">English</a>
+          <a (click)="redirect('hi')" class="languages">हिन्दी</a>
+        </div>
       </div>
 
       <!--<div class="form-group">

@@ -9,6 +9,7 @@ import { QuizService } from '../../quiz.service'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import * as _ from 'lodash'
+import { ViewerDataService } from '../../../../viewer-data.service'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -40,6 +41,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   disableNext = false
   diablePrevious = true
   assesmentActive = true
+  disableContinue = false
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -47,6 +49,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
+    public viewerDataSvc: ViewerDataService,
   ) { }
 
   ngOnInit() {
@@ -175,6 +178,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
+        if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
+          this.disableContinue = true
+        }
       },
       (_error: any) => {
         this.openSnackbar('Something went wrong! Unable to submit.')
@@ -293,6 +299,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   nextQuestion() {
+    if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+      const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+      let userAnswer: any = {}
+      userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
+      this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+    }
     this.disableNext = true
     this.progressbarValue += 100 / this.totalQuestion
     if (
@@ -301,7 +313,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.disableNext = true
       // this.quizService.questionState.active_slide_index += 1
       this.showSubmit = true
-      // this.proceedToSubmit()
+      this.proceedToSubmit()
+      this.updateQuestionType(false)
 
       return
     }
@@ -324,12 +337,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       })
     })
     // tslint:disable-next-line: max-line-length
-    if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
-      const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
-      let userAnswer: any = {}
-      userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
-      this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
-    }
+    // if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
+    //   const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
+    //   let userAnswer: any = {}
+    //   userAnswer = this.quizService.checkMtfAnswer(submitQuizJson, this.questionAnswerHash)
+    //   this.questionAnswerHash[userAnswer.questionId] = userAnswer.answer
+    // }
 
     // tslint:disable-next-line: max-line-length
     if (this.assesmentdata.questions.questions[this.quizService.questionState.active_slide_index + 1].questionType === 'mtf') {
@@ -358,7 +371,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       === (this.quizService.questionState.slides.length - 1)) {
       this.diablePrevious = false
       this.showSubmit = false
-      // this.proceedToSubmit()
+      this.proceedToSubmit()
     }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {

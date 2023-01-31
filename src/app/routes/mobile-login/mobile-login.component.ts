@@ -9,7 +9,7 @@ import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 import { HttpClient } from '@angular/common/http'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { v4 as uuid } from 'uuid'
 
 declare const gapi: any
 
@@ -115,6 +115,11 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       })
   }
   ngOnInit() {
+
+    const redirectUrl = document.baseURI + 'openid/keycloak'
+    const state = uuid()
+    const nonce = uuid()
+    window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
 
     if (this.signUpdata) {
       let phone = this.signUpdata.value.emailOrMobile

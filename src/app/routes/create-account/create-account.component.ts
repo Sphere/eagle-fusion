@@ -110,6 +110,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+    sessionStorage.setItem('login-btn', 'clicked')
     let phone = this.createAccountForm.controls.emailOrMobile.value
     // const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
@@ -250,6 +251,20 @@ export class CreateAccountComponent implements OnInit {
         }
       )
     }
+  }
+  eventTrigger(p1: string, p2: string) {
+    let obj = {
+      EventDetails: {
+        EventName: p1,
+        Name: p2
+      }
+    }
+    // @ts-ignore: Unreachable code error
+    const userdata = Object.assign(MainVisitorDetails, obj)
+    this.signupService.plumb5SendEvent(userdata).subscribe((res: any) => {
+      // @ts-ignore: Unreachable code error
+      console.log(res)
+    })
   }
 
   gotoHome() {

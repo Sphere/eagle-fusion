@@ -33,12 +33,14 @@
                 placeholder="Last Name" autocomplete="off">
               <mat-error class="text-danger" i18n
                 *ngIf="createAccountForm.controls['lastname'].hasError('required') &&
-                                    (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">This field is required</mat-error>
+                                    (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
+                This field is required</mat-error>
               <mat-error class="text-danger" i18n
                 *ngIf="createAccountForm.controls['lastname'].hasError('pattern') &&
-                                    (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">Invalid name Format
-              </mat-error>
-              <label class="label-text">(<span i18n>This is the name that will show up on your certificate</span>)</label>
+                                    (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
+                Invalid name Format</mat-error>
+              <label class="label-text">( <span i18n>This is the name that will show up on your certificate)
+                </span></label>
             </div>
 
             <div class="form-group">
@@ -62,11 +64,16 @@
                   </a>
                 </div>
               </div>
-              <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including numerals, lower and upper case alphabets and special characters without space </span> )</label>
+              <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including numerals,
+                  lower and
+                  upper
+                  case alphabets and special characters without space </span>)</label>
               <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
-                  (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">This field is required</mat-error>
+                  (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
+                This field is required</mat-error>
               <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
-                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">Invalid Password Format</mat-error>
+                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
+                Invalid Password Format</mat-error>
             </div>
             <div class="form-group">
               <div class="input-group pwd">
@@ -90,6 +97,15 @@
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
                 [disabled]="!createAccountForm?.valid" (click)="onSubmit(createAccountForm)">Next</button>
+            </div>
+            <div class="rel">
+              <span class="whatsApp">
+                <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
+              </span>
+              <a href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank"
+                class="greenButton" mat-button i18n
+                (click)="eventTrigger('WhatsApp', 'WhatsApp-CreateAccount Page')">Get help on
+                WhatsApp</a>
             </div>
           </form>
 

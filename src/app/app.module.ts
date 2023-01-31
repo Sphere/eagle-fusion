@@ -129,7 +129,23 @@ if (Capacitor.getPlatform() === 'ios') {
   console.log('Android!')
 } else {
   // tslint:disable-next-line:no-console
+
   console.log('Web!')
+}
+
+const url = window.location.href
+// console.log(url)
+
+if (url.indexOf('&code=') > 0) {
+  const code = url.slice(url.indexOf('&code=') + 6)
+  // localStorage.clear()
+  sessionStorage.setItem('code', code)
+
+  // window.location.assign(`${location.origin}/openid/keycloak/${code}`)
+  // console.log(`${location.origin} /openid / keycloakcallback / ${code}`)
+  // console.log(code)
+  // window.location.href = document.baseURI + 'openid/keycloakcallback/' + code
+  // location.href = 'openid/keycloakcallback/' + code
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -276,3 +292,9 @@ if (Capacitor.getPlatform() === 'ios') {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }
+
+declare global {
+  interface Window {
+    fcWidget?: any
+  }
+}

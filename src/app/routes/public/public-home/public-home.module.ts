@@ -26,7 +26,7 @@ import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
 import { PublicLicenseComponent } from '../public-license/public-license.component'
-
+import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callback.component'
 @NgModule({
   declarations: [
     PublicHomeComponent,
@@ -41,6 +41,7 @@ import { PublicLicenseComponent } from '../public-license/public-license.compone
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
     PublicLicenseComponent,
+    KeycloakCallbackComponent
 
   ],
   imports: [
@@ -70,6 +71,7 @@ import { PublicLicenseComponent } from '../public-license/public-license.compone
     MobileHowDoesWorkComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
-    PublicTocOverviewComponent],
+    PublicTocOverviewComponent,
+    KeycloakCallbackComponent],
 })
 export class PublicHomeModule { }

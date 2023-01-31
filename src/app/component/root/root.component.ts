@@ -34,7 +34,9 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import * as _ from 'lodash'
 import { Plugins } from '@capacitor/core'
+import { v4 as uuid } from 'uuid'
 const { App } = Plugins
+import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -79,6 +81,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
+    private signupService: SignupService,
   ) {
     this.mobileAppsSvc.init()
     const locationOrigin = location.origin
@@ -127,6 +130,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.fcSettingsFunc()
     if (!this.loginServ.isInitialized) {
       this.loginServ.initialize()
     }
@@ -155,7 +159,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     }
     App.addListener('backButton', () => {
 
-        window.history.go(-1)
+      window.history.go(-1)
 
     })
 
@@ -165,6 +169,10 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isSetupPage = true
         }
       }
+
+      if (this.configSvc.userProfile === null) {
+        this.isNavBarRequired = false
+      }
       if (event instanceof NavigationStart) {
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
@@ -173,15 +181,48 @@ export class RootComponent implements OnInit, AfterViewInit {
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
-        } else if (event.url.includes('app/toc') &&
-          this.configSvc.userProfile === null) {
+        } else if (event.url.includes('app/toc')) {
+          if (this.configSvc.userProfile !== null) {
+            this.mobileView = false
+          }
+          this.hideHeaderFooter = false
+          this.isNavBarRequired = true
+          //this.showNavigation = true
+          this.isLoggedIn = true
           localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
             }` + `/overview`)
-          this.router.navigateByUrl('app/login')
+          sessionStorage.setItem('login-btn', 'clicked')
+          setTimeout(() => {
+            this.signupService.fetchStartUpDetails().then(result => {
+              if (result && result.status !== 200) {
+
+                const redirectUrl = document.baseURI + 'openid/keycloak'
+                const state = uuid()
+                const nonce = uuid()
+                const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                window.location.href = Keycloakurl
+              }
+            })
+
+          }, 10)
+          // if (this.configSvc.userProfile === null) {
+          //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+          //     }` + `/overview`)
+          //   sessionStorage.setItem('login-btn', 'clicked')
+          //   const redirectUrl = document.baseURI + 'openid/keycloak'
+          //   const state = uuid()
+          //   const nonce = uuid()
+          //   window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
+          //   // this.router.navigateByUrl('app/login')
+          // }
+
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
+          // if (this.configSvc.userProfile === null) {
+          //   this.isNavBarRequired = false
+          // }
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
           event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
@@ -199,7 +240,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.mobileView = false
           this.isNavBarRequired = true
           this.showNavbar = true
-        } else {
+        }
+        // else if (event.url.includes('viewer')) {
+        //   this.hideHeaderFooter = true
+        //   this.isNavBarRequired = false
+        // }
+        else {
           this.isNavBarRequired = true
           this.mobileView = false
         }
@@ -237,9 +283,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       //   this.isNavBarRequired = false
       //   this.showNavigation = true
       // }
-      if (this.configSvc.userProfile === null) {
-        this.isNavBarRequired = false
-      }
+
       // if (this.configSvc.unMappedUser) {
       //   this.isNavBarRequired = true
       //   //this.showNavbar = true
@@ -278,4 +322,20 @@ export class RootComponent implements OnInit, AfterViewInit {
     // this.initAppUpdateCheck()
   }
 
+  //freshChat functionality
+  fcSettingsFunc() {
+    try {
+      window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      window.fcWidget.init()
+      if (this.configSvc.userProfile) {
+        window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
+        window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
+        window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
+        window.fcWidget.user.setMeta({ "userId": this.configSvc.userProfile.userId, "username": this.configSvc.userProfile.userName })
+      }
+    } catch (error) {
+      //tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
 }

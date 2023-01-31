@@ -9,12 +9,14 @@ import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
+  //LoginResolverService,
   // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
   // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
+  //AuthKeycloakService,
   // AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,
@@ -57,13 +59,13 @@ export class InitService {
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    // private authSvc: AuthKeycloakService,
+    //private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
-    // private loginResolverService: LoginResolverService,
+    //private loginResolverService: LoginResolverService,
 
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
@@ -97,6 +99,7 @@ export class InitService {
 
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
+
     // if (!authenticated) {
     //   this.settingsSvc.initializePrefChanges(environment.production)
     //   // TODO: use the rootOrg and org to fetch the instance
@@ -172,6 +175,7 @@ export class InitService {
       // Apply the settings using settingsService
       this.settingsSvc.initializePrefChanges(environment.production)
       this.userPreference.initialize()
+
     } catch (e) {
       this.logger.warn(
         'Initialization process encountered some error. Application may not work as expected',
@@ -224,7 +228,7 @@ export class InitService {
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
 
-    if((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
+    if ((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
       const publicConfig: NsInstanceConfig.IConfig = await this.http
         .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
         .toPromise()
@@ -236,16 +240,30 @@ export class InitService {
       this.configSvc.appSetup = publicConfig.appSetup
       return publicConfig
     } else {
-      const publicConfig: NsInstanceConfig.IConfig = await this.http
-        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
-        .toPromise()
-      this.configSvc.instanceConfig = publicConfig
-      this.configSvc.rootOrg = publicConfig.rootOrg
-      this.configSvc.org = publicConfig.org
-      // TODO: set one org as default org :: use user preference
-      this.configSvc.activeOrg = publicConfig.org[0]
-      this.configSvc.appSetup = publicConfig.appSetup
-      return publicConfig
+      if (this.configSvc.userProfile === null) {
+        const publicConfig: NsInstanceConfig.IConfig = await this.http
+          .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
+          .toPromise()
+        this.configSvc.instanceConfig = publicConfig
+        this.configSvc.rootOrg = publicConfig.rootOrg
+        this.configSvc.org = publicConfig.org
+        // TODO: set one org as default org :: use user preference
+        this.configSvc.activeOrg = publicConfig.org[0]
+        this.configSvc.appSetup = publicConfig.appSetup
+        return publicConfig
+      } else {
+        const publicConfig: NsInstanceConfig.IConfig = await this.http
+          .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
+          .toPromise()
+        this.configSvc.instanceConfig = publicConfig
+        this.configSvc.rootOrg = publicConfig.rootOrg
+        this.configSvc.org = publicConfig.org
+        // TODO: set one org as default org :: use user preference
+        this.configSvc.activeOrg = publicConfig.org[0]
+        this.configSvc.appSetup = publicConfig.appSetup
+        return publicConfig
+      }
+
     }
 
   }
@@ -346,8 +364,12 @@ export class InitService {
         this.configSvc.isActive = details.isActive
         return details
       } catch (e) {
+        // tslint:disable-next-line:no-console
         console.log(e)
         this.configSvc.userProfile = null
+        if (e.status === 419) {
+          //this.authSvc.logout()
+        }
         return e
       }
     } else {
