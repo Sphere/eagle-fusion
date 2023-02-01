@@ -119,7 +119,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     const state = uuid()
     const nonce = uuid()
     // tslint:disable-next-line:max-line-length
-    // window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
+    window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
 
     if (this.signUpdata) {
       let phone = this.signUpdata.value.emailOrMobile
@@ -243,47 +243,36 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       }
     }
     this.contentSvc.loginAuth(req).subscribe(
-      (results: any) => {
-        console.log(results)
-        //const result = await this.signupService.fetchStartUpDetails()
-        // if (result.status === 200) {
-        //   // resendOTP();
-        //   if (result.roles && result.roles.length > 0) {
-        //     localStorage.setItem(`loginbtn`, `userLoggedIn`)
-        //     this.openSnackbar(results.msg)
-        //     if (localStorage.getItem('url_before_login')) {
-        //       location.href = localStorage.getItem('url_before_login') || ''
-        //     } else {
-        //       location.href = '/page/home'
-        //     }
-        //   } else {
-        //     this.openSnackbar(this.redirectMsg)
-        //     this.otpPage = true
-        //     this.loginVerification = true
-        //     localStorage.setItem(`userUUID`, result.userId)
-        //     this.generateOtp(this.emailPhoneType, this.loginForm.value.username.trim())
-        //   }
-        // }
-        // if (result.status === 400) {
-        //   this.openSnackbar(result.error.params.errmsg)
-        // }
-        // if (result.status === 401) {
-        //   this.openSnackbar(result.error.params.errmsg)
-        // }
-        // if (result.status === 419) {
-        //   this.openSnackbar(result.error.params.errmsg)
-        // }
-        // this.openSnackbar(this.errMsgL)
-
-      },
-      (err: any) => {
-        // this.openSnackbar(err.error.error)
-        // tslint:disable-next-line:no-console
-        console.log(err.error.error)
-        // this.errorMessage = 'Invalid username or password.'
-        this.errorMessage = err.error.error
-      }
-    )
+      async (results: any) => {
+        const result = await this.signupService.fetchStartUpDetails()
+        if (result.status === 200) {
+          // resendOTP();
+          if (result.roles && result.roles.length > 0) {
+            localStorage.setItem(`loginbtn`, `userLoggedIn`)
+            this.openSnackbar(results.msg)
+            if (localStorage.getItem('url_before_login')) {
+              location.href = localStorage.getItem('url_before_login') || ''
+            } else {
+              location.href = '/page/home'
+            }
+          } else {
+            this.openSnackbar(this.redirectMsg)
+            this.otpPage = true
+            this.loginVerification = true
+            localStorage.setItem(`userUUID`, result.userId)
+            this.generateOtp(this.emailPhoneType, this.loginForm.value.username.trim())
+          }
+        }
+        if (result.status === 400) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 401) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+        if (result.status === 419) {
+          this.openSnackbar(result.error.params.errmsg)
+        }
+      })
   }
   private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
