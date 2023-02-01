@@ -214,7 +214,7 @@ export class RootComponent implements OnInit, AfterViewInit {
                 const nonce = uuid()
                 // tslint:disable-next-line:max-line-length
                 const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = keycloakurl
+                // window.location.href = keycloakurl
               }
             })
 
@@ -321,6 +321,13 @@ export class RootComponent implements OnInit, AfterViewInit {
     //   // this.location.replaceState(url)
     //   this.router.navigateByUrl(url)
     // }
+
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      if (localStorage.getItem('url_before_login')) {
+        const url = localStorage.getItem(`url_before_login`) || ''
+        this.router.navigateByUrl(url)
+      }
+    }
     if (this.configSvc.userProfile) {
       this.isLoggedIn = true
     } else {

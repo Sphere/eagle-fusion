@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@aastrika_npmjs/comptency-ui-lib@../aastrika-UI/competency-ui-lib/dist/competency-ui":
+  version "0.0.1"
+  dependencies:
+    tslib "^1.9.0"
+
+"@aastrika_npmjs/comptency@../aastrika-UI/competency-ui-lib/dist/competency-ui":
+  version "0.0.1"
+  dependencies:
+    tslib "^1.9.0"
+
 "@aastrika_npmjs/discussions-ui-v8@^2.1.14":
   version "2.1.14"
   resolved "https://registry.yarnpkg.com/@aastrika_npmjs/discussions-ui-v8/-/discussions-ui-v8-2.1.14.tgz#79917cded66e8d38fea349be5e6bd1d39533d66e"
