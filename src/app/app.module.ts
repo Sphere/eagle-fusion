@@ -155,7 +155,7 @@ if (url.includes('token') && url.includes('moduleId')) {
 }
 
 // Conditions added for checking if nhsrc organisation is present in url
-if (url.indexOf('?org=') > 0) {
+if (url.indexOf('?org=') > 0 || url.indexOf('&org=') > 0) {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const orgValue = urlParams.get('org')
@@ -167,9 +167,17 @@ if (url.indexOf('?org=') > 0) {
         console.log(url)
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
-        window.location.href = `${document.baseURI}organisations/home`
-      } else {
-        window.location.href = `${document.baseURI}organisations/home`
+        if (localStorage.getItem('orgValue') === 'nhsrc') {
+          if (localStorage.getItem('url_before_login')) {
+            window.location.href = localStorage.getItem('url_before_login') || ''
+          }
+          else {
+            window.location.href = `${document.baseURI}organisations/home`
+          }
+
+        } else {
+          window.location.href = `${document.baseURI}organisations/home`
+        }
       }
     }
   }
