@@ -321,6 +321,13 @@ export class RootComponent implements OnInit, AfterViewInit {
     //   // this.location.replaceState(url)
     //   this.router.navigateByUrl(url)
     // }
+
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      if (localStorage.getItem('url_before_login')) {
+        const url = localStorage.getItem(`url_before_login`) || ''
+        this.router.navigateByUrl(url)
+      }
+    }
     if (this.configSvc.userProfile) {
       this.isLoggedIn = true
     } else {
