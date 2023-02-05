@@ -119,7 +119,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     // const state = uuid()
     // const nonce = uuid()
     // tslint:disable-next-line:max-line-length
-    // window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
+    window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
 
     if (this.signUpdata) {
       let phone = this.signUpdata.value.emailOrMobile
@@ -250,22 +250,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
           if (result.roles && result.roles.length > 0) {
             localStorage.setItem(`loginbtn`, `userLoggedIn`)
             this.openSnackbar(results.msg)
-            let lang = ''
-            // tslint:disable-next-line:max-line-length
-            if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined) {
-              // tslint:disable-next-line:max-line-length
-              lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' || ''
-            } else {
-              lang = ''
-            }
             if (localStorage.getItem('url_before_login')) {
-              const url = localStorage.getItem('url_before_login') || ''
-              localStorage.removeItem('loginbtn')
-              localStorage.removeItem('url_before_login')
-              window.location.assign(`${location.origin}/${lang}/${url}`)
+              location.href = localStorage.getItem('url_before_login') || ''
             } else {
-              const url = '/page/home'
-              window.location.assign(`${location.origin}/${lang}${url}`)
+              location.href = '/page/home'
             }
           } else {
             this.openSnackbar(this.redirectMsg)
@@ -284,17 +272,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         if (result.status === 419) {
           this.openSnackbar(result.error.params.errmsg)
         }
-        // this.openSnackbar(this.errMsgL)
-
-      },
-      (err: any) => {
-        // this.openSnackbar(err.error.error)
-        // tslint:disable-next-line:no-console
-        console.log(err.error.error)
-        // this.errorMessage = 'Invalid username or password.'
-        this.errorMessage = err.error.error
-      }
-    )
+      })
   }
   redirect(lang: string) {
     if (lang !== '') {
