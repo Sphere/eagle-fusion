@@ -1,7 +1,7 @@
 <div class="content">
   <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
     [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-  <p class="text-2xl mt-3">Personal Details</p>
+  <p class="text-2xl mt-3" i18n>Personal Details</p>
 
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
     <!-- <div class="form-group">
@@ -10,11 +10,11 @@
     </div> -->
     <div class="form-group">
       <input type="text" formControlName="firstname" class="form-control" (change)="fieldChange()"
-        placeholder="First Name" autocomplete="off">
+        placeholder="First Name" autocomplete="off" i18n-placeholder>
     </div>
     <div class="form-group">
       <input type="text" formControlName="surname" class="form-control" (change)="fieldChange()"
-        placeholder="Last Name*" autocomplete="off">
+        placeholder="Last Name*" autocomplete="off" i18n-placeholder>
     </div>
 
     <div class="form-group mt-4 relative">
