@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 })
 export class LanguageDialogComponent implements OnInit {
 
-  preferredLanguageList: any[] = [{ id : 'en', lang : 'English' }, { id : 'hi', lang : 'हिंदी' }, { id : 'ta', lang : 'தமிழ்' }]
+  preferredLanguageList: any[] = [{ id: 'en', lang: 'English' }, { id: 'hi', lang: 'हिंदी' }]
   languageCheckbox = false
   preferredLanguage = ''
 

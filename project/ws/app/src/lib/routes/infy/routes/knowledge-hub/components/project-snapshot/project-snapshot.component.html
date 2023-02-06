@@ -9,16 +9,10 @@
           <span *ngIf="projectDetails.status === 'active'" [matTooltip]="'Project Status : Active'">
             <span class="status-icon open"></span>
           </span>
-          <span
-            *ngIf="projectDetails.status === 'inactive'"
-            [matTooltip]="'Project Status : Not Available'"
-          >
+          <span *ngIf="projectDetails.status === 'inactive'" [matTooltip]="'Project Status : Not Available'">
             <span class="status-icon not-available"></span>
           </span>
-          <span
-            *ngIf="projectDetails.status === 'archieved'"
-            [matTooltip]="'Project Status : Archived'"
-          >
+          <span *ngIf="projectDetails.status === 'archieved'" [matTooltip]="'Project Status : Archived'">
             <span class="status-icon archived"></span>
           </span>
         </span>
@@ -38,12 +32,12 @@
       <span>BU : {{ projectDetails.ibuName }}</span>
     </div>
     <div>
-      <span i18n="view: Khub Project start date">Start Date: </span>
+      <span >Start Date: </span>
       {{ projectDetails.dateStartDate | date }}
     </div>
     <hr />
     <!-- <p *ngIf="projectDetails.mstProjectScope.length > 0">
-      <b><span i18n="tile: Khub tile Scope Label">Project Scope</span></b
+      <b><span ="tile: Khub tile Scope Label">Project Scope</span></b
       >: {{ projectDetails.mstProjectScope }}
     </p> -->
     <!-- [innerHtml]="projectDetails.mstProjectScope | safeHtml" <b>Project Scope</b> : {{ projectDetails.mstProjectScope | safeHtml }} -->
@@ -54,14 +48,14 @@
       "
     >
       <b
-        ><span i18n="tile: Khub tile Business Objective Label"
+        ><span ="tile: Khub tile Business Objective Label"
           >Infosys Objectives</span
         ></b
       >: {{ projectDetails.mstInfyObjectives }}
     </p>
     <p *ngIf="projectDetails.mstInfosysRole.length > 0">
       <b
-        ><span i18n="tile: Khub tile Business InfyRole Label"
+        ><span ="tile: Khub tile Business InfyRole Label"
           >Infosys Role</span
         ></b
       >: {{ projectDetails.mstInfosysRole }}
@@ -73,25 +67,18 @@
       "
     >
       <b
-        ><span i18n="tile: Khub tile Business Context Label"
+        ><span ="tile: Khub tile Business Context Label"
           >Business Context</span
         ></b
       >: {{ projectDetails.mstBusinessContext }}
     </p> -->
-    <p
-      *ngIf="!islargeScreen"
-      [matTooltip]="'This detail is currently available only on Infosys Network'"
-      style="padding: 5px 0px 5px 0px;"
-    >
-      <span i18n="view: Khub Project Elaborated details"
-        >If you are on Infosys Network, Explore more about this project
-        <a href="{{ url }}" target="_blank" style="color:cadetblue;">Here</a></span
-      >
+    <p *ngIf="!islargeScreen" [matTooltip]="'This detail is currently available only on Infosys Network'"
+      style="padding: 5px 0px 5px 0px;">
+      <span >If you are on Infosys Network, Explore more about this project
+        <a href="{{ url }}" target="_blank" style="color:cadetblue;">Here</a></span>
     </p>
-    <div
-      class="margin-top-s margin-top-xs flex flex-wrapped"
-      *ngIf="projectDetails.pm.length > 0 || projectDetails.dm.length > 0"
-    >
+    <div class="margin-top-s margin-top-xs flex flex-wrapped"
+      *ngIf="projectDetails.pm.length > 0 || projectDetails.dm.length > 0">
       <div *ngIf="projectDetails.pm.length > 0">
         <span class="flex pm-dm-class">
           <!-- <app-user-image
@@ -103,8 +90,8 @@
             <mat-icon class="user-icon">person</mat-icon>
           </span>
           <div>
-            <span>{{ projectDetails.pm[0].name }}</span
-            ><br /><span i18n="view: Khub Project Manager Label">Project Manager</span>
+            <span>{{ projectDetails.pm[0].name }}</span><br /><span >Project
+              Manager</span>
           </div>
         </span>
       </div>
@@ -119,8 +106,8 @@
             <mat-icon class="user-icon">person</mat-icon>
           </span>
           <div>
-            <span>{{ projectDetails.dm[0].name }}</span
-            ><br /><span i18n="view: Khub Delivery Manager Label">Delivery Manager</span>
+            <span>{{ projectDetails.dm[0].name }}</span><br /><span >Delivery
+              Manager</span>
           </div>
         </span>
       </div>

@@ -1,9 +1,9 @@
 <div class="mt-4">
   <!-- <div class="flex flex-middle justify-between mb-4">
-    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>Content Authored</p>
+    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" >Content Authored</p>
     <div class="flex">
       <p class="margin-remove-bottom ws-mat-primary-text mat-h4 font-family"
-        [hidden]="suggestionsLimit >= playlists?.length" [routerLink]='' i18n>View All</p>
+        [hidden]="suggestionsLimit >= playlists?.length" [routerLink]='' >View All</p>
       <mat-icon _ngcontent-jfj-c68=""
         class="ws-mat-primary-text margin-left-xs pointer mat-icon notranslate material-icons mat-icon-no-color"
         role="img" aria-hidden="true">play_circle_fillec</mat-icon>
@@ -13,13 +13,13 @@
     <mat-card class="outer-card mat-card mat-elevation-z0 padding-remove w-full">
       <mat-card-content>
         <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'fetching'">
-          <p class="font-family fetching" i18n>Fetching content authored ...</p>
+          <p class="font-family fetching">Fetching content authored ...</p>
         </div>
         <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'done' && !contentCurrentDisplay?.length">
-          <p class="fetching font-family" i18n>User has not authored any content.</p>
+          <p class="fetching font-family">User has not authored any content.</p>
         </div>
         <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'error'">
-          <p class="mat-error" i18n>Failed to fetch content authored.</p>
+          <p class="mat-error">Failed to fetch content authored.</p>
         </div>
         <ng-container *ngFor="let content of contentCurrentDisplay">
           <div>
@@ -35,8 +35,9 @@
                         {{content.name}}</p>
                     </div>
                     <a class="font-family mat-caption mx-2 flex flex-middle" (click)="raiseTelemetry()"
-                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'" i18n>Explore
-                      <mat-icon class="pl-1">arrow_right</mat-icon></a>
+                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'">Explore
+                      <mat-icon class="pl-1">arrow_right</mat-icon>
+                    </a>
                   </div>
                 </div>
               </mat-card-content>
@@ -51,7 +52,7 @@
       </a>
       <div class="flex flex-between flex-middle">
         <div>
-          <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+          <div -matTooltip matTooltip="Updated on" class="mat-caption">
             date of post
           </div>
         </div>
@@ -75,4 +76,4 @@
   </div>
 </div>
 
-<!-- <input type="hidden" i18n-value value="Error while fetching content authored." #errorMsg /> -->
+<!-- <input type="hidden" -value value="Error while fetching content authored." #errorMsg /> -->

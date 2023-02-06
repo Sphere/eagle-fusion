@@ -4,14 +4,14 @@
   </button>
   <div class="language">
     <strong>
-      <h1 class="mb-1">Select Preferred Language for learning</h1>
+      <h1 class="mb-1" i18n>Select Preferred Language for learning</h1>
     </strong>
-    <p>You can change this setting under "Profile"</p>
+    <p i18n>You can change this setting under "Profile"</p>
   </div>
 
   <div class="search-box pb-2 d-none">
     <img src="/fusion-assets/icons/search.png" class="icon-rtl" alt="">
-    <input class="form-control" placeholder="Search Language">
+    <input class="form-control" i18n-placeholder placeholder="Search Language">
   </div>
 
 
@@ -23,7 +23,7 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done" (click)="multiLanguage(preferredLanguage)">Done</button>
+    <button class="btn-done cursor-pointer" (click)="multiLanguage(preferredLanguage)" i18n>Done</button>
   </div>
 </div>
 
@@ -40,14 +40,14 @@
 
   <div class="language">
     <strong>
-      <h1 class="mb-1">Select Preferred Language for learning</h1>
+      <h1 class="mb-1" i18n>Select Preferred Language for learning</h1>
     </strong>
-    <p>You can change this setting under "Profile"</p>
+    <p i18n>You can change this setting under "Profile"</p>
   </div>
 
   <div class="search-box pb-2 d-none">
     <img src="/fusion-assets/icons/search.png" class="icon-rtl" alt="">
-    <input class="form-control" placeholder="Search Language">
+    <input class="form-control" i18n-placeholder placeholder="Search Language">
   </div>
 
 
@@ -62,7 +62,7 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done" (click)="chooseLanguage(preferredLanguage)">Done</button>
+    <button class="btn-done cursor-pointer" (click)="chooseLanguage(preferredLanguage)" i18n>Done</button>
   </div>
 
 

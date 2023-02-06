@@ -10,10 +10,10 @@
 <div class="margin-bottom-xl">
   <div class="banner ws-mat-primary-background-op50">
     <div class="banner-description margin-bottom-m padding-top-m">
-      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" i18n>
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l small-banner-text" >
         Choose a profile below to discover the courses that you need to learn
       </h1>
-      <h2 i18n class="mat-title margin-top-xl">
+      <h2  class="mat-title margin-top-xl">
         Create goals to track your learning and get certified.
       </h2>
     </div>
@@ -25,7 +25,7 @@
       </ng-container>
     </div>
     <div class="margin-top-l">
-      <h1 class="mat-headline padding-top-l text-bold" i18n>
+      <h1 class="mat-headline padding-top-l text-bold" >
         Profiles for the selected Learning Path
       </h1>
       <mat-radio-group>
@@ -61,7 +61,7 @@
     </div>
     <div class="margin-top-m practice-certification">
       <div class="margin-top-l" *ngIf="playgroundData.length">
-        <h1 class="mat-headline padding-top-l text-bold padding-left-l" i18n>Practice</h1>
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l" >Practice</h1>
         <div class="card-holder">
           <ng-container *ngFor="let playItem of playgroundData">
             <ws-app-lp-card [navigatorCard]="playItem"></ws-app-lp-card>
@@ -69,7 +69,7 @@
         </div>
       </div>
       <div class="margin-top-l" *ngIf="certificationData.length">
-        <h1 class="mat-headline padding-top-l text-bold padding-left-l" i18n>Certification</h1>
+        <h1 class="mat-headline padding-top-l text-bold padding-left-l" >Certification</h1>
         <div class="card-holder">
           <ng-container *ngFor="let certData of certificationData">
             <ws-app-lp-card [navigatorCard]="certData"></ws-app-lp-card>

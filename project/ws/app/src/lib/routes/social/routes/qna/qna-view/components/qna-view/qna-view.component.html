@@ -1,14 +1,14 @@
 <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: '/app/social/qna' }"></ws-widget-btn-page-back>
-  <span i18n class="ml-2">Question</span>
+  <span  class="ml-2">Question</span>
 </mat-toolbar> -->
 
 <div class="views-view-wrapper">
   <mat-card>
-    <h2 class="text-center margin-top-m" *ngIf="postFetchStatus === 'none'" i18n>
+    <h2 class="text-center margin-top-m" *ngIf="postFetchStatus === 'none'" >
       No question exists for the provided id
     </h2>
-    <h2 class="text-center margin-top-m" *ngIf="postFetchStatus === 'error'" i18n>
+    <h2 class="text-center margin-top-m" *ngIf="postFetchStatus === 'error'" >
       Unable to load question. Please retry!
     </h2>
     <ng-container *ngIf="postFetchStatus === 'done' || qnaConversation">
@@ -26,7 +26,7 @@
             " class="ws-mat-primary-text margin-bottom-s"
             [innerHTML]="qnaConversation.mainPost.postContent.body | pipeLimitTo: 120"></h1>
           <div *ngIf="qnaConversation.mainPost.dtCreated" class="mb-4">
-            <ng-container i18n>Asked </ng-container>
+            <ng-container >Asked </ng-container>
             <span>{{ qnaConversation.mainPost.dtCreated | date }}</span>
           </div>
         </div>
@@ -56,7 +56,7 @@
           <div class="margin-bottom-s"
             [innerHtml]="qnaConversation.mainPost.postContent.body | pipeSafeSanitizer: 'html'"></div>
           <mat-chip-list>
-            <mat-chip *ngFor="let tag of qnaConversation.mainPost.tags" i18n-matTooltip matTooltip="Associated Tag">
+            <mat-chip *ngFor="let tag of qnaConversation.mainPost.tags" -matTooltip matTooltip="Associated Tag">
               {{ tag.name }}
             </mat-chip>
           </mat-chip-list>
@@ -67,7 +67,7 @@
               </span>
               <div class="mat-caption">
                 <span>{{ qnaConversation.mainPost.dtCreated | date }}</span>
-                <ng-container i18n> at </ng-container>
+                <ng-container > at </ng-container>
                 <span>{{ qnaConversation.mainPost.dtCreated | date: 'shortTime' }}</span>
               </div>
             </div>
@@ -80,13 +80,13 @@
                 {{ comment.postContent.body }}
                 <span class="ws-mat-primary-text"> - {{ comment.postCreator.name }} </span>
                 <span class="mat-caption"> {{ comment.dtCreated | date }}</span>
-                <span class="mat-caption" i18n> at</span>
+                <span class="mat-caption" > at</span>
                 <span class="mat-caption"> {{ comment.dtCreated | date: 'shortTime' }}</span>
               </div>
             </div>
             <div class="text-right" *ngIf="qnaComments?.postCount > 0">
               <button type="button" [disabled]="commentFetchStatus === 'fetching'" (click)="fetchQuestionComments()"
-                mat-button color="primary" i18n>
+                mat-button color="primary" >
                 Load More Comments
               </button>
             </div>
@@ -96,12 +96,12 @@
           </div>
           <form class="comment-form">
             <mat-form-field class="width-1-1">
-              <input matInput i18n-placeholder placeholder="Add a comment" value="commentAddRequest.postContent.body"
+              <input matInput -placeholder placeholder="Add a comment" value="commentAddRequest.postContent.body"
                 type="text" name="comment" [(ngModel)]="commentAddRequest.postContent.body" />
             </mat-form-field>
             <button mat-stroked-button color="primary" class="margin-left-s"
               [disabled]="!commentAddRequest.postContent.body.length || isPostingComment"
-              i18n="Post comment of question" (click)="postComment()">
+              ="Post comment of question" (click)="postComment()">
               Post
             </button>
           </form>
@@ -115,7 +115,7 @@
           {{ qnaConversation.acceptedAnswer && qnaConversation?.acceptedAnswer?.id ? qnaConversation.postCount + qnaConversation.newPostCount
           + qnaConversation.replyPost.length + 1 : qnaConversation.postCount + qnaConversation.newPostCount + qnaConversation.replyPost.length
           }}
-          <ng-container i18n> Answers </ng-container>
+          <ng-container > Answers </ng-container>
         </h2>
         <ws-app-qna-reply class="reply-component" *ngIf="qnaConversation?.acceptedAnswer?.id" [isAcceptedAnswer]="true"
           [item]="qnaConversation.acceptedAnswer"
@@ -130,7 +130,7 @@
         </div>
         <div class="margin-top-s margin-bottom-s text-center" *ngIf="qnaConversation?.postCount > 0">
           <button type="button" [disabled]="postFetchStatus === 'fetching'" (click)="fetchConversationData(false)"
-            mat-flat-button color="primary" i18n>
+            mat-flat-button color="primary" >
             Load previous answers
           </button>
         </div>
@@ -142,11 +142,11 @@
   </mat-card>
 
   <mat-card [hidden]="!qnaConversation" class="my-4">
-    <h2 i18n>Your Answer</h2>
+    <h2 >Your Answer</h2>
     <ws-widget-editor-quill class="editor ql-editor" [htmlText]="replyAddRequest?.postContent?.body" [minLength]="'20'"
       (textData)="onTextChange($event)" #editor></ws-widget-editor-quill>
     <button mat-raised-button [disabled]="!isValidForUserAnswer || isPostingReply" color="primary"
-      i18n="Post comment of question" class="margin-top-s" (click)="postReply()">
+       class="margin-top-s" (click)="postReply()">
       Post Your Answer
     </button>
     <mat-spinner *ngIf="isPostingReply" [diameter]="30" [strokeWidth]="3"> </mat-spinner>
@@ -156,7 +156,7 @@
 <input type="hidden" i8n-value value="Successfully deleted" #deleteMsg />
 <mat-menu #editMenu="matMenu">
   <ng-template matMenuContent>
-    <a [routerLink]="'../edit/' + qnaConversationRequest.postId" mat-menu-item i18n>Edit Question</a>
-    <button (click)="deletePost(deleteMsg.value)" mat-menu-item i18n>Delete Question</button>
+    <a [routerLink]="'../edit/' + qnaConversationRequest.postId" mat-menu-item >Edit Question</a>
+    <button (click)="deletePost(deleteMsg.value)" mat-menu-item >Delete Question</button>
   </ng-template>
 </mat-menu>

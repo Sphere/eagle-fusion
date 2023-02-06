@@ -138,6 +138,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   ngOnChanges() {
     if (this.htmlContent && this.htmlContent.identifier) {
       this.urlContains = this.htmlContent.artifactUrl
+      const courseId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
+      let obj = {
+        "resourceID": this.htmlContent.identifier,
+        "courseID": courseId,
+        "moduleID": this.htmlContent.parent
+      }
+      this.telemetrySvc.end('player', 'view', '', obj)
     }
 
     if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {

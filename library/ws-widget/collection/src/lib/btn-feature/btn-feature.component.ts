@@ -34,6 +34,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.INavLink> {
   @Input() widgetData!: NsPage.INavLink
   @Input() showFixedLength = false
+  profileImage!: string | null
+  givenName = ''
   // @Input()
   // @HostBinding('id')
   // public id!: string

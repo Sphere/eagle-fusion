@@ -4,8 +4,8 @@
     [showLogOutIcon]="showLogOutIcon">
   </ws-mobile-profile-nav>
 
-  <p class="text-2xl mt-2">Work Info</p>
-  <mat-icon *ngIf="userProfileData && userProfileData.professionalDetails" class="float-right pencil"
+  <p class="text-2xl mt-2" i18n>Work Info</p>
+  <mat-icon *ngIf="userProfileData && userProfileData.professionalDetails" class="float-right pencil cursor-pointer"
     (click)="redirectToWorkInfo(true)">
     edit</mat-icon>
   <div class="mt-3" *ngFor="let profession of userProfileData?.professionalDetails">
@@ -22,7 +22,7 @@
 
 
   <div class="mt-3">
-    <p class="add-edu-txt inline-block" (click)="redirectToWorkInfo()">+ Add Work Info</p>
+    <p class="add-edu-txt inline-block cursor-pointer" (click)="redirectToWorkInfo()" i18n>+ Add Work Info</p>
   </div>
 
 </div>

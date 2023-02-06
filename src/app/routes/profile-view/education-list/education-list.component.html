@@ -3,12 +3,12 @@
   <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
     [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
 
-  <p class="text-2xl mt-2 mb-2">Education</p>
+  <p class="text-2xl mt-2 mb-2" i18n>Education</p>
 
   <div class="inline-block">
     <div *ngFor="let academic of academicsArray">
       <div class="edit-icon">
-        <mat-icon *ngIf="academicsArray.length>0 && academic.nameOfInstitute" class="float-right pencil"
+        <mat-icon *ngIf="academicsArray.length>0 && academic.nameOfInstitute" class="float-right pencil cursor-pointer"
           (click)="redirectTo(true,academic)">edit</mat-icon>
       </div>
 
@@ -24,7 +24,7 @@
   <mat-divider class="mt-2"></mat-divider>
 
   <div class="mt-3">
-    <p class="add-edu-txt inline-block" (click)="redirectTo()">+ Add Education</p>
+    <p class="add-edu-txt inline-block cursor-pointer" (click)="redirectTo()" i18n>+ Add Education</p>
   </div>
 
 </div>

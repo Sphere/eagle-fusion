@@ -10,7 +10,7 @@
 
 <div [ngClass]="{ 'proctoring-warning-holder': proctoringWarning }">
   <mat-card class="proctoring-warning" [hidden]="!proctoringWarning">
-    <h2 class="mat-h2" i18n="proctoring warning">
+    <h2 class="mat-h2" i18n>
       Accessible only on fullscreen. Click Okay to continue
     </h2>
     <button type="button" i18n mat-flat-button [color]="'primary'" (click)="enterFullScreen()">

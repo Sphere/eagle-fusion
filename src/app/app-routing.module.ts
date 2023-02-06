@@ -288,6 +288,11 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'hi/app/profile-view',
+    component: MobileProfileDashboardComponent,
+    canActivate: [GeneralGuard],
+  },
+  {
     path: 'app/education-list',
     component: EducationListComponent,
   },

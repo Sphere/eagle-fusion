@@ -8,17 +8,17 @@
 <section class="mb-4">
   <ng-container [ngSwitch]="data.approvalItem.record_type">
     <ng-container *ngSwitchCase="'proctor_approval'">
-      <p class="mat-body" i18n>
+      <p class="mat-body" >
         Are you sure you wish to cancel this At-Desk booking?
       </p>
     </ng-container>
 
     <ng-container *ngSwitchCase="'budget_approval'">
-      <p class="mat-body" i18n>
+      <p class="mat-body" >
         Are you sure you wish to cancel this budget approval request?
       </p>
       <p class="mat-body">
-        <ng-container i18n>
+        <ng-container >
           Amount:
         </ng-container>
         {{ data.approvalItem.currency }} {{ data.approvalItem.amount }}
@@ -38,9 +38,9 @@
   </ng-container>
 
   <section>
-    <button mat-flat-button [color]="'primary'" class="margin-right-xs" i18n (click)="onAction()">
+    <button mat-flat-button [color]="'primary'" class="margin-right-xs"  (click)="onAction()">
       Yes
     </button>
-    <button mat-stroked-button mat-dialog-close [color]="'primary'" i18n>No</button>
+    <button mat-stroked-button mat-dialog-close [color]="'primary'" >No</button>
   </section>
 </section>

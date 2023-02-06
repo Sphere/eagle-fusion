@@ -1,13 +1,13 @@
 <mat-toolbar>
   <!-- <ws-widget-btn-page-back *ngIf="router.url.startsWith('/app/content-assignment')" [widgetData]="{ url: 'back' }">
   </ws-widget-btn-page-back> -->
-  <span i18n="page title: Content Assignment" class="margin-left-xs">Content Assignment</span>
+  <span  class="margin-left-xs">Content Assignment</span>
 
 </mat-toolbar>
 <mat-horizontal-stepper (selectionChange)="searchUsers()"
   class="mx-auto sm:padding-remove md:mt-4 md:p-4 md:w-11/12 sm:w-full" linear #stepper>
   <mat-step [completed]="checkContentSelection()">
-    <ng-template class="mat-subheading-2 click-disabled" matStepLabel i18n>
+    <ng-template class="mat-subheading-2 click-disabled" matStepLabel>
       <div *ngIf="screenSizeIsLtMedium">
         <div>
           Select
@@ -23,7 +23,7 @@
     <main>
       <section class="flex">
         <div class="flex-1 min-w-0 ">
-          <h2 *ngIf="!screenSizeIsLtMedium" class="mat-subheading-2 mx-2 md:mx-4" i18n>Select contents to assign to
+          <h2 *ngIf="!screenSizeIsLtMedium" class="mat-subheading-2 mx-2 md:mx-4" >Select contents to assign to
             users:</h2>
           <div class="mb-8">
             <ws-widget-picker-content [content]="'resource'" [searchableContentTypes]="['Course']" [removeSubset]="true"
@@ -38,7 +38,7 @@
         <div class="flex-1 min-w-0  mb-8">
           <div class="flex flex-row-reverse">
             <button mat-raised-button class="margin-left-s" (click)="searchUsers()" matStepperNext color="primary"
-              type="button" i18n>
+              type="button" >
               Next
             </button>
           </div>
@@ -47,7 +47,7 @@
     </main>
   </mat-step>
   <mat-step>
-    <ng-template class="mat-subheading-2 click-disabled" matStepLabel i18n>
+    <ng-template class="mat-subheading-2 click-disabled" matStepLabel >
       <div *ngIf="screenSizeIsLtMedium">
         <div>
           Select
@@ -63,7 +63,7 @@
     <div>
       <div class="flex">
         <div class="flex-1 min-w-0 ">
-          <h2 *ngIf="!screenSizeIsLtMedium" class="mat-subheading-2 mx-2 md:mx-4" i18n>
+          <h2 *ngIf="!screenSizeIsLtMedium" class="mat-subheading-2 mx-2 md:mx-4" >
             Select users to assign contents to:
           </h2>
         </div>
@@ -74,7 +74,7 @@
         <button matTooltipPosition="before" matTooltip="Search" (click)="handleSearchQuery()" mat-icon-button matSuffix>
           <mat-icon>search</mat-icon>
         </button>
-        <mat-label i18n>Search users</mat-label>
+        <mat-label >Search users</mat-label>
         <input matInput (keyup.enter)="handleSearchQuery()" [(ngModel)]="query" autocomplete="off"
           class="resize-none" />
       </mat-form-field>
@@ -144,7 +144,7 @@
                   </button>
                 </span>
                 <span class="mx-2">
-                  <button i18n matTooltipPosition="before" matTooltip="Sort descending" class="mat-elevation-z0"
+                  <button  matTooltipPosition="before" matTooltip="Sort descending" class="mat-elevation-z0"
                     [color]="sortOrder==='desc' ? 'accent' : ''" (click)="sortAscOrDesc('desc')" mat-mini-fab>
                     Desc
                   </button>
@@ -152,19 +152,19 @@
               </button>
               <mat-radio-group (change)="sortBy($event.value)">
                 <button mat-menu-item>
-                  <mat-radio-button i18n [checked]="searchReqBody?.sort[0]?.hasOwnProperty('full_name')"
+                  <mat-radio-button  [checked]="searchReqBody?.sort[0]?.hasOwnProperty('full_name')"
                     value="full_name">
                     Name
                   </mat-radio-button>
                 </button>
                 <button mat-menu-item>
-                  <mat-radio-button i18n [checked]="searchReqBody?.sort[0]?.hasOwnProperty('dealer_code')"
+                  <mat-radio-button  [checked]="searchReqBody?.sort[0]?.hasOwnProperty('dealer_code')"
                     value="dealer_code">
                     Dealer Code
                   </mat-radio-button>
                 </button>
                 <button mat-menu-item>
-                  <mat-radio-button i18n [checked]="searchReqBody?.sort[0]?.hasOwnProperty('dealer_name')"
+                  <mat-radio-button  [checked]="searchReqBody?.sort[0]?.hasOwnProperty('dealer_name')"
                     value="dealer_name">
                     Dealer Name
                   </mat-radio-button>
@@ -176,10 +176,10 @@
 
         <div class="margin-remove-top" *ngIf="fetchUserStatus ==='done'">
           <div *ngIf="fetchUserStatus ==='done'" class='p-2 flex-1 self-end'>
-            <span i18n="search route hits showing">Showing </span>
+            <span >Showing </span>
             <span>{{ length }} </span>
-            <span *ngIf="length > 1" i18n="search route hits results">users </span>
-            <span *ngIf="length <= 1" i18n="search route hits result">user </span>
+            <span *ngIf="length > 1" >users </span>
+            <span *ngIf="length <= 1" >user </span>
           </div>
           <div *ngIf="filtersResponse" class="m-2">
             <mat-chip-list aria-label="Filter selection">
@@ -250,7 +250,7 @@
         <div *ngIf="fetchUserStatus==='error' || fetchUserStatus==='none' ">
           <div class="create-goal-fab width-expand text-center width-1-1">
             <div class="page-container mx-2 md:mx-4">
-              <h2 i18n class="mat-subheading-2 mx-2 md:mx-4">No users fetched!</h2>
+              <h2  class="mat-subheading-2 mx-2 md:mx-4">No users fetched!</h2>
             </div>
           </div>
         </div>
@@ -268,12 +268,12 @@
     <section class="flex">
       <div class="flex w-full content-space p-2">
         <div class="flex width-1-2 flex-row items-center">
-          <button mat-raised-button class="margin-left-s" matStepperPrevious color="primary" type="button" i18n>
+          <button mat-raised-button class="margin-left-s" matStepperPrevious color="primary" type="button" >
             Back
           </button>
         </div>
         <div class="flex width-1-2 flex-row-reverse items-center">
-          <button [disabled]="assignDisabled" mat-raised-button class="margin-left-s" color="primary" type="button" i18n
+          <button [disabled]="assignDisabled" mat-raised-button class="margin-left-s" color="primary" type="button"
             (click)="assign()">
             Assign
           </button>
@@ -284,9 +284,9 @@
 </mat-horizontal-stepper>
 
 
-<input #selectContent type="hidden" i18n-value value="Select atleast one content to continue" />
-<input #selectUsers type="hidden" i18n-value value="Select atleast one user to continue" />
-<input #selectFilters type="hidden" i18n-value value="Select atleast one filter to continue" />
-<input #getAdminLevelError type="hidden" i18n-value value="Unable to get user admin level" />
-<input #contentAssignError type="hidden" i18n-value value="Unable to process the content assignment" />
-<input #contentAssignSuccess type="hidden" i18n-value value="Content assignment successful" />
+<input #selectContent type="hidden" -value value="Select atleast one content to continue" />
+<input #selectUsers type="hidden" -value value="Select atleast one user to continue" />
+<input #selectFilters type="hidden" -value value="Select atleast one filter to continue" />
+<input #getAdminLevelError type="hidden" -value value="Unable to get user admin level" />
+<input #contentAssignError type="hidden" -value value="Unable to process the content assignment" />
+<input #contentAssignSuccess type="hidden" -value value="Content assignment successful" />

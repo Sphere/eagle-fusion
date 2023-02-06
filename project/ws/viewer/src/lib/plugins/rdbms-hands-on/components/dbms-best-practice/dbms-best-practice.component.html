@@ -71,7 +71,7 @@
           color="primary"
           [disabled]="executed"
           (click)="run(true)"
-          i18n="button run"
+          
         >
           Run
         </button>
@@ -90,7 +90,7 @@
           color="primary"
           [disabled]="executed"
           (click)="run(false)"
-          i18n="button run"
+          
         >
           Run
         </button>
@@ -120,6 +120,6 @@
   </div>
 </ng-template>
 
-<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
-<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
-<input #someErrorOccurred type="hidden" i18n-value value="Some error occurred. Please try again later!" />
+<input #dbRefreshSuccess type="hidden" -value value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden" -value value="Database refresh failed." />
+<input #someErrorOccurred type="hidden" -value value="Some error occurred. Please try again later!" />

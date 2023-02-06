@@ -34,6 +34,19 @@
             Privacy policy and terms of use
           </a>
         </mat-list-item>
+        <mat-list-item style="margin-top: 20px;">
+          <!-- <p class="mat-subheading-2 flex flex-middle">
+            <img src="/fusion-assets/icons/lang-icon.png" width="35" height="24px" />
+            <ng-container i18n>Choose your Language</ng-container>
+          </p> -->
+          <!--       <mat-form-field> -->
+          <label i18n>Choose your Language</label>
+          <div class="d-inline" style="margin-top: -5px; font-size: small;">
+            <a (click)="redirect('')" class="languages">English</a>
+            <a (click)="redirect('hi')" class="languages">हिन्दी</a>
+          </div>
+          <!--     </mat-form-field> -->
+        </mat-list-item>
       </mat-list>
     </div>
 
@@ -73,7 +86,7 @@
   </div>
   <!-- partner border -->
   <div class="flex">
-    <h2 class="partner"><span>Partners</span></h2>
+    <h2 class="partner"><span i18n>Partners</span></h2>
   </div>
   <!-- partners list -->
   <div class="partner-list" [ngClass]="{'flex ': !isXSmall }">
@@ -113,7 +126,7 @@
     </div> -->
     <div class="docs-footer-copyright flex-1">
       <div>
-        <div class="text-dark" class="footer-alignment" i18n>&copy; 2022
+        <div class="text-dark" class="footer-alignment" i18n>&copy; 2023
           AastarUrmika Health
           Systems Pvt
           Ltd. All rights reserved. </div>

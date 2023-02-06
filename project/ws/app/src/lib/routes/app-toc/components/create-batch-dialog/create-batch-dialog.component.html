@@ -6,12 +6,12 @@
         <div class="flex flex-1">
           <mat-form-field appearance="outline" class="w-full">
             <label for="name" class=" margin-remove-bottom form-label required"
-              i18n="Name label|Label which explains the user to enter name" i18n-aria-label aria-label="Name label">
+              i18n i18n-aria-label aria-label="Name label">
               Name
             </label>
             <input id="name" matInput #name formControlName="name" i18n-placeholder placeholder="Enter Name"
               i18n-aria-label aria-label="Name input" />
-            <mat-error [hidden]="false" i18n="Name Error|Explains name is required" i18n-aria-label
+            <mat-error [hidden]="false" i18n i18n-aria-label
               aria-label="Name Error|Explains name is required "
               *ngIf="createBatchForm?.controls['name'].errors?.required">
               Name is mandatory
@@ -25,13 +25,13 @@
         <div class="flex flex-1">
           <mat-form-field appearance="outline" class="w-full">
             <label for="description" class=" margin-remove-bottom form-label"
-              i18n="description label|Label which explains the user to enter description" i18n-aria-label
+              i18n i18n-aria-label
               aria-label="description label">
               Description
             </label>
             <input id="description" matInput #description formControlName="description" i18n-placeholder
               placeholder="Enter Description" i18n-aria-label aria-label="Description input" />
-            <mat-error [hidden]="false" i18n="Description Error|Explains description is required" i18n-aria-label
+            <mat-error [hidden]="false" i18n i18n-aria-label
               aria-label="Description Error|Explains description is required "
               *ngIf="createBatchForm?.controls['description'].errors?.required">
               Description is mandatory
@@ -41,14 +41,14 @@
         <div class="flex flex-1">
           <mat-form-field appearance="outline" class="w-full">
             <label for="enrollmentType" class=" margin-remove-bottom form-label required"
-              i18n="enrollmentType label|Label which explains the user to enter enrollmentType" i18n-aria-label
+              i18n i18n-aria-label
               aria-label="enrollmentType label">
               Enrollment Type
             </label>
             <mat-select matInput formControlName="enrollmentType" #enrollmentType>
               <mat-option [value]="c" *ngFor="let c of enrollmentTypes" [innerHTML]="c"></mat-option>
             </mat-select>
-            <mat-error [hidden]="false" i18n="enrollmentType Error|Explains enrollmentType is required" i18n-aria-label
+            <mat-error [hidden]="false" i18n i18n-aria-label
               aria-label="enrollmentType Error|Explains enrollmentType is required "
               *ngIf="createBatchForm?.controls['enrollmentType'].errors?.required">
               Enrollment Type is mandatory
@@ -63,7 +63,7 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker (closed)="startDate.blur()" i18n-aria-label aria-label="Date picker">
             </mat-datepicker>
-            <mat-error [hidden]="false" i18n="Start date Error|Explains name is required">
+            <mat-error [hidden]="false" i18n>
               Start date is mandatory
             </mat-error>
           </mat-form-field>
@@ -75,7 +75,7 @@
             <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
             <mat-datepicker #endpicker (closed)="endDate.blur()" i18n-aria-label aria-label="Date picker">
             </mat-datepicker>
-            <mat-error [hidden]="false" i18n="End date Error|Explains name is required">
+            <mat-error [hidden]="false" i18n>
               End date is mandatory
             </mat-error>
           </mat-form-field>
@@ -89,7 +89,7 @@
             <mat-datepicker #enrollmentEndPicker (closed)="enrollmentEndDate.blur()" i18n-aria-label
               aria-label="Date picker">
             </mat-datepicker>
-            <mat-error [hidden]="false" i18n="End date Error|Explains name is required">
+            <mat-error [hidden]="false" i18n>
               End date is mandatory
             </mat-error>
           </mat-form-field>

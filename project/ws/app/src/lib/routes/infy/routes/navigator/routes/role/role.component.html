@@ -8,10 +8,10 @@
 <div class="margin-bottom-xl">
   <div class="banner ws-mat-primary-background-op50">
     <div class="content-strip margin-bottom-m ">
-      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l" i18n>
+      <h1 class="mat-display-1 margin-bottom-l ws-mat-primary-text text-bold padding-top-l">
         Learning Paths in the Selected Offering
       </h1>
-      <h2 i18n class="mat-title margin-top-xl">
+      <h2 class="mat-title margin-top-xl">
         Create goals to track your learning and get certified.
       </h2>
     </div>
@@ -33,8 +33,8 @@
 
       <mat-radio-group *ngIf="fetchStatus === 'done' && groupMemberData[idx].length > 1">
         <ng-container *ngFor="let member of groupMemberData[idx]; let memberIdx = index">
-          <mat-radio-button name="member.lp_name" [value]="member.lp_id" [checked]="memberIdx === 0" (change)="groupMemberChanged(memberIdx)"
-            class="mat-title">
+          <mat-radio-button name="member.lp_name" [value]="member.lp_id" [checked]="memberIdx === 0"
+            (change)="groupMemberChanged(memberIdx)" class="mat-title">
             <div class="flex margin-top-m margin-bottom-m">
               <img [src]="member.lp_image" class="member-image" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
               <div class=" margin-left-l  text-truncate">
@@ -48,7 +48,8 @@
                   {{ member.lp_description }}
                 </div>
                 <button mat-raised-button color="primary" class="left margin-bottom-xs">
-                  <a [routerLink]="'/app/infy/navigator/role-details/' + selectedVariant?.variant_id" [queryParams]="{id: member.lp_id}">Know More
+                  <a [routerLink]="'/app/infy/navigator/role-details/' + selectedVariant?.variant_id"
+                    [queryParams]="{id: member.lp_id}">Know More
                   </a>
                 </button>
               </div>
@@ -67,13 +68,14 @@
 
               <p class="flex radio mat-body-1">
                 <mat-icon>access_time</mat-icon>
-                <span class="margin-left-xs/2 text-bold mat-h5 margin-remove" i18n>10 DAYS</span>
+                <span class="margin-left-xs/2 text-bold mat-h5 margin-remove">10 DAYS</span>
               </p>
               <div class="mat-subheading-2 text-bold text-truncate">
                 {{ member.lp_description }}
               </div>
               <button mat-raised-button color="primary" class="left margin-bottom-xs">
-                <a [routerLink]="'/app/infy/navigator/role-details/' + selectedVariant?.variant_id" [queryParams]="{id: member.lp_id}">Know More
+                <a [routerLink]="'/app/infy/navigator/role-details/' + selectedVariant?.variant_id"
+                  [queryParams]="{id: member.lp_id}">Know More
                 </a>
               </button>
             </div>
@@ -82,14 +84,14 @@
         </div>
       </ng-container>
       <div class="text-right margin-top-xl">
-        <button *ngIf="!goalsAddingInProgess" mat-raised-button color="primary" (click)="createGoalClicked(group)" i18n>
+        <button *ngIf="!goalsAddingInProgess" mat-raised-button color="primary" (click)="createGoalClicked(group)">
           Add to Goal
         </button>
         <mat-spinner *ngIf="goalsAddingInProgess" class="display-inline-block"></mat-spinner>
       </div>
     </div>
     <div class="margin-top-xl margin-bottom-xl mat-headline text-bold">
-      <p class="mat-headline text-bold margin-bottom-l margin-left-xl" i18n *ngIf="hasCertifications">
+      <p class="mat-headline text-bold margin-bottom-l margin-left-xl" *ngIf="hasCertifications">
         Certifications Based on the Selected Learning
         <ng-container *ngIf="selectedMemberList.length >1">Paths
         </ng-container>

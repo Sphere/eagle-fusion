@@ -15,11 +15,11 @@
         <ace-editor class="code-container" (textChanged)="raiseInputChange()" [(text)]="contentData.query" theme="eclipse" [mode]="'sql'"
           [options]="options" #queryEditor></ace-editor>
         <div class="padding-xs">
-          <button mat-raised-button color="primary" [disabled]="verified" (click)="verify() ; raiseClickEvent()" i18n="button verify">
+          <button mat-raised-button color="primary" [disabled]="verified" (click)="verify() ; raiseClickEvent()">
             Verify
           </button>
           <button mat-raised-button color="primary" [disabled]="submitted" class="margin-left-xs" (click)="submit() ; raiseClickEvent()"
-            i18n="button submit">
+           >
             Submit
           </button>
         </div>
@@ -72,6 +72,6 @@
   </div>
 </ng-container>
 
-<input #dbRefreshSuccess type="hidden" i18n-value value="Database refreshed successfully." />
-<input #dbRefreshFailed type="hidden" i18n-value value="Database refresh failed." />
-<input #someErrorOccurred type="hidden" i18n-value value="Some error occurred. Please try again later!" />
+<input #dbRefreshSuccess type="hidden"  value="Database refreshed successfully." />
+<input #dbRefreshFailed type="hidden"  value="Database refresh failed." />
+<input #someErrorOccurred type="hidden"  value="Some error occurred. Please try again later!" />

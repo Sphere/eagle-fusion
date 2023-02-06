@@ -1,192 +1,192 @@
 <div class="text-center mat-body" [ngSwitch]="snackbarData.action + '_' + snackbarData.code">
   <!-- At-Desk -->
-  <ng-container *ngSwitchCase="'cert_at_desk_send_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_1'" >
     At-desk request sent!
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-1'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-1'" >
     The certification date must be 2 days or greater than the current date.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-2'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-2'" >
     The certification date must be 2 days or greater than the current date excluding holidays.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-3'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-3'" >
     Cannot modify slot. The last date for modification/cancellation has expired.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-4'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-4'" >
     You can only attempt this certification 15 days after your previous attempt.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-5'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-5'" >
     You have already booked another certification for the same time slot.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-6'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-6'" >
     You have already booked a slot for this certification.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-8'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-8'" >
     Please provide a valid proctor email ID.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-9'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-9'" >
     At-desk booking failed. You cannot proctor yourself.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_-10'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_-10'" >
     Please provide a valid proctor email ID.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_at_desk_send_form_invalid'" i18n>
+  <ng-container *ngSwitchCase="'cert_at_desk_send_form_invalid'" >
     Please enter valid details.
   </ng-container>
 
   <!-- Budget Approval -->
-  <ng-container *ngSwitchCase="'cert_budget_send_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_1'" >
     Budget approval request sent!
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_2'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_2'" >
     You have already made a budget approval request for this certification.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_3'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_3'" >
     The approver can only be a JL6 line manager or any JL7+ employee.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_5'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_5'" >
     You have already qualified an equivalent certification.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_7'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_7'" >
     Budget approval is auto-approved for JL7+ employees.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_9'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_9'" >
     This certification is unapplicable to your role or unit.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_15'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_15'" >
     The approver can only be a JL6 line manager or any JL7+ employee.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_send_16'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_send_16'" >
     You cannot approve your own budget requests.
   </ng-container>
 
   <!-- Result Upload -->
-  <ng-container *ngSwitchCase="'cert_result_upload_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_1'" >
     Result upload successful!
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_2'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_2'" >
     You have already submitted proof for this certification.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_3'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_3'" >
     A file with the same name has already been uploaded.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_4'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_4'" >
     The exam date cannot be older than 3 years from now.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_5'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_5'" >
     You should have given the exam sometime in the past.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_6'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_6'" >
     The verifier can be a JL6 line manager or any JL7+ employee.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_7'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_7'" >
     You cannot verify your own result.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_result_upload_error'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_upload_error'" >
     There was an error while uploading.
   </ng-container>
 
   <!-- Result withdrawal -->
-  <ng-container *ngSwitchCase="'cert_result_withdraw_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_withdraw_1'" >
     Result withdrawn successfully.
   </ng-container>
 
   <!-- Result deletion -->
-  <ng-container *ngSwitchCase="'cert_result_delete_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_delete_1'" >
     Result deleted successfully.
   </ng-container>
 
   <!-- Result submission -->
-  <ng-container *ngSwitchCase="'cert_result_submit_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_result_submit_1'" >
     Result submitted successfully.
   </ng-container>
 
   <!-- ACC -->
-  <ng-container *ngSwitchCase="'cert_acc_send_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_1'" >
     You have made a slot booking!
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-2'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-2'" >
     You have already qualified this certification.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-3'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-3'" >
     Cannot book slot. All seats are full.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-4'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-4'" >
     You have already booked another slot at this time.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-5'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-5'" >
     You cannot make any more attempts at this certification.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-6'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-6'" >
     You can only make another attempt 15 days after your last attempt.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-7'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-7'" >
     Slot booking failed. Select a slot which is as long as the duration of the exam.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-8'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-8'" >
     The details of your modified slot are similar to those of your previous booking.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-9'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-9'" >
     This certification is not applicable to you.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-10'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-10'" >
     Slot booking failed. Select a slot which is as long as the duration of the exam.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_-12'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_-12'" >
     Slot booking failed. There are no assessment keys available right now.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_acc_send_form_invalid'" i18n>
+  <ng-container *ngSwitchCase="'cert_acc_send_form_invalid'" >
     Please enter valid details.
   </ng-container>
 
   <!-- Slot cancel -->
-  <ng-container *ngSwitchCase="'cert_slot_cancel_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_slot_cancel_1'" >
     You have cancelled this certification slot.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_slot_cancel_-1'" i18n>
+  <ng-container *ngSwitchCase="'cert_slot_cancel_-1'" >
     The slot has been frozen and cannot be cancelled now.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_slot_cancel_-2'" i18n>
+  <ng-container *ngSwitchCase="'cert_slot_cancel_-2'" >
     Cannot cancel slot. The slot details are invalid.
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_slot_cancel_-3'" i18n>
+  <ng-container *ngSwitchCase="'cert_slot_cancel_-3'" >
     Cannot cancel slot. The user ID is invalid.
   </ng-container>
 
   <!-- Budget request cancel -->
-  <ng-container *ngSwitchCase="'cert_budget_cancel_1'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_cancel_1'" >
     Budget approval request cancelled!
   </ng-container>
-  <ng-container *ngSwitchCase="'cert_budget_cancel_6'" i18n>
+  <ng-container *ngSwitchCase="'cert_budget_cancel_6'" >
     Budget approval cancellation failed. The last date for withdrawal has expired.
   </ng-container>
 
   <!-- APPROVER ACTIONS -->
   <!-- Proctor Approval -->
-  <ng-container *ngSwitchCase="'proctor_approval_Approved'" i18n>
+  <ng-container *ngSwitchCase="'proctor_approval_Approved'" >
     You have accepted a proctoring request!
   </ng-container>
-  <ng-container *ngSwitchCase="'proctor_approval_Rejected'" i18n>
+  <ng-container *ngSwitchCase="'proctor_approval_Rejected'" >
     You have declined a proctoring request!
   </ng-container>
 
   <!-- Budget Approval -->
-  <ng-container *ngSwitchCase="'budget_approval_Approved'" i18n>
+  <ng-container *ngSwitchCase="'budget_approval_Approved'" >
     You have accepted a budget request!
   </ng-container>
-  <ng-container *ngSwitchCase="'budget_approval_Rejected'" i18n>
+  <ng-container *ngSwitchCase="'budget_approval_Rejected'" >
     You have declined a budget request!
   </ng-container>
 
   <!-- Result Verification -->
-  <ng-container *ngSwitchCase="'result_verification_Approved'" i18n>
+  <ng-container *ngSwitchCase="'result_verification_Approved'" >
     You have verified a result!
   </ng-container>
-  <ng-container *ngSwitchCase="'result_verification_Rejected'" i18n>
+  <ng-container *ngSwitchCase="'result_verification_Rejected'" >
     You have declined to verify a result!
   </ng-container>
 
-  <ng-container *ngSwitchDefault i18n>
+  <ng-container *ngSwitchDefault >
     Some error occured.
   </ng-container>
 </div>

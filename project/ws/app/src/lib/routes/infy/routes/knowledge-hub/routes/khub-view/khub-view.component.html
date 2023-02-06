@@ -44,40 +44,43 @@
         </span>
       </div>
       <p *ngIf="viewData?.url?.length > 0 && !screenSizeIsLtMedium && !hasInternetUrl">
-        <span i18n>You can access it </span>
+        <span>You can access it </span>
         <a style="color:cadetblue;" href="{{ viewData.url }}" target="_blank">
-          <b i18n>Here</b>
+          <b>Here</b>
         </a>
         <br />
-        <!-- <span i18n="message saying it will soon be available"
+        <!-- <span ="message saying it will soon be available"
           >You can soon access this and many other artifacts from anywhere, any
           time</span
         > -->
       </p>
       <!-- <p *ngIf="viewData?.url?.length > 0 && hasInternetUrl">
-        <span i18n="message saying the url link">You can access it </span>
+        <span ="message saying the url link">You can access it </span>
         <a style="color:cadetblue;" [routerLink]="'/viewer/' + url"><b>Here</b></a>
         <br />
       </p> -->
-      <p *ngIf="viewData?.url?.length > 0 && !hasInternetUrl" i18n="message saying content available in intranet">
-        This artifact is currently available only on Infosys Network. You can soon access this and many other artifacts from anywhere,
+      <p *ngIf="viewData?.url?.length > 0 && !hasInternetUrl">
+        This artifact is currently available only on Infosys Network. You can soon access this and many other artifacts
+        from anywhere,
         any time.
         <br />
       </p>
       <!-- <iframe *ngIf="hasInternetUrl" [src]="url" width="100%" height="600px" style="background-color: white;"></iframe> -->
     </div>
     <div *ngIf="viewData.source === 'PROMT'" class="mt-4">
-      <ws-app-infy-project-snapshot [projectDetails]="projectResult" [isIntranet]="true" [islargeScreen]="screenSizeIsLtMedium"></ws-app-infy-project-snapshot>
+      <ws-app-infy-project-snapshot [projectDetails]="projectResult" [isIntranet]="true"
+        [islargeScreen]="screenSizeIsLtMedium"></ws-app-infy-project-snapshot>
     </div>
   </section>
   <!--SIDEBAR-->
   <section *ngIf="!loader" class="second-section flex flex-wrapped">
-    <ws-app-infy-topic-tagger style="width:100%" [itemType]="viewData?.itemType" [topics]="viewData.topics" [showLimit]="3" [itemId]="viewData?.itemId"></ws-app-infy-topic-tagger>
+    <ws-app-infy-topic-tagger style="width:100%" [itemType]="viewData?.itemType" [topics]="viewData.topics"
+      [showLimit]="3" [itemId]="viewData?.itemId"></ws-app-infy-topic-tagger>
     <!-- <ws-spinner *ngIf="!recsStatus"></ws-spinner> -->
     <mat-spinner *ngIf="!recsStatus"></mat-spinner>
     <div>
       <h3 *ngIf="recsStatus && moreRecs.length > 0" style="margin-top: 10px;">
-        <span i18n="Label for showing morelike Recommendations">Explore Similar</span>
+        <span>Explore Similar</span>
         {{ sObject.category }}s
       </h3>
       <div *ngIf="recsStatus && !screenSizeIsLtMedium">

@@ -9,8 +9,8 @@
 
 <div class="flex flex-middle flex-between buttons-class flex-wrapped" *ngIf="!isPublic && tncData">
   <mat-checkbox class="width-full-wrapped" [checked]="tncData.isAccepted" (change)="acceptTnc()"
-    [disabled]="tncData.isAccepted" [color]="'primary'" i18n class="ml-3">
-    <span class="font-size-small">I agree to the terms & conditions</span>
+    [disabled]="tncData.isAccepted" [color]="'primary'" class="ml-3">
+    <span class="font-size-small" i18n>I agree to the terms & conditions</span>
 
   </mat-checkbox>
   <a [disabled]="!tncData?.isAccepted" class="margin-right-xs width-full-wrapped" type="button" color="primary"

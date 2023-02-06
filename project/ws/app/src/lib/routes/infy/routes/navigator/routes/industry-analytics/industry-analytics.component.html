@@ -3,7 +3,7 @@
   <ng-container>
     <span class="margin-left-xs">
       {{tag}}</span>
-    <span class="margin-left-xs" i18n>
+    <span class="margin-left-xs" >
       Analytics</span>
   </ng-container>
 </mat-toolbar>
@@ -13,7 +13,7 @@
 
 <ng-container *ngIf="fetchStatus === 'error'" [wsResolverWidget]="errorWidget"></ng-container>
 <div *ngIf="fetchStatus === 'done' && uniqueUsers === 0" class="text-center my-8">
-  <h2 i18n>We are gathering the data to provide insights! Coming soon ...</h2>
+  <h2 >We are gathering the data to provide insights! Coming soon ...</h2>
 </div>
 
 <div *ngIf="fetchStatus === 'done' && uniqueUsers > 0" class="ml-8 mr-8 mb-4">
@@ -22,7 +22,7 @@
       <mat-card *ngIf="uniqueUsers" class="unique-users-card margin-top-xl p-4">
         <mat-card-header class="flex flex-center flex-wrapped">
           <mat-card-title>
-            <h4 class="padding-left-xs mat-body-strong" i18n="Unique Users">Unique Users</h4>
+            <h4 class="padding-left-xs mat-body-strong" ="Unique Users">Unique Users</h4>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="flex flex-center flex-wrapped">
@@ -36,7 +36,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Onsite Offshore">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By Onsite Offshore">
                 Participants By Onsite Offshore
               </p>
             </div>
@@ -51,7 +51,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Unit">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By Unit">
                 Participants By Unit
               </p>
             </div>
@@ -69,7 +69,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By PU">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By PU">
                 Participants By PU
               </p>
             </div>
@@ -87,7 +87,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By JL">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By JL">
                 Participants By JL
               </p>
             </div>
@@ -105,7 +105,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By DU">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By DU">
                 Participants By DU
               </p>
             </div>
@@ -123,7 +123,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Location">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By Location">
                 Participants By Location
               </p>
             </div>
@@ -142,7 +142,7 @@
           <div class="flex flex-between flex-middle mat-toolbar mat-primary">
             <div class="flex flex-middle p-2">
               <mat-icon class="feature-icon mt-0">bar_chart</mat-icon>
-              <p class="margin-left-m mat-body-strong margin-remove-bottom" i18n="Participants By Account">
+              <p class="margin-left-m mat-body-strong margin-remove-bottom" ="Participants By Account">
                 Participants By Account
               </p>
             </div>
@@ -160,7 +160,7 @@
   </ng-container>
 
   <div class="mt-6" *ngIf="isExpandTrue">
-    <button (click)="onClose()" mat-raised-button i18n-matTooltip="back Action Btn Tooltip" matTooltip="back"
+    <button (click)="onClose()" mat-raised-button -matTooltip="back Action Btn Tooltip" matTooltip="back"
       color="primary">
       <mat-icon class="mr-1">arrow_back</mat-icon>
       Back

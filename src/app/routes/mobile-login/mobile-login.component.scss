@@ -32,6 +32,15 @@
   }
 }
 
+.languages {
+  margin-left: 5px;
+}
+
+.languages:hover {
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+
 .login-card {
   margin: 0;
   padding: 20px 20px 30px 20px;

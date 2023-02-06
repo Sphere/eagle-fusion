@@ -24,8 +24,7 @@
               </mat-card-title>
               <mat-card-subtitle><span>{{courseCount === 1 ? '1 Course': courseCount.length + ' Courses'}} </span>
               </mat-card-subtitle>
-              <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and
-                its
+              <mat-card-subtitle>Discover and build what matters for people by humanizing, business, technology and its
                 limitations</mat-card-subtitle>
             </div>
           </div>
@@ -39,8 +38,7 @@
   </div>
 
   <div class="flex flex-middle border-bottom">
-    <span class="font-bold heading-title margin-zero  pb-0" i18n="About">
-      About</span>
+    <span class="font-bold heading-title margin-zero  pb-0" i18n>About</span>
   </div>
   <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <div class="flex about-outer">
@@ -89,12 +87,11 @@
 
   <div class="w-100">
     <div class="flex flex-middle border-bottom">
-      <span class="font-bold heading-title margin-zero  pb-0" i18n="Courses">
-        Courses</span>
+      <span class="font-bold heading-title margin-zero  pb-0" i18n>Courses</span>
     </div>
   </div>
   <div class="w-100" *ngIf="courseData > 5">
-    <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()">View all</a>
+    <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a>
   </div>
   <div class="flex-main mt-4">
     <ng-container *ngFor="let widget of courseData">
@@ -118,7 +115,7 @@
               style="margin-top:65px; margin-left: -11px; padding-top: 1px;">
               {{ widget.name }}
             </div>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" style="margin-left: -11px;">
               {{ widget.description }}
             </div>
           </mat-card-content>
@@ -132,27 +129,27 @@
             <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
               {{ widget.name }}
             </div>
-            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
               {{ widget.subTitle }}
             </div>
 
-            <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>Published on: </span>
+            <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
               {{widget?.publishedOn | date }}</div>
-            <div *ngIf="widget.duration" class="duration mb-2" i18n-title title="Duration">
-              <span class="mr-1 orange-text">Duration: </span>
+            <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
+              <span class="mr-1 orange-text" i18n>Duration</span>:
               <mat-icon>access_time</mat-icon>
               <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
               <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
 
               </span>
             </div>
-            <p><span class="fw-500">Number of modules:</span> {{ widget?.children?.length}}</p>
-            <p *ngIf="widget?.creatorContacts"><span class="fw-500">Author:
-              </span>{{ widget?.creatorContacts[0]?.name}}</p>
+            <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.children?.length}}</p>
+            <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+              widget?.creatorContacts[0]?.name}}</p>
 
-            <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500">Users enrolled:</span>
+            <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
               {{widget?.uniqueUsersCount}}</p>
-            <p *ngIf="widget?.sourceName"><span class="fw-500">Source:</span> {{widget.sourceName}}
+            <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
             </p>
             <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
               <div class="fw-500 mb-1">Course Description</div>
@@ -160,7 +157,7 @@
             </div>
 
             <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-              <button mat-raised-button i18n class="ws-mat-primary-background mat-button-base"
+              <button mat-raised-button class="ws-mat-primary-background mat-button-base"
                 (click)="loginRedirect(widget.identifier)"> {{btnText}}
               </button>
             </div>
@@ -221,7 +218,7 @@
 
   <div class="flex flex-center mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <div class="align-logo flex-center">
-      <div class="support-txt">Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
+      <div class="support-txt" i18n>Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
         class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
       <div class="support-txt ml-10">Platform powered by</div><img
         src="./../../../../../../../../../src/fusion-assets/images/sphere-new-logo.svg"

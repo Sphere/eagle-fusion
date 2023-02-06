@@ -19,7 +19,7 @@
             'incorrect-option': viewState === 'review' && !correctOption[i]
           }">
         <p class="margin-remove mat-body-2">
-          <ng-container i18n="explanation/hint message for blank label in fill-in-the-blanks">
+          <ng-container i18n>
             Explanation for blank
           </ng-container>
           <ng-container> {{ i + 1 }} : </ng-container>
@@ -57,7 +57,7 @@
         <div class="background-well padding-left-m padding-xs"
           *ngIf="viewState === 'review' && isSelected(option) && option?.hint">
           <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-            <p class="margin-remove mat-body-2" i18n="option explanation label">
+            <p class="margin-remove mat-body-2" i18n>
               Explanation:
             </p>
             <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
@@ -67,7 +67,7 @@
                   (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
                   (viewState === 'answer' && option?.isCorrect)
               }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-            <p class="margin-remove mat-body-2" i18n="option explanation label">
+            <p class="margin-remove mat-body-2" i18n>
               Explanation :
             </p>
             <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>
@@ -101,7 +101,7 @@
         <div class="background-well padding-left-m padding-xs"
           *ngIf="viewState === 'review' && isSelected(option) && option?.hint">
           <mat-error *ngIf="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-            <p class="margin-remove mat-body-2" i18n="option explanation label">
+            <p class="margin-remove mat-body-2" i18n>
               Explanation
             </p>
             <p class="margin-remove" [innerHTML]="option?.hint"></p>
@@ -111,7 +111,7 @@
                   (viewState === 'review' && option?.isCorrect && isSelected(option)) ||
                   (viewState === 'answer' && option?.isCorrect)
               }" [hidden]="viewState === 'review' && !option?.isCorrect && isSelected(option)">
-            <p class="margin-remove mat-body-2" i18n="option explanation label">
+            <p class="margin-remove mat-body-2" i18n>
               Explanation
             </p>
             <p class="margin-remove mat-body-1" [innerHTML]="option?.hint"></p>

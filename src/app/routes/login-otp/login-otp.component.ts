@@ -91,7 +91,20 @@ export class LoginOtpComponent implements OnInit {
         window.location.href = keycloakurl
       },
       (err: any) => {
-        this.openSnackbar(err.error.error || err.error.message)
+        if (localStorage.getItem(`preferedLanguage`)) {
+          let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+          let lang = JSON.parse(reqObj) || ''
+          if (lang.id === 'hi') {
+            if (err.error.message === "Please provide correct otp and try again.") {
+              let err = "कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।"
+              this.openSnackbar(err)
+            }
+          } else {
+            this.openSnackbar(err.error.error || err.error.message)
+          }
+        } else {
+          this.openSnackbar(err.error.error || err.error.message)
+        }
       })
   }
 
@@ -117,6 +130,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         this.openSnackbar(res.message)
+        //localStorage.removeItem('preferedLanguage')
         location.href = '/page/home'
         return res
       },
@@ -140,6 +154,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
         this.openSnackbar(res.message)
+        //localStorage.removeItem('preferedLanguage')
       },
       (err: any) => {
         this.openSnackbar(`OTP Error`, + err.error.message)

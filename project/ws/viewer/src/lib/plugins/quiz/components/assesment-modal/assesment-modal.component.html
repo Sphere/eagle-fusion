@@ -20,7 +20,7 @@
     </div>
   </div>
   <mat-tab-group [(selectedIndex)]="tabIndex" animationDuration="0ms">
-    <mat-tab label="Assessment" [disabled]='!assesmentActive'>
+    <mat-tab i18n-label label="Assessment" [disabled]='!assesmentActive'>
       <ng-container *ngIf="assesmentdata.questions.isAssessment">
         <div class="question-wrapper">
           <viewer-view-assesment-questions questionSlide
@@ -31,26 +31,27 @@
         </div>
       </ng-container>
     </mat-tab>
-    <mat-tab label="Results" [disabled]='!tabActive'>
+    <mat-tab i18n-label label="Results" [disabled]='!tabActive'>
       <div class="flex flex-col justify-content-center items-center m-0  result-wrapper pt-5" *ngIf="!isCompetency">
-        <h1 class="result-title"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted"> Pass</span>
-          <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
+        <h1 class="result-title"><span i18n>Result:</span> <span class="text-green-600" *ngIf="isCompleted"
+            i18n>Pass</span>
+          <span class="text-red-600" *ngIf="!isCompleted" i18n> Did not pass</span>
         </h1>
-        <h4 class="result-score-title text-center">Your score is:</h4>
+        <h4 class="result-score-title text-center" i18n>Your score is:</h4>
         <h1 class="result-score text-center">{{result}}<span>%</span></h1>
 
         <div class="result-overview-container">
           <div class="result-overview">
             <h4 class="digit">{{numUnanswered}}</h4>
-            <h4 class="lable">Not Attempted</h4>
+            <h4 class="lable" i18n>Not Attempted</h4>
           </div>
           <div class="result-overview">
             <h4 class="digit">{{numCorrectAnswers}}</h4>
-            <h4 class="lable">Correct</h4>
+            <h4 class="lable" i18n>Correct</h4>
           </div>
           <div class="result-overview">
             <h4 class="digit">{{numIncorrectAnswers}}</h4>
-            <h4 class="lable">Incorrect</h4>
+            <h4 class="lable" i18n>Incorrect</h4>
           </div>
         </div>
       </div>
@@ -58,19 +59,19 @@
       <div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="isCompetency">
         <div class="child">
           <ng-container *ngIf="isCompetencyComplted">
-            <p class="congrats-title">Congratulations!</p>
-            <p class="proficiceny-level  m-0">Proficiency Level {{proficiencyLevel}} unlocked</p>
+            <p class="congrats-title" i18n>Congratulations!</p>
+            <p class="proficiceny-level  m-0" i18n>Proficiency Level {{proficiencyLevel}} unlocked</p>
           </ng-container>
           <ng-container *ngIf="!isCompetencyComplted">
-            <p class="congrats-title">You didn't pass the assessment</p>
+            <p class="congrats-title" i18n>You didn't pass the assessment</p>
             <p class="proficiceny-level  m-0">Your proficieny is still Level {{proficiencyLevel - 1}}</p>
           </ng-container>
 
           <div class="mt-5 d-flex gap-5 flex-col align-items-center">
             <button class="btn next-btn btn-active" [disabled]='!isCompetencyComplted' mat-raised-button
-              (click)="nextCompetency()">Next</button>
-            <button class="btn btn-xll" *ngIf="!isCompetencyComplted" mat-raised-button
-              (click)="CompetencyDashboard()">Go to Competency Dashboard</button>
+              (click)="nextCompetency()" i18n>Next</button>
+            <button class="btn btn-xll" *ngIf="!isCompetencyComplted" mat-raised-button (click)="CompetencyDashboard()"
+              i18n>Go to Competency Dashboard</button>
 
           </div>
         </div>
@@ -87,9 +88,10 @@
     </div>
     <div class="ml-auto pt-3">
       <ng-container *ngIf="tabIndex === 0 ">
-        <button class="btn" [disabled]='diablePrevious' mat-raised-button (click)="previousQuestion()">Back</button>
+        <button class="btn" [disabled]='diablePrevious' mat-raised-button (click)="previousQuestion()"
+          i18n>Back</button>
         <button class="btn btn-active" *ngIf="!showSubmit" [disabled]='disableNext' mat-raised-button
-          (click)="nextQuestion()">Next</button>
+          (click)="nextQuestion()" i18n>Next</button>
         <!-- <button class="btn btn-active" *ngIf="showSubmit" mat-raised-button (click)="proceedToSubmit()">Submit</button> -->
 
       </ng-container>
@@ -98,9 +100,9 @@
 
       <ng-container *ngIf="tabIndex === 1 && !isCompetency">
         <div class="text-center pt-5 flex justify-content-center">
-          <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Assessment</button>
-          <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()"
-            mat-raised-button>Continue</button>
+          <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()" i18n>Retake Assessment</button>
+          <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button
+            i18n>Continue</button>
         </div>
 
 
