@@ -187,7 +187,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          },         4000)
+          }, 4000)
         }
       }
 
@@ -270,14 +270,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -630,6 +630,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   updateResourceChange() {
     const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
     const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
+    const nextContentId = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].identifier : null
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
@@ -639,7 +640,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage,
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId
     })
   }
 
