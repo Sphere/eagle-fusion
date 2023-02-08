@@ -282,7 +282,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
-            const streamingUrl = this.htmlContent.streamingUrl.substring(51)
+            let streamingUrl = this.htmlContent.streamingUrl;
+            streamingUrl = streamingUrl.includes(
+              'https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com'
+            )
+              ? streamingUrl.substring(56)
+              : streamingUrl.substring(50);
+            
             const entryPoint = this.htmlContent.entryPoint || ''
             const newUrl = `/apis/proxies/v8/getContents/${streamingUrl}${entryPoint}`
             this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
