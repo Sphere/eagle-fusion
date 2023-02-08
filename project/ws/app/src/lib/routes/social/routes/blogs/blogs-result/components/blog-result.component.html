@@ -14,8 +14,8 @@
   </div>
   <mat-menu #editMenu="matMenu">
     <ng-template matMenuContent>
-      <a [routerLink]="'/app/social/blogs/edit/' + blog.id" mat-menu-item i18n>Edit Blog</a>
-      <button (click)="deleteBlog(blog.id, deleteMsg.value)" mat-menu-item i18n>Delete Blog</button>
+      <a [routerLink]="'/app/social/blogs/edit/' + blog.id" mat-menu-item >Edit Blog</a>
+      <button (click)="deleteBlog(blog.id, deleteMsg.value)" mat-menu-item >Delete Blog</button>
     </ng-template>
   </mat-menu>
   <div *ngIf="blog?.postContent?.abstract" class="mat-subheading-2 margin-remove text-truncate">
@@ -27,11 +27,11 @@
     [innerHTML]="blog.postContent.body | pipeSafeSanitizer: 'html' | slice: 0:100"
   ></div>
   <div class="margin-bottom-s" *ngIf="blogMode === 'edit'">
-    <ng-container i18n>Created on </ng-container>
+    <ng-container >Created on </ng-container>
     <ng-container>{{ blog.dtCreated | date }}</ng-container>
   </div>
   <div class="margin-bottom-s" *ngIf="blogMode === 'view'">
-    <ng-container i18n>Published on </ng-container>
+    <ng-container >Published on </ng-container>
     <ng-container>{{ blog.dtPublished | date }}</ng-container>
   </div>
   <mat-divider></mat-divider>
@@ -39,14 +39,14 @@
 <div class="margin-top-m text-center" *ngIf="postFetchStatus === 'fetching'">
   <mat-spinner></mat-spinner>
 </div>
-<h2 class="margin-top-m text-center" *ngIf="postFetchStatus === 'none'" i18n>
+<h2 class="margin-top-m text-center" *ngIf="postFetchStatus === 'none'" >
   No post found for you under this category
 </h2>
 <div *ngIf="postFetchStatus === 'hasMore'" class="text-center">
   <button (click)="fetchTimelineData()" type="button" mat-raised-button color="primary">
     <mat-icon>add</mat-icon>&nbsp;
-    <ng-container i18n>View More</ng-container>
+    <ng-container >View More</ng-container>
   </button>
 </div>
 
-<input type="hidden" i8n-value value="Successfully deleted" #deleteMsg />
+<input type="hidden"  value="Successfully deleted" #deleteMsg />

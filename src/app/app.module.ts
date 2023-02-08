@@ -103,6 +103,7 @@ import { LanguageDialogComponent } from './routes/language-dialog/language-dialo
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
+import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
@@ -146,8 +147,15 @@ if (url.indexOf('&code=') > 0) {
   sessionStorage.setItem('code', code)
 }
 
+if (url.includes('token') && url.includes('moduleId')) {
+  const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+  sessionStorage.setItem('sashakt_token', sashakt_token)
+  const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+  sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+}
+
 // Conditions added for checking if nhsrc organisation is present in url
-if (url.indexOf('?org=') > 0) {
+if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   const orgValue = urlParams.get('org')
@@ -210,6 +218,7 @@ if (url.indexOf('?org=') > 0) {
     PersonalDetailEditComponent,
     LanguageDialogComponent,
     DropdownDobComponent,
+    SashaktCallbackComponent,
     SelfAssessmentComponent,
   ],
   imports: [

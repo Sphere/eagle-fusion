@@ -6,19 +6,19 @@
 <mat-card class="editor-wrapper">
   <form>
     <div>
-      <textarea matInput class="mat-typography title-textarea" i18n-placeholder placeholder="Title" required
+      <textarea matInput class="mat-typography title-textarea"  placeholder="Title" required
         minlength="10" maxlength="80" name="title" [(ngModel)]="title" autofocus #blogTitle="ngModel"></textarea>
-      <span *ngIf="(blogTitle.dirty || blogTitle.touched) && blogTitle.invalid" class="error-text mat-caption" i18n>
+      <span *ngIf="(blogTitle.dirty || blogTitle.touched) && blogTitle.invalid" class="error-text mat-caption" >
         *Title range: 10-80 characters
       </span>
     </div>
 
     <div class="margin-top-m">
-      <textarea matInput class="mat-typography abstract-textarea" i18n-placeholder placeholder="Abstract" required
+      <textarea matInput class="mat-typography abstract-textarea"  placeholder="Abstract" required
         minlength="10" maxlength="150" name="abstract" [(ngModel)]="abstract" autofocus
         #blogAbstract="ngModel"></textarea>
       <span *ngIf="(blogAbstract.dirty || blogAbstract.touched) && blogAbstract.invalid" class="error-text mat-caption"
-        i18n>
+        >
         *Abstract range: 10-150 characters
       </span>
     </div>
@@ -30,7 +30,7 @@
           {{ selectedTag.name }}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
-        <input i18n-placeholder placeholder="Relevant tags" #tagsInput [formControl]="tagsCtrl" [matAutocomplete]="auto"
+        <input  placeholder="Relevant tags" #tagsInput [formControl]="tagsCtrl" [matAutocomplete]="auto"
           [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event, duplicate.value, invalidTag.value)">
@@ -51,13 +51,13 @@
   <div class="flex flex-middle flex-center margin-top-m">
     <button *ngIf="editMode === 'update'" class="margin-right-s" (click)="update(saved.value, error.value)"
       [disabled]="isCreatingPost || !actionBtnsEnabled || blogTitle.invalid || blogAbstract.invalid" mat-raised-button
-      color="primary" i18n>
+      color="primary" >
       Save
     </button>
     <button *ngIf="(editMode === 'create' || editMode === 'draft') && !isCreatingPost" class="margin-right-s"
       (click)="publishBlog(publish.value, error.value)"
       [disabled]="isCreatingPost || !actionBtnsEnabled || blogTitle.invalid || blogAbstract.invalid" mat-raised-button
-      color="primary" i18n="Post of Ask a Question">
+      color="primary">
       Publish
     </button>
     <div *ngIf="isCreatingPost">
@@ -66,9 +66,9 @@
   </div>
 </mat-card>
 
-<input type="hidden" i18n-value value="Post updated successfully" #saved />
-<input type="hidden" i18n-value value="Post saved in the drafts" #savedDraft />
-<input type="hidden" i18n-value value="Created Post is under review." #publish />
-<input type="hidden" i18n-value value="Unable to save. Please retry" #error />
-<input type="hidden" i18n-value value="Tag already added" #duplicate />
-<input type="hidden" i18n-value value="You can add tag from dropdown only" #invalidTag />
+<input type="hidden" value="Post updated successfully" #saved />
+<input type="hidden" value="Post saved in the drafts" #savedDraft />
+<input type="hidden" value="Created Post is under review." #publish />
+<input type="hidden" value="Unable to save. Please retry" #error />
+<input type="hidden" value="Tag already added" #duplicate />
+<input type="hidden" value="You can add tag from dropdown only" #invalidTag />

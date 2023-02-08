@@ -20,7 +20,7 @@
   "editor.formatOnSave": true,
   "editor.formatOnType": false,
   "editor.letterSpacing": 0.5,
-  "editor.minimap.enabled": false,
+  "editor.minimap.enabled": true,
   "editor.renderWhitespace": "none",
   "editor.tabCompletion": "on",
   "editor.tabSize": 2,

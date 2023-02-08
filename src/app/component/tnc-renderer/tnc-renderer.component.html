@@ -7,8 +7,8 @@
           <h2 class="mat-title tnc-title">
             <mat-icon *ngIf="generalTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
             </mat-icon>
-            <ng-container i18n="tnc heading" *ngIf="termsOfUser">Terms of Use</ng-container>
-            <ng-container i18n="tnc heading" *ngIf="!termsOfUser">Terms & Conditions</ng-container>
+            <ng-container i18n *ngIf="termsOfUser">Terms of Use</ng-container>
+            <ng-container i18n *ngIf="!termsOfUser">Terms & Conditions</ng-container>
           </h2>
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -31,10 +31,10 @@
             <ng-container i18n>T&C Version: </ng-container>
             <span class="ws-mat-primary-text">{{ generalTnc?.version }}</span>
           </div>
-          <!-- <button mat-button [matMenuTriggerFor]="tncLangMenu">
+          <button mat-button [matMenuTriggerFor]="tncLangMenu">
             <ng-container i18n>Available Languages</ng-container>
             <mat-icon>keyboard_arrow_down</mat-icon>
-          </button> -->
+          </button>
         </div>
         <!-- <div *ngIf="generalTnc?.isAccepted">
           <ng-container i18n>Accepted on </ng-container>
@@ -47,10 +47,10 @@
       </div>
       <article [innerHTML]="generalTnc?.content" class="text-justify"></article>
       <mat-action-row>
-        <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n="data privacy view">
+        <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
           View Privacy Policy
         </button>
-        <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n="data privacy view">
+        <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n>
           Data Privacy
         </button>
       </mat-action-row>
@@ -62,8 +62,8 @@
           <h2 class="mat-title tnc-title">
             <mat-icon *ngIf="dpTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
             </mat-icon>
-            <ng-container i18n="data privacy heading" *ngIf="termsOfUser">Privacy Policy</ng-container>
-            <ng-container i18n="data privacy heading" *ngIf="!termsOfUser">Data Privacy</ng-container>
+            <ng-container i18n *ngIf="termsOfUser">Privacy Policy</ng-container>
+            <ng-container i18n *ngIf="!termsOfUser">Data Privacy</ng-container>
           </h2>
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -86,10 +86,10 @@
             <ng-container i18n>Data Privacy Version: </ng-container>
             <span class="ws-mat-primary-text">{{ dpTnc?.version }}</span>
           </div>
-          <!-- <button mat-button [matMenuTriggerFor]="dpLangMenu">
+          <button mat-button [matMenuTriggerFor]="dpLangMenu">
             <ng-container i18n>Available Languages</ng-container>
             <mat-icon>keyboard_arrow_down</mat-icon>
-          </button> -->
+          </button>
         </div>
         <!-- <div *ngIf="dpTnc?.isAccepted">
           <ng-container i18n>Accepted on </ng-container>

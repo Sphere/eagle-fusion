@@ -5,7 +5,7 @@
 </div>
 <div class="split width-60 right">
   <div class="signup-container">
-    <h2 class="mat-title" i18n="section heading create new goal">
+    <h2 class="mat-title">
       Sign up
     </h2>
     <form [formGroup]="emailForm" #signup="ngForm">
@@ -81,7 +81,7 @@
         <div class="border"></div>
 
         <div class="mt-4  mb-8">
-          <button mat-raised-button class="submit-btn" color="primary" type="submit" i18n
+          <button mat-raised-button class="submit-btn" color="primary" type="submit"
             [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
             <ng-container>Register</ng-container>
           </button>

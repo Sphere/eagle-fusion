@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-
+import { Location } from '@angular/common'
 @Component({
   selector: 'ws-header',
   templateUrl: './header.component.html',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core'
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor() { location: Location }
 
   ngOnInit() {
   }

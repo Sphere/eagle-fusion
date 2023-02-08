@@ -134,7 +134,7 @@
                     [routerLink]="resumeData ? resumeDataLink?.url : firstResourceLink?.url"
                     [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
                     class="margin-right-m resumeButton" mat-button>
-                    <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+                    <ng-container *ngIf="!forPreview || isInIFrame; else authView">
                       {{resumeData && content?.completionPercentage === 100 ?"Completed":"Resume"}}
                     </ng-container>
                   </a>

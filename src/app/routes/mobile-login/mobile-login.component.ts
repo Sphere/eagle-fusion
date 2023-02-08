@@ -94,7 +94,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
 
   public attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
-                                  (googleUser: any) => {
+      (googleUser: any) => {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
@@ -108,7 +108,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:no-console
         // console.log(`Email: ` + profile.getEmail())
       },
-                                  (error: any) => {
+      (error: any) => {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(error, undefined, 2))
       })
@@ -272,18 +272,26 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         if (result.status === 419) {
           this.openSnackbar(result.error.params.errmsg)
         }
-        // this.openSnackbar(this.errMsgL)
-
-      },
-      (err: any) => {
-        // this.openSnackbar(err.error.error)
-        // tslint:disable-next-line:no-console
-        console.log(err.error.error)
-        // this.errorMessage = 'Invalid username or password.'
-        this.errorMessage = err.error.error
-      }
-    )
+      })
   }
+  redirect(lang: string) {
+    if (lang !== '') {
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}/${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+      }
+    } else {
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}${lang}${this.router.url}`)
+      }
+    }
+  }
+
   private openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,

@@ -17,10 +17,10 @@
             </button>
             <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button
               color="primary">
-              <ng-container *ngIf="!viewChildren" i18n>
+              <ng-container *ngIf="!viewChildren">
                 <mat-icon>expand_more</mat-icon>
               </ng-container>
-              <ng-container *ngIf="viewChildren" i18n>
+              <ng-container *ngIf="viewChildren">
                 <mat-icon>expand_less</mat-icon>
               </ng-container>
             </button>

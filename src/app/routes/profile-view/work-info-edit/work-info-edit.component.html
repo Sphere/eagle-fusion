@@ -1,6 +1,6 @@
 <div class="content">
   <ws-mobile-profile-nav [showbackButton]="showbackButton" [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-  <p class="text-2xl mt-2">Work Info</p>
+  <p class="text-2xl mt-2" i18n>Work Info</p>
 
   <form [formGroup]="workInfoForm" class="mt-3">
 
@@ -8,28 +8,30 @@
 
       <div class="form-group">
         <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization Name"
-          autocomplete="off">
+          i18n-placeholder autocomplete="off">
       </div>
 
       <div class="form-group">
         <input type="text" formControlName="designation" class="form-control" placeholder="Designation"
-          autocomplete="off">
+          autocomplete="off" i18n-placeholder>
       </div>
 
       <div class="form-group">
-        <input type="text" formControlName="location" class="form-control" placeholder="Location" autocomplete="off">
+        <input type="text" formControlName="location" class="form-control" placeholder="Location" autocomplete="off"
+          i18n-placeholder>
       </div>
 
       <div class="form-group mt-4 relative">
         <input [matDatepicker]="picker" [min]="" [max]="maxDate" formControlName="doj" autocomplete="off"
-          placeholder="Date of Joining" name="doj" id="doj-inputfield" class="form-control" (click)="picker.open()">
+          placeholder="Date of Joining" name="doj" id="doj-inputfield" class="form-control" (click)="picker.open()"
+          i18n-placeholder>
         <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </div>
 
     </div>
-    <button type="submit" (click)="onSubmit(workInfoForm.value)" class="save-btn" [disabled]="workInfoForm?.invalid">Save
-    </button>
+    <button type="submit" (click)="onSubmit(workInfoForm.value)" class="save-btn" [disabled]="workInfoForm?.invalid"
+      i18n>Save</button>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
     value="User profile details updated successfully!" #toastSuccess />

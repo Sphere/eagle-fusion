@@ -18,7 +18,7 @@
                   <span class="ws-mat-primary-text text-sm">
                     {{ result.postCreator.name }}
                   </span>
-                  <div i18n-matTooltip matTooltip="Updated on" class="mat-caption">
+                  <div  matTooltip="Updated on" class="mat-caption">
                     {{ result.dtLastModified | date }}
                   </div>
                 </div>
@@ -29,7 +29,7 @@
                   <span class="ws-mat-primary-text text-sm">
                     {{ result.source.forumName }}
                   </span>
-                  <div i18n class="mat-caption">Forum</div>
+                  <div  class="mat-caption">Forum</div>
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
   </mat-list-item>
 
   <!-- pre-existing components-->
-  <h2 class="text-center margin-top-m" i18n *ngIf="timelineFetchStatus === 'none'">
+  <h2 class="text-center margin-top-m"  *ngIf="timelineFetchStatus === 'none'">
     Nothing has been posted as of yet to moderate
   </h2>
   <div *ngIf="timelineFetchStatus === 'fetching'" class="text-center margin-top-s">

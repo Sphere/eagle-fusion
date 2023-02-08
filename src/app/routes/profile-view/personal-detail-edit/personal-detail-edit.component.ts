@@ -175,6 +175,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             this.updateForm()
+            this.personalDetailForm.patchValue({
+              knownLanguage: data.profileDetails.preferences.language || 'en',
+            })
             this.populateChips(this.userProfileData)
           }
         })

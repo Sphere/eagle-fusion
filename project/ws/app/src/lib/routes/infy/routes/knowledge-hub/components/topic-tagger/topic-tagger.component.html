@@ -11,12 +11,14 @@
   <mat-card-content class="topic-card-body flex flex-wrapped">
     <mat-form-field>
       <mat-chip-list #chipList>
-        <mat-chip *ngFor="let selectedTag of selectedTags" [selectable]="true" [removable]="true" (removed)="removeTag(selectedTag)">
+        <mat-chip *ngFor="let selectedTag of selectedTags" [selectable]="true" [removable]="true"
+          (removed)="removeTag(selectedTag)">
           {{ selectedTag.name }}
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
-        <input *ngIf="selectedTags.length < 1" i18n-placeholder placeholder="Add or Remove topics" #tagsInput [formControl]="tagsCtrl"
-          [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+        <input *ngIf="selectedTags.length < 1"  placeholder="Add or Remove topics" #tagsInput
+          [formControl]="tagsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
         <mat-option *ngIf="fetchTagsStatus === 'fetching'">...</mat-option>
@@ -26,22 +28,24 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <button *ngIf="addTopic.topic.length" (click)="addOrDeleteTopic('add', addTopic.topic)" mat-button i18n="Add new tags">
+    <button *ngIf="addTopic.topic.length" (click)="addOrDeleteTopic('add', addTopic.topic)" mat-button >
       Add</button>
     <br />
     <mat-chip-list class="margin-top-s margin-top-xs my-2">
-      <mat-chip *ngFor="let tag of topics | slice: 0:sliceValue" [matTooltip]="tag" (click)="addOrDeleteTopic('delete', tag)">
-        <mat-icon (click)="addOrDeleteTopic('delete', tag)" matChipRemove i18n="Remove from existing list">cancel </mat-icon>{{ tag | pipeLimitTo: 24 }}
+      <mat-chip *ngFor="let tag of topics | slice: 0:sliceValue" [matTooltip]="tag"
+        (click)="addOrDeleteTopic('delete', tag)">
+        <mat-icon (click)="addOrDeleteTopic('delete', tag)" matChipRemove >cancel
+        </mat-icon>{{ tag | pipeLimitTo: 24 }}
       </mat-chip>
     </mat-chip-list>
-    <button *ngIf="topics.length > showLimit && sliceValue !== topics.length" (click)="showAll()" mat-button i18n="Show all tags">
+    <button *ngIf="topics.length > showLimit && sliceValue !== topics.length" (click)="showAll()" mat-button >
       All
     </button>
   </mat-card-content>
 </mat-card>
-<input type="hidden" i18n-value value="Topic updated successfully" #saved />
-<input type="hidden" i18n-value value="Topic saved in the drafts" #savedDraft />
-<input type="hidden" i18n-value value="Topic published successfully" #publish />
-<input type="hidden" i18n-value value="Topic already added" #duplicate />
-<input type="hidden" i18n-value value="You can add tag from dropdown only" #invalidTag />
-<input type="hidden" i18n-value value="Unable to save. Please retry" #error />
+<input type="hidden" value="Topic updated successfully" #saved />
+<input type="hidden" value="Topic saved in the drafts" #savedDraft />
+<input type="hidden" value="Topic published successfully" #publish />
+<input type="hidden" value="Topic already added" #duplicate />
+<input type="hidden" value="You can add tag from dropdown only" #invalidTag />
+<input type="hidden" value="Unable to save. Please retry" #error />

@@ -1,14 +1,14 @@
 <section>
-  <h2 class="mat-title" i18n>Filter</h2>
+  <h2 class="mat-title" >Filter</h2>
 
   <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
     <div>
       <mat-form-field class="width-1-1">
-        <mat-select placeholder="Type" i18n-placeholder formControlName="type">
+        <mat-select placeholder="Type" -placeholder formControlName="type">
           <mat-option value="all">All</mat-option>
-          <mat-option value="proctor_approval" i18n>Proctor Approval</mat-option>
-          <mat-option value="budget_approval" i18n>Budget Approval</mat-option>
-          <mat-option value="result_verification" i18n>Result Verification</mat-option>
+          <mat-option value="proctor_approval" >Proctor Approval</mat-option>
+          <mat-option value="budget_approval" >Budget Approval</mat-option>
+          <mat-option value="result_verification" >Result Verification</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -20,12 +20,12 @@
           [matDatepicker]="startDatePicker"
           [max]="defaultEndDate"
           placeholder="Start date"
-          i18n-placeholder
+
           formControlName="startDate"
         />
         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
-        <mat-error i18n>
+        <mat-error >
           The start date must be before the end date.
         </mat-error>
       </mat-form-field>
@@ -38,12 +38,12 @@
           [matDatepicker]="endDatePicker"
           [max]="defaultEndDate"
           placeholder="End date"
-          i18n-placeholder
+
           formControlName="endDate"
         />
         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
-        <mat-error i18n>
+        <mat-error >
           The start date must be before the end date.
         </mat-error>
       </mat-form-field>
@@ -55,14 +55,14 @@
           mat-flat-button
           [color]="'primary'"
           type="submit"
-          i18n
+
           [disabled]="filterForm.invalid"
         >
           Apply
         </button>
       </div>
       <div>
-        <button mat-stroked-button [color]="'primary'" mat-dialog-close type="submit" i18n>
+        <button mat-stroked-button [color]="'primary'" mat-dialog-close type="submit" >
           Cancel
         </button>
       </div>

@@ -36,6 +36,15 @@
 
 }
 
+.languages {
+  margin-left: 5px;
+}
+
+.languages:hover {
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+
 .footer-first-col {
   justify-content: flex-start;
   // align-items: center;

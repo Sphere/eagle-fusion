@@ -175,9 +175,9 @@
       <h2 i18n>Trainings</h2>
       <h4 class="mat-h4">
         <ng-container>{{ trainingLHubCount }}</ng-container>
-        <ng-container i18n="x trainings available" *ngIf="trainingLHubCount > 1">
+        <ng-container *ngIf="trainingLHubCount > 1">
           trainings available</ng-container>
-        <ng-container i18n="1 training available" *ngIf="trainingLHubCount === 1">
+        <ng-container  *ngIf="trainingLHubCount === 1">
           training available</ng-container>
       </h4>
       <div>

@@ -1,5 +1,5 @@
 <div class="flex flex-between flex-middle">
-  <h2 class="mat-h2 margin-remove padding-left-m" i18n>Filters</h2>
+  <h2 class="mat-h2 margin-remove padding-left-m" >Filters</h2>
   <span class="spacer"></span>
   <button [hidden]="!filtersResetAble" (click)="removeFilters()" type="button" mat-icon-button>
     <mat-icon>restore</mat-icon>
@@ -21,7 +21,7 @@
   </mat-expansion-panel>
 </mat-accordion>
 <ng-container *ngIf="advancedFilters?.length">
-  <h2 class="mat-h2 margin-remove padding-left-m" i18n="search advanced filters">Advanced Filters</h2>
+  <h2 class="mat-h2 margin-remove padding-left-m">Advanced Filters</h2>
   <div *ngFor="let filter of advancedFilters">
     <button mat-raised-button (click)="advancedFilterClick(filter)">
       {{ filter.title }}

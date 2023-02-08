@@ -17,8 +17,8 @@
         </h2>
         <!-- <ws-spinner [spinSize]="'small'" *ngIf="fetchingEvents" class="text-center"></ws-spinner> -->
         <div *ngIf="tabs && !tabs.length && !fetchingEvents">
-          <h3 class="margin-bottom-xs mat-h3 font-weight-500" i18n>No Events.</h3>
-          <p class="mat-caption" i18n>Click on highlighted dates for releases</p>
+          <h3 class="margin-bottom-xs mat-h3 font-weight-500" >No Events.</h3>
+          <p class="mat-caption" >Click on highlighted dates for releases</p>
         </div>
         <mat-tab-group
           mat-align-tabs="center"
@@ -34,7 +34,7 @@
             <h3
               *ngIf="!filteredEvents && !fetchingEvents"
               class="margin-top-m mat-h3 font-weight-500"
-              i18n
+
             >
               No events.
             </h3>

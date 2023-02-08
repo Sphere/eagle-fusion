@@ -38,48 +38,44 @@
                     </div>
                     <div class="input-column px-2">
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label required"
-                          i18n="First Name label|Label which explains the user to enter first name">
+                        <p class=" margin-remove-bottom form-label required" i18n>
                           First Name
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #firstname formControlName="firstname" i18n-placeholder
                             placeholder="Enter First Name" [readonly]="isEditable" />
                           <mat-hint align="end">{{ firstname.value.length }} / 500</mat-hint>
-                          <mat-error [hidden]="false" i18n="First Name Error|Explains name is required">
+                          <mat-error [hidden]="false" i18n>
                             First name is mandatory
                           </mat-error>
                         </mat-form-field>
                       </div>
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n="Middle Name label|Label which explains the user to enter Middle Name">
+                        <p class=" margin-remove-bottom form-label" i18n>
                           Middle Name
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #middlename formControlName="middlename" i18n-placeholder
                             placeholder="Enter Middle Name" />
-                          <mat-error [hidden]="false" i18n="Middle Name Error|Explains name is required">
+                          <mat-error [hidden]="false" i18n>
                             Middle name is mandatory
                           </mat-error>
                         </mat-form-field>
                       </div>
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label required"
-                          i18n="Surname label|Label which explains the user to enter Surname">
+                        <p class=" margin-remove-bottom form-label required" i18n>
                           Surname
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <input matInput #surname formControlName="surname" i18n-placeholder
                             placeholder="Enter Surname" [readonly]="isEditable" />
-                          <mat-error [hidden]="false" i18n="Surname Error|Explains name is required">
+                          <mat-error [hidden]="false" i18n>
                             Surname is mandatory
                           </mat-error>
                         </mat-form-field>
                       </div>
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label required"
-                          i18n="Date of Birth|Label which explains the user to enter Date of Birth">
+                        <p class=" margin-remove-bottom form-label required" i18n>
                           Date of Birth (dd-mm-yyyy)
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
@@ -88,7 +84,7 @@
                             [max]="maxDate" readonly (dateInput)="onDateChange($event.value)">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker (closed)="dob.blur()"></mat-datepicker>
-                          <mat-error [hidden]="false" i18n="Date of Birth Error|Explains name is required">
+                          <mat-error [hidden]="false" i18n>
                             Date of Birth is mandatory
                           </mat-error>
                         </mat-form-field>
@@ -98,30 +94,28 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n="About label|Label which explains the user to enter About">
+                        <p class=" margin-remove-bottom form-label" i18>
                           About
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
                           <!-- <input matInput #about formControlName="about" i18n-placeholder placeholder="Enter About" /> -->
                           <textarea matInput #about formControlName="about" i18n-placeholder
                             placeholder="Enter About"></textarea>
-                          <mat-error [hidden]="false" i18n="About Error|Explains about is required">
+                          <mat-error [hidden]="false" i18n>
                             About is mandatory
                           </mat-error>
                         </mat-form-field>
                       </div>
 
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n="Nationality|Label which explains the user to enter Nationality">
+                        <p class=" margin-remove-bottom form-label" i18n>
                           Nationality
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs w-full">
                           <input matInput type="text" placeholder="Nationality" i18n-placeholder="Nationality"
                             formControlName="nationality" [matAutocomplete]="nationalityAutocomplete" i18n-aria-label
                             aria-label="Nationality" #nationality />
-                          <mat-error [hidden]="false" i18n="Nationality Error|Explains name is required">
+                          <mat-error [hidden]="false" i18n>
                             Nationality is mandatory
                           </mat-error>
                         </mat-form-field>
@@ -132,8 +126,7 @@
                         </mat-autocomplete>
                       </div>
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n="Domicile Medium|Label which explains the user to enter Domicile Medium">
+                        <p class=" margin-remove-bottom form-label" i18n>
                           Domicile Medium (Mother Tongue)
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
@@ -149,8 +142,7 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n="Gender |Label which explains the user to enter Gender">
+                        <p class=" margin-remove-bottom form-label" i18n>
                           Gender
                         </p>
                         <div class="radio-toolbar">
@@ -169,8 +161,7 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n="Marital Status |Label which explains the user to enter Marital Status">
+                        <p class=" margin-remove-bottom form-label" i18n>
                           Marital Status
                         </p>
                         <!-- <mat-radio-group matInput aria-label="Select an option" formControlName="maritalStatus">
@@ -197,8 +188,7 @@
                       </div>
 
                       <div class="input-wrapper margin-top-s">
-                        <p class=" margin-remove-bottom form-label"
-                          i18n=" Registered Nurse/ Midwife Number label|Label which explains the user to enter Registered Nurse/ Midwife Number">
+                        <p class=" margin-remove-bottom form-label" i18n>
                           Registered Nurse Number(RN)/ Registered Midwife Number(RM)
                         </p>
                         <mat-form-field appearance="outline" class="margin-top-xs">
@@ -261,8 +251,7 @@
               <div class="flex flex-column w-full md:w-1/2 ">
                 <div class="profile-cols bg-grey">
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="NUID number label|Label which explains the user to enter NUID Number">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       National Unique Identity Number (NUID) Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -273,8 +262,7 @@
 
 
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Doctor Registration Number label|Label which explains the user to enter Doctor Registration Number">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Doctor Registration Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -285,8 +273,7 @@
 
 
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Name the Institution label|Label which explains the user to enter Name the Institution">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Name the Institution (for students)
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -296,8 +283,7 @@
                   </div>
 
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Name of Nursing Council label|Label which explains the user to enter Name of Nursing Council">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Name of Nursing Council (for Registered Nurses)
                     </p>
 
@@ -334,8 +320,7 @@
 
 
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Other Languages Known label|Label which explains the user to enter Other Languages Known">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Other Languages Known
                     </p>
                     <mat-form-field appearance="outline" class="w-full margin-top-xs">
@@ -350,7 +335,7 @@
                           [matAutocomplete]="knownLanguagesAuto" #knownLanguagesInput [matChipInputFor]="chipList"
                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
                       </mat-chip-list>
-                      <mat-error [hidden]="false" i18n="Telephone Number Error|Explains name is required">
+                      <mat-error [hidden]="false" i18n>
                         Other Languages Known is mandatory
                       </mat-error>
 
@@ -389,14 +374,13 @@
                     </div> -->
                   <!-- </div> -->
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Telephone Number label|Label which explains the user to enter Telephone Number">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Telephone Number
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
                       <input #telephone type="number" matInput placeholder="Telephone Number"
                         formControlName="telephone" i18n-placeholder>
-                      <mat-error [hidden]="false" i18n="Telephone Number Error|Explains name is required">
+                      <mat-error [hidden]="false" i18n>
                         Telephone Number is mandatory
                       </mat-error>
                     </mat-form-field>
@@ -425,8 +409,7 @@
                     </mat-form-field>
                   </div> -->
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Postal Address label|Label which explains the user to enter Postal Address">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Postal Address
                     </p>
                     <mat-form-field appearance="outline" class="w-full margin-top-xs">
@@ -443,15 +426,13 @@
                     </mat-form-field>
                   </div>
                   <div class="input-wrapper margin-top-s">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Pincode label|Label which explains the user to enter Pincode">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Pincode
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
                       <input #pincode type="text" matInput i18n-placeholder placeholder="Pincode"
                         formControlName="pincode">
-                      <mat-error [hidden]="false" i18n="Pincode Error|Explains name is required"
-                        *ngIf="createUserForm?.controls['pincode'].errors?.required">
+                      <mat-error [hidden]="false" i18n *ngIf="createUserForm?.controls['pincode'].errors?.required">
                         Pincode is mandatory
                       </mat-error>
                       <mat-error [hidden]="false" *ngIf="createUserForm?.controls['pincode'].errors?.pattern">
@@ -461,8 +442,7 @@
                   </div>
 
                   <div class="flex gap-2">
-                    <h3 class="mb-2">Language for Learning : <span class="display-language" i18n>
-                        {{preferedLanguage.lang}}</span></h3>
+                    <h3 class="mb-2"><span i18n>Language for Learning</span>: <span class="display-language">{{preferedLanguage.lang}}</span></h3>
                     <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" />
                   </div>
                   <!-- <div class="input-wrapper margin-top-s">
@@ -490,21 +470,19 @@
                 <p class="heading" i18n>10th Standard</p>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="School Name label|Label which explains the user to enter School Name">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       School Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
                       <input matInput #schoolName10 formControlName="schoolName10" i18n-placeholder
                         placeholder="Enter School Name" />
-                      <mat-error [hidden]="false" i18n="School Name Error|Explains name is required">
+                      <mat-error [hidden]="false" i18n>
                         School Name is mandatory
                       </mat-error>
                     </mat-form-field>
                   </div>
                   <div class="item ">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Year of Passsing label|Label which explains the user to enter Year of Passsing">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Year of Passsing
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -528,21 +506,19 @@
                 <p class="heading" i18n>12th Standard</p>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="School Name label|Label which explains the user to enter School Name">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       School Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
                       <input matInput #schoolName12 formControlName="schoolName12" i18n-placeholder
                         placeholder="Enter School Name" />
-                      <mat-error [hidden]="false" i18n="School Name Error|Explains name is required">
+                      <mat-error [hidden]="false" i18n>
                         School Name is mandatory
                       </mat-error>
                     </mat-form-field>
                   </div>
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Year of Passsing label|Label which explains the user to enter Year of Passsing">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Year of Passsing
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -567,8 +543,7 @@
                 <ng-container formArrayName="degrees" *ngFor="let degrees of degreesControls; let i = index;">
                   <div class="flex flex-wrap section-input" [formGroupName]="i">
                     <div class="item">
-                      <p class=" margin-remove-bottom form-label"
-                        i18n="Degree label|Label which explains the user to enter Degree">
+                      <p class=" margin-remove-bottom form-label" i18n>
                         Degree
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
@@ -580,8 +555,7 @@
                       </mat-form-field>
                     </div>
                     <div class="item">
-                      <p class=" margin-remove-bottom form-label"
-                        i18n="First Name label|Label which explains the user to enter first name">
+                      <p class=" margin-remove-bottom form-label" i18n>
                         Institute Name
                       </p>
                       <!-- <mat-form-field appearance="outline" class="margin-top-xs">
@@ -593,14 +567,13 @@
                       <mat-form-field appearance="outline" class="margin-top-xs">
                         <input matInput #instituteName formControlName="instituteName" i18n-placeholder
                           placeholder="Enter Institute Name" />
-                        <mat-error [hidden]="false" i18n="School Name Error|Explains name is required">
+                        <mat-error [hidden]="false" i18n>
                           Institute Name is mandatory
                         </mat-error>
                       </mat-form-field>
                     </div>
                     <div class="item w-auto">
-                      <p class=" margin-remove-bottom form-label"
-                        i18n="Year of Passsing label|Label which explains the user to enter Year of Passsing">
+                      <p class=" margin-remove-bottom form-label" i18n>
                         Year of Passsing
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
@@ -636,8 +609,7 @@
                 <ng-container formArrayName="postDegrees" *ngFor="let degrees of postDegreesControls; let i = index;">
                   <div class="flex flex-wrap section-input" [formGroupName]="i">
                     <div class="item">
-                      <p class=" margin-remove-bottom form-label"
-                        i18n="Degree label|Label which explains the user to enter Degree">
+                      <p class=" margin-remove-bottom form-label" i18n>
                         Degree
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
@@ -648,8 +620,7 @@
                       </mat-form-field>
                     </div>
                     <div class="item">
-                      <p class=" margin-remove-bottom form-label"
-                        i18n="First Name label|Label which explains the user to enter first name">
+                      <p class=" margin-remove-bottom form-label" i18n>
                         Institute Name
                       </p>
                       <!-- <mat-form-field appearance="outline" class="margin-top-xs">
@@ -661,14 +632,13 @@
                       <mat-form-field appearance="outline" class="margin-top-xs">
                         <input matInput #instituteName formControlName="instituteName" i18n-placeholder
                           placeholder="Enter Institute Name" />
-                        <mat-error [hidden]="false" i18n="School Name Error|Explains name is required">
+                        <mat-error [hidden]="false" i18n>
                           Institute Name is mandatory
                         </mat-error>
                       </mat-form-field>
                     </div>
                     <div class="item w-auto">
-                      <p class=" margin-remove-bottom form-label"
-                        i18n="Year of Passsing label|Label which explains the user to enter Year of Passsing">
+                      <p class=" margin-remove-bottom form-label" i18n>
                         Year of Passsing
                       </p>
                       <mat-form-field appearance="outline" class="margin-top-xs">
@@ -713,8 +683,7 @@
 
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Organisation Type label|Label which explains the user to enter Organisation Type">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Choose your Background
                     </p>
                     <mat-form-field appearance="outline" class="field-fullwidth">
@@ -741,8 +710,7 @@
 
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Organisation Name label|Label which explains the user to enter Organisation Name">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Organisation Name
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -754,8 +722,7 @@
 
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Organisation Type label|Label which explains the user to enter Organisation Type">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Organisation Type
                     </p>
                     <mat-form-field appearance="outline" class="field-fullwidth">
@@ -785,8 +752,7 @@
 
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Designation label|Label which explains the user to enter Designation">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Designation
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -798,8 +764,7 @@
 
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Location label|Label which explains the user to enter Location">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Location
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -826,8 +791,7 @@
                 </div>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Date of Joining|Label which explains the user to enter Date of Joining">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Date of Joining
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs">
@@ -835,7 +799,7 @@
                         placeholder="Choose Date of Joining" (focus)="dojPicker.open()" [min]="" [max]="today">
                       <mat-datepicker-toggle matSuffix [for]="dojPicker"></mat-datepicker-toggle>
                       <mat-datepicker #dojPicker (closed)="doj.blur()"></mat-datepicker>
-                      <mat-error [hidden]="false" i18n="Date of Joining Error|Explains name is required">
+                      <mat-error [hidden]="false" i18n>
                         Date of Joining is mandatory
                       </mat-error>
                     </mat-form-field>
@@ -843,8 +807,7 @@
                 </div>
                 <div class="flex flex-wrap section-input">
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Address label|Label which explains the user to enter Address">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Address
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
@@ -1022,8 +985,7 @@
                 <div class="flex flex-column flex-wrap section-input-single">
                   <p class="heading" i18n>Additional Skill Acquired/Course Completed</p>
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Description label|Label which explains the user to enter Description">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Description
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
@@ -1038,8 +1000,7 @@
                   </div>
                   <p class="heading" i18n>Provide Certification Details</p>
                   <div class="item">
-                    <p class=" margin-remove-bottom form-label"
-                      i18n="Provide Certification Details label|Label which explains the user to enter Provide Certification Details">
+                    <p class=" margin-remove-bottom form-label" i18n>
                       Description
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">

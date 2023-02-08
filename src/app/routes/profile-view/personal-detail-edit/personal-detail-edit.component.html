@@ -1,7 +1,7 @@
 <div class="content">
   <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
     [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-  <p class="text-2xl mt-3">Personal Details</p>
+  <p class="text-2xl mt-3" i18n>Personal Details</p>
 
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
     <!-- <div class="form-group">
@@ -10,11 +10,11 @@
     </div> -->
     <div class="form-group">
       <input type="text" formControlName="firstname" class="form-control" (change)="fieldChange()"
-        placeholder="First Name" autocomplete="off">
+        placeholder="First Name" autocomplete="off" i18n-placeholder>
     </div>
     <div class="form-group">
       <input type="text" formControlName="surname" class="form-control" (change)="fieldChange()"
-        placeholder="Last Name*" autocomplete="off">
+        placeholder="Last Name*" autocomplete="off" i18n-placeholder>
     </div>
 
     <div class="form-group mt-4 relative">
@@ -57,12 +57,12 @@
 
     <div class="form-group" *ngIf="professionOtherField">
       <input type="text" formControlName="professionOtherSpecify" class="form-control"
-        placeholder="Please Specify Profession*" autocomplete="off">
+        placeholder="Please Specify Profession*" i18n-placeholder autocomplete="off">
     </div>
 
     <div class="form-group" *ngIf="rnShow">
       <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
-        placeholder="RN/RM Number" autocomplete="off">
+        i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
     </div>
 
     <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
@@ -75,44 +75,46 @@
 
     <div class="form-group" *ngIf="orgOthersField">
       <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
-        autocomplete="off">
+        i18n-placeholder autocomplete="off">
     </div>
     <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
       {{errorMsg}}</mat-error>
 
     <div class="form-group">
       <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
+        i18n-placeholder autocomplete="off" (change)="fieldChange()" i18n-placeholder>
+    </div>
+
+    <div class="form-group">
+      <input type="text" formControlName="nationality" i18n-placeholder class="form-control" placeholder="Nationality"
         autocomplete="off" (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="nationality" class="form-control" placeholder="Nationality" autocomplete="off"
-        (change)="fieldChange()">
-    </div>
-
-    <div class="form-group">
-      <input type="text" formControlName="domicileMedium" class="form-control" placeholder="Mother Tongue"
-        autocomplete="off" (change)="fieldChange()">
+      <input type="text" formControlName="domicileMedium" class="form-control" i18n-placeholder
+        placeholder="Mother Tongue" autocomplete="off" (change)="fieldChange()">
     </div>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="gender" placeholder="Gender" (selectionChange)="fieldChange()">
-        <mat-option value="Male">Male</mat-option>
-        <mat-option value="Female">Female</mat-option>
-        <mat-option value="Others">Others</mat-option>
+      <mat-select formControlName="gender" i18n-placeholder placeholder="Gender" (selectionChange)="fieldChange()">
+        <mat-option value="Male" i18n>Male</mat-option>
+        <mat-option value="Female" i18n>Female</mat-option>
+        <mat-option value="Others" i18n>Others</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="maritalStatus" placeholder="Marital Status" (selectionChange)="fieldChange()">
-        <mat-option value="Single">Single</mat-option>
-        <mat-option value="Married">Married</mat-option>
+      <mat-select formControlName="maritalStatus" i18n-placeholder placeholder="Marital Status"
+        (selectionChange)="fieldChange()">
+        <mat-option value="Single" i18n>Single</mat-option>
+        <mat-option value="Married" i18n>Married</mat-option>
       </mat-select>
     </mat-form-field>
 
     <div class="form-group">
-      <!-- <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()"> -->
-      <input formControlName="knownLanguage" type="text" class="form-control" placeholder="Known Languages" readonly>
+      <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()">
+      <input formControlName="knownLanguage" type="text" class="form-control" i18n-placeholder
+        placeholder="Known Languages">
     </div>
 
     <!-- <mat-form-field appearance="outline" class="w-full margin-top-xs">
@@ -135,22 +137,21 @@
     </mat-autocomplete> -->
 
     <div class="form-group">
-      <input type="text" formControlName="mobile" class="form-control" placeholder="Phone Number" autocomplete="off"
-        (change)="fieldChange()">
+      <input type="text" formControlName="mobile" class="form-control" i18n-placeholder placeholder="Phone Number"
+        autocomplete="off" (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="postalAddress" class="form-control" placeholder="Address" autocomplete="off"
-        (change)="fieldChange()">
+      <input type="text" formControlName="postalAddress" class="form-control" i18n-placeholder placeholder="Address"
+        autocomplete="off" (change)="fieldChange()">
     </div>
 
     <div class="form-group">
-      <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode" autocomplete="off"
-        (change)="fieldChange()">
+      <input type="text" formControlName="pincode" class="form-control" i18n-placeholder placeholder="Pincode"
+        autocomplete="off" (change)="fieldChange()">
     </div>
     <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
-      [disabled]="personalDetailForm?.invalid || savebtnDisable">Save
-    </button>
+      [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
     value="User profile details updated successfully!" #toastSuccess />

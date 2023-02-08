@@ -11,7 +11,7 @@
 </a>
 
 <a *ngIf="(isXSmall$ | async) === true"
-  [routerLink]="((isXSmall$ | async) === true) ? '/app/profile-view' : '/app/profile/dashboard'" mat-icon-button
+  routerLink="/app/profile-view" mat-icon-button
   i18n-aria-label title="option" class="new-margin">
   <span class="profile-content">
     <span class="flex flex-column flex-middle actn-btn-wrapper">
