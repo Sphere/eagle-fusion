@@ -455,7 +455,7 @@ export class AlmostDoneComponent implements OnInit {
       this.userId = this.configSvc.unMappedUser.id || ''
     }
     let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-    let obj1 = JSON.parse(reqObj)
+    let obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
         language: obj1.id,

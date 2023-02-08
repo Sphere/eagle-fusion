@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { first, map, takeUntil } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -14,6 +14,10 @@ import {
   ConfigurationsService,
   TelemetryService,
 } from '@ws-widget/utils'
+import moment from 'moment'
+import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
+import { ViewerUtilService } from '../../../../viewer-util.service'
+import { PlayerStateService } from '../../../../player-state.service'
 //declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
@@ -50,6 +54,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   disableContinue = false
   isCompetency = false
   proficiencyLevel = ''
+  public unsubscribe = new Subject<void>()
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -60,6 +65,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     public viewerDataSvc: ViewerDataService,
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
+    private viewerSvc: ViewerUtilService,
+    public playerStateService: PlayerStateService,
   ) { }
 
   ngOnInit() {
@@ -288,25 +295,29 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.isCompetencyComplted) {
           const formatedData = {
             request: {
+              userId: userId,
+              typeName: 'competency',
               competencyDetails: [
                 {
-                  acquiredDetails: {
-                    competencyLevelId: _.trim(this.proficiencyLevel),
-                    acquiredChannel: 'selfAssessment',
-                  },
-                  additionalParams: {
-                    competencyName: competency_meta_data.competencyName,
-                  },
                   competencyId: competency_meta_data.competencyId,
+                  additionalParams: {
+                  },
+                  acquiredDetails: {
+                    acquiredChannel: 'selfAssessment',
+                    competencyLevelId: _.trim(this.proficiencyLevel),
+                    effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
+                    additionalParams: {
+                      competencyName: competency_meta_data.competencyName,
+                    }
+                  },
+
                 },
               ],
-              typeName: 'competency',
-              userId: userId,
-
             },
           }
           this.quizService.updatePassbook(formatedData).subscribe(() => {
           })
+          this.updateNextResourses()
         }
       },
       (_error: any) => {
@@ -423,6 +434,22 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.numIncorrectAnswers
   }
 
+  updateNextResourses() {
+    let realTimeProgressRequest = {
+      content_type: 'Resource',
+      current: ['0'],
+      max_size: 0,
+      mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
+      user_id_type: 'uuid',
+    }
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      console.log("submit next data", data)
+      if (!_.isNull(data.nextResource)) {
+
+        this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId)
+      }
+    })
+  }
   nextQuestion() {
     // tslint:disable-next-line:max-line-length
     if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
