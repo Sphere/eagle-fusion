@@ -14,7 +14,7 @@ import {
   ConfigurationsService,
   TelemetryService,
 } from '@ws-widget/utils'
-import moment from 'moment'
+// import moment from 'moment'
 import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
@@ -301,27 +301,48 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.isCompetencyComplted) {
           const formatedData = {
             request: {
+              userId: userId,
+              typeName: "competency",
               competencyDetails: [
                 {
-                  acquiredDetails: {
-                    additionalParams: {
-                      courseName: this.assesmentdata.generalData.name,
-                      courseId: this.assesmentdata.generalData.collectionId
-                    },
-                    competencyLevelId: competencyId,
-                    // effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
-                    acquiredChannel: 'selfAssessment'
-                  },
+                  competencyId: competency_meta_data.competencyId,
                   additionalParams: {
                     competencyName: competency_meta_data.competencyName,
                   },
-                  competencyId: competency_meta_data.competencyId
+                  acquiredDetails: {
+                    acquiredChannel: "selfAssessment",
+                    competencyLevelId: competencyId,
+                    // effectiveDate: "2023-02-09 9:46:12",
+                    additionalParams: {
+                      competencyName: competency_meta_data.competencyName,
+                      courseId: this.assesmentdata.generalData.collectionId
+                    }
+                  }
                 }
-              ],
-              typeName: "competency",
-              userId: userId
-
+              ]
             }
+            // request: {
+            //   competencyDetails: [
+            //     {
+            //       acquiredDetails: {
+            //         additionalParams: {
+            //           courseName: this.assesmentdata.generalData.name,
+            //           courseId: this.assesmentdata.generalData.collectionId
+            //         },
+            //         competencyLevelId: competencyId,
+            //         // effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
+            //         acquiredChannel: 'selfAssessment'
+            //       },
+            //       additionalParams: {
+            //         competencyName: competency_meta_data.competencyName,
+            //       },
+            //       competencyId: competency_meta_data.competencyId
+            //     }
+            //   ],
+            //   typeName: "competency",
+            //   userId: userId
+
+            // }
           }
           this.quizService.updatePassbook(formatedData).subscribe(() => {
           })
