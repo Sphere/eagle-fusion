@@ -50,9 +50,27 @@ export class SelfAssessmentGuard implements CanActivate {
       const courseBatch = this.getCourseBatch()
       forkJoin([content, courseBatch]).pipe(mergeMap((res: any) => {
         this.content = res[0].result.content
-        if (this.content.competencies_v1) {
-          localStorage.setItem('competency_meta_data', (this.content.competencies_v1))
+        let competency_meta_data
+        if (this.content) {
+          if (this.content.competencies_v1) {
+            competency_meta_data = JSON.parse(this.content.competencies_v1)
+            // competency_meta_data.push(competencies_v1[0])
+          }
+          let children: { identifier: any; competencyId: any }[] = []
+          _.forEach(this.content.children, (item: any) => {
+            children.push({
+              identifier: item.identifier,
+              competencyId: item.index
+            })
+          })
+          // console.log(competency_meta_data.push(...children))
+          competency_meta_data.push({
+            competencyIds: [...children]
+          })
+
+          localStorage.setItem('competency_meta_data', JSON.stringify(competency_meta_data))
         }
+
         this.batchData = res[1].content
         if (!this.batchData[0].enrollmentEndDate) {
           return this.enrollUser(this.batchData)

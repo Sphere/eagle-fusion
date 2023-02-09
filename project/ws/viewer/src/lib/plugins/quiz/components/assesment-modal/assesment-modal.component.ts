@@ -285,8 +285,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
         const data = localStorage.getItem('competency_meta_data')
         let competency_meta_data: any
+        let competencyId
         if (data) {
           competency_meta_data = JSON.parse(data)[0]
+          _.forEach(JSON.parse(data), (item: any) => {
+            if (item.competencyIds) {
+              competencyId = this.getCompetencyId(item.competencyIds)
+            }
+          })
         }
         let userId = ''
         if (this.configSvc.userProfile) {
@@ -295,25 +301,27 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.isCompetencyComplted) {
           const formatedData = {
             request: {
-              userId: userId,
-              typeName: 'competency',
               competencyDetails: [
                 {
-                  competencyId: competency_meta_data.competencyId,
-                  additionalParams: {
-                  },
                   acquiredDetails: {
-                    acquiredChannel: 'selfAssessment',
-                    competencyLevelId: _.trim(this.proficiencyLevel),
-                    effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
                     additionalParams: {
-                      competencyName: competency_meta_data.competencyName,
-                    }
+                      courseName: this.assesmentdata.generalData.name,
+                      courseId: this.assesmentdata.generalData.collectionId
+                    },
+                    competencyLevelId: competencyId,
+                    // effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
+                    acquiredChannel: 'selfAssessment'
                   },
-
-                },
+                  additionalParams: {
+                    competencyName: competency_meta_data.competencyName,
+                  },
+                  competencyId: competency_meta_data.competencyId
+                }
               ],
-            },
+              typeName: "competency",
+              userId: userId
+
+            }
           }
           this.quizService.updatePassbook(formatedData).subscribe(() => {
           })
@@ -325,6 +333,15 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.fetchingResultsStatus = 'error'
       },
     )
+  }
+
+  getCompetencyId(data: any) {
+    let id
+    _.forEach(data, (item: any) => {
+      if (item.identifier === this.assesmentdata.generalData.identifier)
+        id = item.competencyId.toString()
+    })
+    return id
   }
   calculateResults() {
     const correctAnswers = this.assesmentdata.questions.map(
@@ -443,7 +460,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       user_id_type: 'uuid',
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      console.log("submit next data", data)
+      // console.log("submit next data", data)
       if (!_.isNull(data.nextResource)) {
 
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId)
