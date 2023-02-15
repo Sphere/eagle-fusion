@@ -112,6 +112,7 @@ import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-wid
 import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-home-page.component'
 import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-desktop.component'
 import { AssessmentDetailComponent } from './components/assessment-detail/assessment-detail.component'
+import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/app-toc-desktop-modal.component'
 @NgModule({
   declarations: [
     AppTocAnalyticsComponent,
@@ -141,6 +142,7 @@ import { AssessmentDetailComponent } from './components/assessment-detail/assess
     AppTocHomePageComponent,
     AppTocDesktopComponent,
     AssessmentDetailComponent,
+    AppTocDesktopModalComponent,
   ],
   imports: [
     CommonModule,
@@ -232,6 +234,7 @@ import { AssessmentDetailComponent } from './components/assessment-detail/assess
     // AppTocSinglePageRootComponent,
     CreateBatchDialogComponent,
     AppTocHomePageComponent,
+    AppTocDesktopModalComponent
   ],
 })
 export class AppTocModule { }

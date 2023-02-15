@@ -1,0 +1,18 @@
+<div class="d-flex flex-col">
+  <button class="close-button align-self-end cursor-pointer" [mat-dialog-close]="true">X</button>
+  <ng-container *ngIf="content.type === 'DETAILS'">
+    <h1>Course Details</h1>
+    <div class="subtitle">{{ content?.content.subTitle }}</div>
+    <div class="details mb-3" *ngIf="content?.content.creator"><span i18n>Author</span>: {{content?.content.creator}}
+    </div>
+    <div class="details-date"
+      *ngIf="content?.tocConfig.atAGlance?.lastUpdatedOn?.enabled && content?.content.lastUpdatedOn">
+      <span i18n>Last updated on</span>: {{ content?.content.lastUpdatedOn | date }}
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="content.type === 'COMPETENCY'">
+    <h1>{{cometencyData.name}}</h1>
+    <div class="levels">Levels: {{cometencyData.levels}}</div>
+  </ng-container>
+</div>
