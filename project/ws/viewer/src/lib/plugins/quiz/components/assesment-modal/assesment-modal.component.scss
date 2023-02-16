@@ -37,6 +37,17 @@
   color: #89c575;
 }
 
+.fail-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #951c1c;
+}
+
 .proficiceny-level {
   font-family: 'Roboto';
   font-style: normal;
@@ -46,6 +57,17 @@
   text-align: center;
   letter-spacing: -0.02em;
   color: #1C5D95;
+}
+
+.proficiceny-level-fail {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #951c1c;
 }
 
 .arrow-back {
