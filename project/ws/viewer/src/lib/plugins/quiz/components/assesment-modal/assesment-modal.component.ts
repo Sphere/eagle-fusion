@@ -53,7 +53,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   assesmentActive = true
   disableContinue = false
   isCompetency = false
+  competencyLevelId = ""
   proficiencyLevel = ''
+  competencyId = ''
   public unsubscribe = new Subject<void>()
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
@@ -113,6 +115,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.dialogRef.close({
       event: 'FAILED_COMPETENCY',
       competency: this.route.snapshot.queryParams.competency,
+    })
+  }
+  viewCourses() {
+    this.dialogRef.close({
+      event: 'VIEW_COURSES',
+      competency: this.route.snapshot.queryParams.competency,
+      competencyId: this.competencyId,
+      competencyLevel: this.competencyLevelId
     })
   }
   nextCompetency() {
@@ -285,15 +295,17 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
         const data = localStorage.getItem('competency_meta_data')
         let competency_meta_data: any
-        let competencyId
+        let competencyLevelId
         if (data) {
           competency_meta_data = JSON.parse(data)[0]
           _.forEach(JSON.parse(data), (item: any) => {
             if (item.competencyIds) {
-              competencyId = this.getCompetencyId(item.competencyIds)
+              competencyLevelId = this.getCompetencyId(item.competencyIds)
+              this.competencyLevelId = competencyLevelId ? competencyLevelId : ''
             }
           })
         }
+        this.competencyId = competency_meta_data.competencyId
         let userId = ''
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
@@ -311,7 +323,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                   },
                   acquiredDetails: {
                     acquiredChannel: "selfAssessment",
-                    competencyLevelId: competencyId,
+                    competencyLevelId: competencyLevelId,
                     // effectiveDate: "2023-02-09 9:46:12",
                     additionalParams: {
                       competencyName: competency_meta_data.competencyName,
