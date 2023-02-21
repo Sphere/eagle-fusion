@@ -916,7 +916,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   openCompetency(content: any) {
     this.dialog.open(AppTocDesktopModalComponent, {
       width: '600px',
-      data: { competency: JSON.parse(content.competencies_v1), type: 'COMPETENCY', levels: content.children.length },
+      data: { competency: content.competencies_v1, type: 'COMPETENCY' },
     })
   }
 }

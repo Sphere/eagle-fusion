@@ -1,5 +1,5 @@
 <div class="d-flex flex-col">
-  <button class="close-button align-self-end cursor-pointer" [mat-dialog-close]="true">X</button>
+  <button class="close-button align-self-end cursor-pointer" [mat-dialog-close]="true">&times;</button>
   <ng-container *ngIf="content.type === 'DETAILS'">
     <h1>Course Details</h1>
     <div class="subtitle">{{ content?.content.subTitle }}</div>
@@ -12,7 +12,13 @@
   </ng-container>
 
   <ng-container *ngIf="content.type === 'COMPETENCY'">
-    <h1>{{cometencyData.name}}</h1>
-    <div class="levels">Levels: {{cometencyData.levels}}</div>
+    <h1>{{cometencyData[0].name}}</h1>
+    <div class="flex flex-row">
+      <ng-container *ngFor="let item of cometencyData; let last = last; ">
+        <div class="levels">{{item.levels}}
+          <span *ngIf="!last">, </span>
+        </div>
+      </ng-container>
+    </div>
   </ng-container>
 </div>
