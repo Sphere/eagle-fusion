@@ -27,6 +27,7 @@ import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
 import { DOCUMENT } from '@angular/common'
+import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -876,7 +877,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
@@ -903,5 +904,19 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     //     this.tocSvc.updateBatchData()
     //   }
     // })
+  }
+
+  openDetails(content: any, tocConfig: any) {
+    this.dialog.open(AppTocDesktopModalComponent, {
+      width: '600px',
+      data: { content, tocConfig, type: 'DETAILS' },
+      disableClose: true
+    })
+  }
+  openCompetency(content: any) {
+    this.dialog.open(AppTocDesktopModalComponent, {
+      width: '600px',
+      data: { competency: JSON.parse(content.competencies_v1), type: 'COMPETENCY', levels: content.children.length },
+    })
   }
 }

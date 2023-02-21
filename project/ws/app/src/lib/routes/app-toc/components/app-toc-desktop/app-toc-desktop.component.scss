@@ -120,7 +120,8 @@
 
 .banner-btn {
   display: flex;
-  width: 13%;
+  width: 25%;
+  height: 35px;
   flex-direction: row !important;
   justify-content: center !important;
   align-items: center !important;
@@ -133,6 +134,16 @@
   @include breakpoint-xs {
     width: 100% !important;
   }
+
+  @include breakpoint-s {
+    width: 50% !important;
+  }
+
+  @include breakpoint-m {
+    width: 50% !important;
+  }
+
+
 }
 
 .banner-btn-active {
@@ -141,7 +152,8 @@
   border-radius: 50px;
   border: 1px solid #1c5d95 !important;
   margin-left: 10px;
-  width: 13%;
+  width: 25%;
+  height: 35px;
   justify-content: center !important;
   align-items: center !important;
 
@@ -162,9 +174,22 @@
 }
 
 .mat-progress-bar {
-  width: 275px;
+  width: 25%;
   border-radius: 40px;
   height: 20px;
+
+  @include breakpoint-xs {
+    width: 100% !important;
+  }
+
+  @include breakpoint-s {
+    width: 50% !important;
+  }
+
+  @include breakpoint-m {
+    width: 50% !important;
+  }
+
 }
 
 .value {
@@ -177,7 +202,8 @@
 }
 
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-fill::after {
-  background: #34D6A4 0% 0% no-repeat padding-box;
+  background: #30EA7E 0% 0% no-repeat padding-box;
+
   border-radius: 40px;
 }
 
@@ -188,4 +214,22 @@
 
 .banner-btn:hover {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
+}
+
+.button-border {
+  border: 1px solid #1c5d95;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.btn-tittle {
+  color: #1c5d95;
+}
+
+.modal {
+  overflow: inherit !important;
 }

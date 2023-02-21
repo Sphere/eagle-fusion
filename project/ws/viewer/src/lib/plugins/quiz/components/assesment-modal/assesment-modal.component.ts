@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
-import { interval, Subscription } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { interval, Subject, Subscription } from 'rxjs'
+import { first, map, takeUntil } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -14,6 +14,10 @@ import {
   ConfigurationsService,
   TelemetryService,
 } from '@ws-widget/utils'
+// import moment from 'moment'
+import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
+import { ViewerUtilService } from '../../../../viewer-util.service'
+import { PlayerStateService } from '../../../../player-state.service'
 //declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
@@ -49,7 +53,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   assesmentActive = true
   disableContinue = false
   isCompetency = false
+  competencyLevelId = ""
   proficiencyLevel = ''
+  competencyId = ''
+  public unsubscribe = new Subject<void>()
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -60,6 +67,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     public viewerDataSvc: ViewerDataService,
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
+    private viewerSvc: ViewerUtilService,
+    public playerStateService: PlayerStateService,
   ) { }
 
   ngOnInit() {
@@ -106,6 +115,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.dialogRef.close({
       event: 'FAILED_COMPETENCY',
       competency: this.route.snapshot.queryParams.competency,
+    })
+  }
+  viewCourses() {
+    this.dialogRef.close({
+      event: 'VIEW_COURSES',
+      competency: this.route.snapshot.queryParams.competency,
+      competencyId: this.competencyId,
+      competencyLevel: this.competencyLevelId
     })
   }
   nextCompetency() {
@@ -278,9 +295,17 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
         const data = localStorage.getItem('competency_meta_data')
         let competency_meta_data: any
+        let competencyLevelId
         if (data) {
           competency_meta_data = JSON.parse(data)[0]
+          _.forEach(JSON.parse(data), (item: any) => {
+            if (item.competencyIds) {
+              competencyLevelId = this.getCompetencyId(item.competencyIds)
+              this.competencyLevelId = competencyLevelId ? competencyLevelId : ''
+            }
+          })
         }
+        this.competencyId = competency_meta_data.competencyId
         let userId = ''
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
@@ -288,25 +313,52 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.isCompetencyComplted) {
           const formatedData = {
             request: {
+              userId: userId,
+              typeName: "competency",
               competencyDetails: [
                 {
-                  acquiredDetails: {
-                    competencyLevelId: _.trim(this.proficiencyLevel),
-                    acquiredChannel: 'selfAssessment',
-                  },
+                  competencyId: competency_meta_data.competencyId,
                   additionalParams: {
                     competencyName: competency_meta_data.competencyName,
                   },
-                  competencyId: competency_meta_data.competencyId,
-                },
-              ],
-              typeName: 'competency',
-              userId: userId,
+                  acquiredDetails: {
+                    acquiredChannel: "selfAssessment",
+                    competencyLevelId: competencyLevelId,
+                    // effectiveDate: "2023-02-09 9:46:12",
+                    additionalParams: {
+                      competencyName: competency_meta_data.competencyName,
+                      courseId: this.assesmentdata.generalData.collectionId
+                    }
+                  }
+                }
+              ]
+            }
+            // request: {
+            //   competencyDetails: [
+            //     {
+            //       acquiredDetails: {
+            //         additionalParams: {
+            //           courseName: this.assesmentdata.generalData.name,
+            //           courseId: this.assesmentdata.generalData.collectionId
+            //         },
+            //         competencyLevelId: competencyId,
+            //         // effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
+            //         acquiredChannel: 'selfAssessment'
+            //       },
+            //       additionalParams: {
+            //         competencyName: competency_meta_data.competencyName,
+            //       },
+            //       competencyId: competency_meta_data.competencyId
+            //     }
+            //   ],
+            //   typeName: "competency",
+            //   userId: userId
 
-            },
+            // }
           }
           this.quizService.updatePassbook(formatedData).subscribe(() => {
           })
+          this.updateNextResourses()
         }
       },
       (_error: any) => {
@@ -314,6 +366,15 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.fetchingResultsStatus = 'error'
       },
     )
+  }
+
+  getCompetencyId(data: any) {
+    let id
+    _.forEach(data, (item: any) => {
+      if (item.identifier === this.assesmentdata.generalData.identifier)
+        id = item.competencyId.toString()
+    })
+    return id
   }
   calculateResults() {
     const correctAnswers = this.assesmentdata.questions.map(
@@ -423,6 +484,22 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.numIncorrectAnswers
   }
 
+  updateNextResourses() {
+    let realTimeProgressRequest = {
+      content_type: 'Resource',
+      current: ['0'],
+      max_size: 0,
+      mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
+      user_id_type: 'uuid',
+    }
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      // console.log("submit next data", data)
+      if (!_.isNull(data.nextResource)) {
+
+        this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId)
+      }
+    })
+  }
   nextQuestion() {
     // tslint:disable-next-line:max-line-length
     if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {

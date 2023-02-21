@@ -11,6 +11,7 @@ export interface IPlayerSateStore {
   nextResTitle: string | null
   currentCompletionPercentage: number | null
   prevCompletionPercentage: number | null
+  nextContentId: string | null
 }
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,9 @@ export class PlayerStateService {
   playerState = new ReplaySubject<IPlayerSateStore>(1)
   trigger$ = new BehaviorSubject<any>(undefined)
   // tslint:disable-next-line: max-line-length
-  setState({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevPercentage }:
+  setState({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevPercentage, nextContentId }:
     // tslint:disable-next-line: max-line-length
-    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevPercentage: number | null }) {
+    { isValid: boolean; prev: string | null; prevTitle: string | null; nextTitle: string | null; next?: string | null, currentPercentage: number | null, prevPercentage: number | null, nextContentId: string | null }) {
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerState.next(
       {
@@ -34,6 +35,7 @@ export class PlayerStateService {
         nextResTitle: nextTitle,
         currentCompletionPercentage: currentPercentage,
         prevCompletionPercentage: prevPercentage,
+        nextContentId: nextContentId
       },
     )
   }
@@ -70,7 +72,7 @@ export class PlayerStateService {
       })
       return prevResource
     }
-      return prevResource
+    return prevResource
 
   }
 
