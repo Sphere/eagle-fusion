@@ -176,6 +176,7 @@ export class SignupService {
   keyClockLogin() {
     let url = `${document.baseURI}`
     let redirectUrl = ''
+    sessionStorage.setItem('url', url)
     if (url.includes('hi')) {
       url = url.replace('hi/', '')
       redirectUrl = `${url}openid/keycloak`

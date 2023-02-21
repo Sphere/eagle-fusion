@@ -9808,7 +9808,7 @@
       </trans-unit>
       <trans-unit id="23ae7f781845c01c88c54122a144cc6c3acee44f" datatype="html">
         <source>last Updated On </source>
-        <target state="final">test</target>
+        <target state="final">अपडेट करने की आखरी तारीख</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">49</context>
