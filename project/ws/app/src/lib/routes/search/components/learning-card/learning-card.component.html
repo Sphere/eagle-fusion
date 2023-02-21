@@ -13,8 +13,8 @@
 <ng-container *ngIf="displayType === 'advanced'">
   <mat-card *ngIf="content" class="advanced-view relative">
     <div *ngIf="content.status === 'Deleted' || content.status === 'Expired'" i18n-aria-label
-      aria-label="Content expired or deleted"  matTooltip="Content may be expired or deleted"
-      class="status-danger"></div>
+      aria-label="Content expired or deleted" matTooltip="Content may be expired or deleted" class="status-danger">
+    </div>
     <mat-card-content>
       <div class="flex flex-middle" [title]="content.name">
         <!--[routerLink]="(content | pipeContentRoute).url"
@@ -25,16 +25,16 @@
         </a>
         <div class="width-expand card-content">
           <h1 [title]="content.name" class="margin-remove-top margin-remove-bottom flex flex-middle">
-            <mat-icon *ngIf="contentProgress > 0.99"  matTooltip="Completed" class="completed-icon">
+            <mat-icon *ngIf="contentProgress > 0.99" matTooltip="Completed" class="completed-icon">
               check_circle</mat-icon>
             <!--[routerLink]="(content | pipeContentRoute).url"
               [queryParams]="(content | pipeContentRoute).queryParams" -->
-            <a (click)="raiseTelemetry(content)"
-              class="margin-remove-bottom text-truncate mat-title cursor-pointer">{{ content.name }}</a>
+            <a (click)="raiseTelemetry(content)" class="margin-remove-bottom text-truncate mat-title cursor-pointer">{{
+              content.name }}</a>
           </h1>
           <span>
-            <ws-widget-display-content-type  matTooltip="Content Type"
-              *ngIf="content?.displayContentType" class="ws-mat-primary-text font-normal" [displayContentType]="content?.contentType==='Collection'
+            <ws-widget-display-content-type matTooltip="Content Type" *ngIf="content?.displayContentType"
+              class="ws-mat-primary-text font-normal" [displayContentType]="content?.contentType==='Collection'
               ?'Module'
               :(content?.contentType==='Learning Path'?'Program':content?.contentType)">
             </ws-widget-display-content-type>
@@ -55,14 +55,35 @@
           <div *ngIf="content.trainingLHubCount" class="mat-body-2">
             <span>{{ content.trainingLHubCount }}</span>
             <span>
-              <ng-container *ngIf="content?.trainingLHubCount > 1" >
+              <ng-container *ngIf="content?.trainingLHubCount > 1">
                 trainings available</ng-container>
-              <ng-container *ngIf="content?.trainingLHubCount === 1" >
+              <ng-container *ngIf="content?.trainingLHubCount === 1">
                 training available</ng-container>
             </span>
           </div>
+          <ng-container *ngIf="content.competencies_v1">
+            <div class="flex flex-col ">
+
+              <div><span class="font-weight-bold">Competency Name: </span> {{cometencyData[0].name}}</div>
+
+              <div class="flex flex-row">
+                <span class="font-weight-bold">Levels : </span>
+                <ng-container *ngFor="let competency of cometencyData; let last = last; ">
+                  <div>{{competency.levels}}
+                    <span *ngIf="!last">, </span>
+                  </div>
+                </ng-container>
+
+                <!-- <p>Name: {{competency.competencyName}} </p>
+                <p>Level: {{competency.level}} | </p> -->
+              </div>
+            </div>
+
+          </ng-container>
         </div>
       </div>
+
+
       <!-- <div class="flex">
         <div class="width-expand padding-top-xs" [ngClass]="{ 'text-truncate': !isExpanded }">
           <div (click)="isExpanded = !isExpanded" class="mat-body text-justify" [innerHTML]="description">

@@ -11,6 +11,7 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import * as _ from 'lodash'
+import { SearchApiService } from '../../apis/search-api.service'
 @Component({
   selector: 'ws-app-learning',
   templateUrl: './learning.component.html',
@@ -130,6 +131,8 @@ export class LearningComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     // private trainingSvc: TrainingService,
     private utilitySvc: UtilityService,
+    private searchSvc: SearchApiService,
+
   ) { }
 
   getActiveLocale() {
@@ -262,138 +265,144 @@ export class LearningComponent implements OnInit, OnDestroy {
     //   this.searchResults.result = this.activated.snapshot.data.learning.result
     // } else {
     this.activated.queryParamMap.subscribe(queryParams => {
-      // Reset search request object
-      this.searchRequest = {
-        query: '',
-        filters: {},
-      }
-      if (
-        this.activated.snapshot.data &&
-        this.activated.snapshot.data.pageroute !== 'learning' &&
-        this.activated.snapshot.data.pageData
-      ) {
-        this.routeComp = this.activated.snapshot.data.pageroute
-        this.activated.snapshot.data.pageData.data.search.tabs.map((cur: ISearchTab) => {
-          if (cur.titleKey === this.activated.snapshot.data.pageroute) {
-            // this.searchRequestObject.filters = cur.searchQuery.filters
-            this.searchRequestObject.request.filters = {}
-          }
-        })
+      if (queryParams.get('competency') == 'true') {
+        this.getCompetencyResult(queryParams.getAll('q'))
+
       } else {
-        this.routeComp = this.activated.snapshot.data.pageroute
-        // this.searchRequestObject.filters = {}
-      }
-      if (this.utilitySvc.isMobile && !this.isIntranetAllowedSettings) {
-        this.searchRequestObject.request.filters = {}
-        // this.searchRequestObject.filters['isInIntranet'] = ['false']
-      }
-      // query
 
-      if (queryParams.has('q')) {
-        if (this.searchRequestObject.request.query !== queryParams.get('q')) {
-          this.expandToPrefLang = true
+        // Reset search request object
+        this.searchRequest = {
+          query: '',
+          filters: {},
         }
-        this.searchRequestObject.request.query = queryParams.get('q') || ''
-        if (_.isEmpty(this.searchRequest.filters)) {
-          this.searchRequestObject.request.filters = {
-            visibility: ['Default'],
-            primaryCategory: [
-              'Course',
-            ],
-            contentType: [
-              'Course',
-            ],
+        if (
+          this.activated.snapshot.data &&
+          this.activated.snapshot.data.pageroute !== 'learning' &&
+          this.activated.snapshot.data.pageData
+        ) {
+          this.routeComp = this.activated.snapshot.data.pageroute
+          this.activated.snapshot.data.pageData.data.search.tabs.map((cur: ISearchTab) => {
+            if (cur.titleKey === this.activated.snapshot.data.pageroute) {
+              // this.searchRequestObject.filters = cur.searchQuery.filters
+              this.searchRequestObject.request.filters = {}
+            }
+          })
+        } else {
+          this.routeComp = this.activated.snapshot.data.pageroute
+          // this.searchRequestObject.filters = {}
+        }
+        if (this.utilitySvc.isMobile && !this.isIntranetAllowedSettings) {
+          this.searchRequestObject.request.filters = {}
+          // this.searchRequestObject.filters['isInIntranet'] = ['false']
+        }
+        // query
+
+        if (queryParams.has('q')) {
+          if (this.searchRequestObject.request.query !== queryParams.get('q') && queryParams.get('competency') == 'true') {
+            this.expandToPrefLang = true
           }
-        }
-      }
-
-      // filters
-      if (queryParams.has('f')) {
-        const filters = JSON.parse(queryParams.get('f') || '{}')
-        if (this.searchRequest.filters !== filters) {
-          this.expandToPrefLang = true
-        }
-        if (Object.keys(filters).length > 0) {
-          this.searchRequest.filters = filters
-          for (const key of Object.keys(this.searchRequest.filters)) {
-            if (key) {
-              this.searchRequestObject.request.filters = this.searchRequest.filters
+          this.searchRequestObject.request.query = queryParams.get('q') || ''
+          if (_.isEmpty(this.searchRequest.filters)) {
+            this.searchRequestObject.request.filters = {
+              visibility: ['Default'],
+              primaryCategory: [
+                'Course',
+              ],
+              contentType: [
+                'Course',
+              ],
             }
           }
-        } else {
-          this.searchRequestObject.request.filters = { visibility: ['Default'] }
         }
-      }
-      // if (queryParams.has('sort') && this.searchRequestObject.sort) {
-      //   this.searchRequest.sort = queryParams.get('sort') || ''
-      //   this.searchRequestObject.sort = this.getSortType(this.searchRequest.sort)
-      // }
-      if (queryParams.has('sort') && this.searchRequestObject.request.sort_by.lastUpdatedOn) {
-        this.searchRequest.sort = queryParams.get('sort') || ''
-        this.searchRequestObject.request.sort_by.lastUpdatedOn = this.getSortType()// this.searchRequest.sort
-      }
-      if (this.searchRequest.lang !== queryParams.get('lang') || this.getActiveLocale() || 'en') {
-        this.expandToPrefLang = true
-      }
-      this.searchRequest.lang = queryParams.get('lang')
-      if (this.searchRequest.lang) {
-        this.searchRequest.lang = this.searchRequest.lang.toLowerCase()
-        this.searchRequestObject.request.filters['lang'] = this.searchRequest.lang.toLowerCase()
-        this.lang = this.searchRequest.lang.toLowerCase()
-        this.contact = this.lang
-        // this.searchRequestObject.locale =
-        //   this.searchRequest.lang !== '' ? this.searchRequest.lang.split(',') : []
-      }
-      if (
-        this.searchRequestObject.request.query.toLowerCase() !== 'all' &&
-        this.searchRequestObject.request.query !== '*' && this.searchRequestObject.request.query !== ''
-      ) {
-        this.searchRequestObject.request.sort_by.lastUpdatedOn = ''
-        if (!this.searchRequest.filters.hasOwnProperty('contentType')) {
-          // this.searchRequestObject.isStandAlone = true
-        } else if (this.searchRequest.filters.contentType.length === 0) {
-          // this.searchRequestObject.isStandAlone = true
-        }
-        if (!this.applyIsStandAlone && this.searchRequestObject.hasOwnProperty('isStandAlone')) {
-          // delete this.searchRequestObject.isStandAlone
-        }
-      } else {
-        this.searchRequestObject.request.sort_by = { lastUpdatedOn: 'desc' }
-      }
-      this.noContent = false
-      if (
-        this.searchRequestObject.request.filters &&
-        !Object.keys(this.searchRequestObject.request.filters).length
-      ) {
-        // if (this.searchRequestObject && this.searchRequestObject.pageNo) {
-        //   this.searchRequestObject.pageNo = 0
-        // }
-        this.searchResults = {
-          id: '',
-          ver: '',
-          ts: '',
-          params: {
-            resmsgid: '',
-            err: '',
-            errmsg: '',
-            msgid: '',
-            status: '',
-          },
-          responseCode: '',
-          filters: [],
-          result: {
-            count: 0,
-            content: [],
-            facets: [],
-          },
-        }
-      }
-      const updatedFilterSet = this.searchServ.updateSelectedFiltersSet(this.searchRequest.filters)
-      this.selectedFilterSet = updatedFilterSet.filterSet
 
-      this.filtersResetAble = updatedFilterSet.filterReset
-      // Modify filters
-      this.getResults(undefined)
+        // filters
+        if (queryParams.has('f')) {
+          const filters = JSON.parse(queryParams.get('f') || '{}')
+          if (this.searchRequest.filters !== filters) {
+            this.expandToPrefLang = true
+          }
+          if (Object.keys(filters).length > 0) {
+            this.searchRequest.filters = filters
+            for (const key of Object.keys(this.searchRequest.filters)) {
+              if (key) {
+                this.searchRequestObject.request.filters = this.searchRequest.filters
+              }
+            }
+          } else {
+            this.searchRequestObject.request.filters = { visibility: ['Default'] }
+          }
+        }
+        // if (queryParams.has('sort') && this.searchRequestObject.sort) {
+        //   this.searchRequest.sort = queryParams.get('sort') || ''
+        //   this.searchRequestObject.sort = this.getSortType(this.searchRequest.sort)
+        // }
+        if (queryParams.has('sort') && this.searchRequestObject.request.sort_by.lastUpdatedOn) {
+          this.searchRequest.sort = queryParams.get('sort') || ''
+          this.searchRequestObject.request.sort_by.lastUpdatedOn = this.getSortType()// this.searchRequest.sort
+        }
+        if (this.searchRequest.lang !== queryParams.get('lang') || this.getActiveLocale() || 'en') {
+          this.expandToPrefLang = true
+        }
+        this.searchRequest.lang = queryParams.get('lang')
+        if (this.searchRequest.lang) {
+          this.searchRequest.lang = this.searchRequest.lang.toLowerCase()
+          this.searchRequestObject.request.filters['lang'] = this.searchRequest.lang.toLowerCase()
+          this.lang = this.searchRequest.lang.toLowerCase()
+          this.contact = this.lang
+          // this.searchRequestObject.locale =
+          //   this.searchRequest.lang !== '' ? this.searchRequest.lang.split(',') : []
+        }
+        if (
+          this.searchRequestObject.request.query.toLowerCase() !== 'all' &&
+          this.searchRequestObject.request.query !== '*' && this.searchRequestObject.request.query !== ''
+        ) {
+          this.searchRequestObject.request.sort_by.lastUpdatedOn = ''
+          if (!this.searchRequest.filters.hasOwnProperty('contentType')) {
+            // this.searchRequestObject.isStandAlone = true
+          } else if (this.searchRequest.filters.contentType.length === 0) {
+            // this.searchRequestObject.isStandAlone = true
+          }
+          if (!this.applyIsStandAlone && this.searchRequestObject.hasOwnProperty('isStandAlone')) {
+            // delete this.searchRequestObject.isStandAlone
+          }
+        } else {
+          this.searchRequestObject.request.sort_by = { lastUpdatedOn: 'desc' }
+        }
+        this.noContent = false
+        if (
+          this.searchRequestObject.request.filters &&
+          !Object.keys(this.searchRequestObject.request.filters).length
+        ) {
+          // if (this.searchRequestObject && this.searchRequestObject.pageNo) {
+          //   this.searchRequestObject.pageNo = 0
+          // }
+          this.searchResults = {
+            id: '',
+            ver: '',
+            ts: '',
+            params: {
+              resmsgid: '',
+              err: '',
+              errmsg: '',
+              msgid: '',
+              status: '',
+            },
+            responseCode: '',
+            filters: [],
+            result: {
+              count: 0,
+              content: [],
+              facets: [],
+            },
+          }
+        }
+        const updatedFilterSet = this.searchServ.updateSelectedFiltersSet(this.searchRequest.filters)
+        this.selectedFilterSet = updatedFilterSet.filterSet
+
+        this.filtersResetAble = updatedFilterSet.filterReset
+        // Modify filters
+        this.getResults(undefined)
+      }
     })
     // }
   }
@@ -408,6 +417,157 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (this.prefChangeSubscription) {
       this.prefChangeSubscription.unsubscribe()
     }
+  }
+  getCompetencyResult(data: any) {
+    let reqData = {
+      "request": {
+        "filters": {
+          "competencySearch": data,
+          "primaryCategory": [
+            "Course"
+          ],
+          "contentType": [
+            "Course"
+          ],
+          "status": [
+            "Live"
+          ]
+        },
+        "sort_by": {
+          "lastUpdatedOn": "desc"
+        }
+      },
+      "sort": [
+        {
+          "lastUpdatedOn": "desc"
+        }
+      ]
+    }
+    let withQuotes: boolean
+    let didYouMean = true
+    this.searchSvc.getSearchCompetencyCourses(reqData).subscribe(
+      data => {
+        this.searchResults.result.count = data.result.count
+        this.searchServ.raiseSearchResponseEvent(
+          this.searchRequestObject.request.query,
+          this.searchRequestObject.request.filters,
+          this.searchResults.result.count,
+          '',
+        )
+        this.searchResults.filters = data.filters
+        // this.searchResults.queryUsed = data.queryUsed
+        // this.searchResults.type = data.type
+        this.searchResults.result.content = (data.result.content) ? data.result.content : []
+        // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
+        // this.searchResults.doYouMean = data.doYouMean
+        // this.searchResults.queryUsed = data.queryUsed
+        // this.handleFilters(this.searchResults.filters)
+        const filteR = this.searchServ.handleFilters(
+          this.searchResults.filters,
+          this.selectedFilterSet,
+          this.searchRequest.filters,
+          this.activated.snapshot.data.pageroute !== 'learning' ? true : false,
+        )
+        this.searchServ.getSearchConfig().then(searchData => {
+          if (filteR.filtersRes && filteR.filtersRes.length > 0) {
+            filteR.filtersRes.forEach(ele => {
+              if (searchData.search.visibleFilters.hasOwnProperty(ele.displayName)) {
+                ele.displayName = searchData.search.visibleFilters[ele.displayName].displayName
+              }
+            })
+            const newArray: any = []
+            data.result.facets.forEach((el: any) => {
+              const obj2 = {}
+              if (el.values.length > 0) {
+                el.values.forEach((el1: any) => {
+                  el1['displayName'] = el1.name
+                  el1['type'] = el1.name
+                  el1['checked'] = true
+                  el1['count'] = el1.count
+                })
+                if (el.name === 'resourceType' || el.name === 'exclusiveContent') {
+                  obj2['displayName'] = el.name
+                  obj2['type'] = el.name
+                  obj2['checked'] = true
+                  obj2['content'] = el.values
+                  newArray.push(obj2)
+                }
+              }
+            })
+            Array.prototype.push.apply(filteR.filtersRes, newArray)
+            this.filtersResponse = filteR.filtersRes
+          }
+        })
+        if (
+          this.searchResults.result.count === 0 && this.isDefaultFilterApplied
+        ) {
+          this.removeDefaultFiltersApplied()
+          this.getResults(undefined, didYouMean)
+          return
+        } if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+          this.searchWithPreferredLanguage()
+          this.getResults(undefined, didYouMean)
+          return
+        } if (
+          this.searchResults.result.count === 0 &&
+          this.searchRequestObject.request.query.indexOf(' ') === -1
+        ) {
+          this.noContent = true
+        } else if ( // No results with phrase search disabled and space separated words
+          this.searchResults.result.count === 0 &&
+          this.searchRequestObject.request.query.indexOf(' ') > -1 &&
+          !this.applyPhraseSearch
+        ) {
+          this.noContent = true
+        } else if (
+          this.searchResults.result.count === 0 &&
+          this.searchRequestObject.request.query.indexOf(' ') > -1 &&
+          withQuotes
+        ) {
+          this.noContent = true
+        } else if (
+          this.searchResults.result.count === 0 &&
+          this.searchRequestObject.request.query.indexOf(' ') > -1 && this.applyPhraseSearch
+        ) {
+          // this.searchRequestObject.pageNo = 0
+          this.getResults(true, didYouMean)
+          return
+        } else if (
+          this.searchResults.result.count === 0 &&
+          this.searchRequestObject.request.query.indexOf(' ') === -1 // &&
+          // this.searchRequestObject.instanceCatalog
+        ) {
+          // this.searchRequestObject.pageNo = 0
+          // this.searchRequestObject.instanceCatalog = false
+          this.getResults(true, didYouMean)
+          return
+        } else if (
+          this.searchResults.result.count > 0 &&
+          this.searchRequestObject.request.query.indexOf(' ') > -1 &&
+          !this.exactResult.applied
+        ) {
+          this.exactResult.show = true
+          this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
+        }
+        if (this.searchResults.result.content.length < this.searchResults.result.count) {
+          this.searchRequestStatus = 'hasMore'
+        } else {
+          this.searchRequestStatus = 'done'
+        }
+        if (this.searchResults.result.content.length < this.searchResults.result.count) {
+          // tslint:disable-next-line: no-non-null-assertion
+          // this.searchRequestObject.pageNo! += 1
+        }
+
+        this.getTrainingsLHub(this.searchResults)
+      },
+      error => {
+        this.error.load = true
+        this.error.message = error
+        this.searchRequestStatus = 'done'
+      },
+    )
+
   }
 
   getResults(withQuotes?: boolean, didYouMean = true) {
