@@ -10,9 +10,7 @@
   <ng-container *ngFor="let key of stripsKeyOrder; let i = index">
     <ng-container *ngIf="stripsResultDataMap[key].showStrip">
       <a name="{{stripsResultDataMap[key]?.stripTitle}}">
-        <div *ngIf="
-                  stripsResultDataMap[key]?.widgets?.length
-                " [ngClass]="
+        <div [ngClass]="
                   !widgetData.isChannelStrip ? 'px-4 sm\:px-48 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
                 " [id]="key">
           <div *ngIf="!callPublicApi" [ngClass]="{ pad: stripsResultDataMap[key]?.stripBackground }"
