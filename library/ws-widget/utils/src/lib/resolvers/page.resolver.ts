@@ -99,6 +99,10 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       this.locale = 'hi'
     }
 
+    if (location.href.indexOf('hi/page/home') > -1) {
+      this.locale = 'hi'
+    }
+
     // tslint:disable-next-line: no-non-null-assertion
     // if (this.configSvc.userProfile && url.indexOf('public-home') <= -1) {
     //   // tslint:disable-next-line: no-non-null-assertion
