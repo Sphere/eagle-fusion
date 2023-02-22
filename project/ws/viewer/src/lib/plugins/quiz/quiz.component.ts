@@ -39,7 +39,7 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import moment from 'moment'
-import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
+//import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -125,7 +125,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private contentSvc: WidgetContentService,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
-    private searchSvc: SearchApiService,
+    //private searchSvc: SearchApiService,
   ) {
 
   }
@@ -417,47 +417,52 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   viewCompetencyCourses(data: any) {
     if (data.competencyId && data.competencyLevel) {
-      let reqBody = {
-        "request": {
-          "filters": {
-            "competencySearch": [
-              `${data.competencyId}-${data.competencyLevel}`,
-            ],
-            "primaryCategory": [
-              "Course"
-            ],
-            "contentType": [
-              "Course"
-            ],
-            "status": [
-              "Live"
-            ]
-          },
-          "sort_by": {
-            "lastUpdatedOn": "desc"
-          }
+      this.router.navigate(['/app/search'], {
+        queryParams: {
+          q: [
+            `${data.competencyId}-${data.competencyLevel}`,
+          ], competency: true
         },
-        "sort": [
-          {
-            "lastUpdatedOn": "desc"
-          }
-        ]
-      }
+        queryParamsHandling: 'merge',
+      })
+      // let reqBody = {
+      //   "request": {
+      //     "filters": {
+      //       "competencySearch": [
+      //         `${data.competencyId}-${data.competencyLevel}`,
+      //       ],
+      //       "primaryCategory": [
+      //         "Course"
+      //       ],
+      //       "contentType": [
+      //         "Course"
+      //       ],
+      //       "status": [
+      //         "Live"
+      //       ]
+      //     },
+      //     "sort_by": {
+      //       "lastUpdatedOn": "desc"
+      //     }
+      //   },
+      //   "sort": [
+      //     {
+      //       "lastUpdatedOn": "desc"
+      //     }
+      //   ]
+      // }
 
-      this.searchSvc.getSearchCompetencyCourses(reqBody).subscribe(
-        res => {
-          this.router.navigate(['/app/search'], {
-            queryParams: { q: res.result.content[0].name },
-            queryParamsHandling: 'merge',
-          })
-          // this.router.navigate([`/app/toc/${res.result.content[0].identifier}/overview`], {
-          //   queryParams: {
-          //     primaryCategory: 'Course',
-          //     batchId: res.result.content[0].batches[0].batchId
-          //   },
-          // })
-        }
-      )
+      // this.searchSvc.getSearchCompetencyCourses(reqBody).subscribe(
+      //   res => {
+
+      //     // this.router.navigate([`/app/toc/${res.result.content[0].identifier}/overview`], {
+      //     //   queryParams: {
+      //     //     primaryCategory: 'Course',
+      //     //     batchId: res.result.content[0].batches[0].batchId
+      //     //   },
+      //     // })
+      //   }
+      // )
     }
   }
 
