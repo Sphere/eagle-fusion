@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.router.navigate(['/hi/app/profile-view'])
     const tab = this.router.url.split('/')[3]
     if (tab === 'dashboard') {
       this.tabName = this.enabledTabs.dashboard.displayName
