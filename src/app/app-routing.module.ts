@@ -218,10 +218,7 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
-    path: 'hi/app/profile',
-    loadChildren: () =>
-      import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
-    canActivate: [GeneralGuard],
+    path: 'hi/app/profile/dashboard', redirectTo: 'hi/app/profile-view', pathMatch: 'full'
   },
   {
     path: 'app/person-profile',
