@@ -862,7 +862,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{ actionBtn.name }}"/>
         </source>
-               <target>test</target>
+               <target>होम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
           <context context-type="linenumber">115</context>
@@ -9832,7 +9832,7 @@
       </trans-unit>
       <trans-unit id="441a59953a0cbf44b6a415ac9953572cd7309728" datatype="html">
         <source>What do you want to learn?</source>
-        <target state="final">test</target>
+        <target state="final">आपको क्या सीखना है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/home/home.component.html</context>
           <context context-type="linenumber">9</context>
