@@ -218,7 +218,9 @@ const routes: Routes = [
   //   canActivate: [GeneralGuard],
   // },
   {
-    path: 'hi/app/profile/dashboard', redirectTo: 'hi/app/profile-view', pathMatch: 'full'
+    path: 'hi/app/profile/dashboard',
+    component: MobileProfileDashboardComponent,
+    canActivate: [GeneralGuard],
   },
   {
     path: 'app/person-profile',
