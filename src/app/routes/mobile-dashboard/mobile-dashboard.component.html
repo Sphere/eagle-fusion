@@ -5,6 +5,11 @@
   <ng-template #start>
     <p class="text-2xl" i18n>Start Learning</p>
   </ng-template>
+  <div class="flex gap-2">
+    <h3 class="mb-2"><span i18n>Language for Learning </span>: <span
+        class="display-language">{{preferedLanguage.lang}}</span></h3>
+    <img src="/fusion-assets/icons/lang-icon.png" class="lang-img cursor-pointer" (click)="changeLanguage()" />
+  </div>
   <!-- <span class="language-text">English <mat-icon>close</mat-icon></span>
   <span class="language-text">हिन्दी <mat-icon>close</mat-icon></span> -->
 
