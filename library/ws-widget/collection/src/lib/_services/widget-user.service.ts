@@ -4,7 +4,6 @@ import { Observable, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { IUserGroupDetails } from './widget-user.model'
 import { NsContent } from './widget-content.model'
-import { query } from '@angular/animations'
 
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const API_END_POINTS = {
