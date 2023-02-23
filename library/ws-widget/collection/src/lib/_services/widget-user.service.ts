@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { IUserGroupDetails } from './widget-user.model'
 import { NsContent } from './widget-content.model'
+import { query } from '@angular/animations'
 
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const API_END_POINTS = {
@@ -50,10 +51,17 @@ export class WidgetUserService {
   // }
   // tslint:disable-next-line:max-line-length
   fetchUserBatchList(userId: string | undefined, queryParams?: { orgdetails: any, licenseDetails: any, fields: any, batchDetails: any }): Observable<NsContent.ICourse[]> {
+    console.log(queryParams)
     let path = ''
     if (queryParams) {
+
       // tslint:disable-next-line: max-line-length
       path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_V2(userId, queryParams.orgdetails, queryParams.licenseDetails, queryParams.fields, queryParams.batchDetails)
+      console.log(path)
+      if (path.includes('hi')) {
+        path = path.replace('hi/', '')
+      }
+      console.log(path)
     } else {
       path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
     }
