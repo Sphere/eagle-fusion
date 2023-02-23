@@ -4027,7 +4027,7 @@
       </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
-        <target state="final">रीसेट करने के लिए</target>
+        <target state="final"> रीसेट करने के लिए </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
