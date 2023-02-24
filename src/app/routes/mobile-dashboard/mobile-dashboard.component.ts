@@ -43,6 +43,13 @@ export class MobileDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('preferedLanguage')) {
+      let data: any
+      data = localStorage.getItem('preferedLanguage')
+      if (JSON.parse(data).selected === true) {
+        this.preferedLanguage = JSON.parse(data)
+      }
+    }
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',
@@ -144,9 +151,11 @@ export class MobileDashboardComponent implements OnInit {
         selected: this.preferedLanguage,
       },
     })
-    this.langDialog.afterClosed().subscribe((result: any) => {
-      this.preferedLanguage = result
-      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+    this.langDialog.afterClosed().subscribe(async (result: any) => {
+      let langSelected: any
+      langSelected = await result
+      langSelected["selected"] = true
+      localStorage.setItem(`preferedLanguage`, JSON.stringify(langSelected))
       let lang = result.id === 'hi' ? result.id : ''
       if (this.router.url.includes('hi')) {
         const lan = this.router.url.split('hi/').join('')

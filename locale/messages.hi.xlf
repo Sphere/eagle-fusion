@@ -9695,7 +9695,7 @@
       </trans-unit>
       <trans-unit id="5a07134ad1baf60899729cd1064c0f10d6c73205" datatype="html">
         <source>Different keywords</source>
-        <target state="final">test</target>
+        <target state="final">अलग-अलग कीवर्ड के लिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
           <context context-type="linenumber">127</context>
