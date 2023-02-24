@@ -55,6 +55,10 @@ export class AssessmentDetailComponent implements OnInit {
         if (artifactUrl.includes('/hi/')) {
           artifactUrl = artifactUrl.replace('hi/', '')
         }
+        if (window.location.origin.indexOf('http://localhost:') === -1) {
+          artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+        }
+        console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()
@@ -86,6 +90,10 @@ export class AssessmentDetailComponent implements OnInit {
         if (artifactUrl.includes('/hi/')) {
           artifactUrl = artifactUrl.replace('hi/', '')
         }
+        if (window.location.origin.indexOf('http://localhost:') === -1) {
+          artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+        }
+        console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()
