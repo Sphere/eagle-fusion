@@ -12398,9 +12398,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="c26225d954af0c0f3436a6fc2c8938a54d66623f" datatype="html">
-        <source>
- कृपया प्रतीक्षा करें! आवेदन किया गया कंटेंट लोड हो रहा है</source>
-        <target state="final">test</target>
+        <source>  Please wait! Content requested is loading</source>
+        <target state="final">कृपया प्रतीक्षा करें! आवेदन किया गया कंटेंट लोड हो रहा है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">70</context>

@@ -11,7 +11,10 @@
     <ng-container *ngIf="stripsResultDataMap[key].showStrip">
       <a name="{{stripsResultDataMap[key]?.stripTitle}}">
         <div *ngIf="
-                  stripsResultDataMap[key]?.widgets?.length
+                  stripsResultDataMap[key]?.widgets?.length ||
+                  stripsResultDataMap[key]?.showOnNoData ||
+                  stripsResultDataMap[key]?.showOnLoader ||
+                  stripsResultDataMap[key]?.showOnError
                 " [ngClass]="
                   !widgetData.isChannelStrip ? 'px-4 sm\:px-48 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
                 " [id]="key">
