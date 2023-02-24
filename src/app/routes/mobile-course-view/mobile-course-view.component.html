@@ -13,6 +13,20 @@
       <div *ngIf="enableConfig" class="p-2">
         <a href="app/toc/{{courseData.identifier}}/overview" class="btn start-btn" i18n>Start now!</a>
       </div>
+      <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0  ">
+        <div class="flex flex-col m-3 ">
+          <div><span class="font-medium">Competency Name: </span> {{cometencyData[0].name}}</div>
+          <div class="flex flex-row">
+            <span class="font-medium">Levels : </span>
+            <ng-container *ngFor="let competency of cometencyData; let last = last; ">
+              <div>{{competency.levels}}
+                <span *ngIf="!last">, </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </ng-container>
     </div>
   </a>
 </section>

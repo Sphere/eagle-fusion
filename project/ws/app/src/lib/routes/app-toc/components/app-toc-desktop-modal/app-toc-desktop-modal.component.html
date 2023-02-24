@@ -15,7 +15,7 @@
     <h1>{{cometencyData[0].name}}</h1>
     <div class="flex flex-row">
       <ng-container *ngFor="let item of cometencyData; let last = last; ">
-        <div class="levels">{{item.levels}}
+        <div *ngIf="item.levels" class="levels">{{item.levels}}
           <span *ngIf="!last">, </span>
         </div>
       </ng-container>

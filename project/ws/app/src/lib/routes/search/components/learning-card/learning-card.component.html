@@ -61,21 +61,21 @@
                 training available</ng-container>
             </span>
           </div>
-          <ng-container *ngIf="content.competencies_v1">
-            <div class="flex flex-col ">
+          <ng-container *ngIf="content.competencies_v1 && cometencyData.length > 0  ">
+            <div class="flex flex-col mt-1 ">
 
-              <div><span class="font-weight-bold">Competency Name: </span> {{cometencyData[0].name}}</div>
+              <div *ngIf="cometencyData[0].name"><span class="font-medium">Competency Name: </span>
+                {{cometencyData[0].name}}</div>
 
               <div class="flex flex-row">
-                <span class="font-weight-bold">Levels : </span>
+                <span class="font-medium">Levels : </span>
                 <ng-container *ngFor="let competency of cometencyData; let last = last; ">
                   <div>{{competency.levels}}
                     <span *ngIf="!last">, </span>
                   </div>
                 </ng-container>
 
-                <!-- <p>Name: {{competency.competencyName}} </p>
-                <p>Level: {{competency.level}} | </p> -->
+
               </div>
             </div>
 
