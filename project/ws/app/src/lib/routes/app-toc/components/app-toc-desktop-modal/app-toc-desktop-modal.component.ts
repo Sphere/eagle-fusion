@@ -23,15 +23,15 @@ export class AppTocDesktopModalComponent implements OnInit {
   competencyData(data: any) {
     // let competencyData: { name: any; levels: string }[] = []
     _.forEach(JSON.parse(data), (value: any) => {
-
       this.cometencyData.push(
         {
           name: value.competencyName,
-          levels: ` Level ${value.level}`
+
+          levels: value.level ? ` Level ${value.level}` : `Levels data not found!`
         }
       )
     })
-    //console.log("inside", _.uniqBy(this.cometencyData, 'name'))
+    console.log("inside", this.cometencyData, 'name')
     return this.cometencyData
   }
 

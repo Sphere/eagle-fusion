@@ -5,6 +5,7 @@ import { of } from 'rxjs'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { SignupService } from '../signup/signup.service'
+import * as _ from 'lodash'
 @Component({
   selector: 'ws-mobile-course-view',
   templateUrl: './mobile-course-view.component.html',
@@ -15,18 +16,34 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any
   @Input() enableConfig = false
   constructor(private router: Router,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private signUpSvc: SignupService
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private signUpSvc: SignupService
   ) { }
-
+  cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    if (this.courseData.competencies_v1) {
+
+      _.forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
+        if (value.level) {
+          this.cometencyData.push(
+            {
+              name: value.competencyName,
+              levels: ` Level ${value.level}`
+            }
+          )
+        }
+        console.log(this.cometencyData)
+        return this.cometencyData
+      })
+    }
   }
 
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
 
     // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
+
 
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
     if (this.configSvc.userProfile === null) {
