@@ -7,6 +7,8 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/p
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { forkJoin } from 'rxjs'
 import * as _ from 'lodash'
+import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
+import { MatDialog } from '@angular/material'
 @Component({
   selector: 'ws-mobile-dashboard',
   templateUrl: './mobile-dashboard.component.html',
@@ -24,12 +26,16 @@ export class MobileDashboardComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
+  languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  langDialog: any
+  preferedLanguage: any = { id: 'en', lang: 'English' }
 
   constructor(private orgService: OrgServiceService,
-              private configSvc: ConfigurationsService,
-              private userSvc: WidgetUserService,
-              private router: Router,
-              private http: HttpClient
+    private configSvc: ConfigurationsService,
+    private userSvc: WidgetUserService,
+    private router: Router,
+    private http: HttpClient,
+    public dialog: MatDialog
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -83,7 +89,7 @@ export class MobileDashboardComponent implements OnInit {
       result['name'] = value.name
       return result
 
-    },                             {})
+    }, {})
   }
 
   formatTopCertifiedCourseResponse(res: any) {
@@ -131,5 +137,31 @@ export class MobileDashboardComponent implements OnInit {
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
   }
-
+  changeLanguage() {
+    this.langDialog = this.dialog.open(LanguageDialogComponent, {
+      panelClass: 'language-modal',
+      data: {
+        selected: this.preferedLanguage,
+      },
+    })
+    this.langDialog.afterClosed().subscribe((result: any) => {
+      this.preferedLanguage = result
+      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+      let lang = result.id === 'hi' ? result.id : ''
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        if (lang === 'hi') {
+          window.location.assign(`${location.origin}/${lang}${lan}`)
+        } else {
+          window.location.assign(`${location.origin}${lang}${lan}`)
+        }
+      } else {
+        if (lang === 'hi') {
+          window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+        } else {
+          window.location.assign(`${location.origin}${lang}${this.router.url}`)
+        }
+      }
+    })
+  }
 }

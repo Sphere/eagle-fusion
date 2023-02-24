@@ -95,7 +95,11 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       this.locale = 'en'
     }
 
-    if (location.href.indexOf('hi/public-home') > -1) {
+    if (location.href.indexOf('hi/public/home') > -1) {
+      this.locale = 'hi'
+    }
+
+    if (location.href.indexOf('hi/page/home') > -1) {
       this.locale = 'hi'
     }
 
@@ -118,8 +122,8 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     //     this.locale = this.configSvc.userProfile!.language || 'en-US'
     //   }
     // }
-     // tslint:disable-next-line:no-console
-     console.log(this.locale, url)
+    // tslint:disable-next-line:no-console
+    console.log(this.locale, url)
     const pageRequest = [
       (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
         mergeMap(() =>

@@ -100,8 +100,15 @@ export class QuizComponent implements OnInit, OnDestroy {
 
   private async transformQuiz(content: NsContent.IContent): Promise<NSQuiz.IQuiz> {
     if (this.activatedRoute.snapshot.queryParams.competency) {
-      const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
+      let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
       )
+      if (artifactUrl.includes('/hi/')) {
+        artifactUrl = artifactUrl.replace('hi/', '')
+      }
+      if (window.location.origin.indexOf('http://localhost:') === -1) {
+        artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+      }
+      console.log(artifactUrl)
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()

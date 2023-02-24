@@ -50,8 +50,15 @@ export class AssessmentDetailComponent implements OnInit {
   private async transformQuiz(content: any): Promise<NSQuiz.IQuiz> {
     if (this.activatedRoute.snapshot.queryParams.competency) {
       if (content.artifactUrl) {
-        const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
+        let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(content.artifactUrl.split('/content')[1]
         )
+        if (artifactUrl.includes('/hi/')) {
+          artifactUrl = artifactUrl.replace('hi/', '')
+        }
+        if (window.location.origin.indexOf('http://localhost:') === -1) {
+          artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+        }
+        console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()
@@ -78,8 +85,15 @@ export class AssessmentDetailComponent implements OnInit {
           this.contentSvc.fetchContent(this.content.identifier, 'detail')
         ).toPromise()
 
-        const artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(contents.result.content.artifactUrl.split('/content')[1]
+        let artifactUrl = this.viewSvc.getCompetencyAuthoringUrl(contents.result.content.artifactUrl.split('/content')[1]
         )
+        if (artifactUrl.includes('/hi/')) {
+          artifactUrl = artifactUrl.replace('hi/', '')
+        }
+        if (window.location.origin.indexOf('http://localhost:') === -1) {
+          artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+        }
+        console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()

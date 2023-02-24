@@ -160,8 +160,16 @@ export class AuthKeycloakService {
       localStorage.removeItem('url_before_login')
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
-      const url = `${document.baseURI}public/home`
-      const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      let url = `${document.baseURI}`
+      let redirectUrl = ''
+      if (url.includes('hi')) {
+        url = url.replace('hi/', '')
+        redirectUrl = `${url}public/home`
+      } else {
+        redirectUrl = `${url}public/home`
+      }
+
+      const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`
       window.location.href = keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
     } catch (error) { }

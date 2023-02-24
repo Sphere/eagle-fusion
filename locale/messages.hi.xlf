@@ -862,7 +862,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{ actionBtn.name }}"/>
         </source>
-               <target>test</target>
+               <target>होम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
           <context context-type="linenumber">115</context>
@@ -4027,7 +4027,7 @@
       </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
-        <target state="final">रीसेट करने के लिए</target>
+        <target state="final"> रीसेट करने के लिए </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
@@ -6543,7 +6543,7 @@
       </trans-unit>
       <trans-unit id="3f5a652a1f473f4e243e3c6805ef1b383e270bb7" datatype="html">
         <source>Discard</source>
-        <target state="final">test</target>
+        <target state="final">खारिज करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/forums/widgets/Dialog-Box/dialog-box-admin-accept/dialog-box-admin-accept.component.html</context>
           <context context-type="linenumber">14</context>
@@ -6738,7 +6738,7 @@
       </trans-unit>
       <trans-unit id="c5bb9f8936cb33db2ca351a1b87a984fdf11917c" datatype="html">
         <source>Comments</source>
-        <target state="final">test</target>
+        <target state="final">टिप्पणीयां</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/knowledge-artifact-details/knowledge-artifact-details.component.html</context>
           <context context-type="linenumber">75</context>
@@ -9808,7 +9808,7 @@
       </trans-unit>
       <trans-unit id="23ae7f781845c01c88c54122a144cc6c3acee44f" datatype="html">
         <source>last Updated On </source>
-        <target state="final">test</target>
+        <target state="final">अपडेट करने की आखरी तारीख</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">49</context>
@@ -9832,7 +9832,7 @@
       </trans-unit>
       <trans-unit id="441a59953a0cbf44b6a415ac9953572cd7309728" datatype="html">
         <source>What do you want to learn?</source>
-        <target state="final">test</target>
+        <target state="final">आपको क्या सीखना है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/home/home.component.html</context>
           <context context-type="linenumber">9</context>
@@ -12338,7 +12338,7 @@
       <trans-unit id="3b53f47846ba4b4f78e7e1d03043238544555168" datatype="html">
         <source>
         This content can only be viewed in Intranet.</source>
-        <target state="final">test</target>
+        <target state="final">यह कंटेंट केवल इंट्रानेट में देखा जा सकता है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">11</context>
@@ -12356,7 +12356,7 @@
       </trans-unit>
       <trans-unit id="b9bf38bb98465fef14bc4b0748beaa8a5dd8791c" datatype="html">
         <source>This content can only be viewed in Intranet</source>
-        <target state="final">test</target>
+        <target state="final">यह कंटेंट केवल इंट्रानेट में देखा जा सकता है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">30</context>
@@ -12364,7 +12364,7 @@
       </trans-unit>
       <trans-unit id="6fee45ccaa13c03992094cce2409c57fb0a10112" datatype="html">
         <source>Content will open in a new window. If you are unable to view it, click on the button below.</source>
-        <target state="final">test</target>
+        <target state="final">कंटेंट एक नई विंडो में खुलेगा। यदि आप इसे देखने में असमर्थ हैं, तो नीचे दिए गए बटन पर क्लिक करें।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">33</context>
@@ -12373,7 +12373,7 @@
       <trans-unit id="06649806f85fbd109997a7769efdf655d3859765" datatype="html">
         <source>
       This content can only be viewed in Intranet.</source>
-        <target state="final">test</target>
+        <target state="final">यह कंटेंट केवल इंट्रानेट में देखा जा सकता है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">43</context>
@@ -12382,7 +12382,7 @@
       <trans-unit id="f95f4709de2cc1e6f7800a4619701e795fb4bc29" datatype="html">
         <source>
         Open in New Window</source>
-        <target state="final">test</target>
+        <target state="final">नई विंडो में खोलें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">55</context>
@@ -12391,16 +12391,15 @@
       <trans-unit id="40de9b8392fd79d487c28855f98eb350074a4287" datatype="html">
         <source>
         Dismiss</source>
-        <target state="final">test</target>
+        <target state="final">खारिज करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c26225d954af0c0f3436a6fc2c8938a54d66623f" datatype="html">
-        <source>
-  Please wait! Content requested is loading</source>
-        <target state="final">test</target>
+        <source>  Please wait! Content requested is loading</source>
+        <target state="final">कृपया प्रतीक्षा करें! आवेदन किया गया कंटेंट लोड हो रहा है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">70</context>
@@ -12409,7 +12408,7 @@
       <trans-unit id="cf99091d9876865d2411d6f28913ab337a5b10ee" datatype="html">
         <source>
     Error loading page. Please try refreshing page.</source>
-        <target state="final">test</target>
+        <target state="final">पेज लोड करने में गड़बड़ी। कृपया पेज को रीफ्रेश करने का प्रयास करें।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">75</context>

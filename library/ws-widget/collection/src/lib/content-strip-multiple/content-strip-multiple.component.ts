@@ -82,6 +82,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
+    console.log(url)
+    console.log(this.widgetData)
     this.isFromAuthoring = this.searchArray.some((word: string) => {
       return url.indexOf(word) > -1
     })
@@ -616,7 +618,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
   filterCourse(contents: any) {
     const list = contents.content
     const newList = list.filter((i: any) => {
-      return (i.identifier !== 'do_11357408383009587211503' && i.identifier !== 'do_1136945911089315841314' && i.identifier !== 'do_1136782979878830081208' && i.identifier !== 'do_1137080467819233281337' && i.identifier !== 'do_1137277157194874881840' && i.identifier !== 'do_1137271380816445441783' && i.identifier !== 'do_11372920869709414411055' && i.identifier !== 'do_11372920673603584011054')
+      return (i.identifier !== 'do_11357408383009587211503' && i.identifier !== 'do_1136945911089315841314' && i.identifier !== 'do_1136782979878830081208' && i.identifier !== 'do_1137080467819233281337' && i.identifier !== 'do_1137277157194874881840' && i.identifier !== 'do_1137271380816445441783' && i.identifier !== 'do_11372920869709414411055' && i.identifier !== 'do_11372920673603584011054' && i.identifier !== 'do_11372936540887449611133' && i.identifier !== 'do_11372936199061504011127' && i.identifier !== 'do_11373908855994777612314' && i.identifier != 'do_11373906402920857612296' && i.identifier != 'do_11373852727316480012245')
     })
     contents.content = newList
     return contents
