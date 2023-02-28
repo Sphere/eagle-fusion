@@ -140,7 +140,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
         this.academicsArray = this.userProfileData.academics
       }
-      this.CompetencyConfiService.setConfig(this.userProfileData)
+      this.CompetencyConfiService.setConfig(this.userProfileData, data.profileDetails)
     }
   }
   getUserDetails() {
