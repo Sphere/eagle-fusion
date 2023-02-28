@@ -11,14 +11,14 @@ export class ConfigService {
 
   }
 
-  setConfig(profileData: any) {
+  setConfig(profileData: any, profileDetails: any) {
     const config = {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       profileData: (profileData.professionalDetails),
+      language: Object.keys(profileDetails.preferences).length > 0 ? profileDetails.preferences : '',
       id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath,
     }
-
     localStorage.setItem('competency', JSON.stringify(config))
   }
 
