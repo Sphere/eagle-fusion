@@ -180,6 +180,7 @@ export class SignupService {
     if (url.includes('hi')) {
       url = url.replace('hi/', '')
       redirectUrl = `${url}openid/keycloak`
+      sessionStorage.setItem('lang', 'hi')
     } else {
       redirectUrl = `${url}openid/keycloak`
     }

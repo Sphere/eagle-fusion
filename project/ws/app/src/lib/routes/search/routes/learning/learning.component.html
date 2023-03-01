@@ -105,8 +105,8 @@
     <mat-spinner></mat-spinner>
   </div>
   <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-xl text-center">
-    <h2 class="mat-h2">No result</h2>
-    <h3 class="mat-h3">You may try</h3>
+    <h2 class="mat-h2" i18n>No result</h2>
+    <h3 class="mat-h3" i18n>You may try</h3>
     <div class="padding-left-s">
       <h4 [hidden]="!filtersResetAble">
         <ng-container> Removing Filters </ng-container>

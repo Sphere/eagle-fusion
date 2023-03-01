@@ -49,7 +49,12 @@ export class MobileDashboardComponent implements OnInit {
       if (JSON.parse(data).selected === true) {
         this.preferedLanguage = JSON.parse(data)
       }
+    } else {
+      if (this.router.url.includes('hi')) {
+        this.preferedLanguage = { id: 'hi', lang: 'हिंदी' }
+      }
     }
+
     this.videoData = [
       {
         url: './../../fusion-assets/videos/videoplayback.mp4',

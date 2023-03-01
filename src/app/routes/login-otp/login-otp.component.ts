@@ -89,6 +89,7 @@ export class LoginOtpComponent implements OnInit {
         if (url.includes('hi')) {
           url = url.replace('hi/', '')
           this.redirectUrl = `${url}openid/keycloak`
+          sessionStorage.setItem('lang', 'hi')
         } else {
           this.redirectUrl = `${url}openid/keycloak`
         }

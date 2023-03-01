@@ -61,7 +61,8 @@
           <ng-container *ngIf="isCompetencyComplted">
             <p class="congrats-title" i18n>Congratulations!</p>
             <!-- <p class="proficiceny-level  m-0" i18n>Proficiency Level {{competencyLevelId}} unlocked</p> -->
-            <p class="proficiceny-level  m-0" i18n>Level {{competencyLevelId}} is achieved</p>
+            <p class="proficiceny-level  m-0"><span i18n>Level </span>{{competencyLevelId}} <span i18n>is achieved
+              </span></p>
           </ng-container>
           <ng-container *ngIf="!isCompetencyComplted">
             <p class="fail-title" i18n>You didn't pass the assessment</p>

@@ -165,6 +165,7 @@ export class AuthKeycloakService {
       if (url.includes('hi')) {
         url = url.replace('hi/', '')
         redirectUrl = `${url}public/home`
+        sessionStorage.setItem('lang', 'hi')
       } else {
         redirectUrl = `${url}public/home`
       }
