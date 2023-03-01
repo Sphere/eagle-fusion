@@ -46,14 +46,14 @@
           <button mat-icon-button class="button-border" (click)="openDetails(content, tocConfig)">
             <img src=".\fusion-assets\icons\details.svg" alt="detail-icon">
           </button>
-          <span class="btn-tittle">Details</span>
+          <span class="btn-tittle" i18n>Details</span>
         </div>
 
         <div *ngIf="content?.competencies_v1" class="flex flex-col gap-1 justify-content-center align-items-center">
           <button mat-icon-button class="button-border" (click)="openCompetency(content)">
             <img src=".\fusion-assets\icons\competency.svg" alt="competency-icon">
           </button>
-          <span class="btn-tittle">Competency</span>
+          <span class="btn-tittle" i18n>Competency</span>
         </div>
 
 
@@ -65,21 +65,21 @@
               class="button-border">
               <img src=".\fusion-assets\icons\download.svg" alt="download">
             </button>
-            <span class="btn-tittle" *ngIf="content?.issueCertification === true">Certificate</span>
+            <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
           </ng-container>
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal">
               <img src=".\fusion-assets\icons\download.svg" alt="download">
             </button>
-            <span class="btn-tittle" *ngIf="content?.issueCertification === true">Certificate</span>
+            <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
           </ng-template>
 
         </div>
         <div class="flex flex-col gap-1 justify-content-center align-items-center">
           <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
           </ws-widget-btn-content-share>
-          <span class="btn-tittle">Share</span>
+          <span class="btn-tittle" i18n>Share</span>
         </div>
       </div>
       <ng-container>
