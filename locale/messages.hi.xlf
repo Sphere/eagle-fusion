@@ -6931,7 +6931,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{currentLicenseData[0].desc}}"/>
         </source>
-        <target>यह लाइसेंस, रीयूज़र को इस सामाग्री को किसी भी मीडियम या फ़ॉर्मैट में बांटने,रीमिक्स करने, अपने हिसाब से बदलने और इसे आगे बढ़ाने की अनुमति देता है. यह अनुमति आपको तब ही मिलेगी, जब आप इसे बनाने वालों को इसका श्रेय देंगे. यह लाइसेंस आपको व्यावसायिक इस्तेमाल की अनुमति भी देता है. CC BY ज़्यादा जानकारी के लिए नीचे देखें</target
+        <target> यह लाइसेंस, रीयूज़र को इस सामाग्री को किसी भी मीडियम या फ़ॉर्मैट में बांटने,रीमिक्स करने, अपने हिसाब से बदलने और इसे आगे बढ़ाने की अनुमति देता है. यह अनुमति आपको तब ही मिलेगी, जब आप इसे बनाने वालों को इसका श्रेय देंगे. यह लाइसेंस आपको व्यावसायिक इस्तेमाल की अनुमति भी देता है. <br>CC BY ज़्यादा जानकारी के लिए नीचे देखें</target
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/license/license.component.html</context>
           <context context-type="linenumber">4</context>
