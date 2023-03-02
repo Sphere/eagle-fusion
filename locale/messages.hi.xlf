@@ -862,7 +862,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{ actionBtn.name }}"/>
         </source>
-        <target>होम</target>
+           <target>होम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
           <context context-type="linenumber">115</context>
@@ -1562,7 +1562,7 @@
       </trans-unit>
       <trans-unit id="ad324a4e369c6140d5124278a5b9c832789aedb3" datatype="html">
         <source>Details</source>
-        <target state="final">विवरण</target>
+        <target state="final">Test188</target>
         <note priority="1" from="meaning">Details </note>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
@@ -2954,7 +2954,7 @@
       </trans-unit>
       <trans-unit id="d51557b32f5cc23c209819a11c0673876c353666" datatype="html">
         <source>Competency Name: </source>
-        <target state="final">योग्यता का नाम : </target>
+        <target state="final">Test353</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">67</context>
@@ -2962,7 +2962,7 @@
       </trans-unit>
       <trans-unit id="1e96758036cfd06244f46dfed7179ff20be23465" datatype="html">
         <source>Levels : </source>
-        <target state="final">स्तर :</target>
+        <target state="final">Test354</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">71</context>
@@ -3085,7 +3085,7 @@
           <x id="TAG_IMG" ctype="image" equiv-text="<img/>"/>
       Back
         </source>
-        <target>पीछे जाएं</target>
+        <target state="final">पीछे जाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/reply-comment/reply-comment.component.d.ts</context>
           <context context-type="linenumber">3</context>
@@ -3570,7 +3570,7 @@
           <x id="INTERPOLATION" equiv-text="{{ log.level }}"/>:
           <x id="INTERPOLATION_1" equiv-text="{{ log.header }}"/>
         </source>
-        <target>स्तर</target>
+        <target>स्तर </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">72</context>
@@ -3911,7 +3911,7 @@
       <trans-unit id="63a854826e09994176431beff325b21cce730972" datatype="html">
         <source>About
               Us</source>
-        <target state="final">Test468</target>
+        <target state="final">हमारे बारे में</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">13</context>
@@ -3919,7 +3919,7 @@
       </trans-unit>
       <trans-unit id="06f9ad183eac8dc94e393c4fb5bc9905d8f45148" datatype="html">
         <source>Vision</source>
-        <target state="final">Test469</target>
+        <target state="final">विज़न</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">16</context>
@@ -3927,7 +3927,7 @@
       </trans-unit>
       <trans-unit id="764a8a101f8ee5a4b98844e93406182fb078507b" datatype="html">
         <source>Team</source>
-        <target state="final">Test470</target>
+        <target state="final">टीम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">19</context>
@@ -3935,7 +3935,7 @@
       </trans-unit>
       <trans-unit id="a0088b22add94978522d9b8d4188bfc887fb0a9d" datatype="html">
         <source>Help &amp; Contact </source>
-        <target state="final">Test471</target>
+        <target state="final">सहायता और संपर्क</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">28</context>
@@ -3944,7 +3944,7 @@
       <trans-unit id="bd1ff292b919e8bf77938f282c378ddb6a1c52ef" datatype="html">
         <source>
             Privacy policy and terms of use</source>
-        <target state="final">Test472</target>
+        <target state="final">गोपनीयता नीति देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">33</context>
@@ -3952,7 +3952,7 @@
       </trans-unit>
       <trans-unit id="9ee0f11dd278ca1c90e1464c5f8a95528d857e5a" datatype="html">
         <source>Choose your Language</source>
-        <target state="final">Test473</target>
+        <target state="final">अपनी भाषा चुनिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/settings/settings.component.html</context>
           <context context-type="linenumber">9</context>
@@ -3960,7 +3960,7 @@
       </trans-unit>
       <trans-unit id="e85a30628b502c939d1ad9f651309a0356f40af8" datatype="html">
         <source>Partners</source>
-        <target state="final">Test474</target>
+        <target state="final">सहभागी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">89</context>
@@ -5146,7 +5146,7 @@
       <trans-unit id="9c17d49e36337d21a8d5831bbe4f050a6c69a13e" datatype="html">
         <source>
         Details</source>
-        <target state="final">विवरण</target>
+        <target state="final">Test188</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/curate/components/curate/curate.component.html</context>
           <context context-type="linenumber">132</context>
@@ -5234,7 +5234,7 @@
       <trans-unit id="6ede27c676e90206dcb1d13c0ab4a0b1e300246c" datatype="html">
         <source>
           Details</source>
-        <target state="final">विवरण</target>
+        <target state="final">Test188</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/upload/components/upload/upload.component.html</context>
           <context context-type="linenumber">45</context>
@@ -6931,7 +6931,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{currentLicenseData[0].desc}}"/>
         </source>
-        <target> यह लाइसेंस, रीयूज़र को इस सामाग्री को किसी भी मीडियम या फ़ॉर्मैट में बांटने,रीमिक्स करने, अपने हिसाब से बदलने और इसे आगे बढ़ाने की अनुमति देता है. यह अनुमति आपको तब ही मिलेगी, जब आप इसे बनाने वालों को इसका श्रेय देंगे. यह लाइसेंस आपको व्यावसायिक इस्तेमाल की अनुमति भी देता है. <br>CC BY ज़्यादा जानकारी के लिए नीचे देखें</target
+        <target>यह लाइसेंस, रीयूज़र को इस सामाग्री को किसी भी मीडियम या फ़ॉर्मैट में बांटने,रीमिक्स करने, अपने हिसाब से बदलने और इसे आगे बढ़ाने की अनुमति देता है. यह अनुमति आपको तब ही मिलेगी, जब आप इसे बनाने वालों को इसका श्रेय देंगे. यह लाइसेंस आपको व्यावसायिक इस्तेमाल की अनुमति भी देता है. CC BY ज़्यादा जानकारी के लिए नीचे देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/license/license.component.html</context>
           <context context-type="linenumber">4</context>
@@ -6955,7 +6955,7 @@
       </trans-unit>
       <trans-unit id="4f8b2bb476981727ab34ed40fde1218361f92c45" datatype="html">
         <source>Details</source>
-        <target state="final">विवरण</target>
+        <target state="final">Test188</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">49</context>
@@ -6979,7 +6979,7 @@
       </trans-unit>
       <trans-unit id="0bd8b27f60a1f098a53e06328426d818e3508ff9" datatype="html">
         <source>Share</source>
-        <target state="final">शेयर करना</target>
+        <target state="final">Test835</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">82</context>
@@ -9773,7 +9773,7 @@
       </trans-unit>
       <trans-unit id="f3f13217303d139905eec79a2535af481a906c15" datatype="html">
         <source>Showing </source>
-        <target state="final">Test1167</target>
+        <target state="final">दिखा रहे हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
           <context context-type="linenumber">84</context>
@@ -9886,7 +9886,7 @@
       </trans-unit>
       <trans-unit id="e752883bbf70b6716d9a6547b68d014eb618deae" datatype="html">
         <source>You may try</source>
-        <target state="final">आप कोशिश कर सकते हैं</target>
+        <target state="final">Test1181</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
           <context context-type="linenumber">76</context>
@@ -9894,7 +9894,7 @@
       </trans-unit>
       <trans-unit id="5a07134ad1baf60899729cd1064c0f10d6c73205" datatype="html">
         <source>Different keywords</source>
-        <target state="final">विभिन्न कीवर्ड</target>
+        <target state="final">Test1182</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
           <context context-type="linenumber">127</context>
@@ -13502,7 +13502,7 @@
       </trans-unit>
       <trans-unit id="e6cb530ba0c713eee48c5a1126c50e027f737712" datatype="html">
         <source>You didn't pass the assessment</source>
-        <target state="final">आपने मूल्यांकन पास नहीं किया</target>
+        <target state="final">Test1605</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">68</context>
@@ -13518,7 +13518,7 @@
       </trans-unit>
       <trans-unit id="dc72450d5d1ef454bf72ea36fb4fcf1b87f4bb94" datatype="html">
         <source>View Relevant Courses</source>
-        <target state="final">प्रासंगिक कोर्स देखें</target>
+        <target state="final">Test1607</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">78</context>
