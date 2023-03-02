@@ -27,7 +27,7 @@
       </trans-unit>
       <trans-unit id="3d3ae7deebc5949b0c1c78b9847886a94321d9fd" datatype="html">
         <source>No</source>
-        <target state="final">Test4</target>
+        <target state="final">नहीं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">7</context>
@@ -35,7 +35,7 @@
       </trans-unit>
       <trans-unit id="4f20f2d5a6882190892e58b85f6ccbedfa737952" datatype="html">
         <source>Yes</source>
-        <target state="final">Test5</target>
+        <target state="final">हाँ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">8</context>
@@ -156,7 +156,7 @@
       </trans-unit>
       <trans-unit id="f732c304c7433e5a83ffcd862c3dce709a0f4982" datatype="html">
         <source>Next</source>
-        <target state="final">Test20</target>
+        <target state="final">अगला</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">37</context>
@@ -164,7 +164,7 @@
       </trans-unit>
       <trans-unit id="e9e2c2392fe275b071273523ee016e8eadbf6ae4" datatype="html">
         <source>Logout Now</source>
-        <target state="final">Test21</target>
+        <target state="final">अभी लॉगआउट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
           <context context-type="linenumber">1</context>
@@ -182,7 +182,7 @@
       <trans-unit id="d80cf3640629ebf19fddac2cbe9a2649491ef614" datatype="html">
         <source>
   Are you sure?</source>
-        <target state="final">Test23</target>
+        <target state="final">क्या आप वाकई ऐसा चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
           <context context-type="linenumber">5</context>
@@ -191,7 +191,7 @@
       <trans-unit id="82fd7e594001bd60b83e2fce92649f7686e40b3f" datatype="html">
         <source>
     Yes</source>
-        <target state="final">Test5</target>
+        <target state="final">हाँ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/dialog-confirm/dialog-confirm.component.html</context>
           <context context-type="linenumber">6</context>
@@ -828,7 +828,7 @@
       </trans-unit>
       <trans-unit id="621ea888ca43af597699cfaf51833b6eb7cabc58" datatype="html">
         <source>Share on Social Media</source>
-        <target state="final">Test100</target>
+        <target state="final">सोशल मीडिया पर शेयर करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-content-share/btn-content-share-dialog/btn-content-share-dialog.component.html</context>
           <context context-type="linenumber">36</context>
@@ -836,7 +836,7 @@
       </trans-unit>
       <trans-unit id="712d2c5cb03789256b8a2c777138879fa82aa8ce" datatype="html">
         <source>Download QR</source>
-        <target state="final">Test101</target>
+        <target state="final">क्यूआर डाउनलोड करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-content-share/btn-content-share-dialog/btn-content-share-dialog.component.html</context>
           <context context-type="linenumber">45</context>
@@ -844,7 +844,7 @@
       </trans-unit>
       <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
         <source>Close</source>
-        <target state="final">Test102</target>
+        <target state="final">बंद करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/user-registration/user-registration.component.html</context>
           <context context-type="linenumber">52</context>
@@ -852,7 +852,7 @@
       </trans-unit>
       <trans-unit id="af8eaaf109e153e66de3b5f49fbe5ecb59d948da" datatype="html">
         <source>Share Content</source>
-        <target state="final">Test103</target>
+        <target state="final">कंटेंट शेयर करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-content-share/btn-content-share.component.html</context>
           <context context-type="linenumber">14</context>
@@ -870,7 +870,7 @@
       </trans-unit>
       <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8" datatype="html">
         <source>Profile</source>
-        <target state="final">Test104</target>
+        <target state="final">प्रोफ़ाइल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
           <context context-type="linenumber">127</context>
@@ -1189,7 +1189,7 @@
       </trans-unit>
       <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html">
         <source>Settings</source>
-        <target state="final">Test143</target>
+        <target state="final">सेटिंग्स</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/app-setup-home.component.html</context>
           <context context-type="linenumber">9</context>
@@ -1410,7 +1410,7 @@
       </trans-unit>
       <trans-unit id="a02ea1d4e7424ca989929da5e598f379940fdbf2" datatype="html">
         <source>Duration</source>
-        <target state="final">Test169</target>
+        <target state="final">अवधि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">139</context>
@@ -1474,7 +1474,7 @@
       </trans-unit>
       <trans-unit id="cfbd54823f58727444f9b0ae73aea060a8e17607" datatype="html">
         <source>Published on</source>
-        <target state="final">Test177</target>
+        <target state="final">पर प्रकाशित किया गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">136</context>
@@ -1482,7 +1482,7 @@
       </trans-unit>
       <trans-unit id="d7293b61e9088c66421df2e367e0ccc00346cf9f" datatype="html">
         <source>Author</source>
-        <target state="final">Test178</target>
+        <target state="final">लेखक</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/feedback-v2/routes/my-feedback/components/home/home.component.html</context>
           <context context-type="linenumber">6</context>
@@ -1490,7 +1490,7 @@
       </trans-unit>
       <trans-unit id="6834fa6b43d1ecbdf147c48dd9c4d72f1484571d" datatype="html">
         <source>Source</source>
-        <target state="final">Test179</target>
+        <target state="final">सोर्स</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-banner/app-toc-banner.component.html</context>
           <context context-type="linenumber">83</context>
@@ -1498,7 +1498,7 @@
       </trans-unit>
       <trans-unit id="7e593917155986a9f9ec5143a35432e806a5eccc" datatype="html">
         <source>Course Description</source>
-        <target state="final">Test180</target>
+        <target state="final">पाठ्यक्रम विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
           <context context-type="linenumber">112</context>
@@ -1506,7 +1506,7 @@
       </trans-unit>
       <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html">
         <source>Description</source>
-        <target state="final">Test181</target>
+        <target state="final">विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/forums/forum-view/components/forum-view.component.html</context>
           <context context-type="linenumber">11</context>
@@ -1514,7 +1514,7 @@
       </trans-unit>
       <trans-unit id="1e075a7898bc0c161e29d02cfa74d1139c126b6d" datatype="html">
         <source>Login</source>
-        <target state="final">Test182</target>
+        <target state="final">लॉग इन करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
           <context context-type="linenumber">118</context>
@@ -1522,7 +1522,7 @@
       </trans-unit>
       <trans-unit id="fc8ce052c64a183bb3fc914b48e28e39bf856121" datatype="html">
         <source>Content Type</source>
-        <target state="final">Test183</target>
+        <target state="final">कंटेंट का प्रकार</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
           <context context-type="linenumber">846</context>
@@ -1756,7 +1756,7 @@
       <trans-unit id="d551dfd5d7f8975216d41a6d110e53235ef38273" datatype="html">
         <source>
     No</source>
-        <target state="final">Test4</target>
+        <target state="final">नहीं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/discussion-forum/dialog/dialog-social-delete-post/dialog-social-delete-post.component.html</context>
           <context context-type="linenumber">27</context>
@@ -2016,7 +2016,7 @@
       <trans-unit id="8956c0f4c6974289fc63f1ab6b54f5b32ed65eeb" datatype="html">
         <source>
       Reply</source>
-        <target state="final">Test242</target>
+        <target state="final">जवाब दें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/discussion-forum/components/discussion-post/discussion-post.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2025,7 +2025,7 @@
       <trans-unit id="1391e17d8d07e84aecffefc81ba6e54fb97e1895" datatype="html">
         <source>
         delete</source>
-        <target state="final">Test243</target>
+        <target state="final">डिलीट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/discussion-forum/components/discussion-post/discussion-post.component.html</context>
           <context context-type="linenumber">26</context>
@@ -2112,7 +2112,7 @@
       </trans-unit>
       <trans-unit id="8c3ce0e1d5c7299b9833232629a59d2438e2ef93" datatype="html">
         <source>You might want to:</source>
-        <target state="final">Test253</target>
+        <target state="final">आप यह कर सकते हैं:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-something-wrong/error-something-wrong.component.html</context>
           <context context-type="linenumber">15</context>
@@ -2128,7 +2128,7 @@
       </trans-unit>
       <trans-unit id="481d7b22502edf47cf52c3094acb7369802b96d5" datatype="html">
         <source>Check for any typos in the URL</source>
-        <target state="final">Test255</target>
+        <target state="final">URL में किसी प्रकार की कोई गड़बड़ी न हो यह जांच करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">20</context>
@@ -2136,7 +2136,7 @@
       </trans-unit>
       <trans-unit id="5171944208e06bb48dd6e17087d9d3438e61a1bf" datatype="html">
         <source>Do you suspect a site problem?</source>
-        <target state="final">Test256</target>
+        <target state="final">क्या आपको साइट में समस्या का संदेह है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-access-forbidden/error-access-forbidden.component.html</context>
           <context context-type="linenumber">20</context>
@@ -2144,7 +2144,7 @@
       </trans-unit>
       <trans-unit id="e415d958f5db0f62d1f4c913aee15dbc536bbd72" datatype="html">
         <source>Report the issue</source>
-        <target state="final">Test257</target>
+        <target state="final">समस्या की रिपोर्ट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">34</context>
@@ -2240,7 +2240,7 @@
       <trans-unit id="c3219c7d7792cf88e59bda927a83abd0269be01c" datatype="html">
         <source>
       The page you requested cannot be found</source>
-        <target state="final">Test268</target>
+        <target state="final">आप जिस पेज का अनुरोध कर रहे है वह नहीं मिल सका</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">6</context>
@@ -2248,7 +2248,7 @@
       </trans-unit>
       <trans-unit id="3cf8693182332e87301c0be10e7664b9ae4590c5" datatype="html">
         <source>We have updated our web site and many URLs have changed.</source>
-        <target state="final">Test269</target>
+        <target state="final">हमने अपनी वेब साइट को अपडेट कर दिया है और कई URL बदल दिए हैं।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2256,7 +2256,7 @@
       </trans-unit>
       <trans-unit id="de92076af938c000b23477bfcbb17a9d49b0ea9b" datatype="html">
         <source>Go to</source>
-        <target state="final">Test270</target>
+        <target state="final">इस पर जाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">15</context>
@@ -2264,7 +2264,7 @@
       </trans-unit>
       <trans-unit id="8e895680dfc7f39f9ce475f6cb27dd3ee7461c4b" datatype="html">
         <source>,search for the topic you are interested in.</source>
-        <target state="final">Test271</target>
+        <target state="final">और अपनी रूचि का विषय सर्च करें।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-not-found/error-not-found.component.html</context>
           <context context-type="linenumber">18</context>
@@ -2273,7 +2273,7 @@
       <trans-unit id="9c6a5bec868c6d47c464760bf50d32f8b14ba5e5" datatype="html">
         <source>
       The service is currently unavailable</source>
-        <target state="final">Test272</target>
+        <target state="final">ये सेवा वर्तमान में उपलब्ध नहीं है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-service-unavailable/error-service-unavailable.component.html</context>
           <context context-type="linenumber">10</context>
@@ -2340,7 +2340,7 @@
       </trans-unit>
       <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html">
         <source>Logout</source>
-        <target state="final">Test280</target>
+        <target state="final">लॉगआउट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-nav/mobile-profile-nav.component.html</context>
           <context context-type="linenumber">5</context>
@@ -2520,7 +2520,7 @@
       </trans-unit>
       <trans-unit id="18c764d0476eee6ef89686a85dbd6e682c9a0dac" datatype="html">
         <source>View Profile</source>
-        <target state="final">Test302</target>
+        <target state="final">प्रोफ़ाइल देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-profile/btn-profile.component.html</context>
           <context context-type="linenumber">53</context>
@@ -2528,7 +2528,7 @@
       </trans-unit>
       <trans-unit id="cd07cf552937d2664abfed313d68c9b3c554c67b" datatype="html">
         <source>Sign-out</source>
-        <target state="final">Test303</target>
+        <target state="final">साइन आउट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-profile/btn-profile.component.html</context>
           <context context-type="linenumber">87</context>
@@ -2585,7 +2585,7 @@
       </trans-unit>
       <trans-unit id="ca081c361fa3c7e7ddce574fb10dc4a80215eee3" datatype="html">
         <source>Assessment</source>
-        <target state="final">Test310</target>
+        <target state="final">असेसमेंट</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">23</context>
@@ -2856,7 +2856,7 @@
       </trans-unit>
       <trans-unit id="7e892ba15f2c6c17e83510e273b3e10fc32ea016" datatype="html">
         <source>Search</source>
-        <target state="final">Test342</target>
+        <target state="final">सर्च करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/home/home.component.html</context>
           <context context-type="linenumber">31</context>
@@ -2889,7 +2889,7 @@
       </trans-unit>
       <trans-unit id="d06e27f7453fcf29134f9e61533ea4eb4b890f5f" datatype="html">
         <source>Featured</source>
-        <target state="final">Test346</target>
+        <target state="final">फ़ीचर किया गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">51</context>
@@ -2922,7 +2922,7 @@
       </trans-unit>
       <trans-unit id="0ee2335b8b4320ca1b84583da77d7019849331b8" datatype="html">
         <source>Upskill now</source>
-        <target state="final">Test349</target>
+        <target state="final">अभी अपस्किल करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
           <context context-type="linenumber">8</context>
@@ -2930,7 +2930,7 @@
       </trans-unit>
       <trans-unit id="20b923d2d41e6604f553ca49d3ddccb8404671de" datatype="html">
         <source>Access free healthcare courses</source>
-        <target state="final">Test350</target>
+        <target state="final">निःशुल्क स्वास्थ्य सेवा पाठ्यक्रमों तक पहुँचें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2938,7 +2938,7 @@
       </trans-unit>
       <trans-unit id="b18f1a183a93ce6e499870d29a4c48b5aaf25dae" datatype="html">
         <source>Get Certified on completing a Course</source>
-        <target state="final">Test351</target>
+        <target state="final">एक कोर्स पूरा करने पर प्रमाणित हो जाओ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
           <context context-type="linenumber">12</context>
@@ -2946,7 +2946,7 @@
       </trans-unit>
       <trans-unit id="ef276d1da2c549dbe15baf4d3e83fe6e88f7358c" datatype="html">
         <source>Start now!</source>
-        <target state="final">Test352</target>
+        <target state="final">अभी शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-course-view/mobile-course-view.component.html</context>
           <context context-type="linenumber">14</context>
@@ -2954,7 +2954,7 @@
       </trans-unit>
       <trans-unit id="d51557b32f5cc23c209819a11c0673876c353666" datatype="html">
         <source>Competency Name: </source>
-        <target state="final">Test353</target>
+        <target state="final">योग्यता का नाम :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">67</context>
@@ -2962,7 +2962,7 @@
       </trans-unit>
       <trans-unit id="1e96758036cfd06244f46dfed7179ff20be23465" datatype="html">
         <source>Levels : </source>
-        <target state="final">Test354</target>
+        <target state="final">स्तर : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">71</context>
@@ -2970,7 +2970,7 @@
       </trans-unit>
       <trans-unit id="07fb098c25b2e0ae58ca1a144206cd97091d60ea" datatype="html">
         <source>Duration </source>
-        <target state="final">Test169</target>
+        <target state="final">अवधि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-banner/app-toc-banner.component.html</context>
           <context context-type="linenumber">76</context>
@@ -2978,7 +2978,7 @@
       </trans-unit>
       <trans-unit id="8357da72478dfc15d93737840daa56cc913798b2" datatype="html">
         <source>Last updated on</source>
-        <target state="final">Test356</target>
+        <target state="final">अंतिम बार अपडेट किया गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop-modal/app-toc-desktop-modal.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2986,7 +2986,7 @@
       </trans-unit>
       <trans-unit id="265d6b0c8d9c7310dc444cc51911fd0e1ee3d0e4" datatype="html">
         <source>View License Terms</source>
-        <target state="final">Test357</target>
+        <target state="final">लाइसेंस की शर्तें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
           <context context-type="linenumber">15</context>
@@ -2994,7 +2994,7 @@
       </trans-unit>
       <trans-unit id="a8233de047500bf0f0d9f9f1712ddb071501a283" datatype="html">
         <source>Summary</source>
-        <target state="final">Test358</target>
+        <target state="final">विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-overview/app-toc-overview.component.html</context>
           <context context-type="linenumber">11</context>
@@ -3002,7 +3002,7 @@
       </trans-unit>
       <trans-unit id="415f73cbdba5d09762df6c89878273c3aa6da51e" datatype="html">
         <source>Authors</source>
-        <target state="final">Test359</target>
+        <target state="final">लेखक</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/route-view-container/audio/audio.component.html</context>
           <context context-type="linenumber">85</context>
@@ -3018,7 +3018,7 @@
       </trans-unit>
       <trans-unit id="64b552d8ec127344ff3b7ee7204935817d68cf2d" datatype="html">
         <source>Ask a question or post an idea</source>
-        <target state="final">Test361</target>
+        <target state="final">कोई सवाल पूछें या आइडिया पोस्ट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
           <context context-type="linenumber">30</context>
@@ -3026,7 +3026,7 @@
       </trans-unit>
       <trans-unit id="20a1c306bf679d989b7202be89d774850366d2cc" datatype="html">
         <source>Question is mandatory. It should be minimum of 8 characters</source>
-        <target state="final">Test362</target>
+        <target state="final">यह प्रश्न ज़रूरी है. कम से कम 8 वर्णों का होना चाहिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discuss-start/discuss-start.component.d.ts</context>
           <context context-type="linenumber">38</context>
@@ -3034,7 +3034,7 @@
       </trans-unit>
       <trans-unit id="939faa52a5a052323a91f5127fc893df3cfe8c5f" datatype="html">
         <source>It should be maxmimum of 200 characters</source>
-        <target state="final">Test363</target>
+        <target state="final">इसमें कम से कम 200 वर्ण होने चाहिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discuss-start/discuss-start.component.d.ts</context>
           <context context-type="linenumber">40</context>
@@ -3042,7 +3042,7 @@
       </trans-unit>
       <trans-unit id="3f5a652a1f473f4e243e3c6805ef1b383e270bb7" datatype="html">
         <source>Discard</source>
-        <target state="final">Test364</target>
+        <target state="final">खारिज करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/forums/widgets/Dialog-Box/dialog-box-admin-accept/dialog-box-admin-accept.component.html</context>
           <context context-type="linenumber">14</context>
@@ -3050,7 +3050,7 @@
       </trans-unit>
       <trans-unit id="db3a0179b623ac51b18e17d4c910ac2b0b5729f3" datatype="html">
         <source>Submit Post</source>
-        <target state="final">Test365</target>
+        <target state="final">पोस्ट सबमिट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
           <context context-type="linenumber">76</context>
@@ -3066,7 +3066,7 @@
       </trans-unit>
       <trans-unit id="1f427e19e0203246ad72c54bbfddaef4a4dca06b" datatype="html">
         <source>Start a Conversation</source>
-        <target state="final">Test367</target>
+        <target state="final">बातचीत शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discuss-all/discuss-all.component.d.ts</context>
           <context context-type="linenumber">17</context>
@@ -3074,7 +3074,7 @@
       </trans-unit>
       <trans-unit id="c5bb9f8936cb33db2ca351a1b87a984fdf11917c" datatype="html">
         <source>Comments</source>
-        <target state="final">Test368</target>
+        <target state="final">टिप्पणीयां</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/knowledge-artifact-details/knowledge-artifact-details.component.html</context>
           <context context-type="linenumber">75</context>
@@ -3093,7 +3093,7 @@
       </trans-unit>
       <trans-unit id="0cdfbe24006738e10b30d142cd2723be38f4eb56" datatype="html">
         <source>Replying to</source>
-        <target state="final">Test370</target>
+        <target state="final">को जवाब दे रहे हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/reply-comment/reply-comment.component.d.ts</context>
           <context context-type="linenumber">8</context>
@@ -3101,7 +3101,7 @@
       </trans-unit>
       <trans-unit id="aa675eaeb71e1515110788a6a70139160e065968" datatype="html">
         <source>Join the Conversation</source>
-        <target state="final">Test371</target>
+        <target state="final">बातचीत में शामिल हों</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/post-reply/post-reply.component.d.ts</context>
           <context context-type="linenumber">8</context>
@@ -3109,7 +3109,7 @@
       </trans-unit>
       <trans-unit id="409ff68641ae8bf887009cee6788f464725f0a0c" datatype="html">
         <source>It should be minimum of 2 characters</source>
-        <target state="final">Test372</target>
+        <target state="final">इसमें कम से कम 2 वर्ण होने चाहिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/post-reply/post-reply.component.d.ts</context>
           <context context-type="linenumber">26</context>
@@ -3117,7 +3117,7 @@
       </trans-unit>
       <trans-unit id="8dd413cee2228118c536f503709329a4d1a395e2" datatype="html">
         <source>Done</source>
-        <target state="final">Test373</target>
+        <target state="final">हो गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/shared/components/catalog-select/catalog-select.component.html</context>
           <context context-type="linenumber">32</context>
@@ -3126,7 +3126,7 @@
       <trans-unit id="a3cf13c419f9f37a2b338ed0617d72137051b910" datatype="html">
         <source>
               Delete</source>
-        <target state="final">Test215</target>
+        <target state="final">डिलीट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/curate/components/curate/curate.component.html</context>
           <context context-type="linenumber">75</context>
@@ -3135,7 +3135,7 @@
       <trans-unit id="1c0349d1592ac838b6f8aadffc0712177394bcd0" datatype="html">
         <source>
           Reply</source>
-        <target state="final">Test242</target>
+        <target state="final">जवाब दें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-card/discuss-card.component.d.ts</context>
           <context context-type="linenumber">73</context>
@@ -3144,7 +3144,7 @@
       <trans-unit id="2ea0065915c1e608e5a40aae308d9ee1e74b575c" datatype="html">
         <source>
                       Edit</source>
-        <target state="final">Test202</target>
+        <target state="final">बदलाव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-card/discuss-card.component.d.ts</context>
           <context context-type="linenumber">139</context>
@@ -3153,7 +3153,7 @@
       <trans-unit id="2b780c3edb757b7ed3e86a64df9a0d5ead598e27" datatype="html">
         <source>
                       Delete</source>
-        <target state="final">Test215</target>
+        <target state="final">मिटाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-card/discuss-card.component.d.ts</context>
           <context context-type="linenumber">142</context>
@@ -3161,7 +3161,7 @@
       </trans-unit>
       <trans-unit id="35b8667c89f26b129b8a9242025fcc1cd840fcd8" datatype="html">
         <source>Delete Comment?</source>
-        <target state="final">Test378</target>
+        <target state="final">टिप्पणी मिटाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discussion-delete/discussion-delete.component.d.ts</context>
           <context context-type="linenumber">4</context>
@@ -3169,7 +3169,7 @@
       </trans-unit>
       <trans-unit id="1bdf13aabf9f30fbdeb047d280bbba1bb698446e" datatype="html">
         <source>Are you sure you want to delete this comment ?</source>
-        <target state="final">Test379</target>
+        <target state="final">क्या आपको वाकई यह टिप्पणी मिटानी है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discussion-delete/discussion-delete.component.d.ts</context>
           <context context-type="linenumber">5</context>
@@ -3177,7 +3177,7 @@
       </trans-unit>
       <trans-unit id="c42ddd0de3cf736d71be86b2708efcd1ebfe2fd7" datatype="html">
         <source>Discard</source>
-        <target state="final">Test364</target>
+        <target state="final">खारिज करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
           <context context-type="linenumber">69</context>
@@ -3500,7 +3500,7 @@
       </trans-unit>
       <trans-unit id="ddc5fd87fcc8440ce6c5fc10bac90c8f0fe6b32f" datatype="html">
         <source> Self Assessment</source>
-        <target state="final">Test418</target>
+        <target state="final">स्वयं मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/entry-module/components/slef-assessment-entry/slef-assessment-entry.component.d.ts</context>
           <context context-type="linenumber">2</context>
@@ -3508,7 +3508,7 @@
       </trans-unit>
       <trans-unit id="124a61343d29377893576b70bba338658bb3addf" datatype="html">
         <source> Competency Dashboard</source>
-        <target state="final">Test419</target>
+        <target state="final">योग्यता डैशबोर्ड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/entry-module/components/competency-entry/competency-entry.component.d.ts</context>
           <context context-type="linenumber">2</context>
@@ -3517,7 +3517,7 @@
       <trans-unit id="afa04385aeb1bec929b58ec0e6a06a1bcd53a738" datatype="html">
         <source>
         Assess</source>
-        <target state="final">Test420</target>
+        <target state="final">मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">18</context>
@@ -3526,7 +3526,7 @@
       <trans-unit id="373795aae5580b037f677cfc9544bd7f2f08c8e9" datatype="html">
         <source>
         Re-Assess</source>
-        <target state="final">Test421</target>
+        <target state="final">पुन: मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">27</context>
@@ -3535,7 +3535,7 @@
       <trans-unit id="18ca81d7d756925ef76e483ac6613db034f4a155" datatype="html">
         <source>
         Done</source>
-        <target state="final">Test373</target>
+        <target state="final">हो गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">37</context>
@@ -3543,7 +3543,7 @@
       </trans-unit>
       <trans-unit id="8aa5e7fe3a245310dbdcc86dd51f2df83c529b6d" datatype="html">
         <source>View Courses</source>
-        <target state="final">Test423</target>
+        <target state="final">कोर्स देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">43</context>
@@ -3551,7 +3551,7 @@
       </trans-unit>
       <trans-unit id="fd3d2bf9a505e3ab17d6e8b20350a45437a52776" datatype="html">
         <source>Levels:</source>
-        <target state="final">Test424</target>
+        <target state="final">स्तर : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">8</context>
@@ -3559,7 +3559,7 @@
       </trans-unit>
       <trans-unit id="9a00bbf6ce71eb00af4d0ecc4e2a0f045e04b87e" datatype="html">
         <source>Log:</source>
-        <target state="final">Test425</target>
+        <target state="final">लॉग : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">57</context>
@@ -3578,7 +3578,7 @@
       </trans-unit>
       <trans-unit id="0b958b8d6887cf950089fd33c0d7640394820a16" datatype="html">
         <source>Competency Dashboard</source>
-        <target state="final">Test419</target>
+        <target state="final">योग्यता डैशबोर्ड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">6</context>
@@ -3586,7 +3586,7 @@
       </trans-unit>
       <trans-unit id="9610487cbeb5796d34d8601b5ac0c0a65f9e1d19" datatype="html">
         <source>Roles</source>
-        <target state="final">Test429</target>
+        <target state="final">भूमिकाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">23</context>
@@ -3594,7 +3594,7 @@
       </trans-unit>
       <trans-unit id="268eef9eb35ad8b4a96d66b4b966dc74bce695fd" datatype="html">
         <source>Job Description</source>
-        <target state="final">Test430</target>
+        <target state="final">नौकरी विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">22</context>
@@ -3602,7 +3602,7 @@
       </trans-unit>
       <trans-unit id="72638e600ce222ed8184c47260bbd68d362e693e" datatype="html">
         <source>External</source>
-        <target state="final">Test431</target>
+        <target state="final">बाहरी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">31</context>
@@ -3610,7 +3610,7 @@
       </trans-unit>
       <trans-unit id="4bdcdaff1c7af03b804364fb22e8598d985b4ce4" datatype="html">
         <source>Self</source>
-        <target state="final">Test432</target>
+        <target state="final">स्वयं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">33</context>
@@ -3618,7 +3618,7 @@
       </trans-unit>
       <trans-unit id="466c7b49c8cc2a8a8db03a7988d26ea6c7330268" datatype="html">
         <source>Passbook</source>
-        <target state="final">Test433</target>
+        <target state="final">पासबुक</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">28</context>
@@ -3626,7 +3626,7 @@
       </trans-unit>
       <trans-unit id="651c2901b000a7b3051c946df7605af27de455a5" datatype="html">
         <source>Self Assessments</source>
-        <target state="final">Test434</target>
+        <target state="final">स्वयं मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">45</context>
@@ -3634,7 +3634,7 @@
       </trans-unit>
       <trans-unit id="e5f24fc7a2bf50bd61d109dd9cad3fbff6ec7add" datatype="html">
         <source>Required</source>
-        <target state="final">Test435</target>
+        <target state="final">आवश्यक</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
           <context context-type="linenumber">34</context>
@@ -3642,7 +3642,7 @@
       </trans-unit>
       <trans-unit id="5ab9a3c727788f3597870dd7e3546fc0b0624024" datatype="html">
         <source>In Progress</source>
-        <target state="final">Test436</target>
+        <target state="final">चालू</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/active-summary/active-summary.component.d.ts</context>
           <context context-type="linenumber">21</context>
@@ -3650,7 +3650,7 @@
       </trans-unit>
       <trans-unit id="a7c328c4773db932ff14a1954e15e43dca58e7b7" datatype="html">
         <source>Completed</source>
-        <target state="final">Test437</target>
+        <target state="final">पूर्ण हुआ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
           <context context-type="linenumber">247</context>
@@ -3658,7 +3658,7 @@
       </trans-unit>
       <trans-unit id="dd3b6c367381ddfa8f317b8e9b31c55368c65136" datatype="html">
         <source>Activities</source>
-        <target state="final">Test438</target>
+        <target state="final">गतिविधियाँ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/active-summary/active-summary.component.d.ts</context>
           <context context-type="linenumber">37</context>
@@ -3666,7 +3666,7 @@
       </trans-unit>
       <trans-unit id="5174f42c3208c49a1de90401e919fb62f1864559" datatype="html">
         <source>Competencies :</source>
-        <target state="final">Test439</target>
+        <target state="final">दक्षताओं :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
           <context context-type="linenumber">1</context>
@@ -3674,7 +3674,7 @@
       </trans-unit>
       <trans-unit id="1608b8511549a06fd38a31ac871c4695be21b5d0" datatype="html">
         <source>Levels :</source>
-        <target state="final">Test354</target>
+        <target state="final">स्तर : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
           <context context-type="linenumber">37</context>
@@ -3730,7 +3730,7 @@
       </trans-unit>
       <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html">
         <source>Home</source>
-        <target state="final">Test447</target>
+        <target state="final">होम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/home/home.component.html</context>
           <context context-type="linenumber">9</context>
@@ -3757,7 +3757,7 @@
       <trans-unit id="5cd618fc9565b3df0a183615f4a4495d7d5f315a" datatype="html">
         <source>
               Create Account</source>
-        <target state="final">Test450</target>
+        <target state="final">नया अकाउंट बनाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-nav-bar/app-nav-bar.component.html</context>
           <context context-type="linenumber">88</context>
@@ -3765,7 +3765,7 @@
       </trans-unit>
       <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
         <source>Help</source>
-        <target state="final">Test451</target>
+        <target state="final">सहायता</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-nav-bar/app-nav-bar.component.html</context>
           <context context-type="linenumber">147</context>
@@ -3790,7 +3790,7 @@
       <trans-unit id="a8ef6b2edcf1dcd00efc9ca4c6b035d0a233f02a" datatype="html">
         <source>
           Create Account</source>
-        <target state="final">Test450</target>
+        <target state="final">नया अकाउंट बनाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-public-nav-bar/app-public-nav-bar.component.html</context>
           <context context-type="linenumber">46</context>
@@ -3799,7 +3799,7 @@
       <trans-unit id="3472e07c2c71430fca2252e24011ba52e7425203" datatype="html">
         <source>
       Login</source>
-        <target state="final">Test182</target>
+        <target state="final">लॉग इन करें</target>
         <note priority="1" from="description">login: client</note>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-public-nav-bar/app-public-nav-bar.component.html</context>
@@ -3809,7 +3809,7 @@
       <trans-unit id="93a85b191649ec45adf27d6ee0764a307eedf3f1" datatype="html">
         <source>
       Log in</source>
-        <target state="final">Test456</target>
+        <target state="final">लॉग इन करें</target>
         <note priority="1" from="description">login: client</note>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-public-nav-bar/app-public-nav-bar.component.html</context>
@@ -3979,7 +3979,7 @@
       </trans-unit>
       <trans-unit id="4d528d81243448524f3e1de53c8b67e41aa7639f" datatype="html">
         <source>Forgot Password</source>
-        <target state="final">Test476</target>
+        <target state="final">पासवर्ड भूल गए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">12</context>
@@ -3987,7 +3987,7 @@
       </trans-unit>
       <trans-unit id="39c26a9bd11aea96e935c4c480d4d97bfcac3f67" datatype="html">
         <source>Enter your Email or Mobile number and we will send you the instruction</source>
-        <target state="final">Test477</target>
+        <target state="final">अपना ईमेल या मोबाइल नंबर डालें और हम आपको निर्देश भेजेंगे</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">14</context>
@@ -3995,7 +3995,7 @@
       </trans-unit>
       <trans-unit id="e3363f71bf74bc077604232d66b7c925bd9ce8d5" datatype="html">
         <source>Email Id / Mobile Number</source>
-        <target state="final">Test478</target>
+        <target state="final">ईमेल आईडी/ मोबाइल नंबर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">16</context>
@@ -4003,7 +4003,7 @@
       </trans-unit>
       <trans-unit id="1665a0b743a68b9d103484db6ba4fccc3625d86f" datatype="html">
         <source>Email Id/ Mobile number</source>
-        <target state="final">Test479</target>
+        <target state="final">ईमेल आईडी/ मोबाइल नंबर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">18</context>
@@ -4012,7 +4012,7 @@
       <trans-unit id="3a4777c2ce98e7ca1957b8614e39e0c1ef2a8874" datatype="html">
         <source>
             This field is required</source>
-        <target state="final">Test480</target>
+        <target state="final">यह जानकारी देना आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">26</context>
@@ -4021,7 +4021,7 @@
       <trans-unit id="16778915b3181084eb7357a11b609bc0983f78c5" datatype="html">
         <source>
             Invalid email or number</source>
-        <target state="final">Test481</target>
+        <target state="final">ईमेल/मोबाइल नंबर अमान्य है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">28</context>
@@ -4029,7 +4029,7 @@
       </trans-unit>
       <trans-unit id="3fce5da87776ca6f98ca3b346c2b46f2f764f45c" datatype="html">
         <source>Back to Home</source>
-        <target state="final">Test482</target>
+        <target state="final">होम पेज पर वापस जाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">34</context>
@@ -4037,7 +4037,7 @@
       </trans-unit>
       <trans-unit id="c0e98144b9d40a1c5bc1b7418b35ce60517042ef" datatype="html">
         <source>Get help on WhatsApp</source>
-        <target state="final">Test483</target>
+        <target state="final">व्हाट्सएप पर मदद लें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">99</context>
@@ -4045,7 +4045,7 @@
       </trans-unit>
       <trans-unit id="6084d6f68b1c246becaca7bed83394eafdbc3f9f" datatype="html">
         <source>We just sent you the instructions</source>
-        <target state="final">Test484</target>
+        <target state="final">हामने आपको निर्देश भेज दिए हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">53</context>
@@ -4053,7 +4053,7 @@
       </trans-unit>
       <trans-unit id="421fc0bc755ba548af988de24178a765bbc25b83" datatype="html">
         <source>Check your email for reset the password</source>
-        <target state="final">Test485</target>
+        <target state="final">पासवर्ड रीसेट करने के लिए अपना ईमेल देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">54</context>
@@ -4061,7 +4061,7 @@
       </trans-unit>
       <trans-unit id="1d6634d9945b3e40ce0385548fa551f2b560108c" datatype="html">
         <source>For any other queries or issues, mail us on </source>
-        <target state="final">Test486</target>
+        <target state="final">किसी अन्य सवाल या समस्या के लिए, हमें पर ईमेल करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">55</context>
@@ -4069,7 +4069,7 @@
       </trans-unit>
       <trans-unit id="fee7983b7844e52ec4168e28708816c853de86e0" datatype="html">
         <source>Enter OTP</source>
-        <target state="final">Test487</target>
+        <target state="final">ओटीपी डालें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">63</context>
@@ -4077,7 +4077,7 @@
       </trans-unit>
       <trans-unit id="34557152cff7bc7db72a2a8706794d7fba4bac86" datatype="html">
         <source>Reset Password</source>
-        <target state="final">Test488</target>
+        <target state="final">पासवर्ड रीसेट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">92</context>
@@ -4086,7 +4086,7 @@
       <trans-unit id="c4693d9c3cdda94de992a5e6b0ec3818e915f0c2" datatype="html">
         <source>Back
               to Home</source>
-        <target state="final">Test489</target>
+        <target state="final">घर वापिस</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
           <context context-type="linenumber">94</context>
@@ -4094,7 +4094,7 @@
       </trans-unit>
       <trans-unit id="004b222ff9ef9dd4771b777950ca1d0e4cd4348a" datatype="html">
         <source>About</source>
-        <target state="final">Test490</target>
+        <target state="final">परिचय</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">43</context>
@@ -4102,7 +4102,7 @@
       </trans-unit>
       <trans-unit id="7eec194fdb5177fb2a2b67ddfd1a5c71a943eb9d" datatype="html">
         <source>Courses</source>
-        <target state="final">Test491</target>
+        <target state="final">कोर्स</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">90</context>
@@ -4110,7 +4110,7 @@
       </trans-unit>
       <trans-unit id="8b78b5a2df616cce5aae0cee51ac86fe98e96917" datatype="html">
         <source>View all</source>
-        <target state="final">Test492</target>
+        <target state="final">सभी देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">94</context>
@@ -4135,7 +4135,7 @@
       <trans-unit id="833e1978c3243e1f76c3a2cb7246ffda38e530ca" datatype="html">
         <source>
           Welcome!</source>
-        <target state="final">Test495</target>
+        <target state="final">द्वारा समर्थित</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">15</context>
@@ -4143,7 +4143,7 @@
       </trans-unit>
       <trans-unit id="bc4c3f3f1216a9fd847075502cd34206c9ca498c" datatype="html">
         <source>Phone Number/Email ID</source>
-        <target state="final">Test496</target>
+        <target state="final">फ़ोन नंबर/ईमेल आईडी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">48</context>
@@ -4152,7 +4152,7 @@
       <trans-unit id="310d9819ee4f88124abab8f6eb7eb13cb812b7ab" datatype="html">
         <source>
                 This field is required</source>
-        <target state="final">Test480</target>
+        <target state="final">यह जानकारी देना आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">72</context>
@@ -4161,7 +4161,7 @@
       <trans-unit id="cc5ba4125d48810f860112c76a7b345bc740bbd1" datatype="html">
         <source>
                 Invalid email or number</source>
-        <target state="final">Test481</target>
+        <target state="final">ईमेल/मोबाइल नंबर अमान्य है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">49</context>
@@ -4169,7 +4169,7 @@
       </trans-unit>
       <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
         <source>Password</source>
-        <target state="final">Test499</target>
+        <target state="final">पासवर्ड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/users/create-user/create-user.component.html</context>
           <context context-type="linenumber">79</context>
@@ -4177,7 +4177,7 @@
       </trans-unit>
       <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html">
         <source>Forgot password?</source>
-        <target state="final">Test500</target>
+        <target state="final">पासवर्ड भूल गए?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">67</context>
@@ -4185,7 +4185,7 @@
       </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
-        <target state="final">Test501</target>
+        <target state="final">यहां क्लिक करें </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
@@ -4194,7 +4194,7 @@
       <trans-unit id="c250a523ca0238d1a8f6feb105fbe858aca01f5d" datatype="html">
         <source>to
                   reset</source>
-        <target state="final">Test502</target>
+        <target state="final">रीसेट करने के लिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">67</context>
@@ -4202,7 +4202,7 @@
       </trans-unit>
       <trans-unit id="f093d9574ab746b231504bd2cbb65f04bd7b00db" datatype="html">
         <source>Log in</source>
-        <target state="final">Test456</target>
+        <target state="final">लॉग इन करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">73</context>
@@ -4210,7 +4210,7 @@
       </trans-unit>
       <trans-unit id="45913631a0c41cb1535bbdf1ac675cbd1d5c5896" datatype="html">
         <source>Do not have an account? </source>
-        <target state="final">Test504</target>
+        <target state="final">आपका अकाउंट नहीं है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">80</context>
@@ -4218,7 +4218,7 @@
       </trans-unit>
       <trans-unit id="d207cc1965ec0c29e594e0e9917f39bfc276ed87" datatype="html">
         <source>Create an account</source>
-        <target state="final">Test505</target>
+        <target state="final">अकाउंट बनाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">80</context>
@@ -4226,7 +4226,7 @@
       </trans-unit>
       <trans-unit id="b49526241d3936e44e8414619c258b03ffca7ca0" datatype="html">
         <source>Check your </source>
-        <target state="final">Test506</target>
+        <target state="final">जाँचें अपना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">7</context>
@@ -4234,7 +4234,7 @@
       </trans-unit>
       <trans-unit id="0b15bf6fa1e5bdabc9fde97a14bee63a5d5e62f6" datatype="html">
         <source>email</source>
-        <target state="final">Test507</target>
+        <target state="final">ईमेल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">7</context>
@@ -4242,7 +4242,7 @@
       </trans-unit>
       <trans-unit id="9cfc24b69059eceab71ce2989a0edde02e75db0c" datatype="html">
         <source>SMS</source>
-        <target state="final">Test508</target>
+        <target state="final">एसएमएस</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">8</context>
@@ -4250,7 +4250,7 @@
       </trans-unit>
       <trans-unit id="c0f8cb6bdaa4133809e863cd54589e3fb5679f96" datatype="html">
         <source>Enter the </source>
-        <target state="final">Test509</target>
+        <target state="final">उसे दर्ज करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">10</context>
@@ -4258,7 +4258,7 @@
       </trans-unit>
       <trans-unit id="68572de01b84c678be4bf8a27b990ecac2f41ce9" datatype="html">
         <source>Code</source>
-        <target state="final">Test510</target>
+        <target state="final">कोड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">10</context>
@@ -4266,7 +4266,7 @@
       </trans-unit>
       <trans-unit id="41f9d2b008b1ac61c20fd6bc7a600b4ac84b3370" datatype="html">
         <source>OTP</source>
-        <target state="final">Test511</target>
+        <target state="final">ओटीपी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">11</context>
@@ -4274,7 +4274,7 @@
       </trans-unit>
       <trans-unit id="4b46c26edaa3ee1073c5602fb290ad258bef2775" datatype="html">
         <source>Did not receive a </source>
-        <target state="final">Test512</target>
+        <target state="final">नहीं मिला?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">21</context>
@@ -4282,7 +4282,7 @@
       </trans-unit>
       <trans-unit id="4e335319451cafca43286b246bc3d539ed3a4541" datatype="html">
         <source>OTP?</source>
-        <target state="final">Test513</target>
+        <target state="final"> ओटीपी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">21</context>
@@ -4290,7 +4290,7 @@
       </trans-unit>
       <trans-unit id="e79f4667301008394b58bbe5c69f3f6ba7121c56" datatype="html">
         <source>mail?</source>
-        <target state="final">Test514</target>
+        <target state="final">फिर से भेजने के लिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">22</context>
@@ -4298,7 +4298,7 @@
       </trans-unit>
       <trans-unit id="d6db50bb8a1f3c085c34c176fadf0f7e3136912c" datatype="html">
         <source>to resend</source>
-        <target state="final">Test515</target>
+        <target state="final">मेल करें?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
@@ -4306,7 +4306,7 @@
       </trans-unit>
       <trans-unit id="fa56473c66da5baba33e3a1652dcaaa075ce245f" datatype="html">
         <source>Create your account</source>
-        <target state="final">Test516</target>
+        <target state="final">अपना अकाउंट बनाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">7</context>
@@ -4314,7 +4314,7 @@
       </trans-unit>
       <trans-unit id="67d20e7700ebd2f51a31508b2b98fb6b58a9dc34" datatype="html">
         <source>Language for Learning </source>
-        <target state="final">Test517</target>
+        <target state="final">सीखने की भाषा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">9</context>
@@ -4322,7 +4322,7 @@
       </trans-unit>
       <trans-unit id="c83b838d845690bcb897f775f53b5316535306dc" datatype="html">
         <source>First Name</source>
-        <target state="final">Test518</target>
+        <target state="final">पहला नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/users/create-user/create-user.component.html</context>
           <context context-type="linenumber">38</context>
@@ -4330,7 +4330,7 @@
       </trans-unit>
       <trans-unit id="9a21c0fca5b6a808e90047fe4022618b96026445" datatype="html">
         <source>This field is required</source>
-        <target state="final">Test480</target>
+        <target state="final">यह जानकारी देना आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">51</context>
@@ -4338,7 +4338,7 @@
       </trans-unit>
       <trans-unit id="7015912d49f8c726ebe1602104884ca1dbf5ee20" datatype="html">
         <source>Invalid name Format</source>
-        <target state="final">Test520</target>
+        <target state="final">अमान्य नाम प्रारूप</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">26</context>
@@ -4346,7 +4346,7 @@
       </trans-unit>
       <trans-unit id="166b2cc65003221ff5f3ec05d5baca41e6821396" datatype="html">
         <source>Last Name</source>
-        <target state="final">Test521</target>
+        <target state="final">उपनाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/users/create-user/create-user.component.html</context>
           <context context-type="linenumber">44</context>
@@ -4363,7 +4363,7 @@
       </trans-unit>
       <trans-unit id="99ccedf4a5e02d123e3cede73ae402b1f9fd4f24" datatype="html">
         <source>This is the name that will show up on your certificate)</source>
-        <target state="final">Test523</target>
+        <target state="final">यह नाम आपके प्रमाणपत्र पर दिखेगा)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">42</context>
@@ -4371,7 +4371,7 @@
       </trans-unit>
       <trans-unit id="0a728a80d581a57972f693f00a16fd938255c165" datatype="html">
         <source>Invalid email or number</source>
-        <target state="final">Test481</target>
+        <target state="final">ईमेल/मोबाइल नंबर अमान्य है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">54</context>
@@ -4382,7 +4382,7 @@
                   lower and
                   upper
                   case alphabets and special characters without space </source>
-        <target state="final">Test525</target>
+        <target state="final">पासवर्ड में कम से कम 8 वर्ण होने चाहिए जिनमें बिना स्पेस के अंक,छोटे और बड़े अक्षर, और विशेष वर्ण शामिल होने चाहिए.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">67</context>
@@ -4391,7 +4391,7 @@
       <trans-unit id="31fdc68dee24aeb0dc272b036e5dc3fe9de50853" datatype="html">
         <source>
                 Invalid Password Format</source>
-        <target state="final">Test526</target>
+        <target state="final">पासवर्ड का फ़ॉर्मैट अमान्य है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">75</context>
@@ -4399,7 +4399,7 @@
       </trans-unit>
       <trans-unit id="c1b7e6d75ff4285c7636c67e5ef259629b81725b" datatype="html">
         <source>Confirm Password</source>
-        <target state="final">Test527</target>
+        <target state="final">पासवर्ड कंफ़र्म करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/users/create-user/create-user.component.html</context>
           <context context-type="linenumber">89</context>
@@ -4407,7 +4407,7 @@
       </trans-unit>
       <trans-unit id="d63091c3831d4fa7ed9740ed11c8de71569b4b42" datatype="html">
         <source>This field is required.</source>
-        <target state="final">Test528</target>
+        <target state="final">यह जानकारी देना आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">90</context>
@@ -4415,7 +4415,7 @@
       </trans-unit>
       <trans-unit id="841c79bcb92a7c6f813244385cc50581ff1e2f0b" datatype="html">
         <source>Password does not match</source>
-        <target state="final">Test529</target>
+        <target state="final">पासवर्ड मैच नहीं हो रहा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">94</context>
@@ -4424,7 +4424,7 @@
       <trans-unit id="6283d9c01c43d3cda0853fad4d9702283ae415e8" datatype="html">
         <source>Get help on
                 WhatsApp</source>
-        <target state="final">Test530</target>
+        <target state="final">व्हाट्सएप पर मदद लें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">108</context>
@@ -4432,7 +4432,7 @@
       </trans-unit>
       <trans-unit id="218f6a7e15aff4fc8f7afd62f4b3b8a5ec85a7c7" datatype="html">
         <source>Tell us more about you</source>
-        <target state="final">Test531</target>
+        <target state="final">हमें अपने बारे में बताएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/your-location/your-location.component.html</context>
           <context context-type="linenumber">12</context>
@@ -4592,7 +4592,7 @@
       </trans-unit>
       <trans-unit id="4d54cf850ec43a1de48e5d4a546bf0451a43a323" datatype="html">
         <source>Institution Name</source>
-        <target state="final">Test551</target>
+        <target state="final">संस्थान का नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">20</context>
@@ -4640,7 +4640,7 @@
       </trans-unit>
       <trans-unit id="783945bcd32ae118a093a367621aecb6b25d4da1" datatype="html">
         <source>Organization Name</source>
-        <target state="final">Test557</target>
+        <target state="final">ऑर्गनाइज़ेशन का नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">10</context>
@@ -4648,7 +4648,7 @@
       </trans-unit>
       <trans-unit id="2fd933ccfe4113880cdcbb2a8f557fbb5dc0a788" datatype="html">
         <source>Here are some courses for you</source>
-        <target state="final">Test558</target>
+        <target state="final">आपके लिए कुछ पाठ्यक्रम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">2</context>
@@ -4656,7 +4656,7 @@
       </trans-unit>
       <trans-unit id="080307fb9981a42f89c7e0b54cd7d547f2ed7399" datatype="html">
         <source>Continue Learning</source>
-        <target state="final">Test559</target>
+        <target state="final">सीखना जारी रखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">4</context>
@@ -4664,7 +4664,7 @@
       </trans-unit>
       <trans-unit id="84026b0b828aee0ec5676866379f2f2a0e9f0f52" datatype="html">
         <source>Start Learning</source>
-        <target state="final">Test560</target>
+        <target state="final">पढ़ना शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">6</context>
@@ -4672,7 +4672,7 @@
       </trans-unit>
       <trans-unit id="bdc5cd8ee8da3b2611447a34f2fa23b8382d2293" datatype="html">
         <source>How does it work?</source>
-        <target state="final">Test561</target>
+        <target state="final">यह कैसे काम करता है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">23</context>
@@ -4688,7 +4688,7 @@
       </trans-unit>
       <trans-unit id="b0c810659d9a7d80da8be8ca2c7c4ed471091146" datatype="html">
         <source>Top certified courses</source>
-        <target state="final">Test563</target>
+        <target state="final">शीर्ष के प्रमाणित पाठ्यक्रम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">37</context>
@@ -4696,7 +4696,7 @@
       </trans-unit>
       <trans-unit id="83df1b902abad2a60612ec58b402174f66e94989" datatype="html">
         <source>View all courses</source>
-        <target state="final">Test564</target>
+        <target state="final">सभी पाठ्यक्रम देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">44</context>
@@ -4704,7 +4704,7 @@
       </trans-unit>
       <trans-unit id="c25fdcbcbb04982545e69d701eb99900fe55f408" datatype="html">
         <source>People you may want to follow</source>
-        <target state="final">Test565</target>
+        <target state="final">ऐसे लोग जिन्हें आप फॉलो करना चाहेंगे</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">60</context>
@@ -4712,7 +4712,7 @@
       </trans-unit>
       <trans-unit id="9ce927482c3a9e441facce95e90e41e2f45ad362" datatype="html">
         <source>because you saw Manyata for Mothers</source>
-        <target state="final">Test566</target>
+        <target state="final">क्योंकि आपने माताओं के लिए मान्यता देखी है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">61</context>
@@ -4720,7 +4720,7 @@
       </trans-unit>
       <trans-unit id="c79b31b48912d434a4f19a03b0105be1f5ab22a3" datatype="html">
         <source>My Courses</source>
-        <target state="final">Test567</target>
+        <target state="final">आपके पाठ्यक्रम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">79</context>
@@ -4736,7 +4736,7 @@
       </trans-unit>
       <trans-unit id="744cc066fd07bf6924f4c5309941395bbdf3dca7" datatype="html">
         <source>500 characters</source>
-        <target state="final">Test569</target>
+        <target state="final">कारण 500 वर्णों का होना चाहिए।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
           <context context-type="linenumber">15</context>
@@ -4745,7 +4745,7 @@
       <trans-unit id="969dccef8df00736062df588dc5aca2c4c5fd0ff" datatype="html">
         <source>
         You have exceeded 500 characters.</source>
-        <target state="final">Test570</target>
+        <target state="final">आपने 500 वर्णों की सीमा को पार कर लिया है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
           <context context-type="linenumber">19</context>
@@ -4753,7 +4753,7 @@
       </trans-unit>
       <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html">
         <source>Save</source>
-        <target state="final">Test125</target>
+        <target state="final">सेव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/user-registration/user-registration.component.html</context>
           <context context-type="linenumber">43</context>
@@ -4941,7 +4941,7 @@
       <trans-unit id="5d49ee389add9351d1a4e56d4c8200eff140b932" datatype="html">
         <source>
       Close</source>
-        <target state="final">Test102</target>
+        <target state="final">बंद करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/shared/components/auth-editor-action-buttons/auth-editor-action-buttons.component.html</context>
           <context context-type="linenumber">10</context>
@@ -5170,7 +5170,7 @@
       </trans-unit>
       <trans-unit id="cda31dbd724cf5f4fa7a4274d9120651490c8a8c" datatype="html">
         <source>Back</source>
-        <target state="final">Test369</target>
+        <target state="final">पीछे जाएं</target>
         <note priority="1" from="description">Back button to go to previous page</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
@@ -5691,7 +5691,7 @@
       <trans-unit id="98ae39c95ddb9c13458f89b1e171136b5099039d" datatype="html">
         <source>
           Questions</source>
-        <target state="final">Test683</target>
+        <target state="final">प्रश्न</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/quiz/shared/components/question-editor-sidenav/question-editor-sidenav.component.html</context>
           <context context-type="linenumber">6</context>
@@ -5854,7 +5854,7 @@
       </trans-unit>
       <trans-unit id="b0b631e7f262a69bc76c5b3dd910b3cb5f27da01" datatype="html">
         <source>Edit </source>
-        <target state="final">Test202</target>
+        <target state="final">एडिट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/my-content/components/content-card/content-card.component.html</context>
           <context context-type="linenumber">108</context>
@@ -5862,7 +5862,7 @@
       </trans-unit>
       <trans-unit id="46450b049d2ede2b70c9f2ef5a79bcc06838521f" datatype="html">
         <source>Delete </source>
-        <target state="final">Test215</target>
+        <target state="final">डिलीट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/my-content/components/content-card/content-card.component.html</context>
           <context context-type="linenumber">112</context>
@@ -5926,7 +5926,7 @@
       </trans-unit>
       <trans-unit id="60d9d6640cfd601d9fb6236baa4419ed15b49926" datatype="html">
         <source>Profile Picture</source>
-        <target state="final">Test712</target>
+        <target state="final">प्रोफ़ाइल पिक्चर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/profile-select/profile-select.component.html</context>
           <context context-type="linenumber">5</context>
@@ -5934,7 +5934,7 @@
       </trans-unit>
       <trans-unit id="b801b5903d52b56fd3c8785dea652bf690ecc6ff" datatype="html">
         <source>Pick from the following</source>
-        <target state="final">Test713</target>
+        <target state="final">इनमें से चुनें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/profile-select/profile-select.component.html</context>
           <context context-type="linenumber">6</context>
@@ -5942,7 +5942,7 @@
       </trans-unit>
       <trans-unit id="63f5d0ec23e3cf4abf6d5221107633c90d8d4a15" datatype="html">
         <source>OR</source>
-        <target state="final">Test714</target>
+        <target state="final">या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/profile-select/profile-select.component.html</context>
           <context context-type="linenumber">16</context>
@@ -5950,7 +5950,7 @@
       </trans-unit>
       <trans-unit id="221cb4d4590e7d6bdafebc53a82f48091611df66" datatype="html">
         <source>Add your own image</source>
-        <target state="final">Test715</target>
+        <target state="final">अपनी इमेज डालें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/profile-select/profile-select.component.html</context>
           <context context-type="linenumber">31</context>
@@ -5958,7 +5958,7 @@
       </trans-unit>
       <trans-unit id="8ce9a4c453a65f183821b946e848a780ec315c80" datatype="html">
         <source>Edit</source>
-        <target state="final">Test202</target>
+        <target state="final">एडिट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">34</context>
@@ -5966,7 +5966,7 @@
       </trans-unit>
       <trans-unit id="425b950d9cef882aa6a02d7555edca9b2e1a8d6c" datatype="html">
         <source>Edit your About detail</source>
-        <target state="final">Test717</target>
+        <target state="final">अपनी जानकारी में बदलाव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">57</context>
@@ -5974,7 +5974,7 @@
       </trans-unit>
       <trans-unit id="45934aa7b744a95e6ab9b14801f3c88bfcad1153" datatype="html">
         <source>Certificates received</source>
-        <target state="final">Test718</target>
+        <target state="final">मिले हुए प्रमाणपत्र</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">64</context>
@@ -5982,7 +5982,7 @@
       </trans-unit>
       <trans-unit id="ddb23021acde0ce82888106f550fdcd3b8cccea8" datatype="html">
         <source>Education</source>
-        <target state="final">Test719</target>
+        <target state="final">शिक्षा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">3</context>
@@ -5990,7 +5990,7 @@
       </trans-unit>
       <trans-unit id="79d739325f9f625949a6792e2b9d1c279b01234e" datatype="html">
         <source>Edit your Education detail</source>
-        <target state="final">Test720</target>
+        <target state="final">अपनी शिक्षा की जानकारी में बदलाव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">76</context>
@@ -5998,7 +5998,7 @@
       </trans-unit>
       <trans-unit id="c2205ba088411ecd80c595a4ecf6a47a688ee898" datatype="html">
         <source>Work Info</source>
-        <target state="final">Test721</target>
+        <target state="final">>काम की जानकारी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">3</context>
@@ -6006,7 +6006,7 @@
       </trans-unit>
       <trans-unit id="d0b580b08b290bf4783178128a053078f96f1e61" datatype="html">
         <source>Edit your Work info detail</source>
-        <target state="final">Test722</target>
+        <target state="final">अपनी कार्य जानकारी विवरण संपादित करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">98</context>
@@ -6014,7 +6014,7 @@
       </trans-unit>
       <trans-unit id="bd22b699d5194b843881a1230a05e094c641c621" datatype="html">
         <source>+ Add Education</source>
-        <target state="final">Test723</target>
+        <target state="final">+ शिक्षा जोड़ें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-list/education-list.component.html</context>
           <context context-type="linenumber">27</context>
@@ -6022,7 +6022,7 @@
       </trans-unit>
       <trans-unit id="980df97c1843818521cb9c78d1424cda02e23c08" datatype="html">
         <source>Grade/Degree</source>
-        <target state="final">Test724</target>
+        <target state="final">ग्रेड/डिग्री</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">8</context>
@@ -6030,7 +6030,7 @@
       </trans-unit>
       <trans-unit id="0c2d0e97890355f5113f8101d505cf8374a577ad" datatype="html">
         <source>Course Name</source>
-        <target state="final">Test725</target>
+        <target state="final">कोर्स का नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">15</context>
@@ -6038,7 +6038,7 @@
       </trans-unit>
       <trans-unit id="86f6685b7c54b1c598d7f4a9a8db93c8e6f292bf" datatype="html">
         <source>Year of Passing</source>
-        <target state="final">Test726</target>
+        <target state="final">पास होने का साल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">24</context>
@@ -6047,7 +6047,7 @@
       <trans-unit id="6ad8c860592ef4a52b20dc092c9cd69b49ffdf56" datatype="html">
         <source>
           Please enter a valid 4 digit year</source>
-        <target state="final">Test727</target>
+        <target state="final">कृपया 4 अंकों वाला साल डालें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">26</context>
@@ -6055,7 +6055,7 @@
       </trans-unit>
       <trans-unit id="caf07d568bc6b29f47919b18f8044e618943e9ac" datatype="html">
         <source>+ Add Work Info</source>
-        <target state="final">Test728</target>
+        <target state="final">+ कार्य जानकारी जोड़ें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
           <context context-type="linenumber">25</context>
@@ -6186,7 +6186,7 @@
       <trans-unit id="4d665c6c2c1d69484cfc636b22fd895512246d90" datatype="html">
         <source>
     Next</source>
-        <target state="final">Test20</target>
+        <target state="final">अगला</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/info/about-video/about-video.component.html</context>
           <context context-type="linenumber">27</context>
@@ -6245,7 +6245,7 @@
       <trans-unit id="11f78ba7176f45e770dc165dc9e67d99062f9983" datatype="html">
         <source>
       Yes</source>
-        <target state="final">Test5</target>
+        <target state="final">हां</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-delete-dialog/goal-delete-dialog.component.html</context>
           <context context-type="linenumber">8</context>
@@ -6285,7 +6285,7 @@
       </trans-unit>
       <trans-unit id="d66a016417e9015175dca48080bd4a26d4d0685f" datatype="html">
         <source>I agree to the terms &amp; conditions</source>
-        <target state="final">Test756</target>
+        <target state="final">मैं नियमों और शर्तों से सहमत हूं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc/tnc.component.html</context>
           <context context-type="linenumber">13</context>
@@ -6293,7 +6293,7 @@
       </trans-unit>
       <trans-unit id="d012960491f7ce1387630a5543aace61816554c9" datatype="html">
         <source>Next</source>
-        <target state="final">Test20</target>
+        <target state="final">अगला</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc/tnc.component.html</context>
           <context context-type="linenumber">17</context>
@@ -6302,7 +6302,7 @@
       <trans-unit id="6c429239b146b037e71bfba1f142c3c0be00388e" datatype="html">
         <source>
       Terms and Conditions have been updated.</source>
-        <target state="final">Test459</target>
+        <target state="final">नियम और शर्तें अपडेट कर दी गई हैं।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">8</context>
@@ -6311,7 +6311,7 @@
       <trans-unit id="af70f8cef71b8a9c5dba5131162636c75824cb64" datatype="html">
         <source>
       Data privacy has been upgraded.</source>
-        <target state="final">Test466</target>
+        <target state="final">डेटा गोपनीयता को अपग्रेड किया गया है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">126</context>
@@ -6401,7 +6401,7 @@
       </trans-unit>
       <trans-unit id="e95ae009d0bdb45fcc656e8b65248cf7396080d5" datatype="html">
         <source>Overview</source>
-        <target state="final">Test770</target>
+        <target state="final">ओवरव्यू</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
           <context context-type="linenumber">15</context>
@@ -6559,7 +6559,7 @@
       <trans-unit id="e4e02215b3f387ab379f4af00f6fda56596ed6ca" datatype="html">
         <source>
               Description</source>
-        <target state="final">Test181</target>
+        <target state="final">लाइसेंस की शर्तें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/create-batch-dialog/create-batch-dialog.component.html</context>
           <context context-type="linenumber">29</context>
@@ -6708,7 +6708,7 @@
       </trans-unit>
       <trans-unit id="798e0cc66b9df4e7fe866f73d64b40b27751229f" datatype="html">
         <source>Author </source>
-        <target state="final">Test178</target>
+        <target state="final">लेखक</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-banner/app-toc-banner.component.html</context>
           <context context-type="linenumber">86</context>
@@ -6854,7 +6854,7 @@
       </trans-unit>
       <trans-unit id="3b9fe5551d4915da2cc9fe8421df298c5ba4cf52" datatype="html">
         <source>Modules</source>
-        <target state="final">Test824</target>
+        <target state="final">मॉड्यूल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
           <context context-type="linenumber">82</context>
@@ -6862,7 +6862,7 @@
       </trans-unit>
       <trans-unit id="84cab7df6d1741d8b5f8c0392f1a4dd66bae1ee8" datatype="html">
         <source>Discussion</source>
-        <target state="final">Test825</target>
+        <target state="final">चर्चा करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
           <context context-type="linenumber">87</context>
@@ -6921,7 +6921,7 @@
       </trans-unit>
       <trans-unit id="7c10acea8f5e2aa0ad8244ed1a75e68b640d4892" datatype="html">
         <source>License terms</source>
-        <target state="final">Test832</target>
+        <target state="final">लाइसेंस की शर्तें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/public/public-license/public-license.component.html</context>
           <context context-type="linenumber">2</context>
@@ -6939,7 +6939,7 @@
       </trans-unit>
       <trans-unit id="325d0c542f53512c7a86c3c9521b8a72751aa5c2" datatype="html">
         <source>Course Details</source>
-        <target state="final">Test834</target>
+        <target state="final">पाठ्यक्रम विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop-modal/app-toc-desktop-modal.component.html</context>
           <context context-type="linenumber">4</context>
@@ -6955,7 +6955,7 @@
       </trans-unit>
       <trans-unit id="4f8b2bb476981727ab34ed40fde1218361f92c45" datatype="html">
         <source>Details</source>
-        <target state="final">Test188</target>
+        <target state="final">विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">49</context>
@@ -6979,7 +6979,7 @@
       </trans-unit>
       <trans-unit id="0bd8b27f60a1f098a53e06328426d818e3508ff9" datatype="html">
         <source>Share</source>
-        <target state="final">Test835</target>
+        <target state="final">शेयर करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">82</context>
@@ -6988,7 +6988,7 @@
       <trans-unit id="203803bce1fff43a040395e465f62d28c8d912b6" datatype="html">
         <source>
           Start</source>
-        <target state="final">Test809</target>
+        <target state="final">शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">87</context>
@@ -7006,7 +7006,7 @@
       </trans-unit>
       <trans-unit id="41e62daa962947c0d23ded0981975d1bddf0bf38" datatype="html">
         <source>Minutes</source>
-        <target state="final">Test837</target>
+        <target state="final">मिनट</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
           <context context-type="linenumber">16</context>
@@ -7014,7 +7014,7 @@
       </trans-unit>
       <trans-unit id="c8706cd57d97eb04a61f99e848a9d47d1ccb7d53" datatype="html">
         <source>Questions</source>
-        <target state="final">Test683</target>
+        <target state="final">प्रश्न</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">27</context>
@@ -7092,7 +7092,7 @@
       </trans-unit>
       <trans-unit id="ed31c09fd77c36238c13d83635f3fe5294c733d2" datatype="html">
         <source>Location</source>
-        <target state="final">Test847</target>
+        <target state="final">जगह</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">20</context>
@@ -8412,7 +8412,7 @@
       <trans-unit id="c630ea158480efb7cc07ec621427f2e86098bc73" datatype="html">
         <source>
       No</source>
-        <target state="final">Test4</target>
+        <target state="final">नहीं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-delete-dialog/goal-delete-dialog.component.html</context>
           <context context-type="linenumber">11</context>
@@ -8672,7 +8672,7 @@
       <trans-unit id="3618ef2afb7155cd662abdd58c4929919f907b25" datatype="html">
         <source>
           Update</source>
-        <target state="final">Test245</target>
+        <target state="final">अपडेट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/goals/components/goal-card/goal-card.component.html</context>
           <context context-type="linenumber">118</context>
@@ -9681,7 +9681,7 @@
       <trans-unit id="1595305f3724382831566acf5f8e116bdb9b57f4" datatype="html">
         <source>
   Share</source>
-        <target state="final">Test835</target>
+        <target state="final">शेयर करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-share-dialog/training-share-dialog.component.html</context>
           <context context-type="linenumber">41</context>
@@ -9781,7 +9781,7 @@
       </trans-unit>
       <trans-unit id="1f360f6968ad81f88da1d34e4a9a855680d81074" datatype="html">
         <source>All Courses</source>
-        <target state="final">Test1168</target>
+        <target state="final">सभी पाठ्यक्रम देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
           <context context-type="linenumber">12</context>
@@ -9789,7 +9789,7 @@
       </trans-unit>
       <trans-unit id="f119172e02faa8b5c4c8da24c472517f6d9792b5" datatype="html">
         <source>results </source>
-        <target state="final">Test1169</target>
+        <target state="final">परिणाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
           <context context-type="linenumber">86</context>
@@ -9797,7 +9797,7 @@
       </trans-unit>
       <trans-unit id="f6b4ccdc92ad4ce5a66ada60321ddba4f04feb1c" datatype="html">
         <source>result </source>
-        <target state="final">Test1170</target>
+        <target state="final">परिणाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/social/routes/socialSearch/social-search.component.html</context>
           <context context-type="linenumber">87</context>
@@ -9813,7 +9813,7 @@
       </trans-unit>
       <trans-unit id="db11865ed798086b0ae5a32003ee8b67349acf47" datatype="html">
         <source>Filter based on Language : </source>
-        <target state="final">Test1172</target>
+        <target state="final">भाषा के आधार पर फ़िल्टर करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
           <context context-type="linenumber">21</context>
@@ -9990,7 +9990,7 @@
       </trans-unit>
       <trans-unit id="23ae7f781845c01c88c54122a144cc6c3acee44f" datatype="html">
         <source>last Updated On </source>
-        <target state="final">Test1193</target>
+        <target state="final">अपडेट करने की आखरी तारीख</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
           <context context-type="linenumber">49</context>
@@ -10014,7 +10014,7 @@
       </trans-unit>
       <trans-unit id="441a59953a0cbf44b6a415ac9953572cd7309728" datatype="html">
         <source>What do you want to learn?</source>
-        <target state="final">Test1196</target>
+        <target state="final">आपको क्या सीखना है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/home/home.component.html</context>
           <context context-type="linenumber">9</context>
@@ -10097,7 +10097,7 @@
       </trans-unit>
       <trans-unit id="68e7b15a4d93ca81b2172e8d834f731438dce92b" datatype="html">
         <source>Last updated on </source>
-        <target state="final">Test356</target>
+        <target state="final">अंतिम बार अपडेट किया गया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/my-learning/routes/home/home.component.html</context>
           <context context-type="linenumber">66</context>
@@ -10186,7 +10186,7 @@
       <trans-unit id="2e4a53f7713ec9841c0c7b6df8217edaf2d4d340" datatype="html">
         <source>
         Education</source>
-        <target state="final">Test719</target>
+        <target state="final">शिक्षा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/profile/routes/dashboard/components/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">66</context>
@@ -10430,7 +10430,7 @@
       </trans-unit>
       <trans-unit id="8c2e731ee23fd5de9f7fac6bad93993a5f6ba3a8" datatype="html">
         <source> Back</source>
-        <target state="final">Test369</target>
+        <target state="final">वापस जाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">6</context>
@@ -10439,7 +10439,7 @@
       <trans-unit id="ca9230080bbc4648cdd12b43d55e69a9677b91a0" datatype="html">
         <source>
             Personal Details</source>
-        <target state="final">Test1247</target>
+        <target state="final">व्यक्तिगत विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">12</context>
@@ -10569,7 +10569,7 @@
       <trans-unit id="3bba255bae17018b70b3ee045270c56c634e6a9b" datatype="html">
         <source>
                           Nationality</source>
-        <target state="final">Test1262</target>
+        <target state="final">राष्ट्रीयता</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">111</context>
@@ -10577,7 +10577,7 @@
       </trans-unit>
       <trans-unit id="0758b6449e80ae401986fefbb451b0b93f390efe" datatype="html">
         <source>Nationality</source>
-        <target state="final">Test1262</target>
+        <target state="final">राष्ट्रीयता</target>
         <note priority="1" from="description">Nationality</note>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
@@ -10604,7 +10604,7 @@
       </trans-unit>
       <trans-unit id="1cb4cdeaa9215436c2da2c96e02ad390aff4f7d3" datatype="html">
         <source>Mother Tongue</source>
-        <target state="final">Test1266</target>
+        <target state="final">मातृभाषा</target>
         <note priority="1" from="description">Mother Tongue</note>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
@@ -10614,7 +10614,7 @@
       <trans-unit id="94b3681e4be88b6bf8f3aa36e7833a8a18116fa5" datatype="html">
         <source>
                           Gender</source>
-        <target state="final">Test1267</target>
+        <target state="final">लिंग</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">145</context>
@@ -10623,7 +10623,7 @@
       <trans-unit id="dc0e66897044cd46e7172d3a9d5113c7135a77ec" datatype="html">
         <source>
                           Marital Status</source>
-        <target state="final">Test1268</target>
+        <target state="final">वैवाहिक स्थिति</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">164</context>
@@ -10813,7 +10813,7 @@
       <trans-unit id="b7154b96bd8bbed01a6aa7d24211b21b4717ae34" datatype="html">
         <source>
                       Pincode</source>
-        <target state="final">Test1290</target>
+        <target state="final">पिनकोड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">429</context>
@@ -10821,7 +10821,7 @@
       </trans-unit>
       <trans-unit id="bc08adc46d777e176025060f5e63cb4f7a795a41" datatype="html">
         <source>Pincode</source>
-        <target state="final">Test1290</target>
+        <target state="final">पिनकोड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">151</context>
@@ -10838,7 +10838,7 @@
       </trans-unit>
       <trans-unit id="d37a1f678389aec052ab04955d6cfa5411f6c93d" datatype="html">
         <source>Language for Learning</source>
-        <target state="final">Test517</target>
+        <target state="final">सीखने की भाषा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">445</context>
@@ -11016,7 +11016,7 @@
       </trans-unit>
       <trans-unit id="c76ad88ed49423e769fd677d379fa12157a46a7b" datatype="html">
         <source>Profession</source>
-        <target state="final">Test1314</target>
+        <target state="final">पेशा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">47</context>
@@ -11050,7 +11050,7 @@
       </trans-unit>
       <trans-unit id="cd21e271ec2ff33f0d62b5e009ad4825dbf8d3cc" datatype="html">
         <source>Organization Type</source>
-        <target state="final">Test1318</target>
+        <target state="final">संगठन का प्रकार</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">69</context>
@@ -11059,7 +11059,7 @@
       <trans-unit id="c89a0f2a9c526389a0de41fefb11dbb2bab44ce9" datatype="html">
         <source>
                       Designation</source>
-        <target state="final">Test552</target>
+        <target state="final">पदनाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">755</context>
@@ -11068,7 +11068,7 @@
       <trans-unit id="043b6fc6e0405e597bd9813fe852db8d820a8548" datatype="html">
         <source>
                       Location</source>
-        <target state="final">Test847</target>
+        <target state="final">जगह</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">767</context>
@@ -11077,7 +11077,7 @@
       <trans-unit id="55b94b0f9eeca2fd9d7f29ec7eb3329b56f5170d" datatype="html">
         <source>
                       Date of Joining</source>
-        <target state="final">Test1321</target>
+        <target state="final">जॉइनिंग की तिथि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">794</context>
@@ -11103,7 +11103,7 @@
       <trans-unit id="e0fdc8824e9e66793716fff02d9aec06ac300b1a" datatype="html">
         <source>
                       Address</source>
-        <target state="final">Test1324</target>
+        <target state="final">पता</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">810</context>
@@ -11146,7 +11146,7 @@
       <trans-unit id="bc1230ee42f5f46a328e26f0ff62ac277e5facc9" datatype="html">
         <source>
                       Description</source>
-        <target state="final">Test181</target>
+        <target state="final">लाइसेंस की शर्तें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">1003</context>
@@ -11318,7 +11318,7 @@
       </trans-unit>
       <trans-unit id="6db3d431cd08d786800618e7a926267019783493" datatype="html">
         <source>Date of Joining</source>
-        <target state="final">Test1321</target>
+        <target state="final">जॉइनिंग की तिथि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">26</context>
@@ -11326,7 +11326,7 @@
       </trans-unit>
       <trans-unit id="b28b981c9b0ca9c9b8418d44772bc96c57719154" datatype="html">
         <source>Personal Details</source>
-        <target state="final">Test1247</target>
+        <target state="final">व्यक्तिगत विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">4</context>
@@ -11334,7 +11334,7 @@
       </trans-unit>
       <trans-unit id="222b7c70d8f10d18801216b8c5a7ea55720db0ea" datatype="html">
         <source>Last Name*</source>
-        <target state="final">Test1351</target>
+        <target state="final">उपनाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">17</context>
@@ -11342,7 +11342,7 @@
       </trans-unit>
       <trans-unit id="4a8a95fdec8840349da636443490c9219eecc2d2" datatype="html">
         <source>Organization's Name</source>
-        <target state="final">Test1352</target>
+        <target state="final">ऑर्गनाइज़ेशन का नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">84</context>
@@ -11350,7 +11350,7 @@
       </trans-unit>
       <trans-unit id="097b5dfee5665aa0f7daba8b696acecde6445474" datatype="html">
         <source>Male</source>
-        <target state="final">Test1353</target>
+        <target state="final">पुरुष</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">100</context>
@@ -11358,7 +11358,7 @@
       </trans-unit>
       <trans-unit id="18f3bafdc69b800737e303bc1cb0753bd9dd3f32" datatype="html">
         <source>Female</source>
-        <target state="final">Test1354</target>
+        <target state="final">महिला</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">101</context>
@@ -11366,7 +11366,7 @@
       </trans-unit>
       <trans-unit id="2e77ab4db0c90cd71b6a0ef856724b21e4a53218" datatype="html">
         <source>Others</source>
-        <target state="final">Test1073</target>
+        <target state="final">अन्य</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">102</context>
@@ -11374,7 +11374,7 @@
       </trans-unit>
       <trans-unit id="003d4f5e4909ccf01b6a204c688fd6dab15c20bd" datatype="html">
         <source>Gender</source>
-        <target state="final">Test1267</target>
+        <target state="final">लिंग</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">99</context>
@@ -11406,7 +11406,7 @@
       </trans-unit>
       <trans-unit id="db654f91d847f34e71ffb99268ff3a1807913421" datatype="html">
         <source>Phone Number</source>
-        <target state="final">Test1360</target>
+        <target state="final">फ़ोन नंबर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">141</context>
@@ -11422,7 +11422,7 @@
       </trans-unit>
       <trans-unit id="003c94fc143882ac8af6251a1595fe62978fe3e6" datatype="html">
         <source>Years</source>
-        <target state="final">Test1362</target>
+        <target state="final">साल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/dropdown-dob/dropdown-dob.component.html</context>
           <context context-type="linenumber">5</context>
@@ -11430,7 +11430,7 @@
       </trans-unit>
       <trans-unit id="5bb4a09a669f55893c9a37a8480c8fa3f7ce5702" datatype="html">
         <source>Month</source>
-        <target state="final">Test1363</target>
+        <target state="final">महिना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/dropdown-dob/dropdown-dob.component.html</context>
           <context context-type="linenumber">12</context>
@@ -11438,7 +11438,7 @@
       </trans-unit>
       <trans-unit id="2f933b826a570836cab04f683970a2d22068458c" datatype="html">
         <source>Date</source>
-        <target state="final">Test1364</target>
+        <target state="final">तिथि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/dropdown-dob/dropdown-dob.component.html</context>
           <context context-type="linenumber">19</context>
@@ -11463,7 +11463,7 @@
       <trans-unit id="9e0eaab2042cd18d46b66c7fafc914b7e54b91c3" datatype="html">
         <source>
     Save</source>
-        <target state="final">Test125</target>
+        <target state="final">सेव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/user-roles/components/modify-roles-dialog/modify-roles-dialog.component.html</context>
           <context context-type="linenumber">9</context>
@@ -11472,7 +11472,7 @@
       <trans-unit id="5b767a73d9da852eee7dae0bd0522f59c35e01f7" datatype="html">
         <source>
           Edit</source>
-        <target state="final">Test202</target>
+        <target state="final">एडिट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/page/home/components/banner/banner.component.html</context>
           <context context-type="linenumber">6</context>
@@ -11497,7 +11497,7 @@
       <trans-unit id="4ee2f46c77daefd4c29fff65b5640211bf30ad86" datatype="html">
         <source>
   Save</source>
-        <target state="final">Test125</target>
+        <target state="final">सेव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/page/home/components/search-request/search-request.component.html</context>
           <context context-type="linenumber">38</context>
@@ -11561,7 +11561,7 @@
       </trans-unit>
       <trans-unit id="952da9714d6fa9093cb358c2ddd7a46f4a5e49a3" datatype="html">
         <source> First Name </source>
-        <target state="final">Test518</target>
+        <target state="final">पहला नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/admin/src/lib/modules/tenant-admin/routes/system-roles-management/roles-management-detail/roles-management-detail.component.html</context>
           <context context-type="linenumber">85</context>
@@ -12123,7 +12123,7 @@
       <trans-unit id="368b817b7cc89a1705d9ac752da4ddda15d42ae8" datatype="html">
         <source>
           Save</source>
-        <target state="final">Test125</target>
+        <target state="final">सेव करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/gamification/routes/admin/components/admin/admin.component.html</context>
           <context context-type="linenumber">105</context>
@@ -13406,7 +13406,7 @@
       <trans-unit id="42c39b400c51db8d3cfec6b97574be2a0b00fef6" datatype="html">
         <source>
       Start Now!</source>
-        <target state="final">Test1593</target>
+        <target state="final">अभी शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
           <context context-type="linenumber">76</context>
@@ -13414,7 +13414,7 @@
       </trans-unit>
       <trans-unit id="a71a6122e65e1ac9b96b74a6fd4271a45f184d4b" datatype="html">
         <source>You have already completed the Assessment</source>
-        <target state="final">Test1594</target>
+        <target state="final">आपने पहले ही मूल्यांकन पूरा कर लिया है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
           <context context-type="linenumber">35</context>
@@ -13422,7 +13422,7 @@
       </trans-unit>
       <trans-unit id="fb5756bf26b2e0ab2d1c42d6891782bd18ce5d75" datatype="html">
         <source>Result:</source>
-        <target state="final">Test1595</target>
+        <target state="final">परिणाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">47</context>
@@ -13430,7 +13430,7 @@
       </trans-unit>
       <trans-unit id="8272de798dd803f04d5e5fcbe1013bc6267aa010" datatype="html">
         <source>Pass</source>
-        <target state="final">Test1596</target>
+        <target state="final">पास</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">76</context>
@@ -13438,7 +13438,7 @@
       </trans-unit>
       <trans-unit id="71a470fee4c26bd34cbdfb847fc37d0be79f6cfe" datatype="html">
         <source> Did not pass</source>
-        <target state="final">Test1597</target>
+        <target state="final">पास नहीं हुआ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">49</context>
@@ -13446,7 +13446,7 @@
       </trans-unit>
       <trans-unit id="47a28e7d7887dc7bb0e15d38c45ecfb56f738924" datatype="html">
         <source>Your score is:</source>
-        <target state="final">Test1598</target>
+        <target state="final">आपका स्कोर : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">51</context>
@@ -13454,7 +13454,7 @@
       </trans-unit>
       <trans-unit id="83d44aee3d87a7a87a1511283288564da14d6573" datatype="html">
         <source>Not Attempted</source>
-        <target state="final">Test1599</target>
+        <target state="final">इसका प्रयास नहीं किया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">57</context>
@@ -13462,7 +13462,7 @@
       </trans-unit>
       <trans-unit id="3db39135c783da4bb320d5826f4de893f62c7e1b" datatype="html">
         <source>Correct</source>
-        <target state="final">Test1600</target>
+        <target state="final">सही</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">61</context>
@@ -13470,7 +13470,7 @@
       </trans-unit>
       <trans-unit id="8b42d54000704393a3c06e5f8b668880014f6986" datatype="html">
         <source>Incorrect</source>
-        <target state="final">Test1601</target>
+        <target state="final">गलत</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">65</context>
@@ -13478,7 +13478,7 @@
       </trans-unit>
       <trans-unit id="ce62dea683aebe147f6b0cf2c0452b5bcc2c9559" datatype="html">
         <source>Congratulations!</source>
-        <target state="final">Test865</target>
+        <target state="final">बधाई हो !</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">3</context>
@@ -13486,7 +13486,7 @@
       </trans-unit>
       <trans-unit id="21c2b930737a7f4c7429476ff391e90c5606813f" datatype="html">
         <source>Level </source>
-        <target state="final">Test426</target>
+        <target state="final">स्तर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">64</context>
@@ -13494,7 +13494,7 @@
       </trans-unit>
       <trans-unit id="e6235209f30fb877c208ea1d47219e4acc458628" datatype="html">
         <source>is achieved</source>
-        <target state="final">Test1604</target>
+        <target state="final">हासिल की है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">64</context>
@@ -13502,7 +13502,7 @@
       </trans-unit>
       <trans-unit id="e6cb530ba0c713eee48c5a1126c50e027f737712" datatype="html">
         <source>You didn't pass the assessment</source>
-        <target state="final">Test1605</target>
+        <target state="final">आपने मूल्यांकन पास नहीं किया</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">68</context>
@@ -13510,7 +13510,7 @@
       </trans-unit>
       <trans-unit id="26e8e2d3936f3fda7b678c720d89b69a0943382c" datatype="html">
         <source>Go to Competency Dashboard</source>
-        <target state="final">Test1606</target>
+        <target state="final">योग्यता डैशबोर्ड पर जाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">76</context>
@@ -13518,7 +13518,7 @@
       </trans-unit>
       <trans-unit id="dc72450d5d1ef454bf72ea36fb4fcf1b87f4bb94" datatype="html">
         <source>View Relevant Courses</source>
-        <target state="final">Test1607</target>
+        <target state="final">प्रासंगिक कोर्स देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">78</context>
@@ -13526,7 +13526,7 @@
       </trans-unit>
       <trans-unit id="80ed5b776a26a78099e230e0e89d96c33ba44e24" datatype="html">
         <source>Results</source>
-        <target state="final">Test1608</target>
+        <target state="final">परिणाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">34</context>
@@ -13534,7 +13534,7 @@
       </trans-unit>
       <trans-unit id="fa12bcbc32d48189bd54f67e32eabc052a8c139f" datatype="html">
         <source>Retake Assessment</source>
-        <target state="final">Test1609</target>
+        <target state="final">फिर से आकलन करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">112</context>
@@ -13542,7 +13542,7 @@
       </trans-unit>
       <trans-unit id="ac10a3d9b59575640797c1a8e6aea642cf5d5e77" datatype="html">
         <source>Continue</source>
-        <target state="final">Test1610</target>
+        <target state="final">जारी रखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">90</context>
@@ -13550,7 +13550,7 @@
       </trans-unit>
       <trans-unit id="0e17baa97635bd7d33c25828eaf899669affa83e" datatype="html">
         <source>Are you sure you want</source>
-        <target state="final">Test1611</target>
+        <target state="final">क्या आपको वाकई</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">3</context>
@@ -13558,7 +13558,7 @@
       </trans-unit>
       <trans-unit id="11bbcce592927982c23f0a9046989520aeeb4da6" datatype="html">
         <source>to exit ?</source>
-        <target state="final">Test1612</target>
+        <target state="final">बाहर निकालना है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">3</context>
@@ -13566,7 +13566,7 @@
       </trans-unit>
       <trans-unit id="7df36c705aa2a3f86aa8bd4e47a0d06c1521ab84" datatype="html">
         <source>Any changes will not be saved</source>
-        <target state="final">Test1613</target>
+        <target state="final">आपके किए गए बदलाव सेव नहीं होंगे</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">4</context>
@@ -13574,7 +13574,7 @@
       </trans-unit>
       <trans-unit id="5174448b981e4d0f9b5804ffc247cd3629ae74fd" datatype="html">
         <source>Your results will not be saved. Are you sure you want to restart the quiz?</source>
-        <target state="final">Test1614</target>
+        <target state="final">आपके नतीजे सेव नहीं किए जाएंगे. क्या आप वाकई क्विज़ छोड़ना चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
           <context context-type="linenumber">4</context>
@@ -13582,7 +13582,7 @@
       </trans-unit>
       <trans-unit id="8262018b9df7cc683336d3684bf88352d0617f76" datatype="html">
         <source>Yes, Restart</source>
-        <target state="final">Test1615</target>
+        <target state="final">हाँ, रीस्टार्ट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
           <context context-type="linenumber">7</context>
@@ -13590,7 +13590,7 @@
       </trans-unit>
       <trans-unit id="659d2de57277e8a64ec78d2b9862d876855ec4fc" datatype="html">
         <source>No,Continue Quiz</source>
-        <target state="final">Test1616</target>
+        <target state="final">नहीं, क्विज़ जारी रखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
           <context context-type="linenumber">19</context>
@@ -13598,7 +13598,7 @@
       </trans-unit>
       <trans-unit id="c697787c79df11dd6fa573a5652abb0558e80249" datatype="html">
         <source>Your results will not be saved. Are you sure you want to exit the quiz?</source>
-        <target state="final">Test1617</target>
+        <target state="final">आपके नतीजे सेव नहीं किए जाएंगे. क्या आप वाकई क्विज़ छोड़ना चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
           <context context-type="linenumber">14</context>
@@ -13606,7 +13606,7 @@
       </trans-unit>
       <trans-unit id="6d4f75ba1bfbab43e15e33af9ea0af45f6ecb45f" datatype="html">
         <source>Yes, Exit</source>
-        <target state="final">Test1618</target>
+        <target state="final">हाँ, बाहर निकलें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/close-quiz-modal/close-quiz-modal.component.html</context>
           <context context-type="linenumber">18</context>
@@ -13614,7 +13614,7 @@
       </trans-unit>
       <trans-unit id="b6d79c6ff771d7b86ce572306867a1705200f957" datatype="html">
         <source>Restart</source>
-        <target state="final">Test1619</target>
+        <target state="final">रीस्टार्ट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">79</context>
@@ -13622,7 +13622,7 @@
       </trans-unit>
       <trans-unit id="20c49ce56ac886cf835224eadf1ede2587bf2ce3" datatype="html">
         <source>Retake Quiz</source>
-        <target state="final">Test1620</target>
+        <target state="final">क्विज़ फिर से लें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">89</context>
@@ -13638,7 +13638,7 @@
       </trans-unit>
       <trans-unit id="1bba1542c6143d18517a07287b8b6418b69cdc96" datatype="html">
         <source>(Submitted)</source>
-        <target state="final">Test1622</target>
+        <target state="final">(सबमिट किया गया) </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">21</context>
@@ -13647,7 +13647,7 @@
       <trans-unit id="77fe1bd1068445ac009241ade7a686cd3e66f8f9" datatype="html">
         <source>
             Unable to Submit</source>
-        <target state="final">Test1623</target>
+        <target state="final">सबमिट करने में असमर्थ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">67</context>
@@ -13656,7 +13656,7 @@
       <trans-unit id="ebdd14077ba6b4ac5d85ae6832737ba5fbedbf3b" datatype="html">
         <source>
               Thank you for your attempt.</source>
-        <target state="final">Test1624</target>
+        <target state="final">आपके प्रयास के लिए धन्यवाद।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">71</context>
@@ -13664,7 +13664,7 @@
       </trans-unit>
       <trans-unit id="9e26ba2ee6f33ab84a5de6c5123307dc72f5a13f" datatype="html">
         <source>Did not Pass</source>
-        <target state="final">Test1625</target>
+        <target state="final">पास नहीं हुआ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">77</context>
@@ -13673,7 +13673,7 @@
       <trans-unit id="dc4768df7447c6f587e446509f1f99a018acf01e" datatype="html">
         <source>
                   Correct</source>
-        <target state="final">Test1600</target>
+        <target state="final">सही</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">82</context>
@@ -13682,7 +13682,7 @@
       <trans-unit id="c097da89fe0f5e81a4779fc3af3b554cba071e73" datatype="html">
         <source>
                   Incorrect</source>
-        <target state="final">Test1601</target>
+        <target state="final">गलत</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">88</context>
@@ -13691,7 +13691,7 @@
       <trans-unit id="9bb4ff641395011103245e6fd9562cb6d3153379" datatype="html">
         <source>
                   Unanswered</source>
-        <target state="final">Test1628</target>
+        <target state="final">अनुत्तरित</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">94</context>
@@ -13700,7 +13700,7 @@
       <trans-unit id="f0780d9358f57ce21f64465bc8a423f095f1410b" datatype="html">
         <source>
                   Percentage</source>
-        <target state="final">Test911</target>
+        <target state="final">प्रतिशत</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">102</context>
@@ -13708,7 +13708,7 @@
       </trans-unit>
       <trans-unit id="6520e6b609824468cf46c1df5c22960822200d65" datatype="html">
         <source>Your Score is</source>
-        <target state="final">Test1630</target>
+        <target state="final">आपका स्कोर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">108</context>
@@ -13717,7 +13717,7 @@
       <trans-unit id="0fd4fcb658dd30be4142914628a15338bc5420d2" datatype="html">
         <source>
             Show Answers</source>
-        <target state="final">Test1631</target>
+        <target state="final">उत्तर दिखाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">121</context>
@@ -13725,7 +13725,7 @@
       </trans-unit>
       <trans-unit id="f479caf313215b534cdba5ce0b2ba2fbe59309dd" datatype="html">
         <source>Difficulty : </source>
-        <target state="final">Test1632</target>
+        <target state="final">कठिनाई : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
           <context context-type="linenumber">11</context>
@@ -13733,7 +13733,7 @@
       </trans-unit>
       <trans-unit id="670911c44f08acfc1fdc5820f694cd9d35116c69" datatype="html">
         <source>Duration : </source>
-        <target state="final">Test1633</target>
+        <target state="final">अवधि : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
           <context context-type="linenumber">15</context>
@@ -13741,7 +13741,7 @@
       </trans-unit>
       <trans-unit id="cf52afabdf8e0a71313fff20034a82bb0d59510d" datatype="html">
         <source>Questions : </source>
-        <target state="final">Test1634</target>
+        <target state="final">प्रश्न : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
           <context context-type="linenumber">24</context>
@@ -13750,7 +13750,7 @@
       <trans-unit id="585838ce2a0bb8f81dbe13104a25b960ea948af1" datatype="html">
         <source>
         Start</source>
-        <target state="final">Test809</target>
+        <target state="final">शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/overview/overview.component.html</context>
           <context context-type="linenumber">31</context>
@@ -13759,7 +13759,7 @@
       <trans-unit id="d5d90ffbe58bc8a9ffbd25b0d296d817ed5423d5" datatype="html">
         <source>
               Explanation:</source>
-        <target state="final">Test1584</target>
+        <target state="final">व्याख्या : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
           <context context-type="linenumber">60</context>
@@ -13768,7 +13768,7 @@
       <trans-unit id="d5342dc25c3a87cd8996b503b4c6fb2edf18fc3d" datatype="html">
         <source>
               Explanation :</source>
-        <target state="final">Test1585</target>
+        <target state="final">व्याख्या : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
           <context context-type="linenumber">70</context>
@@ -13777,7 +13777,7 @@
       <trans-unit id="e947526f33edd2f39da3dcff38ba32a7469fe84f" datatype="html">
         <source>
               Explanation</source>
-        <target state="final">Test1583</target>
+        <target state="final">व्याख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
           <context context-type="linenumber">114</context>
@@ -13785,7 +13785,7 @@
       </trans-unit>
       <trans-unit id="46fb96ee309456c9e15c159b2e11a4656c700b46" datatype="html">
         <source>Better luck next time!</source>
-        <target state="final">Test1639</target>
+        <target state="final">फिर से कोशिश करें!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">4</context>
