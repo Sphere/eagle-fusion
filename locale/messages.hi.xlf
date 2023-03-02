@@ -862,6 +862,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{ actionBtn.name }}"/>
         </source>
+        <target>होम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
           <context context-type="linenumber">115</context>
@@ -3084,6 +3085,7 @@
           <x id="TAG_IMG" ctype="image" equiv-text="<img/>"/>
       Back
         </source>
+        <target>पीछे जाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/reply-comment/reply-comment.component.d.ts</context>
           <context context-type="linenumber">3</context>
@@ -3564,10 +3566,11 @@
         </context-group>
       </trans-unit>
       <trans-unit id="565185b8a44e3563c795ac61be86d4cd7968d3d9" datatype="html">
-        <source>Level 
-          <x id="INTERPOLATION" equiv-text="{{ log.level }}"/>: 
+        <source>Level
+          <x id="INTERPOLATION" equiv-text="{{ log.level }}"/>:
           <x id="INTERPOLATION_1" equiv-text="{{ log.header }}"/>
         </source>
+        <target>स्तर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">72</context>
@@ -6928,6 +6931,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{currentLicenseData[0].desc}}"/>
         </source>
+        <target></target
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/license/license.component.html</context>
           <context context-type="linenumber">4</context>
@@ -6994,6 +6998,7 @@
         <source>
           <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Resume&quot;:&quot;Resume&quot;}}"/>
         </source>
+        <target>दोबारा शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">94</context>
