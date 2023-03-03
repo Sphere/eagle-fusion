@@ -9,6 +9,8 @@ import { forkJoin } from 'rxjs'
 import * as _ from 'lodash'
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+
 @Component({
   selector: 'ws-mobile-dashboard',
   templateUrl: './mobile-dashboard.component.html',
@@ -32,6 +34,7 @@ export class MobileDashboardComponent implements OnInit {
 
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
     private userSvc: WidgetUserService,
     private router: Router,
     private http: HttpClient,
@@ -161,21 +164,60 @@ export class MobileDashboardComponent implements OnInit {
       langSelected = await result
       langSelected["selected"] = true
       localStorage.setItem(`preferedLanguage`, JSON.stringify(langSelected))
-      let lang = result.id === 'hi' ? result.id : ''
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        if (lang === 'hi') {
-          window.location.assign(`${location.origin}/${lang}${lan}`)
-        } else {
-          window.location.assign(`${location.origin}${lang}${lan}`)
+      let lang = result.id === 'hi' ? result.id : 'en'
+      let user: any
+      const userid = this.configSvc.userProfileV2!.userId
+      this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
+        user = data
+        const obj = {
+          preferences: {
+            language: lang,
+          },
         }
-      } else {
-        if (lang === 'hi') {
-          window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-        } else {
-          window.location.assign(`${location.origin}${lang}${this.router.url}`)
+        const userdata = Object.assign(user['profileDetails'], obj)
+        const reqUpdate = {
+          request: {
+            userId: userid,
+            profileDetails: userdata,
+          },
         }
-      }
+        this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+          (res: any) => {
+
+            if (res) {
+              if (this.router.url.includes('hi')) {
+                const lan = this.router.url.split('hi/').join('')
+                if (lang === 'hi') {
+                  window.location.assign(`${location.origin}/${lang}${lan}`)
+                } else {
+                  window.location.assign(`${location.origin}${lan}`)
+                }
+              } else {
+                if (lang === 'hi') {
+                  window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+                } else {
+                  window.location.assign(`${location.origin}${this.router.url}`)
+                }
+              }
+            }
+          },
+          () => {
+          })
+      })
+      // if (this.router.url.includes('hi')) {
+      //   const lan = this.router.url.split('hi/').join('')
+      //   if (lang === 'hi') {
+      //     window.location.assign(`${location.origin}/${lang}${lan}`)
+      //   } else {
+      //     window.location.assign(`${location.origin}${lang}${lan}`)
+      //   }
+      // } else {
+      //   if (lang === 'hi') {
+      //     window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+      //   } else {
+      //     window.location.assign(`${location.origin}${lang}${this.router.url}`)
+      //   }
+      // }
     })
   }
 }
