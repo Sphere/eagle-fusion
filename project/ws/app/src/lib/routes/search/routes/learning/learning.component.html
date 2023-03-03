@@ -108,12 +108,12 @@
     <h2 class="mat-h2" i18n>No result</h2>
     <h3 class="mat-h3" i18n>You may try</h3>
     <div class="padding-left-s">
-      <h4 [hidden]="!filtersResetAble">
+      <!-- <h4 [hidden]="!filtersResetAble">
         <ng-container> Removing Filters </ng-container>
         <button (click)="removeFilters()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
         </button>
-      </h4>
+      </h4> -->
       <h4 *ngIf="searchRequest?.lang!=='en' && searchRequest?.lang?.split(',').length === 1">
         <ng-container> Removing Language </ng-container>
         <button (click)="removeLanguage()" type="button" mat-icon-button>

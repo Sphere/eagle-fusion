@@ -902,7 +902,7 @@
       </trans-unit>
       <trans-unit id="6904ab7f6ed8dd207056afe9e056fedebbfa3f98" datatype="html">
         <source>FullScreen Toggle</source>
-        <target state="final">Test108</target>
+        <target state="final">फुलस्क्रीन टॉगल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-fullscreen/btn-fullscreen.component.html</context>
           <context context-type="linenumber">2</context>
@@ -1622,7 +1622,7 @@
       <trans-unit id="ddf5aeb5f472f0de92a8ed30ed82cf52a136d8ef" datatype="html">
         <source>
             View Course</source>
-        <target state="final">Test195</target>
+        <target state="final">कोर्स देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
           <context context-type="linenumber">565</context>
@@ -1631,7 +1631,7 @@
       <trans-unit id="7aab7dc3593b9a4b294bb49c4a3fae11a29a292a" datatype="html">
         <source>
             View Course </source>
-        <target state="final">Test195</target>
+        <target state="final">कोर्स देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/card-content/card-content.component.html</context>
           <context context-type="linenumber">569</context>
@@ -2178,7 +2178,7 @@
       </trans-unit>
       <trans-unit id="ff5ea0dd9f98b0c03c58b013ab84a767d8468c37" datatype="html">
         <source>Do you suspect a site problem? </source>
-        <target state="final">Test256</target>
+        <target state="final">क्या आपको साइट में समस्या का संदेह है?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-something-wrong/error-something-wrong.component.html</context>
           <context context-type="linenumber">19</context>
@@ -2372,7 +2372,7 @@
       </trans-unit>
       <trans-unit id="b7a285515e41f0c8038d8b8e65b5199cb9928681" datatype="html">
         <source>Course</source>
-        <target state="final">Test284</target>
+        <target state="final">पाठ्यक्रम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/infy/routes/training/routes/training-content/components/training-header/training-header.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2464,7 +2464,7 @@
       </trans-unit>
       <trans-unit id="8380d9eff8613c0bc58edc7cebc2aa72e17b11e3" datatype="html">
         <source>Page</source>
-        <target state="final">Test295</target>
+        <target state="final">पेज</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/quiz/shared/components/question-editor-sidenav/question-editor-sidenav.component.html</context>
           <context context-type="linenumber">74</context>
@@ -2472,7 +2472,7 @@
       </trans-unit>
       <trans-unit id="3fc92b6437415e35baeb1a0875fedd864a58fc47" datatype="html">
         <source>Page Number</source>
-        <target state="final">Test296</target>
+        <target state="final">पेज नंबर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-pdf/player-pdf.component.html</context>
           <context context-type="linenumber">10</context>
@@ -2480,7 +2480,7 @@
       </trans-unit>
       <trans-unit id="612af120c77b52601251e6833cb9e3cfb55fe0fe" datatype="html">
         <source>next</source>
-        <target state="final">Test297</target>
+        <target state="final">अगला</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-pdf/player-pdf.component.html</context>
           <context context-type="linenumber">15</context>
@@ -2488,7 +2488,7 @@
       </trans-unit>
       <trans-unit id="78102afe56e541a3afbb4061f27326e21d7c1981" datatype="html">
         <source>zoom out</source>
-        <target state="final">Test298</target>
+        <target state="final">ज़ूम आउट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-pdf/player-pdf.component.html</context>
           <context context-type="linenumber">19</context>
@@ -2496,7 +2496,7 @@
       </trans-unit>
       <trans-unit id="8f394c2a8e6481939f30ec2a5789f47959b8d70a" datatype="html">
         <source>zoom in</source>
-        <target state="final">Test299</target>
+        <target state="final">ज़ूम इन करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-pdf/player-pdf.component.html</context>
           <context context-type="linenumber">23</context>
@@ -6716,7 +6716,7 @@
       </trans-unit>
       <trans-unit id="29fa0f10312916933601a6a060b4557391575ac0" datatype="html">
         <source>Progress </source>
-        <target state="final">Test193</target>
+        <target state="final">प्रगति</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-banner/app-toc-banner.component.html</context>
           <context context-type="linenumber">102</context>
@@ -9878,7 +9878,7 @@
       </trans-unit>
       <trans-unit id="a4759399c88a36c6d1af4848aca9c13219f5cc4c" datatype="html">
         <source>No result</source>
-        <target state="final">Test1180</target>
+        <target state="final">कोई परिणाम नहीं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
           <context context-type="linenumber">75</context>
@@ -9886,7 +9886,7 @@
       </trans-unit>
       <trans-unit id="e752883bbf70b6716d9a6547b68d014eb618deae" datatype="html">
         <source>You may try</source>
-        <target state="final">Test1181</target>
+        <target state="final">आप कोशिश कर सकते हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
           <context context-type="linenumber">76</context>
@@ -9894,7 +9894,7 @@
       </trans-unit>
       <trans-unit id="5a07134ad1baf60899729cd1064c0f10d6c73205" datatype="html">
         <source>Different keywords</source>
-        <target state="final">Test1182</target>
+        <target state="final">विभिन्न कीवर्ड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
           <context context-type="linenumber">127</context>
@@ -9910,7 +9910,7 @@
       </trans-unit>
       <trans-unit id="deb97b3c21ecc2a0c45e196d20757c41f1622b9e" datatype="html">
         <source>results. </source>
-        <target state="final">Test1184</target>
+        <target state="final">परिणाम</target>
         <note priority="1" from="description">search route hits results</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
@@ -9919,7 +9919,7 @@
       </trans-unit>
       <trans-unit id="71615c143da7c372f4302c5fca8c1663e4c4dfd3" datatype="html">
         <source>result. </source>
-        <target state="final">Test1185</target>
+        <target state="final">परिणाम</target>
         <note priority="1" from="description">search route hits result</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/project/project.component.html</context>
@@ -10474,7 +10474,7 @@
       <trans-unit id="0b06a6b426cfe7511b83e2692e9c4dad7d2664d2" datatype="html">
         <source>
                           Middle Name</source>
-        <target state="final">Test1251</target>
+        <target state="final">मध्य नाम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/user-profile/components/user-profile/user-profile.component.html</context>
           <context context-type="linenumber">54</context>
@@ -11382,7 +11382,7 @@
       </trans-unit>
       <trans-unit id="ee6b1f617dd5320b23fbed018c38ac092db5e40a" datatype="html">
         <source>Single</source>
-        <target state="final">Test1357</target>
+        <target state="final">अविवाहित</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">109</context>
@@ -11390,7 +11390,7 @@
       </trans-unit>
       <trans-unit id="4f294b84c2065e6f56e5aa6eb50d33bf9d8510ca" datatype="html">
         <source>Married</source>
-        <target state="final">Test1358</target>
+        <target state="final">विवाहित</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">110</context>
@@ -11398,7 +11398,7 @@
       </trans-unit>
       <trans-unit id="51ff12cb9541051310823c4d0641dc480bba4372" datatype="html">
         <source>Marital Status</source>
-        <target state="final">Test1268</target>
+        <target state="final">वैवाहिक स्थिति</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">107</context>
@@ -11414,7 +11414,7 @@
       </trans-unit>
       <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html">
         <source>Address</source>
-        <target state="final">Test1324</target>
+        <target state="final">पता</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">146</context>
@@ -12579,7 +12579,7 @@
       <trans-unit id="f95f4709de2cc1e6f7800a4619701e795fb4bc29" datatype="html">
         <source>
         Open in New Window</source>
-        <target state="final">Test1499</target>
+        <target state="final">नई विंडो में खोलें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">55</context>
@@ -12597,7 +12597,7 @@
       <trans-unit id="c26225d954af0c0f3436a6fc2c8938a54d66623f" datatype="html">
         <source>
   Please wait! Content requested is loading</source>
-        <target state="final">Test1501</target>
+        <target state="final">कृपया प्रतीक्षा करें! आवेदन किया गया कंटेंट लोड हो रहा है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">70</context>
