@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "Learning Analytics"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "/LA/",
+      "Title": "Learning Analytics"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

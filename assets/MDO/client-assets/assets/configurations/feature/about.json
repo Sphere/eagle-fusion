@@ -1,0 +1,74 @@
+{
+  "banner": {
+    "title": "iGOT 2.0",
+    "description": "iGOT 2.0 is a next-generation learning solution accessible anytime, anywhere and on any device.",
+    "videoLink": "",
+    "moreInfo": ""
+  },
+  "section1": {
+    "title": "Overview",
+    "leftParas": [
+      "iGOT 2.0 is a learning platform aimed at promoting capacity development among civil services. It is a solution built to be ‘fit for purpose’ to meet the exact learning needs of the civil services. iGOT 2.0 will help create impactful and relevant learning paths to achieve the outcomes relevant to their career aspirations.",
+      "By enabling a shared learning architecture, the platform allows officials, departments, managers and training institutions to cross leverage courses, other learning resources and competency testing arrangements.While iGOT 2.0  brings the responsibility of learning to the learner, it also provides mechanisms by which departments and managers can guide, monitor and mentor officials in their capacity development journey."
+    ],
+    "rightParas": [
+      "iGOT 2.0 platform helps codify courses, allow providers, both internal (CTI, STI, OTI, serving officials) and external (academic institutions, other online providers, international agencies, individuals) to provide their courses on the platform in synchronization with the learning demands and needs of the user."
+    ]
+  },
+  "section2": {
+    "description": "iGOT 2.0 is a one stop shop for capacity development needs of all of India’s civil services"
+  },
+  "section4": {
+    "title": "Benefits – why iGoT?",
+    "subTitle": "iGoT offers multiple benefits when it comes to talent transformation with on-the-go learning capabilities. Here are some of them:",
+    "cards": [
+      {
+        "icon": "wb_cloudy",
+        "title": "100% Cloud and Open Source-based, which enables easy deployment",
+        "para": [
+          "A scalable, secure, open-source cloud-based solution that can be easily integrated with your enterprise SSO. This solution can be accessed anytime, anywhere and on any device."
+        ]
+      },
+      {
+        "icon": "info",
+        "title": "Always-on support",
+        "para": [
+          "Get round-the-clock guidance from experts and educators as well as technical and operational support for the iGoT platform."
+        ]
+      },
+      {
+        "icon": "tag_faces",
+        "title": "Make iGoT your own",
+        "para": [
+          "Make iGoT unique to your organization by assimilating your brand narrative through logos, images and other brand elements on the customized homepage."
+        ]
+      },
+      {
+        "icon": "chat",
+        "title": "Always-on support",
+        "para": [
+          "Learners can interact with the AI-powered voice-enabled ‘learning assistant’ for guidance at any stage of the learning process. They can also access dynamic guided learning paths created for roles, skills and interest."
+        ]
+      }
+    ]
+  },
+  "section5": {
+    "title": "Insights",
+    "subtitle": "How Impactful is Your Organization’s Learning?",
+    "para": "The structure of organizations and jobs are changing as artificial intelligence, machine learning, robotic process automation and other digital capabilities are overwhelming the workplace. It therefore becomes imperative for employees to constantly learn new skills and develop capabilities that will make them ready for the jobs of the future."
+  },
+  "features": {
+    "title": "Features",
+    "description": "Welcome Aboard. iGOT 2.0  is a comprehensive learning platform for capacity building. iGOT 2.0  will enable learners to derive new utilities from the platform. With this platform, learning will not just be confined to the classroom, but shall be available on the job, through peer challenging, competition and mentorship for competency upgradation pursuit. In addition to this  the personalised and adaptable system will help granularize roles, competencies and content.",
+    "list": {
+      "Flexible and Convenient": "<p> iGOT 2.0 provides the best-in-class curated content from multiple sources. Learners can access it seamlessly anytime, anywhere and on any device. Learning on-the-move is made easier as the content is available online and offline. Learners get a bird's-eye view on a topic of interest or delve deep into it for enriching their knowledge. The built-in AI-powered voice-enabled learning assistant responds to learners’ queries and also enables access to courses of interest within the solution. </p>",
+      "Personal and Engaging": "<p> There are several elements in iGOT 2.0 that make learning a much more enjoyable and engaging experience. Some of them are listed below. </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Learners can create ‘Goals’ to achieve learning fitness. Managers can also set goals for their team members and track their progress. The ‘Navigator’ directs learners to steer through dynamic learning paths specially crafted for them. Learners can explore role-based offerings, acquire skills of their choice and build on their current skill set. </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> ‘Time Spent’ is a measure of the amount of time spent on learning initiatives on iGOT 2.0 and compare against the organization’s average. </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> The ‘Learning History’ feature presents learners with the list of courses that they have commenced and spurs them to complete them. </p>",
+      "Connected and Collaborative": "<p> There are several elements in iGOT 2.0 that make learning a much more enjoyable and engaging experience. Some of them are listed below. </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Learners can choose topics to add to their ‘Playlists’ and create their own learning paths. These paths can be shared with their peers too. </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Incorporate role-based kits to train and engage talent with the ‘Onboarding’ function. </p>",
+      "Competitive and Motivational": "<p> Learners can augment their competencies using the ‘Technology Playground’. In addition, learners can use the power of ‘Challenges’, ‘Contests’ and ‘Technology Assessment’ to </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Conduct technology certifications </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Test their own skills as well as the collective skills of different teams </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Create coding contests and hackathons </p><p><mat-icon class='mat-icon notranslate material-icons mat-icon-no-color' role='img' aria-hidden='true'>minimize</mat-icon> Customize assessments </p>",
+      "Gamification": "<p> Learners can build a team of certified and deployable talent with ‘Virtual Proctored Certifications’, which enables learners to complete certification with ease anytime, anywhere. Fueled by gamification, learners can win cool ‘Badges’ by earning points after completing courses and topping the learning leaderboard. </p>",
+      "Strategic and Insightful": "<p> Organization leaders can drive impactful learning initiatives with insights from ‘Analytics’ and ‘Heartbeat Telemetry’ as well as keep a check on the learning trends of the organization. Through extensive activity tracking, reports and personalized dashboards, they can develop and manage talent productivity. </p>",
+      "Plug and Play with iGOT 2.0 Catalog": "<p> Engage learners with a curated library of best in-class content. Seamlessly integrate your internal enterprise content or external third-party content. Learners can enjoy and choose any content format that best suits their learning requirements. They can learn from PDFs, podcasts, rich HTML, interactive labs and other content formats. Learners can also choose to learn bite-sized micro modules or dive deep into macro learning modules. </p>",
+      "Practice Makes Perfect": "<p> Never go out of touch! Learners can make the most of the hands-on coding playground and ‘Simulated Labs’ on cloud environment. These are made available on iGOT 2.0 to help learners practice and code after acquiring new skills. </p>"
+    }
+  }
+}

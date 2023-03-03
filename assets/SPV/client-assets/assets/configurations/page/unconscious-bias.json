@@ -1,0 +1,818 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Unconscious Bias"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Powered by HR PL ID"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/unconscious-bias/image-gallery-1.png",
+                          "altText": "unconscious-bias"
+                        },
+                        "containerClass": "",
+                        "containerStyle": {
+                          "height": "400px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/unconscious-bias/contact-guangya.jpg",
+                          "altText": "unconscious-bias"
+                        },
+                        "containerClass": "",
+                        "containerStyle": {
+                          "height": "400px"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_4rjyko9r",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_4rjyko9r//uiConfId/35069072",
+                "containerClass": "kmsembed",
+                "title": "Kaltura Video",
+                "containerStyle": {
+                  "height": "400px"
+                }
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full video-full",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "contribute",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/performance.png'); width:300px",
+                            "overlayText": "UB measure in Performance Management",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "link": "https://www.linkedin.com/feed/update/activity:6458595277212250112"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/glamification.png'); width:300px",
+                            "overlayText": "UB in gamification recruiting technology",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "link": "https://www.linkedin.com/feed/update/urn:li:activity:6473200285811507200"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/generation.png'); width:300px",
+                            "overlayText": "UB relevance in multi-generational workforce",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "link": "https://www.linkedin.com/feed/update/urn:li:ugcPost:6451136197052887040"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/workshop.png'); width:300px",
+                            "overlayText": "UB workshop result Siemens Control Products",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "link": "https://www.linkedin.com/feed/update/urn:li:ugcPost:6477618613602787328"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Unconscious Bias around the world – explore UB activities globally"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 8,
+              "medium": 8
+            },
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "991",
+                "imageSrc": "/assets/instances/Siemens/unconscious-bias/world-map.png",
+                "mapName": "map-sales-competencies",
+                "map": [
+                  {
+                    "coords": [
+                      638,
+                      252,
+                      649,
+                      262
+                    ],
+                    "alt": "India",
+                    "title": "India",
+                    "link": "https://www.yammer.com/siemens.com/#/Threads/show?threadId=177606042656768",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      263,
+                      193,
+                      276,
+                      200
+                    ],
+                    "alt": "USA",
+                    "title": "USA",
+                    "link": "https://www.learningcampusus.com/course_catalog/support/unconscious_bias/",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      382,
+                      318,
+                      395,
+                      327
+                    ],
+                    "alt": "Brazil",
+                    "title": "Brazil",
+                    "link": "/app/toc/lex_auth_0128411922368184324168/overview",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      458,
+                      202,
+                      468,
+                      210
+                    ],
+                    "alt": "Portugal",
+                    "title": "Portugal",
+                    "link": "/app/toc/lex_auth_0128411649038172161202/overview",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      683,
+                      212,
+                      691,
+                      218
+                    ],
+                    "alt": "China",
+                    "title": "China",
+                    "link": "/app/toc/lex_auth_0128411653960990721261/overview",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      506,
+                      140,
+                      514,
+                      148
+                    ],
+                    "alt": "Sweden",
+                    "title": "Sweden",
+                    "link": "https://intranet.learning-campus.siemens.com/SE/en/product/chapter/QABEMAA/wbt/QAIVBK6/dates.do?hash=5376b8460699108e87551d01a3cd9ad4",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      496,
+                      172,
+                      505,
+                      179
+                    ],
+                    "alt": "Germany",
+                    "title": "Germany",
+                    "link": "/app/toc/lex_auth_0128411944499609604156/overview",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      482,
+                      168,
+                      489,
+                      176
+                    ],
+                    "alt": "Belgium",
+                    "title": "Belgium",
+                    "link": "/app/toc/lex_auth_0128411702247833601320/overview",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      465,
+                      161,
+                      477,
+                      169
+                    ],
+                    "alt": "United KIngdom",
+                    "title": "United KIngdom",
+                    "link": "https://intranet.for.siemens.com/cms/019/en/processes/jobrole/Pages/Unconscious-Bias.aspx",
+                    "target": ""
+                  }
+                ],
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block md:px-10 md:pr-0 px-6 sm:px-8 h-full",
+              "widgetInstanceId": "world_map"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 4,
+              "medium": 4
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<a href={{link}}><div class= \"relative\" style= \"background-size: 100% 100%;background-repeat: no-repeat;background-image:url({{imageSrc}});min-height:440px;\"><div style= \"background-color: #297595;opacity:0.9\" class= \"mb-10 h-20 w-full flex flex-col items-center justify-center absolute bottom-0 text-white text-xl font-semibold text-center leading-tight\"><a class=\"p-2\">{{overlayText}}<\/div><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/report-week.png",
+                  "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/Unconscious_Bias/Content/UB_Charts_Week%2043.pdf",
+                  "overlayText": "Report of week-43"
+                },
+                "containerClass": "h-full w-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Be an ambassador by hosting an UB event"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "contribute",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n </div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/addressing-ub.png'); width:300px",
+                            "link": "https://intranet.learning-campus.siemens.com/DE/en/catalog/51AAAAB/chapter/QAL7BQK/index.do?hash=18b1e1d78c28eead0175c77a30aa2389"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n </div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/how-to-copy-ub.png'); width:300px",
+                            "link": "https://learningworld.siemens.com/entry/output-and-examples-of-realted-solution-ideas-how-to-cope-with-unconsciuos-bias"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n </div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/train-the-trainer.png'); width:300px",
+                            "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/Unconscious_Bias/Content/2019.02.19_TTT.pdf"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n </div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/unconscious-bias/strategic-ub.png'); width:300px",
+                            "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/Unconscious_Bias/Content/2019.02.19_Top.Mgmt.Even.or.Townhall.Meeting.pdf"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learning and Reflection"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href=\"{{link}}\" target=\"_blank\"><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;opacity:0.90\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}<\/span><\/div><\/div><\/a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/unconscious-bias/learning-part-1.png",
+                          "overlayText": "My Unconscious Bias Moment",
+                          "overlayText2": "Junina Kugel",
+                          "altText": "My Unconscious Bias Moment",
+                          "link": "https://myvideo.siemens.com/media/CHEFSACHEA+My+Unconscious+Bias+Moment/1_rzh3lhm5"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href=\"{{link}}\" target=\"_blank\"><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;opacity:0.90\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}<\/span><\/div><\/div><\/a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/unconscious-bias/learning-part-2.png",
+                          "overlayText": "My Unconscious Bias Moment",
+                          "overlayText2": "Robert Neuhauser",
+                          "altText": "My Unconscious Bias Moment",
+                          "link": "https://myvideo.siemens.com/media/CHEFSACHE+My+Unconscious+Bias+Moment/1_3djglegg"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href=\"{{link}}\" target=\"_blank\"><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;opacity:0.90\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}<\/span><\/div><\/div><\/a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/unconscious-bias/global-buisness.png",
+                          "overlayText": "Global Business Success - Navigating cultures",
+                          "overlayText2": "An introduction to some key cultural factors which play a role in international business.",
+                          "altText": "Global Business Success - Navigating cultures",
+                          "link": "https://myvideo.siemens.com/media/1_8bl02k80"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href=\"{{link}}\" target=\"_blank\"><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;opacity:0.90\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}<\/span><\/div><\/div><\/a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/unconscious-bias/global-business-2.png",
+                          "overlayText": "The significance of Unconscious Bias",
+                          "overlayText2": "Janina Kugel promotes diversity.",
+                          "altText": "The significance of Unconscious Bias",
+                          "link": "https://myvideo.siemens.com/media/Message_JaKu_why/1_bijgleo1"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Measures on system level"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<a href={{link}}><div class= \"relative\" style= \"background-size: 100% 100%;background-repeat: no-repeat;background-image:url({{imageSrc}});min-height:370px;\"><div style= \"background-color: #297595;opacity:0.9\" class= \"mb-10 h-20 w-full flex flex-col items-center justify-center absolute bottom-0 text-white text-xl font-semibold text-center leading-tight\"><div class=\"p-2\">{{overlayText}}<\/div><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/interview-question.png",
+                  "link": "https://learningworld.siemens.com/entry/measures-on-system-level",
+                  "overlayText": "Behavioral Interview Toolbox - EN | DE"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<a href={{link}}><div class= \"relative\" style= \"background-size: 100% 100%;background-repeat: no-repeat;background-image:url({{imageSrc}});min-height:370px;\"><div style= \"background-color: #297595;opacity:0.9\" class= \"mb-10 h-20 w-full flex flex-col items-center justify-center absolute bottom-0 text-white text-xl font-semibold text-center leading-tight\"><div class=\"p-2\">{{overlayText}}<\/div><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/interview-part-2.png",
+                  "overlayText": "Tipps für Recruiting - DE",
+                  "link": "https://learningworld.siemens.com/entry/chefsache-chancengleichheit-im-recruiting-tipps-fur-hr-beauftragte"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Online Training"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pr-0",
+              "widgetData": {
+                "template": "<a href=\"{{link}}\" target=\"_blank\"><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 373px\"><div style=\"background-color:#006187cc;opacity:0.90\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-normal\">{{overlayText}}<\/span><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/unconscious-bias-fundamental.png",
+                  "overlayText": "Start training via Campaign Management",
+                  "altText": "Start training via Campaign Management",
+                  "link": "https://training.siemens.com/lms/participant/unconb"
+                },
+                "containerClass": "h-full"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841159578099712667",
+                        "lex_auth_012841165122052096662",
+                        "lex_auth_012841165016170496664",
+                        "lex_auth_012841165090013184665",
+                        "lex_auth_012841162739712000669",
+                        "lex_auth_012841162256973824663"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-my-10 lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Further UB material"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<a href={{link}}><div class= \"relative\" style= \"background-size: 100% 100%;background-repeat: no-repeat;background-image:url({{imageSrc}});min-height:440px;\"><div style= \"height:auto;background-color: #297595;opacity:0.9\" class= \"w-full flex flex-col items-center justify-center absolute bottom-0 text-white text-xl font-semibold text-center leading-tight\"><div class=\"text-2xl p-2\">{{overlayText1}}<\/div><div class=\"p-2\">{{overlayText2}}<\/div><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/further-ub-material.png",
+                  "link": "https://initiative-chefsache.de",
+                  "overlayText1": "Initiative Chefsache - DE",
+                  "overlayText2": "Unter der Schirmherrschaft von Angela Merkel setzt 'Chefsache' dort an, wo Entscheidungen in großen, mittleren und kleinen Unternehmen sowie in Institutionen fallen: Insbesondere auf den Führungsebenen..."
+                },
+                "containerClass": "h-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<a href={{link}}><div class= \"relative\" style= \"background-size: 100% 100%;background-repeat: no-repeat;background-image:url({{imageSrc}});min-height:440px;\"><div style= \"background-color: #297595;opacity:0.9\" class= \"mb-10 h-20 w-full flex flex-col items-center justify-center absolute bottom-0 text-white text-xl font-semibold text-center leading-tight\"><div class=\"p-2\">{{overlayText}}<\/div><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/hardward-implicit.png",
+                  "link": "https://learningworld.siemens.com/entry/harvard-implicit-association-test-iat",
+                  "overlayText": "Harvard Implicit Association Test (IAT) - EN"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:px-0 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<a href={{link}}><div class= \"relative\" style= \"background-size: 100% 100%;background-repeat: no-repeat;background-image:url({{imageSrc}});min-height:440px;\"><div style= \"background-color: #297595;opacity:0.9\" class= \"mb-10 h-20 w-full flex flex-col items-center justify-center absolute bottom-0 text-white text-xl font-semibold text-center leading-tight\"><div class=\"p-2\">{{overlayText}}<\/div><\/div><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/unconscious-bias/chefsache.png",
+                  "link": "https://learningworld.siemens.com/entry/chefsache-test-de",
+                  "overlayText": "Chefsache Test. Interaktiver Test - DE"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

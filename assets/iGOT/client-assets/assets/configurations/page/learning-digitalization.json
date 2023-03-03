@@ -1,0 +1,2326 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Learning 4 Digitalization"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learning Digitalization"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "learning_digitalization",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 7,
+              "large": 9
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/learning-digitialization/digitalization.png",
+                  "altText": "Learning Digitalization"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 5,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background: #878787\" class=\"h-full justify-center items-center\"> <div class=\"p-2 sm:p-6\">{{#items}}<div style=\"{{style}} background:#70c1c2\" class=\"p-3 m-4 leading-tight text-white text-center text-xl border-2 border-white font-normal rounded-full\"> {{title}}</div> {{/items}}<div class=\"p-2 m-2 text-center text-white text-2xl font-normal\">{{description}}</div></div></div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "style": "font-size: 1.875rem; font-weight: 600;",
+                      "title": "Get started here!"
+                    },
+                    {
+                      "style": "",
+                      "title": "Share your thoughts"
+                    },
+                    {
+                      "style": "",
+                      "title": "Applying digitalization to our Business"
+                    }
+                  ],
+                  "description": "Own your Learning"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Meet the Crew"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "meet_the_crew",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "containerClass": "px-6 sm:px-8 md:px-10",
+                "template": "<div class=\"flex-wrap w-full flex\">{{#items}}<div class=\"sm:w-1/2 md:1/3 lg:w-1/4 w-full my-1\"> <a href=\"{{__pageBase}}#{{bookmarkRef}}\" style=\"{{backgroundColor}}\" class=\"mr-2 h-full block text-center justify-center\"><div class=\"p-8\"><img class=\"h-32 mb-3\" src=\"{{iconUrl}}\"><div class=\"pb-3 text-xl text-white leading-tight font-semibold\"> {{title1}}</div><div class=\"pb-3 text-xl text-white leading-tight font-semibold\"> {{title2}}</div><div class=\"text-lg text-white leading-tight font-normal\">{{description}}</div></div> </a></div>{{/items}}</div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #38abc8",
+                      "title1": "INA",
+                      "title2": "aka The INCUBATOR",
+                      "description": "Explore digital territories & inspires our customer",
+                      "iconUrl": "/assets/instances/Siemens/learning-digitialization/incubator.png",
+                      "bookmarkRef": "ina_skill_set"
+                    },
+                    {
+                      "backgroundColor": "background: #889627",
+                      "title1": "DHAN",
+                      "title2": "aka The DESIGNER",
+                      "description": "Envisions the digital landscape for our customers",
+                      "iconUrl": "/assets/instances/Siemens/learning-digitialization/designer.png",
+                      "bookmarkRef": "dhan_skill_set"
+                    },
+                    {
+                      "backgroundColor": "background: #881d51 ",
+                      "title1": "RAMESH",
+                      "title2": "aka The REALIZER",
+                      "description": "Build digital solutions for customers",
+                      "iconUrl": "/assets/instances/Siemens/learning-digitialization/realizer.png",
+                      "bookmarkRef": "ramesh_skill_set"
+                    },
+                    {
+                      "backgroundColor": "background: #fbb716",
+                      "title1": "CONNY",
+                      "title": "aka The CONNECTOR",
+                      "description": "Links the dots for customer centricity",
+                      "iconUrl": "/assets/instances/Siemens/learning-digitialization/connector.png",
+                      "bookmarkRef": "conny_skill_set"
+                    }
+                  ]
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Ina's skill sets"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "ina_skill_set",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1376",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/ina-1376.jpg",
+                        "mapName": "map-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [159, 47, 294, 86],
+                            "alt": "Innovation & Design",
+                            "title": "Innovation & Design",
+                            "link": "./page/learning-digitalization#ina_recommendation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [57, 264, 188, 163],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [125, 343, 260, 382],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [294, 449, 430, 344],
+                            "alt": "Leading in the Digital Age",
+                            "title": "Leading in the Digital Age",
+                            "link": "./page/learning-digitalization#leading_in_the_age",
+                            "target": ""
+                          },
+                          {
+                            "coords": [467, 344, 639, 444],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#organizational_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [476, 267, 603, 168],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#customer_centric",
+                            "target": ""
+                          },
+                          {
+                            "coords": [365, 46, 517, 151],
+                            "alt": "Customer Centric Selling",
+                            "title": "Customer Centric Selling",
+                            "link": "./page/learning-digitalization#customer_centric",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "sales-competencies"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/ina-1024.jpg",
+                        "mapName": "map-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [159, 46, 294, 90],
+                            "alt": "Innovation & Design",
+                            "title": "Innovation & Design",
+                            "link": "./page/learning-digitalization#ina_recommendation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [55, 163, 191, 267],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [124, 343, 258, 385],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [298, 444, 429, 339],
+                            "alt": "Leading in the Digital Age",
+                            "title": "Leading in the Digital Age",
+                            "link": "./page/learning-digitalization#leading_in_the_age",
+                            "target": ""
+                          },
+                          {
+                            "coords": [468, 343, 637, 445],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#organizational_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [473, 165, 602, 270],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#customer_centric",
+                            "target": ""
+                          },
+                          {
+                            "coords": [365, 47, 502, 146],
+                            "alt": "Customer Centric Selling",
+                            "title": "Customer Centric Selling",
+                            "link": "./page/learning-digitalization#customer_centric",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "sales-competencies"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/ina-414.jpg",
+                        "mapName": "map-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [27, 430, 391, 459],
+                            "alt": "Innovation & Design",
+                            "title": "Innovation & Design",
+                            "link": "./page/learning-digitalization#ina_recommendation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [28, 393, 388, 421],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 354, 389, 384],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [28, 315, 390, 345],
+                            "alt": "Leading in the Digital Age",
+                            "title": "Leading in the Digital Age",
+                            "link": "./page/learning-digitalization#leading_in_the_age",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 276, 392, 307],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#organizational_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [25, 240, 392, 267],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#customer_centric",
+                            "target": ""
+                          },
+                          {
+                            "coords": [25, 200, 392, 230],
+                            "alt": "Customer Centric Selling",
+                            "title": "Customer Centric Selling",
+                            "link": "./page/learning-digitalization#customer_centric",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "sales-competencies"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "ina_recommendation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/ina-recommendation.png",
+                            "altText": "Ina's Recommendation Learning Journey"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ina_recommendation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_01284110139043020820",
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411754802053122392"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "customer_centric",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/customer-centric-selling.png",
+                            "altText": "Customer Centric Selling"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "customer_centric"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-tight font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/learning-digitialization/digital-engagement.png'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284110139043020820",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_0128411900899819523893",
+                        "lex_auth_0128411828244398083131",
+                        "lex_auth_012841162761166848938",
+                        "lex_auth_0128411795625410562912"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "organizational_transformation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/organizational-transformation.png",
+                            "altText": "Organizational Transformation"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "organizational_transformation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411884178063363288",
+                        "lex_auth_0128411787780833282902"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "leading_in_the_age",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/leading-in-the-age.png",
+                            "altText": "Leading in the age"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "leading_in_the_age"
+                      }
+                    ],
+                    "request": {
+                      "ids": ["lex_auth_0128411715739320321988"]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "digital_technology_product_know_how",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/digital-technology-product-know-how.png",
+                            "altText": "Digital Technology and product know how"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "digital_technology_product_know_how"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411653168988161390"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "new_business_modelling",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/new-business-modeling.png",
+                            "altText": "New Buisness Modelling"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "new-business-modeling"
+                      }
+                    ],
+                    "request": {
+                      "ids": ["lex_auth_0128411705441075201583", "lex_auth_0128411754802053122392"]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "innovation_and_design",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/innovation-and-design.png",
+                            "altText": "Innovation and design"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "innovation_and_design"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Dhan's skill sets"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "dhan_skill_set",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1376",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-1376.jpg",
+                        "mapName": "map-dhan-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [227, 46, 430, 86],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#dhan_innovation_and_design",
+                            "target": ""
+                          },
+                          {
+                            "coords": [190, 147, 52, 39],
+                            "alt": "Data Analytics Development",
+                            "title": "Data Analytics Development",
+                            "link": "./page/learning-digitalization#dhan-data-analytics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [54, 225, 125, 266],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#dhan-new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [123, 344, 295, 457],
+                            "alt": "Digital Technology Product Know How",
+                            "title": "Digital Technology Product Know How",
+                            "link": "./page/learning-digitalization#dhan_digital_technology_and_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [329, 343, 501, 442],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#dhan_customer_centric",
+                            "target": ""
+                          },
+                          {
+                            "coords": [433, 163, 571, 208],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#dhan_digital_engagement",
+                            "target": ""
+                          },
+                          {
+                            "coords": [433, 281, 571, 332],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#dhan_customer_centric",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_digi"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-1024.jpg",
+                        "mapName": "map-dhan-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [227, 47, 431, 86],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#dhan_innovation_and_design",
+                            "target": ""
+                          },
+                          {
+                            "coords": [56, 150, 192, 44],
+                            "alt": "Data Analytics Development",
+                            "title": "Data Analytics Development",
+                            "link": "./page/learning-digitalization#dhan-data-analytics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [56, 224, 123, 265],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#dhan-new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [125, 344, 296, 459],
+                            "alt": "Digital Technology Product Know How",
+                            "title": "Digital Technology Product Know How",
+                            "link": "./page/learning-digitalization#dhan_digital_technology_and_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [329, 343, 502, 441],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#dhan_customer_centric",
+                            "target": ""
+                          },
+                          {
+                            "coords": [433, 166, 569, 204],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#dhan_digital_engagement",
+                            "target": ""
+                          },
+                          {
+                            "coords": [435, 284, 569, 329],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#dhan_customer_centric",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_digi"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-414.jpg",
+                        "mapName": "map-dhan-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [25, 239, 390, 267],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#dhan_innovation_and_design",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 430, 391, 459],
+                            "alt": "Data Analytics Development",
+                            "title": "Data Analytics Development",
+                            "link": "./page/learning-digitalization#dhan-data-analytics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [27, 392, 389, 421],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#dhan-new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 355, 389, 384],
+                            "alt": "Digital Technology Product Know How",
+                            "title": "Digital Technology Product Know How",
+                            "link": "./page/learning-digitalization#dhan_digital_technology_and_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [25, 316, 388, 345],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#dhan_customer_centric",
+                            "target": ""
+                          },
+                          {
+                            "coords": [25, 201, 389, 229],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#dhan_digital_engagement",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 277, 387, 306],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#dhan_customer_centric",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_digi"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan_recommendation",
+                    "title": "Digital Product",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-recommendation-journey.png",
+                            "altText": "Dhan's's Recommendation Learning Journey"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan_recommendation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411675803811841528",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411706289930241656"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan_digital_engagement",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-digital-engagement.png",
+                            "altText": "Digital Engagement"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan_digital_engagement"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_0128411828244398083131",
+                        "lex_auth_012841162761166848938",
+                        "lex_auth_0128411795625410562912"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan_innovation_and_design",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-innovation-and-design.png",
+                            "altText": "Innovation and Design"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan_innovation_and_design"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411850700308483063",
+                        "lex_auth_0128411675803811841528",
+                        "lex_auth_0128411706289930241656"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan_customer_centric",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-customer-centric.png",
+                            "altText": "Customer Centric Sales"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan_customer_centric"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-tight font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/learning-digitialization/dhan-organizational-transformation.png'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411884178063363288",
+                        "lex_auth_0128411787780833282902"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan_digital_technology_and_product_know_how",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-digital-technology-and-product-know-how.png",
+                            "altText": "Digital Technology and Product know how"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan_digital_technology_and_product_know_how"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411653168988161390"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan-new_business_modelling",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-new-business-modelling.png",
+                            "altText": "New Business Modelling"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan-new_business_modelling"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dhan-data-analytics",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/dhan-data-analytics.png",
+                            "altText": "Data Analytics Development"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "dhan-data-analytics"
+                      }
+                    ],
+                    "request": {
+                      "ids": ["lex_auth_0128411730371624962137"]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Ramesh's skill sets"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "ramesh_skill_set",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1376",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-1376.jpg",
+                        "mapName": "map-ramesh-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [227, 45, 363, 85],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#ramesh_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [55, 223, 123, 265],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#ramesh_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [267, 456, 86, 331],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#ramesh_digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [331, 342, 535, 386],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#ramesh_organization_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [433, 167, 571, 265],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#ramesh_customer_centric_sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [432, 45, 501, 95],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#ramesh_customer_centric_sales",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_ramesh_digi"
+                    },
+                    "widgetSubType": "elementHtml",
+                    "widgetType": "element",
+                    "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10"
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-1024.jpg",
+                        "mapName": "map-ramesh-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [225, 47, 363, 89],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#ramesh_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [56, 223, 122, 264],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#ramesh_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [262, 454, 83, 333],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#ramesh_digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [331, 344, 535, 383],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#ramesh_organization_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [433, 163, 568, 270],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#ramesh_customer_centric_sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [433, 45, 499, 97],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#ramesh_customer_centric_sales",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_ramesh_digi"
+                    },
+                    "widgetSubType": "elementHtml",
+                    "widgetType": "element",
+                    "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10"
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-414.jpg",
+                        "mapName": "map-ramesh-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [26, 417, 388, 443],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#ramesh_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 378, 387, 405],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#ramesh_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 340, 388, 367],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#ramesh_digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [25, 300, 389, 328],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#ramesh_organization_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [24, 263, 388, 291],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#ramesh_customer_centric_sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [27, 224, 390, 250],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#ramesh_customer_centric_sales",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_ramesh_digi"
+                    },
+                    "widgetSubType": "elementHtml",
+                    "widgetType": "element",
+                    "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "ramesh_recommended_learning_journey",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-recommended-learning-journey.png",
+                            "altText": "Ramesh's Recommendation Learning Journey"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ramesh_recommended_learning_journey"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_01284110139043020820",
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411675803811841528",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411706289930241656"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "ramesh_customer_centric_sales",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-customer-centric-sales.png",
+                            "altText": "Customer Centric Sales"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ramesh_customer_centric_sales"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-tight font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/learning-digitialization/ramesh-digital-engagement.png'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284110139043020820",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_0128411900899819523893",
+                        "lex_auth_0128411828244398083131",
+                        "lex_auth_012841162761166848938",
+                        "lex_auth_0128411795625410562912"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "ramesh_organization_transformation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-organization-transformation.png",
+                            "altText": "Organization Trasformation"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ramesh_organization_transformation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411884178063363288",
+                        "lex_auth_0128411787780833282902"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "ramesh_digital_technology_product_know_how",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-digital-technology-product-know-how.png",
+                            "altText": "Digital Technology and Product know how"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ramesh_digital_technology_product_know_how"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411653168988161390"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "ramesh_new_business_modelling",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/ramesh-new-business-modelling.png",
+                            "altText": "New Business Modelling"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ramesh_new_business_modelling"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-tight font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/learning-digitialization/ramesh-innovation-design.png'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411850700308483063",
+                        "lex_auth_0128411675803811841528",
+                        "lex_auth_0128411706289930241656"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Conny's skill sets"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "conny_skill_set",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1376",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/conny-1376.jpg",
+                        "mapName": "map-conny-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [156, 46, 295, 89],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#conny_innovation_design",
+                            "target": ""
+                          },
+                          {
+                            "coords": [55, 105, 156, 204],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#conny_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [48, 280, 160, 454],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#conny_digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [399, 343, 569, 442],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#conny_organization_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [403, 265, 532, 166],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#conny-customer_centric-sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [364, 46, 501, 88],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#conny-customer_centric-sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [193, 342, 363, 440],
+                            "alt": "Leading in the Digital Age",
+                            "title": "Leading in the Digital Age",
+                            "link": "./page/learning-digitalization#conny_leading_in_digital_age",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_ramesh_digi"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/conny-1024.jpg",
+                        "mapName": "map-conny-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [159, 47, 294, 87],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#conny_innovation_design",
+                            "target": ""
+                          },
+                          {
+                            "coords": [55, 105, 157, 204],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#conny_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [47, 278, 156, 457],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#conny_digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [398, 343, 571, 442],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#conny_organization_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [396, 160, 535, 263],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#conny-customer_centric-sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [363, 47, 501, 88],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#conny-customer_centric-sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [193, 343, 363, 441],
+                            "alt": "Leading in the Digital Age",
+                            "title": "Leading in the Digital Age",
+                            "link": "./page/learning-digitalization#conny_leading_in_digital_age",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_ramesh_digi"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/learning-digitialization/conny-414.jpg",
+                        "mapName": "map-conny-learning-digitalization",
+                        "map": [
+                          {
+                            "coords": [27, 431, 391, 458],
+                            "alt": "Innovation and Design",
+                            "title": "Innovation and Design",
+                            "link": "./page/learning-digitalization#conny_innovation_design",
+                            "target": ""
+                          },
+                          {
+                            "coords": [27, 393, 390, 421],
+                            "alt": "New Business Modelling",
+                            "title": "New Business Modelling",
+                            "link": "./page/learning-digitalization#conny_new_business_modelling",
+                            "target": ""
+                          },
+                          {
+                            "coords": [28, 355, 389, 382],
+                            "alt": "Digital Technology and Product Know How",
+                            "title": "Digital Technology and Product Know How",
+                            "link": "./page/learning-digitalization#conny_digital_technology_product_know_how",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 278, 390, 306],
+                            "alt": "Organizational Transformation",
+                            "title": "Organizational Transformation",
+                            "link": "./page/learning-digitalization#conny_organization_transformation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [28, 240, 387, 268],
+                            "alt": "Digital Engagement",
+                            "title": "Digital Engagement",
+                            "link": "./page/learning-digitalization#conny-customer_centric-sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [26, 201, 392, 230],
+                            "alt": "Customer Centric Sales",
+                            "title": "Customer Centric Sales",
+                            "link": "./page/learning-digitalization#conny-customer_centric-sales",
+                            "target": ""
+                          },
+                          {
+                            "coords": [27, 315, 388, 346],
+                            "alt": "Leading in the Digital Age",
+                            "title": "Leading in the Digital Age",
+                            "link": "./page/learning-digitalization#conny_leading_in_digital_age",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "learning_ramesh_digi"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "conny-recommendation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-recommendation.png",
+                            "altText": "Conny's Recommendation Learning Journey"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny-recommendation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_01284110139043020820",
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411795900088323019"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "conny-customer_centric-sales",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-customer-centric-sales.png",
+                            "altText": "Customer Centric Sales"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny-customer_centric-sales"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-tight font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/learning-digitialization/cony-digital-engagement.png'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284110139043020820",
+                        "lex_auth_0128411687058964481367",
+                        "lex_auth_0128411900899819523893",
+                        "lex_auth_0128411828244398083131",
+                        "lex_auth_012841162761166848938",
+                        "lex_auth_0128411795625410562912"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "conny_organization_transformation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-organization-transformation.png",
+                            "altText": "Organizational Transformation"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny_organization_transformation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411884178063363288",
+                        "lex_auth_0128411787780833282902"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "conny_leading_in_digital_age",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-leading-in-digital-age.png",
+                            "altText": "Leading in the age"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny_leading_in_digital_age"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411715153592321887",
+                        "lex_auth_0128411795900088323019",
+                        "lex_auth_0128411723662622721642",
+                        "lex_auth_0128411715739320321988",
+                        "lex_auth_0128411714297692161885"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "conny_digital_technology_product_know_how",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-digital-technology-product-know-how.png",
+                            "altText": "Digital Technology and product know how"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny_digital_technology_product_know_how"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411730013388802149",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_012841107953491968594",
+                        "lex_auth_0128411653168988161390"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "conny_new_business_modelling",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-new-business-modelling.png",
+                            "altText": "Onsite Training"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny_new_business_modelling"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_12725633235484223000",
+                        "lex_auth_0127439532533596161728",
+                        "lex_15365215832678738000",
+                        "lex_11099634522608828000",
+                        "lex_auth_01272719803758182410"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "conny_innovation_design",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-digitialization/cony-innovation-design.png",
+                            "altText": "Innovation and design"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "conny_innovation_design"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

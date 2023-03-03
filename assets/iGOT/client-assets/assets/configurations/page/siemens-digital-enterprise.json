@@ -1,0 +1,396 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "DF as a Digital Enterprise"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "991",
+                        "imageSrc": "/assets/instances/Siemens/digital-enterprise/banner-siemens.png",
+                        "mapName": "map-digital-enterprise",
+                        "map": [
+                          {
+                            "coords": [
+                              44,
+                              197,
+                              178,
+                              241
+                            ],
+                            "alt": "Hot Topics",
+                            "title": "Hot Topics",
+                            "link": "./page/siemens-digital-enterprise#hot_topics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              86,
+                              273,
+                              351,
+                              316
+                            ],
+                            "alt": "Learning activities @DF",
+                            "title": "Learning activities @DF",
+                            "link": "./page/siemens-digital-enterprise#learning_activities_df",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              128,
+                              351,
+                              662,
+                              393
+                            ],
+                            "alt": "What you need to drive your digital transformation",
+                            "title": "What you need to drive your digital transformation",
+                            "link": "./page/siemens-digital-enterprise#digital_transformation_leader",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+                      "widgetInstanceId": "digital-enterprise"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"font-semibold text-white flex items-center justify-center text-2xl sm:text-4xl p-4 leading-normal\">{{boxTitle}}<\/div><div class=\"w-full flex flex-col flex-wrap\"> {{#items}} <a href=\"{{__pageBase}}#{{bookmarkRef}}\" style=\"width: fit-content\" \"><div class=\"leading-normal m-4 h-full flex items-center justify-center text-center text-xl font-normal rounded\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div>",
+                        "templateData": {
+                          "boxTitle": "Digital Enterprise",
+                          "items": [
+                            {
+                              "style": "color: white; background: #f5994e;opacity: 0.8;",
+                              "title": "Hot Topics",
+                              "bookmarkRef": "hot_topics"
+                            },
+                            {
+                              "style": "color: white; background: #f5994e;opacity: 0.8;",
+                              "title": "Learning activities@DF",
+                              "bookmarkRef": "learning_activities_df"
+                            },
+                            {
+                              "style": "color: white; background: #f5994e;opacity: 0.8;",
+                              "title": "What you need to drive your digital transformation",
+                              "bookmarkRef": "digital_transformation_leader"
+                            }
+                          ]
+                        },
+                        "containerClass": "mat-elevation-z4 h-full",
+                        "containerStyle": {
+                          "background-image": "url('/assets/instances/Siemens/digital-enterprise/key_visual_no_text.jpg')",
+                          "background-repeat": "no-repeat",
+                          "min-height": "350px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full md:pr-0"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-col justify-center w-full\"><div><img class=\"w-full h-full\" src={{imageSrc}}></div><div class=\"mat-title px-4\">{{desc}}</div></div>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/digital-enterprise/digital-person.png",
+                  "desc": "Let's get started and learn what we need to drive our business and peple through digitalization"
+                },
+                "containerClass": "h-full mat-elevation-z4"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "hot_topics",
+                    "title": "Hot Topics",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411691023237121633",
+                        "lex_auth_0128411719889960961630",
+                        "lex_auth_0128411721845145601632",
+                        "lex_auth_0128411653168988161390"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "learning_activities_df",
+                    "title": "Learning Activities @DF",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411829221457923188",
+                        "lex_auth_0128411843300720643191",
+                        "lex_auth_0128411831723950083193",
+                        "lex_auth_0128411824628695043195",
+                        "lex_auth_0128411796288880642323",
+                        "lex_auth_0128411718311608321635",
+                        "lex_auth_0128411719889960961630",
+                        "lex_auth_0128411735457464321636",
+                        "lex_auth_0128411691023237121633",
+                        "lex_auth_0128411701849292801631"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Basic Technologies for your Digital Transformation"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "scm_procurement",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6 -mb-8"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": "6"
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dive_deeper",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"> <div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none \">{{overlayText}}</span>\n </div>\n</div><\/a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-enterprise/basic-terminologies-strip.png'); width:265px",
+                            "overlayText": "Dive deeper and visit the Technologies Channel >>>",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.9;",
+                            "link": "./page/technologies"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411723385569281476",
+                        "lex_auth_0128411689762652161373",
+                        "lex_auth_0128411710297702401371",
+                        "lex_auth_012841166560583680977",
+                        "lex_auth_01284110212831641618",
+                        "lex_auth_012841103581609984273"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": "6"
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "dive_deeper_1",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411837496770562992",
+                        "lex_auth_0128411771852636162047",
+                        "lex_auth_0128411726357135362046",
+                        "lex_auth_012841106102845440614",
+                        "lex_auth_0128411686624870401744",
+                        "lex_auth_0128411718311608321635",
+                        "lex_auth_0128411729938432001638",
+                        "lex_auth_0128411735457464321636",
+                        "lex_auth_0128411659019960321465",
+                        "lex_auth_0128411648170557441466",
+                        "lex_auth_01284110212831641618",
+                        "lex_auth_012841103581609984273"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "workplace",
+                    "title": "Workplace 4.0 - How Digital Transformation affects your work",
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"> <div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none \">{{overlayText}}</span>\n </div>\n</div><\/a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-enterprise/workplace-4.0-strip.png'); width:265px",
+                            "overlayText": "Dive deeper and visit the Virtual Collaboration Learning Exibition >>>",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.9;",
+                            "link": "./page/siemens-virtual-collaboration"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411665229742081374",
+                        "lex_auth_012841165624532992952",
+                        "lex_auth_012841160294572032957",
+                        "lex_auth_012841164329050112956"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digital_transformation",
+                    "title": "What you need to drive your Digital Transformation",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411704881725441634",
+                        "lex_auth_0128411675803811841528",
+                        "lex_auth_0128411694297907201789"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digital_transformation_leader",
+                    "title": "What you need to drive Digital Transformation as a Leader",
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"> <div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none \">{{overlayText}}</span>\n </div>\n</div><\/a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-enterprise/digital-transformation-strip.png'); width:265px",
+                            "overlayText": "Dive deeper and visit the Leadership Channel >>>",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.9;",
+                            "link": "./page/leadership"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411831723950083193",
+                        "lex_auth_0128411723662622721642",
+                        "lex_auth_012841109507850240608",
+                        "lex_auth_012841103326691328399",
+                        "lex_auth_0128411777740554242002",
+                        "lex_auth_0128411928484823043908"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,73 @@
+{
+    "menus": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": {
+            "logo":true,
+            "menus":[
+            {
+                "name": "Directory",
+                "key": "directory",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/directory"
+            },
+            {
+                "name": "Users",
+                "key": "users",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/users"
+            },
+            {
+                "name": "Roles and Access",
+                "key": "roles-access",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/roles-access"
+            },
+            {
+                "name": "Events",
+                "key": "events",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/events"
+            },
+            {
+                "name": "Work Allocation",
+                "key": "workallocation",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                  "enabled": false,
+                  "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/workallocation"
+            }
+        ]
+    }
+        
+    }
+             
+}

@@ -1,0 +1,140 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "/page/home",
+    "pageTitle": "Onboarding"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [{
+          "widgetData": [{
+            "banners": {
+              "l": "/assets/instances/Lex/banners/onboarding/onboarding_1024.jpg",
+              "m": "/assets/instances/Lex/banners/onboarding/onboarding/onboarding_768.jpg",
+              "s": "/assets/instances/Lex/banners/onboarding/onboarding/onboarding_414.jpg",
+              "xl": "/assets/instances/Lex/banners/onboarding/onboarding/onboarding_1024.jpg",
+              "xs": "/assets/instances/Lex/banners/onboarding/onboarding/onboarding_375.jpg"
+            },
+            "title": "Onboarding"
+          }],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [{
+                "key": "DC-Onboarding-Programs",
+                "title": "DC Onboarding Programs",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "learningMode": ["Self-Paced"],
+                      "tags": ["Onboarding/DC Onboarding Programs"]
+                    },
+                    "isStandAlone": true,
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              },
+              {
+                "key": "Organisational-Onboarding-Programs",
+                "title": "Organisational Onboarding Programs",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "learningMode": ["Self-Paced"],
+                      "tags": ["Onboarding/Organisational Onboarding Programs"]
+                    },
+                    "isStandAlone": true,
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              },
+              {
+                "key": "Role-Based-Onboarding-Programs",
+                "title": "Role Based Onboarding Programs",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "learningMode": ["Self-Paced"],
+                      "tags": ["Onboarding/Role Based Onboarding Programs"]
+                    },
+                    "isStandAlone": true,
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              },
+              {
+                "key": "Unit-and-Project-Onboarding-Programs",
+                "title": "Unit and Project Onboarding Programs",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "learningMode": ["Self-Paced"],
+                      "tags": ["Onboarding/Unit and Project Onboarding Programs"]
+                    },
+                    "isStandAlone": true,
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

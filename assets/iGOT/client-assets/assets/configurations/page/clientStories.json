@@ -1,0 +1,90 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "noDataWidget": {
+        "widgetData": {
+          "errorType": "contentUnavailable"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "loader": true,
+      "errorWidget": {
+        "widgetData": {
+          "errorType": "internalServer"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "strips": [{
+          "key": "Always-on-Learning",
+          "title": "Always-on Learning",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Client Stories>Always-on Learning"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "AI-powered-Core",
+          "title": "AI-powered Core",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Client Stories>AI-powered Core"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Agile-Digital-at-Scale",
+          "title": "Agile Digital at Scale",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "filters": {
+                  "learningMode": ["Self-Paced"],
+                  "catalogPaths": ["Marketing>Client Stories>Agile Digital at Scale"]
+                },
+                "pageNo": 0,
+                "query": "",
+                "sortBy": "lastUpdatedOn",
+                "sortOrder": "DESC"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "widgetSubType": "contentStripMultiple",
+    "widgetType": "contentStrip"
+  }
+}

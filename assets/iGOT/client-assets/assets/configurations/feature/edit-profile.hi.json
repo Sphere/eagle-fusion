@@ -1,0 +1,30 @@
+{
+    "academics": {
+      "approvalRequired": false,
+      "approvalFiels": []
+    },
+    "competencies": {
+      "approvalRequired": false,
+      "approvalFiels": []
+    },
+    "employmentDetails": {
+      "approvalRequired": false,
+      "approvalFiels": []
+    },
+    "personalDetails": {
+      "approvalRequired": false,
+      "approvalFiels": []
+    },
+    "professionalDetails": {
+      "approvalRequired": true,
+      "approvalFiels": [
+        "designation",
+        "doj",
+        "industry",
+        "location",
+        "name",
+        "organisationType",
+        "responsibilities"
+      ]
+    }
+  }

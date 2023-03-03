@@ -1,0 +1,28 @@
+
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "MaQ"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lab42.idemo-ppc.com/maq/",
+      "Title": "MaQ"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+

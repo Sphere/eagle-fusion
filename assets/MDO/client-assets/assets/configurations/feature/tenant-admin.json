@@ -1,0 +1,53 @@
+{
+    "sideNavMenu": {
+        "user_registration": {
+            "link": "/admin/tenant/user-registration",
+            "icon": "supervised_user_circle",
+            "role": [
+                "admin",
+                "register-admin"
+            ],
+            "displayName": "User Registration"
+        },
+        "registered_users": {
+            "link": "/admin/tenant/registered-users",
+            "icon": "verified_user",
+            "role": [
+                "admin",
+                "register-admin"
+            ],
+            "displayName": "Registered Users"
+        },
+        "system_roles": {
+            "link": "/admin/tenant/system-roles-management",
+            "icon": "group_add",
+            "role": [
+                "admin"
+            ],
+            "displayName": "System Roles"
+        },
+        "create_user": {
+            "link": "/admin/tenant/create-user",
+            "icon": "add_circle",
+            "role": [
+                "admin"
+            ],
+            "displayName": "Create User"
+        },
+        "access-path": {
+            "link": "/admin/tenant/access-path",
+            "icon": "how_to_reg",
+            "role": [
+                "admin"
+            ],
+            "displayName": "User Access Path"
+        }
+    },
+    "roleList": {
+        "admin": "Overall application admin. Can perform admin activities and also encompasses all other roles",
+        "reviewer": "Can only review contents assigned to them through authoring tool",
+        "publisher": "Can only publish contents assigned to them through authoring tool",
+        "editor": "Can edit, review and publish all contents - including those created by others",
+        "content-creator": "Can create content - resources, modules, courses, programs through authoring tool"
+    }
+}

@@ -1,0 +1,191 @@
+{
+  "enabledTabs": {
+    "dashboard": {
+      "enabled": true,
+      "available": true,
+      "displayName": "Dashboard",
+      "subFeatures": {
+        "pendingCourses": false,
+        "knowledgeBoard": true,
+        "skill": false,
+        "interests": true,
+        "latest": true
+      }
+    },
+    "learning": {
+      "enabled": true,
+      "available": true,
+      "displayName": "Learning",
+      "subTabs": {
+        "learningTime": {
+          "enabled": true,
+          "available": true,
+          "displayName": "Learning Time",
+          "charts": {
+            "learningBarChart": true,
+            "trackWiseChart": false,
+            "calendarChart": true,
+            "dimensionsChart": false,
+            "timeSpentByMe": false,
+            "timeSpentByPeers": false,
+            "timeSpentByEmployees": false
+          }
+        },
+        "learningHistory": {
+          "enabled": true,
+          "available": true,
+          "isClient": true,
+          "tabs": {
+            "courses": true,
+            "programs": true,
+            "modules": true,
+            "resources": true
+          }
+        }
+      }
+    },
+    "achievements": {
+      "enabled": true,
+      "available": true,
+      "displayName": "Achievements",
+      "subTabs": {
+        "badges": {
+          "enabled": true,
+          "available": true
+        },
+        "assessments": {
+          "enabled": true,
+          "available": true
+        },
+        "certifications": {
+          "enabled": true,
+          "available": true
+        }
+      }
+    },
+    "skills": {
+      "enabled": true,
+      "available": true,
+      "displayName": "Skills",
+      "subTabs": {
+        "skills": {
+          "enabled": true,
+          "available": true,
+          "client": true,
+          "subFeatures": {
+            "addSkill": true,
+            "editSkill": true
+          }
+        },
+        "roles": {
+          "enabled": true,
+          "available": true,
+          "client": true,
+          "subFeatures": {
+            "addRole": true,
+            "editRole": true,
+            "deleteRole": true,
+            "shareRole": true
+          }
+        },
+        "allSkills": {
+          "enabled": true,
+          "available": true,
+          "client": true,
+          "subFeatures": {
+            "filters": true
+          }
+        },
+        "projectEndorsements": {
+          "enabled": true,
+          "available": true,
+          "client": true,
+          "subFeatures": {
+            "createEndorsement": true
+          }
+        },
+        "approveEndorsements": {
+          "enabled": true,
+          "available": true
+        }
+      }
+    },
+    "interests": {
+      "enabled": true,
+      "available": true,
+      "displayName": "Interests"
+    },
+    "plans": {
+      "enabled": false,
+      "available": false,
+      "displayName": "Plans",
+      "subTabs": {
+        "goals": {
+          "enabled": true,
+          "available": true
+        },
+        "playlists": {
+          "enabled": true,
+          "available": true
+        }
+      }
+    },
+    "collaborators": {
+      "enabled": false,
+      "available": false,
+      "displayName": "Collaborators",
+      "subTabs": {
+        "goalsSharedByMe": {
+          "enabled": true,
+          "available": true
+        },
+        "goalsSharedToMe": {
+          "enabled": true,
+          "available": true
+        },
+        "ArtifactsShared": {
+          "enabled": true,
+          "available": true
+        },
+        "playlistSharedByMe": {
+          "enabled": true,
+          "available": true
+        },
+        "playlistSharedToMe": {
+          "enabled": true,
+          "available": true
+        },
+        "playground": {
+          "enabled": true,
+          "available": true
+        },
+        "expertsContacted": {
+          "enabled": true,
+          "available": true
+        },
+        "contentCreated": {
+          "enabled": false,
+          "available": false
+        }
+      }
+    },
+    "featureUsage": {
+      "enabled": false,
+      "available": false,
+      "displayName": "Feature Usage",
+      "subSections": {
+        "learningTime": true,
+        "assessments": false,
+        "refactoring": false,
+        "plans": false,
+        "collaborators": true,
+        "other": true
+      }
+    },
+    "settings": {
+      "enabled": true,
+      "available": true,
+      "displayName": "Settings"
+    }
+  }
+}

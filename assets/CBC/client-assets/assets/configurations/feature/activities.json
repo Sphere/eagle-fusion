@@ -1,0 +1,53 @@
+{
+    "activities": [
+        {
+            "id": "1",
+            "title": "Playlist",
+            "description": "Explore more in  playlists",
+            "isNew": true,
+            "clickUrl": "/app/playlist/me",
+            "icon": "/assets/icons/playlist.svg",
+            "tag": "KF",
+            "hasRole": []
+        },
+        {
+            "id": "2",
+            "title": "Author",
+            "description": "Create a content and get it published",
+            "isNew": true,
+            "clickUrl": "/author/home",
+            "icon": "/assets/icons/module.svg",
+            "tag": "LC",
+            "hasRole": [
+                "content-creator",
+                "channel-creator",
+                "ka-creator",
+                "kb-creator",
+                "editor",
+                "reviewer",
+                "publisher",
+                "admin"
+            ]
+        },
+        {
+            "id": "3",
+            "title": "Interests",
+            "description": "Explore your Interests",
+            "isNew": true,
+            "clickUrl": "/app/profile/interest",
+            "icon": "/assets/icons/interest.svg",
+            "tag": "KF",
+            "hasRole": []
+        },
+        {
+            "id": "4",
+            "title": "Browse Courses",
+            "description": "Explore the contents",
+            "isNew": true,
+            "clickUrl": "/page/explore",
+            "icon": "/assets/icons/mingym.svg",
+            "tag": "CAT",
+            "hasRole": []
+        }
+    ]
+}

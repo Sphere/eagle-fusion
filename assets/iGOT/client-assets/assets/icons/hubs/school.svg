@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons/Hubs/Learn</title>
+    <g id="Icons/Hubs/Learn" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M4,13.18 L4,15.99 C4,16.72 4.4,17.4 5.04,17.75 L10.04,20.48 C10.64,20.81 11.36,20.81 11.96,20.48 L16.96,17.75 C17.6,17.4 18,16.72 18,15.99 L18,13.18 L11.96,16.48 C11.36,16.81 10.64,16.81 10.04,16.48 L4,13.18 Z" id="Path" fill="#0074B6" opacity="0.5"></path>
+        <rect id="Size" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+        <path d="M10.04,3.52 L1.61,8.12 C0.92,8.5 0.92,9.5 1.61,9.88 L10.04,14.48 C10.64,14.81 11.36,14.81 11.96,14.48 L20,10.09 L20,16 C20,16.55 20.45,17 21,17 C21.55,17 22,16.55 22,16 L22,9.59 C22,9.22 21.8,8.89 21.48,8.71 L11.96,3.52 C11.36,3.2 10.64,3.2 10.04,3.52 Z" id="Path" fill="#0074B6"></path>
+    </g>
+</svg>

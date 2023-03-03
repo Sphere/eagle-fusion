@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/page/home",
+    "pageTitle": "Puzzle Mania"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex-iap.infosysapps.com/home/challenges",
+      "Title": "Puzzle Mania"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

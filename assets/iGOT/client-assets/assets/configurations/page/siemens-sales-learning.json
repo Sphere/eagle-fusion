@@ -1,0 +1,1432 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Sales Learning"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pr-0",
+              "widgetData": {
+                "template": "<div class=\"p-8\" style=\"{{backgroundImage}}\"><p class=\"text-5xl leading-normal font-semibold\" style=\"color: #ffffff; margin-bottom: 2rem\">Sales Learning</p><div class=\"flex flex-wrap w-full mb-4\">{{#cols}}<div class=\"w-full md:w-1/2\"><div class=\"mr-4 mt-6 md:mt-0\">{{#heading}}<div class=\"w-full py-3 pl-3\" style=\"background: #51bdd9; color: #ffffff\"><a class=\"text-lg font-semibold\" href=\"{{__pageBase}}#{{link}}\">{{title}}</a></div>{{/heading}}{{#items}} <a href=\"{{__pageBase}}#{{link}}\" class=\"w-full h-auto\"><div class=\"leading-normal text-xl p-2\" style=\"border-bottom: 1px solid #ffffff; color: #ffffff\">{{title}}</div></a>{{/items}}</div></div>{{/cols}}</div><p style=\"color: #54bcdf;\" class=\"pt-5 text-xl font-semibold\">Useful links</p><div class=\"flex flex-wrap text-xs tracking-wider\" style=\"color: #ffffff\">{{#usefulLinks}}<a href=\"{{link}}\" target=\"_blank\"><span>{{title}}</span></a> | {{/usefulLinks}}</div></div></div>",
+                "templateData": {
+                  "backgroundImage": "background-image: url('/assets/instances/Siemens/sales-learning/bg-sales-learning.jpg')",
+                  "cols": [
+                    {
+                      "heading": {
+                        "title": "Explore all sales learning",
+                        "link": "most_important"
+                      },
+                      "items": [
+                        {
+                          "style": "",
+                          "title": "Selling methods",
+                          "link": "selling_methods"
+                        },
+                        {
+                          "style": "",
+                          "title": "Portfolio",
+                          "link": "portfolio_learning"
+                        },
+                        {
+                          "style": "",
+                          "title": "Business specific",
+                          "link": "business_specific_1"
+                        },
+                        {
+                          "style": "",
+                          "title": "Vertical markets",
+                          "link": "vertical_markets"
+                        },
+                        {
+                          "style": "",
+                          "title": "Digitalization@Sales",
+                          "link": "digitalization_sales"
+                        }
+                      ]
+                    },
+                    {
+                      "heading": {
+                        "title": "Explore recommended learning",
+                        "link": ""
+                      },
+                      "items": [
+                        {
+                          "style": "",
+                          "title": "Most important",
+                          "link": "most_important"
+                        },
+                        {
+                          "style": "",
+                          "title": "For new sales employees",
+                          "link": "for_new_sales_employees"
+                        },
+                        {
+                          "style": "",
+                          "title": "Shared with me",
+                          "link": "siemens-sales-learning#"
+                        },
+                        {
+                          "style": "",
+                          "title": "By sales skills",
+                          "link": "by_sales_skills"
+                        }
+                      ]
+                    }
+                  ],
+                  "usefulLinks": [
+                    {
+                      "title": "Digital Basics for Sales",
+                      "link": "./page/digital-basics-for-sales"
+                    },
+                    {
+                      "title": "Academy for Financing",
+                      "link": "https://intranet.for.siemens.com/cms/085/en/career/training/Pages/academy-for-financing-basic-information-training.aspx"
+                    },
+                    {
+                      "title": "Global Learning Campus",
+                      "link": "https://intranet.learning-campus.siemens.com/"
+                    },
+                    {
+                      "title": "SieSales",
+                      "link": "./page/sie-sales"
+                    },
+                    {
+                      "title": "Job Profile Platform",
+                      "link": "https://wse03.siemens.com/content/P0000454/Lists/JobProfiles/Sales.aspx"
+                    },
+                    {
+                      "title": "Industry Learning Program",
+                      "link": "https://intranet.for.siemens.com/cms/085/en/career/training/Pages/academy-for-financing-basic-information-training.aspx"
+                    },
+                    {
+                      "title": "Siemens Power Academy",
+                      "link": "https://intranet.product-training.siemens.com/power-academy/index.jsp"
+                    },
+                    {
+                      "title": "BT Academies",
+                      "link": "https://intranet.for.siemens.com/cms/041/en/career/training/Pages/bt-academy-international.aspx"
+                    }
+                  ]
+                },
+                "containerClass": "mat-elevation-z4"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "590",
+                "imageSrc": "/assets/instances/Siemens/sales-learning/image-map-sales-learning.jpg",
+                "mapName": "map-sales-learning",
+                "map": [
+                  {
+                    "coords": [
+                      279,
+                      366,
+                      562,
+                      441
+                    ],
+                    "alt": "My Collections",
+                    "title": "My Collections",
+                    "link": "./page/siemens-sales-learning#"
+                  }
+                ],
+                "containerClass": "mat-elevation-z4 h-full"
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pl-0",
+              "widgetInstanceId": "image_map_collections"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6,
+              "small": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div\r\nstyle=\"background-image: url('/assets/instances/Siemens/sales-learning/list-img-recently-added.png');\"\r\nclass=\"flex items-center justify-end w-full h-40\"\r\n>\r\n<span\r\nstyle=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"\r\n>\r\n{{title}}\r\n</span>\r\n</div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}</span> {{^leftText}}<div class=\"flex justify-end\"> </div> {{/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</a></div> {{/leftText}}</div> {{/items}}",
+                "templateData": {
+                  "title": "Recently added",
+                  "items": [
+                    {
+                      "title": "30 Jul,2019",
+                      "leftText": "Glasgow Smart Buildings - A...",
+                      "link": "/app/toc/lex_auth_0128411898032046084379/overview"
+                    },
+                    {
+                      "title": "30 Jul,2019",
+                      "leftText": "CS Sales Training - On-site...",
+                      "link": "/app/toc/lex_auth_0128411914015047684378/overview"
+                    },
+                    {
+                      "title": "30 Jul,2019",
+                      "leftText": "KAM Training@EM - Customer...",
+                      "link": "/app/toc/lex_auth_0128411946091233284377/overview"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6,
+              "small": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div\r\nstyle=\"background-image: url('/assets/instances/Siemens/sales-learning/list-img-most-viewed.png');\"\r\nclass=\"flex items-center justify-end w-full h-40\"\r\n>\r\n<span\r\nstyle=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"\r\n>\r\n{{title}}\r\n</span>\r\n</div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}</span> {{^leftText}}<div class=\"flex justify-end\"> </div> {{/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</a></div> {{/leftText}}</div> {{/items}}",
+                "templateData": {
+                  "title": "Most viewed",
+                  "items": [
+                    {
+                      "title": "21 Aug,2018",
+                      "leftText": "How to sell anything to...",
+                      "link": "/app/toc/lex_auth_0128411748967874561973/overview"
+                    },
+                    {
+                      "title": "11 Okt,2018",
+                      "leftText": "Buying Table & Small Deal...",
+                      "link": "/app/toc/lex_auth_0128411766799728642200/overview"
+                    },
+                    {
+                      "title": "10 Apr,2018",
+                      "leftText": "How to create a powerful profile",
+                      "link": "/app/toc/lex_auth_0128411643165327361430/overview"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pr-0 md:pl-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "list_strip",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411871571558403217",
+                        "lex_auth_0128411908564582403489"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "lg:-my-10 lg:-ml-10 block"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "most_important",
+                    "title": "Most important",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/pre-img-most-important.png",
+                            "altText": "Most important"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "most_important"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411870433116163552",
+                        "lex_auth_0128411722769612802086",
+                        "lex_auth_0128411782159482882085",
+                        "lex_auth_0128411741938565122042",
+                        "lex_auth_0128411731704954881978",
+                        "lex_auth_0128411748967874561973",
+                        "lex_auth_0128411699361955841976",
+                        "lex_auth_012841166560583680977",
+                        "lex_auth_0128411643165327361430"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "selling_methods",
+                    "title": "Selling methods",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "imageHeight": "472",
+                          "imageWidth": "320",
+                          "imageSrc": "/assets/instances/Siemens/sales-learning/pre-selling-methods.jpg",
+                          "mapName": "map-selling-methods",
+                          "map": [
+                            {
+                              "coords": [
+                                28,
+                                419,
+                                275,
+                                457
+                              ],
+                              "alt": "Selling Methods",
+                              "title": "Sie Sales",
+                              "link": "./page/sie-sales",
+                              "target": "_blank"
+                            }
+                          ],
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "width": "265px"
+                          }
+                        },
+                        "widgetSubType": "imageMapResponsive",
+                        "widgetType": "imageMap",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "selling_methods"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/planning.png",
+                            "title": "Planning & Strategy",
+                            "description": "Learn how to better plan and prepare for selling >>>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411825950392323309",
+                        "lex_auth_0128411857931386883316",
+                        "lex_auth_0128411896231198723317",
+                        "lex_auth_0128411833931038723318",
+                        "lex_auth_0128411715069460482043",
+                        "lex_auth_0128411781803540482044",
+                        "lex_auth_0128411731704954881978",
+                        "lex_auth_0128411752745943041984",
+                        "lex_auth_0128411749291868161981",
+                        "lex_auth_0128411710180720641980",
+                        "lex_auth_0128411754572103681985"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "selling_methods",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height: 150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/effective.png",
+                            "title": "Effective positioning",
+                            "description": "Learn how to act better in front of customers >>>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411708389048322082",
+                        "lex_auth_0128411746341027841982",
+                        "lex_auth_0128411725654261762079",
+                        "lex_auth_0128411782159482882085",
+                        "lex_auth_0128411734670950402083",
+                        "lex_auth_0128411748967874561973",
+                        "lex_auth_0128411711791759361987",
+                        "lex_auth_0128411702902865921983",
+                        "lex_auth_0128411746341027841982",
+                        "lex_auth_0128411716321607681979"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "selling_methods",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height: 150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/negotiation.png",
+                            "title": "Negotiation methods",
+                            "description": "Learn successful negotiation techniques and tactics >>>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411753760030722087",
+                        "lex_auth_0128411703129456641992",
+                        "lex_auth_0128411722769612802086",
+                        "lex_auth_0128411724368936962045",
+                        "lex_auth_0128411704666112001986"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "siemens_core",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "imageHeight": "472",
+                          "imageWidth": "320",
+                          "imageSrc": "/assets/instances/Siemens/sales-learning/pre-core-learning.jpg",
+                          "mapName": "map-siemens-core-learning-platform",
+                          "map": [
+                            {
+                              "coords": [
+                                31,
+                                423,
+                                279,
+                                464
+                              ],
+                              "alt": "Siemens Core Learning Programs",
+                              "title": "Siemens Core Learning Programs",
+                              "link": "./page/siemens-core-learning-platform",
+                              "target": "_blank"
+                            }
+                          ],
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "width": "265px"
+                          }
+                        },
+                        "widgetSubType": "imageMapResponsive",
+                        "widgetType": "imageMap",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "siemens_core"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411774674698242092",
+                        "lex_auth_0128411663427174401126",
+                        "lex_auth_0128411764493598722096",
+                        "lex_auth_0128411773099458562041"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "my_personal_efficiency",
+                    "title": "My personal efficiency",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/pre-personal-efficiency.png",
+                            "altText": "My personal efficiency"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411775731138562089",
+                        "lex_auth_0128411714297692161885",
+                        "lex_auth_0128411708736061442088",
+                        "lex_auth_0128411780454727682040",
+                        "lex_auth_0128411699361955841976",
+                        "lex_auth_0128411715739320321988",
+                        "lex_auth_0128411735052615681989",
+                        "lex_auth_012841102560534528383"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digitalization_sales",
+                    "title": "Digitalization@Sales",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "imageHeight": "472",
+                          "imageWidth": "320",
+                          "imageSrc": "/assets/instances/Siemens/sales-learning/pre-digitisation-sales.jpg",
+                          "mapName": "map-digitisation-sales",
+                          "map": [
+                            {
+                              "coords": [
+                                40,
+                                372,
+                                285,
+                                411
+                              ],
+                              "alt": "Digital Basics for Sales",
+                              "title": "Digital Basics for Sales",
+                              "link": "./page/digital-basics-for-sales",
+                              "target": "_blank"
+                            },
+                            {
+                              "coords": [
+                                40,
+                                424,
+                                285,
+                                463
+                              ],
+                              "alt": "Virtual Collaboration",
+                              "title": "Virtual Collaboration",
+                              "link": "./page/virtual-collaboration",
+                              "target": "_blank"
+                            }
+                          ],
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "width": "265px"
+                          }
+                        },
+                        "widgetSubType": "imageMapResponsive",
+                        "widgetType": "imageMap",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "digitalization_sales"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841103674507264335",
+                        "lex_auth_0128411741938565122042",
+                        "lex_auth_012841166560583680977",
+                        "lex_auth_0128411703532175361442",
+                        "lex_auth_0128411718834257921438",
+                        "lex_auth_012841163409645568840",
+                        "lex_auth_0128411660642959361427",
+                        "lex_auth_0128411659951882241440",
+                        "lex_auth_0128411643165327361430",
+                        "lex_auth_0128411682485862401441",
+                        "lex_auth_0128411716300881921429"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "for_new_sales_employees",
+                    "title": "For new sales employees",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/pre-new-sales.png",
+                            "altText": "For new sales employees"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "for_new_sales_employees"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411800392990722589",
+                        "lex_auth_0128411870433116163552",
+                        "lex_auth_0128411727522529281977",
+                        "lex_auth_0128411703129456641992",
+                        "lex_auth_0128411667057786881129",
+                        "lex_auth_0128411771160412161991"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "vertical_markets",
+                    "title": "Vertical markets",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/pre-vertical-market.png",
+                            "altText": "Vertical markets"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "vertical_markets"
+                      }
+                    ],
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/post-vertical-market.jpg",
+                            "altText": "Vertical markets"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411791147335682915",
+                        "lex_auth_0128411890191728643248"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Vertical oil & gas"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "be_relevant",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 -mb-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "vertical_oil_gas",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height: 150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/processes.png",
+                            "title": "Oil & gas processes",
+                            "description": "Find trainings for the processes in the oil & gas sector."
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411837519134723099",
+                        "lex_auth_0128411831455907843093",
+                        "lex_auth_0128411806839685123104",
+                        "lex_auth_0128411861162557443096",
+                        "lex_auth_0128411802110443523100",
+                        "lex_auth_0128411822010777603095",
+                        "lex_auth_0128411811015475203098",
+                        "lex_auth_0128411865238405123102",
+                        "lex_auth_0128411870449008643097",
+                        "lex_auth_0128411879321436163092",
+                        "lex_auth_0128411869622681603103",
+                        "lex_auth_0128411852456837123094"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "vertical_oil_gas",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height: 150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/olutions.png",
+                            "title": "Oil & gas solutions",
+                            "description": "Find trainings for solutions in the oil & gas sector."
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411810603171843105",
+                        "lex_auth_0128411834363822083110",
+                        "lex_auth_0128411876161126403107",
+                        "lex_auth_0128411835894251523106",
+                        "lex_auth_0128411827210321923109"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "vertical_food_beverages",
+                    "title": "Vertical food & beverages",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411811572203522880"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "vertical_chemicals_pharmaceutical",
+                    "title": "Vertical chemicals & pharmaceutical",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411833021480962881",
+                        "lex_auth_0128411836710830082877"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "vertical_minerals",
+                    "title": "Vertical minerals",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411835985346562875"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "vertical_glass",
+                    "title": "Vertical glass",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411810535096322878"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "vertical_infrastructure",
+                    "title": "Vertical infrastructure",
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284174006118809632",
+                        "lex_auth_01284174207368396837"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Portfolio Learning"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "portfolio",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"{{backgroundImg}}\" class=\"flex flex-wrap justify-end w-full h-full\"><div class=\"w-full lg:w-10/12 flex flex-wrap\">{{#items}}<div class=\"flex text-2xl w-full md:w-1/2 h-auto my-1\"><div style=\"{{style}} color: #ffffff;\" class=\"p-4 m-1 border-solid border-white w-full rounded-lg\"><a href=\"{{__pageBase}}#{{bookmarkRef}}\">{{title}}</a>{{#child}}<span class=\"text-lg\"><a href=\"{{__pageBase}}#{{bookmarkRef}}\">{{title}}</a></span>{{/child}}</div></div>{{/items}}</div></div>",
+                "templateData": {
+                  "backgroundImg": "background-image: url('/assets/instances/Siemens/sales-learning/Portfolio-overview-V04-background.jpg'); background-size:cover",
+                  "items": [
+                    {
+                      "style": "background: #0066b1;",
+                      "title": "Digital Industries",
+                      "bookmarkRef": "di_portfolio_learning_automation"
+                    },
+                    {
+                      "style": "background: #0066b1;",
+                      "child": [
+                        {
+                          "title": "Automation | ",
+                          "bookmarkRef": "di_portfolio_learning_automation"
+                        },
+                        {
+                          "title": "Drive Technology",
+                          "bookmarkRef": "di_portfolio_learning_drive_technology"
+                        }
+                      ]
+                    },
+                    {
+                      "style": "background: #41aac7;",
+                      "title": "Gas & Power",
+                      "bookmarkRef": ""
+                    },
+                    {
+                      "style": "background: #41aac7;",
+                      "child": [
+                        {
+                          "title": "Power Generation | ",
+                          "bookmarkRef": ""
+                        },
+                        {
+                          "title": "Power Transmission | ",
+                          "bookmarkRef": ""
+                        },
+                        {
+                          "title": "Compression & Expansion | ",
+                          "bookmarkRef": ""
+                        },
+                        {
+                          "title": "Service",
+                          "bookmarkRef": ""
+                        }
+                      ]
+                    },
+                    {
+                      "style": "background: #39c0ef;",
+                      "title": "Smart Infrastructure",
+                      "bookmarkRef": "si_portfolio_learning_low_voltage"
+                    },
+                    {
+                      "style": "background: #39c0ef;",
+                      "child": [
+                        {
+                          "title": "Low Voltage | ",
+                          "bookmarkRef": "si_portfolio_learning_low_voltage"
+                        },
+                        {
+                          "title": "Medium Voltage | ",
+                          "bookmarkRef": "si_portfolio_learning_medium_voltage"
+                        },
+                        {
+                          "title": "Energy Automation and Smart Grid | ",
+                          "bookmarkRef": "si_portfolio_learning_energy_automation_and_smart_grid_smart_grid"
+                        },
+                        {
+                          "title": "Energy Services | ",
+                          "bookmarkRef": "si_portfolio_learning_energy_services"
+                        },
+                        {
+                          "title": "Control Products | ",
+                          "bookmarkRef": ""
+                        },
+                        {
+                          "title": "Building",
+                          "bookmarkRef": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "portfolio_learning"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "di_portfolio_learning_automation",
+                    "title": "DI Portfolio Learning - Automation",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411919417262083753",
+                        "lex_auth_0128411879098941443624",
+                        "lex_auth_0128411863344332803626",
+                        "lex_auth_0128411893693726723627",
+                        "lex_auth_0128411895333109763625",
+                        "lex_auth_0128411908504535043623",
+                        "lex_auth_0128411863121100803619",
+                        "lex_auth_0128411883791892483612"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "di_portfolio_learning_drive_technology",
+                    "title": "DI Portfolio Learning - Drive Technology",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411886606417923634",
+                        "lex_auth_0128411857585930243632",
+                        "lex_auth_0128411873913815043631",
+                        "lex_auth_0128411868139683843630",
+                        "lex_auth_0128411844547543043628"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_low_voltage",
+                    "title": "SI Portfolio Learning - Low Voltage",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411898721320963988",
+                        "lex_auth_0128411926710845443984"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_medium_voltage",
+                    "title": "SI Portfolio Learning - Medium Voltage",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411964149022724370",
+                        "lex_auth_0128411974147031044368",
+                        "lex_auth_0128411929179176964367",
+                        "lex_auth_0128411948454297604319",
+                        "lex_auth_0128411933081026564099",
+                        "lex_auth_0128411933493084164053",
+                        "lex_auth_0128411955594608644076",
+                        "lex_auth_0128411921403412484050",
+                        "lex_auth_0128411947803115523998",
+                        "lex_auth_0128411914810982403996",
+                        "lex_auth_0128411898032455683995",
+                        "lex_auth_0128411876100587523994"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_energy_services",
+                    "title": "SI Portfolio Learning - Energy Services",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411914015047684378",
+                        "lex_auth_0128411946091233284377",
+                        "lex_auth_0128411953600020484372",
+                        "lex_auth_0128411926913679364371",
+                        "lex_auth_0128411966397480964369",
+                        "lex_auth_0128411962341212164297",
+                        "lex_auth_0128411941532631044232",
+                        "lex_auth_0128411886901248004213",
+                        "lex_auth_0128411901635952644102",
+                        "lex_auth_0128411940028743684082",
+                        "lex_auth_0128411947824332804077"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_energy_automation_and_smart_grid_smart_grid",
+                    "title": "SI Portfolio Learning - Energy Automation and Smart Grid - Smart Grid",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411915049861124027",
+                        "lex_auth_0128411941442928644000",
+                        "lex_auth_0128411931922923524111",
+                        "lex_auth_0128411944828928004084",
+                        "lex_auth_0128403950634270720",
+                        "lex_auth_0128411874020556803556",
+                        "lex_auth_0128411941469798404051",
+                        "lex_auth_0128411933470064644018",
+                        "lex_auth_0128411941878415364088",
+                        "lex_auth_0128411945781411844085",
+                        "lex_auth_0128411953973903364090",
+                        "lex_auth_0128411880804515844087"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digital_services",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411844661985283560",
+                        "lex_auth_0128411892811694084161",
+                        "lex_auth_0128411952257843204171",
+                        "lex_auth_0128411912855470084172",
+                        "lex_auth_0128411713694269441473",
+                        "lex_auth_0128411936707543044233",
+                        "lex_auth_0128411920014704643997"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_energy_autom_smart_grid_autom_protection",
+                    "title": "SI Portfolio Learning - Energy Autom.&Smart Grid - Autom. & Protection",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411879758069764021",
+                        "lex_auth_0128411892626063364069",
+                        "lex_auth_0128411877176442884081",
+                        "lex_auth_0128411949403095044023",
+                        "lex_auth_0128411920770088964024",
+                        "lex_auth_0128411910489456644019",
+                        "lex_auth_0128411935411077124155",
+                        "lex_auth_0128411894805463044020",
+                        "lex_auth_0128411879244185604025",
+                        "lex_auth_0128411943551877124065",
+                        "lex_auth_0128411909991546884162",
+                        "lex_auth_0128411933293608964164"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "distribution_grid",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411891530465284215",
+                        "lex_auth_0128411936117145604216",
+                        "lex_auth_0128411902446223364217",
+                        "lex_auth_0128411959023288324224",
+                        "lex_auth_0128411938987458564222",
+                        "lex_auth_0128411943551877124065",
+                        "lex_auth_0128411927778672644223",
+                        "lex_auth_0128411903145492484225",
+                        "lex_auth_0128411907945676804228",
+                        "lex_auth_0128411926754754564229",
+                        "lex_auth_0128411893189017604236",
+                        "lex_auth_0128411935737692164303"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_energy_automation_and_smart_grid_communication",
+                    "title": "SI Portfolio Learning - Energy Automation and Smart Grid-Communication",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411912582594564022",
+                        "lex_auth_0128411940553768964026",
+                        "lex_auth_0128411917000130564152"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "si_portfolio_learning_market_specific_solutions",
+                    "title": "SI Portfolio Learning - Market Specific Solutions",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411898897694724363",
+                        "lex_auth_0128411873504051203270",
+                        "lex_auth_0128411909623562244318",
+                        "lex_auth_0128411910723502084322",
+                        "lex_auth_0128411925798420484317",
+                        "lex_auth_0128411892453703684315",
+                        "lex_auth_0128411924006174724312",
+                        "lex_auth_0128411937303429124311",
+                        "lex_auth_0128411947152015364308",
+                        "lex_auth_0128411956340572164306",
+                        "lex_auth_0128411925512355844304",
+                        "lex_auth_0128411906442362884305"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "business_specific_1",
+                    "title": "Business specific",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "imageHeight": "472",
+                          "imageWidth": "320",
+                          "imageSrc": "/assets/instances/Siemens/sales-learning/pre-di-learning.jpg",
+                          "mapName": "map-di-learning",
+                          "map": [
+                            {
+                              "coords": [
+                                37,
+                                419,
+                                285,
+                                458
+                              ],
+                              "alt": "DF as Digital Enterprise",
+                              "title": "DF as Digital Enterprise",
+                              "link": "./page/siemens-digital-enterprise",
+                              "target": "_blank"
+                            }
+                          ],
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "width": "265px"
+                          }
+                        },
+                        "widgetSubType": "imageMapResponsive",
+                        "widgetType": "imageMap",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "business_specific_1"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411843716218883392",
+                        "lex_auth_0128411833931038723318",
+                        "lex_auth_0128411876565975043296",
+                        "lex_auth_0128411855122841603300",
+                        "lex_auth_0128411849183150082999",
+                        "lex_auth_0128411741556736001975",
+                        "lex_auth_0128411714515353601445",
+                        "lex_auth_0128411897500385283565",
+                        "lex_auth_0128411880613642243756",
+                        "lex_auth_0128411876467752963755"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "business_specific_2",
+                    "title": "Business specific",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sales-learning/pre-gp-specific-learning.png",
+                            "altText": "Business specific"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411708284846081974",
+                        "lex_auth_0128411766799728642200"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 4,
+              "large": 3
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sales-learning/si-specific-learning.png",
+                  "altText": ""
+                },
+                "containerClass": "h-full px-6 sm:px-8 md:px-10 md:pr-0"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sales-learning/wide-img.jpg",
+                  "altText": ""
+                },
+                "containerClass": "h-full px-6 sm:px-8 md:px-10 md:pl-0"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "By sales skills"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "by_sales_skills"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"{{backgroundImage}}\"><div class=\"flex flex-wrap justify-center p-4\"> {{#items}} <a href=\"{{link}}\" target=\"_blank\" class=\"w-full h-24 sm:w-1/3 md:w-1/4 m-1\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-semibold\" style=\"{{style}} background: #005b80; color: #ffffff; border-radius: 0.5rem;\"><div class=\"p-2\">{{title}}</div></div> </a>{{/items}}</div></div>",
+                "templateData": {
+                  "backgroundImage": "background-image: url('/assets/instances/Siemens/sales-learning/Competences-overview-V002-background.jpg')",
+                  "items": [
+                    {
+                      "style": "",
+                      "title": "Customer intimacy",
+                      "link": "/app/knowledge-board/lex_auth_01284459580744499283"
+                    },
+                    {
+                      "style": "",
+                      "title": "Digitalization fundamentals",
+                      "link": "/app/knowledge-board/lex_auth_01284459208219852886"
+                    },
+                    {
+                      "style": "",
+                      "title": "Teamwork and collaboration",
+                      "link": "/app/knowledge-board/lex_auth_01284459737341952090"
+                    },
+                    {
+                      "style": "",
+                      "title": "Sales and customer development",
+                      "link": "/app/knowledge-board/lex_auth_01284459518455808084"
+                    },
+                    {
+                      "style": "",
+                      "title": "Personal social branding",
+                      "link": "/app/knowledge-board/lex_auth_01284459116190924887"
+                    },
+                    {
+                      "style": "",
+                      "title": "Conflict management",
+                      "link": "/app/knowledge-board/lex_auth_01284459832630476889"
+                    },
+                    {
+                      "style": "",
+                      "title": "Sales planning skills",
+                      "link": "/app/knowledge-board/lex_auth_01284459170068889685"
+                    },
+                    {
+                      "style": "",
+                      "title": "Communication",
+                      "link": "/app/knowledge-board/lex_auth_01284459072875724888"
+                    },
+                    {
+                      "style": "",
+                      "title": "Presentation",
+                      "link": "/app/knowledge-board/lex_auth_01284459677995008091"
+                    }
+                  ]
+                },
+                "containerClass": "mat-elevation-z4"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "sales_skills"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

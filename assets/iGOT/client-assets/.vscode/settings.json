@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "jslint.version": "es6",
+    "[javascript]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true
+        }
+    },
+}

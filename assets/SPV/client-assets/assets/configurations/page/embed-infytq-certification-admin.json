@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "InfyTQ Certification"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex-iap.infosysapps.com/infytq/landingPage",
+      "pageTitle": "InfyTQ Certification"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

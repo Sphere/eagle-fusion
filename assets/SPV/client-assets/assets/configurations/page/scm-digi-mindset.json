@@ -1,0 +1,285 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "SCM Digi Mindset"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1010,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/scm-digi-mindset/scm-home.png'); min-height:472px;",
+                          "overlayText": "Willkommen zur SCM Digi Speisekarte – Ihre Quelle, um Herausforderungen und Chancen der Digitalisierung besser zu meistern",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 1009,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center pb-0 sm:pb-0 p-2 sm:p-6 text-xl leading-none font-semibold\">{{overlayText1}}</span><span style=\"{{overlayStyle}}\" class=\"flex items-center pt-0 p-2 sm:pt-0 sm:p-6 text-normal sm:text:xl leading-none font-semibold\">{{overlayText2}}</span>\n </div>\n</div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/scm-digi-mindset/scm-home.png'); min-height:472px;",
+                          "overlayText1": "Willkommen zur SCM Digi Speisekarte – ",
+                          "overlayText2": "Ihre Quelle, um Herausforderungen und Chancen der Digitalisierung besser zu meistern",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "vorspeise",
+                    "title": "Vorspeise",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{href}}\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/scm-digi-mindset/vorspeise.png'); width:265px",
+                            "overlayText": "Vorspeise",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "href": "https://learningworld.siemens.com/entry/search?series=&term=&tags%5B%5D=2594&tags%5B%5D=2595&order=publishDate&page=1"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "vorspeise"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411919379333124137",
+                        "lex_auth_0128411839436226563161",
+                        "lex_auth_0128411786076160002199",
+                        "lex_auth_012841101974790144203",
+                        "lex_auth_0128411732873871361861",
+                        "lex_auth_0128411685400985601236"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "hauptgang",
+                    "title": "Hauptgang",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{href}}\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/scm-digi-mindset/hauptgang.png'); width:265px",
+                            "overlayText": "Hauptgang",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "href": "https://learningworld.siemens.com/entry/search?series=&term=&tags%5B%5D=2594&tags%5B%5D=2596&order=publishDate&page=1"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "hauptgang"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411895425024003356",
+                        "lex_auth_0128411817972776962749",
+                        "lex_auth_0128411826655477763293",
+                        "lex_auth_0128411774518312962198"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "nachspeise",
+                    "title": "Nachspeise",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/scm-digi-mindset/nachspeise.png'); width:265px",
+                            "overlayText": "Nachspeise",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "nachspeise"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411812345282562639"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Specials"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "specials",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "xlarge": 3,
+              "large": 4,
+              "medium": 5
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div>",
+                "templateData": {
+                  "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/scm-digi-mindset/specials.png')",
+                  "overlayText": "Specials",
+                  "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetInstanceId": "specials"
+            }
+          },
+          {
+            "dimensions": {
+              "xlarge": 3,
+              "large": 4,
+              "medium": 7
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <a href=\"{{link}}\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/scm-digi-mindset/recently-added.png",
+                  "title": "Recently added",
+                  "items": [
+                    {
+                      "date": "19 Aug., 2019",
+                      "leftText": "Cybersecurity",
+                      "link": "/app/toc/lex_auth_0128411919379333124137/overview"
+                    },
+                    {
+                      "date": "07 Mai, 2019",
+                      "leftText": "The Agile Wave",
+                      "link": "/app/toc/lex_auth_0128411912819671043827/overview"
+                    },
+                    {
+                      "date": "28 Mrz., 2019",
+                      "leftText": "4 Things to know about LinkedIn",
+                      "link": "/app/toc/lex_auth_0128411876562452483483/overview"
+                    }
+                  ]
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "tabs": [
+    {
+      "tabDetails": {
+        "name": "Leadership",
+        "key": "leadership",
+        "routerLink": "/app/infy/channels/leadership"
+      },
+      "tabContent": {
+        "cardType": "leader-card",
+        "data": [
+          {
+            "name": "Ravi Kumar S.",
+            "designation": "President",
+            "profileImage": "/assets/instances/Lex/leadership/ravi/ravi.jpg",
+            "routerLink": "/page-leaders/ravi"
+          },
+          {
+            "name": "Mohit Joshi",
+            "designation": "President",
+            "profileImage": "/assets/instances/Lex/leadership/mohit/mohit.jpeg",
+            "routerLink": "/page-leaders/mohit"
+          }
+        ]
+      }
+    },
+    {
+      "tabDetails": {
+        "name": "Corporate",
+        "key": "corporate",
+        "routerLink": "/app/infy/channels/corporate"
+      },
+      "tabContent": {
+        "cardType": "initiatives-card",
+        "data": [
+          {
+            "title": "Experience WOW",
+            "desc": "Reimagining Infosys from the perspective of digital platforms and the way we do our business and work",
+            "iconName": "call_merge",
+            "routerLink": "/app/infy/experience-wow"
+          },
+          {
+            "title": "Infosys Knowledge Institute",
+            "desc": "Helps industry leaders develop a deeper understanding of business and technology",
+            "iconName": "pages",
+            "routerLink": "/page/iki"
+          },
+          {
+            "title": "CMT Learning Hub",
+            "desc": "Making the right people decisions",
+            "iconName": "bubble_chart",
+            "routerLink": "/page/cmt"
+          },
+          {
+            "title": "Full Stack Sales Leader",
+            "desc": "Embark on the sales journey through a space mission",
+            "iconName": "public",
+            "routerLink": "/page/embed-sales-leader"
+          }
+        ]
+      }
+    },
+    {
+      "tabDetails": {
+        "name": "Events",
+        "key": "events",
+        "routerLink": "/app/infy/channels/events"
+      },
+      "tabContent": {
+        "cardType": "events-card",
+        "data": [
+          {
+            "eventName": "Americas Confluence 2018",
+            "routerLink": "/page/event-confluence-2018",
+            "startTime": 1537295400000,
+            "endTime": 1537468200000
+          },
+          {
+            "eventName": "APAC Confluence 2019",
+            "routerLink": "/page/event-confluence-2019",
+            "startTime": 1553193000000,
+            "endTime": 1554143400000
+          },
+          {
+            "eventName": "Connect 2019",
+            "routerLink": "/page/event-connect-2019",
+            "startTime": 1558463400000,
+            "endTime": 1558549800000
+          },
+          {
+            "eventName": "EMEA Confluence 2018",
+            "routerLink": "/page/event-emea-confluence-2018",
+            "startTime": 1571769000000,
+            "endTime": 1571855400000
+          }
+        ]
+      }
+    }
+  ]
+}

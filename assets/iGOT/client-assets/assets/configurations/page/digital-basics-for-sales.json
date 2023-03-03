@@ -1,0 +1,413 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Digital Basics for Sales"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "isIntranet": {
+                  "widget": {
+                    "widgetData": {
+                      "iframeSrc": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/dns/dns.html?path=../Sales/sales.json",
+                      "containerStyle": {
+                        "min-height": "400px"
+                      }
+                    },
+                    "widgetSubType": "pageEmbedded",
+                    "widgetType": "page",
+                    "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                  }
+                },
+                "isNotIntranet": {
+                  "widget": {
+                    "widgetData": {
+                      "template": "<div class=\"p-4 bg-gray-400\"><div class=\"text-3xl font-semibold text-center leading-normal\">{{title}}</div><div class=\"text-base font-medium text-center leding-normal\">{{subheading}}</div></div>",
+                      "templateData": {
+                        "title": "Content not available online",
+                        "subheading": "You can view this on siemens intranet only. Please connect to siemens intranet to view this."
+                      },
+                      "containerClass": "mat-elevation-z4"
+                    },
+                    "widgetSubType": "elementHtml",
+                    "widgetType": "element",
+                    "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                  }
+                }
+              },
+              "widgetSubType": "intranetResponsive",
+              "widgetType": "selector"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 5,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<div class=\"flex h-full\"><div class=\"w-48 bg-teal-700\"></div><div class=\"text-base font-normal p-4\"> <p>Welcome to your</p><p> <span class=\"text-xl font-bold text-teal-700\">Digital Basics for Sales</span> learning journey</p><p>How can you make digitalization work in sales?</p><p>To highlight the possibilities of digitalization, <span class=\"text-xl font-bold text-teal-700\">Digital Basics for Sales</span> was created to give you an easy and highly effective starting point for your digital sales learning journey.</p><p>Find out more in the introduction video.</p><p>We are happy to have you on board to <span class=\"text-base text-teal-700 italic font-semibold\">\"make digitalization work\"</span> in sales.</p><p>Just start your digital sales training journey now!</p></div></div>",
+                "containerClass": "mat-elevation-z4  h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 7,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_p2wy0vfd",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_p2wy0vfd/uiConfId/35069072",
+                "containerClass": "kmsembed",
+                "containerStyle": {
+                  "height": "100%"
+                },
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 lg:pr-0 md:pl-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "know_your_digital_enviroment",
+                    "title": "Know your digital environment",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-basics-for-sales/digital-environment.png'); width:265px",
+                            "overlayText": "Learn about basic digital Terms, Tools and Rules",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px;\" class=\"h-full\"><img style=\"width:265px;\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digital-basics-for-sales/basic_tools.png",
+                            "title": "Basic Tools",
+                            "description": "Slide here and learn how to use the basic tools like SSN, Circuit, Syncplicity, LinkedIn, Twitter and more >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841105345003520236",
+                        "lex_auth_012841101974790144203"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "know_your_digital_enviroment_row_2_col_1",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px;\" class=\"h-full\"><img style=\"width:265px;\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digital-basics-for-sales/basic_terms.png",
+                            "title": "Basic Terms",
+                            "description": "Slide here to get an overview on the basic terms of digital environment >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411706564034561425",
+                        "lex_auth_0128411708320645121426",
+                        "lex_auth_0128411641331548161417",
+                        "lex_auth_0128411640893276161422",
+                        "lex_auth_0128411696078766081423",
+                        "lex_auth_01284110426510131266",
+                        "lex_auth_012841106627321856232",
+                        "lex_auth_012841106148941824307"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "know_your_digital_enviroment_row_2_col_2",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px;\" class=\"h-full\"><img style=\"width:265px;\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digital-basics-for-sales/basic_rules.png",
+                            "title": "Basic Rules",
+                            "description": "Slide here and learn about Siemens Social Media policies >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841104727662592309",
+                        "lex_auth_0128411676395110401424"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "digital_social_learning_shape_digital_persona",
+                    "title": "Digital Social Selling – shape your digital persona",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-basics-for-sales/shape-digital-persona.png'); width:265px",
+                            "overlayText": "How to position yourself online and become a thought-leader",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411643165327361430",
+                        "lex_auth_0128411643515617281433",
+                        "lex_auth_0128411688742748161432",
+                        "lex_auth_0128411654241075201434"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digital_social_selling_customer",
+                    "title": "Digital Social Selling – get in contact with your customer",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-basics-for-sales/contact-customers.png'); width:265px",
+                            "overlayText": "How to interact and engage with the customer online",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411658164633601437",
+                        "lex_auth_0128411661797294081435",
+                        "lex_auth_0128411716300881921429",
+                        "lex_auth_0128411640173445121436",
+                        "lex_auth_012841161723674624955"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digital_tecnologies_for_sales",
+                    "title": "Digital Technologies for Sales",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-basics-for-sales/digital-technologies-for-sales.png'); width:265px",
+                            "overlayText": "What are important digital technologies?",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841163409645568840",
+                        "lex_auth_0128411659951882241440",
+                        "lex_auth_0128411687621017601439",
+                        "lex_auth_0128411703532175361442",
+                        "lex_auth_012841107953491968594"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "division_specific_training",
+                    "title": "Division specific training on digitalization",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digital-basics-for-sales/training-on-digitalization.png'); width:265px",
+                            "overlayText": "What are important digital technologies?",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411714515353601445",
+                        "lex_auth_0128411662524334081449"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

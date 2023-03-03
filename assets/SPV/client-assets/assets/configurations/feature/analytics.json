@@ -1,0 +1,16 @@
+{
+  "analytics": {
+    "enabled": true,
+    "available": true,
+    "subFeatures": {
+      "courseAnalytics": {
+        "enabled": true,
+        "available": true,
+        "apiLink": {
+          "iframeClientApi": false,
+          "iframeAPi": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "noDataWidget": {
+        "widgetData": {
+          "errorType": "contentUnavailable"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "loader": true,
+      "errorWidget": {
+        "widgetData": {
+          "errorType": "internalServer"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "strips": [{
+          "key": "Employer",
+          "title": "Employer",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Brand>Employer"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Corporate",
+          "title": "Corporate",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Brand>Corporate"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Insights",
+          "title": "Insights",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Brand>Insights"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        }
+      ]
+    },
+    "widgetSubType": "contentStripMultiple",
+    "widgetType": "contentStrip"
+  }
+}

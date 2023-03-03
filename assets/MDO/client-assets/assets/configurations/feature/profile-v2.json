@@ -1,0 +1,162 @@
+{
+    "tabs": [
+        {
+            "name": "Profile info",
+            "key": "profileInfo",
+            "render": false,
+            "dataKey": "",
+            "badges": {
+                "enabled": true,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": ".",
+            "widget": {}
+        },
+        {
+            "name": "Career history",
+            "key": "CareerHistory",
+            "dataKey": "professionalDetails",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "career",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "Certifications",
+            "key": "certifications",
+            "dataKey": "",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": false,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "certifications",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "Certifications and Skills",
+            "key": "cAnds",
+            "dataKey": "skills",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "certifications",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "Academics",
+            "key": "academics",
+            "dataKey": "academics",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "academics",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "Hobbies",
+            "key": "hobbies",
+            "dataKey": "interests",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "hobbies",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "My Competencies",
+            "key": "competencies",
+            "dataKey": "",
+            "render": false,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": false,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "competencies",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "Departments",
+            "key": "departments",
+            "dataKey": "",
+            "render": false,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": false,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "departments",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        },
+        {
+            "name": "Publications",
+            "key": "publications",
+            "dataKey": "",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": false,
+            "routerLink": ".",
+            "widget": {
+                "widgetType": "profilev2",
+                "widgetSubType": "publications",
+                "widgetHostClass": "margin-bottom-l",
+                "widgetData": {}
+            }
+        }
+    ],
+    "banner": {}
+}

@@ -1,0 +1,87 @@
+[
+  {
+    "groupName": "Login",
+    "groupShortName": "Login",
+    "contents": [
+      {
+        "heading": "Unable to login to iGoT",
+        "value": "<p class='mat-body-1'>     Unable to login to iGoT        </p> "
+      },
+      {
+        "heading": "Unable to logon to iGoT, enclosed blue screen error",
+        "value": "<p class='mat-body-1' i18n='faq page panel one answer two'>           Request to kindly clear your cookies and cache of the desktop browser           once before trying.<br />           Also you can use Incognito mode or Private Browsing modes of Chrome           and IE.<br />           Restart the browser and try accessing iGoT.         </p>"
+      }
+    ]
+  },
+  {
+    "groupName": "Compatibility",
+    "groupShortName": "Compatibility",
+    "contents": [
+      {
+        "heading": "Compatibility",
+        "value": "<p class='mat-body-1'>           <ng-container i18n='faq page panel three answer one'>             It looks like you are using IE in Compatibility Mode (IE7 or IE11)             please open developer console and switch to IE11 or IE10.<br />             Please follow the video:<br />           </ng-container>           <ng-container>             https://www.youtube.com/watch?v=XGEYmkI66jQ           </ng-container>         </p>"
+      },
+      {
+        "heading": "Browser Issue",
+        "value": "<p class='mat-body-1' i18n='faq page panel three answer two'>           It looks like you are using IE in Compatibility Mode (IE7 or IE11)           please open developer console and switch to IE11 or IE10         </p>"
+      }
+    ]
+  },
+  {
+    "groupName": "Installation",
+    "groupShortName": "Installation",
+    "contents": [
+      {
+        "heading": "Regarding iGoT installation on Smart Phone",
+        "value": "<p class='mat-body-1'>           <ng-container i18n='faq page panel four answer one section one'>             There are 2 ways for doing the same in android:<br />             <ng-container i18n='faq page panel four answer one section two'>                </ng-container>     </ng-container>         </p>"
+      },
+      {
+        "heading": "IOS - To Install IOS App",
+        "value": "<p class='mat-body-1'> Go to play store </p>"
+      }
+    ]
+  },
+   
+  {
+    "groupName": "Video",
+    "groupShortName": "Video",
+    "contents": [
+      {
+        "heading": "Issues playing the video content.",
+        "value": "<p class='mat-body-1' i18n='faq page panel six answer one'>           Please raise a query to reinstall Audio Video Drivers. This issue           happens when either audio or video drivers are corrupt or not           installed.         </p>"
+      }
+    ]
+  },
+  {
+    "groupName": "Authoring",
+    "groupShortName": "Authoring",
+    "contents": [
+      {
+        "heading": "Upload a content in iGoT",
+        "value": "<p class='mat-body-1'>           <ng-container i18n='faq page panel seven answer one section one'>             Please find demo video enclosed on how to upload content in iGoT.<br />             Kindly use the below URL :<br />           </ng-container>           <ng-container>             https://eagle-sb.idc.tarento.com/<br />           </ng-container>           <ng-container i18n='faq page panel seven answer one section one'>             Please use Chrome for accessing the staging environment.<br />             To create content through Authoring Tool :<br />             Link :           </ng-container>           <ng-container>             https://eagle-sb.idc.tarento.com/auther/home           </ng-container>         </p>"
+      },
+      {
+        "heading": "Could you please guide me on how to record a video in iGoT with real time voice over.",
+        "value": "<p class='mat-body-1' i18n='faq page panel seven answer two'>           iGoT does not have the capabilities to record videos or author PDF or           HTML Content directly on its authoring tool.<br />           If you have created Videos either using screen-capture using tools           like Captivate, Camtasia or converting PPTs to Videos with voiceover           or even using a video recording device like Phones, Video Cameras, iGoT           allows you to create courses out of such content.<br />           Course creation involves providing a good amount of meta-data for           non-text based contents such as Videos.         </p>"
+      }
+    ]
+  },
+  {
+    "groupName": "Contact us",
+    "groupShortName": "Contact us",
+    "contents": [
+      {
+        "heading": "Raise an Query",
+        "value": "<ng-container i18n='contact section one description'>         </a>"
+      },
+      {
+        "heading": "Mail us",
+        "value": "<ng-container i18n='contact section two description'>         You can also mail us at: EMAIL     </ng-container>        <a mat-button href='mailto:{{contactUsMail}}' i18n='contact section two action button'>         Click to mail       </a>"
+      },
+      {
+        "heading": "Talk to us",
+        "value": "You can call us and we will help you out <p i18n='contact section three description two'>         Dial ***** from your voip phones       </p>"
+      }
+    ]
+  }
+]

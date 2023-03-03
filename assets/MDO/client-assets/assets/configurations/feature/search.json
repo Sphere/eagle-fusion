@@ -1,0 +1,70 @@
+{
+    "search": {
+      "visibleFilters": {
+        "learningMode": {
+          "displayName": "Mode"
+        },
+        "duration": {
+          "displayName": "Duration"
+        },
+        "contentType": {
+          "displayName": "Content Type"
+        },
+        "exclusiveContent": {
+          "displayName": "Costs"
+        },
+        "complexityLevel": {
+          "displayName": "Level"
+        },
+        "catalogPaths": {
+          "displayName": "Catalog",
+          "order": [
+            {
+              "_key": "asc"
+            }
+          ]
+        },
+        "sourceShortName": {
+          "displayName": "Source"
+        },
+        "resourceType": {
+          "displayName": "Format"
+        },
+        "region": {
+          "displayName": "Region"
+        },
+        "concepts": {
+          "displayName": "Concepts"
+        },
+        "lastUpdatedOn": {
+          "displayName": "Published Date"
+        }
+      },
+      "tabs": [
+        {
+          "searchQuery": {
+            "filters": {},
+            "advancedFilters": []
+          },
+          "phraseSearch": false,
+          "acrossPreferredLang": true,
+          "isStandAlone": false,
+          "title": "Learning",
+          "titleKey": "learning"
+        }
+      ],
+      "routeValue": [
+        "learning"
+      ],
+      "placeHolder": {
+        "learning": "What do you want to learn?"
+      },
+      "languageSearch": [
+        "EN"
+      ],
+      "missalaneous": {
+        "tabsToAdd": {}
+      },
+      "suggestedFilters": []
+    }
+  }

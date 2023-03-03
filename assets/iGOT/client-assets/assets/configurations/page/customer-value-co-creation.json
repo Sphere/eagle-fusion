@@ -1,0 +1,1478 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Customer Value Co-Creation"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "customer_value_co_creation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/customer-value-co-creation.png",
+                            "altText": "Customer Value Co-creation"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "customer_value_co_creation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411799170826242457",
+                        "lex_auth_0128411764103495682459",
+                        "lex_auth_0128411818704732163172"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1200,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "552",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/cvcc-overview-1024.jpg",
+                        "mapName": "map-customer-cocreation",
+                        "map": [
+                          {
+                            "coords": [
+                              139,
+                              34,
+                              263,
+                              200
+                            ],
+                            "alt": "Intro to CVCC",
+                            "title": "Intro to CVCC",
+                            "link": "./page/customer-value-co-creation#intro_to_cvcc",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              439,
+                              31,
+                              558,
+                              205
+                            ],
+                            "alt": "Success stories",
+                            "title": "Success stories",
+                            "link": "./page/customer-value-co-creation#success_stories",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              764,
+                              30,
+                              878,
+                              206
+                            ],
+                            "alt": "Onsite training",
+                            "title": "Onsite training",
+                            "link": "./page/customer-value-co-creation#onsite_training",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              50,
+                              389,
+                              265,
+                              443
+                            ],
+                            "alt": "Digitalization",
+                            "title": "Digitalization",
+                            "link": "./page/customer-value-co-creation#digitalization",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              50,
+                              461,
+                              262,
+                              515
+                            ],
+                            "alt": "Co-Creation opportunity",
+                            "title": "Co-Creation opportunity",
+                            "link": "./page/customer-value-co-creation#co_creation_opportunity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              288,
+                              388,
+                              499,
+                              443
+                            ],
+                            "alt": "Customer centricity",
+                            "title": "Customer centricity",
+                            "link": "./page/customer-value-co-creation#customer_centricity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              285,
+                              461,
+                              502,
+                              514
+                            ],
+                            "alt": "Engagement skills",
+                            "title": "Engagement skills",
+                            "link": "./page/customer-value-co-creation#engagement_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              523,
+                              389,
+                              738,
+                              443
+                            ],
+                            "alt": "Project management",
+                            "title": "Project management",
+                            "link": "./page/customer-value-co-creation#project_management",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              523,
+                              461,
+                              735,
+                              514
+                            ],
+                            "alt": "Value proposition and business modeling",
+                            "title": "Value proposition and business modeling",
+                            "link": "./page/customer-value-co-creation#value_proposition",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              760,
+                              390,
+                              973,
+                              443
+                            ],
+                            "alt": "Leadership",
+                            "title": "Leadership",
+                            "link": "./page/customer-value-co-creation#leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              760,
+                              462,
+                              972,
+                              514
+                            ],
+                            "alt": "Collaboration",
+                            "title": "Collaboration",
+                            "link": "./page/customer-value-co-creation#collaboration",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 pb-10"
+                    }
+                  },
+                  {
+                    "minWidth": 950,
+                    "maxWidth": 1199,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "552",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/cvcc-overview-1024.jpg",
+                        "mapName": "map-customer-cocreation-1024",
+                        "map": [
+                          {
+                            "coords": [
+                              139,
+                              34,
+                              263,
+                              200
+                            ],
+                            "alt": "Intro to CVCC",
+                            "title": "Intro to CVCC",
+                            "link": "./page/customer-value-co-creation#intro_to_cvcc",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              439,
+                              31,
+                              558,
+                              205
+                            ],
+                            "alt": "Success stories",
+                            "title": "Success stories",
+                            "link": "./page/customer-value-co-creation#success_stories",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              764,
+                              30,
+                              878,
+                              206
+                            ],
+                            "alt": "Onsite training",
+                            "title": "Onsite training",
+                            "link": "./page/customer-value-co-creation#onsite_training",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              50,
+                              389,
+                              265,
+                              443
+                            ],
+                            "alt": "Digitalization",
+                            "title": "Digitalization",
+                            "link": "./page/customer-value-co-creation#digitalization",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              50,
+                              461,
+                              262,
+                              515
+                            ],
+                            "alt": "Co-Creation opportunity",
+                            "title": "Co-Creation opportunity",
+                            "link": "./page/customer-value-co-creation#co_creation_opportunity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              288,
+                              388,
+                              499,
+                              443
+                            ],
+                            "alt": "Customer centricity",
+                            "title": "Customer centricity",
+                            "link": "./page/customer-value-co-creation#customer_centricity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              285,
+                              461,
+                              502,
+                              514
+                            ],
+                            "alt": "Engagement skills",
+                            "title": "Engagement skills",
+                            "link": "./page/customer-value-co-creation#engagement_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              523,
+                              389,
+                              738,
+                              443
+                            ],
+                            "alt": "Project management",
+                            "title": "Project management",
+                            "link": "./page/customer-value-co-creation#project_management",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              523,
+                              461,
+                              735,
+                              514
+                            ],
+                            "alt": "Value proposition and business modeling",
+                            "title": "Value proposition and business modeling",
+                            "link": "./page/customer-value-co-creation#value_proposition",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              760,
+                              390,
+                              973,
+                              443
+                            ],
+                            "alt": "Leadership",
+                            "title": "Leadership",
+                            "link": "./page/customer-value-co-creation#leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              760,
+                              462,
+                              972,
+                              514
+                            ],
+                            "alt": "Collaboration",
+                            "title": "Collaboration",
+                            "link": "./page/customer-value-co-creation#collaboration",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block pb-10 px-6 sm:px-8 md:px-10"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 949,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "446",
+                        "imageWidth": "768",
+                        "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/cvcc-overview-768.jpg",
+                        "mapName": "map-customer-cocreation-768",
+                        "map": [
+                          {
+                            "coords": [
+                              85,
+                              26,
+                              171,
+                              151
+                            ],
+                            "alt": "Intro to CVCC",
+                            "title": "Intro to CVCC",
+                            "link": "./page/customer-value-co-creation#intro_to_cvcc",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              339,
+                              23,
+                              426,
+                              150
+                            ],
+                            "alt": "Success stories",
+                            "title": "Success stories",
+                            "link": "./page/customer-value-co-creation#success_stories",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              595,
+                              23,
+                              684,
+                              151
+                            ],
+                            "alt": "Onsite training",
+                            "title": "Onsite training",
+                            "link": "./page/customer-value-co-creation#onsite_training",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              23,
+                              329,
+                              186,
+                              370
+                            ],
+                            "alt": "Digitalization",
+                            "title": "Digitalization",
+                            "link": "./page/customer-value-co-creation#digitalization",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              24,
+                              389,
+                              185,
+                              429
+                            ],
+                            "alt": "Co-Creation opportunity",
+                            "title": "Co-Creation opportunity",
+                            "link": "./page/customer-value-co-creation#co_creation_opportunity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              210,
+                              327,
+                              372,
+                              369
+                            ],
+                            "alt": "Customer centricity",
+                            "title": "Customer centricity",
+                            "link": "./page/customer-value-co-creation#customer_centricity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              210,
+                              388,
+                              373,
+                              427
+                            ],
+                            "alt": "Engagement skills",
+                            "title": "Engagement skills",
+                            "link": "./page/customer-value-co-creation#engagement_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              396,
+                              329,
+                              558,
+                              371
+                            ],
+                            "alt": "Project management",
+                            "title": "Project management",
+                            "link": "./page/customer-value-co-creation#project_management",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              395,
+                              389,
+                              558,
+                              428
+                            ],
+                            "alt": "Value proposition and business modeling",
+                            "title": "Value proposition and business modeling",
+                            "link": "./page/customer-value-co-creation#value_proposition",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              582,
+                              328,
+                              745,
+                              370
+                            ],
+                            "alt": "Leadership",
+                            "title": "Leadership",
+                            "link": "./page/customer-value-co-creation#leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              581,
+                              389,
+                              745,
+                              429
+                            ],
+                            "alt": "Collaboration",
+                            "title": "Collaboration",
+                            "link": "./page/customer-value-co-creation#collaboration",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block pb-10 px-6 sm:px-8 md:px-10"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "503",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/cvcc-overview-414.jpg",
+                        "mapName": "map-customer-cocreation-414",
+                        "map": [
+                          {
+                            "coords": [
+                              34,
+                              14,
+                              105,
+                              112
+                            ],
+                            "alt": "Intro to CVCC",
+                            "title": "Intro to CVCC",
+                            "link": "./page/customer-value-co-creation#intro_to_cvcc",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              173,
+                              13,
+                              243,
+                              112
+                            ],
+                            "alt": "Success stories",
+                            "title": "Success stories",
+                            "link": "./page/customer-value-co-creation#success_stories",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              311,
+                              11,
+                              382,
+                              112
+                            ],
+                            "alt": "Onsite training",
+                            "title": "Onsite training",
+                            "link": "./page/customer-value-co-creation#onsite_training",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              18,
+                              239,
+                              203,
+                              279
+                            ],
+                            "alt": "Digitalization",
+                            "title": "Digitalization",
+                            "link": "./page/customer-value-co-creation#digitalization",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              19,
+                              288,
+                              203,
+                              327
+                            ],
+                            "alt": "Co-Creation opportunity",
+                            "title": "Co-Creation opportunity",
+                            "link": "./page/customer-value-co-creation#co_creation_opportunity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              209,
+                              279,
+                              398,
+                              240
+                            ],
+                            "alt": "Customer centricity",
+                            "title": "Customer centricity",
+                            "link": "./page/customer-value-co-creation#customer_centricity",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              212,
+                              289,
+                              396,
+                              329
+                            ],
+                            "alt": "Engagement skills",
+                            "title": "Engagement skills",
+                            "link": "./page/customer-value-co-creation#engagement_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              16,
+                              397,
+                              203,
+                              438
+                            ],
+                            "alt": "Project management",
+                            "title": "Project management",
+                            "link": "./page/customer-value-co-creation#project_management",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              16,
+                              445,
+                              202,
+                              486
+                            ],
+                            "alt": "Value proposition and business modeling",
+                            "title": "Value proposition and business modeling",
+                            "link": "./page/customer-value-co-creation#value_proposition",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              211,
+                              395,
+                              397,
+                              438
+                            ],
+                            "alt": "Leadership",
+                            "title": "Leadership",
+                            "link": "./page/customer-value-co-creation#leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              211,
+                              444,
+                              398,
+                              485
+                            ],
+                            "alt": "Collaboration",
+                            "title": "Collaboration",
+                            "link": "./page/customer-value-co-creation#collaboration",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block pb-10 px-6 sm:px-8 md:px-10"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"pb-4\"><div class=\"flex flex-wrap w-full justify-center text-center\"> {{#topSection}} <a href=\"{{__pageBase}}#{{bookmarkRef}}\"><div style=\"background-color:{{bgColor}}\" class=\"text-lg font-semibold text-white m-6 w-64 p-6\">{{title}}<\/div><\/a> {{\/topSection}}<\/div><hr><div class=\"flex justify-center\"><div class=\"text-lg leading-tight\">Relevant skills for successfull Customer value Co-Creation<\/div><\/div><div class=\"flex flex-wrap text-center justify-center m-4\"> {{#bottomSection}}<div><div class=\"text-2xl font-normal leading-tight m-6\" style=\"color:{{color}}\">{{title}}<\/div> {{#children}} <a href=\"{{__pageBase}}#{{bookmarkRef}}\"><div style=\"background-color:{{bgColor}};\" class=\"text-white text-xl p-3 my-1 font-normal\">{{title}}<\/div><\/a> {{\/children}}<\/div> {{\/bottomSection}}<\/div><\/div>",
+                        "templateData": {
+                          "topSection": [
+                            {
+                              "title": "Intro to CVCC",
+                              "bookmarkRef": "intro_to_cvcc",
+                              "bgColor": "#00646e"
+                            },
+                            {
+                              "title": "Success stories",
+                              "bookmarkRef": "success_stories",
+                              "bgColor": "#00646e"
+                            },
+                            {
+                              "title": "Onsite training",
+                              "bookmarkRef": "onsite_training",
+                              "bgColor": "#00646e"
+                            }
+                          ],
+                          "bottomSection": [
+                            {
+                              "title": "Set the strategy",
+                              "color": "#c24773",
+                              "children": [
+                                {
+                                  "title": "Digitalization",
+                                  "bookmarkRef": "digitalization",
+                                  "bgColor": "#c24773"
+                                },
+                                {
+                                  "title": "Co-Creation Opportunity",
+                                  "bookmarkRef": "co_creation_opportunity",
+                                  "bgColor": "#c24773"
+                                }
+                              ]
+                            },
+                            {
+                              "title": "Prepare customer engagement",
+                              "color": "#b3b3ab",
+                              "children": [
+                                {
+                                  "title": "Customer centricity",
+                                  "bookmarkRef": "customer_centricity",
+                                  "bgColor": "#b3b3ab"
+                                },
+                                {
+                                  "title": "Engagement Skills",
+                                  "bookmarkRef": "engagement_skills",
+                                  "bgColor": "#b3b3ab"
+                                }
+                              ]
+                            },
+                            {
+                              "title": "Co-create with customer",
+                              "color": "#eacc66",
+                              "children": [
+                                {
+                                  "title": "Project management",
+                                  "bookmarkRef": "project_management",
+                                  "bgColor": "#eacc66"
+                                },
+                                {
+                                  "title": "Value proposition and business management",
+                                  "bookmarkRef": "value_proposition",
+                                  "bgColor": "#eacc66"
+                                }
+                              ]
+                            },
+                            {
+                              "title": "Manage Co-creation with projects",
+                              "color": "#c7cc37",
+                              "children": [
+                                {
+                                  "title": "Leadership",
+                                  "bookmarkRef": "leadership",
+                                  "bgColor": "#c7cc37"
+                                },
+                                {
+                                  "title": "Collaboration",
+                                  "bookmarkRef": "collaboration",
+                                  "bgColor": "#c7cc37"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetInstanceId": "",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 pb-10"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-wrap\" style=\"min-height:160px;background-color:#00646e\"><div class=\"sm:w-48 w-full sm:ml-4 mb-4 sm:mr-4 flex items-end justify-center\" style=\"background-color:{{bgColor}};\"><div class=\"text-white leading-normal font-semibold text-2xl p-2 text-center\" style=\"bottom:0px\"> {{title}}<\/div><\/div><div class=\"flex flex wrap flex-col\">{{#rightSection}}<div class=\"sm:w-48 p-3 text-2xl leading-tight font-semibold text-white\">{{title}}<\/div>{{\/rightSection}}<\/div><\/div>",
+                "templateData": {
+                  "title": "Overview",
+                  "bgColor": "#1d7488",
+                  "rightSection": [
+                    {
+                      "title": "Intro to CVCC"
+                    },
+                    {
+                      "title": "Success Stories"
+                    },
+                    {
+                      "title": "Onsite Training"
+                    },
+                    {
+                      "title": "Get Started"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "intro_to_cvcc",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/intro-to-cvcc.png",
+                            "altText": "Intro to CVCC"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "intro_to_cvcc"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411753033400322494",
+                        "lex_auth_0128411797089976322455",
+                        "lex_auth_0128411828520304642618",
+                        "lex_auth_0128411776383713282619",
+                        "lex_auth_0128411830059253762620",
+                        "lex_auth_0128411815534264322621",
+                        "lex_auth_0128411802959544322622",
+                        "lex_auth_0128411815984578562624"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "success_stories",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/success-stories.png",
+                            "altText": "Success Stories"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "success_stories"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411912432680964006",
+                        "lex_auth_0128411864109137923016",
+                        "lex_auth_0128411780338810882380",
+                        "lex_auth_0128411774941757442382"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "onsite_training",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/onsite-training.png",
+                            "altText": "Onsite Training"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "onsite_training"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411769561006082410"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "get_started",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/get-started.png",
+                            "altText": "Get Started"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "get_started"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411796793425922523",
+                        "lex_auth_0128411908481187843442",
+                        "lex_auth_0128411825665638403285",
+                        "lex_auth_0128411868306636803574"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-wrap\" style=\"min-height:160px;background-color:#00646e\"><div class=\"sm:w-48 w-full sm:ml-4 mb-4 sm:mr-4 flex items-end justify-center\" style=\"background-color:{{bgColor}};\"><div class=\"text-white leading-normal font-semibold text-2xl p-2 text-center\" style=\"bottom:0px\"> {{title}}<\/div><\/div><div class=\"flex flex wrap flex-col\">{{#rightSection}}<div class=\"sm:w-48 p-3 text-2xl leading-tight font-semibold text-white\">{{title}}<\/div>{{\/rightSection}}<\/div><\/div>",
+                "templateData": {
+                  "title": "Set the Strategy",
+                  "bgColor": "#c34774",
+                  "rightSection": [
+                    {
+                      "title": "Digitalization"
+                    },
+                    {
+                      "title": "Co-Creation Opportunities"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "digitalization",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/digitalization.png",
+                            "altText": "Digitalization"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "digitalization"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411778349547522815",
+                        "lex_auth_0128411811133767682816",
+                        "lex_auth_0128411761002905602391",
+                        "lex_auth_0128411778148679682393",
+                        "lex_auth_0128411791011266562390",
+                        "lex_auth_0128411765138472962398",
+                        "lex_auth_0128411777962721282387",
+                        "lex_auth_0128411808781516802389"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "co_creation_opportunity",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/co-creation-opportunity.png",
+                            "altText": "Co-Creation Opportunity"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "co_creation_opportunity"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411774398218242394",
+                        "lex_auth_0128411781586124802400",
+                        "lex_auth_0128411791220162562402"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-wrap\" style=\"min-height:160px;background-color:#00646e\"><div class=\"sm:w-48 w-full sm:ml-4 mb-4 sm:mr-4 flex items-end justify-center\" style=\"background-color:{{bgColor}};\"><div class=\"text-white leading-normal font-semibold text-2xl p-2 text-center\" style=\"bottom:0px\"> {{title}}<\/div><\/div><div class=\"flex flex wrap flex-col\">{{#rightSection}}<div class=\"sm:w-48 p-3 text-2xl leading-tight font-semibold text-white\">{{title}}<\/div>{{\/rightSection}}<\/div><\/div>",
+                "templateData": {
+                  "title": "Prepare customer engagement",
+                  "bgColor": "#6c6e69",
+                  "rightSection": [
+                    {
+                      "title": "Customer Centricity"
+                    },
+                    {
+                      "title": "Engagement Skills"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "customer_centricity",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/customer-centricity.png",
+                            "altText": "Customer Value Co-creation"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "customer_centricity"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411772837888002371",
+                        "lex_auth_0128411758234992642396",
+                        "lex_auth_0128411778331688962397"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "engagement_skills",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/engagement-skills.png",
+                            "altText": "Engagement Skills"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "engagement_skills"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411840974602243363",
+                        "lex_auth_0128411813458247682993",
+                        "lex_auth_0128411756476170242395",
+                        "lex_auth_0128411759563325442405",
+                        "lex_auth_0128411815771668482401"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-wrap\" style=\"min-height:160px;background-color:#00646e\"><div class=\"sm:w-48 w-full sm:ml-4 mb-4 sm:mr-4 flex items-end justify-center\" style=\"background-color:{{bgColor}};\"><div class=\"text-white leading-normal font-semibold text-2xl p-2 text-center\" style=\"bottom:0px\"> {{title}}<\/div><\/div><div class=\"flex flex wrap flex-col\">{{#rightSection}}<div class=\"sm:w-48 p-3 text-2xl leading-tight font-semibold text-white\">{{title}}<\/div>{{\/rightSection}}<\/div><\/div>",
+                "templateData": {
+                  "title": "Co-create with customer",
+                  "bgColor": "#c27724",
+                  "rightSection": [
+                    {
+                      "title": "Project Management"
+                    },
+                    {
+                      "title": "Value proposition and business modeling"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "project_management",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/project-management.png",
+                            "altText": "Project Management"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "project_management"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411791554969602386",
+                        "lex_auth_0128411813675417602384",
+                        "lex_auth_0128411815193231362379",
+                        "lex_auth_0128411766225223682385",
+                        "lex_auth_0128411812845977602381",
+                        "lex_auth_0128411773586636802388",
+                        "lex_auth_0128411781343313922383",
+                        "lex_auth_0128411675803811841528"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "value_proposition",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/value-proposition.png",
+                            "altText": "Value Proposition"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "value_proposition"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411863121592322926",
+                        "lex_auth_0128411824762224642930",
+                        "lex_auth_0128411802242088962929",
+                        "lex_auth_0128411754802053122392"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-wrap\" style=\"min-height:160px;background-color:#00646e\"><div class=\"sm:w-48 w-full sm:ml-4 mb-4 sm:mr-4 flex items-end justify-center\" style=\"background-color:{{bgColor}};\"><div class=\"text-white leading-normal font-semibold text-2xl p-2 text-center\" style=\"bottom:0px\"> {{title}}<\/div><\/div><div class=\"flex flex wrap flex-col\">{{#rightSection}}<div class=\"sm:w-48 p-3 text-2xl leading-tight font-semibold text-white\">{{title}}<\/div>{{\/rightSection}}<\/div><\/div>",
+                "templateData": {
+                  "title": "Manage co-creation project",
+                  "bgColor": "#597e40",
+                  "rightSection": [
+                    {
+                      "title": "Leadership"
+                    },
+                    {
+                      "title": "Collaboration"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "leadership",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/leadership.png",
+                            "altText": "Leadership"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "leadership"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411790563246082399",
+                        "lex_auth_0128411762899517442403",
+                        "lex_auth_0128411799210803202407"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "collaboration",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/customer-value-co-creation/collaboration.png",
+                            "altText": "Collaboration"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "collaboration"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411782882181122404",
+                        "lex_auth_0128411748559257602406"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

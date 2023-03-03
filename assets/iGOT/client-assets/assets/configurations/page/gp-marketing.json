@@ -1,0 +1,810 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "GP Marketing"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 9,
+              "medium": 8
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1200,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundStyle}}\" class=\"h-full w-full\"><div class=\"flex py-8 mb-40\"><div style=\"background: white\" class=\"font-medium leading-tight text-3xl md:text-4xl text-black p-4 mr-2\">{{title}}</div></div><div class=\"flex py-8\"><div style=\"background: white\" class=\"font-medium leading-tight text-black text-xl md:text-2xl p-4\">{{subTitle}}</div></div></div>",
+                        "templateData": {
+                          "backgroundStyle": "background-repeat: no-repeat; background-size:100% 100%; background-image: url('/assets/instances/Siemens/gps-marketing/kv-1024.jpg');",
+                          "title": "Gas & Power",
+                          "subTitle": "The Marketing Learning Channel - learning never stops!"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 950,
+                    "maxWidth": 1199,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundStyle}}\" class=\"h-full w-full\"><div class=\"flex py-8 mb-40\"><div style=\"background: white\" class=\"font-medium leading-tight text-3xl md:text-4xl text-black p-4 mr-2\">{{title}}</div></div><div class=\"flex py-8\"><div style=\"background: white\" class=\"font-medium leading-tight text-black text-xl md:text-2xl p-4\">{{subTitle}}</div></div></div>",
+                        "templateData": {
+                          "backgroundStyle": "background-repeat: no-repeat; background-size:100% 100%; background-image: url('/assets/instances/Siemens/gps-marketing/kv-1024.jpg');",
+                          "title": "Gas & Power",
+                          "subTitle": "The Marketing Learning Channel - learning never stops!"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 949,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundStyle}}\" class=\"h-full w-full\"><div class=\"flex py-8 mb-40\"><div style=\"background: white\" class=\"font-medium leading-tight text-3xl md:text-4xl text-black p-4 mr-2\">{{title}}</div></div><div class=\"flex py-8\"><div style=\"background: white\" class=\"font-medium leading-tight text-black text-xl md:text-2xl p-4\">{{subTitle}}</div></div></div>",
+                        "templateData": {
+                          "backgroundStyle": "background-repeat: no-repeat; background-size:100% 100%; background-image: url('/assets/instances/Siemens/gps-marketing/kv-768.jpg');",
+                          "title": "Gas & Power",
+                          "subTitle": "The Marketing Learning Channel - learning never stops!"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundStyle}}\" class=\"h-full w-full\"><div class=\"flex py-8 mb-40\"><div style=\"background: white\" class=\"font-medium leading-tight text-3xl md:text-4xl text-black p-4 mr-2\">{{title}}</div></div><div class=\"flex py-8\"><div style=\"background: white\" class=\"font-medium leading-tight text-black text-xl md:text-2xl p-4\">{{subTitle}}</div></div></div>",
+                        "templateData": {
+                          "backgroundStyle": "background-repeat: no-repeat; background-size:100% 100%; background-image: url('/assets/instances/Siemens/gps-marketing/kv-414.jpg');",
+                          "title": "Gas & Power",
+                          "subTitle": "The Marketing Learning Channel - learning never stops!"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundStyle}}\" class=\"h-full w-full\"><div class=\"flex py-8 mb-40\"><div style=\"background: white\" class=\"font-medium leading-tight text-3xl md:text-4xl text-black p-4 mr-2\">{{title}}</div></div><div class=\"flex py-8\"><div style=\"background: white\" class=\"font-medium leading-tight text-black text-xl md:text-2xl p-4\">{{subTitle}}</div></div></div>",
+                        "templateData": {
+                          "backgroundStyle": "background-repeat: no-repeat; background-size:100% 100%; background-image: url('/assets/instances/Siemens/gps-marketing/kv-320.jpg');",
+                          "title": "Gas & Power",
+                          "subTitle": "The Marketing Learning Channel - learning never stops!"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: #ffffff\" class=\"text-2xl font-semibold bg-blue-400 pl-4 pr-3 text-black py-6 w-3/4 leading-none\"> {{title}} </span></div> {{#items}} <a href=\"{{link}}\" class=\"w-full h-auto block my-2\"><div class=\"flex justify-center\"><div class=\"w-full h-full flex items-center border-2 border-solid justify-center text-center text-base md:text-xl font-semibold\" style=\"{{style}}\"><div class=\"h-16 flex items-center p-3\">{{leftText}}</div></div></div> </a> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/gps-marketing/artboard.jpg",
+                  "title": "What are you looking for?",
+                  "items": [
+                    {
+                      "style": "color: #ffffff; background: #42AAAB; margin-top: 0.25rem",
+                      "leftText": "Learning path & add-ons",
+                      "link": "./page/gp-marketing#learning_path"
+                    },
+                    {
+                      "style": "color: #ffffff; background: #00646E; margin-top: 0.25rem",
+                      "leftText": "Tools & templates",
+                      "link": "./page/gp-marketing#tools_templates"
+                    },
+                    {
+                      "style": "color: #ffffff; background: #4FB8D5; margin-top: 0.25rem",
+                      "leftText": "Learning from colleagues",
+                      "link": "./page/gp-marketing#learn_from_colleagues"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"h-full w-full\"> <img class=\"w-full\" src=\"{{imageSrc}}\"/><div class=\"text-center m-3\"><div class=\"font-medium text-xl m-1 leading-tight\">\"{{description}}\"</div><div class=\"font-normal text-base py-4\">Vinod Philip</div></div></div>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/gps-marketing/thumbnail.png",
+                  "description": "Don't see this as an investment of time for the company. See it as an investment of time for yourself."
+                },
+                "containerClass": "mat-elevation-z4 h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+            },
+            "className": "order-1"
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1010,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col\"><div class=\"font-medium text-center leading-tight text-xl md:text-2xl p-4 m-1\">{{title1}}</div> <a href={{imagelink}}><img src={{imageUrl}} style=\"width: 100%\" class=\"h-full\"/></a><div class=\"font-medium text-xl leading-tight p-4 m-1\">{{title2}}</div></div>",
+                        "templateData": {
+                          "title1": "Click here to start your Learning Journey",
+                          "imageUrl": "/assets/instances/Siemens/gps-marketing/dns-1024.jpg",
+                          "imagelink": "https://intranet.learning-campus.siemens.com/start.do?redirect=/E-LEARNING/en/bookandstart/dewgpsmarkpen01.do",
+                          "title2": "Please note: This learning path is prework to participate in our Marketing training events."
+                        },
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1009,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col\"><div class=\"font-medium text-center leading-tight text-black text-xl md:text-2xl p-4 m-1\">{{title1}}</div> <a href={{imagelink}}><img src={{imageUrl}} style=\"width: 100%\" class=\"h-full\"/></a><div class=\"font-medium text-xl leading-tight p-4 m-1\">{{title2}}</div></div>",
+                        "templateData": {
+                          "title1": "Click here to start your Learning Journey",
+                          "imageUrl": "/assets/instances/Siemens/gps-marketing/dns-768.jpg",
+                          "imagelink": "https://intranet.learning-campus.siemens.com/start.do?redirect=/E-LEARNING/en/bookandstart/dewgpsmarkpen01.do",
+                          "title2": "Please note: This learning path is prework to participate in our Marketing training events."
+                        },
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col\"><div class=\"font-medium text-center leading-tight text-black text-xl md:text-2xl p-4 m-1\">{{title1}}</div> <a href={{imagelink}}><img src={{imageUrl}} style=\"width: 100%\" class=\"h-full\"/></a><div class=\"font-medium text-xl leading-tight p-4 m-1\">{{title2}}</div></div>",
+                        "templateData": {
+                          "title1": "Click here to start your Learning Journey",
+                          "imageUrl": "/assets/instances/Siemens/gps-marketing/dns-414.jpg",
+                          "imagelink": "https://intranet.learning-campus.siemens.com/start.do?redirect=/E-LEARNING/en/bookandstart/dewgpsmarkpen01.do",
+                          "title2": "Please note: This learning path is prework to participate in our Marketing training events."
+                        },
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col\"><div class=\"font-medium text-center leading-tight text-xl md:text-2xl p-4 m-1\">{{title1}}</div> <a href={{imagelink}}><img src={{imageUrl}} style=\"width: 100%\" class=\"h-full\"/></a><div class=\"font-medium text-xl leading-tight p-4 m-1\">{{title2}}</div></div>",
+                        "templateData": {
+                          "title1": "Click here to start your Learning Journey",
+                          "imageUrl": "/assets/instances/Siemens/gps-marketing/dns-320.jpg",
+                          "imagelink": "https://intranet.learning-campus.siemens.com/start.do?redirect=/E-LEARNING/en/bookandstart/dewgpsmarkpen01.do",
+                          "title2": "Please note: This learning path is prework to participate in our Marketing training events."
+                        },
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:px-0"
+            },
+            "className": "order-2 sm:order-3 lg:order-2"
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"h-full items-center justify-center flex w-full\"><div class=\"text-center m-3\"><div class=\"font-medium text-lg m-1 leading-tight\">\"{{description}}\"</div><div class=\"font-normal text-base py-4\">Vinod Philip</div></div></div>",
+                "templateData": {
+                  "description": "The way we use to market, the way we used to sell our services has dramatically changed. It is gone from being a product based sales approach to more of a value or solution based sales approach. Very often the ability to sell depends on how we position our services and solutions in the market. That's where marketing comes in. We have to do that in ways that are new. We have to do that in ways, where we are creating the value together with our customers."
+                },
+                "containerClass": "mat-elevation-z4 h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full"
+            },
+            "className": "order-3 sm:order-2 lg:order-3"
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Continue your learning journey based on your personal interests..."
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "learning_path",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-12 -mb-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "understanding_the_markets",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/understanding.png",
+                            "altText": "Understanding the markets"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "understanding_the_markets"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411883851202564132",
+                        "lex_auth_0128411898091192323527",
+                        "lex_auth_0128411862121922563589",
+                        "lex_auth_0128411908481187843442"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "creating_value",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/creating-value.png",
+                            "altText": "Creating Value"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "creating_value"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411886545551364135",
+                        "lex_auth_0128411881804431363208",
+                        "lex_auth_0128411864109137923016",
+                        "lex_auth_0128411778349547522815",
+                        "lex_auth_0128411849948528643435"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "communicating_values",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/communicating-values.png",
+                            "altText": "Communicating Values"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "communicating_values"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411907877765124140",
+                        "lex_auth_0128411734670950402083",
+                        "lex_auth_0128411800104550402560",
+                        "lex_auth_0128411686023577601667",
+                        "lex_auth_0128411835981332483216",
+                        "lex_auth_0128411780454727682040"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "digital_content_marketing",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/digital-content-marketing.png",
+                            "altText": "Digital Content Marketing"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "digital_content_marketing"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411959183441924136",
+                        "lex_auth_0128411627889377281167",
+                        "lex_auth_0128411686240501761407",
+                        "lex_auth_0128411835981332483216",
+                        "lex_auth_0128411639423713281141"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "tools_templates",
+                    "title": "Benefit from available tools and templates...",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/tools-templates.png",
+                            "altText": "Tools & Templates"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "tools_templates"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411939788963843825",
+                        "lex_auth_0128411844184473603204",
+                        "lex_auth_0128411857462640642850",
+                        "lex_auth_0128411849695232003240",
+                        "lex_auth_0128411845600051203467"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "learn_from_colleagues",
+                    "title": "Learn from your colleagues...",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/best-practice.png",
+                            "altText": "Learn from your colleagues"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "learn_from_colleagues"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411880829829123436",
+                        "lex_auth_0128411847927971843609",
+                        "lex_auth_0128411916381061123605"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_5002iujq",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_5002iujq/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_sww4di4h",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_sww4di4h/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pl-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_15eakvo3",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_15eakvo3/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_gbjy26oh",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_gbjy26oh/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pl-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_0ejfn3hx",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_0ejfn3hx/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_vfucao3y",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_vfucao3y/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pl-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_6rbdd6m5",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_6rbdd6m5/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_qg5z6ate",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_qg5z6ate/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pl-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "get_in_contact",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/gps-marketing/get-in-contact.png",
+                            "altText": "Get in Contact"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "get_in_contact"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411886692597763596",
+                        "lex_auth_0128411845679267843547",
+                        "lex_auth_0128411928745082883865"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,623 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "Omnetric"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 12,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "imageHeight": "630",
+                "imageWidth": "492",
+                "imageSrc": "/assets/instances/Siemens/omnetric/welcome-to-omnetric.png",
+                "mapName": "map-welcome-omnetric",
+                "map": [
+                  {
+                    "coords": [
+                      4,
+                      490,
+                      627,
+                      2
+                    ],
+                    "alt": "Siemens & Online Learning Tools",
+                    "title": "Siemens & Online Learning Tools",
+                    "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/Omnetric/Overview_Siemens&amp;amp;online_Learning_tools.pdf",
+                    "target": ""
+                  }
+                ],
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block lg:pr-0 px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "sales-competencies"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 12,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "imageHeight": "493",
+                "imageWidth": "732",
+                "imageSrc": "/assets/instances/Siemens/omnetric/omnetric-learning.png",
+                "mapName": "map-omnetric",
+                "map": [
+                  {
+                    "coords": [
+                      52,
+                      96,
+                      108,
+                      78
+                    ],
+                    "alt": "Know How",
+                    "title": "Know How",
+                    "link": "./page/omnetric#know_how",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      180,
+                      38,
+                      247,
+                      24
+                    ],
+                    "alt": "#Smart Grid",
+                    "title": "#Smart Grid",
+                    "link": "./app/search/learning?q=smart grid",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      179,
+                      42,
+                      249,
+                      54
+                    ],
+                    "alt": "#Big Data",
+                    "title": "#Big Data",
+                    "link": "./app/search/learning?q=big data",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      179,
+                      42,
+                      249,
+                      54
+                    ],
+                    "alt": "#IoT",
+                    "title": "#IoT",
+                    "link": "./app/search/learning?q=iot",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      181,
+                      73,
+                      376,
+                      88
+                    ],
+                    "alt": "#Meter data management systems",
+                    "title": "#Meter data management systems",
+                    "link": "./app/search/learning?q=meter data management systems",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      507,
+                      23,
+                      587,
+                      37
+                    ],
+                    "alt": "#Certifications",
+                    "title": "#Certifications",
+                    "link": "./app/search/learning?q=certifications",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      505,
+                      56,
+                      618,
+                      41
+                    ],
+                    "alt": "#Energy technology",
+                    "title": "#Energy technology",
+                    "link": "./app/search/learning?q=energy technology",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      508,
+                      60,
+                      619,
+                      70
+                    ],
+                    "alt": "#innovative mindset",
+                    "title": "#innovative mindset",
+                    "link": "./app/search/learning?q=innovative mindset",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      507,
+                      75,
+                      570,
+                      87
+                    ],
+                    "alt": "#Creativity",
+                    "title": "#Creativity",
+                    "link": "./app/search/learning?q=creativity",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      64,
+                      193,
+                      162,
+                      175
+                    ],
+                    "alt": "Entrepreneurship",
+                    "title": "Entrepreneurship",
+                    "link": "./page/omnetric#entrepreneurship",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      211,
+                      135,
+                      340,
+                      146
+                    ],
+                    "alt": "#Project management",
+                    "title": "#Project management",
+                    "link": "./app/search/learning?q=project management",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      213,
+                      154,
+                      301,
+                      164
+                    ],
+                    "alt": "#Agile working",
+                    "title": "#Agile working",
+                    "link": "./app/search/learning?q=agile working",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      213,
+                      169,
+                      318,
+                      178
+                    ],
+                    "alt": "#Financial acumen",
+                    "title": "#Financial acumen",
+                    "link": "./app/search/learning?q=financial acumen",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      567,
+                      136,
+                      634,
+                      145
+                    ],
+                    "alt": "#Ownership",
+                    "title": "#Ownership",
+                    "link": "ownership",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      566,
+                      151,
+                      601,
+                      164
+                    ],
+                    "alt": " #Sales",
+                    "title": " #Sales",
+                    "link": "./app/search/learning?q=sales",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      177,
+                      229,
+                      316,
+                      239
+                    ],
+                    "alt": " #Stakeholder interaction",
+                    "title": " #Stakeholder interaction",
+                    "link": "./app/search/learning?q=stakeholder interaction",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      37,
+                      266,
+                      122,
+                      289
+                    ],
+                    "alt": "#Stakeholder Management",
+                    "title": "#Stakeholder Management",
+                    "link": "./page/omnetric#stakeholder_management",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      180,
+                      260,
+                      280,
+                      270
+                    ],
+                    "alt": "#Communication",
+                    "title": "#Communication",
+                    "link": "./app/search/learning?q=communications",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      91,
+                      372,
+                      140,
+                      384
+                    ],
+                    "alt": "People",
+                    "title": "People",
+                    "link": "./page/omnetric#stakeholder_management",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      210,
+                      323,
+                      284,
+                      333
+                    ],
+                    "alt": "#Leadership",
+                    "title": "#Leadership",
+                    "link": "./app/search/learning?q=leadership",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      211,
+                      339,
+                      297,
+                      350
+                    ],
+                    "alt": "#Collaboration",
+                    "title": "#Collaboration",
+                    "link": "./app/search/learning?q=collaboration",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      211,
+                      356,
+                      282,
+                      367
+                    ],
+                    "alt": "#Motivation",
+                    "title": "#Motivation",
+                    "link": "./app/search/learning?q=motivation",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      509,
+                      323,
+                      574,
+                      335
+                    ],
+                    "alt": "#Coaching",
+                    "title": "#Coaching",
+                    "link": "./app/search/learning?q=coaching",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      511,
+                      337,
+                      637,
+                      351
+                    ],
+                    "alt": "#Selforganizing teams",
+                    "title": "#Selforganizing teams",
+                    "link": "./app/search/learning?q=selforganizing teams",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      48,
+                      462,
+                      121,
+                      488
+                    ],
+                    "alt": "Useful Information",
+                    "title": "Useful Information",
+                    "link": "./page/omnetric#useful_information",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      175,
+                      423,
+                      247,
+                      437
+                    ],
+                    "alt": "#IT support",
+                    "title": "#IT support",
+                    "link": "./app/search/learning?q=it support",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      178,
+                      441,
+                      269,
+                      453
+                    ],
+                    "alt": "#Learning Tools",
+                    "title": "#Learning Tools",
+                    "link": "./app/search/learning?q=learning tools",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      177,
+                      456,
+                      265,
+                      470
+                    ],
+                    "alt": "#Mindfulness",
+                    "title": "#Mindfulness",
+                    "link": "./app/search/learning?q=mindfulness",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      177,
+                      244,
+                      257,
+                      254
+                    ],
+                    "alt": "#Networking",
+                    "title": "#Networking",
+                    "link": "./app/search/learning?q=networking",
+                    "target": ""
+                  }
+                ],
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block lg:pl-0 px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "sales-competencies"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "know_how",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/omnetric/know-how.png",
+                            "altText": "Have Fun Exploring"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "know_how",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284110543423897633",
+                        "lex_auth_0128411867102740483440",
+                        "lex_auth_0128411873517649923439",
+                        "lex_auth_0128411658920509441514",
+                        "lex_auth_0128411671849369601594",
+                        "lex_auth_0128411721418342401554",
+                        "lex_auth_0128411867803238403441",
+                        "lex_auth_0128411901573775363646"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "entrepreneurship",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/omnetric/lets-get-started.png",
+                            "altText": "Entrepreneurship"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "entrepreneurship",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411697033216001723",
+                        "lex_auth_0128411794053693442443",
+                        "lex_auth_0128411851848171522955",
+                        "lex_auth_0128411883831541763443",
+                        "lex_auth_0128411717916590081701",
+                        "lex_auth_0128411888839147523446",
+                        "lex_auth_0128411758410547202456",
+                        "lex_auth_0128411800392990722589",
+                        "lex_auth_0128411892755169283528"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "stakeholder_management",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/omnetric/next-level.png",
+                            "altText": "Stakeholder Management"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "stakeholder_management",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411781586124802400",
+                        "lex_auth_0128411800104550402560",
+                        "lex_auth_0128411808503152642503",
+                        "lex_auth_0128411753760030722087",
+                        "lex_auth_0128411885825310723169",
+                        "lex_auth_0128411746341027841982",
+                        "lex_auth_0128411914300948483611",
+                        "lex_auth_0128411914628218883616",
+                        "lex_auth_0128411906044477443898",
+                        "lex_auth_0128411780454727682040",
+                        "lex_auth_0128411800491622402681"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "people",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/omnetric/learning-fun.png",
+                            "altText": "People"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "people",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411900049981443651",
+                        "lex_auth_0128411797374976002946",
+                        "lex_auth_012841165615890432782",
+                        "lex_auth_0128411726184775681838",
+                        "lex_auth_0128411856367370242908",
+                        "lex_auth_0128411931219230723864",
+                        "lex_auth_0128411897919897603866",
+                        "lex_auth_01284174569251635233"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "useful_information",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/omnetric/have-look.png",
+                            "altText": "Useful Information"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "useful_information",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411921111121923869",
+                        "lex_auth_012841106627321856232",
+                        "lex_auth_0128411722687365121673",
+                        "lex_auth_0128411842908405762962",
+                        "lex_auth_0128411717945589761967",
+                        "lex_auth_0128411719641825281675",
+                        "lex_auth_0128411819549327362573",
+                        "lex_auth_0128411867441152003438",
+                        "lex_auth_0128411716546150401674",
+                        "lex_auth_012841107629965312231",
+                        "lex_auth_0128411703368663041681"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

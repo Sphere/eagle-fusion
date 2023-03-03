@@ -1,0 +1,47 @@
+{
+    "tabs": [
+        {
+            "name": "Tab 1",
+            "key": "tab1",
+            "dataKey": "",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": "."
+        },
+        {
+            "name": "Tab 2",
+            "key": "tab2",
+            "dataKey": "",
+            "render": true,
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": "."
+        }
+    ],
+    "banner": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "style": {
+            "border-radius": "12px"
+        },
+        "widgetData": [
+            {
+                "banners": {
+                    "l": "assets/instances/eagle/banners/hubs/competencies/l.jpg",
+                    "m": "assets/instances/eagle/banners/hubs/competencies/m.jpg",
+                    "s": "assets/instances/eagle/banners/hubs/competencies/s.jpg",
+                    "xl": "assets/instances/eagle/banners/hubs/competencies/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/hubs/competencies/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/hubs/competencies/xxl.jpg"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,46 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "noDataWidget": {
+        "widgetData": {
+          "errorType": "contentUnavailable"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "loader": true,
+      "errorWidget": {
+        "widgetData": {
+          "errorType": "internalServer"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "strips": [{
+        "key": "Experience",
+        "title": "Experience",
+        "stripConfig": {
+          "cardSubType": "standard",
+          "postCardForSearch": true
+        },
+        "filters": [],
+        "request": {
+          "search": {
+            "filters": {
+              "learningMode": ["Self-Paced"],
+              "catalogPaths": ["Marketing>Experiential Showcase"]
+            },
+            "pageNo": 0,
+            "query": "",
+            "sortBy": "lastUpdatedOn",
+            "sortOrder": "DESC"
+          }
+        }
+      }]
+    },
+
+    "widgetSubType": "contentStripMultiple",
+    "widgetType": "contentStrip"
+  }
+}

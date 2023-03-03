@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "Behavioural Skills"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex-sci.infosysapps.com/gettingTokenLnD",
+      "Title": "Behavioural Skills"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

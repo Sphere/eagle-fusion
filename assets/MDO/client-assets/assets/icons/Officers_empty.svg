@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="87px" height="86px" viewBox="0 0 87 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Officers_empty</title>
+    <defs>
+        <linearGradient x1="14.5606192%" y1="3.59640212%" x2="96.8412344%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#E8E8E8" offset="0%"></stop>
+            <stop stop-color="#B8B8B8" offset="59.5309064%"></stop>
+            <stop stop-color="#BCBCBC" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-2">
+            <stop stop-color="#D2D2D2" offset="0%"></stop>
+            <stop stop-color="#E8E8E8" offset="50.28%"></stop>
+            <stop stop-color="#F6F6F6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="WAT---2.2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="WAT---empty-" transform="translate(-677.000000, -387.000000)" fill-rule="nonzero">
+            <g id="Group-2" transform="translate(611.000000, 387.000000)">
+                <g id="Officers_empty" transform="translate(66.500000, 0.000000)">
+                    <circle id="Oval" fill="url(#linearGradient-1)" cx="43" cy="43" r="43"></circle>
+                    <path d="M55.7777778,28.6731302 C55.7777778,21.6851662 50.0456667,16 43,16 C35.9543333,16 30.2222222,21.6851662 30.2222222,28.6731302 C30.2222222,35.6610942 35.9543333,41.3462604 43,41.3462604 C50.0456667,41.3462604 55.7777778,35.6610942 55.7777778,28.6731302 Z M43,41.3462604 C30.3178,41.3462604 20,51.5795596 20,64.1578947 L20,66.5333463 C20,67.253856 20.3090519,67.9402327 20.8501481,68.4209668 C27.0751407,73.9532105 34.9414815,77 43,77 C51.0586889,77 58.9250296,73.9532105 65.1498519,68.4209668 C65.6909481,67.9402327 66,67.253687 66,66.5333463 L66,64.1578947 C66,51.5795596 55.6822,41.3462604 43,41.3462604 Z" id="Shape" fill="url(#linearGradient-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

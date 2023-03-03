@@ -1,0 +1,1332 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "UseIT China Learning Portal"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 9,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1376,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "991",
+                        "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/learning-portal.jpg",
+                        "mapName": "map-learning-portal",
+                        "map": [
+                          {
+                            "coords": [
+                              42,
+                              136,
+                              242,
+                              166
+                            ],
+                            "alt": "CN IT TECH-BAR",
+                            "title": "CN IT TECH-BAR",
+                            "link": "https://cms.siemens.com.cn/sites/RCCNITUN/Shared%20Documents/IT%20TECH-BAR%20Poster%20BJ%20SHA.pdf",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              73,
+                              400,
+                              276,
+                              433
+                            ],
+                            "alt": "CN IT E-order",
+                            "title": "CN IT E-order",
+                            "link": "https://itserviceportal.siemens.com.cn/ITeOrder/Default.aspx",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              764,
+                              400,
+                              963,
+                              433
+                            ],
+                            "alt": "TW IT E-form",
+                            "title": "TW IT E-form",
+                            "link": "https://intranet.siemens.com.tw/tools/InAppForm/",
+                            "target": "_blank"
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 1024,
+                    "maxWidth": 1375,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "390",
+                        "imageWidth": "768",
+                        "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/learning-portal-768.jpg",
+                        "mapName": "map-learning-portal",
+                        "map": [
+                          {
+                            "coords": [
+                              15,
+                              111,
+                              176,
+                              132
+                            ],
+                            "alt": "CN IT TECH-BAR",
+                            "title": "CN IT TECH-BAR",
+                            "link": "https://cms.siemens.com.cn/sites/RCCNITUN/Shared%20Documents/IT%20TECH-BAR%20Poster%20BJ%20SHA.pdf",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              43,
+                              323,
+                              204,
+                              348
+                            ],
+                            "alt": "CN IT E-order",
+                            "title": "CN IT E-order",
+                            "link": "https://itserviceportal.siemens.com.cn/ITeOrder/Default.aspx",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              596,
+                              322,
+                              756,
+                              346
+                            ],
+                            "alt": "TW IT E-form",
+                            "title": "TW IT E-form",
+                            "link": "https://intranet.siemens.com.tw/tools/InAppForm/",
+                            "target": "_blank"
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+                      "widgetInstanceId": "own_your_career"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 1023,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"font-bold text-center text-2xl items-center justify-center p-4 flex leading-normal\"><div class=\"p-4\" style=\"{{boxStyle}}\"> {{boxTitle}}<\/div><\/div><div class=\"w-full flex flex-wrap justify-center\"> {{#items}} <a target=\"_blank\" href=\"{{link}}\" class=\"w-48 m-4\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-semibold\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div>",
+                        "templateData": {
+                          "boxTitle": "UseIT Chine Learning Portal",
+                          "boxStyle": " opacity:0.8; color: white; background: #3868a6;",
+                          "items": [
+                            {
+                              "style": "color: white; background: #3868a6; opacity:0.8;",
+                              "title": "CN IT TECH-BAR",
+                              "link": "https://cms.siemens.com.cn/sites/RCCNITUN/Shared%20Documents/IT%20TECH-BAR%20Poster%20BJ%20SHA.pdf"
+                            },
+                            {
+                              "style": "color: white; background: #3868a6; opacity:0.8;",
+                              "title": "CN IT E-order",
+                              "link": "https://itserviceportal.siemens.com.cn/ITeOrder/Default.aspx"
+                            },
+                            {
+                              "style": "color: white; background: #3868a6; opacity:0.8;",
+                              "title": "TW IT E-form",
+                              "link": "https://intranet.siemens.com.tw/tools/InAppForm/"
+                            }
+                          ]
+                        },
+                        "containerClass": "mat-elevation-z4 h-full",
+                        "containerStyle": {
+                          "background-image": "url('/assets/instances/Siemens/use-it-china-learning-portal/learning-background.jpg')",
+                          "background-repeat": "no-repeat",
+                          "background-size": "cover"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full md:pr-0"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"font-bold text-2xl pb-4 leading-normal\">{{boxTitle}}<\/div><div class=\"w-full flex-col flex-wrap justify-center\"> {{#items}} <a target=\"_blank\" href=\"{{link}}\" class=\"w-full h-12 sm:h-16 sm:w-1/2 md:w-1/3 m-1\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-semibold  rounded-full\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div>",
+                "templateData": {
+                  "boxTitle": "Helpful links",
+                  "items": [
+                    {
+                      "style": "color: white; background:  #3868a6;",
+                      "title": "CN IT Hotline +86(10)89946555"
+                    },
+                    {
+                      "style": "color: white; background:  #3868a6;",
+                      "title": "TW IT Hotline +886809099866"
+                    },
+                    {
+                      "style": "color: white; background:  #3868a6;",
+                      "title": "HK IT Hotline +852800906516"
+                    },
+                    {
+                      "style": "color: white; background:  #3868a6;",
+                      "title": "myIT Portal",
+                      "link": "https://siemens.service-now.com/myIT/"
+                    },
+                    {
+                      "style": "color: white; background:  #3868a6;",
+                      "title": "China IT Community",
+                      "link": "https://www.yammer.com/siemens.com/#/threads/inGroup?type=in_group&feedId=220774400&view=all"
+                    }
+                  ]
+                },
+                "containerClass": "mat-elevation-z4 p-4",
+                "containerStyle": {
+                  "background-image": "url('/assets/instances/Siemens/use-it-china-learning-portal/helpful-links-background.jpg')",
+                  "background-repeat": "no-repeat",
+                  "background-size": "cover"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "competence_build_up",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{link}}\" target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/><\/a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/get-started.png",
+                            "altText": "Get started",
+                            "link": "https://learningworld.siemens.com/entry/several-it-things-to-know-to-siemens-new-comers"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{__pageBase}}#{{bookmarkRef}}\" target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/><\/a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/new-it-services.png",
+                            "altText": "New IT Services",
+                            "bookmarkRef": "new_it_services"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{__pageBase}}#{{bookmarkRef}}\" target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/><\/a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/hot-it-services.png",
+                            "altText": "Hot IT Services",
+                            "bookmarkRef": "hot_it_services"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{__pageBase}}#{{bookmarkRef}}\" target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/><\/a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/it-professional-knowledge.png",
+                            "altText": "IT Professional Knowledge",
+                            "bookmarkRef": "it_professional_knowledge"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetSubType": "galleryView",
+              "widgetType": "gallery",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 max-w-full overflow-hidden",
+              "widgetData": {
+                "designVal": "set1",
+                "widgetPlayer": {
+                  "style": {
+                    "height": "400px"
+                  }
+                },
+                "cardMenu": [
+                  {
+                    "cardData": {
+                      "title": "Welcome Video",
+                      "description": "Welcome video @ Siemens",
+                      "thumbnail": "/assets/instances/Siemens/use-it-china-learning-portal/welcome-video-poster.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_8yqhj2rh",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_8yqhj2rh/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "How to create a ticket on myIT",
+                      "description": "How to create a ticket on myIT @...",
+                      "thumbnail": "/assets/instances/Siemens/use-it-china-learning-portal/how-to-create.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_f1d593k4",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_f1d593k4/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "How to use URA 2.0",
+                      "description": "How to use URA 2.0 @ Siemens",
+                      "thumbnail": "/assets/instances/Siemens/use-it-china-learning-portal/how-to-use-URA.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_1xgvfy14",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_1xgvfy14/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Office 365",
+                      "description": "Office 365 @ Siemens",
+                      "thumbnail": "/assets/instances/Siemens/use-it-china-learning-portal/office-365.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_rqfcn1n9",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_rqfcn1n9/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Yammer",
+                      "description": "Yammer",
+                      "thumbnail": "/assets/instances/Siemens/use-it-china-learning-portal/yammer.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_qmybmddo",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_qmybmddo/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "How to install SAA on iPhone @ Siemens",
+                      "description": "How to install SAA on iPhone @ Siemens",
+                      "thumbnail": "/assets/instances/Siemens/use-it-china-learning-portal/saa-phone.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_ylj8is5b",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_ylj8is5b/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "it_things_to_know",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411926596812804001"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "new_it_services",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/new-it-services.png",
+                            "altText": "New IT services"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411952081551364118",
+                        "lex_auth_0128411906767093764365",
+                        "lex_auth_0128411936353976324106",
+                        "lex_auth_0128411905364049924113"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1376,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1376",
+                        "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/hot-it-services-1376.jpg",
+                        "mapName": "map-hot-it-services",
+                        "map": [
+                          {
+                            "coords": [
+                              418,
+                              178,
+                              326,
+                              153
+                            ],
+                            "alt": "Syncplicity",
+                            "title": "Syncplicity",
+                            "link": "/app/toc/lex_auth_0128411924269629444123/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              443,
+                              167,
+                              516,
+                              144
+                            ],
+                            "alt": "Data Lake",
+                            "title": "Data Lake",
+                            "link": "/app/toc/lex_auth_0128411906767093764365/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              397,
+                              262,
+                              443,
+                              280
+                            ],
+                            "alt": "HaaS",
+                            "title": "HaaS",
+                            "link": "/app/toc/lex_auth_0128411902099210244107/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              444,
+                              310,
+                              495,
+                              330
+                            ],
+                            "alt": "GIA",
+                            "title": "GIA",
+                            "link": "/app/toc/lex_auth_0128411936353976324106/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              573,
+                              279,
+                              635,
+                              300
+                            ],
+                            "alt": "URA",
+                            "title": "URA",
+                            "link": "/app/toc/lex_auth_0128411905364049924113/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              797,
+                              220,
+                              886,
+                              243
+                            ],
+                            "alt": "Office 365",
+                            "title": "Office 365",
+                            "link": "/app/toc/lex_auth_0128411905364049924113/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              895,
+                              223,
+                              956,
+                              245
+                            ],
+                            "alt": "Circuit",
+                            "title": "Circuit",
+                            "link": "/app/toc/lex_auth_0128411947523358724105/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              1037,
+                              182,
+                              1081,
+                              204
+                            ],
+                            "alt": "SAA",
+                            "title": "SAA",
+                            "link": "/app/toc/lex_auth_0128411917558743044119/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              1165,
+                              225,
+                              1242,
+                              270
+                            ],
+                            "alt": "Mobile Working",
+                            "title": "Mobile Working",
+                            "link": "/app/toc/lex_auth_0128411947736432644141/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              1016,
+                              281,
+                              1068,
+                              305
+                            ],
+                            "alt": "DWP",
+                            "title": "DWP",
+                            "link": "/app/toc/lex_auth_0128411923168215044112/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              1225,
+                              107,
+                              1304,
+                              134
+                            ],
+                            "alt": "Yammer",
+                            "title": "Yammer",
+                            "link": "/app/toc/lex_auth_0128411945058631684138/overview",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 1375,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/hot-it-services-1024.jpg",
+                        "mapName": "map-hot-it-services",
+                        "map": [
+                          {
+                            "coords": [
+                              30,
+                              183,
+                              116,
+                              203
+                            ],
+                            "alt": "Syncplicity",
+                            "title": "Syncplicity",
+                            "link": "/app/toc/lex_auth_0128411924269629444123/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              135,
+                              174,
+                              216,
+                              190
+                            ],
+                            "alt": "Data Lake",
+                            "title": "Data Lake",
+                            "link": "/app/toc/lex_auth_0128411906767093764365/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              91,
+                              284,
+                              147,
+                              307
+                            ],
+                            "alt": "HaaS",
+                            "title": "HaaS",
+                            "link": "/app/toc/lex_auth_0128411902099210244107/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              145,
+                              336,
+                              192,
+                              355
+                            ],
+                            "alt": "GIA",
+                            "title": "GIA",
+                            "link": "/app/toc/lex_auth_0128411936353976324106/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              271,
+                              305,
+                              338,
+                              321
+                            ],
+                            "alt": "URA",
+                            "title": "URA",
+                            "link": "/app/toc/lex_auth_0128411905364049924113/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              491,
+                              245,
+                              576,
+                              263
+                            ],
+                            "alt": "Office 365",
+                            "title": "Office 365",
+                            "link": "/app/toc/lex_auth_0128411905364049924113/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              592,
+                              250,
+                              649,
+                              271
+                            ],
+                            "alt": "Circuit",
+                            "title": "Circuit",
+                            "link": "/app/toc/lex_auth_0128411947523358724105/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              738,
+                              209,
+                              787,
+                              230
+                            ],
+                            "alt": "SAA",
+                            "title": "SAA",
+                            "link": "/app/toc/lex_auth_0128411917558743044119/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              863,
+                              254,
+                              933,
+                              292
+                            ],
+                            "alt": "Mobile Working",
+                            "title": "Mobile Working",
+                            "link": "/app/toc/lex_auth_0128411947736432644141/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              708,
+                              305,
+                              760,
+                              325
+                            ],
+                            "alt": "DWP",
+                            "title": "DWP",
+                            "link": "/app/toc/lex_auth_0128411923168215044112/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              926,
+                              135,
+                              994,
+                              156
+                            ],
+                            "alt": "Yammer",
+                            "title": "Yammer",
+                            "link": "/app/toc/lex_auth_0128411945058631684138/overview",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "800",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/hot-it-services-414.jpg",
+                        "mapName": "map-hot-it-services",
+                        "map": [
+                          {
+                            "coords": [
+                              42,
+                              205,
+                              132,
+                              226
+                            ],
+                            "alt": "Syncplicity",
+                            "title": "Syncplicity",
+                            "link": "/app/toc/lex_auth_0128411924269629444123/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              178,
+                              195,
+                              255,
+                              216
+                            ],
+                            "alt": "Data Lake",
+                            "title": "Data Lake",
+                            "link": "/app/toc/lex_auth_0128411906767093764365/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              120,
+                              321,
+                              173,
+                              342
+                            ],
+                            "alt": "HaaS",
+                            "title": "HaaS",
+                            "link": "/app/toc/lex_auth_0128411902099210244107/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              187,
+                              424,
+                              238,
+                              441
+                            ],
+                            "alt": "GIA",
+                            "title": "GIA",
+                            "link": "/app/toc/lex_auth_0128411936353976324106/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              243,
+                              752,
+                              312,
+                              774
+                            ],
+                            "alt": "URA",
+                            "title": "URA",
+                            "link": "/app/toc/lex_auth_0128411905364049924113/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              41,
+                              422,
+                              127,
+                              439
+                            ],
+                            "alt": "Office 365",
+                            "title": "Office 365",
+                            "link": "/app/toc/lex_auth_0128411905364049924113/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              245,
+                              530,
+                              304,
+                              559
+                            ],
+                            "alt": "Circuit",
+                            "title": "Circuit",
+                            "link": "/app/toc/lex_auth_0128411947523358724105/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              315,
+                              430,
+                              366,
+                              447
+                            ],
+                            "alt": "SAA",
+                            "title": "SAA",
+                            "link": "/app/toc/lex_auth_0128411917558743044119/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              113,
+                              532,
+                              182,
+                              572
+                            ],
+                            "alt": "Mobile Working",
+                            "title": "Mobile Working",
+                            "link": "/app/toc/lex_auth_0128411947736432644141/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              54,
+                              645,
+                              113,
+                              661
+                            ],
+                            "alt": "DWP",
+                            "title": "DWP",
+                            "link": "/app/toc/lex_auth_0128411923168215044112/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              178,
+                              637,
+                              253,
+                              658
+                            ],
+                            "alt": "Yammer",
+                            "title": "Yammer",
+                            "link": "/app/toc/lex_auth_0128411945058631684138/overview",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "it_professional_knowledge",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/use-it-china-learning-portal/it-professional-knowledge.png",
+                            "altText": "IT Professional Knowledge"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "it_professional_knowledge"
+                      }
+                    ],
+                    "request": {
+                      "ids": []
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-my-10"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "655",
+                        "imageSrc": "/assets/instances/Siemens/virtual-collaboration/image-tags.jpg",
+                        "mapName": "map-image-tag",
+                        "map": [
+                          {
+                            "coords": [
+                              95,
+                              222,
+                              547,
+                              266
+                            ],
+                            "alt": "#virtual collaboration",
+                            "title": "#virtual collaboration",
+                            "link": "/app/search/learning?q=virtual collaboration",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              303,
+                              186,
+                              546,
+                              221
+                            ],
+                            "alt": "#best practices",
+                            "title": "#best practices",
+                            "link": "/app/search/learning?q=best practices",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              293,
+                              308,
+                              545,
+                              347
+                            ],
+                            "alt": "#conceptboard",
+                            "title": "#conceptboard",
+                            "link": "/app/search/learning?q=conceptboard",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              67,
+                              121,
+                              245,
+                              155
+                            ],
+                            "alt": "#tips & tricks",
+                            "title": "#tips & tricks",
+                            "link": "/app/search/learning?q=tips & tricks",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              183,
+                              198,
+                              288,
+                              220
+                            ],
+                            "alt": "#teamwork",
+                            "title": "#teamwork",
+                            "link": "/app/search/learning?q=teamwork",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              364,
+                              145,
+                              526,
+                              185
+                            ],
+                            "alt": "#circuit",
+                            "title": "#circuit",
+                            "link": "/app/search/learning?q=circuit",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              297,
+                              108,
+                              550,
+                              133
+                            ],
+                            "alt": "#circuit meeting room",
+                            "title": "#circuit meeting room",
+                            "link": "/app/search/learning?q=circuit meeting room",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              265,
+                              136,
+                              360,
+                              161
+                            ],
+                            "alt": "#english",
+                            "title": "#english",
+                            "link": "/app/search/learning?q=english",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              151,
+                              162,
+                              299,
+                              194
+                            ],
+                            "alt": "#training",
+                            "title": "#training",
+                            "link": "/app/search/learning?q=training",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              195,
+                              266,
+                              440,
+                              299
+                            ],
+                            "alt": "#virtual meeting",
+                            "title": "#virtual meeting",
+                            "link": "/app/search/learning?q=virtual meeting",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              449,
+                              275,
+                              587,
+                              301
+                            ],
+                            "alt": "#international",
+                            "title": "#international",
+                            "link": "/app/search/learning?q=international",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              548,
+                              89,
+                              583,
+                              269
+                            ],
+                            "alt": "#virtual teams",
+                            "title": "#virtual teams",
+                            "link": "/app/search/learning?q=virtual teams",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              59,
+                              189,
+                              94,
+                              341
+                            ],
+                            "alt": "#facilitating",
+                            "title": "#facilitating",
+                            "link": "/app/search/learning?q=facilitating",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              115,
+                              302,
+                              282,
+                              328
+                            ],
+                            "alt": "#intercultural",
+                            "title": "#intercultural",
+                            "link": "/app/search/learning?q=intercultural",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              95,
+                              335,
+                              165,
+                              362
+                            ],
+                            "alt": "#aula",
+                            "title": "#aula",
+                            "link": "/app/search/learning?q=aula",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              175,
+                              345,
+                              361,
+                              385
+                            ],
+                            "alt": "#inspiration",
+                            "title": "#inspiration",
+                            "link": "/app/search/learning?q=inspiration",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              382,
+                              349,
+                              602,
+                              379
+                            ],
+                            "alt": "#leading virtual teams",
+                            "title": "#leading virtual teams",
+                            "link": "/app/search/learning?q=leading virtual teams",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              264,
+                              387,
+                              515,
+                              414
+                            ],
+                            "alt": "#circuit large conferences",
+                            "title": "#circuit large conferences",
+                            "link": "/app/search/learning?q=circuit large conferences",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              131,
+                              270,
+                              200,
+                              293
+                            ],
+                            "alt": "#myTV",
+                            "title": "#myTV",
+                            "link": "/app/search/learning?q=myTV",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              151,
+                              77,
+                              372,
+                              102
+                            ],
+                            "alt": "#instagauge",
+                            "title": "#instagauge",
+                            "link": "/app/search/learning?q=instagauge",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full",
+                      "widgetInstanceId": "image-map-tags"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

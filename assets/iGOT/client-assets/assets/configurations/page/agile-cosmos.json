@@ -1,0 +1,411 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Agile Cosmos"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "agile_cosmos",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/agile-cosmos.png",
+                            "altText": "Agile Cosmos"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "agile_cosmos"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411872902594563180",
+                        "lex_auth_0128411827146833923176",
+                        "lex_auth_0128411849612165123179"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "isIntranet": {
+                  "widget": {
+                    "widgetData": {
+                      "iframeSrc": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/dns-agilecosmos/index.html",
+                      "containerStyle": {
+                        "min-height": "400px"
+                      }
+                    },
+                    "widgetSubType": "pageEmbedded",
+                    "widgetType": "page",
+                    "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                  }
+                },
+                "isNotIntranet": {
+                  "widget": {
+                    "widgetData": {
+                      "template": "<div class=\"p-4 bg-gray-400\"><div class=\"text-3xl font-semibold text-center leading-normal\">{{title}}</div><div class=\"text-base font-medium text-center leding-normal\">{{subheading}}</div></div>",
+                      "templateData": {
+                        "title": "Content not available online",
+                        "subheading": "You can view this on siemens intranet only. Please connect to siemens intranet to view this."
+                      },
+                      "containerClass": "mat-elevation-z4"
+                    },
+                    "widgetSubType": "elementHtml",
+                    "widgetType": "element",
+                    "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                  }
+                }
+              },
+              "widgetSubType": "intranetResponsive",
+              "widgetType": "selector"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "take_off",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/take-off.png",
+                            "altText": "Take off"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "take_off",
+                        "widgetHostStyle": {
+                          "height": "373px"
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411675803811841528"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "take_off_1",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411919502540804157",
+                        "lex_auth_0128411901878681604159",
+                        "lex_auth_0128411939178905604160",
+                        "lex_auth_0128411912285143044158",
+                        "lex_auth_0128411943065763844121",
+                        "lex_auth_0128411901856399363649",
+                        "lex_auth_0128411903384535043369",
+                        "lex_auth_0128411856153149443368",
+                        "lex_auth_0128411840330547203042",
+                        "lex_auth_0128411870024253442976",
+                        "lex_auth_0128411803976253442975",
+                        "lex_auth_0128411815193231362379"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetHostClass": "block -ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "design_thinking",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/design-thinking.png",
+                            "altText": "Design Thinking"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "design_thinking"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411854550548482899",
+                        "lex_auth_0128411822277263362869",
+                        "lex_auth_0128411758234992642396",
+                        "lex_auth_0128411697623613441553"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "scrum",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/scrum.png",
+                            "altText": "Scrum"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "scrum"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411869245112323742",
+                        "lex_auth_0128411891957268483652",
+                        "lex_auth_0128411886075330563654",
+                        "lex_auth_0128411814636175363170",
+                        "lex_auth_0128411829955297282862",
+                        "lex_auth_0128411839467110402864",
+                        "lex_auth_0128411853207552002861"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "model_innovation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/mode-innovation.png",
+                            "altText": "Model Innovation"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "model_innovation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411863121592322926",
+                        "lex_auth_0128411824762224642930",
+                        "lex_auth_0128411802242088962929",
+                        "lex_auth_0128411754802053122392"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "kanban",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/kanban.png",
+                            "altText": "Kanban"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "kanban"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411920085155843658",
+                        "lex_auth_0128411904083558403653",
+                        "lex_auth_0128411848037908482886",
+                        "lex_auth_0128411782955909122870",
+                        "lex_auth_0128586153540567041601",
+                        "lex_auth_012841166465302528946"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "mvp",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/mvp.png",
+                            "altText": "Scrum"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "mvp"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411815239516162863",
+                        "lex_auth_0128411784426045442867",
+                        "lex_auth_0128411826113085442868"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "prototyping",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/agile-cosmos/proto-typing.png",
+                            "altText": "Scrum"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "prototyping"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411870034493443365",
+                        "lex_auth_0128411849835069443361",
+                        "lex_auth_0128411881620520963367",
+                        "lex_auth_0128411876842127363358",
+                        "lex_auth_0128411898829045763366",
+                        "lex_auth_0128411827692093443360",
+                        "lex_auth_0128411858839306243362",
+                        "lex_auth_0128411799871324163039",
+                        "lex_auth_0128411818956390402872",
+                        "lex_auth_0128411785141534722873"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

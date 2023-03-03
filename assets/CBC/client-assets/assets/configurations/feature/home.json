@@ -1,0 +1,119 @@
+{
+    "menus": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": {
+            "logo": true,
+            "menus": [
+                {
+                    "name": "Home",
+                    "key": "home",
+                    "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "routerLink": "/app/home/welcome",
+                    "requiredRoles": []
+                },
+                {
+                    "name": "Users",
+                    "key": "users",
+                    "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "requiredRoles": [
+                        "CBC ADMIN"
+                    ],
+                    "routerLink": "/app/home/users"
+                },
+                {
+                    "name": "Competency passbook",
+                    "key": "cpassbook",
+                    "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "requiredRoles": [],
+                    "routerLink": "/app/home/competency"
+                },
+                {
+                    "name": "Budgeting",
+                    "key": "budgeting",
+                    "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "requiredRoles": [],
+                    "routerLink": "/app/home/budgeting"
+                },
+                {
+                    "name": "All CBPs",
+                    "key": "cbp",
+                    "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "routerLink": "/app/home/cbp",
+                    "queryParams": "draft",
+                    "requiredRoles": []
+                },
+                {
+                    "name": "Directory",
+                    "key": "directory",
+                    "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "requiredRoles": [],
+                    "routerLink": "/app/home/directory"
+                },
+                {
+                    "name": "Roles and Access",
+                    "key": "roles-access",
+                    "fragment": false,
+                    "render": false,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": false,
+                    "requiredRoles": [],
+                    "routerLink": "/app/home/roles-access"
+                },
+                {
+                    "name": "Approvals",
+                    "key": "approvals",
+                   "fragment": false,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "routerLink": "/app/home/approvals",
+                    "queryParams": "draft",
+                    "requiredRoles": []
+                } 
+            ]
+        }
+    }
+}

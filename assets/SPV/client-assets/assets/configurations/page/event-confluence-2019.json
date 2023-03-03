@@ -1,0 +1,77 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "/app/infy/channels/leadership",
+    "pageTitle": "APAC Confluence 2019"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": [
+            {
+              "banners": {
+                "l": "/assets/common/infyradio/infyradio_1024.jpg",
+                "m": "/assets/common/infyradio/infyradio_768.jpg",
+                "s": "/assets/common/infyradio/infyradio_414.jpg",
+                "xl": "/assets/common/infyradio/infyradio_1024.jpg",
+                "xs": "/assets/common/infyradio/infyradio_375.jpg"
+              },
+              "title": "APAC Confluence 2019"
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "APAC Confluence 2019",
+                "title": "APAC Confluence 2019",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "keywords": ["APAC Confluence 2019"],
+                      "learningMode": ["Self-Paced"]
+                    },
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

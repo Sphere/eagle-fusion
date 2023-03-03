@@ -1,0 +1,446 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "Nordics"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1200,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"w-full h-full\" src=\"/assets/instances/Siemens/nordics/nordics.png\"/>",
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 950,
+                    "maxWidth": 1199,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/instances/Siemens/nordics/nordics-1024.jpg\"/>",
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 949,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/instances/Siemens/nordics/nordics-768.jpg\"/>",
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/instances/Siemens/nordics/nordics-414.jpg\"/>",
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <a href=\"{{link}}\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens//nordics/recently-added.png",
+                  "title": "Recently added",
+                  "items": [
+                    {
+                      "date": "03 Mai, 2019",
+                      "leftText": "Environment, Health & Safety",
+                      "link": "/app/toc/lex_auth_0128411718694502401625/overview"
+                    },
+                    {
+                      "date": "03 Mai,2019",
+                      "leftText": "Courses by the Danish...",
+                      "link": "/app/toc/lex_auth_0128411871182929923536/overview"
+                    },
+                    {
+                      "date": "02 Mai,2019",
+                      "leftText": "Environment, Health & Safety",
+                      "link": "/app/toc/lex_auth_0128411678583193601629/overview"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "hot_topics",
+                    "title": "Hot Topics",
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background-image: url('/assets/instances/Siemens/nordics/deckbild.jpg'); background-size: 100% 100%; background-repeat: no-repeat;\" class=\"w-full h-full px-6 flex items-center flex-wrap justify-center\"><div class=\"w-full rounded\" style=\"{{titleStyle}}\"><p class=\"justify-center text-center text-base md:text-2xl pt-3 font-bold\">{{mainTitle}}</p><p class=\"justify-center text-center text-base md:text-xl font-medium\">{{subTitle}}</p></div> {{#items}} <a href=\"{{link}}\" target=\"_blank\" class=\"w-full h-auto m-1 my-2\"><div class=\"flex justify-center\"><div class=\"w-64 md:w-full h-full flex items-center rounded-lg border-2 border-solid justify-center text-center text-base md:text-xl font-semibold\" style=\"{{style}}\"><div class=\"px-1 py-3\">{{title}}</div></div></div> </a> {{/items}}</div>",
+                          "templateData": {
+                            "mainTitle": "Your Development",
+                            "subTitle": "Get insight and own your career",
+                            "titleStyle": "background:#C8DBE2",
+                            "items": [
+                              {
+                                "style": "color: #ffffff; background: #006188; margin-top: 1.5rem",
+                                "title": "Explore the Learning Channel",
+                                "link": "./page/your-development"
+                              }
+                            ]
+                          },
+                          "containerClass": "flex items-center mat-elevation-z4 h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4",
+                        "widgetInstanceId": "hot_topics"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background-image: url('/assets/instances/Siemens/nordics/pages-background.jpg'); background-size: cover; background-repeat: no-repeat;\" class=\"w-full h-full px-6 flex items-center flex-wrap justify-center\"><div class=\"w-full justify-center text-center text-base md:text-xl font-semibold\">{{mainTitle}}</div> {{#items}} <a href=\"{{link}}\" target=\"_blank\" class=\"w-full h-auto m-1 my-2\"><div class=\"flex justify-center\"><div class=\"w-64 md:w-full h-full flex items-center rounded-full border-2 border-solid justify-center text-center text-base md:text-xl font-semibold\" style=\"{{style}}\"><div class=\"p-3\">{{title}}</div></div></div> </a> {{/items}}</div>",
+                          "templateData": {
+                            "mainTitle": "Find more Learning World recommendations here:",
+                            "items": [
+                              {
+                                "style": "color: #ffffff; background: #43A7A5; margin-top: 1.5rem",
+                                "title": "Virtual Collaboration",
+                                "link": "./page/siemens-virtual-collaboration"
+                              },
+                              {
+                                "style": "color: #ffffff; background: #A7AF1B",
+                                "title": "Leadership",
+                                "link": "./page/leadership"
+                              },
+                              {
+                                "style": "color: #ffffff; background: #06646E",
+                                "title": "Digital Skills for Sales",
+                                "link": "./page/digital-basics-for-sales"
+                              }
+                            ]
+                          },
+                          "containerClass": "flex items-center mat-elevation-z4 h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411722687365121673",
+                        "lex_auth_0128411719641825281675"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "learning_offerings",
+                    "title": "Learning Offerings for all employees",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{href}}\" target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/nordics/core-learning.png'); width:265px",
+                            "overlayText": "Siemens Core Learning Programs",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "href": "/app/toc/lex_auth_0128411722687365121673/overview"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "learning_offerings",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{href}}\" target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/nordics/specific-learning.png'); width:265px",
+                            "overlayText": "Siemens-specific E-Learning",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                            "href": "/app/toc/lex_auth_0128411719641825281675/overview"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "learning_offerings",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{href}}\" target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" /></a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/nordics/office-365.png",
+                            "altText": "Specific Learning",
+                            "href": "./page/office-365"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "learning_offerings",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841107629965312231",
+                        "lex_auth_0128411716546150401674",
+                        "lex_auth_0128411697660231681677",
+                        "lex_auth_0128411703368663041681"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "sweden",
+                    "title": "Local Learning Offerings for Sweden",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "imageHeight": "472",
+                          "imageWidth": "320",
+                          "imageSrc": "/assets/instances/Siemens/nordics/sweden.jpg",
+                          "mapName": "map-nordics",
+                          "map": [
+                            {
+                              "coords": [
+                                1,
+                                220,
+                                320,
+                                470
+                              ],
+                              "alt": "##learnlocal@Sweden - Follow the Learning Tag",
+                              "title": "#learnlocal@Sweden - Follow the Learning Tag",
+                              "link": "./app/knowledge-board/lex_auth_0128445945293537288",
+                              "target": "_blank"
+                            }
+                          ],
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "width": "265px"
+                          }
+                        },
+                        "widgetSubType": "imageMapResponsive",
+                        "widgetType": "imageMap",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "sweden"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411700467056641650",
+                        "lex_auth_0128411839131566083152",
+                        "lex_auth_0128411822169702403133",
+                        "lex_auth_0128411675578122241640",
+                        "lex_auth_0128411687413923841639",
+                        "lex_auth_0128411736760729601637",
+                        "lex_auth_0128411663389900801649",
+                        "lex_auth_0128411672768921601651",
+                        "lex_auth_0128411704370298881654",
+                        "lex_auth_0128411678570332161647",
+                        "lex_auth_0128411687018414081652",
+                        "lex_auth_0128411677634478081648"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "denmark",
+                    "title": "Local Learning Offerings for Denmark",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/nordics/denmark.png",
+                            "altText": "Denmark"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "denmark",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411871182929923536",
+                        "lex_auth_0128411908108615683537",
+                        "lex_auth_0128411878944030723539",
+                        "lex_auth_0128411915255726083540",
+                        "lex_auth_0128411841542307843534",
+                        "lex_auth_0128411884132433923538",
+                        "lex_auth_0128411832174673923269",
+                        "lex_auth_0128411881633464323535",
+                        "lex_auth_0128411716546150401674"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "norway",
+                    "title": "Local Learning Offerings for Norway",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/nordics/norway.png",
+                            "altText": "Sweden"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "norway",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411678583193601629",
+                        "lex_auth_0128411915255726083540",
+                        "lex_auth_0128411878944030723539",
+                        "lex_auth_0128411878944030723539",
+                        "lex_auth_0128411841542307843534",
+                        "lex_auth_0128411884132433923538"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "finland_baltics",
+                    "title": "Local Learning Offerings for Finland & Baltics",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/nordics/finland-baltics.png",
+                            "altText": "Sweden"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "finland_baltics",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411718694502401625",
+                        "lex_auth_0128411723580538881757",
+                        "lex_auth_0128411878944030723539",
+                        "lex_auth_0128411915255726083540",
+                        "lex_auth_0128411841542307843534",
+                        "lex_auth_0128411884132433923538",
+                        "lex_auth_0128411735507025921622",
+                        "lex_auth_0128411722362388481627",
+                        "lex_auth_0128411736771788801628"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

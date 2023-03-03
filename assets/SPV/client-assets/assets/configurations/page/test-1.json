@@ -1,0 +1,503 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Siemens Region Austral austral-andina"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostStyle": {
+                "padding": "16px 32px"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "html": "<img class=\"h-full w-full\" src=\"/assets/instances/Siemens/austral-andina/passporte_siemens.jpg\" alt=\"passporte siemens\">",
+                "containerStyle": {
+                  "padding": "40px 32px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 6,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1010,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"w-full h-full\" src=\"/assets/instances/Siemens/austral-andina/image_map.jpg\" usemap=\"#image-map\"><map name=\"image-map\"><area alt=\"Talent Acquisition\" title=\"Talent Acquisition\" href=\"./page/siemens-region-austral-andina#talent_acquisition\" coords=\"67,345,55\" shape=\"circle\"> <area alt=\"Learning\" title=\"Learning\" href=\"./page/siemens-region-austral-andina#learning\" coords=\"183,400,58\" shape=\"circle\"><area alt=\"People &amp; Leadership\" title=\"People &amp; Leadership\" href=\"./page/siemens-region-austral-andina#people_and_leadership\" coords=\"309,349,55\" shape=\"circle\"><area alt=\"Quality\" title=\"Quality\" href=\"./page/siemens-region-austral-andina#quality\" coords=\"425,403,57\" shape=\"circle\"><area alt=\"Wellness\" title=\"Wellness\" href=\"./page/siemens-region-austral-andina#wellness\" coords=\"553,380,57\" shape=\"circle\"><area alt=\"Compensation &amp; Benefits\" title=\"Compensation &amp; Benefits\" href=\"./page/siemens-region-austral-andina#compensation_and_benefits\" coords=\"677,409,56\" shape=\"circle\"><area alt=\"Environment, Health &amp; Safety\" title=\"Environment, Health &amp;  Safety\" href=\"./page/siemens-region-austral-andina#security_and_health_at_work\" coords=\"794,358,54\" shape=\"circle\"><area alt=\"Functional Shared Services\" title=\"Functional Shared Services\" href=\"./page/siemens-region-austral-andina#functional_shared_services\" coords=\"922,408,56\" shape=\"circle\"></map>",
+                        "containerStyle": {
+                          "height": "100%",
+                          "padding-left": "32px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1009,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/images/banners/explore-lex/768.jpg\"/>",
+                        "containerStyle": {
+                          "height": "100%",
+                          "padding-left": "32px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/images/banners/explore-lex/414.jpg\"/>",
+                        "containerStyle": {
+                          "height": "100%",
+                          "padding-left": "32px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/images/banners/explore-lex/375.jpg\"/>",
+                        "containerStyle": {
+                          "height": "100%",
+                          "padding-left": "32px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6,
+              "small": 12
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"max-w-sm h-full overflow-hidden shadow-lg\"><div\r\nstyle=\"background-image: url('\/assets\/instances\/Siemens\/austral-andina\/list_image.png');\"\r\nclass=\"flex items-center justify-end w-full h-40\"\r\n>\r\n<span\r\nstyle=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-8 pr-3 py-6\"\r\n>\r\n{{title}}\r\n<\/span>\r\n<\/div>{{#items}}<div class=\"px-6 py-4\"> <span class=\"block text-xs text-left\">{{title}}<\/span> {{^leftText}}<div class=\"flex justify-end\"> <\/div> {{\/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <span class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}<\/span><\/div> {{\/leftText}}<\/div> {{\/items}}<\/div>\r\n",
+                "templateData": {
+                  "title": "The most recent",
+                  "items": [
+                    {
+                      "title": "12 Jun,2019",
+                      "leftText": "How to enter goal 4 ..."
+                    },
+                    {
+                      "title": "12 Jun,2019",
+                      "leftText": "Health and Safety Committee..."
+                    },
+                    {
+                      "title": "12 Jun,2019",
+                      "leftText": "Disability reports(Types..."
+                    }
+                  ]
+                },
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full pl-6 pr-8"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "talent_acquisition",
+                    "title": "Talent Acquisition",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/talent_acquisition.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Talent Acquisition",
+                              "background": {
+                                "type": "solid",
+                                "color": "#ad285f"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "talent_acquisition"
+                      }
+                    ],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/interestBased",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "key": "learning",
+                    "title": "Learning",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/learning.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Learning",
+                              "background": {
+                                "type": "solid",
+                                "color": "#01626b"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "learning"
+                      }
+                    ],
+                    "request": {
+                      "search": {
+                        "filters": {
+                          "learningMode": [
+                            "Self-Paced"
+                          ],
+                          "tags": [
+                            "Marketing/Brand/Employer"
+                          ]
+                        },
+                        "pageNo": 0,
+                        "query": "",
+                        "sortBy": "lastUpdatedOn",
+                        "sortOrder": "DESC"
+                      }
+                    }
+                  },
+                  {
+                    "key": "people_and_leadership",
+                    "title": "People & Leadership",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/people_and_leadership.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "People & Leadership",
+                              "background": {
+                                "type": "solid",
+                                "color": "#52b5d2"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "people_and_leadership"
+                      }
+                    ],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/latest",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "key": "quality",
+                    "title": "Quality",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/quality.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Quality",
+                              "background": {
+                                "type": "solid",
+                                "color": "#e4881b"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "quality"
+                      }
+                    ],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/usageBased",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "key": "security_and_health_at_work",
+                    "title": "Security and health at work",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/security_and_health_at_work.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Security and health at work",
+                              "background": {
+                                "type": "solid",
+                                "color": "#f6b10c"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "security_and_health_at_work"
+                      }
+                    ],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/user/playlist/recent"
+                      }
+                    }
+                  },
+                  {
+                    "key": "wellness",
+                    "title": "Wellness",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/wellness.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Wellness",
+                              "background": {
+                                "type": "solid",
+                                "color": "#125c7b"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "wellness"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_11099634522608828000",
+                        "lex_auth_01272719803758182410",
+                        "lex_auth_01272719803758182410"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "compensation_and_benefits",
+                    "title": "Compensation and Benefits",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/compensation-and-benefits.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Compensation and Benefits",
+                              "background": {
+                                "type": "solid",
+                                "color": "#aaaf1f"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "32px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "compensation_and_benefits"
+                      }
+                    ],
+                    "request": {
+                      "search": {
+                        "filters": {
+                          "learningMode": [
+                            "Self-Paced"
+                          ],
+                          "tags": [
+                            "Infosys Internal/InfyTv/Must View"
+                          ]
+                        },
+                        "pageNo": 0,
+                        "pageSize": 100,
+                        "query": "",
+                        "sortBy": "lastUpdatedOn",
+                        "sortOrder": "DESC"
+                      }
+                    }
+                  },
+                  {
+                    "key": "functional_shared_services",
+                    "title": "Functional Shared Services",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "background": {
+                            "type": "image",
+                            "imageUrl": "/assets/instances/Siemens/austral-andina/functional_shared_services.png"
+                          },
+                          "overlay": [
+                            {
+                              "text": "Functional Shared Services",
+                              "background": {
+                                "type": "solid",
+                                "color": "#03868e"
+                              },
+                              "position": "bottom-left",
+                              "style": {
+                                "width": "100%",
+                                "margin-bottom": "24px"
+                              }
+                            }
+                          ]
+                        },
+                        "widgetSubType": "cardImage",
+                        "widgetType": "card",
+                        "widgetInstanceId": "functional_shared_services"
+                      }
+                    ],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/trending",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

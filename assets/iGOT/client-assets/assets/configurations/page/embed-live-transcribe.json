@@ -1,0 +1,25 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "Live Transcribe"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lab42.idemo-ppc.com/livetranscribe",
+      "Title": "Live Transcribe"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}
+
+
+
+
+
+
+
+
+
+

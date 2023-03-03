@@ -1,0 +1,538 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "none",
+    "pageTitle": "Widget Walkthrough",
+    "background": {
+      "color": "default"
+    },
+    "links": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_goals",
+          "config": {
+            "type": "mat-stroked-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_marketing",
+          "config": {
+            "type": "mat-stroked-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_infyTV",
+          "config": {
+            "type": "mat-stroked-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_infyRadio",
+          "config": {
+            "type": "mat-stroked-button"
+          }
+        }
+      }
+    ]
+  },
+  "pageLayout": {
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout",
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": [
+                {
+                  "banners": {
+                    "l": "assets/instances/Wingspan-Siemens/banners/home/1/l.jpg",
+                    "m": "assets/instances/Wingspan-Siemens/banners/home/1/m.jpg",
+                    "s": "assets/instances/Wingspan-Siemens/banners/home/1/s.jpg",
+                    "xl": "assets/instances/Wingspan-Siemens/banners/home/1/xl.jpg",
+                    "xs": "assets/instances/Wingspan-Siemens/banners/home/1/xs.jpg"
+                  },
+                  "redirectUrl": "/tnc",
+                  "title": "Industry Analytics and Digital Transformation in iGOT"
+                },
+                {
+                  "banners": {
+                    "l": "assets/instances/Wingspan-Siemens/banners/home/2/l.jpg",
+                    "m": "assets/instances/Wingspan-Siemens/banners/home/2/m.jpg",
+                    "s": "assets/instances/Wingspan-Siemens/banners/home/2/s.jpg",
+                    "xl": "assets/instances/Wingspan-Siemens/banners/home/2/xl.jpg",
+                    "xs": "assets/instances/Wingspan-Siemens/banners/home/2/xs.jpg"
+                  },
+                  "redirectUrl": "/author",
+                  "title": "Banner 2 Lorem Ipsum Text for Test"
+                },
+                {
+                  "banners": {
+                    "l": "assets/images/banners/home/3/l.jpg",
+                    "m": "assets/images/banners/home/3/m.jpg",
+                    "s": "assets/images/banners/home/3/s.jpg",
+                    "xl": "assets/images/banners/home/3/xl.jpg",
+                    "xs": "assets/images/banners/home/3/xs.jpg"
+                  },
+                  "redirectUrl": "./",
+                  "title": "Banner with no redirect url implemented"
+                }
+              ],
+              "widgetSubType": "sliderBanners",
+              "widgetType": "slider"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "bookmark_bar",
+                    "title": "Bookmark Bar",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div class=\"flex\"> {{#items}} {{#bgImg}} <a class=\"mr-3\" href=\"{{__pageBase}}#{{bookmarkRef}}\"><div class=\"flex-1 max-w-sm rounded overflow-hidden shadow-lg\" style=\"{{bgImg}}\"></div> </a> {{/bgImg}} {{#color}} <a class=\"mr-3\" href=\"{{__pageBase}}#{{bookmarkRef}}\"><div class=\"flex-1 max-w-sm rounded overflow-hidden shadow-lg\" style=\"{{color}}\"></div> </a> {{/color}} {{#cardIconText}} <a class=\"mr-3\" href=\"{{__pageBase}}#{{bookmarkRef}}\"><div class=\"relative flex-1 text-center max-w-sm rounded overflow-hidden shadow-lg\" style=\"{{bgImg}}\"><div class=\"absolute block w-full py-2 bottom-0 bg-gray-100 opacity-100\"> <span style=\"vertical-align: middle\"><svg class=\"fill-current text-teal-500 inline-block h-4 w-4\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 20 20\"> <path d=\"{{icon}}\" /> </svg></span> <span class=\"ml-1 text-md\">{{title}}</span></div></div> </a> {{/cardIconText}} {{#cardBgText}} <a class=\"mr-3\" href=\"{{__pageBase}}#{{bookmarkRef}}\"><div class=\"relative flex-1 text-center max-w-sm rounded overflow-hidden shadow-lg\" style=\"{{bgImg}}\"><div class=\"absolute block w-full py-2 bottom-0 bg-gray-100 opacity-100\"> <span class=\"text-md\">{{title}}</span></div></div> </a> {{/cardBgText}} {{/items}}</div>",
+                          "templateData": {
+                            "items": [
+                              {
+                                "bgImg": "background: url(https://assets.new.siemens.com/siemens/assets/api/uuid:d0d67ec213218d2f750812aff0f8ce074113ca09/width:640/crop:0,00078:0,00139:0,84219:0,84236/quality:high/version:1524743539/42-24723225-fd.jpg); width: 220px; height: 200px; background-size: cover; background-repeat: no-repeat;",
+                                "bookmarkRef": "strip1"
+                              },
+                              {
+                                "cardIconText": {
+                                  "bgImg": "background: url(https://assets.new.siemens.com/siemens/assets/api/uuid:d0d67ec213218d2f750812aff0f8ce074113ca09/width:640/crop:0,00078:0,00139:0,84219:0,84236/quality:high/version:1524743539/42-24723225-fd.jpg); width: 220px; height: 200px; background-size: cover; background-repeat: no-repeat;",
+                                  "title": "Title 1",
+                                  "icon": "M18 9.87V20H2V9.87a4.25 4.25 0 0 0 3-.38V14h10V9.5a4.26 4.26 0 0 0 3 .37zM3 0h4l-.67 6.03A3.43 3.43 0 0 1 3 9C1.34 9 .42 7.73.95 6.15L3 0zm5 0h4l.7 6.3c.17 1.5-.91 2.7-2.42 2.7h-.56A2.38 2.38 0 0 1 7.3 6.3L8 0zm5 0h4l2.05 6.15C19.58 7.73 18.65 9 17 9a3.42 3.42 0 0 1-3.33-2.97L13 0z"
+                                }
+                              },
+                              {
+                                "cardBgText": {
+                                  "bgImg": "background: url(https://assets.new.siemens.com/siemens/assets/api/uuid:d0d67ec213218d2f750812aff0f8ce074113ca09/width:640/crop:0,00078:0,00139:0,84219:0,84236/quality:high/version:1524743539/42-24723225-fd.jpg); width: 220px; height: 200px; background-size: cover; background-repeat: no-repeat;",
+                                  "title": "Title 1"
+                                }
+                              },
+                              {
+                                "color": "background: linear-gradient(to right, #5614B0, #DBD65C); width: 220px; height: 200px;",
+                                "bookmarkRef": "strip_featured"
+                              },
+                              {
+                                "color": "background: #4CB272; width: 220px; height: 200px;",
+                                "bookmarkRef": "strip2"
+                              },
+                              {
+                                "color": "background: linear-gradient(to right, #5614B0, #DBD65C); width: 220px; height: 200px;",
+                                "bookmarkRef": "strip_featured"
+                              },
+                              {
+                                "color": "background: radial-gradient(#DBD65C, #5614B0 10%, #4CB272 15%); width: 220px; height: 200px;",
+                                "bookmarkRef": "video"
+                              }
+                            ]
+                          },
+                          "preProcess": {
+                            "bookmarklet": []
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "bookmark_bar"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "strip_1",
+                    "title": "History",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "html": "<img src=\"/assets/images/sample/history.png\" style=\"object-fit: cover;\" width=\"320px\" height=\"100%\" usemap=\"#image-map-3\">\n\n<map name=\"image-map-3\">\n    <area target=\"_blank\" alt=\"Learning\" title=\"Learning\" href=\"#\" coords=\"271,77,382,104\" shape=\"rect\">\n    <area target=\"_blank\" alt=\"Concept Graph\" title=\"Concept Graph\" href=\"#\" coords=\"270,138,389,192\" shape=\"rect\">\n    <area target=\"_blank\" alt=\"Lex\" title=\"Lex\" href=\"#\" coords=\"307,201,357,223\" shape=\"rect\">\n</map>",
+                          "containerStyle": {
+                            "height": "100%"
+                          }
+                        },
+                        "widgetHostClass": "sticky-m",
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "strip_featured"
+                      }
+                    ],
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Recommendations from us, customized for you.</p>"
+                        }
+                      }
+                    },
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/interestBased",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "key": "featureCards",
+                    "title": "Featured Apps",
+                    "preWidgets": [
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_blogs"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_Q&A"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_onBoarding"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_playlist"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_handson_authoring"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_navigator"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_leaderBoard"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_goals"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_feedback"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_learningTime"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_learningHistory"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "key": "Featured Strip",
+                    "title": "Recommendations",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "html": "<img src=\"/assets/images/sample/recommendation.png\" style=\"object-fit: cover;\" width=\"320px\" height=\"100%\" coords=\"307,201,357,223\" shape=\"rect\">\n</map>",
+                          "containerStyle": {
+                            "height": "100%"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "strip_featured"
+                      }
+                    ],
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Recommendations from us, customized for you.</p>"
+                        }
+                      }
+                    },
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "html": "<img src=\"/assets/images/sample/recommendation_end.png\" style=\"object-fit: cover;\" width=\"320px\" height=\"100%\" usemap=\"#image-map-3\">\n\n<map name=\"image-map-3\">\n    <area target=\"_blank\" alt=\"Learning\" title=\"Learning\" href=\"#\" coords=\"271,77,382,104\" shape=\"rect\">\n    <area target=\"_blank\" alt=\"Concept Graph\" title=\"Concept Graph\" href=\"#\" coords=\"270,138,389,192\" shape=\"rect\">\n    <area target=\"_blank\" alt=\"Lex\" title=\"Lex\" href=\"#\" coords=\"307,201,357,223\" shape=\"rect\">\n</map>",
+                          "containerStyle": {
+                            "height": "100%"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "strip_features"
+                      }
+                    ],
+                    "request": {
+                      "search": {
+                        "filters": {
+                          "learningMode": ["Self-Paced"],
+                          "tags": ["Marketing/Brand/Employer"]
+                        },
+                        "pageNo": 0,
+                        "query": "",
+                        "sortBy": "lastUpdatedOn",
+                        "sortOrder": "DESC"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 4,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"px-2\">Trending Contents</h1> {{#items}}<div class=\"bg-gray-400 px-4 mb-2 ml-2\"> <span class=\"block text-gray-700 text-lg text-center px-4 py-1\">{{title}}</span> {{^leftText}}<div class=\"flex justify-end\"> <span class=\"block text-gray-700 bg-gray-400 px-4 py-1\">{{rightText}}</span></div> {{/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <span class=\"block text-gray-700 bg-gray-400 px-4 py-1\">{{leftText}}</span> <span class=\"block text-gray-700 bg-gray-400 px-4 py-1\">{{rightText}}</span></div> {{/leftText}}</div> {{/items}}",
+                "templateData": {
+                  "items": [
+                    {
+                      "title": "Machine Learning",
+                      "leftText": "Course",
+                      "rightText": "Beginner"
+                    },
+                    {
+                      "title": "Block Chain",
+                      "leftText": "Resource"
+                    },
+                    {
+                      "title": "Hadoop",
+                      "rightText": "Collection"
+                    }
+                  ]
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 9,
+              "medium": 8,
+              "small": 12
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<section> <h1 class=\"text-xl\">About Us</h1><p class=\"leading-tight\">iGOT is a next-gen learning solution that helps organizations accelerate their talent transformationjourney. It enables organizations to focus on training their talent of today, to be ready for tomorrow. Based on opensource technologies, iGOT is a cloud-first and mobile-first solution that is designed to be accessibleanytime, anywhere and on any device. Organizations using iGOT can facilitate a culture of learning andcollaboration for their employees as well as enable their leaders to derive strategic insights to track talentproductivity.<p> <p class=\"leading-tight\">Learners can interact with the voice-enabled ‘learning assistant’ for learning guidance. With an ever evolving range of curated content, it facilitates learning based on interest, skill set and function/role. Learning modules are a combination of instructor-led, assisted learning and self-learning sessions. With on-the-go access, iGOT helps accelerate business and employee engagement. It aids talent in navigating their next by creating an environment for continuous learning to acquire the right and relevant skills.</p><p class=\"leading-tight\">Wingspan is the robust holistic learning solution that can help you Navigate Your Next in your talent transformation experience.</p><section>"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostStyle": {
+                "box-sizing": "border-box;"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetSubType": "galleryView",
+              "widgetType": "gallery",
+              "widgetHostStyle": {
+                "max-width": "100%",
+                "overflow": "hidden",
+                "box-sizing": "border-box"
+              },
+              "widgetHostClass": "block p-4",
+              "widgetData": {
+                "designVal": "set2",
+                "widgetPlayer": {
+                  "style": {
+                    "height": "400px"
+                  }
+                },
+                "cardMenu": [
+                  {
+                    "cardData": {
+                      "title": "Follow SingleTags and LearningTags",
+                      "description": "Discover \"My Learning World\"",
+                      "thumbnail": "/assets/instances/Siemens/how-to/discover-small.png"
+                    },
+                    "widget": {
+                      "widgetType": "player",
+                      "widgetSubType": "playerVideo",
+                      "widgetData": {
+                        "url": "/mobile-apps/videos/V2/Lex_New_AppTour_Final.mp4",
+                        "posterImage": "/assets/instances/Siemens/how-to/discover-big.png"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "My Collections",
+                      "description": "Create your own learning list",
+                      "thumbnail": "/assets/instances/Siemens/how-to/collections.png"
+                    },
+                    "widget": {
+                      "widgetType": "player",
+                      "widgetSubType": "playerVideo",
+                      "widgetData": {
+                        "url": "/mobile-apps/videos/V1/Lex_Launch_Mohit_Joshi.mp4",
+                        "posterImage": "/assets/instances/Siemens/how-to/collections.png"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Accessing content",
+                      "description": "How to access learning content",
+                      "thumbnail": "/assets/instances/Siemens/how-to/tags.png"
+                    },
+                    "widget": {
+                      "widgetType": "player",
+                      "widgetSubType": "playerVideo",
+                      "widgetData": {
+                        "url": "/mobile-apps/videos/V2/Lex_New_AppTour_Final.mp4",
+                        "posterImage": "/assets/instances/Siemens/how-to/tags.png"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Search options",
+                      "description": "How to search in the learning world",
+                      "thumbnail": "/assets/instances/Siemens/how-to/search.png"
+                    },
+                    "widget": {
+                      "widgetType": "player",
+                      "widgetSubType": "playerVideo",
+                      "widgetData": {
+                        "url": "/mobile-apps/videos/V1/Lex_Launch_Mohit_Joshi.mp4",
+                        "posterImage": "/assets/instances/Siemens/how-to/search.png"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

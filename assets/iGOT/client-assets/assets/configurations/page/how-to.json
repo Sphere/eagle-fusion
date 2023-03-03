@@ -1,0 +1,677 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "The Learning World 'How to' page"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 6,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"rounded overflow-hidden h-full shadow-lg flex flex-col\"><div class=\"p-4\"><div class=\"text-center pb-6 leading-tight\"><span class=\"text-2xl font-semibold\">{{title1}}</span><span class=\"text-2xl font-bold text-blue-800\">{{title2}}</span><span class=\"text-2xl font-semibold\">{{title3}}</span></div><div class=\"text-center\"><img alt=\"\" src=\"{{imageSrc}}\" /></div></div></div>",
+                "templateData": {
+                  "topImageSrc": "/assets/instances/Siemens/how-to/color-line.jpg",
+                  "title1": "My Learning World ",
+                  "title2": "HOW TO ",
+                  "title3": "page",
+                  "imageSrc": "assets/instances/Siemens/how-to/learning-world-how-to-icon.jpg"
+                },
+                "containerClass": "mat-elevation-z4 h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "learning-world",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            },
+            "className": "order-1"
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:px-0",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 650,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "450",
+                        "imageWidth": "760",
+                        "imageSrc": "/assets/instances/Siemens/how-to/copyright-header-768.jpg",
+                        "mapName": "how-to",
+                        "map": [
+                          {
+                            "coords": [
+                              203,
+                              63,
+                              57,
+                              184
+                            ],
+                            "alt": "Explore",
+                            "title": "Explore",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              183,
+                              223,
+                              363,
+                              365
+                            ],
+                            "alt": "Discover",
+                            "title": "Discover",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              372,
+                              66,
+                              527,
+                              194
+                            ],
+                            "alt": "Interact",
+                            "title": "Interact",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              500,
+                              211,
+                              726,
+                              358
+                            ],
+                            "alt": "Contribute",
+                            "title": "Contribute",
+                            "link": "",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4",
+                        "containerStyle": {
+                          "min-height": "410px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetInstanceId": "siemens-how-to"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 649,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "450",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/how-to/copyright-header-414.jpg",
+                        "mapName": "how-to",
+                        "map": [
+                          {
+                            "coords": [
+                              40,
+                              12,
+                              169,
+                              138
+                            ],
+                            "alt": "Explore",
+                            "title": "Explore",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              23,
+                              200,
+                              170,
+                              333
+                            ],
+                            "alt": "Discover",
+                            "title": "Discover",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              236,
+                              119,
+                              368,
+                              240
+                            ],
+                            "alt": "Interact",
+                            "title": "Interact",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              217,
+                              296,
+                              393,
+                              430
+                            ],
+                            "alt": "Contribute",
+                            "title": "Contribute",
+                            "link": "",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetInstanceId": "communication"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "450",
+                        "imageWidth": "320",
+                        "imageSrc": "/assets/instances/Siemens/how-to/copyright-header-320.jpg",
+                        "mapName": "how-to",
+                        "map": [
+                          {
+                            "coords": [
+                              38,
+                              32,
+                              147,
+                              147
+                            ],
+                            "alt": "Explore",
+                            "title": "Explore",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              36,
+                              204,
+                              157,
+                              325
+                            ],
+                            "alt": "Discover",
+                            "title": "Discover",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              165,
+                              107,
+                              286,
+                              235
+                            ],
+                            "alt": "Interact",
+                            "title": "Interact",
+                            "link": "",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              139,
+                              330,
+                              294,
+                              425
+                            ],
+                            "alt": "Contribute",
+                            "title": "Contribute",
+                            "link": "",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetInstanceId": "communication"
+                    }
+                  }
+                ]
+              }
+            },
+            "className": "order-2 sm:order-3 lg:order-2"
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <a class=\"cursor-pointer\" onclick=\"window.navigateTo(`{{entryLink}}`)\"><span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/how-to/recent-added-320.jpg",
+                  "title": "The most recent",
+                  "items": [
+                    {
+                      "date": "02 Jul,2019",
+                      "leftText": "Thinking process industry",
+                      "entryLink": ""
+                    },
+                    {
+                      "date": "30 Apr,2019",
+                      "leftText": "PA Learning Academy",
+                      "entryLink": ""
+                    },
+                    {
+                      "date": "22 Feb,2019",
+                      "leftText": "Process Automation Value Selling",
+                      "entryLink": ""
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full block px-6 sm:px-8 md:px-10 md:pl-0"
+            },
+            "className": "order-3 sm:order-2 lg:order-3"
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img style=\"width: 100%\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/how-to/what-is-new.jpg",
+                  "altText": "What is new"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "what-is-new",
+              "widgetHostStyle": {
+                "height": "373px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 5,
+              "medium": 9
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_6w1wslxi",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_6w1wslxi/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video",
+                "containerStyle": {
+                  "height": "373px"
+                }
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 lg:px-0 h-full video-full",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 4
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411739379220482339",
+                        "lex_auth_0128411848998420483119",
+                        "lex_auth_0128411884620922883251"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "lg:-my-10 lg:-ml-10 block",
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "How to use the features of My Learning World"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "how_to_video_gallery",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetSubType": "galleryView",
+              "widgetType": "gallery",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              },
+              "widgetHostClass": "block py-4 px-6 sm:px-8 md:px-10 max-w-full overflow-hidden",
+              "widgetData": {
+                "designVal": "set1",
+                "widgetPlayer": {
+                  "style": {
+                    "height": "400px"
+                  }
+                },
+                "cardMenu": [
+                  {
+                    "cardData": {
+                      "title": "Follow SingleTags and LearningTags",
+                      "description": "Discover \"My Learning World\"",
+                      "thumbnail": "/assets/instances/Siemens/how-to/discover-small.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_k1ckws7k",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_k1ckws7k/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "My Collections",
+                      "description": "Create your own learning list",
+                      "thumbnail": "/assets/instances/Siemens/how-to/collections.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_82eeomy6",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_82eeomy6/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Accessing content",
+                      "description": "How to access learning content",
+                      "thumbnail": "/assets/instances/Siemens/how-to/tags.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_0h1kctt5",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_0h1kctt5/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Search options",
+                      "description": "How to search in the learning world",
+                      "thumbnail": "/assets/instances/Siemens/how-to/search.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_ovqktxso",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_ovqktxso/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img style=\"width:100%\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/how-to/learning-curators.jpg",
+                  "altText": "Learning Curartor area"
+                },
+                "containerClass": "mat-elevation-z4 w-full h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+              "widgetHostStyle": {
+                "height": "373px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411750425477122341",
+                        "lex_auth_0128411717721128961395",
+                        "lex_auth_0128411649572126721459",
+                        "lex_auth_0128411655239516161396",
+                        "lex_auth_0128411739379220482339",
+                        "lex_auth_0128411668118732801010"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "md:-my-10 md:-ml-10 block",
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "curation",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/how-to/curate-latest.jpg",
+                            "altText": "curation"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "curation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411750425477122341",
+                        "lex_auth_0128411717721128961395",
+                        "lex_auth_0128411649572126721459",
+                        "lex_auth_0128411655239516161396",
+                        "lex_auth_0128411739379220482339",
+                        "lex_auth_0128411668118732801010"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "copyright_privacy",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/how-to/copyright-privacy.jpg",
+                            "altText": "copyright-privacy"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "copyright_privacy"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411668118732801010"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

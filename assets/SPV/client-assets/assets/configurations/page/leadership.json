@@ -1,0 +1,298 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Leadership"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 8
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1376,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img style=\"width:100%;height:227px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-leadership/1376.jpg",
+                          "altText": "Leadership"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+                      "widgetInstanceId": "leadership_header"
+                    }
+                  },
+                  {
+                    "minWidth": 1024,
+                    "maxWidth": 1375,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img style=\"width:100%;height:227px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-leadership/1024.jpg",
+                          "altText": "Leadership"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+                      "widgetInstanceId": "leadership_banner"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1023,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img style=\"width:100%;height:227px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-leadership/768.jpg",
+                          "altText": "Leadership"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+                      "widgetInstanceId": "leadership_header"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img style=\"width:100%;height:227px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-leadership/414.jpg",
+                          "altText": "Leadeship"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+                      "widgetInstanceId": "leadership_header"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img style=\"width:100%;height:227px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-leadership/320.jpg",
+                          "altText": "Leadeship"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+                      "widgetInstanceId": "leadership_header"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 4,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img style=\"width:100%;height:227px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/siemens-leadership/online-reflection.jpg",
+                  "altText": "Online Reflection"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full md:pl-0 px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "online-reflection"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "managers-of-manager",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-leadership/mom-header.jpg",
+                            "altText": "Managers of managers"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01289067068441395217339",
+                        "lex_auth_012891423261835264194",
+                        "lex_auth_012891415922933760193",
+                        "lex_auth_012891432615075840195"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "managers-of-team",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-leadership/mot-header.jpg",
+                            "altText": "Managers of Teams"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012891484966985728196",
+                        "lex_auth_012891485902315520198",
+                        "lex_auth_012891490224685056197",
+                        "lex_auth_012891491353591808199"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "future-managers",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-leadership/fm-header.jpg",
+                            "altText": "Future Managers, Leaders without PMP responsibilities"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128920788083015688",
+                        "lex_auth_01289208769881702410",
+                        "lex_auth_0128920852969799689",
+                        "lex_auth_01289208751154790411"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "leadership-management",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-leadership/sfp.jpg",
+                            "altText": "Leadership and Management skills for Professionals"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01289209178607616012",
+                        "lex_auth_01289208843486822414",
+                        "lex_auth_01289208925881139213",
+                        "lex_auth_01289208866539110415"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

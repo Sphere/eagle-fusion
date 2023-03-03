@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "ILI Leadership Dossier"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lab42.idemo-ppc.com/ilipdp/",
+      "Title": "ILI Leadership Dossier"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

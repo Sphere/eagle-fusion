@@ -1,11 +1,14 @@
 {
   "/apis/*": {
-    "target": "https://aastrika-stage.tarento.com",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
       "/apis": "/apis"
+    },
+    "headers": {
+      "cookie": "connect.sid=s%3As6s11pGPe0Fjaft5DbLHbpckwJQlbAre.qIfyV%2FsSVt%2Bk3VVCSV8Q3h5Qcey5jNIWYGzOOvzHfN4"
     }
   },
   "/content-api/*": {
@@ -54,7 +57,7 @@
     }
   },
   "/assets/*": {
-    "target": "http://localhost:8080",
+    "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,

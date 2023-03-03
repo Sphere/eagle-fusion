@@ -1,0 +1,111 @@
+{
+  "subtitleOnBanners": true,
+  "showDescription": true,
+  "banners": [],
+  "atAGlance": {
+    "lastUpdatedOn": {
+      "displayName": "Last Updated  On",
+      "enabled": true
+    },
+    "expiryDate": {
+      "displayName": "Expiry Date",
+      "enabled": true
+    },
+    "learningMode": {
+      "displayName": "Learning Mode",
+      "enabled": true
+    },
+    "region": {
+      "displayName": "Region",
+      "enabled": true
+    },
+    "license": {
+      "displayName": "License",
+      "enabled": true
+    },
+    "locale": {
+      "displayName": "Locale",
+      "enabled": true
+    },
+    "hasTranslations": {
+      "displayName": "Has Translations",
+      "enabled": true
+    },
+    "keywords": {
+      "displayName": "Keywords",
+      "enabled": true
+    },
+    "curatedInKB": {
+      "displayName": "Size",
+      "enabled": true
+    },
+    "displayContentType": {
+      "displayName": "Content Type",
+      "enabled": true
+    },
+    "complexityLevel": {
+      "displayName": "Complexity Level",
+      "enabled": true
+    },
+    "duration": {
+      "displayName": "Duration",
+      "enabled": true
+    },
+    "cost": {
+      "displayName": "Cost",
+      "enabled": true
+    },
+    "viewCount": {
+      "displayName": "View Count",
+      "enabled": true
+    },
+    "sourceShortName": {
+      "displayName": "Source Name",
+      "enabled": true
+    },
+    "structure": {
+      "displayName": "Structure",
+      "enabled": true
+    }
+  },
+  "overview": {
+    "description": {
+      "displayName": "Summary",
+      "enabled": true
+    },
+    "body": {
+      "displayName": "Description",
+      "enabled": true
+    },
+    "learningObjective": {
+      "displayName": "Learning Objective",
+      "enabled": true
+    },
+    "registrationInstructions": {
+      "displayName": "Registration Instructions",
+      "enabled": true
+    },
+    "studyMaterials": {
+      "displayName": "Study Materials",
+      "enabled": true
+    },
+    "skills": {
+      "displayName": "Skills",
+      "enabled": true
+    },
+    "preRequisites": {
+      "displayName": "Pre-Requisites",
+      "enabled": true
+    },
+    "topics": {
+      "displayName": "Topics",
+      "enabled": true
+    }
+  },
+  "analytics": {
+    "enabled": true,
+    "available": true,
+    "courseAnalyticsClient": true,
+    "courseAnalytics": false
+  }
+}

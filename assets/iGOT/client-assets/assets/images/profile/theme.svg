@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="274px" height="119px" viewBox="0 0 274 119" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Theme</title>
+    <defs>
+        <path d="M0,0 L274,0 L274,115.846154 C274,117.503008 272.656854,118.846154 271,118.846154 L3,118.846154 C1.34314575,118.846154 2.02906125e-16,117.503008 0,115.846154 L0,0 L0,0 Z" id="path-1"></path>
+        <linearGradient x1="100%" y1="52.9468076%" x2="0%" y2="52.9468076%" id="linearGradient-3">
+            <stop stop-color="#0074B6" stop-opacity="0.029266144" offset="0%"></stop>
+            <stop stop-color="#0074B6" stop-opacity="0.0998885148" offset="100%"></stop>
+            <stop stop-color="#0074B6" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Settings" transform="translate(-634.000000, -1068.000000)">
+            <g id="Group-7" transform="translate(325.000000, 513.000000)">
+                <g id="Group-6" transform="translate(308.000000, 32.000000)">
+                    <g id="Selection-controls/checkbox_option_selected-Copy-8" transform="translate(0.000000, 475.000000)">
+                        <g id="Theme" transform="translate(1.000000, 48.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Rectangle" fill="#FFFFFF" xlink:href="#path-1"></use>
+                            <rect id="Rectangle" fill="#0074B6" mask="url(#mask-2)" x="-1" y="0" width="99" height="120"></rect>
+                            <rect id="Rectangle-Copy" fill="#0074B6" opacity="0.2" mask="url(#mask-2)" x="98" y="0" width="46" height="120"></rect>
+                            <rect id="Rectangle-Copy-4" fill="#F69953" mask="url(#mask-2)" x="143" y="0" width="46" height="120"></rect>
+                            <rect id="Rectangle-Copy-7" fill="#F69953" opacity="0.2" mask="url(#mask-2)" x="189" y="0" width="46" height="120"></rect>
+                            <rect id="Rectangle-Copy-8" fill="#373434" mask="url(#mask-2)" x="235" y="0" width="40" height="120"></rect>
+                            <path d="M0,1.09423581e-12 L274,1.09423581e-12 L274,115.846154 C274,117.503008 272.656854,118.846154 271,118.846154 L3,118.846154 C1.34314575,118.846154 2.02906125e-16,117.503008 0,115.846154 L0,1.09423581e-12 L0,1.09423581e-12 Z" id="Rectangle" fill="url(#linearGradient-3)" mask="url(#mask-2)"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

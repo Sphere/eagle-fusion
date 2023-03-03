@@ -1,0 +1,279 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_blogs",
+            "actionBtn": {
+              "icon": "insert_drive_file",
+              "iconType": "mat-icon",
+              "id": "feature_blogs",
+              "keywords": ["blogs", "leader blogs"],
+              "name": "Blogs",
+              "permission": ["BLOGS"],
+              "status": "live",
+              "toolTip": "Blogs",
+              "url": "/app/social/blogs",
+              "description": "Read and write big ideas and important stories",
+              "accessKey": ""
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_Q&A",
+            "actionBtn": {
+              "accessKey": "",
+              "description": "Question and answer hub for professional and enthusiast programmers.",
+              "icon": "question_answer",
+              "iconType": "mat-icon",
+              "id": "feature_Q&A",
+              "keywords": ["question and answer", "qna", "q and a"],
+              "name": "Question and Answer",
+              "permission": ["QUESTION_AND_ANSWER"],
+              "status": "alpha",
+              "toolTip": "Question and Answer",
+              "url": "/app/social/qna"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_onBoarding",
+            "actionBtn": {
+              "accessKey": "O",
+              "description": "Get on-boarded with us",
+              "icon": "transfer_within_a_station",
+              "iconType": "mat-icon",
+              "id": "feature_onBoarding",
+              "keywords": ["onboarding", "onboarding kit"],
+              "name": "OnBoarding",
+              "permission": ["ONBOARDING"],
+              "show": true,
+              "status": "live",
+              "toolTip": "OnBoarding",
+              "url": "/page/onboarding"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_playlist",
+            "actionBtn": {
+              "accessKey": "P",
+              "description": "Create and learn from playlists. Share with your friends too.",
+              "icon": "playlist_play",
+              "iconType": "mat-icon",
+              "id": "feature_playlist",
+              "keywords": ["playlists", "collection"],
+              "name": "Playlists",
+              "permission": ["PLAYLIST"],
+              "status": "live",
+              "toolTip": "Playlists",
+              "url": "/app/playlist"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_dashboard",
+            "actionBtn": {
+              "accessKey": "",
+              "icon": "web",
+              "iconType": "mat-icon",
+              "id": "feature_dashboard",
+              "keywords": ["dashboard", "hands-on", "coding", "solve", "evaluate"],
+              "name": "Hands-On Dashboard",
+              "permission": [""],
+              "status": "live",
+              "toolTip": "Hands-On Dashboard",
+              "url": "/page/embed-handson-dashboard"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_navigator",
+            "actionBtn": {
+              "accessKey": "",
+              "description": "Learn by the help of our guide",
+              "icon": "explore",
+              "iconType": "mat-icon",
+              "id": "feature_navigator",
+              "keywords": ["navigator", "guide", "pilot", "innovation"],
+              "name": "Navigator",
+              "permission": ["NAVIGATOR"],
+              "show": false,
+              "status": "live",
+              "toolTip": "Navigator",
+              "url": "/app/infy/navigator"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_leaderBoard",
+            "actionBtn": {
+              "accessKey": "l",
+              "description": "Check the leaderboard and see where you stand",
+              "icon": "insert_chart_outlined",
+              "iconType": "mat-icon",
+              "id": "feature_leaderBoard",
+              "keywords": ["leaderboard", "rank", "stand", "performance"],
+              "name": "LeaderBoard",
+              "permission": [" LEADERBOARD"],
+              "show": true,
+              "status": "live",
+              "toolTip": "LeaderBoard",
+              "url": "/app/leaderboard/weekly/learner"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_goals",
+            "actionBtn": {
+              "accessKey": "G",
+              "description": "Create and learn from goals. Share with your friends too.",
+              "icon": "adjust",
+              "iconType": "mat-icon",
+              "id": "feature_goals",
+              "keywords": ["goals", "target", "aim", "desire"],
+              "name": "Goals",
+              "permission": ["GOAL"],
+              "show": true,
+              "status": "live",
+              "toolTip": "Goals",
+              "url": "/app/goals"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_feedback",
+            "actionBtn": {
+              "accessKey": "#",
+              "description": "Like us? Have some suggestions? Want to report a bug?",
+              "icon": "feedback",
+              "iconType": "mat-icon",
+              "id": "feature_feedback",
+              "keywords": [
+                "feedback",
+                "query",
+                "bug",
+                "help",
+                "report",
+                "suggestions",
+                "like",
+                "comment"
+              ],
+              "name": "Feedback",
+              "permission": ["FEEDBACK"],
+              "show": true,
+              "status": "live",
+              "toolTip": "Feedback",
+              "url": "/app/feedback"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_learningTime",
+            "actionBtn": {
+              "accessKey": ":",
+              "description": "Check the time spent on the platform",
+              "icon": "access_time",
+              "iconType": "mat-icon",
+              "id": "feature_learningTime",
+              "keywords": ["time spent", "learning time", "learning", "time"],
+              "name": "Learning Time",
+              "permission": ["LEARNING_TIME"],
+              "show": true,
+              "status": "live",
+              "toolTip": "Learning Time",
+              "url": "/app/profile/activity/learning-time"
+            }
+          },
+          "widgetSubType": "actionButtonFeatureApps",
+          "widgetType": "actionButton"
+        },
+        {
+          "widgetData": {
+            "config": {
+              "type": "card-full"
+            },
+            "actionBtnId": "feature_learningHistory",
+            "actionBtn": {
+              "accessKey": "Y",
+              "description": "Check your course progress",
+              "icon": "timeline",
+              "iconType": "mat-icon",
+              "id": "feature_learningHistory",
+              "keywords": ["learning history", "timeline", "progress", "past", "history"],
+              "name": "Learning History",
+              "permission": ["LEARNING_HISTORY"],
+              "show": true,
+              "status": "live",
+              "toolTip": "Learning History",
+              "url": "/app/profile/activity/learning-history"
+            }
+          },
+          "widgetSubType": "buttonFeature",
+          "widgetType": "actionButton"
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

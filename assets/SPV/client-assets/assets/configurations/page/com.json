@@ -1,0 +1,13 @@
+{
+  "minWidth": 1010,
+  "maxWidth": 500090000,
+  "widget": {
+    "widgetData": {
+      "template": "<div class=\"flex flex-wrap justify-center\"> {{#items}}<div class=\"w-1\/5 text-center h-24 px-1 mb-2\"><div class=\"h-full\" style=\"color: #fff; background: #45abba;\">{{title}}<\/div><\/div> {{\/items}}<\/div>",
+      "templateData": "{\"items\":[{\"style\":\"\",\"title\":\"Title 1\"},{\"style\":\"\",\"title\":\"Title 2\"},{\"style\":\"\",\"title\":\"Title 3\"},{\"style\":\"\",\"title\":\"Title 4\"},{\"style\":\"\",\"title\":\"Title 5\"},{\"style\":\"\",\"title\":\"Title 6\"},{\"style\":\"\",\"title\":\"Title 7\"},{\"style\":\"\",\"title\":\"Title 8\"},{\"style\":\"\",\"title\":\"Title 9\"},{\"style\":\"\",\"title\":\"Title 10\"},{\"style\":\"\",\"title\":\"Title 1\"},{\"style\":\"\",\"title\":\"Title 2\"},{\"style\":\"\",\"title\":\"Title 3\"},{\"style\":\"\",\"title\":\"Title 4\"},{\"style\":\"\",\"title\":\"Title 5\"},{\"style\":\"\",\"title\":\"Title 6\"},{\"style\":\"\",\"title\":\"Title 7\"},{\"style\":\"\",\"title\":\"Title 8\"},{\"style\":\"\",\"title\":\"Title 9\"},{\"style\":\"\",\"title\":\"Title 10\"}]}"
+    },
+    "widgetSubType": "elementHtml",
+    "widgetType": "element",
+    "widgetHostClass": "block px-4"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "tabs": [
+    {
+      "title": "about",
+      "banners": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "widgetData": [
+          {
+            "banners": {
+              "l": "/assets/instances/Lex/leadership/mohit/banner-3/l.png",
+              "m": "/assets/instances/Lex/leadership/mohit/banner-3/m.png",
+              "s": "/assets/instances/Lex/leadership/mohit/banner-3/s.png",
+              "xl": "/assets/instances/Lex/leadership/mohit/banner-3/l.png",
+              "xs": "/assets/instances/Lex/leadership/mohit/banner-3/xs.png"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": "tweets",
+      "banners": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "widgetData": [
+          {
+            "banners": {
+              "l": "/assets/instances/Lex/leadership/common-banners/Twitter/1/l.png",
+              "m": "/assets/instances/Lex/leadership/common-banners/Twitter/1/m.png",
+              "s": "/assets/instances/Lex/leadership/common-banners/Twitter/1/s.png",
+              "xl": "/assets/instances/Lex/leadership/common-banners/Twitter/1/l.png",
+              "xs": "/assets/instances/Lex/leadership/common-banners/Twitter/1/xs.png"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": "articles",
+      "banners": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "widgetData": [
+          {
+            "banners": {
+              "l": "/assets/instances/Lex/leadership/common-banners/Articles/1/l.png",
+              "m": "/assets/instances/Lex/leadership/common-banners/Articles/1/m.png",
+              "s": "/assets/instances/Lex/leadership/common-banners/Articles/1/s.png",
+              "xl": "/assets/instances/Lex/leadership/common-banners/Articles/1/l.png",
+              "xs": "/assets/instances/Lex/leadership/common-banners/Articles/1/xs.png"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": "conversations",
+      "banners": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "widgetData": [
+          {
+            "banners": {
+              "l": "/assets/instances/Lex/leadership/common-banners/Conversations/1/l.png",
+              "m": "/assets/instances/Lex/leadership/common-banners/Conversations/1/m.png",
+              "s": "/assets/instances/Lex/leadership/common-banners/Conversations/1/s.png",
+              "xl": "/assets/instances/Lex/leadership/common-banners/Conversations/1/l.png",
+              "xs": "/assets/instances/Lex/leadership/common-banners/Conversations/1/xs.png"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": "communications",
+      "banners": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "widgetData": [
+          {
+            "banners": {
+              "l": "/assets/instances/Lex/leadership/common-banners/Communications/1/l.png",
+              "m": "/assets/instances/Lex/leadership/common-banners/Communications/1/m.png",
+              "s": "/assets/instances/Lex/leadership/common-banners/Communications/1/s.png",
+              "xl": "/assets/instances/Lex/leadership/common-banners/Communications/1/l.png",
+              "xs": "/assets/instances/Lex/leadership/common-banners/Communications/1/xs.png"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "title": "discussion",
+      "banners": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "widgetData": [
+          {
+            "banners": {
+              "l": "/assets/instances/Lex/leadership/common-banners/Discuss/1/l.png",
+              "m": "/assets/instances/Lex/leadership/common-banners/Discuss/1/m.png",
+              "s": "/assets/instances/Lex/leadership/common-banners/Discuss/1/s.png",
+              "xl": "/assets/instances/Lex/leadership/common-banners/Discuss/1/l.png",
+              "xs": "/assets/instances/Lex/leadership/common-banners/Discuss/1/xs.png"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "mailMeta": {
+    "subject": "Message from Leader\"s Channel",
+    "placeholder": "Your message here",
+    "emailTo": "EMAIL",
+    "name": "Mohit Joshi"
+  },
+  "profile": {
+    "emailId": "EMAIL",
+    "name": "Mohit Joshi",
+    "designation": "President",
+    "profileImage": "/assets/instances/Lex/leadership/mohit/mohit.jpeg",
+    "link": "/app/infy/leadership/mohit",
+    "role": "leader-discussion-mohit"
+  },
+  "about": "<p class=\"text-justify\"> Mohit Joshi is a President of the company. He is Head of Banking, Financial Services & Insurance ( BFSI), Healthcare and Life Sciences at Infosys and is also responsible for firm-wide sales operations and reporting processes, including large deal pursuits and top account growth. Mohit has over 18 years of professional experience working across the US, India, Mexico, and Europe. His area of expertise lies in the intersection of financial services and technology. Mohit was also selected as a Young Global Leader (YGL) by the World Economic Forum, Davos earlier this year. </p> <p class=\"text-justify\"> He joined Infosys in 2000 and has since worked in different capacities. In his previous role, he was responsible for leading the Financial Services practice in Europe. In 2007, Mohit was appointed as CEO of Infosys Mexico and was instrumental in setting up the first subsidiary in Latin America. </p> <p class=\"text-justify\"> Mohit has previously worked in India with ABN AMRO and ANZ Grindlays in their Corporate and Investment banks. </p>  Mohit holds a Master of Business Administration from the Faculty of Management Studies, Delhi University and a bachelor’s degree in history from St. Stephen’s College, Delhi. </p> ",
+  "twitterUrl": "https://twitter.com/joshimohit_ygl?ref_src=twsrc%5Etf",
+  "articles": [
+    {
+      "title": "Five Key Factors for Digital Transformation in the Banking Industry",
+      "postedOn": "JANUARY 01, 2019",
+      "abstract": "Modernize legacy systems to keep pace with digital.",
+      "iconUrl": "/assets/instances/Lex/leadership/blog1.jpg",
+      "url": "https://www.cio.com/article/3392836/five-key-factors-for-digital-transformation-in-the-banking-industry.html"
+    }
+  ],
+  "stripSearchRequest": {
+    "widgetType": "contentStrip",
+    "widgetSubType": "contentStripMultiple",
+    "widgetData": {
+      "strips": [
+        {
+          "key": "leadership-mohit",
+          "title": "",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "keywords": ["MohitJoshi-Leadership"]
+              },
+              "pageNo": 0,
+              "pageSize": 10
+            }
+          }
+        }
+      ],
+      "noDataWidget": {
+        "widgetData": {
+          "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+          "containerStyle": {}
+        },
+        "widgetSubType": "elementHtml",
+        "widgetType": "element"
+      },
+      "errorWidget": {
+        "widgetType": "errorResolver",
+        "widgetSubType": "errorResolver",
+        "widgetData": {
+          "errorType": "internalServer"
+        }
+      },
+      "loader": true
+    }
+  },
+  "communicationSearchRequest": {
+    "widgetType": "contentStrip",
+    "widgetSubType": "contentStripMultiple",
+    "widgetData": {
+      "strips": [
+        {
+          "key": "communications-mohit",
+          "title": "",
+          "stripConfig": {
+            "cardSubType": "standard",
+            "postCardForSearch": true
+          },
+          "filters": [],
+          "request": {
+            "search": {
+              "filters": {
+                "keywords": ["MohitJoshi-Communications"]
+              },
+              "pageNo": 0,
+              "pageSize": 10
+            }
+          }
+        }
+      ],
+      "noDataWidget": {
+        "widgetData": {
+          "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+          "containerStyle": {}
+        },
+        "widgetSubType": "elementHtml",
+        "widgetType": "element"
+      },
+      "errorWidget": {
+        "widgetType": "errorResolver",
+        "widgetSubType": "errorResolver",
+        "widgetData": {
+          "errorType": "internalServer"
+        }
+      },
+      "loader": true
+    }
+  },
+  "discussId": "mohit-joshi"
+}

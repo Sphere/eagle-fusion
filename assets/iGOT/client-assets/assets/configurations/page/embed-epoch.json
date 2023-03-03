@@ -1,0 +1,19 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "Epoch"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lab42.idemo-ppc.com/epoch/landingpage.html",
+      "Title": "Epoch"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}
+
+
+
+

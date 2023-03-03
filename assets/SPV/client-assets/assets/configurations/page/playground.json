@@ -1,0 +1,103 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "back",
+    "pageTitle": "Playground"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": [
+            {
+              "banners": {
+                "l": "assets/instances/Wingspan-Siemens/banners/home/1/l.jpg",
+                "m": "assets/instances/Wingspan-Siemens/banners/home/1/m.jpg",
+                "s": "assets/instances/Wingspan-Siemens/banners/home/1/s.jpg",
+                "xl": "assets/instances/Wingspan-Siemens/banners/home/1/xl.jpg",
+                "xs": "assets/instances/Wingspan-Siemens/banners/home/1/xs.jpg"
+              },
+              "redirectUrl": "",
+              "title": "Practice and assses your knowledge through Playgrounds"
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "TechnologyPlayground",
+                "title": "Technology Playground",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "contentType": ["Resource"],
+                      "learningMode": ["Self-Paced"],
+                      "resourceCategory": ["Technical-Playground"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 10,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              },
+              {
+                "key": "AssessmentPlayground",
+                "title": "Assessment Playground",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "contentType": ["Resource"],
+                      "learningMode": ["Self-Paced"],
+                      "resourceCategory": ["Assessment-Playground"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 10,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

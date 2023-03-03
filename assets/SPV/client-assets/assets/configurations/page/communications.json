@@ -1,0 +1,1120 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Communications"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col justify-end relative h-full\" style=\"background-size: cover !important;background-position:center;background-image:url({{imageSrc}}); min-height: 472px\"><div class=\"sm:w-2\/3 w-full\" > <span style=\"background-color: #7a98a3;opacity:0.70\" class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><\/div><\/div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-communications/kv-communications-1280.jpg",
+                          "overlayText": "LEARN & DEVELOP YOURSELF @Communication",
+                          "altText": "Learning@Communication"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 1024,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col justify-end relative h-full\" style=\"background-size: cover !important;background-position:center;background-image:url({{imageSrc}}); min-height: 472px\"><div class=\"sm:w-2\/3 w-full\" > <span style=\"background-color: #7a98a3;opacity:0.70\" class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><\/div><\/div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-communications/kv-communications-1024.jpg",
+                          "overlayText": "LEARN & DEVELOP YOURSELF @Communication",
+                          "altText": "Learning@Communication"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1023,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col justify-end relative h-full\" style=\"background-size: cover !important;background-position:center;background-image:url({{imageSrc}}); min-height: 472px\"><div class=\"sm:w-2\/3 w-full\" > <span style=\"background-color: #7a98a3;opacity:0.70\" class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><\/div><\/div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-communications/kv-communications-768.jpg",
+                          "overlayText": "LEARN & DEVELOP YOURSELF @Communication",
+                          "altText": "Learning@Communication"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 414,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col justify-end relative h-full\" style=\"background-size: cover !important;background-position:center;background-image:url({{imageSrc}}); min-height: 472px\"><div class=\"sm:w-2\/3 w-full\" > <span style=\"background-color: #7a98a3;opacity:0.70\" class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><\/div><\/div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-communications/kv-communications-414.jpg",
+                          "overlayText": "LEARN & DEVELOP YOURSELF @Communication",
+                          "altText": "Learning@Communication"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 413,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-col justify-end relative h-full\" style=\"background-size: cover !important;background-position:center;background-image:url({{imageSrc}}); min-height: 472px\"><div class=\"sm:w-2\/3 w-full\" > <span style=\"background-color: #7a98a3;opacity:0.70\" class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><\/div><\/div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/siemens-communications/kv-communications-320.jpg",
+                          "overlayText": "LEARN & DEVELOP YOURSELF @Communication",
+                          "altText": "Learning@Communication"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 4,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex h-full flex-col\">{{#items}}<a href=\"{{link}}\" target=\"{{target}}\" style=\"{{backgroundColor}}\" class=\"w-full h-full mt-2 first:mt-0 text-center flex justify-center items-center\"><div class=\"p-2\"><img class=\"mb-3\" src=\"{{iconUrl}}\"/><div class=\"text-xl text-white leading-normal font-semibold\"><div>{{title}}</div></div></div></a>{{/items}}</div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #41aac8",
+                      "title": "How-to guide to enjoy your learning experience.",
+                      "iconUrl": "/assets/instances/Siemens/siemens-communications/learning-experience-icon.png",
+                      "link": "/app/toc/lex_auth_0128411882054451203815/overview",
+                      "target": "_blank"
+                    },
+                    {
+                      "backgroundColor": "background: #b8baa4",
+                      "title": "Help us to become better and join this short survey.",
+                      "iconUrl": "/assets/instances/Siemens/siemens-communications/short-survey-icon.png",
+                      "link": "https://www.idea-company.siemens.cloud/instagauge/survey/1E1C9L",
+                      "target": "_blank"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 lg:-my-2 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "containerClass": "px-6 sm:px-8 md:px-10",
+                "template": "<div class=\"flex-wrap w-full flex\">{{#items}}<div class=\"sm:w-1/2 md:w-1/4 w-full\"><a href=\"{{__pageBase}}#{{bookmarkRef}}\" style=\"{{backgroundColor}}\" class=\"p-2 my-1 mr-0 sm:mr-2 flex text-center justify-center items-center h-48\"><div><img class=\"mb-3\" src=\"{{iconUrl}}\"><div class=\"text-xl text-white leading-normal font-semibold\"><div>{{title}}<\/div><\/div><\/div><\/a><\/div>{{\/items}}<\/div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #b5396f",
+                      "title": "Be relevant, have impact",
+                      "iconUrl": "/assets/instances/Siemens/siemens-communications/be-relevant-icon.png",
+                      "bookmarkRef": "be_relevant"
+                    },
+                    {
+                      "backgroundColor": "background: #186d92",
+                      "title": "Compentencies of Communicators",
+                      "iconUrl": "/assets/instances/Siemens/siemens-communications/competencies-icon.png",
+                      "bookmarkRef": "competencies"
+                    },
+                    {
+                      "backgroundColor": "background: #268d92 ",
+                      "title": "The Digitack",
+                      "iconUrl": "/assets/instances/Siemens/siemens-communications/digitrack-icon.png",
+                      "bookmarkRef": "digitrack"
+                    },
+                    {
+                      "backgroundColor": "background: #aeb91d; margin-right: 0",
+                      "title": "How you can contribute",
+                      "iconUrl": "/assets/instances/Siemens/siemens-communications/contribute-icon.png",
+                      "bookmarkRef": "contribute"
+                    }
+                  ]
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Be relevant, have impact"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "be_relevant",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_l8e09ald",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_l8e09ald/uiConfId/35069072",
+                "containerClass": "kmsembed",
+                "title": "Kaltura Video",
+                "containerStyle": {
+                  "height": "373px"
+                }
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full video-full",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 4,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411830621716483237",
+                        "lex_auth_0128411826345738243233",
+                        "lex_auth_0128411888274718723238",
+                        "lex_auth_0128411854095400963234"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "md:-my-10 md:-ml-10 block",
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Competencies of Siemens Communications"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "competencies",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "349",
+                        "imageWidth": "1322",
+                        "imageSrc": "/assets/instances/Siemens/siemens-communications/image-map-tiles.jpg",
+                        "mapName": "map-communications",
+                        "map": [
+                          {
+                            "coords": [
+                              302,
+                              55,
+                              516,
+                              145
+                            ],
+                            "alt": "Analytical Mindset",
+                            "title": "Analytical Mindset",
+                            "link": "/app/knowledge-board/lex_auth_01284459755203788879",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              524,
+                              55,
+                              739,
+                              145
+                            ],
+                            "alt": "Think Digital First",
+                            "title": "Think Digital First",
+                            "link": "/app/knowledge-board/lex_auth_01284459817235251280",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              743,
+                              55,
+                              961,
+                              144
+                            ],
+                            "alt": "Accountability",
+                            "title": "Accountability",
+                            "link": "/app/knowledge-board/lex_auth_01284459312907878423",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              303,
+                              149,
+                              517,
+                              235
+                            ],
+                            "alt": "Agile Teamwork and Collaboration",
+                            "title": "Agile Teamwork and Collaboration",
+                            "link": "/app/knowledge-board/lex_auth_012844592501293056120",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              523,
+                              148,
+                              739,
+                              235
+                            ],
+                            "alt": "Efficiency: Output vs. Impact",
+                            "title": "Efficiency: Output vs. Impact",
+                            "link": "/app/knowledge-board/lex_auth_012844594617851904124",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              745,
+                              148,
+                              961,
+                              237
+                            ],
+                            "alt": "Own Your Career Mindset",
+                            "title": "Own Your Career Mindset",
+                            "link": "/app/knowledge-board/lex_auth_01284459043837542497",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              302,
+                              239,
+                              518,
+                              326
+                            ],
+                            "alt": "Change Management",
+                            "title": "Change Management",
+                            "link": "/app/knowledge-board/lex_auth_01284459043837542497",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              527,
+                              243,
+                              741,
+                              327
+                            ],
+                            "alt": "Outside-in Perspective",
+                            "title": "Outside-in Perspective",
+                            "link": "/app/knowledge-board/lex_auth_012844595082698752122",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              746,
+                              328,
+                              959,
+                              245
+                            ],
+                            "alt": "Communications value chain",
+                            "title": "Communications value chain",
+                            "link": "/app/knowledge-board/lex_auth_012844594818596864125",
+                            "target": "_blank"
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundImage}}\"><div class=\"font-bold text-2xl p-4 leading-normal\">{{boxTitle}}<\/div><div class=\"p-4 flex flex-wrap justify-center\"> {{#items}} <a target=\"_blank\" href=\"{{link}}/overview\" class=\"w-full h-16 sm:h-24 sm:w-1/2 md:w-1/3 lg:w-1/4 m-1\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-semibold\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div><\/div>",
+                        "templateData": {
+                          "backgroundImage": "background-image: url('/assets/instances/Siemens/siemens-communications/image-map-tiles-background.jpg')",
+                          "boxTitle": "As communications evanelist you incorporate these core competencies",
+                          "items": [
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Analytics Mindset",
+                              "link": "/app/knowledge-board/lex_auth_01284459755203788879"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Think Digital First",
+                              "link": "/app/knowledge-board/lex_auth_01284459817235251280"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Accountability",
+                              "link": "/app/knowledge-board/lex_auth_01284459312907878423"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Agile Teamwork and Collaboration",
+                              "link": "/app/knowledge-board/lex_auth_012844592501293056120"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Efficiency: Output vs. Impact",
+                              "link": "/app/knowledge-board/lex_auth_012844594617851904124"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Own your Career Mindset",
+                              "link": "/app/knowledge-board/lex_auth_01284459043837542497"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Change Management",
+                              "link": "/app/knowledge-board/lex_auth_01284459043837542497"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Outside-in Perspective",
+                              "link": "/app/knowledge-board/lex_auth_012844595082698752122"
+                            },
+                            {
+                              "style": "color: white; background: #005f87;",
+                              "title": "Communications value chain",
+                              "link": "/app/knowledge-board/lex_auth_012844594818596864125"
+                            }
+                          ]
+                        },
+                        "containerClass": "mat-elevation-z4"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "434",
+                        "imageWidth": "1322",
+                        "imageSrc": "/assets/instances/Siemens/siemens-communications/image-map-tiles-20.jpg",
+                        "mapName": "communications",
+                        "map": [
+                          {
+                            "coords": [
+                              304,
+                              53,
+                              427,
+                              137
+                            ],
+                            "alt": "Content",
+                            "title": "Content",
+                            "link": "/app/toc/lex_auth_0128411847817461763147/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              434,
+                              139,
+                              561,
+                              51
+                            ],
+                            "alt": "Business Partner MBM",
+                            "title": "Business Partner MBM",
+                            "link": "/app/toc/lex_auth_0128411855325429763585/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              568,
+                              138,
+                              693,
+                              51
+                            ],
+                            "alt": "Events",
+                            "title": "Events",
+                            "link": "/app/toc/lex_auth_0128411875465461763576/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              701,
+                              140,
+                              830,
+                              51
+                            ],
+                            "alt": "Business Partner OPCo",
+                            "title": "Business Partner OPCo",
+                            "link": "/app/toc/lex_auth_0128411849617080323349/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              832,
+                              53,
+                              962,
+                              140
+                            ],
+                            "alt": "Digital Ecosystem Management",
+                            "title": "Digital Ecosystem Management",
+                            "link": "/app/toc/lex_auth_0128411884611092483198/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              300,
+                              144,
+                              429,
+                              232
+                            ],
+                            "alt": "Employee Engagement",
+                            "title": "Employee Engagement",
+                            "link": "/app/toc/lex_auth_0128411873866874883200/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              434,
+                              144,
+                              562,
+                              232
+                            ],
+                            "alt": "Core Topics Management",
+                            "title": "Core Topics Management",
+                            "link": "/app/toc/lex_auth_0128411894118563843583/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              567,
+                              144,
+                              697,
+                              231
+                            ],
+                            "alt": "Fairs",
+                            "title": "Fairs",
+                            "link": "/app/toc/lex_auth_0128411876342988803575/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              702,
+                              144,
+                              830,
+                              232
+                            ],
+                            "alt": "Business Partner Country",
+                            "title": "Business Partner Country",
+                            "link": "/app/toc/lex_auth_0128411847781744643350/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              834,
+                              232,
+                              959,
+                              147
+                            ],
+                            "alt": "Technical Architect",
+                            "title": "Technical Architect",
+                            "link": "/app/toc/lex_auth_0128411890758778883597/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              300,
+                              237,
+                              430,
+                              324
+                            ],
+                            "alt": "Media Relations",
+                            "title": "Media Relations",
+                            "link": "/app/toc/lex_auth_0128411892330659843305/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              434,
+                              238,
+                              563,
+                              324
+                            ],
+                            "alt": "Speech-writing",
+                            "title": "Speech-writing",
+                            "link": "/app/toc/lex_auth_0128411901127966723344/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              569,
+                              239,
+                              695,
+                              326
+                            ],
+                            "alt": "Project Management",
+                            "title": "Project Management",
+                            "link": "/app/toc/lex_auth_0128411873194229763343/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              701,
+                              237,
+                              829,
+                              326
+                            ],
+                            "alt": "Campaign Management",
+                            "title": "Campaign Management",
+                            "link": "/app/toc/lex_auth_0128411847079116803342/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              834,
+                              236,
+                              961,
+                              323
+                            ],
+                            "alt": "Online Production",
+                            "title": "Online Production",
+                            "link": "/app/toc/lex_auth_0128411877827297283601/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              302,
+                              418,
+                              429,
+                              330
+                            ],
+                            "alt": "Historical Research",
+                            "title": "Historical Research",
+                            "link": "/app/toc/lex_auth_0128411920989962243587/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              435,
+                              330,
+                              562,
+                              419
+                            ],
+                            "alt": "Branding",
+                            "title": "Branding",
+                            "link": "/app/toc/lex_auth_0128411879285309443602/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              567,
+                              333,
+                              695,
+                              415
+                            ],
+                            "alt": "Production",
+                            "title": "Production",
+                            "link": "/app/toc/lex_auth_0128411851019223043599/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              701,
+                              330,
+                              829,
+                              418
+                            ],
+                            "alt": "Demand Generation",
+                            "title": "Demand Generation",
+                            "link": "/app/toc/lex_auth_0128411807843532803149/overview",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              834,
+                              329,
+                              961,
+                              415
+                            ],
+                            "alt": "Analytics",
+                            "title": "Analytics",
+                            "link": "/app/toc/lex_auth_0128411833471221763306/overview",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full mat-elevation-z4",
+                        "containerStyle": {
+                          "min-height": "460px"
+                        }
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "communication"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div style=\"{{backgroundImage}}\"><div class=\"font-bold text-2xl p-4 leading-normal\">{{boxTitle}}<\/div><div class=\"p-4 flex flex-wrap justify-center\"> {{#items}} <a href=\"/app/toc/{{link}}/overview\" class=\"w-full h-16 sm:h-24 sm:w-1/4 md:w-1/5 lg:w-1/6 m-1\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-semibold\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div><\/div>",
+                        "templateData": {
+                          "backgroundImage": "background-image: url('/assets/instances/Siemens/siemens-communications/image-map-tiles-background.jpg')",
+                          "boxTitle": "These are the roles in communications - click to learn more about competencies behind",
+                          "items": [
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Content",
+                              "link": "lex_auth_0128411847817461763147"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Business Partner MBM",
+                              "link": "lex_auth_0128411855325429763585"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Events",
+                              "link": "lex_auth_0128411875465461763576"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Business Partner OPCo",
+                              "link": "lex_auth_0128411849617080323349"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Digital Ecosystem Management",
+                              "link": "lex_auth_0128411884611092483198"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Employee Engagement",
+                              "link": "lex_auth_0128411873866874883200"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Core Topics Management",
+                              "link": "lex_auth_0128411894118563843583"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Fairs",
+                              "link": "lex_auth_0128411876342988803575"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Business Partner Country",
+                              "link": "lex_auth_0128411847781744643350"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Technical Architect",
+                              "link": "lex_auth_0128411890758778883597"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Media Relations",
+                              "link": "lex_auth_0128411892330659843305"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Speech-writing",
+                              "link": "lex_auth_0128411901127966723344"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Project Management",
+                              "link": "lex_auth_0128411873194229763343"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Campaign Management",
+                              "link": "lex_auth_0128411847079116803342"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Online Production",
+                              "link": "lex_auth_0128411877827297283601"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Historical Research",
+                              "link": "lex_auth_0128411920989962243587"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Branding",
+                              "link": "lex_auth_0128411879285309443602"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Production",
+                              "link": "lex_auth_0128411851019223043599"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Demand Generation",
+                              "link": "lex_auth_0128411807843532803149"
+                            },
+                            {
+                              "style": "color: white; background: #45abba;",
+                              "title": "Analytics",
+                              "link": "lex_auth_0128411833471221763306"
+                            }
+                          ]
+                        },
+                        "containerClass": "mat-elevation-z4"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "The DigiTrack"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "digitrack",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 12
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-communications/digital-enhancement.jpg",
+                            "altText": "Content"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "contribute"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411778032762882598",
+                        "lex_auth_0128411811723427842583",
+                        "lex_auth_0128411807934791682581"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block sm:pb-4 pb-8 lg:-my-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-communications/what-to-know.jpg",
+                            "altText": "Content"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "contribute"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411808186859522539",
+                        "lex_auth_0128411816747417602546",
+                        "lex_auth_012872933557452800447",
+                        "lex_auth_0128411813053808642543",
+                        "lex_auth_012872933424242688448",
+                        "lex_auth_0128411788915998722547",
+                        "lex_auth_0128411764688322562548"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-my-10"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-communications/how-to-use.jpg",
+                            "altText": "Content"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "contribute"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411775881216002561",
+                        "lex_auth_0128411833436487682562",
+                        "lex_auth_0128411791291842562564",
+                        "lex_auth_0128411873026949123481",
+                        "lex_auth_0128411876562452483483",
+                        "lex_auth_0128411844640849923482",
+                        "lex_auth_0128411854867906563484",
+                        "lex_auth_0128411835938488323487",
+                        "lex_auth_0128411833840926723488",
+                        "lex_auth_0128411944490844164259",
+                        "lex_auth_0128411967492259844261",
+                        "lex_auth_0128411915374018564265",
+                        "lex_auth_0128411911738818564267",
+                        "lex_auth_0128411899154923524270",
+                        "lex_auth_0128411931625308164264",
+                        "lex_auth_0128411962055966724266",
+                        "lex_auth_0128411949339607044268"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-my-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "contribute",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/siemens-communications/content.png",
+                            "altText": "Content"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "contribute"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411882522378243241",
+                        "lex_auth_0128411881465774083245"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

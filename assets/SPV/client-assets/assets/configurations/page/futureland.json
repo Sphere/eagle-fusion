@@ -1,0 +1,2026 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Futureland"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetInstanceId": "image_map",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "650",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/futureland/kv-414.jpg",
+                        "mapName": "futureland",
+                        "map": [
+                          {
+                            "coords": [
+                              27,
+                              43,
+                              383,
+                              96
+                            ],
+                            "alt": "Furtureland Learning Exhibition",
+                            "title": "Furtureland Learning Exhibition",
+                            "link": "https://futureland.idea-company.siemens.cloud/intranet/#!/",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              65,
+                              258,
+                              145,
+                              299
+                            ],
+                            "alt": "MindSphere",
+                            "title": "MindSphere",
+                            "link": "./page/futureland#mindsphere",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              172,
+                              255,
+                              242,
+                              309
+                            ],
+                            "alt": "Data Analytics & AI",
+                            "title": "Data Analytics & AI",
+                            "link": "./page/futureland#data_analytics_&_AI",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              273,
+                              257,
+                              349,
+                              309
+                            ],
+                            "alt": "Simulation & Digital Twin",
+                            "title": "Simulation & Digital Twin",
+                            "link": "./page/futureland#simulation_&_digital_twin",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              68,
+                              357,
+                              138,
+                              413
+                            ],
+                            "alt": "Additive Manufacturing",
+                            "title": "Additive Manufacturing",
+                            "link": "./page/futureland#additive_manufacturing",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              170,
+                              358,
+                              241,
+                              411
+                            ],
+                            "alt": "Cyber Security",
+                            "title": "Cyber Security",
+                            "link": "./page/futureland#cyber_security",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              274,
+                              359,
+                              348,
+                              411
+                            ],
+                            "alt": "BlockChain",
+                            "title": "BlockChain",
+                            "link": "./page/futureland#blockchain",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              105,
+                              531,
+                              174,
+                              586
+                            ],
+                            "alt": "Way of Working",
+                            "title": "Way of Working",
+                            "link": "./page/futureland#way_of_working",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              220,
+                              542,
+                              301,
+                              579
+                            ],
+                            "alt": "Technologies",
+                            "title": "Technologies",
+                            "link": "./page/futureland#technologies",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block md:pr-0 px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "onboarding_@_brazil"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 1024,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "768",
+                        "imageSrc": "/assets/instances/Siemens/futureland/kv-768.jpg",
+                        "mapName": "futureland",
+                        "map": [
+                          {
+                            "coords": [
+                              22,
+                              12,
+                              750,
+                              145
+                            ],
+                            "alt": "Furtureland Learning Exhibition",
+                            "title": "Furtureland Learning Exhibition",
+                            "link": "https://futureland.idea-company.siemens.cloud/intranet/#!/",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              17,
+                              309,
+                              101,
+                              340
+                            ],
+                            "alt": "MindSphere",
+                            "title": "MindSphere",
+                            "link": "./page/futureland#mindsphere",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              105,
+                              349,
+                              172,
+                              410
+                            ],
+                            "alt": "Data Analytics & AI",
+                            "title": "Data Analytics & AI",
+                            "link": "./page/futureland#data_analytics_&_AI",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              184,
+                              304,
+                              258,
+                              356
+                            ],
+                            "alt": "Simulation & Digital Twin",
+                            "title": "Simulation & Digital Twin",
+                            "link": "./page/futureland#simulation_&_digital_twin",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              271,
+                              351,
+                              337,
+                              412
+                            ],
+                            "alt": "Additive Manufacturing",
+                            "title": "Additive Manufacturing",
+                            "link": "./page/futureland#additive_manufacturing",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              349,
+                              296,
+                              416,
+                              349
+                            ],
+                            "alt": "Cyber Security",
+                            "title": "Cyber Security",
+                            "link": "./page/futureland#cyber_security",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              424,
+                              358,
+                              501,
+                              400
+                            ],
+                            "alt": "BlockChain",
+                            "title": "BlockChain",
+                            "link": "./page/futureland#blockchain",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              567,
+                              315,
+                              645,
+                              357
+                            ],
+                            "alt": "Way of Working",
+                            "title": "Way of Working",
+                            "link": "./page/futureland#way_of_working",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              659,
+                              369,
+                              744,
+                              398
+                            ],
+                            "alt": "Technologies",
+                            "title": "Technologies",
+                            "link": "./page/futureland#technologies",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block md:pr-0 px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "onboarding_@_brazil"
+                    }
+                  },
+                  {
+                    "minWidth": 1024,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/futureland/kv-1024.jpg",
+                        "mapName": "futureland",
+                        "map": [
+                          {
+                            "coords": [
+                              33,
+                              31,
+                              970,
+                              169
+                            ],
+                            "alt": "Furtureland Learning Exhibition",
+                            "title": "Furtureland Learning Exhibition",
+                            "link": "https://futureland.idea-company.siemens.cloud/intranet/#!/",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              39,
+                              313,
+                              118,
+                              356
+                            ],
+                            "alt": "MindSphere",
+                            "title": "MindSphere",
+                            "link": "./page/futureland#mindsphere",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              135,
+                              348,
+                              205,
+                              406
+                            ],
+                            "alt": "Data Analytics & AI",
+                            "title": "Data Analytics & AI",
+                            "link": "./page/futureland#data_analytics_&_AI",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              230,
+                              313,
+                              304,
+                              365
+                            ],
+                            "alt": "Simulation & Digital Twin",
+                            "title": "Simulation & Digital Twin",
+                            "link": "./page/futureland#simulation_&_digital_twin",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              326,
+                              352,
+                              399,
+                              403
+                            ],
+                            "alt": "Additive Manufacturing",
+                            "title": "Additive Manufacturing",
+                            "link": "./page/futureland#additive_manufacturing",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              416,
+                              317,
+                              493,
+                              362
+                            ],
+                            "alt": "Cyber Security",
+                            "title": "Cyber Security",
+                            "link": "./page/futureland#cyber_security",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              511,
+                              355,
+                              584,
+                              402
+                            ],
+                            "alt": "BlockChain",
+                            "title": "BlockChain",
+                            "link": "./page/futureland#blockchain",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              710,
+                              343,
+                              775,
+                              384
+                            ],
+                            "alt": "Way of Working",
+                            "title": "Way of Working",
+                            "link": "./page/futureland#way_of_working",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              826,
+                              340,
+                              906,
+                              381
+                            ],
+                            "alt": "Technologies",
+                            "title": "Technologies",
+                            "link": "./page/futureland#technologies",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block md:pr-0 px-6 sm:px-8 md:px-10 h-full",
+                      "widgetInstanceId": "onboarding_@_brazil"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <a href=\"/app/toc/{{link}}/overview\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/futureland/recently-added.jpg",
+                  "title": "Recently added",
+                  "items": [
+                    {
+                      "date": "05 Sep, 2019",
+                      "leftText": "Artificial Intelligence",
+                      "link": ""
+                    },
+                    {
+                      "date": "26 Apr., 2019",
+                      "leftText": "The Elements of Artificial...",
+                      "link": "lex_auth_0128411723580538881757"
+                    },
+                    {
+                      "date": "19 Feb., 2019",
+                      "leftText": "Duales Studium Industrie 4.0...",
+                      "link": "lex_auth_0128411829221457923188"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "md:pl-0 block px-6 sm:px-8 md:px-10 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learn about Mindsphere for Futureland"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "mindsphere",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img src=\"/assets/instances/Siemens/futureland/mindsphere.png\" style=\"{{cardStyle}}\" class=\"h-full\"/><div class=\"w-full mt-1\"><span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span></div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; height: 305px",
+                          "overlayText": "Slide here to get an introduction to MindSphere >>",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full flex flex-col",
+                        "containerStyle": {
+                          "min-height": "375px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/mindsphere-gallery.png",
+                          "overlayText": "This is MindSphere",
+                          "overlayText2": "MindSphere in a nutshell",
+                          "altText": "This is MindSphere",
+                          "link": "/app/toc/lex_auth_012841166560583680977/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/ms.png",
+                          "overlayText": "MindSphere at a Glance",
+                          "overlayText2": "The Internet of Things (IoT) Solution.",
+                          "altText": "MindSphere at a Glance",
+                          "link": "?",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/mindsphere1.png",
+                          "overlayText": "IoT Solutions MindSphere",
+                          "overlayText2": "Brief introduction into the potential IoT solutions provided by MindSphere.",
+                          "altText": "IoT Solutions MindSphere",
+                          "link": "/app/toc/lex_auth_0128411723385569281476/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/iot-mindsphere.png",
+                          "overlayText": "White paper | MindSphere",
+                          "overlayText2": "MindSphere, a cloud-based, open operating system for the Internet of Things (IoT).",
+                          "altText": "White paper | MindSphere",
+                          "link": "/app/toc/lex_auth_012841107953491968594/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "mindsphere",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/mindsphere-use-cases.jpg",
+                            "title": "Use cases for MindSphere",
+                            "description": "Slide on the right to take a look at different use cases for MindSphere >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "mindsphere",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411743494799361760",
+                        "lex_auth_0128411687247708161759",
+                        "lex_auth_0128411650991226881505",
+                        "lex_auth_0128411715550740481475"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block md:-my-10 md:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "basic_mindsphere",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/mindsphere-basics.png",
+                            "altText": "Basic Mindsphere"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "basic_mindsphere",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411765879767042271",
+                        "lex_auth_0128411757761904641881",
+                        "lex_auth_0128411701374730241836",
+                        "lex_auth_0128411758041825281839",
+                        "lex_auth_012841162362019840997"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "advanced_mindsphere",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/mindsphere-advanced.png",
+                            "altText": "Advanced MindSphere"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "advanced_mindsphere",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411755734220801847",
+                        "lex_auth_0128411714534768641845",
+                        "lex_auth_0128411688981381121478"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learn more about Data Analytics & Artificial Intelligence for Futureland"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "data_analytics_&_AI",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img src=\"/assets/instances/Siemens/futureland/data-analytics.png\" style=\"{{cardStyle}}\" class=\"h-full\"/><div class=\"w-full mt-1\"><span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span></div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; height: 305px",
+                          "overlayText": "Slide here to get an introduction to Data Analytics & AI >>",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full flex flex-col",
+                        "containerStyle": {
+                          "min-height": "375px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/human-vs-machine.png",
+                          "overlayText": "Human vs. Machine: Artificial Intelligence",
+                          "overlayText2": "Learn about Artificial Intelligence (AI) and its impact on work, society and companies.",
+                          "altText": "Human vs. Machine: Artificial Intelligence",
+                          "link": "/app/toc/lex_auth_012841106135875584471/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/how-will-artificial.png",
+                          "overlayText": "How will Artificial Intelligence affect your life",
+                          "overlayText2": "Watch the TedTalk of Jeff Dean about Artificial Intelligence.",
+                          "altText": "How will Artificial Intelligence affect your life",
+                          "link": "?",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/how-will-ai.png",
+                          "overlayText": "Artificial Intelligence",
+                          "overlayText2": "From SIRI to self-driving cars, artificial intelligence is progressing rapidly.",
+                          "altText": "Artificial Intelligence",
+                          "link": "/app/toc/lex_auth_012841106102845440614/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/towards-artificial.png",
+                          "overlayText": "Towards Industrial Machine Intelligence",
+                          "overlayText2": "Get an idea how to implement AI in industrial production processes by an example dealing with turbines.",
+                          "altText": "Towards Industrial Machine Intelligence",
+                          "link": "/app/toc/lex_auth_0128411697650810881469/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "data_analytics_&_AI",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/data-analytics-use-cases.jpg",
+                            "title": "Use cases for Data Analytics & AI",
+                            "description": "Slide on the right to take a look at different use cases for Artificial Intelligence >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "data_analytics_&_AI",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411655359610881557",
+                        "lex_auth_0128411696819896321474",
+                        "lex_auth_0128411713694269441473",
+                        "lex_auth_0128411623083294721007"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block md:-my-10 md:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "basic_data_analytics_&_AI",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/data-analytics-basics.png",
+                            "altText": "Basic Data Analytics & AI"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "basic_data_analytics_&_AI",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411765879767042271",
+                        "lex_auth_01284110196147814436",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411722083287041878",
+                        "lex_auth_0128411693759283201879",
+                        "lex_auth_0128411705634897921880",
+                        "lex_auth_0128411757761904641881",
+                        "lex_auth_0128411727160688641877",
+                        "lex_auth_0128411695372943361850",
+                        "lex_auth_0128411728287989761843",
+                        "lex_auth_0128411726184775681838",
+                        "lex_auth_0128411762299863041842"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "advanced_data_analytics_&_AI",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/data-analytics-advanced.png",
+                            "altText": "Advanced Data Analytics & AI"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "advanced_data_analytics_&_AI",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128403950634270720",
+                        "lex_auth_0128411733640478721849",
+                        "lex_auth_0128411737697320961840",
+                        "lex_auth_0128411751258521601762",
+                        "lex_auth_0128411685865553921764",
+                        "lex_auth_0128411732827914241676",
+                        "lex_auth_0128411694672855041678",
+                        "lex_auth_0128411716131962881511",
+                        "lex_auth_0128411703661854721506",
+                        "lex_auth_0128411705023201281504",
+                        "lex_auth_0128411700261601281472",
+                        "lex_auth_0128411689412444161470"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learn about Simulation & Digital Twin for Futureland"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "simulation_&_digital_twin",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img src=\"/assets/instances/Siemens/futureland/simulation.png\" style=\"{{cardStyle}}\" class=\"h-full\"/><div class=\"w-full mt-1\"><span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span></div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; height: 305px",
+                          "overlayText": "Slide here to get an introduction to Simulation & Digital Twin >>",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full flex flex-col",
+                        "containerStyle": {
+                          "min-height": "375px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/siemens-pml.png",
+                          "overlayText": "The Real Value of the Digital Twin (Siemens PLM)",
+                          "overlayText2": "Product innovation and manufacturing efficiency with the Digital Twin",
+                          "altText": "The Real Value of the Digital Twin (Siemens PLM)",
+                          "link": "/app/toc/lex_auth_012841109637832704490/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/four-important.png",
+                          "overlayText": "Four important digital twin takeaways for every industry",
+                          "overlayText2": "Product engineering and manufacturing is transformed by the Digital Twin.",
+                          "altText": "Four important digital twin takeaways for every industry",
+                          "link": "/app/toc/lex_auth_012841106823667712491/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/summit-2017.png",
+                          "overlayText": "Digital Twin Summit 2017",
+                          "overlayText2": "Digital twin technology’s role in industry innovation",
+                          "altText": "Digital Twin Summit 2017",
+                          "link": "/app/toc/lex_auth_0128411648170557441466/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/simulation-1.png",
+                          "overlayText": "Simulation",
+                          "overlayText2": "Weather forecasts for large motors",
+                          "altText": "Simulation",
+                          "link": "/app/toc/lex_auth_0128411678696652801501/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "simulation_&_digital_twin",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/simulation-use-cases.jpg",
+                            "title": "Use cases for Simulation & Digital Twin",
+                            "description": "Slide on the right to take a look at different use cases for Simulation & Digital Twin >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "simulation_&_digital_twin",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411688784691201467",
+                        "lex_auth_0128411703883694081468"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block md:-my-10 md:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "basic_simulation_&_digital_twin",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/simulation-basics.png",
+                            "altText": "Basic Simulation & Digital Twin"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "basic_simulation_&_digital_twin",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411695372943361850",
+                        "lex_auth_0128411756857180161781",
+                        "lex_auth_0128411713391738881784",
+                        "lex_auth_012841105376395264489"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "advanced_simulation_&_digital_twin",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/simulation-advanced.png",
+                            "altText": "Advanced Simulation & Digital Twin"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "advanced_simulation_&_digital_twin",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411685865553921764"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Additive Manufacturing for Futureland"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "additive_manufacturing",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img src=\"/assets/instances/Siemens/futureland/additive-manufacturing.png\" style=\"{{cardStyle}}\" class=\"h-full\"/><div class=\"w-full mt-1\"><span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span></div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; height: 305px",
+                          "overlayText": "Slide here to get an introduction to Additive Manufacturing >>",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full flex flex-col",
+                        "containerStyle": {
+                          "min-height": "375px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/additive-manufacturing-1.png",
+                          "overlayText": "Additive Manufacturing Reshapes Everything",
+                          "overlayText2": "Reimagine products, retool manufacturing and rethink business with additive manufacturing.",
+                          "altText": "Additive Manufacturing Reshapes Everything",
+                          "link": "/app/toc/lex_auth_012841110014754816452/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/manufacturing-digitalization.png",
+                          "overlayText": "Additive Manufacturing and Digitalization",
+                          "overlayText2": "Better understand additive manufacturing and digitalization.",
+                          "altText": "Additive Manufacturing and Digitalization",
+                          "link": "/app/toc/lex_auth_012841106636062720457/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/3d-printing.png",
+                          "overlayText": "3D Printing Revolutionizes Gas Turbine Blade Production",
+                          "overlayText2": "Using Additive Manufacturing, spare parts for small gas turbines will be manufactured in seven processing steps.",
+                          "altText": "3D Printing Revolutionizes Gas Turbine Blade Production",
+                          "link": "/app/toc/lex_auth_012841109794529280466/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/3d-printed-product.png",
+                          "overlayText": "An example for a 3D printed product?",
+                          "overlayText2": "Siemens achieves breakthrough with 3D printed gas turbine blades",
+                          "altText": "An example for a 3D printed product?",
+                          "link": "/app/toc/lex_auth_012841110713729024576/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "additive_manufacturing",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/additive-manufacturing-use-cases.jpg",
+                            "title": "Use cases for Additive Manufacturing",
+                            "description": "Slide on the right to take a look at different use cases for Additive Manufacturing >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "additive_manufacturing",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        ""
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block md:-my-10 md:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "basic_additive_manufacturing",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/additive-manufacturing-basics.png",
+                            "altText": "Basic Additive Manufacturing"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "basic_additive_manufacturing",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411738567720961841",
+                        "lex_auth_0128411627033231361005",
+                        "lex_auth_0128411720124743681480",
+                        "lex_auth_012841102897266688460"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "advanced_additive_manufacturing",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/additive-manufacturing-advanced.png",
+                            "altText": "Advanced Additive Manufacturing"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "advanced_additive_manufacturing",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411737697320961840",
+                        "lex_auth_0128411758971453441846",
+                        "lex_auth_012841109392261120462"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learn Cyber Security for Futureland"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "cyber_security",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img src=\"/assets/instances/Siemens/futureland/cyber-security.png\" style=\"{{cardStyle}}\" class=\"h-full\"/><div class=\"w-full mt-1\"><span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span></div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; height: 305px",
+                          "overlayText": "Slide here to get an introduction to Cyber Security >>",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full flex flex-col",
+                        "containerStyle": {
+                          "min-height": "375px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/insights.png",
+                          "overlayText": "Insights on Cyber Security at Siemens",
+                          "overlayText2": "Meet some of the people that work on Cyber Security at Siemens - every day",
+                          "altText": "Insights on Cyber Security at Siemens",
+                          "link": "/app/toc/lex_auth_0128411625316024321004/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/cs-factories.png",
+                          "overlayText": "Cyber Security in factories",
+                          "overlayText2": "Learn how Siemens stays always active if it comes to Cyber Security",
+                          "altText": "Cyber Security in factories",
+                          "link": "/app/toc/lex_auth_012841104637739008485/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/industrial.png",
+                          "overlayText": "Industrial IT-Security",
+                          "overlayText2": "Cybersecurity in the Context of Industry 4.0 and Digitalization",
+                          "altText": "Industrial IT-Security",
+                          "link": "/app/toc/lex_auth_0128411683266232321457/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/web-feature.png",
+                          "overlayText": "Web feature: Defending against a cyber attack",
+                          "overlayText2": "How innovative Cyber Security solutions can help guard critical infrastructure from attacks.",
+                          "altText": "Web feature: Defending against a cyber attack",
+                          "link": "/app/toc/lex_auth_012841105134501888631/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "cyber_security",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/cyber-security-use-cases.jpg",
+                            "title": "Use cases for Cyber Security",
+                            "description": "Slide on the right to take a look at different use cases for Cyber Security >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "cyber_security",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411643653324801460",
+                        "lex_auth_0128411699823820801464"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block md:-my-10 md:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "basic_cyber_security",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/cyber-security-basics.png",
+                            "altText": "Basic Cyber Security"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "basic_cyber_security",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284110196147814436",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411732324270081761",
+                        "lex_auth_0128411713207009281688",
+                        "lex_auth_0128411683266232321457"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "advanced_cyber_security",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/cyber-security-advanced.png",
+                            "altText": "Advanced Cyber Security"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "advanced_cyber_security",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128403950634270720",
+                        "lex_auth_0128411716131962881511",
+                        "lex_auth_0128411703661854721506",
+                        "lex_auth_0128411649278361601461"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Learn about Blockchain for Futureland"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "blockchain",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img src=\"/assets/instances/Siemens/futureland/blockchain.png\" style=\"{{cardStyle}}\" class=\"h-full\"/><div class=\"w-full mt-1\"><span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span></div>",
+                        "templateData": {
+                          "cardStyle": "background-size: cover !important; height: 305px",
+                          "overlayText": "Slide here to get an introduction to Blockchain >>",
+                          "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                        },
+                        "containerClass": "h-full flex flex-col",
+                        "containerStyle": {
+                          "min-height": "375px"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/safe-digital-money.png",
+                          "overlayText": "Safe digital money and a secure online currency?",
+                          "overlayText2": "Watch this video from the SiemensWorld to find out and get to know the technology behind it.",
+                          "altText": "Safe digital money and a secure online currency?",
+                          "link": "/app/toc/lex_auth_012841107313057792574/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/why-do-we-need.png",
+                          "overlayText": "Why do we even need something this complex and how does it work?",
+                          "overlayText2": "Read this 3500-words guide to understand Blockchain and why it is needed.",
+                          "altText": "Why do we even need something this complex and how does it work?",
+                          "link": "/app/toc/lex_auth_012841105133264896575/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/blockchain-basics-1.png",
+                          "overlayText": "Blockchain. The basics.",
+                          "overlayText2": "Get an idea what Blockchain is all about by watching this video of Building Technologies.",
+                          "altText": "Blockchain. The basics.",
+                          "link": "/app/toc/lex_auth_012841105833295872573/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 392px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/futureland/everything-blockchain.png",
+                          "overlayText": "Everything You Need to Know About Blockchain",
+                          "overlayText2": "Interview with Alex Tapscott",
+                          "altText": "Interview with Alex Tapscott",
+                          "link": "/app/toc/lex_auth_012841107961421824572/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "blockchain",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img style=\"width:265px; height:150px\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/blockchain-use-cases.jpg",
+                            "title": "Use cases for Blockchain",
+                            "description": "Slide on the right to take a look at different use cases for Blockchain >>"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "blockchain",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411664599859201477",
+                        "lex_auth_012841105143111680603"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block md:-my-10 md:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "basic_blockchain",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/blockchain-basics.png",
+                            "altText": "Basic Blockchain"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "basic_blockchain",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411727160688641877",
+                        "lex_auth_0128411762299863041842",
+                        "lex_auth_0128411680468910081783",
+                        "lex_auth_0128411674206371841686",
+                        "lex_auth_0128411699150684161687",
+                        "lex_auth_012841105833295872573",
+                        "lex_auth_012841110251945984624",
+                        "lex_auth_012841105133264896575"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "way_of_working",
+                    "title": "Learn about General Trainings & Methodologies for Futureland",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/way-of-working.jpg",
+                            "altText": "Way of Working"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "way_of_working",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411705634897921880",
+                        "lex_auth_0128411693759283201879",
+                        "lex_auth_0128411742937743361844",
+                        "lex_auth_0128411755736186881848",
+                        "lex_auth_0128411726184775681838",
+                        "lex_auth_0128411733640478721849",
+                        "lex_auth_0128411788782141442309",
+                        "lex_auth_0128411702398730241780",
+                        "lex_auth_0128411708173680641765",
+                        "lex_auth_0128411719124008961767",
+                        "lex_auth_0128411725632716801763",
+                        "lex_auth_0128411688886108161768"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "technologies",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/futureland/technologies.jpg",
+                            "altText": "Technologies"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetInstanceId": "technologies",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411728287989761843",
+                        "lex_auth_0128411723322408961552",
+                        "lex_auth_0128411708128215041545",
+                        "lex_auth_0128411705577635841549",
+                        "lex_auth_0128411704834048001556",
+                        "lex_auth_0128411658786570241547",
+                        "lex_auth_0128411719414251521551",
+                        "lex_auth_0128411695335833601546",
+                        "lex_auth_0128411698424381441550",
+                        "lex_auth_0128411719348224001548"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

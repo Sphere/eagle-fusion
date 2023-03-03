@@ -1,0 +1,55 @@
+{
+    "contentType": "Page",
+    "navigationBar": {
+        "pageTitle": "",
+        "pageBackLink": "none",
+        "background": {
+            "color": "default",
+            "styles": {
+                "background-color": "white",
+                "color": "#333"
+            }
+        },
+        "xsmallNonMenuLinks": [
+            {
+                "widgetType": "actionButton",
+                "widgetSubType": "buttonFeature",
+                "widgetData": {
+                    "toolTop": "Search",
+                    "actionBtnId": "feature_search",
+                    "config": {
+                        "type": "mat-icon-button"
+                    }
+                }
+            },
+            {
+                "widgetType": "actionButton",
+                "widgetSubType": "buttonFeature",
+                "widgetData": {
+                    "toolTop": "feature_notification",
+                    "actionBtnId": "feature_notification",
+                    "config": {
+                        "type": "mat-icon-button"
+                    }
+                }
+            }
+        ],
+        "links": []
+    },
+    "pageLayout": {
+        "widgetType": "layout",
+        "widgetSubType": "linearLayout",
+        "widgetData": {
+            "widgets": [
+                {
+                    "widgetType": "tree",
+                    "widgetSubType": "treeCatalog",
+                    "widgetData": {
+                        "url": "/apis/protected/v8/catalog",
+                        "baseClickUrl": "/page/explore"
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,152 @@
+{
+    "askAuthor": {
+        "available": true,
+        "enabled": true
+    },
+    "chat-bot": {
+        "available": false,
+        "enabled": false
+    },
+    "contactUs": {
+        "available": true,
+        "enabled": true
+    },
+    "LEARNING_ANALYTICS": {
+        "available": true,
+        "enabled": true,
+        "roles": {
+            "some": [
+                "analytics",
+                "admin"
+            ]
+        }
+    },
+    "my_skills": {
+        "available": true,
+        "enabled": true,
+        "roles": {
+            "some": [
+                "admin",
+                "my-skills"
+            ]
+        }
+    },
+    "trainingLHub": {
+        "available": true,
+        "enabled": true
+    },
+    "certificationLHub": {
+        "available": true,
+        "enabled": true
+    },
+    "registrationExternal": {
+        "available": false,
+        "enabled": false
+    },
+    "goals": {
+        "available": true,
+        "enabled": true
+    },
+    "interests": {
+        "available": true,
+        "enabled": true
+    },
+    "downloadRequest": {
+        "available": false,
+        "enabled": false
+    },
+    "mobileDownloadRequest": {
+        "available": false,
+        "enabled": false
+    },
+    "helpNavBarMenu": {
+        "available": true,
+        "enabled": true
+    },
+    "live_stream": {
+        "available": true,
+        "enabled": true,
+        "roles": [
+            "live-stream"
+        ]
+    },
+    "live_stream_mob": {
+        "available": true,
+        "enabled": true,
+        "roles": [
+            "live_stream"
+        ]
+    },
+    "pinFeatures": {
+        "available": true,
+        "enabled": true
+    },
+    "disscussionForum": {
+        "available": true,
+        "enabled": true,
+        "groups": {
+            "none": [
+                "Training Unit",
+                "TRPU"
+            ]
+        }
+    },
+    "authoring": {
+        "available": true,
+        "enabled": true,
+        "groups": {
+            "none": [
+                "TRPU",
+                "Training Unit"
+            ]
+        },
+        "roles": {
+            "some": [
+                "content-creator",
+                "kb-creator",
+                "channel-creator",
+                "ka-creator",
+                "editor",
+                "admin",
+                "reviewer",
+                "publisher"
+            ]
+        }
+    },
+    "create": {
+        "available": true,
+        "enabled": true,
+        "roles": {
+            "some": [
+                "content-creator",
+                "kb-creator",
+                "channel-creator",
+                "ka-creator",
+                "editor",
+                "admin"
+            ]
+        }
+    },
+    "review": {
+        "available": true,
+        "enabled": true,
+        "roles": {
+            "some": [
+                "editor",
+                "admin",
+                "reviewer"
+            ]
+        }
+    },
+    "publish": {
+        "available": true,
+        "enabled": true,
+        "roles": {
+            "some": [
+                "editor",
+                "admin",
+                "publisher"
+            ]
+        }
+    }
+}

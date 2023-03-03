@@ -1,0 +1,14 @@
+/*/dist
+/node_modules
+/*/node_modules
+/*/.sonarlint
+/*/*/eagle-dev.idc.tarento.com
+/*/*/*/env.template.js
+/*/*/*/setenv.sh
+/*/*/*/env.js
+
+# IDE - VSCode
+/*/.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json

@@ -1,0 +1,14 @@
+{
+    "userLoggedInSection": {
+        "firstCourse": true,
+        "howDoesItWork": false,
+        "categories": true,
+        "topCertifiedCourse": true,
+        "featured": true,
+        "followPeople": false,
+        "myCourses": true
+    },
+    "topCertifiedCourseIdentifier": ["do_11357408383009587211503","do_1135849282931015681216","do_1134170690099118081470","do_11342648503935795211688", "do_1134170689871134721450", "do_1134948846567587841450"],
+
+    "featuredCourseIdentifier":["do_11357408383009587211503"]
+}

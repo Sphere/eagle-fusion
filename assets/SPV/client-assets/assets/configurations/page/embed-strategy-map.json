@@ -1,0 +1,17 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "ETA Strategy Map"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lab42.idemo-ppc.com/etastrat",
+      "Title": "ETA Strategy Map"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}
+
+

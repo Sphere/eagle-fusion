@@ -1,0 +1,1745 @@
+{
+  "contentTypes": {
+    "Course": {
+      "boolProps": [
+        {
+          "propName": "isExternal",
+          "expectedValue": false
+        }
+      ]
+    }
+  },
+  "watchlist": true,
+  "share": true,
+  "trainingTracks": [
+    {
+      "code": "ACC",
+      "name": "ACC",
+      "flgJIT": 0
+    },
+    {
+      "code": "Accelerate",
+      "name": "Accelerate",
+      "flgJIT": 0
+    },
+    {
+      "code": "Accounting and F",
+      "name": "Accounting and Finance",
+      "flgJIT": 0
+    },
+    {
+      "code": "Agile and DevOps",
+      "name": "Agile and DevOps Practices",
+      "flgJIT": 0
+    },
+    {
+      "code": "Agile Practices",
+      "name": "Agile Practices",
+      "flgJIT": 0
+    },
+    {
+      "code": "Agl",
+      "name": "Agile",
+      "flgJIT": 1
+    },
+    {
+      "code": "AnalyticalAbili",
+      "name": "Analytical Ability",
+      "flgJIT": 0
+    },
+    {
+      "code": "Analytics",
+      "name": "Analytics",
+      "flgJIT": 0
+    },
+    {
+      "code": "APL",
+      "name": "Apple & Mobility",
+      "flgJIT": 1
+    },
+    {
+      "code": "Apple Technologi",
+      "name": "Apple Technologies",
+      "flgJIT": 0
+    },
+    {
+      "code": "APPSEC",
+      "name": "Application Security Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "Arch",
+      "name": "Architecture",
+      "flgJIT": 1
+    },
+    {
+      "code": "Artificial Intel",
+      "name": "Artificial Intelligence",
+      "flgJIT": 0
+    },
+    {
+      "code": "AS4",
+      "name": "AS400",
+      "flgJIT": 0
+    },
+    {
+      "code": "AS400",
+      "name": "AS/400",
+      "flgJIT": 1
+    },
+    {
+      "code": "ASMT",
+      "name": "Assessment",
+      "flgJIT": 0
+    },
+    {
+      "code": "Automation",
+      "name": "Automation",
+      "flgJIT": 0
+    },
+    {
+      "code": "BA",
+      "name": "Business Acumen",
+      "flgJIT": 0
+    },
+    {
+      "code": "BCM",
+      "name": "Banking & Capital Markets Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "BCMS",
+      "name": "Business continuity management system",
+      "flgJIT": 0
+    },
+    {
+      "code": "BCP",
+      "name": "Building Collaborative Partnership",
+      "flgJIT": 0
+    },
+    {
+      "code": "BD-Mana",
+      "name": "BigData-Mana",
+      "flgJIT": 0
+    },
+    {
+      "code": "BDA",
+      "name": "Big Data and Analytics",
+      "flgJIT": 0
+    },
+    {
+      "code": "BI",
+      "name": "DNA",
+      "flgJIT": 1
+    },
+    {
+      "code": "BigD",
+      "name": "Big Data",
+      "flgJIT": 1
+    },
+    {
+      "code": "BigData-Data",
+      "name": "Data Science & Machine Learning",
+      "flgJIT": 1
+    },
+    {
+      "code": "BIZA",
+      "name": "Business Analysis",
+      "flgJIT": 1
+    },
+    {
+      "code": "BIZP",
+      "name": "BIZP",
+      "flgJIT": 0
+    },
+    {
+      "code": "Blockchain",
+      "name": "Blockchain",
+      "flgJIT": 0
+    },
+    {
+      "code": "BPHR",
+      "name": "BPHR",
+      "flgJIT": 0
+    },
+    {
+      "code": "BPO",
+      "name": "BPO – FS",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPO-IND",
+      "name": "BPO_IndiaPost",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOCDG",
+      "name": "BPO - CSCDG",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPODigitalCoE",
+      "name": "BPODigitalCoE-Domain",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOFnA",
+      "name": "BPOFnA - Domain",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOHLTH",
+      "name": "BPO - Healthcare",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOHRO",
+      "name": "BPOHRO - Domain",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOICOE",
+      "name": "BPOICOE - Cloud",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOLD",
+      "name": "BPO-L&D",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOMFG",
+      "name": "BPOMFG - Domain",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOQLTY",
+      "name": "BPO - Quality",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPORCL",
+      "name": "BPORCL - Domain",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPORSK",
+      "name": "BPO-Risk",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOSF",
+      "name": "BPO - S&F",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOSP",
+      "name": "BPOSP - Domain",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPOTCOM",
+      "name": "BPO - Telecom",
+      "flgJIT": 1
+    },
+    {
+      "code": "BPU",
+      "name": "Business Platforms Unit Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "Brand",
+      "name": "Brand",
+      "flgJIT": 0
+    },
+    {
+      "code": "BSP",
+      "name": "Building Strategic Perspective",
+      "flgJIT": 0
+    },
+    {
+      "code": "BT",
+      "name": "BPO - Business Transition",
+      "flgJIT": 1
+    },
+    {
+      "code": "BTS",
+      "name": "Building Teams",
+      "flgJIT": 0
+    },
+    {
+      "code": "Business Intelli",
+      "name": "Business Intelligence",
+      "flgJIT": 0
+    },
+    {
+      "code": "BusinessProcess",
+      "name": "Business Process Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "CC",
+      "name": "Campus Connect",
+      "flgJIT": 0
+    },
+    {
+      "code": "CCD",
+      "name": "Computers & Communication Division",
+      "flgJIT": 0
+    },
+    {
+      "code": "Change Managemen",
+      "name": "Change Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "CHI",
+      "name": "China Trainings",
+      "flgJIT": 1
+    },
+    {
+      "code": "CII",
+      "name": "CII",
+      "flgJIT": 1
+    },
+    {
+      "code": "CLD",
+      "name": "Cloud",
+      "flgJIT": 1
+    },
+    {
+      "code": "ClientStories",
+      "name": "Client Stories",
+      "flgJIT": 0
+    },
+    {
+      "code": "Cloud Computing",
+      "name": "Cloud Computing",
+      "flgJIT": 0
+    },
+    {
+      "code": "Cloud Infrastruc",
+      "name": "Cloud Infrastructure",
+      "flgJIT": 0
+    },
+    {
+      "code": "ClS",
+      "name": "ClS",
+      "flgJIT": 0
+    },
+    {
+      "code": "CME",
+      "name": "Comm Media & Entertainment Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "CMSP",
+      "name": "Content Management System & Portals",
+      "flgJIT": 0
+    },
+    {
+      "code": "CNB",
+      "name": "Compensation & Benefits",
+      "flgJIT": 0
+    },
+    {
+      "code": "CODA",
+      "name": "CODA",
+      "flgJIT": 0
+    },
+    {
+      "code": "CohortLearning",
+      "name": "Cohort Learning",
+      "flgJIT": 0
+    },
+    {
+      "code": "COINFY",
+      "name": "Corporate Office (CORP) – INFYnity",
+      "flgJIT": 0
+    },
+    {
+      "code": "COM",
+      "name": "Communications",
+      "flgJIT": 0
+    },
+    {
+      "code": "CPG",
+      "name": "Consumer Packaged Goods",
+      "flgJIT": 0
+    },
+    {
+      "code": "Credentials",
+      "name": "Credentials",
+      "flgJIT": 0
+    },
+    {
+      "code": "CRPMC",
+      "name": "Corporate Management Consultancy",
+      "flgJIT": 0
+    },
+    {
+      "code": "CRPOFF",
+      "name": "Corporate Office",
+      "flgJIT": 0
+    },
+    {
+      "code": "CRPSAL",
+      "name": "Corporate Sales",
+      "flgJIT": 0
+    },
+    {
+      "code": "CS",
+      "name": "Communication Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "CSG",
+      "name": "CSG",
+      "flgJIT": 0
+    },
+    {
+      "code": "CSIAORC",
+      "name": "Consulting & Service Integration Academy Oracle",
+      "flgJIT": 0
+    },
+    {
+      "code": "CSIASAP",
+      "name": "Consulting & Service Integration Academy SAP",
+      "flgJIT": 0
+    },
+    {
+      "code": "Customer Orienta",
+      "name": "Customer Orientation",
+      "flgJIT": 0
+    },
+    {
+      "code": "Customer Relatio",
+      "name": "Customer Relationship Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "Cyber Security",
+      "name": "Cyber Security",
+      "flgJIT": 0
+    },
+    {
+      "code": "Cybersecurity Fu",
+      "name": "Cybersecurity Fundamentals",
+      "flgJIT": 0
+    },
+    {
+      "code": "Czech Republic",
+      "name": "Czech Republic Trainings",
+      "flgJIT": 0
+    },
+    {
+      "code": "D&I",
+      "name": "Diversity & Inclusion",
+      "flgJIT": 0
+    },
+    {
+      "code": "Data Science",
+      "name": "Data Science",
+      "flgJIT": 0
+    },
+    {
+      "code": "DC",
+      "name": "Dev Competencies",
+      "flgJIT": 0
+    },
+    {
+      "code": "DevOps",
+      "name": "DevOps",
+      "flgJIT": 0
+    },
+    {
+      "code": "Digi",
+      "name": "Digital",
+      "flgJIT": 0
+    },
+    {
+      "code": "Digital Commerce",
+      "name": "Digital Commerce",
+      "flgJIT": 0
+    },
+    {
+      "code": "Digital Landscap",
+      "name": "Digital Landscape",
+      "flgJIT": 0
+    },
+    {
+      "code": "DigitalAcademy",
+      "name": "Digital Commerce and Marketing",
+      "flgJIT": 1
+    },
+    {
+      "code": "DigitalMarketin",
+      "name": "Digital Marketing",
+      "flgJIT": 0
+    },
+    {
+      "code": "DIS",
+      "name": "Digital & Integration Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "DISDCX ",
+      "name": "DISDCX  Track",
+      "flgJIT": 0
+    },
+    {
+      "code": "DISNiche",
+      "name": "DISNicheSkills",
+      "flgJIT": 0
+    },
+    {
+      "code": "DNABI",
+      "name": "DNA - Business Intelligence",
+      "flgJIT": 0
+    },
+    {
+      "code": "DNADS",
+      "name": "DNA - Data Science",
+      "flgJIT": 0
+    },
+    {
+      "code": "DOA",
+      "name": "Driving Organizational Results",
+      "flgJIT": 0
+    },
+    {
+      "code": "Domain Training",
+      "name": "Domain Training",
+      "flgJIT": 0
+    },
+    {
+      "code": "DPO",
+      "name": "DPO Trainings",
+      "flgJIT": 0
+    },
+    {
+      "code": "DRM",
+      "name": "Delivery Risk Management",
+      "flgJIT": 1
+    },
+    {
+      "code": "DS",
+      "name": "DataScience",
+      "flgJIT": 0
+    },
+    {
+      "code": "DT",
+      "name": "Design Thinking",
+      "flgJIT": 0
+    },
+    {
+      "code": "EAIS",
+      "name": "EAIS",
+      "flgJIT": 0
+    },
+    {
+      "code": "EAISAC",
+      "name": "EAIS Academy",
+      "flgJIT": 1
+    },
+    {
+      "code": "EASSAP",
+      "name": "Enterprise Application Services - SAP",
+      "flgJIT": 0
+    },
+    {
+      "code": "ECAS",
+      "name": "ECAS",
+      "flgJIT": 0
+    },
+    {
+      "code": "ECASAC",
+      "name": "ECAS Academy",
+      "flgJIT": 1
+    },
+    {
+      "code": "ECOMM",
+      "name": "e-Commerce",
+      "flgJIT": 0
+    },
+    {
+      "code": "ECS",
+      "name": "Energy, Utilities, Communications and Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "ECSDLY",
+      "name": "ECS - DELIVERY",
+      "flgJIT": 0
+    },
+    {
+      "code": "ELC",
+      "name": "Employee Life Cycle",
+      "flgJIT": 0
+    },
+    {
+      "code": "ENCDP",
+      "name": "ENRCDP",
+      "flgJIT": 0
+    },
+    {
+      "code": "Energy",
+      "name": "Energy",
+      "flgJIT": 0
+    },
+    {
+      "code": "ENG",
+      "name": "Engineering Academy",
+      "flgJIT": 1
+    },
+    {
+      "code": "ENGI",
+      "name": "Engineering",
+      "flgJIT": 0
+    },
+    {
+      "code": "Engineering Serv",
+      "name": "Engineering Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "Enterprise Appli",
+      "name": "Enterprise Applications and Integration",
+      "flgJIT": 0
+    },
+    {
+      "code": "Enterprise Cloud",
+      "name": "Enterprise Cloud Applications",
+      "flgJIT": 0
+    },
+    {
+      "code": "ES",
+      "name": "Enterprise Solutions",
+      "flgJIT": 0
+    },
+    {
+      "code": "ETA",
+      "name": "Education, Training & Assessment",
+      "flgJIT": 0
+    },
+    {
+      "code": "EXDSGN",
+      "name": "Experience Design",
+      "flgJIT": 1
+    },
+    {
+      "code": "EXTERN",
+      "name": "Client Training",
+      "flgJIT": 0
+    },
+    {
+      "code": "FAC",
+      "name": "Facilities Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "FIN",
+      "name": "Finacle",
+      "flgJIT": 1
+    },
+    {
+      "code": "Finance",
+      "name": "Finance",
+      "flgJIT": 0
+    },
+    {
+      "code": "Foundations of A",
+      "name": "Foundations of AI",
+      "flgJIT": 0
+    },
+    {
+      "code": "FS",
+      "name": "Financial Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "FSDLY",
+      "name": "FS - DELIVERY",
+      "flgJIT": 0
+    },
+    {
+      "code": "FSI",
+      "name": "FSI Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "GEN",
+      "name": "Generic",
+      "flgJIT": 1
+    },
+    {
+      "code": "GLIM",
+      "name": "Global Immigration",
+      "flgJIT": 0
+    },
+    {
+      "code": "GRC",
+      "name": "Governance Risk and Compliance(GRC)",
+      "flgJIT": 0
+    },
+    {
+      "code": "Healthcare",
+      "name": "Healthcare",
+      "flgJIT": 0
+    },
+    {
+      "code": "HIC",
+      "name": "High Impact Communication",
+      "flgJIT": 0
+    },
+    {
+      "code": "HLTDLY",
+      "name": "HLT DELIVERY",
+      "flgJIT": 0
+    },
+    {
+      "code": "HR-Comp",
+      "name": "HRD-Compliance",
+      "flgJIT": 0
+    },
+    {
+      "code": "HR-Trng",
+      "name": "HRD-Trainings",
+      "flgJIT": 0
+    },
+    {
+      "code": "HRD",
+      "name": "Human Resource Development",
+      "flgJIT": 0
+    },
+    {
+      "code": "HRMEX",
+      "name": "HRD Courses - Mexico",
+      "flgJIT": 0
+    },
+    {
+      "code": "Human Capital Ma",
+      "name": "Human Capital Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "ICP",
+      "name": "ICP Track",
+      "flgJIT": 0
+    },
+    {
+      "code": "IDAM",
+      "name": "Identity and Access Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "IHL",
+      "name": "Insurance, Healthcare and Life Sciences",
+      "flgJIT": 0
+    },
+    {
+      "code": "ILI",
+      "name": "ILI Courses",
+      "flgJIT": 1
+    },
+    {
+      "code": "IMS",
+      "name": "Infrastructure Management Systems",
+      "flgJIT": 0
+    },
+    {
+      "code": "IMSACA",
+      "name": "IMS Academy",
+      "flgJIT": 1
+    },
+    {
+      "code": "IMSDEL",
+      "name": "IMS Delivery",
+      "flgJIT": 0
+    },
+    {
+      "code": "IMSEXT",
+      "name": "IMS External",
+      "flgJIT": 0
+    },
+    {
+      "code": "IMST",
+      "name": "IMST Track",
+      "flgJIT": 0
+    },
+    {
+      "code": "IMSTHRD",
+      "name": "HRD induction",
+      "flgJIT": 0
+    },
+    {
+      "code": "INDDEL",
+      "name": "India Delivery",
+      "flgJIT": 0
+    },
+    {
+      "code": "Industries",
+      "name": "Industries",
+      "flgJIT": 0
+    },
+    {
+      "code": "InformationMana",
+      "name": "Information Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "INFRASEC",
+      "name": "Infrastructure Security Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "Infrastructure M",
+      "name": "Infrastructure Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "INFY",
+      "name": "INFOSYS LIMITED",
+      "flgJIT": 0
+    },
+    {
+      "code": "INia",
+      "name": "Infosys Nia",
+      "flgJIT": 0
+    },
+    {
+      "code": "Insight",
+      "name": "Insight",
+      "flgJIT": 0
+    },
+    {
+      "code": "Inst",
+      "name": "The Institutes",
+      "flgJIT": 1
+    },
+    {
+      "code": "Insurance",
+      "name": "Insurance",
+      "flgJIT": 0
+    },
+    {
+      "code": "IoT",
+      "name": "IoT",
+      "flgJIT": 0
+    },
+    {
+      "code": "IPCELL",
+      "name": "IPCELL Track",
+      "flgJIT": 1
+    },
+    {
+      "code": "IPS",
+      "name": "Infosys Public Service",
+      "flgJIT": 0
+    },
+    {
+      "code": "IS",
+      "name": "Information Systems",
+      "flgJIT": 0
+    },
+    {
+      "code": "ISC",
+      "name": "INDUSTRY SOLUTION CONSULTING",
+      "flgJIT": 0
+    },
+    {
+      "code": "IVS",
+      "name": "IVS Academy",
+      "flgJIT": 1
+    },
+    {
+      "code": "IVS2",
+      "name": "IVS",
+      "flgJIT": 0
+    },
+    {
+      "code": "IVSC",
+      "name": "INDEPENDENT VALIDATION SOLUTIONS",
+      "flgJIT": 0
+    },
+    {
+      "code": "JAVA",
+      "name": "Java",
+      "flgJIT": 1
+    },
+    {
+      "code": "JL7",
+      "name": "JL7",
+      "flgJIT": 0
+    },
+    {
+      "code": "KM",
+      "name": "Knowledge Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "LAI",
+      "name": "Learning and Innovation",
+      "flgJIT": 0
+    },
+    {
+      "code": "LAT",
+      "name": "Logistics and Transportation",
+      "flgJIT": 0
+    },
+    {
+      "code": "Legal",
+      "name": "Legal Department Training",
+      "flgJIT": 0
+    },
+    {
+      "code": "Legal and Compli",
+      "name": "Legal and Compliance",
+      "flgJIT": 0
+    },
+    {
+      "code": "LERN",
+      "name": "LERN",
+      "flgJIT": 0
+    },
+    {
+      "code": "LND",
+      "name": "Learning & Development",
+      "flgJIT": 1
+    },
+    {
+      "code": "LOMA",
+      "name": "LOMA",
+      "flgJIT": 1
+    },
+    {
+      "code": "LPO",
+      "name": "Legal Process Outsourcing",
+      "flgJIT": 0
+    },
+    {
+      "code": "LS",
+      "name": "Life Sciences",
+      "flgJIT": 0
+    },
+    {
+      "code": "Machine Learning",
+      "name": "Machine Learning",
+      "flgJIT": 0
+    },
+    {
+      "code": "Mainframes",
+      "name": "Mainframes",
+      "flgJIT": 0
+    },
+    {
+      "code": "Mana",
+      "name": "Infosys Mana",
+      "flgJIT": 0
+    },
+    {
+      "code": "MANF",
+      "name": "Manufacturing",
+      "flgJIT": 0
+    },
+    {
+      "code": "MBA",
+      "name": "MBAS Academy",
+      "flgJIT": 0
+    },
+    {
+      "code": "MCS",
+      "name": "MCS Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "McTech",
+      "name": "BPO–McCamishTech",
+      "flgJIT": 1
+    },
+    {
+      "code": "Mexico",
+      "name": "Business Analysis Training – Mexico",
+      "flgJIT": 0
+    },
+    {
+      "code": "MF",
+      "name": "Mainframe",
+      "flgJIT": 1
+    },
+    {
+      "code": "MFG",
+      "name": "Manufacturing Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "MFGDLY",
+      "name": "MFG - DELIVERY",
+      "flgJIT": 0
+    },
+    {
+      "code": "Microsoft Techno",
+      "name": "Microsoft Technologies",
+      "flgJIT": 0
+    },
+    {
+      "code": "Mobile Computing",
+      "name": "Mobile Computing",
+      "flgJIT": 0
+    },
+    {
+      "code": "MS",
+      "name": "Microsoft",
+      "flgJIT": 1
+    },
+    {
+      "code": "MSL",
+      "name": "Markup & Scripting Languages",
+      "flgJIT": 0
+    },
+    {
+      "code": "NI",
+      "name": "NI",
+      "flgJIT": 0
+    },
+    {
+      "code": "nia",
+      "name": "AI and Automation",
+      "flgJIT": 1
+    },
+    {
+      "code": "NMSD",
+      "name": "New Markets and Services Delivery",
+      "flgJIT": 0
+    },
+    {
+      "code": "OD",
+      "name": "Organizational Development",
+      "flgJIT": 0
+    },
+    {
+      "code": "Oracle",
+      "name": "Oracle",
+      "flgJIT": 0
+    },
+    {
+      "code": "ORC",
+      "name": "Oracle Enterprise Applications",
+      "flgJIT": 1
+    },
+    {
+      "code": "ORC2",
+      "name": "ORC",
+      "flgJIT": 0
+    },
+    {
+      "code": "ORCLPR",
+      "name": "Oracle Practice",
+      "flgJIT": 0
+    },
+    {
+      "code": "OS",
+      "name": "Open Source",
+      "flgJIT": 1
+    },
+    {
+      "code": "OSY",
+      "name": "open systems",
+      "flgJIT": 0
+    },
+    {
+      "code": "OTR",
+      "name": "One Deal One Project Walkthrough - OTR",
+      "flgJIT": 0
+    },
+    {
+      "code": "PAO",
+      "name": "Planning and Organizing",
+      "flgJIT": 0
+    },
+    {
+      "code": "PM",
+      "name": "Project management",
+      "flgJIT": 1
+    },
+    {
+      "code": "PMC",
+      "name": "PM competencies",
+      "flgJIT": 0
+    },
+    {
+      "code": "PMCOE",
+      "name": "PMCoE Courses",
+      "flgJIT": 1
+    },
+    {
+      "code": "POV",
+      "name": "Point of View",
+      "flgJIT": 0
+    },
+    {
+      "code": "Primer",
+      "name": "Primer",
+      "flgJIT": 0
+    },
+    {
+      "code": "PRMG",
+      "name": "Product Management",
+      "flgJIT": 0
+    },
+    {
+      "code": "PRO",
+      "name": "Process",
+      "flgJIT": 0
+    },
+    {
+      "code": "ProjectEnrichme",
+      "name": "Project Enrichment",
+      "flgJIT": 0
+    },
+    {
+      "code": "ProjectExecutio",
+      "name": "Project Execution",
+      "flgJIT": 0
+    },
+    {
+      "code": "QLTY",
+      "name": "Quality Courses",
+      "flgJIT": 1
+    },
+    {
+      "code": "Quality",
+      "name": "Quality",
+      "flgJIT": 0
+    },
+    {
+      "code": "RCLBI",
+      "name": "Retail CPG Logistics Business Intelligence",
+      "flgJIT": 0
+    },
+    {
+      "code": "RETAIL",
+      "name": "RETAIL Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "RETL",
+      "name": "Retail",
+      "flgJIT": 0
+    },
+    {
+      "code": "RISK",
+      "name": "Risk Courses",
+      "flgJIT": 1
+    },
+    {
+      "code": "RUSE",
+      "name": "Reuse",
+      "flgJIT": 1
+    },
+    {
+      "code": "SalesNavigator",
+      "name": "Sales Navigator",
+      "flgJIT": 0
+    },
+    {
+      "code": "SAP",
+      "name": "SAP",
+      "flgJIT": 1
+    },
+    {
+      "code": "SC",
+      "name": "Sales Competencies",
+      "flgJIT": 0
+    },
+    {
+      "code": "SE",
+      "name": "Software Engineering",
+      "flgJIT": 1
+    },
+    {
+      "code": "SECOPS",
+      "name": "Security Operations",
+      "flgJIT": 0
+    },
+    {
+      "code": "Services",
+      "name": "Services",
+      "flgJIT": 0
+    },
+    {
+      "code": "SETLAB",
+      "name": "SETLABS Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "SEY",
+      "name": "Security",
+      "flgJIT": 1
+    },
+    {
+      "code": "SGPORE",
+      "name": "Singapore Management University Programs",
+      "flgJIT": 0
+    },
+    {
+      "code": "SI",
+      "name": "SI Courses",
+      "flgJIT": 0
+    },
+    {
+      "code": "SOURCE",
+      "name": "SOURCE",
+      "flgJIT": 0
+    },
+    {
+      "code": "SP",
+      "name": "Sales Play",
+      "flgJIT": 0
+    },
+    {
+      "code": "SUST",
+      "name": "Sustainability",
+      "flgJIT": 0
+    },
+    {
+      "code": "TA",
+      "name": "Talent Acquisition",
+      "flgJIT": 0
+    },
+    {
+      "code": "TAFF",
+      "name": "TAFF-REC",
+      "flgJIT": 0
+    },
+    {
+      "code": "TAL",
+      "name": "Transport and Logistics",
+      "flgJIT": 0
+    },
+    {
+      "code": "TELOSS",
+      "name": "Telecom OSS:Comptel Service Fulfillment Suite 8.X",
+      "flgJIT": 0
+    },
+    {
+      "code": "TIG",
+      "name": "BPO-TIG",
+      "flgJIT": 1
+    },
+    {
+      "code": "TSG",
+      "name": "BPO-TSG",
+      "flgJIT": 0
+    },
+    {
+      "code": "UI",
+      "name": "User Interfaces",
+      "flgJIT": 0
+    },
+    {
+      "code": "UIM",
+      "name": "UI & Markup",
+      "flgJIT": 0
+    },
+    {
+      "code": "UM",
+      "name": "UI",
+      "flgJIT": 1
+    },
+    {
+      "code": "UserExperience",
+      "name": "User Experience",
+      "flgJIT": 0
+    },
+    {
+      "code": "UX",
+      "name": "UX",
+      "flgJIT": 0
+    },
+    {
+      "code": "Validation Solut",
+      "name": "Validation Solutions",
+      "flgJIT": 0
+    },
+    {
+      "code": "VENCOU",
+      "name": "Vendor Courses",
+      "flgJIT": 1
+    }
+  ],
+  "trainingLocations": [
+    {
+      "code": "AKLD",
+      "name": "Auckland"
+    },
+    {
+      "code": "AMSD",
+      "name": "Amsterdam"
+    },
+    {
+      "code": "Arara",
+      "name": "Araraquara"
+    },
+    {
+      "code": "ATL",
+      "name": "Atlanta"
+    },
+    {
+      "code": "BBSR",
+      "name": "Bhubaneswar"
+    },
+    {
+      "code": "BDGE",
+      "name": "Bridgewater"
+    },
+    {
+      "code": "Bdn",
+      "name": "Baden"
+    },
+    {
+      "code": "BEL",
+      "name": "Bellevue"
+    },
+    {
+      "code": "Belgium",
+      "name": "Belgium"
+    },
+    {
+      "code": "Belo",
+      "name": "Belo Horizonte"
+    },
+    {
+      "code": "BEN",
+      "name": "Bentonville(AR)"
+    },
+    {
+      "code": "Berlin",
+      "name": "Berlin"
+    },
+    {
+      "code": "BJN",
+      "name": "Beijing"
+    },
+    {
+      "code": "BKK",
+      "name": "Bangkok"
+    },
+    {
+      "code": "BLR",
+      "name": "Bangalore"
+    },
+    {
+      "code": "BONN",
+      "name": "Bonn"
+    },
+    {
+      "code": "BRIS",
+      "name": "Brisbane"
+    },
+    {
+      "code": "BRNO",
+      "name": "Brno"
+    },
+    {
+      "code": "BRUS",
+      "name": "Brussels"
+    },
+    {
+      "code": "BRZ",
+      "name": "Brazil"
+    },
+    {
+      "code": "BSL",
+      "name": "Basel"
+    },
+    {
+      "code": "CAL",
+      "name": "Calgary"
+    },
+    {
+      "code": "CHD",
+      "name": "Chandigarh"
+    },
+    {
+      "code": "CHN",
+      "name": "Chennai"
+    },
+    {
+      "code": "CHR",
+      "name": "Charlotte"
+    },
+    {
+      "code": "Cmb",
+      "name": "Coimbatore"
+    },
+    {
+      "code": "CRICA",
+      "name": "Costa Rica"
+    },
+    {
+      "code": "Cro",
+      "name": "Croatia"
+    },
+    {
+      "code": "CUPE",
+      "name": "Cupertino(CA)"
+    },
+    {
+      "code": "DAL",
+      "name": "Dalian"
+    },
+    {
+      "code": "DALL",
+      "name": "Dallas(Texas)"
+    },
+    {
+      "code": "DBI",
+      "name": "Dubai"
+    },
+    {
+      "code": "DET",
+      "name": "Detroit"
+    },
+    {
+      "code": "Edin",
+      "name": "Edinburgh"
+    },
+    {
+      "code": "EL",
+      "name": "e-Learning"
+    },
+    {
+      "code": "FNKF",
+      "name": "Frankfurt"
+    },
+    {
+      "code": "Fran",
+      "name": "France"
+    },
+    {
+      "code": "FRE",
+      "name": "Fremont"
+    },
+    {
+      "code": "Germany",
+      "name": "Germany"
+    },
+    {
+      "code": "GHZ",
+      "name": "Ghaziabad"
+    },
+    {
+      "code": "GLST",
+      "name": "Glastonbury"
+    },
+    {
+      "code": "Goa",
+      "name": "Goa"
+    },
+    {
+      "code": "GUR",
+      "name": "Gurgaon"
+    },
+    {
+      "code": "Hang",
+      "name": "Hangzhou"
+    },
+    {
+      "code": "HKG",
+      "name": "Hong Kong"
+    },
+    {
+      "code": "HOU",
+      "name": "Houston"
+    },
+    {
+      "code": "HTFD",
+      "name": "Hartford"
+    },
+    {
+      "code": "HYD",
+      "name": "Hyderabad"
+    },
+    {
+      "code": "IND",
+      "name": "Indore"
+    },
+    {
+      "code": "Israel",
+      "name": "Israel"
+    },
+    {
+      "code": "JAI",
+      "name": "Jaipur"
+    },
+    {
+      "code": "JIA",
+      "name": "Jiaxing"
+    },
+    {
+      "code": "JKC",
+      "name": "JKC"
+    },
+    {
+      "code": "KL",
+      "name": "Kuala Lumpur"
+    },
+    {
+      "code": "LIS",
+      "name": "Lisle"
+    },
+    {
+      "code": "LKFO",
+      "name": "Lake Forest"
+    },
+    {
+      "code": "LOD",
+      "name": "Lodz"
+    },
+    {
+      "code": "LON",
+      "name": "London"
+    },
+    {
+      "code": "LOSA",
+      "name": "Los Angeles(CA)"
+    },
+    {
+      "code": "MADD",
+      "name": "Madrid"
+    },
+    {
+      "code": "MAL",
+      "name": "Malaysia"
+    },
+    {
+      "code": "MEL",
+      "name": "Melbourne"
+    },
+    {
+      "code": "MEX",
+      "name": "Mexico"
+    },
+    {
+      "code": "Mexico",
+      "name": "Mexico City"
+    },
+    {
+      "code": "MLWK",
+      "name": "Milwaukee"
+    },
+    {
+      "code": "MNG",
+      "name": "Mangalore"
+    },
+    {
+      "code": "MNL",
+      "name": "Manila"
+    },
+    {
+      "code": "MNPS",
+      "name": "Minneapolis"
+    },
+    {
+      "code": "Mont",
+      "name": "Monterrey"
+    },
+    {
+      "code": "MRTS",
+      "name": "Mauritius"
+    },
+    {
+      "code": "MSCW",
+      "name": "Moscow"
+    },
+    {
+      "code": "MUM",
+      "name": "Mumbai"
+    },
+    {
+      "code": "MYS",
+      "name": "Mysore"
+    },
+    {
+      "code": "NAG",
+      "name": "Nagpur"
+    },
+    {
+      "code": "Nanj",
+      "name": "Nanjing"
+    },
+    {
+      "code": "Nether",
+      "name": "Netherlands"
+    },
+    {
+      "code": "NEWD",
+      "name": "New Delhi"
+    },
+    {
+      "code": "NEWJ",
+      "name": "New Jersey"
+    },
+    {
+      "code": "NEWY",
+      "name": "New York"
+    },
+    {
+      "code": "NWK",
+      "name": "Newark"
+    },
+    {
+      "code": "ONTA",
+      "name": "Ontario"
+    },
+    {
+      "code": "oslo",
+      "name": "oslo"
+    },
+    {
+      "code": "OTHCC",
+      "name": "Others- Campus connect"
+    },
+    {
+      "code": "OTHR",
+      "name": "Others"
+    },
+    {
+      "code": "PAR",
+      "name": "Paris"
+    },
+    {
+      "code": "PERT",
+      "name": "Perth"
+    },
+    {
+      "code": "PHNX",
+      "name": "Phoenix"
+    },
+    {
+      "code": "PLA",
+      "name": "Plano"
+    },
+    {
+      "code": "POL",
+      "name": "Poland"
+    },
+    {
+      "code": "PRICO",
+      "name": "Puerto Rico"
+    },
+    {
+      "code": "PUN",
+      "name": "Pune"
+    },
+    {
+      "code": "Qing",
+      "name": "Qingdao"
+    },
+    {
+      "code": "QNCY",
+      "name": "Quincy (MA)"
+    },
+    {
+      "code": "QUC",
+      "name": "Quincy"
+    },
+    {
+      "code": "RCH",
+      "name": "Richmond(Virginia)"
+    },
+    {
+      "code": "RESN",
+      "name": "Reston, VA"
+    },
+    {
+      "code": "Rio",
+      "name": "Rio de Janeiro"
+    },
+    {
+      "code": "Sao",
+      "name": "Sao Paulo"
+    },
+    {
+      "code": "São",
+      "name": "São Paulo"
+    },
+    {
+      "code": "SGP",
+      "name": "Singapore"
+    },
+    {
+      "code": "SHG",
+      "name": "Shanghai"
+    },
+    {
+      "code": "SHNZ",
+      "name": "Shenzhen"
+    },
+    {
+      "code": "SLKC",
+      "name": "Salt Lake City(Utah)"
+    },
+    {
+      "code": "SNJ",
+      "name": "San Jose, CA"
+    },
+    {
+      "code": "SOM",
+      "name": "Southfield Michigan"
+    },
+    {
+      "code": "Swe",
+      "name": "Sweden"
+    },
+    {
+      "code": "SYD",
+      "name": "Sydney"
+    },
+    {
+      "code": "TAMP",
+      "name": "Tampa"
+    },
+    {
+      "code": "TKO",
+      "name": "Tokyo"
+    },
+    {
+      "code": "TNTO",
+      "name": "Toronto"
+    },
+    {
+      "code": "TRV",
+      "name": "Trivandrum"
+    },
+    {
+      "code": "UAE",
+      "name": "UAE"
+    },
+    {
+      "code": "uk",
+      "name": "UK"
+    },
+    {
+      "code": "USA",
+      "name": "USA"
+    },
+    {
+      "code": "VCR",
+      "name": "Virtual Classroom"
+    },
+    {
+      "code": "WEL",
+      "name": "Wellington"
+    },
+    {
+      "code": "ZA",
+      "name": "Johannesburg"
+    },
+    {
+      "code": "ZUR",
+      "name": "Zurich"
+    }
+  ]
+}

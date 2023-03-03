@@ -1,0 +1,27 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "Tour"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": {
+            "autoplay": true,
+            "url": "/assets/videos/guide_tour.mp4"
+          },
+          "widgetSubType": "playerVideo",
+          "widgetType": "player",
+          "widgetHostClass": "video-full block",
+          "widgetHostStyle": {
+            "height": "calc(100vh - 112px)"
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

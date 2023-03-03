@@ -1,0 +1,2843 @@
+{
+  "lex_auth_01285522270547148814": [
+    {
+      "nodes": [
+        {
+          "id": 0,
+          "label": "Digitalization",
+          "group": "center",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/tablet-mobile-communication_iStock-1079974870_1-col-entry.jpg",
+          "color": "gray",
+          "font": {
+            "color": "gray"
+          },
+          "size": 50
+        },
+        {
+          "id": 1,
+          "label": "Digi General",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/1.jpg",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 2,
+          "label": "Digital Technologies",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/2.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 3,
+          "label": "New Work",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/3.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 4,
+          "label": "Digital Management",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/11.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 5,
+          "label": "Digital Business",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/12.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 1
+        },
+        {
+          "from": 0,
+          "to": 2
+        },
+        {
+          "from": 0,
+          "to": 3
+        },
+        {
+          "from": 0,
+          "to": 4
+        },
+        {
+          "from": 0,
+          "to": 5
+        }
+      ],
+      "opened": true
+    },
+    {
+      "nodes": [
+        {
+          "id": 1,
+          "label": "Digi General",
+          "group": "first",
+          "shape": "circularImage",
+          "size": 40,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 15,
+          "label": "Industry 4.0",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 16,
+          "label": "Info\nDigitalization\n@Siemens",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 17,
+          "label": "Digital\nReadiness\nCheck",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 18,
+          "label": "Virtual\nCollaboration",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 19,
+          "label": "Applying\nDigitalization\nto our Business ",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 20,
+          "label": "Digi\nEvents",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        }
+      ],
+      "edges": [
+        {
+          "from": 1,
+          "to": 15
+        },
+        {
+          "from": 1,
+          "to": 16
+        },
+        {
+          "from": 1,
+          "to": 17
+        },
+        {
+          "from": 1,
+          "to": 18
+        },
+        {
+          "from": 1,
+          "to": 19
+        },
+        {
+          "from": 1,
+          "to": 20
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 2,
+          "label": "Digital Technologies",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/2.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 6,
+          "label": "Data Analytics\nand Artificial\nIntelligence",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 7,
+          "label": "Architecture",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 8,
+          "label": "Digital Twin",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 9,
+          "label": "Future of\nAutomation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 10,
+          "label": "Product and\nSolution\nSecurity",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 11,
+          "label": "Cloud / Edge /\nFog Computing",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 12,
+          "label": "Digital\nEnterprise",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 13,
+          "label": "Company Core\nTechnologies",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 14,
+          "label": "Pluralsight",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        }
+      ],
+      "edges": [
+        {
+          "from": 2,
+          "to": 6
+        },
+        {
+          "from": 2,
+          "to": 7
+        },
+        {
+          "from": 2,
+          "to": 8
+        },
+        {
+          "from": 2,
+          "to": 9
+        },
+        {
+          "from": 2,
+          "to": 10
+        },
+        {
+          "from": 2,
+          "to": 11
+        },
+        {
+          "from": 2,
+          "to": 12
+        },
+        {
+          "from": 2,
+          "to": 13
+        },
+        {
+          "from": 2,
+          "to": 14
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 4,
+          "label": "Digital Management",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/11.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 45,
+          "label": "Are You\nPrepared?\n(Self-Reflection)",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 46,
+          "label": "Coaching\nAgile Teams ",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 47,
+          "label": "Entrepreneurial\nSkills",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 48,
+          "label": "Coordinating\nEcosystems",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 49,
+          "label": "Scouting\nTalent",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 50,
+          "label": "Driving\nCulture",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 51,
+          "label": "Translating\nVision",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        }
+      ],
+      "edges": [
+        {
+          "from": 4,
+          "to": 45
+        },
+        {
+          "from": 4,
+          "to": 46
+        },
+        {
+          "from": 4,
+          "to": 47
+        },
+        {
+          "from": 4,
+          "to": 48
+        },
+        {
+          "from": 4,
+          "to": 49
+        },
+        {
+          "from": 4,
+          "to": 50
+        },
+        {
+          "from": 4,
+          "to": 51
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 5,
+          "label": "Digital Business",
+          "group": "first",
+          "shape": "circularImage",
+          "size": 40,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/12.png"
+        },
+        {
+          "id": 21,
+          "label": "Customer\nValue\nCo-Creation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiBui"
+        },
+        {
+          "id": 22,
+          "label": "Social\nSelling",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiBui"
+        },
+        {
+          "id": 23,
+          "label": "Cyber\nSecurity",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiBui"
+        },
+        {
+          "id": 24,
+          "label": "Leading your\nDigital\nBusiness\nTransformation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiBui"
+        },
+        {
+          "id": 25,
+          "label": "Digi\nFinance",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiBui"
+        },
+        {
+          "id": 26,
+          "label": "Business\nModel\nInnovation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiBui"
+        }
+      ],
+      "edges": [
+        {
+          "from": 5,
+          "to": 21
+        },
+        {
+          "from": 5,
+          "to": 22
+        },
+        {
+          "from": 5,
+          "to": 23
+        },
+        {
+          "from": 5,
+          "to": 24
+        },
+        {
+          "from": 5,
+          "to": 25
+        },
+        {
+          "from": 5,
+          "to": 26
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "nodes": [
+        {
+          "id": 21,
+          "label": "Customer\nValue\nCo-Creation",
+          "group": "second",
+          "font": {
+            "color": "gray"
+          },
+          "size": 35
+        },
+        {
+          "id": 27,
+          "label": "Landing Page\nCVCC - LFW",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 28,
+          "label": "CVCC DNS_1:\nCVCC strategy,\n-process, and\n-preparation of\ncustomer\nengagement",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 29,
+          "label": "CVCC DNS_2:\nBusiness Model\nInnovation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 30,
+          "label": "Ecosytems",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 31,
+          "label": "CVCC\nWorkshop",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 21,
+          "to": 27
+        },
+        {
+          "from": 21,
+          "to": 28
+        },
+        {
+          "from": 21,
+          "to": 29
+        },
+        {
+          "from": 21,
+          "to": 30
+        },
+        {
+          "from": 21,
+          "to": 31
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {},
+    {
+      "nodes": [
+        {
+          "id": 24,
+          "label": "Leading your\nDigital\nBusiness\nTransformation",
+          "group": "second",
+          "font": {
+            "color": "gray"
+          },
+          "size": 35
+        },
+        {
+          "id": 32,
+          "label": "Digital\nBusiness",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 33,
+          "label": "Digital\nLeadership\n/ Transformation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 34,
+          "label": "LDBT\nWorkshop",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 24,
+          "to": 32
+        },
+        {
+          "from": 24,
+          "to": 33
+        },
+        {
+          "from": 24,
+          "to": 34
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 26,
+          "label": "Business\nModel\nInnovation",
+          "group": "second",
+          "font": {
+            "color": "gray"
+          },
+          "size": 35
+        },
+        {
+          "id": 35,
+          "label": "Value\nProposition\nDesign (VPD)",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 36,
+          "label": "Business\nModelling\nbased on\nBizMo TM\n(BizMo)",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 37,
+          "label": "Ecosystems",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 38,
+          "label": "CVC\nWorkshop",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 26,
+          "to": 35
+        },
+        {
+          "from": 26,
+          "to": 36
+        },
+        {
+          "from": 26,
+          "to": 37
+        },
+        {
+          "from": 26,
+          "to": 38
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 28,
+          "label": "CVCC DNS_1:\nCVCC strategy,\n-process, and\n-preparation of\ncustomer\nengagement",
+          "group": "third",
+          "font": {
+            "color": "gray"
+          },
+          "size": 35
+        },
+        {
+          "id": 39,
+          "label": "CVCC -\nintrodction",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 40,
+          "label": "CVCC -\nenvironment",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 41,
+          "label": "CVCC - process\n& strategy",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 42,
+          "label": "CVCC - prepare\ncustomer\nengagement",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 28,
+          "to": 39
+        },
+        {
+          "from": 28,
+          "to": 40
+        },
+        {
+          "from": 28,
+          "to": 41
+        },
+        {
+          "from": 28,
+          "to": 42
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 29,
+          "label": "CVCC DNS_2:\nBusiness Model\nInnovation",
+          "group": "third",
+          "font": {
+            "color": "gray"
+          },
+          "size": 35
+        },
+        {
+          "id": 43,
+          "label": "Value\nProposition\nDesign (VPD)",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 44,
+          "label": "Business\nModelling\nbased on\nBizMo TM\n(BizMo)",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 29,
+          "to": 43
+        },
+        {
+          "from": 29,
+          "to": 44
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ],
+  "lex_auth_0128552176426270725": [
+    {
+      "nodes": [
+        {
+          "id": 0,
+          "label": "",
+          "group": "first",
+          "widthConstraint": {
+            "minimum": 100
+          },
+          "x": -100,
+          "y": -50,
+          "shape": "circularImage",
+          "size": 60,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/sales.png"
+        },
+        {
+          "id": 1,
+          "label": "Sie Sales",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 40,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 2,
+          "label": "Digi basics\nfor Sales",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 40,
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 3,
+          "label": "Sales\nLearning",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 40,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        },
+        {
+          "id": 4,
+          "label": "Own your\ngrowth in\nSales & KAM",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 40,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/11.png"
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 1
+        },
+        {
+          "from": 0,
+          "to": 2
+        },
+        {
+          "from": 0,
+          "to": 3
+        },
+        {
+          "from": 0,
+          "to": 4
+        }
+      ],
+      "opened": true
+    },
+    {
+      "nodes": [
+        {
+          "id": 1,
+          "label": "Sie Sales",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 45,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 29,
+          "label": "Get Tips\n& Tricks",
+          "shape": "square",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 30,
+          "label": "Get\nKnowledge",
+          "shape": "square",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 31,
+          "label": "Get\nReady",
+          "shape": "square",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        }
+      ],
+      "edges": [
+        {
+          "from": 1,
+          "to": 29
+        },
+        {
+          "from": 1,
+          "to": 30
+        },
+        {
+          "from": 1,
+          "to": 31
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 2,
+          "label": "Digi basics\nfor Sales",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 45,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 32,
+          "label": "Know your\ndigitalnenvironment",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 33,
+          "label": "Digital\nSocial\nSelling – shape\nyour digital\npersona",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 34,
+          "label": "Digital Social\nSelling – get\nin contact\nwith your\ncustomer",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        },
+        {
+          "id": 35,
+          "label": "Digital\nTechnologies\nfor Sales",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/11.png"
+        },
+        {
+          "id": 36,
+          "label": "Division specific\ntraining on\ndigitalization",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/12.png"
+        }
+      ],
+      "edges": [
+        {
+          "from": 2,
+          "to": 32
+        },
+        {
+          "from": 2,
+          "to": 33
+        },
+        {
+          "from": 2,
+          "to": 34
+        },
+        {
+          "from": 2,
+          "to": 35
+        },
+        {
+          "from": 2,
+          "to": 36
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 3,
+          "label": "Sales\nLearning",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 45,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        },
+        {
+          "id": 37,
+          "label": "Selling\nMethods",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 38,
+          "label": "Portfolio",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 39,
+          "label": "Business Specific",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        },
+        {
+          "id": 40,
+          "label": "Vertical Markets",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/11.png"
+        },
+        {
+          "id": 41,
+          "label": "Digitalization@Sales",
+          "shape": "circularImage",
+          "group": "third",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/12.png"
+        }
+      ],
+      "edges": [
+        {
+          "from": 3,
+          "to": 37
+        },
+        {
+          "from": 3,
+          "to": 38
+        },
+        {
+          "from": 3,
+          "to": 39
+        },
+        {
+          "from": 3,
+          "to": 40
+        },
+        {
+          "from": 3,
+          "to": 41
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 4,
+          "label": "Own your\ngrowth in\nSales & KAM",
+          "group": "second",
+          "shape": "circularImage",
+          "size": 45,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/11.png"
+        },
+        {
+          "id": 5,
+          "label": "Whats New?",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/1.jpg"
+        },
+        {
+          "id": 6,
+          "label": "Competencies",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 7,
+          "label": "Quick\nLinks",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        },
+        {
+          "id": 8,
+          "label": "My Role\nin Sales",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/12.png"
+        },
+        {
+          "id": 9,
+          "label": "My Role\nas a KAM",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/13.png"
+        },
+        {
+          "id": 10,
+          "label": "Certification",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/14.png"
+        },
+        {
+          "id": 11,
+          "label": "Selling Methods",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/CDP-Img.jpg"
+        }
+      ],
+      "edges": [
+        {
+          "from": 4,
+          "to": 5
+        },
+        {
+          "from": 4,
+          "to": 6
+        },
+        {
+          "from": 4,
+          "to": 7
+        },
+        {
+          "from": 4,
+          "to": 8
+        },
+        {
+          "from": 4,
+          "to": 9
+        },
+        {
+          "from": 4,
+          "to": 10
+        },
+        {
+          "from": 4,
+          "to": 11
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 6,
+          "label": "Competencies",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/2.png"
+        },
+        {
+          "id": 12,
+          "label": "Interpersonal &\nPersonal",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 13,
+          "label": "Functions &\n Methods",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 6,
+          "to": 12
+        },
+        {
+          "from": 6,
+          "to": 13
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 7,
+          "label": "Quick\nLinks",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/3.png"
+        },
+        {
+          "id": 14,
+          "label": "Sie Sales\nJob Profile\nPlatform",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 15,
+          "label": "GLC",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 7,
+          "to": 14
+        },
+        {
+          "from": 7,
+          "to": 15
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 8,
+          "label": "My Role\nin Sales",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/12.png"
+        },
+        {
+          "id": 16,
+          "label": "General\nSales",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 17,
+          "label": "Sales\nConsulting",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 18,
+          "label": "Sales Support\nand Admin",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 8,
+          "to": 16
+        },
+        {
+          "from": 8,
+          "to": 17
+        },
+        {
+          "from": 8,
+          "to": 18
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 9,
+          "label": "My Role\nas a KAM",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/13.png"
+        },
+        {
+          "id": 19,
+          "label": "Global\nKAM",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 20,
+          "label": "Regional\nKAM",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 21,
+          "label": "Certification",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 22,
+          "label": "Corporate\nKAM",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 9,
+          "to": 19
+        },
+        {
+          "from": 9,
+          "to": 20
+        },
+        {
+          "from": 9,
+          "to": 21
+        },
+        {
+          "from": 9,
+          "to": 22
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 10,
+          "label": "Certification",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/14.png"
+        },
+        {
+          "id": 23,
+          "label": "Sales\nExcellence",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 24,
+          "label": "OCA",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 10,
+          "to": 23
+        },
+        {
+          "from": 10,
+          "to": 24
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 11,
+          "label": "Selling Methods",
+          "group": "third",
+          "shape": "circularImage",
+          "size": 35,
+          "font": {
+            "color": "gray"
+          },
+          "image": "/assets/common/learning-path/CDP-Img.jpg"
+        },
+        {
+          "id": 25,
+          "label": "Consulative\nSelling",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 26,
+          "label": "Technical\nSelling",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 27,
+          "label": "Value\nSelling",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 28,
+          "label": "Value Co\nCreation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 11,
+          "to": 25
+        },
+        {
+          "from": 11,
+          "to": 26
+        },
+        {
+          "from": 11,
+          "to": 27
+        },
+        {
+          "from": 11,
+          "to": 28
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {
+      "nodes": [
+        {
+          "id": 25,
+          "label": "Consulative\nSelling",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fourth"
+        },
+        {
+          "id": 42,
+          "label": "The\nChallengerSale",
+          "font": {
+            "color": "gray"
+          },
+          "group": "fifth"
+        }
+      ],
+      "edges": [
+        {
+          "from": 25,
+          "to": 42
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ],
+  "lex_auth_01285522520727552015": [
+    {
+      "nodes": [
+        {
+          "id": 0,
+          "label": "New Work",
+          "group": "center",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/sketch-on-tablet_iStock-1141040803_1-col-entry.jpg",
+          "color": "gray",
+          "font": {
+            "color": "gray"
+          },
+          "size": 50
+        },
+        {
+          "id": 1,
+          "label": "My Next Work",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/1.jpg",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 2,
+          "label": "Next Work",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/2.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 3,
+          "label": "New Work\nNew Culture",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/3.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 4,
+          "label": "Tools",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/11.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        }
+      ],
+      "edges": [
+        {
+          "from": 0,
+          "to": 1
+        },
+        {
+          "from": 0,
+          "to": 2
+        },
+        {
+          "from": 0,
+          "to": 3
+        },
+        {
+          "from": 0,
+          "to": 4
+        }
+      ],
+      "opened": true
+    },
+    {
+      "nodes": [
+        {
+          "id": 1,
+          "label": "My Next Work",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/1.jpg",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 5,
+          "label": "Leadership",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 6,
+          "label": "Product Business",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 7,
+          "label": "Manufacturing",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 8,
+          "label": "Solution Business,\nEngineering, pm@siemens",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 9,
+          "label": "SDS",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 10,
+          "label": "Support Functions",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        }
+      ],
+      "edges": [
+        {
+          "from": 1,
+          "to": 5
+        },
+        {
+          "from": 1,
+          "to": 6
+        },
+        {
+          "from": 1,
+          "to": 7
+        },
+        {
+          "from": 1,
+          "to": 8
+        },
+        {
+          "from": 1,
+          "to": 9
+        },
+        {
+          "from": 1,
+          "to": 10
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 3,
+          "label": "New Work\nNew Culture",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/3.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 11,
+          "label": "Agile Mindset",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 12,
+          "label": "Agile Organisation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 13,
+          "label": "Agile Cosmos",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        }
+      ],
+      "edges": [
+        {
+          "from": 3,
+          "to": 11
+        },
+        {
+          "from": 3,
+          "to": 12
+        },
+        {
+          "from": 3,
+          "to": 13
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 4,
+          "label": "Tools",
+          "group": "first",
+          "shape": "circularImage",
+          "image": "/assets/common/learning-path/11.png",
+          "font": {
+            "color": "gray"
+          },
+          "size": 40
+        },
+        {
+          "id": 14,
+          "label": "Agile/\nLean Methods",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 15,
+          "label": "Collaboration\ntools",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        }
+      ],
+      "edges": [
+        {
+          "from": 4,
+          "to": 14
+        },
+        {
+          "from": 4,
+          "to": 15
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 6,
+          "label": "Product\nBusiness",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 16,
+          "label": "Product\nOwner",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 17,
+          "label": "Scrum\nMaster",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 18,
+          "label": "R&D PM",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 6,
+          "to": 16
+        },
+        {
+          "from": 6,
+          "to": 17
+        },
+        {
+          "from": 6,
+          "to": 18
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {},
+    {},
+    {
+      "nodes": [
+        {
+          "id": 10,
+          "label": "Support\nFunctions",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiGen"
+        },
+        {
+          "id": 19,
+          "label": "BA",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 20,
+          "label": "HR",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 21,
+          "label": "SCM",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 10,
+          "to": 19
+        },
+        {
+          "from": 10,
+          "to": 20
+        },
+        {
+          "from": 10,
+          "to": 21
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 11,
+          "label": "Agile\nMindset",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 22,
+          "label": "Mindset",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 23,
+          "label": "Focus on\ncustomer\nvalue",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 24,
+          "label": "Eliminate\nwaste",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 25,
+          "label": "Optimize the\nentire value\nstream",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 26,
+          "label": "Pull and\nFlow",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 27,
+          "label": "Learn fast\n- Deliver\nfast and create\nknowledge",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 28,
+          "label": "Self\norganizing\nteams",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 29,
+          "label": "Go and\nsee",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 30,
+          "label": "Eliminate\nwaste",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 31,
+          "label": "Build quality\nfrom the\nbeginning",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 32,
+          "label": "The Flow\nFramework",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 11,
+          "to": 22
+        },
+        {
+          "from": 11,
+          "to": 23
+        },
+        {
+          "from": 11,
+          "to": 24
+        },
+        {
+          "from": 11,
+          "to": 25
+        },
+        {
+          "from": 11,
+          "to": 26
+        },
+        {
+          "from": 11,
+          "to": 27
+        },
+        {
+          "from": 11,
+          "to": 28
+        },
+        {
+          "from": 11,
+          "to": 29
+        },
+        {
+          "from": 11,
+          "to": 30
+        },
+        {
+          "from": 11,
+          "to": 31
+        },
+        {
+          "from": 11,
+          "to": 32
+        }
+      ],
+      "opened": false
+    },
+    {
+      "nodes": [
+        {
+          "id": 12,
+          "label": "Agile\nOrganisation",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiTek"
+        },
+        {
+          "id": 33,
+          "label": "Self\norganizing\nteams",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 12,
+          "to": 33
+        }
+      ],
+      "opened": false
+    },
+    {},
+    {
+      "nodes": [
+        {
+          "id": 14,
+          "label": "Agile/Lean\nMethods",
+          "font": {
+            "color": "gray"
+          },
+          "group": "digiMgm"
+        },
+        {
+          "id": 34,
+          "label": "Hoshin\nKanri",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 35,
+          "label": "Retrospective",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 36,
+          "label": "Ranked\nBacklog",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 37,
+          "label": "Time Boxed\nDevelopment",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 38,
+          "label": "Kanban",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 39,
+          "label": "Crossfunctional\nTeams",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 40,
+          "label": "Visual\nManagement",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 41,
+          "label": "Daily\nStandup",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 42,
+          "label": "Value\nstream\nMapping",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 43,
+          "label": "Gemba\nWalk",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 44,
+          "label": "Scrum",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 45,
+          "label": "MVP/MMP",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 46,
+          "label": "Structured\nProblem\nSolving",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 47,
+          "label": "Value\neffort\nmatrix",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        },
+        {
+          "id": 48,
+          "label": "Design\nThinking",
+          "font": {
+            "color": "gray"
+          },
+          "group": "third"
+        }
+      ],
+      "edges": [
+        {
+          "from": 14,
+          "to": 34
+        },
+        {
+          "from": 14,
+          "to": 35
+        },
+        {
+          "from": 14,
+          "to": 36
+        },
+        {
+          "from": 14,
+          "to": 37
+        },
+        {
+          "from": 14,
+          "to": 38
+        },
+        {
+          "from": 14,
+          "to": 39
+        },
+        {
+          "from": 14,
+          "to": 40
+        },
+        {
+          "from": 14,
+          "to": 41
+        },
+        {
+          "from": 14,
+          "to": 42
+        },
+        {
+          "from": 14,
+          "to": 43
+        },
+        {
+          "from": 14,
+          "to": 44
+        },
+        {
+          "from": 14,
+          "to": 45
+        },
+        {
+          "from": 14,
+          "to": 46
+        },
+        {
+          "from": 14,
+          "to": 47
+        },
+        {
+          "from": 14,
+          "to": 48
+        }
+      ],
+      "opened": false
+    },
+    {}
+  ],
+  "lexIdData": [
+    {
+      "titleKey": "lex_auth_01285522270547148814",
+      "displayName": "Digitalization"
+    },
+    {
+      "titleKey": "lex_auth_01285522239022694413",
+      "displayName": "Leadership"
+    },
+    {
+      "titleKey": "lex_auth_0128552176426270725",
+      "displayName": "Sales"
+    },
+    {
+      "titleKey": "lex_auth_01285522195622297616",
+      "displayName": "Key Account Management"
+    },
+    {
+      "titleKey": "lex_auth_01285522520727552015",
+      "displayName": "New Work"
+    }
+  ],
+  "displayData": {
+    "Digitalization": {
+      "noOfContent": 56,
+      "author": "Siemens",
+      "childData": [
+        "Digital Management",
+        "Digital Technologies",
+        "Digital Business",
+        "Digi General",
+        "New Work"
+      ]
+    },
+    "Digital Management": {
+      "noOfContent": 30,
+      "author": "Siemens",
+      "childData": [
+        "Coaching Agile Teams",
+        "Scouting Talent",
+        "Translating Vision",
+        "Coordinating Ecosystems",
+        "Driving Culture",
+        "Entrepreneurial Skills"
+      ]
+    },
+    "Digital Technologies": {
+      "noOfContent": 24,
+      "author": "Siemens",
+      "childData": [
+        "Architecture",
+        "Future of Automation",
+        "Pluralsight",
+        "Digital Enterprise",
+        "Company Core Technologies",
+        "Digital Twin",
+        "Product and Solution Security"
+      ]
+    },
+    "Sales": {
+      "noOfContent": 49,
+      "author": "Siemens",
+      "childData": [
+        "Sie Sales",
+        "Sales Learning",
+        "Digi Basics for Sales",
+        "Own your growth in Sales & KAm"
+      ]
+    },
+    "Sie Sales": {
+      "noOfContent": 9,
+      "author": "Siemens",
+      "childData": [
+        "Get Tips & Tricks",
+        "Get Ready",
+        "Get Knowledge"
+      ]
+    },
+    "New Work": {
+      "noOfContent": 36,
+      "author": "Siemens",
+      "childData": [
+        "My Next Work",
+        "Next Work",
+        "Tools",
+        "New Work New Culture"
+      ]
+    }
+  },
+  "widgetData": {
+    "Data Analytics and Artificial Intelligence": [
+      "lex_auth_012841106773860352472",
+      "lex_auth_012841165280870400792",
+      "lex_auth_0128411699238010881785"
+    ],
+    "Driving Culture": [
+      "lex_auth_0128411855040184323028"
+    ],
+    "Entrepreneurial Skills": [
+      "lex_auth_0128411863121592322926",
+      "lex_auth_0128411802242088962929",
+      "lex_auth_0128411723662622721642"
+    ],
+    "Scouting Talent": [
+      "lex_auth_0128411805538058242916"
+    ],
+    "Translating Vision": [
+      "lex_auth_0128411828658831362970",
+      "lex_auth_0128411771537080322532",
+      "lex_auth_0128411808100270082512",
+      "lex_auth_0128411804581396482545"
+    ],
+    "Industry 4.0": [
+      "lex_auth_0128411920639836164429",
+      "lex_auth_0128411926042624004434",
+      "lex_auth_0128411933471457284436"
+    ],
+    "Info Digitalization@Siemens": [
+      "lex_auth_012841166560583680977",
+      "lex_auth_0128411764688322562548",
+      "lex_auth_0128411928890654724386",
+      "lex_auth_0128411919728230404390",
+      "lex_auth_0128411942791004164392",
+      "lex_auth_012841111598522368604",
+      "lex_auth_0128411923428556804389",
+      "lex_auth_0128411963294679044393",
+      "lex_auth_0128411940427284484395",
+      "lex_auth_0128411976737914884431"
+    ],
+    "Digital Readiness Check": [
+      "lex_auth_0128411937541980163876"
+    ],
+    "Digi Events": [
+      "lex_auth_0128411937541980163876"
+    ],
+    "VUCA": [
+      "lex_auth_0128411798633840642979"
+    ],
+    "Ecosystems": [
+      "lex_auth_012841164405997568992"
+    ],
+    "Business": [
+      "lex_auth_0128411850324049923017",
+      "lex_auth_0128411627098603521106"
+    ],
+    "Social Selling": [
+      "lex_auth_01284110139043020820"
+    ],
+    "Value Selling": [
+      "lex_auth_01284541684303462419844",
+      "lex_auth_01284542063916646419831",
+      "lex_auth_01284542171787264019829",
+      "lex_auth_01284542183747584019842",
+      "lex_auth_01284539969188659213741",
+      "lex_auth_01284540044963840013749",
+      "lex_auth_01284539956780236813748",
+      "lex_auth_01284540029452288013742",
+      "lex_auth_0128425192342241281305",
+      "lex_auth_0128411891398983684230",
+      "lex_auth_0128411889122918404227",
+      "lex_auth_0128425202617876481306",
+      "lex_auth_0128411725654261762079"
+    ],
+    "Consultative Selling": [
+      "lex_auth_01284539526716620810551",
+      "lex_auth_01284539689625190410553",
+      "lex_auth_01284539656683520010675",
+      "lex_auth_01284539943261798410676",
+      "lex_auth_0128425150594580481307"
+    ],
+    "The Challenger Sale": [
+      "lex_auth_01284541813664972819309"
+    ],
+    "Customer Value-Co Creation": [
+      "lex_auth_0128411828795310082814",
+      "lex_auth_0128411797089976322455",
+      "lex_auth_0128411799170826242457",
+      "lex_auth_0128411865004441603171",
+      "lex_auth_0128411838743429123173",
+      "lex_auth_0128411764103495682459",
+      "lex_auth_0128411786203709442461",
+      "lex_auth_0128411818704732163172"
+    ],
+    "Technical Selling": [
+      "lex_auth_012842520707260416348"
+    ],
+    "General Sales": [
+      "lex_auth_0128411774674698242092",
+      "lex_auth_0128411722856775682093",
+      "lex_auth_0128411663427174401126",
+      "lex_auth_0128411764493598722096",
+      "lex_auth_0128411889122918404227",
+      "lex_auth_0128425202617876481306",
+      "lex_auth_0128453793657405443835",
+      "lex_auth_0128453801082552323836",
+      "lex_auth_0128453853227909123753",
+      "lex_auth_0128453814598533123748",
+      "lex_auth_01284541214339891218348",
+      "lex_auth_01284541340967731218387",
+      "lex_auth_01284541425005363217623",
+      "lex_auth_01284541163087462417624",
+      "lex_auth_01284541089526579217764",
+      "lex_auth_01284541326330265617767",
+      "lex_auth_01284541229489356817787",
+      "lex_auth_01284541547120230417684",
+      "lex_auth_012842521693749248651"
+    ],
+    "Sales Consulting": [
+      "lex_auth_0128425150594580481307",
+      "lex_auth_0128411801264291842703",
+      "lex_auth_0128411948381224964238"
+    ],
+    "Interpersonal & Personal": [
+      "lex_auth_0128411899570585604226",
+      "lex_auth_012842519081385984257",
+      "lex_auth_0128411949264240644231",
+      "lex_auth_0128411894728704003663",
+      "lex_auth_0128411800104550402560",
+      "lex_auth_012841102560534528383",
+      "lex_auth_0128411821050019842685",
+      "lex_auth_0128453913412403208613",
+      "lex_auth_0128453524829552641715",
+      "lex_auth_0128453584809000961661",
+      "lex_auth_012842513929756672611",
+      "lex_auth_012842516732387328590",
+      "lex_auth_0128425221479874561302"
+    ],
+    "Functions & Methods": [
+      "lex_auth_0128411903320309763967",
+      "lex_auth_0128411824273326082839",
+      "lex_auth_012841190862102528396",
+      "lex_auth_0128411768193433602563",
+      "lex_auth_012842518448799744584",
+      "lex_auth_012842519053942784125",
+      "lex_auth_012842518456238080111",
+      "lex_auth_0128425166940323841298"
+    ],
+    "Get Knowledge": [
+      "lex_auth_0128411943073546243881",
+      "lex_auth_0128411941630361603882",
+      "lex_auth_0128411909485117443883",
+      "lex_auth_0128411869436641283884",
+      "lex_auth_0128411878936084483886"
+    ],
+    "Get Tips & Tricks": [
+      "lex_auth_0128411912553512963906",
+      "lex_auth_0128411934609899523909"
+    ],
+    "Get Ready": [
+      "lex_auth_0128411918443397123899"
+    ],
+    "Know your digital environment": [
+      "lex_auth_012841105345003520236",
+      "lex_auth_012841101974790144203",
+      "lex_auth_0128411706564034561425",
+      "lex_auth_0128411708320645121426",
+      "lex_auth_0128411641331548161417",
+      "lex_auth_0128411640893276161422",
+      "lex_auth_0128411696078766081423",
+      "lex_auth_012841106627321856232",
+      "lex_auth_012841106148941824307",
+      "lex_auth_012841104727662592309",
+      "lex_auth_0128411676395110401424"
+    ],
+    "Digital Social Selling – shape your digital persona": [
+      "lex_auth_0128411643165327361430",
+      "lex_auth_0128411643515617281433",
+      "lex_auth_0128411688742748161432",
+      "lex_auth_012841165424107520"
+    ],
+    "Digital Social Selling – get in contact with your customer": [
+      "lex_auth_0128411658164633601437",
+      "lex_auth_0128411661797294081435",
+      "lex_auth_0128411716300881921429",
+      "lex_auth_0128411640173445121436",
+      "lex_auth_012841161723674624955"
+    ],
+    "Digital Technologies for Sales": [
+      "lex_auth_012841163409645568840",
+      "lex_auth_0128411701847408641446",
+      "lex_auth_012841165995188224144",
+      "lex_auth_0128411687621017601439",
+      "lex_auth_0128411703532175361442",
+      "lex_auth_012841107953491968594"
+    ],
+    "Division specific training on digitalization": [
+      "lex_auth_012841171451535360144",
+      "lex_auth_0128411662524334081449"
+    ],
+    "Selling Methods": [
+      "lex_auth_0128411825950392323309",
+      "lex_auth_0128411857931386883316",
+      "lex_auth_0128411896231198723317",
+      "lex_auth_0128411833931038723318",
+      "lex_auth_0128411715069460482043",
+      "lex_auth_0128411781803540482044",
+      "lex_auth_0128411731704954881978",
+      "lex_auth_0128411752745943041984",
+      "lex_auth_0128411749291868161981",
+      "lex_auth_0128411710180720641980",
+      "lex_auth_0128411754572103681985",
+      "lex_auth_0128411708389048322082",
+      "lex_auth_0128411764275281922077",
+      "lex_auth_0128411725654261762079",
+      "lex_auth_0128411850216980483273",
+      "lex_auth_0128411782159482882085",
+      "lex_auth_0128411734670950402083",
+      "lex_auth_0128411748967874561973",
+      "lex_auth_0128411711791759361987",
+      "lex_auth_0128411746341027841982",
+      "lex_auth_0128411716321607681979",
+      "lex_auth_0128411753760030722087",
+      "lex_auth_0128411871586304003848",
+      "lex_auth_0128411703129456641992",
+      "lex_auth_0128411785962700802084",
+      "lex_auth_0128411722769612802086",
+      "lex_auth_0128411724368936962045",
+      "lex_auth_0128411704666112001986"
+    ],
+    "Portfolio": [
+      "lex_auth_0128411919417262083753",
+      "lex_auth_0128411916108185604407",
+      "lex_auth_0128411879098941443624",
+      "lex_auth_0128411863344332803626",
+      "lex_auth_0128411893693726723627",
+      "lex_auth_0128411895333109763625",
+      "lex_auth_0128411908504535043623",
+      "lex_auth_0128411863121100803619",
+      "lex_auth_0128411883791892483612"
+    ],
+    "Business Specific": [
+      "lex_auth_0128411855122841603300",
+      "lex_auth_0128411807967477763006",
+      "lex_auth_0128411849183150082999",
+      "lex_auth_0128411741556736001975",
+      "lex_auth_0128411714515353601445",
+      "lex_auth_0128411897500385283565",
+      "lex_auth_0128411880613642243756",
+      "lex_auth_0128411964195061764409"
+    ],
+    "Vertical Markets": [
+      "lex_auth_0128411791147335682915"
+    ],
+    "Digitalization@Sales": [
+      "lex_auth_0128411666669977601428",
+      "lex_auth_0128411741938565122042",
+      "lex_auth_012841166560583680977",
+      "lex_auth_0128411753677537281804",
+      "lex_auth_0128411703532175361442",
+      "lex_auth_0128411718834257921438",
+      "lex_auth_012841163409645568840",
+      "lex_auth_0128411701847408641446",
+      "lex_auth_0128411660642959361427",
+      "lex_auth_0128411659951882241440",
+      "lex_auth_0128411643165327361430",
+      "lex_auth_0128411682485862401441",
+      "lex_auth_0128411716300881921429"
+    ],
+    "Agile Mindset": [
+      "lex_auth_0128411912005468163816",
+      "lex_auth_0128411772358492162450",
+      "lex_auth_0128411776623001602428",
+      "lex_auth_0128411778855403522605"
+    ],
+    "Events": [
+      "lex_auth_0128411891723960324309",
+      "lex_auth_0128411825747558402634"
+    ],
+    "Pull and Flow": [
+      "lex_auth_0128411905760706563873",
+      "lex_auth_0128411894946775043875",
+      "lex_auth_0128411924419133443874",
+      "lex_auth_0128411965350051844278",
+      "lex_auth_0128411777370521602522",
+      "lex_auth_0128411919719956484380"
+    ],
+    "BA": [
+      "lex_auth_0128411889682923524058",
+      "lex_auth_0128411811510272002782"
+    ],
+    "Next work": [
+      "lex_auth_0128411908179968004061",
+      "lex_auth_0128411781282611202633"
+    ],
+    "My Next Work": [
+      "lex_auth_0128411912819671043827",
+      "lex_auth_0128411789614366722426"
+    ],
+    "Agile Organisation": [
+      "lex_auth_0128411844538777603598",
+      "lex_auth_0128411841138769923223",
+      "lex_auth_0128411820409651202588",
+      "lex_auth_012841104105373696615",
+      "lex_auth_0128411919853649924427"
+    ],
+    "SDS": [
+      "lex_auth_0128411844952719363463",
+      "lex_auth_0128411849431613443078",
+      "lex_auth_0128411750651412482430",
+      "lex_auth_0128411791084339202433",
+      "lex_auth_0128411815201996802431",
+      "lex_auth_0128411767281664002432",
+      "lex_auth_0128411750697451522425"
+    ],
+    "Leadership": [
+      "lex_auth_0128411831575838722778",
+      "lex_auth_0128411823485747202521",
+      "lex_auth_0128411787988254722462",
+      "lex_auth_0128411684583997441194",
+      "lex_auth_0128411743332106241886"
+    ],
+    "Collaboration Tools": [
+      "lex_auth_0128411794035261442436"
+    ],
+    "Product Business": [
+      "lex_auth_012841164405997568992"
+    ],
+    "Design Thinking": [
+      "lex_auth_012841104991928320290",
+      "lex_auth_0128411905997783043702",
+      "lex_auth_0128411813292113923218",
+      "lex_auth_0128411729359257601611",
+      "lex_auth_0128411834685931523465"
+    ],
+    "Self organizing teams": [
+      "lex_auth_0128411959564124164441"
+    ]
+  }
+}

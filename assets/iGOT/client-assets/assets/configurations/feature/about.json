@@ -1,0 +1,36 @@
+{
+  "banner": {
+    "title": "Aastrika - A Nilekani Philanthropies Initiative",
+    "description": "Our vision at Aastrika is a future in which every woman is treated with respect and dignity during childbirth, and the right treatment is provided at the right time.",
+    "videoLink": "",
+    "moreInfo": "",
+    "img": "assets/instances/eagle/banners/home/1/l.png"
+  },
+  "section1": {
+    "title": "",
+    "leftParas": [
+      "India suffers from a dehumanized maternal care system. Unnecessary medical interventions have become increasingly common, and women frequently go home regretful, disillusioned and in pain. On the other extreme, millions of women still have insufficient access to basic, yet required, medicines, protocols, and evidence-based interventions that save lives.",
+      "Today, India's birthing process demands transformative change to address challenge of Too much, too soon, or too little, too late.",
+      "Aastrika is committed to improving the standards of Respectful Maternal Care to ensure a healthy, dignified, and joyful journey into motherhood.",
+      "Our mission is to Increase access to Respectful Maternal Care for 30 million women by 2025 through"
+    ],
+    "rightParas": []
+  },
+  "features": [
+    {
+      "title": "CENTER OF EXCELLENCE",
+      "description": "We are establishing a Bangalore based Center of excellence for maternal care, which will adhere to ethical, evidence based clinical guidelines and practices, setting the benchmark of expectations for pregnant women. The center will focus on achieving optimal clinical outcomes, and ensure that every mother is treated with respect before, during, and after delivery.",
+      "list": {}
+    },
+    {
+      "title": "CAPACITY BUILDING",
+      "description": "A collaborative digital platform to support capacity building of maternal healthcare workers and improve maternal health outcomes across India. To be implemented through alliances with like-minded partners and development sector experts, this is an instance of Societal Platform thinking, a way to address societal challenges at scale, with speed, sustainably. A key focus of this initiative is to ensure respectful maternity care for all birthing women.",
+      "list": {}
+    },
+    {
+      "title": "ADVOCACY",
+      "description": "We strive to increase awareness and knowledge of quality maternal care in India. As an organization dedicated to the empowerment of women, we work towards educating expecting women about their basic human rights in childbirth, hoping to inspire change at a larger societal level, and urging people to question unethical practices.",
+      "list": {}
+    }
+  ]
+}

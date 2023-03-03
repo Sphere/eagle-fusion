@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/page/home",
+    "pageTitle": "Hands On Authoring"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex-deviap.infosysapps.com/profile/Mycontest",
+      "Title": "Hands On Authoring"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

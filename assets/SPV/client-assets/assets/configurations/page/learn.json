@@ -1,0 +1,258 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageTitle": "",
+    "pageBackLink": "none",
+    "background": {
+      "color": "default",
+      "styles": {
+        "background-color": "white",
+        "color": "#333"
+      }
+    },
+    "xsmallNonMenuLinks": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "Search",
+          "actionBtnId": "feature_search",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "feature_notification",
+          "actionBtnId": "feature_notification",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      }
+    ],
+    "links": []
+  },
+  "pageLayout": {
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout",
+    "widgetData": {
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "actionButton",
+              "widgetSubType": "actionButtonPageBack",
+              "widgetData": {
+                "url": "home",
+                "titles": [
+                  {
+                    "url": "/page/learn",
+                    "title": "Learn",
+                    "icon": "school"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box margin-top-s",
+            "widget": {
+              "widgetType": "slider",
+              "widgetSubType": "sliderBanners",
+              "style": {
+                "border-radius": "12px",
+                "height": "600px"
+              },
+              "widgetData": [
+                {
+                  "banners": {
+                    "l": "assets/instances/eagle/banners/hubs/learning/l.jpg",
+                    "m": "assets/instances/eagle/banners/hubs/learning/m.jpg",
+                    "s": "assets/instances/eagle/banners/hubs/learning/s.jpg",
+                    "xl": "assets/instances/eagle/banners/hubs/learning/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/hubs/learning/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/hubs/learning/xxl.jpg"
+                  },
+                  "redirectUrl": "/app/search/learning",
+                  "queryParams": {
+                    "q": "Salesforce",
+                    "lang": "en",
+                    "f": "{}"
+                  },
+                  "title": ""
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "card",
+              "widgetSubType": "cardLearn",
+              "widgetData": {}
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "latest",
+                    "title": "Recently added",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "info",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                        }
+                      }
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/search/learning",
+                      "queryParams": {
+                        "q": "",
+                        "p": "Trending",
+                        "f": "{\"primaryCategory\": [\"Course\"], \"contentType\": [\"Course\"]}"
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard",
+                      "postCardForSearch": true
+                    },
+                    "filters": [],
+                    "request": {
+                      "searchV6": {
+                        "request": {
+                          "filters": [{
+                            "primaryCategory": [
+                              "Course"
+                            ],
+                            "contentType": [
+                              "Course"
+                            ]
+                          }],
+                          "query": "",
+                          "sort_by": {
+                            "lastUpdatedOn": "desc"
+                          },
+                          "fields": [
+                            "name",
+                            "appIcon",
+                            "instructions",
+                            "description",
+                            "purpose",
+                            "mimeType",
+                            "gradeLevel",
+                            "identifier",
+                            "medium",
+                            "pkgVersion",
+                            "board",
+                            "subject",
+                            "resourceType",
+                            "primaryCategory",
+                            "contentType",
+                            "channel",
+                            "organisation",
+                            "trackable",
+                            "license",
+                            "posterImage",
+                            "idealScreenSize",
+                            "learningMode",
+                            "creatorLogo",
+                            "duration"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "continueLearning",
+                    "title": "Continue Learning",
+                    "titleDescription": "Continue Learning",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "info",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                        }
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard",
+                      "postCardForSearch": true
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/search/learning",
+                      "queryParams": {
+                        "q": "",
+                        "p": "Trending"
+                      }
+                    },
+                    "filters": [],
+                    "request": {
+                      "enrollmentList": {
+                        "path": "/apis/proxies/v8/learner/course/v1/user/enrollment/list/<id>",
+                        "queryParams": {
+                          "orgdetails": "orgName,email",
+                          "licenseDetails": "name,description,url",
+                          "fields": "contentType,name,channel,mimeType,appIcon,resourceType,identifier,trackable,objectType,organisation,pkgVersion,primaryCategory,trackable",
+                          "batchDetails": "name,endDate,startDate,status,enrollmentType,createdBy,certificates`"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

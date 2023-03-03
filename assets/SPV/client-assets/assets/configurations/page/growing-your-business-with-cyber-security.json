@@ -1,0 +1,647 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Growing your business with cyberSecurity"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "growing_business",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/growing-business.png",
+                            "altText": "Growing Business"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "growing_business"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411861811691523215",
+                        "lex_auth_0128411836104622083213",
+                        "lex_auth_0128411816873574403212"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1300,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetData": {
+                        "imageHeight": "389",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/gbc-1024.jpg",
+                        "mapName": "map-growing-buisness",
+                        "map": [
+                          {
+                            "coords": [
+                              21,
+                              99,
+                              276,
+                              211
+                            ],
+                            "alt": "E-Learning",
+                            "title": "E-Learning",
+                            "link": "./page/growing-your-business-with-cyber-security#e_learning",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              259,
+                              267,
+                              585,
+                              374
+                            ],
+                            "alt": "Workshop",
+                            "title": "Workshop",
+                            "link": "./page/growing-your-business-with-cyber-security#workshop",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              634,
+                              252,
+                              1000,
+                              364
+                            ],
+                            "alt": "Social learning",
+                            "title": "Social learning",
+                            "link": "./page/growing-your-business-with-cyber-security#social_learning",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 950,
+                    "maxWidth": 1299,
+                    "widget": {
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetData": {
+                        "imageHeight": "389",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/gbc-1024.jpg",
+                        "mapName": "map-growing-buisness",
+                        "map": [
+                          {
+                            "coords": [
+                              21,
+                              99,
+                              276,
+                              211
+                            ],
+                            "alt": "E-Learning",
+                            "title": "E-Learning",
+                            "link": "./page/growing-your-business-with-cyber-security#e_learning",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              259,
+                              267,
+                              585,
+                              374
+                            ],
+                            "alt": "Workshop",
+                            "title": "Workshop",
+                            "link": "./page/growing-your-business-with-cyber-security#workshop",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              634,
+                              252,
+                              1000,
+                              364
+                            ],
+                            "alt": "Social learning",
+                            "title": "Social learning",
+                            "link": "./page/growing-your-business-with-cyber-security#social_learning",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 949,
+                    "widget": {
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetData": {
+                        "imageHeight": "295",
+                        "imageWidth": "768",
+                        "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/gbc-768.jpg",
+                        "mapName": "map-growing-buisness",
+                        "map": [
+                          {
+                            "coords": [
+                              30,
+                              223,
+                              176,
+                              265
+                            ],
+                            "alt": "E-Learning",
+                            "title": "E-Learning",
+                            "link": "./page/growing-your-business-with-cyber-security#e_learning",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              231,
+                              231,
+                              456,
+                              265
+                            ],
+                            "alt": "Workshop",
+                            "title": "Workshop",
+                            "link": "./page/growing-your-business-with-cyber-security#workshop",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              507,
+                              226,
+                              704,
+                              264
+                            ],
+                            "alt": "Social learning",
+                            "title": "Social learning",
+                            "link": "./page/growing-your-business-with-cyber-security#social_learning",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetData": {
+                        "imageHeight": "568",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/gbc-414.jpg",
+                        "mapName": "map-growing-buisness",
+                        "map": [
+                          {
+                            "coords": [
+                              12,
+                              206,
+                              160,
+                              248
+                            ],
+                            "alt": "E-Learning",
+                            "title": "E-Learning",
+                            "link": "./page/growing-your-business-with-cyber-security#e_learning",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              84,
+                              503,
+                              254,
+                              549
+                            ],
+                            "alt": "Workshop",
+                            "title": "Workshop",
+                            "link": "./page/growing-your-business-with-cyber-security#workshop",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              184,
+                              342,
+                              383,
+                              381
+                            ],
+                            "alt": "Social learning",
+                            "title": "Social learning",
+                            "link": "./page/growing-your-business-with-cyber-security#social_learning",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "mat-elevation-z4 h-full"
+                      },
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "mb-8 block"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "e_learning",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/e-learning.png",
+                            "altText": "E-Learning"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "e_learning"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411853683998723211"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "lg:-my-10 block"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 600,
+                    "maxWidth": 5678499,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<a href=\"{{link}}\"><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/></a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/e-learning-image-map.jpg",
+                          "link": "https://intranet.learning-campus.siemens.com/start.do?redirect=/E-LEARNING/en/bookandstart/DEWGBC-ELEN01.do"
+                        },
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "height": "394px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pl-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 599,
+                    "widget": {
+                      "widgetData": {
+                        "gutter": 2,
+                        "widgets": [
+                          [
+                            {
+                              "dimensions": {},
+                              "widget": {
+                                "widgetData": {
+                                  "imageHeight": "661",
+                                  "imageWidth": "414",
+                                  "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/gbc-dns-414.jpg",
+                                  "mapName": "map-grow-your-business",
+                                  "map": [
+                                    {
+                                      "coords": [
+                                        38,
+                                        639,
+                                        201,
+                                        506
+                                      ],
+                                      "alt": "",
+                                      "title": "English Version",
+                                      "link": "https://intranet.learning-campus.siemens.com/start.do?redirect=/E-LEARNING/en/bookandstart/DEWGBC-ELEN01.do",
+                                      "target": "_blank"
+                                    },
+                                    {
+                                      "coords": [
+                                        224,
+                                        506,
+                                        385,
+                                        639
+                                      ],
+                                      "alt": "",
+                                      "title": "German Version",
+                                      "link": "https://intranet.learning-campus.siemens.com/E-LEARNING/en/bookandstart/DEWGBC-ELDE01.do",
+                                      "target": "_blank"
+                                    }
+                                  ],
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "imageMapResponsive",
+                                "widgetType": "imageMap",
+                                "widgetHostClass": "block px-6 sm:pl-0 sm:px-8 md:px-10 h-full",
+                                "widgetInstanceId": "image_map"
+                              }
+                            }
+                          ]
+                        ]
+                      },
+                      "widgetSubType": "gridLayout",
+                      "widgetType": "layout"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "workshop",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/workshop.png",
+                            "altText": "Workshop"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "height": "370x"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "workshop"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411861440102403187"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_eiing2kt",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_eiing2kt/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video",
+                "containerStyle": {
+                  "height": "394px"
+                }
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 lg:pl-0 md:py-10",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "social_learning",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/social-learning.png",
+                            "altText": "Social Learning"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "social_learning"
+                      }
+                    ],
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{href}}\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" /></a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/social-postcard.png",
+                            "altText": "Social Learning",
+                            "href": "https://www.yammer.com/siemens.com/#/threads/inGroup?type=in_group&amp;feedId=17136905"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4",
+                        "widgetInstanceId": ""
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411811067904003194",
+                        "lex_auth_0128411826724454403190"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "content_plus_overall",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/content-overall.png",
+                            "altText": "Content Plus Overall"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "content_plus_overall"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411841840250883199",
+                        "lex_auth_0128411884925009923903",
+                        "lex_auth_01284174728749056038",
+                        "lex_auth_01284174386658508839",
+                        "lex_auth_0128411936239534083872"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "cyber_security",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411915615846404310",
+                        "lex_auth_0128411919600435204313",
+                        "lex_auth_0128411941442519044314",
+                        "lex_auth_01284174272694681635"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "content_plus_business_specific",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/growing-your-business-with-cyber-security/content-business.png",
+                            "altText": "Content Plus Business Specific"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "content_plus_business_specific"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411896102830083685",
+                        "lex_auth_0128411918896005123684"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

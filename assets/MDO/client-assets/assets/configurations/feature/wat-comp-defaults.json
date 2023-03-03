@@ -1,0 +1,97 @@
+{
+    "Key": "levels",
+    "override": true,
+    "levels": [
+        {
+            "id": "A",
+            "alias": [
+                "Basic"
+            ],
+            "name": "Level 1",
+            "level": "Level 1",
+            "source": "WAT",
+            "status": "UNVERIFIED",
+            "type": "COMPETENCY",
+            "description": "Possesses basic knowledge and skills related to some elements of the competency and is able to apply them with moderate supervision"
+        },
+        {
+            "id": "B",
+            "alias": [
+                "Proficient"
+            ],
+            "name": "Level 2",
+            "level": "Level 2",
+            "source": "WAT",
+            "status": "UNVERIFIED",
+            "type": "COMPETENCY",
+            "description": "Able to demonstrate knowledge and skills related to most of the elements of the competency and apply them without need for constant supervision"
+        },
+        {
+            "id": "C",
+            "alias": [
+                "Advanced"
+            ],
+            "name": "Level 3",
+            "level": "Level 3",
+            "source": "WAT",
+            "status": "UNVERIFIED",
+            "type": "COMPETENCY",
+            "description": "Possesses strong knowledge and skills required for the competency and demonstrates an understanding of the interlinkages between competencies. Acts as an advisor on the topic, often producing manuals/notes to support colleagues. "
+        },
+        {
+            "id": "D",
+            "alias": [
+                "Expert"
+            ],
+            "name": "Level 4",
+            "level": "Level 4",
+            "source": "WAT",
+            "status": "UNVERIFIED",
+            "type": "COMPETENCY",
+            "description": "Demonstrates excellence in all capabilities related to the competency compared to best industry benchmarks within the country. Is a person of authority on  practices and/or systems related to the competency and is widely consulted on the same."
+        },
+        {
+            "id": "E",
+            "alias": [
+                "Ustad"
+            ],
+            "name": "Level 5",
+            "level": "Level 5",
+            "source": "WAT",
+            "status": "UNVERIFIED",
+            "type": "COMPETENCY",
+            "description": "Demonstrates complete mastery of the competency and use of it in unprecedented ways. Has a fundamental, outsized impact on their field of knowledge with few other people having similar capabilities. "
+        }
+    ],
+    "compTypes": [
+        "Behavioural",
+        "Domain",
+        "Functional"
+    ],
+    "assistant": {
+        "help": [
+            {
+                "name": "Drafting competencies",
+                "appIcon": "https://igot.blob.core.windows.net/public/content/do_11327647969989427214307/artifact/do_11327647970098380814308_1620664026741_test448192519201591623096543.thumb.jpg",
+                "duration": "12 minutes",
+                "mimeType": "video",
+                "artifactUrl": "/assets/instances/eagle/videos/wat-help.mp4"
+            },
+            {
+                "name": "12 step work allocation process",
+                "appIcon": "https://igot.blob.core.windows.net/public/content/do_11328133285267046414498/artifact/do_11327648079200256014382_1620664160384_gdp11597836661217.thumb.jpg",
+                "duration": "8 minutes",
+                "mimeType": "pdf",
+                "artifactUrl": "/assets/instances/eagle/pdfs/wat-help.pdf"
+            }
+        ]
+    },
+    "externalUrls": [
+        {
+            "key": "COMPETENCY",
+            "uri": "https://frac-dictionary.igot-stage.in/",
+            "displayName": "Competency Dictionary",
+            "icon": "launch"
+        }
+    ]
+}

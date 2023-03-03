@@ -1,0 +1,201 @@
+[
+  {
+    "id": "resource",
+    "name": "Resource",
+    "description": "Smallest learning entity",
+    "icon": "call_to_action",
+    "contentType": "Resource",
+    "mimeType": "application/html",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ],
+    "available": true,
+    "children": [
+      "upload",
+      "link",
+      "assessment",
+      "web",
+      "activities"
+    ],
+    "enabled": true
+  },
+  {
+    "id": "upload",
+    "parent": "resource",
+    "name": "Upload file",
+    "icon": "file_upload",
+    "available": true,
+    "enabled": true,
+    "contentType": "Resource",
+    "mimeType": "application/pdf",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "web",
+    "parent": "resource",
+    "name": "Attach link",
+    "icon": "link",
+    "available": true,
+    "enabled": true,
+    "contentType": "Resource",
+    "mimeType": "application/html",
+    "additionalMeta": {
+      "isExternal": true
+    },
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ],
+    "primaryCategory": "Learning Resource"
+  },
+  {
+    "id": "assessment",
+    "parent": "resource",
+    "name": "Assessment",
+    "icon": "devices",
+    "available": true,
+    "enabled": true,
+    "contentType": "Resource",
+    "mimeType": "application/quiz",
+    "additionalMeta": {
+      "categoryType": "Assessment",
+      "resourceType": "Assessment"
+    },
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "webModule",
+    "parent": "resource",
+    "name": "Webpage",
+    "icon": "language",
+    "available": true,
+    "enabled": true,
+    "contentType": "Resource",
+    "mimeType": "application/web-module",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "activities",
+    "parent": "resource",
+    "name": "Activities",
+    "icon": "business",
+    "available": false,
+    "enabled": false,
+    "contentType": "Resource",
+    "mimeType": "application/html",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "channel",
+    "name": "Channel Page",
+    "description": "Create a Channel Page",
+    "icon": "chrome_reader_mode",
+    "contentType": "Channel",
+    "mimeType": "application/channel",
+    "hasRole": [
+      "channel-creator",
+      "editor",
+      "admin"
+    ],
+    "available": false,
+    "enabled": false
+  },
+  {
+    "id": "kb",
+    "isCollection": true,
+    "name": "Knowledge Board",
+    "description": "Create a Knowledge Board",
+    "icon": "folder",
+    "mimeType": "application/vnd.ekstep.content-collection",
+    "contentType": "Knowledge Board",
+    "available": false,
+    "enabled": false,
+    "hasRole": [
+      "kb-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "ka",
+    "name": "Knowledge Artifact",
+    "description": "Create a Knowledge Artifact",
+    "icon": "folder",
+    "mimeType": "application/vnd.ekstep.content-collection",
+    "contentType": "Knowledge Artifact",
+    "available": false,
+    "enabled": false,
+    "hasRole": [
+      "ka-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "collection",
+    "isCollection": true,
+    "name": "Module",
+    "description": "Create a collection of Resources",
+    "icon": "call_to_action",
+    "contentType": "Collection",
+    "available": true,
+    "enabled": true,
+    "mimeType": "application/vnd.ekstep.content-collection",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "course",
+    "isCollection": true,
+    "name": "Course",
+    "description": "Create a collection of Modules",
+    "icon": "call_to_action",
+    "contentType": "Course",
+    "available": true,
+    "enabled": true,
+    "mimeType": "application/vnd.ekstep.content-collection",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  },
+  {
+    "id": "learningPath",
+    "isCollection": true,
+    "name": "Program",
+    "description": "Create a collection of Courses",
+    "icon": "call_to_action",
+    "contentType": "Learning Path",
+    "available": true,
+    "enabled": true,
+    "mimeType": "application/vnd.ekstep.content-collection",
+    "hasRole": [
+      "content-creator",
+      "editor",
+      "admin"
+    ]
+  }
+]

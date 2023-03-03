@@ -1,0 +1,145 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "back",
+    "pageTitle": "Infy TV"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": {
+            "tabs": [
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "Must-View",
+                        "title": "Must View",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "learningMode": ["Self-Paced"],
+                              "catalogPaths": ["Infosys Internal>InfyTv>Latest"]
+                            },
+                            "pageNo": 0,
+                            "pageSize": 100,
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC",
+                            "query": ""
+                          }
+                        }
+                      },
+                      {
+                        "key": "latest",
+                        "title": "Latest",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "learningMode": ["Self-Paced"],
+                              "catalogPaths": [
+                                "Infosys Internal>InfyTv>Must View"
+                              ]
+                            },
+                            "pageNo": 0,
+                            "pageSize": 100,
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC",
+                            "query": ""
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "just-for-you",
+                "tabTitle": "Just For You"
+              },
+              {
+                "tabContent": {
+                  "widgetData": {
+                    "template": "<div class=\"flex flex-center flex-wrap\" style=\"\">{{#items}}<mat-card class=\"margin-left-s margin-right-s ws-mat-primary-background-op30\" style=\"{{style}}\"> <a href = \"{{link}}\"><img src = \"/assets/images/banners/explore-lex/375.jpg\" style = \"height:150px;width:265px\"><p class = \"text-center font-weight-500 mat-h3\"> <a href = \"/app/search/learning\"> {{name}} </a></p></a></mat-card>{{/items}}</div>",
+                    "templateData": {
+                      "items": [
+                        {
+                          "link": "/app/search/learning?q=&lang=en&f={\"catalogPaths\":[\"Infosys Internal>InfyTv>Corporate\"]}",
+                          "name": "Corporate",
+                          "style": "margin-top:32px;width:265px; height: 2-0px"
+                        },
+                        {
+                          "link": "/app/search/learning?q=&lang=en&f={\"catalogPaths\":[\"Infosys Internal>InfyTv>Diversity\"]}",
+                          "name": "Diversity",
+                          "style": "margin-top:32px;width:265px; height: 195px"
+                        },
+                        {
+                          "link": "/app/search/learning?q=&lang=en&f={\"catalogPaths\":[\"Infosys Internal>InfyTv>Knowledge\"]}",
+                          "name": "Knowledge",
+                          "style": "margin-top:32px;width:265px; height: 195px"
+                        },
+                        {
+                          "link": "/app/search/learning?q=&lang=en&f={\"catalogPaths\":[\"Infosys Internal>InfyTv>Latest\"]}",
+                          "name": "Latest",
+                          "style": "margin-top:16px;width:265px; height: 195px"
+                        },
+                        {
+                          "link": "/app/search/learning?q=&lang=en&f={\"catalogPaths\":[\"Infosys Internal>InfyTv>Leadership\"]}",
+                          "name": "Leadership",
+                          "style": "margin-top:16px;width:265px; height: 195px; margin-bottom:16px"
+                        },
+                        {
+                          "link": "/app/search/learning?q=&lang=en&f={\"catalogPaths\":[\"Infosys Internal>InfyTv>Must View\"]}",
+                          "name": "Must View",
+                          "style": "margin-top:16px;width:265px; height: 195px; margin-bottom:16px"
+                        }
+                      ]
+                    },
+                    "containerClass": ""
+                  },
+                  "widgetSubType": "elementHtml",
+                  "widgetType": "element",
+                  "widgetHostClass": "flex px-12 mx-12"
+                },
+                "tabKey": "channels",
+                "tabTitle": "Channels"
+              }
+            ]
+          },
+          "widgetSubType": "tabLayout",
+          "widgetType": "layout"
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

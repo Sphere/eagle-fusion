@@ -1,0 +1,115 @@
+{
+  "search": {
+    "visibleFilters": {
+      "learningMode": {
+        "displayName": "Mode"
+      },
+      "duration": {
+        "displayName": "Duration"
+      },
+      "complexityLevel": {
+        "displayName": "Level"
+      },
+      "catalogPaths": {
+        "displayName": "Catalog",
+          "order": [
+            {
+              "_key": "asc"
+            }
+          ]
+      },
+      "sourceShortName": {
+        "displayName": "Source"
+      },
+      "region": {
+        "displayName": "Region"
+      },
+      "concepts": {
+        "displayName": "Concepts"
+      },
+      "lastUpdatedOn": {
+        "displayName": "Published Date"
+      }
+    },
+    "tabs": [
+      {
+        "searchQuery": {
+          "filters": { "contentType": ["Course"] },
+          "advancedFilters": []
+        },
+        "phraseSearch": false,
+        "acrossPreferredLang": true,
+        "isStandAlone": false,
+        "title": "Learning",
+        "titleKey": "learning"
+      }
+    ],
+      "routeValue": [
+        "learning"
+      ],
+        "placeHolder": {
+      "learning": "What do you want to learn?"
+    },
+    "languageSearch": [
+      "EN"
+    ],
+      "missalaneous": {
+      "tabsToAdd": { }
+    },
+    "suggestedFilters": []
+  },
+  "defaultsearch": [
+    {
+      "values": [
+        {
+          "name": "program",
+          "count": 0
+        },
+        {
+          "name": "course",
+          "count": 0
+        },
+        {
+          "name": "learning resource",
+          "count": 0
+        }
+      ],
+      "name": "primaryCategory",
+      "displayname": "Content type"
+    },
+    {
+      "values": [
+        {
+          "name": "Interactive Content",
+          "count": 0
+        },
+        {
+          "name": "Image",
+          "count": 0
+        },
+        {
+          "name": "Webpage",
+          "count": 0
+        },
+        {
+          "name": "Assessment",
+          "count": 0
+        },
+        {
+          "name": "PDF",
+          "count": 0
+        },
+        {
+          "name": "Video",
+          "count": 0
+        },
+        {
+          "name": "Audio",
+          "count": 0
+        }
+      ],
+      "name": "mimeType",
+      "displayname": "Resource type"
+    }
+  ]
+}

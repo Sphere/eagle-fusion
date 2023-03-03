@@ -1,0 +1,121 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "noDataWidget": {
+        "widgetData": {
+          "errorType": "contentUnavailable"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "loader": true,
+      "errorWidget": {
+        "widgetData": {
+          "errorType": "internalServer"
+        },
+        "widgetSubType": "errorResolver",
+        "widgetType": "errorResolver"
+      },
+      "strips": [{
+          "key": "Texas_Strip",
+          "title": "Texas",
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Hubs>Texas"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Rhode_Islands_Strip",
+          "title": "Rhode Islands",
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Hubs>Rhode Islands"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Arizona_Strip",
+          "title": "Arizona",
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Hubs>Arizona"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "North_Carolina_Strip",
+          "title": "North Carolina",
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Hubs>North Carolina"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Indiana_Strip",
+          "title": "Indiana",
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Hubs>Indiana"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        },
+        {
+          "key": "Connecticut_Strip",
+          "title": "Connecticut",
+          "request": {
+            "search": {
+              "filters": {
+                "learningMode": ["Self-Paced"],
+                "catalogPaths": ["Marketing>Hubs>Connecticut"]
+              },
+              "pageNo": 0,
+              "query": "",
+              "sortBy": "lastUpdatedOn",
+              "sortOrder": "DESC"
+            }
+          }
+        }
+      ]
+    },
+    "widgetSubType": "contentStripMultiple",
+    "widgetType": "contentStrip"
+  }
+}

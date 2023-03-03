@@ -1,0 +1,32 @@
+{
+  "title": "",
+  "description": "",
+  "FAQ": {
+    "Q1. Unable to login to Lex": "<p class='mat-body-1'><ng-container>For using Lex you have to register yourself for Multi-Factor  Authentication.<br />  Please login to Lex from</ng-container><ng-container>  https: //lex.infosysapps.com</ng-container><ng-container >  <br />  Lex is an internet facing application there are two scenarios.<br />  1. You are accessing Lex on Infosys Intranet (VPN yes but not  IConnect)<br />  2. You are accessing Lex on Internet (from your personal  laptop/desktop/Mobile browser/Android/iOS native applications)<br />  In 1) you will not have to do separate authentication, your windows  login will be automatically used for letting you in Lex<br />  In 2) You need to register yourself first for Multi-Factor  Authentication (MFA) at</ng-container><ng-container>  https: //rasssp.ad.infosys.com/MultiFactorAuth/</ng-container><ng-container >  on intranet and register.<br />  The passcode or pin you set up here will be used for login later.<br />  Once you enter your Infosys user name and password on a Microsoft  Page, you will receive a call prompting you to use the passcode/pin to  authenticate yourself.<br />  You can also either register or change your pin if you have forgotten.</ng-container></p> ",
+    "Q2. Unable to logon to Lex, enclosed blue screen error": "<p class='mat-body-1'>Request to kindly clear your cookies and cache of the desktop browseronce before trying.<br />Also you can use Incognito mode or Private Browsing modes of Chromeand IE.<br />Restart the browser and try accessing Lex.</p>",
+    "Q3. Login credentials for Lex": "<p class=mat-body-1><ng-container >  Please visit:<br /></ng-container><ng-container>  https: //rasssp.ad.infosys.com/MultiFactorAuth/<br /></ng-container><ng-container >  and register yourself for Multi-Factors Authentication.<br />  You can set a passcode of your choice. Select Call-In method for  authentication.<br />  For accessing Lex this is a “must” criteria.<br />  1. Visit</ng-container><ng-container>  https: //lex.infosysapps.com</ng-container><ng-container >  <br />  2. Press Login Button<br />  3. If you are on Infosys Network, you will not have to just enter your  Infosys Mail ID<br />  4. If you are on Internet, on button click, you will be taken to  Microsoft Login Site. Please enter your Infosys Mail ID<br />  5. You will be taken to stsakaash site which is from Infosys. Here you  provide your email id and password(Infosys account)<br />  6. You will receive a phone call from Microsoft on your registered  phone number<br />  7. You are required to key-in your passcode and #<br />  8. If your authentication is successful, the web browser will  automatically take you to Lex.</ng-container></p> ",
+    "Q4. Unable to logon to Lex , getting Microsoft Login page": "<p class='mat-body-1'>Clear the browser cache and cookies (going as far back aspossible).<br />This issue is mainly for user who use other Infosys O365 Applicationslike Mail, VPN, Yammer and many more.<br />The token issued by Microsoft when you used such an application isstored in the cookies and Microsoft needs to be forced to issue afresh token which will allow access the Lex application which is alsoa O365 Application.<br />Clear the cache and cookies and restart the browser and try accessingLex</p>",
+    "Q5. Account Already Exists": "<p class='mat-body-1'>Raise an AHD</p> ",
+    "Q6. I am not able to get my PIN to enter with password in LEXapplication. Would you please help me with this? ": "<p class='mat-body-1'><ng-container >  Can you mail CCD-Helpdesk (Global Support)</ng-container><ng-container>  EMAIL</ng-container><ng-container >  and get them to reset the same?</ng-container></p> ",
+    "Q7. Downtime": "<p class='mat-body-1'>Request you to kindly clear your cookies and cache of the desktopbrowser once before trying.<br />Also you can use Incognito mode or Private Browsing modes of Chromeand IE.</p> "
+  },
+  "contactUs": [
+    {
+      "title": "Raise an AHD",
+      "description": "Go to Sparsh : http://sparshv2/Pages/Home.aspx. Web Apps > AHD > Education, Training and Assessment > ETA Lex",
+      "link": "Click to raise AHD",
+      "linkVal": "http://infysd10/CAisd/pdmweb3.exe"
+    },
+    {
+      "title": "Mail us",
+      "description": "You can also mail us at",
+      "link": "Click to mail",
+      "isMail": true
+    },
+    {
+      "title": "Talk to us",
+      "description": "You can call us and we will help you out",
+      "link": "Dial *22345 from your voip phones"
+    }
+  ]
+}

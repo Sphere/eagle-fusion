@@ -1,0 +1,27 @@
+{
+    "bodyBackgroundImageUrl": "",
+    "footer": {
+        "contactUs": true,
+        "copyright": true,
+        "faq": true,
+        "hasLogo": true,
+        "isVisible": true,
+        "logoUrl": "",
+        "tnc": true,
+        "descriptiveFooter": {
+            "available": false,
+            "welcomeMessage": "welcome",
+            "welcomeTagline": ""
+        }
+    },
+    "topbar": {
+        "about": true,
+        "apps": false,
+        "hasLogo": true,
+        "isVisible": true,
+        "logoUrl": "",
+        "title": "iGoT 2.0",
+        "subTitle": "Integrated Government Online Training"
+    },
+    "isClient": true
+}

@@ -1,0 +1,29 @@
+{
+  "name": "client-assets",
+  "version": "1.0.0",
+  "description": "The objective is to contain the assets for UI client fusion code",
+  "scripts": {
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:3003"
+  },
+  "keywords": [
+    "assets"
+  ],
+  "author": "Shubham Dhingra",
+  "license": "ISC",
+  "dependencies": {
+    "jslint": "^0.12.1"
+  },
+  "devDependencies": {
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^6.2.0",
+    "gulp-jsonminify": "^1.1.0",
+    "gulp-uglify": "^3.0.2"
+  }
+}

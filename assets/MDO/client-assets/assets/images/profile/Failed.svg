@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="118.396" height="28.574" viewBox="0 0 118.396 28.574">
+  <g id="Group_243" data-name="Group 243" transform="translate(-175 -376)">
+    <path id="Path_409" data-name="Path 409" d="M0,0H118.4L106.9,14.012l11.5,14.563H0Z" transform="translate(175 376)" fill="#d44f0b"/>
+    <text id="FAILED" transform="translate(217 395)" fill="#fff" font-size="13" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">FAILED</tspan></text>
+    <g id="ic_cancel_24px" transform="translate(192.223 382.223)">
+      <g id="Group_244" data-name="Group 244" transform="translate(2 2)">
+        <path id="Path_411" data-name="Path 411" d="M8.535,2a6.535,6.535,0,1,0,6.535,6.535A6.529,6.529,0,0,0,8.535,2ZM11.8,10.882l-.921.921L8.535,9.457,6.189,11.8l-.921-.921L7.614,8.535,5.268,6.189l.921-.921L8.535,7.614l2.346-2.346.921.921L9.457,8.535Z" transform="translate(-2 -2)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,44 @@
+{
+    "menus": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": [
+            {
+                "name": "Directory",
+                "key": "directory",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/directory"
+            },
+            {
+                "name": "Users",
+                "key": "users",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/users"
+            },
+            {
+                "name": "Roles and Access",
+                "key": "roles-access",
+                "fragment": false,
+                "render": false,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": false,
+                "routerLink": "/app/home/roles-access"
+            }
+        ]
+    }
+}

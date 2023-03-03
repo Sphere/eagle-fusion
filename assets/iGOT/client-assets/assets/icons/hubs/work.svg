@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons/Hubs/Careers</title>
+    <g id="Icons/Hubs/Careers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Size" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+        <path d="M2.0081522,10.9987134 L2,19 C2,20.11 2.89,21 4,21 L20,21 C21.11,21 22,20.11 22,19 L22,11 L2.0081522,10.9987134 Z" id="Shape" fill="#0074B6"></path>
+        <path d="M19.99,6 L15.99,6 L15.99,4 C15.99,2.89 15.1,2 13.99,2 L9.99,2 C8.88,2 7.99,2.89 7.99,4 L7.99,6 L3.99,6 C2.88,6 2,6.89 2,8 L2,9.00999037 L21.99,9.00999037 C21.99,8.42752044 21.99,8.09085698 21.99,8 C21.99,6.89 21.1,6 19.99,6 Z M13.99,6 L9.99,6 L9.99,4 L13.99,4 L13.99,6 Z" id="Shape" fill="#0074B6" opacity="0.5"></path>
+    </g>
+</svg>

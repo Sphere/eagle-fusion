@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/page/home",
+    "pageTitle": "Learning Analytics"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex.infosysapps.com/la",
+      "Title": "Learning Analytics"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

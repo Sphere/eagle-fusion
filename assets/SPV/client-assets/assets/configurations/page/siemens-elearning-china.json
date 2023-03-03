@@ -1,0 +1,959 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "e.learning China - a bit of learning everyday"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1010,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1376",
+                        "imageSrc": "/assets/instances/Siemens/elearning-china/kv-1376.jpg",
+                        "mapName": "map-elearning-china-header",
+                        "map": [
+                          {
+                            "coords": [
+                              245,
+                              71,
+                              362,
+                              127
+                            ],
+                            "alt": "Learning events",
+                            "title": "Learning events",
+                            "link": "./page/siemens-elearning-china#iframe",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              123,
+                              399,
+                              284,
+                              459
+                            ],
+                            "alt": "A bit of leanring everyday",
+                            "title": "A bit of leanring everyday",
+                            "link": "./page/siemens-elearning-china#video_gallery",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              381,
+                              408,
+                              543,
+                              455
+                            ],
+                            "alt": "Course Recommendation",
+                            "title": "Course Recommendation",
+                            "link": "./page/siemens-elearning-china#course_recommendation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              633,
+                              409,
+                              787,
+                              455
+                            ],
+                            "alt": "Learning Community",
+                            "title": "Learning Community",
+                            "link": "./page/siemens-elearning-china#learning_community",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              521,
+                              78,
+                              723,
+                              122
+                            ],
+                            "alt": "E-learning resources & tools",
+                            "title": "E-learning resources & tools",
+                            "link": "./page/siemens-elearning-china#tools",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              992,
+                              80,
+                              1106,
+                              127
+                            ],
+                            "alt": "Learning Buddies",
+                            "title": "Learning Buddies",
+                            "link": "./page/siemens-elearning-china#",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              1114,
+                              21,
+                              1276,
+                              64
+                            ],
+                            "alt": "Industry academy online",
+                            "title": "Industry Academy Online",
+                            "link": "./page/siemens-elearning-china#",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              965,
+                              404,
+                              1070,
+                              456
+                            ],
+                            "alt": "UseIT China",
+                            "title": "UseIT China",
+                            "link": "./page/use-it-china-learning-portal",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              1113,
+                              404,
+                              1210,
+                              461
+                            ],
+                            "alt": "COF China",
+                            "title": "COF China",
+                            "link": "./page/siemens-cof-china",
+                            "target": "_blank"
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1009,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "1024",
+                        "imageSrc": "/assets/instances/Siemens/elearning-china/kv-1024.jpg",
+                        "mapName": "map-elearning-china-header",
+                        "map": [
+                          {
+                            "coords": [
+                              211,
+                              95,
+                              320,
+                              136
+                            ],
+                            "alt": "Learning events",
+                            "title": "Learning events",
+                            "link": "./page/siemens-elearning-china#iframe",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              99,
+                              408,
+                              245,
+                              463
+                            ],
+                            "alt": "A bit of leanring everyday",
+                            "title": "A bit of leanring everyday",
+                            "link": "./page/siemens-elearning-china#video_gallery",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              344,
+                              412,
+                              496,
+                              459
+                            ],
+                            "alt": "Course Recommendation",
+                            "title": "Course Recommendation",
+                            "link": "./page/siemens-elearning-china#course_recommendation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              591,
+                              415,
+                              718,
+                              461
+                            ],
+                            "alt": "Learning Community",
+                            "title": "Learning Community",
+                            "link": "./page/siemens-elearning-china#learning_community",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              487,
+                              94,
+                              656,
+                              135
+                            ],
+                            "alt": "E-learning resources & tools",
+                            "title": "E-learning resources & tools",
+                            "link": "./page/siemens-elearning-china#tools",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              794,
+                              95,
+                              916,
+                              138
+                            ],
+                            "alt": "Learning Buddies",
+                            "title": "Learning Buddies",
+                            "link": "./page/siemens-elearning-china#",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              832,
+                              32,
+                              1010,
+                              77
+                            ],
+                            "alt": "Industry academy online",
+                            "title": "Industry Academy Online",
+                            "link": "./page/siemens-elearning-china#",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              776,
+                              412,
+                              875,
+                              456
+                            ],
+                            "alt": "UseIT China",
+                            "title": "UseIT China",
+                            "link": "./page/use-it-china-learning-portal",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              917,
+                              410,
+                              1011,
+                              455
+                            ],
+                            "alt": "COF China",
+                            "title": "COF China",
+                            "link": "./page/siemens-cof-china",
+                            "target": "_blank"
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "472",
+                        "imageWidth": "414",
+                        "imageSrc": "/assets/instances/Siemens/elearning-china/kv-414.jpg",
+                        "mapName": "map-elearning-china-header",
+                        "map": [
+                          {
+                            "coords": [
+                              22,
+                              180,
+                              202,
+                              233
+                            ],
+                            "alt": "Learning events",
+                            "title": "Learning events",
+                            "link": "./page/siemens-elearning-china#iframe",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              23,
+                              118,
+                              201,
+                              170
+                            ],
+                            "alt": "A bit of leanring everyday",
+                            "title": "A bit of leanring everyday",
+                            "link": "./page/siemens-elearning-china#video_gallery",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              23,
+                              241,
+                              203,
+                              292
+                            ],
+                            "alt": "Course Recommendation",
+                            "title": "Course Recommendation",
+                            "link": "./page/siemens-elearning-china#course_recommendation",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              23,
+                              363,
+                              203,
+                              416
+                            ],
+                            "alt": "Learning Community",
+                            "title": "Learning Community",
+                            "link": "./page/siemens-elearning-china#learning_community",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              22,
+                              304,
+                              202,
+                              353
+                            ],
+                            "alt": "E-learning resources & tools",
+                            "title": "E-learning resources & tools",
+                            "link": "./page/siemens-elearning-china#tools",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              228,
+                              117,
+                              396,
+                              170
+                            ],
+                            "alt": "Learning Buddies",
+                            "title": "Learning Buddies",
+                            "link": "./page/siemens-elearning-china#",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              229,
+                              304,
+                              395,
+                              353
+                            ],
+                            "alt": "Industry academy online",
+                            "title": "Industry Academy Online",
+                            "link": "./page/siemens-elearning-china#",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              229,
+                              179,
+                              396,
+                              230
+                            ],
+                            "alt": "UseIT China",
+                            "title": "UseIT China",
+                            "link": "./page/use-it-china-learning-portal",
+                            "target": "_blank"
+                          },
+                          {
+                            "coords": [
+                              228,
+                              242,
+                              395,
+                              292
+                            ],
+                            "alt": "COF China",
+                            "title": "COF China",
+                            "link": "./page/siemens-cof-china",
+                            "target": "_blank"
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "一点一刻e点学"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "video_gallery",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetSubType": "galleryView",
+              "widgetType": "gallery",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 py-4 max-w-full overflow-hidden",
+              "widgetData": {
+                "designVal": "set1",
+                "widgetPlayer": {
+                  "style": {
+                    "height": "400px"
+                  }
+                },
+                "cardMenu": [
+                  {
+                    "cardData": {
+                      "title": "PBM2 Introduction",
+                      "description": "People and Business Management Learning Program 2 by Global Learning Campus",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/pbm2-intro.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_8qczsrmk",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_8qczsrmk/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Adaptive Culture",
+                      "description": "Listen to Alison Cameron discuss...",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/adaptive-culture.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-0_pihg4kv3/46421481",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_pihg4kv3/46421481/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Digital Twins",
+                      "description": "The Innovation Backbone of the Future",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/digital-twins.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_kbhu1u35",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_kbhu1u35/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Data Analysis Competition",
+                      "description": "Finalist Presentation of the 2019...",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/digital-analysis-competition.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-0_rslkqabu",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_rslkqabu/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": " Data Visualization Principle",
+                      "description": "This series of videos introduces the...",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/data-visualization.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-0_yxi4n3r2",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_yxi4n3r2/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "People and Business Management Learning...",
+                      "description": "The transition from individual...",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/business-management.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-0_yxi4n3r2",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_yxi4n3r2/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Lxp walk-thru",
+                      "description": "Details Share Actions To transform from...",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/lxp-walkthrough.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-0_xolq24s5",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_xolq24s5/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Data Visualization Principle",
+                      "description": "This series of videos introduces the...",
+                      "thumbnail": "/assets/instances/Siemens/elearning-china/video-gallery/data-visualization2.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-0_yxi4n3r2",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_yxi4n3r2/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "course_recommendation",
+                    "title": "Course Recommendation",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/elearning-china/course-recommendation/pre.png",
+                            "altText": "Course Recommendation"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "course_recommendation"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411934327357444182",
+                        "lex_auth_0128411904475463684007",
+                        "lex_auth_0128411936109445123986",
+                        "lex_auth_0128411937805680643985",
+                        "lex_auth_0128411915301437443982"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Useful Links"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "useful-links",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "containerClass": "px-6 sm:px-8 md:px-10",
+                "template": "<div class=\"flex-wrap w-full flex\">{{#items}}<div class=\"sm:w-1/2 md:w-1/4 w-full\"><a href=\"{{bookmarkRef}}\" style=\"{{backgroundColor}}\" class=\"p-2 my-1 mr-0 sm:mr-2 flex text-center justify-center items-center h-48\"><div><img class=\"mb-3\" src=\"{{iconUrl}}\"><div class=\"text-xl text-white leading-normal font-semibold\"><div>{{title1}}</div><div>{{title2}}</div></div></div></a></div>{{/items}}</div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #AF1E5F",
+                      "title1": "本季度课程表",
+                      "title2": "Course Schedule of the Quarter",
+                      "iconUrl": "/assets/instances/Siemens/elearning-china/useful-links/course-schedule.PNG",
+                      "bookmarkRef": "https://www.yammer.com/siemens.com/topics/14580531200#/Threads/AboutTopic?type=about_topic&feedId=14580531200"
+                    },
+                    {
+                      "backgroundColor": "background: #185D84",
+                      "title1": "核心课程",
+                      "title2": "Core Learning Programs",
+                      "iconUrl": "/assets/instances/Siemens/elearning-china/useful-links/core-learning-programs.PNG",
+                      "bookmarkRef": "https://learningworld.siemens.com/learning-world/siemens-core-learning-programs"
+                    },
+                    {
+                      "backgroundColor": "background: #49B8D4 ",
+                      "title1": "管理学院主页",
+                      "title2": "Global Learning Campus China",
+                      "iconUrl": "/assets/instances/Siemens/elearning-china/useful-links/global-learning-campus.PNG",
+                      "bookmarkRef": "https://intranet.learning-campus.siemens.com/CN/en/index.do"
+                    },
+                    {
+                      "backgroundColor": "background: #ACB615",
+                      "title1": "查询添加学习记录",
+                      "title2": "Check/Add Training Records",
+                      "iconUrl": "/assets/instances/Siemens/elearning-china/useful-links/training-records.PNG",
+                      "bookmarkRef": "https://learningworld.siemens.com/entry/huan-ying-lai-dao-quan-qiu-xue-xi-men-hu-global-learning-portal-2-0"
+                    }
+                  ]
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "E-Learning Resources & Tools"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "useful-links",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"rounded overflow-hidden h-full shadow-lg flex flex-col\">\r\n   <img alt=\"\" src=\"{{imageSrc}}\" />\r\n</div>",
+                "templateData": {
+                  "imageSrc": "assets/instances/Siemens/elearning-china/elearning/elearning.png"
+                },
+                "containerClass": "mat-elevation-z4"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "width": "265px"
+              },
+              "widgetInstanceId": "tools"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a target=\"_blank\" href=\"{{link}}\"><div class=\"rounded overflow-hidden h-full shadow-lg flex flex-col\">\r\n   <img alt=\"\" src=\"{{imageSrc}}\" />\r\n</div></a>",
+                "templateData": {
+                  "link": "/app/toc/lex_auth_0128411719641825281675/overview",
+                  "imageSrc": "assets/instances/Siemens/elearning-china/elearning/siemens-specific.png"
+                },
+                "containerClass": "mat-elevation-z4"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 md:pr-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "width": "265px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "containerClass": "px-6 sm:px-8 md:px-10 lg:pl-0 block h-full",
+                "template": "<div class=\"flex w-full flex-wrap\"> {{#items}}<div class=\"sm:w-1/2 w-full\"><a target=\"_blank\" href=\"{{link}}\"><div class=\"{{class}}\"> <img class=\"w-full\" style=\"height: 150px;\" src=\"{{imageSrc}}\" /><div class=\"leading-tight text-white text-base\" style=\"background: #2b9b9f;line-height: 1.25\"><div class=\"p-3\">{{title}}</div></div></div></a></div> {{/items}}</div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "class": "m-0 sm:mx-2",
+                      "title": "Siemens Global Learning Campus Partner",
+                      "imageSrc": "/assets/instances/Siemens/elearning-china/cross-knowledge.png",
+                      "link": "/app/toc/lex_auth_0128411716546150401674/overview"
+                    },
+                    {
+                      "class": "mr-0 sm:mx-2",
+                      "title": "Siemens Global Learning Campus Partner",
+                      "imageSrc": "/assets/instances/Siemens/elearning-china/backboon.png",
+                      "link": "/app/toc/lex_auth_0128411703368663041681/overview"
+                    },
+                    {
+                      "class": "mr-0 sm:mx-2",
+                      "title": "Siemens Global Learning Campus Partner",
+                      "imageSrc": "/assets/instances/Siemens/elearning-china/pluralsight.png",
+                      "link": "/app/toc/lex_auth_012841107629965312231/overview"
+                    },
+                    {
+                      "class": "mr-0 sm:mx-2",
+                      "title": "Siemens Global Learning Campus Partner",
+                      "imageSrc": "/assets/instances/Siemens/elearning-china/learning.png",
+                      "link": "/app/toc/lex_auth_0128411697660231681677/overview"
+                    }
+                  ]
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "learning_community",
+                    "title": "Learning Community",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/elearning-china/learning-community/pre.png",
+                            "altText": "Learning Community"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "learning_community"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411960565186564188",
+                        "lex_auth_0128411913412444164184",
+                        "lex_auth_0128411922015354884149",
+                        "lex_auth_0128411922214092804114",
+                        "lex_auth_0128411873442693123823"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "isIntranet": {
+                  "widget": {
+                    "widgetData": {
+                      "iframeSrc": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/dns/dns.html?path=../e.learning_China/e-china.json",
+                      "containerStyle": {
+                        "min-height": "400px"
+                      }
+                    },
+                    "widgetSubType": "pageEmbedded",
+                    "widgetType": "page",
+                    "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                  }
+                },
+                "isNotIntranet": {
+                  "widget": {
+                    "widgetData": {
+                      "template": "<div class=\"p-4 bg-gray-400\"><div class=\"text-3xl font-semibold text-center leading-normal\">{{title}}</div><div class=\"text-base font-medium text-center leding-normal\">{{subheading}}</div></div>",
+                      "templateData": {
+                        "title": "Content not available online",
+                        "subheading": "You can view this on siemens intranet only. Please connect to siemens intranet to view this."
+                      },
+                      "containerClass": "mat-elevation-z4"
+                    },
+                    "widgetSubType": "elementHtml",
+                    "widgetType": "element",
+                    "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+                  }
+                }
+              },
+              "widgetSubType": "intranetResponsive",
+              "widgetType": "selector"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

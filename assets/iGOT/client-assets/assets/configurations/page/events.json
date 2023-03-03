@@ -1,0 +1,470 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageTitle": "",
+    "pageBackLink": "none",
+    "background": {
+      "color": "default",
+      "styles": {
+        "background-color": "white",
+        "color": "#333"
+      }
+    },
+    "xsmallNonMenuLinks": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "Search",
+          "actionBtnId": "feature_search",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "feature_notification",
+          "actionBtnId": "feature_notification",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      }
+    ],
+    "links": []
+  },
+  "pageLayout": {
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout",
+    "widgetData": {
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "actionButton",
+              "widgetSubType": "actionButtonPageBack",
+              "widgetData": {
+                "url": "home",
+                "titles": [
+                  {
+                    "url": "/page/events",
+                    "title": "Events",
+                    "icon": "calendar"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "slider",
+              "widgetSubType": "sliderBanners",
+              "style": {
+                "border-radius": "12px",
+                "height": "600px"
+              },
+              "widgetData": [
+                {
+                  "banners": {
+                    "l": "assets/instances/eagle/banners/hubs/events/l.jpg",
+                    "m": "assets/instances/eagle/banners/hubs/events/m.jpg",
+                    "s": "assets/instances/eagle/banners/hubs/events/s.jpg",
+                    "xl": "assets/instances/eagle/banners/hubs/events/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/hubs/events/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/hubs/events/xxl.jpg"
+                  },
+                  "redirectUrl": "/app/search/learning",
+                  "queryParams": {
+                    "q": "Salesforce",
+                    "lang": "en",
+                    "f": "{}"
+                  },
+                  "title": ""
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "activityStrip",
+              "widgetSubType": "ActivityStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "MyActivity",
+                    "logo": "group",
+                    "title": "Today's events",
+                    "titleDescription": "Showing events for today",
+                    "stripConfig": {
+                      "cardSubType": "cardBrowseCourse"
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/search/events",
+                      "viewMoreText": "See all events",
+                      "queryParams": {
+                        "q": "all",
+                        "p": "History"
+                      }
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/user/activity",
+                        "queryParams": {}
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "latest",
+                    "title": "Featured Events",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "info",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                        }
+                      }
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/search/learning",
+                      "viewMoreText": "See all events",
+                      "queryParams": {
+                        "q": "all",
+                        "p": "Trending"
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard",
+                      "postCardForSearch": true
+                    },
+                    "filters": [],
+                    "request": {
+                      "searchV6": {
+                        "locale": [
+                          "en"
+                        ],
+                        "pageSize": 12,
+                        "query": "all",
+                        "didYouMean": true,
+                        "sort": [
+                          {
+                            "lastUpdatedOn": "desc"
+                          }
+                        ],
+                        "filters": [
+                          {
+                            "andFilters": [
+                              {
+                                "lastUpdatedOn": [
+                                  "month"
+                                ]
+                              },
+                              {
+                                "contentType": [
+                                  "Course",
+                                  "Learning Path"
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "includeSourceFields": [
+                          "creatorLogo"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "latest",
+                    "title": "Joined by me",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "info",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                        }
+                      }
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/search/learning",
+                      "viewMoreText": "See all events",
+                      "queryParams": {
+                        "q": "all",
+                        "p": "Trending"
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard",
+                      "postCardForSearch": true
+                    },
+                    "filters": [],
+                    "request": {
+                      "searchV6": {
+                        "locale": [
+                          "en"
+                        ],
+                        "pageSize": 12,
+                        "query": "all",
+                        "didYouMean": true,
+                        "sort": [
+                          {
+                            "lastUpdatedOn": "desc"
+                          }
+                        ],
+                        "filters": [
+                          {
+                            "andFilters": [
+                              {
+                                "lastUpdatedOn": [
+                                  "month"
+                                ]
+                              },
+                              {
+                                "contentType": [
+                                  "Course",
+                                  "Learning Path"
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "includeSourceFields": [
+                          "creatorLogo"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetSubType": "tabLayout",
+              "widgetType": "layout",
+              "widgetData": {
+                "tabs": [
+                    {
+                      "tabContent": {
+                        "widgetType": "contentStrip",
+                        "widgetSubType": "contentStripMultiple",
+                        "widgetData": {
+                          "strips": [
+                            {
+                              "key": "latest",
+                              "info": {
+                                "mode": "below",
+                                "visibilityMode": "hidden",
+                                "icon": {
+                                  "icon": "info",
+                                  "scale": 0.8
+                                },
+                                "widget": {
+                                  "widgetType": "element",
+                                  "widgetSubType": "elementHtml",
+                                  "widgetData": {
+                                    "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                                  }
+                                }
+                              },
+                              "viewMoreUrl": {
+                                "path": "/app/search/learning",
+                                "viewMoreText": "See all events",
+                                "queryParams": {
+                                  "q": "all",
+                                  "p": "Trending"
+                                }
+                              },
+                              "stripConfig": {
+                                "cardSubType": "standard",
+                                "postCardForSearch": true
+                              },
+                              "filters": [],
+                              "request": {
+                                "searchV6": {
+                                  "locale": [
+                                    "en"
+                                  ],
+                                  "pageSize": 12,
+                                  "query": "all",
+                                  "didYouMean": true,
+                                  "sort": [
+                                    {
+                                      "lastUpdatedOn": "desc"
+                                    }
+                                  ],
+                                  "filters": [
+                                    {
+                                      "andFilters": [
+                                        {
+                                          "lastUpdatedOn": [
+                                            "month"
+                                          ]
+                                        },
+                                        {
+                                          "contentType": [
+                                            "Course",
+                                            "Learning Path"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "includeSourceFields": [
+                                    "creatorLogo"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "tabKey": "all",
+                      "tabTitle": "All"
+                    },
+                    {
+                      "tabContent": {
+                        "widgetType": "contentStrip",
+                        "widgetSubType": "contentStripMultiple",
+                        "widgetData": {
+                          "strips": [
+                            {
+                              "key": "latest",
+                              "info": {
+                                "mode": "below",
+                                "visibilityMode": "hidden",
+                                "icon": {
+                                  "icon": "info",
+                                  "scale": 0.8
+                                },
+                                "widget": {
+                                  "widgetType": "element",
+                                  "widgetSubType": "elementHtml",
+                                  "widgetData": {
+                                    "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                                  }
+                                }
+                              },
+                              "viewMoreUrl": {
+                                "path": "/app/search/learning",
+                                "viewMoreText": "See all events",
+                                "queryParams": {
+                                  "q": "all",
+                                  "p": "Trending"
+                                }
+                              },
+                              "stripConfig": {
+                                "cardSubType": "standard",
+                                "postCardForSearch": true
+                              },
+                              "filters": [],
+                              "request": {
+                                "searchV6": {
+                                  "locale": [
+                                    "en"
+                                  ],
+                                  "pageSize": 12,
+                                  "query": "all",
+                                  "didYouMean": true,
+                                  "sort": [
+                                    {
+                                      "lastUpdatedOn": "desc"
+                                    }
+                                  ],
+                                  "filters": [
+                                    {
+                                      "andFilters": [
+                                        {
+                                          "lastUpdatedOn": [
+                                            "month"
+                                          ]
+                                        },
+                                        {
+                                          "contentType": [
+                                            "Course",
+                                            "Learning Path"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "includeSourceFields": [
+                                    "creatorLogo"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "tabKey": "hosted",
+                      "tabTitle": "Hosted by my MDO"
+                    }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,566 @@
+{
+  "pageTitle": "Experience WOW",
+  "banners": {
+    "widgetType": "slider",
+    "widgetSubType": "sliderBanners",
+    "widgetData": [
+      {
+        "banners": {
+          "l": "/assets/instances/Lex/ocm/banners/1024X250.png",
+          "m": "/assets/instances/Lex/ocm/banners/768X250.png",
+          "s": "/assets/instances/Lex/ocm/banners/414X250.png",
+          "xl": "/assets/instances/Lex/ocm/banners/2880X250.png",
+          "xs": "/assets/instances/Lex/ocm/banners/375X250.png"
+        }
+      }
+    ]
+  },
+  "about": {
+    "title": "Digital at Infosys - Reimagined",
+    "about": "<p>Experience WOW is a programme where we are completely reimagining Infosys from the perspective of digital platforms and the way we do our business and work. We are creating a digitally powered organization, enabled by apps like Infy Me, Infy Work, Infy Launchpad and Lex that will connect all the information and knowledge assets within the company. The tenets which drive this change include the following:</p><ul><li>We will be agile and nimble like a startup, responsive to changing customer needs.</li><li>We will be fully networked and connected, hyper productive and most importantly able to sense, feel and respond to the interactions in the Infosys ecosystem</li><li>We will learn from these interactions to make them more valuable and productive.</li></ul><p>To make this happen, we are reimagining Infosys through digital platforms which have 4 components:</p><p><strong>Experience</strong> - enjoy a simplified and enhanced employee experience which saves time and effort.</p><p><strong>Process</strong> - ensuring process such as travel, claims are simplified and made easy.</p><p><strong>Applications</strong> - that will now be available for you through simple services via the InfyMe App.</p><p><strong>Infosys Digital Brain</strong> - powered by the Infosys knowledge graph, the intelligent and intuitive, platform will provide personalized recommendations.</p>"
+  },
+  "sentientInfosys": {
+    "title": "Leader's Vision",
+    "widgetSearchQuery": {
+      "widgetType": "contentStrip",
+      "widgetSubType": "contentStripMultiple",
+      "widgetData": {
+        "strips": [
+          {
+            "key": "leaders-vision",
+            "title": "",
+            "stripConfig": {
+              "cardSubType": "standard",
+              "postCardForSearch": true
+            },
+            "filters": [],
+            "request": {
+              "search": {
+                "sort": [
+                  {
+                    "lastUpdatedOn": "desc"
+                  }
+                ],
+                "filters": {
+                  "learningMode": [
+                    "Self-Paced"
+                  ],
+                  "catalogPaths": [
+                    "ExperienceWOW>Vision"
+                  ]
+                },
+                "pageNo": 0,
+                "pageSize": 100,
+                "rootOrg": "Infosys",
+                "query": ""
+              }
+            }
+          }
+        ],
+        "loader": true
+      }
+    }
+  },
+  "leadChange": {
+    "title": "Leading the Change",
+    "widgetSearchQuery": {
+      "widgetType": "contentStrip",
+      "widgetSubType": "contentStripMultiple",
+      "widgetData": {
+        "strips": [
+          {
+            "key": "leading-change",
+            "title": "",
+            "stripConfig": {
+              "cardSubType": "standard",
+              "postCardForSearch": true
+            },
+            "filters": [],
+            "request": {
+              "search": {
+                "sort": [
+                  {
+                    "lastUpdatedOn": "desc"
+                  }
+                ],
+                "filters": {
+                  "learningMode": [
+                    "Self-Paced"
+                  ],
+                  "catalogPaths": [
+                    "ExperienceWOW>Lead Change"
+                  ]
+                },
+                "pageNo": 0,
+                "pageSize": 100,
+                "rootOrg": "Infosys",
+                "query": ""
+              }
+            },
+            "loader": true
+          }
+        ]
+      }
+    }
+  },
+  "programs": {
+    "title": "Enabling Experience WOW for You",
+    "programsList": [
+      {
+        "title": "Infy Me",
+        "logo": "/assets/instances/Lex/ocm/logos/infyMe-white.png",
+        "widgetSearchQuery": {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "enabling-wow",
+                "title": "",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "sort": [
+                      {
+                        "lastUpdatedOn": "desc"
+                      }
+                    ],
+                    "filters": {
+                      "learningMode": [
+                        "Self-Paced"
+                      ],
+                      "catalogPaths": [
+                        "ExperienceWOW>Enable>InfyMe"
+                      ]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 100,
+                    "rootOrg": "Infosys",
+                    "query": ""
+                  }
+                }
+              }
+            ],
+            "loader": true
+          }
+        }
+      },
+      {
+        "title": "Lex",
+        "logo": "/assets/instances/Lex/ocm/logos/lex-white.png",
+        "widgetSearchQuery": {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "Lex-Work",
+                "title": "",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "sort": [
+                      {
+                        "lastUpdatedOn": "desc"
+                      }
+                    ],
+                    "filters": {
+                      "tags": [
+                        "ExperienceWOW/Enable/Lex"
+                      ]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 100
+                  }
+                }
+              }
+            ],
+            "loader": true
+          }
+        }
+      },
+      {
+        "title": "Infy Work",
+        "logo": "/assets/instances/Lex/ocm/logos/infyWork-white.png",
+        "widgetSearchQuery": {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "Infy-Work",
+                "title": "",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "sort": [
+                      {
+                        "lastUpdatedOn": "desc"
+                      }
+                    ],
+                    "filters": {
+                      "tags": [
+                        "ExperienceWOW/Enable/InfyWork"
+                      ]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 100
+                  }
+                }
+              }
+            ],
+            "loader": true
+          }
+        }
+      }
+    ]
+  },
+  "toDoList": {
+    "title": "Actions For You",
+    "toDoId": "ocm"
+  },
+  "changeChampions": {
+    "title": "Meet the Change Leaders",
+    "champions": [
+      {
+        "title": "",
+        "championsList": [
+          {
+            "firstName": "Narendra",
+            "lastName": "Sonawane",
+            "emailId": "EMAIL",
+            "desc": "Change Leader"
+          },
+          {
+            "firstName": "Nabarun",
+            "lastName": "Nabarun",
+            "emailId": "EMAIL",
+            "desc": "Change Leader"
+          },
+          {
+            "firstName": "Mohammed Rafee",
+            "lastName": "Tarafdar",
+            "emailId": "EMAIL",
+            "desc": "Change Leader"
+          },
+          {
+            "firstName": "Harish",
+            "lastName": "Gudi",
+            "emailId": "EMAIL",
+            "desc": "Change Leader"
+          },
+          {
+            "firstName": "Thirumalaa",
+            "lastName": "Thirumalaa",
+            "emailId": "EMAIL",
+            "desc": "Change Leader"
+          }
+        ]
+      }
+    ]
+  },
+  "inbox": {
+    "title": "WOW Inbox",
+    "widgetSearchQuery": {
+      "widgetType": "contentStrip",
+      "widgetSubType": "contentStripMultiple",
+      "widgetData": {
+        "strips": [
+          {
+            "key": "Inbox",
+            "title": "",
+            "stripConfig": {
+              "cardSubType": "standard",
+              "postCardForSearch": true
+            },
+            "filters": [],
+            "request": {
+              "search": {
+                "sort": [
+                  {
+                    "lastUpdatedOn": "desc"
+                  }
+                ],
+                "filters": {
+                  "learningMode": [
+                    "Self-Paced"
+                  ],
+                  "catalogPaths": [
+                    "ExperienceWOW>Inbox"
+                  ]
+                },
+                "pageNo": 0,
+                "pageSize": 100,
+                "rootOrg": "Infosys",
+                "query": ""
+              }
+            }
+          }
+        ],
+        "loader": true
+      }
+    }
+  },
+  "stats": {
+    "title": "WOW Stats",
+    "dashboardsList": [
+      {
+        "title": "Lex",
+        "titleKey": "lex"
+      },
+      {
+        "title": "Infy Me",
+        "titleKey": "infyme"
+      }
+    ]
+  },
+  "events": {
+    "title": "What's coming your way?",
+    "eventsList": [
+      {
+        "timestamp": 1553020200000,
+        "eventTitle": "8 CRM use-cases",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1553884200000,
+        "eventTitle": "Super-Annuation Subscription",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1557426600000,
+        "eventTitle": "Loan Application on InfyMe",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1555698600000,
+        "eventTitle": "Code of conduct/ethics (as part of SAQ)",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1556130600000,
+        "eventTitle": "Knowledge Hub Migration to Lex",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1556130600000,
+        "eventTitle": "KShop Migration to Lex",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1556562600000,
+        "eventTitle": "IncomeTax on InfyMe - Submit Proposal, Investment proofs and view dashboard",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1557426600000,
+        "eventTitle": "Launchpad App – EMEA Rollout",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1557426600000,
+        "eventTitle": "Launchpad App – APAC Rollout",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1557858600000,
+        "eventTitle": "Account 360",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1557858600000,
+        "eventTitle": "Account Directory",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1558117800000,
+        "eventTitle": "Travel Claim",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1558117800000,
+        "eventTitle": "One Click AHD",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1558117800000,
+        "eventTitle": "Litmus Survey",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1558117800000,
+        "eventTitle": "Edit Profile",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1558117800000,
+        "eventTitle": "Social Blogging on Lex",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1558117800000,
+        "eventTitle": "Learning Hub on Lex - Training Registration available on Lex",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1559241000000,
+        "eventTitle": "New joinee guided flow",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1559241000000,
+        "eventTitle": "Finance dashboard – Salary, Bonus, Incentives, Stocks",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1559241000000,
+        "eventTitle": "Payslip on InfyMe",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1559241000000,
+        "eventTitle": "Form16 & Salary certificate",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1559241000000,
+        "eventTitle": "Travel - Self-Booking",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      },
+      {
+        "timestamp": 1559241000000,
+        "eventTitle": "Medical Emergency Loans",
+        "eventDesc": "",
+        "eventTime": "",
+        "category": "releases"
+      }
+    ]
+  },
+  "feedback": {
+    "title": "Your Thoughts Matters!"
+  },
+  "coCreate": {
+    "emailTo": "EMAIL",
+    "title": "Be a Co-Creator",
+    "desc": "Click to contribute to Experience WOW",
+    "contributionList": [
+      {
+        "iconName": "code",
+        "name": "Code",
+        "emailText": "I want to be a code co-creator"
+      },
+      {
+        "iconName": "highlight",
+        "name": "Ideate",
+        "emailText": "I want to share my idea for Experience WOW"
+      },
+      {
+        "iconName": "star",
+        "name": "Champion",
+        "emailText": "I want to be an Agent of change"
+      }
+    ]
+  },
+  "influencer": {
+    "title": "Be a Influencer",
+    "yammerGroupId": "14334668"
+  },
+  "changeStories": {
+    "title": "WOW Stories",
+    "widgetSearchQuery": {
+      "widgetType": "contentStrip",
+      "widgetSubType": "contentStripMultiple",
+      "widgetData": {
+        "strips": [
+          {
+            "key": "Stories",
+            "title": "",
+            "stripConfig": {
+              "cardSubType": "standard",
+              "postCardForSearch": true
+            },
+            "filters": [],
+            "request": {
+              "search": {
+                "sort": [
+                  {
+                    "lastUpdatedOn": "desc"
+                  }
+                ],
+                "filters": {
+                  "learningMode": [
+                    "Self-Paced"
+                  ],
+                  "catalogPaths": [
+                    "ExperienceWOW>Stories"
+                  ]
+                },
+                "pageNo": 0,
+                "pageSize": 100,
+                "rootOrg": "Infosys",
+                "query": ""
+              }
+            }
+          }
+        ],
+        "loader": true
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "brandAssets": [{
+      "filters": {
+        "catalogPaths": ["Marketing>Brand>Corporate"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Brand>Insights"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Brand>Employer"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    }
+  ],
+  "clientStories": [{
+      "filters": {
+        "catalogPaths": ["Marketing>Client Stories>Agile Digital at Scale"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Client Stories>AI-powered Core"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Client Stories>Always-on Learning"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    }
+  ],
+  "defaultTab": "Brand Assets",
+  "hubs": [{
+      "filters": {
+        "catalogPaths": ["Marketing>Hubs>Arizona"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Hubs>Connecticut"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Hubs>Indiana"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Hubs>North Carolina"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Hubs>Rhode Islands"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    },
+    {
+      "filters": {
+        "catalogPaths": ["Marketing>Hubs>Texas"]
+      },
+      "pageNo": 0,
+      "query": "",
+      "sortBy": "lastUpdatedOn",
+      "sortOrder": "DESC"
+    }
+  ],
+  "industries": {
+    "filters": {
+      "catalogPaths": ["Marketing>Industries>Financial Services>Navigate Your Next - Assets"]
+    },
+    "pageNo": 0,
+    "query": "",
+    "sortBy": "lastUpdatedOn",
+    "sortOrder": "DESC"
+  },
+  "experience": [{
+    "filters": {
+      "catalogPaths": ["Marketing>Experiential Showcase"]
+    },
+    "pageNo": 0,
+    "query": "",
+    "sortBy": "lastUpdatedOn",
+    "sortOrder": "DESC"
+  }]
+}

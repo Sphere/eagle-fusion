@@ -1,0 +1,100 @@
+{
+    "sources": [
+      {
+        "sourceName": "Fernandez Foundation",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/fernandez.jpg",
+        "about": "Fernandez Foundation"
+      },
+      {
+        "sourceName": "Maternity Foundation",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/maternity-foundation.png",
+        "about": "Maternity Foundation"
+      },
+      {
+        "sourceName": "Indian Nursing Council",
+        "sourceId": "",
+        "title":"e-Learning for Maternal and Newborn Health Care",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/maternity-foundation.png",
+        "about": "The Indian Nursing Council is a national regulatory body for nurses and nurse education in India. <br/> It is an autonomous body under the Government of India, Ministry of Health & Family Welfare, constituted by the Central Government under section 3(1) of the Indian Nursing Council Act, 1947 of Indian parliament.Indian Nursing Council is the apex body that establishes Uniforms Standards of Training for Nurses, Midwives and Health Visitors",
+        "Purposes": "Indian Nursing Council with the support of the Maternity Foundation brings an E-Learning Platform with an aim to improve the knowledge and confidence of the existing and upcoming nursing workforce in midwifery/nursing by implementing EdTech tool in various curriculum/program offered and implemented by INC.<br/> This Online Learning is an experience that goes above and beyond basic Classroom-based sessions. ",
+        "Audience": "This E-Learning platform is for the entire nursing audience which includes practitioners, nurse managers/leaders, nursing faculty and students."
+      },
+      {
+        "sourceName": "Others",
+        "sourceId": "Indian Nursing Council with the support of the Maternity Foundation brings an E-Learning Platform with an aim to improve the knowledge and confidence of the existing and upcoming nursing workforce in midwifery/nursing by implementing EdTech tool in various curriculum/program offered and implemented by INC. <br/>This Online Learning is an experience that goes above and beyond basic Classroom- based sessions.",
+        "logo": "https://del94gvamp2ge.cloudfront.net/content-store/aastar/aastar/Public/lex_auth_01308384668903833673/artifacts/images11597149279382.png",
+        "about": "Others"
+      },
+      {
+        "sourceName": "Manyata (FOGSI-MSD)",
+        "sourceId": "",
+        "logo": "https://lh3.googleusercontent.com/proxy/vBwDJ4k1NJfeZp2DoyzjNFAeXdW4GG2KIBvigzfx8DGAhfJ8Cmbtdzlfh8-ps3Zd0QYMO-z3MJY1EAiDHZaKDOD0X_1WF5tC6cMKxyxK",
+        "about": "Manyata (FOGSI-MSD) about: Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations"
+      },
+      {
+        "sourceName": "LaQshya",
+        "sourceId": "",
+        "logo": "https://lh3.googleusercontent.com/proxy/vBwDJ4k1NJfeZp2DoyzjNFAeXdW4GG2KIBvigzfx8DGAhfJ8Cmbtdzlfh8-ps3Zd0QYMO-z3MJY1EAiDHZaKDOD0X_1WF5tC6cMKxyxK",
+        "about": "LaQshya about: Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations"
+      },
+      {
+        "sourceName": "UNFPA",
+        "sourceId": "",
+        "logo": "https://lh3.googleusercontent.com/proxy/vBwDJ4k1NJfeZp2DoyzjNFAeXdW4GG2KIBvigzfx8DGAhfJ8Cmbtdzlfh8-ps3Zd0QYMO-z3MJY1EAiDHZaKDOD0X_1WF5tC6cMKxyxK",
+        "about": "UNFPA about: Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations"
+      },
+      {
+        "sourceName": "WHO",
+        "sourceId": "",
+        "logo": "https://lh3.googleusercontent.com/proxy/vBwDJ4k1NJfeZp2DoyzjNFAeXdW4GG2KIBvigzfx8DGAhfJ8Cmbtdzlfh8-ps3Zd0QYMO-z3MJY1EAiDHZaKDOD0X_1WF5tC6cMKxyxK",
+        "about": "WHO about: Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations"
+      },
+      {
+        "sourceName": "ICM",
+        "sourceId": "",
+        "logo": "https://lh3.googleusercontent.com/proxy/vBwDJ4k1NJfeZp2DoyzjNFAeXdW4GG2KIBvigzfx8DGAhfJ8Cmbtdzlfh8-ps3Zd0QYMO-z3MJY1EAiDHZaKDOD0X_1WF5tC6cMKxyxK",
+        "about": "ICM about: Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations, Discover and build what matters for people by humanizing, business, technology and its limitations"
+      },
+      {
+        "sourceName": "NQOCN",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/nqocn.png",
+        "about": "NQOCN"
+      },
+      {
+        "sourceName": "I Love 9 Months",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/ilove-9months.png",
+        "about": "I Love 9 Months"
+      },
+      {
+        "sourceName": "Noora Health",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/noora-health.png",
+        "about": "Noora Health"
+      },
+      {
+        "sourceName": "IPE Global",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/orgLogos/ipe-global.png",
+        "about": "IPE Global"
+      },
+  {
+        "sourceName": "MoHFW",
+        "sourceId": "",
+        "logo": "https://aastar-assets.s3.ap-south-1.amazonaws.com/MOHFW-Logo.jpg",
+        "about": "Ministry of Health & Family Welfare, Govt. of India"
+      },
+        {
+        "sourceName": "Jhpeigo",
+        "sourceId": "",
+        "logo": "https://www.jhpiego.org/wp-content/themes/understrap-child/img/Jhpiego_50thAnn_logo_WhiteGold_RGB.png",
+        "about": "Jhpeigo"
+      }
+  
+    ]
+  }
+  
+  

@@ -1,0 +1,558 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Digitalization Learning World"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Dive in – dive digital"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "be_relevant",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\"/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/digitalization/digitalization.png"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 4,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"p-4 font-normal text-lg leading-normal\"><div class=\"flex flex-wrap mb-2\">{{title}}<\/div><div class=\"flex flex-wrap mb-2\">{{subtitle}}<\/div> <img class=\"mb-2\" src={{imageUrl}}><div class=\"text-lg font-semibold\">{{person}}<\/div><div>{{personDesc}}<\/div><\/div>",
+                "templateData": {
+                  "title": "Welcome to the Digitalization Channel! Get an overview about important topics and gain deeper insights by exploring specific areas."
+                },
+                "containerClass": "mat-elevation-z4 h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Stay up to date with Digitalization"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "digitrack",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "some_key",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digitalization/editors-picks.jpg'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411828658831362970",
+                        "lex_auth_0128411795900088323019",
+                        "lex_auth_0128411798633840642979"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-my-10"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-32\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-2 rounded\"> <a href=\"{{link}}\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/digitalization/most-viewed.jpg",
+                  "title": "Most Viewed",
+                  "items": [
+                    {
+                      "date": "27 Aug, 2019",
+                      "leftText": "2 best practices for virtual...",
+                      "link": "/app/toc/lex_auth_0128411773286481922035/overview"
+                    },
+                    {
+                      "date": "27 Aug, 2019",
+                      "leftText": "Your learning path for AE...",
+                      "link": "/app/toc/lex_auth_0128411773286481922035/overview"
+                    },
+                    {
+                      "date": "09 Aug, 2019",
+                      "leftText": "New WBTs for Process Analytics!",
+                      "link": "/app/toc/lex_auth_0128411773286481922035/overview"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 lg:pl-0 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-32\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-2 rounded\"> <a href=\"{{link}}\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/digitalization/most-viewed.jpg",
+                  "title": "Last added",
+                  "items": [
+                    {
+                      "date": "l2 Jul,2019",
+                      "leftText": "Thinking process industries...",
+                      "link": "/app/toc/lex_auth_0128411945039216644289/overview"
+                    },
+                    {
+                      "date": "30 Apr,2019",
+                      "leftText": "PA Learning Academy",
+                      "link": "/app/toc/lex_auth_0128411907080929283763/overview"
+                    },
+                    {
+                      "date": "22 Feb,2019",
+                      "leftText": "Process Automation Value Selling",
+                      "link": "/app/toc/lex_auth_0128411862146416643230/overview"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Get an overview about Digitalization"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6 -mb-8"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "over_digitalization_3",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digitalization/get-started.jpg"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {}
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411755044782082377",
+                        "lex_auth_0128411833599262722682"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "over_digitalization_4",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digitalization/info-digitalization.jpg"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {}
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411753677537281804",
+                        "lex_auth_0128411764688322562548",
+                        "lex_auth_0128411964775383044430",
+                        "lex_auth_012841111598522368604",
+                        "lex_auth_0128411901510451204432",
+                        "lex_auth_0128411911752253444433",
+                        "lex_auth_0128411976737914884431"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "over_digitalization_2",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digitalization/industry-4.0.jpg"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {}
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841106235219968249",
+                        "lex_auth_0128411920639836164429",
+                        "lex_auth_0128411926042624004434",
+                        "lex_auth_0128411933471457284436"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "over_digitalization_1",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background:white\" class=\"h-full\"><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/digitalization/vuca.jpg"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {}
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284539452516761610004",
+                        "lex_auth_0128453941680455687782",
+                        "lex_auth_01284542324701593621086",
+                        "lex_auth_0128411798633840642979",
+                        "lex_auth_012841160945664000883"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block lg:-ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "learning_journies",
+                    "title": "Join specific Learning Journies for Digitalization",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\"></div>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digitalization/learning-journeys.jpg'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a class=\"cursor-pointer\" onclick=\"window.navigateTo(`{{link}}`)\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\"></div></a>",
+                          "templateData": {
+                            "link": "/app/knowledge-board/lex_auth_01286636070837452815",
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digitalization/digital-business.jpg'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a class=\"cursor-pointer\" onclick=\"window.navigateTo(`{{link}}`)\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\"></div></a>",
+                          "templateData": {
+                            "link": "/app/knowledge-board/lex_auth_01286635055905996838",
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digitalization/digital-management.jpg'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a class=\"cursor-pointer\" onclick=\"window.navigateTo(`{{link}}`)\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\"></div></a>",
+                          "templateData": {
+                            "link": "/page/technologies",
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digitalization/digital-technologies.jpg'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a class=\"cursor-pointer\" onclick=\"window.navigateTo(`{{link}}`)\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\"></div></a>",
+                          "templateData": {
+                            "link": "/app/toc/lex_auth_01286787090545868857/overview",
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/digitalization/work-agile.jpg'); width:265px"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "network_sharing",
+                    "title": "Digitalization networks & sharing @ Siemens",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "link": "https://www.yammer.com/siemens.com/#/threads/inGroup?type=in_group&feedId=17128474",
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/office-365/yammer.png'); width:265px",
+                            "overlayText": "Digitalization Yammer Group",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "link": "https://www.yammer.com/siemens.com/#/threads/inGroup?type=in_group&feedId=17725148",
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/office-365/yammer.png'); width:265px",
+                            "overlayText": "Data Analytics and Artificial Intelligence Trainings Yammer Group",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

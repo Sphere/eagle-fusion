@@ -1,0 +1,141 @@
+{
+    "requestMenu": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": {
+            "logo": false,
+            "menus": [
+                {
+                    "name": "Help",
+                    "key": "help",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "competencyId",
+                    "routerLink": "/author/competencies/request-new/<param>/help"
+                },
+                {
+                    "name": "Competency details",
+                    "key": "details",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "competencyId",
+                    "routerLink": "/author/competencies/request-new/<param>/details"
+                },
+                {
+                    "name": "Competency levels",
+                    "key": "levels",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "competencyId",
+                    "routerLink": "/author/competencies/request-new/<param>/levels"
+                }
+            ]
+        }
+    },
+    "detailMenu": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": {
+            "logo": false,
+            "menus": [
+                {
+                    "name": "Competency",
+                    "key": "competency",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "",
+                    "routerLink": "/author/competencies"
+                },
+                {
+                    "name": "Tagged CBPs",
+                    "key": "taggedcbps",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "",
+                    "routerLink": "/author/competencies"
+                },
+                {
+                    "name": "Insights",
+                    "key": "insights",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "",
+                    "routerLink": "/author/competencies"
+                }
+            ]
+        }
+    },
+    "areaDetailMenu": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": {
+            "logo": false,
+            "menus": [
+                {
+                    "name": "Competencies",
+                    "key": "competencies",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "",
+                    "routerLink": "author/competencies/area"
+                },
+                {
+                    "name": "Related CBPs",
+                    "key": "relatedcbps",
+                    "fragment": true,
+                    "render": true,
+                    "badges": {
+                        "enabled": false,
+                        "uri": ""
+                    },
+                    "enabled": true,
+                    "customRouting": false,
+                    "paramaterName": "",
+                    "routerLink": "author/competencies/area"
+                }
+            ]
+        }
+    }
+}

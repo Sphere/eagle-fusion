@@ -1,0 +1,83 @@
+{
+    "tabs": [
+        {
+            "name": "All Discussions",
+            "key": "alldiscussions",
+            "badges": {
+                "enabled": true,
+                "uri": "/api/unread/total"
+            },
+            "enabled": true,
+            "routerLink": "/app/discuss/home"
+        },
+        {
+            "name": "Categories",
+            "key": "categories",
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": "/app/discuss/categories"
+        },
+        {
+            "name": "Groups",
+            "key": "groups",
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": false,
+            "routerLink": "/app/discuss/groups"
+        },
+        {
+            "name": "Tags",
+            "key": "tags",
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": "/app/discuss/tags"
+        },
+        {
+            "name": "Leaderboard",
+            "key": "leaderboard",
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": false,
+            "routerLink": "/app/discuss/leaderboard"
+        },
+        {
+            "name": "My Discussions",
+            "key": "mydiscussions",
+            "badges": {
+                "enabled": false,
+                "uri": ""
+            },
+            "enabled": true,
+            "routerLink": "/app/discuss/my-discussions"
+        }
+    ],
+    "banner": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "style": {
+            "border-radius": "12px"
+        },
+        "widgetData": [
+            {
+                "banners": {
+                    "l": "assets/instances/eagle/banners/hubs/discuss/l.jpg",
+                    "m": "assets/instances/eagle/banners/hubs/discuss/m.jpg",
+                    "s": "assets/instances/eagle/banners/hubs/discuss/s.jpg",
+                    "xl": "assets/instances/eagle/banners/hubs/discuss/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/hubs/discuss/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/hubs/discuss/xxl.jpg"
+                }
+            }
+        ]
+    }
+}

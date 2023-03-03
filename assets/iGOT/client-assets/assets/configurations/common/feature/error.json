@@ -1,0 +1,42 @@
+{
+  "accessForbidden": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/accessForbidden-lite.svg",
+    "errorImageDark": "assets/common/error-pages/accessForbidden-dark.svg"
+  },
+  "contentUnavailable": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/ContentUnavailable-lite.svg",
+    "errorImageDark": "assets/common/error-pages/ContentUnavailable-dark.svg"
+  },
+  "featureDisabled": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/featureDisabled-lite.svg",
+    "errorImageDark": "assets/common/error-pages/featureDisabled-dark.svg"
+  },
+  "featureUnavailable": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/ContentUnavailable-lite.svg",
+    "errorImageDark": "assets/common/error-pages/ContentUnavailable-dark.svg"
+  },
+  "internalServer": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/internalServerError-lite.svg",
+    "errorImageDark": "assets/common/error-pages/internalServerError-dark.svg"
+  },
+  "notFound": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/404-lite.svg",
+    "errorImageDark": "assets/common/error-pages/404-dark.svg"
+  },
+  "serviceUnavailable": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/ServiceUnavailable-lite.svg",
+    "errorImageDark": "assets/common/error-pages/ServiceUnavailable-dark.svg"
+  },
+  "somethingsWrong": {
+    "mailId": "eagle-support@eagle.com",
+    "errorImageLite": "assets/common/error-pages/GeneralErrors-lite.svg",
+    "errorImageDark": "assets/common/error-pages/GeneralErrors-dark.svg"
+  }
+}

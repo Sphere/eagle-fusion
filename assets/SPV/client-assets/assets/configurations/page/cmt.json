@@ -1,0 +1,340 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "/app/infy/channels/leadership",
+    "pageTitle": "CMT Learning Hub"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": [
+            {
+              "banners": {
+                "l": "/assets/common/cmt/banners/NewFeatures-1024.jpg",
+                "m": "/assets/common/cmt/banners/NewFeatures-768.jpg",
+                "s": "/assets/common/cmt/banners/NewFeatures-414.jpg",
+                "xl": "/assets/common/cmt/banners/NewFeatures-1024.jpg",
+                "xs": "/assets/common/cmt/banners/NewFeatures-375.jpg"
+              },
+              "redirectUrl": "./"
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetData": {
+            "tabs": [
+              {
+                "tabContent": {
+                  "widgetData": {
+                    "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\"> Welcome! Let’s build a Learning Community to amplify each other’s creative potentials and accelerate our business growth.</div>",
+                    "containerStyle": {}
+                  },
+                  "widgetSubType": "elementHtml",
+                  "widgetType": "element"
+                },
+                "tabKey": "about",
+                "tabTitle": "About"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "CMT-Vision",
+                        "title": "CMT Vision",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "keywords": ["cmt-vision"]
+                            },
+                            "pageNo": 0,
+                            "query": "",
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC"
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "cmt-vision",
+                "tabTitle": "CMT Vision"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "CMT-Strategy-Initiatives",
+                        "title": "CMT Strategy & Initiatives",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "keywords": ["cmt-strategy"]
+                            },
+                            "pageNo": 0,
+                            "query": "",
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC"
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "cmt-strategy-initiatives",
+                "tabTitle": "CMT Strategy & Initiatives"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "Pop-Up-Learning",
+                        "title": "Pop Up Learning",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "keywords": ["cmt-pop-up-learning"]
+                            },
+                            "pageNo": 0,
+                            "query": "",
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC"
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "pop-up-learning",
+                "tabTitle": "Pop Up Learning"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "Thought Leadership",
+                        "title": "Thought Leadership",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "keywords": ["cmt-thought-leadership"]
+                            },
+                            "pageNo": 0,
+                            "query": "",
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC"
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "thought-leadership",
+                "tabTitle": "Thought Leadership"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "Leaders Teach",
+                        "title": "Leaders Teach",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "keywords": ["cmt-leaders-tech"]
+                            },
+                            "pageNo": 0,
+                            "query": "",
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC"
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "leaders-tech",
+                "tabTitle": "Leaders Teach"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [
+                      {
+                        "key": "You Teach",
+                        "title": "You Teach",
+                        "stripConfig": {
+                          "cardSubType": "standard",
+                          "postCardForSearch": true
+                        },
+                        "filters": [],
+                        "request": {
+                          "search": {
+                            "filters": {
+                              "keywords": ["cmt-you-teach"]
+                            },
+                            "pageNo": 0,
+                            "query": "",
+                            "sortBy": "lastUpdatedOn",
+                            "sortOrder": "DESC"
+                          }
+                        }
+                      }
+                    ],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "you-teach",
+                "tabTitle": "You Teach"
+              }
+            ]
+          },
+          "widgetSubType": "tabLayout",
+          "widgetType": "layout"
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

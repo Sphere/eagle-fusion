@@ -1,0 +1,139 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Learning@ITS Academy"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a href=\"{{link}}\" target=\"blank\" class=\"flex flex-col justify-end relative h-full\" style=\"background-size: cover !important;background-image:url({{imageSrc}}); min-height: 472px\"><div class=\"sm:w-2\/3 w-full\" > <span class=\"break-all bg-white opacity-75 text-black flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}<\/span><\/div><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/learning-ITS-academy/learning-its-background.jpg",
+                  "overlayText": "Learning@Siemens ITS Academy",
+                  "altText": "Learning@Siemens ITS Academy",
+                  "link": "/app/toc/lex_auth_0128411920178135044062/overview"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "training",
+                    "title": "Training",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-ITS-academy/training.png",
+                            "altText": "Training"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411921231708164074",
+                        "lex_auth_0128411902286233604071",
+                        "lex_auth_0128411895498260484075",
+                        "lex_auth_0128411929373491204072",
+                        "lex_auth_0128411924242350084078",
+                        "lex_auth_0128411911402618884067",
+                        "lex_auth_0128411927245701124073",
+                        "lex_auth_0128411953348771844068",
+                        "lex_auth_0128411947834081284059",
+                        "lex_auth_0128411953348771844068",
+                        "lex_auth_0128411947834081284059",
+                        "lex_auth_0128411933457776644055"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "traffic_control",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/learning-ITS-academy/traffic-control.png",
+                            "altText": "Traffic Control"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411951267594244094",
+                        "lex_auth_0128411896286658564095",
+                        "lex_auth_0128411958474915844096",
+                        "lex_auth_0128411942208225284098"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

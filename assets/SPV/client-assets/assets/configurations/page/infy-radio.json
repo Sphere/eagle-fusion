@@ -1,0 +1,198 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "back",
+    "pageTitle": "Infy Radio"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [{
+          "widgetData": [{
+              "banners": {
+                "l": "/assets/instances/Lex/banners/infy-radio/Infy-Amplified/LEX-icons-1024x250pxls.jpg",
+                "m": "/assets/instances/Lex/banners/infy-radio/Infy-Amplified/LEX-icons-768x250pxls.jpg",
+                "s": "/assets/instances/Lex/banners/infy-radio/Infy-Amplified/LEX-icons-1414x250pxls.jpg",
+                "xl": "/assets/instances/Lex/banners/infy-radio/Infy-Amplified/LEX-icons-2880x250pxls.jpg",
+                "xs": "/assets/instances/Lex/banners/infy-radio/Infy-Amplified/LEX-icons-375x250pxls.jpg"
+              },
+              "redirectUrl": "./",
+              "title": ""
+            },
+            {
+              "banners": {
+                "l": "/assets/instances/Lex/banners/infy-radio/UpNext/LEX-icons-1024x250pxls.jpg",
+                "m": "/assets/instances/Lex/banners/infy-radio/UpNext/LEX-icons-768x250pxls.jpg",
+                "s": "/assets/instances/Lex/banners/infy-radio/UpNext/LEX-icons-1414x250pxls.jpg",
+                "xl": "/assets/instances/Lex/banners/infy-radio/UpNext/LEX-icons-2880x250pxls.jpg",
+                "xs": "/assets/instances/Lex/banners/infy-radio/UpNext/LEX-icons-375x250pxls.jpg"
+              },
+              "redirectUrl": "./",
+              "title": ""
+            },
+            {
+              "banners": {
+                "l": "/assets/instances/Lex/banners/infy-radio/Talk-the-Walk/LEX-icons-1024x250pxls.jpg",
+                "m": "/assets/instances/Lex/banners/infy-radio/Talk-the-Walk/LEX-icons-768x250pxls.jpg",
+                "s": "/assets/instances/Lex/banners/infy-radio/Talk-the-Walk/LEX-icons-1414x250pxls.jpg",
+                "xl": "/assets/instances/Lex/banners/infy-radio/Talk-the-Walk/LEX-icons-2880x250pxls.jpg",
+                "xs": "/assets/instances/Lex/banners/infy-radio/Talk-the-Walk/LEX-icons-375x250pxls.jpg"
+              },
+              "redirectUrl": "./",
+              "title": ""
+            },
+            {
+              "banners": {
+                "l": "/assets/instances/Lex/banners/infy-radio/Business-Us/LEX-icons-1024x250pxls.jpg",
+                "m": "/assets/instances/Lex/banners/infy-radio/Business-Us/LEX-icons-768x250pxls.jpg",
+                "s": "/assets/instances/Lex/banners/infy-radio/Business-Us/LEX-icons-1414x250pxls.jpg",
+                "xl": "/assets/instances/Lex/banners/infy-radio/Business-Us/LEX-icons-2880x250pxls.jpg",
+                "xs": "/assets/instances/Lex/banners/infy-radio/Business-Us/LEX-icons-375x250pxls.jpg"
+              },
+              "redirectUrl": "./",
+              "title": ""
+            },
+            {
+              "banners": {
+                "l": "/assets/instances/Lex/banners/infy-radio/Relax-Refresh-Recharge/LEX-icons-1024x250pxls.jpg",
+                "m": "/assets/instances/Lex/banners/infy-radio/Relax-Refresh-Recharge/LEX-icons-768x250pxls.jpg",
+                "s": "/assets/instances/Lex/banners/infy-radio/Relax-Refresh-Recharge/LEX-icons-1414x250pxls.jpg",
+                "xl": "/assets/instances/Lex/banners/infy-radio/Relax-Refresh-Recharge/LEX-icons-2880x250pxls.jpg",
+                "xs": "/assets/instances/Lex/banners/infy-radio/Relax-Refresh-Recharge/LEX-icons-375x250pxls.jpg"
+              },
+              "redirectUrl": "./",
+              "title": ""
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [{
+                "key": "Infy-Amplified",
+                "title": "Infy Amplified",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "catalogPaths": ["Infosys Internal>Infy Radio>Infy Amplified"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 20,
+                    "query": "",
+                    "userAgent": ""
+                  }
+                }
+              },
+              {
+                "key": "Business-us",
+                "title": "Business & Us",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "catalogPaths": ["Infosys Internal>Infy Radio>Business & Us"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 20,
+                    "query": "",
+                    "userAgent": ""
+                  }
+                }
+              },
+              {
+                "key": "Leaders-talk",
+                "title": "Leader's talk",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "catalogPaths": ["Infosys Internal>Infy Radio>Leaderís talk"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 20,
+                    "query": "",
+                    "userAgent": ""
+                  }
+                }
+              },
+              {
+                "key": "Upcoming",
+                "title": "Upcoming",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "catalogPaths": ["Infosys Internal>Infy Radio>Upcoming"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 20,
+                    "query": "",
+                    "userAgent": ""
+                  }
+                }
+              },
+              {
+                "key": "Wellness",
+                "title": "Wellness & You",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "catalogPaths": ["Infosys Internal>Infy Radio>Wellness & You"]
+                    },
+                    "pageNo": 0,
+                    "pageSize": 20,
+                    "query": "",
+                    "userAgent": ""
+                  }
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

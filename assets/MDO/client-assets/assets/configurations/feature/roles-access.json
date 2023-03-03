@@ -1,0 +1,110 @@
+{
+  "menus": {
+      "widgetType": "menus",
+      "widgetSubType": "leftMenu",
+      "widgetData": {
+          "logo": true,
+          "menus": [
+              {
+                  "name": "Home",
+                  "key": "Home",
+                  "fragment": false,
+                  "render": true,
+                  "badges": {
+                      "enabled": false,
+                      "uri": ""
+                  },
+                  "enabled": true,
+                  "routerLink": "/app/home/welcome",
+                  "requiredRoles": [
+                      "admin",
+                      "mdo_admin",
+                      "wat_member"
+                  ]
+              },
+              {
+                  "name": "Users",
+                  "key": "users",
+                  "fragment": false,
+                  "render": true,
+                  "badges": {
+                      "enabled": false,
+                      "uri": ""
+                  },
+                  "enabled": true,
+                  "paramaterName": "role",
+                  "routerLink": "/app/home/users",
+                  "requiredRoles": [
+                      "admin",
+                      "mdo_admin"
+                  ]
+              },
+              {
+                  "name": "Roles and access",
+                  "key": "roles-access",
+                  "fragment": false,
+                  "render": true,
+                  "badges": {
+                      "enabled": false,
+                      "uri": ""
+                  },
+                  "enabled": true,
+                  "routerLink": "/app/home/roles-access",
+                  "requiredRoles": [
+                      "admin",
+                      "mdo_admin"
+                  ]
+              },
+              {
+                  "name": "Approvals",
+                  "key": "approvals",
+                  "fragment": false,
+                  "render": true,
+                  "badges": {
+                      "enabled": false,
+                      "uri": ""
+                  },
+                  "enabled": true,
+                  "routerLink": "/app/home/approvals",
+                  "requiredRoles": [
+                      "admin",
+                      "mdo_admin"
+                  ]
+              },
+              {
+                "name": "Events",
+                "key": "events",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/events",
+                "requiredRoles": [
+                    "admin",
+                    "mdo_admin"
+                ]
+              },     
+              {
+                  "name": "Work allocation tool",
+                  "key": "workallocation",
+                  "fragment": false,
+                  "render": true,
+                  "badges": {
+                    "enabled": false,
+                    "uri": ""
+                  },
+                  "enabled": true,
+                  "routerLink": "/app/home/workallocation",
+                  "requiredRoles": [
+                      "admin",
+                      "mdo_admin",
+                      "wat_member"
+                  ]
+              }
+          ]
+      }
+  }
+}

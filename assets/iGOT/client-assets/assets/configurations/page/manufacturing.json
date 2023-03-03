@@ -1,0 +1,421 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Manufacturing"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"font-semibold text-white flex items-center justify-center text-2xl sm:text-4xl p-4 leading-normal\">{{boxTitle}}<\/div><div class=\"p-4 flex flex-col flex-wrap\"> {{#items}} <a href=\"{{__pageBase}}#{{bookmarkRef}}\" class=\"w-full sm:w-64\"><div class=\"my-2 leading-normal h-full flex items-center justify-center text-center text-xl font-normal rounded-full\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div>",
+                "templateData": {
+                  "boxTitle": "MANUFACTURING",
+                  "items": [
+                    {
+                      "style": "color: white; background: #4e6471;opacity: 0.8;",
+                      "title": "Competence Build-up",
+                      "bookmarkRef": "competence_build_up"
+                    },
+                    {
+                      "style": "color: white; background: #4e6471;opacity: 0.8;",
+                      "title": "SPS@PL",
+                      "bookmarkRef": "sps_pl"
+                    },
+                    {
+                      "style": "color: white; background: #4e6471;opacity: 0.8;",
+                      "title": "Digitalization",
+                      "bookmarkRef": "digitalization"
+                    },
+                    {
+                      "style": "color: white; background: #4e6471;opacity: 0.8;",
+                      "title": "New Ways of Working",
+                      "bookmarkRef": "new_ways_of_working"
+                    }
+                  ]
+                },
+                "containerClass": "mat-elevation-z4 h-full",
+                "containerStyle": {
+                  "background-image": "url('/assets/instances/Siemens/manufacturing/manufacturing-back.jpg')",
+                  "background-repeat": "no-repeat",
+                  "background-size": "100% 100%",
+                  "min-height": "350px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pr-0 h-full"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"p-4\"><div class=\"w-full flex-col flex-wrap justify-center\"> <div style=\"background: #4e6471;\" class=\"leading-normal p-2 text-white h-full flex items-center justify-center text-center text-xl font-normal rounded-full\">{{boxTitle}}<\/div> {{#items}} <a href=\"{{link}}\" class=\"w-full h-12 sm:h-16 sm:w-1/2 md:w-1/3 m-1\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-normal rounded-full\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div><\/div>",
+                "templateData": {
+                  "boxTitle": "Useful Links",
+                  "items": [
+                    {
+                      "style": "color: white; background: #4e6471;",
+                      "title": "SPS@PL",
+                      "link": "https://wse02.siemens.com/content/P0007326/SitePages/Home.aspx"
+                    },
+                    {
+                      "style": "color: white; background: #4e6471;",
+                      "title": "Digital Solutions",
+                      "link": "https://wse04.siemens.com/content/P0001818/Digital%20Solutions%20Publishing/SitePages/Home.aspx"
+                    },
+                    {
+                      "style": "color: white; background: #4e6471;",
+                      "title": "Learning Campus",
+                      "link": "https://intranet.learning-campus.siemens.com/"
+                    }
+                  ]
+                },
+                "containerClass": "mat-elevation-z4 h-full",
+                "containerStyle": {
+                  "background-image": "url('/assets/instances/Siemens/manufacturing/useful-links-back.jpg')",
+                  "background-repeat": "no-repeat",
+                  "background-size": "100% 100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 lg:pl-0 h-full"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} <\/span><\/div> {{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <a href=\"{{link}}\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}<\/span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}<\/div><\/div> <\/a><\/div> {{\/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/manufacturing/recently-added.png",
+                  "title": "Recently added",
+                  "items": [
+                    {
+                      "date": "29 Aug,2019",
+                      "leftText": "How 3D printing enables 4th...",
+                      "link": ""
+                    },
+                    {
+                      "date": "29 Aug,2019",
+                      "leftText": "Why Continuous Composits...",
+                      "link": ""
+                    },
+                    {
+                      "date": "29 Aug,2019",
+                      "leftText": "How the manufacturing revolution...",
+                      "link": ""
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 9,
+              "medium": 7
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "competence_build_up",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/competence-build-up.png",
+                            "altText": "Competence build up"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "competence_build_up",
+                        "widgetHostStyle": {
+                          "height": "373px"
+                        }
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a href=\"{{link}}\" target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/><\/a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/siemens-core-learning.png",
+                            "altText": "Siemens core learning",
+                            "link": "./page/siemens-core-learning-programs#manufacturing"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4",
+                        "widgetHostStyle": {
+                          "height": "373px"
+                        }
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px;\" class=\"h-full\"><img style=\"width:265px;\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/elearning-image.png",
+                            "title": "Related E-Learning",
+                            "description": "Here you can find learning modules with content related to its Core Learning Program Scroll through by clicking the arrow"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": " mat-elevation-z4",
+                        "widgetHostStyle": {
+                          "height": "373px"
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411716546150401674",
+                        "lex_auth_012841107629965312231"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetInstanceId": "competence_build_up",
+              "widgetHostClass": "block"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 5
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "learning",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px;\" class=\"h-full\"><img style=\"width:265px;\" src=\"{{imageSrc}}\"/><div class=\"justify-start m-3\"><div class=\"ws-mat-primary-text leading-tight mat-title\" style=\"line-height: 1.25\">{{title}}</div><p class=\"m-2 mt-6\">{{description}}</p></div></div>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/elearning-image.png",
+                            "title": "Related E-Learning",
+                            "description": "Here you can find learning modules with content related to its Core Learning Program Scroll through by clicking the arrow"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": " mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411847634288643406"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetInstanceId": "competence_build_up",
+              "widgetHostClass": "md:-ml-10 block"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "sps_pl",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/sps-pl.png",
+                            "altText": "SPS@PL"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "sps_pl"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411759390638082609",
+                        "lex_auth_0128411809366589442758",
+                        "lex_auth_0128411814604963842657",
+                        "lex_auth_0128411764764508162625",
+                        "lex_auth_0128411733624504322125",
+                        "lex_auth_0128411766606397442122",
+                        "lex_auth_0128411744229703682123",
+                        "lex_auth_0128411819901747202599",
+                        "lex_auth_0128411821165199362601"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digitalization",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/digitalization.png",
+                            "altText": "Digitalization"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "digitalization"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411833382256642757",
+                        "lex_auth_0128411773592944642615",
+                        "lex_auth_0128411773319249922272",
+                        "lex_auth_0128411788543754242205",
+                        "lex_auth_0128411697273815041902",
+                        "lex_auth_0128411724641730561888",
+                        "lex_auth_0128411686624870401744",
+                        "lex_auth_0128411710053335041733",
+                        "lex_auth_012841105133264896575"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "new_ways_of_working",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/manufacturing/new-ways-of-working.png",
+                            "altText": "New ways of working"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "new_ways_of_working"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411907541975043878",
+                        "lex_auth_0128411898025656323829",
+                        "lex_auth_0128411886256373763833",
+                        "lex_auth_0128411857029447683642",
+                        "lex_auth_0128411867667906563637",
+                        "lex_auth_0128411858787532803633",
+                        "lex_auth_0128411896932761603590",
+                        "lex_auth_0128411825602641923299",
+                        "lex_auth_0128411887300935683297",
+                        "lex_auth_0128411844770447363290",
+                        "lex_auth_0128411865977651203229",
+                        "lex_auth_0128411842002944003181"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetType": "layout",
+    "widgetSubType": "linearLayout",
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetType": "card",
+          "widgetSubType": "cardImage",
+          "widgetData": {
+            "background": {
+              "type": "solid",
+              "color": "red"
+            },
+            "link": {
+              "type": "url",
+              "url": "/app/features",
+              "target": "_blank"
+            },
+            "overlay": [
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "top-right"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "top-left"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "middle-center"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "middle-right"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "bottom-right"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "top-middle-center"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "bottom-center"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "top-center"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "middle-right"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "bottom-left"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "middle-left"
+              },
+              {
+                "text": "Digitalization Events",
+                "link": {
+                  "type": "path",
+                  "fragment": "test"
+                },
+                "background": {
+                  "type": "solid",
+                  "color": "rgba(0, 97, 135, 0.8)"
+                },
+                "position": "middle-bottom-center"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

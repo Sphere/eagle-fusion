@@ -1,0 +1,77 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "/page/home",
+    "pageTitle": "Connect 2019"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": [
+            {
+              "banners": {
+                "l": "/assets/common/events/connect/1024.png",
+                "m": "/assets/common/events/connect/768.png",
+                "s": "/assets/common/events/connect/414.png",
+                "xl": "/assets/common/events/connect/1024.png",
+                "xs": "/assets/common/events/connect/375.png"
+              },
+              "title": "Connect 2019"
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "Connect 2019",
+                "title": "Connect 2019",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "keywords": ["connect-2019"],
+                      "learningMode": ["Self-Paced"]
+                    },
+                    "pageNo": 0,
+                    "query": "java",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

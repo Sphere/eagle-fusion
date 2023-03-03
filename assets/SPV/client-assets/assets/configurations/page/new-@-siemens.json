@@ -1,0 +1,436 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "new @ Siemens"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Welcome to new@Siemens: get started by clicking on the box below!"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "new_siemens",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1010,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/new-@-siemens/new-@-siemens.png",
+                          "altText": "new @ Siemens"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 1009,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/dummy/dummy-image.jpg",
+                          "altText": "new @ Siemens"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/new-@-siemens/first-steps.png",
+                            "altText": "First Steps"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841103406399488382"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"{{backgroundImage}}\"><div class=\"w-full flex flex-wrap justify-center\"> {{#items}} <a href=\"{{link}}\" class=\"w-full h-20 m-1\"><div class=\"leading-normal h-full flex items-center justify-center text-center text-xl font-semibold\" style=\"{{style}}\"><div class=\"p-2\">{{title}}<\/div><\/div> <\/a>{{\/items}}<\/div><\/div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "style": "color: white; background: #48afb4;",
+                      "title": "Helpful Links",
+                      "link": ""
+                    },
+                    {
+                      "style": "color: white; background: #90b7bc;",
+                      "title": "Siemens Corporate Directory",
+                      "link": "https://scd.siemens.com/luz/start?lang=en"
+                    },
+                    {
+                      "style": "color: white; background: #90b7bc;",
+                      "title": "Siemens Organizational Chart",
+                      "link": "https://soc.siemens.cloud/"
+                    },
+                    {
+                      "style": "color: white; background: #90b7bc;",
+                      "title": "Intranet",
+                      "link": "https://intranet.entry.siemens.com/osiep/"
+                    },
+                    {
+                      "style": "color: white; background: #90b7bc;",
+                      "title": "Global Learning Campus",
+                      "link": "https://intranet.learning-campus.siemens.com/"
+                    }
+                  ]
+                },
+                "containerClass": ""
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pl-0 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"w-full h-full text-center flex justify-center items-center text-2xl font-normal\" style=\"{{style}}\">Join our Yammer Group!</div>",
+                "templateData": {
+                  "style": "background: #48afb4; color: #ffffff"
+                },
+                "containerClass": "h-full flex items-center justify-center",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "siemens_businesses",
+                    "title": "The Siemens Businesses",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/new-@-siemens/company-portfolio.png",
+                            "altText": "The Siemens Businesses"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411968796426244403",
+                        "lex_auth_0128411911434321924400",
+                        "lex_auth_0128411968917667844396",
+                        "lex_auth_0128411963294679044393",
+                        "lex_auth_0128411919728230404390",
+                        "lex_auth_0128411948946964484385",
+                        "lex_auth_0128411942300303364383"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Click on the specific unit you are interested in"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "new_siemens",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src={{imageSrc}}>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/new-@-siemens/corporate-development.png"
+                }
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/new-@-siemens/your-region.png",
+                  "altText": "Your Region"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "mat-elevation-z4"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a href=\"{{href}}\" target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col relative h-full\">\n <div class=\"w-full\">\n <span style=\"{{overlayStyle}}\" class=\"absolute bottom-0 p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                "templateData": {
+                  "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/new-@-siemens/siemens-regions.png');",
+                  "overlayText": "Siemens Core Learning Programs",
+                  "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;",
+                  "href": "/app/toc/lex_auth_0128411722687365121673/overview"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "learning_offerings",
+              "widgetHostClass": "mat-elevation-z4"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/new-@-siemens/siemens-postcard.png",
+                  "altText": ""
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "mat-elevation-z4"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src={{imageSrc}}>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/new-@-siemens/corporate-development.png"
+                }
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/new-@-siemens/your-development.png",
+                  "altText": "Your Development @ Siemens"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "mat-elevation-z4"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a href=\"{{href}}\" target=\"_blank\"><div style=\"{{cardStyle}}\" class=\"flex flex-col relative h-full\">\n <div class=\"w-full\">\n <span style=\"{{overlayStyle}}\" class=\"absolute bottom-0 p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                "templateData": {
+                  "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/new-@-siemens/own-your-career.png');"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "learning_offerings",
+              "widgetHostClass": "mat-elevation-z4"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/new-@-siemens/global-learning.png",
+                  "altText": ""
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "mat-elevation-z4"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

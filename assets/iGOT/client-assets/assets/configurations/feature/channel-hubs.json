@@ -1,0 +1,265 @@
+[
+  {
+    "name": "Learning Channels for Topics & Initiatives",
+    "channels": [
+      {
+        "name": "Digitalization",
+        "description": "apply it to your business",
+        "startDate": "01/2017",
+        "image": "assets/instances/Siemens/hubs/Digitalization.PNG",
+        "url": "/page/digitalization"
+      },
+      {
+        "name": "Technologies",
+        "description": "",
+        "startDate": "06/2017",
+        "image": "assets/instances/Siemens/hubs/Technologies.PNG",
+        "url": "/page/technologies"
+      },
+      {
+        "name": "Leadership",
+        "description": "",
+        "startDate": "01/2017",
+        "image": "assets/instances/Siemens/hubs/Leadership.PNG",
+        "url": "/page/leadership"
+      },
+      {
+        "name": "Your Development",
+        "description": "get insights and own your career",
+        "startDate": "06/2018",
+        "image": "assets/instances/Siemens/hubs/Your Development.PNG",
+        "url": "/page/your-development"
+      },
+      {
+        "name": "Virtual Collaboration",
+        "description": "improve your skills",
+        "startDate": "11/2017",
+        "image": "assets/instances/Siemens/hubs/Virtual Collaboration.PNG",
+        "url": "/page/siemens-virtual-collaboration"
+      },
+      {
+        "name": "Office 365",
+        "description": "",
+        "startDate": "02/2018",
+        "image": "assets/instances/Siemens/hubs/Office 365.PNG",
+        "url": "/page/office-365"
+      },
+      {
+        "name": "Unconscious Bias",
+        "description": "make better people decisions",
+        "startDate": "11/2017",
+        "image": "assets/instances/Siemens/hubs/Unconscious Bias.PNG",
+        "url": "/page/unconscious-bias"
+      },
+      {
+        "name": "HR@Cloud",
+        "description": "learn about Workday",
+        "startDate": "07/2018",
+        "image": "assets/instances/Siemens/hubs/HR@Cloud.PNG",
+        "url": "/page/hr-cloud"
+      },
+      {
+        "name": "Futureland",
+        "description": "create impact",
+        "startDate": "01/2018",
+        "endDate": "08/2020",
+        "image": "assets/instances/Siemens/hubs/Futureland.PNG",
+        "url": "/page/futureland"
+      },
+      {
+        "name": "Customer Value Co-Creation",
+        "description": "relevant skills",
+        "startDate": "11/2018",
+        "endDate": "11/2019",
+        "image": "assets/instances/Siemens/hubs/Customer Value Co-Creation.PNG",
+        "url": "/page/customer-value-co-creation"
+      },
+      {
+        "name": "Siemens Core Learning Programs",
+        "description": "",
+        "startDate": "01/2019",
+        "image": "assets/instances/Siemens/hubs/Siemens Core Learning Programs.PNG",
+        "url": "/page/siemens-core-learning-programs"
+      },
+      {
+        "name": "Mindfulness",
+        "description": "& emotional intelligence",
+        "startDate": "01/2019",
+        "image": "assets/instances/Siemens/hubs/Mindfulness.PNG",
+        "url": "/page/mindfulness-emotional-intelligence"
+      },
+      {
+        "name": "Agile Cosmos",
+        "description": "",
+        "startDate": "01/2019",
+        "image": "assets/instances/Siemens/hubs/Agile Cosmos.PNG",
+        "url": "/page/agile-cosmos"
+      },
+      {
+        "name": "Growing your business",
+        "description": "with cybersecurity",
+        "startDate": "03/2019",
+        "image": "assets/instances/Siemens/hubs/Growing your business.PNG",
+        "url": "/page/growing-your-business-with-cyber-security"
+      },
+      {
+        "name": "Faces of Transformation",
+        "description": "",
+        "startDate": "07/2019",
+        "image": "assets/instances/Siemens/hubs/Faces of Transformation.PNG",
+        "url": "/page/faces-of-transformation"
+      }
+    ]
+  },
+  {
+    "name": "Learning Channels for Divisions and Units",
+    "channels": [
+      {
+        "name": "DF as Digital Enterprise",
+        "description": "",
+        "startDate": "05/2018",
+        "image": "assets/instances/Siemens/hubs/DF as Digital Enterprise.PNG",
+        "url": "/page/siemens-digital-enterprise"
+      },
+      {
+        "name": "Gas & Power",
+        "description": "the power of learning digitalization",
+        "startDate": "05/2018",
+        "image": "assets/instances/Siemens/hubs/Gas & Power.PNG",
+        "url": "/page/gas-power"
+      },
+      {
+        "name": "Digital Enterprise",
+        "description": "in Process Industries",
+        "startDate": "03/2019",
+        "image": "assets/instances/Siemens/hubs/Digital Enterprise.PNG",
+        "url": "/page/digital-enterprise-in-process-industries"
+      },
+      {
+        "name": "Omnetric",
+        "description": "",
+        "startDate": "06/2019",
+        "image": "assets/instances/Siemens/hubs/Omnetric.PNG",
+        "url": "/page/omnetric"
+      },
+      {
+        "name": "PA Learning",
+        "description": "",
+        "startDate": "08/2019",
+        "image": "assets/instances/Siemens/hubs/PA Learning.PNG",
+        "url": "/page/siemens-pa-learning"
+      },
+      {
+        "name": "GP S Marketing",
+        "description": "",
+        "startDate": "01/2017",
+        "image": "assets/instances/Siemens/hubs/GP S Marketing.PNG",
+        "url": "/page/gps-marketing"
+      },
+      {
+        "name": "Siemens Mobility",
+        "description": "",
+        "startDate": "09/2019",
+        "image": "assets/instances/Siemens/hubs/Siemens Mobility.PNG",
+        "url": "/page/learning-seimens-mobility"
+      }
+    ]
+  },
+  {
+    "name": "Learning Channels for Jobs and Functions",
+    "channels": [
+      {
+        "name": "Communications",
+        "description": "learn and develop yourself",
+        "startDate": "04/2019",
+        "image": "assets/instances/Siemens/hubs/Communications.PNG",
+        "url": "/page/communications"
+      },
+      {
+        "name": "Sales Learning",
+        "description": "",
+        "startDate": "08/2018",
+        "image": "assets/instances/Siemens/hubs/Sales Learning.PNG",
+        "url": "/page/siemens-sales-learning"
+      },
+      {
+        "name": "Siemens Mobility",
+        "description": "",
+        "startDate": "09/2019",
+        "image": "assets/instances/Siemens/hubs/Siemens Mobility.PNG",
+        "url": "/page/learning-seimens-mobility"
+      },
+      {
+        "name": "Digital Basics for Sales",
+        "description": "",
+        "startDate": "02/2018",
+        "endDate": "08/2019",
+        "image": "assets/instances/Siemens/hubs/Digital Basics for Sales.PNG",
+        "url": "/page/digital-basics-for-sales"
+      },
+      {
+        "name": "Supply Chain Management",
+        "description": "",
+        "startDate": "10/2018",
+        "image": "assets/instances/Siemens/hubs/Supply Chain Management.PNG",
+        "url": "/page/supply-chain-management"
+      },
+      {
+        "name": "Manufacturing",
+        "description": "",
+        "startDate": "01/2019",
+        "image": "assets/instances/Siemens/hubs/Manufacturing.PNG",
+        "url": "/page/manufacturing"
+      },
+      {
+        "name": "SCM Digi Mindset",
+        "description": "",
+        "startDate": "05/2019",
+        "image": "assets/instances/Siemens/hubs/SCM Digi Mindset.PNG",
+        "url": "/page/scm-digi-mindset"
+      },
+      {
+        "name": "Sie Sales",
+        "description": "",
+        "startDate": "05/2019",
+        "image": "assets/instances/Siemens/hubs/Sie Sales.PNG",
+        "url": "/page/sie-sales"
+      },
+      {
+        "name": "Project Management",
+        "description": "",
+        "startDate": "07/2019",
+        "image": "assets/instances/Siemens/hubs/Project Management.PNG",
+        "url": "/page/project-management"
+      }
+    ]
+  },
+  {
+    "name": "Learning Channels for Regions and Countries",
+    "channels": [
+      {
+        "name": "e.learning China",
+        "description": "a bit of learning everyday",
+        "startDate": "01/2018",
+        "endDate": "08/2019",
+        "image": "assets/instances/Siemens/hubs/e.learning China.PNG",
+        "url": "/page/siemens-elearning-china"
+      },
+      {
+        "name": "Nordics",
+        "description": "learning recommendations",
+        "startDate": "08/2018",
+        "image": "assets/instances/Siemens/hubs/Nordics.PNG",
+        "url": "/page/nordics"
+      },
+      {
+        "name": "Onboarding @Brazil",
+        "description": "comece e aprenda",
+        "startDate": "07/2018",
+        "endDate": "08/2019",
+        "image": "assets/instances/Siemens/hubs/Onboarding Brazil.PNG",
+        "url": "/page/onboarding-@-brazil"
+      }
+    ]
+  }
+]

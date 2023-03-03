@@ -1,0 +1,417 @@
+{
+  "authoring": {
+    "allowedContentType": [],
+    "allowRedo": false,
+    "allowRestore": false,
+    "allowExpiry": false,
+    "allowPublish": true,
+    "urlPatternMatching": [
+      {
+        "allowReplace": false,
+        "source": "youtube",
+        "pattern": "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\/.+",
+        "allowIframe": true
+      }
+    ]
+  },
+  "defaultFeatureConfigs": {
+    "error": "/assets/configurations/common/feature/error.json"
+  },
+  "org": [
+    "aastar"
+  ],
+  "rootOrg": "aastar",
+  "defaultFontSize": "theme-igot",
+  "defaultLocale": "hi",
+  "defaultThemeClass": "theme-igot",
+  "details": {
+    "appName": "Aastrika"
+  },
+  "disablePidCheck": true,
+  "isContentDownloadAvailable": false,
+  "fontSizes": [
+    {
+      "baseFontSize": "10px",
+      "fontClass": "x-small-typography",
+      "scale": "-2"
+    },
+    {
+      "baseFontSize": "12px",
+      "fontClass": "small-typography",
+      "scale": "-1"
+    },
+    {
+      "baseFontSize": "14px",
+      "fontClass": "normal-typography",
+      "scale": 0
+    },
+    {
+      "baseFontSize": "16px",
+      "fontClass": "large-typography",
+      "scale": 1
+    },
+    {
+      "baseFontSize": "18px",
+      "fontClass": "x-large-typography",
+      "scale": 2
+    }
+  ],
+  "indexHtmlMeta": {
+    "description": "Aastar is a learning solution accessible anytime, anywhere and on any device. It enables organizations to focus on training their talent of today, to be ready for tomorrow",
+    "webmanifest": "/assets/configurations/learning.aastra.org/manifest/manifest.webmanifest",
+    "xIcon": "/assets/configurations/learning.aastar.org/manifest/favicon.ico"
+  },
+  "keycloak": {
+    "bearerExcludedUrls": [
+      "assets",
+      "/apis/public",
+      "/assets",
+      "/pubic-assets"
+    ],
+    "clientId": "portal",
+    "key": "ws-kc-token-storage",
+    "realm": "sunbird",
+    "url": "https://aastrika-sb.idc.tarento.com/auth"
+  },
+  "locals": [
+    {
+      "isAvailable": true,
+      "isEnabled": true,
+      "locals": [
+        "en",
+        "en-US"
+      ],
+      "path": "",
+      "isRTL": false
+    },
+    {
+      "isAvailable": true,
+      "isEnabled": true,
+      "locals": [
+        "hi",
+        "hi-IN"
+      ],
+      "path": "hi",
+      "isRTL": false
+    },
+    {
+      "isAvailable": true,
+      "isEnabled": false,
+      "locals": [
+        "de"
+      ],
+      "path": "de",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "zh-CN"
+      ],
+      "path": "zh-CN",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "fr"
+      ],
+      "path": "fr",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "fr-ca"
+      ],
+      "path": "fr-ca",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "es"
+      ],
+      "path": "es",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "ar"
+      ],
+      "path": "ar",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "nl"
+      ],
+      "path": "nl",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "ja"
+      ],
+      "path": "ja",
+      "isRTL": false
+    }
+  ],
+  "chatBotUrl": "/chat-bot/#/bot=wingspanbotv7",
+  "logos": {
+    "app": "/assets/instances/eagle/app_logos/aastar-logo.svg",
+    "appTransparent": "/assets/instances/eagle/app_logos/aastar-logo.svg",
+    "company": "/assets/instances/eagle/app_logos/aastar-logo.svg",
+    "defaultContent": "/assets/instances/eagle/app_logos/default.png",
+    "developedBy": "",
+    "aboutFooter": "/assets/instances/eagle/about-page/about-footer.jpg",
+    "aboutHeader": "/assets/instances/eagle/about-page/about-header.jpg",
+    "poweredBy": "eagle eagle",
+    "landingLogo": "",
+"appBottomNav": "/assets/instances/eagle/app_logos/source.png"
+  },
+  "sources": [
+    {
+      "sourceName": "Georgia Tech CEISMC",
+      "sourceId": "",
+      "logo": "/assets/instances/eagle/sources/hex-lab.png"
+    },
+    {
+      "sourceName": "Firia Labs",
+      "sourceId": "",
+      "logo": "/assets/instances/eagle/sources/Image34.png"
+    },
+    {
+      "sourceName": "Chibitronics",
+      "sourceId": "",
+      "logo": "/assets/instances/eagle/sources/hex-lab.png"
+    }
+  ],
+  "mailIds": {
+    "contactUs": "support@tarento.com",
+    "default": "support@tarento.com",
+    "support": "support@tarento.com"
+  },
+  "microsoft": {
+    "clientId": "c6597d0b-c629-4885-a53c-44490643ddda",
+    "defaultEmailId": "support@tarento.com",
+    "isConfigured": true,
+    "tenant": "tarentotechnologies",
+    "validEmailExtensions": [
+      "@tarento.tarento.com"
+    ]
+  },
+  "telemetryConfig": {
+    "pdata": {
+      "id": "lex-web-ui",
+      "ver": "1.0.0",
+      "pid": ""
+    },
+    "env": "prod",
+    "channel": "aastar",
+    "batchsize": 10,
+    "host": "",
+    "endpoint": "/apis/protected/v8/user/telemetry",
+    "apislug": "",
+    "object": {
+      "ver": "1.0.0"
+    }
+  },
+  "themes": [
+    {
+      "color": {
+        "accent": "#607d8b",
+        "primary": "#9e9e9e",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-grey",
+      "themeClass": "theme-grey",
+      "themeName": "Grey Theme"
+    },
+    {
+      "color": {
+        "accent": "#607d8b",
+        "primary": "#673ab7",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-deep-purple",
+      "themeClass": "theme-deep-purple",
+      "themeName": "Deep Purple Theme"
+    },
+    {
+      "color": {
+        "accent": "#00A9F4",
+        "primary": "#ffffff",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-igot",
+      "themeClass": "theme-igot",
+      "themeName": "iGOT Theme"
+    },
+    {
+      "color": {
+        "accent": "#607d8b",
+        "primary": "#3f51b5",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-indigo",
+      "themeClass": "theme-indigo",
+      "themeName": "Indigo Theme"
+    },
+    {
+      "color": {
+        "accent": "#607d8b",
+        "primary": "#03a9f4",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-lite-blue",
+      "themeClass": "theme-lite-blue",
+      "themeName": "Lite Blue Theme"
+    },
+    {
+      "color": {
+        "accent": "#009688",
+        "primary": "#ff9800",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-orange",
+      "themeClass": "theme-orange",
+      "themeName": "Orange Theme"
+    },
+    {
+      "color": {
+        "accent": "#af235f",
+        "primary": "#005f87",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-teal",
+      "themeClass": "theme-teal",
+      "themeName": "Teal Theme"
+    }
+  ],
+  "validMailIdExtensionsForMailMe": [
+    "tarento.com"
+  ],
+  "backgrounds": {
+    "primaryNavBar": {
+      "color": "primary"
+    },
+    "pageNavBar": {
+      "color": "default"
+    }
+  },
+  "primaryNavBarConfig": {
+    "mediumScreen": {
+      "left": [
+        {
+          "type": "widgetButton",
+          "config": {
+            "widgetType": "actionButton",
+            "widgetSubType": "actionButtonCatalog",
+            "widgetData": {}
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_navigator",
+            "config": {
+              "type": "mat-button"
+            } 
+          }
+        }
+      ],
+      "right": [
+        {
+          "type": "widgetButton",
+          "config": {
+            "widgetType": "actionButton",
+            "widgetSubType": "actionButtonProfile",
+            "widgetData": {}
+          }
+        }
+      ]
+    },
+    "smallScreen": {
+      "left": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_home",
+            "config": {
+              "type": "card-mini"
+            }
+          }
+        }
+      ],
+      "right": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_profile",
+            "config": {
+              "type": "card-mini"
+            }
+          }
+        }
+      ]
+    },
+    "secondary": {
+      "left": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_home",
+            "config": {
+              "type": "mat-button"
+            }
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_goals",
+            "config": {
+              "type": "mat-button"
+            }
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_account",
+            "config": {
+              "type": "mat-button"
+            }
+          }
+        }
+      ],
+      "right": []
+    }
+  },
+  "featuredApps": [
+    "feature_playlist",
+    "feature_goals",
+    "feature_blogs",
+    "feature_Q&A",
+    "feature_create_konnect",
+    "feature_konnect"
+  ],
+  "intranetIframeUrls": [],
+  "introVideo": {
+    "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"
+  },
+  "tourVideo": {
+    "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"
+  }
+}

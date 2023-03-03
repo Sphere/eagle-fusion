@@ -1,0 +1,355 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  { "text": "Channels", "clickUrl": "/page/lex_auth_0128445903107194886" },
+                  {
+                    "text": "The Learning World 'How to' page"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 5,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"rounded overflow-hidden h-full shadow-lg flex flex-col\"><img alt=\"\" src=\"{{topImageSrc}}\" /><div class=\"p-4\"><div class=\"text-center\"><img alt=\"\" src=\"{{imageSrc}}\" /></div><div class=\"text-center pb-6 leading-tight\"><span class=\"text-xl font-semibold\">Siemens Learning World</span><span class=\"text-3xl font-bold text-blue-800\"> HOW TO </span><span class=\"text-xl font-semibold\">page</span></div><div class=\"font-medium\">Learn more about</div><ul>{{#list}}<li>{{item}}</li> {{/list}}</ul></div></div>",
+                "templateData": {
+                  "topImageSrc": "/assets/instances/Siemens/how-to/color-line.jpg",
+                  "imageSrc": "assets/instances/Siemens/how-to/how-to-icon.jpg",
+                  "list": [
+                    {
+                      "item": "new features on Learning World"
+                    },
+                    {
+                      "item": "what the Learning World is and how it works"
+                    },
+                    {
+                      "item": "how to use it for sharing your learning content"
+                    }
+                  ]
+                },
+                "containerClass": "mat-elevation-z4 h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full md:pr-0 px-6 sm:px-8 md:px-10",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 7,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_6w1wslxi",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_6w1wslxi/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full lg:pr-0 md:pl-0 px-6 sm:px-8 md:px-10",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 12,
+              "large": 3
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"rounded overflow-hidden h-full shadow-lg flex flex-col\"><h2 class=\"text-2xl p-6 font-normal text-blue-700 leading-tight \"> {{title}}</h2> <span class=\"text-base px-6 pb-6 leading-snug font-normal\">{{desc}}</span></div>",
+                "templateData": {
+                  "title": "Want to know more?",
+                  "desc": "Please get in touch with us via \"Contact\""
+                },
+                "containerClass": "mat-elevation-z4 h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full lg:pl-0 px-6 sm:px-8 md:px-10",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "new_on_learning_world",
+                    "title": "New on Learning World",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a href={{link}} target=\"_blank\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" /></a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/how-to/new.jpg",
+                            "altText": "New on Learning World",
+                            "link": "/app/knowledge-board/lex_auth_01284459576435507218"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "new_on_learning_world"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411643798323201067",
+                        "lex_auth_0128411896437391363675",
+                        "lex_auth_0128411858679971843256",
+                        "lex_auth_0128411739379220482339",
+                        "lex_auth_0128411739792097282196",
+                        "lex_auth_0128411765330575362193",
+                        "lex_auth_0128411716763238402186",
+                        "lex_auth_0128411686066339841068",
+                        "lex_auth_0128411693115146241851",
+                        "lex_auth_0128411744404766721852"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "how_to_curate_for_Learning_World",
+                    "title": "How to curate for Learning World",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" /></a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/how-to/curate.jpg",
+                            "altText": "How to curate for Learning World",
+                            "link": "/app/knowledge-board/lex_auth_0128445929581035522"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "how_to_curate_for_Learning_World"
+                      },
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-tight font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/how-to/random-image.png'); width:265px",
+                            "overlayText": "What to consider when creating entries",
+                            "overlayStyle": "background:#024f70;color:white;opacity:0.8;",
+                            "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/LeWo_HowToPage/Content/LeWo_guide_entries.pdf"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411739379220482339",
+                        "lex_auth_0128411716763238402186",
+                        "lex_auth_0128411649572126721459",
+                        "lex_auth_0128411717721128961395",
+                        "lex_auth_0128411655239516161396",
+                        "lex_auth_0128411668118732801010"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Discover the \"How to\" video tutorial"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "how_to_video_gallery",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetSubType": "galleryView",
+              "widgetType": "gallery",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              },
+              "widgetHostClass": "block py-4 px-6 sm:px-8 md:px-10 max-w-full overflow-hidden",
+              "widgetData": {
+                "designVal": "set1",
+                "widgetPlayer": {
+                  "style": {
+                    "height": "400px"
+                  }
+                },
+                "cardMenu": [
+                  {
+                    "cardData": {
+                      "title": "Follow SingleTags and LearningTags",
+                      "description": "Discover \"My Learning World\"",
+                      "thumbnail": "/assets/instances/Siemens/how-to/discover-small.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_k1ckws7k",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_k1ckws7k/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "My Collections",
+                      "description": "Create your own learning list",
+                      "thumbnail": "/assets/instances/Siemens/how-to/collections.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_82eeomy6",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_82eeomy6/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Accessing content",
+                      "description": "How to access learning content",
+                      "thumbnail": "/assets/instances/Siemens/how-to/tags.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_0h1kctt5",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_0h1kctt5/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      },
+                      "widgetHostClass": "video-full block",
+                      "widgetHostStyle": {
+                        "height": "400px"
+                      }
+                    }
+                  },
+                  {
+                    "cardData": {
+                      "title": "Search options",
+                      "description": "How to search in the learning world",
+                      "thumbnail": "/assets/instances/Siemens/how-to/search.png"
+                    },
+                    "widget": {
+                      "widgetType": "page",
+                      "widgetSubType": "pageEmbedded",
+                      "widgetData": {
+                        "iframeId": "kmsembed-1_ovqktxso",
+                        "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_ovqktxso/uiConfId/35069072",
+                        "containerStyle": {
+                          "height": "400px"
+                        },
+                        "containerClass": "kmsembed",
+                        "title": "Kaltura Video"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

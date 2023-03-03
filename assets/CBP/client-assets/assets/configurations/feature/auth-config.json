@@ -1,0 +1,368 @@
+{
+  "allowActionHistory": true,
+  "allowRoleRequest": true,
+  "allowNotification": true,
+  "maxExpiryDate": 365,
+  "optimizedWorkFlow": {
+    "allow": true,
+    "conditions": {
+      "fit": [
+        "*"
+      ],
+      "notFit": []
+    }
+  },
+  "workFlowTable": [
+    {
+      "conditions": {
+        "fit": [
+          "*"
+        ],
+        "notFit": []
+      },
+      "workFlow": [
+        "Draft",
+        "InReview",
+        "Reviewed",
+        "Processing",
+        "Live"
+      ]
+    }
+  ],
+  "ownerDetails": [
+    {
+      "status": [
+        "Draft",
+        "Live"
+      ],
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "submitted",
+        "retrieved",
+        "restored",
+        "pulledBack"
+      ]
+    },
+    {
+      "status": [
+        "MarkedForDeletion"
+      ],
+      "actionName": "Marked for deletion",
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "markedForDeletion"
+      ]
+    },
+    {
+      "status": [
+        "Unpublished"
+      ],
+      "actionName": "Unpublished",
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "unpublished"
+      ]
+    },
+    {
+      "status": [
+        "Deleted"
+      ],
+      "actionName": "Deleted",
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "deleted"
+      ]
+    },
+    {
+      "status": [
+        "InReview"
+      ],
+      "actionName": "Review",
+      "owner": "trackContacts",
+      "name": "Reviewer",
+      "relatedActions": [
+        "reviewerApproved",
+        "reviewerRejected"
+      ]
+    },
+    {
+      "status": [
+        "Reviewed"
+      ],
+      "actionName": "Publish",
+      "owner": "publisherDetails",
+      "name": "Publisher",
+      "relatedActions": [
+        "publisherApproved",
+        "publisherRejected"
+      ]
+    },
+    {
+      "status": [
+        "QualityReview"
+      ],
+      "actionName": "Quality Review",
+      "relatedActions": [
+        "qualityApproved",
+        "qualityRejected"
+      ]
+    },
+    {
+      "status": [
+        "Expired"
+      ],
+      "relatedActions": [
+        "expired"
+      ]
+    },
+    {
+      "status": [
+        "Processing"
+      ],
+      "relatedActions": []
+    }
+  ],
+  "permissionDetails": [
+    {
+      "role": "author",
+      "editContent": {
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      },
+      "editMeta": {
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      }
+    },
+    {
+      "role": "content_reviewer",
+      "editMeta": {
+        "enableByDefault": false,
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      }
+    },
+    {
+      "role": "content_publisher",
+      "editMeta": {
+        "enableByDefault": false,
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      }
+    }
+  ],
+  "mandatoryCourses": {},
+  "contentQuality": {
+    "passPercentage": 70
+  },
+  "menus": {
+    "widgetType": "menus",
+    "widgetSubType": "leftMenu",
+    "widgetData": {
+      "logo": true,
+      "menus": [
+        {
+          "name": "My CBPs",
+          "key": "mycbp",
+          "fragment": false,
+          "render": true,
+          "badges": {
+            "enabled": false,
+            "uri": ""
+          },
+          "enabled": true,
+          "routerLink": "/author/cbp/me",
+          "queryParams": "published",
+          "requiredRoles": [
+            "content_reviewer",
+            "content_creator",
+            "content_publisher",
+            "editor",
+            "admin"
+          ]
+        },
+        {
+          "name": "All CBPs",
+          "key": "cbp",
+          "fragment": false,
+          "render": true,
+          "badges": {
+            "enabled": false,
+            "uri": ""
+          },
+          "enabled": true,
+          "routerLink": "/author/cbp/all",
+          "queryParams": "published",
+          "requiredRoles": [
+            "admin",
+            "super-admin",
+            "content-admin",
+            "editor",
+            "content_creator"
+          ]
+        },
+        {
+          "name": "Competencies",
+          "key": "competencies",
+          "fragment": false,
+          "render": true,
+          "badges": {
+            "enabled": false,
+            "uri": ""
+          },
+          "enabled": true,
+          "routerLink": "/author/competencies",
+          "requiredRoles": [
+            "admin",
+            "super-admin",
+            "content-admin",
+            "editor",
+            "content_creator",
+            "content_reviewer",
+            "content_publisher"
+          ]
+        },
+        {
+          "name": "Policies",
+          "key": "policies",
+          "fragment": false,
+          "render": false,
+          "badges": {
+            "enabled": false,
+            "uri": ""
+          },
+          "enabled": false,
+          "routerLink": "/app/notifications"
+        },
+        {
+          "name": "About",
+          "key": "about",
+          "fragment": false,
+          "render": false,
+          "badges": {
+            "enabled": false,
+            "uri": ""
+          },
+          "enabled": false,
+          "routerLink": "/app/info/about"
+        }
+      ]
+    }
+  },
+  "search": {
+    "visibleFiltersV2": {
+      "primaryCategory": {
+        "displayName": "Primary Category"
+      },
+      "mimeType": {
+        "displayName": "Mime Type"
+      }
+    },
+    "visibleFilters": {
+      "learningMode": {
+        "displayName": "Mode"
+      },
+      "duration": {
+        "displayName": "Duration"
+      },
+      "contentType": {
+        "displayName": "Content Type"
+      },
+      "exclusiveContent": {
+        "displayName": "Costs"
+      },
+      "complexityLevel": {
+        "displayName": "Level"
+      },
+      "catalogPaths": {
+        "displayName": "Catalog",
+        "order": [
+          {
+            "_key": "asc"
+          }
+        ]
+      },
+      "sourceShortName": {
+        "displayName": "Source"
+      },
+      "resourceType": {
+        "displayName": "Format"
+      },
+      "region": {
+        "displayName": "Region"
+      },
+      "concepts": {
+        "displayName": "Concepts"
+      },
+      "lastUpdatedOn": {
+        "displayName": "Published Date"
+      }
+    },
+    "tabs": [
+      {
+        "searchQuery": {
+          "filters": {},
+          "advancedFilters": []
+        },
+        "phraseSearch": false,
+        "acrossPreferredLang": true,
+        "isStandAlone": false,
+        "title": "Learning",
+        "titleKey": "learning"
+      }
+    ],
+    "routeValue": [
+      "learning"
+    ],
+    "placeHolder": {
+      "learning": "What do you want to learn?"
+    },
+    "languageSearch": [
+      "EN"
+    ],
+    "missalaneous": {
+      "tabsToAdd": {}
+    },
+    "suggestedFilters": []
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "Kompetenzmanagement bei RC-DE-EM"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col text-center relative h-full\">\n <div class=\"w-full text-center\"><span style=\"{{overlayStyle}}\" class=\"text-xl sm:text-3xl leading-none p-6 block font-semibold text-center\">{{overlayText}}</span></div</div>",
+                "templateData": {
+                  "cardStyle": "word-wrap: break-word; background-size: cover !important; background : url('/assets/instances/Siemens/kompetenzmanagement/main-image.jpg'); min-height:472px;",
+                  "overlayText": "Kompetenzmanagement bei RC-DE-EM",
+                  "overlayStyle": "background:#a3a8ac;color:white;opacity:0.8;"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Jobprofile inklusive Kompetenzen mit Trainingsempfehlungen"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "specials",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6 -mb-8"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "vertrieb",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/kompetenzmanagement/pre-card-intial.png'); width:265px",
+                            "overlayText": "Vertrieb",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "vertrieb"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411853893386242849"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "projektmanagement",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-xl leading-none font-semibold\">{{overlayText}}</span>\n </div>\n</div></a>",
+                          "templateData": {
+                            "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/kompetenzmanagement/pre-card.png'); width:265px",
+                            "overlayText": "Projektmanagement",
+                            "overlayStyle": "background:#005f87cc;color:white;opacity:0.8;"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "projektmanagement"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411844522639362903"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block -ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Sales relevante Kompetenzen"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "specials",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "1321",
+                "imageSrc": "/assets/instances/Siemens/kompetenzmanagement/image.jpg",
+                "mapName": "map-kompetenzmanagement",
+                "map": [
+                  {
+                    "coords": [
+                      388,
+                      144,
+                      477,
+                      164
+                    ],
+                    "alt": "Kommunikation",
+                    "title": "Kommunikation",
+                    "link": "https://learningworld.siemens.com/learning-tag/kommunikation-em-de",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      937,
+                      143,
+                      1047,
+                      163
+                    ],
+                    "alt": "Mitarbeiter coachen",
+                    "title": "Mitarbeiter coachen",
+                    "link": "https://learningworld.siemens.com/learning-tag/mitarbeiter-coachen-em-de",
+                    "target": "_blank"
+                  }
+                ],
+                "containerClass": "h-full mat-elevation-z4"
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10",
+              "widgetInstanceId": "map_kompetenzmanagement"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "appsAndroid": "https://play.google.com/store/apps/details?id=com.infosysit.lex",
+  "appsAndroidMirror": "/mobile-apps/android/app.apk",
+  "appsIos": "https://apps.apple.com/in/app/infosys-lex/id1372091347",
+  "showQrCode": true,
+  "code": "",
+  "isClient": false,
+  "androidQR": "/assets/images/mobile/qr_lex_android.png",
+  "iosQR": "/assets/images/mobile/qr_lex_ios.png"
+}

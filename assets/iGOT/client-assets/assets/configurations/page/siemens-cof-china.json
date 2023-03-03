@@ -1,0 +1,702 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "COF China"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex flex-col justify-start relative h-full\" style=\"background-size: cover !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#afaf77;opacity:0.75\" class=\"text-white items-center pt-6 p-4 leading-tight flex flex-wrap justify-between font-semibold\"><div class=\"text-2xl\"><div>{{overlayText1}}<\/div><div>{{overlayText2}}<\/div><\/div> <a href=\"mailto:cofchina.od.cn@siemens.com\"><div class=\"flex flex-col mt-2 md:mt-0 md:items-center flex-wrap justify-center\"> <img class=\"w-8\" src={{iconSrc}}\/><div class=\"text-base\">Contact Us<\/div><\/div> <\/a><\/div><\/div>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/cof-china/banner-new.jpg",
+                  "overlayText1": "Welcome onboard",
+                  "overlayText2": "for Learning and Development @ COF China",
+                  "iconSrc": "/assets/instances/Siemens/cof-china/contact-icon.png",
+                  "altText": "Welcome onboard for Learning and Development @ COF China"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-image: url('/assets/instances/Siemens/cof-china/list-bg.png'); background-size: cover; backgrond-repeat: no-repeat\" class=\"flex items-center justify-end w-full h-40\" ><span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\" >{{title}}<\/span><\/div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}<\/span> {{^leftText}}<div class=\"flex justify-end\"> <\/div> {{\/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}<\/a><\/div> {{\/leftText}}<\/div> {{\/items}}",
+                "templateData": {
+                  "title": "Recently added",
+                  "items": [
+                    {
+                      "title": "21 Jun,2019",
+                      "leftText": "Siemens Proximit...",
+                      "link": "/app/toc/lex_auth_0128411896526192644005/overview"
+                    },
+                    {
+                      "title": "21 Jun,2019",
+                      "leftText": "Microsoft Office 365",
+                      "link": "/app/toc/lex_auth_0128411900876963844003/overview"
+                    },
+                    {
+                      "title": "12 Jun,2019",
+                      "leftText": "改善自身幸福感",
+                      "link": "/app/toc/lex_auth_0128411878200360963962/overview"
+                    }
+                  ]
+                },
+                "containerStyle": {
+                  "height": "h-full"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex-wrap w-full flex\">{{#items}}<div class=\"sm:w-1/2 md:w-1/4 lg:w-1/5 w-full\"><a href=\"{{__pageBase}}#{{bookmarkRef}}\" style=\"{{backgroundColor}}\" class=\"p-2 my-1 mr-0 sm:mr-2 flex text-center justify-center items-center h-48\"><div><img class=\"mt-3\" src=\"{{iconUrl}}\"><div class=\"text-xl text-white leading-normal font-semibold\"><div>{{title}}<\/div><\/div><\/div><\/a><\/div>{{\/items}}<\/div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #af245f",
+                      "title": "Sales",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-sales.jpg",
+                      "bookmarkRef": "sales_competencies"
+                    },
+                    {
+                      "backgroundColor": "background: #005b80",
+                      "title": "Strategy & Marketing",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-strategy.jpg",
+                      "bookmarkRef": "strategy_marketing"
+                    },
+                    {
+                      "backgroundColor": "background: #00646e",
+                      "title": "Credit",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-credit.jpg",
+                      "bookmarkRef": ""
+                    },
+                    {
+                      "backgroundColor": "background: #aab413",
+                      "title": "AM & PM",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-am-pm.jpg",
+                      "bookmarkRef": ""
+                    },
+                    {
+                      "backgroundColor": "background: #f18101",
+                      "title": "Collection",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-collection.jpg",
+                      "bookmarkRef": ""
+                    },
+                    {
+                      "backgroundColor": "background: #f8ac00",
+                      "title": "Finance",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-finance.jpg",
+                      "bookmarkRef": "finance_competencies"
+                    },
+                    {
+                      "backgroundColor": "background: #4fb8d5",
+                      "title": "Operations",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-operations.jpg",
+                      "bookmarkRef": "operations_competencies"
+                    },
+                    {
+                      "backgroundColor": "background: #5d1636",
+                      "title": "Compliance",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-compliance.jpg",
+                      "bookmarkRef": ""
+                    },
+                    {
+                      "backgroundColor": "background: #657e2d",
+                      "title": "IT",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-it.jpg",
+                      "bookmarkRef": ""
+                    },
+                    {
+                      "backgroundColor": "background: #019ba5",
+                      "title": "Platform",
+                      "iconUrl": "/assets/instances/Siemens/cof-china/icon-platform.jpg",
+                      "bookmarkRef": ""
+                    }
+                  ]
+                },
+                "containerClass": "px-6 sm:px-8 md:px-10"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "recommended",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/cof-china/pre-recommended.png",
+                            "altText": "Recommended"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411787780833282902",
+                        "lex_auth_0128411896526192644005",
+                        "lex_auth_0128411900876963844003",
+                        "lex_auth_0128411925050408963924",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411920558489603720",
+                        "lex_auth_0128411942300303364383",
+                        "lex_auth_0128411853191495682940",
+                        "lex_auth_0128411939181690883963",
+                        "lex_auth_0128411898653736964174",
+                        "lex_auth_0128411948515655684301",
+                        "lex_auth_0128411915301437443982"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "1321",
+                "imageSrc": "/assets/instances/Siemens/cof-china/map-sales-competencies.jpg",
+                "mapName": "map-sales-competencies",
+                "map": [
+                  {
+                    "coords": [
+                      540,
+                      58,
+                      665,
+                      181
+                    ],
+                    "alt": "Financial Market Knowledge",
+                    "title": "Financial Market Knowledge",
+                    "link": "/app/knowledge-board/lex_auth_012844595137724416146",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      666,
+                      57,
+                      787,
+                      181
+                    ],
+                    "alt": "Accounting knowledge",
+                    "title": "Accounting knowledge",
+                    "link": "/app/knowledge-board/lex_auth_012844592931405824148",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      788,
+                      57,
+                      911,
+                      183
+                    ],
+                    "alt": "Risk Management",
+                    "title": "Risk Management",
+                    "link": "/app/knowledge-board/lex_auth_012844592431915008147",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      913,
+                      57,
+                      1036,
+                      182
+                    ],
+                    "alt": "About Siemens",
+                    "title": "About Siemens",
+                    "link": "/app/knowledge-board/lex_auth_012844595147980800150",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      543,
+                      181,
+                      666,
+                      307
+                    ],
+                    "alt": "Project Management",
+                    "title": "Project Management",
+                    "link": "/app/knowledge-board/lex_auth_01284459096104960060",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      667,
+                      182,
+                      786,
+                      306
+                    ],
+                    "alt": "Legal Knowledge",
+                    "title": "Legal Knowledge",
+                    "link": "/app/knowledge-board/lex_auth_012844598179889152145",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      789,
+                      185,
+                      911,
+                      306
+                    ],
+                    "alt": "Business and customer development",
+                    "title": "Business and customer development",
+                    "link": "/app/knowledge-board/lex_auth_012844592969859072144",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      913,
+                      183,
+                      1035,
+                      308
+                    ],
+                    "alt": "Health Care",
+                    "title": "Health Care",
+                    "link": "/app/knowledge-board/lex_auth_012844597622718464151",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      541,
+                      306,
+                      665,
+                      430
+                    ],
+                    "alt": "Key Account Management",
+                    "title": "Key Account Management",
+                    "link": "/app/knowledge-board/lex_auth_012844596321017856142",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      668,
+                      307,
+                      788,
+                      432
+                    ],
+                    "alt": "Time management",
+                    "title": "Time management",
+                    "link": "/app/knowledge-board/lex_auth_012844598292193280143",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      791,
+                      307,
+                      911,
+                      430
+                    ],
+                    "alt": "Self Motivation",
+                    "title": "Self Motivation",
+                    "link": "/app/knowledge-board/lex_auth_012844592455491584141",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      914,
+                      310,
+                      1036,
+                      432
+                    ],
+                    "alt": "Communication and Negotiation",
+                    "title": "Communication and Negotiation",
+                    "link": "/app/knowledge-board/lex_auth_012844598062268416140",
+                    "target": "_blank"
+                  }
+                ]
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "sales_competencies"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "1321",
+                "imageSrc": "/assets/instances/Siemens/cof-china/strategy-marketing.jpg",
+                "mapName": "map-strategy-marketing",
+                "map": [
+                  {
+                    "coords": [
+                      291,
+                      110,
+                      459,
+                      279
+                    ],
+                    "alt": "Media and communications",
+                    "title": "Media and communications",
+                    "link": "/app/knowledge-board/lex_auth_012844597700485120136",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      462,
+                      112,
+                      628,
+                      280
+                    ],
+                    "alt": "Market research",
+                    "title": "Market research",
+                    "link": "/app/knowledge-board/lex_auth_012844597044453376133",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      630,
+                      110,
+                      798,
+                      280
+                    ],
+                    "alt": "Marketing strategy",
+                    "title": "Marketing strategy",
+                    "link": "/app/knowledge-board/lex_auth_012844596454678528134",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      291,
+                      280,
+                      459,
+                      450
+                    ],
+                    "alt": "Customer value proposition",
+                    "title": "Customer value proposition",
+                    "link": "/app/knowledge-board/lex_auth_012844590496432128135",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      462,
+                      282,
+                      631,
+                      451
+                    ],
+                    "alt": "Project Management",
+                    "title": "Project Management",
+                    "link": "/app/knowledge-board/lex_auth_012844598368673792138",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      633,
+                      282,
+                      798,
+                      451
+                    ],
+                    "alt": "Sales & business operational marketing support",
+                    "title": "Sales & business operational marketing support",
+                    "link": "/app/knowledge-board/lex_auth_012844593923170304137",
+                    "target": "_blank"
+                  }
+                ]
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "strategy_marketing"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "1321",
+                "imageSrc": "/assets/instances/Siemens/cof-china/operations-competencies.jpg",
+                "mapName": "map-operations-competencies",
+                "map": [
+                  {
+                    "coords": [
+                      493,
+                      124,
+                      642,
+                      275
+                    ],
+                    "alt": "Business Communications",
+                    "title": "Business Communications",
+                    "link": "/app/knowledge-board/lex_auth_012844590871609344164",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      644,
+                      124,
+                      792,
+                      272
+                    ],
+                    "alt": "Product Knowledge",
+                    "title": "Product Knowledge",
+                    "link": "/app/knowledge-board/lex_auth_012844593844387840158",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      795,
+                      124,
+                      941,
+                      275
+                    ],
+                    "alt": "Customer Service",
+                    "title": "Customer Service",
+                    "link": "/app/knowledge-board/lex_auth_012844596407058432162",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      943,
+                      124,
+                      1091,
+                      273
+                    ],
+                    "alt": "Essential to Know",
+                    "title": "Essential to Know",
+                    "link": "/app/knowledge-board/lex_auth_012844591666954240159",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      494,
+                      276,
+                      642,
+                      428
+                    ],
+                    "alt": "Personal Effectiveness",
+                    "title": "Personal Effectiveness",
+                    "link": "/app/knowledge-board/lex_auth_012844595592011776161",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      644,
+                      275,
+                      792,
+                      423
+                    ],
+                    "alt": "Financial Market knowledge",
+                    "title": "Financial Market knowledge",
+                    "link": "/app/knowledge-board/lex_auth_012844594435121152165",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      795,
+                      277,
+                      939,
+                      425
+                    ],
+                    "alt": "Project Management",
+                    "title": "Project Management",
+                    "link": "/app/knowledge-board/lex_auth_012844591076220928163",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      943,
+                      277,
+                      1092,
+                      428
+                    ],
+                    "alt": "Office Software",
+                    "title": "Office Software",
+                    "link": "/app/knowledge-board/lex_auth_012844598254280704160",
+                    "target": "_blank"
+                  }
+                ]
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "operations_competencies"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "1321",
+                "imageSrc": "/assets/instances/Siemens/cof-china/finance-competencies.jpg",
+                "mapName": "map-finance-competencies",
+                "map": [
+                  {
+                    "coords": [
+                      493,
+                      120,
+                      641,
+                      272
+                    ],
+                    "alt": "Financial Market knowledge",
+                    "title": "Financial Market knowledge",
+                    "link": "/app/knowledge-board/lex_auth_012844596294418432166",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      642,
+                      120,
+                      792,
+                      270
+                    ],
+                    "alt": "Finance knowledge for finance",
+                    "title": "Finance knowledge for finance",
+                    "link": "/app/knowledge-board/lex_auth_012844596610408448167",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      794,
+                      122,
+                      942,
+                      272
+                    ],
+                    "alt": "SFS and COF matters for finance",
+                    "title": "SFS and COF matters for finance",
+                    "link": "/app/knowledge-board/lex_auth_012844593918992384169",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      945,
+                      122,
+                      1093,
+                      270
+                    ],
+                    "alt": "Siemens matters for finance",
+                    "title": "Siemens matters for finance",
+                    "link": "/app/knowledge-board/lex_auth_012844597216468992168",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      493,
+                      273,
+                      642,
+                      423
+                    ],
+                    "alt": "Personal competency of finance",
+                    "title": "Personal competency of finance",
+                    "link": "/app/knowledge-board/lex_auth_012844590851956736172",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      642,
+                      271,
+                      792,
+                      422
+                    ],
+                    "alt": "Office tools for finance",
+                    "title": "Office tools for finance",
+                    "link": "/app/knowledge-board/lex_auth_012844595294363648171",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      794,
+                      273,
+                      940,
+                      422
+                    ],
+                    "alt": "Risk knowledge for finance",
+                    "title": "Risk knowledge for finance",
+                    "link": "/app/knowledge-board/lex_auth_012844592506937344170",
+                    "target": "_blank"
+                  }
+                ]
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "finance_competencies"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

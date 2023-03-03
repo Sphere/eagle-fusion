@@ -1,0 +1,1355 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "IT going forward"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetInstanceId": "image_map",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 639,
+                    "widget": {
+                      "widgetData": {
+                        "imageWidth": "414",
+                        "imageHeight": "700",
+                        "imageSrc": "/assets/instances/Siemens/it-going-forward/key-visual-414.jpg",
+                        "mapName": "map-fields-of-competence",
+                        "map": [
+                          {
+                            "coords": [
+                              160,
+                              184,
+                              254,
+                              233
+                            ],
+                            "alt": "Agile",
+                            "title": "Agile",
+                            "link": "/page/siemens-it-going-forward#agile",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              260,
+                              592,
+                              363,
+                              643
+                            ],
+                            "alt": "Digital Enterprise",
+                            "title": "Digital Enterprise",
+                            "link": "/page/siemens-it-going-forward#digital_enterprise",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              58,
+                              356,
+                              155,
+                              406
+                            ],
+                            "alt": "Software Ecosystems",
+                            "title": "Software Ecosystems",
+                            "link": "/page/siemens-it-going-forward#software_ecosystem",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              64,
+                              230,
+                              150,
+                              296
+                            ],
+                            "alt": "Service Ownership Excellence",
+                            "title": "Service Ownership Excellence",
+                            "link": "/page/siemens-it-going-forward#service_ownership_excellence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              265,
+                              231,
+                              359,
+                              291
+                            ],
+                            "alt": "Artificial Intelligence",
+                            "title": "Artificial Intelligence",
+                            "link": "/page/siemens-it-going-forward#artificial_intelligence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              159,
+                              414,
+                              255,
+                              469
+                            ],
+                            "alt": "Analytics",
+                            "title": "Analytics",
+                            "link": "/page/siemens-it-going-forward#analytics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              266,
+                              466,
+                              357,
+                              529
+                            ],
+                            "alt": "Cloud Computing",
+                            "title": "Cloud Computing",
+                            "link": "/page/siemens-it-going-forward#cloud_computing",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              159,
+                              298,
+                              256,
+                              344
+                            ],
+                            "alt": "Architecture",
+                            "title": "Architecture",
+                            "link": "/page/siemens-it-going-forward#architecture",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              59,
+                              470,
+                              156,
+                              526
+                            ],
+                            "alt": "Culture & Leadership",
+                            "title": "Culture & Leadership",
+                            "link": "/page/siemens-it-going-forward#culture_leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              166,
+                              528,
+                              252,
+                              587
+                            ],
+                            "alt": "Soft Skills",
+                            "title": "Soft Skills",
+                            "link": "/page/siemens-it-going-forward#soft_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              268,
+                              351,
+                              353,
+                              416
+                            ],
+                            "alt": "Business Partner Excellence",
+                            "title": "Business Partner Excellence",
+                            "link": "/page/siemens-it-going-forward#business_partner_excellence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              66,
+                              578,
+                              150,
+                              655
+                            ],
+                            "alt": "Cyber Security",
+                            "title": "Cyber Security",
+                            "link": "/page/siemens-it-going-forward#cyber_security",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+                      "widgetInstanceId": "fields-of-competence"
+                    }
+                  },
+                  {
+                    "minWidth": 640,
+                    "maxWidth": 949,
+                    "widget": {
+                      "widgetData": {
+                        "imageWidth": "768",
+                        "imageHeight": "472",
+                        "imageSrc": "/assets/instances/Siemens/it-going-forward/key-visual-768.jpg",
+                        "mapName": "map-fields-of-competence",
+                        "map": [
+                          {
+                            "coords": [
+                              138,
+                              156,
+                              229,
+                              219
+                            ],
+                            "alt": "Agile",
+                            "title": "Agile",
+                            "link": "/page/siemens-it-going-forward#agile",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              346,
+                              154,
+                              433,
+                              221
+                            ],
+                            "alt": "Digital Enterprise",
+                            "title": "Digital Enterprise",
+                            "link": "/page/siemens-it-going-forward#digital_enterprise",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              551,
+                              151,
+                              634,
+                              218
+                            ],
+                            "alt": "Software Ecosystems",
+                            "title": "Software Ecosystems",
+                            "link": "/page/siemens-it-going-forward#software_ecosystem",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              42,
+                              201,
+                              124,
+                              286
+                            ],
+                            "alt": "Service Ownership Excellence",
+                            "title": "Service Ownership Excellence",
+                            "link": "/page/siemens-it-going-forward#service_ownership_excellence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              245,
+                              211,
+                              336,
+                              272
+                            ],
+                            "alt": "Artificial Intelligence",
+                            "title": "Artificial Intelligence",
+                            "link": "/page/siemens-it-going-forward#artificial_intelligence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              448,
+                              209,
+                              536,
+                              276
+                            ],
+                            "alt": "Analytics",
+                            "title": "Analytics",
+                            "link": "/page/siemens-it-going-forward#analytics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              651,
+                              208,
+                              737,
+                              283
+                            ],
+                            "alt": "Cloud Computing",
+                            "title": "Cloud Computing",
+                            "link": "/page/siemens-it-going-forward#cloud_computing",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              143,
+                              266,
+                              231,
+                              329
+                            ],
+                            "alt": "Architecture",
+                            "title": "Architecture",
+                            "link": "/page/siemens-it-going-forward#architecture",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              348,
+                              268,
+                              432,
+                              337
+                            ],
+                            "alt": "Culture & Leadership",
+                            "title": "Culture & Leadership",
+                            "link": "/page/siemens-it-going-forward#culture_leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              546,
+                              270,
+                              636,
+                              336
+                            ],
+                            "alt": "Soft Skills",
+                            "title": "Soft Skills",
+                            "link": "/page/siemens-it-going-forward#soft_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              249,
+                              321,
+                              331,
+                              402
+                            ],
+                            "alt": "Business Partner Excellence",
+                            "title": "Business Partner Excellence",
+                            "link": "/page/siemens-it-going-forward#business_partner_excellence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              450,
+                              323,
+                              533,
+                              396
+                            ],
+                            "alt": "Cyber Security",
+                            "title": "Cyber Security",
+                            "link": "/page/siemens-it-going-forward#cyber_security",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+                      "widgetInstanceId": "fields-of-competence"
+                    }
+                  },
+                  {
+                    "minWidth": 950,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageWidth": "1024",
+                        "imageHeight": "472",
+                        "imageSrc": "/assets/instances/Siemens/it-going-forward/key-visual-1024.jpg",
+                        "mapName": "map-fields-of-competence",
+                        "map": [
+                          {
+                            "coords": [
+                              269,
+                              157,
+                              365,
+                              228
+                            ],
+                            "alt": "Agile",
+                            "title": "Agile",
+                            "link": "/page/siemens-it-going-forward#agile",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              495,
+                              151,
+                              594,
+                              224
+                            ],
+                            "alt": "Digital Enterprise",
+                            "title": "Digital Enterprise",
+                            "link": "/page/siemens-it-going-forward#digital_enterprise",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              717,
+                              151,
+                              817,
+                              231
+                            ],
+                            "alt": "Software Ecosystems",
+                            "title": "Software Ecosystems",
+                            "link": "/page/siemens-it-going-forward#software_ecosystem",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              160,
+                              219,
+                              248,
+                              299
+                            ],
+                            "alt": "Service Ownership Excellence",
+                            "title": "Service Ownership Excellence",
+                            "link": "/page/siemens-it-going-forward#service_ownership_excellence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              380,
+                              218,
+                              481,
+                              296
+                            ],
+                            "alt": "Artificial Intelligence",
+                            "title": "Artificial Intelligence",
+                            "link": "/page/siemens-it-going-forward#artificial_intelligence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              611,
+                              216,
+                              701,
+                              297
+                            ],
+                            "alt": "Analytics",
+                            "title": "Analytics",
+                            "link": "/page/siemens-it-going-forward#analytics",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              831,
+                              222,
+                              933,
+                              293
+                            ],
+                            "alt": "Cloud Computing",
+                            "title": "Cloud Computing",
+                            "link": "/page/siemens-it-going-forward#cloud_computing",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              269,
+                              284,
+                              367,
+                              358
+                            ],
+                            "alt": "Architecture",
+                            "title": "Architecture",
+                            "link": "/page/siemens-it-going-forward#architecture",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              494,
+                              280,
+                              588,
+                              359
+                            ],
+                            "alt": "Culture & Leadership",
+                            "title": "Culture & Leadership",
+                            "link": "/page/siemens-it-going-forward#culture_leadership",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              719,
+                              281,
+                              818,
+                              362
+                            ],
+                            "alt": "Soft Skills",
+                            "title": "Soft Skills",
+                            "link": "/page/siemens-it-going-forward#soft_skills",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              388,
+                              340,
+                              471,
+                              444
+                            ],
+                            "alt": "Business Partner Excellence",
+                            "title": "Business Partner Excellence",
+                            "link": "/page/siemens-it-going-forward#business_partner_excellence",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              608,
+                              349,
+                              701,
+                              430
+                            ],
+                            "alt": "Cyber Security",
+                            "title": "Cyber Security",
+                            "link": "/page/siemens-it-going-forward#cyber_security",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+                      "widgetInstanceId": "fields-of-competence"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-image: url('/assets/instances/Siemens/it-going-forward/list-1.png'); background-size: cover; backgrond-repeat: no-repeat\" class=\"flex items-center justify-end w-full h-40\" ><span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\" >{{title}}<\/span><\/div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}<\/span> {{^leftText}}<div class=\"flex justify-end\"> <\/div> {{\/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}<\/a><\/div> {{\/leftText}}<\/div> {{\/items}}",
+                "templateData": {
+                  "title": "Most Viewed",
+                  "items": [
+                    {
+                      "title": "10 Sept, 2018",
+                      "leftText": "Applying Digitalization to our...",
+                      "link": "/app/toc/lex_auth_0128411653168988161390/overview"
+                    },
+                    {
+                      "title": "10 Sept, 2018",
+                      "leftText": "What about your digital...",
+                      "link": "/app/toc/lex_auth_012841103796477952234/overview"
+                    },
+                    {
+                      "title": "31 Jan, 2018",
+                      "leftText": "Siemens IT Operational Model",
+                      "link": "/app/toc/lex_auth_0128411619306127361065/overview"
+                    }
+                  ]
+                },
+                "containerStyle": {
+                  "height": "h-full w-full"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a target=\"_blank\" href=\"{{link}}\"><div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n <span style=\"{{overlayStyle}}\" class=\"flex items-center p-6 text-2xl leading-none font-normal\">{{overlayText}}</span>\n </div>\n</div></a>",
+                "templateData": {
+                  "link": "/app/toc/lex_auth_0128411674540359681510/overview",
+                  "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/it-going-forward/pluralsight.png')",
+                  "overlayText": "Pluralsight for GS IT",
+                  "overlayStyle": "background:#005f87cc;color:white;"
+                },
+                "containerClass": "h-full mat-elevation-z4",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full  px-6 sm:px-8 md:px-10 md:pr-0"
+            },
+            "className": "order-1"
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/it-going-forward/it-curators-768.jpg",
+                          "overlayText": "IT going forward – Curators Network",
+                          "overlayText2": " Continuous learning is a key element to an agile organization. Learning will be driven by the needs of your current and future tasks and your genuine interest in topics.",
+                          "altText": "IT going forward – Curators Network",
+                          "link": "/app/toc/lex_auth_0128411637970862081011/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div></a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/it-going-forward/scribble-video.jpg",
+                          "overlayText": "Scribble video - Learning World - IT going forward",
+                          "overlayText2": "Get an idea what the Learning World - IT going forward is all about.",
+                          "altText": "Scribble video - Learning World - IT going forward",
+                          "link": "/app/toc/lex_auth_0128411674278543361172/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div></a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/it-going-forward/reskilling.jpg",
+                          "overlayText": "ReSkilling",
+                          "overlayText2": "What are the activities of the ReSkilling work stream? Work stream lead Martin Hartmannshenn explains the big picture.",
+                          "altText": "ReSkilling",
+                          "link": "app/toc/lex_auth_012841161167101952726/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div></a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/it-going-forward/it-transformation.jpg",
+                          "overlayText": "IT Transformation Intranet",
+                          "overlayText2": "Get an understanding of the work streams and find your change agents. See the videos and presentation on why and how the organisation becomes a truly Collaborative Global IT.",
+                          "altText": "IT Transformation Intranet",
+                          "link": "/app/toc/lex_auth_012841164919709696860/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<a href={{link}} target={{target}}><div class=\"flex flex-col justify-end h-full\" style=\"background-size: 100% 100% !important;background-image:url({{imageSrc}}); min-height: 472px\"><div style=\"background-color:#006187cc;\" class=\"w-full\" > <span class=\"text-white flex items-center p-4 text-3xl leading-tight font-semibold\">{{overlayText}}</span><span class=\"text-white flex items-center p-4 text-xl leading-tight font-semibold\">{{overlayText2}}</span></div></div></a>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/it-going-forward/learning-journey.png",
+                          "overlayText": "SSN group: Learning Journey @ IT",
+                          "overlayText2": "Share and contribute your learning experience.",
+                          "altText": "SSN group: Learning Journey @ IT",
+                          "link": "/app/toc/lex_auth_012841167176884224894/overview",
+                          "target": "_blank"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pl-0 lg:pr-0"
+            },
+            "className": "order-2 sm:order-3 lg:order-2"
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background-size: cover; background-repeat:no-repeat; background-image: url({{imageSrc}})\" class=\"flex items-center justify-end w-full h-40\"> <span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\"> {{title}} </span></div> {{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <a href=\"/app/toc/{{link}}/overview\" target=\"_blank\"> <span class=\"block text-xs text-left\">{{date}}</span><div class=\"flex justify-between\"><div class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</div></div> </a></div> {{/items}}",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/it-going-forward/list-2.png",
+                  "title": "Recent entries",
+                  "items": [
+                    {
+                      "date": "21 Feb, 2019",
+                      "leftText": "Design Thinking",
+                      "link": ""
+                    },
+                    {
+                      "date": "21 Feb, 2019",
+                      "leftText": "Trust Equation",
+                      "link": "lex_auth_0128411723580538881757"
+                    },
+                    {
+                      "date": "21 Feb, 2019",
+                      "leftText": "Siemens Workbook Industrial...",
+                      "link": "lex_auth_012841162502037504947"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "px-6 sm:px-8 md:px-10 md:pl-0 block h-full"
+            },
+            "className": "order-3 sm:order-2 lg:order-3"
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "key": "agile",
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Agile"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "agile",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6 -mb-8"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "agile_practitioner",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/it-going-forward/agile-practitioner.png",
+                            "altText": "Agile Practitioner"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "agile_practitioner"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411651057827841381",
+                        "lex_auth_0128411642607452161029",
+                        "lex_auth_012841164333260800856",
+                        "lex_auth_012841108759494656244"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "imageHeight": "472",
+                "imageWidth": "655",
+                "imageSrc": "/assets/instances/Siemens/it-going-forward/image-map.jpg",
+                "mapName": "map-agile",
+                "map": [
+                  {
+                    "coords": [
+                      9,
+                      5,
+                      322,
+                      154
+                    ],
+                    "alt": "About Agile @ IT",
+                    "title": "About Agile @ IT",
+                    "link": "#",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      332,
+                      5,
+                      646,
+                      154
+                    ],
+                    "alt": "IT Toosl for Agile Teams",
+                    "title": "IT Toosl for Agile Teams",
+                    "link": "#",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      11,
+                      163,
+                      324,
+                      311
+                    ],
+                    "alt": "Learning Resources",
+                    "title": "Learning Resources",
+                    "link": "#",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      332,
+                      160,
+                      645,
+                      309
+                    ],
+                    "alt": "Agile Events @ GS IT",
+                    "title": "Agile Events @ GS IT",
+                    "link": "#",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      10,
+                      317,
+                      324,
+                      465
+                    ],
+                    "alt": "Communities of Practice",
+                    "title": "Communities of Practice",
+                    "link": "#",
+                    "target": ""
+                  },
+                  {
+                    "coords": [
+                      331,
+                      316,
+                      645,
+                      467
+                    ],
+                    "alt": "Guidance",
+                    "title": "Guidance",
+                    "link": "#",
+                    "target": ""
+                  }
+                ]
+              },
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+              "widgetInstanceId": "sales_competencies"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "analytics",
+                    "title": "Analytics",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411709167616001515",
+                        "lex_auth_0128411714407546881516",
+                        "lex_auth_0128411704506777601512",
+                        "lex_auth_0128411673440419841513",
+                        "lex_auth_012841160592744448962",
+                        "lex_auth_012841162551181312965",
+                        "lex_auth_012841167457984512964",
+                        "lex_auth_012841161625927680966",
+                        "lex_auth_0128411008607764483",
+                        "lex_auth_012841163409645568840"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "architecture",
+                    "title": "Architecture",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411688519843841603",
+                        "lex_auth_0128411668507934721523",
+                        "lex_auth_012841164212158464931",
+                        "lex_auth_012841163352227840932",
+                        "lex_auth_012841166664892416933",
+                        "lex_auth_012841166035255296930"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "artificial_intelligence",
+                    "title": "Artificial Intelligence",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411696480583681447",
+                        "lex_auth_0128411697885593601420",
+                        "lex_auth_0128411709968711681405",
+                        "lex_auth_0128411668826767361310",
+                        "lex_auth_0128411705333923841305",
+                        "lex_auth_0128411660923289601307",
+                        "lex_auth_0128411688243118081308",
+                        "lex_auth_0128411682295889921273",
+                        "lex_auth_0128411653379604481016",
+                        "lex_auth_0128411619158016001003",
+                        "lex_auth_0128411623083294721007"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "key": "business_partner_excellence",
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Business Partner Excellence"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "business_partner_excellence",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a href=\"{{link}}\" target=\"\"><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/><\/a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/it-going-forward/excellence.jpg",
+                  "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/dns/dns.html?path=../IT_going_forward/bp.json"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "excellence",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411706289930241656",
+                        "lex_auth_012841162502037504947",
+                        "lex_auth_0128411670818488321658",
+                        "lex_auth_0128411647451381761403",
+                        "lex_auth_0128411690218291201609",
+                        "lex_auth_0128411670038446081402"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block -my-10 -ml-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "key": "service_ownership_excellence",
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Service Ownership Excellence Prorgamm"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "service_ownership_excellence",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "service_ownership",
+                    "title": "",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411735312711681612",
+                        "lex_auth_0128411813093949443225",
+                        "lex_auth_0128411672627281921398",
+                        "lex_auth_0128411710949949441657",
+                        "lex_auth_0128411700883456001665",
+                        "lex_auth_0128411725120225281671",
+                        "lex_auth_0128411884935495683226",
+                        "lex_auth_012841162502037504947",
+                        "lex_auth_0128411735312711681612",
+                        "lex_auth_0128411706289930241656",
+                        "lex_auth_0128411716087480321399",
+                        "lex_auth_0128411729359257601611",
+                        "lex_auth_0128411670038446081402",
+                        "lex_auth_0128411679018762241660",
+                        "lex_auth_0128411701587640321663",
+                        "lex_auth_0128411839469158403203",
+                        "lex_auth_0128411738766868481668",
+                        "lex_auth_0128411698154209281659"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block -my-10"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\"/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/it-going-forward/ownership-excellence.png",
+                  "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/dns/dns.html?path=../SOEP/soep.json"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "cloud_computing",
+                    "title": "Cloud Computing",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411700135116801316",
+                        "lex_auth_0128411663001354241318",
+                        "lex_auth_0128411705555681281315",
+                        "lex_auth_0128411638704128001314",
+                        "lex_auth_012841158823297024693",
+                        "lex_auth_012841161327419392723"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "culture_leadership",
+                    "title": "Culture & Leadership",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411684499865601415",
+                        "lex_auth_012841162467606528970",
+                        "lex_auth_0128411619306127361065",
+                        "lex_auth_0128411685455052801064",
+                        "lex_auth_0128411763674972162294",
+                        "lex_auth_0128411631839723521032",
+                        "lex_auth_0128411638589849601030",
+                        "lex_auth_0128411642607452161029",
+                        "lex_auth_0128411765330411522207",
+                        "lex_auth_012841167151259648896",
+                        "lex_auth_012841160945664000883"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "cyber_security",
+                    "title": "Cyber Security",
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width:265px; background-image: url('/assets/instances/Siemens/it-going-forward/list-3.jpg'); background-size: cover; backgrond-repeat: no-repeat\" class=\"flex items-center justify-end w-full h-40\" ><span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\" >{{title}}<\/span><\/div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}<\/span> {{^leftText}}<div class=\"flex justify-end\"> <\/div> {{\/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}<\/a><\/div> {{\/leftText}}<\/div> {{\/items}}",
+                          "templateData": {
+                            "title": "How to become certified:",
+                            "items": [
+                              {
+                                "title": "09 Apr, 2018",
+                                "leftText": "SSCP",
+                                "link": "/app/toc/lex_auth_0128411658037985281418/overview"
+                              },
+                              {
+                                "title": "09 Apr, 2018",
+                                "leftText": "CISSP",
+                                "link": "/app/toc/lex_auth_0128411713380352001419/overview"
+                              },
+                              {
+                                "title": "09 Apr, 2018",
+                                "leftText": "CISA",
+                                "link": "/app/toc/lex_auth_0128411707135672321421/overview"
+                              }
+                            ]
+                          },
+                          "containerClass": "h-full w-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_01284110196147814436",
+                        "lex_auth_0128403950634270720",
+                        "lex_auth_0128411653168988161390",
+                        "lex_auth_0128411677846568961385",
+                        "lex_auth_0128411716131962881511",
+                        "lex_auth_0128411700135116801316",
+                        "lex_auth_0128411703661854721506",
+                        "lex_auth_0128411649278361601461",
+                        "lex_auth_0128411643653324801460",
+                        "lex_auth_0128411699823820801464",
+                        "lex_auth_0128411791450439682298",
+                        "lex_auth_012841161327419392723"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "digital_enterprise",
+                    "title": "Digital Enterprise",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411710297702401371",
+                        "lex_auth_0128411689762652161373",
+                        "lex_auth_012841166657609728982",
+                        "lex_auth_0128411753677537281804",
+                        "lex_auth_0128411773909729282299",
+                        "lex_auth_0128411730400542722302",
+                        "lex_auth_012841164462268416978",
+                        "lex_auth_012841165743570944981",
+                        "lex_auth_012841167634243584976",
+                        "lex_auth_012841161895755776980",
+                        "lex_auth_0128411689762652161373",
+                        "lex_auth_012841166657609728982"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "software_ecosystem",
+                    "title": "Software Ecosystem",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411688519843841603",
+                        "lex_auth_0128411668507934721523",
+                        "lex_auth_012841107629965312231",
+                        "lex_auth_0128411635807764481063",
+                        "lex_auth_0128411653168988161390"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "soft_skills",
+                    "title": "Soft Skills",
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"width: 265px; background-image: url('/assets/instances/Siemens/it-going-forward/list-4.jpg'); background-size: cover; backgrond-repeat: no-repeat\" class=\"flex items-center justify-end w-full h-40\" ><span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\" >{{title}}<\/span><\/div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}<\/span> {{^leftText}}<div class=\"flex justify-end\"> <\/div> {{\/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}<\/a><\/div> {{\/leftText}}<\/div> {{\/items}}",
+                          "templateData": {
+                            "title": "Travel Guides",
+                            "items": [
+                              {
+                                "title": "07 Nov, 2017",
+                                "leftText": "Travel Guide Visualization",
+                                "link": "/app/toc/lex_auth_012841161095503872858/overview"
+                              },
+                              {
+                                "title": "07 Nov, 2017",
+                                "leftText": "Travel Guide English",
+                                "link": "/app/toc/lex_auth_012841159624769536863/overview"
+                              },
+                              {
+                                "title": "24 Oct, 2017",
+                                "leftText": "Travel Guide Virtual...",
+                                "link": "/app/toc/lex_auth_0128411729529896961801/overview"
+                              }
+                            ]
+                          },
+                          "containerClass": "h-full w-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841103796477952234",
+                        "lex_auth_012841107629965312231",
+                        "lex_auth_0128411653623971841094",
+                        "lex_auth_012841165230759936994",
+                        "lex_auth_0128411847688847362969",
+                        "lex_auth_012841167037194240963",
+                        "lex_auth_012841162502037504947",
+                        "lex_auth_012841163363229696929",
+                        "lex_auth_012841166600880128880",
+                        "lex_auth_012841165723475968857"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "business_partners",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/it-going-forward/business-partner.png",
+                            "altText": "Agile Practitioner"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "business_partners"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012841162502037504947",
+                        "lex_auth_0128411706289930241656",
+                        "lex_auth_0128411647451381761403",
+                        "lex_auth_0128411690218291201609",
+                        "lex_auth_0128411670038446081402",
+                        "lex_auth_0128411735312711681612",
+                        "lex_auth_0128411813093949443225",
+                        "lex_auth_0128411672627281921398",
+                        "lex_auth_0128411710949949441657",
+                        "lex_auth_0128411700883456001665",
+                        "lex_auth_0128411725120225281671",
+                        "lex_auth_0128411729359257601611"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

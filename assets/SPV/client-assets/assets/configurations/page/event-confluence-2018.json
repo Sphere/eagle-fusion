@@ -1,0 +1,119 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "/page/home",
+    "pageTitle": "Americas Confluence 2018"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": [
+            {
+              "banners": {
+                "l": "/assets/common/events/event-confluence-2018/1024.jpg",
+                "m": "/assets/common/events/event-confluence-2018/768.jpg",
+                "s": "/assets/common/events/event-confluence-2018/414.jpg",
+                "xl": "/assets/common/events/event-confluence-2018/1024.jpg",
+                "xs": "/assets/common/events/event-confluence-2018/375.jpg"
+              },
+              "title": "Americas Confluence 2018"
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "September-19-2018",
+                "title": "September 19, 2018",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "keywords": ["confluence 2018 - day 1"],
+                      "learningMode": ["Self-Paced"]
+                    },
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              },
+              {
+                "key": "September-19-2018",
+                "title": "September 19, 2018",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "keywords": ["confluence 2018 - day 2"],
+                      "learningMode": ["Self-Paced"]
+                    },
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              },
+              {
+                "key": "September-19-2018",
+                "title": "September 19, 2018",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "search": {
+                    "filters": {
+                      "keywords": ["confluence 2018 - day 3"],
+                      "learningMode": ["Self-Paced"]
+                    },
+                    "pageNo": 0,
+                    "query": "",
+                    "sortBy": "lastUpdatedOn",
+                    "sortOrder": "DESC"
+                  }
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

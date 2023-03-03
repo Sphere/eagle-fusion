@@ -1,0 +1,22 @@
+{
+    "eventsCategoryId": 1,
+    "banner": {
+        "widgetType": "slider",
+        "widgetSubType": "sliderBanners",
+        "style": {
+            "border-radius": "12px"
+        },
+        "widgetData": [
+            {
+                "banners": {
+                    "l": "assets/instances/eagle/banners/hubs/events/l.jpg",
+                    "m": "assets/instances/eagle/banners/hubs/events/m.jpg",
+                    "s": "assets/instances/eagle/banners/hubs/events/s.jpg",
+                    "xl": "assets/instances/eagle/banners/hubs/events/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/hubs/events/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/hubs/events/xxl.jpg"
+                }
+            }
+        ]
+    }
+}

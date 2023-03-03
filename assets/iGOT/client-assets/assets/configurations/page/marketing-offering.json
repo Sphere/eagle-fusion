@@ -1,0 +1,92 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "loader": true,
+            "strips": [
+              {
+                "key": "prepare",
+                "title": "Prepare",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "request": {
+                  "search": {
+                    "filters": {
+                      "resourceCategory": [
+                        "Prepare"
+                      ],
+                      "contentType": [
+                        "Resource"
+                      ],
+                      "catalogPaths": []
+                    },
+                    "pageNo": 0,
+                    "pageSize": 10,
+                    "sortBy": "lastUpdatedOn"
+                  }
+                }
+              },
+              {
+                "key": "engage",
+                "title": "Engage",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "request": {
+                  "search": {
+                    "filters": {
+                      "resourceCategory": [
+                        "Engage"
+                      ],
+                      "contentType": [
+                        "Resource"
+                      ],
+                      "catalogPaths": []
+                    },
+                    "pageNo": 0,
+                    "pageSize": 10,
+                    "sortBy": "lastUpdatedOn"
+                  }
+                }
+              },
+              {
+                "key": "leaveBehind",
+                "title": "Leave Behind",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "request": {
+                  "search": {
+                    "filters": {
+                      "resourceCategory": [
+                        "Leave Behind"
+                      ],
+                      "contentType": [
+                        "Resource"
+                      ],
+                      "catalogPaths": []
+                    },
+                    "pageNo": 0,
+                    "pageSize": 10,
+                    "sortBy": "lastUpdatedOn"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

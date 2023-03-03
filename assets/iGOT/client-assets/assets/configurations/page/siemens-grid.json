@@ -1,0 +1,116 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {
+              "small": 6,
+              "medium": 2,
+              "large": 2
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<p>Learning</p>",
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 6,
+              "medium": 2,
+              "large": 2
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<p>Learning</p>",
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 6,
+              "medium": 2,
+              "large": 2
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<p>Learning</p>",
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 6,
+              "medium": 2,
+              "large": 2
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<p>Learning</p>",
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 6,
+              "medium": 2,
+              "large": 2
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<p>Learning</p>",
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 6,
+              "medium": 2,
+              "large": 2
+            },
+            "widget": {
+              "widgetData": {
+                "html": "<p>Learning</p>",
+                "containerStyle": {
+                  "height": "100%"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

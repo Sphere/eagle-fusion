@@ -1,0 +1,345 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\" ws-mat-primary-background-op30 w-full flex flex-middle justify-center\" style = \"min-height:180px\"><p class = \"text-xl md:text-2xl leading-tight font-weight-500 px-4\">{{title}}</p></div>",
+                "templateData": {
+                  "title": "Channels allow you to browse through the curated content of different media formats using innovative widgets"
+                },
+                "containerClass": "max-w-5xl "
+              },
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "flex justify-center px-6 sm:px-8 md:px-10"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "label": "Learning Channels for Topics & Initiatives",
+                "cards": [
+                  {
+                    "name": "Digitalization",
+                    "description": "apply it to your business",
+                    "startDate": "01/2017",
+                    "image": "/assets/instances/Siemens/hubs/digitalization.png",
+                    "url": "/page/digitalization"
+                  },
+                  {
+                    "name": "Technologies",
+                    "description": "",
+                    "startDate": "06/2017",
+                    "image": "/assets/instances/Siemens/hubs/technologies.png",
+                    "url": "/page/technologies"
+                  },
+                  {
+                    "name": "Leadership",
+                    "description": "",
+                    "startDate": "01/2017",
+                    "image": "/assets/instances/Siemens/hubs/leadership.png",
+                    "url": "/page/leadership"
+                  },
+                  {
+                    "name": "Your Development",
+                    "description": "get insights and own your career",
+                    "startDate": "06/2018",
+                    "image": "/assets/instances/Siemens/hubs/your-development.png",
+                    "url": "/page/your-development"
+                  },
+                  {
+                    "name": "Virtual Collaboration",
+                    "description": "improve your skills",
+                    "startDate": "11/2017",
+                    "image": "/assets/instances/Siemens/hubs/virtual-collaboration.png",
+                    "url": "/page/siemens-virtual-collaboration"
+                  },
+                  {
+                    "name": "Office 365",
+                    "description": "",
+                    "startDate": "02/2018",
+                    "image": "/assets/instances/Siemens/hubs/office-365.png",
+                    "url": "/page/office-365"
+                  },
+                  {
+                    "name": "Unconscious Bias",
+                    "description": "make better people decisions",
+                    "startDate": "11/2017",
+                    "image": "/assets/instances/Siemens/hubs/unconscious-bias.png",
+                    "url": "/page/unconscious-bias"
+                  },
+                  {
+                    "name": "HR@Cloud",
+                    "description": "learn about Workday",
+                    "startDate": "07/2018",
+                    "image": "/assets/instances/Siemens/hubs/hr-Cloud.png",
+                    "url": "/page/hr-cloud"
+                  },
+                  {
+                    "name": "Futureland",
+                    "description": "create impact",
+                    "startDate": "01/2018",
+                    "endDate": "08/2020",
+                    "image": "/assets/instances/Siemens/hubs/futureland.png",
+                    "url": "/page/futureland"
+                  },
+                  {
+                    "name": "Customer Value Co-Creation",
+                    "description": "relevant skills",
+                    "startDate": "11/2018",
+                    "endDate": "11/2019",
+                    "image": "/assets/instances/Siemens/hubs/customer-value-co-creation.png",
+                    "url": "/page/customer-value-co-creation"
+                  },
+                  {
+                    "name": "Siemens Core Learning Programs",
+                    "description": "",
+                    "startDate": "01/2019",
+                    "image": "/assets/instances/Siemens/hubs/siemens-core-learning-programs.png",
+                    "url": "/page/siemens-core-learning-programs"
+                  },
+                  {
+                    "name": "Mindfulness",
+                    "description": "& emotional intelligence",
+                    "startDate": "01/2019",
+                    "image": "/assets/instances/Siemens/hubs/mindfulness.png",
+                    "url": "/page/mindfulness-emotional-intelligence"
+                  },
+                  {
+                    "name": "Agile Cosmos",
+                    "description": "Navigate through the buzzword jungle",
+                    "startDate": "01/2019",
+                    "image": "/assets/instances/Siemens/hubs/agile-cosmos.png",
+                    "url": "/page/agile-cosmos"
+                  },
+                  {
+                    "name": "Growing your business",
+                    "description": "with cybersecurity",
+                    "startDate": "03/2019",
+                    "image": "/assets/instances/Siemens/hubs/growing-your-business.png",
+                    "url": "/page/growing-your-business-with-cyber-security"
+                  },
+                  {
+                    "name": "Faces of Transformation",
+                    "description": "",
+                    "startDate": "07/2019",
+                    "image": "/assets/instances/Siemens/hubs/faces-of-transformation.png",
+                    "url": "/page/faces-of-transformation"
+                  }
+                ]
+              },
+              "widgetSubType": "channelHub",
+              "widgetType": "channelHub"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "label": "Learning Channels for Divisions and Units",
+                "cards": [
+                  {
+                    "name": "DF as Digital Enterprise",
+                    "description": "",
+                    "startDate": "05/2018",
+                    "image": "/assets/instances/Siemens/hubs/df-as-digital-enterprise.png",
+                    "url": "/page/siemens-digital-enterprise"
+                  },
+                  {
+                    "name": "Gas & Power",
+                    "description": "the power of learning digitalization",
+                    "startDate": "05/2018",
+                    "image": "/assets/instances/Siemens/hubs/gas-&-power.png",
+                    "url": "/page/gas-power"
+                  },
+                  {
+                    "name": "Digital Enterprise",
+                    "description": "in Process Industries",
+                    "startDate": "03/2019",
+                    "image": "/assets/instances/Siemens/hubs/digital-enterprise.png",
+                    "url": "/page/digital-enterprise-in-process-industries"
+                  },
+                  {
+                    "name": "Omnetric",
+                    "description": "",
+                    "startDate": "06/2019",
+                    "image": "/assets/instances/Siemens/hubs/omnetric.png",
+                    "url": "/page/omnetric"
+                  },
+                  {
+                    "name": "PA Learning",
+                    "description": "",
+                    "startDate": "08/2019",
+                    "image": "/assets/instances/Siemens/hubs/pa-learning.png",
+                    "url": "/page/siemens-pa-learning"
+                  },
+                  {
+                    "name": "GP Marketing",
+                    "description": "",
+                    "startDate": "01/2017",
+                    "image": "/assets/instances/Siemens/hubs/gp-s-marketing.png",
+                    "url": "/page/gp-marketing"
+                  }
+                ]
+              },
+              "widgetSubType": "channelHub",
+              "widgetType": "channelHub"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "label": "Learning Channels for Jobs and Functions",
+                "cards": [
+                  {
+                    "name": "Communications",
+                    "description": "learn and develop yourself",
+                    "startDate": "04/2019",
+                    "image": "/assets/instances/Siemens/hubs/communications.png",
+                    "url": "/page/communications"
+                  },
+                  {
+                    "name": "Sales Learning",
+                    "description": "",
+                    "startDate": "08/2018",
+                    "image": "/assets/instances/Siemens/hubs/sales-learning.png",
+                    "url": "/page/siemens-sales-learning"
+                  },
+                  {
+                    "name": "Siemens Mobility",
+                    "description": "",
+                    "startDate": "09/2019",
+                    "image": "/assets/instances/Siemens/hubs/siemens-mobility.png",
+                    "url": "/page/learning-seimens-mobility"
+                  },
+                  {
+                    "name": "Digital Basics for Sales",
+                    "description": "",
+                    "startDate": "02/2018",
+                    "endDate": "08/2019",
+                    "image": "/assets/instances/Siemens/hubs/digital-basics-for-sales.png",
+                    "url": "/page/digital-basics-for-sales"
+                  },
+                  {
+                    "name": "Supply Chain Management",
+                    "description": "",
+                    "startDate": "10/2018",
+                    "image": "/assets/instances/Siemens/hubs/supply-chain-management.png",
+                    "url": "/page/supply-chain-management"
+                  },
+                  {
+                    "name": "Manufacturing",
+                    "description": "",
+                    "startDate": "01/2019",
+                    "image": "/assets/instances/Siemens/hubs/manufacturing.png",
+                    "url": "/page/manufacturing"
+                  },
+                  {
+                    "name": "SCM Digi Mindset",
+                    "description": "",
+                    "startDate": "05/2019",
+                    "image": "/assets/instances/Siemens/hubs/scm-digi-mindset.png",
+                    "url": "/page/scm-digi-mindset"
+                  },
+                  {
+                    "name": "Sie Sales",
+                    "description": "",
+                    "startDate": "05/2019",
+                    "image": "/assets/instances/Siemens/hubs/sie-sales.png",
+                    "url": "/page/sie-sales"
+                  },
+                  {
+                    "name": "Project Management",
+                    "description": "",
+                    "startDate": "07/2019",
+                    "image": "/assets/instances/Siemens/hubs/project-management.png",
+                    "url": "/page/project-management"
+                  }
+                ]
+              },
+              "widgetSubType": "channelHub",
+              "widgetType": "channelHub"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "label": "Learning Channels for Regions and Countries",
+                "cards": [
+                  {
+                    "name": "e.learning China",
+                    "description": "a bit of learning everyday",
+                    "startDate": "01/2018",
+                    "endDate": "08/2019",
+                    "image": "/assets/instances/Siemens/hubs/e-learning-china.png",
+                    "url": "/page/siemens-elearning-china"
+                  },
+                  {
+                    "name": "Nordics",
+                    "description": "learning recommendations",
+                    "startDate": "08/2018",
+                    "image": "/assets/instances/Siemens/hubs/nordics.png",
+                    "url": "/page/nordics"
+                  },
+                  {
+                    "name": "Onboarding @Brazil",
+                    "description": "comece e aprenda",
+                    "startDate": "07/2018",
+                    "endDate": "08/2019",
+                    "image": "/assets/instances/Siemens/hubs/onboarding-brazil.png",
+                    "url": "/page/onboarding-@-brazil"
+                  }
+                ]
+              },
+              "widgetSubType": "channelHub",
+              "widgetType": "channelHub"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

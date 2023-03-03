@@ -1,0 +1,30 @@
+{
+    "title": "Looking for support? Contact us.",
+    "description": "",
+    "help": {
+        "title": "Help Articles",
+        "contents": [
+            {
+                "heading": "Unable to login to iGoT",
+                "value": "<p class='mat-body-1'><ng-container i18n>If you are logging into the iGOT account and you receive the error Invalid credentials. Please try again., this means that you're using incorrect login information. If you need to change your password, use the 'Forgot Password' link.</ng-container> </p> "
+            }
+        ]
+    },
+    "contact": {
+        "title": "Contact us",
+        "contents": [
+            {
+                "heading": "Raise an Query",
+                "value": "<ng-container i18n='contact section one description'>         </a>"
+            },
+            {
+                "heading": "Mail us",
+                "value": "<ng-container i18n='contact section two description'>         You can also mail us at: EMAIL     </ng-container>        <a mat-button href='mailto:{{contactUsMail}}' i18n='contact section two action button'>         Click to mail       </a>"
+            },
+            {
+                "heading": "Talk to us",
+                "value": "You can call us and we will help you out <p i18n='contact section three description two'>         Dial **** from your voip phones       </p>"
+            }
+        ]
+    }
+}

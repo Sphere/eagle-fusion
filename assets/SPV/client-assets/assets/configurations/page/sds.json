@@ -1,0 +1,580 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "SDS"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 9,
+              "medium": 7
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1100,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img class=\"w-full h-full\" src={{imageSrc}}>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sds/sds-principle-991.png"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "md:pr-0 block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 650,
+                    "maxWidth": 1099,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img class=\"w-full h-full\" src={{imageSrc}}>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sds/sds-principles-768.jpg"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "md:pr-0 block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 649,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img class=\"w-full h-full\" src={{imageSrc}}>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sds/sds-principles-414.jpg"
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "md:pr-0 block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 5
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a href=\"{{__pageBase}}#{{bookmarkRef}}\"><div class=\"flex flex-wrap justify-center flex-col h-full align-center\" style=\"min-height:370px;background-size: cover;background-image: url('{{imageSrc}}')\"> {{#items}}<div style=\"text-shadow:2px 2px grey\" class=\"text-white text-center p-2 leading-tight font-semibold text-4xl md:text-6xl\">{{title}}</div> {{/items}}</div></a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sds/sds-414.jpg",
+                  "bookmarkRef": "hot_topics",
+                  "items": [
+                    {
+                      "title": "Hot"
+                    },
+                    {
+                      "title": "Topics"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "md:pl-0 block px-6 sm:px-8 md:px-10 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1100,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-wrap justify-center flex-col h-full align-center\" style=\"min-height:370px;background-size: cover;background-image: url('{{imageSrc}}')\"> {{#items}}<div style=\"text-shadow:2px 2px grey\" class=\"text-white text-center p-2 leading-tight font-semibold text-4xl md:text-6xl\">{{title}}</div> {{/items}}</div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sds/sds-1376.jpg",
+                          "items": [
+                            {
+                              "title": "Develop a lean and agile"
+                            },
+                            {
+                              "title": "mindset @Siemens"
+                            }
+                          ]
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 650,
+                    "maxWidth": 1099,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-wrap justify-center flex-col h-full align-center\" style=\"min-height:370px;background-size: cover;background-image: url('{{imageSrc}}')\"> {{#items}}<div style=\"text-shadow:2px 2px grey\" class=\"text-white text-center p-2 leading-tight font-semibold text-4xl md:text-6xl\">{{title}}</div> {{/items}}</div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sds/sds-1024.jpg",
+                          "items": [
+                            {
+                              "title": "Develop a lean and agile"
+                            },
+                            {
+                              "title": "mindset @Siemens"
+                            }
+                          ]
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 649,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<div class=\"flex flex-wrap justify-center flex-col h-full align-center\" style=\"min-height:370px;background-size: cover;background-image: url('{{imageSrc}}')\"> {{#items}}<div style=\"text-shadow:2px 2px grey\" class=\"text-white text-center p-2 leading-tight font-semibold text-4xl md:text-6xl\">{{title}}</div> {{/items}}</div>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sds/sds-414.jpg",
+                          "items": [
+                            {
+                              "title": "Develop a lean and agile"
+                            },
+                            {
+                              "title": "mindset @Siemens"
+                            }
+                          ]
+                        },
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "our_mindset",
+                    "title": "Our Mindset",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "content": {
+                            "appIcon": "/assets/instances/Siemens/sds/our-mindset.png",
+                            "complexityLevel": "Beginner",
+                            "contentType": "Resource",
+                            "creatorContacts": [
+                              {
+                                "name": "Thomas Axthammer",
+                                "id": "173d4cb6-1c30-4361-9e33-0172f00c1c24"
+                              }
+                            ],
+                            "downloadUrl": "http://private-content-service/contentv3/download/https:%2F%2Flex-staging.infosysapps.com%2Fcontent-store%2FInfosys%2FInfosys_Ltd%2FPublic%2Flex_auth_012641952418447360585.zip?type=main",
+                            "description": "New game changing technologies like additive manufacturing or disruptive business models for digitally driven services open up fascinating opportunities. But they also pose new challenges for Siemens like fast-moving players or non-linear market developments. As one key element to remain successful in...",
+                            "displayContentType": "WEB_MODULE",
+                            "duration": 7500,
+                            "identifier": "lex_auth_0128411776623001602428",
+                            "isExternal": false,
+                            "mimeType": "application/web-module",
+                            "name": " SDS principles",
+                            "resourceType": "Prelude"
+                          }
+                        },
+                        "widgetSubType": "cardContent",
+                        "widgetType": "card",
+                        "widgetHostClass": "sticky-m"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411694297907201789",
+                        "lex_auth_0128411959564124164441",
+                        "lex_auth_0128411970550005764435",
+                        "lex_auth_0128411912819671043827",
+                        "lex_auth_0128411901856399363649",
+                        "lex_auth_0128411820342722563311",
+                        "lex_auth_0128411885198376963313",
+                        "lex_auth_0128411706289930241656",
+                        "lex_auth_0128411912005468163816",
+                        "lex_auth_0128411782252707842812",
+                        "lex_auth_0128411831575838722778",
+                        "lex_auth_0128411781282611202633"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "our_community",
+                    "title": "Our Community",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "content": {
+                            "appIcon": "/assets/instances/Siemens/sds/sds-community.jpg",
+                            "complexityLevel": "Beginner",
+                            "contentType": "Resource",
+                            "creatorContacts": [
+                              {
+                                "name": "Thomas Axthammer",
+                                "id": "173d4cb6-1c30-4361-9e33-0172f00c1c24"
+                              }
+                            ],
+                            "downloadUrl": "http://private-content-service/contentv3/download/https:%2F%2Flex-staging.infosysapps.com%2Fcontent-store%2FInfosys%2FInfosys_Ltd%2FPublic%2Flex_auth_012641952418447360585.zip?type=main",
+                            "description": "SDS Managers ...  are lean/agile experts, not administrators, not 'bosses' coordinate and drive&nbsp;the lean transformation in their Business Unit;&nbsp;  have a clear mandate based on full management commitment  have dedicated time and budget for continuous improvement activities and knowledge exchange  act...",
+                            "displayContentType": "WEB_MODULE",
+                            "duration": 7500,
+                            "identifier": "lex_auth_0128411844952719363463",
+                            "isExternal": false,
+                            "mimeType": "application/web-module",
+                            "name": " The SDS Community",
+                            "resourceType": "Prelude"
+                          }
+                        },
+                        "widgetSubType": "cardContent",
+                        "widgetType": "card",
+                        "widgetHostClass": "sticky-m"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "our_methods",
+                    "title": "Our methods (recommendation)",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411767281664002432",
+                        "lex_auth_0128411750697451522425"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Our training portfolio"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "training-portfolio",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 12,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<a href={{link}} target={{target}}><img class=\"w-full h-full\" src=\"{{imageSrc}}\"/></a>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sds/training-platform.png",
+                  "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/SDS/Content/SDSTrainingPortfolio-Flyer-QR.pdf",
+                  "target": "_blank"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 lg:pr-0 h-full"
+            }
+          },
+          {
+            "dimensions": {
+              "small": 12,
+              "medium": 12,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-0_6zxa8gby",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/0_6zxa8gby/uiConfId/35069072",
+                "containerStyle": {
+                  "height": "400px"
+                },
+                "containerClass": "kmsembed",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full lg:pl-0 px-6 sm:px-8 md:px-10",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "portfolio_detail",
+                    "title": "Portfolio in detail",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411743332106241886",
+                        "lex_auth_0128411650149335041197",
+                        "lex_auth_0128411793512366082451",
+                        "lex_auth_0128411793195499522452",
+                        "lex_auth_0128411942275891203824"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "manufacturing_learning",
+                    "title": "Manufacturing Learning",
+                    "request": {
+                      "ids": [
+                        "lex_auth_012844601017532416200"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip",
+              "widgetHostClass": "block"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Agile & lean explained"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "agile-lean",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "The Agile Wave"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "agile-wave",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<img class=\"w-full h-full\" src={{imageSrc}}>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sds/agile-wave.png"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "hot_topics",
+                    "title": "Hot Topics",
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<div style=\"background-image: url('/assets/instances/Siemens/sds/events.png'); background-size: cover; backgrond-repeat: no-repeat\" class=\"flex items-center justify-end w-full h-40\" ><span style=\"background: rgba(0, 97, 135, 0.8)\" class=\"text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6\" >{{title}}</span></div>{{#items}}<div class=\"px-6 shadow py-4 my-3 rounded\"> <span class=\"block text-xs text-left\">{{title}}</span> {{^leftText}}<div class=\"flex justify-end\"> </div> {{/leftText}} {{#leftText}}<div class=\"flex justify-between\"> <a href=\"{{link}}\" target=\"_blank\" class=\"block text-base truncate text-blue-700 pt-1\">{{leftText}}</a></div> {{/leftText}}</div> {{/items}}",
+                          "templateData": {
+                            "title": "Events",
+                            "items": [
+                              {
+                                "title": "20 Feb, 2019",
+                                "leftText": "Alumni Event for Lean for Leaders...",
+                                "link": "/app/toc/lex_auth_0128411896526192644005/overview"
+                              },
+                              {
+                                "title": "24 July,2019",
+                                "leftText": "Take one - action!",
+                                "link": "/app/toc/lex_auth_0128411900876963844003/overview"
+                              }
+                            ]
+                          },
+                          "containerStyle": {
+                            "height": "h-full"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411811510272002782",
+                        "lex_auth_0128411787988254722462"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "dev_ops",
+                    "title": "DevOps",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411888648355843762",
+                        "lex_auth_0128411844538777603598",
+                        "lex_auth_0128411841440808963455",
+                        "lex_auth_0128411841138769923223",
+                        "lex_auth_0128411820409651202588",
+                        "lex_auth_012841105345003520236",
+                        "lex_auth_0128411688519843841603",
+                        "lex_auth_012841104105373696615",
+                        "lex_auth_0128411674566492161452",
+                        "lex_auth_012841160790360064725",
+                        "lex_auth_012841165209657344697",
+                        "lex_auth_012841161888743424701"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "scaling_agile",
+                    "title": "Scaling agile - agile at large",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411815596359682716"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

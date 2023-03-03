@@ -1,0 +1,178 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Zeitarbeit wird digital"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 h-full",
+              "widgetData": {
+                "template": "<div style=\"{{backgroundStyle}}\" class=\"h-full w-full\"><div class=\"flex py-8\"><div style=\"background: #1d8996; opacity: 0.85\" class=\"font-medium leading-tight text-3xl text-white md:text-4xl p-4 mr-2\">{{title}}<div class=\"pt-4 font-normal text-white text-xl\">{{subTitle}}<\/div><\/div><\/div><div class=\"flex m-4 flex-wrap justify-end leading-none flex-col text-white rounded-lg font-semibold text-2xl\" ><a href=\"{{bottomRightTextLink}}\" target=\"_blank\" style=\"background: #114d56;color:white !important;\" class=\"self-end border-2 border-solid rounded-full p-4\">{{bottomRightText}}<\/div><\/div><\/div>",
+                "templateData": {
+                  "backgroundStyle": "background-repeat: no-repeat; background-size:cover; background-image: url('/assets/instances/Siemens/zeitarbeit-wird-digital/banner-background.jpg'); display: grid; grid-template-rows: 1fr 1fr;",
+                  "title": "Zeitarbeit wird digital",
+                  "subTitle": "Lernangebote für Siemens Deutschland",
+                  "bottomRightText": "Warum digital?",
+                  "bottomRightTextLink": "https://myvideo.siemens.com/media/Digitalization_Flexforce+Program+Fieldglass/1_q5ctwj42"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "400px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Lernangebot"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6 -mb-8"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetHostClass": "block pt-6",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1220,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/zeitarbeit-wird-digital/banner-icons-1376.jpg",
+                          "altText": ""
+                        },
+                        "containerClass": "h-full px-6 sm:px-8 md:px-10"
+                      }
+                    }
+                  },
+                  {
+                    "minWidth": 700,
+                    "maxWidth": 1219,
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/zeitarbeit-wird-digital/banner-icons-1024.jpg",
+                          "altText": ""
+                        },
+                        "containerClass": "h-full px-6 sm:px-8 md:px-10"
+                      }
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 699,
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/zeitarbeit-wird-digital/banner-icons-414.jpg",
+                          "altText": ""
+                        },
+                        "containerClass": "h-full px-6 sm:px-8 md:px-10"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "allgemeine_informationen",
+                    "title": "Allgemeine Informationen",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411925840609283922",
+                        "lex_auth_0128411911991132163917",
+                        "lex_auth_0128411942973767683916"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "faq",
+                    "title": "FAQ's und Support",
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411905813544963918",
+                        "lex_auth_0128411890839715843923"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

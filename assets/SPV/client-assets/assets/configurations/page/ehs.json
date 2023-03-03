@@ -1,0 +1,204 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+{"text": "Channels","clickUrl": "/page/lex_auth_0128445903107194886"},
+                  {
+                    "text": "EHS"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 7,
+              "large": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+              "widgetData": {
+                "html": "<img class=\"w-full h-full\" src=\"/assets/instances/Siemens/ehs/environmental.png\"/>",
+                "containerClass": "h-full"
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 5,
+              "large": 6
+            },
+            "widget": {
+              "widgetData": {
+                "iframeId": "kmsembed-1_bvhlt3j9",
+                "iframeSrc": "https://myvideo.siemens.com/embed/secure/iframe/entryId/1_bvhlt3j9/uiConfId/35069072",
+                "containerClass": "kmsembed h-full",
+                "title": "Kaltura Video"
+              },
+              "widgetSubType": "pageEmbedded",
+              "widgetType": "page",
+              "widgetInstanceId": "kaltura_video",
+              "widgetHostClass": "block h-full video-full px-6 sm:px-8 md:px-10 md:pl-0",
+              "widgetHostStyle": {
+                "box-sizing": "border-box",
+                "min-height": "350px"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "health_safety",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/ehs/health-safety.png",
+                            "altText": "Health Safety"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "health_safety"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411950358036483946",
+                        "lex_auth_0128411906652487683950",
+                        "lex_auth_0128411934486528003947",
+                        "lex_auth_0128411899720826883948",
+                        "lex_auth_0128411932778905604415",
+                        "lex_auth_0128411901989601284416"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "environmental_protection",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/ehs/protection.png",
+                            "altText": "Environmental Protection"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "environmental_protection"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411966036869124418",
+                        "lex_auth_0128411914178396164419",
+                        "lex_auth_0128411907171041284424",
+                        "lex_auth_0128411966990090244422"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "ehs_contact",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/ehs/strengthen.png",
+                            "altText": "EHS Contact"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ehs_contact"
+                      }
+                    ],
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<a target=\"_blank\" href=\"{{link}}\"><img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" /><\/a>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/ehs/ehs-contact.png",
+                            "altText": "EHS Contact",
+                            "link": "https://intranet.for.siemens.com/wll/0034/en/ueber-uns/Pages/Default.aspx"
+                          },
+                          "containerClass": "h-full",
+                          "containerStyle": {
+                            "min-height": "370px"
+                          }
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "ehs_contact"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411966036869124418",
+                        "lex_auth_0128411914178396164419",
+                        "lex_auth_0128411907171041284424",
+                        "lex_auth_0128411966990090244422"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

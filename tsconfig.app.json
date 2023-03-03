@@ -5,7 +5,7 @@
     "types": ["node", "@types/zip.js"]
   },
   "angularCompilerOptions": {
-    "enableIvy": false
+    "enableIvy": false,
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/test.ts", "src/**/*.spec.ts"]

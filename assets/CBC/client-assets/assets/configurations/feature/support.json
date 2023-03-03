@@ -1,0 +1,35 @@
+{
+  "title": "Looking for support? Contact us.",
+  "description": "",
+  "icon": "",
+  "help": {
+    "title": "Help Articles",
+    "icon": "",
+    "list": {
+      "Unable to login to iGoT": "<p class='mat-body-1'><ng-container i18n='faq page panel one answer one section one'>  For using iGoT you have to register yourself.</ng-container>         </p>",
+      "Account Already Exists": "<p class='mat-body-1' i18n='faq page panel one answer five'>Raise an AHD</p>",
+      "Downtime": "<p class='mat-body-1' i18n='faq page panel one answer seven'>Request you to kindly clear your cookies and cache of the desktop browser once before trying.<br />Also you can use Incognito mode or Private Browsing modes of Chrome and IE.         </p>"
+    }
+  },
+  "contact": {
+    "title": "Contact us",
+    "icon": "",
+    "list": [
+      {
+        "title": "Raise an AHD",
+        "description": "Go to: http://. Web Apps > AHD > Education, Training and Assessment > ETA iGoT",
+        "link": "#"
+      },
+      {
+        "title": "Mail us",
+        "description": "You can also mail us at EMAIL",
+        "link": "<a class='mat-button' href='mailto:EMAIL' aria-disabled='false'><span class='mat-button-wrapper'> Click to mail </span><div class='mat-button-ripple mat-ripple' matripple=''></div><div class='mat-button-focus-overlay'></div></a>"
+      },
+      {
+        "title": "Raise an AHD",
+        "description": "Go to : http://. Web Apps > AHD > Education, Training and Assessment > ETA iGoT",
+        "link": "#"
+      }
+    ]
+  }
+}

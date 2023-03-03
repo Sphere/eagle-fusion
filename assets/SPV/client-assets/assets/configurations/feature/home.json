@@ -1,0 +1,49 @@
+{
+    "menus": {
+        "widgetType": "menus",
+        "widgetSubType": "leftMenu",
+        "widgetData": {
+            "logo":true,
+            "logoPath": "../assets/instances/eagle/app_logos/aastar-source.png",
+            "name": "Sphere Administrator",
+            "menus":[
+            {
+                "name": "Directory",
+                "key": "directory",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/directory"
+            },
+            {
+                "name": "Users",
+                "key": "users",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/users"
+            },
+            {
+                "name": "Roles and access",
+                "key": "roles-access",
+                "fragment": false,
+                "render": true,
+                "badges": {
+                    "enabled": false,
+                    "uri": ""
+                },
+                "enabled": true,
+                "routerLink": "/app/home/roles-access"
+            }
+        ]
+    }
+    }
+}

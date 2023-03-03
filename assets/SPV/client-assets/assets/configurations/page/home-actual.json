@@ -1,0 +1,526 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageTitle": "Home",
+    "pageBackLink": "none",
+    "background": {
+      "color": "default",
+      "styles": {
+        "background-color": "white",
+        "color": "#333"
+      }
+    },
+    "links": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_goals",
+          "config": {
+            "type": "mat-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_marketing",
+          "config": {
+            "type": "mat-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_navigator",
+          "config": {
+            "type": "mat-button"
+          }
+        }
+      }
+    ]
+  },
+  "pageLayout": {
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout",
+    "widgetData": {
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "slider",
+              "widgetSubType": "sliderBanners",
+              "widgetData": [
+                {
+                  "banners": {
+                    "l": "assets/instances/Wingspan-Siemens/banners/home/1/l.jpg",
+                    "m": "assets/instances/Wingspan-Siemens/banners/home/1/m.jpg",
+                    "s": "assets/instances/Wingspan-Siemens/banners/home/1/s.jpg",
+                    "xl": "assets/instances/Wingspan-Siemens/banners/home/1/xl.jpg",
+                    "xs": "assets/instances/Wingspan-Siemens/banners/home/1/xs.jpg"
+                  },
+                  "redirectUrl": "/tnc",
+                  "title": "Industry Analytics and Digital Transformation in Infosys"
+                },
+                {
+                  "banners": {
+                    "l": "assets/instances/Wingspan-Siemens/banners/home/2/l.jpg",
+                    "m": "assets/instances/Wingspan-Siemens/banners/home/2/m.jpg",
+                    "s": "assets/instances/Wingspan-Siemens/banners/home/2/s.jpg",
+                    "xl": "assets/instances/Wingspan-Siemens/banners/home/2/xl.jpg",
+                    "xs": "assets/instances/Wingspan-Siemens/banners/home/2/xs.jpg"
+                  },
+                  "redirectUrl": "/author",
+                  "title": "Banner 2 Lorem Ipsum Text for Test"
+                },
+                {
+                  "banners": {
+                    "l": "assets/images/banners/home/3/l.jpg",
+                    "m": "assets/images/banners/home/3/m.jpg",
+                    "s": "assets/images/banners/home/3/s.jpg",
+                    "xl": "assets/images/banners/home/3/xl.jpg",
+                    "xs": "assets/images/banners/home/3/xs.jpg"
+                  },
+                  "redirectUrl": "./",
+                  "title": "Banner with no redirect url implemented"
+                },
+                {
+                  "banners": {
+                    "l": "assets/instances/Wingspan-Siemens/banners/home/2/l.jpg",
+                    "m": "assets/instances/Wingspan-Siemens/banners/home/2/m.jpg",
+                    "s": "assets/instances/Wingspan-Siemens/banners/home/2/s.jpg",
+                    "xl": "assets/instances/Wingspan-Siemens/banners/home/2/xl.jpg",
+                    "xs": "assets/instances/Wingspan-Siemens/banners/home/2/xs.jpg"
+                  },
+                  "openInNewTab": true,
+                  "redirectUrl": "https://facebook.com",
+                  "title": "Banner with open in new tab functionality implemented"
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "card",
+              "widgetSubType": "cardWelcome",
+              "widgetData": {}
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "continueLearning",
+                    "title": "Continue Learning",
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/user/history",
+                        "queryParams": {
+                          "pageSize": 50
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetHostClass": "ws-mat-primary-lite-background block",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "featureCards",
+                    "title": "Featured",
+                    "preWidgets": [
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_blogs"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_Q&A"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_onBoarding"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_playlist"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_handson_authoring"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_navigator"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_leaderBoard"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_goals"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_feedback"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_learningTime"
+                        }
+                      },
+                      {
+                        "widgetType": "actionButton",
+                        "widgetSubType": "buttonFeature",
+                        "widgetData": {
+                          "config": {
+                            "type": "card-full"
+                          },
+                          "actionBtnId": "feature_learningHistory"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "recentToPlaylists",
+                    "title": "Recent addition to playlists",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Recently added contents by you to your playlists.</p>"
+                        }
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/user/playlist/recent"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "forYou",
+                    "title": "For You",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Recommendations from us, customized for you.</p>"
+                        }
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "interestBased",
+                    "title": "Based on your interests",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Recommendations based on the interested topics picked by you.</p>"
+                        }
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/interestBased",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "viewBased",
+                    "title": "Based on what you viewed",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Recommendations based on the what you recently viewed.</p>"
+                        }
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/usageBased",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "latest",
+                    "title": "Latest",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "help_outline",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p>Latest content added to the platform.</p>"
+                        }
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/latest",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "trending",
+                    "title": "Trending",
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/recommendation/trending",
+                        "queryParams": {
+                          "pageNo": 0,
+                          "pageSize": 30
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

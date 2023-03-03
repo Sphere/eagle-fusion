@@ -1,0 +1,28 @@
+{
+  "professions": [
+    {
+      "name": "Healthcare Worker",
+      "image": "../../../fusion-assets/images/character-1.svg"
+    },
+    {
+      "name": "Healthcare Volunteer",
+      "image": "../../../fusion-assets/images/Volunteer.svg"
+    },
+    {
+      "name": "ASHA",
+      "image": "../../../fusion-assets/images/asha-worker.svg"
+    },
+    {
+      "name": "Student",
+      "image": "../../../fusion-assets/images/Student.svg"
+    },
+    {
+      "name": "Faculty",
+      "image": "../../../fusion-assets/images/Faculty.svg"
+    },
+    {
+      "name": "Others",
+      "image": "../../../fusion-assets/images/Others.svg"
+    }
+  ]
+}

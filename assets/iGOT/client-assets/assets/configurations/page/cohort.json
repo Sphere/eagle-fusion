@@ -1,0 +1,56 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "/app/infy/navigator",
+    "pageTitle": "Cohort Learning"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "JL-7-Cohort",
+                "title": "JL 7 Cohort",
+                "filters": [],
+                "request": {
+                  "ids": ["lex_11099634522608828000", "lex_auth_012603751492943872515"]
+                }
+              },
+              {
+                "key": "JL-6-Cohort",
+                "title": "JL 6 Cohort",
+                "filters": [],
+                "request": {
+                  "ids": ["lex_auth_012610207135571968670", "lex_auth_012528735721676800270"]
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetType": "layout",
+    "widgetSubType": "linearLayout",
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetType": "slider",
+          "widgetSubType": "sliderBanners",
+          "widgetData": [
+            {
+              "title": "",
+              "redirectUrl": "",
+              "banners": {
+                "l": "/assets/instances/Lex/banners/living-labs/LL-1024.jpg",
+                "m": "/assets/instances/Lex/banners/living-labs/LL-768.jpg",
+                "s": "/assets/instances/Lex/banners/living-labs/LL-414.jpg",
+                "xl": "/assets/instances/Lex/banners/living-labs/LL-1024.jpg",
+                "xs": "/assets/instances/Lex/banners/living-labs/LL-375.jpg"
+              }
+            }
+          ]
+        },
+
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "strips": [
+              {
+                "key": "living-labs",
+                "title": "Living Labs",
+                "filters": [],
+                "request": {
+                  "ids": [
+                    "lex_11099634522608828000",
+                    "lex_auth_01272719803758182410",
+                    "lex_auth_01272719803758182410"
+                  ]
+                }
+              }
+            ],
+            "noDataWidget": {
+              "widgetData": {
+                "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                "containerStyle": {}
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element"
+            },
+            "errorWidget": {
+              "widgetType": "errorResolver",
+              "widgetSubType": "errorResolver",
+              "widgetData": {
+                "errorType": "internalServer"
+              }
+            },
+            "loader": true
+          }
+        }
+      ]
+    }
+  }
+}

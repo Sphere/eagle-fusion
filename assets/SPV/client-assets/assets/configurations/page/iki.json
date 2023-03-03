@@ -1,0 +1,210 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "links": [],
+    "pageBackLink": "back",
+    "pageTitle": "Infosys Knowledge Institute"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [{
+          "widgetData": [{
+              "banners": {
+                "l": "/assets/instances/Lex/banners/iki/Banner-1_1024 x 250.jpg",
+                "m": "/assets/instances/Lex/banners/iki/Banner-1_768 x 250.jpg",
+                "s": "/assets/instances/Lex/banners/iki/Banner-1_414 x 250.jpg",
+                "xl": "/assets/instances/Lex/banners/iki/Banner-1_1024 x 250.jpg",
+                "xs": "/assets/instances/Lex/banners/iki/Banner-1_375 x 250.jpg"
+              },
+              "redirectUrl": ""
+            },
+            {
+              "banners": {
+                "l": "/assets/instances/Lex/iki/Banner-2_1024 x 250.jpg",
+                "m": "/assets/instances/Lex/iki/Banner-2_768 x 250.jpg",
+                "s": "/assets/instances/Lex/iki/Banner-2_414 x 250.jpg",
+                "xl": "/assets/instances/Lex/iki/Banner-2_1024 x 250.jpg",
+                "xs": "/assets/instances/Lex/iki/Banner-2_375 x 250.jpg"
+              },
+              "redirectUrl": ""
+            },
+            {
+              "banners": {
+                "l": "/assets/instances/Lex/iki/1024.png",
+                "m": "/assets/instances/Lex/iki/768.png",
+                "s": "/assets/instances/Lex/iki/414.png",
+                "xl": "/assets/instances/Lex/iki/1920.png",
+                "xs": "/assets/instances/Lex/iki/375.png"
+              },
+              "redirectUrl": ""
+            }
+          ],
+          "widgetSubType": "sliderBanners",
+          "widgetType": "slider"
+        },
+        {
+          "widgetData": {
+            "tabs": [{
+                "tabContent": {
+                  "widgetData": {
+                    "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h3 padding-left-m padding-right-m\"> The Infosys Knowledge Institute (IKI) helps industry leaders develop a deeper understanding of business and technology trends through compelling thought leadership. Our researchers and subject matter experts provide a fact base that aids decision making on critical business and technology issues. </p></div><div class=\"margin-bottom-s\" i18n> <p class = \"mat-h3 padding-left-m padding-right-m\"> The Infosys Knowledge Institute was established in 2018 to develop a deeper understanding of business and technology, and how their relationship can create shareholder value. The Knowledge Institute develops insights through primary and secondary research and shares publicly through reports, management journals, articles, and other audio and video media – showcasing our points of view, leading practices, and analysis on industry and technology shifts and trends. </p></div><div class=\"margin-bottom-s\" i18n> <p class = \"mat-h3 padding-left-m padding-right-m\"> The Knowledge Institute research utilizes industry, functional, and technology expertise, combined with the insight of business leaders. Current research focuses on five strategic themes: employee experience and learning, impact of AI and automation, Agile enterprises, design as a multi-faceted discipline, and the role of physical location in the future of work. The Knowledge Institute also publishes regularly on industry, function, and technology trends. Recent papers have included connected technology for the automotive aftermarket, impact of AI and automation on insurance, change management in transformations, and the potential of data-centric enterprises. </p></div><div class=\"margin-bottom-s\" i18n> <p class = \"mat-h3 padding-left-m padding-right-m\">Our offices are located in Dallas, Bangalore, and London, and supported by a global team.</p></div><div class=\"margin-bottom-s\"> <div class=\"mat-title padding-left-m margin-top-xl margin-bottom-xs font-weight-500\" i18n>Leadership</div><p class = \"mat-h3 padding-left-m padding-right-m margin-top-xs\"> The Infosys Knowledge Institute is led by Jeff Kavanaugh, based in the Dallas office. Together with other senior Infosys leaders, he advises research teams and sets the Knowledge Institute’s editorial agenda, with input from our industry and domain councils, as well as our academic advisors. </p></div></div>",
+                    "containerStyle": {}
+                  },
+                  "widgetSubType": "elementHtml",
+                  "widgetType": "element"
+                },
+                "tabKey": "about-us",
+                "tabTitle": "About Us"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [{
+                      "key": "Feature Research",
+                      "title": "Feature Research",
+                      "stripConfig": {
+                        "cardSubType": "standard",
+                        "postCardForSearch": true
+                      },
+                      "filters": [],
+                      "request": {
+                        "search": {
+                          "filters": {
+                            "learningMode": ["Self-Paced"],
+                            "tags": ["Infosys Knowledge Institute/Featured Research"]
+                          },
+                          "pageNo": 0,
+                          "query": "",
+                          "sortBy": "lastUpdatedOn",
+                          "sortOrder": "DESC"
+                        }
+                      }
+                    }],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "featured-reseacrh",
+                "tabTitle": "Featured Research"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [{
+                      "key": "Articles-Briefs",
+                      "title": "Articles and Briefs",
+                      "stripConfig": {
+                        "cardSubType": "standard",
+                        "postCardForSearch": true
+                      },
+                      "filters": [],
+                      "request": {
+                        "search": {
+                          "filters": {
+                            "learningMode": ["Self-Paced"],
+                            "tags": ["Infosys Knowledge Institute/Articles and Briefs"]
+                          },
+                          "pageNo": 0,
+                          "query": "",
+                          "sortBy": "lastUpdatedOn",
+                          "sortOrder": "DESC"
+                        }
+                      }
+                    }],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "articles-and-briefs",
+                "tabTitle": "Articles and Briefs"
+              },
+              {
+                "tabContent": {
+                  "widgetType": "contentStrip",
+                  "widgetSubType": "contentStripMultiple",
+                  "widgetData": {
+                    "strips": [{
+                      "key": "Leadership Insights",
+                      "title": "Leadership Insights",
+                      "stripConfig": {
+                        "cardSubType": "standard",
+                        "postCardForSearch": true
+                      },
+                      "filters": [],
+                      "request": {
+                        "search": {
+                          "filters": {
+                            "learningMode": ["Self-Paced"],
+                            "tags": ["Infosys Knowledge Institute/Leadership Insights"]
+                          },
+                          "pageNo": 0,
+                          "query": "",
+                          "sortBy": "lastUpdatedOn",
+                          "sortOrder": "DESC"
+                        }
+                      }
+                    }],
+                    "noDataWidget": {
+                      "widgetData": {
+                        "html": "<div class=\"padding-s\"> <div class=\"margin-bottom-s margin-top-m\" i18n> <p class = \"mat-h2 padding-left-m padding-right-m text-center margin-top-l font-weight\">Contents will appear soon...</div>",
+                        "containerStyle": {}
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element"
+                    },
+                    "errorWidget": {
+                      "widgetType": "errorResolver",
+                      "widgetSubType": "errorResolver",
+                      "widgetData": {
+                        "errorType": "internalServer"
+                      }
+                    },
+                    "loader": true
+                  }
+                },
+                "tabKey": "leadership-insights",
+                "tabTitle": "Leadership Insights"
+              }
+            ]
+          },
+          "widgetSubType": "tabLayout",
+          "widgetType": "layout"
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

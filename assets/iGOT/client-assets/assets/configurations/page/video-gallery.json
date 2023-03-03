@@ -1,0 +1,75 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetSubType": "gallery",
+          "widgetType": "gallery",
+          "widgetData": {
+            "cards": [
+              {
+                "cardData": {
+                  "title": "Video 1 title",
+                  "description": "Video 1 description",
+                  "thumbnail": "/assets/common/cmt/leadership.png"
+                },
+                "widget": {
+                  "widgetType": "player",
+                  "widgetSubType": "playerVideo",
+                  "widgetData": {
+                    "url": "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+                  }
+                }
+              },
+              {
+                "cardData": {
+                  "title": "Video 2 title",
+                  "description": "Video 2 description",
+                  "thumbnail": "/assets/common/cmt/teach.png"
+                },
+                "widget": {
+                  "widgetType": "player",
+                  "widgetSubType": "playerAudio",
+                  "widgetData": {
+                    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                  }
+                }
+              },
+              {
+                "cardData": {
+                  "title": "Video 4 title",
+                  "description": "Video 4 description",
+                  "thumbnail": "/assets/common/cmt/vision.jpg"
+                },
+                "widget": {
+                  "widgetType": "player",
+                  "widgetSubType": "playerVideo",
+                  "widgetData": {
+                    "url": "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+                  }
+                }
+              },
+              {
+                "cardData": {
+                  "title": "Video 5 title1",
+                  "description": "Video 5 description",
+                  "thumbnail": "/assets/common/cmt/popup.jpg"
+                },
+                "widget": {
+                  "widgetType": "player",
+                  "widgetSubType": "playerAudio",
+                  "widgetData": {
+                    "url": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

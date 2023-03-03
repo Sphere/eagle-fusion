@@ -1,0 +1,17 @@
+
+
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/page/home",
+    "pageTitle": "Hands On Dashboard"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex-iap.infosysapps.com/profile/commonProfile",
+      "Title": "Hands On Dashboard"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

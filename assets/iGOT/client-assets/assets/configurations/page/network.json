@@ -1,0 +1,104 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageTitle": "",
+    "pageBackLink": "none",
+    "background": {
+      "color": "default",
+      "styles": {
+        "background-color": "white",
+        "color": "#333"
+      }
+    },
+    "xsmallNonMenuLinks": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "Search",
+          "actionBtnId": "feature_search",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "feature_notification",
+          "actionBtnId": "feature_notification",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      }
+    ],
+    "links": []
+  },
+  "pageLayout": {
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout",
+    "widgetData": {
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "actionButton",
+              "widgetSubType": "actionButtonPageBack",
+              "widgetData": {
+                "url": "home",
+                "titles": [
+                  {
+                    "url": "/app/network-v2",
+                    "title": "Network",
+                    "icon": "group"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box margin-top-s",
+            "widget": {
+              "widgetType": "slider",
+              "widgetSubType": "sliderBanners",
+              "style": {
+                "border-radius": "12px",
+                "height": "600px"
+              },
+              "widgetData": [
+                {
+                  "banners": {
+                    "l": "assets/instances/eagle/banners/hubs/network/l.jpg",
+                    "m": "assets/instances/eagle/banners/hubs/network/m.jpg",
+                    "s": "assets/instances/eagle/banners/hubs/network/s.jpg",
+                    "xl": "assets/instances/eagle/banners/hubs/network/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/hubs/network/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/hubs/network/xxl.jpg"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "card",
+              "widgetSubType": "cardNetwork",
+              "widgetData": {}
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

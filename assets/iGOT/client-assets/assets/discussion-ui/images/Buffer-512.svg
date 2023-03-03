@@ -1,0 +1,11 @@
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
+    <title>Category_image_4</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <circle fill="#F58634" opacity="0.2" cx="24" cy="24" r="24"></circle>
+            <path d="M24,16 C28.418278,16 32,19.581722 32,24 C32,28.418278 28.418278,32 24,32 C19.581722,32 16,28.418278 16,24 C16,19.581722 19.581722,16 24,16 Z" fill="#293D3B"></path>
+            <path d="M32,16 C36.418278,16 40,19.581722 40,24 C40,28.418278 36.418278,32 32,32 C27.581722,32 24,28.418278 24,24 C24,19.581722 27.581722,16 32,16 Z" fill="#F58634"></path>
+            <path d="M16,16 C20.418278,16 24,19.581722 24,24 C24,28.418278 20.418278,32 16,32 C11.581722,32 8,28.418278 8,24 C8,19.581722 11.581722,16 16,16 Z" fill="#377AB4"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,330 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageTitle": "",
+    "pageBackLink": "none",
+    "background": {
+      "color": "default",
+      "styles": {
+        "background-color": "white",
+        "color": "#333"
+      }
+    },
+    "xsmallNonMenuLinks": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "Search",
+          "actionBtnId": "feature_search",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      },
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "toolTop": "feature_notification",
+          "actionBtnId": "feature_notification",
+          "config": {
+            "type": "mat-icon-button"
+          }
+        }
+      }
+    ],
+    "links": []
+  },
+  "pageLayout": {
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout",
+    "widgetData": {
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "className": "ws-mat-primary-lite-background-important new-box-hubs",
+            "widget": {
+              "widgetType": "card",
+              "widgetSubType": "cardHomeHubs",
+              "widgetData": {}
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "slider",
+              "widgetSubType": "sliderBanners",
+              "style": {
+                "border-radius": "12px",
+                "height": "600px"
+              },
+              "widgetData": [
+                {
+                  "banners": {
+                    "l": "assets/instances/eagle/banners/home/1/l.jpg",
+                    "m": "assets/instances/eagle/banners/home/1/m.jpg",
+                    "s": "assets/instances/eagle/banners/home/1/s.jpg",
+                    "xl": "assets/instances/eagle/banners/home/1/xl.jpg",
+                    "xs": "assets/instances/eagle/banners/home/1/xs.jpg",
+                    "xxl": "assets/instances/eagle/banners/home/1/xxl.jpg"
+                  },
+                  "redirectUrl": "/app/search/learning",
+                  "queryParams": {
+                    "q": "Salesforce",
+                    "lang": "en",
+                    "f": "{}"
+                  },
+                  "title": ""
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultipleNew",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "continueLearning",
+                    "logo": "school",
+                    "title": "Learn",
+                    "stripBackground": "assets/instances/eagle/background/learn.svg",
+                    "titleDescription": "Continue Learning",
+                    "stripConfig": {
+                      "cardSubType": "standard"
+                    },
+                    "viewMoreUrl": {
+                      "path": "/page/learn",
+                      "viewMoreText": "Learn",
+                      "queryParams": {}
+                    },
+                    "filters": [],
+                    "request": {
+                      "enrollmentList": {
+                        "path": "/apis/proxies/v8/learner/course/v1/user/enrollment/list/<id>",
+                        "queryParams": {
+                          "orgdetails": "orgName,email",
+                          "licenseDetails": "name,description,url",
+                          "fields": "contentType,name,channel,mimeType,appIcon,resourceType,identifier,trackable,objectType,organisation,pkgVersion,primaryCategory,trackable,,posterImage,duration,creatorLogo,license",
+                          "batchDetails": "name,endDate,startDate,status,enrollmentType,createdBy,certificates`"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "new-box",
+            "widget": {
+              "widgetType": "contentStrip",
+              "widgetSubType": "contentStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "latest",
+                    "title": "Newly added courses",
+                    "info": {
+                      "mode": "below",
+                      "visibilityMode": "hidden",
+                      "icon": {
+                        "icon": "info",
+                        "scale": 0.8
+                      },
+                      "widget": {
+                        "widgetType": "element",
+                        "widgetSubType": "elementHtml",
+                        "widgetData": {
+                          "html": "<p class=\"ws-mat-primary-text\">This is where you’ll see which topics are in news right now.</p>"
+                        }
+                      }
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/search/learning",
+                      "queryParams": {
+                        "q": "",
+                        "p": "Trending",
+                        "f": "{\"primaryCategory\": [\"Course\"], \"contentType\": [\"Course\"]}"
+                      }
+                    },
+                    "stripConfig": {
+                      "cardSubType": "standard",
+                      "postCardForSearch": true
+                    },
+                    "filters": [],
+                    "request": {
+                      "searchV6": {
+                        "request": {
+                          "filters": {
+                            "primaryCategory": [
+                              "Course"
+                            ],
+                            "contentType": [
+                              "Course"
+                            ]
+                          },
+                          "query": "",
+                          "sort_by": {
+                            "lastUpdatedOn": "desc"
+                          },
+                          "fields": [
+                            "name",
+                            "appIcon",
+                            "instructions",
+                            "description",
+                            "purpose",
+                            "mimeType",
+                            "gradeLevel",
+                            "identifier",
+                            "medium",
+                            "pkgVersion",
+                            "board",
+                            "subject",
+                            "resourceType",
+                            "primaryCategory",
+                            "contentType",
+                            "channel",
+                            "organisation",
+                            "trackable",
+                            "license",
+                            "posterImage",
+                            "idealScreenSize",
+                            "learningMode",
+                            "creatorLogo",
+                            "duration"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "discussStrip",
+              "widgetSubType": "DiscussStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "discuss",
+                    "logo": "forum",
+                    "title": "discuss",
+                    "stripBackground": "assets/instances/eagle/background/discuss.svg",
+                    "titleDescription": "Trending discussions",
+                    "stripConfig": {
+                      "cardSubType": "cardHomeDiscuss"
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/discuss/home",
+                      "viewMoreText": "Discuss",
+                      "queryParams": {}
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/proxies/v8/discussion/recent",
+                        "queryParams": {}
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "networkStrip",
+              "widgetSubType": "NetworkStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "network",
+                    "logo": "group",
+                    "title": "network",
+                    "stripBackground": "assets/instances/eagle/background/network.svg",
+                    "titleDescription": "Connect with people you may know",
+                    "stripConfig": {
+                      "cardSubType": "cardHomeNetwork"
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/network-v2",
+                      "viewMoreText": "Network",
+                      "queryParams": {}
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/connections/connections/recommended/userDepartment",
+                        "queryParams": {}
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "className": "",
+            "widget": {
+              "widgetType": "carrierStrip",
+              "widgetSubType": "CarrierStripMultiple",
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "Career",
+                    "logo": "work",
+                    "title": "Careers",
+                    "stripBackground": "assets/instances/eagle/background/careers.svg",
+                    "titleDescription": "Latest openings",
+                    "stripConfig": {
+                      "cardSubType": "cardHomeCarrier"
+                    },
+                    "viewMoreUrl": {
+                      "path": "/app/careers/home",
+                      "viewMoreText": "Career",
+                      "queryParams": {}
+                    },
+                    "filters": [],
+                    "request": {
+                      "api": {
+                        "path": "/apis/protected/v8/discussionHub/categories/1",
+                        "queryParams": {}
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

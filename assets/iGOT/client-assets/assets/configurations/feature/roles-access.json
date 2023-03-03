@@ -1,0 +1,299 @@
+{
+  "menus": {
+    "widgetType": "menus",
+    "widgetSubType": "leftMenu",
+    "widgetData": [
+      {
+        "name": "User Deatils",
+        "key": "details",
+        "fragment": false,
+        "render": true,
+        "badges": {
+          "enabled": false,
+          "uri": ""
+        },
+        "enabled": true,
+        "paramaterName": "approval",
+        "routerLink": "/app/users/<param>/details",
+        "customRouting": true
+      },
+      {
+          "name": "Create User",
+          "key": "create-user",
+          "fragment": false,
+          "render": true,
+          "badges": {
+            "enabled": false,
+            "uri": ""
+          },
+          "enabled": true,
+          "paramaterName": "approval",
+          "routerLink": "/app/users/create-user",
+          "customRouting": true
+        }
+    ]
+  },
+  "profileData": [
+    {
+      "name": "First name",
+      "key": "firstname",
+      "enabled": true
+    },
+    {
+      "name": "Middle name",
+      "key": "middlename",
+      "enabled": true
+    },
+    {
+      "name": "Surname",
+      "key": "surname",
+      "enabled": true
+    },
+    {
+      "name": "Date of birth (dd-mm-yyyy)",
+      "key": "dob",
+      "enabled": true
+    },
+    {
+      "name": "Nationality",
+      "key": "nationality",
+      "enabled": true
+    },
+    {
+      "name": "Domicile medium (Mother Tongue)",
+      "key": "domicileMedium",
+      "enabled": true
+    },
+    {
+      "name": "Gender",
+      "key": "gender",
+      "enabled": true
+    },
+    {
+      "name": "Marital status",
+      "key": "maritalStatus",
+      "enabled": true
+    },
+    {
+      "name": "Category",
+      "key": "category",
+      "enabled": true
+    },
+    {
+      "name": "Other languages known",
+      "key": "knownLanguages",
+      "enabled": true
+    },
+    {
+      "name": "Country code",
+      "key": "countryCode",
+      "enabled": true
+    },
+    {
+      "name": "Mobile number",
+      "key": "mobile",
+      "enabled": true
+    },
+    {
+      "name": "Telephone number",
+      "key": "telephone",
+      "enabled": true
+    },
+    {
+      "name": "Primary email",
+      "key": "primaryEmail",
+      "enabled": true
+    },
+    {
+      "name": "Official email",
+      "key": "officialEmail",
+      "enabled": true
+    },
+    {
+      "name": "Personal email",
+      "key": "personalEmail",
+      "enabled": true
+    },
+    {
+      "name": "Postal address",
+      "key": "postalAddress",
+      "enabled": true
+    },
+    {
+      "name": "Pincode",
+      "key": "pincode",
+      "enabled": true
+    },
+    {
+      "name": "Name of qualification",
+      "key": "nameOfQualification",
+      "enabled": true
+    },
+    {
+      "name": "Year of passing",
+      "key": "yearOfPassing",
+      "enabled": true
+    },
+    {
+      "name": "Name of institute",
+      "key": "nameOfInstitute",
+      "enabled": true
+    },
+    {
+      "name": "Service",
+      "key": "service",
+      "enabled": true
+    },
+    {
+      "name": "Cadre",
+      "key": "cadre",
+      "enabled": true
+    },
+    {
+      "name": "Allotment year of service",
+      "key": "allotmentYearOfService",
+      "enabled": true
+    },
+    {
+      "name": "Date of joining",
+      "key": "dojOfService",
+      "enabled": true
+    },
+    {
+      "name": "Pay band(grade pay)",
+      "key": "payType",
+      "enabled": true
+    },
+    {
+      "name": "Civil list number",
+      "key": "civilListNo",
+      "enabled": true
+    },
+    {
+      "name": "Employee code",
+      "key": "employeeCode",
+      "enabled": true
+    },
+    {
+      "name": "Official postal address",
+      "key": "officialPostalAddress",
+      "enabled": true
+    },
+    {
+      "name": "Pin code",
+      "key": "pinCode",
+      "enabled": true
+    },
+    {
+      "name": "Department Name",
+      "key": "departmentName",
+      "enabled": true
+    },
+    {
+      "name": "Description",
+      "key": "description",
+      "enabled": true
+    },
+    {
+      "name": "Industry",
+      "key": "industry",
+      "enabled": true
+    },
+    {
+      "name": "Designation",
+      "key": "designationOther",
+      "enabled": true
+    },
+    {
+      "name": "Name other",
+      "key": "nameOther",
+      "enabled": true
+    },
+    {
+      "name": "Type of organisation",
+      "key": "organisationType",
+      "enabled": true
+    },
+    {
+      "name": "Responsibilities",
+      "key": "responsibilities",
+      "enabled": true
+    },
+    {
+      "name": "Name",
+      "key": "name",
+      "enabled": true
+    },
+    {
+      "name": "Location",
+      "key": "location",
+      "enabled": true
+    },
+    {
+      "name": "Designation",
+      "key": "designation",
+      "enabled": true
+    },
+    {
+      "name": "Industry Other",
+      "key": "industryOther",
+      "enabled": true
+    },
+    {
+      "name": "Complete postal address",
+      "key": "completePostalAddress",
+      "enabled": true
+    },
+    {
+      "name": "Date of joining",
+      "key": "doj",
+      "enabled": true
+    },
+    {
+      "name": "Additional skills acquired/Course completed",
+      "key": "additionalSkills",
+      "enabled": true
+    },
+    {
+      "name": "Provide certificate details",
+      "key": "certificateDetails",
+      "enabled": true
+    },
+    {
+      "name": "Professional Interests",
+      "key": "professional",
+      "enabled": true
+    },
+    {
+      "name": "Hobbies",
+      "key": "hobbies",
+      "enabled": true
+    }
+  ],
+  "profileDataKey": [
+    {
+      "name": "Personal Details",
+      "key": "personalDetails"    
+    },
+    {
+      "name": "Academics",
+      "key": "academics"    
+    },
+    {
+      "name": "Employment Details",
+      "key": "employmentDetails"    
+    },
+    {
+      "name": "Professional Details",
+      "key": "professionalDetails"    
+    },
+    {
+      "name": "Skills",
+      "key": "skills"    
+    },
+    {
+      "name": "Interests",
+      "key": "interests"    
+    }  
+  ]
+}

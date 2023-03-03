@@ -1,0 +1,32 @@
+{
+  "releaseList": [
+    {
+      "releaseVersion": "1.0.1",
+      "releaseDate": "December 3 2020",
+      "items": [
+        {
+          "releaseCategory": "ADDED",
+          "releaseNote": "Course detail page added"
+        }
+      ]
+    },
+    {
+      "releaseVersion": "1.0.0",
+      "releaseDate": "November 28 2020",
+      "items": [
+        {
+          "releaseCategory": "ADDED",
+          "releaseNote": "initial version"
+        },
+        {
+          "releaseCategory": "ADDED",
+          "releaseNote": "Listed all content"
+        },
+        {
+          "releaseCategory": "ADDED",
+          "releaseNote": "table to card component added"
+        }
+      ]
+    }
+  ]
+}

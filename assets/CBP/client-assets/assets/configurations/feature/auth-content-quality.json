@@ -1,0 +1,821 @@
+{
+    "roles": [],
+    "questionsData": [
+        {
+            "type": "Instructions",
+            "name": "Instructions",
+            "desc": "",
+            "questions": []
+        },
+        {
+            "type": "InstructionalMethods",
+            "name": "Instructional Methods",
+            "desc":"Instructional methods determine how effectively the stated competencies and skills are acquired",
+            "questions": [
+                {
+                    "position": 1,
+                    "question": "The course puts the learner at the centre of the learning experience.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 2,
+                    "question": "The course is designed according to the Watch-Think-Do-Explore-Test content framework and all the elements have been incorporated in the course",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 3,
+                    "question": "The course is not heavily reliant on the traditional lecture/didactic approach and engages the learner on a more interactive journey through use of animations and simulations",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 4,
+                    "question": "The course taps into learner motivations, emotions, and needs.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 5,
+                    "question": "Learners are encouraged to engage in higher-order thinking / build upon prior learning through scenario based questionnaire at end of each module",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 6,
+                    "question": "The course instruction includes activities that promote active learning.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 7,
+                    "question": "Practice and reinforcement activities provide diagnostic feedback.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 8,
+                    "question": "Learning activities cater for a variety of learning styles (Visual, Auditory, Kinesthetic).",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 9,
+                    "question": "Readability levels are appropriate for the target audience.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "AssessmentDesign",
+            "name": "Assessment Design",
+            "questions": [
+                {
+                    "position": 1,
+                    "question": "The course features a post-assessment.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 2,
+                    "question": "Passing criteria is clearly stated.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 3,
+                    "question": "The assessment includes a variety of question formats to test mastery.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 4,
+                    "question": "Distractors are plausible.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 5,
+                    "question": "The assessment uses easy-to-understand language and terms.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 6,
+                    "question": "The assessment does not overly rely on True/False question's.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 7,
+                    "question": "The assessment avoids 'All of the above' and/or 'None of the above' answers. (They call attention to themselves and are often correct!)",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "CompetencyandSkills",
+            "name": "Competencyand Skills",
+            "questions": [
+                {
+                    "position": 1,
+                    "question": "Target competencies are clearly stated at the beginning and their fulfillment is measured at the end of the course.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 2,
+                    "type": "CompetencyandSkills",
+                    "question": "Learning materials support the fulfillment of target competencies and/or skill acquisition.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 3,
+                    "type": "CompetencyandSkills",
+                    "question": "Target competencies and skills readiness are assessed in the course.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 4,
+                    "type": "CompetencyandSkills",
+                    "question": "Target competencies are relevant to learners needs.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "LearnerEngagement",
+            "name": "Learner Engagement",
+            "questions": [
+                {
+                    "position": 1,
+                    "question": "The course can be completed in a self-paced manner over several short sessions.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 2,
+                    "question": "Resources are bye sized learning (ideally 3-5 minutes long)",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 3,
+                    "question": "The technical quality of all media is good, i.e. videos and audios play with no distortion.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 4,
+                    "question": "Reading content (e.g. PDF slides) is designed for on-the-go consumption and contains visual summaries, infographics and other similar techniques.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 5,
+                    "question": "The course features frequent reinforcement activities.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 6,
+                    "question": "Real-life examples, scenarios and/or case studies are used in the course to increase engagement with learning.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "LearnerSupport",
+            "name": "Learner Support",
+            "questions": [
+                {
+                    "position": 1,
+                    "question": "Learners are able to download courses and complete in offline mode (e.g. Course avoids using YouTube links/ external to videos).",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 2,
+                    "question": "Learners have access to additional resources that enrich the course content.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 3,
+                    "question": "Learners are given examples of and asked to explore practical applications of the course in their setting.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 4,
+                    "question": "Learners have access to troubleshooting resource(s) and contact details.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 5,
+                    "question": "The course features navigational help.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Accessibility",
+            "name": "Accessibility",
+            "questions": [
+                {
+                    "position": 1,
+                    "question": "Videos feature closed captions.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 2,
+                    "question": "Images include descriptive alt tags.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 3,
+                    "question": "The course uses both colour and symbols to convey messages or status changes.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                },
+                {
+                    "position": 4,
+                    "question": "The course uses patterns and textures as opposed to only contrasting colours for elements that require emphasis.",
+                    "options": [
+                        {
+                            "name": "Strongly Agree",
+                            "weight": 5
+                        },
+                        {
+                            "name": "Agree",
+                            "weight": 3
+                        },
+                        {
+                            "name": "Disagree",
+                            "weight": 1
+                        },
+                        {
+                            "name": "Strongly Disagree",
+                            "weight": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

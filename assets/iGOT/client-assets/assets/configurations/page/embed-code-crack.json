@@ -1,0 +1,15 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/app/features",
+    "pageTitle": "Code Crack"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "iframeSrc": "https://lex-iap.infosysapps.com/home/contests",
+      "Title": "Code Crack"
+    },
+    "widgetSubType": "pageEmbedded",
+    "widgetType": "page"
+  }
+}

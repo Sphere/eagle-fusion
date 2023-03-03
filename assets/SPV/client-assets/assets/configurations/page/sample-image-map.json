@@ -1,0 +1,59 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "back",
+    "pageTitle": "Sample Page"
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetType": "selector",
+          "widgetSubType": "selectorResponsive",
+          "widgetData": {
+            "selectFrom": [
+              {
+                "minWidth": 1024,
+                "maxWidth": 500090000,
+                "widget": {
+                  "widgetData": {
+                    "html": "<img src=\"https://lex.infosysapps.com/public-assets/instances/Lex/banners/home/images/concept-graph/1024.jpg\" usemap=\"#image-map\"><map name=\"image-map\"> <area target=\"_blank\" alt=\"Lex\" title=\"Lex\" href=\"https://lex.infosysapps.com\" coords=\"638,204,713,168\" shape=\"rect\"> <area target=\"_blank\" alt=\"Concept Graph\" title=\"Concept Graph\" href=\"https://lex.infosysapps.com/concept-graph\" coords=\"695,122,980,162\" shape=\"rect\"> <area target=\"_blank\" alt=\"Learning History\" title=\"Learning History\" href=\"https://lex.infosysapps.com/learning-history\" coords=\"777,76,942,115\" shape=\"rect\"></map>",
+                    "containerStyle": {}
+                  },
+                  "widgetSubType": "elementHtml",
+                  "widgetType": "element"
+                }
+              },
+              {
+                "minWidth": 769,
+                "maxWidth": 1023,
+                "widget": {
+                  "widgetData": {
+                    "html": "<img src=\"https://lex.infosysapps.com/public-assets/instances/Lex/banners/home/images/concept-graph/768.jpg\" usemap=\"#image-map-2\"><map name=\"image-map-2\"> <area target=\"_blank\" alt=\"Learning\" title=\"Learning\" href=\"https://lex.infosysapps.com/learning-history\" coords=\"463,99,599,129\" shape=\"rect\"> <area target=\"_blank\" alt=\"Concept Graph\" title=\"Concept Graph\" href=\"https://lex.infosysapps.com/concept-graph\" coords=\"463,137,701,165\" shape=\"rect\"> <area target=\"_blank\" alt=\"Lex\" title=\"Lex\" href=\"https://lex.infosysapps.com\" coords=\"506,178,565,204\" shape=\"rect\"></map>",
+                    "containerStyle": {}
+                  },
+                  "widgetSubType": "elementHtml",
+                  "widgetType": "element"
+                }
+              },
+              {
+                "minWidth": 0,
+                "maxWidth": 767,
+                "widget": {
+                  "widgetData": {
+                    "html": "<img src=\"https://lex.infosysapps.com/public-assets/instances/Lex/banners/home/images/concept-graph/414.jpg\" usemap=\"#image-map-3\">\n\n<map name=\"image-map-3\">\n    <area target=\"_blank\" alt=\"Learning\" title=\"Learning\" href=\"https://lex.infosysapps.com/learning-history\" coords=\"271,77,382,104\" shape=\"rect\">\n    <area target=\"_blank\" alt=\"Concept Graph\" title=\"Concept Graph\" href=\"https://lex.infosysapps.com/concept-graph\" coords=\"270,138,389,192\" shape=\"rect\">\n    <area target=\"_blank\" alt=\"Lex\" title=\"Lex\" href=\"https://lex.infosysapps.com/\" coords=\"307,201,357,223\" shape=\"rect\">\n</map>",
+                    "containerStyle": {}
+                  },
+                  "widgetSubType": "elementHtml",
+                  "widgetType": "element"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}

@@ -1,0 +1,381 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "SieSales"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sie-sales/sie-sales.jpg",
+                  "altText": "Sie Sales"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "large": 6,
+              "medium": 6
+            },
+            "widget": {
+              "widgetType": "gallery",
+              "widgetSubType": "galleryView",
+              "widgetData": {
+                "designVal": "set2",
+                "cardMenu": [
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sie-sales/person-1.jpg",
+                          "altText": ""
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  },
+                  {
+                    "widget": {
+                      "widgetType": "element",
+                      "widgetSubType": "elementHtml",
+                      "widgetData": {
+                        "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sie-sales/person-2.jpg",
+                          "altText": "Sie Sales"
+                        },
+                        "containerClass": "h-full"
+                      }
+                    }
+                  }
+                ]
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"flex-wrap w-full flex\">{{#items}}<div class=\"sm:w-1/2 md:w-1/4 w-full\"><a href=\"{{__pageBase}}#{{bookmarkRef}}\" style=\"{{backgroundColor}}\" class=\"p-2 my-1 mr-0 sm:mr-2 flex text-center justify-center items-center h-48\"><div><div class=\"text-xl text-white leading-normal font-semibold\"><div>{{title}}<\/div><\/div><img class=\"mt-3\" src=\"{{iconUrl}}\"><\/div><\/a><\/div>{{\/items}}<\/div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #019ba5",
+                      "title": "GET KNOWLEDGE",
+                      "iconUrl": "/assets/instances/Siemens/sie-sales/get-knowledge-icon.png",
+                      "bookmarkRef": "get_knowledge"
+                    },
+                    {
+                      "backgroundColor": "background: #f8ac00",
+                      "title": "GET TIPS AND TRICKS",
+                      "iconUrl": "/assets/instances/Siemens/sie-sales/get-tips-and-tricks-icon.png",
+                      "bookmarkRef": "get_tips_and_tricks"
+                    },
+                    {
+                      "backgroundColor": "background: #a8b50d ",
+                      "title": "GET CONNECTED",
+                      "iconUrl": "/assets/instances/Siemens/sie-sales/get-connected-icon.png",
+                      "bookmarkRef": "get_connected"
+                    },
+                    {
+                      "backgroundColor": "background: #af245f; margin-right: 0",
+                      "title": "GET READY",
+                      "iconUrl": "/assets/instances/Siemens/sie-sales/get-ready-icon.png",
+                      "bookmarkRef": "get_ready"
+                    }
+                  ]
+                },
+                "containerClass": "px-6 sm:px-8 md:px-10"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "get_knowledge",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sie-sales/get-knowledge.png",
+                            "altText": "Get Knowledge"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "get_knowledge"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411943073546243881",
+                        "lex_auth_0128411941630361603882",
+                        "lex_auth_0128411909485117443883",
+                        "lex_auth_0128411869436641283884",
+                        "lex_auth_0128411878936084483886"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          },
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "get_tips_and_tricks",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sie-sales/get-tips-and-tricks.png",
+                            "altText": "Get Knowledge"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "get_tips_and_tricks"
+                      }
+                    ],
+                    "postWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sie-sales/more-tips-and-tricks.png",
+                            "altText": "More Tips and Tricks"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "mat-elevation-z4"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411912553512963906",
+                        "lex_auth_0128411934609899523909"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetType": "element",
+              "widgetSubType": "elementHtml",
+              "widgetData": {
+                "template": "<img class=\"h-full w-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sie-sales/get-connected.png",
+                  "altText": "Sie Sales"
+                },
+                "containerClass": "h-full md:w-56 lg:w-auto",
+                "containerStyle": {
+                  "min-height": "370px"
+                }
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full",
+              "widgetInstanceId": "get_connected"
+            },
+            "className": "order-1"
+          },
+          {
+            "dimensions": {
+              "large": 6
+            },
+            "widget": {
+              "widgetSubType": "imageMapResponsive",
+              "widgetType": "imageMap",
+              "widgetData": {
+                "imageHeight": "370",
+                "imageWidth": "515",
+                "imageSrc": "/assets/instances/Siemens/sie-sales/image-map.jpg",
+                "mapName": "map-sie-sales",
+                "map": [
+                  {
+                    "coords": [
+                      250,
+                      63,
+                      269,
+                      83
+                    ],
+                    "alt": "Lead Country Great Britain",
+                    "title": "Lead Country Great Britain",
+                    "link": "https://learningworld.siemens.com/learning-tag/siesales-lead-country-great-britain-3",
+                    "target": "_blank"
+                  },
+                  {
+                    "coords": [
+                      174,
+                      235,
+                      188,
+                      254
+                    ],
+                    "alt": "Lead Country Brazil",
+                    "title": "Lead Country Brazil",
+                    "link": "https://learningworld.siemens.com/learning-tag/siesales-lead-country-brazil-1",
+                    "target": "_blank"
+                  }
+                ],
+                "containerClass": "mat-elevation-z4"
+              },
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 xl:pl-0 lg:pr-0"
+            },
+            "className": "order-2 sm:order-3 lg:order-2"
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 8
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div class=\"h-full\"> <img class=\"w-full\" src=\"{{imageSrc}}\"\/><div style=\"background-color:#376ea4\" class=\"p-6\"> {{#items}} <a href=\"{{link}}\"><div style=\"{{style}} background:#d1cad1\" class=\"p-2 mb-2 leading-tight text-white text-center text-xl border-2 border-white font-normal rounded-full\"> {{title}}<\/div> <\/a> {{\/items}}<\/div><\/div>",
+                "templateData": {
+                  "imageSrc": "/assets/instances/Siemens/sie-sales/siesale-get-more-input.png",
+                  "items": [
+                    {
+                      "link": "https://www.yammer.com/siemens.com/#/threads/inGroup?type=in_group&amp;feedId=17643582",
+                      "title": "SieSales Yammer Group"
+                    },
+                    {
+                      "link": "./page/sie-sales#",
+                      "title": "Sales Channel"
+                    }
+                  ]
+                },
+                "containerClass": "h-full md:w-56 lg:w-auto"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetInstanceId": "",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0"
+            },
+            "className": "order-3 sm:order-2 lg:order-3"
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "get_ready",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetData": {
+                          "template": "<img style=\"width: 265px\" class=\"h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" \/>",
+                          "templateData": {
+                            "imageSrc": "/assets/instances/Siemens/sie-sales/get-ready.png",
+                            "altText": "Get Knowledge"
+                          },
+                          "containerClass": "h-full"
+                        },
+                        "widgetSubType": "elementHtml",
+                        "widgetType": "element",
+                        "widgetHostClass": "sticky-m mat-elevation-z4",
+                        "widgetInstanceId": "get_ready"
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411918443397123899",
+                        "lex_auth_0128411946523197443900",
+                        "lex_auth_0128411905747927043901"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

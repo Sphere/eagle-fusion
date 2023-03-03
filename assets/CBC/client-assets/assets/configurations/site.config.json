@@ -1,0 +1,417 @@
+{
+  "authoring": {
+    "allowedContentType": [],
+    "allowRedo": false,
+    "allowRestore": false,
+    "allowExpiry": false,
+    "allowReview": true,
+    "allowPublish": true,
+    "newDesign": false,
+    "urlPatternMatching": [
+      {
+        "allowReplace": false,
+        "source": "youtube",
+        "pattern": "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\/.+",
+        "allowIframe": true
+      }
+    ]
+  },
+  "defaultFeatureConfigs": {
+    "error": "/assets/configurations/common/feature/error.json"
+  },
+  "org": [
+    "dopt",
+    "istm"
+  ],
+  "rootOrg": "igot",
+  "defaultFontSize": "theme-igot",
+  "defaultLocale": "",
+  "defaultThemeClass": "theme-igot",
+  "details": {
+    "appName": "CBC-iGOT"
+  },
+  "disablePidCheck": true,
+  "isContentDownloadAvailable": false,
+  "fontSizes": [
+    {
+      "baseFontSize": "10px",
+      "fontClass": "x-small-typography",
+      "scale": "-2"
+    },
+    {
+      "baseFontSize": "12px",
+      "fontClass": "small-typography",
+      "scale": "-1"
+    },
+    {
+      "baseFontSize": "14px",
+      "fontClass": "normal-typography",
+      "scale": 0
+    },
+    {
+      "baseFontSize": "16px",
+      "fontClass": "large-typography",
+      "scale": 1
+    },
+    {
+      "baseFontSize": "18px",
+      "fontClass": "x-large-typography",
+      "scale": 2
+    }
+  ],
+  "indexHtmlMeta": {
+    "description": "iGOT 2.0 is a learning platform aimed at promoting capacity development among civil services. It is a solution built to be ‘fit for purpose’ to meet the exact learning needs of the civil services. iGOT 2.0 will help create impactful and relevant learning paths to achieve the outcomes relevant to their career aspirations.",
+    "webmanifest": "/assets/configurations/manifest/manifest.webmanifest",
+    "xIcon": "/assets/configurations/manifest/favicon.ico"
+  },
+  "keycloak": {
+    "bearerExcludedUrls": [
+      "assets",
+      "/apis/public",
+      "/assets",
+      "/pubic-assets"
+    ],
+    "clientId": "portal",
+    "key": "ws-kc-token-storage",
+    "realm": "sunbird",
+    "url": "https://igot-dev.in/auth"
+  },
+  "locals": [
+    {
+      "isAvailable": true,
+      "isEnabled": true,
+      "locals": [
+        "en",
+        "en-US"
+      ],
+      "path": "",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "de"
+      ],
+      "path": "de",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "zh-CN"
+      ],
+      "path": "zh-CN",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "fr"
+      ],
+      "path": "fr",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "fr-ca"
+      ],
+      "path": "fr-ca",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "es"
+      ],
+      "path": "es",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "ar"
+      ],
+      "path": "ar",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "nl"
+      ],
+      "path": "nl",
+      "isRTL": false
+    },
+    {
+      "isAvailable": false,
+      "isEnabled": false,
+      "locals": [
+        "ja"
+      ],
+      "path": "ja",
+      "isRTL": false
+    }
+  ],
+  "chatBotUrl": "/chat-bot/#/bot=wingspanbotv7",
+  "logos": {
+    "app": "/assets/instances/eagle/app_logos/eagle-logo-transparent.svg",
+    "appTransparent": "/assets/instances/eagle/app_logos/eagle-logo-transparent.svg",
+    "appBottomNav": "/assets/instances/eagle/app_logos/source.png",
+    "company": "/assets/instances/eagle/app_logos/eagle-logo-transparent.svg",
+    "defaultContent": "/assets/instances/eagle/app_logos/default.png",
+    "aboutFooter": "/assets/instances/eagle/about-page/about-footer.jpg",
+    "aboutHeader": "/assets/instances/eagle/about-page/about-header.jpg",
+    "developedBy": "Tarento Technologies",
+    "platformBanner": "/apis/public/v8/assets/common/misc/about-wingspan.jpg",
+    "poweredBy": "Tarento",
+    "landingLogo": "",
+    "defaultSourceLogo": "/assets/instances/eagle/app_logos/source.png",
+    "playListLogo": "/assets/instances/eagle/about-page/about-header.jpg"
+  },
+  "sources": [
+    {
+      "sourceName": "Georgia Tech CEISMC",
+      "sourceId": "",
+      "logo": "/assets/instances/eagle/sources/hex-lab.png"
+    },
+    {
+      "sourceName": "Firia Labs",
+      "sourceId": "",
+      "logo": "/assets/instances/eagle/sources/Image34.png"
+    },
+    {
+      "sourceName": "Chibitronics",
+      "sourceId": "",
+      "logo": "/assets/instances/eagle/sources/hex-lab.png"
+    }
+  ],
+  "mailIds": {
+    "contactUs": "support@tarento.com",
+    "default": "support@tarento.com",
+    "support": "support@tarento.com"
+  },
+  "microsoft": {
+    "clientId": "c6597d0b-c629-4885-a53c-44490643ddda",
+    "defaultEmailId": "support@tarento.com",
+    "isConfigured": true,
+    "tenant": "tarentotechnologies",
+    "validEmailExtensions": [
+      "@tarento.tarento.com"
+    ]
+  },
+  "telemetryConfig": {
+    "pdata": {
+      "id": "lex-web-ui",
+      "ver": "1.0.0",
+      "pid": ""
+    },
+    "env": "prod",
+    "channel": "igot",
+    "batchsize": 10,
+    "host": "",
+    "endpoint": "/apis/protected/v8/user/telemetry",
+    "apislug": "",
+    "object": {
+      "ver": "1.0.0"
+    }
+  },
+  "themes": [
+    {
+      "color": {
+        "accent": "#00A9F4",
+        "primary": "#ffffff",
+        "warn": "#f44336"
+      },
+      "themeFile": "theme-igot",
+      "themeClass": "theme-igot",
+      "themeName": "iGOT Theme"
+    }
+  ],
+  "validMailIdExtensionsForMailMe": [
+    "tarento.com"
+  ],
+  "backgrounds": {
+    "primaryNavBar": {
+      "color": "primary"
+    },
+    "pageNavBar": {
+      "color": "default"
+    }
+  },
+  "primaryNavBarConfig": {
+    "mediumScreen": {
+      "left": [],
+      "right": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_home",
+            "toolTip": "Home",
+            "className": "fixtopMargin",
+            "config": {
+              "actionBtnId": "feature_home",
+              "type": "card-mini",
+              "hideTitle": true
+            }
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_dashboard_v2",
+            "toolTip": "Dashboard",
+            "className": "fixtopMargin",
+            "config": {
+              "actionBtnId": "feature_dashboard_v2",
+              "type": "card-mini",
+              "hideTitle": true
+            }
+          }
+        },
+        {
+          "type": "widgetButton",
+          "config": {
+            "widgetType": "actionButton",
+            "widgetSubType": "actionButtonProfile",
+            "widgetData": {
+              "disableViewProfile": true,
+              "disableAllFeatures": true,
+              "disableSettings": true
+            },
+            "hideTitle": true
+          }
+        }
+      ]
+    },
+    "smallScreen": {
+      "left": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_catalog",
+            "config": {
+              "type": "card-mini"
+            }
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_profile",
+            "config": {
+              "type": "card-mini"
+            }
+          }
+        }
+      ],
+      "right": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_search",
+            "config": {
+              "type": "card-mini"
+            }
+          }
+        }
+      ]
+    },
+    "secondary": {
+      "left": [
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_home",
+            "config": {
+              "type": "mat-button"
+            }
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_goals",
+            "config": {
+              "type": "mat-button"
+            }
+          }
+        },
+        {
+          "type": "featureButton",
+          "config": {
+            "actionBtnId": "feature_account",
+            "config": {
+              "type": "mat-button"
+            }
+          }
+        }
+      ],
+      "right": []
+    }
+  },
+  "hubs": [
+    {
+      "path": "/page/learn",
+      "active": true,
+      "hubname": "Learn",
+      "desc": "Shape your Skills with hunderds-of online course",
+      "icon": "school",
+      "accessKey": "L"
+    },
+    {
+      "path": "/app/discuss/home",
+      "active": true,
+      "hubname": "Discuss",
+      "desc": "Have a question? Have an Idea? discuss with your peers",
+      "icon": "forum",
+      "accessKey": "D"
+    },
+    {
+      "path": "/app/network-v2",
+      "active": true,
+      "hubname": "Network",
+      "desc": "Connect with Interesting people, see what they are upto.",
+      "icon": "group",
+      "accessKey": "N"
+    },
+    {
+      "path": "/app/careers/home",
+      "active": true,
+      "hubname": "Career",
+      "desc": "Explore the carrier option grow into the path you are",
+      "icon": "work",
+      "accessKey": "C"
+    },
+    {
+      "path": "/app/competencies",
+      "active": true,
+      "hubname": "Competencies",
+      "desc": "Add your competencies, see what others are adding",
+      "icon": "extension",
+      "accessKey": "O"
+    }
+  ],
+  "featuredApps": [
+    "feature_playlist",
+    "feature_goals",
+    "feature_blogs",
+    "feature_Q&A",
+    "feature_create_konnect",
+    "feature_konnect"
+  ],
+  "intranetIframeUrls": [],
+  "introVideo": {
+    "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"
+  },
+  "tourVideo": {
+    "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"
+  }
+}

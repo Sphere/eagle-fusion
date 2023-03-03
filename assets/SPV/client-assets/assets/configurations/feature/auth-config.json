@@ -1,0 +1,194 @@
+{
+  "allowActionHistory": true,
+  "allowRoleRequest": true,
+  "allowNotification": true,
+  "maxExpiryDate": 365,
+  "optimizedWorkFlow": {
+    "allow": true,
+    "conditions": {
+      "fit": [
+        "*"
+      ],
+      "notFit": []
+    }
+  },
+  "workFlowTable": [
+    {
+      "conditions": {
+        "fit": [
+          "*"
+        ],
+        "notFit": []
+      },
+      "workFlow": [
+        "Draft",
+        "InReview",
+        "Reviewed",
+        "Processing",
+        "Live"
+      ]
+    }
+  ],
+  "ownerDetails": [
+    {
+      "status": [
+        "Draft",
+        "Live"
+      ],
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "submitted",
+        "retrieved",
+        "restored",
+        "pulledBack"
+      ]
+    },
+    {
+      "status": [
+        "MarkedForDeletion"
+      ],
+      "actionName": "Marked for deletion",
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "markedForDeletion"
+      ]
+    },
+    {
+      "status": [
+        "Unpublished"
+      ],
+      "actionName": "Unpublished",
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "unpublished"
+      ]
+    },
+    {
+      "status": [
+        "Deleted"
+      ],
+      "actionName": "Deleted",
+      "owner": "creatorContacts",
+      "name": "Creator",
+      "relatedActions": [
+        "deleted"
+      ]
+    },
+    {
+      "status": [
+        "InReview"
+      ],
+      "actionName": "Review",
+      "owner": "trackContacts",
+      "name": "Reviewer",
+      "relatedActions": [
+        "reviewerApproved",
+        "reviewerRejected"
+      ]
+    },
+    {
+      "status": [
+        "Reviewed"
+      ],
+      "actionName": "Publish",
+      "owner": "publisherDetails",
+      "name": "Publisher",
+      "relatedActions": [
+        "publisherApproved",
+        "publisherRejected"
+      ]
+    },
+    {
+      "status": [
+        "QualityReview"
+      ],
+      "actionName": "Quality Review",
+      "relatedActions": [
+        "qualityApproved",
+        "qualityRejected"
+      ]
+    },
+    {
+      "status": [
+        "Expired"
+      ],
+      "relatedActions": [
+        "expired"
+      ]
+    },
+    {
+      "status": [
+        "Processing"
+      ],
+      "relatedActions": []
+    }
+  ],
+  "permissionDetails": [
+    {
+      "role": "author",
+      "editContent": {
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      },
+      "editMeta": {
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      }
+    },
+    {
+      "role": "reviewer",
+      "editMeta": {
+        "enableByDefault": false,
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      }
+    },
+    {
+      "role": "publisher",
+      "editMeta": {
+        "enableByDefault": false,
+        "conditions": {
+          "fit": [
+            {
+              "status": [
+                "Draft",
+                "Live"
+              ]
+            }
+          ],
+          "notFit": []
+        }
+      }
+    }
+  ]
+}

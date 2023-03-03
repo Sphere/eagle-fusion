@@ -1,0 +1,159 @@
+{
+    "defaultFeatureConfigs": {
+      "error": "/assets/configurations/common/feature/error.json"
+    },
+    "defaultFontSize": "normal-typography",
+    "defaultLocale": "en",
+    "defaultThemeClass": "theme-teal",
+    "details": {
+      "appName": "Sphere creator"
+    },
+    "disablePidCheck": false,
+    "isContentDownloadAvailable": false,
+    "org": ["aastar"],
+    "rootOrg": "aastar",
+    "fontSizes": [
+      {
+        "baseFontSize": "10px",
+        "fontClass": "x-small-typography",
+        "scale": "-2"
+      },
+      {
+        "baseFontSize": "12px",
+        "fontClass": "small-typography",
+        "scale": "-1"
+      },
+      {
+        "baseFontSize": "14px",
+        "fontClass": "normal-typography",
+        "scale": 0
+      },
+      {
+        "baseFontSize": "16px",
+        "fontClass": "large-typography",
+        "scale": 1
+      },
+      {
+        "baseFontSize": "18px",
+        "fontClass": "x-large-typography",
+        "scale": 2
+      }
+    ],
+    "indexHtmlMeta": {
+      "appleTouchIcon180": "/assets/instances/eagle/fav_icons/apple-touch-icon.png",
+      "appleTouchIcon57": "/assets/instances/eagle/fav_icons/apple-touch-icon-57x57.png",
+      "icon16": "/assets/instances/eagle/fav_icons/favicon-16x16.png",
+      "icon32": "/assets/instances/eagle/fav_icons/favicon-32x32.png",
+      "maskIcon": "/assets/instances/eagle/fav_icons/safari-pinned-tab.svg",
+      "openSearchUrl": "/assets/instances/eagle/open-search.xml",
+      "themeColorMeta": "primary",
+      "webmanifest": "/assets/instances/eagle/fav_icons/site.webmanifest",
+      "xIcon": "/assets/instances/eagle/fav_icons/favicon.ico"
+    },
+    "keycloak": {
+      "bearerExcludedUrls": [
+        "assets",
+        "/apis/public",
+        "/assets",
+        "/pubic-assets"
+      ],
+      "clientId": "portal",
+      "key": "ws-kc-token-storage",
+      "realm": "sunbird",
+      "url": "https://sphere.aastrika.org/auth"
+    },
+    "locals": [
+      {
+        "isAvailable": true,
+        "isEnabled": true,
+        "locals": ["en", "en-US"],
+        "path": "",
+        "isRTL": false
+      }
+    ],
+   "logos": {
+      "app": "/assets/instances/eagle/app_logos/aastar-logo.svg",
+      "appTransparent": "/assets/instances/eagle/app_logos/aastar-logo.svg",
+      "company": "/assets/instances/eagle/app_logos/aastar-logo.svg",
+      "defaultContent": "/assets/instances/eagle/app_logos/default.png",
+      "developedBy": "",
+      "aboutFooter": "/assets/instances/eagle/about-page/about-footer.jpg",
+      "aboutHeader": "/assets/instances/eagle/about-page/about-header.jpg",
+      "poweredBy": "eagle eagle",
+      "landingLogo": "",
+      "appBottomNav": "/assets/instances/eagle/app_logos/source.png"
+    },
+    "sources": [
+      {
+        "sourceName": "Georgia Tech CEISMC",
+        "sourceId": "",
+        "logo": "/assets/instances/eagle/sources/hex-lab.png"
+      },
+      {
+        "sourceName": "Firia Labs",
+        "sourceId": "",
+        "logo": "/assets/instances/eagle/sources/Image34.png"
+      },
+      {
+        "sourceName": "Chibitronics",
+        "sourceId": "",
+        "logo": "/assets/instances/eagle/sources/liva.png"
+      }
+    ],
+    "mailIds": {
+      "contactUs": "eagle-support@eagle.com",
+      "default": "eagle-support@eagle.com",
+      "support": "eagle-support@eagle.com"
+    },
+    "telemetryConfig": {
+      "pdata": {
+        "id": "web-ui",
+        "ver": "1.0.0",
+        "pid": ""
+      },
+      "env": "prod",
+      "channel": "aastar",
+      "batchsize": 1,
+      "host": "",
+      "endpoint": "/apis/protected/v8/user/telemetry",
+      "apislug": "",
+      "object": {
+        "ver": "1.0.0"
+      }
+    },
+    "themes": [
+      {
+        "color": {
+          "accent": "#00A9F4",
+          "primary": "#ffffff",
+          "warn": "#f44336"
+        },
+        "themeFile": "theme-igot",
+        "themeClass": "theme-igot",
+        "themeName": "Theme iGOT"
+      }
+    ],
+    "microsoft": {
+      "clientId": "clientidd",
+      "defaultEmailId": "eagle-support@eagle.com",
+      "isConfigured": true,
+      "tenant": "eagle",
+      "validEmailExtensions": ["@eagle.eagle.com"]
+    },
+    "validMailIdExtensionsForMailMe": [],
+    "backgrounds": {
+      "primaryNavBar": {
+        "color": "primary"
+      },
+      "pageNavBar": {
+        "color": "default"
+      }
+    },
+    "introVideo": {
+      "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"
+    },
+    "tourVideo": {
+      "en": "/assets/instances/eagle/videos/Eagle_New_AppTour_Final.mp4"
+    }
+  }
+  

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons/content/Module</title>
+    <g id="Icons/content/Module" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Size" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+        <path d="M20,6 L20,18 C20,18.55 20.45,19 21,19 C21.55,19 22,18.55 22,18 L22,6 C22,5.45 21.55,5 21,5 C20.45,5 20,5.45 20,6 Z M17,19 C17.55,19 18,18.55 18,18 L18,6 C18,5.45 17.55,5 17,5 C16.45,5 16,5.45 16,6 L16,18 C16,18.55 16.45,19 17,19 Z M13.1428571,5 L2.85714286,5 C2.38571429,5 2,5.45 2,6 L2,18 C2,18.55 2.38571429,19 2.85714286,19 L13.1428571,19 C13.6142857,19 14,18.55 14,18 L14,6 C14,5.45 13.6142857,5 13.1428571,5 Z" id="Shape" fill-opacity="0.6" fill="#000000"></path>
+    </g>
+</svg>

@@ -1,0 +1,91 @@
+{
+    "contentType": "Page",
+    "navigationBar": {
+      "pageTitle": "",
+      "pageBackLink": "none",
+      "background": {
+        "color": "default",
+        "styles": {
+          "background-color": "white",
+          "color": "#333"
+        }
+      },
+      "xsmallNonMenuLinks": [
+        {
+          "widgetType": "actionButton",
+          "widgetSubType": "buttonFeature",
+          "widgetData": {
+            "actionBtnId": "feature_notification",
+            "config": {
+              "type": "mat-icon-button"
+            }
+          }
+        }
+      ],
+      "links": []
+    },
+    "pageLayout": {
+      "widgetSubType": "gridLayout",
+      "widgetType": "layout",
+      "widgetData": {
+        "widgets": [
+          [
+            {
+              "dimensions": {},
+              "widget": {
+                "widgetType": "contentStrip",
+                "widgetSubType": "contentStripMultiple",
+                "widgetData": {
+                  "strips": [
+                    {
+                      "key": "latest",
+                      "title": "Latest Courses",
+                      "info": {
+                        "mode": "below",
+                        "visibilityMode": "hidden",
+                        "icon": {
+                          "icon": "info",
+                          "scale": 0.8
+                        },
+                        "widget": {
+                          "widgetType": "element",
+                          "widgetSubType": "elementHtml",
+                          "widgetData": {
+                          }
+                        }
+                      },
+                      "stripConfig": {
+                        "cardSubType": "standard",
+                        "postCardForSearch": true
+                      }, 
+                      "filters": [],
+                      "request": {
+                        "searchV6": {
+                          "request": {
+                            "filters": {
+                              "primaryCategory": [
+                                "Course"
+                              ],
+                              "contentType": [
+                                "Course"
+                              ],
+                              "status": [
+                                "Live"
+                              ]
+                            },
+                            "sort_by": {
+                              "lastUpdatedOn": "desc"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        ]
+      }
+    }
+  }

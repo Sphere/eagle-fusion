@@ -1,0 +1,759 @@
+{
+  "contentType": "Page",
+  "pageLayout": {
+    "widgetData": {
+      "gutter": 2,
+      "widgets": [
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "path": [
+                  {
+                    "clickUrl": "/page/home",
+                    "text": "Home"
+                  },
+                  {
+                    "text": "Channels",
+                    "clickUrl": "/page/lex_auth_0128445903107194886"
+                  },
+                  {
+                    "text": "Sustainability"
+                  }
+                ]
+              },
+              "widgetSubType": "cardBreadcrumb",
+              "widgetType": "card",
+              "widgetHostClass": "block",
+              "widgetHostStyle": {
+                "box-sizing": "border-box"
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "medium": 8,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1010,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "650",
+                        "imageWidth": "1365",
+                        "imageSrc": "/assets/instances/Siemens/sustainability/1024.jpg",
+                        "mapName": "map-sustainability",
+                        "map": [
+                          {
+                            "coords": [
+                              296,
+                              233,
+                              424,
+                              336
+                            ],
+                            "alt": "Why Sustainability is important",
+                            "title": "Why Sustainability is important",
+                            "link": "../page/sustainability#sustainability_important",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              509,
+                              327,
+                              635,
+                              434
+                            ],
+                            "alt": "Business case for Sustainability",
+                            "title": "Business case for Sustainability",
+                            "link": "./page/sustainability#business_sustainability",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              731,
+                              228,
+                              839,
+                              344
+                            ],
+                            "alt": "Sustainability at Siemens",
+                            "title": "Sustainability at Siemens",
+                            "link": "./page/sustainability#sustainability_siemens",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              942,
+                              323,
+                              1056,
+                              440
+                            ],
+                            "alt": "Sustainability in your business",
+                            "title": "Sustainability in your business",
+                            "link": "./page/sustainability#sustainability_in_your_business",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              1155,
+                              224,
+                              1262,
+                              349
+                            ],
+                            "alt": "Further information",
+                            "title": "Further information",
+                            "link": "./page/sustainability#further_information",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 768,
+                    "maxWidth": 1009,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "768",
+                        "imageWidth": "488",
+                        "imageSrc": "/assets/instances/Siemens/sustainability/768.jpg",
+                        "mapName": "map-sustainability",
+                        "map": [
+                          {
+                            "coords": [
+                              225,
+                              175,
+                              320,
+                              254
+                            ],
+                            "alt": "Why Sustainability is important",
+                            "title": "Why Sustainability is important",
+                            "link": "../page/sustainability#sustainability_important",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              385,
+                              248,
+                              475,
+                              329
+                            ],
+                            "alt": "Business case for Sustainability",
+                            "title": "Business case for Sustainability",
+                            "link": "./page/sustainability#business_sustainability",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              546,
+                              174,
+                              633,
+                              256
+                            ],
+                            "alt": "Sustainability at Siemens",
+                            "title": "Sustainability at Siemens",
+                            "link": "./page/sustainability#sustainability_siemens",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              704,
+                              241,
+                              794,
+                              329
+                            ],
+                            "alt": "Sustainability in your business",
+                            "title": "Sustainability in your business",
+                            "link": "./page/sustainability#sustainability_in_your_business",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              864,
+                              172,
+                              949,
+                              257
+                            ],
+                            "alt": "Further information",
+                            "title": "Further information",
+                            "link": "./page/sustainability#further_information",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 767,
+                    "widget": {
+                      "widgetData": {
+                        "imageHeight": "263",
+                        "imageWidth": "552",
+                        "imageSrc": "/assets/instances/Siemens/sustainability/414.jpg",
+                        "mapName": "map-sustainability",
+                        "map": [
+                          {
+                            "coords": [
+                              124,
+                              92,
+                              168,
+                              139
+                            ],
+                            "alt": "Why Sustainability is important",
+                            "title": "Why Sustainability is important",
+                            "link": "../page/sustainability#sustainability_important",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              208,
+                              131,
+                              255,
+                              177
+                            ],
+                            "alt": "Business case for Sustainability",
+                            "title": "Business case for Sustainability",
+                            "link": "./page/sustainability#business_sustainability",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              295,
+                              92,
+                              340,
+                              139
+                            ],
+                            "alt": "Sustainability at Siemens",
+                            "title": "Sustainability at Siemens",
+                            "link": "./page/sustainability#sustainability_siemens",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              382,
+                              128,
+                              425,
+                              179
+                            ],
+                            "alt": "Sustainability in your business",
+                            "title": "Sustainability in your business",
+                            "link": "./page/sustainability#sustainability_in_your_business",
+                            "target": ""
+                          },
+                          {
+                            "coords": [
+                              466,
+                              89,
+                              511,
+                              142
+                            ],
+                            "alt": "Further information",
+                            "title": "Further information",
+                            "link": "./page/sustainability#further_information",
+                            "target": ""
+                          }
+                        ],
+                        "containerClass": "h-full"
+                      },
+                      "widgetSubType": "imageMapResponsive",
+                      "widgetType": "imageMap",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pr-0 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 4
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"background: #2387a9\" class=\"h-full flex justify-center items-center\"><div class=\"p-2 sm:p-6\">{{#items}}<div style=\"{{style}} background:#fff\" class=\"p-1 my-4 text-black leading-tight text-center text-xl border-2 border-white font-semibold rounded-full\"><a href={{link}} target={{target}} style = {{style}}><div style=\"color: #2387a9;border-color: #2387a9;\" class=\"p-2 border-4 rounded-full border-solid\">{{title}}</div></a></div> {{/items}}</div></div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "style": "",
+                      "target": "",
+                      "link": "/app/toc/lex_auth_012872938337083392439/overview",
+                      "title": "Recently added"
+                    },
+                    {
+                      "style": "",
+                      "target": "_blank",
+                      "link": "https://intranet.lc-tools.siemens.de/filehosting/learningworld/Sustainability/Materials/Further%20Information%20on%20Sustainability.pdf",
+                      "title": "Quick links"
+                    },
+                    {
+                      "style": "cursor: default;",
+                      "link": "",
+                      "target": "#",
+                      "title": "Your feedback and contribution"
+                    }
+                  ]
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pl-0"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {
+              "large": 3,
+              "medium": 5,
+              "small": 12
+            },
+            "widget": {
+              "widgetData": {
+                "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div style=\"{{overlayStyle}}\" class=\"items-center p-6 text-base leading-normal font-normal\">{{overlayText}}<div class=\"flex flex-col items-end mt-2\"><div class = \"pt-8\">{{name}}</div><div class=\"text-sm italic\">{{designation}}</div></div> </div></div>",
+                "templateData": {
+                  "cardStyle": "background-size: 100% 100% !important; background : url('/assets/instances/Siemens/sustainability/joe.jpg')",
+                  "overlayText": "\"For us, Ingenuity for life means dedicating our innovative spirit to the service of society and our planet.\"",
+                  "name": "Joe Kaeser",
+                  "designation": "Chief Executive Officer",
+                  "overlayStyle": "background:#3c93b1;color: white;opacity:0.8;font-weight:bold"
+                },
+                "containerClass": "h-full",
+                "containerStyle": {
+                  "min-height": "472px"
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full px-6 sm:px-8 md:px-10 md:pr-0"
+            }
+          },
+          {
+            "dimensions": {
+              "medium": 7,
+              "large": 9
+            },
+            "widget": {
+              "widgetType": "selector",
+              "widgetSubType": "selectorResponsive",
+              "widgetData": {
+                "selectFrom": [
+                  {
+                    "minWidth": 1000,
+                    "maxWidth": 500090000,
+                    "widget": {
+                      "widgetData": {
+                        "template": "<img class=\"w-full h-full\" src=\"{{imageSrc}}\" alt\"{{altText}}\" />",
+                        "templateData": {
+                          "imageSrc": "/assets/instances/Siemens/sustainability/sustainability-image.jpg",
+                          "altText": "Sustanibilty Siemens"
+                        },
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "height": "472px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full"
+                    }
+                  },
+                  {
+                    "minWidth": 0,
+                    "maxWidth": 999,
+                    "widget": {
+                      "widgetData": {
+                        "html": "<img class=\"h-full w-full\" src=\"/assets/instances/Siemens/sustainability/sus-mobile.png\"/>",
+                        "containerClass": "h-full",
+                        "containerStyle": {
+                          "height": "472px"
+                        }
+                      },
+                      "widgetSubType": "elementHtml",
+                      "widgetType": "element",
+                      "widgetHostClass": "block px-6 sm:px-8 md:px-10 md:pl-0 h-full"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "template": "<h1 class=\"mat-h1 margin-remove inline-block\">{{title}}</h1>",
+                "templateData": {
+                  "title": "Want more information? Click below depending on your learning needs"
+                },
+                "containerClass": "h-full"
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block px-6 sm:px-8 md:px-10 pt-6"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "containerClass": "px-6 sm:px-8 md:px-10",
+                "template": "<div class=\"flex-wrap w-full flex\">{{#items}}<div class=\"sm:w-1/2 md:1/4 lg:w-1/5 w-full my-1\"> <a href=\"{{__pageBase}}#{{bookmarkRef}}\" style=\"{{backgroundColor}}\" class=\"mr-2 h-full block text-center justify-center\"><div class=\"p-6 flex flex-row sm:flex-col items-center\"> <img class=\"h-20 sm:h-24 mr-3  sm:mr-0 sm:mb-3 \" src=\"{{iconUrl}}\"><div class=\"pb-3 text-xl sm:text-2xl text-white leading-tight font-semibold\"> {{title}}</div><div class=\"hidden sm:block text-base text-white leading-tight font-normal\"> {{description}}</div></div> </a></div>{{/items}}</div>",
+                "templateData": {
+                  "items": [
+                    {
+                      "backgroundColor": "background: #f68620",
+                      "title": "Why Sustainability is important",
+                      "description": "Learn how global forces are shaping the need for action.",
+                      "iconUrl": "/assets/instances/Siemens/sustainability/sustainability-important.png",
+                      "bookmarkRef": "sustainability_important"
+                    },
+                    {
+                      "backgroundColor": "background: #ffb901",
+                      "title": "Business case for Sustainability",
+                      "description": "Information to help you understand and communicate the relevance of Sustainability to (y)our business.",
+                      "iconUrl": "/assets/instances/Siemens/sustainability/business-case.png",
+                      "bookmarkRef": "business_sustainability"
+                    },
+                    {
+                      "backgroundColor": "background: #abb50d",
+                      "title": "Sustainability at Siemens",
+                      "description": "Both a summary, and links to further information, on different aspects of Sustainability at Siemens.",
+                      "iconUrl": "/assets/instances/Siemens/sustainability/sustainability-siemens.png",
+                      "bookmarkRef": "sustainability_siemens"
+                    },
+                    {
+                      "backgroundColor": "background: #42aaab",
+                      "title": "Sustainability in your business",
+                      "description": "Detailed information to help you implement Sustainability in your particular business.",
+                      "iconUrl": "/assets/instances/Siemens/sustainability/sustainability-business.png",
+                      "bookmarkRef": "sustainability_in_your_business"
+                    },
+                    {
+                      "backgroundColor": "background: #10789b",
+                      "title": "Further information",
+                      "description": "A central hub, providing links to specific topics, tools and frameworks.",
+                      "iconUrl": "/assets/instances/Siemens/sustainability/further-info.png",
+                      "bookmarkRef": "further_information"
+                    }
+                  ]
+                }
+              },
+              "widgetSubType": "elementHtml",
+              "widgetType": "element",
+              "widgetHostClass": "block h-full w-full"
+            }
+          }
+        ],
+        [
+          {
+            "dimensions": {},
+            "widget": {
+              "widgetData": {
+                "strips": [
+                  {
+                    "key": "sustainability_important",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetType": "selector",
+                        "widgetSubType": "selectorResponsive",
+                        "widgetData": {
+                          "selectFrom": [
+                            {
+                              "minWidth": 640,
+                              "maxWidth": 500090000,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-1-large.png'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            },
+                            {
+                              "minWidth": 0,
+                              "maxWidth": 639,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-1.jpg'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411917649838084143",
+                        "lex_auth_0128411958651535364150",
+                        "lex_auth_01287293397702246482"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "business_sustainability",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetType": "selector",
+                        "widgetSubType": "selectorResponsive",
+                        "widgetData": {
+                          "selectFrom": [
+                            {
+                              "minWidth": 640,
+                              "maxWidth": 500090000,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-2-large.png'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            },
+                            {
+                              "minWidth": 0,
+                              "maxWidth": 639,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-2.jpg'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012872934772711424352"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "sustainability_siemens",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetType": "selector",
+                        "widgetSubType": "selectorResponsive",
+                        "widgetData": {
+                          "selectFrom": [
+                            {
+                              "minWidth": 640,
+                              "maxWidth": 500090000,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-3-large.png'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            },
+                            {
+                              "minWidth": 0,
+                              "maxWidth": 639,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-3.jpg'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_0128411930971996164086",
+                        "lex_auth_01287293137766809681",
+                        "lex_auth_0128411894831185924333"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "sustainability_in_your_business",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetType": "selector",
+                        "widgetSubType": "selectorResponsive",
+                        "widgetData": {
+                          "selectFrom": [
+                            {
+                              "minWidth": 640,
+                              "maxWidth": 500090000,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-4-large.png'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            },
+                            {
+                              "minWidth": 0,
+                              "maxWidth": 639,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-4.jpg'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012872935930855424433",
+                        "lex_auth_012872937998376960437",
+                        "lex_auth_012872938906312704442"
+                      ]
+                    }
+                  },
+                  {
+                    "key": "further_information",
+                    "title": "",
+                    "preWidgets": [
+                      {
+                        "widgetType": "selector",
+                        "widgetSubType": "selectorResponsive",
+                        "widgetData": {
+                          "selectFrom": [
+                            {
+                              "minWidth": 640,
+                              "maxWidth": 5000900000,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-5-large.png'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            },
+                            {
+                              "minWidth": 0,
+                              "maxWidth": 639,
+                              "widget": {
+                                "widgetData": {
+                                  "template": "<div style=\"{{cardStyle}}\" class=\"flex flex-col justify-end relative h-full\">\n <div class=\"w-full\" style=\"margin-bottom: 50px\">\n </div>\n</div>",
+                                  "templateData": {
+                                    "cardStyle": "background-size: cover !important; background : url('/assets/instances/Siemens/sustainability/pre-card-5.jpg'); width:265px"
+                                  },
+                                  "containerClass": "h-full"
+                                },
+                                "widgetSubType": "elementHtml",
+                                "widgetType": "element",
+                                "widgetHostClass": "sticky-m mat-elevation-z4",
+                                "widgetInstanceId": "sustainability_important"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "request": {
+                      "ids": [
+                        "lex_auth_012872938337083392439"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "widgetSubType": "contentStripMultiple",
+              "widgetType": "contentStrip"
+            }
+          }
+        ]
+      ]
+    },
+    "widgetSubType": "gridLayout",
+    "widgetType": "layout"
+  }
+}

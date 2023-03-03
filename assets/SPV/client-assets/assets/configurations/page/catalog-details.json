@@ -1,0 +1,153 @@
+{
+  "contentType": "Page",
+  "navigationBar": {
+    "pageBackLink": "/page/explore",
+    "pageTitle": "Explore",
+    "links": [
+      {
+        "widgetType": "actionButton",
+        "widgetSubType": "buttonFeature",
+        "widgetData": {
+          "actionBtnId": "feature_marketing",
+          "config": {
+            "type": "mat-stroked-button"
+          },
+          "tags": "Marketing"
+        }
+      }
+    ]
+  },
+  "pageLayout": {
+    "widgetData": {
+      "widgets": [
+        {
+          "widgetData": {
+            "path": [
+              {
+                "clickUrl": "REPLACE_WITH_PATH_URL",
+                "text": "REPLACE_WITH_PATH_TEXT"
+              }
+            ]
+          },
+          "widgetSubType": "cardBreadcrumb",
+          "widgetType": "card"
+        },
+        {
+          "widgetType": "contentStrip",
+          "widgetSubType": "contentStripMultiple",
+          "widgetData": {
+            "loader": true,
+            "strips": [
+              {
+                "key": "Programs",
+                "title": "Programs",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "searchV6": {
+                    "filters": [
+                      {
+                        "andFilters": [
+                          {
+                            "contentType": [
+                              "Learning Path"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "pageNo": 0,
+                    "pageSize": 10
+                  }
+                }
+              },
+              {
+                "key": "Course",
+                "title": "Courses",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "searchV6": {
+                    "filters": [
+                      {
+                        "andFilters": [
+                          {
+                            "contentType": [
+                              "Course"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "pageNo": 0,
+                    "pageSize": 10
+                  }
+                }
+              },
+              {
+                "key": "Learning-Modules",
+                "title": "Learning Modules",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "searchV6": {
+                    "filters": [
+                      {
+                        "andFilters": [
+                          {
+                            "contentType": [
+                              "Collection"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "pageNo": 0,
+                    "pageSize": 10
+                  }
+                }
+              },
+              {
+                "key": "Resources",
+                "title": "Resources",
+                "stripConfig": {
+                  "cardSubType": "standard",
+                  "postCardForSearch": true
+                },
+                "filters": [],
+                "request": {
+                  "searchV6": {
+                    "filters": [
+                      {
+                        "andFilters": [
+                          {
+                            "contentType": [
+                              "Resource"
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "pageNo": 0,
+                    "pageSize": 10
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "widgetSubType": "linearLayout",
+    "widgetType": "layout"
+  }
+}
