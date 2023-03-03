@@ -2591,6 +2591,22 @@
           <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="fb84c5b3b11d85e152e7bd6248adce48f092242d" datatype="html">
+        <source>Your Level </source>
+        <target>आपने स्तर</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="25e5fe258c8b9056eefbb4e3dbd190d766b479b9" datatype="html">
+        <source>is not cleared</source>
+         <target>क्लियर नहीं किया</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7da436adacb1527850af442387dad4f676e7f7dc" datatype="html">
         <source>youtube</source>
         <target state="final">Test311</target>
@@ -5998,7 +6014,7 @@
       </trans-unit>
       <trans-unit id="c2205ba088411ecd80c595a4ecf6a47a688ee898" datatype="html">
         <source>Work Info</source>
-        <target state="final">>काम की जानकारी</target>
+        <target state="final">काम की जानकारी</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">3</context>

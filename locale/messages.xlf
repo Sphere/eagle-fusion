@@ -14674,7 +14674,7 @@
       </trans-unit>
       <trans-unit id="2135ea712dc16c004e001b2fe86bee579a279061" datatype="html">
         <source>
-        
+
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
@@ -15800,6 +15800,21 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="fb84c5b3b11d85e152e7bd6248adce48f092242d" datatype="html">
+        <source>Your Level </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="25e5fe258c8b9056eefbb4e3dbd190d766b479b9" datatype="html">
+        <source>is not
+                cleared</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ce62dea683aebe147f6b0cf2c0452b5bcc2c9559" datatype="html">
