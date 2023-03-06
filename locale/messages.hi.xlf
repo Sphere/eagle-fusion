@@ -3834,7 +3834,7 @@
       </trans-unit>
       <trans-unit id="0dd8a3bafea23b5595cfcb897f16acd2cc60cf02" datatype="html">
         <source>Terms of Use</source>
-        <target state="final">Test457</target>
+        <target state="final">उपयोग की शर्तें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">10</context>
@@ -3842,7 +3842,7 @@
       </trans-unit>
       <trans-unit id="08f993dc23f471d98689cb664a68c976e6429302" datatype="html">
         <source>Terms &amp; Conditions</source>
-        <target state="final">Test458</target>
+        <target state="final">नियम और शर्तें लागू</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">5</context>
@@ -3851,7 +3851,7 @@
       <trans-unit id="6a15d8ee127b97661faedfcd05535135c984656b" datatype="html">
         <source>
           Terms and Conditions have been updated.</source>
-        <target state="final">Test459</target>
+        <target state="final">नियम और शर्तें अपडेट कर दी गई हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">16</context>
@@ -3859,7 +3859,7 @@
       </trans-unit>
       <trans-unit id="020b76e867808f2d6d5dd257db5476579bb82e3e" datatype="html">
         <source>T&amp;C Version: </source>
-        <target state="final">Test460</target>
+        <target state="final">टी &amp; सी संस्करण:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">13</context>
@@ -3867,7 +3867,7 @@
       </trans-unit>
       <trans-unit id="bba9f71c516ea6f22cb76f86bee18756e682fbea" datatype="html">
         <source>Available Languages</source>
-        <target state="final">Test461</target>
+        <target state="final">उपलब्ध भाषा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">90</context>
@@ -3876,7 +3876,7 @@
       <trans-unit id="2537587af9990358e03572a0ae651660cc8a8e28" datatype="html">
         <source>
           View Privacy Policy</source>
-        <target state="final">Test462</target>
+        <target state="final">गोपनीयता नीति देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">50</context>
@@ -3893,7 +3893,7 @@
       </trans-unit>
       <trans-unit id="b8d10cd55fae4e4ad4f87d28e18251694f159bf7" datatype="html">
         <source>Privacy Policy</source>
-        <target state="final">Test464</target>
+        <target state="final">गोपनीयता नीति</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">65</context>
@@ -3910,7 +3910,7 @@
       <trans-unit id="09f4db553179c1cc238167f8ca07922a4f3a0291" datatype="html">
         <source>
           Data privacy has been upgraded.</source>
-        <target state="final">Test466</target>
+        <target state="final">डेटा गोपनीयता को अपग्रेड कर दिया गया है।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">71</context>
@@ -4201,7 +4201,7 @@
       </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
-        <target state="final">यहां क्लिक करें </target>
+        <target state="final"> यहां क्लिक करें </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
@@ -12577,7 +12577,7 @@
       </trans-unit>
       <trans-unit id="6fee45ccaa13c03992094cce2409c57fb0a10112" datatype="html">
         <source>Content will open in a new window. If you are unable to view it, click on the button below.</source>
-        <target state="final">Test1497</target>
+        <target state="final">सामग्री एक नई विंडो में खुलेगी। यदि आप इसे देखने में असमर्थ हैं, तो नीचे दिए गए बटन पर क्लिक करें।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
           <context context-type="linenumber">33</context>
