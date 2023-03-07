@@ -190,7 +190,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       }
       if (typeof iframeSupport !== 'boolean') {
         iframeSupport = this.htmlContent.isIframeSupported.toLowerCase()
-        if (iframeSupport === 'no') {
+        if (iframeSupport === 'yes') {
           this.showIframeSupportWarning = true
           setTimeout(
             () => {
