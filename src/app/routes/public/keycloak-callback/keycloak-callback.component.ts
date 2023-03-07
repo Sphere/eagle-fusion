@@ -48,7 +48,7 @@ export class KeycloakCallbackComponent implements OnInit {
                     // localStorage.removeItem('url_before_login')
                     if (this.configSvc.unMappedUser.profileDetails.preferences.language) {
                       let lang = this.configSvc.unMappedUser.profileDetails.preferences.language
-                      location.href = `${lang}/url`
+                      location.href = `${lang}/${url}`
                     } else {
                       location.href = url
                     }
