@@ -46,7 +46,7 @@ export class KeycloakCallbackComponent implements OnInit {
                     // window.location.href = localStorage.getItem('url_before_login') || ''
                     const url = localStorage.getItem('url_before_login') || ''
                     // localStorage.removeItem('url_before_login')
-                    let lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+                    let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
                     console.log(this.configSvc.unMappedUser)
                     console.log(`${lang}/${url}`)
                     sessionStorage.setItem('r-url', `${lang}/${url}`)
