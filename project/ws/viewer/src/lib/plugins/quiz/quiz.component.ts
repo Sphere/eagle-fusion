@@ -39,7 +39,7 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import moment from 'moment'
-//import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
+// import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -125,7 +125,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private contentSvc: WidgetContentService,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
-    //private searchSvc: SearchApiService,
+    // private searchSvc: SearchApiService,
   ) {
 
   }
@@ -159,54 +159,58 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
     this.dialogOverview.afterClosed().subscribe((result: any) => {
       if (result.event === 'close-overview') {
-        this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          if (_.isNull(data.nextResource)) {
-            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-              queryParams: {
-                primaryCategory: 'Course',
-                batchId: this.route.snapshot.queryParams.batchId,
-              },
-            })
-            // this.router.navigate([data.prevResource], { preserveQueryParams: true })
-          } else {
-            if (_.isNull(data.prevResource)) {
-              if (this.viewerDataSvc.gatingEnabled) {
-                if (data.currentCompletionPercentage === 100) {
-                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
-                } else {
-                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    queryParams: {
-                      primaryCategory: 'Course',
-                      batchId: this.route.snapshot.queryParams.batchId,
-                    },
-                  })
-                }
-
-              } else {
-                this.router.navigate([data.nextResource], { preserveQueryParams: true })
-              }
-
-            } else {
-              if (this.viewerDataSvc.gatingEnabled) {
-                if (data.currentCompletionPercentage === 100) {
-                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
-                } else {
-                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    queryParams: {
-                      primaryCategory: 'Course',
-                      batchId: this.route.snapshot.queryParams.batchId,
-                    },
-                  })
-                }
-
-              } else {
-                this.router.navigate([data.nextResource], { preserveQueryParams: true })
-              }
+        if (result.competency) {
+          this.router.navigate([`/app/user/competency`])
+        } else {
+          this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+            if (_.isNull(data.nextResource)) {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.route.snapshot.queryParams.batchId,
+                },
+              })
               // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            } else {
+              if (_.isNull(data.prevResource)) {
+                if (this.viewerDataSvc.gatingEnabled) {
+                  if (data.currentCompletionPercentage === 100) {
+                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                  } else {
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.route.snapshot.queryParams.batchId,
+                      },
+                    })
+                  }
+
+                } else {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                }
+
+              } else {
+                if (this.viewerDataSvc.gatingEnabled) {
+                  if (data.currentCompletionPercentage === 100) {
+                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                  } else {
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.route.snapshot.queryParams.batchId,
+                      },
+                    })
+                  }
+
+                } else {
+                  this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                }
+                // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+              }
             }
-          }
-          return
-        })
+            return
+          })
+        }
       } else {
         // this.startQuiz()
         if (_.get(this.quizJson, 'isAssessment')) {
@@ -297,7 +301,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (result.event === 'CLOSE') {
-          this.closeBtnDialog()
+          if (result.competency) {
+            this.router.navigate([`/app/user/competency`])
+          } else {
+
+            this.closeBtnDialog()
+          }
         }
 
         if (result.event === 'RETAKE_QUIZ') {
@@ -421,7 +430,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         queryParams: {
           q: [
             `${data.competencyId}-${data.competencyLevel}`,
-          ], competency: true
+          ], competency: true,
         },
         queryParamsHandling: 'merge',
       })

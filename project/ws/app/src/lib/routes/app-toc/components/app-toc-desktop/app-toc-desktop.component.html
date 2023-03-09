@@ -1,8 +1,15 @@
 <div class="toc-body box ">
   <div>
-    <button [routerLink]="'/page/home'" mat-icon-button [disableRipple]="true" class="back-icon">
-      <mat-icon>chevron_left</mat-icon>
-    </button>
+    <div class="flex justify-content-between align-items-center">
+      <button [routerLink]="'/page/home'" mat-icon-button [disableRipple]="true" class="back-icon">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <div>
+        <img src=".\fusion-assets\icons\clock.svg" alt="clock"> {{ content?.duration | pipeDurationTransform: 'hms' }}
+      </div>
+    </div>
+
 
     <div class="title"><span [title]="content?.name">
         {{ content?.name }} </span></div>

@@ -98,8 +98,8 @@
   margin-right: -5px;
 }
 
-::ng-deep .mat-expansion-panel-header,
-::ng-deep .theme-igot.day-mode .mat-expansion-panel-header {
+:host ::ng-deep .mat-expansion-panel-header,
+:host ::ng-deep .theme-igot.day-mode .mat-expansion-panel-header {
   margin-top: -5px;
   border-bottom: solid 1px #d9d9d9;
   padding-top: 0px;
