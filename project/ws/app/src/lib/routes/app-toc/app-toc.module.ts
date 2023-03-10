@@ -234,7 +234,7 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     // AppTocSinglePageRootComponent,
     CreateBatchDialogComponent,
     AppTocHomePageComponent,
-    AppTocDesktopModalComponent
+    AppTocDesktopModalComponent,
   ],
 })
 export class AppTocModule { }
