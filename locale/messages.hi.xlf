@@ -3918,7 +3918,7 @@
       </trans-unit>
       <trans-unit id="edd270626ae0ed7d9a23e4d6af30cbc4230626d8" datatype="html">
         <source>Data Privacy Version: </source>
-        <target state="final">Test467</target>
+        <target state="final">डेटा गोपनीयता संस्करण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">132</context>

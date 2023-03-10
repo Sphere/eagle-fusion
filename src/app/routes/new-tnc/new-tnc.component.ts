@@ -228,12 +228,26 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
         this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
       }
+      let Obj: any
+      if (localStorage.getItem('preferedLanguage')) {
+        let data: any
+        let lang: any
+        data = localStorage.getItem('preferedLanguage')
+        lang = JSON.parse(data)
+        lang = lang !== 'en' ? lang : ''
+        Obj = {
+          preferences: {
+            language: lang,
+          },
+        }
+      }
+
       /* this changes for ebhyass*/
       if (this.userData.tcStatus === 'false') {
         const reqUpdate = {
           request: {
             userId: this.userId,
-            profileDetails: this.userData.profileDetails,
+            profileDetails: Object.assign(this.userData.profileDetails, Obj),
             tcStatus: 'true',
           },
         }
@@ -244,7 +258,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         const reqUpdate = {
           request: {
             userId: this.userId,
-            profileDetails: profileRequest,
+            profileDetails: Object.assign(profileRequest, Obj),
           },
         }
         this.updateUser(reqUpdate)

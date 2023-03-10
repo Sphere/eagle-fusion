@@ -155,6 +155,7 @@ export class AuthKeycloakService {
     // this.http.get('/apis/reset')
     try {
       sessionStorage.clear()
+      localStorage.removeItem('preferedLanguage')
       localStorage.removeItem('telemetrySessionId')
       localStorage.removeItem('loginbtn')
       localStorage.removeItem('url_before_login')

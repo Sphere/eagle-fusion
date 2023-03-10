@@ -82,8 +82,6 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
 
   ngOnInit() {
     const url = window.location.href
-    console.log(url)
-    console.log(this.widgetData)
     this.isFromAuthoring = this.searchArray.some((word: string) => {
       return url.indexOf(word) > -1
     })
