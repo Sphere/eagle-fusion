@@ -66,6 +66,16 @@ export class KeycloakCallbackComponent implements OnInit {
                         url = '/page/home'
                         window.location.href = `${lang}${url}`
                       }
+                    } else {
+                      if (localStorage.getItem('url_before_login')) {
+                        //window.location.href = localStorage.getItem('url_before_login') || ''
+
+                        let url = localStorage.getItem('url_before_login') || ''
+                        //localStorage.removeItem('url_before_login')
+                        location.href = url
+                      } else {
+                        window.location.href = '/page/home'
+                      }
                     }
                   }
                   // if (localStorage.getItem('url_before_login')) {
