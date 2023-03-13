@@ -83,8 +83,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     } else {
       this.redirectUrl = `${wholeUrl}openid/keycloak`
     }
-    if (localStorage.getItem('telemetrySessionId') === null && localStorage.getItem
-      ('loginbtn') === null) {
+    if (localStorage.getItem('telemetrySessionId') === null) {
       localStorage.setItem(`url_before_login`, url)
       // this.router.navigateByUrl('app/login')
       const state = uuid()

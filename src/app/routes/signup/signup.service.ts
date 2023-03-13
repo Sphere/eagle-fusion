@@ -99,7 +99,7 @@ export class SignupService {
           if (localStorage.getItem('telemetrySessionId')) {
             localStorage.removeItem('telemetrySessionId')
           }
-          // localStorage.setItem('telemetrySessionId', uuid())
+          localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = _.get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {
