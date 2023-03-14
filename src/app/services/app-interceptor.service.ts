@@ -25,7 +25,7 @@ export class AppInterceptorService implements HttpInterceptor {
           }
         })
     }
-    console.log(lang.join(','))
+
     if (this.configSvc.activeOrg && this.configSvc.rootOrg) {
       const modifiedReq = req.clone({
         setHeaders: {

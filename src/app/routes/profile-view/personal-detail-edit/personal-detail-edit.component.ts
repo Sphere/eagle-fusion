@@ -175,9 +175,16 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             this.updateForm()
-            this.personalDetailForm.patchValue({
-              knownLanguage: data.profileDetails.preferences.language || 'en',
-            })
+            if (data.profileDetails.preferences!.language === 'hi') {
+              this.personalDetailForm.patchValue({
+                knownLanguage: 'हिंदी',
+              })
+            } else {
+              this.personalDetailForm.patchValue({
+                knownLanguage: 'English',
+              })
+            }
+
             this.populateChips(this.userProfileData)
           }
         })
@@ -292,7 +299,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
       data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
       data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
-
       this.personalDetailForm.patchValue({
         // userName: this.profileUserName,
         firstname: data.personalDetails.firstname,
@@ -384,41 +390,45 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     })
 
     this.langDialog.afterClosed().subscribe((result: any) => {
-      this.preferedLanguage = result
-      this.personalDetailForm.controls.
-        knownLanguage.setValue(_.upperFirst(result.lang))
-      if (this.configSvc.userProfileV2) {
-        let user: any
-        const userid = this.configSvc.userProfileV2.userId
-        this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
-          user = data
-          const obj = {
-            preferences: {
-              language: result.id,
-            },
-          }
-          const userdata = Object.assign(user['profileDetails'], obj)
-          // this.chosenLanguage = path.value
-          const reqUpdate = {
-            request: {
-              userId: userid,
-              profileDetails: userdata,
-            },
-          }
-          this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
-            () => {
-              if (result.id === 'en') {
-                // this.chosenLanguage = ''
-                window.location.assign(`${location.origin}/page/home`)
-                // window.location.reload(true)
-              } else {
-                // window.location.reload(true)
-                window.location.assign(`${location.origin}/${result.id}/page/home`)
-              }
-            },
-            () => {
-            })
-        })
+      console.log(result, !!result)
+      if (result) {
+        this.preferedLanguage = result
+        this.personalDetailForm.controls.
+          knownLanguage.setValue(_.upperFirst(result.lang))
+
+        if (this.configSvc.userProfileV2) {
+          let user: any
+          const userid = this.configSvc.userProfileV2.userId
+          this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
+            user = data
+            const obj = {
+              preferences: {
+                language: result.id,
+              },
+            }
+            const userdata = Object.assign(user['profileDetails'], obj)
+            // this.chosenLanguage = path.value
+            const reqUpdate = {
+              request: {
+                userId: userid,
+                profileDetails: userdata,
+              },
+            }
+            this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+              () => {
+                if (result.id === 'en') {
+                  // this.chosenLanguage = ''
+                  window.location.assign(`${location.origin}/page/home`)
+                  // window.location.reload(true)
+                } else {
+                  // window.location.reload(true)
+                  window.location.assign(`${location.origin}/${result.id}/page/home`)
+                }
+              },
+              () => {
+              })
+          })
+        }
       }
     })
   }
