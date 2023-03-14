@@ -4,7 +4,7 @@ import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../project/ws/app/src/public-api'
 import { DateAdapter, MatChipInputEvent, MatDialog, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
@@ -347,9 +347,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   onSubmit(form: any) {
-    if (form.value.dob) {
-      form.value.dob = changeformat(new Date(`${form.value.dob}`))
-    }
+    // if (form.value.dob) {
+    //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
+    // }
     form.value.knownLanguages = this.selectedKnowLangs
 
     if (this.configSvc.userProfile) {
@@ -424,9 +424,11 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   dobData(event: any) {
+    console.log(event)
     this.personalDetailForm.patchValue({
       dob: event,
     })
+    console.log(this.personalDetailForm)
   }
   ngAfterViewInit(): void {
     this.getUserDetails()

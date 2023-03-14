@@ -10,7 +10,7 @@ export const constructReq = (form: any, userProfileData: any) => {
       middlename: _.get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename,
       surname: _.get(form, 'surname') ? form.surname : userProfileData.personalDetails.surname,
       about: _.get(form, 'about') ? form.about : userProfileData.personalDetails.about,
-      photo: _.get(form, 'photo') ? form.photo : userProfileData.personalDetails.photo,
+      photo: _.get(form, 'photo') !== 'NaN - NaN - NaN' ? form.photo : userProfileData.personalDetails.photo,
       dob: _.get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob,
       nationality: _.get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality,
       domicileMedium: _.get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.personalDetails.domicileMedium,
