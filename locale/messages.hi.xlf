@@ -565,7 +565,7 @@
       </trans-unit>
       <trans-unit id="71c77bb8cecdf11ec3eead24dd1ba506573fa9cd" datatype="html">
         <source>Submit</source>
-        <target state="final">Test68</target>
+        <target state="final">सबमिट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">81</context>
@@ -13291,7 +13291,7 @@
       </trans-unit>
       <trans-unit id="ea0e4997cc7bbf13ee503bfea6e615c00a5b17eb" datatype="html">
         <source>Q</source>
-        <target state="final">Test1578</target>
+        <target state="final">Q</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">4</context>
@@ -13299,7 +13299,7 @@
       </trans-unit>
       <trans-unit id="169eed2bc3e08e1bea977bcc5d799379f6b8a758" datatype="html">
         <source>of</source>
-        <target state="final">Test1579</target>
+        <target state="final">का</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">5</context>
@@ -13307,7 +13307,7 @@
       </trans-unit>
       <trans-unit id="02d445961979fe012067b31d4d8a2ae81a214569" datatype="html">
         <source>Flagged</source>
-        <target state="final">Test1580</target>
+        <target state="final">चिह्नित किए गए</target>
         <note priority="1" from="description">Flagged</note>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
@@ -13316,7 +13316,7 @@
       </trans-unit>
       <trans-unit id="daa270cc2a991c512132584412bae45681a1037b" datatype="html">
         <source>flag</source>
-        <target state="final">Test1581</target>
+        <target state="final">झंडा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">9</context>
@@ -13325,7 +13325,7 @@
       <trans-unit id="cc005ad6a698183bf11eeea82e01a9af5b156b15" datatype="html">
         <source>
             Explanation for blank</source>
-        <target state="final">Test1582</target>
+        <target state="final">रिक्त के लिए स्पष्टीकरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
           <context context-type="linenumber">22</context>
@@ -13334,7 +13334,7 @@
       <trans-unit id="d1554bc342b9b4c0d3083ec1734be9d7a01fb063" datatype="html">
         <source>
             Explanation</source>
-        <target state="final">Test1583</target>
+        <target state="final">व्याख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">75</context>
@@ -13343,7 +13343,7 @@
       <trans-unit id="16ef92f5d8d0b682132acb2b8465a5bbbb0ecdb7" datatype="html">
         <source>
             Explanation:</source>
-        <target state="final">Test1584</target>
+        <target state="final">व्याख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">108</context>
@@ -13352,7 +13352,7 @@
       <trans-unit id="9b61e0794edfcd7dfb8cabd00259f84b5d4c5892" datatype="html">
         <source>
             Explanation :</source>
-        <target state="final">Test1585</target>
+        <target state="final">व्याख्या :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">118</context>
@@ -13360,7 +13360,7 @@
       </trans-unit>
       <trans-unit id="3b63e0028ca65ff108d21111d222e6da43ff4b84" datatype="html">
         <source>Explanation</source>
-        <target state="final">Test1583</target>
+        <target state="final">व्याख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">14</context>
@@ -13369,7 +13369,7 @@
       <trans-unit id="c1196692e2b28b9baec4b7595b4a7d05ec3ec428" datatype="html">
         <source>
           Option</source>
-        <target state="final">Test1587</target>
+        <target state="final">विकल्प</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">157</context>
@@ -13378,7 +13378,7 @@
       <trans-unit id="ae2941383b1c727dabd9c78905b79fd0f9ca87a4" datatype="html">
         <source>
           Hint</source>
-        <target state="final">Test672</target>
+        <target state="final">संकेत देना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/question/question.component.html</context>
           <context context-type="linenumber">163</context>
@@ -13386,7 +13386,7 @@
       </trans-unit>
       <trans-unit id="a2c93cf264926f7f3dba0e95eb432c6b378cd79a" datatype="html">
         <source>Submit Quiz</source>
-        <target state="final">Test1589</target>
+        <target state="final">प्रश्नोत्तरी भेजो</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/submit-quiz-dialog/submit-quiz-dialog.component.html</context>
           <context context-type="linenumber">1</context>
@@ -13395,7 +13395,7 @@
       <trans-unit id="2991f3748c7414f1d3631dbb01ad0ddc2d44cbf7" datatype="html">
         <source>
     Do you want to submit?</source>
-        <target state="final">Test1590</target>
+        <target state="final">क्या आप सबमिट करना चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/submit-quiz-dialog/submit-quiz-dialog.component.html</context>
           <context context-type="linenumber">3</context>
@@ -13404,7 +13404,7 @@
       <trans-unit id="e6c3b6c8eed3b3b4d08bbcfd3e6c6f8281b85bd7" datatype="html">
         <source>
     You have not answered all the questions! Do you still want to submit?</source>
-        <target state="final">Test1591</target>
+        <target state="final">आपने सभी प्रश्नों का उत्तर नहीं दिया है! क्या आप अभी भी सबमिट करना चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/submit-quiz-dialog/submit-quiz-dialog.component.html</context>
           <context context-type="linenumber">6</context>
@@ -13413,7 +13413,7 @@
       <trans-unit id="a1f2f0ba3474abbcf893135241855c1399c813e7" datatype="html">
         <source>
     You still have some questions marked for later! Do you still want to submit?</source>
-        <target state="final">Test1592</target>
+        <target state="final">आपके पास अभी भी बाद के लिए चिन्हित कुछ प्रश्न हैं! क्या आप अभी भी सबमिट करना चाहते हैं?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/submit-quiz-dialog/submit-quiz-dialog.component.html</context>
           <context context-type="linenumber">9</context>
@@ -13438,7 +13438,7 @@
       </trans-unit>
       <trans-unit id="fb5756bf26b2e0ab2d1c42d6891782bd18ce5d75" datatype="html">
         <source>Result:</source>
-        <target state="final">परिणाम</target>
+        <target state="final">परिणाम : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">47</context>
@@ -13542,7 +13542,7 @@
       </trans-unit>
       <trans-unit id="80ed5b776a26a78099e230e0e89d96c33ba44e24" datatype="html">
         <source>Results</source>
-        <target state="final">परिणाम</target>
+        <target state="final">परिणाम </target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">34</context>
@@ -13809,7 +13809,7 @@
       </trans-unit>
       <trans-unit id="1c785c84c133749f99d24f444f1bf817b59b78b0" datatype="html">
         <source>Correct Answer:</source>
-        <target state="final">Test1640</target>
+        <target state="final">सही जवाब</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">5</context>
@@ -13818,7 +13818,7 @@
       <trans-unit id="a93278cacde02aadc2091de8e411fd3730ceb2ea" datatype="html">
         <source>
         Option</source>
-        <target state="final">Test1587</target>
+        <target state="final">विकल्प</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">17</context>
@@ -13827,7 +13827,7 @@
       <trans-unit id="3ea1777d8bfeb420bf2c1cdd2096f6d27ef0801d" datatype="html">
         <source>
         Match</source>
-        <target state="final">Test1642</target>
+        <target state="final">मिलान</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">23</context>
@@ -13835,7 +13835,7 @@
       </trans-unit>
       <trans-unit id="c750de728b7a56129ad4683a3a44685120365d09" datatype="html">
         <source>Response</source>
-        <target state="final">Test1643</target>
+        <target state="final">जवाब</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">29</context>
