@@ -338,6 +338,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                     additionalParams: {
                       competencyName: competency_meta_data.competencyName,
                       courseId: this.assesmentdata.generalData.collectionId,
+                      ResourseId: this.assesmentdata.generalData.identifier
                     },
                   },
                 },
