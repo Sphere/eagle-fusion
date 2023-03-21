@@ -116,8 +116,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.enrollApi()
+    console.log(this.resumeData)
     if (this.content) {
-      this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+     // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -451,6 +452,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               this.issueCertificate = true
             }
+            if(this.enrolledCourse)
+              this.resumeData = this.enrolledCourse.lastReadContentId
           }
         }
       })
