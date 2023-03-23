@@ -22,8 +22,9 @@
     </mat-list-option>
   </mat-selection-list>
 
-  <div mat-dialog-actions align="end" class="lang-done" id="language-select">
-    <button class="btn-done cursor-pointer" (click)="multiLanguage(preferredLanguage)" i18n>Done</button>
+  <div mat-dialog-actions align="end" class="lang-done">
+    <button class="btn-done cursor-pointer" id="language-select-btn-1" (click)="multiLanguage(preferredLanguage)"
+      i18n>Done</button>
   </div>
 </div>
 
@@ -62,7 +63,8 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done cursor-pointer" (click)="chooseLanguage(preferredLanguage)" i18n>Done</button>
+    <button class="btn-done cursor-pointer" id="language-select-btn-2" (click)="chooseLanguage(preferredLanguage)"
+      i18n>Done</button>
   </div>
 
 
