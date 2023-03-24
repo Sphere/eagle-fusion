@@ -42,6 +42,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
+  @Input() resumeResource: NsContent.IContinueLearningData | null = null
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   isTocBanner = true
@@ -118,7 +119,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
     console.log(this.resumeData)
     if (this.content) {
-     // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -452,7 +453,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               this.issueCertificate = true
             }
-            if(this.enrolledCourse)
+            if (this.enrolledCourse)
               this.resumeData = this.enrolledCourse.lastReadContentId
           }
         }
@@ -617,7 +618,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   private getResumeDataFromList() {
-    const lastItem = this.resumeData && this.resumeData.pop()
+    const lastItem = this.resumeResource && this.resumeResource.pop()
     return {
       identifier: lastItem.contentId,
       mimeType: lastItem.progressdetails && lastItem.progressdetails.mimeType,

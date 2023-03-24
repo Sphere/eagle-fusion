@@ -50,6 +50,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   batchData: NsContent.IBatchListResponse | null = null
   userEnrollmentList = null
   resumeData: any = null
+  resumeResource : any = null
   routeSubscription: Subscription | null = null
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   isCohortsRestricted = false
@@ -420,7 +421,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             return rr
           })
           const progress = _.map(this.resumeData, 'completionPercentage')
-         this.resumeData =  this.resumeData.filter((item:any)=>{
+          this.resumeResource =  this.resumeData.filter((item:any)=>{
            return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : "" ))
           })
 
