@@ -99,7 +99,7 @@ export class SignupService {
           if (localStorage.getItem('telemetrySessionId')) {
             localStorage.removeItem('telemetrySessionId')
           }
-          // localStorage.setItem('telemetrySessionId', uuid())
+          localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = _.get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {
@@ -180,6 +180,7 @@ export class SignupService {
     if (url.includes('hi')) {
       url = url.replace('hi/', '')
       redirectUrl = `${url}openid/keycloak`
+      sessionStorage.setItem('lang', 'hi')
     } else {
       redirectUrl = `${url}openid/keycloak`
     }

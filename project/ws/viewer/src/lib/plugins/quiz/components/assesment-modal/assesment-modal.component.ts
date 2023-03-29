@@ -18,7 +18,7 @@ import {
 import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
-//declare var Telemetry: any
+// declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -53,7 +53,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   assesmentActive = true
   disableContinue = false
   isCompetency = false
-  competencyLevelId = ""
+  competencyLevelId = ''
   proficiencyLevel = ''
   competencyId = ''
   public unsubscribe = new Subject<void>()
@@ -72,8 +72,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ) { }
 
   ngOnInit() {
-    //Telemetry.impression()
-    //Telemetry.start()
+    // Telemetry.impression()
+    // Telemetry.start()
     this.telemetrySvc.impression()
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
@@ -84,6 +84,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.progressbarValue += 100 / this.totalQuestion
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
+    this.isCompetency = this.route.snapshot.queryParams.competency
   }
   ngAfterViewInit() {
     this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier)
@@ -92,12 +93,21 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
   closePopup() {
-    this.dialogRef.close({ event: 'CLOSE' })
-    var data: any = {
+    console.log("close competenct", this.isCompetency)
+    if (this.isCompetency) {
+      this.dialogRef.close({
+        event: 'CLOSE',
+        competency: this.route.snapshot.queryParams.competency,
+      })
+    } else {
+
+      this.dialogRef.close({ event: 'CLOSE' })
+    }
+    const data: any = {
       courseID: this.assesmentdata.generalData.collectionId,
       contentId: this.assesmentdata.generalData.identifier,
       name: this.assesmentdata.generalData.name,
-      moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+      moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
     }
 
     this.telemetrySvc.start('assessment', 'assessment-close-start', this.assesmentdata.generalData.identifier)
@@ -122,7 +132,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       event: 'VIEW_COURSES',
       competency: this.route.snapshot.queryParams.competency,
       competencyId: this.competencyId,
-      competencyLevel: this.competencyLevelId
+      competencyLevel: this.competencyLevelId,
     })
   }
   nextCompetency() {
@@ -144,11 +154,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         .subscribe(_timeRemaining => {
           this.timeLeft -= 0.1
           if (this.timeLeft < 0) {
-            var data: any = {
+            const data: any = {
               courseID: this.assesmentdata.generalData.collectionId,
               contentId: this.assesmentdata.generalData.identifier,
               name: this.assesmentdata.generalData.name,
-              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
             }
             this.telemetrySvc.end('assessment', 'assessment-auto-submit', this.assesmentdata.generalData.identifier, data)
             this.isIdeal = true
@@ -227,11 +237,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   submitQuizV2(sanitizedRequestData: any) {
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
-        var data: any = {
+        const data: any = {
           courseID: this.assesmentdata.generalData.collectionId,
           contentId: this.assesmentdata.generalData.identifier,
           name: this.assesmentdata.generalData.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
         }
         this.telemetrySvc.end('assessment', 'assessment-submit', this.assesmentdata.generalData.identifier, data)
         window.scrollTo(0, 0)
@@ -264,11 +274,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   submitCompetencyQuizV2(sanitizedRequestData: any) {
     this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
-        var data1: any = {
+        const data1: any = {
           courseID: this.assesmentdata.generalData.collectionId,
           contentId: this.assesmentdata.generalData.identifier,
           name: this.assesmentdata.generalData.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
         }
         this.telemetrySvc.end('competency', 'competency-submit', this.assesmentdata.generalData.identifier, data1)
         window.scrollTo(0, 0)
@@ -313,8 +323,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.isCompetencyComplted) {
           const formatedData = {
             request: {
-              userId: userId,
-              typeName: "competency",
+              userId,
+              typeName: 'competency',
               competencyDetails: [
                 {
                   competencyId: competency_meta_data.competencyId,
@@ -322,17 +332,18 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                     competencyName: competency_meta_data.competencyName,
                   },
                   acquiredDetails: {
-                    acquiredChannel: "selfAssessment",
-                    competencyLevelId: competencyLevelId,
+                    acquiredChannel: 'selfAssessment',
+                    competencyLevelId,
                     // effectiveDate: "2023-02-09 9:46:12",
                     additionalParams: {
                       competencyName: competency_meta_data.competencyName,
-                      courseId: this.assesmentdata.generalData.collectionId
-                    }
-                  }
-                }
-              ]
-            }
+                      courseId: this.assesmentdata.generalData.collectionId,
+                      ResourseId: this.assesmentdata.generalData.identifier
+                    },
+                  },
+                },
+              ],
+            },
             // request: {
             //   competencyDetails: [
             //     {
@@ -371,8 +382,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   getCompetencyId(data: any) {
     let id
     _.forEach(data, (item: any) => {
-      if (item.identifier === this.assesmentdata.generalData.identifier)
+      if (item.identifier === this.assesmentdata.generalData.identifier) {
         id = item.competencyId.toString()
+      }
     })
     return id
   }
@@ -485,7 +497,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   updateNextResourses() {
-    let realTimeProgressRequest = {
+    const realTimeProgressRequest = {
       content_type: 'Resource',
       current: ['0'],
       max_size: 0,

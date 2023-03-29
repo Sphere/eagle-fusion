@@ -40,7 +40,7 @@ export class DropdownDobComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.updateForm()
-    },         500)
+    }, 500)
 
   }
   /* function to update the form if input is there*/
@@ -57,7 +57,7 @@ export class DropdownDobComponent implements OnInit {
 
   countrySelect() {
     if (this.dobForm.value.dateField && this.dobForm.value.monthField && this.dobForm.value.yearField) {
-      const dob = `${this.dobForm.value.monthField}/${this.dobForm.value.dateField}/${this.dobForm.value.yearField}`
+      const dob = `${this.dobForm.value.dateField}/${this.dobForm.value.monthField}/${this.dobForm.value.yearField}`
       this.dobValue.emit(dob)
     }
   }

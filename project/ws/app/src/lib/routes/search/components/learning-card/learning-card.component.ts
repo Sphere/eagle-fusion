@@ -46,7 +46,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     // this.redirectUrl = document.baseURI + 'openid/keycloak'
     const url = `${document.baseURI}openid/keycloak`
     this.redirectUrl = url
-    if (this.content.competencies_v1) {
+    if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length) {
 
       _.forEach(JSON.parse(this.content.competencies_v1), (value: any) => {
         if (value.level) {
@@ -73,14 +73,24 @@ export class LearningCardComponent extends WidgetBaseComponent
 
   raiseTelemetry(content: any) {
     const url = `app/toc/` + `${content.identifier}` + `/overview`
-    if (localStorage.getItem('telemetrySessionId') === null && localStorage.getItem('loginbtn') === null) {
+    let wholeUrl = `${document.baseURI}`
+    // let redirectUrl = ''
+    sessionStorage.setItem('url', url)
+    if (wholeUrl.includes('hi')) {
+      wholeUrl = url.replace('hi/', '')
+      this.redirectUrl = `${wholeUrl}openid/keycloak`
+      sessionStorage.setItem('lang', 'hi')
+    } else {
+      this.redirectUrl = `${wholeUrl}openid/keycloak`
+    }
+    if (localStorage.getItem('telemetrySessionId') === null) {
       localStorage.setItem(`url_before_login`, url)
       // this.router.navigateByUrl('app/login')
       const state = uuid()
       const nonce = uuid()
       sessionStorage.setItem('login-btn', 'clicked')
       // tslint:disable-next-line:max-line-length
-      const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+      const keycloakurl = `${wholeUrl}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
       window.location.href = keycloakurl
       this.authSvc.login('S', this.redirectUrl)
     } else {

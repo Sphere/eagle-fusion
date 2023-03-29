@@ -1,5 +1,5 @@
 <div class="lang-box" *ngIf="languageCheckbox">
-  <button class="align-self-end" mat-icon-button mat-dialog-close>
+  <button class="align-self-end" id="dialogue-close" mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
   <div class="language">
@@ -22,7 +22,7 @@
     </mat-list-option>
   </mat-selection-list>
 
-  <div mat-dialog-actions align="end" class="lang-done">
+  <div mat-dialog-actions align="end" class="lang-done" id="language-select">
     <button class="btn-done cursor-pointer" (click)="multiLanguage(preferredLanguage)" i18n>Done</button>
   </div>
 </div>
@@ -34,7 +34,7 @@
 
 <div class="lang-box" *ngIf="!languageCheckbox">
 
-  <button class="align-self-end" mat-icon-button mat-dialog-close>
+  <button class="align-self-end" id="dialogue-close-2" mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
 
