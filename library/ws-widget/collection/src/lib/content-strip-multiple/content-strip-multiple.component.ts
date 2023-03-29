@@ -649,7 +649,14 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       'do_1137448685303152641574',
       'do_1137449159525662721654',
       'do_11373999431307264012687',
-      'do_1137447190969303041309'
+      'do_1137447190969303041309',
+      'do_1136208573316628481954',
+      'do_1136137511548764161792',
+      'do_11376124906447667219',
+      'do_1137594994236129281162',
+      'do_113759108993581056167',
+      'do_1137533766819430401136',
+
     ]
     const newList = list.filter((i: any) => {
       return !negativeList.includes(i.identifier)
