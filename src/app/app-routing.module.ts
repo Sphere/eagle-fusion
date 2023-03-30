@@ -48,6 +48,7 @@ import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
+import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -611,6 +612,11 @@ const routes: Routes = [
   {
     path: 'aboutpoppage',
     component: MobileAboutPopupComponent,
+  },
+  {
+    path: 'openid/sphereapp',
+    component: AppCallBackComponent,
+
   },
   {
     path: '**',
