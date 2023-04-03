@@ -483,16 +483,16 @@ export class InitService {
             )
           }
         }
-        if (this.configSvc.instanceConfig.indexHtmlMeta.webmanifest) {
-          const manifestElem = document.getElementById('id-app-webmanifest')
-          if (manifestElem) {
-            // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-            ; (manifestElem as HTMLLinkElement).setAttribute(
-              'href',
-              this.configSvc.instanceConfig.indexHtmlMeta.webmanifest,
-            )
-          }
-        }
+        // if (this.configSvc.instanceConfig.indexHtmlMeta.webmanifest) {
+        //   const manifestElem = document.getElementById('id-app-webmanifest')
+        //   if (manifestElem) {
+        //     // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
+        //     ; (manifestElem as HTMLLinkElement).setAttribute(
+        //       'href',
+        //       this.configSvc.instanceConfig.indexHtmlMeta.webmanifest,
+        //     )
+        //   }
+        // }
         if (this.configSvc.instanceConfig.indexHtmlMeta.pngIcon) {
           const pngIconElem = document.getElementById('id-app-fav-icon')
           if (pngIconElem) {

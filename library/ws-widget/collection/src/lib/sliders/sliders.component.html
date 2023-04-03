@@ -4,7 +4,7 @@
     [routerLink]=" !isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'" class="banner-overlay"
     [ngClass]="{'cursor-auto': !widgetData[currentIndex].redirectUrl}"></a> -->
   <div class="banner WidgetInstanceId" *ngFor="let slide of widgetData; let i = index" [hidden]="i !== currentIndex">
-    <img i18n-alt alt="Page Banner" [src]="slide.banners" wsUtilsImageResponsive class="banner-image" />
+    <img i18n-alt alt="Page Banner" loading="lazy" [src]="slide.banners" wsUtilsImageResponsive class="banner-image" />
     <div class="text-block" align="center">
       <h2 class="slider-header-subtext" *ngIf="widgetData[currentIndex].intro">{{ widgetData[currentIndex].intro }}</h2>
       <h1 class="slider-header-text mat-title" *ngIf="widgetData[currentIndex].title">

@@ -1,7 +1,7 @@
 <ng-container *ngIf="content">
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
-      <img class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
+      <img loading="lazy" class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
         [wsUtilsDefaultThumbnail]="defaultThumbnail" />
       <div class="width-expand">
         <div class="text-truncate cursor-pointer 1">
@@ -148,15 +148,15 @@
         </ng-template>
         <ng-template #elseAssesmentLock>
           <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
-            <img src=".\fusion-assets\icons\lock.png">
+            <img loading="lazy" src=".\fusion-assets\icons\lock.png">
           </ng-container>
 
         </ng-template>
       </div>
     </ng-container>
     <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
-      [src]="content?.thumbnail" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
-      [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      loading="lazy" [src]="content?.thumbnail" alt="Thumbnail" name="thumbnail-banner-img"
+      (click)="viewChildren = !viewChildren;" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
       <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
@@ -204,16 +204,16 @@
             <ng-container *ngIf="resourceContentType">
               <div class="pr-1" [ngSwitch]="resourceContentType | lowercase">
                 <div *ngSwitchCase="'pdf'">
-                  <img src=".\fusion-assets\icons\pdf-icon.png">
+                  <img loading="lazy" src=".\fusion-assets\icons\pdf-icon.png">
                 </div>
                 <div *ngSwitchCase="'video'">
-                  <img src=".\fusion-assets\icons\video-icon.png">
+                  <img loading="lazy" src=".\fusion-assets\icons\video-icon.png">
                 </div>
                 <div *ngSwitchCase="'scorm'">
-                  <img src=".\fusion-assets\icons\video-icon.png">
+                  <img loading="lazy" src=".\fusion-assets\icons\video-icon.png">
                 </div>
                 <div *ngSwitchCase="'link'">
-                  <img src=".\fusion-assets\icons\link-icon.png">
+                  <img loading="lazy" src=".\fusion-assets\icons\link-icon.png">
                 </div>
                 <div *ngSwitchDefault>{{resourceContentType}}</div>
               </div>
@@ -262,7 +262,7 @@
             </ng-template>
             <ng-template #elseResourseLock>
               <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
-                <img src=".\fusion-assets\icons\lock.png">
+                <img loading="lazy" src=".\fusion-assets\icons\lock.png">
               </ng-container>
 
             </ng-template>
