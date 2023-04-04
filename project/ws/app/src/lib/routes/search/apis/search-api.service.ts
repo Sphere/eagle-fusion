@@ -12,8 +12,8 @@ const API_END_POINTS = {
   // `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
-  SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
-
+  //SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
+  SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses'
 }
 
 // const facetsOb = {
@@ -131,7 +131,10 @@ export class SearchApiService {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
-  getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
+  // getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
+  getSearchV6Results(body: any, searchconfig: any):
+    Observable<NSSearch.ISearchV6ApiResultV2> {
+    console.log(body)
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
         const tempArray = Array()

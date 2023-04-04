@@ -70,7 +70,8 @@ export class SearchServService {
     return this.searchV6Wrapper(request)
   }
 
-  searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
+  //searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
+  searchV6Wrapper(request: any): Observable<any> {
     // this.searchConfig.search['visibleFiltersV2'] = {
     //   primaryCategory: {
     //     displayName: 'Primary Category',
@@ -79,19 +80,25 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
-    request.request.filters['status'] = ['Live']
-    const v6Request: NSSearch.ISearchV6RequestV2 = {
-      request: {
-        query: request.request.query,
-        filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
-        sort_by: {
-          lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
-        },
-        facets: Object.keys(this.searchConfig.search.visibleFilters),
-        fields: request.request.fields,
-      },
+    console.log(request, '1')
+    const data = {
+      data: {
+        value: request.request.query
+      }
     }
-    return this.searchApi.getSearchV6Results(v6Request, this.searchConfig.defaultsearch)
+    //request.request.filters['status'] = ['Live']
+    // const v6Request: NSSearch.ISearchV6RequestV2 = {
+    //   request: {
+    //     query: request.request.query,
+    //     filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
+    //     sort_by: {
+    //       lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
+    //     },
+    //     facets: Object.keys(this.searchConfig.search.visibleFilters),
+    //     fields: request.request.fields,
+    //   },
+    // }
+    return this.searchApi.getSearchV6Results(data, this.searchConfig.defaultsearch)
   }
 
   // getLearning(request: ISearchRequest): Observable<NSSearch.ISearchV6ApiResult> {
