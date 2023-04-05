@@ -8,10 +8,11 @@
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="searchHeading">
       <span *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
-      <span *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.count }} </span>
+      <span *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
       <p class="text-xl" *ngIf="(isXSmall$ | async) === true" i18n>All Courses</p>
-      <span *ngIf="searchResults.result.count > 1 && (isXSmall$ | async) !== true " i18n>results </span>
-      <span *ngIf="searchResults.result.count <= 1" i18n>result </span>
+      <span *ngIf="searchResults.result.content.length > 1 && (isXSmall$ | async) !== true " i18n>results
+      </span>
+      <span *ngIf="searchResults.result.content.length <= 1" i18n>result </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred language</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
