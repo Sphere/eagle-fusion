@@ -586,7 +586,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       !this.exactResult.applied // &&
       // this.searchRequestObject.pageNo === 0 && this.applyPhraseSearch
     ) {
-      this.searchRequestObject.request.query = `"${this.searchRequestObject.request.query}"`
+      this.searchRequestObject.request.query = `${this.searchRequestObject.request.query}`
     } else if (withQuotes && this.searchRequestObject.request.query.indexOf(' ') > -1) {
       this.exactResult.applied = true
       this.searchRequestObject.request.query = this.searchRequestObject.request.query.replace(/['"]+/g, '')
