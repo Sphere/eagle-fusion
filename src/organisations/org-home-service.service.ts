@@ -20,7 +20,8 @@ const API_END_POINTS = {
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
     `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
+  // SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
+  SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
 }
 
