@@ -54,7 +54,7 @@
                 *ngIf="createAccountForm.controls['emailOrMobile'].hasError('pattern')">Invalid email or number
               </mat-error>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <div class="input-group pwd" id="show_hide_password_1">
                 <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field"
                   i18n-placeholder [type]="hide1 ? 'password' : 'text'">
@@ -93,7 +93,7 @@
                 *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
                 (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">Password does not match
               </mat-error>
-            </div>
+            </div> -->
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
                 [disabled]="!createAccountForm?.valid"
