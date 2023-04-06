@@ -2,7 +2,7 @@
   <a mat-icon-button routerLink="/app/infy/navigator">
     <mat-icon>arrow_back</mat-icon>
   </a>
-  <span i18n="page title: navigator industries" class="margin-left-xs">Titan Account</span>
+  <span class="margin-left-xs">Titan Account</span>
   <span class="spacer"></span>
 </mat-toolbar>
 
@@ -21,7 +21,7 @@
 
       <div *ngIf="!isObjectEmpty(accountsData[selectedTab]) || !noData">
         <mat-card class="margin-bottom-m mat-elevation-z3">
-          <h2 i18n class="margin-bottom-s mat-h2">Select your Account:</h2>
+          <h2 class="margin-bottom-s mat-h2">Select your Account:</h2>
           <mat-card-content>
             <ws-utils-horizontal-scroller [loadStatus]="'done'">
               <a class="concept mat-toolbar cur-pointer" *ngFor="let account of fetchAccounts(); let i = index"
@@ -37,7 +37,7 @@
         ">
         <div class="card-section margin-bottom-xl">
           <mat-card class="height-1-1">
-            <h2 class="mat-h2" i18n>Select the Portfolio</h2>
+            <h2 class="mat-h2">Select the Portfolio</h2>
             <mat-chip-list>
               <mat-chip *ngFor="let portfolio of fetchPortfolios()" class="width-1-1"
                 [selected]="portfolio === selectedPortfolio" color="primary" (click)="portfolioClicked(portfolio)">
@@ -48,13 +48,13 @@
         </div>
         <div class="card-section margin-bottom-xl">
           <mat-card class="height-1-1">
-            <h2 class="mat-h2" i18n>Select a Pillar</h2>
+            <h2 class="mat-h2">Select a Pillar</h2>
             <ws-app-pentagon [default]="'Accelerate'" (trackClicked)="pillarClicked($event)"></ws-app-pentagon>
           </mat-card>
         </div>
         <div class="card-section margin-bottom-xl">
           <mat-card class="height-1-1">
-            <h2 class="mat-h2" i18n>Select a Theme</h2>
+            <h2 class="mat-h2">Select a Theme</h2>
             <mat-chip-list>
               <mat-chip *ngFor="let theme of fetchThemes()" class="width-1-1" [selected]="theme === selectedTheme"
                 color="primary" (click)="themeClicked(theme)">

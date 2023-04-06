@@ -27,6 +27,7 @@ import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
 import { DOCUMENT } from '@angular/common'
+import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -41,6 +42,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
+  @Input() resumeResource: NsContent.IContinueLearningData | null = null
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   isTocBanner = true
@@ -115,8 +117,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.enrollApi()
+    console.log(this.resumeData)
     if (this.content) {
-      this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
+      // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -450,6 +453,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               this.issueCertificate = true
             }
+            if (this.enrolledCourse)
+              this.resumeData = this.enrolledCourse.lastReadContentId
           }
         }
       })
@@ -613,7 +618,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   private getResumeDataFromList() {
-    const lastItem = this.resumeData && this.resumeData.pop()
+    const lastItem = this.resumeResource && this.resumeResource.pop()
     return {
       identifier: lastItem.contentId,
       mimeType: lastItem.progressdetails && lastItem.progressdetails.mimeType,
@@ -876,7 +881,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
@@ -903,5 +908,19 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     //     this.tocSvc.updateBatchData()
     //   }
     // })
+  }
+
+  openDetails(content: any, tocConfig: any) {
+    this.dialog.open(AppTocDesktopModalComponent, {
+      width: '600px',
+      data: { content, tocConfig, type: 'DETAILS' },
+      disableClose: true
+    })
+  }
+  openCompetency(content: any) {
+    this.dialog.open(AppTocDesktopModalComponent, {
+      width: '600px',
+      data: { competency: content.competencies_v1, type: 'COMPETENCY' },
+    })
   }
 }

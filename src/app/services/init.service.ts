@@ -9,14 +9,14 @@ import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
-  //LoginResolverService,
+  // LoginResolverService,
   // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
   // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
-  //AuthKeycloakService,
+  // AuthKeycloakService,
   // AuthKeycloakService,
   // AuthKeycloakService,
   ConfigurationsService,
@@ -320,7 +320,7 @@ export class InitService {
             dealerCode: null,
             isManager: false,
             phone: _.get(userPidProfile, 'phone'),
-            language: (userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
+            language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           this.configSvc.userProfileV2 = {
             userId: _.get(profileV2, 'userId') || userPidProfile.userId,
@@ -335,7 +335,7 @@ export class InitService {
             profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
-            language: (userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
+            language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           if (!this.configSvc.nodebbUserProfile) {
             this.configSvc.nodebbUserProfile = {
@@ -471,7 +471,7 @@ export class InitService {
 
   private updateAppIndexMeta() {
     if (this.configSvc.instanceConfig) {
-      document.title = this.configSvc.instanceConfig.details.appName
+      //document.title = this.configSvc.instanceConfig.details.appName
       try {
         if (this.configSvc.instanceConfig.indexHtmlMeta.description) {
           const manifestElem = document.getElementById('id-app-description')

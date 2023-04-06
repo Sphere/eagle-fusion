@@ -79,18 +79,39 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
-        this.redirectUrl = document.baseURI + 'openid/keycloak'
+        let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
         this.openSnackbar(res.message)
         // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
         const state = uuid()
         const nonce = uuid()
         sessionStorage.setItem('login-btn', 'clicked')
-        const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-        window.location.href = Keycloakurl
+        if (url.includes('hi')) {
+          url = url.replace('hi/', '')
+          this.redirectUrl = `${url}openid/keycloak`
+          sessionStorage.setItem('lang', 'hi')
+        } else {
+          this.redirectUrl = `${url}openid/keycloak`
+        }
+        // tslint:disable-next-line:max-line-length
+        const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+        window.location.href = keycloakurl
       },
       (err: any) => {
-        this.openSnackbar(err.error.error || err.error.message)
+        if (localStorage.getItem(`preferedLanguage`)) {
+          let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+          let lang = JSON.parse(reqObj) || ''
+          if (lang.id === 'hi') {
+            if (err.error.message === "Please provide correct otp and try again.") {
+              let err = "कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।"
+              this.openSnackbar(err)
+            }
+          } else {
+            this.openSnackbar(err.error.error || err.error.message)
+          }
+        } else {
+          this.openSnackbar(err.error.error || err.error.message)
+        }
       })
   }
 
@@ -116,6 +137,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         this.openSnackbar(res.message)
+        //localStorage.removeItem('preferedLanguage')
         location.href = '/page/home'
         return res
       },
@@ -139,6 +161,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
         this.openSnackbar(res.message)
+        //localStorage.removeItem('preferedLanguage')
       },
       (err: any) => {
         this.openSnackbar(`OTP Error`, + err.error.message)

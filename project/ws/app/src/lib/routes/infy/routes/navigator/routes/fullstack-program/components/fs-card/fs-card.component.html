@@ -11,7 +11,7 @@
         <div class="button-holder"
           *ngIf="navigatorCard.routeButton != '' && navigatorCard.type === 'internal' || navigatorCard.type === 'external'">
           <button mat-flat-button (click)="launchCertification()">
-            <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n>LAUNCH NOW</span>
+            <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" >LAUNCH NOW</span>
             <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>
           </button>
         </div>
@@ -19,7 +19,7 @@
           class="button-holder"
           *ngIf="navigatorCard.routeButton === ''"
         >
-          <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold" i18n
+          <span class="mat-subheading-1 ws-mat-primary-text font-weight-bold"
             >I'M INTERESTED</span
           >
           <mat-icon color="primary" class="font-weight-bold">play_arrow</mat-icon>

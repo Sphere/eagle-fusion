@@ -5,7 +5,7 @@
       [color]="'primary'"
       (click)="openFilterDialog()"
       matTooltip="Filter"
-      i18n-matTooltip
+
     >
       <mat-icon>filter_list</mat-icon>
     </button>
@@ -35,14 +35,14 @@
         </ng-container>
 
         <ng-container *ngIf="!approvalItems.length">
-          <section class="text-center mat-body margin-top-xl" i18n>
+          <section class="text-center mat-body margin-top-xl" >
             You have no request items.
           </section>
         </ng-container>
       </ng-container>
 
       <ng-container *ngSwitchCase="'error'">
-        <section class="text-center mat-body margin-top-xl" i18n>
+        <section class="text-center mat-body margin-top-xl" >
           An error occured while fetching request items.
         </section>
       </ng-container>

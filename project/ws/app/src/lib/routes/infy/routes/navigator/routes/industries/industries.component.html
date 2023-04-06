@@ -2,7 +2,7 @@
   <a mat-icon-button routerLink="/app/infy/navigator">
     <mat-icon>arrow_back</mat-icon>
   </a>
-  <span i18n="page title: navigator industries" class="margin-left-xs">Industries</span>
+  <span class="margin-left-xs">Industries</span>
   <span class="spacer"></span>
   <button mat-raised-button (click)="navigateToAnalytics()"> {{selectedTab}} Analytics</button>
 </mat-toolbar>
@@ -15,7 +15,7 @@
         <div class="flex flex-center flex-wrapped padding-s">
           <div class="card-section margin-bottom-xl" *ngIf="fetchSubDomains() && fetchSubDomains()[0]">
             <mat-card class="height-1-1">
-              <h2 class="mat-title" i18n>Select a SubDomain</h2>
+              <h2 class="mat-title">Select a SubDomain</h2>
               <mat-chip-list>
                 <mat-chip *ngFor="let subdomain of fetchSubDomains()" class="width-1-1"
                   [selected]="subdomain === selectedSubDomain" color="primary" (click)="subDomainClicked(subdomain)">
@@ -27,13 +27,13 @@
           <div class="card-section margin-bottom-xl">
             <mat-card class="height-1-1">
               <h2 class="mat-title margin-bottom-m">
-                <ng-container i18n>Select a </ng-container>
-                <ng-container *ngIf="selectedType === displayTypes[0]" i18n>Mega Trend</ng-container>
-                <ng-container *ngIf="selectedType !== displayTypes[0]" i18n>Pillar</ng-container>
+                <ng-container>Select a </ng-container>
+                <ng-container *ngIf="selectedType === displayTypes[0]">Mega Trend</ng-container>
+                <ng-container *ngIf="selectedType !== displayTypes[0]">Pillar</ng-container>
               </h2>
               <mat-radio-group [(ngModel)]="selectedType" class="flex flex-around margin-bottom-m">
-                <mat-radio-button [value]="displayTypes[1]" i18n>Digital Pentagon</mat-radio-button>
-                <mat-radio-button [value]="displayTypes[0]" i18n>Mega Trend</mat-radio-button>
+                <mat-radio-button [value]="displayTypes[1]">Digital Pentagon</mat-radio-button>
+                <mat-radio-button [value]="displayTypes[0]">Mega Trend</mat-radio-button>
               </mat-radio-group>
               <ws-app-pentagon *ngIf="selectedType === displayTypes[1]" [default]="'Accelerate'"
                 (trackClicked)="trackClicked($event)"></ws-app-pentagon>
@@ -53,11 +53,11 @@
                   industriesData[selectedTab] &&
                   industriesData[selectedTab][selectedSubDomain] &&
                   industriesData[selectedTab][selectedSubDomain][selectedPillar]?.length
-                " i18n>
+                ">
                 Select a Theme
               </h2>
               <h2 class="mat-title text-center margin-top-xl"
-                *ngIf="!industriesData[selectedTab][selectedSubDomain][selectedPillar]?.length" i18n>
+                *ngIf="!industriesData[selectedTab][selectedSubDomain][selectedPillar]?.length">
                 No themes for this Pillar
               </h2>
               <mat-chip-list>

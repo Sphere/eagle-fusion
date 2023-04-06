@@ -5,10 +5,7 @@
     </div>
     <div class="discussion-header" [hidden]="widgetData.isLoggedInUserRestricted">
       <!-- <p >Start a new thread</p> -->
-      <a class="text-xl blue-link cursor-pointer" i18n (click)="showCommentBox=!showCommentBox">+ Start
-        a
-        New
-        Discussion</a>
+      <a class="text-xl blue-link cursor-pointer" i18n (click)="showCommentBox=!showCommentBox">+ Start a New Discussion</a>
       <div [hidden]="!showCommentBox">
         <div class="question-container mt-10">
           <ws-widget-user-image class="user-image" [userId]="userId" [email]="userEmail" [userName]="userName"

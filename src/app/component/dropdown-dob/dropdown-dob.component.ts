@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
@@ -9,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 export class DropdownDobComponent implements OnInit {
 
   @Output() dobValue = new EventEmitter<any>()
+  @Input() dob?: String
   dobForm: FormGroup
 
   dateValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
@@ -27,7 +28,7 @@ export class DropdownDobComponent implements OnInit {
   ]
 
   yearsValue: number[] = []
-  constructor() {
+  constructor(public cdr: ChangeDetectorRef) {
     this.initYear()
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
@@ -37,11 +38,26 @@ export class DropdownDobComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.updateForm()
+    }, 500)
+
+  }
+  /* function to update the form if input is there*/
+  updateForm(): void {
+    if (this.dob) {
+      const splitValues: string[] = this.dob.split('/')
+      this.dobForm.patchValue({
+        dateField: Number(splitValues[0]),
+        monthField: Number(splitValues[1]),
+        yearField: Number(splitValues[2]),
+      })
+    }
   }
 
   countrySelect() {
     if (this.dobForm.value.dateField && this.dobForm.value.monthField && this.dobForm.value.yearField) {
-      const dob = `${this.dobForm.value.dateField}-${this.dobForm.value.monthField}-${this.dobForm.value.yearField}`
+      const dob = `${this.dobForm.value.dateField}/${this.dobForm.value.monthField}/${this.dobForm.value.yearField}`
       this.dobValue.emit(dob)
     }
   }

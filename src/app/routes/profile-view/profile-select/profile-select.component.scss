@@ -7,6 +7,7 @@
   letter-spacing: -0.02em;
   margin: 1rem 0 0 !important;
 }
+
 .pick-text {
   font-family: 'Roboto';
   font-style: normal;
@@ -16,6 +17,7 @@
   letter-spacing: -0.02em;
   margin: 0 !important;
 }
+
 .add-own-img {
   font-family: 'Roboto';
   font-style: normal;
@@ -26,6 +28,7 @@
   mix-blend-mode: normal;
   margin: 0 !important;
 }
+
 .camera-bg {
   width: 54px;
   height: 54px;
@@ -44,4 +47,8 @@
 
 ::ng-deep .mat-dialog-container {
   border-radius: 10px;
+}
+
+.img:hover {
+  cursor: pointer;
 }

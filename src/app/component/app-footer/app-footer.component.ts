@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
-
+import { Router } from '@angular/router'
 @Component({
   selector: 'ws-app-footer',
   templateUrl: './app-footer.component.html',
@@ -19,6 +19,7 @@ export class AppFooterComponent {
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
+    private router: Router,
   ) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
@@ -35,6 +36,23 @@ export class AppFooterComponent {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.app,
       )
+    }
+  }
+  redirect(lang: string) {
+    if (lang !== '') {
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}/${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+      }
+    } else {
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        window.location.assign(`${location.origin}${lang}${lan}`)
+      } else {
+        window.location.assign(`${location.origin}${lang}${this.router.url}`)
+      }
     }
   }
 }

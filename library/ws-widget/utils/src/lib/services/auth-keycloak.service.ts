@@ -148,20 +148,31 @@ export class AuthKeycloakService {
   // }
   // async logout(redirectUrl = this.defaultRedirectUrl)
   async logout() {
-    // let keycloakID = await this.http.get('https://aastrika-stage.tarento.com/auth/realms/sunbird/protocol/openid-connect/logout').toPromise()
+    // let keycloakID = await this.http.get(
+    // 'https://aastrika-stage.tarento.com/auth/realms/sunbird/protocol/openid-connect/logout').toPromise()
     // console.log(keycloakID)
     // if (storage.getItem('telemetrySessionId') || (localStorage.getItem('loginbtn'))) {
     // this.http.get('/apis/reset')
     try {
       sessionStorage.clear()
+      localStorage.removeItem('preferedLanguage')
       localStorage.removeItem('telemetrySessionId')
       localStorage.removeItem('loginbtn')
       localStorage.removeItem('url_before_login')
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
-      const url = `${document.baseURI}public/home`
-      const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
-      window.location.href = Keycloakurl
+      let url = `${document.baseURI}`
+      let redirectUrl = ''
+      if (url.includes('hi')) {
+        url = url.replace('hi/', '')
+        redirectUrl = `${url}public/home`
+        sessionStorage.setItem('lang', 'hi')
+      } else {
+        redirectUrl = `${url}public/home`
+      }
+
+      const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`
+      window.location.href = keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
     } catch (error) { }
     // window.location.href = `${this.defaultRedirectUrl}public/home`

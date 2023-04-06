@@ -45,6 +45,7 @@
   color: #5f6368;
   font-size: 12px;
   line-height: 15px;
+  margin-top: 2px;
 }
 
 .iconPosition1 {
@@ -104,7 +105,9 @@ span.display-language {
   text-transform: capitalize;
 }
 
-
+.cursor-pointer {
+  cursor: pointer;
+}
 img.lang-img {
   width: 35px;
   height: 24px;

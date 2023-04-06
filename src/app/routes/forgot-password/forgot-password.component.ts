@@ -122,7 +122,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         if (res.response) {
           this.openSnackbar(res.response)
           setTimeout(() => {
-            this.router.navigate(['/app/login'])
+            // this.router.navigate(['/app/login'])
             window.open(res.link, '_self')
             // this.authSvc.login('S', document.baseURI)
           },         2000)

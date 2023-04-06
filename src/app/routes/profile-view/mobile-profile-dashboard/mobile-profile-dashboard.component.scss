@@ -62,6 +62,7 @@
   font-size: 16px !important;
   line-height: 2 !important;
   margin-top: 12px;
+  cursor: pointer;
 }
 
 .heading,
@@ -105,4 +106,14 @@
   border: 1px solid #e1e1e1;
   border-radius: 60px;
   margin: 8px;
+}
+
+.competency-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  padding: 10px;
+
 }

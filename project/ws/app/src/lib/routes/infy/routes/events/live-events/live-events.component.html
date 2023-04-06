@@ -1,6 +1,6 @@
 <mat-toolbar class="ws-mat-light-background" [ngStyle]="configSvc?.pageNavBar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: '/app/features' }"></ws-widget-btn-page-back>
-  <span class="margin-left-s" i18n>Events</span>
+  <span class="margin-left-s" >Events</span>
   <span class="spacer"></span>
   <span class="spacer"></span>
   <a *ngIf="!isLiveStream && urlHasLiveUrl" type="button" mat-button [href]="liveUrl" target="_blank">Open
@@ -10,52 +10,52 @@
 <ng-container>
   <div class="events-container">
     <div class="margin-top-m margin-bottom-l text-center" *ngIf="!urlHasLiveUrl">
-      <h2 *ngIf="isLiveStream && fetchStatus === 'done'" class="mat-h2" i18n>
+      <h2 *ngIf="isLiveStream && fetchStatus === 'done'" class="mat-h2" >
         LIVE streaming will be on only during the event.
       </h2>
-      <h2 *ngIf="!isLiveStream && fetchStatus === 'done' && !liveEvents.length" class="mat-h2 text-center" i18n>
+      <h2 *ngIf="!isLiveStream && fetchStatus === 'done' && !liveEvents.length" class="mat-h2 text-center" >
         No LIVE event at the moment.
       </h2>
-      <h2 *ngIf="!isLiveStream && fetchStatus === 'fetching'" class="mat-h2 text-center" i18n>
+      <h2 *ngIf="!isLiveStream && fetchStatus === 'fetching'" class="mat-h2 text-center" >
         Checking for LIVE events...
       </h2>
       <mat-card *ngIf="!isLiveStreamMobile" class="margin-top-m margin-bottom-m">
         <div class="position-relative">
           <h2 class="text-center">
             App Live Streaming
-            <span class="beta-badge mat-primary-text" i18n>Beta</span>
+            <span class="beta-badge mat-primary-text" >Beta</span>
           </h2>
         </div>
         <mat-accordion>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title i18n>
+              <mat-panel-title >
                 Live
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <a [routerLink]="'/viewer/lex_auth_0127271733829632009'" color="primary" mat-raised-button i18n>Watch</a>
-            <button *ngIf="mobileAppsSvc.isAndroidApp" type="button" class="margin-left-m" mat-raised-button i18n>
+            <a [routerLink]="'/viewer/lex_auth_0127271733829632009'" color="primary" mat-raised-button >Watch</a>
+            <button *ngIf="mobileAppsSvc.isAndroidApp" type="button" class="margin-left-m" mat-raised-button >
               Go Live
             </button>
           </mat-expansion-panel>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title i18n>
+              <mat-panel-title >
                 Classroom Broadcast
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <a [routerLink]="'/viewer/lex_auth_0126128852332052481032'" color="primary" mat-raised-button i18n>Watch</a>
-            <button *ngIf="mobileAppsSvc.isAndroidApp" type="button" class="margin-left-m" mat-raised-button i18n>
+            <a [routerLink]="'/viewer/lex_auth_0126128852332052481032'" color="primary" mat-raised-button >Watch</a>
+            <button *ngIf="mobileAppsSvc.isAndroidApp" type="button" class="margin-left-m" mat-raised-button >
               Go Live
             </button>
           </mat-expansion-panel>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title i18n>
+              <mat-panel-title >
                 360 video
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <a [routerLink]="'/viewer/lex_auth_01272703404378521670'" mat-raised-button color="primary" i18n>Watch</a>
+            <a [routerLink]="'/viewer/lex_auth_01272703404378521670'" mat-raised-button color="primary" >Watch</a>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-card>
@@ -77,7 +77,7 @@
     </div>
     <mat-card *ngIf="showIframeSupportWarning && !isLiveStream && urlHasLiveUrl">
       <mat-card-content>
-        <h2 class="mat-h2" i18n>
+        <h2 class="mat-h2" >
           If facing issues in video, please click 'Open in new tab' above
         </h2>
         <mat-divider></mat-divider>
@@ -89,11 +89,11 @@
       </mat-card-content>
     </mat-card>
     <div class="live-event-container" *ngIf="!isLiveStream && urlHasLiveUrl">
-      <iframe i18n-title title="live event" allow="fullscreen" class="live-event" [src]="safeLiveUrl"></iframe>
+      <iframe -title title="live event" allow="fullscreen" class="live-event" [src]="safeLiveUrl"></iframe>
     </div>
   </div>
   <!-- <div *ngIf="events" class="text-center margin-top-m margin-bottom-m">
-    <h2 class="mat-h2" i18n>Events:</h2>
+    <h2 class="mat-h2" >Events:</h2>
     <a
       class="margin-right-m margin-top-m"
       mat-stroked-button
@@ -108,19 +108,19 @@
   <!-- Templates -->
   <ng-template #startTime let-event>
     <span class="mat-body-strong">
-      <ng-container *ngIf="isCurrentTimeSmall(event.start_time); else eventStarted" i18n>Starts: </ng-container>
-      <ng-template #eventStarted i18n>Started: </ng-template>
+      <ng-container *ngIf="isCurrentTimeSmall(event.start_time); else eventStarted" >Starts: </ng-container>
+      <ng-template #eventStarted >Started: </ng-template>
     </span>
     <span class="mat-body date-value">{{ event.start_time | date: "d MMM, yyyy HH:mm a" }}</span>
   </ng-template>
 
   <ng-template #endTime let-event>
     <span class="mat-body-strong">
-      <ng-container *ngIf="isCurrentTimeSmall(event.end_time); else eventEnded" i18n>Ends: </ng-container>
-      <ng-template #eventEnded i18n>Ended: </ng-template>
+      <ng-container *ngIf="isCurrentTimeSmall(event.end_time); else eventEnded" >Ends: </ng-container>
+      <ng-template #eventEnded >Ended: </ng-template>
     </span>
     <span class="mat-body date-value">{{ event.end_time | date: "d MMM, yyyy HH:mm a" }}</span>
   </ng-template>
 
-  <input type="hidden" i18n-value value="Please update your app to use this feature." #appOutdated />
+  <input type="hidden"  value="Please update your app to use this feature." #appOutdated />
 </ng-container>

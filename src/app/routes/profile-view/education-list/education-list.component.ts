@@ -13,6 +13,7 @@ export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   showbackButton = false
   showLogOutIcon = false
+  trigerrNavigation = true
   constructor(private configSvc: ConfigurationsService,
               private userProfileSvc: UserProfileService,
               private router: Router,

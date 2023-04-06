@@ -43,6 +43,12 @@ import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work
 import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
+import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
+import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
+import { SelfAssessmentGuard } from './guards/self-assessment.guard'
+import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -52,15 +58,21 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
+    data: { title: 'Home - Aastrika' },
   },
   {
     path: 'openid/keycloak',
     component: KeycloakCallbackComponent,
   },
   {
+    path: 'openid/sashakt',
+    component: SashaktCallbackComponent,
+  },
+  {
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
+      title: 'Home - Aastrika',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -88,6 +100,15 @@ const routes: Routes = [
     },
     loadChildren: () => import('./routes/route-admin.module').then(u => u.RouteAdminModule),
     canActivate: [GeneralGuard],
+  },
+  {
+    path: 'organisations',
+    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'public/organisations/home',
+    component: OrgHomeComponent,
   },
   {
     path: 'analytics',
@@ -268,6 +289,11 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'hi/app/profile-view',
+    component: MobileProfileDashboardComponent,
+    canActivate: [GeneralGuard],
+  },
+  {
     path: 'app/education-list',
     component: EducationListComponent,
   },
@@ -287,6 +313,14 @@ const routes: Routes = [
     path: 'app/personal-detail-edit',
     component: PersonalDetailEditComponent,
   },
+  {
+    path: 'app/user/self-assessment',
+    component: SelfAssessmentComponent, canActivate: [SelfAssessmentGuard],
+  },
+  {
+    path: 'app/user/competency', component: CompetencyDashboardComponent,
+  },
+
   {
     path: 'app/new-tnc',
     component: NewTncComponent,
@@ -486,6 +520,7 @@ const routes: Routes = [
     path: 'public/about',
     component: PublicAboutComponent,
     data: {
+      title: 'About - Aastrika',
       pageType: 'feature',
       pageKey: 'about',
       isPublic: true,
@@ -520,6 +555,7 @@ const routes: Routes = [
     path: 'public/tnc',
     component: TncComponent,
     data: {
+      title: 'Terms of Use - Aastrika',
       isPublic: true,
     },
     resolve: {
@@ -576,6 +612,11 @@ const routes: Routes = [
   {
     path: 'aboutpoppage',
     component: MobileAboutPopupComponent,
+  },
+  {
+    path: 'openid/sphereapp',
+    component: AppCallBackComponent,
+
   },
   {
     path: '**',

@@ -3,13 +3,13 @@
     <div>
       <div class="text-info width-auto">
         <div class="intro-text">
-          <span class="text-light width-auto" i18n>Congratulations</span>
+          <span class="text-light width-auto" >Congratulations</span>
           <span> {{userName}}</span>
         </div>
       </div>
 
       <div class="text-hover">
-        <span class="mat-title" i18n>for recently earning</span>
+        <span class="mat-title" >for recently earning</span>
       </div>
     </div>
     <ng-container>
@@ -31,7 +31,7 @@
 <ng-container *ngIf="badgesWon && badgesWon.length >0">
   <div class="margin-top-l">
     <span class="headings mat-headline ws-mat-primary-text mb-10 " color="primary"
-      *ngIf="badgesWon && badgesWon.length >0" i18n>Your
+      *ngIf="badgesWon && badgesWon.length >0" >Your
       Achievements</span>
     <div *ngIf="badgesWon && badgesWon.length >0" class="card-container margin-top-m">
       <ws-utils-horizontal-scroller>
@@ -48,7 +48,7 @@
 
 <ng-container *ngIf="badgesYetToWin!=undefined">
   <div class="margin-top-xl">
-    <span class="headings mat-headline ws-mat-primary-text margin-top-xl" color="primary" i18n>Your Next Target</span>
+    <span class="headings mat-headline ws-mat-primary-text margin-top-xl" color="primary" >Your Next Target</span>
     <div class="card-container-not-earned op-80 margin-top-l" *ngFor="let key of objectKeys(badgesYetToWin)">
       <div class="text-hover">
         <span class="mat-title" color="primary">
@@ -67,7 +67,7 @@
 </ng-container>
 
 <!-- <div class="text-center mat-body margin-bottom-s">
-  <ng-container i18n>Last updated on </ng-container>
+  <ng-container >Last updated on </ng-container>
   {{ badges.DateOfwinning }}
 
 </div> -->

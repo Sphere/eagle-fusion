@@ -10,9 +10,8 @@
   </span>
 </a>
 
-<a *ngIf="(isXSmall$ | async) === true"
-  [routerLink]="((isXSmall$ | async) === true) ? '/app/profile-view' : '/app/profile/dashboard'" mat-icon-button
-  i18n-aria-label title="option" class="new-margin">
+<a *ngIf="(isXSmall$ | async) === true" routerLink="/app/profile-view" mat-icon-button i18n-aria-label title="option"
+  class="new-margin">
   <span class="profile-content">
     <span class="flex flex-column flex-middle actn-btn-wrapper">
       <ws-widget-avatar-photo class="" [photoUrl]="profileImage" [name]="givenName" size="l-xs">
@@ -59,7 +58,7 @@
   <section *ngIf="portalLinks && portalLinks.length"
     class="padding-top-xs padding-bottom-xs padding-left-s padding-right-s border-bottom">
     <div *ngFor="let wdata of portalLinks">
-      <div class="box-sizing-box" id="wdata.widgetData.actionBtn.id">
+      <div class="box-sizing-box" id="portal-list-dropdown">
         <a class="inline-block" target="_blank" href="{{wdata.widgetData.actionBtn.url}}">
           <img src="{{wdata.widgetData.actionBtn.icon}}" alt="wdata.widgetData.actionBtn.name">
           <div class="mat-body-2 inline-block margin-left-s" [attr.id]="wdata.widgetData.actionBtn.icon">{{

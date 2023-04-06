@@ -226,6 +226,7 @@
           </div>
         </div>
         <div class="d-flex align-items-center" *ngIf="content?.type === 'Assessment' ">
+
           <ws-app-assessment-detail [content]="content"></ws-app-assessment-detail>
           <div class="align-rt progrss-box">
             <span class="content-check"
@@ -251,3 +252,11 @@
     </div>
   </div>
 </ng-template>
+<div class="overlay" *ngIf="isLoading">
+  <div class="loader-container">
+    <div class="loader-ripple">
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>

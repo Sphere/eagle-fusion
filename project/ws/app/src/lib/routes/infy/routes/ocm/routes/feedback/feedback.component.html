@@ -15,7 +15,7 @@
           [max]="5"
           [pattern]="numbersPattern"
         />
-        <mat-error [hidden]="rating.valid && rating.touched" i18n>
+        <mat-error [hidden]="rating.valid && rating.touched" >
           Rating is required
         </mat-error>
       </mat-form-field>
@@ -39,7 +39,7 @@
           [name]="feedbackRequest.feedbackType + '_suggestion'"
           [(ngModel)]="feedbackRequest.feedback[0].answer"
           matInput
-          i18n-placeholder
+          -placeholder
           placeholder="Provide your suggestions"
         ></textarea>
       </mat-form-field>
@@ -51,26 +51,26 @@
         type="submit"
         mat-raised-button
         color="primary"
-        i18n
+
       >
         Submit Feedback
       </button>
-      <button mat-button i18n="reset feedback form" type="reset">Reset</button>
+      <button mat-button ="reset feedback form" type="reset">Reset</button>
     </div>
   </form>
 </mat-card>
 <input
   type="hidden"
-  i18-value
-  i18-aria-value
+
+
   aria-value="feedback submit succesful"
   value="Thanks for your feedback"
   #toastSuccess
 />
 <input
   type="hidden"
-  i18-value
-  i18-aria-value
+
+
   aria-value="unable to submit feedback"
   value="Error submitting feedback!"
   #toastError

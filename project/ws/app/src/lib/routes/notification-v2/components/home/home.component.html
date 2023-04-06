@@ -1,7 +1,7 @@
 <!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Notifications',url:'none'}] }">
   </ws-widget-btn-page-back>
-  <span class="margin-left-xs text-truncate" i18n>
+  <span class="margin-left-xs text-truncate" >
     Notifications
   </span>
   <span class="spacer"></span>
@@ -11,16 +11,16 @@
 </mat-toolbar> -->
 
 <section class="my-4 pt-4 pb-8 pl-4 pr-4 container-balanced">
-  <button mat-raised-button class="text-right" (click)="toggleSeen()" i18n>
+  <button mat-raised-button class="text-right" (click)="toggleSeen()" >
     {{toggleButtonText()}}
   </button>
   <button [disabled]="!showMarkAsRead" mat-raised-button class="text-right"
-    *ngIf="actionNotifications.length || infoNotifications.length" (click)="readAllNotifications()" i18n>
+    *ngIf="actionNotifications.length || infoNotifications.length" (click)="readAllNotifications()" >
     Mark all as read
   </button>
 
   <div class="mb-8" *ngIf="actionNotifications.length">
-    <h3 class="mat-h3" i18n>For Your Action</h3>
+    <h3 class="mat-h3" >For Your Action</h3>
 
     <ul class="list-none p-0 mb-4 mat-toolbar">
       <ng-container *ngFor="let notification of displayActionNotifications()">
@@ -50,7 +50,7 @@
     <div class="mt-4">
       <button mat-flat-button *ngIf="actionNotificationsNextPage && actionNotificationsNextPage !== '-1'"
         [disabled]="actionNotificationsFetchStatus === 'fetching'" (click)="fetchActionNotifications()"
-        [hidden]="allSeen.length <= 0" i18n>
+        [hidden]="allSeen.length <= 0" >
         View More
       </button>
       <!-- <span *ngIf="allSeen.length <= 0">All notifications are read</span> -->
@@ -58,7 +58,7 @@
   </div>
 
   <div *ngIf="infoNotifications.length">
-    <h3 class="mat-h3" i18n>For Your Information</h3>
+    <h3 class="mat-h3" >For Your Information</h3>
 
     <ul class="list-none p-0 mat-toolbar">
       <ng-container *ngFor="let notification of displayInfoNotifications()">
@@ -88,7 +88,7 @@
     <div class="mt-4">
       <button mat-flat-button *ngIf="infoNotificationsNextPage && infoNotificationsNextPage !== '-1'"
         [disabled]="infoNotificationsFetchStatus === 'fetching'" [hidden]="allSeen.length <= 0"
-        (click)="fetchInfoNotifications()" i18n>
+        (click)="fetchInfoNotifications()" >
         View More
       </button>
       <!-- <span *ngIf="allSeen.length <= 0">All notifications are read</span> -->
@@ -100,7 +100,7 @@
       infoNotificationsFetchStatus !== 'fetching' &&
       !actionNotifications.length &&
       !infoNotifications.length
-    " i18n>
+    " >
     You do not have any notifications yet.
   </h4>
 </section>

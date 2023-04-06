@@ -2,7 +2,7 @@
   <a mat-icon-button [routerLink]="'/app/features'">
     <mat-icon>arrow_back</mat-icon>
   </a>
-  <span i18n="page title: leaderboard" class="margin-left-xs">Admin</span>
+  <span i18n class="margin-left-xs">Admin</span>
   <span class="spacer"></span>
 </mat-toolbar>
 
@@ -232,9 +232,9 @@
                     <div class="text-truncate mat-body-2">
                       {{
                       {
-                        firstName: leaderboardItem.FirstName
+                      firstName: leaderboardItem.FirstName
                       } | pipeNameTransform
-                    }}
+                      }}
                     </div>
                   </div>
                 </div>

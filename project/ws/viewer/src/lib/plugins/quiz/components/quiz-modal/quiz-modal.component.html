@@ -44,25 +44,25 @@
 
   <ng-container *ngIf="tabIndex === 1">
     <div class="flex flex-col items-center m-0  result-wrapper pt-5" *ngIf="tabActive">
-      <h1 class="result-title text-center"><span>Result:</span> <span class="text-green-600" *ngIf="isCompleted">
-          Pass</span>
-        <span class="text-red-600" *ngIf="!isCompleted"> Did not pass</span>
+      <h1 class="result-title text-center"><span i18n>Result:</span> <span class="text-green-600" *ngIf="isCompleted"
+          i18n>Pass</span>
+        <span class="text-red-600" *ngIf="!isCompleted" i18n> Did not pass</span>
       </h1>
-      <h4 class="result-score-title text-center">Your score is:</h4>
+      <h4 class="result-score-title text-center" i18n>Your score is:</h4>
       <h1 class="result-score text-center">{{result}}<span>%</span></h1>
 
       <div class="result-overview-container">
         <div class="result-overview">
           <h4 class="digit">{{numUnanswered}}</h4>
-          <h4 class="lable">Not Attempted</h4>
+          <h4 class="lable" i18n>Not Attempted</h4>
         </div>
         <div class="result-overview ml-2">
           <h4 class="digit">{{numCorrectAnswers}}</h4>
-          <h4 class="lable">Correct</h4>
+          <h4 class="lable" i18n>Correct</h4>
         </div>
         <div class="result-overview ml-2">
           <h4 class="digit">{{numIncorrectAnswers}}</h4>
-          <h4 class="lable">Incorrect</h4>
+          <h4 class="lable" i18n>Incorrect</h4>
         </div>
       </div>
     </div>
@@ -76,9 +76,9 @@
     </div>
     <div class="ml-auto pt-3">
       <ng-container *ngIf="tabIndex === 0 ">
-        <button class="btn" mat-raised-button (click)="retakeQuiz()">Restart</button>
-        <button [disabled]="disableSubmit" class="btn btn-active" mat-raised-button
-          (click)="checkAnswer()">Submit</button>
+        <button class="btn" mat-raised-button (click)="retakeQuiz()" i18n>Restart</button>
+        <button [disabled]="disableSubmit" class="btn btn-active" mat-raised-button (click)="checkAnswer()"
+          i18n>Submit</button>
 
       </ng-container>
     </div>
@@ -86,8 +86,8 @@
   <div class="flex flex-col">
     <ng-container *ngIf="tabIndex === 1">
       <div class="text-center pt-5 flex justify-content-center">
-        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">Retake Quiz</button>
-        <button class="btn btn-active" (click)="closeDone()" mat-raised-button>Continue</button>
+        <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()" i18n>Retake Quiz</button>
+        <button class="btn btn-active" (click)="closeDone()" mat-raised-button i18n>Continue</button>
       </div>
     </ng-container>
   </div>

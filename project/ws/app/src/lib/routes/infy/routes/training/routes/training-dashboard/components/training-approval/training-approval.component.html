@@ -1,6 +1,6 @@
 <section class="container-balanced">
   <div class="margin-top-l text-center">
-    <p class="mat-body" i18n *ngIf="trainingRequests && trainingRequests.length">
+    <p class="mat-body"  *ngIf="trainingRequests && trainingRequests.length">
       These are the trainings planned by your team members. You can reject them within 3 days of
       registration.
     </p>
@@ -15,7 +15,7 @@
         >
         </ws-app-training-approval-card>
       </div>
-      <p class="mat-body margin-top-xl text-center width-1-1" *ngIf="!trainingRequests.length" i18n>
+      <p class="mat-body margin-top-xl text-center width-1-1" *ngIf="!trainingRequests.length" >
         There are no trainings planned by your team members.
       </p>
     </ng-container>
@@ -32,7 +32,7 @@
 
 <!-- Templates -->
 <ng-template #error>
-  <div class="text-center" i18n>
+  <div class="text-center" >
     There was an error fetching trainings.
   </div>
 </ng-template>

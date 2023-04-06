@@ -7,8 +7,8 @@
           <h2 class="mat-title tnc-title">
             <mat-icon *ngIf="generalTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
             </mat-icon>
-            <ng-container i18n="tnc heading" *ngIf="termsOfUser">Terms of Use</ng-container>
-            <ng-container i18n="tnc heading" *ngIf="!termsOfUser">Terms & Conditions</ng-container>
+            <ng-container i18n *ngIf="termsOfUser">Terms of Use</ng-container>
+            <ng-container i18n *ngIf="!termsOfUser">Terms & Conditions</ng-container>
           </h2>
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -47,10 +47,10 @@
       </div>
       <article [innerHTML]="generalTnc?.content" class="text-justify"></article>
       <mat-action-row>
-        <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n="data privacy view">
+        <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
           View Privacy Policy
         </button>
-        <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n="data privacy view">
+        <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n>
           Data Privacy
         </button>
       </mat-action-row>
@@ -62,8 +62,8 @@
           <h2 class="mat-title tnc-title">
             <mat-icon *ngIf="dpTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
             </mat-icon>
-            <ng-container i18n="data privacy heading" *ngIf="termsOfUser">Privacy Policy</ng-container>
-            <ng-container i18n="data privacy heading" *ngIf="!termsOfUser">Data Privacy</ng-container>
+            <ng-container i18n *ngIf="termsOfUser">Privacy Policy</ng-container>
+            <ng-container i18n *ngIf="!termsOfUser">Data Privacy</ng-container>
           </h2>
         </mat-panel-title>
       </mat-expansion-panel-header>

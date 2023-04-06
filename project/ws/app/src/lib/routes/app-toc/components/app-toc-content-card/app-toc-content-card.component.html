@@ -17,10 +17,10 @@
             </button>
             <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button
               color="primary">
-              <ng-container *ngIf="!viewChildren" i18n>
+              <ng-container *ngIf="!viewChildren">
                 <mat-icon>expand_more</mat-icon>
               </ng-container>
-              <ng-container *ngIf="viewChildren" i18n>
+              <ng-container *ngIf="viewChildren">
                 <mat-icon>expand_less</mat-icon>
               </ng-container>
             </button>
@@ -155,7 +155,7 @@
       </div>
     </ng-container>
     <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
-      [src]="content?.appIcon" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
+      [src]="content?.thumbnail" alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->

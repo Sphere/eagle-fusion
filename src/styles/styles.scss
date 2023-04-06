@@ -192,6 +192,11 @@ iframe {
   border: 0;
 }
 
+#fc_frame,
+#fc_frame.fc-widget-small {
+  left: 10px !important;
+}
+
 // Material Over-rides
 .auto-mat-form-field-input-infix {
   .mat-form-field-infix {

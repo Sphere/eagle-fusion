@@ -16,6 +16,60 @@
   }
 }
 
+.main .child {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.congrats-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #89c575;
+}
+
+.fail-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #951c1c;
+}
+
+.proficiceny-level {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #1C5D95;
+}
+
+.proficiceny-level-fail {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #951c1c;
+}
+
 .arrow-back {
   position: absolute;
   width: 5px;
@@ -128,6 +182,11 @@
 .btn-lg {
   width: 155px !important;
 }
+
+.btn-xll {
+  width: 220px !important;
+}
+
 
 .btn-active {
   background-color: #1c5d95 !important;
@@ -279,4 +338,5 @@
       }
     }
   }
+
 }

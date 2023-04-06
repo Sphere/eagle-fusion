@@ -3,7 +3,7 @@
     <div class="card relative">
       <a name="content-link-playlist-card" class="flex-1" [routerLink]="playlist?.id" *ngIf="playlist">
         <img [src]="playlist?.icon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-          class="thumbnail ws-mat-primary-lite-background" alt="Playlist Icon" i18n-alt />
+          class="thumbnail ws-mat-primary-lite-background" alt="Playlist Icon"  />
         <div class="overlay flex flex-middle flex-center">
           <div class="color-white playlist-font">
             <h2 class="text-center playlist-count">
@@ -22,10 +22,10 @@
               {{ playlist?.name }}
             </h3>
           </a>
-          <span *ngIf="playlist" class="ml-2 text-gray-600" i18n-title title="Duration">
+          <span *ngIf="playlist" class="ml-2 text-gray-600"  title="Duration">
 
           </span>
-          <div *ngIf="playlist" class="duration" i18n-title title="Duration">
+          <div *ngIf="playlist" class="duration"  title="Duration">
             <mat-icon class="text-green-400">access_time</mat-icon>
             <span class="time-text">{{getDuration(playlist) | pipeDurationTransform: 'hms'}}</span>
           </div>
@@ -43,7 +43,7 @@
             </button>
             <button name="edit-button-goal-card" mat-menu-item
               *ngIf="!(playlist?.sharedBy || playlist?.sharedByDisplayName)" (click)="editPlayList()">
-              <mat-icon *ngIf="checkNoAccess(playlist)" i18n-matTooltip matTooltip="This Playlist is not editable"
+              <mat-icon *ngIf="checkNoAccess(playlist)" -matTooltip matTooltip="This Playlist is not editable"
                 matTooltipPosition="left">
                 edit</mat-icon>
               <mat-icon *ngIf="!checkNoAccess(playlist)">edit</mat-icon>
@@ -66,7 +66,7 @@
         </h3>
         <span class="flex flex-1"></span>
         <span *ngIf="playlist?.sharedByDisplayName" class="flex ws-mat-accent-text">
-          <span i18n class="ws-mat-primary-text">Shared by </span>
+          <span  class="ws-mat-primary-text">Shared by </span>
           <mat-icon class="negative-margin-left-xxs">person_pin</mat-icon>
           <span>{{ playlist?.sharedByDisplayName }}</span>
         </span>
@@ -86,7 +86,7 @@
   <mat-card *ngIf="playlist && playlist.id && isListExpanded && !!isListExpanded[playlist.id] || false"
     class="border-radius-0 mt-1">
     <ng-container>
-      <h2 i18n>This playlist includes</h2>
+      <h2 >This playlist includes</h2>
       <hr />
       <div class=" padding-top-s padding-bottom-s margin-bottom-xl">
         <div *ngFor="let content of playlist?.contents">
@@ -98,18 +98,18 @@
     </ng-container>
   </mat-card>
 </section>
-<input #playlistDeleteFailed type="hidden" i18n-value value="Failed to delete playlist" />
-<input #playlistEditFailed type="hidden" i18n-value value="Failed to edit playlist" />
+<input #playlistDeleteFailed type="hidden" -value value="Failed to delete playlist" />
+<input #playlistEditFailed type="hidden" -value value="Failed to edit playlist" />
 
 <ng-template #contentView let-content>
   <div class="flex flex-middle padding-top-s padding-bottom-xs">
-    <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+    <div class="status-danger" role="note" -aria-label aria-label="Content expired or deleted" -matTooltip
       matTooltip="Content may be expired or deleted"
       *ngIf="content.status === 'Deleted' || content.status === 'Expired'"></div>
     <div class="width-expand md:mx-4 flex" [ngClass]="{ greyOut: greyOut(content) }">
       <a [routerLink]="'/app/toc/' + content?.identifier + '/overview'">
         <img (load)="isDeletedOrExpired(content)" class="image-section" [src]="content?.appIcon"
-          [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon" i18n-alt />
+          [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon"  />
       </a>
       <div class="width-expand mx-2 md:mx-4">
         <div class="flex flex-middle text-truncate">

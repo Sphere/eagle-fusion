@@ -25,6 +25,11 @@
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
                 "output": "./assets/discussion-ui"
+              },
+              {
+                "glob": "**/*.*",
+                "input": "./node_modules/@aastrika_npmjs/comptency/assets",
+                "output": "./assets/comptency"
               }
             ],
             "stylePreprocessorOptions": {
@@ -44,6 +49,7 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
+              "node_modules/@aastrika_npmjs/comptency/assets/styles/global.scss",
               {
                 "input": "src/themes/theme-deep-purple.scss",
                 "bundleName": "theme-deep-purple",
@@ -119,19 +125,19 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "11mb",
-                  "maximumError": "11mb"
+                  "maximumWarning": "15mb",
+                  "maximumError": "15mb"
                 }
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
             },
-            "hi":{
-                "aot": true,
-                "i18nFile": "locale/messages.hi.xlf",
-                "i18nFormat": "xlf",
-                "i18nLocale": "hi",
-                "i18nMissingTranslation": "warn"
+            "hi": {
+              "aot": true,
+              "i18nFile": "locale/messages.hi.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "hi",
+              "i18nMissingTranslation": "warning"
             }
           }
         },

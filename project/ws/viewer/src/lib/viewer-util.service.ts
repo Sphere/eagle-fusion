@@ -17,6 +17,8 @@ export class ViewerUtilService {
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
+  competencyAsessment = new BehaviorSubject<any>(false)
+  competencyAsessment$ = this.competencyAsessment.asObservable()
   constructor(private http: HttpClient, private configservice: ConfigurationsService) { }
 
   private currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
@@ -216,7 +218,9 @@ export class ViewerUtilService {
       ? `/apis/authContent/${url.includes('/content-store/') ? new URL(url).pathname.slice(1) : encodeURIComponent(url)}`
       : ''
   }
-
+  getCompetencyAuthoringUrl(url: string): string {
+    return `apis/protected/v8/assessmentCompetency/v1/assessment/content${url}`
+  }
   regexDownloadReplace = (_str = '', group1: string, group2: string): string => {
     return `${this.authoringBase}${encodeURIComponent(group1)}${group2}`
   }

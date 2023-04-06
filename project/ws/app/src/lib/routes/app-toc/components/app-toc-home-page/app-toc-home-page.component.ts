@@ -43,12 +43,14 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     return false
   }
+  enrolledCourse: NsContent.ICourse | undefined
   banners: NsAppToc.ITocBanner | null = null
   content: NsContent.IContent | null = null
   errorCode: NsAppToc.EWsTocErrorCode | null = null
   batchData: NsContent.IBatchListResponse | null = null
   userEnrollmentList = null
   resumeData: any = null
+  resumeResource : any = null
   routeSubscription: Subscription | null = null
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   isCohortsRestricted = false
@@ -260,10 +262,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     // )
     this.userSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
           if (courses && courses.length) {
-            enrolledCourse = courses.find(course => {
+            this.enrolledCourse = courses.find(course => {
               const identifier = this.content && this.content.identifier || ''
               if (course.courseId !== identifier) {
                 return undefined
@@ -272,15 +273,16 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             })
           }
           // If current course is present in the list of user enrolled course
-          if (enrolledCourse && enrolledCourse.batchId) {
+          if (this.enrolledCourse && this.enrolledCourse.batchId) {
             // const collectionId = this.isResource ? '' : this.content.identifier
-            this.content.completionPercentage = enrolledCourse.completionPercentage || 0
-            this.content.completionStatus = enrolledCourse.status || 0
-            this.getContinueLearningData(this.content.identifier, enrolledCourse.batchId)
+            this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
+            this.content.completionStatus = this.enrolledCourse.status || 0
+            this.getContinueLearningData(this.content.identifier, this.enrolledCourse.batchId)
             this.batchData = {
-              content: [enrolledCourse.batch],
+              content: [this.enrolledCourse.batch],
               enrolled: true,
             }
+
             if (this.getBatchId()) {
               this.batchId = this.getBatchId()
               this.router.navigate(
@@ -402,6 +404,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     this.contentSvc.fetchContentHistoryV2(req).subscribe(
       data => {
+
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
           this.resumeData = _.get(data, 'result.contentList')
           this.resumeData = _.map(this.resumeData, rr => {
@@ -418,6 +421,10 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             return rr
           })
           const progress = _.map(this.resumeData, 'completionPercentage')
+          this.resumeResource =  this.resumeData.filter((item:any)=>{
+           return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : "" ))
+          })
+
           const totalCount = _.toInteger(_.get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
@@ -428,6 +435,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
               })
             }
           }
+
           // const percentage = _.toInteger((_.sum(progress) / progress.length))
           // if (this.content) {
           //   _.set(this.content, 'completionPercentage', percentage)

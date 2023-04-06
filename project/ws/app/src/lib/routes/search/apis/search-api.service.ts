@@ -125,6 +125,12 @@ export class SearchApiService {
   //     }))
   // }
 
+  getSearchCompetencyCourses(body: any): Observable<any> {
+    // tslint:disable-next-line:max-line-length
+    const req = body
+    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+  }
+
   getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {

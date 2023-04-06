@@ -3,7 +3,7 @@
     matTooltip="Home">
     <img [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
       *ngIf=" (isXSmall$ | async) === false" />
-    <img src="/assets/instances/eagle/app_logos/aastar-logo.svg" width="100px" height="40px"
+    <img src="./../../../fusion-assets/images/sphere-new-logo.svg" width="125px" height="65px"
       *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">
@@ -34,18 +34,20 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <a role="button" *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)"
-    class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
-    routerLinkActive="ws-mat-accent-text">
-    <ng-container>
-      <button id="create-account-btn" mat-raised-button [ngStyle]="{
+  <div *ngIf="hideCreateButton">
+    <a role="button" *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)"
+      class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
+      routerLinkActive="ws-mat-accent-text">
+      <ng-container>
+        <button id="create-account-btn" mat-raised-button [ngStyle]="{
         'background-color': 'rgb(63, 81, 181)',
         'color': 'white',
         'font-size': '14px',
         'font-weight': '400'}" i18n>
-        Create Account</button>
-    </ng-container>
-  </a>
+          Create Account</button>
+      </ng-container>
+    </a>
+  </div>
 
   <div class="flex justify-center flex-col login-btn">
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
@@ -55,7 +57,7 @@
     </button>
     <button *ngIf="(isXSmall$ | async) === true && (this.configSvc.userProfile === null)" name="login_client_button"
       [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#3f51b5', 'font-size': 'medium'}"
-      mat-raised-button i18n="login: client" (click)="login('S')">
+      mat-raised-button i18n="login: client" (click)="login('S')" class="login-btn-xs">
       Log in
     </button>
   </div>

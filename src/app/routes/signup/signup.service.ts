@@ -6,7 +6,6 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import * as _ from 'lodash'
 import { v4 as uuid } from 'uuid'
 
-
 const API_END_POINTS = {
   USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
   REGISTERUSERWITHMOBILE: `/apis/public/v8/emailMobile/registerUserWithMobile`,
@@ -100,7 +99,7 @@ export class SignupService {
           if (localStorage.getItem('telemetrySessionId')) {
             localStorage.removeItem('telemetrySessionId')
           }
-          // localStorage.setItem('telemetrySessionId', uuid())
+          localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
           const profileV2 = _.get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {
@@ -175,12 +174,23 @@ export class SignupService {
   }
 
   keyClockLogin() {
-    const redirectUrl = document.baseURI + 'openid/keycloak'
+    let url = `${document.baseURI}`
+    let redirectUrl = ''
+    sessionStorage.setItem('url', url)
+    if (url.includes('hi')) {
+      url = url.replace('hi/', '')
+      redirectUrl = `${url}openid/keycloak`
+      sessionStorage.setItem('lang', 'hi')
+    } else {
+      redirectUrl = `${url}openid/keycloak`
+    }
+    console.log(url, redirectUrl)
     const state = uuid()
     const nonce = uuid()
     sessionStorage.setItem('login-btn', 'clicked')
-    const Keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-    window.location.href = Keycloakurl
+    // tslint:disable-next-line:max-line-length
+    const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+    window.location.href = keycloakurl
   }
 
 }

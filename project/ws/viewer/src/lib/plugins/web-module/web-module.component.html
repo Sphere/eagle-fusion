@@ -1,6 +1,6 @@
 <section #webModuleContainer class="mat-app-background mat-typography web-module-container">
   <nav class="web-module-nav-bar mat-toolbar mat-caption">
-    <button mat-icon-button aria-label="List of Content" i18n-aria-label (click)="sideListOpened = !sideListOpened">
+    <button mat-icon-button aria-label="List of Content" (click)="sideListOpened = !sideListOpened">
       <mat-icon>more_vert</mat-icon>
     </button>
     <span class="margin-right-s">
@@ -19,17 +19,18 @@
       </mat-select>
     </mat-form-field>
 
-    <button mat-icon-button (click)="pageChange(-1)" [disabled]="currentSlideNumber < 2" aria-label="previous" i18n-aria-label>
+    <button mat-icon-button (click)="pageChange(-1)" [disabled]="currentSlideNumber < 2" aria-label="previous">
       <mat-icon>arrow_left</mat-icon>
     </button>
-    <span i18n="web module page">Page &nbsp;</span>
-    <input type="number" name="Web Module slide" aria-label="Page Number" i18n-aria-label [ngModel]="currentSlideNumber" (ngModelChange)="setPage($event)"
-      [min]="1" [max]="slides.length" class="page-input" [readonly]="slides.length < 2" />
+    <span>Page</span>
+    <input type="number" name="Web Module slide" aria-label="Page Number" [ngModel]="currentSlideNumber"
+      (ngModelChange)="setPage($event)" [min]="1" [max]="slides.length" class="page-input"
+      [readonly]="slides.length < 2" />
     <span>
-      <ng-container i18n>of</ng-container>
+      <ng-container>of</ng-container>
       {{ slides.length }}
     </span>
-    <button mat-icon-button (click)="pageChange(1)" [disabled]="currentSlideNumber >= slides.length" aria-label="next" i18n-aria-label>
+    <button mat-icon-button (click)="pageChange(1)" [disabled]="currentSlideNumber >= slides.length" aria-label="next">
       <mat-icon>arrow_right</mat-icon>
     </button>
     <span class="width-expand text-truncate">
@@ -62,7 +63,7 @@
       </mat-form-field>
     </mat-sidenav>
     <mat-sidenav-content>
-      <iframe title="Web Module Content" i18n-title [src]="iframeUrl"
+      <iframe title="Web Module Content" -title [src]="iframeUrl"
         allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; " class="web-module-iframe"
         [ngClass]="{ iframeBlur: iframeLoadingInProgress }" *ngIf="iframeUrl" #iframeElem
         (load)="modifyIframeDom(iframeElem)"></iframe>

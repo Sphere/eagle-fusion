@@ -37,7 +37,7 @@ export class ViewerDataService {
   error: any
   status: TStatus = 'none'
   resourceChangedSubject = new Subject<string>()
-  scromChangeSubject = new Subject<boolean>()
+  scromChangeSubject = new Subject<any>()
   changedSubject = new ReplaySubject(1)
   tocChangeSubject = new ReplaySubject<IViewerTocChangeEvent>(1)
   navSupportForResource = new ReplaySubject<IViewerResourceOptions>(1)

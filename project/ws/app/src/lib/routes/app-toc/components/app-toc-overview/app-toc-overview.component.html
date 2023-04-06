@@ -7,7 +7,7 @@
         showSubtitleOnBanner &&
         content?.description
       " class="unit-meta-item">
-      <h2>{{ tocConfig?.overview?.description?.displayName ---surya}}</h2>
+      <h2>{{ tocConfig?.overview?.description?.displayName }}</h2>
       <mat-card-content>
         <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
       </mat-card-content>
@@ -181,9 +181,9 @@
       <h2 i18n>Trainings</h2>
       <h4 class="mat-h4">
         <ng-container>{{ trainingLHubCount }}</ng-container>
-        <ng-container i18n="x trainings available" *ngIf="trainingLHubCount > 1">
+        <ng-container i18n *ngIf="trainingLHubCount > 1">
           trainings available</ng-container>
-        <ng-container i18n="1 training available" *ngIf="trainingLHubCount === 1">
+        <ng-container i18n *ngIf="trainingLHubCount === 1">
           training available</ng-container>
       </h4>
       <div>
