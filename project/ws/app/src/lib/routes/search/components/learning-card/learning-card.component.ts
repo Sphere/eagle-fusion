@@ -46,7 +46,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     // this.redirectUrl = document.baseURI + 'openid/keycloak'
     const url = `${document.baseURI}openid/keycloak`
     this.redirectUrl = url
-    if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length) {
+    if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length > 0) {
 
       _.forEach(JSON.parse(this.content.competencies_v1), (value: any) => {
         if (value.level) {

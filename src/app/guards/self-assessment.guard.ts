@@ -52,7 +52,7 @@ export class SelfAssessmentGuard implements CanActivate {
         this.content = res[0].result.content
         let competency_meta_data
         if (this.content) {
-          if (this.content.competencies_v1) {
+          if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length > 0) {
             competency_meta_data = JSON.parse(this.content.competencies_v1)
             // competency_meta_data.push(competencies_v1[0])
           }
