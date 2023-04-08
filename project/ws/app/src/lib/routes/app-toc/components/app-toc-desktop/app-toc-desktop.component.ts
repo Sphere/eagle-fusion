@@ -620,8 +620,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   private getResumeDataFromList() {
     const lastItem = this.resumeResource && this.resumeResource.pop()
     return {
-      identifier: lastItem.contentId,
-      mimeType: lastItem.progressdetails && lastItem.progressdetails.mimeType,
+      identifier: lastItem ? lastItem.contentId : "",
+      mimeType: lastItem ? lastItem.progressdetails && lastItem.progressdetails.mimeType : "",
 
     }
   }
