@@ -21,7 +21,7 @@ const API_END_POINTS = {
   FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
   CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
-  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/publicContent/v1/search`,
+  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/publicSearch/getCourses`,
   CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
@@ -287,7 +287,7 @@ export class WidgetContentService {
   publicContentSearch(req: NSSearch.ISearchV6Request) {
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
-                                                       req,
+      req,
     )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
@@ -332,11 +332,11 @@ export class WidgetContentService {
   }
 
   loginAuth(req: any): Observable<any> {
-  return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
-                                                                  map(
-          (data: any) => data
-        )
+    return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
+      map(
+        (data: any) => data
       )
+    )
   }
   googleAuthenticate(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.GOOGLE_AUTHENTICATE, req).pipe(catchError(this.handleError))
