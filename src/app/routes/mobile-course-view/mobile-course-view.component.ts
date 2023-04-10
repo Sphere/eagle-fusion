@@ -22,7 +22,7 @@ export class MobileCourseViewComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    if (this.courseData.competencies_v1) {
+    if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       _.forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
         if (value.level) {
