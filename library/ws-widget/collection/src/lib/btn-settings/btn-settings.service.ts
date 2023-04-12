@@ -191,12 +191,12 @@ export class BtnSettingsService {
         // elem.href = `/assets/${theme.themeFile}.css`
         // document.head.appendChild(elem)
       } else {
-        const elem = document.createElement('script')
+        // const elem = document.createElement('script')
         /* Below field is Deprecated */
         // elem.charset = 'utf-8'
-        elem.type = 'text/javascript'
-        elem.src = `/${theme.themeFile}.js`
-        document.head.appendChild(elem)
+        // elem.type = 'text/javascript'
+        // elem.src = `/${theme.themeFile}.js`
+        // document.head.appendChild(elem)
       }
     }
     this.configurationsSvc.activeThemeObject = theme
