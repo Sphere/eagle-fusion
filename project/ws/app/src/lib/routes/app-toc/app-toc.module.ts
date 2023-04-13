@@ -98,7 +98,7 @@ import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes
 import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directive'
 import { AppTocCohortsDirective } from './routes/app-toc-cohorts/app-toc-cohorts.directive'
 import { AppTocCohortsComponent as AppTocCohortsRootComponent } from './routes/app-toc-cohorts/app-toc-cohorts.component'
-import { AppTocAnalyticsTilesComponent } from './components/app-toc-analytics-tiles/app-toc-analytics-tiles.component'
+//import { AppTocAnalyticsTilesComponent } from './components/app-toc-analytics-tiles/app-toc-analytics-tiles.component'
 import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { ProfileImageModule } from '../../../../../../../library/ws-widget/collection/src/lib/_common/profile-image/profile-image.module'
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
@@ -131,7 +131,7 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     AppTocCohortsDirective,
     AppTocCohortsRootComponent,
     KnowledgeArtifactDetailsComponent,
-    AppTocAnalyticsTilesComponent,
+    //AppTocAnalyticsTilesComponent,
     LicenseComponent,
     // AppTocSinglePageComponent,
     // AppTocSinglePageRootComponent,

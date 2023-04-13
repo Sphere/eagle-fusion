@@ -25,7 +25,6 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   LocaleTranslatorModule,
   LanguageSelectorModule,
-  AppTourDialogModule,
   BtnPageBackModule,
 } from '@ws-widget/collection'
 import { AboutVideoModule } from '../info/about-video/about-video.module'
@@ -35,7 +34,7 @@ import { TncComponent } from './components/tnc/tnc.component'
 import { TncRendererComponent } from './components/tnc-renderer/tnc-renderer.component'
 import { PipeSafeSanitizerModule } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { TncAppResolverService } from '../../../../../../../src/app/services/tnc-app-resolver.service'
-import { SetupDoneComponent } from './components/setup-done/setup-done.component'
+//import { SetupDoneComponent } from './components/setup-done/setup-done.component'
 import { InterestModules } from './module/interest/interest.module'
 import { Globals } from './globals'
 import { InterestModule } from '../profile/routes/interest/interest.module'
@@ -47,7 +46,7 @@ import { InterestModule } from '../profile/routes/interest/interest.module'
     LangSelectComponent,
     TncComponent,
     TncRendererComponent,
-    SetupDoneComponent,
+    //SetupDoneComponent,
   ],
   imports: [
     CommonModule,
@@ -77,7 +76,6 @@ import { InterestModule } from '../profile/routes/interest/interest.module'
     LocaleTranslatorModule,
     InterestModules,
     LanguageSelectorModule,
-    AppTourDialogModule,
     InterestModule,
   ],
   providers: [TncAppResolverService, Globals],
