@@ -3,6 +3,7 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "baseUrl": "./",
+    "ignoreDeprecations": "5.0",
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
