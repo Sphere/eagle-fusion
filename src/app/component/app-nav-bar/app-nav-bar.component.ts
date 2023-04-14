@@ -1,6 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { IBtnAppsConfig, CustomTourService } from '@ws-widget/collection'
+import {
+  IBtnAppsConfig,
+  //CustomTourService
+} from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
@@ -50,7 +53,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
-    private tourService: CustomTourService,
+    //private tourService: CustomTourService,
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
@@ -127,7 +130,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         !this.configSvc.restrictedFeatures.has('tourGuide')
       ) {
         this.isTourGuideAvailable = canShow
-        this.popupTour = this.tourService.createPopupTour()
+        //this.popupTour = this.tourService.createPopupTour()
       }
     })
   }
@@ -172,26 +175,26 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
-  startTour() {
-    this.tourService.startTour()
-    this.tourService.isTourComplete.subscribe((result: boolean) => {
-      if ((result)) {
-        this.tourService.startPopupTour()
-        this.configSvc.completedTour = true
-        this.configSvc.prefChangeNotifier.next({ completedTour: this.configSvc.completedTour })
-        // this.tour = tour
-        setTimeout(
-          () => {
-            this.tourService.cancelPopupTour()
-          },
-          3000,
-        )
-      }
-    })
-  }
+  // startTour() {
+  //   this.tourService.startTour()
+  //   this.tourService.isTourComplete.subscribe((result: boolean) => {
+  //     if ((result)) {
+  //       this.tourService.startPopupTour()
+  //       this.configSvc.completedTour = true
+  //       this.configSvc.prefChangeNotifier.next({ completedTour: this.configSvc.completedTour })
+  //       // this.tour = tour
+  //       setTimeout(
+  //         () => {
+  //           this.tourService.cancelPopupTour()
+  //         },
+  //         3000,
+  //       )
+  //     }
+  //   })
+  // }
   cancelTour() {
     if (this.popupTour) {
-      this.tourService.cancelPopupTour()
+      //this.tourService.cancelPopupTour()
       this.isTourGuideClosed = false
     }
 

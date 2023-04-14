@@ -25,7 +25,7 @@ import {
   DisplayContentsModule,
   DisplayContentTypeModule,
   PickerContentModule,
-  TourModule,
+  //TourModule,
   // EmailInputModule,
   TreeCatalogModule,
   UserAutocompleteModule,
@@ -79,7 +79,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
     DisplayContentsModule,
     UserImageModule,
     UserAutocompleteModule,
-    TourModule,
+    //TourModule,
     ContentPickerV2Module,
     // material imports
     MatIconModule,

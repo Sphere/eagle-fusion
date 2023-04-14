@@ -42,7 +42,8 @@ export class HomeComponent implements OnInit {
         distinctUntilChanged(),
       ).subscribe(q => {
         this.searchQuery.q = q
-        this.getAutoCompleteResults()
+        console.log(q)
+        //this.getAutoCompleteResults()
       })
     }
     this.searchApi.currentMessage.subscribe(
@@ -119,6 +120,7 @@ export class HomeComponent implements OnInit {
   }
 
   getAutoCompleteResults(): void {
+    console.log('888')
     this.searchSvc.searchAutoComplete(this.searchQuery).then((results: ISearchAutoComplete[]) => {
       this.autoCompleteResults = results
     }).catch(() => {

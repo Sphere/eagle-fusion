@@ -33,7 +33,6 @@ export class MobileCourseViewComponent implements OnInit {
             }
           )
         }
-        console.log(this.cometencyData)
         return this.cometencyData
       })
     }

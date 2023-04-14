@@ -4,7 +4,7 @@ import { MatButtonModule, MatCardModule, MatChipsModule, MatDividerModule, MatEx
 import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { ActivitiesService } from '../../../../../../project/ws/app/src/lib/routes/activities/services/activities.service'
 import { ActivityCardModule } from '../activity-card/activity-card.module'
-import { TourModule } from '../_common/tour-guide/tour-guide.module'
+//import { TourModule } from '../_common/tour-guide/tour-guide.module'
 import { UserImageModule } from '../_common/user-image/user-image.module'
 import { CardWelcomeComponent } from './card-welcome.component'
 import { ChallengeModule } from '../challenge/challenge.module'
@@ -22,7 +22,7 @@ import { ChallengeModule } from '../challenge/challenge.module'
     MatCardModule,
     HorizontalScrollerModule,
     ActivityCardModule,
-    TourModule,
+    //TourModule,
     ChallengeModule,
   ],
   entryComponents: [CardWelcomeComponent],
