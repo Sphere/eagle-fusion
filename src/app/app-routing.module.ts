@@ -188,6 +188,11 @@ const routes: Routes = [
     },
   },
   {
+    path: 'app/toc',
+    loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
+    canActivate: [GeneralGuard],
+  },
+  {
     path: 'app/user-profile',
     loadChildren: () =>
       import('./routes/route-user-profile-app.module').then(u => u.RouteUserProfileAppModule),
