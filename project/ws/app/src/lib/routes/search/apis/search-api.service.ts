@@ -131,10 +131,7 @@ export class SearchApiService {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
-  // getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
-  getSearchV6Results(body: any, searchconfig: any):
-    Observable<NSSearch.ISearchV6ApiResultV2> {
-    console.log(body)
+  getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
         const tempArray = Array()
