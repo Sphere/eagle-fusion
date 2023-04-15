@@ -41,11 +41,11 @@ import {
 } from '@ws-widget/utils/src/public-api'
 //import { TrainingApiService } from '../infy/routes/training/apis/training-api.service'
 //import { TrainingService } from '../infy/routes/training/services/training.service'
-import { BlogsCardComponent } from './components/blogs-card/blogs-card.component'
+//import { BlogsCardComponent } from './components/blogs-card/blogs-card.component'
 import { FilterDisplayComponent } from './components/filter-display/filter-display.component'
-import { ItemTileComponent } from './components/item-tile/item-tile.component'
+//import { ItemTileComponent } from './components/item-tile/item-tile.component'
 import { LearningCardComponent } from './components/learning-card/learning-card.component'
-import { QandaCardComponent } from './components/qanda-card/qanda-card.component'
+//import { QandaCardComponent } from './components/qanda-card/qanda-card.component'
 import { SearchInputComponent } from './components/search-input/search-input.component'
 import { HomeComponent } from './routes/home/home.component'
 import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
@@ -63,13 +63,13 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
     SearchInputComponent,
     SearchInputHomeComponent,
     LearningComponent,
-    BlogsCardComponent,
+    //BlogsCardComponent,
     FilterDisplayComponent,
-    ItemTileComponent,
+    //ItemTileComponent,
     KnowledgeComponent,
     LearningCardComponent,
     ProjectComponent,
-    QandaCardComponent,
+    //QandaCardComponent,
     SocialComponent,
     HomeComponent,
     PeopleComponent,
@@ -119,7 +119,9 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
     UserAutocompleteModule,
     PublicHomeModule,
   ],
-  exports: [ItemTileComponent, SearchInputComponent, SearchInputHomeComponent],
+  exports: [
+    //ItemTileComponent,
+    SearchInputComponent, SearchInputHomeComponent],
   providers: [
     //TrainingApiService, TrainingService
   ],

@@ -1,31 +1,17 @@
 <mat-sidenav-container class="sidenav-container" autosize *ngIf="!error.load">
-  <mat-sidenav
-    #sideNavBar
-    class="sidenav"
-    [opened]="sideNavBarOpened"
-    [mode]="screenSizeIsLtMedium ? 'over' : 'side'"
-  >
-    <ws-app-filter-display
-      *ngIf="searchResults?.result?.length"
-      [filtersResponse]="filtersResponse"
-      [routeComp]="routeComp"
-      [sideNavBarOpened]="sideNavBarOpened"
-      [filtersResetAble]="filtersResetAble"
-      (filterClose)="closeFilter($event)"
-    ></ws-app-filter-display>
+  <mat-sidenav #sideNavBar class="sidenav" [opened]="sideNavBarOpened" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+    <ws-app-filter-display *ngIf="searchResults?.result?.length" [filtersResponse]="filtersResponse"
+      [routeComp]="routeComp" [sideNavBarOpened]="sideNavBarOpened" [filtersResetAble]="filtersResetAble"
+      (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.length">
     <div>
       <span>Showing </span>
       <span>{{ searchResults.total }} </span>
       <span *ngIf="searchResults.total > 1">results. </span>
-      <span *ngIf="searchResults.total <= 1" ="search route hits result">result. </span>
-      <button
-        mat-icon-button
-        class="width-auto"
-        [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
-        (click)="sideNavBarOpened = !sideNavBarOpened"
-      >
+      <span *ngIf="searchResults.total <= 1"="search route hits result">result. </span>
+      <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+        (click)="sideNavBarOpened = !sideNavBarOpened">
         <mat-icon>filter_list</mat-icon>
       </button>
       <span class="spacer"></span>
@@ -39,7 +25,7 @@
       </mat-slide-toggle>
     </div>
     <div *ngIf="searchResults?.result?.length">
-      <div *ngIf="!query">
+      <!-- <div *ngIf="!query">
         <mat-card class="margin-bottom-s" *ngFor="let result of searchResults?.result">
           <ws-app-blogs-card [result]="result"></ws-app-blogs-card>
         </mat-card>
@@ -51,21 +37,15 @@
             [item]="item"
           ></ws-app-qanda-card>
         </mat-card>
-      </div>
+      </div> -->
       <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
         <mat-spinner></mat-spinner>
         <!-- <h2 class="h2-title">
           Loading...
         </h2> -->
       </div>
-      <button
-        mat-raised-button
-        class="width-1-1"
-        (click)="getResults()"
-        *ngIf="searchRequestStatus != 'done'"
-        [hidden]="searchRequestStatus === 'fetching'"
-        accesskey="+"
-      >
+      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus != 'done'"
+        [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
         <mat-icon>add</mat-icon>
         <ng-container>View More</ng-container>
       </button>
@@ -78,11 +58,11 @@
     </h2> -->
   </div>
   <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-top-m margin-left-xl">
-    <h2 class="mat-h2" ="search route no result">No result</h2>
-    <h3 class="mat-h3" >You may try</h3>
+    <h2 class="mat-h2"="search route no result">No result</h2>
+    <h3 class="mat-h3">You may try</h3>
     <div class="padding-left-s">
       <h4 [hidden]="!filtersResetAble">
-        <ng-container > Removing Filters </ng-container>
+        <ng-container> Removing Filters </ng-container>
         <button (click)="removeFilters()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
         </button>
@@ -96,7 +76,7 @@
   </div>
 
   <div *ngIf="searchRequestStatus === 'error'" class="text-center margin-top-m">
-    <h2 class="h2-title  flex flex-center" ="search result fetch error">
+    <h2 class="h2-title  flex flex-center"="search result fetch error">
       Some error occurred! Please retry
     </h2>
   </div>
