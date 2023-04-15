@@ -1,11 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { SearchServService } from '../../services/search-serv.service'
 import { Router, ActivatedRoute } from '@angular/router'
-import {
-  IKhubItemTile,
-  IKhubViewResultDocs,
-  IKhubFetchStatus,
-} from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+//import {  IKhubItemTile,  IKhubViewResultDocs,  IKhubFetchStatus} from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 import { IFilterUnitResponse } from '../../models/search.model'
 import { Subscription } from 'rxjs'
 import { ValueService } from '@ws-widget/utils'
@@ -22,7 +18,7 @@ export class KnowledgeComponent implements OnInit, OnDestroy {
   isLtMedium$ = this.valueSvc.isLtMedium$
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
-  searchRequestStatus: IKhubFetchStatus = 'none'
+  //searchRequestStatus: IKhubFetchStatus = 'none'
   searchResultsSubscription: Subscription | undefined
   routeComp = 'knowledge'
   filtersResetAble = false
@@ -36,20 +32,20 @@ export class KnowledgeComponent implements OnInit, OnDestroy {
     filter: '',
   }
   searchRequest: {
-    query: string;
-    filters: { [type: string]: string[] };
-    sort?: string;
+    query: string
+    filters: { [type: string]: string[] }
+    sort?: string
   } = {
-    query: '',
-    filters: {},
-    sort: '',
-  }
-  khubResult: IKhubViewResultDocs = {
-    count: 0,
-    filters: {},
-    hits: [],
-  }
-  knowledgeData: IKhubItemTile[] = []
+      query: '',
+      filters: {},
+      sort: '',
+    }
+  // khubResult: IKhubViewResultDocs = {
+  //   count: 0,
+  //   filters: {},
+  //   hits: [],
+  // }
+  //knowledgeData: IKhubItemTile[] = []
   noContent = false
   error = {
     load: false,
@@ -67,7 +63,7 @@ export class KnowledgeComponent implements OnInit, OnDestroy {
     private router: Router,
     private valueSvc: ValueService,
     private searchServ: SearchServService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe((isLtMedium: boolean) => {
@@ -82,7 +78,7 @@ export class KnowledgeComponent implements OnInit, OnDestroy {
       }
       this.searchObj.from = 0
       this.searchObj.filter = ''
-      this.knowledgeData = []
+      //this.knowledgeData = []
       // query
       if (queryParams.has('q')) {
         this.searchRequest.query = queryParams.get('q') || ''
@@ -114,41 +110,41 @@ export class KnowledgeComponent implements OnInit, OnDestroy {
   }
   getResults() {
     try {
-      if (this.searchResultsSubscription) {
-        this.searchResultsSubscription.unsubscribe()
-      }
-      this.searchRequestStatus = 'fetching'
-      this.searchResultsSubscription = this.searchServ
-        .fetchSearchDataDocs(this.searchObj)
-        .subscribe(
-          data => {
-            this.khubResult = data
-            this.knowledgeData = [
-              ...this.knowledgeData,
-              ...this.searchServ.setTilesDocs(this.khubResult.hits),
-            ]
-            this.filtersResponse = this.searchServ.handleFilters(
-              this.searchServ.formatKhubFilters(data.filters),
-              this.selectedFilterSet,
-              this.searchRequest.filters,
-            ).filtersRes
-            if (this.khubResult.hits.length < this.khubResult.count) {
-              this.searchRequestStatus = 'hasMore'
-            } else {
-              this.searchRequestStatus = 'done'
-            }
-            if (this.khubResult.count === 0) {
-              this.noContent = true
-            }
-            this.searchObj.from += this.searchObj.size
-          },
-          // this.searchRequestStatus = 'error'
-          error => {
-            this.error.load = true
-            this.error.message = error
-            this.searchRequestStatus = 'done'
-          },
-        )
+      // if (this.searchResultsSubscription) {
+      //   this.searchResultsSubscription.unsubscribe()
+      // }
+      // this.searchRequestStatus = 'fetching'
+      // this.searchResultsSubscription = this.searchServ
+      //   .fetchSearchDataDocs(this.searchObj)
+      //   .subscribe(
+      //     data => {
+      //       this.khubResult = data
+      //       this.knowledgeData = [
+      //         ...this.knowledgeData,
+      //         ...this.searchServ.setTilesDocs(this.khubResult.hits),
+      //       ]
+      //       this.filtersResponse = this.searchServ.handleFilters(
+      //         this.searchServ.formatKhubFilters(data.filters),
+      //         this.selectedFilterSet,
+      //         this.searchRequest.filters,
+      //       ).filtersRes
+      //       if (this.khubResult.hits.length < this.khubResult.count) {
+      //         this.searchRequestStatus = 'hasMore'
+      //       } else {
+      //         this.searchRequestStatus = 'done'
+      //       }
+      //       if (this.khubResult.count === 0) {
+      //         this.noContent = true
+      //       }
+      //       this.searchObj.from += this.searchObj.size
+      //     },
+      //     // this.searchRequestStatus = 'error'
+      //     error => {
+      //       this.error.load = true
+      //       this.error.message = error
+      //       this.searchRequestStatus = 'done'
+      //     },
+      //   )
     } catch (e) {
       throw e
     }

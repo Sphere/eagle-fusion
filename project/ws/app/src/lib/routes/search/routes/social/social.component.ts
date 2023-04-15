@@ -9,7 +9,7 @@ import {
   ISocialSearchResult,
   ISearchSocialSearchPartialRequest,
 } from '../../models/search.model'
-import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+//import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 import { NsContent, NsError, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { ValueService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -24,7 +24,7 @@ export class SocialComponent implements OnInit, OnDestroy {
   isLtMedium$ = this.valueSvc.isLtMedium$
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
-  searchRequestStatus: IKhubFetchStatus = 'none'
+  //searchRequestStatus: IKhubFetchStatus = 'none'
   filtersResponse: IFilterUnitResponse[] = []
   searchResults: ISocialSearchResult = {} as ISocialSearchResult
   searchRequestObject: ISearchSocialSearchPartialRequest = {
@@ -39,16 +39,16 @@ export class SocialComponent implements OnInit, OnDestroy {
     sort: [],
   }
   searchRequest: {
-    query: string;
-    filters: { [type: string]: string[] };
-    social?: string;
-    sort?: string;
+    query: string
+    filters: { [type: string]: string[] }
+    social?: string
+    sort?: string
   } = {
-    query: '',
-    filters: {},
-    social: '',
-    sort: 'Relevance',
-  }
+      query: '',
+      filters: {},
+      social: '',
+      sort: 'Relevance',
+    }
   searchResultsSubscription: Subscription | undefined
   selectedFilterSet: Set<string> = new Set()
   error = {
@@ -72,7 +72,7 @@ export class SocialComponent implements OnInit, OnDestroy {
     private authSvc: SearchApiService,
     private valueSvc: ValueService,
     private searchSrv: SearchServService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe((isLtMedium: boolean) => {
@@ -159,38 +159,38 @@ export class SocialComponent implements OnInit, OnDestroy {
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
     }
-    this.searchRequestStatus = 'fetching'
-    this.searchResultsSubscription = this.searchSrv
-      .fetchSocialSearchUsers(this.searchRequestObject)
-      .subscribe(
-        data => {
-          this.searchResults.total = data.total
-          this.searchResults.filters = data.filters
-          this.searchResults.result = [...this.searchResults.result, ...data.result]
-          // this.handleFilters(this.searchResults.filters)
-          const filteR = this.searchSrv.handleFilters(
-            data.filters,
-            this.selectedFilterSet,
-            this.searchRequest.filters,
-          )
-          this.filtersResponse = filteR.filtersRes
-          if (this.searchResults.result.length < this.searchResults.total) {
-            this.searchRequestStatus = 'hasMore'
-          } else {
-            this.searchRequestStatus = 'done'
-          }
-          if (this.searchResults.total === 0) {
-            this.noContent = true
-          }
-          this.searchRequestObject.pageNo += 1
-        },
-        // this.searchRequestStatus = 'error'
-        error => {
-          this.error.load = true
-          this.error.message = error
-          this.searchRequestStatus = 'done'
-        },
-      )
+    // this.searchRequestStatus = 'fetching'
+    // this.searchResultsSubscription = this.searchSrv
+    //   .fetchSocialSearchUsers(this.searchRequestObject)
+    //   .subscribe(
+    //     data => {
+    //       this.searchResults.total = data.total
+    //       this.searchResults.filters = data.filters
+    //       this.searchResults.result = [...this.searchResults.result, ...data.result]
+    //       // this.handleFilters(this.searchResults.filters)
+    //       const filteR = this.searchSrv.handleFilters(
+    //         data.filters,
+    //         this.selectedFilterSet,
+    //         this.searchRequest.filters,
+    //       )
+    //       this.filtersResponse = filteR.filtersRes
+    //       if (this.searchResults.result.length < this.searchResults.total) {
+    //         this.searchRequestStatus = 'hasMore'
+    //       } else {
+    //         this.searchRequestStatus = 'done'
+    //       }
+    //       if (this.searchResults.total === 0) {
+    //         this.noContent = true
+    //       }
+    //       this.searchRequestObject.pageNo += 1
+    //     },
+    //     // this.searchRequestStatus = 'error'
+    //     error => {
+    //       this.error.load = true
+    //       this.error.message = error
+    //       this.searchRequestStatus = 'done'
+    //     },
+    //   )
   }
 
   removeFilters() {

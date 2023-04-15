@@ -1,9 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import {
-  IKhubFetchStatus,
-  IKhubViewResultProject,
-  IKhubItemTile,
-} from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+//import {  IKhubFetchStatus,  IKhubViewResultProject,  IKhubItemTile} from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 import { IFilterUnitResponse } from '../../models/search.model'
 import { Router, ActivatedRoute } from '@angular/router'
 import { SearchServService } from '../../services/search-serv.service'
@@ -22,7 +18,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   isLtMedium$ = this.valueSvc.isLtMedium$
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
-  searchRequestStatus: IKhubFetchStatus = 'none'
+  //searchRequestStatus: IKhubFetchStatus = 'none'
   searchResultsSubscription: Subscription | undefined
   filtersResetAble = false
   selectedFilterSet: Set<string> = new Set()
@@ -36,20 +32,20 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   searchRequest: {
-    query: string;
-    filters: { [type: string]: string[] };
-    sort?: string;
+    query: string
+    filters: { [type: string]: string[] }
+    sort?: string
   } = {
-    query: '',
-    filters: {},
-    sort: '',
-  }
+      query: '',
+      filters: {},
+      sort: '',
+    }
   error = {
     load: false,
     message: '',
   }
-  khubResult: IKhubViewResultProject = {} as IKhubViewResultProject
-  knowledgeViewProj: IKhubItemTile[] = []
+  // khubResult: IKhubViewResultProject = {} as IKhubViewResultProject
+  // knowledgeViewProj: IKhubItemTile[] = []
   noContent = false
   routeComp = 'project'
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
@@ -64,7 +60,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     private router: Router,
     private valueSvc: ValueService,
     private searchServ: SearchServService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe((isLtMedium: boolean) => {
@@ -79,7 +75,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
       }
       this.searchObj.from = 0
       this.searchObj.filter = ''
-      this.knowledgeViewProj = []
+      //this.knowledgeViewProj = []
       // query
       if (queryParams.has('q')) {
         this.searchRequest.query = queryParams.get('q') || ''
@@ -112,41 +108,41 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
   getResults() {
     try {
-      if (this.searchResultsSubscription) {
-        this.searchResultsSubscription.unsubscribe()
-      }
-      this.searchRequestStatus = 'fetching'
-      this.searchResultsSubscription = this.searchServ
-        .fetchSearchDataProjects(this.searchObj)
-        .subscribe(
-          data => {
-            this.khubResult = data
-            this.knowledgeViewProj = [
-              ...this.knowledgeViewProj,
-              ...this.searchServ.setTileProject(data.hits),
-            ]
-            this.filtersResponse = this.searchServ.handleFilters(
-              this.searchServ.formatKhubFilters(data.filters),
-              this.selectedFilterSet,
-              this.searchRequest.filters,
-            ).filtersRes
-            if (this.khubResult.hits.length < this.khubResult.count) {
-              this.searchRequestStatus = 'hasMore'
-            } else {
-              this.searchRequestStatus = 'done'
-            }
-            if (this.khubResult.count === 0) {
-              this.noContent = true
-            }
-            this.searchObj.from += this.searchObj.size
-          },
-          // this.searchRequestStatus = 'error'
-          error => {
-            this.error.load = true
-            this.error.message = error
-            this.searchRequestStatus = 'done'
-          },
-        )
+      // if (this.searchResultsSubscription) {
+      //   this.searchResultsSubscription.unsubscribe()
+      // }
+      // this.searchRequestStatus = 'fetching'
+      // this.searchResultsSubscription = this.searchServ
+      //   .fetchSearchDataProjects(this.searchObj)
+      //   .subscribe(
+      //     data => {
+      //       this.khubResult = data
+      //       this.knowledgeViewProj = [
+      //         ...this.knowledgeViewProj,
+      //         ...this.searchServ.setTileProject(data.hits),
+      //       ]
+      //       this.filtersResponse = this.searchServ.handleFilters(
+      //         this.searchServ.formatKhubFilters(data.filters),
+      //         this.selectedFilterSet,
+      //         this.searchRequest.filters,
+      //       ).filtersRes
+      //       if (this.khubResult.hits.length < this.khubResult.count) {
+      //         this.searchRequestStatus = 'hasMore'
+      //       } else {
+      //         this.searchRequestStatus = 'done'
+      //       }
+      //       if (this.khubResult.count === 0) {
+      //         this.noContent = true
+      //       }
+      //       this.searchObj.from += this.searchObj.size
+      //     },
+      //     // this.searchRequestStatus = 'error'
+      //     error => {
+      //       this.error.load = true
+      //       this.error.message = error
+      //       this.searchRequestStatus = 'done'
+      //     },
+      //   )
     } catch (e) {
       throw e
     }

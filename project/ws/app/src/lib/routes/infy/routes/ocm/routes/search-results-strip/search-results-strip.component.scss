@@ -1,9 +1,0 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-
-.pad {
-  padding: $size-m;
-  @include breakpoint-gt-xs {
-    padding: $size-m $size-xl;
-  }
-}

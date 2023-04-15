@@ -27,7 +27,7 @@ import {
   LanguageSelectorModule,
   BtnPageBackModule,
 } from '@ws-widget/collection'
-import { AboutVideoModule } from '../info/about-video/about-video.module'
+//import { AboutVideoModule } from '../info/about-video/about-video.module'
 import { HomeComponent } from './components/home/home.component'
 import { LangSelectComponent } from './components/lang-select/lang-select.component'
 import { TncComponent } from './components/tnc/tnc.component'
@@ -71,7 +71,7 @@ import { InterestModule } from '../profile/routes/interest/interest.module'
     BtnPageBackModule,
 
     SettingsModule,
-    AboutVideoModule,
+    //AboutVideoModule,
     WidgetResolverModule,
     LocaleTranslatorModule,
     InterestModules,

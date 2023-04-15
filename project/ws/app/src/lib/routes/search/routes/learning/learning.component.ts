@@ -4,7 +4,7 @@ import { NsContent, NsError, NSSearch, ROOT_WIDGET_CONFIG } from '@ws-widget/col
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, ValueService, UtilityService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+//import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 // import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { FilterDisplayComponent } from '../../components/filter-display/filter-display.component'
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
@@ -28,7 +28,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
-  searchRequestStatus: IKhubFetchStatus = 'none'
+  //searchRequestStatus: IKhubFetchStatus = 'none'
   lang = ''
   contactMethods = [
     { id: 'en', label: 'English' },
@@ -550,9 +550,9 @@ export class LearningComponent implements OnInit, OnDestroy {
           this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
         }
         if (this.searchResults.result.content.length < this.searchResults.result.count) {
-          this.searchRequestStatus = 'hasMore'
+          //this.searchRequestStatus = 'hasMore'
         } else {
-          this.searchRequestStatus = 'done'
+          //this.searchRequestStatus = 'done'
         }
         if (this.searchResults.result.content.length < this.searchResults.result.count) {
           // tslint:disable-next-line: no-non-null-assertion
@@ -564,7 +564,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       error => {
         this.error.load = true
         this.error.message = error
-        this.searchRequestStatus = 'done'
+        //this.searchRequestStatus = 'done'
       },
     )
 
@@ -575,7 +575,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
     }
-    this.searchRequestStatus = 'fetching'
+    //this.searchRequestStatus = 'fetching'
     this.exactResult.show = false
     if (this.exactResult.old !== this.searchRequestObject.request.query) {
       this.exactResult.applied = false
@@ -714,9 +714,9 @@ export class LearningComponent implements OnInit, OnDestroy {
             this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
           }
           if (this.searchResults.result.content.length < this.searchResults.result.count) {
-            this.searchRequestStatus = 'hasMore'
+            //this.searchRequestStatus = 'hasMore'
           } else {
-            this.searchRequestStatus = 'done'
+            //this.searchRequestStatus = 'done'
           }
           if (this.searchResults.result.content.length < this.searchResults.result.count) {
             // tslint:disable-next-line: no-non-null-assertion
@@ -728,7 +728,7 @@ export class LearningComponent implements OnInit, OnDestroy {
         error => {
           this.error.load = true
           this.error.message = error
-          this.searchRequestStatus = 'done'
+          //this.searchRequestStatus = 'done'
         },
       )
   }

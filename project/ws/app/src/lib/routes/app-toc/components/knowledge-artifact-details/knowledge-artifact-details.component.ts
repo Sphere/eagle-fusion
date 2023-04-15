@@ -4,10 +4,10 @@ import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 import { Observable, Subscription } from 'rxjs'
-import { retry } from 'rxjs/operators'
+//import { retry } from 'rxjs/operators'
 import { EditorService } from '../../../../../../../author/src/lib/routing/modules/editor/services/editor.service'
-import { TrainingApiService } from '../../../infy/routes/training/apis/training-api.service'
-import { TrainingService } from '../../../infy/routes/training/services/training.service'
+//import { TrainingApiService } from '../../../infy/routes/training/apis/training-api.service'
+//import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 
@@ -39,8 +39,8 @@ export class KnowledgeArtifactDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private tocSharedSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    private trainingApi: TrainingApiService,
-    private trainingSvc: TrainingService,
+    // private trainingApi: TrainingApiService,
+    //private trainingSvc: TrainingService,
     private domSanitizer: DomSanitizer,
     private contentSvc: WidgetContentService,
     private editorSvc: EditorService,
@@ -179,12 +179,11 @@ export class KnowledgeArtifactDetailsComponent implements OnInit, OnDestroy {
   private getTrainingCount() {
     if (
       this.trainingLHubEnabled &&
-      this.content &&
-      this.trainingSvc.isValidTrainingContent(this.content)
+      this.content
     ) {
-      this.trainingLHubCount$ = this.trainingApi
-        .getTrainingCount(this.content.identifier)
-        .pipe(retry(2))
+      // this.trainingLHubCount$ = this.trainingApi
+      //   .getTrainingCount(this.content.identifier)
+      //   .pipe(retry(2))
     }
   }
 
@@ -227,7 +226,7 @@ export class KnowledgeArtifactDetailsComponent implements OnInit, OnDestroy {
     await this.contentSvc
       .setS3Cookie(identifier)
       .toPromise()
-      .catch(() => {})
+      .catch(() => { })
     return
   }
 }

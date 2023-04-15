@@ -1,18 +1,8 @@
 <mat-sidenav-container class="sidenav-container" autosize *ngIf="!error.load">
-  <mat-sidenav
-    #sideNavBar
-    class="sidenav"
-    [opened]="sideNavBarOpened"
-    [mode]="screenSizeIsLtMedium ? 'over' : 'side'"
-  >
-    <ws-app-filter-display
-      *ngIf="knowledgeViewProj?.length"
-      [filtersResetAble]="filtersResetAble"
-      [sideNavBarOpened]="sideNavBarOpened"
-      [filtersResponse]="filtersResponse"
-      [routeComp]="routeComp"
-      (filterClose)="closeFilter($event)"
-    >
+  <mat-sidenav #sideNavBar class="sidenav" [opened]="sideNavBarOpened" [mode]="screenSizeIsLtMedium ? 'over' : 'side'">
+    <ws-app-filter-display *ngIf="knowledgeViewProj?.length" [filtersResetAble]="filtersResetAble"
+      [sideNavBarOpened]="sideNavBarOpened" [filtersResponse]="filtersResponse" [routeComp]="routeComp"
+      (filterClose)="closeFilter($event)">
     </ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && knowledgeViewProj?.length">
@@ -21,12 +11,8 @@
       <span>{{ khubResult.count }} </span>
       <span *ngIf="khubResult.count > 1" i18n="search route hits results">results. </span>
       <span *ngIf="khubResult.count <= 1" i18n="search route hits result">result. </span>
-      <button
-        mat-icon-button
-        class="width-auto"
-        [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
-        (click)="sideNavBarOpened = !sideNavBarOpened"
-      >
+      <button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
+        (click)="sideNavBarOpened = !sideNavBarOpened">
         <mat-icon>filter_list</mat-icon>
       </button>
       <span class="spacer"></span>
@@ -38,22 +24,16 @@
     <div *ngIf="knowledgeViewProj?.length">
       <div class="flex flex-wrapped flex-center">
         <div class="flex flex-wrapped flex-center">
-          <ws-app-item-tile
+          <!-- <ws-app-item-tile
             class="card-display"
             *ngFor="let data of knowledgeViewProj; index as i"
             [data]="data"
           >
-          </ws-app-item-tile>
+          </ws-app-item-tile> -->
         </div>
       </div>
-      <button
-        mat-raised-button
-        class="width-1-1"
-        (click)="getResults()"
-        *ngIf="searchRequestStatus != 'done'"
-        [hidden]="searchRequestStatus === 'fetching'"
-        accesskey="+"
-      >
+      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus != 'done'"
+        [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
         <mat-icon>add</mat-icon>
         <ng-container i18n="search: more results">View More</ng-container>
       </button>
