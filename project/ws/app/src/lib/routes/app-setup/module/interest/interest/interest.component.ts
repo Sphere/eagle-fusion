@@ -5,7 +5,7 @@ import { TFetchStatus, NsPage, ConfigurationsService } from '../../../../../../.
 import { FormControl } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { Subscription } from 'rxjs'
-import { InterestService } from '../../../../profile/routes/interest/services/interest.service'
+//import { InterestService } from '../../../../profile/routes/interest/services/interest.service'
 
 @Component({
   selector: 'ws-app-interests',
@@ -27,12 +27,12 @@ export class InterestComponent implements OnInit {
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   alreadyAddedInterest = new Set<string>()
   constructor(private activateRoute: ActivatedRoute,
-              private contentSvc: WidgetContentService,
-              private playlistSvc: BtnPlaylistService,
-              private configSvc: ConfigurationsService,
-              private router: Router,
-              private interestSvc: InterestService,
-              private snackbar: MatSnackBar) { }
+    private contentSvc: WidgetContentService,
+    private playlistSvc: BtnPlaylistService,
+    private configSvc: ConfigurationsService,
+    private router: Router,
+    //private interestSvc: InterestService,
+    private snackbar: MatSnackBar) { }
   @ViewChild('createPlaylistSuccess', { static: true }) createPlaylistSuccessMessage!: ElementRef<any>
   @ViewChild('createPlaylistError', { static: true }) createPlaylistErrorMessage!: ElementRef<any>
   playlistsSubscription: Subscription | null = null
@@ -100,7 +100,7 @@ export class InterestComponent implements OnInit {
             this.interestToAddMultiple.push(interest)
           }
         })
-        this.interestSvc.addUserMultipleInterest(this.interestToAddMultiple).subscribe()
+        //this.interestSvc.addUserMultipleInterest(this.interestToAddMultiple).subscribe()
         if (interestToRemove.length) {
           this.playlistSvc.deletePlaylistContent(this.playlistForInterest, interestToRemove).subscribe()
         }
