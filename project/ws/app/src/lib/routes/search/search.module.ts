@@ -48,13 +48,13 @@ import { LearningCardComponent } from './components/learning-card/learning-card.
 //import { QandaCardComponent } from './components/qanda-card/qanda-card.component'
 import { SearchInputComponent } from './components/search-input/search-input.component'
 import { HomeComponent } from './routes/home/home.component'
-import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
+//import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
 import { LearningComponent } from './routes/learning/learning.component'
-import { ProjectComponent } from './routes/project/project.component'
+//import { ProjectComponent } from './routes/project/project.component'
 import { SearchRootComponent } from './routes/search-root/search-root.component'
-import { SocialComponent } from './routes/social/social.component'
+//import { SocialComponent } from './routes/social/social.component'
 import { SearchRoutingModule } from './search-routing.module'
-import { PeopleComponent } from './routes/people/people.component'
+//import { PeopleComponent } from './routes/people/people.component'
 import { SearchInputHomeComponent } from './components/search-input-home/search-input-home.component'
 import { PublicHomeModule } from '../../../../../../../src/app/routes/public/public-home/public-home.module'
 @NgModule({
@@ -66,13 +66,13 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
     //BlogsCardComponent,
     FilterDisplayComponent,
     //ItemTileComponent,
-    KnowledgeComponent,
+    //KnowledgeComponent,
     LearningCardComponent,
-    ProjectComponent,
+    //ProjectComponent,
     //QandaCardComponent,
-    SocialComponent,
+    //SocialComponent,
     HomeComponent,
-    PeopleComponent,
+    //PeopleComponent,
   ],
   imports: [
     CommonModule,

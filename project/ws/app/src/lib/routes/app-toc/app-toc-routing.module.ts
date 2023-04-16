@@ -6,7 +6,7 @@ import { GeneralGuard } from '../../../../../../../src/app/guards/general.guard'
 
 import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
-import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
+//import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
 import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
 import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
@@ -30,20 +30,6 @@ const routes: Routes = [
     },
     runGuardsAndResolvers: 'paramsChange',
     children: [
-      {
-        path: 'analytics',
-        component: AppTocAnalyticsComponent,
-        data: {
-          pageType: 'feature',
-          pageKey: 'toc',
-          requiredFeatures: ['tocAnalytics'],
-        },
-        resolve: {
-          pageData: PageResolve,
-        },
-        canActivate: [GeneralGuard],
-        runGuardsAndResolvers: 'always',
-      },
       {
         path: 'chapters',
         component: AppTocContentsComponent,

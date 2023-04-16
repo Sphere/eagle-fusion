@@ -19,7 +19,7 @@ import { CardDetailComponent } from './components/card-detail/card-detail.compon
 import { CompetencyHomeComponent } from './components/competency-home/competency-home.component'
 import { AchievementsComponent } from './components/achievements/achievements.component'
 import { HorizontalScrollerModule } from '@ws-widget/utils'
-import { BadgesModule } from './../badges/badges.module'
+//import { BadgesModule } from './../badges/badges.module'
 
 @NgModule({
   declarations: [CardDetailComponent, CompetencyHomeComponent, AchievementsComponent],
@@ -39,7 +39,7 @@ import { BadgesModule } from './../badges/badges.module'
     MatDividerModule,
     MatProgressSpinnerModule,
     WidgetResolverModule,
-    BadgesModule,
+    //BadgesModule,
   ],
   exports: [CompetencyHomeComponent, AchievementsComponent],
 })

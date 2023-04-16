@@ -1,5 +1,5 @@
 import { UserProfileService } from './../../../../../user-profile/services/user-profile.service'
-import { ITimeSpent } from './../../../learning/models/learning.models'
+//import { ITimeSpent } from './../../../learning/models/learning.models'
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
@@ -8,12 +8,12 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
 import { NSProfileData } from '../../../../models/profile.model'
 import { ProfileService } from '../../../../services/profile.service'
 import { InterestService } from '../../../interest/services/interest.service'
-import { NSLearningHistory } from '../../../learning/models/learning.models'
-import { LearningHistoryService } from '../../../learning/services/learning-history.service'
+//import { NSLearningHistory } from '../../../learning/models/learning.models'
+//import { LearningHistoryService } from '../../../learning/services/learning-history.service'
 import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
 
 interface ILearningHistoryContent {
-  content: NSLearningHistory.ILearningHistory
+  //content: NSLearningHistory.ILearningHistory
   contentType: string
   pageNum: number
   loading: boolean
@@ -23,7 +23,7 @@ interface ILearningHistoryContent {
 export interface ITimeResolveData {
   start: Date
   end: Date
-  data: ITimeSpent
+  //data: ITimeSpent
 }
 @Component({
   selector: 'ws-app-dashboard',
@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit {
     widgetHostClass: 'block sm:-mx-10 -mx-6',
   }
 
-  coursePending: NSLearningHistory.ILearningHistoryItem[] = []
+  //coursePending: NSLearningHistory.ILearningHistoryItem[] = []
   lhContent: ILearningHistoryContent[] = []
   selectedStatusType = 'inprogress'
   selectedTabIndex = 0
@@ -101,8 +101,8 @@ export class DashboardComponent implements OnInit {
   pageSize = 10
   loadingContent = true
   pageNum = ''
-  ongoingCertifications: NSLearningHistory.ILearningHistoryItem[] = []
-  passedCertifications: NSLearningHistory.ILearningHistoryItem[] = []
+  //ongoingCertifications: NSLearningHistory.ILearningHistoryItem[] = []
+  //passedCertifications: NSLearningHistory.ILearningHistoryItem[] = []
   userProfileData!: IUserProfileDetailsFromRegistry
   xStandardValues = 0
   xiiStandardValues = 0
@@ -117,7 +117,7 @@ export class DashboardComponent implements OnInit {
     private configSvc: ConfigurationsService,
     // private badgesSvc: BadgesService,
     private profileSvc: ProfileService,
-    private learnHstSvc: LearningHistoryService,
+    //private learnHstSvc: LearningHistoryService,
     private interestSvc: InterestService,
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
@@ -242,16 +242,16 @@ export class DashboardComponent implements OnInit {
         this.apiFetchStatus = 'error'
       })
     // }
-    if (this.enabledTabs.subFeatures.pendingCourses) {
-      this.learnHstSvc.fetchContentProgress(this.pageNum, this.pageSize, this.selectedStatusType, 'course').subscribe(
-        (data: NSLearningHistory.ILearningHistory) => {
-          this.coursePending = data.result.sort((a: any, b: any) => (a.timeLeft > b.timeLeft ? 1 : a.timeLeft < b.timeLeft ? -1 : 0))
-          this.historyFetchStatus = 'done'
-        },
-        () => {
-          this.historyFetchStatus = 'done'
-        })
-    }
+    // if (this.enabledTabs.subFeatures.pendingCourses) {
+    //   this.learnHstSvc.fetchContentProgress(this.pageNum, this.pageSize, this.selectedStatusType, 'course').subscribe(
+    //     (data: NSLearningHistory.ILearningHistory) => {
+    //       this.coursePending = data.result.sort((a: any, b: any) => (a.timeLeft > b.timeLeft ? 1 : a.timeLeft < b.timeLeft ? -1 : 0))
+    //       this.historyFetchStatus = 'done'
+    //     },
+    //     () => {
+    //       this.historyFetchStatus = 'done'
+    //     })
+    // }
     if (this.myProp) {
       this.myProp.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }

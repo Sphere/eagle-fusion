@@ -31,7 +31,7 @@ import {
 } from '@angular/material'
 
 // comps
-import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
+//import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
@@ -115,7 +115,7 @@ import { AssessmentDetailComponent } from './components/assessment-detail/assess
 import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/app-toc-desktop-modal.component'
 @NgModule({
   declarations: [
-    AppTocAnalyticsComponent,
+    //AppTocAnalyticsComponent,
     AppTocContentsComponent,
     AppTocHomeComponent,
     AppTocOverviewComponent,
