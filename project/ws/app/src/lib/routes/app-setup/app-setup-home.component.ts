@@ -4,7 +4,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { IWidgetsPlayerMediaData } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-import { InterestComponent } from '../profile/routes/interest/components/interest/interest.component'
+//import { InterestComponent } from '../profile/routes/interest/components/interest/interest.component'
 import { SettingsComponent } from '../profile/routes/settings/settings.component'
 
 @Component({
@@ -41,15 +41,15 @@ export class AppSetupHomeComponent implements OnInit, AfterViewInit {
     },
   }
 
-  @ViewChild('userInterest', { static: false }) interestCompRef:
-    | InterestComponent
-    | undefined = undefined
+  // @ViewChild('userInterest', { static: false }) interestCompRef:
+  //   | InterestComponent
+  //   | undefined = undefined
 
   @ViewChild('userSettings', { static: false }) settingsCompRef:
     | SettingsComponent
     | undefined = undefined
 
-  constructor(private configSvc: ConfigurationsService, private matDialog: MatDialog) {}
+  constructor(private configSvc: ConfigurationsService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     // if (this.configSvc.restrictedFeatures) {
@@ -72,9 +72,9 @@ export class AppSetupHomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      if (this.interestCompRef) {
-        this.interestCompRef.fetchUserInterests()
-      }
+      // if (this.interestCompRef) {
+      //   this.interestCompRef.fetchUserInterests()
+      // }
       // tslint:disable-next-line: align
     }, 0)
   }

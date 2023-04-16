@@ -37,7 +37,7 @@ import { TncAppResolverService } from '../../../../../../../src/app/services/tnc
 //import { SetupDoneComponent } from './components/setup-done/setup-done.component'
 import { InterestModules } from './module/interest/interest.module'
 import { Globals } from './globals'
-import { InterestModule } from '../profile/routes/interest/interest.module'
+//import { InterestModule } from '../profile/routes/interest/interest.module'
 
 @NgModule({
   declarations: [
@@ -76,7 +76,7 @@ import { InterestModule } from '../profile/routes/interest/interest.module'
     LocaleTranslatorModule,
     InterestModules,
     LanguageSelectorModule,
-    InterestModule,
+    //InterestModule,
   ],
   providers: [TncAppResolverService, Globals],
 })

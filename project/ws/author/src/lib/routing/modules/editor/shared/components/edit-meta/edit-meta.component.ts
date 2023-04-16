@@ -28,7 +28,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { EditorContentService } from '@ws/author/src/lib/routing/modules/editor/services/editor-content.service'
 import { EditorService } from '@ws/author/src/lib/routing/modules/editor/services/editor.service'
 import { Observable, of, Subscription } from 'rxjs'
-import { InterestService } from '../../../../../../../../../app/src/lib/routes/profile/routes/interest/services/interest.service'
+//import { InterestService } from '../../../../../../../../../app/src/lib/routes/profile/routes/interest/services/interest.service'
 import { UploadService } from '../../services/upload.service'
 import { CatalogSelectComponent } from '../catalog-select/catalog-select.component'
 import { IFormMeta } from './../../../../../../interface/form'
@@ -129,7 +129,7 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
     private contentService: EditorContentService,
     private configSvc: ConfigurationsService,
     private ref: ChangeDetectorRef,
-    private interestSvc: InterestService,
+    //private interestSvc: InterestService,
     private loader: LoaderService,
     private authInitService: AuthInitService,
     private accessService: AccessControlService,
@@ -305,12 +305,12 @@ export class EditMetaComponent implements OnInit, OnDestroy, AfterViewInit {
       this.content = this.contentService.getUpdatedMeta(data)
     })
 
-    this.filteredOptions$ = this.keywordsCtrl.valueChanges.pipe(
-      startWith(this.keywordsCtrl.value),
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
-    )
+    // this.filteredOptions$ = this.keywordsCtrl.valueChanges.pipe(
+    //   startWith(this.keywordsCtrl.value),
+    //   debounceTime(500),
+    //   distinctUntilChanged(),
+    //   switchMap(value => this.interestSvc.fetchAutocompleteInterestsV2(value)),
+    // )
     this.getLicenses()
   }
 
