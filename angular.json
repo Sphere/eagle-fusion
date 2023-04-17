@@ -21,6 +21,8 @@
               "src/favicon.ico",
               "src/favicon.png",
               "src/fusion-assets",
+              "src/fusion-assets/icons/",
+              "src/fusion-assets/images/",
               {
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
