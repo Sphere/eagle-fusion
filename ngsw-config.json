@@ -9,7 +9,8 @@
         "files": [
           "/favicon.ico",
           "/index.html",
-          "/*.css"
+          "/*.css",
+          "/*.js"
         ]
       }
     },
