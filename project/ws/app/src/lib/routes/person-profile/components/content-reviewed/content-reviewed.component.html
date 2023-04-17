@@ -3,13 +3,13 @@
     <mat-card class="outer-card margin-bottom-s mat-card mat-elevation-z0 padding-remove w-full">
       <mat-card-content>
         <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'fetching'">
-          <p class="font-family fetching" >Fetching content reviewed ...</p>
+          <p class="font-family fetching">Fetching content reviewed ...</p>
         </div>
         <div class="pt-4 text-center" *ngIf="!contentCurrentDisplay?.length && contentFetchStatus === 'done'">
-          <p class="fetching font-family" >User has not reviewed any content.</p>
+          <p class="fetching font-family">User has not reviewed any content.</p>
         </div>
         <div class="pt-4 text-center" *ngIf="contentFetchStatus === 'error'">
-          <p class="mat-error" >Failed to fetch content reviewed.</p>
+          <p class="mat-error">Failed to fetch content reviewed.</p>
         </div>
         <ng-container *ngFor="let content of contentCurrentDisplay">
           <div>
@@ -18,14 +18,14 @@
                 <div class="flex">
                   <div class="flex flex-between w-full">
                     <div class="flex flex-middle">
-                      <img src={{content.appIcon}} [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                      <img alt="logo" src={{content.appIcon}} [wsUtilsDefaultThumbnail]="defaultThumbnail"
                         class="object-cover followimg" />
                       <p class="mat-h4 ml-2 margin-remove-bottom font-weight-bold title-text font-family ws-mat-text-block-fade-gradient"
                         [matTooltip]="content.name">
                         {{content.name}}</p>
                     </div>
                     <a class="font-family mat-caption mx-2 flex flex-middle" (click)="raiseTelemetry()"
-                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'" >Explore
+                      [routerLink]="'/app/toc/'+ content?.identifier + '/overview'">Explore
                       <mat-icon class="pl-1">arrow_right</mat-icon></a>
                   </div>
                 </div>

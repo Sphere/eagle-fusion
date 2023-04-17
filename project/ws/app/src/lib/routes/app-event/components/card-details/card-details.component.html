@@ -1,17 +1,11 @@
 <ng-container [ngSwitch]="cardType">
   <ng-container *ngSwitchCase="'event'" [ngTemplateOutlet]="eventDetailsTemplate"></ng-container>
   <ng-container *ngSwitchCase="'speaker'">
-    <ng-container
-      [ngTemplateOutlet]="speakerDetailsTemplate"
-      [ngTemplateOutletContext]="sortedSpeaker"
-    >
+    <ng-container [ngTemplateOutlet]="speakerDetailsTemplate" [ngTemplateOutletContext]="sortedSpeaker">
     </ng-container>
   </ng-container>
   <ng-container *ngSwitchCase="'liveSpeaker'">
-    <ng-container
-      [ngTemplateOutlet]="speakerDetailsTemplate"
-      [ngTemplateOutletContext]="liveSpeaker"
-    ></ng-container>
+    <ng-container [ngTemplateOutlet]="speakerDetailsTemplate" [ngTemplateOutletContext]="liveSpeaker"></ng-container>
   </ng-container>
   <ng-container *ngSwitchCase="'user'" [ngTemplateOutlet]="userDetailsTemplate"></ng-container>
   <!-- <ng-container *ngSwitchCase="'gallery'" [ngTemplateOutlet]="galleryTemplate"></ng-container> -->
@@ -22,7 +16,7 @@
     <div class="session-card mat-elevation-z4 m-4" *ngFor="let event of eventDetails">
       <a class="flex flex-column" routerLink="/app/events/meetup/nextup/1/sessions">
         <div>
-          <img class="card-image image-border" [src]="event.plannedImage" [alt]="" />
+          <img alt="logo" class="card-image image-border" [src]="event.plannedImage" [alt]="" />
         </div>
         <div class="px-4 mb-4">
           <h1 class="margin-remove-bottom py-6 mat-h1">{{ event.plannedName }}</h1>
@@ -36,17 +30,10 @@
 <ng-template #speakerDetailsTemplate let-speakerData="values()">
   <div class="flex flex-column">
     <div class="flex flex-row flex-wrap">
-      <div
-        class="speaker-card mat-elevation-z4 w-full"
-        *ngFor="let speaker of speakerData; let i = index"
-      >
-        <a
-          class="flex flex-column justify-between speakerCard"
-          [ngClass]="{
+      <div class="speaker-card mat-elevation-z4 w-full" *ngFor="let speaker of speakerData; let i = index">
+        <a class="flex flex-column justify-between speakerCard" [ngClass]="{
             'cursor-pointer': !(speaker?.startRemainingTime <= 0 && speaker?.endRemaningTime >= 0)
-          }"
-          (click)="onClickSessionCard(i)"
-        >
+          }" (click)="onClickSessionCard(i)">
           <div>
             <div class="flex flex-row justify-between px-4 py-2">
               <div class="speakerDate">
@@ -61,7 +48,7 @@
                 </p>
               </div>
             </div>
-            <img class="card-image" [src]="speaker?.speakerImage" [alt]="" />
+            <img alt="logo" loading="lazy" class="card-image" [src]="speaker?.speakerImage" [alt]="" />
             <div class="px-4 py-2">
               <p class="font-normal speakerType margin-remove-bottom ws-mat-primary-text uppercase">
                 {{ speaker?.speakerType }}
@@ -89,14 +76,10 @@
             </div>
             <mat-divider></mat-divider>
             <div class="my-4 flex flex-row justify-between">
-              <button
-                [disabled]="
+              <button [disabled]="
                   !(speaker?.startRemainingTime <= 300000 && speaker?.endRemaningTime >= 0)
-                "
-                class="font-normal ws-mat-primary-border attendBtn mat-raised-button"
-                [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'"
-                type="button"
-              >
+                " class="font-normal ws-mat-primary-border attendBtn mat-raised-button"
+                [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'" type="button">
                 Attend
               </button>
               <p style="margin: auto;">
@@ -104,15 +87,11 @@
                   Session starts in {{ convertMinutes(speaker?.startRemainingTime).hours }} :
                   {{ convertMinutes(speaker?.startRemainingTime).mins }}
                 </ng-container>
-                <ng-container
-                  *ngIf="speaker?.startRemainingTime < 0 && speaker?.endRemaningTime > 0"
-                >
+                <ng-container *ngIf="speaker?.startRemainingTime < 0 && speaker?.endRemaningTime > 0">
                   Session ends in {{ convertMinutes(speaker?.endRemaningTime).hours | json }} :
                   {{ convertMinutes(speaker?.endRemaningTime).mins | json }}
                 </ng-container>
-                <ng-container
-                  *ngIf="speaker?.startRemainingTime < 0 && speaker?.endRemaningTime < 0"
-                >
+                <ng-container *ngIf="speaker?.startRemainingTime < 0 && speaker?.endRemaningTime < 0">
                   Session has ended
                 </ng-container>
               </p>
@@ -128,7 +107,7 @@
   <div class="userCard flex flex-row flex-wrap">
     <div class="mat-elevation-z3 py-4 flex flex-column userDetail" *ngFor="let user of userDetails">
       <div class="userImage pb-2">
-        <img class="circular-image" [src]="user.ImageUrl" [alt]="" />
+        <img alt="logo" loading="lazy" class="circular-image" [src]="user.ImageUrl" [alt]="" />
       </div>
       <div class="center column px-4">
         <p class="text-xl font-bold">{{ user?.UserName }}</p>
