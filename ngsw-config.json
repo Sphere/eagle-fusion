@@ -7,8 +7,11 @@
       "installMode": "prefetch",
       "resources": {
         "files": [
+          "/favicon.ico",
+          "/index.html",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/assets/*.png"
         ]
       }
     },
