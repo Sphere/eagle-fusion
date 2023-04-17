@@ -10,8 +10,7 @@
           "/favicon.ico",
           "/index.html",
           "/*.css",
-          "/*.js",
-          "/assets/*.png"
+          "/*.js"
         ]
       }
     },
