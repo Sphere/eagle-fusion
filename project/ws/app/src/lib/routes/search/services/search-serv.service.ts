@@ -86,7 +86,7 @@ export class SearchServService {
       request: {
         query: request.request.query,
         filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
-        lang: request.request.filters.lang ? request.request.filters.lang : 'en',
+        lang: request.request.filters.lang ? request.request.filters.lang : undefined,
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },
