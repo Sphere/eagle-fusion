@@ -1,13 +1,13 @@
 <button name="add-to-playlist-icon-button" *ngIf="isPlaylistEnabled && isValidContent && widgetData?.mode === 'dialog'"
   mat-icon-button i18n-aria-label aria-label="Playlist" i18n-matTooltip matTooltip="Add to Playlist"
   (click)="openDialog()" [disabled]="widgetData?.isDisabled" class="action-button">
-  <img src="/fusion-assets/icons/bookmark-1.png" class="action-icons" />
+  <img alt="logo" loading="lazy" src="/fusion-assets/icons/bookmark-1.png" class="action-icons" />
 
 </button>
 <button name="add-to-playlist-icon-button" *ngIf="isPlaylistEnabled && isValidContent && widgetData?.mode !== 'dialog'"
   mat-icon-button i18n-aria-label aria-label="Playlist" i18n-matTooltip matTooltip="Add to Playlist"
   (click)="getPlaylists($event)" [matMenuTriggerFor]="menu" class="action-button">
-  <img src="/fusion-assets/icons/bookmark-1.png" class="action-icons" />
+  <img alt="logo" loading="lazy" src="/fusion-assets/icons/bookmark-1.png" class="action-icons" />
 </button>
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent>

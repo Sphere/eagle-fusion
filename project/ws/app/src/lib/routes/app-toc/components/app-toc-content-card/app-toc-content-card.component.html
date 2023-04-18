@@ -148,7 +148,7 @@
         </ng-template>
         <ng-template #elseAssesmentLock>
           <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
-            <img loading="lazy" src=".\fusion-assets\icons\lock.png">
+            <img alt="logo" loading="lazy" src=".\fusion-assets\icons\lock.png">
           </ng-container>
 
         </ng-template>
@@ -204,16 +204,16 @@
             <ng-container *ngIf="resourceContentType">
               <div class="pr-1" [ngSwitch]="resourceContentType | lowercase">
                 <div *ngSwitchCase="'pdf'">
-                  <img loading="lazy" src=".\fusion-assets\icons\pdf-icon.png">
+                  <img alt="logo" loading="lazy" src=".\fusion-assets\icons\pdf-icon.png">
                 </div>
                 <div *ngSwitchCase="'video'">
-                  <img loading="lazy" src=".\fusion-assets\icons\video-icon.png">
+                  <img alt="logo" loading="lazy" src=".\fusion-assets\icons\video-icon.png">
                 </div>
                 <div *ngSwitchCase="'scorm'">
-                  <img loading="lazy" src=".\fusion-assets\icons\video-icon.png">
+                  <img alt="logo" loading="lazy" src=".\fusion-assets\icons\video-icon.png">
                 </div>
                 <div *ngSwitchCase="'link'">
-                  <img loading="lazy" src=".\fusion-assets\icons\link-icon.png">
+                  <img alt="logo" loading="lazy" src=".\fusion-assets\icons\link-icon.png">
                 </div>
                 <div *ngSwitchDefault>{{resourceContentType}}</div>
               </div>
@@ -262,7 +262,7 @@
             </ng-template>
             <ng-template #elseResourseLock>
               <ng-container *ngIf="disabledNode && !content?.hideLocIcon">
-                <img loading="lazy" src=".\fusion-assets\icons\lock.png">
+                <img alt="logo" loading="lazy" src=".\fusion-assets\icons\lock.png">
               </ng-container>
 
             </ng-template>

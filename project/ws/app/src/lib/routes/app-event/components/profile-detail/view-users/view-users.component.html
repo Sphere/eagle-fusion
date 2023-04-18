@@ -1,6 +1,6 @@
 <ng-container>
   <div class="flex flex-between">
-    <h2 mat-dialog-title class="font-weight-bold title margin-remove-bottom" >
+    <h2 mat-dialog-title class="font-weight-bold title margin-remove-bottom">
       Attendees |
       <span>{{userData.noOfUser}}</span>
     </h2>
@@ -15,8 +15,8 @@
     <div class="w-full">
       <form>
         <mat-form-field appearance="none">
-          <input [formControl]="searchControl" name="searchQuery" matInput placeholder="Search" i18-aria-label aria-label="Search"
-            >
+          <input [formControl]="searchControl" name="searchQuery" matInput placeholder="Search" i18-aria-label
+            aria-label="Search">
         </mat-form-field>
       </form>
     </div>
@@ -29,7 +29,7 @@
   </div>
   <div class="mt-4">
     <div class="flex align-center mb-4" *ngFor="let user of userDataList">
-      <img class="user-profile" [src]="user.ImageUrl">
+      <img alt="logo" loading="lazy" class="user-profile" [src]="user.ImageUrl">
       <div class="ml-4 flex flex-col justify-center">
         <span class="text-lg font-bold mb-2">{{user.UserName}}</span>
         <span class="text-base font-normal">{{user.RegisteredDate | date:'mediumDate'}}</span>
