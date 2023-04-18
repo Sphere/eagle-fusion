@@ -58,7 +58,7 @@ export class KeycloakCallbackComponent implements OnInit {
                       let lang: any
                       data = localStorage.getItem('preferedLanguage')
                       lang = JSON.parse(data)
-                      lang = lang !== 'en' ? lang : ''
+                      lang = lang.id !== 'en' ? lang.id : ''
                       let url = localStorage.getItem('url_before_login') || ''
                       if (localStorage.getItem('url_before_login')) {
                         location.href = `${lang}/${url}`
