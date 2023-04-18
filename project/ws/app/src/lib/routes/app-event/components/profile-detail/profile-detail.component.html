@@ -3,7 +3,7 @@
     <div class="card-content">
       <div class="main flex profBlock">
         <div>
-          <img class="mat-elevation-z4 profile-image" [src]="data.SessionImage" />
+          <img alt="logo" loading="lazy" class="mat-elevation-z4 profile-image" [src]="data.SessionImage" />
         </div>
         <div class="profile">
           <p class="ws-mat-primary-text text-lg font-semibold">{{ data.SessionType }}</p>
@@ -16,13 +16,8 @@
             <p class="text-md font-normal my-auto mx-0">
               {{ data.SessionDescription.Organization }}
             </p>
-            <button
-              class="w-auto"
-              [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'"
-              mat-raised-button
-              color="primary"
-              type="button"
-            >
+            <button class="w-auto" [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'" mat-raised-button
+              color="primary" type="button">
               Attend
             </button>
           </div>
@@ -48,19 +43,13 @@
         </div>
       </div>
       <div class="header-1 flex flex-row justify-between my-10 flex-wrap">
-        <div
-          class="w-50"
-          *ngIf="data.SessionDescription.Header1 && data.SessionDescription.Content1"
-        >
+        <div class="w-50" *ngIf="data.SessionDescription.Header1 && data.SessionDescription.Content1">
           <p class="pb-2 text-3xl font-semibold">{{ data.SessionDescription.Header1 }}</p>
           <p class="text-justify font-normal">
             {{ data.SessionDescription.Content1 }}
           </p>
         </div>
-        <div
-          class="w-50"
-          *ngIf="data.SessionDescription.Header2 && data.SessionDescription.Content2"
-        >
+        <div class="w-50" *ngIf="data.SessionDescription.Header2 && data.SessionDescription.Content2">
           <p class="pb-2 text-3xl font-semibold">{{ data.SessionDescription.Header2 }}</p>
           <p class="text-justify font-normal">
             {{ data.SessionDescription.Content2 }}
@@ -68,10 +57,7 @@
         </div>
       </div>
       <div class="header-2 flex flex-row justify-between flex-wrap">
-        <div
-          class="w-50"
-          *ngIf="data.SessionDescription.Header3 && data.SessionDescription.Content3"
-        >
+        <div class="w-50" *ngIf="data.SessionDescription.Header3 && data.SessionDescription.Content3">
           <p class="my-6 font-semibold text-2xl">{{ data.SessionDescription.Header3 }}</p>
           <mat-divider></mat-divider>
           <p class="my-6 flex item-center font-normal" *ngFor="let url of urls">
@@ -79,10 +65,7 @@
             {{ url }}
           </p>
         </div>
-        <div
-          class="w-50"
-          *ngIf="data.SessionDescription.Header4 && data.SessionDescription.Content4"
-        >
+        <div class="w-50" *ngIf="data.SessionDescription.Header4 && data.SessionDescription.Content4">
           <p class="my-6 font-semibold text-2xl">{{ data.SessionDescription.Header4 }}</p>
           <mat-divider></mat-divider>
           <div class="my-6" *ngFor="let link of links; let j = index">
@@ -100,29 +83,18 @@
             </p>
           </div>
           <div class="userdetailHead">
-            <p
-              class="text-md ws-mat-primary-text cursor-pointer font-semibold text-md"
-              (click)="openDialog()"
-            >
+            <p class="text-md ws-mat-primary-text cursor-pointer font-semibold text-md" (click)="openDialog()">
               See All
             </p>
           </div>
         </div>
-        <ws-app-card-details
-          *ngIf="data && data.AttendeesList && data.AttendeesList.length"
-          [userDetails]="data.AttendeesList | slice: 0:noOfCards"
-          [cardType]="'user'"
-        >
+        <ws-app-card-details *ngIf="data && data.AttendeesList && data.AttendeesList.length"
+          [userDetails]="data.AttendeesList | slice: 0:noOfCards" [cardType]="'user'">
         </ws-app-card-details>
         <mat-divider></mat-divider>
         <div class="flex justify-center">
-          <button
-            class="w-auto"
-            [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'"
-            mat-raised-button
-            color="primary"
-            type="button"
-          >
+          <button class="w-auto" [routerLink]="'/app/events/meetup/nextup/1/sessions/webex'" mat-raised-button
+            color="primary" type="button">
             Attend
           </button>
         </div>
