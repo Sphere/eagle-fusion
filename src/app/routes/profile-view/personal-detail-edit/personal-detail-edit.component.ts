@@ -175,7 +175,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             this.updateForm()
-            if (data.profileDetails.preferences!.language === 'hi') {
+            if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
               this.personalDetailForm.patchValue({
                 knownLanguage: 'हिंदी',
               })
@@ -282,7 +282,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-
       // this.profileUserName = `${data.personalDetails.firstname} `
       // if (data.personalDetails.middlename) {
       //   this.profileUserName += `${data.personalDetails.middlename} `
@@ -361,13 +360,21 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form.value, this.userProfileData)
+    let profileRequest = constructReq(form.value, this.userProfileData)
+    const obj = {
+      preferences: {
+        language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
+      },
+    }
+    profileRequest = Object.assign(profileRequest, obj)
+
     const reqUpdate = {
       request: {
         userId: this.userID,
         profileDetails: profileRequest,
       },
     }
+
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {

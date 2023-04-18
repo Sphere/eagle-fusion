@@ -80,12 +80,13 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
+    console.log(request.request)
     request.request.filters['status'] = ['Live']
     const v6Request: any = {
       request: {
         query: request.request.query,
         filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
-        lang: request.request.lang ? request.request.lang : 'en',
+        lang: request.request.filters.lang ? request.request.filters.lang : 'en',
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },
