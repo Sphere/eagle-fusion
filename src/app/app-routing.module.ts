@@ -49,7 +49,7 @@ import { SelfAssessmentComponent } from './routes/self-assessment/self-assessmen
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-
+import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -159,6 +159,10 @@ const routes: Routes = [
     path: 'app/profile-view',
     component: MobileProfileDashboardComponent,
     canActivate: [GeneralGuard],
+  },
+  {
+    path: 'app/profile/settings',
+    component: SettingsComponent,
   },
   {
     path: 'app/search',

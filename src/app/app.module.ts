@@ -114,7 +114,7 @@ import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-
+import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -227,6 +227,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     SashaktCallbackComponent,
     SelfAssessmentComponent,
     AppCallBackComponent,
+    SettingsComponent
   ],
   imports: [
     FormsModule,

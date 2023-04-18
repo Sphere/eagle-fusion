@@ -150,8 +150,15 @@ export class GeneralGuard implements CanActivate {
               lang = JSON.parse(data)
               if (lang.id !== 'en') {
                 let url = `${lang.id}/app`
-                return this.router.navigate([url, 'new-tnc'])
+                let wholeUrl = `${document.baseURI}`
+                if (wholeUrl.includes('hi')) {
+                  wholeUrl = url.replace('hi\//', '')
+                  let redirectUrl = `${wholeUrl}${lang}new-tnc`
+                  window.location.href = redirectUrl
+                }
+                //return this.router.navigate([url, 'new-tnc'])
               }
+              return this.router.navigate(['app', 'new-tnc'])
             }
           }
           return this.router.navigate(['app', 'new-tnc'])

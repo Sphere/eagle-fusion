@@ -85,8 +85,7 @@ export class SearchServService {
     const v6Request: any = {
       request: {
         query: request.request.query,
-        filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
-        lang: request.request.filters.lang ? request.request.filters.lang : undefined,
+        filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'], lang: request.request.filters.lang ? request.request.filters.lang : undefined } : request.request.filters,
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },
