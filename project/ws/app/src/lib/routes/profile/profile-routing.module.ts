@@ -18,7 +18,7 @@ import { ProfileComponent } from './profile.component'
 //import { LearningTimeComponent } from './routes/learning/components/learning-time/learning-time.component'
 //import { LearningHistoryResolver } from './routes/learning/resolvers/learning-history.resolver'
 // import { LearningTimeResolver } from './routes/learning/resolvers/learning-time.resolver'
-import { SettingsComponent } from './routes/settings/settings.component'
+//import { SettingsComponent } from './routes/settings/settings.component'
 // import { BadgeComponent } from '../gamification/routes/badges/components/badge/badge.component'
 //import { BadgesComponent } from './routes/badges/badges.component'
 
@@ -28,10 +28,10 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'dashboard',
   },
-  {
-    path: 'settings',
-    component: SettingsComponent,
-  },
+  // {
+  //   path: 'settings',
+  //   component: SettingsComponent,
+  // },
 ]
 
 @NgModule({
