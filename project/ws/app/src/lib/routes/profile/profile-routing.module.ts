@@ -10,7 +10,7 @@ import { ProfileComponent } from './profile.component'
 //import { CardDetailComponent } from './routes/competency/components/card-detail/card-detail.component'
 //import { CompetencyHomeComponent } from './routes/competency/components/competency-home/competency-home.component'
 //import { CompetencyResolverService } from './routes/competency/resolver/assessment.resolver'
-//import { DashboardComponent } from './routes/dashboard/components/dashboard/dashboard.component'
+import { DashboardComponent } from './routes/dashboard/components/dashboard/dashboard.component'
 //import { InterestComponent } from './routes/interest/components/interest/interest.component'
 //import { InterestUserResolve } from './routes/interest/resolvers/interest-user.resolve'
 //import { LearningHistoryComponent } from './routes/learning/components/learning-history/learning-history.component'
@@ -18,7 +18,7 @@ import { ProfileComponent } from './profile.component'
 //import { LearningTimeComponent } from './routes/learning/components/learning-time/learning-time.component'
 //import { LearningHistoryResolver } from './routes/learning/resolvers/learning-history.resolver'
 // import { LearningTimeResolver } from './routes/learning/resolvers/learning-time.resolver'
-//import { SettingsComponent } from './routes/settings/settings.component'
+import { SettingsComponent } from './routes/settings/settings.component'
 // import { BadgeComponent } from '../gamification/routes/badges/components/badge/badge.component'
 //import { BadgesComponent } from './routes/badges/badges.component'
 
@@ -28,10 +28,14 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'dashboard',
   },
-  // {
-  //   path: 'settings',
-  //   component: SettingsComponent,
-  // },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+  },
 ]
 
 @NgModule({

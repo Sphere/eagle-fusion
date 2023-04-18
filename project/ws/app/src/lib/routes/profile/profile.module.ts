@@ -12,7 +12,7 @@ import { ProfileComponent } from './profile.component'
 //import { BadgesResolver2 } from './routes/badges/badges.resolver2'
 //import { CompetencyModule } from './routes/competency/competency.module'
 //import { CompetencyResolverService } from './routes/competency/resolver/assessment.resolver'
-//import { DashboardModule } from './routes/dashboard/dashboard.module'
+import { DashboardModule } from './routes/dashboard/dashboard.module'
 //import { InterestModule } from './routes/interest/interest.module'
 //import { InterestUserResolve } from './routes/interest/resolvers/interest-user.resolve'
 //import { LearningModule } from './routes/learning/learning.module'
@@ -29,7 +29,7 @@ import { SettingsModule } from './routes/settings/settings.module'
     CommonModule,
     ProfileRoutingModule,
     //CompetencyModule,
-    //DashboardModule,
+    DashboardModule,
     //InterestModule,
     //LearningModule,
     SettingsModule,
