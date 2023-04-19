@@ -12,8 +12,8 @@ import { AuthLanguageSelectBarComponent } from './components/auth-language-selec
 import { AuthPickerComponent } from './components/auth-picker/auth-picker.component'
 import { EditMetaComponent } from './components/edit-meta/edit-meta.component'
 import { PlainCKEditorComponent } from './components/plain-ckeditor/plain-ckeditor.component'
-import { MatQuillComponent } from './components/rich-text-editor/my-own.component'
-import { QuillComponent } from './components/rich-text-editor/quill.component'
+//import { MatQuillComponent } from './components/rich-text-editor/my-own.component'
+//import { QuillComponent } from './components/rich-text-editor/quill.component'
 import { DragDropDirective } from './directives/drag-drop.directive'
 import { UploadService } from './services/upload.service'
 import { BaseComponent } from './components/editor/base/base.component'
@@ -21,8 +21,8 @@ import { EditMetaV2Component } from './components/editor/edit-meta-v2/edit-meta-
 
 @NgModule({
   declarations: [
-    MatQuillComponent,
-    QuillComponent,
+    //MatQuillComponent,
+    //QuillComponent,
     PlainCKEditorComponent,
     EditMetaComponent,
     DragDropDirective,
@@ -44,8 +44,8 @@ import { EditMetaV2Component } from './components/editor/edit-meta-v2/edit-meta-
     CatalogSelectModule,
   ],
   exports: [
-    MatQuillComponent,
-    QuillComponent,
+    //MatQuillComponent,
+    //QuillComponent,
     PlainCKEditorComponent,
     EditMetaComponent,
     DragDropDirective,
@@ -56,4 +56,4 @@ import { EditMetaV2Component } from './components/editor/edit-meta-v2/edit-meta-
   entryComponents: [AuthPickerComponent],
   providers: [UploadService],
 })
-export class EditorSharedModule {}
+export class EditorSharedModule { }
