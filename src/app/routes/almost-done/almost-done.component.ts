@@ -458,7 +458,7 @@ export class AlmostDoneComponent implements OnInit {
     let obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
-        language: obj1.id,
+        language: obj1.id !== undefined ? obj1.id : 'en',
       },
     }
     const userdata = Object.assign(profileRequest, obj)

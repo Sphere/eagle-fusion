@@ -42,7 +42,7 @@
   </section>
 
   <section class="padding-s border-bottom">
-    <a role="link" routerLink="/app/profile-view" class="all-features" id="viewprofile">
+    <a role="link" (click)="redirect()" class="all-features cursor-pointer" id="viewprofile">
       <div class="float-left">
         <!-- <mat-icon>account_circle</mat-icon> -->
         <ws-widget-avatar-photo [name]="givenName" [size]="'m'" [photoUrl]="profileImage"></ws-widget-avatar-photo>

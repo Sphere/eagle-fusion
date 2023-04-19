@@ -49,7 +49,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, { })
+    }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -88,7 +88,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, {  })
+    }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -144,11 +144,13 @@ export class CreateAccountComponent implements OnInit {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
         email: form.value.emailOrMobile.trim()
-       // password: form.value.password.trim(),
+        // password: form.value.password.trim(),
       }
 
       this.signupService.signup(reqObj).subscribe(res => {
-        if (res.status) {
+        console.log(res)
+        console.log(res.status)
+        if (res.status_code === 200) {
           if (localStorage.getItem(`preferedLanguage`)) {
             let reqObj = localStorage.getItem(`preferedLanguage`) || ''
             let lang = JSON.parse(reqObj) || ''
@@ -174,6 +176,7 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
+          console.log(err)
           if (localStorage.getItem(`preferedLanguage`)) {
             let reqObj = localStorage.getItem(`preferedLanguage`) || ''
             let lang = JSON.parse(reqObj) || ''
@@ -199,7 +202,7 @@ export class CreateAccountComponent implements OnInit {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
         phone: form.value.emailOrMobile.trim()
-       // password: form.value.password.trim(),
+        // password: form.value.password.trim(),
       }
 
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {

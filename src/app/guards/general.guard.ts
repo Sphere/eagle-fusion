@@ -153,7 +153,7 @@ export class GeneralGuard implements CanActivate {
                 let url = `${lang.id}/app/`
                 let wholeUrl = `${document.baseURI}`
                 if (wholeUrl.includes('hi')) {
-                  wholeUrl = url.replace('hi\//', '')
+                  wholeUrl = url.replace(/hi\//g, '')
                   let redirectUrl = `${wholeUrl}${url}new-tnc`
                   window.location.href = redirectUrl
                 }

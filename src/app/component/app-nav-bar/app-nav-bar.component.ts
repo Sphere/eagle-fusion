@@ -50,6 +50,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   langDialog: any
   preferedLanguage: any = ['english']
   hideCreateButton = true
+  hideSearch = false
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
@@ -84,7 +85,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {
           this.showAppNavBar = false
         } else {
+          console.log(e.url)
           this.showAppNavBar = true
+          if (e.url.includes('new-tnc')) {
+            this.hideSearch = true
+          }
           if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
             this.showSearchIcon = false
           } else {
