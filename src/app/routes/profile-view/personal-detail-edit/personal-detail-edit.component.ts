@@ -48,7 +48,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   trigerrNavigation = true
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
-  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
+  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langList = ['English', 'Hindi']
   langDialog: any
@@ -355,6 +355,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
+    console.log(form.value)
+    console.log(this.userProfileData)
+    if (form.value.dob.includes('undefined')) {
+      let data = form.value.dob.replace(/\/undefined/g, '')
+      console.log(data)
+      form.value.dob = data
+    }
+    console.log(form.value)
     form.value.knownLanguages = this.selectedKnowLangs
 
     if (this.configSvc.userProfile) {

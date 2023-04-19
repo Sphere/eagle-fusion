@@ -146,9 +146,7 @@ export class GeneralGuard implements CanActivate {
               let data: any
               let lang: any
               data = localStorage.getItem('preferedLanguage')
-              console.log(JSON.parse(data))
               lang = JSON.parse(data)
-              console.log(lang)
               if (lang.id !== 'en') {
                 let url = `${lang.id}/app/`
                 let wholeUrl = `${document.baseURI}`
@@ -156,10 +154,12 @@ export class GeneralGuard implements CanActivate {
                   wholeUrl = url.replace(/hi\//g, '')
                   let redirectUrl = `${wholeUrl}${url}new-tnc`
                   window.location.href = redirectUrl
+                } else {
+                  return this.router.navigate([url, 'new-tnc'])
                 }
-                return this.router.navigate([url, 'new-tnc'])
+                //return this.router.navigate([url, 'new-tnc'])
               }
-              return this.router.navigate(['app', 'new-tnc'])
+              //return this.router.navigate(['app', 'new-tnc'])
             }
           }
           return this.router.navigate(['app', 'new-tnc'])
