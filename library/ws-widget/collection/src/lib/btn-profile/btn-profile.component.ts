@@ -178,10 +178,13 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // }
 
   ngOnInit() {
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((data: any) => {
-      console.log(data)
-      this.userData = data
-    })
+    console.log(this.configSvc)
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((data: any) => {
+        console.log(data)
+        this.userData = data
+      })
+    }
     this.setPinnedApps()
     if (this.widgetData && this.widgetData.actionBtnId) {
       this.id = this.widgetData.actionBtnId
