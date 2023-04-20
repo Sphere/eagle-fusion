@@ -179,12 +179,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
 
   ngOnInit() {
     console.log(this.configSvc)
-    if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((data: any) => {
-        console.log(data)
-        this.userData = data
-      })
-    }
     this.setPinnedApps()
     if (this.widgetData && this.widgetData.actionBtnId) {
       this.id = this.widgetData.actionBtnId
@@ -229,11 +223,18 @@ export class BtnProfileComponent extends WidgetBaseComponent
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   redirect() {
-    if (this.userData.profileDetails.profileReq.personalDetails.dob) {
-      this.router.navigate(['/app/profile-view'])
-    } else {
-      const url = `/page/home`
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
+        console.log(data, 'btn')
+        this.userData = await data
+
+        if (this.userData && this.userData.profileDetails!.profileReq!.personalDetails!.dob) {
+          this.router.navigate(['/app/profile-view'])
+        } else {
+          const url = `/page/home`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+        }
+      })
     }
   }
   setPinnedApps() {
