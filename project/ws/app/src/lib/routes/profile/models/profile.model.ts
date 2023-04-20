@@ -1,200 +1,203 @@
-import { IWidgetGraphData, NsContent } from '@ws-widget/collection'
+import {
+  //IWidgetGraphData,
+  NsContent
+} from '@ws-widget/collection'
 
 export namespace NSProfileData {
   export interface IProfileJsonData {
-      dashboard: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subFeatures: {
-          pendingCourses: boolean
-          knowledgeBoard: boolean
-          calendar: boolean
-          skill: boolean
-          interests: boolean
-          latest: boolean
-        }
+    dashboard: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subFeatures: {
+        pendingCourses: boolean
+        knowledgeBoard: boolean
+        calendar: boolean
+        skill: boolean
+        interests: boolean
+        latest: boolean
       }
-      learning: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subTabs: {
-            learningHistory: {
-            enabled: boolean
-            available: boolean
-            isClient: boolean
-            isFilter: boolean
-            tabs: {
-              courses: boolean
-              programs: boolean
-              modules: boolean
-              resources: boolean
-            }
-          }
-          learningTime: {
-            enabled: boolean
-            available: boolean
-            charts: {
-              learningBarChart: boolean
-              trackWiseChart: boolean
-              calendarChart: boolean
-              dimensionsChart: boolean
-              timeSpentByMe: boolean
-              timeSpentByPeers: boolean
-              timeSpentByEmployees: boolean
-            }
+    }
+    learning: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subTabs: {
+        learningHistory: {
+          enabled: boolean
+          available: boolean
+          isClient: boolean
+          isFilter: boolean
+          tabs: {
+            courses: boolean
+            programs: boolean
+            modules: boolean
+            resources: boolean
           }
         }
-      }
-      achievements: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subTabs: {
-          badges: {
-            enabled: boolean
-            available: boolean
-          }
-          assessments: {
-            enabled: boolean
-            available: boolean
-          }
-          certifications: {
-            enabled: boolean
-            available: boolean
+        learningTime: {
+          enabled: boolean
+          available: boolean
+          charts: {
+            learningBarChart: boolean
+            trackWiseChart: boolean
+            calendarChart: boolean
+            dimensionsChart: boolean
+            timeSpentByMe: boolean
+            timeSpentByPeers: boolean
+            timeSpentByEmployees: boolean
           }
         }
       }
-      skills: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subTabs: {
-          skills: {
-            enabled: boolean
-            available: boolean
-            client: boolean
-            subFeatures: {
-              addSkill: boolean
-              editSkill: boolean
-            }
-          }
-          roles: {
-            enabled: boolean
-            available: boolean
-            client: boolean
-            subFeatures: {
-              addRole: boolean
-              editRole: boolean
-              deleteRole: boolean
-              shareRole: boolean
-            }
-          }
-          allSkills: {
-            enabled: boolean
-            available: boolean
-            client: boolean
-            subFeatures: {
-              filters: boolean
-            }
-          }
-          projectEndorsements: {
-            enabled: boolean
-            available: boolean
-            client: boolean
-            subFeatures: {
-              createEndorsement: boolean
-            }
-          }
-          approveEndorsements: {
-            enabled: boolean
-            available: boolean
-          }
+    }
+    achievements: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subTabs: {
+        badges: {
+          enabled: boolean
+          available: boolean
+        }
+        assessments: {
+          enabled: boolean
+          available: boolean
+        }
+        certifications: {
+          enabled: boolean
+          available: boolean
         }
       }
-      interests: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-      }
-      plans: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subTabs: {
-          goals: {
-            enabled: boolean
-            available: boolean
-          }
-          playlists: {
-            enabled: boolean
-            available: boolean
+    }
+    skills: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subTabs: {
+        skills: {
+          enabled: boolean
+          available: boolean
+          client: boolean
+          subFeatures: {
+            addSkill: boolean
+            editSkill: boolean
           }
         }
-      }
-      refactoring: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-      }
-      collaborators: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subTabs: {
-          goalsSharedByMe: {
-            enabled: boolean
-            available: boolean
-          }
-          goalsSharedToMe: {
-            enabled: boolean
-            available: boolean
-          }
-          ArtifactsShared: {
-            enabled: boolean
-            available: boolean
-          }
-          playlistSharedByMe: {
-            enabled: boolean
-            available: boolean
-          }
-          playlistSharedToMe: {
-            enabled: boolean
-            available: boolean
-          }
-          playground: {
-            enabled: boolean
-            available: boolean
-          }
-          expertsContacted: {
-            enabled: boolean
-            available: boolean
-          }
-          contentCreated: {
-            enabled: boolean
-            available: boolean
+        roles: {
+          enabled: boolean
+          available: boolean
+          client: boolean
+          subFeatures: {
+            addRole: boolean
+            editRole: boolean
+            deleteRole: boolean
+            shareRole: boolean
           }
         }
-      }
-      featureUsage: {
-        enabled: boolean
-        available: boolean
-        displayName: string
-        subSections: {
-          learningTime: boolean
-          assessments: boolean
-          refactoring: boolean
-          plans: boolean
-          collaborators: boolean
-          other: boolean
+        allSkills: {
+          enabled: boolean
+          available: boolean
+          client: boolean
+          subFeatures: {
+            filters: boolean
+          }
+        }
+        projectEndorsements: {
+          enabled: boolean
+          available: boolean
+          client: boolean
+          subFeatures: {
+            createEndorsement: boolean
+          }
+        }
+        approveEndorsements: {
+          enabled: boolean
+          available: boolean
         }
       }
-      settings: {
-        enabled: boolean
-        available: boolean
-        displayName: string
+    }
+    interests: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+    }
+    plans: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subTabs: {
+        goals: {
+          enabled: boolean
+          available: boolean
+        }
+        playlists: {
+          enabled: boolean
+          available: boolean
+        }
       }
+    }
+    refactoring: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+    }
+    collaborators: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subTabs: {
+        goalsSharedByMe: {
+          enabled: boolean
+          available: boolean
+        }
+        goalsSharedToMe: {
+          enabled: boolean
+          available: boolean
+        }
+        ArtifactsShared: {
+          enabled: boolean
+          available: boolean
+        }
+        playlistSharedByMe: {
+          enabled: boolean
+          available: boolean
+        }
+        playlistSharedToMe: {
+          enabled: boolean
+          available: boolean
+        }
+        playground: {
+          enabled: boolean
+          available: boolean
+        }
+        expertsContacted: {
+          enabled: boolean
+          available: boolean
+        }
+        contentCreated: {
+          enabled: boolean
+          available: boolean
+        }
+      }
+    }
+    featureUsage: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+      subSections: {
+        learningTime: boolean
+        assessments: boolean
+        refactoring: boolean
+        plans: boolean
+        collaborators: boolean
+        other: boolean
+      }
+    }
+    settings: {
+      enabled: boolean
+      available: boolean
+      displayName: string
+    }
   }
   export interface IJson {
     enabledTabs: IProfileJsonData
@@ -349,18 +352,18 @@ export namespace NSProfileData {
     tour_count: number
     tv_count: number
   }
- export interface IBubbleChart {
-   x: string
-   y: number
-   r: number
-   actual: number
-   text: string
- }
-  export interface IGraphWidget {
-    widgetType: string
-    widgetSubType: string
-    widgetData: IWidgetGraphData
+  export interface IBubbleChart {
+    x: string
+    y: number
+    r: number
+    actual: number
+    text: string
   }
+  // export interface IGraphWidget {
+  //   widgetType: string
+  //   widgetSubType: string
+  //   widgetData: IWidgetGraphData
+  // }
 
   // type TContentTypes =
   //   | 'Learning Path'
