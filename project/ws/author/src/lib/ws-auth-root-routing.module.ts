@@ -2,19 +2,12 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AuthRootComponent } from './components/root/root.component'
 import { ViewerComponent } from './routing/components/viewer/viewer.component'
-import { AuthHomeComponent } from './routing/modules/home/components/home/home.component'
 import { ContentAndDataReadMultiLangTOCResolver } from './services/content-and-data-read-multi-lang.service'
 import { ContentTOCResolver } from './services/content-resolve.service'
 import { InitResolver } from './services/init-resolve.service'
 
 const routes: Routes = [
-  {
-    path: 'home',
-    component: AuthHomeComponent,
-    resolve: {
-      script: InitResolver,
-    },
-  },
+
   {
     path: 'editor',
     loadChildren: () => import('./routing/modules/editor/editor.module').then(u => u.EditorModule),
