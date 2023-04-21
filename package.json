@@ -87,6 +87,7 @@
     "tailwindcss": "^1.1.4",
     "three": "^0.113.2",
     "tslib": "^1.10.0",
+    "typeface-roboto": "0.0.75",
     "uuid": "^8.3.2",
     "video.js": "7.6.0",
     "videojs-contrib-quality-levels": "^2.0.9",
