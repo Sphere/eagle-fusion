@@ -14,7 +14,7 @@
     "build:local": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod",
     "build:stats": "ng build --prod --stats-json",
     "start:eagle-dev": "node --max_old_space_size=12288 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/eagle-dev-ip.proxy.json -o",
-    "analyze": "webpack-bundle-analyzer ./dist/www/en/stats.json",
+    "analyze": "webpack-bundle-analyzer ./dist/www/fusion/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
