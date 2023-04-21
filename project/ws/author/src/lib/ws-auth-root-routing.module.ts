@@ -1,10 +1,7 @@
-import { CreateCourseComponent } from './routing/modules/create/components/create-course/create-course.component'
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
-import { GeneralGuard } from '../../../../../src/app/guards/general.guard'
 import { AuthRootComponent } from './components/root/root.component'
 import { ViewerComponent } from './routing/components/viewer/viewer.component'
-import { CreateComponent } from './routing/modules/create/components/create/create.component'
 import { AuthHomeComponent } from './routing/modules/home/components/home/home.component'
 import { ContentAndDataReadMultiLangTOCResolver } from './services/content-and-data-read-multi-lang.service'
 import { ContentTOCResolver } from './services/content-resolve.service'
@@ -47,30 +44,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'create',
-    data: {
-      load: ['create', 'ordinals'],
-      requiredFeatures: ['authoring'],
-    },
-    canActivate: [GeneralGuard],
-    component: CreateComponent,
-    resolve: {
-      script: InitResolver,
-    },
-  },
-  {
-    path: 'create-course',
-    data: {
-      // load: ['create', 'ordinals'],
-      requiredFeatures: ['authoring'],
-    },
-    canActivate: [GeneralGuard],
-    component: CreateCourseComponent,
-    resolve: {
-      script: InitResolver,
-    },
-  },
-  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',
@@ -96,4 +69,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class WsAuthorRootRoutingModule {}
+export class WsAuthorRootRoutingModule { }
