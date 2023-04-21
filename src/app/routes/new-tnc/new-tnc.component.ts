@@ -28,6 +28,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   userId = ''
   createUserForm!: FormGroup
   showAcceptbtn = true
+  lang: any
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -233,13 +234,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
       let Obj: any
       if (localStorage.getItem('preferedLanguage')) {
         let data: any
-        let lang: any
+
         data = localStorage.getItem('preferedLanguage')
-        lang = JSON.parse(data)
-        lang = lang !== 'en' ? lang : ''
+        this.lang = JSON.parse(data)
+        this.lang = this.lang.id !== 'en' ? this.lang.id : ''
         Obj = {
           preferences: {
-            language: lang,
+            language: this.lang.id,
           },
         }
       }
@@ -284,20 +285,24 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+                  let url = `${this.lang.id}/app/about-you`
+                  this.router.navigate([url], { queryParams: { redirect: courseUrl } })
                 } else {
-                  location.href = '/page/home'
+                  let url = `${this.lang.id}/page/home`
+                  location.href = url
                 }
               } else {
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
-                  location.href = '/page/home'
+                  let url = `${this.lang.id}/page/home`
+                  location.href = url
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
               }
             })
           }
         } else {
-          location.href = '/page/home'
+          let url = `${this.lang.id}/page/home`
+          location.href = url
         }
         // location.href = '/page/home'
         // this.router.navigate(['/page/home'])
