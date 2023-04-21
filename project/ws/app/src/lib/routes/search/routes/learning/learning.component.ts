@@ -571,6 +571,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   getResults(withQuotes?: boolean, didYouMean = true) {
+    console.log("getResults", withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
@@ -606,7 +607,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchRequestObject.request.filters['sourceName'] = ['Ministry of Health and Family Welfare']
     }
-
+    debugger
     this.searchResultsSubscription = this.searchServ
       .getLearning(this.searchRequestObject)
       .subscribe(
@@ -662,6 +663,7 @@ export class LearningComponent implements OnInit, OnDestroy {
               this.filtersResponse = filteR.filtersRes
             }
           })
+          debugger
           if (
             this.searchResults.result.count === 0 && this.isDefaultFilterApplied
           ) {

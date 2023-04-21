@@ -40,47 +40,33 @@ import { MatTreeModule } from '@angular/material/tree'
 import { ImageCropModule } from '@ws-widget/utils/src/public-api'
 import { AuthEditorStepsComponent } from './components/auth-editor-steps/auth-editor-steps.component'
 import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component'
-import { CommentsComponent } from './components/comments/comments.component'
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
 import { ErrorParserComponent } from './components/error-parser/error-parser.component'
-import { IprDialogComponent } from './components/ipr-dialog/ipr-dialog.component'
 import { NotificationComponent } from './components/notification/notification.component'
 import { RelativeUrlPipe } from './pipes/relative-url.pipe'
 import { AccessControlService } from './services/access-control.service'
 import { ApiService } from './services/api.service'
-import { AuthExpiryDateConfirmComponent } from './components/auth-expiry-date-confirm/auth-expiry-date-confirm.component'
 import { StatusDisplayComponent } from './components/status-display/status-display.component'
-import { LastUpdateDisplayComponent } from './components/last-update-display/last-update-display.component'
-import { ExpiryDateDisplayComponent } from './components/expiry-date-display/expiry-date-display.component'
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component'
 import { RestoreDialogComponent } from './components/restore-dialog/restore-dialog.component'
 import { UnpublishDialogComponent } from './components/unpublish-dialog/unpublish-dialog.component'
-import { DraftDialogComponent } from './components/draft-dialog/draft-dialog.component'
 import { ShowHideToolTipDirective } from './directives/show-hide-tool-tip.directive'
 import { StatusTrackComponent } from './components/status-track/status-track.component'
-import { FeedbackFormComponent } from './components/feedback-form/feedback-form.component'
 
 @NgModule({
   declarations: [
     RelativeUrlPipe,
-    CommentsComponent,
     NotificationComponent,
     CommentsDialogComponent,
-    IprDialogComponent,
     ConfirmDialogComponent,
     AuthEditorStepsComponent,
     ErrorParserComponent,
-    AuthExpiryDateConfirmComponent,
     StatusDisplayComponent,
-    LastUpdateDisplayComponent,
-    ExpiryDateDisplayComponent,
     DeleteDialogComponent,
     RestoreDialogComponent,
     UnpublishDialogComponent,
-    DraftDialogComponent,
     ShowHideToolTipDirective,
     StatusTrackComponent,
-    FeedbackFormComponent,
   ],
   imports: [
     CommonModule,
@@ -131,7 +117,6 @@ import { FeedbackFormComponent } from './components/feedback-form/feedback-form.
     MatButtonToggleModule,
     RelativeUrlPipe,
     MatTooltipModule,
-    CommentsComponent,
     MatAutocompleteModule,
     MatDialogModule,
     MatTooltipModule,
@@ -155,20 +140,16 @@ import { FeedbackFormComponent } from './components/feedback-form/feedback-form.
     MatTreeModule,
     MatRadioModule,
     MatProgressBarModule,
-    IprDialogComponent,
     ImageCropModule,
     AuthEditorStepsComponent,
     ErrorParserComponent,
     PipeContentRouteModule,
     StatusDisplayComponent,
-    LastUpdateDisplayComponent,
     DeleteDialogComponent,
     RestoreDialogComponent,
     UnpublishDialogComponent,
-    DraftDialogComponent,
     ShowHideToolTipDirective,
     StatusTrackComponent,
-    FeedbackFormComponent,
   ],
   providers: [
     ApiService,
@@ -180,18 +161,14 @@ import { FeedbackFormComponent } from './components/feedback-form/feedback-form.
     { provide: MatDialogRef, useValue: {} },
   ],
   entryComponents: [
-    AuthExpiryDateConfirmComponent,
     NotificationComponent,
-    IprDialogComponent,
     CommentsDialogComponent,
     ConfirmDialogComponent,
     ErrorParserComponent,
     DeleteDialogComponent,
     RestoreDialogComponent,
     UnpublishDialogComponent,
-    DraftDialogComponent,
     StatusTrackComponent,
-    FeedbackFormComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }
